@@ -1,0 +1,34 @@
+
+TODO:
+get vala mode
+figure out visibility
+does vala support const? would that be good for readonly?
+correct to use this_convention instead of thisConvention?
+replace DOMString with string?
+DOMError instead of DOMException?
+what are DocumentFragments?
+Attr (XML) instead of Attribute?
+List<Node> instead of NodeList?
+  hopefully; NodeList isn't very special
+does vala allow spec'ing 'in' for params? should we bother with it?
+filenames: src/GDomDocument.vala, or src/Document.vala?
+
+enum values?
+NodeEnum?
+ELEMENT_NODE or ELEMENT?
+do we want NamedNodeMap or something else?  GHashTable?
+  NamedNodeMap: how does setNamedItem work?  just give it an AttributeNode?
+  are these just used internally anyway?
+
+interface to Node is unseemly :(
+
+do we want to implement CharacterData or just use a string?
+
+is there a generic GAttribute we could use instead of Attr?
+
+what is an EntityReference and do we want one?
+what is DocumentFragment and do we want it?
+
+a few properties want to throw errors when set,
+  do we want to just use methods to set/get these, or
+  can vala throw an exception on a set/get?
