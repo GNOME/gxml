@@ -1,7 +1,14 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
 namespace GXml.Dom {
-	class DocumentType : Node {
+	class DocumentType : DomNode {
+		/** Constructor */
+		internal DocumentType () {
+			base (null);
+		}
+
+
+		/** Public properties */
 		/* these 3 are read only */
 		string name {
 			get;
@@ -19,5 +26,6 @@ namespace GXml.Dom {
 			get; /* const? */
 			private set;
 		}
+
 	}
 }

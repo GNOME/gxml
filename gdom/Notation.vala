@@ -1,7 +1,7 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
 namespace GXml.Dom {
-	class Notation : Node {
+	class Notation : DomNode {
 		public string public_id {
 			get;
 			private set;
@@ -10,5 +10,10 @@ namespace GXml.Dom {
 			get;
 			private set;
 		}
+
+		internal Notation () {
+			base (null); // STUB
+		}
 	}
+
 }

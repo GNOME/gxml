@@ -33,11 +33,11 @@ namespace GXml.Dom {
 		private Xml.Node *node;
 		// TODO: make sure none of the other classes have any extra private data
 		// TODO: make sure we don't want this to be private (we had that before, but then
-		//       stuff where we play with siblings got blocked 
+		//       stuff where we play with siblings got blocked
 
 		/** Constructors */
 		// TODO: want to keep this private to the name space; verify that internal is appropriate for GXml.Dom classes
-		internal DomNode (Xml.Node *node) { 
+		internal DomNode (Xml.Node *node) {
 			this.node = node; // TODO: should private properties all start with _?
 			// STUB: fill out properties below
 
@@ -53,7 +53,7 @@ namespace GXml.Dom {
 		// 	this.node = null;
 		// 	// TODO: better solution? have no Xml.Node * for e.g. DocumentType (yet)
 		// }
-		
+
 		/** Public properties */
 		public string node_name {
 			get {
@@ -71,7 +71,7 @@ namespace GXml.Dom {
 		}/* "raises [DomError] on setting/retrieval"?  */
 		public ushort node_type {
 			get {
-				return (ushort)this.node->type; // TODO: Same type?  Do we want to upgrade ushort to ElementType? 
+				return (ushort)this.node->type; // TODO: Same type?  Do we want to upgrade ushort to ElementType?
 			}
 			private set {
 			}
@@ -87,7 +87,7 @@ namespace GXml.Dom {
 			}
 		}
 		/* TODO: just used unowned to avoid compilation error for stub; investigate what's right */
-		// TODO: need to let the user know that editing this list doesn't add children to the node (but then what should?) 
+		// TODO: need to let the user know that editing this list doesn't add children to the node (but then what should?)
 		public List<Node> child_nodes {
 			owned get {
 				List<Node> children = new List<Node> ();
@@ -95,7 +95,7 @@ namespace GXml.Dom {
 					children.append (DomNode.lookup (child));
 					// children.append (new DomNode (child));
 				}
-				return children;				
+				return children;
 			}
 			private set {
 			}
@@ -103,7 +103,7 @@ namespace GXml.Dom {
 		public Node? first_child {
 			get {
 				if (this.node->children == null) {
-					return null; // TODO: what's the appropriate return value?  
+					return null; // TODO: what's the appropriate return value?
 				} else {
 					//return new DomNode (this.node->children);
 					return DomNode.lookup (this.node->children);
@@ -113,7 +113,7 @@ namespace GXml.Dom {
 			}
 		}
 		public Node? last_child {
-			// some children would be Nodes of different types; doesn't this lose that information? 
+			// some children would be Nodes of different types; doesn't this lose that information?
 			get {
 				Xml.Node *child = this.node->children;
 				if (child == null) {
@@ -179,7 +179,7 @@ namespace GXml.Dom {
 			// TODO: nuts, if Node as an iface can't have properties,
 			//       then I have to cast these to DomNodes, ugh.
 			// TODO: need to handle errors?
-			
+
 			// TODO: want to do a 'find_child' function
 			Xml.Node *child = this.node->children;
 
@@ -195,7 +195,7 @@ namespace GXml.Dom {
 		}
 		Node remove_child (Node old_child) throws DomError {
 			((DomNode)old_child).node->unlink (); // TODO: do we need to free libxml2 stuff manually?
-			return old_child; // TODO: what do we want to return? 
+			return old_child; // TODO: what do we want to return?
 		}
 		Node append_child (Node new_child) throws DomError {
 			this.node->add_child (((DomNode)new_child).node);
@@ -205,7 +205,7 @@ namespace GXml.Dom {
 			return (this.node->children != null);
 		}
 		Node clone_nodes (bool deep) {
-			return this; // STUB 
+			return this; // STUB
 		}
 	}
 }

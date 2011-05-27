@@ -3,7 +3,9 @@
 namespace GXml.Dom {
 	/* TODO: do we really want a cdata section node, or just use strings? */
 	/* TODO: check about casing in #vala */
-	class CDATASection : Node {
-
+	class CDATASection : DomNode {
+		internal CDATASection (Xml.Node *cdata_node) {
+			base (cdata_node);
+		}
 	}
 }

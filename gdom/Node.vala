@@ -16,71 +16,29 @@ namespace GXml.Dom {
 			NOTATION;
 	}
 
-	class Node {
-		public string node_name {
-			get;
-			private set;
-		}
-		public string node_value {
-			get;
-			private set;
-		}/* "raises [DomError] on setting/retrieval"?  */
-		public ushort node_type {
-			get;
-			private set;
-		}
-		public Node parent_node {
-			get;
-			private set;
-		}
-		/* TODO: just used unowned to avoid compilation error for stub; investigate what's right */
-		public unowned List<Node> child_nodes {
-			get;
-			private set;
-		}
-		public Node first_child {
-			get;
-			private set;
-		}
-		public Node last_child {
-			get;
-			private set;
-		}
-		public Node previous_sibling {
-			get;
-			private set;
-		}
-		public Node next_sibling {
-			get;
-			private set;
-		}
-		/* HashTable used for XML NamedNodeMap */
-		public HashTable<string,Attr> attributes {
-			get;
-			private set;
-		}
-		public Document owner_document {
-			get;
-			private set;
-		}
+	interface Node : GLib.Object {
+		// TODO: hmm, too bad we can't require properties in an interface, both AttrNode and DomNode should have these available to be DOM Level 1 Core Nodes.
 
-		Node insert_before (Node new_child, Node ref_child) throws DomError {
-			return null; // STUB
-		}
-		Node replace_child (Node new_child, Node old_child) throws DomError {
-			return null; // STUB
-		}
-		Node remove_child (Node old_child) throws DomError {
-			return null; // STUB
-		}
-		Node append_child (Node new_child) throws DomError {
-			return null; // STUB
-		}
-		bool has_child_nodes () {
-			return false; // STUB
-		}
-		Node clone_nodes (bool deep) {
-			return null; // STUB
-		}
+		// /** Public properties */
+		// public string node_name;
+		// public string node_value;
+		// public ushort node_type;
+		// public Node parent_node;
+		// /* TODO: just used unowned to avoid compilation error for stub; investigate what's right */
+		// public unowned List<Node> child_nodes;
+		// public Node first_child;
+		// public Node last_child;
+		// public Node previous_sibling;
+		// public Node next_sibling;
+		// /* HashTable used for XML NamedNodeMap */
+		// public HashTable<string,Attr> attributes;
+		// public Document owner_document;
+
+		public abstract Node insert_before (Node new_child, Node ref_child) throws DomError;
+		public abstract Node replace_child (Node new_child, Node old_child) throws DomError;
+		public abstract Node remove_child (Node old_child) throws DomError;
+		public abstract Node append_child (Node new_child) throws DomError;
+		public abstract bool has_child_nodes ();
+		public abstract Node clone_nodes (bool deep);
 	}
 }

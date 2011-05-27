@@ -15,7 +15,7 @@ namespace GXml.Dom {
 			if (attr == null) {
 				return null; // TODO: consider throwing an error instead
 			}
-			
+
 			attrnode = AttrNode.dict.lookup (attr);
 			if (attrnode == null) {
 				// TODO: is this necessary?  is it possible for anyone to try
@@ -25,7 +25,7 @@ namespace GXml.Dom {
 				// TODO: create node
 				// TODO: threadsafety
 				AttrNode.dict.insert (attr, new AttrNode (attr));
-				attrnode = AttrNode.dict.lookup (attr);				
+				attrnode = AttrNode.dict.lookup (attr);
 			}
 
 			return attrnode;
@@ -33,12 +33,12 @@ namespace GXml.Dom {
 
 		/** Constructors */
 		// TODO: want to keep this private to the name space; verify that internal is appropriate for GXml.Dom classes
-		internal AttrNode (Xml.Attr *node) { 
+		internal AttrNode (Xml.Attr *node) {
 			this.node = node;
 
-			// AttrNode.dict.insert (node, this); // TODO: something like this? 
+			// AttrNode.dict.insert (node, this); // TODO: something like this?
 		}
-		
+
 		/** Public properties */
 		public string node_name {
 			get {
@@ -77,7 +77,7 @@ namespace GXml.Dom {
 				for (Xml.Node *child = this.node->children; child != null; child = child->next) {
 					children.append (DomNode.lookup (child));
 				}
-				return children;				
+				return children;
 			}
 			private set {
 			}
@@ -86,7 +86,7 @@ namespace GXml.Dom {
 			/* TODO: for Attr, what are we supposed to do here? */
 			get {
 				if (this.node->children == null) {
-					return null; // TODO: what's the appropriate return value?  
+					return null; // TODO: what's the appropriate return value?
 				} else {
 					return DomNode.lookup (this.node->children);
 				}
@@ -97,7 +97,7 @@ namespace GXml.Dom {
 		public Node? last_child {
 			/* TODO: for Attr, what are we supposed to do here? */
 			// TODO: for Attr, there should just be one child and its content, huh
-			// some children would be Nodes of different types; doesn't this lose that information? 
+			// some children would be Nodes of different types; doesn't this lose that information?
 			get {
 				Xml.Node *child = this.node->children;
 				if (child == null) {
@@ -128,7 +128,7 @@ namespace GXml.Dom {
 		/* HashTable used for XML NamedNodeMap */
 		public HashTable<string,Attr> attributes {
 			get {
-				return null; 
+				return null;
 				// STUB: do we want to create one locally and update it for the object, or just translate node->properties each call?
 				// TODO: this is getting dumb, why is Attr a Node again? :S
 			}

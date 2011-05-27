@@ -2,6 +2,9 @@
 
 namespace GXml.Dom {
 	/* TODO: do we need an EntityReference? find out what it's used for */
-	class EntityReference : Node {
+	class EntityReference : DomNode {
+		internal EntityReference () {
+			base (null); // TODO: what should we pass up?
+		}
 	}
 }

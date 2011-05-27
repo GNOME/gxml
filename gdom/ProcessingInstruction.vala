@@ -1,7 +1,11 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
 namespace GXml.Dom {
-	class ProcessingInstruction : Node {
+	class ProcessingInstruction : DomNode {
+		internal ProcessingInstruction () {
+			base (null); // TODO: want to pass a real Xml.Node* ?
+		}
+
 		public string target {
 			get;
 			private set;
