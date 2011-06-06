@@ -1,60 +1,56 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
 namespace GXml.Dom {
-	class DomNode : GLib.Object, Node {
-		/** Private class properties */
-		internal static HashTable<Xml.Node*, DomNode> dict = new HashTable<Xml.Node*, DomNode> (null, null);
+	public enum NodeType {
+		/* TODO: bug in vala?  if I don't have == 0, I fail when creating
+		   this class because I can't set default values for NodeType properties
+		   GLib-GObject-CRITICAL **: g_param_spec_enum: assertion `g_enum_get_value (enum_class, default_value) != NULL' failed */
+		X_UNKNOWN = 0,
+		ELEMENT = 1,
+		ATTRIBUTE,
+		TEXT,
+		CDATA_SECTION,
+		ENTITY_REFERENCE,
+		ENTITY,
+		PROCESSING_INSTRUCTION,
+		COMMENT,
+		DOCUMENT,
+		DOCUMENT_TYPE,
+		DOCUMENT_FRAGMENT,
+		NOTATION;
+	}
 
-		/** Private methods */
-		internal static unowned DomNode? lookup (Xml.Node *node) {
-			unowned DomNode domnode;
-
-			if (node == null) {
-				return null; // TODO: consider throwing an error instead
-			}
-
-			domnode = DomNode.dict.lookup (node);
-			if (domnode == null) {
-				// TODO: is this necessary?  is it possible for anyone to try
-				// to look up a node that hasn't been created yet?
-				// Yes, because we don't create new Nodes for all the members
-				// of a Doc (there could be millions), just as they are requested
-				// TODO: create node
-				// TODO: threadsafety
-				DomNode.dict.insert (node, new DomNode (node));
-				domnode = DomNode.dict.lookup (node);
-			}
-
-			return domnode;
-		}
-
-
+	public class DomNode : GLib.Object {
 		/** Private properties */
 		private Xml.Node *node;
-		// TODO: make sure none of the other classes have any extra private data
-		// TODO: make sure we don't want this to be private (we had that before, but then
-		//       stuff where we play with siblings got blocked
+		// TODO: be careful about what extra data subclasses keep
 
 		/** Constructors */
-		// TODO: want to keep this private to the name space; verify that internal is appropriate for GXml.Dom classes
-		internal DomNode (Xml.Node *node) {
-			this.node = node; // TODO: should private properties all start with _?
-			// STUB: fill out properties below
+		internal DomNode (Xml.Node *node, Document owner) {
+			this.node = node;
+			this.node_type = (NodeType)node->type;
+			this.owner_document = owner; // TODO: consider using node->doc instead
 
-			// TODO: will we just let lookup handle insertions?
-			// if (node != null) {
-			// 	DomNode.dict.insert (node, this);
-			// } else {
-			// 	// TODO: warn or error or something, right now we have null ones though
-			// }
-			// TODO: we want to error out if it has already been inserted
+			// cache it
+			owner.node_dict.insert (node, this);
+			// TODO: perhaps check whether node already has a match :|
 		}
-		// internal Node () {
-		// 	this.node = null;
-		// 	// TODO: better solution? have no Xml.Node * for e.g. DocumentType (yet)
-		// }
+
+		/* TODO: check if this mucks up the lookup_node */
+		internal DomNode.with_type (NodeType type, Document owner) {
+			this.node = null;
+			this.node_type = type;
+			this.owner_document = owner;
+		}
+
+		/** This should only be used by Document, which should set an owner right after  */
+		internal DomNode.with_type_no_owner (NodeType type) {
+			this.node = null;
+			this.node_type = type;
+		}
 
 		/** Public properties */
+		/* None of the following should store any data locally (except the attribute table), they should get data from Xml.Node* */
 		public string node_name {
 			get {
 				return this.node->name;
@@ -64,22 +60,25 @@ namespace GXml.Dom {
 		}
 		public string node_value {
 			get {
+				// TODO: if it's an Element, it should return null, as all its 'value' is in its children
 				return this.node->content; // TODO: same as value here?
 			}
 			private set {
 			}
 		}/* "raises [DomError] on setting/retrieval"?  */
-		public ushort node_type {
+		public Dom.NodeType node_type {
 			get {
-				return (ushort)this.node->type; // TODO: Same type?  Do we want to upgrade ushort to ElementType?
+				/* Right now, Dom.NodeType's 12 values map perfectly to libxml2's first 12 types */
+				return (NodeType)this.node->type;
 			}
 			private set {
 			}
+			// default = NodeType.ELEMENT;
 		}
-		public Node parent_node {
+		public DomNode parent_node {
 			get {
-				return DomNode.lookup (this.node->parent);
-				// TODO: is parent never null?
+				return this.owner_document.lookup_node (this.node->parent);
+				// TODO: is parent never null? parent is probably possible to be null, like when you create a new element unattached
 				// return new DomNode (this.node->parent);
 				// TODO: figure out whether we really want to recreate wrapper objects each time
 			}
@@ -88,11 +87,11 @@ namespace GXml.Dom {
 		}
 		/* TODO: just used unowned to avoid compilation error for stub; investigate what's right */
 		// TODO: need to let the user know that editing this list doesn't add children to the node (but then what should?)
-		public List<Node> child_nodes {
+		public List<DomNode> child_nodes {
 			owned get {
-				List<Node> children = new List<Node> ();
+				List<DomNode> children = new List<DomNode> ();
 				for (Xml.Node *child = this.node->children; child != null; child = child->next) {
-					children.append (DomNode.lookup (child));
+					children.append (this.owner_document.lookup_node (child));
 					// children.append (new DomNode (child));
 				}
 				return children;
@@ -100,19 +99,19 @@ namespace GXml.Dom {
 			private set {
 			}
 		}
-		public Node? first_child {
+		public DomNode? first_child {
 			get {
 				if (this.node->children == null) {
 					return null; // TODO: what's the appropriate return value?
 				} else {
 					//return new DomNode (this.node->children);
-					return DomNode.lookup (this.node->children);
+					return this.owner_document.lookup_node (this.node->children);
 				}
 			}
 			private set {
 			}
 		}
-		public Node? last_child {
+		public DomNode? last_child {
 			// some children would be Nodes of different types; doesn't this lose that information?
 			get {
 				Xml.Node *child = this.node->children;
@@ -123,45 +122,51 @@ namespace GXml.Dom {
 					child = child->next;
 				}
 				//return new DomNode (child);
-				return DomNode.lookup (this.node->children);
+				return this.owner_document.lookup_node (this.node->children);
 			}
 			private set {
 			}
 		}
-		public Node? previous_sibling {
+		public DomNode? previous_sibling {
 			get {
-				return DomNode.lookup (this.node->prev);
+				return this.owner_document.lookup_node (this.node->prev);
 				//return new DomNode (this.node->prev);
 			}
 			private set {
 			}
 		}
-		public Node? next_sibling {
+		public DomNode? next_sibling {
 			get {
 				//return new DomNode (this.node->next);
-				return DomNode.lookup (this.node->next);
+				return this.owner_document.lookup_node (this.node->next);
 			}
 			private set {
 			}
 		}
 		/* HashTable used for XML NamedNodeMap */
-		private HashTable<string,Attr> _attributes = new HashTable<string,Attr> (null, null); // TODO: use string equals for key compare
-		public HashTable<string,Attr> attributes {
-			// TODO: make sure we want the user to be able to manipulate attributes using this HashTable.
+		// TODO: note that NamedNodeMap is 'live' so changes to the Node should be seen in the NamedNodeMap (already retrieved), no duplicating it: http://www.w3.org/TR/DOM-Level-1/level-one-core.html
+		private HashTable<string,Attr> _attributes = new HashTable<string,Attr> (GLib.str_hash, GLib.str_equal); // TODO: make sure other HashTables have appropriate hash, equal functions
+		public HashTable<string,Attr>? attributes {
+			// TODO: make sure we want the user to be able to manipulate attributes using this HashTable. // Yes, we do, it should be a live reflection
 			// TODO: remember that this table needs to be synced with libxml2 structures; perhaps use a flag that indicates whether it was even accessed, and only then sync it later on
 			get {
-				return _attributes;
-				// STUB: do we want to create one locally and update it for the object, or just translate node->properties each call?
+				switch (this.node_type) {
+				case NodeType.ELEMENT:
+					return this._attributes;
+					// TODO: what other nodes have attrs?
+				default:
+					return null;
+				}
 			}
 			private set {
 			}
 		}
 		public Document owner_document {
 			get;
-			private set;
+			internal set;
 		}
 
-		Node insert_before (Node new_child, Node ref_child) throws DomError {
+		public DomNode insert_before (DomNode new_child, DomNode ref_child) throws DomError {
 			Xml.Node *child = this.node->children;
 
 			while (child != ((DomNode)ref_child).node && child != null) {
@@ -175,7 +180,7 @@ namespace GXml.Dom {
 
 			return new_child; // TODO: make sure that's what we should be returning
 		}
-		Node replace_child (Node new_child, Node old_child) throws DomError {
+		public DomNode replace_child (DomNode new_child, DomNode old_child) throws DomError {
 			// TODO: nuts, if Node as an iface can't have properties,
 			//       then I have to cast these to DomNodes, ugh.
 			// TODO: need to handle errors?
@@ -193,18 +198,18 @@ namespace GXml.Dom {
 			}
 			return this; // TODO: what to return?
 		}
-		Node remove_child (Node old_child) throws DomError {
+		public DomNode remove_child (DomNode old_child) throws DomError {
 			((DomNode)old_child).node->unlink (); // TODO: do we need to free libxml2 stuff manually?
 			return old_child; // TODO: what do we want to return?
 		}
-		Node append_child (Node new_child) throws DomError {
-			this.node->add_child (((DomNode)new_child).node);
+		public DomNode append_child (DomNode new_child) throws DomError {
+			this.node->add_child (new_child.node);
 			return new_child; // TODO: what to return?
 		}
-		bool has_child_nodes () {
+		public bool has_child_nodes () {
 			return (this.node->children != null);
 		}
-		Node clone_nodes (bool deep) {
+		public DomNode clone_nodes (bool deep) {
 			return this; // STUB
 		}
 	}
