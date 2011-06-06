@@ -1,10 +1,92 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 namespace GXml.Dom {
-	class Attr : AttrNode {
+	public class Attr : DomNode {
+
+		/** Private properties */
+		private new Xml.Attr *node;
+
+		/** Constructors */
+		internal Attr (Xml.Attr *node, Document doc) {
+			// TODO: wish valac would warn against using this. before calling base()
+			base.with_type (NodeType.ATTRIBUTE, doc); // TODO: do we really want to pass up null? :o
+			this.node = node;
+			this.specified = false; // TODO: verify that it's false when no value is set
+		}
+
+		/** Public properties (Node general) */
+		public new string node_name {
+			get {
+				return this.node->name;
+			}
+			private set {
+			}
+		}
+		public new string node_value {
+			get {
+				return this.node->children->content; // TODO: same as value here?
+			}
+			private set {
+				this.node->children->content = value;
+			}
+		}/* "raises [DomError] on setting/retrieval"?  */
+		public new NodeType node_type {
+			get {
+				return (NodeType)this.node->type; // TODO: Same type?  Do we want to upgrade ushort to ElementType?
+			}
+			private set {
+			}
+		}
+		public new DomNode parent_node {
+			get {
+				// TODO: couldn't parent be null? :o
+				return this.owner_document.lookup_node (this.node->parent);
+			}
+			private set {
+			}
+		}
+
+		/* TODO: figure out how to indicate that this is not supported on Attr */
+		// public List<Node> child_nodes {
+		// }
+		// public Node? first_child {
+		// }
+		// public Node? last_child {
+		// }
+
+		public new Attr previous_sibling {
+			get {
+				return this.owner_document.lookup_attr (this.node->prev);
+			}
+			private set {
+			}
+		}
+		public new Attr next_sibling {
+			get {
+				return this.owner_document.lookup_attr (this.node->next);
+			}
+			private set {
+			}
+		}
+		/* HashTable used for XML NamedNodeMap */
+		// TODO: Attributes don't have attributes, need to find a way to indicate that via Vala
+
+		// private HashTable<string,Attr> _attributes = new HashTable<string,Attr> (null, null);
+		// public HashTable<string,Attr> attributes {
+		// 	get {
+		// 		// TODO: do we really want this for Attr?  Sigh
+		// 		return _attributes; 
+		// 		// STUB: do we want to create one locally and update it for the object, or just translate node->properties each call?
+		// 		// TODO: this is getting dumb, why is Attr a Node again? :S
+		// 	}
+		// 	private set {
+		// 	}
+		// }
+
+		/** Public properties (Attr-specific) */
 		public string name {
 			get {
 				// TODO: make sure that this is the right name, and that ownership is correct
-				return base.node_name;
+				return this.node_name;
 			}
 			private set {
 			}
@@ -13,13 +95,40 @@ namespace GXml.Dom {
 			get;
 			private set;
 		}
-		public string value;
+		public string value {
+			get {
+				
+				return this.node_value;
+			}
+			set {
+				// this.parent.node->set_prop (
+				this.node_value = value;
+			}
+		}
 		// TODO: if 'specified' is to be set when 'value' is, add setter logic to 'value' property
 
-		internal Attr (Xml.Attr *node) {
-			base (node);
-			this.specified = false; // TODO: verify that it's false when no value is set
+		/** Public methods (Node-specific) */
+		public new DomNode insert_before (DomNode new_child, DomNode ref_child) throws DomError {
+			throw new DomError.NOT_SUPPORTED_ERR ("Attributes do not have children.");
 		}
+		public new DomNode replace_child (DomNode new_child, DomNode old_child) throws DomError {
+			throw new DomError.NOT_SUPPORTED_ERR ("Attributes do not have children.");
+			// TODO: i18n
+		}
+		public new DomNode remove_child (DomNode old_child) throws DomError {
+			throw new DomError.NOT_SUPPORTED_ERR ("Attributes do not have children.");
+		}
+		public new DomNode append_child (DomNode new_child) throws DomError {
+			throw new DomError.NOT_SUPPORTED_ERR ("Attributes do not have children.");
+		}
+		public new bool has_child_nodes () {
+			return false; // STUB
+		}
+		public new DomNode clone_nodes (bool deep) {
+			return this; // STUB
+		}
+
+
 	}
 }
 
