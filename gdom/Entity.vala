@@ -1,7 +1,7 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
 namespace GXml.Dom {
-	class Entity : DomNode {
+	public class Entity : DomNode {
 		public string public_id {
 			get;
 			private set;
@@ -15,8 +15,8 @@ namespace GXml.Dom {
 			private set;
 		}
 
-		internal Entity () {
-			base (null);
+		internal Entity (Document doc) {
+			base.with_type (NodeType.ENTITY, doc);
 		}
 	}
 }
