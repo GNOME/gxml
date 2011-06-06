@@ -52,6 +52,7 @@ namespace GXml.Dom {
 			base.attributes.remove (name);
 		}
 		public Attr get_attribute_node (string name) {
+			// rightfully returns NULL if it does not exist
 			return base.attributes.lookup (name);
 		}
 		public Attr set_attribute_node (Attr new_attr) throws DomError {
@@ -67,13 +68,48 @@ namespace GXml.Dom {
 			return old_attr; // TODO: is this what we want to return?
 		}
 
+		// TODO: somewhere want to make clear that node_value does not contain the contents of a node, but that its text children do :)
+
 		public List<DomNode> get_elements_by_tag_name (string name) {
-			// TODO: consider switching these to List<Element>
-			// STUB
-			return null; // new List<Node> ();
+			// we apparently are case sensitive, spec says user should normalise
+			List<DomNode> tagged = new List<DomNode> ();
+			Queue<DomNode> tocheck = new Queue<DomNode> ();
+			DomNode elem;
+
+			// TODO: consider using List instead of queue, for .concat ()
+			foreach (DomNode node in this.child_nodes) {
+				tocheck.push_tail (node);
+			}
+
+			while (tocheck.is_empty () == false) {
+				elem = tocheck.pop_head ();
+				if (elem.node_name == name) {
+					tagged.append (elem);
+				}
+				foreach (DomNode child in elem.child_nodes) {
+					tocheck.push_tail (child);
+				}
+			}
+
+			return tagged;
 		}
+
+		/* This merges all Text nodes that are adjacent to one
+		 * another for the descendents of this Element */
 		public void normalize () {
 			// STUB
+
+			foreach (DomNode child in this.child_nodes) {
+				switch (child.node_type) {
+				case NodeType.ELEMENT:
+					child.normalize ();
+					break;
+				case NodeType.TEXT:
+					// TODO: check siblings: what happens in vala when you modify a list you're iterating?
+					// STUB
+				}
+
+			}
 		}
 	}
 }
