@@ -230,6 +230,7 @@ namespace GXml.Dom {
 			//       if not, I need to not allow GXml.Dom structures to really store data, it should all be accessed from the libxml2 nodes
 			// List<DomNode> elems = new List<DomNode> (); // STUB
 
+			// IMPORTANT:TODO: this probably won't work, because it would return nodes that were created but NOT attached, which I don't think we care about, unless we do
 			return tag_element_idx.lookup (tagname);
 			// TODO: want to do any tagname normalisation?
 			// TODO: DO NOT return a separate list, we need to return the live list
