@@ -5,7 +5,7 @@ class Main {
 		DomNodeTest.add_dom_node_tests ();
 		ElementTest.add_element_tests ();
 		Test.run ();
-		
+
 		// TODO: want to change Node to something less generic, conflicts with GLib
 		// TODO: stop having Attribute and DomNode implement the same iface
 
