@@ -9,7 +9,7 @@ using GXml.Dom;
 
 class DomNodeTest {
 	private static Document get_doc () {
-		// TODO: want to create document that is empty, not from a file 
+		// TODO: want to create document that is empty, not from a file
 		return new Document.for_path ("test.xml");
 	}
 	private static DomNode get_elem (string name, Document doc) {
@@ -23,13 +23,13 @@ class DomNodeTest {
 		Attr node = doc.create_attribute (name);
 		node.value = value;
 
-		return node;		
+		return node;
 	}
 
 	public static void add_dom_node_tests () throws DomError {
 		Test.add_func ("/gdom/domnode/node_name_get", () => {
 				DomNode node = get_elem_new_doc ("george");
-				
+
 				assert (node.node_name == "george");
 			});
 		Test.add_func ("/gdom/domnode/node_type_get", () => {
@@ -101,4 +101,4 @@ class DomNodeTest {
 			});
 
 	}
-}	
+}

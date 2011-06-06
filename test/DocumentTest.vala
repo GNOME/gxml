@@ -77,7 +77,7 @@ class DocumentTest {
 				elems = null;
 			});
 	}
-	
+
 	public static void print_node (DomNode node) {
 		List<GXml.Dom.DomNode> children = (List<GXml.Dom.DomNode>)node.child_nodes;
 
