@@ -46,7 +46,7 @@ namespace GXml.Dom {
 		/** This should only be used by Document, which should set an owner right after  */
 		internal DomNode.with_type_no_owner (NodeType type) {
 			this.node = null;
-			this.node_type = type;
+			this.node_type = type; // TODO: This is broken, node_type currently just grabs this.node's type, but this.node might be null for Document, Attribute, etc. :'(
 		}
 
 		/** Public properties */
