@@ -21,10 +21,50 @@ namespace GXml.Dom {
 
 			domnode = this.node_dict.lookup (xmlnode);
 			if (domnode == null) {
-				// If we don't have a cached DomNode for a given Xml.Node yet, create one
-				// TODO: threadsafety?
-				new DomNode (xmlnode, this); // inserted within constructor
+				// If we don't have a cached the appropriate DomNode for a given Xml.Node* yet, create it (type matters)
+				// TODO: see if we can attach logic to the enum {} to handle this
+				switch ((NodeType)xmlnode->type) {
+				case NodeType.ELEMENT:
+					new Element (xmlnode, this);
+					break;
+				case NodeType.TEXT:
+					new Text (xmlnode, this);
+					break;
+				case NodeType.CDATA_SECTION:
+					new CDATASection (xmlnode, this);
+					break;
+				case NodeType.COMMENT:
+					new Comment (xmlnode, this);
+					break;
+				case NodeType.DOCUMENT_FRAGMENT:
+					new DocumentFragment (xmlnode, this);
+					break;
+				/* TODO: These are not yet implemented */
+				case NodeType.ENTITY_REFERENCE:
+					// new EntityReference (xmlnode, this);
+					break;
+				case NodeType.ENTITY:
+					// new Entity (xmlnode, this);
+					break;
+				case NodeType.PROCESSING_INSTRUCTION:
+					// new ProcessingInstruction (xmlnode, this);
+					break;
+				case NodeType.DOCUMENT_TYPE:
+					// new DocumentType (xmlnode, this);
+					break;
+				case NodeType.NOTATION:
+					// new Notation (xmlnode, this);
+					break;
+				case NodeType.ATTRIBUTE:
+					// TODO: error
+					break;
+				case NodeType.DOCUMENT:
+					// TODO: error
+					break;
+				}
+
 				domnode = this.node_dict.lookup (xmlnode);
+				// TODO: threadsafety?
 			}
 
 			return domnode;
@@ -86,18 +126,23 @@ namespace GXml.Dom {
 
 
 		/** Public properties */
-		// TODO: set these
 		public DocumentType doctype {
+			// STUB
 			get;
 			private set;
 		}
 		public Implementation implementation {
+			// STUB
 			get;
 			private set;
 		}
 		public Element document_element {
-			get;
-			private set;
+			// TODO: should children work at all on Document, or just this, to get root?
+			get {
+				return (Element)this.lookup_node (this.xmldoc->get_root_element ());
+			}
+			private set {
+			}
 		}
 
 		/** Constructor */
