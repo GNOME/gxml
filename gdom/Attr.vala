@@ -74,7 +74,7 @@ namespace GXml.Dom {
 		// public HashTable<string,Attr> attributes {
 		// 	get {
 		// 		// TODO: do we really want this for Attr?  Sigh
-		// 		return _attributes; 
+		// 		return _attributes;
 		// 		// STUB: do we want to create one locally and update it for the object, or just translate node->properties each call?
 		// 		// TODO: this is getting dumb, why is Attr a Node again? :S
 		// 	}
@@ -97,7 +97,7 @@ namespace GXml.Dom {
 		}
 		public string value {
 			get {
-				
+
 				return this.node_value;
 			}
 			set {
