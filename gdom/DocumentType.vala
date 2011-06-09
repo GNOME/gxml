@@ -1,10 +1,10 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
 namespace GXml.Dom {
-	public class DocumentType : DomNode {
+	public class DocumentType : VirtualNode {
 		/** Constructor */
 		internal DocumentType (Document doc) {
-			base.with_type (NodeType.DOCUMENT_TYPE, doc);
+			base (NodeType.DOCUMENT_TYPE, doc);
 		}
 
 
