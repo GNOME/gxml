@@ -15,6 +15,13 @@ namespace GXml.Dom {
 			private set {
 			}
 		}
+		public override string? node_value {
+			get {
+				return null;
+			}
+			private set {
+			}
+		}
 
 		/** Constructors */
 		internal Element (Xml.Node *node, Document doc) {
@@ -102,11 +109,12 @@ namespace GXml.Dom {
 			foreach (DomNode child in this.child_nodes) {
 				switch (child.node_type) {
 				case NodeType.ELEMENT:
-					child.normalize ();
+					((Element)child).normalize ();
 					break;
 				case NodeType.TEXT:
 					// TODO: check siblings: what happens in vala when you modify a list you're iterating?
 					// STUB
+					break;
 				}
 
 			}
