@@ -1,6 +1,6 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 namespace GXml.Dom {
-	public class Attr : DomNode {
+	public class Attr : VirtualNode {
 
 		/** Private properties */
 		private new Xml.Attr *node;
@@ -8,7 +8,7 @@ namespace GXml.Dom {
 		/** Constructors */
 		internal Attr (Xml.Attr *node, Document doc) {
 			// TODO: wish valac would warn against using this. before calling base()
-			base.with_type (NodeType.ATTRIBUTE, doc); // TODO: do we really want to pass up null? :o
+			base (NodeType.ATTRIBUTE, doc); // TODO: do we really want to pass up null? :o
 			this.node = node;
 			this.specified = false; // TODO: verify that it's false when no value is set
 		}
@@ -21,21 +21,14 @@ namespace GXml.Dom {
 			private set {
 			}
 		}
-		public new string node_value {
+		public override string? node_value {
 			get {
 				return this.node->children->content; // TODO: same as value here?
 			}
-			private set {
+			internal set {
 				this.node->children->content = value;
 			}
 		}/* "raises [DomError] on setting/retrieval"?  */
-		public new NodeType node_type {
-			get {
-				return (NodeType)this.node->type; // TODO: Same type?  Do we want to upgrade ushort to ElementType?
-			}
-			private set {
-			}
-		}
 		public new DomNode parent_node {
 			get {
 				// TODO: couldn't parent be null? :o
