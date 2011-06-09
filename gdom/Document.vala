@@ -6,7 +6,7 @@
  */
 
 namespace GXml.Dom {
-	public class Document : DomNode {
+	public class Document : VirtualNode {
 		/** Private class properties */
 		internal HashTable<Xml.Node*, DomNode> node_dict = new HashTable<Xml.Node*, DomNode> (GLib.direct_hash, GLib.direct_equal);
 		private Xml.Doc *xmldoc;
@@ -156,8 +156,8 @@ namespace GXml.Dom {
 				throw new DomError.INVALID_ROOT ("Could not obtain root for document.");
 
 			// TODO: consider passing root as a base node?
-			base.with_type_no_owner (NodeType.DOCUMENT);
-			this.owner_document = this;
+			base.for_document (NodeType.DOCUMENT);
+			this.owner_document = this; // this doesn't exist until after base()
 			this.xmldoc = doc;
 		}
 		public Document.for_path (string file_path) throws DomError {
@@ -209,8 +209,11 @@ namespace GXml.Dom {
 			return new CDATASection (this.xmldoc->new_cdata_block (data, (int)data.length), this);
 		}
 		public ProcessingInstruction create_processing_instruction (string target, string data) throws DomError {
-			// STUB: TODO: figure out what to do for a ProcessingInstruction
-			return new ProcessingInstruction (this);
+			// TODO: figure out what to do for a ProcessingInstruction
+			// TODO: want to see whether we can find a libxml2 structure for this
+			ProcessingInstruction pi = new ProcessingInstruction (target, data, this);
+
+			return pi;
 		}
 		public Attr create_attribute (string name) throws DomError {
 			return new Attr (this.xmldoc->new_prop (name, ""), this);  // TODO: should we pass something other than "" for the unspecified value?
