@@ -1,9 +1,11 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
 namespace GXml.Dom {
-	public class ProcessingInstruction : DomNode {
-		internal ProcessingInstruction (Document doc) {
-			base.with_type (NodeType.PROCESSING_INSTRUCTION, doc); // TODO: want to pass a real Xml.Node* ?
+	public class ProcessingInstruction : VirtualNode {
+		internal ProcessingInstruction (string target, string data, Document doc) {
+			base (NodeType.PROCESSING_INSTRUCTION, doc); // TODO: want to pass a real Xml.Node* ?
+			this.target = target;
+			this.data = data;
 		}
 
 		public string target {
@@ -14,5 +16,13 @@ namespace GXml.Dom {
 			get;
 			set;	//throw new DomError.DOM ("Error");
 		}
+		public override string? node_value {
+			get {
+				return this.data;
+			}
+			private set {
+			}
+		}
+
 	}
 }
