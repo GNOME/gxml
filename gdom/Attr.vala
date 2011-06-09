@@ -3,22 +3,22 @@ namespace GXml.Dom {
 	public class Attr : VirtualNode {
 
 		/** Private properties */
-		private new Xml.Attr *node;
+		private Xml.Attr *node;
 
 		/** Constructors */
 		internal Attr (Xml.Attr *node, Document doc) {
 			// TODO: wish valac would warn against using this. before calling base()
-			base (NodeType.ATTRIBUTE, doc); // TODO: do we really want to pass up null? :o
+			base (NodeType.ATTRIBUTE, doc);
 			this.node = node;
 			this.specified = false; // TODO: verify that it's false when no value is set
 		}
 
 		/** Public properties (Node general) */
-		public new string node_name {
+		public override string node_name {
 			get {
 				return this.node->name;
 			}
-			private set {
+			internal set {
 			}
 		}
 		public override string? node_value {

@@ -16,6 +16,13 @@ namespace GXml.Dom {
 			get;
 			set;	//throw new DomError.DOM ("Error");
 		}
+		public override string node_name {
+			get {
+				return this.target;
+			}
+			private set {
+			}
+		}
 		public override string? node_value {
 			get {
 				return this.data;

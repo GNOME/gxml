@@ -126,6 +126,14 @@ namespace GXml.Dom {
 
 
 		/** Public properties */
+		public override string node_name {
+			get {
+				return "#document"; // TODO: wish I could return "#" + base.node_name
+			}
+			private set {
+			}
+		}
+
 		public DocumentType doctype {
 			// STUB
 			get;
@@ -156,7 +164,7 @@ namespace GXml.Dom {
 				throw new DomError.INVALID_ROOT ("Could not obtain root for document.");
 
 			// TODO: consider passing root as a base node?
-			base.for_document (NodeType.DOCUMENT);
+			base.for_document ();
 			this.owner_document = this; // this doesn't exist until after base()
 			this.xmldoc = doc;
 		}
@@ -219,7 +227,7 @@ namespace GXml.Dom {
 			return new Attr (this.xmldoc->new_prop (name, ""), this);  // TODO: should we pass something other than "" for the unspecified value?
 		}
 		public EntityReference create_entity_reference (string name) throws DomError {
-			return new EntityReference (this);
+			return new EntityReference (name, this);
 			// STUB: figure out what they mean by entity reference and what libxml2 means by it (xmlNewReference ()?)
 		}
 

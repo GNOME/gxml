@@ -4,6 +4,7 @@ namespace GXml.Dom {
 	public class DocumentType : VirtualNode {
 		/** Constructor */
 		internal DocumentType (Document doc) {
+			// TODO: for name, we want a real name of the doc type
 			base (NodeType.DOCUMENT_TYPE, doc);
 		}
 

@@ -7,5 +7,13 @@ namespace GXml.Dom {
 		internal Comment (Xml.Node *comment_node, Document doc) {
 			base (comment_node, doc);
 		}
+		public override string node_name {
+			get {
+				return "#comment"; 
+			}
+			private set {
+			}
+		}
+
 	}
 }

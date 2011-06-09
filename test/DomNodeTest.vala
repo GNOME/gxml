@@ -29,16 +29,48 @@ class DomNodeTest {
 	public static void add_dom_node_tests () throws DomError {
 		Test.add_func ("/gdom/domnode/node_name_get", () => {
 				// TODO: should DomNodes never have a null name?
-				DomNode node = get_elem_new_doc ("george");
+				Document doc = get_doc ();
+				DomNode node;
 
-				assert (node.node_name == "george");
+				node = get_elem ("elemname", doc);
+				assert (node.node_name == "elemname");
+
+				node = doc.create_attribute ("attrname");
+				assert (node.node_name == "attrname");
+
+				node = doc.create_text_node ("some text");
+				assert (node.node_name == "#text");
+
+				node = doc.create_cdata_section ("cdata");
+				assert (node.node_name == "#cdata-section");
+
+				node = doc.create_entity_reference ("refname");
+				assert (node.node_name == "refname");
+
+				// node = doc.create_entity ();
+				// assert (node.node_name == ...); // entity name
+
+				node = doc.create_processing_instruction ("target", "data");
+				assert (node.node_name == "target");
+
+				node = doc.create_comment ("some comment");
+				assert (node.node_name == "#comment");
+
+				assert (doc.node_name == "#document");
+
+				// node = doc.create_document_type ("");
+				// assert (node.node_name == ...); // document-type name
+
+				// node = doc.create_document_fragment ("");
+				// assert (node.node_name == "#document-fragment");
+
+				// node = doc.create_notation ("some notation");
+				// assert (node.node_name == ...); // notation name
 			});
 		Test.add_func ("/gdom/domnode/node_type_get", () => {
 				// TODO: implement commented-out types
 
 				Document doc = get_doc ();
-
-				// Element
 				DomNode node;
 
 				node = get_elem ("a", doc);

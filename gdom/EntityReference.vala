@@ -3,8 +3,14 @@
 namespace GXml.Dom {
 	/* TODO: do we need an EntityReference? find out what it's used for */
 	public class EntityReference : VirtualNode {
-		internal EntityReference (Document doc) {
+		internal EntityReference (string refname, Document doc) {
+			// TODO: may want to handle refname differently
 			base (NodeType.ENTITY_REFERENCE, doc); // TODO: what should we pass up?
+			this.node_name = refname;
+		}
+		public override string node_name {
+			get;
+			private set;
 		}
 	}
 }

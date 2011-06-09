@@ -6,5 +6,12 @@ namespace GXml.Dom {
 		internal Text (Xml.Node *text_node, Document doc) {
 			base (text_node, doc);
 		}
+		public override string node_name {
+			get {
+				return "#text"; // TODO: wish I could return "#" + base.node_name
+			}
+			private set {
+			}
+		}
 	}
 }

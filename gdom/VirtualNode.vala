@@ -7,9 +7,10 @@ namespace GXml.Dom {
 			this.node_type = type;
 			this.owner_document = owner;
 		}
-		internal VirtualNode.for_document (NodeType type) {
+		internal VirtualNode.for_document () {
 			base.virtual ();
-			this.node_type = type;
+			this.node_name = "#document";
+			this.node_type = NodeType.DOCUMENT;
 		}
 
 		public override string? node_value {

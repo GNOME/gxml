@@ -43,11 +43,11 @@ namespace GXml.Dom {
 
 		/** Public properties */
 		/* None of the following should store any data locally (except the attribute table), they should get data from Xml.Node* */
-		public string node_name {
+		public virtual string node_name {
 			get {
 				return this.node->name;
 			}
-			private set {
+			internal set {
 			}
 		}
 
@@ -57,6 +57,7 @@ namespace GXml.Dom {
 			}
 			internal set {
 			}
+		}
 		//  {
 			// get {
 			// 	// TODO: where is this typically stored?
@@ -66,7 +67,7 @@ namespace GXml.Dom {
 			// internal set {
 			// 	this.node->children->content = value;
 			// }
-		}/* "raises [DomError] on setting/retrieval"?  */
+		//}/* "raises [DomError] on setting/retrieval"?  */
 		public virtual Dom.NodeType node_type {
 			get {
 				/* Right now, Dom.NodeType's 12 values map perfectly to libxml2's first 12 types */

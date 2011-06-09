@@ -111,7 +111,7 @@ class ElementTest {
 				assert (email.child_nodes.length () == 1);
 
 				text = (Text)email.child_nodes.nth_data (0);
-				assert (text.node_name == "text");
+				assert (text.node_name == "#text");
 				assert (text.node_value == "fweasley@hogwarts.co.uk");
 
 				email = (Element)emails.nth_data (1);
@@ -119,7 +119,7 @@ class ElementTest {
 				assert (email.child_nodes.length () == 1);
 
 				text = (Text)email.child_nodes.nth_data (0);
-				assert (text.node_name == "text");
+				assert (text.node_name == "#text");
 				assert (text.node_value == "gweasley@hogwarts.co.uk");
 			});
 		Test.add_func ("/gdom/element/normalize", () => {

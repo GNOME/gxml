@@ -7,5 +7,12 @@ namespace GXml.Dom {
 		internal CDATASection (Xml.Node *cdata_node, Document doc) {
 			base (cdata_node, doc);
 		}
+		public override string node_name {
+			get {
+				return "#cdata-section"; 
+			}
+			private set {
+			}
+		}
 	}
 }

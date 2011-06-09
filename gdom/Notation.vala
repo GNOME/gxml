@@ -13,6 +13,7 @@ namespace GXml.Dom {
 
 		internal Notation (Document doc) {
 			base (NodeType.NOTATION, doc); // STUB
+			// notation name?  is that the same as the arg we pass it? 
 		}
 	}
 
