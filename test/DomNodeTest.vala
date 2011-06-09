@@ -28,22 +28,90 @@ class DomNodeTest {
 
 	public static void add_dom_node_tests () throws DomError {
 		Test.add_func ("/gdom/domnode/node_name_get", () => {
+				// TODO: should DomNodes never have a null name?
 				DomNode node = get_elem_new_doc ("george");
 
 				assert (node.node_name == "george");
 			});
 		Test.add_func ("/gdom/domnode/node_type_get", () => {
-				// TODO: should DomNodes never have a null name?
-				DomNode node = get_elem_new_doc ("a");
+				// TODO: implement commented-out types
 
-				assert (node.node_type != NodeType.ATTRIBUTE);
+				Document doc = get_doc ();
+
+				// Element
+				DomNode node;
+
+				node = get_elem ("a", doc);
 				assert (node.node_type == NodeType.ELEMENT);
-			});
-		Test.add_func ("/gdom/domnode/node_value", () => {
-				DomNode attr = get_attr ("potter", "harry");
-				DomNode elem = get_elem_new_doc ("hogwarts");
 
-				assert (elem.node_value == null);
+				node = doc.create_attribute ("name");
+				assert (node.node_type == NodeType.ATTRIBUTE);
+
+				node = doc.create_text_node ("some text");
+				assert (node.node_type == NodeType.TEXT);
+
+				node = doc.create_cdata_section ("cdata");
+				assert (node.node_type == NodeType.CDATA_SECTION);
+
+				node = doc.create_entity_reference ("refname");
+				assert (node.node_type == NodeType.ENTITY_REFERENCE);
+
+				// node = doc.create_entity ();
+				// assert (node.node_type == NodeType.ENTITY);
+
+				node = doc.create_processing_instruction ("target", "data");
+				assert (node.node_type == NodeType.PROCESSING_INSTRUCTION);
+
+				node = doc.create_comment ("some comment");
+				assert (node.node_type == NodeType.COMMENT);
+
+				assert (doc.node_type == NodeType.DOCUMENT);
+
+				// node = doc.create_document_type ("");
+				// assert (node.node_type == NodeType.DOCUMENT_TYPE);
+
+				// node = doc.create_document_fragment ("");
+				// assert (node.node_type == NodeType.DOCUMENT_FRAGMENT);
+
+				// node = doc.create_notation ("some notation");
+				// assert (node.node_type == NodeType.NOTATION);
+
+			});
+		Test.add_func ("/gdom/domnode/node_value_get", () => {
+
+				/* See: http://www.w3.org/TR/DOM-Level-1/level-one-core.html */
+
+				Document doc = get_doc ();
+
+				DomNode node;
+
+				node = doc.create_element ("elem");
+				assert (node.node_value == null);
+
+				node = doc.create_attribute ("name");
+				((Attr)node).value = "Harry Potter";
+				assert (node.node_value == "Harry Potter");
+
+				node = doc.create_text_node ("text content");
+				assert (node.node_value == "text content");
+
+				node = doc.create_cdata_section ("cdata content");
+				assert (node.node_value == "cdata content");
+
+				node = doc.create_entity_reference ("refname");
+				assert (node.node_value == null);
+
+				// TODO: entity
+
+				node = doc.create_processing_instruction ("target", "proc inst data");
+				assert (node.node_value == "proc inst data");
+
+				node = doc.create_comment ("some comment");
+				assert (node.node_value == "some comment");
+
+				assert (doc.node_value == null);
+
+				/* TODO: Document Type, Document Fragment, Notation */
 				// assert (attr.node_value == "harry");
 				/* TODO: figure out a solution.
 				   Attr's node_value doesn't get used when elem is thought of
