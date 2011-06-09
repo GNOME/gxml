@@ -1,8 +1,11 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
+// NOTE: be careful about what extra data subclasses keep
+
+
 namespace GXml.Dom {
 	public enum NodeType {
-		/* TODO: bug in vala?  if I don't have == 0, I fail when creating
+		/* NOTE: bug in vala?  if I don't have == 0, I fail when creating
 		   this class because I can't set default values for NodeType properties
 		   GLib-GObject-CRITICAL **: g_param_spec_enum: assertion `g_enum_get_value (enum_class, default_value) != NULL' failed */
 		X_UNKNOWN = 0,
@@ -23,31 +26,20 @@ namespace GXml.Dom {
 	public class DomNode : GLib.Object {
 		/** Private properties */
 		private Xml.Node *node;
-		// TODO: be careful about what extra data subclasses keep
 
 		/** Constructors */
+		internal DomNode.virtual () {
+		}
 		internal DomNode (Xml.Node *node, Document owner) {
 			this.node = node;
 			this.node_type = (NodeType)node->type;
-			this.owner_document = owner; // TODO: consider using node->doc instead
+			this.owner_document = owner; // Considered using node->doc instead, but some subclasses don't have corresponding Xml.Nodes
 
-			// cache it
+			// Save the correspondence between this Xml.Node* and its DomNode
 			owner.node_dict.insert (node, this);
-			// TODO: perhaps check whether node already has a match :|
+			// TODO: Consider checking whether the Xml.Node* is already recorded.  It shouldn't be.
 		}
 
-		/* TODO: check if this mucks up the lookup_node */
-		internal DomNode.with_type (NodeType type, Document owner) {
-			this.node = null;
-			this.node_type = type;
-			this.owner_document = owner;
-		}
-
-		/** This should only be used by Document, which should set an owner right after  */
-		internal DomNode.with_type_no_owner (NodeType type) {
-			this.node = null;
-			this.node_type = type; // TODO: This is broken, node_type currently just grabs this.node's type, but this.node might be null for Document, Attribute, etc. :'(
-		}
 
 		/** Public properties */
 		/* None of the following should store any data locally (except the attribute table), they should get data from Xml.Node* */
@@ -58,20 +50,29 @@ namespace GXml.Dom {
 			private set {
 			}
 		}
-		public string node_value {
+
+		public virtual string? node_value {
 			get {
-				// TODO: if it's an Element, it should return null, as all its 'value' is in its children
-				return this.node->content; // TODO: same as value here?
+				return this.node->content;
 			}
-			private set {
+			internal set {
 			}
+		//  {
+			// get {
+			// 	// TODO: where is this typically stored?
+			// 	// TODO: if it's an Element, it should return null, as all its 'value' is in its children
+			// 	return this.node->content; // TODO: same as value here?
+			// }
+			// internal set {
+			// 	this.node->children->content = value;
+			// }
 		}/* "raises [DomError] on setting/retrieval"?  */
-		public Dom.NodeType node_type {
+		public virtual Dom.NodeType node_type {
 			get {
 				/* Right now, Dom.NodeType's 12 values map perfectly to libxml2's first 12 types */
 				return (NodeType)this.node->type;
 			}
-			private set {
+			internal set {
 			}
 			// default = NodeType.ELEMENT;
 		}
