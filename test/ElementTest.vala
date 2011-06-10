@@ -40,6 +40,37 @@ class ElementTest {
 	}
 
 	public static void add_element_tests () {
+		Test.add_func ("/gdom/element/attributes", () => {
+				HashTable<string,Attr> attributes;
+
+				Document doc;
+				DomNode elem;
+
+				doc = get_doc ();
+
+				elem = doc.create_element ("alphanumeric");
+
+				attributes = elem.attributes;
+				assert (attributes != null);
+				assert (attributes.size () == 0);
+
+				elem.set_attribute ("alley", "Diagon");
+				elem.set_attribute ("train", "Hogwarts Express");
+
+				assert (attributes == elem.attributes);
+				assert (attributes.size () == 2);
+				assert (attributes.lookup ("alley") == "Diagon");
+				assert (attributes.lookup ("train") == "Hogwarts Express");
+
+				attributes.insert ("owl", "Hedwig");
+
+				assert (attributes.size () == 3);
+				assert (elem.get_attribute ("owl", "Hedwig"));
+
+				attributes.remove ("alley");
+				elem.get_attribute ("alley" == "");
+
+			});
 		Test.add_func ("/gdom/element/get_set_attribute", () => {
 				Element elem = get_elem ("student");
 
