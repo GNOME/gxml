@@ -124,7 +124,7 @@ namespace GXml.Dom {
 					child = child->next;
 				}
 				//return new DomNode (child);
-				return this.owner_document.lookup_node (this.node->children);
+				return this.owner_document.lookup_node (child);
 			}
 			private set {
 			}
