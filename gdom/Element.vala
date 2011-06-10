@@ -97,24 +97,48 @@ namespace GXml.Dom {
 
 		// TODO: somewhere want to make clear that node_value does not contain the contents of a node, but that its text children do :)
 
-		public List<DomNode> get_elements_by_tag_name (string name) {
-			// we apparently are case sensitive, spec says user should normalise
-			List<DomNode> tagged = new List<DomNode> ();
-			Queue<DomNode> tocheck = new Queue<DomNode> ();
-			DomNode elem;
+		/*
+		     a
+		   b    c
+		  d e  f g
 
-			// TODO: consider using List instead of queue, for .concat ()
-			foreach (DomNode node in this.child_nodes) {
-				tocheck.push_tail (node);
-			}
+		  we want: a b d e c f g
+
+		  start:
+		  add a
+
+		  pop top of stack (a)
+		  a: check for match: yes? add to return list
+		  a: add children from last to first (c,b) to top of stack (so head=b, then c)
+
+		  a
+		  a< [bc]
+		  b< [de]c
+		  d< ec
+		  e< c
+		  c< [fg]
+		  f< g
+		  g<
+
+		  see a, add a, visit a
+		*/
+		public List<DomNode> get_elements_by_tag_name (string name) {
+			List<DomNode> tagged = new List<DomNode> ();
+			Queue<Xml.Node*> tocheck = new Queue<Xml.Node*> ();
+
+			/* TODO: find out whether we are supposed to include this element,
+			         or just its descendants */
+			tocheck.push_head (this.node);
 
 			while (tocheck.is_empty () == false) {
-				elem = tocheck.pop_head ();
-				if (elem.node_name == name) {
-					tagged.append (elem);
+				Xml.Node *cur = tocheck.pop_head ();
+
+				if (cur->name == name) {
+					tagged.append (this.owner_document.lookup_node (cur));
 				}
-				foreach (DomNode child in elem.child_nodes) {
-					tocheck.push_tail (child);
+
+				for (Xml.Node *child = cur->last; child != null; child = child->prev) {
+					tocheck.push_head (child);
 				}
 			}
 
