@@ -1,4 +1,9 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+
+/* NOTE: attributes may contain trees as references, for entity references */
+/* TODO: figure out whether, if in Element we use set_attribute and
+ * change one, whether an Attr node should have its value replaced */
+
 namespace GXml.Dom {
 	public class Attr : VirtualNode {
 
