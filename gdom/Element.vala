@@ -23,6 +23,26 @@ namespace GXml.Dom {
 			}
 		}
 
+		/* HashTable used for XML NamedNodeMap */
+		// TODO: note that NamedNodeMap is 'live' so changes to the Node should be seen in the NamedNodeMap (already retrieved), no duplicating it: http://www.w3.org/TR/DOM-Level-1/level-one-core.html
+		private HashTable<string,Attr> _attributes = new HashTable<string,Attr> (GLib.str_hash, GLib.str_equal); // TODO: make sure other HashTables have appropriate hash, equal functions
+		public override HashTable<string,Attr>? attributes {
+			// TODO: make sure we want the user to be able to manipulate attributes using this HashTable. // Yes, we do, it should be a live reflection
+			// TODO: remember that this table needs to be synced with libxml2 structures; perhaps use a flag that indicates whether it was even accessed, and only then sync it later on
+			get {
+				switch (this.node_type) {
+				case NodeType.ELEMENT:
+					return this._attributes;
+					// TODO: what other nodes have attrs?
+				default:
+					return null;
+				}
+			}
+			internal set {
+			}
+		}
+
+
 		/** Constructors */
 		internal Element (Xml.Node *node, Document doc) {
 			base (node, doc);
