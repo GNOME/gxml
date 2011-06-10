@@ -158,9 +158,14 @@ class DomNodeTest {
 				DomNode parent = get_elem ("James", doc);
 				DomNode child = get_elem ("Harry", doc);
 
-				assert (child.parent_node != parent);
+				assert (child.parent_node == null);
 				parent.append_child (child);
 				assert (child.parent_node == parent);
+
+				DomNode attr = doc.create_attribute ("a");
+				assert (a.parent_node == null);
+				assert (doc.parent_node == null);
+				// assert (document fragment's parent_node == null); // TODO
 			});
 		Test.add_func ("/gdom/domnode/child_nodes", () => {
 				Document doc = get_doc ();
@@ -318,7 +323,7 @@ class DomNodeTest {
 				parent.append_child (child_1);
 
 				parent.remove_child (child_2);
-				
+
 				assert (child_2.previous_sibling == null);
 				assert (child_2.next_sibling == null);
 
