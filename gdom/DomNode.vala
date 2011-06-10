@@ -89,6 +89,8 @@ namespace GXml.Dom {
 		}
 		/* TODO: just used unowned to avoid compilation error for stub; investigate what's right */
 		// TODO: need to let the user know that editing this list doesn't add children to the node (but then what should?)
+		/* NOTE: try to avoid using this too often internally, would be much quicker to
+		   just traverse Xml.Node*'s children */
 		public List<DomNode> child_nodes {
 			owned get {
 				List<DomNode> children = new List<DomNode> ();
@@ -106,7 +108,6 @@ namespace GXml.Dom {
 				if (this.node->children == null) {
 					return null; // TODO: what's the appropriate return value?
 				} else {
-					//return new DomNode (this.node->children);
 					return this.owner_document.lookup_node (this.node->children);
 				}
 			}
@@ -114,17 +115,12 @@ namespace GXml.Dom {
 			}
 		}
 		public DomNode? last_child {
-			// some children would be Nodes of different types; doesn't this lose that information?
 			get {
-				Xml.Node *child = this.node->children;
-				if (child == null) {
-					return null;
+				if (this.node->last == null) {
+					return null; // TODO: what to return?
+				} else {
+					return this.owner_document.lookup_node (this.node->last);
 				}
-				while (child->next != null) {
-					child = child->next;
-				}
-				//return new DomNode (child);
-				return this.owner_document.lookup_node (child);
 			}
 			private set {
 			}
@@ -132,14 +128,12 @@ namespace GXml.Dom {
 		public DomNode? previous_sibling {
 			get {
 				return this.owner_document.lookup_node (this.node->prev);
-				//return new DomNode (this.node->prev);
 			}
 			private set {
 			}
 		}
 		public DomNode? next_sibling {
 			get {
-				//return new DomNode (this.node->next);
 				return this.owner_document.lookup_node (this.node->next);
 			}
 			private set {
