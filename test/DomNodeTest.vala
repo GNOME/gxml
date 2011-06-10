@@ -26,6 +26,8 @@ class DomNodeTest {
 		return node;
 	}
 
+	// TODO: setters
+
 	public static void add_dom_node_tests () throws DomError {
 		Test.add_func ("/gdom/domnode/node_name_get", () => {
 				// TODO: should DomNodes never have a null name?
@@ -176,28 +178,213 @@ class DomNodeTest {
 				assert (parent.child_nodes.nth_data (2) == child_2);
 			});
 		Test.add_func ("/gdom/domnode/first_child", () => {
+				Document doc = get_doc ();
+				DomNode parent = get_elem ("Molly", doc);
+				DomNode child_0 = get_elem ("Percy", doc);
+				DomNode child_1 = get_elem ("Ron", doc);
+				DomNode child_2 = get_elem ("Ginnie", doc);
+
+				assert (parent.child_nodes.length () == 0);
+				parent.append_child (child_0);
+				parent.append_child (child_1);
+				parent.append_child (child_2);
+
+				assert (parent.first_child == child_0);
 			});
 		Test.add_func ("/gdom/domnode/last_child", () => {
+				Document doc = get_doc ();
+				DomNode parent = get_elem ("Molly", doc);
+				DomNode child_0 = get_elem ("Percy", doc);
+				DomNode child_1 = get_elem ("Ron", doc);
+				DomNode child_2 = get_elem ("Ginnie", doc);
+
+				assert (parent.child_nodes.length () == 0);
+				parent.append_child (child_0);
+				parent.append_child (child_1);
+				parent.append_child (child_2);
+
+				assert (parent.last_child == child_2);
 			});
 		Test.add_func ("/gdom/domnode/previous_sibling", () => {
+				Document doc = get_doc ();
+				DomNode parent = get_elem ("Molly", doc);
+				DomNode child_0 = get_elem ("Percy", doc);
+				DomNode child_1 = get_elem ("Ron", doc);
+				DomNode child_2 = get_elem ("Ginnie", doc);
+
+				assert (parent.child_nodes.length () == 0);
+				parent.append_child (child_0);
+				parent.append_child (child_1);
+				parent.append_child (child_2);
+
+				assert (child_0.previous_sibling == null);
+				assert (child_1.previous_sibling == child_0);
+				assert (child_2.previous_sibling == child_1);
 			});
 		Test.add_func ("/gdom/domnode/next_sibling", () => {
+				Document doc = get_doc ();
+				DomNode parent = get_elem ("Molly", doc);
+				DomNode child_0 = get_elem ("Percy", doc);
+				DomNode child_1 = get_elem ("Ron", doc);
+				DomNode child_2 = get_elem ("Ginnie", doc);
+
+				assert (parent.child_nodes.length () == 0);
+				parent.append_child (child_0);
+				parent.append_child (child_1);
+				parent.append_child (child_2);
+
+				assert (child_0.next_sibling == child_1);
+				assert (child_1.next_sibling == child_2);
+				assert (child_2.next_sibling == null);
 			});
 		Test.add_func ("/gdom/domnode/attributes", () => {
+				DomNode elem = get_elem_new_doc ("Hogwarts");
+				DomNode attr = get_attr ("Potter", "Lily");
+
+				assert (elem.attributes != null);
+				assert (attr.attributes == null);
+
+				// TODO: test more
+				// TODO: test compatibility between live changes and stuff
 			});
 		Test.add_func ("/gdom/domnode/owner_document", () => {
+				Document doc2 = get_doc ();
+				Document doc1 = get_doc ();
+				DomNode elem = get_elem ("Malfoy", doc1);
+
+				assert (elem.owner_document == doc1);
+				assert (elem.owner_document != doc2);
 			});
 		Test.add_func ("/gdom/domnode/insert_before", () => {
+				Document doc = get_doc ();
+				DomNode parent = get_elem ("Molly", doc);
+				DomNode child_0 = get_elem ("Percy", doc);
+				DomNode child_1 = get_elem ("Ron", doc);
+				DomNode child_2 = get_elem ("Ginnie", doc);
+
+				assert (parent.child_nodes.length () == 0);
+				parent.append_child (child_2);
+				parent.insert_before (child_0, child_2);
+				parent.insert_before (child_1, child_2);
+
+				assert (parent.first_child == child_0);
+				assert (parent.last_child == child_2);
+				assert (parent.child_nodes.length () == 3);
+				assert (parent.child_nodes.nth_data (0) == child_0);
+				assert (parent.child_nodes.nth_data (1) == child_1);
+				assert (parent.child_nodes.nth_data (2) == child_2);
+				assert (child_0.previous_sibling == null);
+				assert (child_1.previous_sibling == child_0);
+				assert (child_2.previous_sibling == child_1);
+				assert (child_0.next_sibling == child_1);
+				assert (child_1.next_sibling == child_2);
+				assert (child_2.next_sibling == null);
 			});
 		Test.add_func ("/gdom/domnode/replace_child", () => {
+				// TODO: for this one, and others that include a ref_child, we want to test passing an irrelevant ref child and a null ref child
+
+				Document doc = get_doc ();
+				DomNode parent = get_elem ("Molly", doc);
+				DomNode child_0 = get_elem ("Percy", doc);
+				DomNode child_1 = get_elem ("Ron", doc);
+				DomNode child_2 = get_elem ("Ginnie", doc);
+
+				assert (parent.child_nodes.length () == 0);
+				parent.append_child (child_0);
+				parent.append_child (child_2);
+
+				parent.replace_child (child_1, child_2);
+
+				assert (parent.first_child == child_0);
+				assert (parent.last_child == child_1);
+				assert (parent.child_nodes.length () == 2);
+				assert (parent.child_nodes.nth_data (0) == child_0);
+				assert (parent.child_nodes.nth_data (1) == child_1);
+				assert (child_0.previous_sibling == null);
+				assert (child_1.previous_sibling == child_0);
+				assert (child_0.next_sibling == child_1);
+				assert (child_1.next_sibling == null);
 			});
 		Test.add_func ("/gdom/domnode/remove_child", () => {
+				Document doc = get_doc ();
+				DomNode parent = get_elem ("Molly", doc);
+				DomNode child_0 = get_elem ("Percy", doc);
+				DomNode child_1 = get_elem ("Ron", doc);
+				DomNode child_2 = get_elem ("Ginnie", doc);
+
+				assert (parent.child_nodes.length () == 0);
+				parent.append_child (child_0);
+				parent.append_child (child_2);
+				parent.append_child (child_1);
+
+				parent.remove_child (child_2);
+				
+				assert (child_2.previous_sibling == null);
+				assert (child_2.next_sibling == null);
+
+				assert (parent.first_child == child_0);
+				assert (parent.last_child == child_1);
+				assert (parent.child_nodes.length () == 2);
+				assert (parent.child_nodes.nth_data (0) == child_0);
+				assert (parent.child_nodes.nth_data (1) == child_1);
+				assert (child_0.previous_sibling == null);
+				assert (child_1.previous_sibling == child_0);
+				assert (child_0.next_sibling == child_1);
+				assert (child_1.next_sibling == null);
+
+				parent.remove_child (child_0);
+
+				assert (parent.first_child == child_1);
+				assert (parent.last_child == child_1);
+				assert (parent.child_nodes.length () == 1);
+				assert (parent.child_nodes.nth_data (0) == child_1);
+				assert (child_1.previous_sibling == null);
+				assert (child_1.next_sibling == null);
+
+				parent.remove_child (child_1);
+
+				assert (parent.first_child == null);
+				assert (parent.last_child == null);
+				assert (parent.child_nodes.length () == 0);
 			});
 		Test.add_func ("/gdom/domnode/append_child", () => {
+				Document doc = get_doc ();
+				DomNode parent = get_elem ("Molly", doc);
+				DomNode child_0 = get_elem ("Percy", doc);
+				DomNode child_1 = get_elem ("Ron", doc);
+				DomNode child_2 = get_elem ("Ginnie", doc);
+
+				assert (parent.child_nodes.length () == 0);
+				parent.append_child (child_0);
+				parent.append_child (child_1);
+				parent.append_child (child_2);
+
+				assert (parent.first_child == child_0);
+				assert (parent.last_child == child_2);
+				assert (parent.child_nodes.length () == 3);
+				assert (parent.child_nodes.nth_data (0) == child_0);
+				assert (parent.child_nodes.nth_data (1) == child_1);
+				assert (parent.child_nodes.nth_data (2) == child_2);
+				assert (child_0.previous_sibling == null);
+				assert (child_1.previous_sibling == child_0);
+				assert (child_2.previous_sibling == child_1);
+				assert (child_0.next_sibling == child_1);
+				assert (child_1.next_sibling == child_2);
+				assert (child_2.next_sibling == null);
 			});
 		Test.add_func ("/gdom/domnode/has_child_nodes", () => {
+				Document doc = get_doc ();
+				DomNode parent = get_elem ("Molly", doc);
+				DomNode child_0 = get_elem ("Percy", doc);
+
+				assert (parent.has_child_nodes () == false);
+
+				parent.append_child (child_0);
+
+				assert (parent.has_child_nodes () == true);
 			});
 		Test.add_func ("/gdom/domnode/clone_nodes", () => {
+				// STUB
 			});
 
 	}
