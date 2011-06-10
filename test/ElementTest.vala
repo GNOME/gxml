@@ -75,9 +75,11 @@ class ElementTest {
 				Element elem = get_elem ("student");
 
 				assert ("" == elem.get_attribute ("name"));
-				elem.set_attribute ("name", "Malfoy");
 
+				elem.set_attribute ("name", "Malfoy");
 				assert ("Malfoy" == elem.get_attribute ("name"));
+				elem.set_attribute ("name", "Lovegood");
+				assert ("Lovegood" == elem.get_attribute ("name"));
 			});
 		Test.add_func ("/gdom/element/remove_attribute", () => {
 				Element elem = get_elem ("tagname");
@@ -97,7 +99,6 @@ class ElementTest {
 		Test.add_func ("/gdom/element/set_attribute_node", () => {
 				Element elem = get_elem ("tagname");
 				Attr attr = elem.owner_document.create_attribute ("name");
-				// TODO: does this indicate that we don't want to add attributes using the NamedNodeMap? // Actually, we do still want to be able to, so says the Internet
 
 				assert (elem.get_attribute_node ("name") == null);
 				elem.set_attribute_node (attr);
