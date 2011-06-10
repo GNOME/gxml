@@ -9,7 +9,7 @@ namespace GXml.Dom {
 		}
 		public override string node_name {
 			get {
-				return "#cdata-section"; 
+				return "#cdata-section";
 			}
 			private set {
 			}

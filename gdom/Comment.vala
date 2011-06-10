@@ -9,7 +9,7 @@ namespace GXml.Dom {
 		}
 		public override string node_name {
 			get {
-				return "#comment"; 
+				return "#comment";
 			}
 			private set {
 			}
