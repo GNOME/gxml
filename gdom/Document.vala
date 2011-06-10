@@ -194,13 +194,13 @@ namespace GXml.Dom {
 			Element new_elem = new Element (this.xmldoc->new_node (null, tag_name, null), this);
 
 			/* We keep a table of lists indexed by tag name */
-			unowned List<DomNode> same_tag = tag_element_idx.lookup (tag_name);
-			if (same_tag == null) {
-				// TODO: dislike creating it to be owned like this and then looking up separately
-				tag_element_idx.insert (tag_name, new List<DomNode> ());
-				same_tag = tag_element_idx.lookup (tag_name);
-			}
-			same_tag.append (new_elem);
+			// unowned List<DomNode> same_tag = tag_element_idx.lookup (tag_name);
+			// if (same_tag == null) {
+			// 	// TODO: dislike creating it to be owned like this and then looking up separately
+			// 	tag_element_idx.insert (tag_name, new List<DomNode> ());
+			// 	same_tag = tag_element_idx.lookup (tag_name);
+			// }
+			// same_tag.append (new_elem);
 
 			return new_elem; // TODO: use new_node_eat_name()  instead?
 		}
@@ -231,24 +231,12 @@ namespace GXml.Dom {
 			// STUB: figure out what they mean by entity reference and what libxml2 means by it (xmlNewReference ()?)
 		}
 
-		private HashTable<string,List<DomNode>> tag_element_idx = new HashTable<string,List<DomNode>> (null, null); // TODO: probably want to change key cmp, and val cmp
-
 		public unowned List<DomNode> get_elements_by_tag_name (string tagname) {
-			// TODO: does this refer to elements created under this document?  (If so, then we can save them in a structure from above)
-			// TODO: or does it just include elements that are children of the root?
-			// TODO: a concern I have is that I will be creating new DomNodes for each of these, while I already created them below
-			//       so should I maintain a tree structure of GXml.Dom.Node parallel to the libxml2 structure?
-			//       if not, I need to not allow GXml.Dom structures to really store data, it should all be accessed from the libxml2 nodes
-			// List<DomNode> elems = new List<DomNode> (); // STUB
-
-			// IMPORTANT:TODO: this probably won't work, because it would return nodes that were created but NOT attached, which I don't think we care about, unless we do
-			return tag_element_idx.lookup (tagname);
-			// TODO: want to do any tagname normalisation?
+			// TODO: does this ensure that the root element is also included?
 			// TODO: DO NOT return a separate list, we need to return the live list
 			// http://www.w3.org/TR/DOM-Level-1/level-one-core.html
-
-
-			// return elems;
+			return this.document_element.get_elements_by_tag_name (tagname);
 		}
+
 	}
 }
