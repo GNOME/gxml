@@ -128,7 +128,7 @@ namespace GXml.Dom {
 
 			/* TODO: find out whether we are supposed to include this element,
 			         or just its descendants */
-			tocheck.push_head (this.node);
+			tocheck.push_head (base.node);
 
 			while (tocheck.is_empty () == false) {
 				Xml.Node *cur = tocheck.pop_head ();

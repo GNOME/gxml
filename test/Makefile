@@ -6,7 +6,7 @@ DBG= -g --save-temps
 LOPTS= `pkg-config --libs glib-2.0 --libs gobject-2.0 --libs libxml-2.0`
 
 debug:
-	valac ${OPTS} ${PKGS} ${DBG} *.vala
+	valac --disable-warnings ${OPTS} ${PKGS} ${DBG} *.vala
 	gcc -o gdom_test -g ${LOPTS} *.o ../gdom/*.o
 
 all: 

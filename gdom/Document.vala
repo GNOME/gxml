@@ -231,7 +231,7 @@ namespace GXml.Dom {
 			// STUB: figure out what they mean by entity reference and what libxml2 means by it (xmlNewReference ()?)
 		}
 
-		public unowned List<DomNode> get_elements_by_tag_name (string tagname) {
+		public List<DomNode> get_elements_by_tag_name (string tagname) {
 			// TODO: does this ensure that the root element is also included?
 			// TODO: DO NOT return a separate list, we need to return the live list
 			// http://www.w3.org/TR/DOM-Level-1/level-one-core.html

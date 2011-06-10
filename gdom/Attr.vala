@@ -8,7 +8,7 @@ namespace GXml.Dom {
 	public class Attr : VirtualNode {
 
 		/** Private properties */
-		private Xml.Attr *node;
+		private new Xml.Attr *node;
 
 		/** Constructors */
 		internal Attr (Xml.Attr *node, Document doc) {

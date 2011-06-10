@@ -33,16 +33,16 @@ class DocumentTest {
 			});
 		Test.add_func ("/gdom/document/create_element", () => {
 				Document doc = get_doc ();
-				Element elem;
+				Element elem = null;
 
 				try {
 					elem = doc.create_element ("Banana");
+
+					assert (elem.tag_name == "Banana");
+					assert (elem.tag_name != "banana");
 				} catch (DomError e) {
 					assert (false);
 				}
-
-				assert (elem.tagName == "Banana");
-				assert (elem.tagName != "banana");
 
 				try {
 					elem = doc.create_element ("ØÏØÏØ¯ÏØÏ  ²øœ³¤ïØ£");
@@ -95,7 +95,7 @@ class DocumentTest {
 			});
 		Test.add_func ("/gdom/document/get_elements_by_tag_name", () => {
 				Document doc = get_doc ();
-				unowned List<DomNode> elems = doc.get_elements_by_tag_name ("fish");
+				List<DomNode> elems = doc.get_elements_by_tag_name ("fish");
 				elems = null;
 				//STUB
 			});

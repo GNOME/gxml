@@ -163,7 +163,7 @@ class DomNodeTest {
 				assert (child.parent_node == parent);
 
 				DomNode attr = doc.create_attribute ("a");
-				assert (a.parent_node == null);
+				assert (attr.parent_node == null);
 				assert (doc.parent_node == null);
 				// assert (document fragment's parent_node == null); // TODO
 			});

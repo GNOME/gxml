@@ -25,7 +25,7 @@ namespace GXml.Dom {
 
 	public class DomNode : GLib.Object {
 		/** Private properties */
-		private Xml.Node *node;
+		internal Xml.Node *node;
 
 		/** Constructors */
 		internal DomNode.virtual () {

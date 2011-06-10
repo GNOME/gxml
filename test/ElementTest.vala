@@ -2,30 +2,6 @@
 using GXml.Dom;
 
 class ElementTest {
-	// public static int main (string[] args) {
-	// 	Test.init (ref args);
-	// 	add_tests ();
-	// 	Test.run ();
-
-	// 	// TODO: want to change Node to something less generic, conflicts with GLib
-	// 	// TODO: stop having Attribute and DomNode implement the same iface
-
-	// 	try {
-	// 		// test_element_get_attribute ();
-	// 		// test_element_set_attribute ();
-	// 		// test_element_remove_attribute ();
-	// 		// test_element_get_attribute_node ();
-	// 		// test_element_set_attribute_node ();
-	// 		// test_element_remove_attribute_node ();
-	// 		// test_element_get_elements_by_tag_name ();
-	// 		// test_element_normalize ();
-	// 	} catch (DomError e) {
-	// 		// TODO: handle
-	// 	}
-
-	// 	return 1;
-	// }
-
 	private static Document get_doc () {
 		Document doc = null;
 		try {
@@ -44,7 +20,7 @@ class ElementTest {
 				HashTable<string,Attr> attributes;
 
 				Document doc;
-				DomNode elem;
+				Element elem;
 
 				doc = get_doc ();
 
@@ -59,16 +35,19 @@ class ElementTest {
 
 				assert (attributes == elem.attributes);
 				assert (attributes.size () == 2);
-				assert (attributes.lookup ("alley") == "Diagon");
-				assert (attributes.lookup ("train") == "Hogwarts Express");
+				assert (attributes.lookup ("alley").value == "Diagon");
+				assert (attributes.lookup ("train").value == "Hogwarts Express");
 
-				attributes.insert ("owl", "Hedwig");
+				Attr attr = doc.create_attribute ("owl");
+				attr.value = "Hedwig";
+				
+				attributes.insert ("owl", attr);
 
 				assert (attributes.size () == 3);
-				assert (elem.get_attribute ("owl", "Hedwig"));
+				assert (elem.get_attribute ("owl") == "Hedwig");
 
 				attributes.remove ("alley");
-				elem.get_attribute ("alley" == "");
+				assert (elem.get_attribute ("alley") == "");
 
 			});
 		Test.add_func ("/gdom/element/get_set_attribute", () => {
@@ -86,8 +65,12 @@ class ElementTest {
 
 				elem.set_attribute ("name", "Malfoy");
 				assert ("Malfoy" == elem.get_attribute ("name"));
+				assert ("Malfoy" == elem.get_attribute_node ("name").value);
 				elem.remove_attribute ("name");
 				assert ("" == elem.get_attribute ("name"));
+				assert (null == elem.get_attribute_node ("name"));
+
+				// Consider testing default attributes (see Attr and specified)
 			});
 		Test.add_func ("/gdom/element/get_attribute_node", () => {
 				Element elem = get_elem ("tagname");
@@ -98,24 +81,35 @@ class ElementTest {
 			});
 		Test.add_func ("/gdom/element/set_attribute_node", () => {
 				Element elem = get_elem ("tagname");
-				Attr attr = elem.owner_document.create_attribute ("name");
+				Attr attr1 = elem.owner_document.create_attribute ("name");
+				Attr attr2 = elem.owner_document.create_attribute ("name");
+				Attr returned;
 
+				attr1.value = "Snape";
+				attr2.value = "Moody";
+
+				/* We test to make sure that the current value in the node after being set is correct,
+				   and that the old node gets correctly returned when replaced. */
 				assert (elem.get_attribute_node ("name") == null);
-				elem.set_attribute_node (attr);
-				assert (elem.get_attribute_node ("name") != null);
+				assert (elem.set_attribute_node (attr1) == null);
+				assert (elem.get_attribute_node ("name").value == "Snape");
+				assert (elem.set_attribute_node (attr2).value == "Snape");
+				assert (elem.get_attribute_node ("name").value == "Moody");
 			});
 
 
 		Test.add_func ("/gdom/element/remove_attribute_node", () => {
 				Element elem = get_elem ("tagname");
 				Attr attr;
-				// TODO: does this indicate that we don't want to add attributes using the NamedNodeMap?
+
 				attr = elem.owner_document.create_attribute ("name");
 				attr.value = "Luna";
 
+				/* Test to make sure the current value ends up empty/reset after removal
+				   and that removal returns the removed node. */
 				elem.set_attribute_node (attr);
 				assert (elem.get_attribute_node ("name").value == "Luna");
-				elem.remove_attribute_node (attr);
+				assert (elem.remove_attribute_node (attr) == attr);
 				assert (elem.get_attribute_node ("name") == null);
 				assert (elem.get_attribute ("name") == "");
 			});
@@ -153,6 +147,8 @@ class ElementTest {
 				text = (Text)email.child_nodes.nth_data (0);
 				assert (text.node_name == "#text");
 				assert (text.node_value == "gweasley@hogwarts.co.uk");
+
+				// TODO: need to test that preorder traversal order is correct
 			});
 		Test.add_func ("/gdom/element/normalize", () => {
 				Element elem = get_elem ("tagname");
@@ -161,5 +157,4 @@ class ElementTest {
 				// STUB
 			});
 	}
-
 }
