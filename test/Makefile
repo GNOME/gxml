@@ -1,7 +1,7 @@
 # Need to learn some more autofoo
 
 PKGS=--pkg gio-2.0 --pkg gdom --pkg libxml-2.0 --vapidir=../gdom
-OPTS= -c -v # --basedir=../gdom  #-c # --includedir=../gdom 
+OPTS= -c -v
 DBG= -g --save-temps
 LOPTS= `pkg-config --libs glib-2.0 --libs gobject-2.0 --libs libxml-2.0`
 
