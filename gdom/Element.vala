@@ -83,6 +83,7 @@ namespace GXml.Dom {
 			return this.attributes.lookup (name);
 		}
 		public Attr set_attribute_node (Attr new_attr) throws DomError {
+			// TODO: need to actually associate this with the libxml2 structure!
 			Attr old = this.attributes.lookup (new_attr.name);
 			this.attributes.replace (new_attr.name, new_attr);
 			return old;

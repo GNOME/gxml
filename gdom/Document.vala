@@ -218,6 +218,7 @@ namespace GXml.Dom {
 
 			return pi;
 		}
+		// TODO: Consider creating a convenience method for create_attribute_with_value (name, value)
 		public Attr create_attribute (string name) throws DomError {
 			return new Attr (this.xmldoc->new_prop (name, ""), this);  // TODO: should we pass something other than "" for the unspecified value?
 		}
