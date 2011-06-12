@@ -3,6 +3,7 @@
 /* NOTE: attributes may contain trees as references, for entity references */
 /* TODO: figure out whether, if in Element we use set_attribute and
  * change one, whether an Attr node should have its value replaced */
+/* allowed values defined in a separate DTD; we won't be parsing those :D */
 
 namespace GXml.Dom {
 	public class Attr : DomNode {
@@ -34,51 +35,14 @@ namespace GXml.Dom {
 				this.node->children->content = value;
 			}
 		}/* "raises [DomError] on setting/retrieval"?  */
-		public new DomNode parent_node {
-			get {
-				// TODO: couldn't parent be null? :o
-				return this.owner_document.lookup_node (this.node->parent);
-			}
-			private set {
-			}
-		}
 
-		/* TODO: figure out how to indicate that this is not supported on Attr */
-		// public List<Node> child_nodes {
-		// }
-		// public Node? first_child {
-		// }
-		// public Node? last_child {
-		// }
+		/* Does not support children In theory, could support
+		   parent (containing Node) and siblings (neighbouring
+		   Attrs), but spec says to return null.  If we did
+		   handle it, we'd want to use lookup_attr on
+		   node->{parent,prev,next} */
 
-		public new Attr previous_sibling {
-			get {
-				return this.owner_document.lookup_attr (this.node->prev);
-			}
-			private set {
-			}
-		}
-		public new Attr next_sibling {
-			get {
-				return this.owner_document.lookup_attr (this.node->next);
-			}
-			private set {
-			}
-		}
-		/* HashTable used for XML NamedNodeMap */
-		// TODO: Attributes don't have attributes, need to find a way to indicate that via Vala
 
-		// private HashTable<string,Attr> _attributes = new HashTable<string,Attr> (null, null);
-		// public HashTable<string,Attr> attributes {
-		// 	get {
-		// 		// TODO: do we really want this for Attr?  Sigh
-		// 		return _attributes;
-		// 		// STUB: do we want to create one locally and update it for the object, or just translate node->properties each call?
-		// 		// TODO: this is getting dumb, why is Attr a Node again? :S
-		// 	}
-		// 	private set {
-		// 	}
-		// }
 
 		/** Public properties (Attr-specific) */
 		public string name {
@@ -89,6 +53,9 @@ namespace GXml.Dom {
 			private set {
 			}
 		}
+
+		// TODO: if 'specified' is to be set when 'value' is,
+		// add setter logic to 'value' property
 		public bool specified {
 			get;
 			private set;
@@ -103,9 +70,11 @@ namespace GXml.Dom {
 				this.node_value = value;
 			}
 		}
-		// TODO: if 'specified' is to be set when 'value' is, add setter logic to 'value' property
+
 
 		/** Public methods (Node-specific) */
+		// TODO: might want to move this logic into DomNode so
+		// all non-BackedNode subclasses can throw it
 		public new DomNode insert_before (DomNode new_child, DomNode ref_child) throws DomError {
 			throw new DomError.NOT_SUPPORTED_ERR ("Attributes do not have children.");
 		}
@@ -129,41 +98,3 @@ namespace GXml.Dom {
 
 	}
 }
-
-// struct _xmlNode {
-// 	void *_private: application data
-// 	xmlElementTypetype: type number, must be second !
-// 	const xmlChar *name: the name of the node, or the entity
-// 	struct _xmlNode *children: parent->childs link
-// 	struct _xmlNode *last: last child link
-// 	struct _xmlNode *parent: child->parent link
-// 	struct _xmlNode *next: next sibling link
-// 	struct _xmlNode *prev: previous sibling link
-// 	struct _xmlDoc *doc: the containing document End of common part
-// 	xmlNs *ns: pointer to the associated namespace
-// 	xmlChar *content: the content
-// 	struct _xmlAttr *properties: properties list
-// 	xmlNs *nsDef: namespace definitions on this node
-// 	void *psvi: for type/PSVI informations
-// 	unsigned shortline: line number
-// 	unsigned shortextra: extra data for XPath/XSLT
-// } xmlNode;
-
-// struct _xmlAttribute {
-// 	void *_private: application data
-// 	xmlElementTypetype: XML_ATTRIBUTE_DECL, must be second !
-// 	const xmlChar *name: Attribute name
-// 	struct _xmlNode *children: NULL
-// 	struct _xmlNode *last: NULL
-// 	struct _xmlDtd *parent: -> DTD
-// 	struct _xmlNode *next: next sibling link
-// 	struct _xmlNode *prev: previous sibling link
-// 	struct _xmlDoc *doc: the containing document
-// 	struct _xmlAttribute *nexth: next in hash table
-// 	xmlAttributeTypeatype: The attribute type
-// 	xmlAttributeDefaultdef: the default
-// 	const xmlChar *defaultValue: or the default value
-// 	xmlEnumerationPtrtree: or the enumeration tree if any
-// 	const xmlChar *prefix: the namespace prefix if any
-// 	const xmlChar *elem: Element holding the attribute
-// } xmlAttribute;
