@@ -2,7 +2,7 @@
 
 namespace GXml.Dom {
 	/* TODO: do we really want a text node, or just use strings? */
-	public class Text : DomNode {
+	public class Text : BackedNode {
 		internal Text (Xml.Node *text_node, Document doc) {
 			base (text_node, doc);
 		}

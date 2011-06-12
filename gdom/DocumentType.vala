@@ -1,7 +1,7 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
 namespace GXml.Dom {
-	public class DocumentType : VirtualNode {
+	public class DocumentType : DomNode {
 		/** Constructor */
 		internal DocumentType (Document doc) {
 			// TODO: for name, we want a real name of the doc type

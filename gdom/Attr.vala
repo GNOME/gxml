@@ -5,10 +5,10 @@
  * change one, whether an Attr node should have its value replaced */
 
 namespace GXml.Dom {
-	public class Attr : VirtualNode {
+	public class Attr : DomNode {
 
 		/** Private properties */
-		private new Xml.Attr *node;
+		private Xml.Attr *node;
 
 		/** Constructors */
 		internal Attr (Xml.Attr *node, Document doc) {

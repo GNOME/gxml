@@ -1,7 +1,7 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
 namespace GXml.Dom {
-	public class ProcessingInstruction : VirtualNode {
+	public class ProcessingInstruction : DomNode {
 		internal ProcessingInstruction (string target, string data, Document doc) {
 			base (NodeType.PROCESSING_INSTRUCTION, doc); // TODO: want to pass a real Xml.Node* ?
 			this.target = target;

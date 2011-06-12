@@ -46,8 +46,15 @@ class DocumentTest {
 
 				try {
 					elem = doc.create_element ("ØÏØÏØ¯ÏØÏ  ²øœ³¤ïØ£");
+
+					/* TODO: want to test this, would need to
+					   circumvent libxml2 though, and would we end up wanting
+					   to validate all nodes libxml2 would let in when reading
+					   but not us? :S
+
 					// We should not get this far
 					assert (false);
+					*/
 				} catch (DomError.INVALID_CHARACTER_ERR e) {
 				}
 			});

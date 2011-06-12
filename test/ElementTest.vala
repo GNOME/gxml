@@ -40,7 +40,7 @@ class ElementTest {
 
 				Attr attr = doc.create_attribute ("owl");
 				attr.value = "Hedwig";
-				
+
 				attributes.insert ("owl", attr);
 
 				assert (attributes.size () == 3);

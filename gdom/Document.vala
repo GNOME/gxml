@@ -6,7 +6,7 @@
  */
 
 namespace GXml.Dom {
-	public class Document : VirtualNode {
+	public class Document : DomNode {
 		/** Private class properties */
 		internal HashTable<Xml.Node*, DomNode> node_dict = new HashTable<Xml.Node*, DomNode> (GLib.direct_hash, GLib.direct_equal);
 		private Xml.Doc *xmldoc;
@@ -188,21 +188,16 @@ namespace GXml.Dom {
 
 		/** Public Methods */
 		public Element create_element (string tag_name) throws DomError {
+			/* TODO: libxml2 doesn't complain about invalid names, but the spec
+			   for DOM Level 1 Core wants us to.  Handle ourselves? */
 			// TODO: what does libxml2 do with Elements?  should we just use nodes?
 			// TODO: right now, we're treating libxml2's 'new_node' Node as our Element
+			// TODO: use new_node_eat_name()  instead?
 			// TODO: what should we be passing for ns other than old_ns?  Figure it out
-			Element new_elem = new Element (this.xmldoc->new_node (null, tag_name, null), this);
 
-			/* We keep a table of lists indexed by tag name */
-			// unowned List<DomNode> same_tag = tag_element_idx.lookup (tag_name);
-			// if (same_tag == null) {
-			// 	// TODO: dislike creating it to be owned like this and then looking up separately
-			// 	tag_element_idx.insert (tag_name, new List<DomNode> ());
-			// 	same_tag = tag_element_idx.lookup (tag_name);
-			// }
-			// same_tag.append (new_elem);
-
-			return new_elem; // TODO: use new_node_eat_name()  instead?
+			Xml.Node *xmlelem = this.xmldoc->new_node (null, tag_name, null);
+			Element new_elem = new Element (xmlelem, this);
+			return new_elem;
 		}
 		public DocumentFragment create_document_fragment () {
 			return new DocumentFragment (this.xmldoc->new_fragment (), this);
@@ -237,6 +232,5 @@ namespace GXml.Dom {
 			// http://www.w3.org/TR/DOM-Level-1/level-one-core.html
 			return this.document_element.get_elements_by_tag_name (tagname);
 		}
-
 	}
 }

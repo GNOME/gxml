@@ -3,7 +3,7 @@
 namespace GXml.Dom {
 	// TODO: figure out how to create this; Xml.Doc doesn't have new_element()
 
-	public class Element : DomNode {
+	public class Element : BackedNode {
 		/** Public properties */
 		public string tag_name {
 			get {
@@ -30,13 +30,13 @@ namespace GXml.Dom {
 			// TODO: make sure we want the user to be able to manipulate attributes using this HashTable. // Yes, we do, it should be a live reflection
 			// TODO: remember that this table needs to be synced with libxml2 structures; perhaps use a flag that indicates whether it was even accessed, and only then sync it later on
 			get {
-				switch (this.node_type) {
-				case NodeType.ELEMENT:
-					return this._attributes;
-					// TODO: what other nodes have attrs?
-				default:
-					return null;
-				}
+				return this._attributes;
+				// switch (this.node_type) {
+				// case NodeType.ELEMENT:
+				// 	// TODO: what other nodes have attrs?
+				// default:
+				// 	return null;
+				// }
 			}
 			internal set {
 			}
@@ -54,7 +54,7 @@ namespace GXml.Dom {
 		// TODO: for base.attribute-using methods, how do I re-sync base.attributes with Xml.Node* attributes?
 		public string get_attribute (string name) {
 			// should I used .attributes.lookup (name)?
-			Attr attr = base.attributes.lookup (name);
+			Attr attr = this.attributes.lookup (name);
 
 			if (attr != null)
 				return attr.value;
@@ -63,7 +63,7 @@ namespace GXml.Dom {
 		}
 		public void set_attribute (string name, string value) throws DomError {
 			// don't need to use insert
-			Attr attr = base.attributes.lookup (name);
+			Attr attr = this.attributes.lookup (name);
 			if (attr == null) {
 				attr = this.owner_document.create_attribute (name);
 			}
@@ -71,27 +71,26 @@ namespace GXml.Dom {
 
 			attr.value = value;
 
-			base.attributes.replace (name, attr);
+			this.attributes.replace (name, attr);
 			// TODO: replace wanted 'owned', look up what to do
 
 		}
 		public void remove_attribute (string name) throws DomError {
-			base.attributes.remove (name);
+			this.attributes.remove (name);
 		}
 		public Attr get_attribute_node (string name) {
 			// rightfully returns NULL if it does not exist
-			return base.attributes.lookup (name);
+			return this.attributes.lookup (name);
 		}
 		public Attr set_attribute_node (Attr new_attr) throws DomError {
-			// don't need to use insert
-			base.attributes.replace (new_attr.name, new_attr);
-			// TODO: should I check whether I need to insert first?
-			return new_attr; // TODO: return this?
+			Attr old = this.attributes.lookup (new_attr.name);
+			this.attributes.replace (new_attr.name, new_attr);
+			return old;
 		}
 		public Attr remove_attribute_node (Attr old_attr) throws DomError {
 			// TODO: need to check for nulls
 
-			base.attributes.remove (old_attr.name);
+			this.attributes.remove (old_attr.name);
 			return old_attr; // TODO: is this what we want to return?
 		}
 
