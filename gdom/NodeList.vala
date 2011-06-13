@@ -28,6 +28,8 @@ namespace GXml.Dom {
 		internal abstract DomNode? replace_child (DomNode new_child, DomNode old_child) /*throws DomError*/;
 		internal abstract DomNode? remove_child (DomNode old_child) /*throws DomError*/;
 		internal abstract DomNode? append_child (DomNode new_child) /*throws DomError*/;
+
+		public abstract string to_string ();
 	}
 
 	// TODO: this will somehow need to watch the document and find out as new elements are added, and get reconstructed each time, or get reconstructed-on-the-go?
@@ -36,8 +38,13 @@ namespace GXml.Dom {
 	internal class NodeChildNodeList : ChildNodeList {
 		Xml.Node *parent;
 
-		internal override Xml.Node *head () {
-			return parent->children;
+		internal override Xml.Node *head {
+			get {
+				return parent->children;
+			}
+			set {
+				parent->children = value;
+			}
 		}
 
 		internal NodeChildNodeList (Xml.Node* parent, Document owner) {
@@ -48,8 +55,13 @@ namespace GXml.Dom {
 	internal class AttrChildNodeList : ChildNodeList {
 		Xml.Attr *parent;
 
-		internal override Xml.Node *head () {
-			return parent->children;
+		internal override Xml.Node *head {
+			get {
+				return parent->children;
+			}
+			set {
+				parent->children = value;
+			}
 		}
 
 		internal AttrChildNodeList (Xml.Attr* parent, Document owner) {
@@ -67,13 +79,13 @@ namespace GXml.Dom {
 		// TODO: if necessary, create two versions that use parent instead of head
 
 		internal Document owner;
-		internal abstract Xml.Node *head ();
+		internal abstract Xml.Node *head { get; set; }
 
 		// TODO: consider uint
 		public ulong length {
 			get {
 				int len = 0;
-				for (Xml.Node *cur = head (); cur != null; cur = cur->next) {
+				for (Xml.Node *cur = head; cur != null; cur = cur->next) {
 					len++;
 				}
 				return len;
@@ -92,36 +104,42 @@ namespace GXml.Dom {
 			}
 		}
 		public Gee.Iterator<DomNode> iterator () {
-			return new NodeListIterator<DomNode> (this);
+			return new NodeListIterator (this);
 		}
-		private class NodeListIterator<T> :Gee.Iterator<T>,  GLib.Object {
+		private class NodeListIterator : Gee.Iterator<DomNode>,  GLib.Object {
 			private Xml.Node *head;
 			private Xml.Node *cur;
+			private Xml.Node *next_node;
 			private Document doc;
 
 			// TODO: consider rewriting this to work on NodeList instead of the Xml.Node*
 			// list, then perhaps we could reuse it for get_elements_by_tag_name ()
 			public NodeListIterator (ChildNodeList list) {
-				this.head = list.head ();
-				this.cur = this.head;
+				this.head = list.head;
+				this.next_node = this.head;
+				this.cur = null;
 				this.doc = list.owner;
 			}
-			public new T? get () {
+			public new DomNode get () {
 				return doc.lookup_node (this.cur);
 			}
 			public bool next () {
-				if (cur != null) {
-					cur = cur->next;
+				if (next_node != null) {
+					cur = next_node;
+					next_node = cur->next;
+					return true;
+				} else {
+					return false;
 				}
-				return (cur != null);
 			}
 			public bool first () {
-				cur = head;
+				cur = null;
+				next_node = head;
 
-				return (cur != null);
+				return (next_node != null);
 			}
 			public bool has_next () {
-				return (cur != null && cur->next != null);
+				return (next_node != null);
 			}
 			public void remove () {
 				/* TODO: indicate that this is not supported. */
@@ -135,23 +153,23 @@ namespace GXml.Dom {
 		public void foreach (Func<DomNode> func) {
 			DomNode node;
 
-			for (Xml.Node *cur = head (); cur != null; cur = cur->next) {
+			for (Xml.Node *cur = head; cur != null; cur = cur->next) {
 				node = this.owner.lookup_node (cur);
 				func (node);
 			}
 		}
 		public DomNode first () {
-			return this.owner.lookup_node (head ());
+			return this.owner.lookup_node (head);
 		}
 		public DomNode last () {
-			Xml.Node *cur = head ();
+			Xml.Node *cur = head;
 			while (cur != null && cur->next != null) {
 				cur = cur->next;
 			}
 			return this.owner.lookup_node (cur); // TODO :check for nulls?
 		}
 		public DomNode? nth (ulong n) {
-			Xml.Node *cur = head ();
+			Xml.Node *cur = head;
 			for (int i = 0; i < n && cur != null; i++) {
 				cur = cur->next;
 			}
@@ -162,7 +180,7 @@ namespace GXml.Dom {
 		}
 		public DomNode? nth_prev (DomNode pivot, ulong n) {
 			Xml.Node *cur;
-			for (cur = head (); cur != null && this.owner.lookup_node (cur) != pivot; cur = cur->next) {
+			for (cur = head; cur != null && this.owner.lookup_node (cur) != pivot; cur = cur->next) {
 			}
 			if (cur == null) {
 				return null;
@@ -175,7 +193,7 @@ namespace GXml.Dom {
 		public int find (DomNode target) {
 			int pos = 0;
 			Xml.Node *cur;
-			for (cur = head (); cur != null && this.owner.lookup_node (cur) != target; cur = cur->next) {
+			for (cur = head; cur != null && this.owner.lookup_node (cur) != target; cur = cur->next) {
 				pos++;
 			}
 			if (cur == null) {
@@ -187,7 +205,7 @@ namespace GXml.Dom {
 		public int find_custom (DomNode target, CompareFunc<DomNode> cmp) {
 			int pos = 0;
 			Xml.Node *cur;
-			for (cur = head (); cur != null && cmp (this.owner.lookup_node (cur), target) != 0; cur = cur->next) {
+			for (cur = head; cur != null && cmp (this.owner.lookup_node (cur), target) != 0; cur = cur->next) {
 				pos++;
 			}
 			if (cur == null) {
@@ -207,7 +225,7 @@ namespace GXml.Dom {
 
 		/** Node's child methods, implemented here **/
 		internal new DomNode? insert_before (DomNode new_child, DomNode ref_child) /* throws DomError */ {
-			Xml.Node *child = head ();
+			Xml.Node *child = head;
 
 			while (child != ((BackedNode)ref_child).node && child != null) {
 				child = child->next;
@@ -225,7 +243,7 @@ namespace GXml.Dom {
 			// TODO: need to handle errors?
 
 			// TODO: want to do a 'find_child' function
-			Xml.Node *child = head ();
+			Xml.Node *child = head;
 
 			while (child != null && child != ((BackedNode)old_child).node) {
 				child = child->next;
@@ -243,8 +261,33 @@ namespace GXml.Dom {
 		}
 
 		internal new DomNode? append_child (DomNode new_child) /* throws DomError */ {
-			head ()->add_sibling (((BackedNode)new_child).node);
+			Xml.Node *err;
+
+			if (head == null) {
+				head = ((BackedNode)new_child).node;
+			} else {
+				err = head->add_sibling (((BackedNode)new_child).node);
+			}
+
 			return new_child;
+		}
+
+		private string _str;
+		public string to_string () {
+			_str = "NodeList[";
+			foreach (DomNode node in this) {
+				_str += "(" + node.to_string () + ")";
+			}
+			_str += "]";
+
+			Xml.Node *cur;
+			_str += " contents[";
+			for (cur = head; cur != null; cur = cur->next) {
+				_str += "Xml.Node*(%x,%s,%s)".printf ((uint)cur, cur->name, cur->content);
+			}
+			_str += "]";
+
+			return _str;
 		}
 	}
 }
