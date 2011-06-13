@@ -34,10 +34,13 @@ namespace GXml.Dom {
 			internal set {
 			}
 		}
+
+		/* "raises [DomError] on setting/retrieval"?  */
 		private string _node_value;
 		public override string? node_value {
+			/* If Attrs were always attached to elements, then it would have been
+			   nice to use elem.node->get/set_prop (name[,value])  :S */
 			get {
-				GLib.message ("attribute's Xml.Attr *node's children's name: %s", node->children->name);
 				this._node_value = "";
 				foreach (DomNode child in this.child_nodes) {
 					this._node_value += child.node_value;
@@ -46,27 +49,32 @@ namespace GXml.Dom {
 			}
 			internal set {
 				try {
+					// TODO: consider adding an empty () method to NodeList
 					foreach (DomNode child in this.child_nodes) {
 						this.remove_child (child);
 					}
 					this.append_child (this.owner_document.create_text_node (value));
+					// TODO: may want to normalise
 				} catch (DomError e) {
 					// TODO: handle
 				}
 				// TODO: need to expand entity references too?
-
 			}
-		}/* "raises [DomError] on setting/retrieval"?  */
+		}
 
-		/* In theory, could support parent (containing Node)
-		   and siblings (neighbouring Attrs), but spec says to
-		   return null.  If we did handle it, we'd want to use
-		   lookup_attr on node->{parent,prev,next} */
-                      /* TODO: needs to support children (which describe its value) */
 
+		public override NodeList? child_nodes {
+			owned get {
+				// TODO: always create a new one?
+				return new AttrChildNodeList (this.node, this.owner_document);
+			}
+			internal set {
+			}
+		}
 
 
 		/** Public properties (Attr-specific) */
+
 		public string name {
 			get {
 				// TODO: make sure that this is the right name, and that ownership is correct
@@ -84,7 +92,6 @@ namespace GXml.Dom {
 		}
 		public string value {
 			get {
-
 				return this.node_value;
 			}
 			set {
@@ -93,30 +100,24 @@ namespace GXml.Dom {
 			}
 		}
 
-
 		/** Public methods (Node-specific) */
-		// TODO: might want to move this logic into DomNode so
-		// all non-BackedNode subclasses can throw it
-		public new DomNode insert_before (DomNode new_child, DomNode ref_child) throws DomError {
-			throw new DomError.NOT_SUPPORTED_ERR ("Attributes do not have children.");
+		public override DomNode? insert_before (DomNode new_child, DomNode ref_child) throws DomError {
+			return this.child_nodes.insert_before (new_child, ref_child);
 		}
-		public new DomNode replace_child (DomNode new_child, DomNode old_child) throws DomError {
-			throw new DomError.NOT_SUPPORTED_ERR ("Attributes do not have children.");
-			// TODO: i18n
+		public override DomNode? replace_child (DomNode new_child, DomNode old_child) throws DomError {
+			return this.child_nodes.replace_child (new_child, old_child);
 		}
-		public new DomNode remove_child (DomNode old_child) throws DomError {
-			throw new DomError.NOT_SUPPORTED_ERR ("Attributes do not have children.");
+		public override DomNode? remove_child (DomNode old_child) throws DomError {
+			return this.child_nodes.remove_child (old_child);
 		}
-		public new DomNode append_child (DomNode new_child) throws DomError {
-			throw new DomError.NOT_SUPPORTED_ERR ("Attributes do not have children.");
+		public override DomNode? append_child (DomNode new_child) throws DomError {
+			return this.child_nodes.append_child (new_child);
 		}
-		public new bool has_child_nodes () {
-			return false; // STUB
+		public override bool has_child_nodes () {
+			return (this.child_nodes.length > 0);
 		}
-		public new DomNode clone_nodes (bool deep) {
+		public override DomNode? clone_nodes (bool deep) {
 			return this; // STUB
 		}
-
-
 	}
 }
