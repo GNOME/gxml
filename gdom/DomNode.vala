@@ -93,6 +93,12 @@ namespace GXml.Dom {
 			return null;
 			// STUB
 		}
+
+		private string _str;
+		public string to_string () {
+			_str = "DomNode(%x)".printf ((uint)this);
+			return _str;
+		}
 	}
 }
 
