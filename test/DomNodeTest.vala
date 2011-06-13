@@ -174,11 +174,11 @@ class DomNodeTest {
 				DomNode child_1 = get_elem ("Ron", doc);
 				DomNode child_2 = get_elem ("Ginnie", doc);
 
-				assert (parent.child_nodes.length () == 0);
+				assert (parent.child_nodes.length == 0);
 				parent.append_child (child_0);
 				parent.append_child (child_1);
 				parent.append_child (child_2);
-				assert (parent.child_nodes.length () == 3);
+				assert (parent.child_nodes.length == 3);
 				assert (parent.child_nodes.nth_data (0) == child_0);
 				assert (parent.child_nodes.nth_data (2) == child_2);
 			});
@@ -189,7 +189,7 @@ class DomNodeTest {
 				DomNode child_1 = get_elem ("Ron", doc);
 				DomNode child_2 = get_elem ("Ginnie", doc);
 
-				assert (parent.child_nodes.length () == 0);
+				assert (parent.child_nodes.length == 0);
 				parent.append_child (child_0);
 				parent.append_child (child_1);
 				parent.append_child (child_2);
@@ -203,7 +203,7 @@ class DomNodeTest {
 				DomNode child_1 = get_elem ("Ron", doc);
 				DomNode child_2 = get_elem ("Ginnie", doc);
 
-				assert (parent.child_nodes.length () == 0);
+				assert (parent.child_nodes.length == 0);
 				parent.append_child (child_0);
 				parent.append_child (child_1);
 				parent.append_child (child_2);
@@ -217,7 +217,7 @@ class DomNodeTest {
 				DomNode child_1 = get_elem ("Ron", doc);
 				DomNode child_2 = get_elem ("Ginnie", doc);
 
-				assert (parent.child_nodes.length () == 0);
+				assert (parent.child_nodes.length == 0);
 				parent.append_child (child_0);
 				parent.append_child (child_1);
 				parent.append_child (child_2);
@@ -233,7 +233,7 @@ class DomNodeTest {
 				DomNode child_1 = get_elem ("Ron", doc);
 				DomNode child_2 = get_elem ("Ginnie", doc);
 
-				assert (parent.child_nodes.length () == 0);
+				assert (parent.child_nodes.length == 0);
 				parent.append_child (child_0);
 				parent.append_child (child_1);
 				parent.append_child (child_2);
@@ -267,14 +267,14 @@ class DomNodeTest {
 				DomNode child_1 = get_elem ("Ron", doc);
 				DomNode child_2 = get_elem ("Ginnie", doc);
 
-				assert (parent.child_nodes.length () == 0);
+				assert (parent.child_nodes.length == 0);
 				parent.append_child (child_2);
 				parent.insert_before (child_0, child_2);
 				parent.insert_before (child_1, child_2);
 
 				assert (parent.first_child == child_0);
 				assert (parent.last_child == child_2);
-				assert (parent.child_nodes.length () == 3);
+				assert (parent.child_nodes.length == 3);
 				assert (parent.child_nodes.nth_data (0) == child_0);
 				assert (parent.child_nodes.nth_data (1) == child_1);
 				assert (parent.child_nodes.nth_data (2) == child_2);
@@ -294,7 +294,7 @@ class DomNodeTest {
 				DomNode child_1 = get_elem ("Ron", doc);
 				DomNode child_2 = get_elem ("Ginnie", doc);
 
-				assert (parent.child_nodes.length () == 0);
+				assert (parent.child_nodes.length == 0);
 				parent.append_child (child_0);
 				parent.append_child (child_2);
 
@@ -302,7 +302,7 @@ class DomNodeTest {
 
 				assert (parent.first_child == child_0);
 				assert (parent.last_child == child_1);
-				assert (parent.child_nodes.length () == 2);
+				assert (parent.child_nodes.length == 2);
 				assert (parent.child_nodes.nth_data (0) == child_0);
 				assert (parent.child_nodes.nth_data (1) == child_1);
 				assert (child_0.previous_sibling == null);
@@ -317,7 +317,7 @@ class DomNodeTest {
 				DomNode child_1 = get_elem ("Ron", doc);
 				DomNode child_2 = get_elem ("Ginnie", doc);
 
-				assert (parent.child_nodes.length () == 0);
+				assert (parent.child_nodes.length == 0);
 				parent.append_child (child_0);
 				parent.append_child (child_2);
 				parent.append_child (child_1);
@@ -329,7 +329,7 @@ class DomNodeTest {
 
 				assert (parent.first_child == child_0);
 				assert (parent.last_child == child_1);
-				assert (parent.child_nodes.length () == 2);
+				assert (parent.child_nodes.length == 2);
 				assert (parent.child_nodes.nth_data (0) == child_0);
 				assert (parent.child_nodes.nth_data (1) == child_1);
 				assert (child_0.previous_sibling == null);
@@ -341,7 +341,7 @@ class DomNodeTest {
 
 				assert (parent.first_child == child_1);
 				assert (parent.last_child == child_1);
-				assert (parent.child_nodes.length () == 1);
+				assert (parent.child_nodes.length == 1);
 				assert (parent.child_nodes.nth_data (0) == child_1);
 				assert (child_1.previous_sibling == null);
 				assert (child_1.next_sibling == null);
@@ -350,7 +350,7 @@ class DomNodeTest {
 
 				assert (parent.first_child == null);
 				assert (parent.last_child == null);
-				assert (parent.child_nodes.length () == 0);
+				assert (parent.child_nodes.length == 0);
 			});
 		Test.add_func ("/gdom/domnode/append_child", () => {
 				Document doc = get_doc ();
@@ -359,14 +359,14 @@ class DomNodeTest {
 				DomNode child_1 = get_elem ("Ron", doc);
 				DomNode child_2 = get_elem ("Ginnie", doc);
 
-				assert (parent.child_nodes.length () == 0);
+				assert (parent.child_nodes.length == 0);
 				parent.append_child (child_0);
 				parent.append_child (child_1);
 				parent.append_child (child_2);
 
 				assert (parent.first_child == child_0);
 				assert (parent.last_child == child_2);
-				assert (parent.child_nodes.length () == 3);
+				assert (parent.child_nodes.length == 3);
 				assert (parent.child_nodes.nth_data (0) == child_0);
 				assert (parent.child_nodes.nth_data (1) == child_1);
 				assert (parent.child_nodes.nth_data (2) == child_2);
