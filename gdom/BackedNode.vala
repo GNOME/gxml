@@ -70,36 +70,32 @@ namespace GXml.Dom {
 		// TODO: need to let the user know that editing this list doesn't add children to the node (but then what should?)
 		/* NOTE: try to avoid using this too often internally, would be much quicker to
 		   just traverse Xml.Node*'s children */
-		public override List<DomNode>? child_nodes {
+		public override NodeList? child_nodes {
 			owned get {
-				List<DomNode> children = new List<DomNode> ();
-				for (Xml.Node *child = this.node->children; child != null; child = child->next) {
-					children.append (this.owner_document.lookup_node (child));
-					// children.append (new DomNode (child));
-				}
-				return children;
+				// TODO: always create a new one?
+				return new NodeChildNodeList (this.node, this.owner_document);
 			}
 			internal set {
 			}
 		}
+
+		private DomNode? _first_child;
 		public override DomNode? first_child {
 			get {
-				if (this.node->children == null) {
-					return null; // TODO: what's the appropriate return value?
-				} else {
-					return this.owner_document.lookup_node (this.node->children);
-				}
+				_first_child = this.child_nodes.first ();
+				return _first_child;
+				// return this.child_nodes.first ();
 			}
 			internal set {
 			}
 		}
+
+		private DomNode? _last_child;
 		public override DomNode? last_child {
 			get {
-				if (this.node->last == null) {
-					return null; // TODO: what to return?
-				} else {
-					return this.owner_document.lookup_node (this.node->last);
-				}
+				_last_child = this.child_nodes.last ();
+				return _last_child;
+				//return this.child_nodes.last (); //TODO: just want to relay
 			}
 			internal set {
 			}
@@ -126,49 +122,22 @@ namespace GXml.Dom {
 			}
 		}
 
-		public override DomNode? insert_before (DomNode new_child, DomNode ref_child) throws DomError {
-			Xml.Node *child = this.node->children;
-
-			while (child != ((BackedNode)ref_child).node && child != null) {
-				child = child->next;
-			}
-			if (child == null) {
-				// TODO: couldn't insert before ref, since ref not found
-			} else {
-				child->add_prev_sibling (((BackedNode)new_child).node);
-			}
-
-			return new_child; // TODO: make sure that's what we should be returning
+		public override DomNode? insert_before (DomNode new_child, DomNode ref_child) /*throws DomError*/ {
+			return this.child_nodes.insert_before (new_child, ref_child);
 		}
-		public override DomNode? replace_child (DomNode new_child, DomNode old_child) throws DomError {
-			// TODO: nuts, if Node as an iface can't have properties,
-			//       then I have to cast these to DomNodes, ugh.
-			// TODO: need to handle errors?
-
-			// TODO: want to do a 'find_child' function
-			Xml.Node *child = this.node->children;
-
-			while (child != null && child != ((BackedNode)old_child).node) {
-				child = child->next;
-			}
-
-			if (child != null) {
-				// it is a valid child
-				child->replace (((BackedNode)new_child).node);
-			}
-			return this; // TODO: what to return?
+		public override DomNode? replace_child (DomNode new_child, DomNode old_child) /*throws DomError*/ {
+			return this.child_nodes.replace_child (new_child, old_child);
 		}
-		public override DomNode? remove_child (DomNode old_child) throws DomError {
-			((BackedNode)old_child).node->unlink (); // TODO: do we need to free libxml2 stuff manually?
-			return old_child; // TODO: what do we want to return?
+		public override DomNode? remove_child (DomNode old_child) /*throws DomError*/ {
+			return this.child_nodes.remove_child (old_child);
 		}
-		public override DomNode? append_child (DomNode new_child) throws DomError {
-			this.node->add_child (((BackedNode)new_child).node);
-			return new_child; // TODO: what to return?
+		public override DomNode? append_child (DomNode new_child) /*throws DomError*/ {
+			return this.child_nodes.append_child (new_child);
 		}
 		public override bool has_child_nodes () {
-			return (this.node->children != null);
+			return (this.child_nodes.length > 0);
 		}
+
 		public override DomNode? clone_nodes (bool deep) {
 			return this; // STUB
 		}
