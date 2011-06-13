@@ -95,7 +95,6 @@ namespace GXml.Dom {
 				return this.node_value;
 			}
 			set {
-				// this.parent.node->set_prop (
 				this.node_value = value;
 			}
 		}
