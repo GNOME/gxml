@@ -134,7 +134,7 @@ class ElementTest {
 
 				email = (Element)emails.nth_data (0);
 				assert (email.tag_name == "Email");
-				assert (email.child_nodes.length () == 1);
+				assert (email.child_nodes.length == 1);
 
 				text = (Text)email.child_nodes.nth_data (0);
 				assert (text.node_name == "#text");
@@ -142,7 +142,7 @@ class ElementTest {
 
 				email = (Element)emails.nth_data (1);
 				assert (email.tag_name == "Email");
-				assert (email.child_nodes.length () == 1);
+				assert (email.child_nodes.length == 1);
 
 				text = (Text)email.child_nodes.nth_data (0);
 				assert (text.node_name == "#text");
