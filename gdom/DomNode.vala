@@ -46,7 +46,7 @@ namespace GXml.Dom {
 			get { return null; }
 			internal set {}
 		}
-		public virtual List<DomNode>? child_nodes {
+		public virtual NodeList? child_nodes {
 			// TODO: need to implement NodeList
 			owned get { return null; }
 			internal set {}
