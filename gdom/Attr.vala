@@ -5,6 +5,13 @@
  * change one, whether an Attr node should have its value replaced */
 /* allowed values defined in a separate DTD; we won't be parsing those :D */
 
+/* NOTE: default values: complex, might want a hash table storing them for each attribute name */
+/* NOTE: children might contain Text or Entity references */
+/* NOTE: might want to base this on Xml.Attribute instead (can we?) */
+/* NOTE: specified is false if it wasn't set, but was created because it still supplied a default value, I think */
+/* NOTE: figure out how entity references work with Attrs */
+/* NOTE: value as children nodes: can contain Text and EntityReferences */
+
 namespace GXml.Dom {
 	public class Attr : DomNode {
 
@@ -16,7 +23,7 @@ namespace GXml.Dom {
 			// TODO: wish valac would warn against using this. before calling base()
 			base (NodeType.ATTRIBUTE, doc);
 			this.node = node;
-			this.specified = false; // TODO: verify that it's false when no value is set
+			this.specified = true;
 		}
 
 		/** Public properties (Node general) */
@@ -27,20 +34,35 @@ namespace GXml.Dom {
 			internal set {
 			}
 		}
+		private string _node_value;
 		public override string? node_value {
 			get {
-				return this.node->children->content; // TODO: same as value here?
+				GLib.message ("attribute's Xml.Attr *node's children's name: %s", node->children->name);
+				this._node_value = "";
+				foreach (DomNode child in this.child_nodes) {
+					this._node_value += child.node_value;
+				}
+				return this._node_value;
 			}
 			internal set {
-				this.node->children->content = value;
+				try {
+					foreach (DomNode child in this.child_nodes) {
+						this.remove_child (child);
+					}
+					this.append_child (this.owner_document.create_text_node (value));
+				} catch (DomError e) {
+					// TODO: handle
+				}
+				// TODO: need to expand entity references too?
+
 			}
 		}/* "raises [DomError] on setting/retrieval"?  */
 
-		/* Does not support children In theory, could support
-		   parent (containing Node) and siblings (neighbouring
-		   Attrs), but spec says to return null.  If we did
-		   handle it, we'd want to use lookup_attr on
-		   node->{parent,prev,next} */
+		/* In theory, could support parent (containing Node)
+		   and siblings (neighbouring Attrs), but spec says to
+		   return null.  If we did handle it, we'd want to use
+		   lookup_attr on node->{parent,prev,next} */
+                      /* TODO: needs to support children (which describe its value) */
 
 
 

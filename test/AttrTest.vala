@@ -34,7 +34,7 @@ class AttrTest {
 
 				assert (attr.parent_node == null);
 				elem.set_attribute_node (attr);
-				assert (attr.parent_node == null);				
+				assert (attr.parent_node == null);
 			});
 		Test.add_func ("/gdom/attribute/previous_sibling", () => {
 				Document doc = get_doc ();
