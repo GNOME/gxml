@@ -1,7 +1,7 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 using GXml.Dom;
 
-class ElementTest {
+class ElementTest : GXmlTest  {
 	private static Document get_doc () {
 		Document doc = null;
 		try {
@@ -9,10 +9,6 @@ class ElementTest {
 		} catch (DomError e) {
 		}
 		return doc;
-	}
-
-	private static Element get_elem (string name) {
-		return get_doc ().create_element (name);
 	}
 
 	public static void add_element_tests () {
@@ -51,7 +47,7 @@ class ElementTest {
 
 			});
 		Test.add_func ("/gdom/element/get_set_attribute", () => {
-				Element elem = get_elem ("student");
+				Element elem = get_elem_new_doc ("student");
 
 				assert ("" == elem.get_attribute ("name"));
 
@@ -61,7 +57,7 @@ class ElementTest {
 				assert ("Lovegood" == elem.get_attribute ("name"));
 			});
 		Test.add_func ("/gdom/element/remove_attribute", () => {
-				Element elem = get_elem ("tagname");
+				Element elem = get_elem_new_doc ("tagname");
 
 				elem.set_attribute ("name", "Malfoy");
 				assert ("Malfoy" == elem.get_attribute ("name"));
@@ -73,14 +69,14 @@ class ElementTest {
 				// Consider testing default attributes (see Attr and specified)
 			});
 		Test.add_func ("/gdom/element/get_attribute_node", () => {
-				Element elem = get_elem ("tagname");
+				Element elem = get_elem_new_doc ("tagname");
 
 				assert (elem.get_attribute_node ("name") == null);
 				elem.set_attribute ("name", "Severus");
 				assert (elem.get_attribute_node ("name").value == "Severus");
 			});
 		Test.add_func ("/gdom/element/set_attribute_node", () => {
-				Element elem = get_elem ("tagname");
+				Element elem = get_elem_new_doc ("tagname");
 				Attr attr1 = elem.owner_document.create_attribute ("name");
 				Attr attr2 = elem.owner_document.create_attribute ("name");
 				Attr returned;
@@ -99,7 +95,7 @@ class ElementTest {
 
 
 		Test.add_func ("/gdom/element/remove_attribute_node", () => {
-				Element elem = get_elem ("tagname");
+				Element elem = get_elem_new_doc ("tagname");
 				Attr attr;
 
 				attr = elem.owner_document.create_attribute ("name");
@@ -151,7 +147,7 @@ class ElementTest {
 				// TODO: need to test that preorder traversal order is correct
 			});
 		Test.add_func ("/gdom/element/normalize", () => {
-				Element elem = get_elem ("tagname");
+				Element elem = get_elem_new_doc ("tagname");
 				elem.normalize ();
 
 				// STUB

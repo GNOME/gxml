@@ -5,17 +5,7 @@ using GXml.Dom;
    https://live.gnome.org/Vala/TestSample
 */
 
-class DocumentTest {
-	private static Document get_doc () {
-		Document doc = null;
-
-		try {
-			doc = new Document.for_path ("test.xml");
-		} catch (DomError e) {
-		}
-
-		return doc;
-	}
+class DocumentTest : GXmlTest {
 	public static void add_document_tests () throws DomError {
 		Test.add_func ("/gdom/document/construct_for_path", () => {
 				Document doc = get_doc ();

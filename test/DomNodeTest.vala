@@ -7,26 +7,8 @@ using GXml.Dom;
    Using an Element subclass of Node to test Node.
 */
 
-class DomNodeTest {
-	private static Document get_doc () {
-		// TODO: want to create document that is empty, not from a file
-		return new Document.for_path ("test.xml");
-	}
-	private static DomNode get_elem (string name, Document doc) {
-		return doc.create_element (name);
-	}
-	private static DomNode get_elem_new_doc (string name) {
-		return get_elem (name, get_doc ());
-	}
-	private static DomNode get_attr (string name, string value) {
-		Document doc = new Document.for_path ("test.xml");
-		Attr node = doc.create_attribute (name);
-		node.value = value;
-
-		return node;
-	}
-
-	// TODO: setters
+class DomNodeTest : GXmlTest {
+	// TODO: test setters?
 
 	public static void add_dom_node_tests () throws DomError {
 		Test.add_func ("/gdom/domnode/node_name_get", () => {
@@ -243,8 +225,9 @@ class DomNodeTest {
 				assert (child_2.next_sibling == null);
 			});
 		Test.add_func ("/gdom/domnode/attributes", () => {
-				DomNode elem = get_elem_new_doc ("Hogwarts");
-				DomNode attr = get_attr ("Potter", "Lily");
+				Document doc = get_doc ();
+				DomNode elem = get_elem ("Hogwarts", doc);
+				DomNode attr = get_attr ("Potter", "Lily", doc);
 
 				assert (elem.attributes != null);
 				assert (attr.attributes == null);
