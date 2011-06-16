@@ -13,7 +13,7 @@
 /* NOTE: value as children nodes: can contain Text and EntityReferences */
 
 namespace GXml.Dom {
-	public class Attr : DomNode {
+	public class Attr : XNode {
 
 		/** Private properties */
 		private Xml.Attr *node;
@@ -42,7 +42,7 @@ namespace GXml.Dom {
 			   nice to use elem.node->get/set_prop (name[,value])  :S */
 			get {
 				this._node_value = "";
-				foreach (DomNode child in this.child_nodes) {
+				foreach (XNode child in this.child_nodes) {
 					this._node_value += child.node_value;
 				}
 				return this._node_value;
@@ -50,7 +50,7 @@ namespace GXml.Dom {
 			internal set {
 				try {
 					// TODO: consider adding an empty () method to NodeList
-					foreach (DomNode child in this.child_nodes) {
+					foreach (XNode child in this.child_nodes) {
 						this.remove_child (child);
 					}
 					this.append_child (this.owner_document.create_text_node (value));
@@ -100,22 +100,22 @@ namespace GXml.Dom {
 		}
 
 		/** Public methods (Node-specific) */
-		public override DomNode? insert_before (DomNode new_child, DomNode ref_child) throws DomError {
+		public override XNode? insert_before (XNode new_child, XNode ref_child) throws DomError {
 			return this.child_nodes.insert_before (new_child, ref_child);
 		}
-		public override DomNode? replace_child (DomNode new_child, DomNode old_child) throws DomError {
+		public override XNode? replace_child (XNode new_child, XNode old_child) throws DomError {
 			return this.child_nodes.replace_child (new_child, old_child);
 		}
-		public override DomNode? remove_child (DomNode old_child) throws DomError {
+		public override XNode? remove_child (XNode old_child) throws DomError {
 			return this.child_nodes.remove_child (old_child);
 		}
-		public override DomNode? append_child (DomNode new_child) throws DomError {
+		public override XNode? append_child (XNode new_child) throws DomError {
 			return this.child_nodes.append_child (new_child);
 		}
 		public override bool has_child_nodes () {
 			return (this.child_nodes.length > 0);
 		}
-		public override DomNode? clone_nodes (bool deep) {
+		public override XNode? clone_nodes (bool deep) {
 			return this; // STUB
 		}
 	}

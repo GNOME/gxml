@@ -122,8 +122,8 @@ namespace GXml.Dom {
 
 		  see a, add a, visit a
 		*/
-		public List<DomNode> get_elements_by_tag_name (string name) {
-			List<DomNode> tagged = new List<DomNode> ();
+		public List<XNode> get_elements_by_tag_name (string name) {
+			List<XNode> tagged = new List<XNode> ();
 			Queue<Xml.Node*> tocheck = new Queue<Xml.Node*> ();
 
 			/* TODO: find out whether we are supposed to include this element,
@@ -150,7 +150,7 @@ namespace GXml.Dom {
 		public void normalize () {
 			// STUB
 
-			foreach (DomNode child in this.child_nodes) {
+			foreach (XNode child in this.child_nodes) {
 				switch (child.node_type) {
 				case NodeType.ELEMENT:
 					((Element)child).normalize ();

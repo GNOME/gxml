@@ -6,14 +6,14 @@
  */
 
 namespace GXml.Dom {
-	public class Document : DomNode {
+	public class Document : XNode {
 		/** Private class properties */
-		internal HashTable<Xml.Node*, DomNode> node_dict = new HashTable<Xml.Node*, DomNode> (GLib.direct_hash, GLib.direct_equal);
+		internal HashTable<Xml.Node*, XNode> node_dict = new HashTable<Xml.Node*, XNode> (GLib.direct_hash, GLib.direct_equal);
 		private Xml.Doc *xmldoc;
 
 		/** Private methods */
-		internal unowned DomNode? lookup_node (Xml.Node *xmlnode) {
-			unowned DomNode domnode;
+		internal unowned XNode? lookup_node (Xml.Node *xmlnode) {
+			unowned XNode domnode;
 
 			if (xmlnode == null) {
 				return null; // TODO: consider throwing an error instead
@@ -21,7 +21,7 @@ namespace GXml.Dom {
 
 			domnode = this.node_dict.lookup (xmlnode);
 			if (domnode == null) {
-				// If we don't have a cached the appropriate DomNode for a given Xml.Node* yet, create it (type matters)
+				// If we don't have a cached the appropriate XNode for a given Xml.Node* yet, create it (type matters)
 				// TODO: see if we can attach logic to the enum {} to handle this
 				switch ((NodeType)xmlnode->type) {
 				case NodeType.ELEMENT:
@@ -70,7 +70,7 @@ namespace GXml.Dom {
 			return domnode;
 		}
 
-		// We don't want want to use DomNode's Xml.Node or its dict
+		// We don't want want to use XNode's Xml.Node or its dict
 		internal HashTable<Xml.Attr*, Attr> attr_dict = new HashTable<Xml.Attr*, Attr> (null, null);
 
 		/** Private methods */
@@ -110,7 +110,7 @@ namespace GXml.Dom {
 		// 		// TODO: throw an error, these should already be inserted by the Document constructors
 
 
-		// 		// // If we don't have a cached DomNode for a given Xml.Node yet, create one
+		// 		// // If we don't have a cached XNode for a given Xml.Node yet, create one
 		// 		// Document.dict.insert (xmldoc, new Document (xmldoc));
 		// 		// domdoc = Document.dict.lookup (xmldoc);
 		// 		// // TODO: threadsafety?
@@ -227,7 +227,7 @@ namespace GXml.Dom {
 			// STUB: figure out what they mean by entity reference and what libxml2 means by it (xmlNewReference ()?)
 		}
 
-		public List<DomNode> get_elements_by_tag_name (string tagname) {
+		public List<XNode> get_elements_by_tag_name (string tagname) {
 			// TODO: does this ensure that the root element is also included?
 			// TODO: DO NOT return a separate list, we need to return the live list
 			// http://www.w3.org/TR/DOM-Level-1/level-one-core.html

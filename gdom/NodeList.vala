@@ -3,31 +3,31 @@
 using Gee;
 
 namespace GXml.Dom {
-	public interface NodeList : Gee.Iterable<DomNode> {
+	public interface NodeList : Gee.Iterable<XNode> {
 		public abstract ulong length {
 			get; private set;
 		}
 		// internal NodeList (Xml.Node* head, Document owner);
-		public abstract DomNode item (ulong idx);
+		public abstract XNode item (ulong idx);
 
 		/** GNOME List conventions
 		 ** Probably don't want to keep all of them since they're not all relevant.
 		 **/
-		public abstract void foreach (Func<DomNode> func);
-		public abstract DomNode first ();
-		public abstract DomNode last ();
-		public abstract DomNode? nth (ulong n);
-		public abstract DomNode? nth_data (ulong n);
-		public abstract DomNode? nth_prev (DomNode pivot, ulong n);
-		public abstract int find (DomNode target);
-		public abstract int find_custom (DomNode target, CompareFunc<DomNode> cmp);
-		public abstract int position (DomNode target);
-		public abstract int index (DomNode target);
+		public abstract void foreach (Func<XNode> func);
+		public abstract XNode first ();
+		public abstract XNode last ();
+		public abstract XNode? nth (ulong n);
+		public abstract XNode? nth_data (ulong n);
+		public abstract XNode? nth_prev (XNode pivot, ulong n);
+		public abstract int find (XNode target);
+		public abstract int find_custom (XNode target, CompareFunc<XNode> cmp);
+		public abstract int position (XNode target);
+		public abstract int index (XNode target);
 
-		internal abstract DomNode? insert_before (DomNode new_child, DomNode ref_child) /*throws DomError*/;
-		internal abstract DomNode? replace_child (DomNode new_child, DomNode old_child) /*throws DomError*/;
-		internal abstract DomNode? remove_child (DomNode old_child) /*throws DomError*/;
-		internal abstract DomNode? append_child (DomNode new_child) /*throws DomError*/;
+		internal abstract XNode? insert_before (XNode new_child, XNode ref_child) /*throws DomError*/;
+		internal abstract XNode? replace_child (XNode new_child, XNode old_child) /*throws DomError*/;
+		internal abstract XNode? remove_child (XNode old_child) /*throws DomError*/;
+		internal abstract XNode? append_child (XNode new_child) /*throws DomError*/;
 
 		public abstract string to_string ();
 	}
@@ -90,7 +90,7 @@ namespace GXml.Dom {
 	}
 
 	// TODO: Desperately want to extend List or implement relevant interfaces to make iterable
-	internal abstract class ChildNodeList : Gee.Iterable<DomNode>, NodeList, GLib.Object {
+	internal abstract class ChildNodeList : Gee.Iterable<XNode>, NodeList, GLib.Object {
 		/* TODO: must be live
 		   if this reflects children of a node, then must always be current
 		   same with nodes from GetElementByTagName, made need separate impls for each */
@@ -113,20 +113,20 @@ namespace GXml.Dom {
 			private set { }
 		}
 
-		DomNode item (ulong idx) {
+		XNode item (ulong idx) {
 			return this.nth (idx);
 		}
 
 		/** Iterable methods **/
 		public GLib.Type element_type { // TODO: should we need to use the override keyword when implementing interfaces
 			get {
-				return typeof(DomNode);
+				return typeof(XNode);
 			}
 		}
-		public Gee.Iterator<DomNode> iterator () {
+		public Gee.Iterator<XNode> iterator () {
 			return new NodeListIterator (this);
 		}
-		private class NodeListIterator : Gee.Iterator<DomNode>,  GLib.Object {
+		private class NodeListIterator : Gee.Iterator<XNode>,  GLib.Object {
 			private Xml.Node *head;
 			private Xml.Node *cur;
 			private Xml.Node *next_node;
@@ -140,7 +140,7 @@ namespace GXml.Dom {
 				this.cur = null;
 				this.doc = list.owner;
 			}
-			public new DomNode get () {
+			public new XNode get () {
 				return doc.lookup_node (this.cur);
 			}
 			public bool next () {
@@ -170,35 +170,35 @@ namespace GXml.Dom {
 		/** GNOME List conventions
 		 ** Probably don't want to keep all of them since they're not all relevant.
 		 **/
-		public void foreach (Func<DomNode> func) {
-			DomNode node;
+		public void foreach (Func<XNode> func) {
+			XNode node;
 
 			for (Xml.Node *cur = head; cur != null; cur = cur->next) {
 				node = this.owner.lookup_node (cur);
 				func (node);
 			}
 		}
-		public DomNode first () {
+		public XNode first () {
 			return this.owner.lookup_node (head);
 		}
-		public DomNode last () {
+		public XNode last () {
 			Xml.Node *cur = head;
 			while (cur != null && cur->next != null) {
 				cur = cur->next;
 			}
 			return this.owner.lookup_node (cur); // TODO :check for nulls?
 		}
-		public DomNode? nth (ulong n) {
+		public XNode? nth (ulong n) {
 			Xml.Node *cur = head;
 			for (int i = 0; i < n && cur != null; i++) {
 				cur = cur->next;
 			}
 			return this.owner.lookup_node (cur);
 		}
-		public DomNode? nth_data (ulong n) {
+		public XNode? nth_data (ulong n) {
 			return nth (n);
 		}
-		public DomNode? nth_prev (DomNode pivot, ulong n) {
+		public XNode? nth_prev (XNode pivot, ulong n) {
 			Xml.Node *cur;
 			for (cur = head; cur != null && this.owner.lookup_node (cur) != pivot; cur = cur->next) {
 			}
@@ -210,7 +210,7 @@ namespace GXml.Dom {
 			}
 			return this.owner.lookup_node (cur);
 		}
-		public int find (DomNode target) {
+		public int find (XNode target) {
 			int pos = 0;
 			Xml.Node *cur;
 			for (cur = head; cur != null && this.owner.lookup_node (cur) != target; cur = cur->next) {
@@ -222,7 +222,7 @@ namespace GXml.Dom {
 				return pos;
 			}
 		}
-		public int find_custom (DomNode target, CompareFunc<DomNode> cmp) {
+		public int find_custom (XNode target, CompareFunc<XNode> cmp) {
 			int pos = 0;
 			Xml.Node *cur;
 			for (cur = head; cur != null && cmp (this.owner.lookup_node (cur), target) != 0; cur = cur->next) {
@@ -234,17 +234,17 @@ namespace GXml.Dom {
 				return pos;
 			}
 		}
-		public int position (DomNode target) {
+		public int position (XNode target) {
 			return find (target);
 		}
-		public int index (DomNode target) {
+		public int index (XNode target) {
 			return find (target);
 		}
 
 
 
 		/** Node's child methods, implemented here **/
-		internal new DomNode? insert_before (DomNode new_child, DomNode ref_child) /* throws DomError */ {
+		internal new XNode? insert_before (XNode new_child, XNode ref_child) /* throws DomError */ {
 			Xml.Node *child = head;
 
 			while (child != ((BackedNode)ref_child).node && child != null) {
@@ -257,9 +257,9 @@ namespace GXml.Dom {
 			}
 			return new_child;
 		}
-		internal new DomNode? replace_child (DomNode new_child, DomNode old_child) /* throws DomError */ {
+		internal new XNode? replace_child (XNode new_child, XNode old_child) /* throws DomError */ {
 			// TODO: nuts, if Node as an iface can't have properties,
-			//       then I have to cast these to DomNodes, ugh.
+			//       then I have to cast these to XNodes, ugh.
 			// TODO: need to handle errors?
 
 			// TODO: want to do a 'find_child' function
@@ -275,12 +275,12 @@ namespace GXml.Dom {
 			}
 			return old_child;
 		}
-		internal new DomNode? remove_child (DomNode old_child) /* throws DomError */ {
+		internal new XNode? remove_child (XNode old_child) /* throws DomError */ {
 			((BackedNode)old_child).node->unlink (); // TODO: do we need to free libxml2 stuff manually?
 			return old_child;
 		}
 
-		internal virtual DomNode? append_child (DomNode new_child) /* throws DomError */ {
+		internal virtual XNode? append_child (XNode new_child) /* throws DomError */ {
 			Xml.Node *err;
 
 			parent_as_xmlnode->add_child (((BackedNode)new_child).node);
@@ -291,7 +291,7 @@ namespace GXml.Dom {
 		private string _str;
 		public string to_string () {
 			_str = "NodeList[";
-			foreach (DomNode node in this) {
+			foreach (XNode node in this) {
 				_str += "(" + node.to_string () + ")";
 			}
 			_str += "]";

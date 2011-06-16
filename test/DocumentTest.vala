@@ -92,14 +92,14 @@ class DocumentTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/document/get_elements_by_tag_name", () => {
 				Document doc = get_doc ();
-				List<DomNode> elems = doc.get_elements_by_tag_name ("fish");
+				List<XNode> elems = doc.get_elements_by_tag_name ("fish");
 				elems = null;
 				//STUB
 			});
 	}
 
-	public static void print_node (DomNode node) {
-		List<GXml.Dom.DomNode> children = (List<GXml.Dom.DomNode>)node.child_nodes;
+	public static void print_node (XNode node) {
+		List<GXml.Dom.XNode> children = (List<GXml.Dom.XNode>)node.child_nodes;
 
 		if (node.node_type != 3)
 			GLib.stdout.printf ("<%s", node.node_name);
@@ -112,7 +112,7 @@ class DocumentTest : GXmlTest {
 		GLib.stdout.printf (">");
 		if (node.node_value != null)
 			GLib.stdout.printf ("%s", node.node_value);
-		foreach (GXml.Dom.DomNode child in children) {
+		foreach (GXml.Dom.XNode child in children) {
 			// TODO: want a stringification method for Nodes?
 			print_node (child);
 		}

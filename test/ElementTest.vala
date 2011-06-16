@@ -113,9 +113,9 @@ class ElementTest : GXmlTest  {
 
 		Test.add_func ("/gxml/element/get_elements_by_tag_name", () => {
 				Document doc;
-				DomNode root;
+				XNode root;
 				Element elem;
-				List<DomNode> emails;
+				List<XNode> emails;
 				Element email;
 				Text text;
 

@@ -4,7 +4,7 @@
 
 
 namespace GXml.Dom {
-	public class BackedNode : DomNode {
+	public class BackedNode : XNode {
 		/** Private properties */
 		internal Xml.Node *node;
 
@@ -14,7 +14,7 @@ namespace GXml.Dom {
 			// Considered using node->doc instead, but some subclasses don't have corresponding Xml.Nodes
 			this.node = node;
 
-			// Save the correspondence between this Xml.Node* and its DomNode
+			// Save the correspondence between this Xml.Node* and its XNode
 			owner.node_dict.insert (node, this);
 			// TODO: Consider checking whether the Xml.Node* is already recorded.  It shouldn't be.
 		}
@@ -56,11 +56,11 @@ namespace GXml.Dom {
 			}
 			// default = NodeType.ELEMENT;
 		}
-		public override DomNode? parent_node {
+		public override XNode? parent_node {
 			get {
 				return this.owner_document.lookup_node (this.node->parent);
 				// TODO: is parent never null? parent is probably possible to be null, like when you create a new element unattached
-				// return new DomNode (this.node->parent);
+				// return new XNode (this.node->parent);
 				// TODO: figure out whether we really want to recreate wrapper objects each time
 			}
 			internal set {
@@ -79,8 +79,8 @@ namespace GXml.Dom {
 			}
 		}
 
-		private DomNode? _first_child;
-		public override DomNode? first_child {
+		private XNode? _first_child;
+		public override XNode? first_child {
 			get {
 				_first_child = this.child_nodes.first ();
 				return _first_child;
@@ -90,8 +90,8 @@ namespace GXml.Dom {
 			}
 		}
 
-		private DomNode? _last_child;
-		public override DomNode? last_child {
+		private XNode? _last_child;
+		public override XNode? last_child {
 			get {
 				_last_child = this.child_nodes.last ();
 				return _last_child;
@@ -100,14 +100,14 @@ namespace GXml.Dom {
 			internal set {
 			}
 		}
-		public override DomNode? previous_sibling {
+		public override XNode? previous_sibling {
 			get {
 				return this.owner_document.lookup_node (this.node->prev);
 			}
 			internal set {
 			}
 		}
-		public override DomNode? next_sibling {
+		public override XNode? next_sibling {
 			get {
 				return this.owner_document.lookup_node (this.node->next);
 			}
@@ -122,23 +122,23 @@ namespace GXml.Dom {
 			}
 		}
 
-		public override DomNode? insert_before (DomNode new_child, DomNode ref_child) /*throws DomError*/ {
+		public override XNode? insert_before (XNode new_child, XNode ref_child) /*throws DomError*/ {
 			return this.child_nodes.insert_before (new_child, ref_child);
 		}
-		public override DomNode? replace_child (DomNode new_child, DomNode old_child) /*throws DomError*/ {
+		public override XNode? replace_child (XNode new_child, XNode old_child) /*throws DomError*/ {
 			return this.child_nodes.replace_child (new_child, old_child);
 		}
-		public override DomNode? remove_child (DomNode old_child) /*throws DomError*/ {
+		public override XNode? remove_child (XNode old_child) /*throws DomError*/ {
 			return this.child_nodes.remove_child (old_child);
 		}
-		public override DomNode? append_child (DomNode new_child) /*throws DomError*/ {
+		public override XNode? append_child (XNode new_child) /*throws DomError*/ {
 			return this.child_nodes.append_child (new_child);
 		}
 		public override bool has_child_nodes () {
 			return (this.child_nodes.length > 0);
 		}
 
-		public override DomNode? clone_nodes (bool deep) {
+		public override XNode? clone_nodes (bool deep) {
 			return this; // STUB
 		}
 	}
