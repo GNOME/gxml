@@ -12,7 +12,7 @@ class ElementTest : GXmlTest  {
 	}
 
 	public static void add_element_tests () {
-		Test.add_func ("/gdom/element/attributes", () => {
+		Test.add_func ("/gxml/element/attributes", () => {
 				HashTable<string,Attr> attributes;
 
 				Document doc;
@@ -46,7 +46,7 @@ class ElementTest : GXmlTest  {
 				assert (elem.get_attribute ("alley") == "");
 
 			});
-		Test.add_func ("/gdom/element/get_set_attribute", () => {
+		Test.add_func ("/gxml/element/get_set_attribute", () => {
 				Element elem = get_elem_new_doc ("student");
 
 				assert ("" == elem.get_attribute ("name"));
@@ -56,7 +56,7 @@ class ElementTest : GXmlTest  {
 				elem.set_attribute ("name", "Lovegood");
 				assert ("Lovegood" == elem.get_attribute ("name"));
 			});
-		Test.add_func ("/gdom/element/remove_attribute", () => {
+		Test.add_func ("/gxml/element/remove_attribute", () => {
 				Element elem = get_elem_new_doc ("tagname");
 
 				elem.set_attribute ("name", "Malfoy");
@@ -68,14 +68,14 @@ class ElementTest : GXmlTest  {
 
 				// Consider testing default attributes (see Attr and specified)
 			});
-		Test.add_func ("/gdom/element/get_attribute_node", () => {
+		Test.add_func ("/gxml/element/get_attribute_node", () => {
 				Element elem = get_elem_new_doc ("tagname");
 
 				assert (elem.get_attribute_node ("name") == null);
 				elem.set_attribute ("name", "Severus");
 				assert (elem.get_attribute_node ("name").value == "Severus");
 			});
-		Test.add_func ("/gdom/element/set_attribute_node", () => {
+		Test.add_func ("/gxml/element/set_attribute_node", () => {
 				Element elem = get_elem_new_doc ("tagname");
 				Attr attr1 = elem.owner_document.create_attribute ("name");
 				Attr attr2 = elem.owner_document.create_attribute ("name");
@@ -94,7 +94,7 @@ class ElementTest : GXmlTest  {
 			});
 
 
-		Test.add_func ("/gdom/element/remove_attribute_node", () => {
+		Test.add_func ("/gxml/element/remove_attribute_node", () => {
 				Element elem = get_elem_new_doc ("tagname");
 				Attr attr;
 
@@ -111,7 +111,7 @@ class ElementTest : GXmlTest  {
 			});
 
 
-		Test.add_func ("/gdom/element/get_elements_by_tag_name", () => {
+		Test.add_func ("/gxml/element/get_elements_by_tag_name", () => {
 				Document doc;
 				DomNode root;
 				Element elem;
@@ -146,7 +146,7 @@ class ElementTest : GXmlTest  {
 
 				// TODO: need to test that preorder traversal order is correct
 			});
-		Test.add_func ("/gdom/element/normalize", () => {
+		Test.add_func ("/gxml/element/normalize", () => {
 				Element elem = get_elem_new_doc ("tagname");
 				elem.normalize ();
 

@@ -7,21 +7,21 @@ using GXml.Dom;
 
 class DocumentTest : GXmlTest {
 	public static void add_document_tests () throws DomError {
-		Test.add_func ("/gdom/document/construct_for_path", () => {
+		Test.add_func ("/gxml/document/construct_for_path", () => {
 				Document doc = get_doc ();
 				doc = null;
 				// TODO: assert doc != null
 			});
-		Test.add_func ("/gdom/document/construct_stream", () => {
+		Test.add_func ("/gxml/document/construct_stream", () => {
 				// Document doc = new Document ( in_stream );
 			});
-		Test.add_func ("/gdom/document/construct_from_string", () => {
+		Test.add_func ("/gxml/document/construct_from_string", () => {
 				string xml = "<Fruits><Apple></Apple><Orange></Orange></Fruits>";
 				Document doc = new Document.from_string (xml);
 				doc = null;
 				//STUB
 			});
-		Test.add_func ("/gdom/document/create_element", () => {
+		Test.add_func ("/gxml/document/create_element", () => {
 				Document doc = get_doc ();
 				Element elem = null;
 
@@ -48,49 +48,49 @@ class DocumentTest : GXmlTest {
 				} catch (DomError.INVALID_CHARACTER_ERR e) {
 				}
 			});
-		Test.add_func ("/gdom/document/create_document_fragment", () => {
+		Test.add_func ("/gxml/document/create_document_fragment", () => {
 				Document doc = get_doc ();
 				DocumentFragment fragment = doc.create_document_fragment ();
 				fragment = null;
 				//STUB
 			});
-		Test.add_func ("/gdom/document/create_text_node", () => {
+		Test.add_func ("/gxml/document/create_text_node", () => {
 				Document doc = get_doc ();
 				Text text = doc.create_text_node ("Star of my dreams");
 				text = null;
 				//STUB
 			});
-		Test.add_func ("/gdom/document/create_comment", () => {
+		Test.add_func ("/gxml/document/create_comment", () => {
 				Document doc = get_doc ();
 				Comment comment = doc.create_comment ("Ever since the day we promised.");
 				comment = null;
 				//STUB
 			});
-		Test.add_func ("/gdom/document/create_cdata_section", () => {
+		Test.add_func ("/gxml/document/create_cdata_section", () => {
 				Document doc = get_doc ();
 				CDATASection cdata = doc.create_cdata_section ("put in real cdata");
 				cdata = null;
 				//STUB
 			});
-		Test.add_func ("/gdom/document/create_processing_instruction", () => {
+		Test.add_func ("/gxml/document/create_processing_instruction", () => {
 				Document doc = get_doc ();
 				ProcessingInstruction instruction = doc.create_processing_instruction ("target", "data");
 				instruction = null;
 				//STUB
 			});
-		Test.add_func ("/gdom/document/create_attribute", () => {
+		Test.add_func ("/gxml/document/create_attribute", () => {
 				Document doc = get_doc ();
 				Attr attr = doc.create_attribute ("name");
 				attr = null;
 				//STUB
 			});
-		Test.add_func ("/gdom/document/create_entity_reference", () => {
+		Test.add_func ("/gxml/document/create_entity_reference", () => {
 				Document doc = get_doc ();
 				EntityReference entity = doc.create_entity_reference ("entref");
 				entity = null;
 				//STUB
 			});
-		Test.add_func ("/gdom/document/get_elements_by_tag_name", () => {
+		Test.add_func ("/gxml/document/get_elements_by_tag_name", () => {
 				Document doc = get_doc ();
 				List<DomNode> elems = doc.get_elements_by_tag_name ("fish");
 				elems = null;

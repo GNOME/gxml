@@ -3,13 +3,13 @@ using GXml.Dom;
 
 class AttrTest : GXmlTest {
 	public static void add_attribute_tests () {
-		Test.add_func ("/gdom/attribute/node_name", () => {
+		Test.add_func ("/gxml/attribute/node_name", () => {
 				Document doc = get_doc ();
 				Attr attr = get_attr ("broomSeries", "Nimbus", doc);
 
 				assert (attr.node_name == "broomSeries");
 			});
-		Test.add_func ("/gdom/attribute/node_value", () => {
+		Test.add_func ("/gxml/attribute/node_value", () => {
 				Document doc = get_doc ();
 				Attr attr = doc.create_attribute ("bank");
 
@@ -22,13 +22,13 @@ class AttrTest : GXmlTest {
 				attr.value = "Gringots";
 				assert (attr.node_value == "Gringots");
 			});
-		Test.add_func ("/gdom/attribute/name", () => {
+		Test.add_func ("/gxml/attribute/name", () => {
 				Document doc = get_doc ();
 				Attr attr = get_attr ("broomSeries", "Nimbus", doc);
 
 				assert (attr.name == "broomSeries");
 			});
-		Test.add_func ("/gdom/attribute/node_value", () => {
+		Test.add_func ("/gxml/attribute/node_value", () => {
 				Document doc = get_doc ();
 				Attr attr = doc.create_attribute ("bank");
 
@@ -41,10 +41,10 @@ class AttrTest : GXmlTest {
 				attr.node_value = "Gringots";
 				assert (attr.value == "Gringots");
 			});
-		Test.add_func ("/gdom/attribute/specified", () => {
+		Test.add_func ("/gxml/attribute/specified", () => {
 				// TODO: involves supporting DTDs, which come later
 			});
-		Test.add_func ("/gdom/attribute/parent_node", () => {
+		Test.add_func ("/gxml/attribute/parent_node", () => {
 				Document doc = get_doc ();
 				Element elem = get_elem ("creature", doc);
 				Attr attr = get_attr ("breed", "Dragons", doc);
@@ -53,7 +53,7 @@ class AttrTest : GXmlTest {
 				elem.set_attribute_node (attr);
 				assert (attr.parent_node == null);
 			});
-		Test.add_func ("/gdom/attribute/previous_sibling", () => {
+		Test.add_func ("/gxml/attribute/previous_sibling", () => {
 				Document doc = get_doc ();
 				Element elem = get_elem ("creature", doc);
 				Attr attr1 = get_attr ("breed", "Dragons", doc);
@@ -65,7 +65,7 @@ class AttrTest : GXmlTest {
 				assert (attr1.previous_sibling == null);
 				assert (attr2.previous_sibling == null);
 			});
-		Test.add_func ("/gdom/attribute/next_sibling", () => {
+		Test.add_func ("/gxml/attribute/next_sibling", () => {
 				Document doc = get_doc ();
 				Element elem = get_elem ("creature", doc);
 				Attr attr1 = get_attr ("breed", "Dragons", doc);
@@ -77,7 +77,7 @@ class AttrTest : GXmlTest {
 				assert (attr1.next_sibling == null);
 				assert (attr2.next_sibling == null);
 			});
-		Test.add_func ("/gdom/attribute/insert_before", () => {
+		Test.add_func ("/gxml/attribute/insert_before", () => {
 				Document doc = get_doc ();
 				Attr attr = get_attr ("pie", "Dumbleberry", doc);
 				Text txt = doc.create_text_node ("Whipped ");
@@ -88,7 +88,7 @@ class AttrTest : GXmlTest {
 				// the Text nodes should be merged
 				assert (attr.child_nodes.length == 1);
 			});
-		Test.add_func ("/gdom/attribute/replace_child", () => {
+		Test.add_func ("/gxml/attribute/replace_child", () => {
 				Document doc = get_doc ();
 				Attr attr = get_attr ("WinningHouse", "Slytherin", doc);
 				Text txt = doc.create_text_node ("Gryffindor");
@@ -97,7 +97,7 @@ class AttrTest : GXmlTest {
 				attr.replace_child (txt, attr.child_nodes.item (0));
 				assert (attr.value == "Gryffindor");
 			});
-		Test.add_func ("/gdom/attribute/remove_child", () => {
+		Test.add_func ("/gxml/attribute/remove_child", () => {
 				Document doc = get_doc ();
 				Attr attr = get_attr ("parchment", "MauraudersMap", doc);
 
