@@ -51,6 +51,12 @@ namespace GXml.Dom {
 			this.parent = parent;
 			this.owner = owner;
 		}
+
+		internal override Xml.Node *parent_as_xmlnode {
+			get {
+				return parent;
+			}
+		}
 	}
 	internal class AttrChildNodeList : ChildNodeList {
 		Xml.Attr *parent;
@@ -64,11 +70,23 @@ namespace GXml.Dom {
 			}
 		}
 
+		internal override Xml.Node *parent_as_xmlnode {
+			get {
+				/* This is disgusting, but we do this for the case where
+				   xmlAttr*'s immediate children list the xmlAttr as their
+				   parent, but claim that xmlAttr is an xmlNode* (since
+				   the parent field is of type xmlNode*).  We need to get
+				   an Xml.Node*ish parent for when we append new children
+				   here, whether we're the list of children of an Attr
+				   or not. */
+				return (Xml.Node*)parent;
+			}
+		}
+
 		internal AttrChildNodeList (Xml.Attr* parent, Document owner) {
 			this.parent = parent;
 			this.owner = owner;
 		}
-
 	}
 
 	// TODO: Desperately want to extend List or implement relevant interfaces to make iterable
@@ -80,6 +98,8 @@ namespace GXml.Dom {
 
 		internal Document owner;
 		internal abstract Xml.Node *head { get; set; }
+
+		internal abstract Xml.Node *parent_as_xmlnode { get; }
 
 		// TODO: consider uint
 		public ulong length {
@@ -260,14 +280,10 @@ namespace GXml.Dom {
 			return old_child;
 		}
 
-		internal new DomNode? append_child (DomNode new_child) /* throws DomError */ {
+		internal virtual DomNode? append_child (DomNode new_child) /* throws DomError */ {
 			Xml.Node *err;
 
-			if (head == null) {
-				head = ((BackedNode)new_child).node;
-			} else {
-				err = head->add_sibling (((BackedNode)new_child).node);
-			}
+			parent_as_xmlnode->add_child (((BackedNode)new_child).node);
 
 			return new_child;
 		}
