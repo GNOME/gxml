@@ -6,12 +6,37 @@
  */
 
 namespace GXml.Dom {
+	internal struct InputStreamBox {
+		public InputStream str;
+		public Cancellable can;
+	}
+
 	public class Document : XNode {
-		/** Private class properties */
+		/** Private properties */
 		internal HashTable<Xml.Node*, XNode> node_dict = new HashTable<Xml.Node*, XNode> (GLib.direct_hash, GLib.direct_equal);
+		// We don't want want to use XNode's Xml.Node or its dict
+		// internal HashTable<Xml.Attr*, Attr> attr_dict = new HashTable<Xml.Attr*, Attr> (null, null);
+
 		private Xml.Doc *xmldoc;
 
 		/** Private methods */
+		// internal unowned Attr? lookup_attr (Xml.Attr *xmlattr) {
+		// 	unowned Attr attrnode;
+
+		// 	if (xmlattr == null) {
+		// 		return null; // TODO: consider throwing an error instead
+		// 	}
+
+		// 	attrnode = this.attr_dict.lookup (xmlattr);
+		// 	if (attrnode == null) {
+		// 		// TODO: threadsafety
+		// 		this.attr_dict.insert (xmlattr, new Attr (xmlattr, this));
+		// 		attrnode = this.attr_dict.lookup (xmlattr);
+		// 	}
+
+		// 	return attrnode;
+		// }
+
 		internal unowned XNode? lookup_node (Xml.Node *xmlnode) {
 			unowned XNode domnode;
 
@@ -70,61 +95,6 @@ namespace GXml.Dom {
 			return domnode;
 		}
 
-		// We don't want want to use XNode's Xml.Node or its dict
-		internal HashTable<Xml.Attr*, Attr> attr_dict = new HashTable<Xml.Attr*, Attr> (null, null);
-
-		/** Private methods */
-		internal unowned Attr? lookup_attr (Xml.Attr *xmlattr) {
-			unowned Attr attrnode;
-
-			if (xmlattr == null) {
-				return null; // TODO: consider throwing an error instead
-			}
-
-			attrnode = this.attr_dict.lookup (xmlattr);
-			if (attrnode == null) {
-				// TODO: threadsafety
-				this.attr_dict.insert (xmlattr, new Attr (xmlattr, this));
-				attrnode = this.attr_dict.lookup (xmlattr);
-			}
-
-			return attrnode;
-		}
-
-
-
-		// /** Private class properties */
-		// internal static HashTable<Xml.Doc*, Document> dict = new HashTable<Xml.Doc*, Document> (null, null);
-
-		// /** Private methods */
-		// internal static unowned Document? lookup (Xml.Doc *xmldoc) {
-		// 	unowned Document domdoc;
-
-		// 	if (xmldoc == null) {
-		// 		return null; // TODO: consider throwing an error instead
-		// 	}
-
-		// 	domdoc = Document.dict.lookup (xmldoc);
-
-		// 	if (domdoc == null) {
-		// 		// TODO: throw an error, these should already be inserted by the Document constructors
-
-
-		// 		// // If we don't have a cached XNode for a given Xml.Node yet, create one
-		// 		// Document.dict.insert (xmldoc, new Document (xmldoc));
-		// 		// domdoc = Document.dict.lookup (xmldoc);
-		// 		// // TODO: threadsafety?
-		// 	}
-
-		// 	return domdoc;
-		// }
-
-		/** Private properties */
-		// private Xml.Doc *doc;
-		// TODO: since this Document extends from Node, should we be passing something to our base () Node for Node.node?
-		//       Perhaps our root element?
-
-
 		/** Public properties */
 		public override string node_name {
 			get {
@@ -173,9 +143,54 @@ namespace GXml.Dom {
 			// TODO: might want to check that the file_path exists
 			this (doc);
 		}
+
+		public static int _ioread (void *ctx, char[] buf, int len) {
+			InputStreamBox *box = (InputStreamBox*)ctx;
+			InputStream instream = box->str;
+			int bytes_read = -1;
+
+			try {
+				// TODO: want to propagate error, get cancellable
+				// TODO: handle char[] -> uint8[] better?
+				bytes_read = (int)instream.read ((uint8[])buf, box->can);
+			} catch (GLib.IOError e) {
+				// TODO: process
+				bytes_read = -1;
+			}
+
+			return bytes_read;
+		}
+		public static int _ioclose (void *ctx) {
+			InputStreamBox *box = (InputStreamBox*)ctx;
+			InputStream instream = box->str;
+			int success = -1;
+
+			try {
+				// TODO: handle, propagate? error
+				// TODO: want ctx to include Cancellable
+				if (instream.close (box->can)) {
+					success = 0;
+				}
+			} catch (GLib.Error e) {
+				// TODO: process
+				success = -1;
+			}
+
+			return success;
+		}
+
 		public Document.for_stream (InputStream instream) throws DomError {
-			this (null);
-			// TODO: figure out what all input streams could be/represent
+			Cancellable can = new Cancellable ();
+			InputStreamBox box = { instream, can };
+
+			Xml.TextReader reader = new Xml.TextReader.for_io ((Xml.InputReadCallback)_ioread,
+									   (Xml.InputCloseCallback)_ioclose,
+									   &box, "", null, 0);
+			reader.read ();
+			reader.expand ();
+			Xml.Doc *doc = reader.current_doc ();
+
+			this (doc);
 		}
 		public Document.from_string (string memory) throws DomError {
 			Xml.Doc *doc = Xml.Parser.parse_memory (memory, (int)memory.length);

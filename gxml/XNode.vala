@@ -96,7 +96,7 @@ namespace GXml.Dom {
 
 		private string _str;
 		public string to_string () {
-			_str = "XNode(%x)".printf ((uint)this);
+			_str = "XNode(%s)".printf (this.node_name);
 			return _str;
 		}
 	}

@@ -281,8 +281,6 @@ namespace GXml.Dom {
 		}
 
 		internal virtual XNode? append_child (XNode new_child) /* throws DomError */ {
-			Xml.Node *err;
-
 			parent_as_xmlnode->add_child (((BackedNode)new_child).node);
 
 			return new_child;
@@ -299,7 +297,7 @@ namespace GXml.Dom {
 			Xml.Node *cur;
 			_str += " contents[";
 			for (cur = head; cur != null; cur = cur->next) {
-				_str += "Xml.Node*(%x,%s,%s)".printf ((uint)cur, cur->name, cur->content);
+				_str += "Xml.Node*(%s,%s)".printf (cur->name, cur->content);
 			}
 			_str += "]";
 

@@ -9,17 +9,27 @@ class DocumentTest : GXmlTest {
 	public static void add_document_tests () throws DomError {
 		Test.add_func ("/gxml/document/construct_for_path", () => {
 				Document doc = get_doc ();
-				doc = null;
-				// TODO: assert doc != null
+
+				assert (doc != null);
+				// TODO: test contents
 			});
-		Test.add_func ("/gxml/document/construct_stream", () => {
-				// Document doc = new Document ( in_stream );
+		Test.add_func ("/gxml/document/construct_for_stream", () => {
+				File fin = File.new_for_path ("test.xml");
+				InputStream instream = fin.read (null); // TODO use cancellable
+
+				Document doc = new Document.for_stream (instream);
+
+				assert (doc != null);
+
+				// TODO: test contents
 			});
 		Test.add_func ("/gxml/document/construct_from_string", () => {
 				string xml = "<Fruits><Apple></Apple><Orange></Orange></Fruits>";
 				Document doc = new Document.from_string (xml);
-				doc = null;
-				//STUB
+
+				assert (doc != null);
+
+				// TODO: test contents
 			});
 		Test.add_func ("/gxml/document/create_element", () => {
 				Document doc = get_doc ();
