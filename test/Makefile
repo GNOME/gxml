@@ -1,6 +1,6 @@
 # Need to learn some more autofoo
 
-PKGS=--pkg gio-2.0 --pkg gdom --pkg libxml-2.0 --pkg gee-1.0 --vapidir=../gxml
+PKGS=--pkg gio-2.0 --pkg gxml --pkg libxml-2.0 --pkg gee-1.0 --vapidir=../gxml
 OPTS= -c -v
 DBG= -g --save-temps
 LOPTS= `pkg-config --libs glib-2.0 --libs gobject-2.0 --libs libxml-2.0 --libs gee-1.0`

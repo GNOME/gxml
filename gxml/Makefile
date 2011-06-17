@@ -1,7 +1,7 @@
 # Need to learn some more autofoo
 
 PKGS=--pkg gio-2.0 --pkg libxml-2.0 --pkg gee-1.0
-OPTS=-c --vapi=gdom.vapi --use-header --header=gdom.h --includedir=`pwd` # want a better solution than that?
+OPTS=-c --vapi=gxml.vapi --use-header --header=gxml.h --includedir=`pwd` # want a better solution than that?
 DBG= -g --save-temps 
 
 debug:
@@ -11,4 +11,4 @@ all:
 	valac ${OPTS} ${PKGS} *.vala
 
 clean:
-	rm *~ \#*\# *.c *.o gdom.vapi || true
+	rm *~ \#*\# *.c *.o gxml.vapi || true
