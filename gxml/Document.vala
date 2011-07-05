@@ -11,6 +11,11 @@ namespace GXml.Dom {
 		public Cancellable can;
 	}
 
+	internal struct OutputStreamBox {
+		public OutputStream str;
+		public Cancellable can;
+	}
+
 	public class Document : XNode {
 		/** Private properties */
 		internal HashTable<Xml.Node*, XNode> node_dict = new HashTable<Xml.Node*, XNode> (GLib.direct_hash, GLib.direct_equal);
@@ -144,6 +149,41 @@ namespace GXml.Dom {
 			this (doc);
 		}
 
+		public static int _iowrite (void *ctx, char[] buf, int len) {
+			OutputStreamBox *box = (OutputStreamBox*)ctx;
+			OutputStream outstream = box->str;
+			int bytes_writ = -1;
+
+			try {
+				// TODO: want to propagate error, get cancellable
+				// TODO: handle char[] -> uint8[] better?
+				bytes_writ = (int)outstream.write ((uint8[])buf, box->can);
+			} catch (GLib.IOError e) {
+				// TODO: process
+				bytes_writ = -1;
+			}
+
+			return bytes_writ;
+		}
+		public static int _iooutclose (void *ctx) {
+			OutputStreamBox *box = (OutputStreamBox*)ctx;
+			OutputStream outstream = box->str;
+			int success = -1;
+
+			try {
+				// TODO: handle, propagate? error
+				// TODO: want ctx to include Cancellable
+				if (outstream.close (box->can)) {
+					success = 0;
+				}
+			} catch (GLib.Error e) {
+				// TODO: process
+				success = -1;
+			}
+
+			return success;
+		}
+
 		public static int _ioread (void *ctx, char[] buf, int len) {
 			InputStreamBox *box = (InputStreamBox*)ctx;
 			InputStream instream = box->str;
@@ -160,7 +200,7 @@ namespace GXml.Dom {
 
 			return bytes_read;
 		}
-		public static int _ioclose (void *ctx) {
+		public static int _ioinclose (void *ctx) {
 			InputStreamBox *box = (InputStreamBox*)ctx;
 			InputStream instream = box->str;
 			int success = -1;
@@ -184,7 +224,7 @@ namespace GXml.Dom {
 			InputStreamBox box = { instream, can };
 
 			Xml.TextReader reader = new Xml.TextReader.for_io ((Xml.InputReadCallback)_ioread,
-									   (Xml.InputCloseCallback)_ioclose,
+									   (Xml.InputCloseCallback)_ioinclose,
 									   &box, "", null, 0);
 			reader.read ();
 			reader.expand ();
@@ -196,6 +236,17 @@ namespace GXml.Dom {
 			Xml.Doc *doc = Xml.Parser.parse_memory (memory, (int)memory.length);
 			this (doc);
 		}
+
+
+		public void save (OutputStream outstream) throws DomError {
+			Cancellable can = new Cancellable ();
+			OutputStreamBox box = { outstream, can };
+
+			this.xmldoc->save_to_io ((Xml.OutputWriteCallback)_iowrite,
+						 (Xml.OutputCloseCallback)_iooutclose,
+						 &box, "", 0);
+		}
+
 
 		// TODO: proper name for init function?
 		// private void init (Xml.Doc *doc, Xml.Node *root) throws DomError {
