@@ -109,13 +109,14 @@ namespace GXml.Dom {
 			}
 		}
 
+		// TODO: DTD
 		public DocumentType doctype {
 			// STUB
 			get;
 			private set;
 		}
 		public Implementation implementation {
-			// STUB
+			// set in constructor
 			get;
 			private set;
 		}
@@ -129,6 +130,9 @@ namespace GXml.Dom {
 		}
 
 		/** Constructor */
+
+		/* All other constructors should call this one,
+		   passing it a Xml.Doc* object */
 		private Document (Xml.Doc *doc) throws DomError {
 			Xml.Node *root;
 
@@ -142,6 +146,8 @@ namespace GXml.Dom {
 			base.for_document ();
 			this.owner_document = this; // this doesn't exist until after base()
 			this.xmldoc = doc;
+			this.doctype = null; // TODO: change
+			this.implementation = new Implementation ();
 		}
 		public Document.for_path (string file_path) throws DomError {
 			Xml.Doc *doc = Xml.Parser.parse_file (file_path); // consider using read_file
@@ -256,11 +262,8 @@ namespace GXml.Dom {
 		public Element create_element (string tag_name) throws DomError {
 			/* TODO: libxml2 doesn't complain about invalid names, but the spec
 			   for DOM Level 1 Core wants us to.  Handle ourselves? */
-			// TODO: what does libxml2 do with Elements?  should we just use nodes?
-			// TODO: right now, we're treating libxml2's 'new_node' Node as our Element
-			// TODO: use new_node_eat_name()  instead?
+			// TODO: what does libxml2 do with Elements?  should we just use nodes? probably
 			// TODO: what should we be passing for ns other than old_ns?  Figure it out
-
 			Xml.Node *xmlelem = this.xmldoc->new_node (null, tag_name, null);
 			Element new_elem = new Element (xmlelem, this);
 			return new_elem;
@@ -272,13 +275,19 @@ namespace GXml.Dom {
 			return new Text (this.xmldoc->new_text (data), this);
 		}
 		public Comment create_comment (string data) {
-			return new Comment (this.xmldoc->new_comment (data), this); // TODO: should we be passing around Xml.Node* like this?
+			return new Comment (this.xmldoc->new_comment (data), this);
+			// TODO: should we be passing around Xml.Node* like this?
 		}
 		public CDATASection create_cdata_section (string data) throws DomError {
+			check_html ("CDATA section"); // TODO: i18n
+
 			return new CDATASection (this.xmldoc->new_cdata_block (data, (int)data.length), this);
 		}
 		public ProcessingInstruction create_processing_instruction (string target, string data) throws DomError {
-			// TODO: figure out what to do for a ProcessingInstruction
+			check_html ("processing instructions"); // TODO: i18n
+			check_character_validity (target);
+			check_character_validity (data); // TODO: do these use different rules?
+
 			// TODO: want to see whether we can find a libxml2 structure for this
 			ProcessingInstruction pi = new ProcessingInstruction (target, data, this);
 
@@ -286,9 +295,15 @@ namespace GXml.Dom {
 		}
 		// TODO: Consider creating a convenience method for create_attribute_with_value (name, value)
 		public Attr create_attribute (string name) throws DomError {
-			return new Attr (this.xmldoc->new_prop (name, ""), this);  // TODO: should we pass something other than "" for the unspecified value?
+			check_character_validity (name);
+
+			return new Attr (this.xmldoc->new_prop (name, ""), this);
+			// TODO: should we pass something other than "" for the unspecified value?  probably not, "" is working fine so far
 		}
 		public EntityReference create_entity_reference (string name) throws DomError {
+			check_html ("entity reference"); // TODO: i18n
+			check_character_validity (name);
+
 			return new EntityReference (name, this);
 			// STUB: figure out what they mean by entity reference and what libxml2 means by it (xmlNewReference ()?)
 		}
@@ -298,6 +313,17 @@ namespace GXml.Dom {
 			// TODO: DO NOT return a separate list, we need to return the live list
 			// http://www.w3.org/TR/DOM-Level-1/level-one-core.html
 			return this.document_element.get_elements_by_tag_name (tagname);
+		}
+
+		private void check_html (string feature) throws DomError {
+			if (false) { // TODO: check DTD if HTML, then err
+				throw new DomError.NOT_SUPPORTED ("HTML documents do not support '%s'".printf (feature)); // i18n
+			}
+		}
+		private void check_character_validity (string str) throws DomError {
+			if (false) { // TODO: define validity
+				throw new DomError.INVALID_CHARACTER ("'%s' contains invalid characters.".printf (str));
+			}
 		}
 	}
 }
