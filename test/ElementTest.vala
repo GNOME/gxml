@@ -2,15 +2,6 @@
 using GXml.Dom;
 
 class ElementTest : GXmlTest  {
-	private static Document get_doc () {
-		Document doc = null;
-		try {
-			doc = new Document.for_path ("test.xml");
-		} catch (DomError e) {
-		}
-		return doc;
-	}
-
 	public static void add_element_tests () {
 		Test.add_func ("/gxml/element/attributes", () => {
 				HashTable<string,Attr> attributes;

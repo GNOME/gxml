@@ -13,5 +13,4 @@ bld.program(
     use = 'gxml',
     source = ['AttrTest.vala', 'DocumentTest.vala', 'ElementTest.vala', 'GXmlTest.vala', 'NodeListTest.vala', 'XNodeTest.vala'],
     vapi_dirs = '../gxml'
-
     )

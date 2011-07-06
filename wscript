@@ -27,3 +27,4 @@ def configure(conf):
 
 def build(bld):
     bld.recurse('gxml test')
+    bld(rule="cp ${SRC} ${TGT}", source="test/test.xml", target="build/test/");
