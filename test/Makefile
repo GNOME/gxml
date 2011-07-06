@@ -9,8 +9,8 @@ debug:
 	valac --disable-warnings ${OPTS} ${PKGS} ${DBG} *.vala
 	gcc -o gxml_test -g ${LOPTS} *.o ../gxml/*.o
 
-all: 
-	valac ${OPTS} ${PKGS} *.vala 
+all:
+	valac ${OPTS} ${PKGS} *.vala
 	gcc -o gxml_test ${LOPTS} *.o ../gxml/*.o
 
 clean:

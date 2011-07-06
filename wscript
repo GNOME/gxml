@@ -23,6 +23,7 @@ def configure(conf):
     conf.check_cfg(package='gee-1.0', uselib_store='GEE', atleast_version='0.6.1', mandatory=1, args='--cflags --libs')
     conf.check_cfg(package='libxml-2.0', uselib_store='XML', atleast_version='2.7.8', mandatory=1, args='--cflags --libs')
     # will probably want mroe packages :D
+    conf.env['VALAFLAGS'] = '--vapi=gxml.vapi --deps gxml.deps' # --use-header --header=gxml.h --includedir=`pwd` '
 
 def build(bld):
     bld.recurse('gxml test')
