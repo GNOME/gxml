@@ -2,7 +2,7 @@
 using GXml.Dom;
 
 class AttrTest : GXmlTest {
-	public static void add_attribute_tests () {
+	public static void add_tests () {
 		Test.add_func ("/gxml/attribute/node_name", () => {
 				Document doc = get_doc ();
 				Attr attr = get_attr ("broomSeries", "Nimbus", doc);

@@ -6,7 +6,7 @@ using GXml.Dom;
 */
 
 class DocumentTest : GXmlTest {
-	public static void add_document_tests () throws DomError {
+	public static void add_tests () throws DomError {
 		Test.add_func ("/gxml/document/construct_for_path", () => {
 				Document doc = get_doc ();
 
@@ -55,7 +55,7 @@ class DocumentTest : GXmlTest {
 					// We should not get this far
 					assert (false);
 					*/
-				} catch (DomError.INVALID_CHARACTER_ERR e) {
+				} catch (DomError.INVALID_CHARACTER e) {
 				}
 			});
 		Test.add_func ("/gxml/document/create_document_fragment", () => {

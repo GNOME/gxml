@@ -10,7 +10,7 @@ using GXml.Dom;
 class XNodeTest : GXmlTest {
 	// TODO: test setters?
 
-	public static void add_dom_node_tests () throws DomError {
+	public static void add_tests () throws DomError {
 		Test.add_func ("/gxml/domnode/node_name_get", () => {
 				// TODO: should XNodes never have a null name?
 				Document doc = get_doc ();

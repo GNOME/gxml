@@ -2,7 +2,7 @@
 using GXml.Dom;
 
 class ElementTest : GXmlTest  {
-	public static void add_element_tests () {
+	public static void add_tests () {
 		Test.add_func ("/gxml/element/attributes", () => {
 				HashTable<string,Attr> attributes;
 
