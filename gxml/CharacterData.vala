@@ -15,22 +15,21 @@ namespace GXml.Dom {
 			this (char_node, doc);
 		}
 
-		public string substringData(ulong offset, 
-					    ulong count) { // throws DomError 
+		public string substring_data (ulong offset, ulong count) { // throws DomError
 			// STUB
 			return "";
 		}
 
-		public void appendData(string arg) /* throws DomError */ {
+		public void append_data (string arg) /* throws DomError */ {
 			// STUB
 		}
-		public void insertData(ulong offset, string arg) /* throws DomError */ {
+		public void insert_data (ulong offset, string arg) /* throws DomError */ {
 			// STUB
 		}
-		public void deleteData(ulong offset, ulong count) /* throws DomError */ {
+		public void delete_data (ulong offset, ulong count) /* throws DomError */ {
 			// STUB
 		}
-		public void replaceData(ulong offset, ulong count, string arg) /* throws DomError */ {
+		public void replace_data (ulong offset, ulong count, string arg) /* throws DomError */ {
 			// STUB
 		}
 	}
