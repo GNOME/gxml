@@ -2,42 +2,56 @@
 
 namespace GXml.Dom {
 	public class DocumentType : XNode {
-		private Xml.Dtd *dtd;
+		private Xml.Dtd *int_subset;
+		private Xml.Dtd *ext_subset;
 
 		/** Constructor */
-		internal DocumentType (Xml.Dtd *dtd, Document doc) {
+		internal DocumentType (Xml.Dtd *int_subset, Xml.Dtd *ext_subset, Document doc) {
 			// TODO: for name, we want a real name of the doc type
 			base (NodeType.DOCUMENT_TYPE, doc);
 
-			this.dtd = dtd;
+			this.int_subset = int_subset;
+			this.ext_subset = ext_subset;
 		}
 
 
 		/** Public properties */
 
 		/* That which follows DOCTYPE, e.g. xml */
-		string name {
+		public string name {
 			get {
-				return this.dtd->name;
+				// TODO: is it possible for int_subset and ext_subset to have different names?
+				return this.int_subset->name;
 			}
-			private set;
+			private set {
+			}
 		}
 
 		/* using GHashTable for XML's NamedNodeMap */
-		public HashTable<string,Entity> entities {
+		public HashTable<string,Entity>? entities {
 			get {
+				// TODO: need to create a HashTable<string,Entity> uniting these two
+				//       discard duplicates
 				// TODO: what type of hashtable is Xml.Dtd*'s entities?
-				return this.dtd->entities;
+				//return this.int_subset->entities;
+				// TODO: nuisance: libxml2 doesn't have entities wrapped
+				return null;
 			}
-			private set;
+			private set {
+			}
 		}
 
-		public HashTable<string,Notation> notations {
+		public HashTable<string,Notation>? notations {
 			get {
+				// TODO: need to create a HashTable<string,Notation> uniting the two
+				//       discard duplicates
 				// TODO: what type of hashtable is Xml.Dtd*'s notations?
-				return this.dtd->notations;
+				//return this.int_subset->notations;
+				// TODO: nuisance: libxml2 doesn't have notations wrapped
+				return null;
 			}
-			private set;
+			private set {
+			}
 		}
 
 	}
