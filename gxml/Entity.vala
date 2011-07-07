@@ -42,7 +42,8 @@ namespace GXml.Dom {
 
 		public override string node_name {
 			get {
-				return this.entity->name;
+				// return this.entity->name; // TODO: breaking for some reason?
+				return "";
 			}
 			internal set {
 			}
