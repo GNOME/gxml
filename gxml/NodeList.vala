@@ -58,6 +58,10 @@ namespace GXml.Dom {
 
 		internal override Xml.Node *parent_as_xmlnode {
 			get {
+				/* TODO: check whether this is also
+				 * disgusting, like with
+				 * AttrChildNodeList, or necessary
+				 */
 				return parent;
 			}
 		}
@@ -88,6 +92,36 @@ namespace GXml.Dom {
 		}
 
 		internal AttrChildNodeList (Xml.Attr* parent, Document owner) {
+			this.parent = parent;
+			this.owner = owner;
+		}
+	}
+	internal class EntityChildNodeList : ChildNodeList {
+		Xml.Entity *parent;
+
+		internal override Xml.Node *head {
+			get {
+				return parent->children;
+			}
+			set {
+				parent->children = value;
+			}
+		}
+
+		internal override Xml.Node *parent_as_xmlnode {
+			get {
+				/* This is disgusting, but we do this for the case where
+				   xmlAttr*'s immediate children list the xmlAttr as their
+				   parent, but claim that xmlAttr is an xmlNode* (since
+				   the parent field is of type xmlNode*).  We need to get
+				   an Xml.Node*ish parent for when we append new children
+				   here, whether we're the list of children of an Attr
+				   or not. */
+				return (Xml.Node*)parent;
+			}
+		}
+
+		internal EntityChildNodeList (Xml.Entity* parent, Document owner) {
 			this.parent = parent;
 			this.owner = owner;
 		}
