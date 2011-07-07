@@ -13,5 +13,16 @@ namespace GXml.Dom {
 			private set {
 			}
 		}
+
+		public Text split_text (ulong offset) /* throws DomError */ {
+			/* all text up to offset (but excluding?) kept here
+			   rest in new node (returned)
+			   become siblings under original parent
+			   libxml2 handles this? doesn't look like it
+			*/
+
+			// STUB
+			return this;
+		}
 	}
 }
