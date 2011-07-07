@@ -145,10 +145,11 @@ namespace GXml.Dom {
 
 			// TODO: consider passing root as a base node?
 			base.for_document ();
+
 			this.owner_document = this; // this doesn't exist until after base()
 			this.xmldoc = doc;
-			// TODO: figure out whether we want it o use doc->intSubset or extSubset
-			this.doctype = new DocumentType (doc->intSubset);
+			this.doctype = null; // new DocumentType (doc->int_subset, doc->ext_subset, this);
+			// TODO: file bug with vala bindings for libxml2, vala bindings use int_subset, but that doesn't map to actual intSubset correctly :(
 			this.implementation = new Implementation ();
 		}
 		public Document.for_path (string file_path) throws DomError {
@@ -318,7 +319,8 @@ namespace GXml.Dom {
 		}
 
 		private void check_html (string feature) throws DomError {
-			if (false) { // TODO: check DTD if HTML, then err
+			if (this.doctype != null && this.doctype.name == "html") {
+				// TODO: ^ check name == html by icase
 				throw new DomError.NOT_SUPPORTED ("HTML documents do not support '%s'".printf (feature)); // i18n
 			}
 		}
