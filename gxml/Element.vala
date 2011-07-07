@@ -148,6 +148,9 @@ namespace GXml.Dom {
 		/* This merges all Text nodes that are adjacent to one
 		 * another for the descendents of this Element */
 		public void normalize () {
+			// TODO: do not normalise CDATASection which inherits from Text
+			//       don't think that will be a problem, given that it will have a different .node_tyep
+
 			// STUB
 
 			foreach (XNode child in this.child_nodes) {
