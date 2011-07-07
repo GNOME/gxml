@@ -37,6 +37,10 @@ namespace GXml.Dom {
 				return this.node->content;
 			}
 			internal set {
+				/* NOTE: this is mainly for Text and CharacterData, many other
+				         Nodes really want to edit children, but hopefully they
+				         override node_value anyway. */
+				this.node->content = value;
 			}
 		}
 		//  {
