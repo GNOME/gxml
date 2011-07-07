@@ -22,6 +22,8 @@ namespace GXml.Dom {
 
 		/** Public properties */
 		/* None of the following should store any data locally (except the attribute table), they should get data from Xml.Node* */
+
+		// TODO: make sure that subclasses obey the table in Node for node_name, node_value, and attributes; probably figure it out as I create tests for them.
 		public override string node_name {
 			get {
 				return this.node->name;
@@ -121,6 +123,10 @@ namespace GXml.Dom {
 			internal set {
 			}
 		}
+
+		// TODO: investigate which classes can have children;
+		//       e.g. Text shouldn't, and these should error if we try;
+		//       how does libxml2 handle it?  test that
 
 		public override XNode? insert_before (XNode new_child, XNode ref_child) /*throws DomError*/ {
 			return this.child_nodes.insert_before (new_child, ref_child);
