@@ -3,7 +3,7 @@
 namespace GXml.Dom {
 	/* TODO: do we really want a cdata section node, or just use strings? */
 	/* TODO: check about casing in #vala */
-	public class CDATASection : BackedNode {
+	public class CDATASection : Text {
 		internal CDATASection (Xml.Node *cdata_node, Document doc) {
 			base (cdata_node, doc);
 		}

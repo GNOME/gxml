@@ -2,7 +2,7 @@
 
 namespace GXml.Dom {
 	/* TODO: do we really want a comment node, or just use strings? */
-	public class Comment : BackedNode {
+	public class Comment : CharacterData {
 		// TODO: Can I make this only accessible from within the GXml.Dom namespace (e.g. from GXml.Dom.Document?)
 		internal Comment (Xml.Node *comment_node, Document doc) {
 			base (comment_node, doc);
