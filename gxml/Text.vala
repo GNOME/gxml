@@ -14,15 +14,22 @@ namespace GXml.Dom {
 			}
 		}
 
-		public Text split_text (ulong offset) /* throws DomError */ {
-			/* all text up to offset (but excluding?) kept here
-			   rest in new node (returned)
-			   become siblings under original parent
-			   libxml2 handles this? doesn't look like it
-			*/
+		public Text split_text (ulong offset) throws DomError {
+			/* libxml2 doesn't handle this directly, in part because it doesn't
+			   allow Text siblings.  Boo! */
+			if (offset < 0 || offset > this.length) {
+				throw new DomError.INDEX_SIZE ("Offset '%u' is invalid for string of length '%u'", offset, this.length); // i18n
+			}
 
-			// STUB
-			return this;
+			Text other = this.owner_document.create_text_node (this.data.substring ((long)offset));
+			this.data = this.data.substring (0, (long)offset);
+
+			/* TODO: Ugh, can't actually let them be siblings in the tree, as
+			         the spec requests, because libxml2 automatically merges Text
+				 sibligns. */
+			/* this.node->add_next_sibling (other.node); */
+
+			return other;
 		}
 	}
 }
