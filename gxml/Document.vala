@@ -111,6 +111,7 @@ namespace GXml.Dom {
 
 		// TODO: DTD
 		public DocumentType doctype {
+			// either null, or a DocumentType object
 			// STUB
 			get;
 			private set;
@@ -146,7 +147,8 @@ namespace GXml.Dom {
 			base.for_document ();
 			this.owner_document = this; // this doesn't exist until after base()
 			this.xmldoc = doc;
-			this.doctype = null; // TODO: change
+			// TODO: figure out whether we want it o use doc->intSubset or extSubset
+			this.doctype = new DocumentType (doc->intSubset);
 			this.implementation = new Implementation ();
 		}
 		public Document.for_path (string file_path) throws DomError {

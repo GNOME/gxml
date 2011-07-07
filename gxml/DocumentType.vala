@@ -2,29 +2,41 @@
 
 namespace GXml.Dom {
 	public class DocumentType : XNode {
+		private Xml.Dtd *dtd;
+
 		/** Constructor */
-		internal DocumentType (Document doc) {
+		internal DocumentType (Xml.Dtd *dtd, Document doc) {
 			// TODO: for name, we want a real name of the doc type
 			base (NodeType.DOCUMENT_TYPE, doc);
+
+			this.dtd = dtd;
 		}
 
 
 		/** Public properties */
-		/* these 3 are read only */
+
+		/* That which follows DOCTYPE, e.g. xml */
 		string name {
-			get;
+			get {
+				return this.dtd->name;
+			}
 			private set;
 		}
 
 		/* using GHashTable for XML's NamedNodeMap */
 		public HashTable<string,Entity> entities {
-			get; /* const? */
+			get {
+				// TODO: what type of hashtable is Xml.Dtd*'s entities?
+				return this.dtd->entities;
+			}
 			private set;
 		}
 
-		// private HashTable<string,Notation> _notations;
 		public HashTable<string,Notation> notations {
-			get; /* const? */
+			get {
+				// TODO: what type of hashtable is Xml.Dtd*'s notations?
+				return this.dtd->notations;
+			}
 			private set;
 		}
 
