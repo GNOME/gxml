@@ -25,21 +25,24 @@ namespace GXml.Dom {
 		}
 
 		public string substring_data (ulong offset, ulong count) { // throws DomError
-			// STUB
-			return "";
+			// TODO: handle out of bounds
+			return this.data.substring ((long)offset, (long)count);
 		}
 
 		public void append_data (string arg) /* throws DomError */ {
-			// STUB
+			this.data = this.data.concat (arg);
 		}
 		public void insert_data (ulong offset, string arg) /* throws DomError */ {
-			// STUB
+			// TODO: complain about boundaries
+			this.data = this.data.substring (0, (long)offset).concat (arg, this.data.substring ((long)offset));
+
 		}
 		public void delete_data (ulong offset, ulong count) /* throws DomError */ {
-			// STUB
+			this.data = this.data.substring (0, (long)offset).concat (this.data.substring ((long)(offset + count)));
 		}
 		public void replace_data (ulong offset, ulong count, string arg) /* throws DomError */ {
-			// STUB
+			// TODO: bounds
+			this.data = this.data.substring (0, (long)offset).concat (arg, this.data.substring ((long)(offset + count)));
 		}
 	}
 }
