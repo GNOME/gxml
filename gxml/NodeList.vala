@@ -7,8 +7,12 @@ namespace GXml.Dom {
 		public abstract ulong length {
 			get; private set;
 		}
+		// children should define constructors like:
 		// internal NodeList (Xml.Node* head, Document owner);
+
+		/** NodeList methods */
 		public abstract XNode item (ulong idx);
+		// public ulong length;   // children should implement // TODO: figure out how to require this as a property; maybe have to make it into a method
 
 		/** GNOME List conventions
 		 ** Probably don't want to keep all of them since they're not all relevant.
