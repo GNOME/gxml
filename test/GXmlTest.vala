@@ -9,6 +9,7 @@ class GXmlTest {
 		ElementTest.add_tests ();
 		AttrTest.add_tests ();
 		NodeListTest.add_tests ();
+		TextTest.add_tests ();
 		Test.run ();
 
 		return 1;
@@ -40,5 +41,14 @@ class GXmlTest {
 	internal static Element get_elem (string name, Document doc) {
 		Element elem = doc.create_element (name);
 		return elem;
+	}
+
+	internal static Text get_text_new_doc (string data) {
+		return get_text (data, get_doc ());
+	}
+
+	internal static Text get_text (string data, Document doc) {
+		Text txt = doc.create_text_node (data);
+		return txt;
 	}
 }
