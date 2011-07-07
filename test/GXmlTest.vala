@@ -10,6 +10,7 @@ class GXmlTest {
 		AttrTest.add_tests ();
 		NodeListTest.add_tests ();
 		TextTest.add_tests ();
+		CharacterDataTest.add_tests ();
 		Test.run ();
 
 		return 1;
