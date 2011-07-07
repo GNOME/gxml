@@ -1,8 +1,16 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
 namespace GXml.Dom {
-	public class CharacterData : XNode {
-		public string data;
+	public class CharacterData : BackedNode {
+		public string data {
+			get {
+				return this.node_value;
+			}
+			internal set {
+				// TODO: should this not be private?
+				this.node_value = value;
+			}
+		}
 		public ulong length {
 			get {
 				return data.length;
@@ -12,7 +20,8 @@ namespace GXml.Dom {
 		}
 		
 		internal CharacterData (Xml.Node *char_node, Document doc) {
-			this (char_node, doc);
+			base (char_node, doc);
+			// TODO: if this was this (), it would recurse infinitely, maybe valac could detect that
 		}
 
 		public string substring_data (ulong offset, ulong count) { // throws DomError
