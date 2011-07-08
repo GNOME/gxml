@@ -1,10 +1,10 @@
 --- libxml-2.0.vapi.2	2011-06-20 18:10:37.508177095 -0400
-+++ libxml-2.0.vapi	2011-06-20 18:33:14.215215925 -0400
++++ libxml-2.0.vapi	2011-07-08 14:05:58.790186463 -0400
 @@ -435,6 +435,9 @@
  		[CCode (cname = "xmlNodeListGetString")]
  		public string node_list_get_string (Node* list, bool in_line);
  
-+		[CCode (cname = "xmlSaveToIO")] /* returns xmlSaveCtxtPtr  */
++		[CCode (cname = "xmlSaveToIO", instance_pos = -1)] /* returns xmlSaveCtxtPtr  */
 +		public void save_to_io (OutputWriteCallback iowrite, OutputCloseCallback ioclose, void * ioctx, string? encoding, int options = 0);
 +
  		[CCode (cname = "xmlSaveFile", instance_pos = -1)]
