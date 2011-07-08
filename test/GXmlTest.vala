@@ -16,7 +16,7 @@ class GXmlTest {
 		return 1;
 	}
 
-	internal static Document get_doc () {
+	internal static Document get_doc () throws DomError {
 		Document doc = null;
 		try {
 			doc = new Document.for_path ("test.xml");
@@ -25,26 +25,26 @@ class GXmlTest {
 		return doc;
 	}
 
-	internal static Attr get_attr_new_doc (string name, string value) {
-		return get_attr (name, value, get_doc ());
-	}
+	// internal static Attr get_attr_new_doc (string name, string value) throws DomError {
+	// 	return get_attr (name, value, get_doc ());
+	// }
 
-	internal static Attr get_attr (string name, string value, Document doc) {
+	internal static Attr get_attr (string name, string value, Document doc) throws DomError {
 		Attr attr = doc.create_attribute (name);
 		attr.value = value;
 		return attr;
 	}
 
-	internal static Element get_elem_new_doc (string name) {
+	internal static Element get_elem_new_doc (string name) throws DomError {
 		return get_elem (name, get_doc ());
 	}
 
-	internal static Element get_elem (string name, Document doc) {
+	internal static Element get_elem (string name, Document doc) throws DomError {
 		Element elem = doc.create_element (name);
 		return elem;
 	}
 
-	internal static Text get_text_new_doc (string data) {
+	internal static Text get_text_new_doc (string data) throws DomError {
 		return get_text (data, get_doc ());
 	}
 
