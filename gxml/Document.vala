@@ -254,10 +254,14 @@ namespace GXml.Dom {
 			Cancellable can = new Cancellable ();
 			OutputStreamBox box = { outstream, can };
 
+			// TODO: need to be able to get xmlSaveCtxtPtr from libxml2 :S
+			/* 
 			this.xmldoc->save_to_io ((Xml.OutputWriteCallback)_iowrite,
 						 (Xml.OutputCloseCallback)_iooutclose,
 						 &box, null, 0);
-			// TODO: need to be able to get xmlSaveCtxtPtr from libxml2 :S
+			*/
+
+			GLib.message ("stub");
 		}
 
 
