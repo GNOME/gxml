@@ -26,6 +26,17 @@ def configure(conf):
     # conf.env['VALAFLAGS'] = '-g --vapi=gxml.vapi --deps gxml.deps' # --use-header --header=gxml.h --includedir=`pwd` '
     conf.env.CFLAGS = ['-g']
 
+    conf.check_tool ('gcc vala') # do we need to do this?  only saw it in the valadoc example
+    conf.check_tool ('valadoc')
+
 def build(bld):
     bld.recurse('gxml test')
     bld(rule="cp ${SRC} ${TGT}", source="test/test.xml", target="build/test/")
+    ## want to call valadoc, but TypeError encountered by WAF, sigh
+    # bld(features='valadoc',
+    #     output_dir = './doc',
+    #     package_name = APPNAME,
+    #     package_version = VERSION,
+    #     protected = True, # ?
+    #     force = True, # ?
+    #     files = bld.path.ant_glob (incl='**/*.vala', flat=False))
