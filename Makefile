@@ -14,3 +14,4 @@ clean:
 	cd gxml/ && make clean
 	cd test/ && make clean
 	rm -rf build
+	rm *~

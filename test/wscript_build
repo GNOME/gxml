@@ -13,5 +13,6 @@ bld.program(
     use = 'gxml',
     source = ['AttrTest.vala', 'CharacterDataTest.vala', 'DocumentTest.vala', 'ElementTest.vala', 'GXmlTest.vala', 'NodeListTest.vala', 'TextTest.vala', 'XNodeTest.vala'],
     vapi_dirs = '../gxml',
-    valaflags = ['-g']  # TODO: how do we communicate this?  Argh!
+    vala_defines = ['DEBUG']
+    # valaflags = ['-g']  # TODO: how do we communicate this?  Argh!
     )

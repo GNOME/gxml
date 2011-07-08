@@ -1,0 +1,21 @@
+--- libxml-2.0.vapi.2	2011-06-20 18:10:37.508177095 -0400
++++ libxml-2.0.vapi	2011-06-20 18:33:14.215215925 -0400
+@@ -435,6 +435,9 @@
+ 		[CCode (cname = "xmlNodeListGetString")]
+ 		public string node_list_get_string (Node* list, bool in_line);
+ 
++		[CCode (cname = "xmlSaveToIO")] /* returns xmlSaveCtxtPtr  */
++		public void save_to_io (OutputWriteCallback iowrite, OutputCloseCallback ioclose, void * ioctx, string? encoding, int options = 0);
++
+ 		[CCode (cname = "xmlSaveFile", instance_pos = -1)]
+ 		public int save_file (string filename);
+ 
+@@ -887,7 +890,7 @@
+ 	public delegate void* OutputOpenCallback (string filename);
+ 
+ 	[CCode (has_target = false, cname = "xmlOutputWriteCallback", cheader_filename = "libxml/xmlIO.h")]
+-	public delegate int OutputWriteCallback ([CCode (array_length = false)] char[] buffer, int len);
++	public delegate int OutputWriteCallback (void* context, [CCode (array_length = false)] char[] buffer, int len);
+ 
+ 	[CCode (has_target = false, cname = "xmlOutputCloseCallback", cheader_filename = "libxml/xmlIO.h")]
+ 	public delegate int OutputCloseCallback (void * context);
