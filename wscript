@@ -27,7 +27,7 @@ def configure(conf):
     conf.env.CFLAGS = ['-g']
 
     conf.check_tool ('gcc vala') # do we need to do this?  only saw it in the valadoc example
-    conf.check_tool ('valadoc')
+    #conf.check_tool ('valadoc')
 
 def build(bld):
     bld.recurse('gxml test')
