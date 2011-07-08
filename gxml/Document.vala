@@ -246,14 +246,18 @@ namespace GXml.Dom {
 			this (doc);
 		}
 
+		public void save_to_path (string path) {
+			this.xmldoc->save_file (path);
+		}
 
-		public void save (OutputStream outstream) throws DomError {
+		public void save_to_stream (OutputStream outstream) throws DomError {
 			Cancellable can = new Cancellable ();
 			OutputStreamBox box = { outstream, can };
 
 			this.xmldoc->save_to_io ((Xml.OutputWriteCallback)_iowrite,
 						 (Xml.OutputCloseCallback)_iooutclose,
-						 &box, "", 0);
+						 &box, null, 0);
+			// TODO: need to be able to get xmlSaveCtxtPtr from libxml2 :S
 		}
 
 
