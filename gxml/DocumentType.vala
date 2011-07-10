@@ -27,15 +27,22 @@ namespace GXml.Dom {
 			}
 		}
 
+		public static void myScannerFull (void *payload, void *userdata, string name1, string name2, string name3) {
+			GLib.message ("scanner found [%s,%s,%s]", name1, name2, name3);
+		}
+
 		/* using GHashTable for XML's NamedNodeMap */
 		public HashTable<string,Entity>? entities {
 			get {
 				// TODO: need to create a HashTable<string,Entity> uniting these two
 				//       discard duplicates
 				// TODO: what type of hashtable is Xml.Dtd*'s entities?
-				//return this.int_subset->entities;
-				// TODO: nuisance: libxml2 doesn't have entities wrapped
+				Xml.HashTable *table = this.int_subset->entities;
+
+				GLib.message ("About to scan for entities");
+				table->scan_full ((Xml.ScannerFull)myScannerFull, null);
 				return null;
+				// TODO: nuisance: libxml2 doesn't have entities wrapped
 			}
 			private set {
 			}
@@ -46,9 +53,9 @@ namespace GXml.Dom {
 				// TODO: need to create a HashTable<string,Notation> uniting the two
 				//       discard duplicates
 				// TODO: what type of hashtable is Xml.Dtd*'s notations?
-				//return this.int_subset->notations;
-				// TODO: nuisance: libxml2 doesn't have notations wrapped
+				Xml.HashTable *table =  this.int_subset->notations;
 				return null;
+				// TODO: nuisance: libxml2 doesn't have notations wrapped
 			}
 			private set {
 			}
