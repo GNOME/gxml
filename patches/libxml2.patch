@@ -1,21 +1,76 @@
---- libxml-2.0.vapi.2	2011-06-20 18:10:37.508177095 -0400
-+++ libxml-2.0.vapi	2011-07-08 14:05:58.790186463 -0400
-@@ -435,6 +435,9 @@
- 		[CCode (cname = "xmlNodeListGetString")]
- 		public string node_list_get_string (Node* list, bool in_line);
- 
-+		[CCode (cname = "xmlSaveToIO", instance_pos = -1)] /* returns xmlSaveCtxtPtr  */
-+		public void save_to_io (OutputWriteCallback iowrite, OutputCloseCallback ioclose, void * ioctx, string? encoding, int options = 0);
+--- libxml-2.0.vapi.old	2011-06-20 18:10:37.508177095 -0400
++++ libxml-2.0.vapi	2011-07-09 21:04:42.539762860 -0400
+@@ -321,6 +321,18 @@
+ 		NOTATION
+ 	}
+
++	// TODO: what does has_target portend to?
++	[CCode (has_target = false, cname = "xmlHashScannerFull", cheader_filename = "libxml/hash.h")]
++	public delegate void ScannerFull (void *payload, void *user_data, string name, string name2, string name3);
 +
- 		[CCode (cname = "xmlSaveFile", instance_pos = -1)]
- 		public int save_file (string filename);
- 
-@@ -887,7 +890,7 @@
++	// xmlHashFree takes a deallocator, how to specify?
++	[Compact] // TODO: what does Compact do?
++	[CCode (cname = "xmlHashTable", free_function = "xmlHashFree", cheader_filename="libxml/hash.h")]
++	public class HashTable {
++		[CCode (cname = "xmlHashScanFull")]
++		public void scan_full (ScannerFull f, void *user_data); // TODO: do we want to get rid of user data?
++	}
++
+ 	[Compact]
+ 	[CCode (cname = "xmlDoc", free_function = "xmlFreeDoc", cheader_filename = "libxml/tree.h,libxml/parser.h")]
+ 	public class Doc {
+@@ -334,7 +346,9 @@
+ 		public Doc* doc;
+ 		public int compression;
+ 		public int standalone;
++		[CCode (cname = "intSubset")]
+ 		public Dtd* int_subset;
++		[CCode (cname = "extSubset")]
+ 		public Dtd* ext_subset;
+ 		public Ns* old_ns;
+ 		public weak string version;
+@@ -469,6 +483,11 @@
+ 		public Node* prev;
+ 		public Doc* doc;
+
++		public HashTable notations;
++		public HashTable elements;
++		public HashTable attributes;
++		public HashTable entities;
++
+ 		public weak string external_id;
+ 		public weak string system_id;
+
+@@ -790,6 +809,23 @@
+ 	}
+
+ 	[Compact]
++	[CCode (cname = "xmlSaveCtxt", free_function = "xmlSaveClose", cheader_filename = "libxml/xmlsave.h")]
++	public class SaveCtxt {
++		[CCode (cname = "xmlSaveToIO")] // , instance_pos = -1)]
++		public SaveCtxt.to_io (OutputWriteCallback iowrite, OutputCloseCallback ioclose, void * ioctx, string? encoding, int options = 0);
++
++		// [CCode (cname = "xmlSaveClose")]
++		// public int close ();
++		[CCode (cname = "xmlSaveFlush")]
++		public int flush ();
++		[CCode (cname = "xmlSaveDoc")]
++		public int save_doc (Xml.Doc *doc);
++		[CCode (cname = "xmlSaveTree")]
++		public int save_tree (Xml.Node *node);
++
++	}
++
++	[Compact]
+ 	[CCode (cname = "xmlParserCtxt")]
+ 	public class ParserCtxt {
+ 		public SAXHandler* sax;
+@@ -887,7 +923,7 @@
  	public delegate void* OutputOpenCallback (string filename);
- 
+
  	[CCode (has_target = false, cname = "xmlOutputWriteCallback", cheader_filename = "libxml/xmlIO.h")]
 -	public delegate int OutputWriteCallback ([CCode (array_length = false)] char[] buffer, int len);
 +	public delegate int OutputWriteCallback (void* context, [CCode (array_length = false)] char[] buffer, int len);
- 
+
  	[CCode (has_target = false, cname = "xmlOutputCloseCallback", cheader_filename = "libxml/xmlIO.h")]
  	public delegate int OutputCloseCallback (void * context);
