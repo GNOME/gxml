@@ -110,7 +110,7 @@ namespace GXml.Dom {
 		}
 
 		// TODO: DTD
-		public DocumentType doctype {
+		public DocumentType? doctype {
 			// either null, or a DocumentType object
 			// STUB
 			get;
@@ -148,8 +148,12 @@ namespace GXml.Dom {
 
 			this.owner_document = this; // this doesn't exist until after base()
 			this.xmldoc = doc;
-			this.doctype = null; // new DocumentType (doc->int_subset, doc->ext_subset, this);
-			// TODO: file bug with vala bindings for libxml2, vala bindings use int_subset, but that doesn't map to actual intSubset correctly :(
+			if (doc->int_subset == null && doc->ext_subset == null) {
+				this.doctype = null;
+			} else {
+				// TODO: make sure libxml2 binding patch for this makes it through
+				this.doctype = new DocumentType (doc->int_subset, doc->ext_subset, this);
+			}
 			this.implementation = new Implementation ();
 		}
 		public Document.for_path (string file_path) throws DomError {
@@ -228,7 +232,13 @@ namespace GXml.Dom {
 			return success;
 		}
 
+		public Document.for_file (File fin) throws DomError {
+			// TODO: accept cancellable
+			InputStream instream = fin.read (null);
+			this.for_stream (instream);
+		}
 		public Document.for_stream (InputStream instream) throws DomError {
+			// TODO: accept Cancellable
 			Cancellable can = new Cancellable ();
 			InputStreamBox box = { instream, can };
 
@@ -250,16 +260,18 @@ namespace GXml.Dom {
 			this.xmldoc->save_file (path);
 		}
 
+		// TODO: consider adding a save_to_file, but then we need to figure out which files to accept
 		public void save_to_stream (OutputStream outstream) throws DomError {
 			Cancellable can = new Cancellable ();
 			OutputStreamBox box = { outstream, can };
 
-			// TODO: need to be able to get xmlSaveCtxtPtr from libxml2 :S
-			/* 
-			this.xmldoc->save_to_io ((Xml.OutputWriteCallback)_iowrite,
-						 (Xml.OutputCloseCallback)_iooutclose,
-						 &box, null, 0);
-			*/
+			// TODO: make sure libxml2's vapi gets patched
+			Xml.SaveCtxt *ctxt = new Xml.SaveCtxt.to_io ((Xml.OutputWriteCallback)_iowrite,
+								     (Xml.OutputCloseCallback)_iooutclose,
+								     &box, null, 0);
+			ctxt->save_doc (this.xmldoc);
+			ctxt->flush ();
+			// assert (false);
 
 			GLib.message ("stub");
 		}
