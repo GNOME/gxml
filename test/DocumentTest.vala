@@ -8,6 +8,23 @@ using GXml.Dom;
 
 class DocumentTest : GXmlTest {
 	public static void add_tests () {
+		Test.add_func ("/gxml/document/doctype", () => {
+				Document doc = new Document.for_path ("/tmp/dtdtest2.xml");
+				// Document doc = get_doc ();
+				DocumentType type = doc.doctype;
+				HashTable<string,Entity> entities = type.entities;
+				assert (false);
+				// TODO: need to find an example file with a DTD that actually sets entities, annotations
+
+				// TODO: fill in
+			});
+		Test.add_func ("/gxml/document/implementation", () => {
+				// TODO: fill in
+			});
+		Test.add_func ("/gxml/document/document_element", () => {
+				// TODO: fill in
+			});
+
 		Test.add_func ("/gxml/document/construct_for_path", () => {
 				try {
 					Document doc = get_doc ();
@@ -62,7 +79,7 @@ class DocumentTest : GXmlTest {
 					InputStream instream = fin.read (null);
 
 					File fout = File.new_for_path ("test_out_stream.xml");
-					// OutputStream outstream = fout.create (FileCreateFlags.REPLACE_DESTINATION, null); // REPLACE_DESTINATION doesn't work like I thought it would? 
+					// OutputStream outstream = fout.create (FileCreateFlags.REPLACE_DESTINATION, null); // REPLACE_DESTINATION doesn't work like I thought it would?
 					OutputStream outstream = fout.replace (null, true, FileCreateFlags.REPLACE_DESTINATION, null);
 
 					Document doc = new Document.for_stream (instream);
