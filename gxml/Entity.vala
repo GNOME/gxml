@@ -1,9 +1,17 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
 namespace GXml.Dom {
+	/**
+	 * The content referenced by an EntityReference, and defined
+	 * in a DocumentType.
+	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-11C98490]]
+	 */
 	public class Entity : XNode {
 		private Xml.Entity *entity;
 
+		/**
+		 * A public identifier for the entity. null when unspecified.
+		 */ // TODO: how are these used?
 		public string public_id {
 			get {
 				//return this.entity->external_id; // TODO: fix libxml2 wrapper
@@ -12,6 +20,9 @@ namespace GXml.Dom {
 			private set {
 			}
 		}
+		/**
+		 * A system identifier for the entity. null when unspecified.
+		 */
 		public string system_id {
 			get {
 				// return this.entity->system_id; // TODO: fix libxml2 wrapper
@@ -20,6 +31,10 @@ namespace GXml.Dom {
 			private set {
 			}
 		}
+		/**
+		 * The notation name for this entity if it is
+		 * unparsed. This is null if the entity is parsed.
+		 */
 		public string notation_name {
 			get {
 				// parsed: return null
@@ -38,7 +53,7 @@ namespace GXml.Dom {
 			this.entity = entity;
 		}
 
-		/** Public properties (Node-specific) */
+		/* Public properties (Node-specific) */
 
 		public override string node_name {
 			get {
@@ -70,8 +85,8 @@ namespace GXml.Dom {
 			}
 		}
 
-		/** Public methods (Node-specific) */
-		public override XNode? insert_before (XNode new_child, XNode ref_child) throws DomError {
+		/* Public methods (Node-specific) */
+		public override XNode? insert_before (XNode new_child, XNode? ref_child) throws DomError {
 			return this.child_nodes.insert_before (new_child, ref_child);
 		}
 		public override XNode? replace_child (XNode new_child, XNode old_child) throws DomError {
