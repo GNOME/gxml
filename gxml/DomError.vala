@@ -8,7 +8,7 @@ namespace GXml.Dom {
 	/**
 	 * Describes various error states. For more, see
 	 * [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-BBACDC08]]
-	 */ 
+	 */
 	public errordomain DomError {
 		/* These error codes are from the IDL: TODO: find out when I should use them */
 		/* TODO: probably want to document them :) */
@@ -22,7 +22,7 @@ namespace GXml.Dom {
 		DOMSTRING_SIZE,
 		/**
 		 * A node asked to be inserted into an invalid location.
-		 */		   
+		 */
 		HIERARCHY_REQUEST,
 		/**
 		 * A node created for one document wanted to be used in another.
@@ -42,17 +42,17 @@ namespace GXml.Dom {
 		NO_MODIFICATION_ALLOWED,
 		/**
 		 * A reference to a non-existent node was made.
-		 */ 
+		 */
 		NOT_FOUND,
 		/**
 		 * A request was made for something that this implementation does not support.
-		 */ 
+		 */
 		NOT_SUPPORTED,
 		/**
 		 * An element tried to make use of an attribute already attached to another element.
 		 */
 		INUSE_ATTRIBUTE,
-		
+
 		/* These error codes are mine,
 		   and should perhaps come from a separate domain */
 		/**
