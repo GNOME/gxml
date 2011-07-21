@@ -42,7 +42,7 @@ namespace GXml.Dom {
 
 		/* using GHashTable for XML's NamedNodeMap */
 		/**
-		 * A HashTable of entities defined for this DocumentType. 
+		 * A HashTable of entities defined for this DocumentType.
 		 */
 		// TODO: provide examples
 		public HashTable<string,Entity>? entities {

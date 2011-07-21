@@ -95,7 +95,7 @@ namespace GXml.Dom {
 		/* Public properties (Attr-specific) */
 
 		/**
-		 * The name of the attribute's name=value pair. 
+		 * The name of the attribute's name=value pair.
 		 */
 		public string name {
 			get {

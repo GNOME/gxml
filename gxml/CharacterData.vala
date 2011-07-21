@@ -29,7 +29,7 @@ namespace GXml.Dom {
 			private set {
 			}
 		}
-		
+
 		internal CharacterData (Xml.Node *char_node, Document doc) {
 			base (char_node, doc);
 			// TODO: if this was this (), it would recurse infinitely, maybe valac could detect that

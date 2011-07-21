@@ -37,7 +37,7 @@ namespace GXml.Dom {
 	}
 
 	/**
-	 * Represents an XML Document as a tree of nodes. The Document has a document element, which is the root of the tree. A Document can have its type defined by a DocumentType. 
+	 * Represents an XML Document as a tree of nodes. The Document has a document element, which is the root of the tree. A Document can have its type defined by a DocumentType.
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#i-Document]]
 	 */
 	public class Document : XNode {
@@ -139,7 +139,7 @@ namespace GXml.Dom {
 
 		// TODO: DTD
 		/**
-		 * The Document Type Definition (DTD) defining this document. This may be null. 
+		 * The Document Type Definition (DTD) defining this document. This may be null.
 		 */
 		public DocumentType? doctype {
 			// either null, or a DocumentType object
@@ -197,7 +197,7 @@ namespace GXml.Dom {
 		 * Creates a Document from the file at file_path.
 		 *
 		 * @throws DomError When a Document cannot be constructed for the specified file.
-		 */ 
+		 */
 		public Document.for_path (string file_path) throws DomError {
 			Xml.Doc *doc = Xml.Parser.parse_file (file_path); // consider using read_file
 			// TODO: might want to check that the file_path exists
@@ -257,7 +257,7 @@ namespace GXml.Dom {
 
 			return bytes_read;
 		}
-		// TODO: can we make this private? 
+		// TODO: can we make this private?
 		internal static int _ioinclose (void *ctx) {
 			InputStreamBox *box = (InputStreamBox*)ctx;
 			InputStream instream = box->str;
@@ -280,7 +280,7 @@ namespace GXml.Dom {
 		 * Creates a Document from the File fin.
 		 *
 		 * @throws DomError When a Document cannot be constructed for the specified file.
-		 */ 
+		 */
 		public Document.for_file (File fin) throws DomError {
 			// TODO: accept cancellable
 			InputStream instream;
@@ -296,7 +296,7 @@ namespace GXml.Dom {
 		 * Creates a Document from data provided through the InputStream instream.
 		 *
 		 * @throws DomError When a Document cannot be constructed for the specified stream.
-		 */ 
+		 */
 		public Document.for_stream (InputStream instream) throws DomError {
 			// TODO: accept Cancellable
 			Cancellable can = new Cancellable ();
@@ -315,7 +315,7 @@ namespace GXml.Dom {
 		 * Creates a Document from data found in memory.
 		 *
 		 * @throws DomError When a Document cannot be constructed for the specified data.
-		 */ 
+		 */
 		public Document.from_string (string memory) throws DomError {
 			Xml.Doc *doc = Xml.Parser.parse_memory (memory, (int)memory.length);
 			this (doc);
