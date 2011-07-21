@@ -2,10 +2,24 @@
 
 namespace GXml.Dom {
 	/* TODO: do we really want a text node, or just use strings? */
+
+	/**
+	 * Describes the text found as children of elements throughout
+	 * an XML document, like "He who must not be named" in the
+	 * XML: {{{<name>He who must not be named</name>}}}
+	 * With libxml2 as a backend, it should be noted that two
+	 * adjacent text nodes are always merged into one Text node,
+	 * so some functionality for Text, like split_text, will not
+	 * work completely as expected.
+	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1312295772]]
+	 */
 	public class Text : CharacterData {
 		internal Text (Xml.Node *text_node, Document doc) {
 			base (text_node, doc);
 		}
+		/**
+		 * The name of this node type, "#text"
+		 */
 		public override string node_name {
 			get {
 				return "#text"; // TODO: wish I could return "#" + base.node_name
@@ -14,6 +28,21 @@ namespace GXml.Dom {
 			}
 		}
 
+		/**
+		 * Normally, this would split the text into two
+		 * adjacent sibling Text nodes. Currently, with
+		 * libxml2, adjacent Text nodes are actually
+		 * automatically remerged, so for now, we split the
+		 * text and return the second part as a node outside
+		 * of the document tree.
+		 *
+		 * @param offset The point at which to split the Text,
+		 * in number of characters.
+		 *
+		 * @return The second half of the split Text node. For
+		 * now, it is not attached to the tree as a sibling to
+		 * the first part, as the spec wants.
+		 */
 		public Text split_text (ulong offset) throws DomError {
 			/* libxml2 doesn't handle this directly, in part because it doesn't
 			   allow Text siblings.  Boo! */
