@@ -6,6 +6,7 @@
 
 # the following two variables are used by the target "waf dist"
 VERSION = '0.0.2'
+SHORTVERSION= '0.0'
 APPNAME = 'gxml'
 
 # these variables are mandatory ('/' are converted automatically)
@@ -27,11 +28,14 @@ def configure(conf):
     conf.env.CFLAGS = ['-g']
 
     conf.check_tool ('gcc vala') # do we need to do this?  only saw it in the valadoc example
-    #conf.check_tool ('valadoc')
+    conf.check_tool ('valadoc')
 
 def build(bld):
     bld.recurse('gxml test')
+    bld(source="gxml.pc.in", install_path="${LIBDIR}/pkgconfig/", SHORTVERSION=SHORTVERSION, VERSION=VERSION)
     bld(rule="cp ${SRC} ${TGT}", source="test/test.xml", target="build/test/")
+    bld(rule="rm -rf doc; valadoc --package-name=" + APPNAME + " --package-version=" + VERSION + " --pkg libxml-2.0 --pkg gio-2.0 --pkg gee-1.0 ../gxml/*.vala -o doc");
+
     ## want to call valadoc, but TypeError encountered by WAF, sigh
     # bld(features='valadoc',
     #     output_dir = './doc',
