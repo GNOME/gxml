@@ -4,6 +4,12 @@
 
 
 namespace GXml.Dom {
+	/**
+	 * An internal class for nodes whose content is stored in a
+	 * corresponding Xml.Node. This would normally be hidden, but
+	 * Vala wants base classes to be at least as public as
+	 * subclasses.
+	 */
 	public class BackedNode : XNode {
 		/** Private properties */
 		internal Xml.Node *node;
@@ -20,10 +26,13 @@ namespace GXml.Dom {
 		}
 
 
-		/** Public properties */
+		/* Public properties */
 		/* None of the following should store any data locally (except the attribute table), they should get data from Xml.Node* */
 
 		// TODO: make sure that subclasses obey the table in Node for node_name, node_value, and attributes; probably figure it out as I create tests for them.
+		/**
+		 * {@inheritDoc}
+		 */
 		public override string node_name {
 			get {
 				return this.node->name;
@@ -32,6 +41,9 @@ namespace GXml.Dom {
 			}
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		public override string? node_value {
 			get {
 				return this.node->content;
@@ -53,6 +65,9 @@ namespace GXml.Dom {
 			// 	this.node->children->content = value;
 			// }
 		//}/* "raises [DomError] on setting/retrieval"?  */
+		/**
+		 * {@inheritDoc}
+		 */
 		public override Dom.NodeType node_type {
 			get {
 				/* Right now, Dom.NodeType's 12 values map perfectly to libxml2's first 12 types */
@@ -62,6 +77,9 @@ namespace GXml.Dom {
 			}
 			// default = NodeType.ELEMENT;
 		}
+		/**
+		 * {@inheritDoc}
+		 */
 		public override XNode? parent_node {
 			get {
 				return this.owner_document.lookup_node (this.node->parent);
@@ -76,6 +94,9 @@ namespace GXml.Dom {
 		// TODO: need to let the user know that editing this list doesn't add children to the node (but then what should?)
 		/* NOTE: try to avoid using this too often internally, would be much quicker to
 		   just traverse Xml.Node*'s children */
+		/**
+		 * {@inheritDoc}
+		 */
 		public override NodeList? child_nodes {
 			owned get {
 				// TODO: always create a new one?
@@ -86,6 +107,9 @@ namespace GXml.Dom {
 		}
 
 		private XNode? _first_child;
+		/**
+		 * {@inheritDoc}
+		 */
 		public override XNode? first_child {
 			get {
 				_first_child = this.child_nodes.first ();
@@ -97,6 +121,9 @@ namespace GXml.Dom {
 		}
 
 		private XNode? _last_child;
+		/**
+		 * {@inheritDoc}
+		 */
 		public override XNode? last_child {
 			get {
 				_last_child = this.child_nodes.last ();
@@ -106,6 +133,9 @@ namespace GXml.Dom {
 			internal set {
 			}
 		}
+		/**
+		 * {@inheritDoc}
+		 */
 		public override XNode? previous_sibling {
 			get {
 				return this.owner_document.lookup_node (this.node->prev);
@@ -113,6 +143,9 @@ namespace GXml.Dom {
 			internal set {
 			}
 		}
+		/**
+		 * {@inheritDoc}
+		 */
 		public override XNode? next_sibling {
 			get {
 				return this.owner_document.lookup_node (this.node->next);
@@ -120,6 +153,9 @@ namespace GXml.Dom {
 			internal set {
 			}
 		}
+		/**
+		 * {@inheritDoc}
+		 */
 		public override HashTable<string,Attr>? attributes {
 			get {
 				return null;
@@ -132,22 +168,40 @@ namespace GXml.Dom {
 		//       e.g. Text shouldn't, and these should error if we try;
 		//       how does libxml2 handle it?  test that
 
-		public override XNode? insert_before (XNode new_child, XNode ref_child) /*throws DomError*/ {
+		/**
+		 * {@inheritDoc}
+		 */
+		public override XNode? insert_before (XNode new_child, XNode? ref_child) throws DomError {
 			return this.child_nodes.insert_before (new_child, ref_child);
 		}
-		public override XNode? replace_child (XNode new_child, XNode old_child) /*throws DomError*/ {
+		/**
+		 * {@inheritDoc}
+		 */
+		public override XNode? replace_child (XNode new_child, XNode old_child) throws DomError {
 			return this.child_nodes.replace_child (new_child, old_child);
 		}
+		/**
+		 * {@inheritDoc}
+		 */
 		public override XNode? remove_child (XNode old_child) /*throws DomError*/ {
 			return this.child_nodes.remove_child (old_child);
 		}
+		/**
+		 * {@inheritDoc}
+		 */
 		public override XNode? append_child (XNode new_child) /*throws DomError*/ {
 			return this.child_nodes.append_child (new_child);
 		}
+		/**
+		 * {@inheritDoc}
+		 */
 		public override bool has_child_nodes () {
 			return (this.child_nodes.length > 0);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		public override XNode? clone_nodes (bool deep) {
 			return this; // STUB
 		}
