@@ -3,7 +3,7 @@
 
 # /gxml/
 
-bld.stlib(
+bld.shlib(
     # TODO: want to add --deps gxml.deps --vapi=gxml.vapi
 
     packages = 'gtk+-2.0 gee-1.0 libxml-2.0',
