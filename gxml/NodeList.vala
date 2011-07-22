@@ -398,7 +398,7 @@ namespace GXml.Dom {
 		public string to_string () {
 			_str = "NodeList[";
 			foreach (XNode node in this) {
-				_str += "(" + node.to_string () + ")";
+				//_str += "(" + node.to_string () + ")";
 			}
 			_str += "]";
 

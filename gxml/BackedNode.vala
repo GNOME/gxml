@@ -205,5 +205,16 @@ namespace GXml.Dom {
 		public override XNode? clone_nodes (bool deep) {
 			return this; // STUB
 		}
+
+		public override string to_string (bool format = false, int level = 0) {
+			Xml.Buffer *buffer;
+			string str;
+
+			buffer = new Xml.Buffer ();
+			buffer->node_dump (this.owner_document.xmldoc, this.node, level, format ? 1 : 0);
+			str = buffer->content ();
+
+			return str;
+		}
 	}
 }

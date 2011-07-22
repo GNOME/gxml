@@ -46,7 +46,7 @@ namespace GXml.Dom {
 		// We don't want want to use XNode's Xml.Node or its dict
 		// internal HashTable<Xml.Attr*, Attr> attr_dict = new HashTable<Xml.Attr*, Attr> (null, null);
 
-		private Xml.Doc *xmldoc;
+		internal Xml.Doc *xmldoc;
 
 		/** Private methods */
 		// internal unowned Attr? lookup_attr (Xml.Attr *xmlattr) {
@@ -453,9 +453,20 @@ namespace GXml.Dom {
 			}
 		}
 		private void check_character_validity (string str) throws DomError {
-			if (false == false) { // TODO: define validity
+			if (true == false) { // TODO: define validity
 				throw new DomError.INVALID_CHARACTER ("'%s' contains invalid characters.".printf (str));
 			}
+		}
+		public override string to_string (bool format = false, int level = 0) {
+			Xml.Buffer *buffer;
+			string str;
+			int len;
+
+			buffer = new Xml.Buffer ();
+
+			this.xmldoc->dump_memory_format (out str, out len, format);
+
+			return str;
 		}
 	}
 }

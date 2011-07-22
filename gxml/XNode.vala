@@ -200,9 +200,13 @@ namespace GXml.Dom {
 		/**
 		 * Provides a string representation of this node.
 		 *
-		 * #todo: actually create a good, XML-ish one, will require overrides
+		 * @param format false: no formatting, true: formatted, with indentation
+		 * @param level Indentation level
+		 *
+		 * @return XML string for node.
 		 */
-		public string to_string () {
+		// TODO: need to investigate how to activate format
+		public virtual string to_string (bool format = false, int level = 0) {
 			_str = "XNode(%d:%s)".printf (this.node_type, this.node_name);
 			return _str;
 		}
