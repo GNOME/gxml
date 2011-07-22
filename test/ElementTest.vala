@@ -182,5 +182,16 @@ class ElementTest : GXmlTest  {
 					assert (false);
 				}
 			});
+		Test.add_func ("/gxml/element/to_string", () => {
+				try {
+					Element elem = get_elem_new_doc ("country");
+					elem.append_child (elem.owner_document.create_text_node ("New Zealand"));
+					assert (elem.to_string () == "<country>New Zealand</country>");
+					// TODO: want to test with format on and off
+				} catch (GXml.Dom.DomError e) {
+					GLib.warning ("%s", e.message);
+					assert (false);
+				}
+			});
 	}
 }

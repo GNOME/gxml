@@ -214,6 +214,32 @@ class DocumentTest : GXmlTest {
 					assert (false);
 				}
 			});
+		Test.add_func ("/gxml/document/to_string", () => {
+				try {
+					Document doc = get_doc ();
+					assert (doc.to_string () == "<?xml version=\"1.0\"?>
+<Sentences>
+  <Sentence lang=\"en\">I like the colour blue.</Sentence>
+  <Sentence lang=\"de\">Ich liebe die T&#xFC;r.</Sentence>
+  <Authors>
+    <Author>
+      <Name>Fred</Name>
+      <Email>fweasley@hogwarts.co.uk</Email>
+    </Author>
+    <Author>
+      <Name>George</Name>
+      <Email>gweasley@hogwarts.co.uk</Email>
+    </Author>
+  </Authors>
+</Sentences>
+");
+					// TODO: want to test with format on and off
+				} catch (GXml.Dom.DomError e) {
+					GLib.warning ("%s", e.message);
+					assert (false);
+				}
+
+			});
 	}
 
 	public static void print_node (XNode node) {
