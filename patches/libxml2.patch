@@ -1,10 +1,10 @@
---- libxml-2.0.vapi.old	2011-06-20 18:10:37.508177095 -0400
-+++ libxml-2.0.vapi	2011-07-09 21:04:42.539762860 -0400
+--- /usr/share/vala-0.12/vapi/libxml-2.0.vapi.old	2011-06-20 18:10:37.508177095 -0400
++++ /usr/share/vala-0.12/vapi/libxml-2.0.vapi	2011-07-21 20:41:53.148879347 -0400
 @@ -321,6 +321,18 @@
  		NOTATION
  	}
-
-+	// TODO: what does has_target portend to?
+ 
++	// TODO: what does has_target portend to? 
 +	[CCode (has_target = false, cname = "xmlHashScannerFull", cheader_filename = "libxml/hash.h")]
 +	public delegate void ScannerFull (void *payload, void *user_data, string name, string name2, string name3);
 +
@@ -13,7 +13,7 @@
 +	[CCode (cname = "xmlHashTable", free_function = "xmlHashFree", cheader_filename="libxml/hash.h")]
 +	public class HashTable {
 +		[CCode (cname = "xmlHashScanFull")]
-+		public void scan_full (ScannerFull f, void *user_data); // TODO: do we want to get rid of user data?
++		public void scan_full (ScannerFull f, void *user_data); // TODO: do we want to get rid of user data? 
 +	}
 +
  	[Compact]
@@ -32,7 +32,7 @@
 @@ -469,6 +483,11 @@
  		public Node* prev;
  		public Doc* doc;
-
+ 
 +		public HashTable notations;
 +		public HashTable elements;
 +		public HashTable attributes;
@@ -40,11 +40,24 @@
 +
  		public weak string external_id;
  		public weak string system_id;
-
-@@ -790,6 +809,23 @@
+ 
+@@ -790,6 +809,36 @@
  	}
-
+ 
  	[Compact]
++	[CCode (cname = "xmlBuffer", free_function = "xmlBufferFree", cheader_filename = "libxml/tree.h")]
++	public class Buffer {
++		[CCode (cname = "xmlBufferCreate")]
++		public Buffer ();
++
++		[CCode (cname = "xmlBufferContent")]
++		public string content ();
++
++		[CCode (cname = "xmlNodeDump")]
++		public int node_dump (Xml.Doc *doc, Xml.Node *cur, int level, int format);
++	}
++
++	[Compact]
 +	[CCode (cname = "xmlSaveCtxt", free_function = "xmlSaveClose", cheader_filename = "libxml/xmlsave.h")]
 +	public class SaveCtxt {
 +		[CCode (cname = "xmlSaveToIO")] // , instance_pos = -1)]
@@ -58,19 +71,19 @@
 +		public int save_doc (Xml.Doc *doc);
 +		[CCode (cname = "xmlSaveTree")]
 +		public int save_tree (Xml.Node *node);
-+
++		
 +	}
 +
 +	[Compact]
  	[CCode (cname = "xmlParserCtxt")]
  	public class ParserCtxt {
  		public SAXHandler* sax;
-@@ -887,7 +923,7 @@
+@@ -887,7 +936,7 @@
  	public delegate void* OutputOpenCallback (string filename);
-
+ 
  	[CCode (has_target = false, cname = "xmlOutputWriteCallback", cheader_filename = "libxml/xmlIO.h")]
 -	public delegate int OutputWriteCallback ([CCode (array_length = false)] char[] buffer, int len);
 +	public delegate int OutputWriteCallback (void* context, [CCode (array_length = false)] char[] buffer, int len);
-
+ 
  	[CCode (has_target = false, cname = "xmlOutputCloseCallback", cheader_filename = "libxml/xmlIO.h")]
  	public delegate int OutputCloseCallback (void * context);
