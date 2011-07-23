@@ -81,10 +81,14 @@ namespace GXml.Dom {
 		internal abstract XNode? append_child (XNode new_child) /*throws DomError*/;
 
 		/**
-		 * Provide a string representation of the list.
+		 * Creates an XML string representation of the nodes in the list.
+		 *
+		 * @param in_line Whether to parse and expand entities or not.
+		 *
+		 * @return The list as an XML string.
 		 */
-		// TODO: convert it to valid XML
-		public abstract string to_string ();
+		// TODO: write a test
+		public abstract string to_string (bool in_line);
 	}
 
 	// TODO: this will somehow need to watch the document and find out as new elements are added, and get reconstructed each time, or get reconstructed-on-the-go?
@@ -395,20 +399,11 @@ namespace GXml.Dom {
 		}
 
 		private string _str;
-		public string to_string () {
-			_str = "NodeList[";
+		public string to_string (bool in_line = true) {
+			_str = "";
 			foreach (XNode node in this) {
-				//_str += "(" + node.to_string () + ")";
+				_str += node.to_string ();
 			}
-			_str += "]";
-
-			Xml.Node *cur;
-			_str += " contents[";
-			for (cur = head; cur != null; cur = cur->next) {
-				_str += "Xml.Node*(%s,%s)".printf (cur->name, cur->content);
-			}
-			_str += "]";
-
 			return _str;
 		}
 	}
