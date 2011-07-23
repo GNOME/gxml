@@ -458,11 +458,8 @@ namespace GXml.Dom {
 			}
 		}
 		public override string to_string (bool format = false, int level = 0) {
-			Xml.Buffer *buffer;
 			string str;
 			int len;
-
-			buffer = new Xml.Buffer ();
 
 			this.xmldoc->dump_memory_format (out str, out len, format);
 
