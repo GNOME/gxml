@@ -281,5 +281,51 @@ namespace GXml.Dom {
 
 			}
 		}
+
+		// /**
+		//  * This is a convenience method for Elements, mostly
+		//  * useful when you know a given element's children are
+		//  * only Text.  With the example {{{<shops><shop
+		//  * id="1">Eeylops Owl Emporium</shop><shop
+		//  * id="2">Obscurus Books</shop></shops>}}} taking the
+		//  * node for the shop element with id 1 and using this
+		//  * method, you would get back "Eeylops Owl Emporiums".
+		//  * If you used it on the shops element, you'd get
+		//  * '<shop id="1">Eeylops Owl Emporium</shop><shop
+		//  * id="2">Obscurus Books</shop>'
+		//  *
+		//  * @return XML string of child contents
+		//  */
+		// public string content_to_string () {
+		// 	return this.child_nodes.to_string (true);
+		// }
+
+		/**
+		 * This is a convenience property for Elements, mostly
+		 * useful when you know a given element's children are
+		 * only Text.  With the example {{{<shops><shop
+		 * id="1">Eeylops Owl Emporium</shop><shop
+		 * id="2">Obscurus Books</shop></shops>}}} taking the
+		 * node for the shop element with id 1 and using this
+		 * method, you would get back "Eeylops Owl Emporiums".
+		 * If you used it on the shops element, you'd get
+		 * '<shop id="1">Eeylops Owl Emporium</shop><shop
+		 * id="2">Obscurus Books</shop>'
+		 */
+		// TODO: add test
+		public string content {
+			owned get {
+				//return this.child_nodes.to_string (true);
+				return base.node->get_content ();
+				// TODO: what's the difference between this and stringifying
+				//       the child nodes?
+			}
+			set {
+				// TODO: check impact on existing child nodes; they will be
+				//       detached, right?
+				// TODO: is XML in value interpreted or escaped?
+				base.node->set_content (value);
+			}
+		}
 	}
 }
