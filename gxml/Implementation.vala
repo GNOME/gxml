@@ -21,7 +21,7 @@ namespace GXml.Dom {
 		 *
 		 * @return true if we support the specified feature, false otherwise.
 		 */
-		public bool has_feature (string feature, string? version) {
+		public bool has_feature (string feature, string? version = null) {
 			/* Level 1 is limited to "xml" and "html" (icase) */
 			switch (feature) {
 			case "xml": // TODO find better way to handle case insensitivity
