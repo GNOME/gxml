@@ -136,7 +136,7 @@ class ElementTest : GXmlTest  {
 					Document doc;
 					XNode root;
 					Element elem;
-					List<XNode> emails;
+					NodeList emails;
 					Element email;
 					Text text;
 
@@ -147,7 +147,7 @@ class ElementTest : GXmlTest  {
 
 					elem = (Element)root;
 					emails = elem.get_elements_by_tag_name ("Email");
-					assert (emails.length () == 2);
+					assert (emails.length == 2);
 
 					email = (Element)emails.nth_data (0);
 					assert (email.tag_name == "Email");
