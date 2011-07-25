@@ -57,7 +57,8 @@ class DocumentTest : GXmlTest {
 		Test.add_func ("/gxml/document/construct_for_stream", () => {
 				try {
 					File fin = File.new_for_path ("test.xml");
-					InputStream instream = fin.read (null); // TODO use cancellable
+					InputStream instream = fin.read (null);
+					// TODO use cancellable
 
 					Document doc = new Document.for_stream (instream);
 
@@ -85,7 +86,11 @@ class DocumentTest : GXmlTest {
 		Test.add_func ("/gxml/document/save", () => {
 				try {
 					Document doc = get_doc ();
+					int exit_status;
 					doc.save_to_path ("test_out_path.xml");
+
+					Process.spawn_sync (null,  { "/usr/bin/diff", "test_out_path.xml", "test_out_path_expected.xml" }, null, 0, null, null /* stdout */, null /* stderr */, out exit_status);
+					assert (exit_status == 0);
 				} catch (GLib.Error e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
@@ -101,10 +106,12 @@ class DocumentTest : GXmlTest {
 					OutputStream outstream = fout.replace (null, true, FileCreateFlags.REPLACE_DESTINATION, null);
 
 					Document doc = new Document.for_stream (instream);
+					int exit_status;
+
 					doc.save_to_stream (outstream);
 
-					GLib.message ("stub");
-					// TODO: figure out how to diff test.xml and test_out.xml
+					Process.spawn_sync (null,  { "/usr/bin/diff", "test_out_stream.xml", "test_out_stream_expected.xml" }, null, 0, null, null /* stdout */, null /* stderr */, out exit_status);
+					assert (exit_status == 0);
 				} catch (GLib.Error e) {
 					GLib.warning ("%s", e.message);
 					assert (false);

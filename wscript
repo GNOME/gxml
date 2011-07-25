@@ -34,6 +34,8 @@ def build(bld):
     bld.recurse('gxml test')
     bld(source="gxml.pc.in", install_path="${LIBDIR}/pkgconfig/", SHORTVERSION=SHORTVERSION, VERSION=VERSION)
     bld(rule="cp ${SRC} ${TGT}", source="test/test.xml", target="build/test/")
+    bld(rule="cp ${SRC} ${TGT}", source="test/test_out_path_expected.xml", target="build/test/")
+    bld(rule="cp ${SRC} ${TGT}", source="test/test_out_stream_expected.xml", target="build/test/")
     bld(rule="rm -rf doc; valadoc --package-name=" + APPNAME + " --package-version=" + VERSION + " --pkg libxml-2.0 --pkg gio-2.0 --pkg gee-1.0 ../gxml/*.vala -o doc");
 
     ## want to call valadoc, but TypeError encountered by WAF, sigh
