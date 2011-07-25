@@ -1,11 +1,6 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 using GXml.Dom;
 
-
-/* For testing:
-   https://live.gnome.org/Vala/TestSample
-*/
-
 class DocumentTest : GXmlTest {
 	public static void add_tests () {
 		Test.add_func ("/gxml/document/doctype", () => {
@@ -21,10 +16,32 @@ class DocumentTest : GXmlTest {
 				*/
 			});
 		Test.add_func ("/gxml/document/implementation", () => {
-				// TODO: fill in
+				try {
+					Document doc = get_doc ();
+					
+					Implementation impl = doc.implementation;
+					
+					assert (impl.has_feature ("xml") == true);
+					assert (impl.has_feature ("xml", "1.0") == true);
+					assert (impl.has_feature ("xml", "2.0") == false);
+					assert (impl.has_feature ("html") == false);
+					assert (impl.has_feature ("nonsense") == false);
+				} catch (GXml.Dom.DomError e) {
+					GLib.warning ("%s", e.message);
+					assert (false);
+				}
 			});
 		Test.add_func ("/gxml/document/document_element", () => {
-				// TODO: fill in
+				try {
+					Document doc = get_doc ();
+					Element root = doc.document_element;
+					
+					assert (root.node_name == "Sentences");
+					assert (root.has_child_nodes ());
+				} catch (GXml.Dom.DomError e) {
+					GLib.warning ("%s", e.message);
+					assert (false);
+				}
 			});
 
 		Test.add_func ("/gxml/document/construct_for_path", () => {
@@ -58,9 +75,11 @@ class DocumentTest : GXmlTest {
 					string xml = "<Fruits><Apple></Apple><Orange></Orange></Fruits>";
 					Document doc = new Document.from_string (xml);
 
-					assert (doc != null);
-
-					// TODO: test contents
+					XNode root = doc.document_element;
+					assert (root.node_name == "Fruits");
+					assert (root.has_child_nodes () == true);
+					assert (root.first_child.node_name == "Apple");
+					assert (root.last_child.node_name == "Orange");
 				} catch (GXml.Dom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
@@ -206,7 +225,7 @@ class DocumentTest : GXmlTest {
 		Test.add_func ("/gxml/document/get_elements_by_tag_name", () => {
 				try {
 					Document doc = get_doc ();
-					List<XNode> elems = doc.get_elements_by_tag_name ("fish");
+					NodeList elems = doc.get_elements_by_tag_name ("fish");
 					elems = null;
 					//STUB
 				} catch (GXml.Dom.DomError e) {
@@ -242,6 +261,17 @@ class DocumentTest : GXmlTest {
 			});
 	}
 
+	private static void check_contents (Document test_doc) {
+		Element root = test_doc.document_element;
+
+		assert (root.node_name == "Sentences");
+		assert (root.has_child_nodes () == true);
+
+		NodeList authors = test_doc.get_elements_by_tag_name ("Author");
+		assert (authors.length == 2);
+
+		GLib.warning (test_doc.to_string ());
+	}
 	public static void print_node (XNode node) {
 		List<GXml.Dom.XNode> children = (List<GXml.Dom.XNode>)node.child_nodes;
 
