@@ -230,8 +230,9 @@ namespace GXml.Dom {
 		/*TODO: make sure we want to include the current
 		 * element, I think probably not.
 		 */
-		public List<XNode> get_elements_by_tag_name (string tag_name) {
-			List<XNode> tagged = new List<XNode> ();
+		public NodeList get_elements_by_tag_name (string tag_name) {
+			NodeList tagged = new NameTagNodeList (tag_name, this, this.owner_document);
+			//List<XNode> tagged = new List<XNode> ();
 			Queue<Xml.Node*> tocheck = new Queue<Xml.Node*> ();
 
 			/* TODO: find out whether we are supposed to include this element,
@@ -242,7 +243,7 @@ namespace GXml.Dom {
 				Xml.Node *cur = tocheck.pop_head ();
 
 				if (cur->name == tag_name) {
-					tagged.append (this.owner_document.lookup_node (cur));
+					tagged.append_child (this.owner_document.lookup_node (cur));
 				}
 
 				for (Xml.Node *child = cur->last; child != null; child = child->prev) {
@@ -285,7 +286,7 @@ namespace GXml.Dom {
 		// /**
 		//  * This is a convenience method for Elements, mostly
 		//  * useful when you know a given element's children are
-		//  * only Text.  With the example {{{<shops><shop
+		//  * only Text. With the example {{{<shops><shop
 		//  * id="1">Eeylops Owl Emporium</shop><shop
 		//  * id="2">Obscurus Books</shop></shops>}}} taking the
 		//  * node for the shop element with id 1 and using this
@@ -303,7 +304,7 @@ namespace GXml.Dom {
 		/**
 		 * This is a convenience property for Elements, mostly
 		 * useful when you know a given element's children are
-		 * only Text.  With the example {{{<shops><shop
+		 * only Text. With the example {{{<shops><shop
 		 * id="1">Eeylops Owl Emporium</shop><shop
 		 * id="2">Obscurus Books</shop></shops>}}} taking the
 		 * node for the shop element with id 1 and using this
