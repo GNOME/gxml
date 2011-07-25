@@ -37,8 +37,11 @@ namespace GXml.Dom {
 	}
 
 	/**
-	 * Represents an XML Document as a tree of nodes. The Document has a document element, which is the root of the tree. A Document can have its type defined by a DocumentType.
-	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#i-Document]]
+	 * Represents an XML Document as a tree of nodes. The Document
+	 * has a document element, which is the root of the tree. A
+	 * Document can have its type defined by a DocumentType. For
+	 * more, see:
+	 * [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#i-Document]]
 	 */
 	public class Document : XNode {
 		/** Private properties */
@@ -438,10 +441,8 @@ namespace GXml.Dom {
 		 * the document.
 		 */
 		// TODO: make that last statement true.
-		public List<XNode> get_elements_by_tag_name (string tag_name) {
-			// TODO: return a NodeList
+		public NodeList get_elements_by_tag_name (string tag_name) {
 			// TODO: does this ensure that the root element is also included?
-			// TODO: DO NOT return a separate list, we need to return the live list
 			// http://www.w3.org/TR/DOM-Level-1/level-one-core.html
 			return this.document_element.get_elements_by_tag_name (tag_name);
 		}
