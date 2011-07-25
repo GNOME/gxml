@@ -48,8 +48,7 @@ class DocumentTest : GXmlTest {
 				try {
 					Document doc = get_doc ();
 
-					assert (doc != null);
-					// TODO: test contents
+					check_contents (doc);
 				} catch (GXml.Dom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
@@ -62,9 +61,7 @@ class DocumentTest : GXmlTest {
 
 					Document doc = new Document.for_stream (instream);
 
-					assert (doc != null);
-
-					// TODO: test contents
+					check_contents (doc);
 				} catch (GLib.Error e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
@@ -270,8 +267,24 @@ class DocumentTest : GXmlTest {
 		NodeList authors = test_doc.get_elements_by_tag_name ("Author");
 		assert (authors.length == 2);
 
-		GLib.warning (test_doc.to_string ());
+		assert (test_doc.to_string () == "<?xml version=\"1.0\"?>
+<Sentences>
+  <Sentence lang=\"en\">I like the colour blue.</Sentence>
+  <Sentence lang=\"de\">Ich liebe die T&#xFC;r.</Sentence>
+  <Authors>
+    <Author>
+      <Name>Fred</Name>
+      <Email>fweasley@hogwarts.co.uk</Email>
+    </Author>
+    <Author>
+      <Name>George</Name>
+      <Email>gweasley@hogwarts.co.uk</Email>
+    </Author>
+  </Authors>
+</Sentences>
+");
 	}
+
 	public static void print_node (XNode node) {
 		List<GXml.Dom.XNode> children = (List<GXml.Dom.XNode>)node.child_nodes;
 
