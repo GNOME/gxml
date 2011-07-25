@@ -92,7 +92,171 @@ namespace GXml.Dom {
 	}
 
 	// TODO: this will somehow need to watch the document and find out as new elements are added, and get reconstructed each time, or get reconstructed-on-the-go?
-	// public class NameTagNodeList : NodeList {
+	internal class NameTagNodeList : Gee.Iterable<XNode>, NodeList, GLib.Object {
+		internal string tag_name;
+		internal XNode root;
+		internal GLib.List<XNode> nodes;
+
+		internal NameTagNodeList (string tag_name, XNode root, Document owner) {
+			this.tag_name = tag_name;
+			this.root = root;
+			this.nodes = new GLib.List<XNode> ();
+		}
+
+		public ulong length {
+			get {
+				return nodes.length ();
+			}
+			private set {
+			}
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		public XNode item (ulong idx) {
+			return this.nth_data (idx);
+		}
+		/**
+		 * {@inheritDoc}
+		 */
+		public void foreach (Func<XNode> func) {
+			this.nodes.foreach (func);
+		}
+		/**
+		 * {@inheritDoc}
+		 */
+		public XNode first () {
+			return this.nodes.first ().data;
+		}
+		/**
+		 * {@inheritDoc}
+		 */
+		public XNode last () {
+			return this.nodes.last ().data;
+		}
+		/**
+		 * {@inheritDoc}
+		 */
+		public XNode? nth (ulong n) {
+			return this.nth_data (n);
+		}
+		/**
+		 * {@inheritDoc}
+		 */
+		public XNode? nth_data (ulong n) {
+			return this.nodes.nth_data ((uint)n);
+		}
+		/**
+		 * {@inheritDoc}
+		 */
+		public XNode? nth_prev (XNode pivot, ulong n) {
+			unowned GLib.List<XNode> list_pivot = this.nodes.find (pivot);
+			return list_pivot.nth_prev ((uint)n).data;
+		}
+		/**
+		 * {@inheritDoc}
+		 */
+		public int find (XNode target) {
+			return this.index (target);
+		}
+		/**
+		 * {@inheritDoc}
+		 */
+		public int find_custom (XNode target, CompareFunc<XNode> cmp) {
+			unowned GLib.List<XNode> list_pt = this.nodes.find_custom (target, cmp);
+			return this.index (list_pt.data);
+		}
+		/**
+		 * {@inheritDoc}
+		 */
+		public int position (XNode target) {
+			return this.index (target);
+		}
+		/**
+		 * {@inheritDoc}
+		 */
+		public int index (XNode target) {
+			return this.nodes.index (target);
+		}
+
+		internal XNode? insert_before (XNode new_child, XNode? ref_child) throws DomError {
+			this.nodes.insert_before (this.nodes.find (ref_child), new_child);
+			return new_child;
+		}
+		internal XNode? replace_child (XNode new_child, XNode old_child) throws DomError {
+			int pos = this.index (old_child);
+			this.remove_child (old_child);
+			this.nodes.insert (new_child, pos);
+			return old_child;
+		}
+		internal XNode? remove_child (XNode old_child) /*throws DomError*/ {
+			this.nodes.remove (old_child);
+			return old_child;
+		}
+		internal XNode? append_child (XNode new_child) /*throws DomError*/ {
+			this.nodes.append (new_child);
+			return new_child;
+		}
+
+		public string to_string (bool in_line) {
+			string str = "";
+
+			foreach (XNode node in this.nodes) {
+				str += node.to_string ();
+			}
+
+			return str;
+		}
+
+		/*** Iterable Methods ***/
+		public GLib.Type element_type {
+			get {
+				return typeof (XNode);
+			}
+		}
+		public Gee.Iterator<XNode> iterator () {
+			return new NodeListIterator (this);
+		}
+		private class NodeListIterator : Gee.Iterator<XNode>, GLib.Object {
+			private NameTagNodeList list;
+			private unowned GLib.List<XNode> nodes;
+			private unowned GLib.List<XNode> cur;
+			private unowned GLib.List<XNode> next_node;
+			
+			public NodeListIterator (NameTagNodeList list) {
+				this.list = list;
+				this.nodes = list.nodes;
+				this.next_node = this.nodes;
+				this.cur = null;
+			}
+			public new XNode get () {
+				return this.cur.data;
+			}
+			public bool next () {
+				if (next_node != null) {
+					this.cur = this.next_node;
+					this.next_node = this.cur.next;
+					return true;
+				} else {
+					return false;
+				}
+			}
+			public bool first () {
+				this.cur = null;
+				this.next_node = nodes;
+
+				return (next_node != null);
+			}
+			public bool has_next () {
+				return (next_node != null);
+			}
+			public void remove () {
+				/* TODO: indicate that this is not supported. */
+				GLib.warning ("Remove on NodeList not supported: Nodes must be removed from parent or doc separately.");
+			}
+		}
+	}
 
 	internal class NodeChildNodeList : ChildNodeList {
 		Xml.Node *parent;
@@ -106,7 +270,7 @@ namespace GXml.Dom {
 			}
 		}
 
-		internal NodeChildNodeList (Xml.Node* parent, Document owner) {
+		internal NodeChildNodeList (Xml.Node *parent, Document owner) {
 			this.parent = parent;
 			this.owner = owner;
 		}
