@@ -153,8 +153,70 @@ class DocumentTest : GXmlTest {
 				try {
 					Document doc = get_doc ();
 					DocumentFragment fragment = doc.create_document_fragment ();
-					fragment = null;
-					//STUB
+					
+					// TODO: can we set XML in the content, and actually have that translate into real libxml2 underlying nodes? 
+					Element percy = doc.create_element ("Author");
+					Element percy_name = doc.create_element ("Name");
+					Element percy_email = doc.create_element ("Email");
+					percy_name.content = "Percy";
+					percy_email.content = "pweasley@hogwarts.co.uk";
+					percy.append_child (percy_name);
+					percy.append_child (percy_email);
+					fragment.append_child (percy);
+					
+					Element ginny = doc.create_element ("Author");
+					Element ginny_name = doc.create_element ("Name");
+					Element ginny_email = doc.create_element ("Email");
+					ginny_name.content = "Ginny";
+					ginny_email.content = "weasleyg@hogwarts.co.uk";
+					ginny.append_child (ginny_name);
+					ginny.append_child (ginny_email);
+					fragment.append_child (ginny);
+					
+					NodeList authors_list = doc.get_elements_by_tag_name ("Authors");
+					assert (authors_list.length == 1);
+					Element authors = (Element)authors_list.item (0);
+					assert (authors.get_elements_by_tag_name ("Author").length == 2);
+					assert (fragment.child_nodes.length == 2);
+
+					assert (doc.to_string () == "<?xml version=\"1.0\"?>
+<Sentences>
+  <Sentence lang=\"en\">I like the colour blue.</Sentence>
+  <Sentence lang=\"de\">Ich liebe die T&#xFC;r.</Sentence>
+  <Authors>
+    <Author>
+      <Name>Fred</Name>
+      <Email>fweasley@hogwarts.co.uk</Email>
+    </Author>
+    <Author>
+      <Name>George</Name>
+      <Email>gweasley@hogwarts.co.uk</Email>
+    </Author>
+  </Authors>
+</Sentences>
+");
+
+					authors.append_child (fragment);
+					assert (authors.get_elements_by_tag_name ("Author").length == 4);
+
+					string expected = "<?xml version=\"1.0\"?>
+<Sentences>
+  <Sentence lang=\"en\">I like the colour blue.</Sentence>
+  <Sentence lang=\"de\">Ich liebe die T&#xFC;r.</Sentence>
+  <Authors>
+    <Author>
+      <Name>Fred</Name>
+      <Email>fweasley@hogwarts.co.uk</Email>
+    </Author>
+    <Author>
+      <Name>George</Name>
+      <Email>gweasley@hogwarts.co.uk</Email>
+    </Author>
+  <Author><Name>Percy</Name><Email>pweasley@hogwarts.co.uk</Email></Author><Author><Name>Ginny</Name><Email>weasleyg@hogwarts.co.uk</Email></Author></Authors>
+</Sentences>
+";
+					// TODO: want to find a way to flattern the string, strip whitespace
+					assert (doc.to_string () == expected);
 				} catch (GXml.Dom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
@@ -164,8 +226,9 @@ class DocumentTest : GXmlTest {
 				try {
 					Document doc = get_doc ();
 					Text text = doc.create_text_node ("Star of my dreams");
-					text = null;
-					//STUB
+
+					assert (text.node_name == "#text");
+					assert (text.node_value == "Star of my dreams");
 				} catch (GXml.Dom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
@@ -175,8 +238,9 @@ class DocumentTest : GXmlTest {
 				try {
 					Document doc = get_doc ();
 					Comment comment = doc.create_comment ("Ever since the day we promised.");
-					comment = null;
-					//STUB
+
+					assert (comment.node_name == "#comment");
+					assert (comment.node_value == "Ever since the day we promised.");
 				} catch (GXml.Dom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
@@ -186,8 +250,9 @@ class DocumentTest : GXmlTest {
 				try {
 					Document doc = get_doc ();
 					CDATASection cdata = doc.create_cdata_section ("put in real cdata");
-					cdata = null;
-					//STUB
+
+					assert (cdata.node_name == "#cdata-section");
+					assert (cdata.node_value == "put in real cdata");
 				} catch (GXml.Dom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
@@ -197,8 +262,11 @@ class DocumentTest : GXmlTest {
 				try {
 					Document doc = get_doc ();
 					ProcessingInstruction instruction = doc.create_processing_instruction ("target", "data");
-					instruction = null;
-					//STUB
+
+					assert (instruction.node_name == "target");
+					assert (instruction.target == "target");
+					assert (instruction.data == "data");
+					assert (instruction.node_value == "data");
 				} catch (GXml.Dom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
@@ -207,9 +275,11 @@ class DocumentTest : GXmlTest {
 		Test.add_func ("/gxml/document/create_attribute", () => {
 				try {
 					Document doc = get_doc ();
-					Attr attr = doc.create_attribute ("name");
-					attr = null;
-					//STUB
+					Attr attr = doc.create_attribute ("attrname");
+
+					assert (attr.name == "attrname");
+					assert (attr.node_name == "attrname");
+					assert (attr.node_value == "");
 				} catch (GXml.Dom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
@@ -219,8 +289,9 @@ class DocumentTest : GXmlTest {
 				try {
 					Document doc = get_doc ();
 					EntityReference entity = doc.create_entity_reference ("entref");
-					entity = null;
-					//STUB
+
+					assert (entity.node_name == "entref");
+					// TODO: think of at least one other smoke test
 				} catch (GXml.Dom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
@@ -229,9 +300,12 @@ class DocumentTest : GXmlTest {
 		Test.add_func ("/gxml/document/get_elements_by_tag_name", () => {
 				try {
 					Document doc = get_doc ();
-					NodeList elems = doc.get_elements_by_tag_name ("fish");
-					elems = null;
-					//STUB
+					NodeList elems = doc.get_elements_by_tag_name ("Email");
+
+					assert (elems.length == 2);
+					assert (elems.item (0).content == "fweasley@hogwarts.co.uk");
+					/* more thorough test exists in Element, since right now
+					   Document uses that one */
 				} catch (GXml.Dom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
