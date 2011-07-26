@@ -303,7 +303,7 @@ class DocumentTest : GXmlTest {
 					NodeList elems = doc.get_elements_by_tag_name ("Email");
 
 					assert (elems.length == 2);
-					assert (elems.item (0).content == "fweasley@hogwarts.co.uk");
+					assert (((Element)elems.item (0)).content == "fweasley@hogwarts.co.uk");
 					/* more thorough test exists in Element, since right now
 					   Document uses that one */
 				} catch (GXml.Dom.DomError e) {
