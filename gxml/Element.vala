@@ -193,47 +193,52 @@ namespace GXml.Dom {
 		}
 
 		/*** XNode methods ***/
-		private void check_add_tag_name (XNode child) {
-			switch (child.node_type) {
-			case NodeType.ELEMENT:
-				on_new_descendant_with_tag_name ((Element)child);
-				break;
-				/* TODO: add DocumentFragment support */
-			default:
-				/* does not contain elements */
-				break;
+		private void check_add_tag_name (Element basenode, XNode child) {
+			// TODO: make sure there aren't any other NodeTypes that could have elements as children 
+			if (child.node_type == NodeType.ELEMENT || child.node_type == NodeType.DOCUMENT_FRAGMENT) {
+				// the one we're examining is an element, and might need to be added
+				if (child.node_type == NodeType.ELEMENT) {
+					basenode.on_new_descendant_with_tag_name ((Element)child);
+				}
+
+				// if we're adding an element with descendants, or a document fragment, they might contain nodes that should go into a tag name node list for an ancestor node
+				foreach (XNode grand_child in child.child_nodes) {
+					check_add_tag_name (basenode, grand_child);
+				}
 			}
 		}
-		private void check_remove_tag_name (XNode child) {
-			switch (child.node_type) {
-			case NodeType.ELEMENT:
-				on_remove_descendant_with_tag_name ((Element)child);
-				break;
-				/* TODO: add DocumentFragment support */
-			default:
-				break;
+		private void check_remove_tag_name (Element basenode, XNode child) {
+			// TODO: make sure there aren't any other NodeTypes that could have elements as children 
+			if (child.node_type == NodeType.ELEMENT) {
+				// the one we're examining is an element, and might need to be removed from a tag name node list
+				basenode.on_remove_descendant_with_tag_name ((Element)child);
+
+				// if we're removing an element with descendants, it might contain nodes that should also be removed from a tag name node list for an ancestor node
+				foreach (XNode grand_child in child.child_nodes) {
+					check_remove_tag_name (basenode, grand_child);
+				}
 			}
 		}
 
 		public override XNode? insert_before (XNode new_child, XNode? ref_child) throws DomError {
 			XNode ret = base.insert_before (new_child, ref_child);
-			check_add_tag_name (new_child);
+			check_add_tag_name (this, new_child);
 			return ret;
 		}
 		public override XNode? replace_child (XNode new_child, XNode old_child) throws DomError {
 			XNode ret = base.replace_child (new_child, old_child);
-			check_add_tag_name (new_child);
-			check_remove_tag_name (old_child);
+			check_remove_tag_name (this, old_child); // removal should probably precede addition, in case we're moving something around
+			check_add_tag_name (this, new_child);
 			return ret;
 		}
 		public override XNode? remove_child (XNode old_child) throws DomError {
 			XNode ret = base.remove_child (old_child);
-			check_remove_tag_name (old_child);
+			check_remove_tag_name (this, old_child);
 			return ret;
 		}
 		public override XNode? append_child (XNode new_child) throws DomError {
 			XNode ret = base.append_child (new_child);
-			check_add_tag_name (new_child);
+			check_add_tag_name (this, new_child);
 			return ret;
 		}
 
