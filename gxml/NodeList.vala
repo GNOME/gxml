@@ -92,12 +92,12 @@ namespace GXml.Dom {
 	}
 
 	// TODO: this will somehow need to watch the document and find out as new elements are added, and get reconstructed each time, or get reconstructed-on-the-go?
-	internal class NameTagNodeList : Gee.Iterable<XNode>, NodeList, GLib.Object {
+	internal class TagNameNodeList : Gee.Iterable<XNode>, NodeList, GLib.Object {
 		internal string tag_name;
 		internal XNode root;
 		internal GLib.List<XNode> nodes;
 
-		internal NameTagNodeList (string tag_name, XNode root, Document owner) {
+		internal TagNameNodeList (string tag_name, XNode root, Document owner) {
 			this.tag_name = tag_name;
 			this.root = root;
 			this.nodes = new GLib.List<XNode> ();
@@ -219,12 +219,12 @@ namespace GXml.Dom {
 			return new NodeListIterator (this);
 		}
 		private class NodeListIterator : Gee.Iterator<XNode>, GLib.Object {
-			private NameTagNodeList list;
+			private TagNameNodeList list;
 			private unowned GLib.List<XNode> nodes;
 			private unowned GLib.List<XNode> cur;
 			private unowned GLib.List<XNode> next_node;
 			
-			public NodeListIterator (NameTagNodeList list) {
+			public NodeListIterator (TagNameNodeList list) {
 				this.list = list;
 				this.nodes = list.nodes;
 				this.next_node = this.nodes;

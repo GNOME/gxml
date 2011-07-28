@@ -192,7 +192,7 @@ namespace GXml.Dom {
 			return old_attr;
 		}
 
-		/*** XNode methods ***/
+		// TODO: consider making the life of TagNameNodeLists optional, and dead by default, at the Document level
 		private void check_add_tag_name (Element basenode, XNode child) {
 			// TODO: make sure there aren't any other NodeTypes that could have elements as children 
 			if (child.node_type == NodeType.ELEMENT || child.node_type == NodeType.DOCUMENT_FRAGMENT) {
@@ -220,6 +220,7 @@ namespace GXml.Dom {
 			}
 		}
 
+		/*** XNode methods ***/
 		public override XNode? insert_before (XNode new_child, XNode? ref_child) throws DomError {
 			XNode ret = base.insert_before (new_child, ref_child);
 			check_add_tag_name (this, new_child);
@@ -269,11 +270,11 @@ namespace GXml.Dom {
 		  see a, add a, visit a
 		*/
 
-		private List<NameTagNodeList> tag_name_lists = new List<NameTagNodeList> ();
+		private List<TagNameNodeList> tag_name_lists = new List<TagNameNodeList> ();
 
 		private void on_new_descendant_with_tag_name (Element elem) {
 			// TODO: consider using a HashTable instead
-			foreach (NameTagNodeList list in tag_name_lists) {
+			foreach (TagNameNodeList list in tag_name_lists) {
 				// TODO: take into account case sensitivity or insensitivity?
 				if (elem.tag_name == list.tag_name) {
 					list.append_child (elem);
@@ -284,7 +285,7 @@ namespace GXml.Dom {
 				((Element)this.parent_node).on_new_descendant_with_tag_name (elem);
 		}
 		private void on_remove_descendant_with_tag_name (Element elem) {
-			foreach (NameTagNodeList list in tag_name_lists) {
+			foreach (TagNameNodeList list in tag_name_lists) {
 				if (elem.tag_name == list.tag_name) {
 					foreach (XNode tag_elem in list) {
 						if (((Element)tag_elem) == elem) {
@@ -314,7 +315,7 @@ namespace GXml.Dom {
 		 * element, I think probably not.
 		 */
 		public NodeList get_elements_by_tag_name (string tag_name) {
-			NameTagNodeList tagged = new NameTagNodeList (tag_name, this, this.owner_document);
+			TagNameNodeList tagged = new TagNameNodeList (tag_name, this, this.owner_document);
 			//List<XNode> tagged = new List<XNode> ();
 			Queue<Xml.Node*> tocheck = new Queue<Xml.Node*> ();
 
