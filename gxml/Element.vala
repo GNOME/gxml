@@ -93,6 +93,8 @@ namespace GXml.Dom {
 			base (node, doc);
 			// TODO: consider string ownership, libxml2 memory
 			// TODO: do memory testing
+
+			//this.new_descendant_with_tag_name.connect (on_new_descendant_with_tag_name)
 		}
 
 		/* Public Methods */
@@ -190,6 +192,52 @@ namespace GXml.Dom {
 			return old_attr;
 		}
 
+		/*** XNode methods ***/
+		private void check_add_tag_name (XNode child) {
+			switch (child.node_type) {
+			case NodeType.ELEMENT:
+				on_new_descendant_with_tag_name ((Element)child);
+				break;
+				/* TODO: add DocumentFragment support */
+			default:
+				/* does not contain elements */
+				break;
+			}
+		}
+		private void check_remove_tag_name (XNode child) {
+			switch (child.node_type) {
+			case NodeType.ELEMENT:
+				on_remove_descendant_with_tag_name ((Element)child);
+				break;
+				/* TODO: add DocumentFragment support */
+			default:
+				break;
+			}
+		}
+
+		public override XNode? insert_before (XNode new_child, XNode? ref_child) throws DomError {
+			XNode ret = base.insert_before (new_child, ref_child);
+			check_add_tag_name (new_child);
+			return ret;
+		}
+		public override XNode? replace_child (XNode new_child, XNode old_child) throws DomError {
+			XNode ret = base.replace_child (new_child, old_child);
+			check_add_tag_name (new_child);
+			check_remove_tag_name (old_child);
+			return ret;
+		}
+		public override XNode? remove_child (XNode old_child) throws DomError {
+			XNode ret = base.remove_child (old_child);
+			check_remove_tag_name (old_child);
+			return ret;
+		}
+		public override XNode? append_child (XNode new_child) throws DomError {
+			XNode ret = base.append_child (new_child);
+			check_add_tag_name (new_child);
+			return ret;
+		}
+
+
 		/* Visual explanation of get_elements_by_tag_name tree traversal.
 		     a
 		   b    c
@@ -216,6 +264,36 @@ namespace GXml.Dom {
 		  see a, add a, visit a
 		*/
 
+		private List<NameTagNodeList> tag_name_lists = new List<NameTagNodeList> ();
+
+		private void on_new_descendant_with_tag_name (Element elem) {
+			// TODO: consider using a HashTable instead
+			foreach (NameTagNodeList list in tag_name_lists) {
+				// TODO: take into account case sensitivity or insensitivity?
+				if (elem.tag_name == list.tag_name) {
+					list.append_child (elem);
+					break;
+				}
+			}
+			if (this.parent_node != null && this.parent_node.node_type == NodeType.ELEMENT)
+				((Element)this.parent_node).on_new_descendant_with_tag_name (elem);
+		}
+		private void on_remove_descendant_with_tag_name (Element elem) {
+			foreach (NameTagNodeList list in tag_name_lists) {
+				if (elem.tag_name == list.tag_name) {
+					foreach (XNode tag_elem in list) {
+						if (((Element)tag_elem) == elem) {
+							list.remove_child (tag_elem);
+							break;
+						}
+					}
+					break;
+				}
+			}
+			if (this.parent_node != null && this.parent_node.node_type == NodeType.ELEMENT)
+				((Element)this.parent_node).on_remove_descendant_with_tag_name (elem);
+		}
+
 		/**
 		 * Obtains a NodeList of Elements with the given
 		 * tag_name that are descendants of this Element.
@@ -231,7 +309,7 @@ namespace GXml.Dom {
 		 * element, I think probably not.
 		 */
 		public NodeList get_elements_by_tag_name (string tag_name) {
-			NodeList tagged = new NameTagNodeList (tag_name, this, this.owner_document);
+			NameTagNodeList tagged = new NameTagNodeList (tag_name, this, this.owner_document);
 			//List<XNode> tagged = new List<XNode> ();
 			Queue<Xml.Node*> tocheck = new Queue<Xml.Node*> ();
 
@@ -250,6 +328,8 @@ namespace GXml.Dom {
 					tocheck.push_head (child);
 				}
 			}
+
+			this.tag_name_lists.append (tagged);
 
 			return tagged;
 		}
