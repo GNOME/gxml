@@ -207,6 +207,11 @@ namespace GXml.Dom {
 				}
 			}
 		}
+		/**
+		 * Checks whether a descendant of a node is an Element, or whether its descendants
+		 * are elements.  If they are, we check the basenode and its ancestors to see
+		 * whether they're keeping that node in a TagNameNodeList, so we can remove it.
+		 */
 		private void check_remove_tag_name (Element basenode, XNode child) {
 			// TODO: make sure there aren't any other NodeTypes that could have elements as children 
 			if (child.node_type == NodeType.ELEMENT) {
@@ -220,21 +225,21 @@ namespace GXml.Dom {
 			}
 		}
 
-		/*** XNode methods ***/
+		/* ** XNode methods ** */
 		public override XNode? insert_before (XNode new_child, XNode? ref_child) throws DomError {
 			XNode ret = base.insert_before (new_child, ref_child);
 			check_add_tag_name (this, new_child);
 			return ret;
 		}
 		public override XNode? replace_child (XNode new_child, XNode old_child) throws DomError {
+			check_remove_tag_name (this, old_child);
 			XNode ret = base.replace_child (new_child, old_child);
-			check_remove_tag_name (this, old_child); // removal should probably precede addition, in case we're moving something around
 			check_add_tag_name (this, new_child);
 			return ret;
 		}
 		public override XNode? remove_child (XNode old_child) throws DomError {
-			XNode ret = base.remove_child (old_child);
 			check_remove_tag_name (this, old_child);
+			XNode ret = base.remove_child (old_child);
 			return ret;
 		}
 		public override XNode? append_child (XNode new_child) throws DomError {
@@ -284,6 +289,11 @@ namespace GXml.Dom {
 			if (this.parent_node != null && this.parent_node.node_type == NodeType.ELEMENT)
 				((Element)this.parent_node).on_new_descendant_with_tag_name (elem);
 		}
+		/**
+		 * Checks whether this element has a TagNameNodeList containing this element,
+		 * and if so, removes it.  It also asks the parents above if they have such
+		 * a list.
+		 */
 		private void on_remove_descendant_with_tag_name (Element elem) {
 			foreach (TagNameNodeList list in tag_name_lists) {
 				if (elem.tag_name == list.tag_name) {

@@ -171,6 +171,115 @@ class ElementTest : GXmlTest  {
 					assert (false);
 				}
 			});
+		Test.add_func ("/gxml/element/get_elements_by_tag_name.live", () => {
+				/* Need to test the following cases:
+
+				   you have an element, it has 3 title descendants.
+				   get the node list, has 3 nodes
+				   add a title to the element, node list has 4 nodes
+				   add a title to a grand child, node list has 5 nodes
+				   add another element tree with 2 titles at various depths, list has 7
+				   add a document fragment with 2 titles at various depths, list has 9
+
+				   remove a single child element, list has 8
+				   remove a deeper descendent, list has 7
+				   remove a tree with 2, list has 5
+				   readd the tree, list has 7
+				*/
+				try {
+					Document doc;
+					string xml;
+
+					xml =
+"<A>
+  <t />
+  <Bs>
+    <t />
+    <B>
+      <t />
+      <D><t /></D>
+      <D><t /></D>
+    </B>
+    <B><t /></B>
+    <B></B>
+  </Bs>
+  <Cs><C><t /></C></Cs>
+</A>";
+					doc = new Document.from_string (xml);
+
+					XNode a = doc.document_element;
+					XNode bs = a.child_nodes.item (3);
+					XNode b3 = bs.child_nodes.item (7);
+					XNode t1, t2;
+
+					NodeList ts = ((Element)bs).get_elements_by_tag_name ("t");
+					assert (ts.length == 5);
+
+					// Test adding direct child
+					bs.append_child (t1 = doc.create_element ("t"));
+					assert (ts.length == 6);
+
+					// Test adding descendant
+					b3.append_child (doc.create_element ("t"));
+					assert (ts.length == 7);
+
+					// Test situation where we add a node tree
+					XNode b4;
+					XNode d, d2;
+
+					b4 = doc.create_element ("B");
+					b4.append_child (doc.create_element ("t"));
+					d = doc.create_element ("D");
+					d.append_child (t2 = doc.create_element ("t"));
+					b4.append_child (d);
+
+					bs.append_child (b4);
+
+					assert (ts.length == 9);
+
+					// Test situation where we use insert_before
+					d2 = doc.create_element ("D");
+					d2.append_child (doc.create_element ("t"));
+					b4.insert_before (d2, d);
+
+					assert (ts.length == 10);
+
+					// Test situation where we add a document fragment
+					DocumentFragment frag;
+
+					frag = doc.create_document_fragment ();
+					frag.append_child (doc.create_element ("t"));
+					d = doc.create_element ("D");
+					d.append_child (doc.create_element ("t"));
+					frag.append_child (d);
+					d2 = doc.create_element ("D");
+					d2.append_child (doc.create_element ("t"));
+					frag.insert_before (d2, d);
+
+					b4.append_child (frag);
+					assert (ts.length == 13);
+
+					// Test removing single child
+					t1.parent_node.remove_child (t1);
+					assert (ts.length == 12);
+
+					// Test removing deeper descendant
+					t2.parent_node.remove_child (t2);
+					assert (ts.length == 11);
+
+					// Test removing subtree
+					b4 = b4.parent_node.remove_child (b4);
+
+					assert (ts.length == 6);
+
+					// Test restoring subtree
+					bs.append_child (b4);
+					assert (ts.length == 11);
+				} catch (GXml.Dom.DomError e) {
+					GLib.warning ("%s", e.message);
+					assert (false);
+				}
+			});
 		Test.add_func ("/gxml/element/normalize", () => {
 				try {
 					Element elem = get_elem_new_doc ("tagname");

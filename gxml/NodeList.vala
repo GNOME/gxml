@@ -508,7 +508,6 @@ namespace GXml.Dom {
 				this.append_child (ref_child);
 			}
 
-
 			while (child != ((BackedNode)ref_child).node && child != null) {
 				child = child->next;
 			}
@@ -516,7 +515,13 @@ namespace GXml.Dom {
 				throw new DomError.NOT_FOUND ("ref_child not found.");
 				// TODO: provide a more useful description of ref_child, but there are so many different types
 			} else {
-				child->add_prev_sibling (((BackedNode)new_child).node);
+				if (new_child.node_type == NodeType.DOCUMENT_FRAGMENT) {
+					foreach (XNode new_grand_child in new_child.child_nodes) {
+						child->add_prev_sibling (((BackedNode)new_grand_child).node);
+					}
+				} else {
+					child->add_prev_sibling (((BackedNode)new_child).node);
+				}
 			}
 			return new_child;
 		}
@@ -530,19 +535,25 @@ namespace GXml.Dom {
 			// TODO: need to handle errors?
 
 			// TODO: want to do a 'find_child' function
-			Xml.Node *child = head;
-
-			while (child != null && child != ((BackedNode)old_child).node) {
-				child = child->next;
-			}
-
-			if (child != null) {
-				// it is a valid child
-				child->replace (((BackedNode)new_child).node);
+			if (new_child.node_type == NodeType.DOCUMENT_FRAGMENT) {
+				this.insert_before (new_child, old_child);
+				this.remove_child (old_child);
 			} else {
-				throw new DomError.NOT_FOUND ("old_child not found");
-				// TODO: provide more useful descr. of old_child
+				Xml.Node *child = head;
+
+				while (child != null && child != ((BackedNode)old_child).node) {
+					child = child->next;
+				}
+
+				if (child != null) {
+					// it is a valid child
+					child->replace (((BackedNode)new_child).node);
+				} else {
+					throw new DomError.NOT_FOUND ("old_child not found");
+					// TODO: provide more useful descr. of old_child
+				}
 			}
+
 			return old_child;
 		}
 		internal new XNode? remove_child (XNode old_child) /* throws DomError */ {
@@ -557,7 +568,13 @@ namespace GXml.Dom {
 			// new_child if it already exists elsewhere in
 			// the tree.
 
-			parent_as_xmlnode->add_child (((BackedNode)new_child).node);
+			if (new_child.node_type == NodeType.DOCUMENT_FRAGMENT) {
+				foreach (XNode grand_child in new_child.child_nodes) {
+					parent_as_xmlnode->add_child (((BackedNode)grand_child).node);
+				}
+			} else {
+				parent_as_xmlnode->add_child (((BackedNode)new_child).node);
+			}
 
 			return new_child;
 		}
