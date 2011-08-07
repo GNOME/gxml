@@ -1,3 +1,8 @@
+TODO:
+C test files
+gtkdoc-doclet
+  look at libfolks' makefile
+switch to libgee from GLib
 
 TODO:
 get vala mode

@@ -22,6 +22,8 @@
  * * compare performance between libxml2 and GXml (should be a little different, but not too much)
  */
 
+/** TODO:IMPORTANT: don't use GLib collections, use Libgee! */
+
 /**
  * The XML Document Object Model.
  */

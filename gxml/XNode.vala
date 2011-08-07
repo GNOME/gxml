@@ -1,6 +1,8 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
 namespace GXml.Dom {
+	/* TODO: consider adding public signals for new/deleted children */
+
 	/**
 	 * Represents an XML Node. Documents are nodes, and are
 	 * composed of a tree of nodes. See [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1950641247]]
