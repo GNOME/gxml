@@ -302,9 +302,9 @@ namespace GXml.Dom {
 		 *
 		 * @throws DomError When a Document cannot be constructed for the specified stream.
 		 */
-		public Document.for_stream (InputStream instream) throws DomError {
+		public Document.for_stream (InputStream instream, Cancellable? can = null) throws DomError {
 			// TODO: accept Cancellable
-			Cancellable can = new Cancellable ();
+			// Cancellable can = new Cancellable ();
 			InputStreamBox box = { instream, can };
 
 			Xml.TextReader reader = new Xml.TextReader.for_io ((Xml.InputReadCallback)_ioread,

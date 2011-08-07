@@ -3,6 +3,7 @@ C test files
 gtkdoc-doclet
   look at libfolks' makefile
 switch to libgee from GLib
+figure out which IO operations should be cancellable (all?)
 
 TODO:
 get vala mode
