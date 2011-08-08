@@ -51,6 +51,9 @@ namespace GXml.Dom {
 		// We don't want want to use XNode's Xml.Node or its dict
 		// internal HashTable<Xml.Attr*, Attr> attr_dict = new HashTable<Xml.Attr*, Attr> (null, null);
 
+		/* TODO: for future reference, find out if internals
+		   are only accessible by children when they're compiled
+		   together */
 		internal Xml.Doc *xmldoc;
 
 		/** Private methods */
@@ -173,17 +176,22 @@ namespace GXml.Dom {
 		}
 
 		/** Constructor */
+		/**
+		 * Creates a Document based on a libxml2 Xml.Doc* object.
+		 */
+		public Document.for_libxml2 (Xml.Doc *doc, bool require_root = true) throws DomError {
+			/* All other constructors should call this one,
+			   passing it a Xml.Doc* object */
 
-		/* All other constructors should call this one,
-		   passing it a Xml.Doc* object */
-		private Document (Xml.Doc *doc) throws DomError {
 			Xml.Node *root;
 
-			root = doc->get_root_element ();
 			if (doc == null)
 				throw new DomError.INVALID_DOC ("Failed to parse document.");
-			if (root == null)
-				throw new DomError.INVALID_ROOT ("Could not obtain root for document.");
+			if (require_root) {
+				root = doc->get_root_element ();
+				if (root == null)
+					throw new DomError.INVALID_ROOT ("Could not obtain root for document.");
+			}
 
 			// TODO: consider passing root as a base node?
 			base.for_document ();
@@ -206,7 +214,7 @@ namespace GXml.Dom {
 		public Document.for_path (string file_path) throws DomError {
 			Xml.Doc *doc = Xml.Parser.parse_file (file_path); // consider using read_file
 			// TODO: might want to check that the file_path exists
-			this (doc);
+			this.for_libxml2 (doc);
 		}
 
 		// TODO: can we make this private?
@@ -314,7 +322,7 @@ namespace GXml.Dom {
 			reader.expand ();
 			Xml.Doc *doc = reader.current_doc ();
 
-			this (doc);
+			this.for_libxml2 (doc);
 		}
 		/**
 		 * Creates a Document from data found in memory.
@@ -323,8 +331,16 @@ namespace GXml.Dom {
 		 */
 		public Document.from_string (string memory) throws DomError {
 			Xml.Doc *doc = Xml.Parser.parse_memory (memory, (int)memory.length);
-			this (doc);
+			this.for_libxml2 (doc);
 		}
+		/**
+		 * Creates an empty document. 
+		 */
+		public Document () {
+			Xml.Doc *doc = new Xml.Doc ();
+			this.for_libxml2 (doc, false);
+		}
+
 		/**
 		 * Saves a Document to the file at path file_path
 		 */
