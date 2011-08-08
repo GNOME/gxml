@@ -1,8 +1,78 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 using GXml.Dom;
 
+// namespace GXml.Dom {
+// 	public class TestElement : Element {
+// 		public TestElement (Xml.Node *node, Document doc) {
+// 			/* /home2/richard/gxml/test/ElementTest.vala:7.4-7.19: error: chain up
+// 			   to `GXml.Dom.Element' not supported */
+// 			base (node, doc);
+// 		}
+// 	}
+// }
+
 class ElementTest : GXmlTest  {
 	public static void add_tests () {
+		Test.add_func ("/gxml/element/namespace_support_manual", () => {
+				try {
+					// TODO: wanted to use TestElement but CAN'T because Vala won't let me access the internal constructor of Element? 
+					Xml.Doc *xmldoc;
+					Xml.Node *xmlroot;
+					Xml.Node *xmlnode;
+					xmldoc = new Xml.Doc ();
+
+					xmlroot = xmldoc->new_node (null, "Potions");
+					Xml.Ns *ns = xmlroot->new_ns ("http://hogwarts.co.uk/courses", "course");
+					xmldoc->set_root_element (xmlroot);
+
+					xmlnode = xmldoc->new_node (null, "Potion");
+					xmlnode->new_ns ("http://hogwarts.co.uk/magic", "magic");
+					xmlnode->new_ns_prop (ns, "commonName", "Florax");
+					xmlroot->add_child (xmlnode);
+
+					Document doc = new Document.for_libxml2 (xmldoc);
+					XNode root = doc.document_element;
+					XNode node = root.child_nodes.item (0);
+
+					message ("%s", doc.to_string ());
+					assert (node.namespace_uri == "http://hogwarts.co.uk/magic");
+					assert (node.prefix == "magic");
+					assert (node.local_name == "Potion");
+					assert (node.node_name == "Potion");
+				} catch (GXml.Dom.DomError e) {
+				}				
+			});
+		Test.add_func ("/gxml/element/namespace_uri", () => {
+				try {
+					// TODO: wanted to use TestElement but CAN'T because Vala won't let me access the internal constructor of Element? 
+					Document doc = new Document.from_string ("<Potions><Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
+					XNode root = doc.document_element;
+					XNode node = root.child_nodes.item (0);
+
+					assert (node.namespace_uri == "http://hogwarts.co.uk/magic");
+				} catch (GXml.Dom.DomError e) {
+				}				
+			});
+		Test.add_func ("/gxml/element/prefix", () => {
+				try {
+					Document doc = new Document.from_string ("<Potions><Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
+					XNode root = doc.document_element;
+					XNode node = root.child_nodes.item (0);
+
+					assert (node.prefix == "magic");
+				} catch (GXml.Dom.DomError e) {
+				}				
+			});
+		Test.add_func ("/gxml/element/local_name", () => {
+				try {
+					Document doc = new Document.from_string ("<Potions><Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
+					XNode root = doc.document_element;
+					XNode node = root.child_nodes.item (0);
+
+					assert (node.local_name == "Potion");
+				} catch (GXml.Dom.DomError e) {
+				}				
+			});
 		Test.add_func ("/gxml/element/attributes", () => {
 				try {
 					HashTable<string,Attr> attributes;
