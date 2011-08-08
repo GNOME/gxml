@@ -27,6 +27,42 @@ namespace GXml.Dom {
 
 
 		/* Public properties */
+
+		/**
+		 * {@inheritDoc}
+		 */
+		public override string? namespace_uri {
+			get {
+				// TODO: there can be multiple NSes on a node, using ->next, right now we just return the first.  What should we do?!?!
+				return this.node->ns_def->href;
+				// TODO: handle null ns_def
+				// TODO: figure out when node->ns is used, as opposed to ns_def
+			}
+			internal set {
+			}
+		}
+		/**
+		 * {@inheritDoc}
+		 */
+		public override string? prefix {
+			get {
+				return this.node->ns_def->prefix;
+				// TODO: handle null ns
+			}
+			internal set {
+			}
+		}
+		/**
+		 * {@inheritDoc}
+		 */
+		public override string? local_name {
+			get {
+				return this.node_name;
+			}
+			internal set {
+			}
+		}
+
 		/* None of the following should store any data locally (except the attribute table), they should get data from Xml.Node* */
 
 		// TODO: make sure that subclasses obey the table in Node for node_name, node_value, and attributes; probably figure it out as I create tests for them.

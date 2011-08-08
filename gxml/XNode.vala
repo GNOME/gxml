@@ -18,6 +18,44 @@ namespace GXml.Dom {
 		}
 
 		/**
+		 * Stores the URI describing the node's namespace.
+		 * This only applies to Elements and Attrs from DOM
+		 * Level 2 Core that were created with namespace
+		 * support.
+		 */
+		public virtual string? namespace_uri {
+			get {
+				return null;
+			}
+			internal set {
+			}
+		}
+		/**
+		 * Stores the namespace prefix for the node.  This
+		 * only applies to Elements and Attrs from DOM Level 2
+		 * Core that were created with namespace support.
+		 */
+		public virtual string? prefix {
+			get {
+				return null;
+			}
+			internal set {
+			}
+		}
+		/**
+		 * Stores the local name within the namespace. This
+		 * only applies to Elements and Attrs from DOM Level 2
+		 * Core that were created with namespace support.
+		 */
+		public virtual string? local_name {
+			get {
+				return null;
+			}
+			internal set {
+			}
+		}
+
+		/**
 		 * Stores the value of the Node. The nature of
 		 * node_value varies based on the type of node. This
 		 * can be null.
