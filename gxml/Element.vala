@@ -96,7 +96,7 @@ namespace GXml.Dom {
 						// TODO: make sure other HashTables have appropriate hash, equal functions
 						
 						for (Xml.Attr *prop = base.node->properties; prop != null; prop = prop->next) {
-							attr = this.owner_document.create_attribute (prop->name);
+							attr = new Attr (prop, this.owner_document);
 							this.attributes.replace (prop->name, attr);
 						}
 					}
@@ -198,9 +198,14 @@ namespace GXml.Dom {
 			// don't need to use insert
 			Attr attr = this.attributes.lookup (name);
 			if (attr == null) {
+				/* TODO: I ended up testing only the case where I created attributes
+				 * like this, and not ones read from the file, so I didn't notice
+				 * something so important was broken. Ugh.  Add more suitable tests.
+				 */
+				   
 				attr = this.owner_document.create_attribute (name);
 			}
-				// TODO: find out if DOM API wants us to create a new one if it doesn't already exist?  (probably, but we'll need to know the doc for that, for doc.create_attribute :|
+			/* TODO: find out if DOM API wants us to create a new one if it doesn't already exist?  (probably, but we'll need to know the doc for that, for doc.create_attribute :| */
 
 			attr.value = value;
 
