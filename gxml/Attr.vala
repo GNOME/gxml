@@ -20,6 +20,47 @@ namespace GXml.Dom {
 	 * Nodes.  For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-637646024]]
 	 */
 	public class Attr : XNode {
+		/**
+		 * {@inheritDoc}
+		 */
+		public override string? namespace_uri {
+			get {
+				// TODO: there can be multiple NSes on a node, using ->next, right now we just return the first.  What should we do?!?!
+				if (this.node->ns == null) {
+					return null;
+				} else {
+					return this.node->ns->href;
+				}
+				// TODO: handle null ns_def
+				// TODO: figure out when node->ns is used, as opposed to ns_def
+			}
+			internal set {
+			}
+		}
+		/**
+		 * {@inheritDoc}
+		 */
+		public override string? prefix {
+			get {
+				if (this.node->ns == null) {
+					return null;
+				} else {
+					return this.node->ns->prefix;
+				}
+			}
+			internal set {
+			}
+		}
+		/**
+		 * {@inheritDoc}
+		 */
+		public override string? local_name {
+			get {
+				return this.node_name;
+			}
+			internal set {
+			}
+		}
 
 		/** Private properties */
 		private Xml.Attr *node;
