@@ -40,6 +40,8 @@ class ElementTest : GXmlTest  {
 					assert (node.local_name == "Potion");
 					assert (node.node_name == "Potion");
 				} catch (GXml.Dom.DomError e) {
+					GLib.warning ("%s", e.message);
+					assert (false);
 				}				
 			});
 		Test.add_func ("/gxml/element/namespace_uri", () => {
@@ -51,6 +53,8 @@ class ElementTest : GXmlTest  {
 
 					assert (node.namespace_uri == "http://hogwarts.co.uk/magic");
 				} catch (GXml.Dom.DomError e) {
+					GLib.warning ("%s", e.message);
+					assert (false);
 				}				
 			});
 		Test.add_func ("/gxml/element/prefix", () => {
@@ -61,6 +65,8 @@ class ElementTest : GXmlTest  {
 
 					assert (node.prefix == "magic");
 				} catch (GXml.Dom.DomError e) {
+					GLib.warning ("%s", e.message);
+					assert (false);
 				}				
 			});
 		Test.add_func ("/gxml/element/local_name", () => {
@@ -71,6 +77,8 @@ class ElementTest : GXmlTest  {
 
 					assert (node.local_name == "Potion");
 				} catch (GXml.Dom.DomError e) {
+					GLib.warning ("%s", e.message);
+					assert (false);
 				}				
 			});
 		Test.add_func ("/gxml/element/attributes", () => {
