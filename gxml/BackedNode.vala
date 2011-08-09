@@ -34,8 +34,11 @@ namespace GXml.Dom {
 		public override string? namespace_uri {
 			get {
 				// TODO: there can be multiple NSes on a node, using ->next, right now we just return the first.  What should we do?!?!
-				return this.node->ns_def->href;
-				// TODO: handle null ns_def
+				if (this.node->ns_def == null) {
+					return null;
+				} else {
+					return this.node->ns_def->href;
+				}
 				// TODO: figure out when node->ns is used, as opposed to ns_def
 			}
 			internal set {
@@ -46,8 +49,11 @@ namespace GXml.Dom {
 		 */
 		public override string? prefix {
 			get {
-				return this.node->ns_def->prefix;
-				// TODO: handle null ns
+				if (this.node->ns_def == null) {
+					return null;
+				} else {
+					return this.node->ns_def->prefix;
+				}
 			}
 			internal set {
 			}
