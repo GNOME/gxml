@@ -246,6 +246,7 @@ namespace GXml.Dom {
 			Xml.Buffer *buffer;
 			string str;
 
+			this.owner_document.sync_dirty_elements ();
 			buffer = new Xml.Buffer ();
 			buffer->node_dump (this.owner_document.xmldoc, this.node, level, format ? 1 : 0);
 			str = buffer->content ();

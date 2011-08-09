@@ -51,7 +51,7 @@ namespace GXml.Dom {
 
 		/* HashTable used for XML NamedNodeMap */
 		// TODO: note that NamedNodeMap is 'live' so changes to the Node should be seen in the NamedNodeMap (already retrieved), no duplicating it: http://www.w3.org/TR/DOM-Level-1/level-one-core.html
-		private HashTable<string,Attr> _attributes = new HashTable<string,Attr> (GLib.str_hash, GLib.str_equal); // TODO: make sure other HashTables have appropriate hash, equal functions
+		private HashTable<string,Attr> _attributes = null;
 
 		/**
 		 * Contains a HashTable of Attr attributes associated with this element.
@@ -72,18 +72,86 @@ namespace GXml.Dom {
 		 * document.
 		 */
 		public override HashTable<string,Attr>? attributes {
-			// TODO: make sure we want the user to be able to manipulate attributes using this HashTable. // Yes, we do, it should be a live reflection
-			// TODO: remember that this table needs to be synced with libxml2 structures; perhaps use a flag that indicates whether it was even accessed, and only then sync it later on
+			/* TODO: make sure we want the user to be able
+			 * to manipulate attributes using this
+			 * HashTable. Yes, we do, it should be a live
+			 * reflection.  That's OK though, as long as
+			 * we save dirty attributes tables also when
+			 * we save the the ones in our hashtable back
+			 * into the xml.Doc before writing that to
+			 * whatever disk.
+			 */
+			/* TODO: remember that this table needs to be
+			 * synced with libxml2 structures; perhaps use
+			 * a flag that indicates whether it was even
+			 * accessed, and only then sync it later on
+			 */
 			get {
+				Attr attr;
+
+				try {
+					if (this._attributes == null) {
+						this.owner_document.dirty_elements.append (this);
+						this._attributes = new HashTable<string,Attr> (GLib.str_hash, GLib.str_equal);
+						// TODO: make sure other HashTables have appropriate hash, equal functions
+						
+						for (Xml.Attr *prop = base.node->properties; prop != null; prop = prop->next) {
+							attr = this.owner_document.create_attribute (prop->name);
+							this.attributes.replace (prop->name, attr);
+						}
+					}
+				} catch (DomError e) {
+					// TODO: handle this case, results from create_attribute 
+				}
+
 				return this._attributes;
-				// switch (this.node_type) {
-				// case NodeType.ELEMENT:
-				// 	// TODO: what other nodes have attrs?
-				// default:
-				// 	return null;
-				// }
 			}
 			internal set {
+			}
+		}
+
+		/**
+		 * This should be called before saving a GXml Document
+		 * to a libxml2 Xml.Doc*, or else any changes made to
+		 * attributes in the Element will only exist within
+		 * the hash table proxy and will not be recorded.
+		 */
+		internal void save_attributes (Xml.Node *tmp_node) {
+			Attr attr;
+			Xml.Ns *ns;
+
+			/* First, check if anyone has tried to access attributes, which
+			   means it could have changed.  Do this by checking whether our
+			   underlying local hashtable is still null. */
+			/* TODO: make sure that in normal operation
+			   where attributes aren't _explicitly_ referenced, that we don't
+			   internally induce this._attributes from being created. */
+			if (this._attributes != null) {
+				// First we have to clear the old properties, so we don't create duplicates
+				for (Xml.Attr *xmlattr = this.node->properties; xmlattr != null; xmlattr = xmlattr->next) {
+					// TODO: make sure that this actually works, and that I don't lose my attr->next for the next step by unsetting attr
+					// TODO: need a good test case that makes sure that the properties do not get duplicated, that removed ones stay removed, and new ones appear when recorded to back to a file
+					if (xmlattr->ns == null) {
+						// Attr has no namespace
+						this.node->unset_prop (xmlattr->name);
+					} else {
+						// Attr has a namespace
+						this.node->unset_ns_prop (xmlattr->ns, xmlattr->name);
+					}
+				}
+				
+				// Go through the GXml table of attributes for this element and add corresponding libxml2 ones
+				foreach (string propname in this.attributes.get_keys ()) {
+					attr = this.attributes.lookup (propname);
+
+					if (attr.namespace_uri != null || attr.prefix != null) {
+						// I hate namespace handling between libxml2 and DOM Level 2/3 Core!
+						ns = tmp_node->new_ns (attr.namespace_uri, attr.prefix);
+						this.node->set_ns_prop (ns, propname, attr.node_value);
+					} else {
+						this.node->set_prop (propname, attr.node_value);
+					}
+				}
 			}
 		}
 
@@ -156,7 +224,6 @@ namespace GXml.Dom {
 		 * @return The Attr node named by name for this element.
 		 */
 		public Attr? get_attribute_node (string name) {
-
 			// TODO: verify that attributes returns null with unknown name
 			return this.attributes.lookup (name);
 		}

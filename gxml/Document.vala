@@ -46,34 +46,39 @@ namespace GXml.Dom {
 	 * [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#i-Document]]
 	 */
 	public class Document : XNode {
-		/** Private properties */
+		/* *** Private properties *** */
+
+		/**
+		 * This contains a map of Xml.Nodes that have been
+		 * accessed and the GXml XNode we created to represent
+		 * them on-demand.  That way, we don't create an XNode
+		 * for EVERY node, even if the user never actually
+		 * accesses it.  
+		 */ 
 		internal HashTable<Xml.Node*, XNode> node_dict = new HashTable<Xml.Node*, XNode> (GLib.direct_hash, GLib.direct_equal);
 		// We don't want want to use XNode's Xml.Node or its dict
 		// internal HashTable<Xml.Attr*, Attr> attr_dict = new HashTable<Xml.Attr*, Attr> (null, null);
 
+		/**
+		 * This contains a list of elements whose attributes
+		 * may have been modified within GXml, and whose modified
+		 * attributes need to be saved back to the underlying
+		 * libxml2 structure when we save.  (Necessary because
+		 * the user can obtain a HashTable and modify that in a
+		 * way that we can't follow unless we check ourselves.)
+		 * Perhaps I really should implement a NamedNodeMap :|
+		 * TODO: do that
+		 */
+		internal List<Element> dirty_elements = new List<Element> ();
+
 		/* TODO: for future reference, find out if internals
-		   are only accessible by children when they're compiled
-		   together */
+		   are only accessible by children when they're
+		   compiled together.  I have a test that had a
+		   separately compiled TestDocument : Document class,
+		   and it couldn't access the internal xmldoc. */
 		internal Xml.Doc *xmldoc;
 
-		/** Private methods */
-		// internal unowned Attr? lookup_attr (Xml.Attr *xmlattr) {
-		// 	unowned Attr attrnode;
-
-		// 	if (xmlattr == null) {
-		// 		return null; // TODO: consider throwing an error instead
-		// 	}
-
-		// 	attrnode = this.attr_dict.lookup (xmlattr);
-		// 	if (attrnode == null) {
-		// 		// TODO: threadsafety
-		// 		this.attr_dict.insert (xmlattr, new Attr (xmlattr, this));
-		// 		attrnode = this.attr_dict.lookup (xmlattr);
-		// 	}
-
-		// 	return attrnode;
-		// }
-
+		/* *** Private methods *** */
 		internal unowned XNode? lookup_node (Xml.Node *xmlnode) {
 			unowned XNode domnode;
 
@@ -342,10 +347,36 @@ namespace GXml.Dom {
 		}
 
 		/**
+		 * This should be called by any function that wants to
+		 * look at libxml2 data structures, particularly the
+		 * attributes of elements.  Such as: saving an Xml.Doc
+		 * to disk, or stringifying an Xml.Node.  GXml
+		 * developer, if you grep for ".node" and ".xmldoc",
+		 * you can help identify potential points where you
+		 * should sync.
+		 */
+		internal void sync_dirty_elements () {
+			Xml.Node * tmp_node;
+
+			// TODO: test that adding attributes works with stringification and saving
+			if (this.dirty_elements.length () > 0) {
+				// tmp_node for generating Xml.Ns* objects when saving attributes
+				tmp_node = new Xml.Node (null, "tmp"); 
+				foreach (Element elem in this.dirty_elements) {
+					elem.save_attributes (tmp_node);
+				}
+				this.dirty_elements = new List<Element> (); // clear the old list
+			}
+		}
+		
+
+		/**
 		 * Saves a Document to the file at path file_path
 		 */
 		// TODO: is this a simple Unix file path, or does libxml2 do networks, too?
 		public void save_to_path (string file_path) {
+			sync_dirty_elements ();
+
 			this.xmldoc->save_file (file_path);
 		}
 
@@ -356,6 +387,8 @@ namespace GXml.Dom {
 		public void save_to_stream (OutputStream outstream) throws DomError {
 			Cancellable can = new Cancellable ();
 			OutputStreamBox box = { outstream, can };
+
+			sync_dirty_elements ();
 
 			// TODO: make sure libxml2's vapi gets patched
 			Xml.SaveCtxt *ctxt = new Xml.SaveCtxt.to_io ((Xml.OutputWriteCallback)_iowrite,
@@ -375,8 +408,11 @@ namespace GXml.Dom {
 			   for DOM Level 1 Core wants us to. Handle ourselves? */
 			// TODO: what does libxml2 do with Elements?  should we just use nodes? probably
 			// TODO: what should we be passing for ns other than old_ns?  Figure it out
-			Xml.Node *xmlelem = this.xmldoc->new_node (null, tag_name, null);
-			Element new_elem = new Element (xmlelem, this);
+			Xml.Node *xmlelem;
+			Element new_elem;
+
+			xmlelem = this.xmldoc->new_node (null, tag_name, null);
+			new_elem = new Element (xmlelem, this);
 			return new_elem;
 		}
 		/**
@@ -480,6 +516,7 @@ namespace GXml.Dom {
 			string str;
 			int len;
 
+			sync_dirty_elements ();
 			this.xmldoc->dump_memory_format (out str, out len, format);
 
 			return str;
