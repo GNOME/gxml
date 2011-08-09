@@ -3,11 +3,66 @@ using GXml.Dom;
 
 class AttrTest : GXmlTest {
 	public static void add_tests () {
+		Test.add_func ("/gxml/element/namespace_uri", () => {
+				try {
+					Document doc = new Document.from_string ("<Wands xmlns:wands=\"http://mom.co.uk/wands\"><Wand price=\"43.56\" wands:core=\"dragon heart cord\" wands:shell=\"oak\"/></Wands>");
+					XNode root = doc.document_element;
+					Element node = (Element)root.child_nodes.item (0);
+
+					Attr core = node.get_attribute_node ("core");
+					Attr shell = node.get_attribute_node ("shell");
+					Attr price = node.get_attribute_node ("price");
+					
+					assert (core.namespace_uri == "http://mom.co.uk/wands");
+					assert (shell.namespace_uri == "http://mom.co.uk/wands");
+					assert (price.namespace_uri == null);
+				} catch (GXml.Dom.DomError e) {
+					GLib.warning ("%s", e.message);
+					assert (false);
+				}
+			});
+		Test.add_func ("/gxml/element/prefix", () => {
+				try {
+					Document doc = new Document.from_string ("<Wands xmlns:wands=\"http://mom.co.uk/wands\"><Wand price=\"43.56\" wands:core=\"dragon heart cord\" wands:shell=\"oak\"/></Wands>");
+					XNode root = doc.document_element;
+					Element node = (Element)root.child_nodes.item (0);
+
+					Attr core = node.get_attribute_node ("core");
+					Attr shell = node.get_attribute_node ("shell");
+					Attr price = node.get_attribute_node ("price");
+					
+					assert (core.prefix == "wands");
+					assert (shell.prefix == "wands");
+					assert (price.prefix == null);
+				} catch (GXml.Dom.DomError e) {
+					GLib.warning ("%s", e.message);
+					assert (false);
+				}
+			});
+		Test.add_func ("/gxml/element/local_name", () => {
+				try {
+					Document doc = new Document.from_string ("<Wands xmlns:wands=\"http://mom.co.uk/wands\"><Wand price=\"43.56\" wands:core=\"dragon heart cord\" wands:shell=\"oak\"/></Wands>");
+					XNode root = doc.document_element;
+					Element node = (Element)root.child_nodes.item (0);
+
+					Attr core = node.get_attribute_node ("core");
+					Attr shell = node.get_attribute_node ("shell");
+					Attr price = node.get_attribute_node ("price");
+					
+					assert (core.local_name == "core");
+					assert (shell.local_name == "shell");
+					assert (price.local_name == "price");
+				} catch (GXml.Dom.DomError e) {
+					GLib.warning ("%s", e.message);
+					assert (false);
+				}
+			});
+
 		Test.add_func ("/gxml/attribute/node_name", () => {
 				try {
 					Document doc = get_doc ();
 					Attr attr = get_attr ("broomSeries", "Nimbus", doc);
-
+					
 					assert (attr.node_name == "broomSeries");
 				} catch (GXml.Dom.DomError e) {
 					GLib.warning ("%s", e.message);
