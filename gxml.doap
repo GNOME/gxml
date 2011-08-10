@@ -20,7 +20,7 @@
     <foaf:Person>
       <foaf:name>Richard Schwarting</foaf:name>
       <foaf:mbox rdf:resource="mailto:rschwart@src.gnome.org" />
-      <gnome:userid>aquarichy</gnome:userid>
+      <gnome:userid>rschwart</gnome:userid>
     </foaf:Person>
   </maintainer>
 </Project>
