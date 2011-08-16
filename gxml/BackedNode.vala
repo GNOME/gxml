@@ -28,18 +28,31 @@ namespace GXml.Dom {
 
 		/* Public properties */
 
+		private NamespaceAttrNodeList _namespace_definitions = null;
+		/**
+		 * {@inheritDoc}
+		 */
+		public override NodeList? namespace_definitions {
+			get {
+				if (_namespace_definitions == null) {
+					this._namespace_definitions = new NamespaceAttrNodeList (this, this.owner_document);
+				} 
+				return this._namespace_definitions;
+			}
+			internal set {
+			}
+		}
+
 		/**
 		 * {@inheritDoc}
 		 */
 		public override string? namespace_uri {
 			get {
-				// TODO: there can be multiple NSes on a node, using ->next, right now we just return the first.  What should we do?!?!
-				if (this.node->ns_def == null) {
+				if (this.node->ns == null) {
 					return null;
 				} else {
-					return this.node->ns_def->href;
+					return this.node->ns->href;
 				}
-				// TODO: figure out when node->ns is used, as opposed to ns_def
 			}
 			internal set {
 			}
@@ -49,10 +62,10 @@ namespace GXml.Dom {
 		 */
 		public override string? prefix {
 			get {
-				if (this.node->ns_def == null) {
+				if (this.node->ns == null) {
 					return null;
 				} else {
-					return this.node->ns_def->prefix;
+					return this.node->ns->prefix;
 				}
 			}
 			internal set {
