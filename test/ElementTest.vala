@@ -19,22 +19,26 @@ class ElementTest : GXmlTest  {
 					Xml.Doc *xmldoc;
 					Xml.Node *xmlroot;
 					Xml.Node *xmlnode;
+					Xml.Ns *ns_magic;
+					Xml.Ns *ns_course;
 					xmldoc = new Xml.Doc ();
 
 					xmlroot = xmldoc->new_node (null, "Potions");
-					Xml.Ns *ns = xmlroot->new_ns ("http://hogwarts.co.uk/courses", "course");
+					ns_course = xmlroot->new_ns ("http://hogwarts.co.uk/courses", "course");
 					xmldoc->set_root_element (xmlroot);
 
 					xmlnode = xmldoc->new_node (null, "Potion");
-					xmlnode->new_ns ("http://hogwarts.co.uk/magic", "magic");
-					xmlnode->new_ns_prop (ns, "commonName", "Florax");
+					ns_magic = xmlnode->new_ns ("http://hogwarts.co.uk/magic", "magic");
+					xmlnode->new_ns_prop (ns_course, "commonName", "Florax");
 					xmlroot->add_child (xmlnode);
 
 					Document doc = new Document.for_libxml2 (xmldoc);
 					XNode root = doc.document_element;
 					XNode node = root.child_nodes.item (0);
 
-					message ("%s", doc.to_string ());
+					assert (node.namespace_uri == null);
+					assert (node.prefix == null);
+					xmlnode->set_ns (ns_magic);
 					assert (node.namespace_uri == "http://hogwarts.co.uk/magic");
 					assert (node.prefix == "magic");
 					assert (node.local_name == "Potion");
@@ -47,7 +51,7 @@ class ElementTest : GXmlTest  {
 		Test.add_func ("/gxml/element/namespace_uri", () => {
 				try {
 					// TODO: wanted to use TestElement but CAN'T because Vala won't let me access the internal constructor of Element? 
-					Document doc = new Document.from_string ("<Potions><Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
+					Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
 					XNode root = doc.document_element;
 					XNode node = root.child_nodes.item (0);
 
@@ -57,9 +61,32 @@ class ElementTest : GXmlTest  {
 					assert (false);
 				}				
 			});
+		Test.add_func ("/gxml/element/testing", () => {
+				try {
+					// TODO: wanted to use TestElement but CAN'T because Vala won't let me access the internal constructor of Element? 
+					Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"><products:Ingredient /></magic:Potion></Potions>");
+					XNode root = doc.document_element;
+					XNode node = root.child_nodes.item (0);
+
+					root.dbg_inspect ();
+					node.dbg_inspect ();
+					node.child_nodes.item (0).dbg_inspect ();
+
+					assert (node.namespace_uri == "http://hogwarts.co.uk/magic");
+
+					// TODO: remove below
+					message ("going to show attributes on node %s", node.node_name);
+					foreach (Attr attr in node.attributes.get_values ()) {
+						message ("attrkey: %s, value: %s", attr.node_name, attr.node_value);
+					}
+				} catch (GXml.Dom.DomError e) {
+					GLib.warning ("%s", e.message);
+					assert (false);
+				}
+			});
 		Test.add_func ("/gxml/element/prefix", () => {
 				try {
-					Document doc = new Document.from_string ("<Potions><Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
+					Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
 					XNode root = doc.document_element;
 					XNode node = root.child_nodes.item (0);
 
@@ -71,10 +98,32 @@ class ElementTest : GXmlTest  {
 			});
 		Test.add_func ("/gxml/element/local_name", () => {
 				try {
-					Document doc = new Document.from_string ("<Potions><Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
+					Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
 					XNode root = doc.document_element;
 					XNode node = root.child_nodes.item (0);
 
+					assert (node.local_name == "Potion");
+				} catch (GXml.Dom.DomError e) {
+					GLib.warning ("%s", e.message);
+					assert (false);
+				}				
+			});
+		Test.add_func ("/gxml/element/namespace_definitions", () => {
+				try {
+					Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
+					XNode root = doc.document_element;
+					XNode node = root.child_nodes.item (0);
+
+					NodeList namespaces = node.namespace_definitions;
+
+					assert (namespaces.length == 2);
+
+					assert (namespaces.item (0).prefix == "xmlns");
+					assert (namespaces.item (0).node_name == "magic");
+					assert (namespaces.item (0).node_value == "http://hogwarts.co.uk/magic");
+					assert (namespaces.item (1).prefix == "xmlns");
+					assert (namespaces.item (1).node_name == "products");
+					assert (namespaces.item (1).node_value == "http://diagonalley.co.uk/products");
 					assert (node.local_name == "Potion");
 				} catch (GXml.Dom.DomError e) {
 					GLib.warning ("%s", e.message);
