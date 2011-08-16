@@ -17,6 +17,39 @@ namespace GXml.Dom {
 			this.node_type = NodeType.DOCUMENT;
 		}
 
+		public void dbg_inspect () {
+			message ("node: %s", this.node_name);
+			message ("  ns (prefix: %s, uri: %s)", this.prefix, this.namespace_uri);
+			if (this.attributes != null) {
+				message ("  attributes:");
+				foreach (XNode attr in this.attributes.get_values ()) {
+					message ("    %s", attr.node_name);
+				}
+			}
+			message ("  children:");
+			if (this.child_nodes != null) {
+				// TODO: consider having non-null hcild_nodes and attributes,
+				//       and instead returning empty collections
+				//     No, probably don't want that, as nodes which don't
+				//     support them really do just want to return null ala spec
+				foreach (XNode child in this.child_nodes) {
+					message ("    %s", child.node_name);
+				}
+			}
+		}
+
+		// TODO: determine best API for exposing these, as it's not defined in the IDL
+		/**
+		 * The list of attributes that store namespace definitions
+		 */ 
+		public virtual NodeList? namespace_definitions {
+			get {
+				return null;
+			}
+			internal set {
+			}					
+		}
+
 		/**
 		 * Stores the URI describing the node's namespace.
 		 * This only applies to Elements and Attrs from DOM
@@ -31,7 +64,7 @@ namespace GXml.Dom {
 			}
 		}
 		/**
-		 * Stores the namespace prefix for the node.  This
+		 * Stores the namespace prefix for the node. This
 		 * only applies to Elements and Attrs from DOM Level 2
 		 * Core that were created with namespace support.
 		 */
