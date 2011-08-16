@@ -53,6 +53,16 @@ namespace GXml.Dom {
 		// TODO: note that NamedNodeMap is 'live' so changes to the Node should be seen in the NamedNodeMap (already retrieved), no duplicating it: http://www.w3.org/TR/DOM-Level-1/level-one-core.html
 		private HashTable<string,Attr> _attributes = null;
 
+		// private _attr
+		// public override NodeList attribute_list {
+		// 	get {
+		// 		AttrNodeList attrs = new AttrNodeList (this, this.owner_document);
+		// 		return attrs;
+		// 	}
+		// 	internal set {
+		// 	}
+		// }
+
 		/**
 		 * Contains a HashTable of Attr attributes associated with this element.
 		 *
@@ -89,19 +99,15 @@ namespace GXml.Dom {
 			get {
 				Attr attr;
 
-				try {
-					if (this._attributes == null) {
-						this.owner_document.dirty_elements.append (this);
-						this._attributes = new HashTable<string,Attr> (GLib.str_hash, GLib.str_equal);
+				if (this._attributes == null) {
+					this.owner_document.dirty_elements.append (this);
+					this._attributes = new HashTable<string,Attr> (GLib.str_hash, GLib.str_equal);
 						// TODO: make sure other HashTables have appropriate hash, equal functions
-						
-						for (Xml.Attr *prop = base.node->properties; prop != null; prop = prop->next) {
-							attr = new Attr (prop, this.owner_document);
-							this.attributes.replace (prop->name, attr);
-						}
+					
+					for (Xml.Attr *prop = base.node->properties; prop != null; prop = prop->next) {
+						attr = new Attr (prop, this.owner_document);
+						this.attributes.replace (prop->name, attr);
 					}
-				} catch (DomError e) {
-					// TODO: handle this case, results from create_attribute 
 				}
 
 				return this._attributes;
