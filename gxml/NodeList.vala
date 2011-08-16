@@ -91,14 +91,17 @@ namespace GXml.Dom {
 		public abstract string to_string (bool in_line);
 	}
 
-	// TODO: this will somehow need to watch the document and find out as new elements are added, and get reconstructed each time, or get reconstructed-on-the-go?
-	internal class TagNameNodeList : Gee.Iterable<XNode>, NodeList, GLib.Object {
-		internal string tag_name;
+	/**
+	 * This provides a NodeList that is backed by a GLib.List of
+	 * XNodes.  A root XNode is specified, which is usually the
+	 * owner/parent of the list's contents (children of the
+	 * parent).
+	 */
+	internal class GListNodeList : Gee.Iterable<XNode>, NodeList, GLib.Object {
 		internal XNode root;
 		internal GLib.List<XNode> nodes;
 
-		internal TagNameNodeList (string tag_name, XNode root, Document owner) {
-			this.tag_name = tag_name;
+		internal GListNodeList (XNode root) {
 			this.root = root;
 			this.nodes = new GLib.List<XNode> ();
 		}
@@ -219,12 +222,12 @@ namespace GXml.Dom {
 			return new NodeListIterator (this);
 		}
 		private class NodeListIterator : Gee.Iterator<XNode>, GLib.Object {
-			private TagNameNodeList list;
+			private GListNodeList list;
 			private unowned GLib.List<XNode> nodes;
 			private unowned GLib.List<XNode> cur;
 			private unowned GLib.List<XNode> next_node;
 			
-			public NodeListIterator (TagNameNodeList list) {
+			public NodeListIterator (GListNodeList list) {
 				this.list = list;
 				this.nodes = list.nodes;
 				this.next_node = this.nodes;
@@ -254,6 +257,34 @@ namespace GXml.Dom {
 			public void remove () {
 				/* TODO: indicate that this is not supported. */
 				GLib.warning ("Remove on NodeList not supported: Nodes must be removed from parent or doc separately.");
+			}
+		}
+	}
+
+	// TODO: this will somehow need to watch the document and find out as new elements are added, and get reconstructed each time, or get reconstructed-on-the-go?
+	internal class TagNameNodeList : GListNodeList {
+		internal string tag_name;
+
+		internal TagNameNodeList (string tag_name, XNode root, Document owner) {
+			base (root);
+			this.tag_name = tag_name;
+		}
+	}
+
+	/* TODO: warning: this list should NOT be edited :(
+	   we need a new, better live AttrNodeList :| */       
+	internal class AttrNodeList : GListNodeList {
+		internal AttrNodeList (XNode root, Document owner) {
+			base (root);
+			base.nodes = root.attributes.get_values ();
+		}
+	}
+
+	internal class NamespaceAttrNodeList : GListNodeList {
+		internal NamespaceAttrNodeList (BackedNode root, Document owner) {
+			base (root);
+			for (Xml.Ns *cur = root.node->ns_def; cur != null; cur = cur->next) {
+				this.append_child (new NamespaceAttr (cur, owner));
 			}
 		}
 	}
