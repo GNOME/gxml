@@ -9,6 +9,6 @@ bld.shlib(
     packages = 'gtk+-2.0 gee-1.0 libxml-2.0',
     target = 'gxml',
     uselib = 'GTK GLIB GEE XML',
-    source = ['Attr.vala', 'BackedNode.vala', 'CDATASection.vala', 'CharacterData.vala', 'Comment.vala', 'DocumentFragment.vala', 'DocumentType.vala', 'Document.vala', 'DomError.vala', 'Element.vala', 'EntityReference.vala', 'Entity.vala', 'Implementation.vala', 'NodeList.vala', 'NodeType.vala', 'Notation.vala', 'ProcessingInstruction.vala', 'Text.vala', 'XNode.vala'],
+    source = ['Attr.vala', 'BackedNode.vala', 'CDATASection.vala', 'CharacterData.vala', 'Comment.vala', 'DocumentFragment.vala', 'DocumentType.vala', 'Document.vala', 'DomError.vala', 'Element.vala', 'EntityReference.vala', 'Entity.vala', 'Implementation.vala', 'NodeList.vala', 'NodeType.vala', 'Notation.vala', 'ProcessingInstruction.vala', 'Text.vala', 'XNode.vala', 'NamespaceAttr.vala'],
     vapi_dirs = './'
     )
