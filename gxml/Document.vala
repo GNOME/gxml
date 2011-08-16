@@ -299,7 +299,7 @@ namespace GXml.Dom {
 		 *
 		 * @throws DomError When a Document cannot be constructed for the specified file.
 		 */
-		public Document.for_file (File fin) throws DomError {
+		public Document.for_file (File fin, Cancellable? can = null) throws DomError {
 			// TODO: accept cancellable
 			InputStream instream;
 
@@ -308,7 +308,7 @@ namespace GXml.Dom {
 			} catch (GLib.Error e) {
 				throw new DomError.INVALID_DOC (e.message);
 			}
-			this.for_stream (instream);
+			this.for_stream (instream, can);
 		}
 		/**
 		 * Creates a Document from data provided through the InputStream instream.
@@ -335,13 +335,16 @@ namespace GXml.Dom {
 		 * @throws DomError When a Document cannot be constructed for the specified data.
 		 */
 		public Document.from_string (string memory) throws DomError {
+			/* TODO: consider breaking API to support
+			 * xmlParserOptions, encoding, and base URL
+			 * from xmlReadMemory */
 			Xml.Doc *doc = Xml.Parser.parse_memory (memory, (int)memory.length);
 			this.for_libxml2 (doc);
 		}
 		/**
 		 * Creates an empty document. 
 		 */
-		public Document () {
+		public Document () throws DomError {
 			Xml.Doc *doc = new Xml.Doc ();
 			this.for_libxml2 (doc, false);
 		}
@@ -377,15 +380,19 @@ namespace GXml.Dom {
 		public void save_to_path (string file_path) {
 			sync_dirty_elements ();
 
+			// TODO: change this to a GIO file so we can save to in a cool way
 			this.xmldoc->save_file (file_path);
 		}
 
-		// TODO: consider adding a save_to_file, but then we need to figure out which flags to accept
+		/* TODO: consider adding a save_to_file, but then we
+		 * need to figure out which flags to accept.  For now
+		 * they can just figure it out themselves.
+		 */
+
 		/**
 		 * Saves a Document to the OutputStream outstream.
 		 */
-		public void save_to_stream (OutputStream outstream) throws DomError {
-			Cancellable can = new Cancellable ();
+		public void save_to_stream (OutputStream outstream, Cancellable? can = null) throws DomError {
 			OutputStreamBox box = { outstream, can };
 
 			sync_dirty_elements ();
