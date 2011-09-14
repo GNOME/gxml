@@ -21,9 +21,8 @@ namespace GXml.Dom {
 
 
 		/**
-		 * The prefix that this xmlns attribute defines.  So,
-		 * if the element was like [[[<Fish
-		 * xmlns:foods="http://fishies.org/foods" />]]], the
+		 * The prefix that this xmlns attribute defines. So,
+		 * if the element was like {{{<Fish xmlns:foods="http://fishies.org/foods" />}}}, the
 		 * defined prefix would be foods.
 		 */ 
 		public string defined_prefix {
@@ -35,10 +34,9 @@ namespace GXml.Dom {
 		}
 
 		/**
-		 * The namespace uri that this xmlns attribute defines.  So,
-		 * if the element was like [[[<Fish
-		 * xmlns:foods="http://fishies.org/foods" />]]], the
-		 * defined namespace uri would be http://fishies.org/foods/.
+		 * The namespace uri that this xmlns attribute defines. So,
+		 * if the element was like {{{<Fish xmlns:foods="http://fishies.org/foods" />}}}, the
+		 * defined namespace uri would be [[http://fishies.org/foods/]].
 		 */ 
 		public string defined_namespace_uri {
 			get {
