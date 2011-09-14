@@ -34,7 +34,8 @@ Compile:
 
 Test:
   You can run the test suite, which is gxml_test, which you may have installed
-  into your $PATH via "./waf install" above.  Or, you can run it from build/test/
+  into your $PATH via "./waf install" above.  You should actually run it from build/test/,
+  though, as it requires .xml files that are currently just relatively referenced.
 
   $ cd build/test/
   $ ./gxml_test
