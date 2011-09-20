@@ -96,7 +96,7 @@ namespace GXml.Dom {
 					
 					for (Xml.Attr *prop = base.node->properties; prop != null; prop = prop->next) {
 						attr = new Attr (prop, this.owner_document);
-						this.attributes.replace (prop->name, attr);
+						this._attributes.replace (prop->name, attr);
 					}
 				}
 
