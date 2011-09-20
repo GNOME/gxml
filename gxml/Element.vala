@@ -127,12 +127,16 @@ namespace GXml.Dom {
 				for (Xml.Attr *xmlattr = this.node->properties; xmlattr != null; xmlattr = xmlattr->next) {
 					// TODO: make sure that this actually works, and that I don't lose my attr->next for the next step by unsetting attr
 					// TODO: need a good test case that makes sure that the properties do not get duplicated, that removed ones stay removed, and new ones appear when recorded to back to a file
-					if (xmlattr->ns == null) {
-						// Attr has no namespace
-						this.node->unset_prop (xmlattr->name);
-					} else {
-						// Attr has a namespace
-						this.node->unset_ns_prop (xmlattr->ns, xmlattr->name);
+					if (this._attributes.lookup (xmlattr->name) == null) {
+						// this element no longer has an attribute with this name, so get rid of the underlying one when syncing
+						if (xmlattr->ns == null) {
+							// Attr has no namespace
+							this.node->unset_prop (xmlattr->name);
+						} else {
+							// Attr has a namespace
+							this.node->unset_ns_prop (xmlattr->ns, xmlattr->name);
+						}
+
 					}
 				}
 				
