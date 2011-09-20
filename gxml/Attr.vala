@@ -109,6 +109,7 @@ namespace GXml.Dom {
 				try {
 					// TODO: consider adding an empty () method to NodeList
 					foreach (XNode child in this.child_nodes) {
+						// TODO: this doesn't clear the actual underlying attributes' values, is this what we want to do?  It works if we eventually sync up values
 						this.remove_child (child);
 					}
 					this.append_child (this.owner_document.create_text_node (value));
@@ -127,6 +128,10 @@ namespace GXml.Dom {
 		public override NodeList? child_nodes {
 			owned get {
 				// TODO: always create a new one?
+				//       no, this is broken, if we keep creating new ones
+				//       then changes are lost each time we call one
+				//       unless AttrChildNodeList makes changes to the underlying one
+				//       ugh, how are we even passing tests right now?
 				return new AttrChildNodeList (this.node, this.owner_document);
 			}
 			internal set {
