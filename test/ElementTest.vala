@@ -94,7 +94,7 @@ class ElementTest : GXmlTest  {
 				} catch (GXml.Dom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
-				}				
+				}
 			});
 		Test.add_func ("/gxml/element/local_name", () => {
 				try {
@@ -164,6 +164,25 @@ class ElementTest : GXmlTest  {
 					attributes.remove ("alley");
 					assert (elem.get_attribute ("alley") == "");
 
+				} catch (GXml.Dom.DomError e) {
+					GLib.warning ("%s", e.message);
+					assert (false);
+				}
+			});
+		/* by accessing .attributes, the element is marked as
+		 * dirty, because it can't be sure whether we're
+		 * changing attributes independently in the obtained
+		 * HashTable, and the document will have to re-sync
+		 * before stringifying (or saving)*/
+		Test.add_func ("/gxml/element/syncing_of_dirty_elements", () => {
+				try {
+					Document doc = new Document.from_string ("<?xml version='1.0' encoding='UTF-8'?><entry><link rel='http://schemas.google.com/contacts/2008/rel#photo'/></entry>");
+					XNode root = doc.document_element;
+					foreach (XNode child in root.child_nodes) {
+						HashTable<string,GXml.Dom.Attr> attrs = child.attributes;
+					}
+
+					string str = doc.to_string ();
 				} catch (GXml.Dom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
