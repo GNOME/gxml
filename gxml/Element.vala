@@ -53,16 +53,6 @@ namespace GXml.Dom {
 		// TODO: note that NamedNodeMap is 'live' so changes to the Node should be seen in the NamedNodeMap (already retrieved), no duplicating it: http://www.w3.org/TR/DOM-Level-1/level-one-core.html
 		private HashTable<string,Attr> _attributes = null;
 
-		// private _attr
-		// public override NodeList attribute_list {
-		// 	get {
-		// 		AttrNodeList attrs = new AttrNodeList (this, this.owner_document);
-		// 		return attrs;
-		// 	}
-		// 	internal set {
-		// 	}
-		// }
-
 		/**
 		 * Contains a HashTable of Attr attributes associated with this element.
 		 *
