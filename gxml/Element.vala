@@ -226,7 +226,7 @@ namespace GXml.Dom {
 		 *
 		 * @param name The name of the Attr node to retrieve.
 		 *
-		 * @return The Attr node named by name for this element.
+		 * @return The Attr node named by name for this element, or null if none is set.
 		 */
 		public Attr? get_attribute_node (string name) {
 			// TODO: verify that attributes returns null with unknown name
