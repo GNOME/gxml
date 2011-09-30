@@ -484,10 +484,8 @@ namespace GXml.Dom {
 		// TODO: add test
 		public string content {
 			owned get {
-				//return this.child_nodes.to_string (true);
+				// <> in with stringifying child nodes would get escaped, here the content is preserved
 				return base.node->get_content ();
-				// TODO: what's the difference between this and stringifying
-				//       the child nodes?
 			}
 			set {
 				// TODO: check impact on existing child nodes; they will be

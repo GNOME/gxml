@@ -442,6 +442,12 @@ class ElementTest : GXmlTest  {
 					Element elem = get_elem_new_doc ("country");
 					elem.append_child (elem.owner_document.create_text_node ("New Zealand"));
 					assert (elem.to_string () == "<country>New Zealand</country>");
+
+					// during stringification, we don't want to confuse XML <> with text <>
+					Element elem2 = get_elem_new_doc ("messy");
+					elem2.append_child (elem.owner_document.create_text_node ("&lt;<>&gt;"));
+					assert (elem2.to_string () == "<messy>&amp;lt;&lt;&gt;&amp;gt;</messy>");
+
 					// TODO: want to test with format on and off
 				} catch (GXml.Dom.DomError e) {
 					GLib.warning ("%s", e.message);
