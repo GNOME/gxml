@@ -68,17 +68,17 @@ class ElementTest : GXmlTest  {
 					XNode root = doc.document_element;
 					XNode node = root.child_nodes.item (0);
 
-					root.dbg_inspect ();
-					node.dbg_inspect ();
-					node.child_nodes.item (0).dbg_inspect ();
+					// root.dbg_inspect ();
+					// node.dbg_inspect ();
+					// node.child_nodes.item (0).dbg_inspect ();
 
 					assert (node.namespace_uri == "http://hogwarts.co.uk/magic");
 
 					// TODO: remove below
-					message ("going to show attributes on node %s", node.node_name);
-					foreach (Attr attr in node.attributes.get_values ()) {
-						message ("attrkey: %s, value: %s", attr.node_name, attr.node_value);
-					}
+					// message ("going to show attributes on node %s", node.node_name);
+					// foreach (Attr attr in node.attributes.get_values ()) {
+					// 	message ("attrkey: %s, value: %s", attr.node_name, attr.node_value);
+					// }
 				} catch (GXml.Dom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
