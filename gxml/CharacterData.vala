@@ -1,6 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-
-namespace GXml.Dom {
+namespace GXmlDom {
 	/**
 	 * CharacterData defines an interface for manipulating XML character data. It is used by
 	 * the CDATASection, Text, and Comment node types. For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-FF21A306]]

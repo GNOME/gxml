@@ -12,7 +12,7 @@
 /* NOTE: figure out how entity references work with Attrs */
 /* NOTE: value as children nodes: can contain Text and EntityReferences */
 
-namespace GXml.Dom {
+namespace GXmlDom {
 	/**
 	 * Represents an XML Attr node. These represent name=value
 	 * attributes associated with XML Elements. Values are often
@@ -220,4 +220,5 @@ namespace GXml.Dom {
 			return this; // STUB
 		}
 	}
+
 }

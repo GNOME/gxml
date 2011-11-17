@@ -27,6 +27,7 @@ lib_LTLIBRARIES = libgxml.la
 
 VALAFLAGS = \
     $(top_srcdir)/vapi/config.vapi \
+    --vapidir=$(top_srcdir)/vapi \
     --pkg libxml-2.0 \
     --pkg gee-1.0 \
     --pkg gobject-2.0 \
@@ -62,7 +63,7 @@ libgxml_la_SOURCES = \
 	$(NULL)	
 
 gxml-1.0.vapi gxml.vala.stamp GXml-1.0.gir: $(libgxml_la_VALASOURCES)
-	$(VALA_COMPILER) $(VALAFLAGS) -C -H gxml.h --gir=GXml-1.0.gir --vapidir=$(top_srcdir)/vapi --library gxml-1.0 $^
+	$(VALA_COMPILER) $(VALAFLAGS) -C -H $(top_builddir)/gxml/gxml-dom.h --gir=GXmlDom-1.0.gir  --library gxmldom-1.0 $^
 	@touch $@
 
 
@@ -85,8 +86,8 @@ include_HEADERS = \
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libgxml-1.0.pc
 
-gxmlincludedir=$(includedir)/libgxml-1.0/libgxml
-gxmlinclude_HEADERS= libgxml.h
+gxmlincludedir=$(includedir)/libgxml-1.0/gxml
+gxmlinclude_HEADERS= gxml-dom.h
 
 # GObject Introspection
 
@@ -98,23 +99,27 @@ girdir = $(datadir)/gir-1.0
 typelibsdir = $(libdir)/girepository-1.0
 endif
 
-# GIR files are generated automatically by Valac then is not necessary to scan source code to generate it
+# GIR files are generated automatically by Valac so is not necessary to scan source code to generate it
 INTROSPECTION_GIRS =
-INTROSPECTION_GIRS += GXml-1.0.gir
-INTROSPECTION_COMPILER_ARGS = 
+INTROSPECTION_GIRS += GXmlDom-1.0.gir
+INTROSPECTION_COMPILER_ARGS = \
+    --includedir=. \
+    --includedir=$(top_builddir)/gxml 
 
-GXml-1.0.typelib: $(INTROSPECTION_GIRS)
-	$(INTROSPECTION_COMPILER) $(INTROSPECTION_COMPILER_ARGS) --includedir=. $< -o $@
+GXmlDom-1.0.typelib: $(INTROSPECTION_GIRS)
+	$(INTROSPECTION_COMPILER) $(INTROSPECTION_COMPILER_ARGS)  $< -o $@
 
 gir_DATA = $(INTROSPECTION_GIRS)
-typelibs_DATA = GXml-1.0.typelib
+typelibs_DATA = GXmlDom-1.0.typelib
 
+vapidir = $(VALA_VAPIDIR)
+vapi_DATA=gxmldom-1.0.vapi
 
 CLEANFILES += $(INTROSPECTION_GIRS) $(typelibs_DATA) gxml-1.0.vapi
 
 EXTRA_DIST = \
 	libgxml-1.0.pc.in \
 	$(libgxml_la_VALASOURCES) \
-	gxml-1.0.vapi \
-	GXml-1.0.gir \
+	$(typelibs_DATA) \
+	$(INTROSPECTION_GIRS) \
 	gxml.vala.stamp

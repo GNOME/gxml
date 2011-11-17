@@ -2,8 +2,7 @@
 
 // NOTE: be careful about what extra data subclasses keep
 
-
-namespace GXml.Dom {
+namespace GXmlDom {
 	/**
 	 * An internal class for nodes whose content is stored in a
 	 * corresponding Xml.Node. This would normally be hidden, but
@@ -123,7 +122,7 @@ namespace GXml.Dom {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override Dom.NodeType node_type {
+		public override NodeType node_type {
 			get {
 				/* Right now, Dom.NodeType's 12 values map perfectly to libxml2's first 12 types */
 				return (NodeType)this.node->type;

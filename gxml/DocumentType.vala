@@ -1,6 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-
-namespace GXml.Dom {
+namespace GXmlDom {
 	/**
 	 * Defines a Document, such as the entities that it can use.
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-412266927]]

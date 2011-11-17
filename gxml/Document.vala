@@ -27,7 +27,7 @@
 /**
  * The XML Document Object Model.
  */
-namespace GXml.Dom {
+namespace GXmlDom {
 	internal struct InputStreamBox {
 		public InputStream str;
 		public Cancellable can;

@@ -1,6 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-
-namespace GXml.Dom {
+namespace GXmlDom {
 	// TODO: see if we can actually support these via libxml2, I can't seem to get to them through Xml.DTD
 	/**
 	 * Used collectively in defining DocumentTypes. A Notation can

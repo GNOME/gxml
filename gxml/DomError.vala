@@ -3,8 +3,7 @@
 /* implements DomException
    note usage at:
    http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-BBACDC08 */
-
-namespace GXml.Dom {
+namespace GXmlDom {
 	/**
 	 * Describes various error states. For more, see
 	 * [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-BBACDC08]]

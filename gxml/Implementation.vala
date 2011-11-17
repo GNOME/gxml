@@ -1,6 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-
-namespace GXml.Dom {
+namespace GXmlDom {
 	/**
 	 * Describes the features available in this
 	 * implementation. This can be accessed from a Document
