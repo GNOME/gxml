@@ -61,11 +61,11 @@ libgxml_la_SOURCES = \
 	$(libgxml_la_VALASOURCES:.vala=.c) \
 	$(NULL)	
 
-gxml-1.0.vapi gxml.vala.stamp: $(libgxml_la_VALASOURCES)
+gxml-1.0.vapi gxml.vala.stamp GXml-1.0.gir: $(libgxml_la_VALASOURCES)
 	$(VALA_COMPILER) $(VALAFLAGS) -C -H gxml.h --gir=GXml-1.0.gir --vapidir=$(top_srcdir)/vapi --library gxml-1.0 $^
 	@touch $@
 
-CLEANFILES+= gxml-1.0.vapi GXml-1.0.gir
+
 
 libgxml_la_LDFLAGS = 
 
@@ -84,6 +84,33 @@ include_HEADERS = \
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libgxml-1.0.pc
+
+gxmlincludedir=$(includedir)/libgxml-1.0/libgxml
+gxmlinclude_HEADERS= libgxml.h
+
+# GObject Introspection
+
+if ENABLE_GI_SYSTEM_INSTALL
+girdir = $(INTROSPECTION_GIRDIR)
+typelibsdir = $(INTROSPECTION_TYPELIBDIR)
+else
+girdir = $(datadir)/gir-1.0
+typelibsdir = $(libdir)/girepository-1.0
+endif
+
+# GIR files are generated automatically by Valac then is not necessary to scan source code to generate it
+INTROSPECTION_GIRS =
+INTROSPECTION_GIRS += GXml-1.0.gir
+INTROSPECTION_COMPILER_ARGS = 
+
+GXml-1.0.typelib: $(INTROSPECTION_GIRS)
+	$(INTROSPECTION_COMPILER) $(INTROSPECTION_COMPILER_ARGS) --includedir=. $< -o $@
+
+gir_DATA = $(INTROSPECTION_GIRS)
+typelibs_DATA = GXml-1.0.typelib
+
+
+CLEANFILES += $(INTROSPECTION_GIRS) $(typelibs_DATA) gxml-1.0.vapi
 
 EXTRA_DIST = \
 	libgxml-1.0.pc.in \

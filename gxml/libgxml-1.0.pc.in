@@ -6,7 +6,7 @@ datadir=@datadir@
 includedir=@includedir@/libgxml-1.0
 
 Name: libgxml
-Description: Sample library created by Anjuta project wizard.
+Description: GObject API for XML manipulation library
 Version: @VERSION@
 Requires: 
 Libs: -L${libdir} -lgxml
