@@ -86,7 +86,7 @@ include_HEADERS = \
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libgxml-1.0.pc
 
-gxmlincludedir=$(includedir)/libgxml-1.0/gxml
+gxmlincludedir=$(includedir)/libgxml-1.0
 gxmlinclude_HEADERS= gxml-dom.h
 
 # GObject Introspection
@@ -103,8 +103,7 @@ endif
 INTROSPECTION_GIRS =
 INTROSPECTION_GIRS += GXmlDom-1.0.gir
 INTROSPECTION_COMPILER_ARGS = \
-    --includedir=. \
-    --includedir=$(top_builddir)/gxml 
+    --includedir=.  
 
 GXmlDom-1.0.typelib: $(INTROSPECTION_GIRS)
 	$(INTROSPECTION_COMPILER) $(INTROSPECTION_COMPILER_ARGS)  $< -o $@
@@ -115,7 +114,7 @@ typelibs_DATA = GXmlDom-1.0.typelib
 vapidir = $(VALA_VAPIDIR)
 vapi_DATA=gxmldom-1.0.vapi
 
-CLEANFILES += $(INTROSPECTION_GIRS) $(typelibs_DATA) gxml-1.0.vapi
+CLEANFILES += $(INTROSPECTION_GIRS) $(typelibs_DATA) gxml-1.0.vapi gxml-dom.h
 
 EXTRA_DIST = \
 	libgxml-1.0.pc.in \
