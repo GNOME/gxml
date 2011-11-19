@@ -184,7 +184,7 @@ namespace GXmlDom {
 		/**
 		 * Creates a Document based on a libxml2 Xml.Doc* object.
 		 */
-		public Document.for_libxml2 (Xml.Doc *doc, bool require_root = true) throws DomError {
+		public Document.from_libxml2 (Xml.Doc *doc, bool require_root = true) throws DomError {
 			/* All other constructors should call this one,
 			   passing it a Xml.Doc* object */
 
@@ -216,10 +216,10 @@ namespace GXmlDom {
 		 *
 		 * @throws DomError When a Document cannot be constructed for the specified file.
 		 */
-		public Document.for_path (string file_path) throws DomError {
+		public Document.from_path (string file_path) throws DomError {
 			Xml.Doc *doc = Xml.Parser.parse_file (file_path); // consider using read_file
 			// TODO: might want to check that the file_path exists
-			this.for_libxml2 (doc);
+			this.from_libxml2 (doc);
 		}
 
 		// TODO: can we make this private?
@@ -299,7 +299,7 @@ namespace GXmlDom {
 		 *
 		 * @throws DomError When a Document cannot be constructed for the specified file.
 		 */
-		public Document.for_file (File fin, Cancellable? can = null) throws DomError {
+		public Document.from_gfile (File fin, Cancellable? can = null) throws DomError {
 			// TODO: accept cancellable
 			InputStream instream;
 
@@ -308,14 +308,14 @@ namespace GXmlDom {
 			} catch (GLib.Error e) {
 				throw new DomError.INVALID_DOC (e.message);
 			}
-			this.for_stream (instream, can);
+			this.from_stream (instream, can);
 		}
 		/**
 		 * Creates a Document from data provided through the InputStream instream.
 		 *
 		 * @throws DomError When a Document cannot be constructed for the specified stream.
 		 */
-		public Document.for_stream (InputStream instream, Cancellable? can = null) throws DomError {
+		public Document.from_stream (InputStream instream, Cancellable? can = null) throws DomError {
 			// TODO: accept Cancellable
 			// Cancellable can = new Cancellable ();
 			InputStreamBox box = { instream, can };
@@ -327,7 +327,7 @@ namespace GXmlDom {
 			reader.expand ();
 			Xml.Doc *doc = reader.current_doc ();
 
-			this.for_libxml2 (doc);
+			this.from_libxml2 (doc);
 		}
 		/**
 		 * Creates a Document from data found in memory.
@@ -339,14 +339,14 @@ namespace GXmlDom {
 			 * xmlParserOptions, encoding, and base URL
 			 * from xmlReadMemory */
 			Xml.Doc *doc = Xml.Parser.parse_memory (memory, (int)memory.length);
-			this.for_libxml2 (doc);
+			this.from_libxml2 (doc);
 		}
 		/**
 		 * Creates an empty document. 
 		 */
 		public Document () throws DomError {
 			Xml.Doc *doc = new Xml.Doc ();
-			this.for_libxml2 (doc, false);
+			this.from_libxml2 (doc, false);
 		}
 
 		/**
