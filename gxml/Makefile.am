@@ -62,7 +62,7 @@ libgxml_la_SOURCES = \
 	$(libgxml_la_VALASOURCES:.vala=.c) \
 	$(NULL)	
 
-gxml-1.0.vapi gxml.vala.stamp GXml-1.0.gir: $(libgxml_la_VALASOURCES)
+gxml-1.0.vapi gxml.vala.stamp GXml-1.0.gir gxml-dom.h: $(libgxml_la_VALASOURCES)
 	$(VALA_COMPILER) $(VALAFLAGS) -C -H $(top_builddir)/gxml/gxml-dom.h --gir=GXmlDom-1.0.gir  --library gxmldom-1.0 $^
 	@touch $@
 
@@ -79,7 +79,7 @@ libgxml_la_LIBADD = \
 	$(NULL)
 
 include_HEADERS = \
-	gxml.h \
+	$(top_builddir)/gxml/gxml-dom.h \
 	$(NULL)
 
 
