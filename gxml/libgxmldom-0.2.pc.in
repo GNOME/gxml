@@ -3,7 +3,7 @@ exec_prefix=@exec_prefix@
 libdir=@libdir@
 datarootdir=@datarootdir@
 datadir=@datadir@
-includedir=@includedir@/libgxml-1.0
+includedir=@includedir@/libgxml-0.2
 
 Name: libgxml
 Description: GObject API for XML manipulation library

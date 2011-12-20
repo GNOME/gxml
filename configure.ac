@@ -3,7 +3,7 @@ dnl Process this file with autoconf to produce a configure script.
 AC_CONFIG_MACRO_DIR([m4])
 m4_include(m4/introspection.m4)
 
-AC_INIT(gxml, 1.0)
+AC_INIT(gxml, 0.2)
 
 AC_CONFIG_HEADERS([config.h])
 
@@ -80,7 +80,7 @@ AM_CONDITIONAL(ENABLE_GI_SYSTEM_INSTALL, [test x"$enable_gi_system_install" = "x
 
 AC_OUTPUT([
 Makefile
-gxml/libgxml-1.0.pc
+gxml/libgxmldom-0.2.pc
 gxml/Makefile
 po/Makefile.in])
 
