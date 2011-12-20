@@ -12,6 +12,7 @@
 /* NOTE: figure out how entity references work with Attrs */
 /* NOTE: value as children nodes: can contain Text and EntityReferences */
 
+[CCode (gir_namespace = "GXmlDom", gir_version = "0.2")]
 namespace GXmlDom {
 	/**
 	 * Represents an XML Attr node. These represent name=value
