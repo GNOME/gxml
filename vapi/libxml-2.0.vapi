@@ -23,6 +23,7 @@
  *	Ondřej Jirman <megous@megous.com>
  */
 
+[CCode (gir_namespace = "libxml2", gir_version = "2.0")]
 namespace Xml {
 	/* nanoftp - minimal FTP implementation */
 
@@ -321,16 +322,17 @@ namespace Xml {
 		NOTATION
 	}
 
-	// TODO: what does has_target portend to? 
-	[CCode (has_target = false, cname = "xmlHashScannerFull", cheader_filename = "libxml/hash.h")]
-	public delegate void ScannerFull (void *payload, void *user_data, string name, string name2, string name3);
+	[Compact]
+	[CCode (cname = "xmlBuffer", free_function = "xmlBufferFree", cheader_filename = "libxml/tree.h")]
+	public class Buffer {
+		[CCode (cname = "xmlBufferCreate")]
+		public Buffer ();
 
-	// xmlHashFree takes a deallocator, how to specify?
-	[Compact] // TODO: what does Compact do?
-	[CCode (cname = "xmlHashTable", free_function = "xmlHashFree", cheader_filename="libxml/hash.h")]
-	public class HashTable {
-		[CCode (cname = "xmlHashScanFull")]
-		public void scan_full (ScannerFull f, void *user_data); // TODO: do we want to get rid of user data? 
+		[CCode (cname = "xmlBufferContent")]
+		public unowned string content ();
+
+		[CCode (cname = "xmlNodeDump")]
+		public int node_dump (Xml.Doc *doc, Xml.Node *cur, int level, int format);
 	}
 
 	[Compact]
@@ -353,6 +355,7 @@ namespace Xml {
 		public Ns* old_ns;
 		public weak string version;
 		public weak string encoding;
+		[CCode (cname = "URL")]
 		public weak string url;
 		public int charset;
 
@@ -613,6 +616,36 @@ namespace Xml {
 		public const string name;
 	}
 
+	[CCode (has_target = false, cname = "xmlHashScannerFull", cheader_filename = "libxml/hash.h")]
+	public delegate void HashScannerFull (void *payload, void *user_data, string name, string name2, string name3);
+
+	[CCode (has_target = false, cname = "xmlHashDeallocator", cheader_filename = "libxml/hash.h")]
+	public delegate void HashDeallocator (void *payload, string name);
+
+	[Compact]
+	[CCode (cname = "xmlHashTable", cheader_filename="libxml/hash.h")]
+	public class HashTable {
+		[CCode (cname = "xmlHashCreate")]
+		public HashTable (int size);
+
+		[CCode (cname = "xmlHashAddEntry")]
+		public int add_entry (string name, void *user_data);
+
+		[CCode (cname = "xmlHashFree")]
+		public void free (HashDeallocator? f);
+
+		[CCode (cname = "xmlHashLookup")]
+		public void *lookup (string name);
+
+		[CCode (cname = "xmlHashRemoveEntry")]
+		public int remove_entry (string name, HashDeallocator? f);
+
+		[CCode (cname = "xmlHashScanFull")]
+		public void scan_full (HashScannerFull f, void *user_data);
+
+		[CCode (cname = "xmlHashSize")]
+		public int size ();
+	}
 
 	[Compact]
 	[CCode (cname = "xmlNode", free_function = "xmlFreeNode", cheader_filename = "libxml/tree.h")]
@@ -693,9 +726,6 @@ namespace Xml {
 		[CCode (cname = "xmlNewChild")]
 		public Node* new_child (Ns* ns, string name, string? content = null);
 
-		[CCode (cname = "xmlSetNs")]
-		public void set_ns (Ns* ns);
-
 		[CCode (cname = "xmlNewNs")]
 		public Ns* new_ns (string href, string prefix);
 
@@ -765,6 +795,9 @@ namespace Xml {
 		[CCode (cname = "xmlSetListDoc")]
 		public void set_list_doc (Doc* doc);
 
+		[CCode (cname = "xmlSetNs")]
+		public void set_ns (Ns* ns);
+
 		[CCode (cname = "xmlSetNsProp")]
 		public Attr* set_ns_prop (Ns* ns, string name, string value);
 
@@ -812,44 +845,59 @@ namespace Xml {
 	}
 
 	[Compact]
-	[CCode (cname = "xmlBuffer", free_function = "xmlBufferFree", cheader_filename = "libxml/tree.h")]
-	public class Buffer {
-		[CCode (cname = "xmlBufferCreate")]
-		public Buffer ();
-
-		[CCode (cname = "xmlBufferContent")]
-		public string content ();
-
-		[CCode (cname = "xmlNodeDump")]
-		public int node_dump (Xml.Doc *doc, Xml.Node *cur, int level, int format);
-	}
-
-	[Compact]
-	[CCode (cname = "xmlSaveCtxt", free_function = "xmlSaveClose", cheader_filename = "libxml/xmlsave.h")]
-	public class SaveCtxt {
-		[CCode (cname = "xmlSaveToIO")] // , instance_pos = -1)]
-		public SaveCtxt.to_io (OutputWriteCallback iowrite, OutputCloseCallback ioclose, void * ioctx, string? encoding, int options = 0);
-
-		// [CCode (cname = "xmlSaveClose")]
-		// public int close ();
-		[CCode (cname = "xmlSaveFlush")]
-		public int flush ();
-		[CCode (cname = "xmlSaveDoc")]
-		public int save_doc (Xml.Doc *doc);
-		[CCode (cname = "xmlSaveTree")]
-		public int save_tree (Xml.Node *node);
-		
-	}
-
-	[Compact]
-	[CCode (cname = "xmlParserCtxt")]
+	[CCode (cname = "xmlParserCtxt", free_function = "xmlFreeParserCtxt", cheader_filename = "libxml/parser.h")]
 	public class ParserCtxt {
 		public SAXHandler* sax;
 		[CCode (cname = "userData")]
 		public void* user_data;
 
+		[CCode (cname = "xmlNewParserCtxt")]
+		public ParserCtxt ();
+
+		[CCode (cname = "xmlCreatePushParserCtxt")]
+		public ParserCtxt.create_push (Xml.SAXHandler* sax, void* user_data, [CCode (array_length = false)] char[] data, int len, string? filename = null);
+
+		[CCode (cname = "xmlCreateIOParserCtxt")]
+		public ParserCtxt.create_io (Xml.SAXHandler* sax, void* user_data, Xml.InputReadCallback ioread, Xml.InputCloseCallback ioclose, void* ioctx, string? encoding = null);
+
+		[CCode (cname = "xmlCreateDocParserCtxt")]
+		public ParserCtxt.create_doc (string cur);
+
+		[CCode (cname = "xmlParseChunk")]
+		public int parse_chunk ([CCode (array_length = false)] char[] data, int size, bool terminate);
+
 		[CCode (cname = "xmlParseDocument")]
 		public int parse_document ();
+
+		[CCode (cname = "xmlCtxtResetPush")]
+		public void reset_push ([CCode (array_length = false)] char[] data, int len, string? filename = null, string? encoding = null);
+
+		[CCode (cname = "xmlCtxtReset")]
+		public void reset ();
+
+		[CCode (cname = "xmlCtxtInit")]
+		public void init ();
+
+		[CCode (cname = "xmlCtxtClear")]
+		public void clear ();
+
+		[CCode (cname = "xmlCtxtUseOptions")]
+		public int use_options (int options);
+
+		[CCode (cname = "xmlCtxtReadDoc")]
+		public Doc* read_doc (string cur, string url, string? encoding = null, int options = 0);
+
+		[CCode (cname = "xmlCtxtReadFile")]
+		public Doc* read_file (string filename, string? encoding = null, int options = 0);
+
+		[CCode (cname = "xmlCtxtReadMemory")]
+		public Doc* read_memory ([CCode (array_length = false)] char[] buffer, int size, string url, string? encoding = null, int options = 0);
+
+		[CCode (cname = "xmlCtxtReadFd")]
+		public Doc* read_fd (int fd, string url, string? encoding = null, int options = 0);
+
+		[CCode (cname = "xmlCtxtReadIO")]
+		public Doc* read_io (Xml.InputReadCallback ioread, Xml.InputCloseCallback ioclose, void* ioctx, string url, string? encoding = null, int options = 0);
 	}
 
 
@@ -874,10 +922,10 @@ namespace Xml {
 		public static int normalize_uri_path (string path);
 
 		[CCode (cname = "xmlParseURI")]
-		public static URI parse (string str);
+		public static URI? parse (string str);
 
 		[CCode (cname = "xmlParseURIRaw")]
-		public static URI parse_raw (string str, bool raw);
+		public static URI? parse_raw (string str, bool raw);
 
 		[CCode (cname = "xmlParseURIReference")]
 		public int parse_reference (string str);
@@ -939,7 +987,7 @@ namespace Xml {
 	public delegate void* OutputOpenCallback (string filename);
 
 	[CCode (has_target = false, cname = "xmlOutputWriteCallback", cheader_filename = "libxml/xmlIO.h")]
-	public delegate int OutputWriteCallback (void* context, [CCode (array_length = false)] char[] buffer, int len);
+	public delegate int OutputWriteCallback ([CCode (array_length = false)] char[] buffer, int len);
 
 	[CCode (has_target = false, cname = "xmlOutputCloseCallback", cheader_filename = "libxml/xmlIO.h")]
 	public delegate int OutputCloseCallback (void * context);
@@ -955,6 +1003,24 @@ namespace Xml {
 	[Compact]
 	[CCode (cname = "xmlSchemaValidCtxt", cheader_filename = "libxml/xmlreader.h")]
 	public class SchemaValidCtxt {
+	}
+
+	/* xmlsave */
+
+	[Compact]
+	[CCode (cname = "xmlSaveCtxt", free_function = "xmlSaveClose", cheader_filename = "libxml/xmlsave.h")]
+	public class SaveCtxt {
+		[CCode (cname = "xmlSaveToIO")] // , instance_pos = -1)]
+		public SaveCtxt.to_io (OutputWriteCallback iowrite, OutputCloseCallback ioclose, void * ioctx, string? encoding, int options = 0);
+
+		// [CCode (cname = "xmlSaveClose")]
+		// public int close ();
+		[CCode (cname = "xmlSaveFlush")]
+		public int flush ();
+		[CCode (cname = "xmlSaveDoc")]
+		public int save_doc (Xml.Doc *doc);
+		[CCode (cname = "xmlSaveTree")]
+		public int save_tree (Xml.Node *node);
 	}
 
 	/* xmlwriter - the XMLWriter implementation */
