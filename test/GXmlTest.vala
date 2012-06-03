@@ -1,5 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-using GXml.Dom;
+using GXmlDom;
 
 class GXmlTest {
 	public static int main (string[] args) {
@@ -11,6 +11,7 @@ class GXmlTest {
 		NodeListTest.add_tests ();
 		TextTest.add_tests ();
 		CharacterDataTest.add_tests ();
+		ValaLibxml2Test.add_tests ();
 		Test.run ();
 
 		return 1;
@@ -19,7 +20,7 @@ class GXmlTest {
 	internal static Document get_doc () throws DomError {
 		Document doc = null;
 		try {
-			doc = new Document.for_path ("test.xml");
+			doc = new Document.from_path ("test.xml");
 		} catch (DomError e) {
 		}
 		return doc;

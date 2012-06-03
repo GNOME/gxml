@@ -1,5 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-using GXml.Dom;
+using GXmlDom;
 
 /* For testing, based on:
    https://live.gnome.org/Vala/TestSample
@@ -51,7 +51,7 @@ class XNodeTest : GXmlTest {
 
 					// node = doc.create_notation ("some notation");
 					// assert (node.node_name == ...); // notation name
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -98,7 +98,7 @@ class XNodeTest : GXmlTest {
 					// node = doc.create_notation ("some notation");
 					// assert (node.node_type == NodeType.NOTATION);
 
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -145,7 +145,7 @@ class XNodeTest : GXmlTest {
 					   as a XNode.
 					   XNode wants to get it from XNode's Xml.Node* node,
 					   while Attr wants to get it from Attr's Xml.Attr* node. :( */
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -164,7 +164,7 @@ class XNodeTest : GXmlTest {
 					assert (attr.parent_node == null);
 					assert (doc.parent_node == null);
 					// assert (document fragment's parent_node == null); // TODO
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -184,7 +184,7 @@ class XNodeTest : GXmlTest {
 					assert (parent.child_nodes.length == 3);
 					assert (parent.child_nodes.nth_data (0) == child_0);
 					assert (parent.child_nodes.nth_data (2) == child_2);
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -203,7 +203,7 @@ class XNodeTest : GXmlTest {
 					parent.append_child (child_2);
 
 					assert (parent.first_child == child_0);
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -222,7 +222,7 @@ class XNodeTest : GXmlTest {
 					parent.append_child (child_2);
 
 					assert (parent.last_child == child_2);
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -243,7 +243,7 @@ class XNodeTest : GXmlTest {
 					assert (child_0.previous_sibling == null);
 					assert (child_1.previous_sibling == child_0);
 					assert (child_2.previous_sibling == child_1);
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -264,7 +264,7 @@ class XNodeTest : GXmlTest {
 					assert (child_0.next_sibling == child_1);
 					assert (child_1.next_sibling == child_2);
 					assert (child_2.next_sibling == null);
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -280,7 +280,7 @@ class XNodeTest : GXmlTest {
 
 					// TODO: test more
 					// TODO: test compatibility between live changes and stuff
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -293,7 +293,7 @@ class XNodeTest : GXmlTest {
 
 					assert (elem.owner_document == doc1);
 					assert (elem.owner_document != doc2);
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -323,7 +323,7 @@ class XNodeTest : GXmlTest {
 					assert (child_0.next_sibling == child_1);
 					assert (child_1.next_sibling == child_2);
 					assert (child_2.next_sibling == null);
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -353,7 +353,7 @@ class XNodeTest : GXmlTest {
 					assert (child_1.previous_sibling == child_0);
 					assert (child_0.next_sibling == child_1);
 					assert (child_1.next_sibling == null);
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -400,7 +400,7 @@ class XNodeTest : GXmlTest {
 					assert (parent.first_child == null);
 					assert (parent.last_child == null);
 					assert (parent.child_nodes.length == 0);
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -430,7 +430,7 @@ class XNodeTest : GXmlTest {
 					assert (child_0.next_sibling == child_1);
 					assert (child_1.next_sibling == child_2);
 					assert (child_2.next_sibling == null);
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -446,7 +446,7 @@ class XNodeTest : GXmlTest {
 					parent.append_child (child_0);
 
 					assert (parent.has_child_nodes () == true);
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}

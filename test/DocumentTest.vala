@@ -1,12 +1,12 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-using GXml.Dom;
+using GXmlDom;
 
 class DocumentTest : GXmlTest {
 	public static void add_tests () {
 		Test.add_func ("/gxml/document/doctype", () => {
 				// STUB
 				/*
-				Document doc = new Document.for_path ("/tmp/dtdtest2.xml");
+				Document doc = new Document.from_path ("/tmp/dtdtest2.xml");
 				// Document doc = get_doc ();
 				DocumentType type = doc.doctype;
 				HashTable<string,Entity> entities = type.entities;
@@ -26,7 +26,7 @@ class DocumentTest : GXmlTest {
 					assert (impl.has_feature ("xml", "2.0") == false);
 					assert (impl.has_feature ("html") == false);
 					assert (impl.has_feature ("nonsense") == false);
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -38,29 +38,29 @@ class DocumentTest : GXmlTest {
 					
 					assert (root.node_name == "Sentences");
 					assert (root.has_child_nodes ());
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
 			});
 
-		Test.add_func ("/gxml/document/construct_for_path", () => {
+		Test.add_func ("/gxml/document/construct_from_path", () => {
 				try {
 					Document doc = get_doc ();
 
 					check_contents (doc);
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
 			});
-		Test.add_func ("/gxml/document/construct_for_stream", () => {
+		Test.add_func ("/gxml/document/construct_from_stream", () => {
 				try {
 					File fin = File.new_for_path ("test.xml");
 					InputStream instream = fin.read (null);
 					// TODO use cancellable
 
-					Document doc = new Document.for_stream (instream);
+					Document doc = new Document.from_stream (instream);
 
 					check_contents (doc);
 				} catch (GLib.Error e) {
@@ -78,7 +78,7 @@ class DocumentTest : GXmlTest {
 					assert (root.has_child_nodes () == true);
 					assert (root.first_child.node_name == "Apple");
 					assert (root.last_child.node_name == "Orange");
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -105,7 +105,7 @@ class DocumentTest : GXmlTest {
 					// OutputStream outstream = fout.create (FileCreateFlags.REPLACE_DESTINATION, null); // REPLACE_DESTINATION doesn't work like I thought it would?
 					OutputStream outstream = fout.replace (null, true, FileCreateFlags.REPLACE_DESTINATION, null);
 
-					Document doc = new Document.for_stream (instream);
+					Document doc = new Document.from_stream (instream);
 					int exit_status;
 
 					doc.save_to_stream (outstream);
@@ -144,7 +144,7 @@ class DocumentTest : GXmlTest {
 						*/
 					} catch (DomError.INVALID_CHARACTER e) {
 					}
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -217,7 +217,7 @@ class DocumentTest : GXmlTest {
 ";
 					// TODO: want to find a way to flattern the string, strip whitespace
 					assert (doc.to_string () == expected);
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -229,7 +229,7 @@ class DocumentTest : GXmlTest {
 
 					assert (text.node_name == "#text");
 					assert (text.node_value == "Star of my dreams");
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -241,7 +241,7 @@ class DocumentTest : GXmlTest {
 
 					assert (comment.node_name == "#comment");
 					assert (comment.node_value == "Ever since the day we promised.");
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -253,7 +253,7 @@ class DocumentTest : GXmlTest {
 
 					assert (cdata.node_name == "#cdata-section");
 					assert (cdata.node_value == "put in real cdata");
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -267,7 +267,7 @@ class DocumentTest : GXmlTest {
 					assert (instruction.target == "target");
 					assert (instruction.data == "data");
 					assert (instruction.node_value == "data");
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -280,7 +280,7 @@ class DocumentTest : GXmlTest {
 					assert (attr.name == "attrname");
 					assert (attr.node_name == "attrname");
 					assert (attr.node_value == "");
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -292,7 +292,7 @@ class DocumentTest : GXmlTest {
 
 					assert (entity.node_name == "entref");
 					// TODO: think of at least one other smoke test
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -306,7 +306,7 @@ class DocumentTest : GXmlTest {
 					assert (((Element)elems.item (0)).content == "fweasley@hogwarts.co.uk");
 					/* more thorough test exists in Element, since right now
 					   Document uses that one */
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -331,7 +331,7 @@ class DocumentTest : GXmlTest {
 </Sentences>
 ");
 					// TODO: want to test with format on and off
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -367,7 +367,7 @@ class DocumentTest : GXmlTest {
 	}
 
 	public static void print_node (XNode node) {
-		List<GXml.Dom.XNode> children = (List<GXml.Dom.XNode>)node.child_nodes;
+		List<GXmlDom.XNode> children = (List<GXmlDom.XNode>)node.child_nodes;
 
 		if (node.node_type != 3)
 			GLib.stdout.printf ("<%s", node.node_name);
@@ -380,7 +380,7 @@ class DocumentTest : GXmlTest {
 		GLib.stdout.printf (">");
 		if (node.node_value != null)
 			GLib.stdout.printf ("%s", node.node_value);
-		foreach (GXml.Dom.XNode child in children) {
+		foreach (GXmlDom.XNode child in children) {
 			// TODO: want a stringification method for Nodes?
 			print_node (child);
 		}

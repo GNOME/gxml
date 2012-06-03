@@ -1,5 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-using GXml.Dom;
+using GXmlDom;
 
 class AttrTest : GXmlTest {
 	public static void add_tests () {
@@ -16,7 +16,7 @@ class AttrTest : GXmlTest {
 					assert (core.namespace_uri == "http://mom.co.uk/wands");
 					assert (shell.namespace_uri == "http://mom.co.uk/wands");
 					assert (price.namespace_uri == null);
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -34,7 +34,7 @@ class AttrTest : GXmlTest {
 					assert (core.prefix == "wands");
 					assert (shell.prefix == "wands");
 					assert (price.prefix == null);
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -52,7 +52,7 @@ class AttrTest : GXmlTest {
 					assert (core.local_name == "core");
 					assert (shell.local_name == "shell");
 					assert (price.local_name == "price");
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -64,7 +64,7 @@ class AttrTest : GXmlTest {
 					Attr attr = get_attr ("broomSeries", "Nimbus", doc);
 					
 					assert (attr.node_name == "broomSeries");
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -82,7 +82,7 @@ class AttrTest : GXmlTest {
 					/* make sure changing .value changes .node_value */
 					attr.value = "Gringots";
 					assert (attr.node_value == "Gringots");
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -93,7 +93,7 @@ class AttrTest : GXmlTest {
 					Attr attr = get_attr ("broomSeries", "Nimbus", doc);
 
 					assert (attr.name == "broomSeries");
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -111,7 +111,7 @@ class AttrTest : GXmlTest {
 					/* make sure changing .node_value changes .value */
 					attr.node_value = "Gringots";
 					assert (attr.value == "Gringots");
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -128,7 +128,7 @@ class AttrTest : GXmlTest {
 					assert (attr.parent_node == null);
 					elem.set_attribute_node (attr);
 					assert (attr.parent_node == null);
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -145,7 +145,7 @@ class AttrTest : GXmlTest {
 
 					assert (attr1.previous_sibling == null);
 					assert (attr2.previous_sibling == null);
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -162,7 +162,7 @@ class AttrTest : GXmlTest {
 
 					assert (attr1.next_sibling == null);
 					assert (attr2.next_sibling == null);
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -178,7 +178,7 @@ class AttrTest : GXmlTest {
 					assert (attr.value == "Whipped Dumbleberry");
 					// the Text nodes should be merged
 					assert (attr.child_nodes.length == 1);
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -192,7 +192,7 @@ class AttrTest : GXmlTest {
 					assert (attr.value == "Slytherin");
 					attr.replace_child (txt, attr.child_nodes.item (0));
 					assert (attr.value == "Gryffindor");
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -206,7 +206,7 @@ class AttrTest : GXmlTest {
 					// mischief managed
 					attr.remove_child (attr.child_nodes.last ());
 					assert (attr.value == "");
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}

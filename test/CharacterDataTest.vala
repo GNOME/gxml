@@ -1,5 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-using GXml.Dom;
+using GXmlDom;
 
 class CharacterDataTest : GXmlTest  {
 	public static void add_tests () {
@@ -10,7 +10,7 @@ class CharacterDataTest : GXmlTest  {
 
 					assert (txt.data == str);
 					assert (txt.data == txt.node_value);
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -21,7 +21,7 @@ class CharacterDataTest : GXmlTest  {
 					Text txt = get_text_new_doc (str);
 
 					assert (txt.length == str.length);
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -34,7 +34,7 @@ class CharacterDataTest : GXmlTest  {
 					assert (str == "trouble");
 
 					// TODO: test bounds
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -48,7 +48,7 @@ class CharacterDataTest : GXmlTest  {
 					assert (txt.data == str_start);
 					txt.append_data (" if you can't see where it keeps its brain.");
 					assert (txt.data == str_whole);
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -59,7 +59,7 @@ class CharacterDataTest : GXmlTest  {
 					txt.insert_data (35, " truly");
 					assert (txt.data == "It is our choices that show what we truly are, far more than our abilities.");
 					// TODO: test bounds
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -70,7 +70,7 @@ class CharacterDataTest : GXmlTest  {
 					txt.delete_data (14, 65);
 					assert (txt.data == "Happiness can turn on the light.");
 					// TODO: test bounds
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -82,7 +82,7 @@ class CharacterDataTest : GXmlTest  {
 					Text txt = get_text_new_doc ("In dreams, we enter a world that's entirely our own.");
 					txt.replace_data (3, 6, "the refrigerator");
 					assert (txt.data == "In the refrigerator, we enter a world that's entirely our own.");
-				} catch (GXml.Dom.DomError e) {
+				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
