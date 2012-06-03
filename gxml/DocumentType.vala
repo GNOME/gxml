@@ -52,7 +52,7 @@ namespace GXmlDom {
 				Xml.HashTable *table = this.int_subset->entities;
 
 				GLib.message ("About to scan for entities");
-				table->scan_full ((Xml.ScannerFull)myScannerFull, null);
+				table->scan_full ((Xml.HashScannerFull)myScannerFull, null);
 				return null;
 				// TODO: nuisance: libxml2 doesn't have entities wrapped
 			}
