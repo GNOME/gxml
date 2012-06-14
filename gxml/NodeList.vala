@@ -427,7 +427,7 @@ namespace GXmlDom {
 	}
 
 	// TODO: Desperately want to extend List or implement relevant interfaces to make iterable
-	internal abstract class ChildNodeList : Gee.Iterable<XNode>, NodeList, GLib.Object {
+	internal abstract class ChildNodeList : Gee.Iterable<XNode>, Gee.Traversable<XNode>, NodeList, GLib.Object {
 		/* TODO: must be live
 		   if this reflects children of a node, then must always be current
 		   same with nodes from GetElementByTagName, made need separate impls for each */
@@ -629,6 +629,21 @@ namespace GXmlDom {
 			return _str;
 		}
 
+		/*** Traversable methods ***/
+
+		/* TODO: Verify that relying on these *_impl methods is appropriate */
+		public Iterator<XNode> chop (int offset, int length = -1) {
+			return Gee.Traversable.chop_impl<XNode> (this, offset, length);
+		}
+
+		public Iterator<XNode> filter (owned Predicate<XNode> f) {
+			return Gee.Traversable.filter_impl<XNode> (this, f);
+		}
+
+		public Iterator<A> stream<A> (owned StreamFunc<XNode,A> f) {
+			// TODO: is it appropriate to use Iterator.stream_impl for an Iterable implementer?
+			return Iterator.stream_impl<XNode, A> (this.iterator (), f);
+		}
 
 		/*** NodeListIterator ***/
 
