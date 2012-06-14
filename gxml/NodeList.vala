@@ -255,7 +255,6 @@ namespace GXmlDom {
 			 * remove () always fails (does nothing)
 			 */
 
-			private GListNodeList list;
 			private unowned GLib.List<XNode> cur;
 			private unowned GLib.List<XNode> first_node;
 			private unowned GLib.List<XNode> next_node;
@@ -264,11 +263,6 @@ namespace GXmlDom {
 				this.cur = null;
 				this.first_node = list.nodes;
 				this.next_node = list.nodes;
-
-				// this.list = list;
-				// this.nodes = list.nodes;
-				// this.next_node = this.nodes;
-				// this._valid = false;
 			}
 
 			protected override XNode get_current () {
@@ -303,7 +297,7 @@ namespace GXmlDom {
 				   and then proceed through our list to the end?
 				   Do we move our cursor along?
 				   Should we just start foreach-ing from wherever our cursor already is? */
-				for (GLib.List<XNode> cur2 = this.first_node; cur2 != null; cur2 = cur2.next) {
+				for (unowned GLib.List<XNode> cur2 = this.first_node; cur2 != null; cur2 = cur2.next) {
 					f (cur2.data);
 				}
 			}
@@ -539,8 +533,6 @@ namespace GXmlDom {
 			return find (target);
 		}
 
-
-
 		/** Node's child methods, implemented here **/
 		internal new XNode? insert_before (XNode new_child, XNode? ref_child) throws DomError {
 			Xml.Node *child = head;
@@ -566,6 +558,7 @@ namespace GXmlDom {
 			}
 			return new_child;
 		}
+
 		internal new XNode? replace_child (XNode new_child, XNode old_child) throws DomError {
 			// TODO: verify that libxml2 already removes
 			// new_child first if it is found elsewhere in
@@ -740,7 +733,7 @@ namespace GXmlDom {
 		 * not started (next () has never been
 		 * called).
 		 */
-		public new XNode? get () {
+		public new XNode get () {
 			if (this.valid) {
 				return this.get_current ();
 			} else {
