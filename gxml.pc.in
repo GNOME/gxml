@@ -7,6 +7,6 @@ Name: gxml
 Description: gobject API for XML processing
 URL: http://live.gnome.org/XML
 Version: @VERSION@
-Requires: libxml-2.0 gee-1.0 glib-2.0
+Requires: libxml-2.0 gee-0.8 glib-2.0
 Libs: -L${libdir} -lgxml
 Cflags: -I${includedir}/gxml-@SHORTVERSION@
