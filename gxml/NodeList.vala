@@ -243,7 +243,7 @@ namespace GXmlDom {
 		 * collection neatly in vala.
 		 *
 		 */
-		private class NodeListIterator : Gee.Iterator<XNode>, Gee.Traversable<XNode>, GLib.Object {
+		private class NodeListIterator : GenericNodeListIterator {
 			/* When you receive one, initially you cannot get anything.
 			 * Use has_next () to determine if there is a next one.
 			 *   If the list is not empty, this should always be true.
@@ -255,14 +255,11 @@ namespace GXmlDom {
 			 * remove () always fails (does nothing)
 			 */
 
-
 			private GListNodeList list;
 			private unowned GLib.List<XNode> cur;
-
 			private unowned GLib.List<XNode> first_node;
 			private unowned GLib.List<XNode> next_node;
 
-			
 			public NodeListIterator (GListNodeList list) {
 				this.cur = null;
 				this.first_node = list.nodes;
@@ -274,20 +271,29 @@ namespace GXmlDom {
 				// this._valid = false;
 			}
 
+			protected override XNode get_current () {
+				return this.cur.data;
+			}
+
+			protected override bool is_empty () {
+				return (this.next_node == null);
+			}
+
+			protected override void advance () {
+				this.cur = this.next_node;
+				if (this.cur.next != null) {
+					this.next_node = this.cur.next;
+				} else {
+					// we're at the end of the list, reset
+					this.next_node = this.first_node;
+					/* TODO: we might not want to?
+					   maybe we just want it to end */
+				}
+			}
+
 			/*** Traversable methods ***/
 
-			public Gee.Iterator<XNode> chop (int offset, int length = -1) {
-				/* TODO: is this how the *_impl static methods in Iterator and
-				   Traversable are supposed to be used? */
-				return Gee.Traversable.chop_impl<XNode> (this, offset, length);
-			}
-
-			public Gee.Iterator<XNode> filter (owned Predicate<XNode> f) {
-				/* TODO: is this a valid approach? */
-				return Gee.Traversable.filter_impl<XNode> (this, f);
-			}
-
-			public void foreach (ForallFunc<XNode> f) {
+			public override void foreach (ForallFunc<XNode> f) {
 				/* TODO: we need to iterate over the items in the iterator,
 				   we are the iterator
 				   but now that Iterator doesn't have a first () to reset with,
@@ -300,91 +306,6 @@ namespace GXmlDom {
 				for (GLib.List<XNode> cur2 = this.first_node; cur2 != null; cur2 = cur2.next) {
 					f (cur2.data);
 				}
-			}
-
-			public Iterator<A> stream<A> (owned StreamFunc<XNode,A> f) {
-				/* TODO: I hope we can do this
-				   What do we want to put there instead of A?  Anything?
-				   We don't need to know A, that's why it's a generic type on the function identifier: the caller names it */
-				return Gee.Iterator.stream_impl<XNode,A> (this, f);
-			}
-
-			/*** Iterator methods ***/
-
-			/**
-			 * Obtain the current XNode in the iteration.
-			 * Returns null if there is none, which occurs
-			 * if the list is empty or if iteration has
-			 * not started (next () has never been
-			 * called).
-			 */
-			public new XNode? get () {
-				if (this.valid) {
-					return this.cur.data;
-				} else {
-					return null;
-				}
-			}
-
-			/**
-			 * Advance to the next XNode in the list
-			 */
-			public bool next () {
-				if (this.next_node == null) {
-					// the list is empty
-					return false;
-				} else {
-					this.cur = this.next_node;
-
-					if (this.cur.next != null) {
-						this.next_node = this.cur.next;
-					} else {
-						// we're at the end of the list, reset
-						this.next_node = this.first_node;
-					}
-
-					return true;
-				}
-			}
-
-			/**
-			 * Checks whether there is a next XNode in the list.
-			 */
-			public bool has_next () {
-				return (this.next_node != null);
-			}
-
-			/**
-			 * Lets the user know that the NodeList is
-			 * read_only so the remove () operation will
-			 * fail.
-			 */
-			public bool read_only {
-				get {
-					return true;
-				}
-			}
-
-			/**
-			 * Indicates whether a call to get () will
-			 * succeed. This should only be false at the
-			 * start before the first call to next ().
-			 */
-			public bool valid {
-				get {
-					return (this.cur != null);
-				}
-			}
-
-			/**
-			 * NodeLists are read-only.  remove () will
-			 * always fail.  To remove a node from a
-			 * document, it must be done from the parent
-			 * node using remove_child ().
-			 */
-			public void remove () {
-				// TODO: consider making this totally silent
-				GLib.warning ("Remove on NodeList not supported: Nodes must be removed from parent or doc separately.");
 			}
 		}
 	}
@@ -400,7 +321,7 @@ namespace GXmlDom {
 	}
 
 	/* TODO: warning: this list should NOT be edited :(
-	   we need a new, better live AttrNodeList :| */       
+	   we need a new, better live AttrNodeList :| */
 	internal class AttrNodeList : GListNodeList {
 		internal AttrNodeList (XNode root, Document owner) {
 			base (root);
@@ -542,46 +463,7 @@ namespace GXmlDom {
 		public Gee.Iterator<XNode> iterator () {
 			return new NodeListIterator (this);
 		}
-		private class NodeListIterator : Gee.Iterator<XNode>,  GLib.Object {
-			private Xml.Node *head;
-			private Xml.Node *cur;
-			private Xml.Node *next_node;
-			private Document doc;
 
-			// TODO: consider rewriting this to work on NodeList instead of the Xml.Node*
-			// list, then perhaps we could reuse it for get_elements_by_tag_name ()
-			public NodeListIterator (ChildNodeList list) {
-				this.head = list.head;
-				this.next_node = this.head;
-				this.cur = null;
-				this.doc = list.owner;
-			}
-			public new XNode get () {
-				return doc.lookup_node (this.cur);
-			}
-			public bool next () {
-				if (next_node != null) {
-					cur = next_node;
-					next_node = cur->next;
-					return true;
-				} else {
-					return false;
-				}
-			}
-			public bool first () {
-				cur = null;
-				next_node = head;
-
-				return (next_node != null);
-			}
-			public bool has_next () {
-				return (next_node != null);
-			}
-			public void remove () {
-				/* TODO: indicate that this is not supported. */
-				GLib.warning ("Remove on NodeList not supported: Nodes must be removed from parent or doc separately.");
-			}
-		}
 
 		/** GNOME List conventions
 		 ** Probably don't want to keep all of them since they're not all relevant.
@@ -745,6 +627,163 @@ namespace GXmlDom {
 				_str += node.to_string ();
 			}
 			return _str;
+		}
+
+
+		/*** NodeListIterator ***/
+
+		private class NodeListIterator : GenericNodeListIterator {
+			private Document doc;
+			private Xml.Node *cur;
+			private Xml.Node *head;
+			private Xml.Node *next_node;
+
+			/* TODO: consider rewriting this to work on NodeList instead of the Xml.Node*
+			   list, then perhaps we could reuse it for get_elements_by_tag_name () */
+			public NodeListIterator (ChildNodeList list) {
+				this.head = list.head;
+				this.next_node = this.head;
+				this.cur = null;
+				this.doc = list.owner;
+			}
+
+			/*** model-specific methods ***/
+
+			protected override XNode get_current () {
+				return this.doc.lookup_node (this.cur);
+			}
+
+			protected override bool is_empty () {
+				return (this.next_node == null);
+			}
+
+			protected override void advance () {
+				this.cur = this.next_node;
+				if (this.cur->next != null) {
+					this.next_node = cur->next;
+				} else {
+					/* TODO: We cycle back to the start, but
+					   perhaps we don't want to. The interface
+					   description implies that we should because
+					   we always want to point to something */
+					this.next_node = this.head;
+				}
+			}
+
+			/*** Traversable methods ***/
+
+			public override void foreach (ForallFunc<XNode> f) {
+				/* TODO: we need to iterate over the items in the iterator,
+				   we are the iterator
+				   but now that Iterator doesn't have a first () to reset with,
+				   how do we determine when we're at the end, since we're just
+				   cycling around?
+				   Should we manually go from our first node in this call to foreach
+				   and then proceed through our list to the end?
+				   Do we move our cursor along?
+				   Should we just start foreach-ing from wherever our cursor already is? */
+				for (Xml.Node *cur2 = this.head; cur2 != null; cur2 = cur2->next) {
+					f (this.doc.lookup_node (cur2));
+				}
+			}
+		}
+	}
+
+	public abstract class GenericNodeListIterator : Gee.Iterator<XNode>, Gee.Traversable<XNode>, GLib.Object {
+		protected abstract XNode get_current ();
+		protected abstract bool is_empty ();
+		protected abstract void advance ();
+
+		/*** Traversable methods ***/
+
+		public Gee.Iterator<XNode> chop (int offset, int length = -1) {
+			/* TODO: is this how the *_impl static methods in Iterator and
+			   Traversable are supposed to be used? */
+			return Gee.Traversable.chop_impl<XNode> (this, offset, length);
+		}
+
+		public Gee.Iterator<XNode> filter (owned Predicate<XNode> f) {
+			/* TODO: is this a valid approach? */
+			return Gee.Traversable.filter_impl<XNode> (this, f);
+		}
+
+		public Iterator<A> stream<A> (owned StreamFunc<XNode,A> f) {
+			/* TODO: I hope we can do this
+			   What do we want to put there instead of A?  Anything?
+			   We don't need to know A, that's why it's a generic type on the function identifier: the caller names it */
+			return Gee.Iterator.stream_impl<XNode,A> (this, f);
+		}
+
+		public abstract void foreach (ForallFunc<XNode> f);
+
+		/*** Iterator methods ***/
+
+		/**
+		 * Obtain the current XNode in the iteration.
+		 * Returns null if there is none, which occurs
+		 * if the list is empty or if iteration has
+		 * not started (next () has never been
+		 * called).
+		 */
+		public new XNode? get () {
+			if (this.valid) {
+				return this.get_current ();
+			} else {
+				return null;
+			}
+		}
+
+		/**
+		 * Advance to the next XNode in the list
+		 */
+		public bool next () {
+			if (this.is_empty ()) {
+				// the list is empty
+				return false;
+			} else {
+				this.advance ();
+				return true;
+			}
+		}
+
+		/**
+		 * Checks whether there is a next XNode in the list.
+		 */
+		public bool has_next () {
+			return (! this.is_empty ());
+		}
+
+		/**
+		 * Lets the user know that the NodeList is
+		 * read_only so the remove () operation will
+		 * fail.
+		 */
+		public bool read_only {
+			get {
+				return true;
+			}
+		}
+
+		/**
+		 * Indicates whether a call to get () will
+		 * succeed. This should only be false at the
+		 * start before the first call to next ().
+		 */
+		public bool valid {
+			get {
+				return (this.get_current () != null);
+			}
+		}
+
+		/**
+		 * NodeLists are read-only.  remove () will
+		 * always fail.  To remove a node from a
+		 * document, it must be done from the parent
+		 * node using remove_child ().
+		 */
+		public void remove () {
+			// TODO: consider making this totally silent
+			GLib.warning ("Remove on NodeList not supported: Nodes must be removed from parent or doc separately.");
 		}
 	}
 }
