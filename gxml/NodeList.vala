@@ -97,7 +97,7 @@ namespace GXmlDom {
 	 * owner/parent of the list's contents (children of the
 	 * parent).
 	 */
-	internal class GListNodeList : Gee.Iterable<XNode>, NodeList, GLib.Object {
+	internal class GListNodeList : Gee.Iterable<XNode>, Gee.Traversable<XNode>, NodeList, GLib.Object {
 		internal XNode root;
 		internal GLib.List<XNode> nodes;
 
@@ -212,7 +212,23 @@ namespace GXmlDom {
 			return str;
 		}
 
-		/*** Iterable Methods ***/
+		/*** Traversable methods ***/
+
+		/* TODO: Verify that relying on these *_impl methods is appropriate */
+		public Iterator<XNode> chop (int offset, int length = -1) {
+			return Gee.Traversable.chop_impl<XNode> (this, offset, length);
+		}
+
+		public Iterator<XNode> filter (owned Predicate<XNode> f) {
+			return Gee.Traversable.filter_impl<XNode> (this, f);
+		}
+
+		public Iterator<A> stream<A> (owned StreamFunc<XNode,A> f) {
+			// TODO: is it appropriate to use Iterator.stream_impl for an Iterable implementer?
+			return Iterator.stream_impl<XNode, A> (this.iterator (), f);
+		}
+
+		/*** Iterable methods ***/
 		public GLib.Type element_type {
 			get {
 				return typeof (XNode);
@@ -288,7 +304,8 @@ namespace GXmlDom {
 
 			public Iterator<A> stream<A> (owned StreamFunc<XNode,A> f) {
 				/* TODO: I hope we can do this
-				   What do we want to put there instead of A?  Anything? */
+				   What do we want to put there instead of A?  Anything?
+				   We don't need to know A, that's why it's a generic type on the function identifier: the caller names it */
 				return Gee.Iterator.stream_impl<XNode,A> (this, f);
 			}
 
