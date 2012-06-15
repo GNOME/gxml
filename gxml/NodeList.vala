@@ -273,16 +273,10 @@ namespace GXmlDom {
 				return (this.next_node == null);
 			}
 
+			// TODO: address ambiguity of libgee documentation that led me to believe that a call to get needed to be valid in such a way that I had to cycle here.
 			protected override void advance () {
 				this.cur = this.next_node;
-				if (this.cur.next != null) {
-					this.next_node = this.cur.next;
-				} else {
-					// we're at the end of the list, reset
-					this.next_node = this.first_node;
-					/* TODO: we might not want to?
-					   maybe we just want it to end */
-				}
+				this.next_node = this.cur.next;
 			}
 
 			/*** Traversable methods ***/
@@ -668,15 +662,7 @@ namespace GXmlDom {
 
 			protected override void advance () {
 				this.cur = this.next_node;
-				if (this.cur->next != null) {
-					this.next_node = cur->next;
-				} else {
-					/* TODO: We cycle back to the start, but
-					   perhaps we don't want to. The interface
-					   description implies that we should because
-					   we always want to point to something */
-					this.next_node = this.head;
-				}
+				this.next_node = cur->next;
 			}
 
 			/*** Traversable methods ***/
