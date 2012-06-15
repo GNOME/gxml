@@ -21,7 +21,7 @@ def configure(conf):
     conf.load('compiler_c vala')
     conf.check_cfg(package='glib-2.0', uselib_store='GLIB', atleast_version='2.10.0', mandatory=1, args='--cflags --libs')
     conf.check_cfg(package='gtk+-3.0', uselib_store='GTK', atleast_version='3.2.0', mandatory=1, args='--cflags --libs')
-    conf.check_cfg(package='gee-1.0', uselib_store='GEE', atleast_version='0.6.1', mandatory=1, args='--cflags --libs')
+    conf.check_cfg(package='gee-0.8', uselib_store='GEE', atleast_version='0.6.1', mandatory=1, args='--cflags --libs')
     conf.check_cfg(package='libxml-2.0', uselib_store='XML', atleast_version='2.7.8', mandatory=1, args='--cflags --libs')
     # will probably want mroe packages :D
     # conf.env['VALAFLAGS'] = '-g --vapi=gxml.vapi --deps gxml.deps' # --use-header --header=gxml.h --includedir=`pwd` '
@@ -36,7 +36,7 @@ def build(bld):
     bld(rule="cp ${SRC} ${TGT}", source="test/test.xml", target="build/test/")
     bld(rule="cp ${SRC} ${TGT}", source="test/test_out_path_expected.xml", target="build/test/")
     bld(rule="cp ${SRC} ${TGT}", source="test/test_out_stream_expected.xml", target="build/test/")
-    bld(rule="rm -rf doc; valadoc --vapidir=../vapi --package-name=" + APPNAME + " --package-version=" + VERSION + " --pkg libxml-2.0 --pkg gio-2.0 --pkg gee-1.0 ../gxml/*.vala -o doc"); # occurs in build/
+    # TODO: fix valadoc usage, bld(rule="rm -rf doc; valadoc --vapidir=../vapi --package-name=" + APPNAME + " --package-version=" + VERSION + " --pkg libxml-2.0 --pkg gio-2.0 --pkg gee-0.8 ../gxml/*.vala -o doc"); # occurs in build/
 
     ## want to call valadoc, but TypeError encountered by WAF, sigh
     # bld(features='valadoc',

@@ -6,8 +6,7 @@
 
 bld.program(
     # TODO: want to add --deps gxml.deps
-    # packages = 'gtk+-2.0 gxml gee-1.0 libxml-2.0',
-    packages = 'gio-2.0 gxml gee-1.0 posix', # gee-1.0',
+    packages = 'gio-2.0 gxml gee-0.8 posix',
     target = 'gxml_test',
     uselib = 'GTK GLIB GEE XML',
     use = 'gxml',
