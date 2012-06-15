@@ -97,7 +97,7 @@ namespace GXmlDom {
 	 * owner/parent of the list's contents (children of the
 	 * parent).
 	 */
-	internal class GListNodeList : Gee.Iterable<XNode>, Gee.Traversable<XNode>, NodeList, GLib.Object {
+	internal class GListNodeList : Gee.Traversable<XNode>, Gee.Iterable<XNode>, NodeList, GLib.Object {
 		internal XNode root;
 		internal GLib.List<XNode> nodes;
 
@@ -421,7 +421,8 @@ namespace GXmlDom {
 	}
 
 	// TODO: Desperately want to extend List or implement relevant interfaces to make iterable
-	internal abstract class ChildNodeList : Gee.Iterable<XNode>, Gee.Traversable<XNode>, NodeList, GLib.Object {
+	// TODO: remember that the order of interfaces that you're listing as implemented matters
+	internal abstract class ChildNodeList : Gee.Traversable<XNode>, Gee.Iterable<XNode>, NodeList, GLib.Object {
 		/* TODO: must be live
 		   if this reflects children of a node, then must always be current
 		   same with nodes from GetElementByTagName, made need separate impls for each */
@@ -697,7 +698,7 @@ namespace GXmlDom {
 		}
 	}
 
-	public abstract class GenericNodeListIterator : Gee.Iterator<XNode>, Gee.Traversable<XNode>, GLib.Object {
+	public abstract class GenericNodeListIterator : Gee.Traversable<XNode>, Gee.Iterator<XNode>, GLib.Object {
 		protected abstract XNode get_current ();
 		protected abstract bool is_empty ();
 		protected abstract void advance ();
