@@ -528,5 +528,29 @@ namespace GXmlDom {
 
 			return str;
 		}
+
+		/*** XNode methods ***/
+
+		/**
+		 * Appends new_child to this document. A document can
+		 * only have one Element child, the root element, and
+		 * one DocumentType.
+		 *
+		 * @return The newly added child.
+		 */
+		public XNode? append_child (XNode new_child) throws DomError {
+			if (new_child.node_type == NodeType.ELEMENT) {
+				if (xmldoc->get_root_element () == null) {
+					xmldoc->set_root_element (((Element)new_child).node);
+				} else {
+					throw new DomError.HIERARCHY_REQUEST ("Document already has a root element.  Could not add child element with name '%s'".printf (new_child.node_name));
+				}
+			} else if (new_child.node_type == NodeType.DOCUMENT_TYPE) {
+				GLib.warning ("Appending document_types not yet supported");
+			} else {
+				GLib.warning ("Appending '%s' not yet supported", new_child.node_type.to_string ());
+			}
+			return null;
+		}
 	}
 }
