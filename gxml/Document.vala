@@ -538,7 +538,7 @@ namespace GXmlDom {
 		 *
 		 * @return The newly added child.
 		 */
-		public XNode? append_child (XNode new_child) throws DomError {
+		public override XNode? append_child (XNode new_child) throws DomError {
 			if (new_child.node_type == NodeType.ELEMENT) {
 				if (xmldoc->get_root_element () == null) {
 					xmldoc->set_root_element (((Element)new_child).node);
