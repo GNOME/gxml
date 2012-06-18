@@ -1,0 +1,20 @@
+<Object>
+  <Property ptype="gint32" pname="age">28</Property>
+  <!--
+    TODO: For lists,
+    * should we have the explicit length? (Not necessary)
+    * should the type be in the parent? 
+    * should the list parent be a Property or something more complex?
+      * probably something special, leave Property for simple flat properties, let collections and richer objects be denoted separately?
+    * should we include a * for pointer?
+    * should the name of the children be index values? (Not necessary, can be inferred, but then what should the name be?)
+    * how much special treatment should collection types get?  should serialisation code go into GList's own source or be handled by gxml?
+    -->
+    
+  <Property ptype="GList" pname="primes">
+    <Property ptype="gint32" pname="0">2</Property>
+    <Property ptype="gint32" pname="1">3</Property>
+    <Property ptype="gint32" pname="2">5</Property>
+    <Property ptype="gint32" pname="3">7</Property>
+  </Property>    
+</Object>

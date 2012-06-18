@@ -1,0 +1,4 @@
+<Object>
+  <Property ptype="gint32" pname="age">28</Property>
+  <Property ptype="gchar*" pname="name">Richard</Property>
+</Object>

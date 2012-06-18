@@ -1,0 +1,8 @@
+<Object>
+  <Property ptype="gint32" pname="age">28</Property>
+  <Property ptype="GString" pname="name">
+    <Property ptype="gchar*" pname="str">Richard</Property>
+    <Property ptype="gsize" pname="len">7</Property>
+    <Property ptype="gsize" pname="allocated_len">8</Property> <!-- TODO: reasonable number? -->
+  </Property>
+</Object>

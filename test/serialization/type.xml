@@ -1,0 +1,14 @@
+<Object>
+  <Property ptype="gint" pname="gint_value">1</Property>
+  <Property ptype="gint64" pname="gint64-value">2</Property> <!-- TODO: test - in prop names --> <!-- TODO: try big sizes for gint64 -->
+  <Property ptype="glong" pname="Glong">4</Property>
+  <Property ptype="gbool" pname="Gbool">true</Property> <!-- TODO: try different forms of bool? --.
+  <Property ptype="gdouble" pname="Gdouble">16.01</Property>
+  <Property ptype="string" pname="String">Supercalifragilisticexpialidocious</Property>
+  <Property ptype="gfloat" pname="Float">30.02</Property> <!-- TODO: try  6e7? -->
+  <Property ptype="guint" pname="Guint">3</Property> <!-- TODO: make larger than an int -->
+  <Property ptype="ulong" pname="Gulong">33</Property> <!-- TODO: make larger than an uint -->
+  <Property ptype="char" pname="Char">z</Property> <!-- TODO: exercise unicode -->
+  <Property ptype="uchar" pname="Uchar">!</Property> <!-- TODO go high -->
+  <!-- TODO: boxed, enum, flags, perhaps have those in their own category -->  
+</Object>

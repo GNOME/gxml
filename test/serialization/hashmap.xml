@@ -1,0 +1,6 @@
+<Object>
+  <Property ptype="gint32" pname="age">28</Property>
+  <Property ptype="GHashTable" pname="monthnames">
+    <!-- TODO: answer questions in list.xml -->
+  <Property>    
+</Object>
