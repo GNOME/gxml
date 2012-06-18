@@ -1,15 +1,12 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
 /*
-  Version 3:
-  This time base it off of json-glib
+  Version 3: json-glib version
 
   PLAN:
-  * 
+  * add support for GObject Introspection to allow us to serialise non-property members
 
-  So, json-glib's serialisation has a bunch of functions and code.
-
-  * TODO: do we want to return Documents or XNodes?  XNodes
+  json-glib
   * has functions to convert XML structures into Objects and vice versa
   * can convert simple objects automatically
   * richer objects need to implement interface
@@ -28,8 +25,6 @@
   json_serializable_{find,list,get,set}_propert{y,ies} -> iface->{find,list,get,set}_propert{y,ies}
     these all get init'd to -> json_serializable_real_{find,list,get,set}_propert{y,ies}
 	  these all call -> g_object_{class,}_{find,list,get,set}_propert{y,ies}
-  
-  
  */
 
 using GXmlDom;
@@ -40,12 +35,15 @@ namespace GXmlDom {
 		/* TODO: so it seems we can get property information from GObjectClass
 		   but that's about it.  Need to definitely use introspection for anything
 		   tastier */
-		/* TODO: determine if I want to return an <Object/>
-		 * root node or the Document containing it */
 		public GXmlDom.XNode serialize_object (GLib.Object object) {
+			/* Create an XML Document to return the object
+			   in.  TODO: consider just returning an
+			   <Object> node; but then we'd probably want
+			   a separate document for it to already be a
+			   part of as its owner_document. */
 			Document doc = new Document ();
 			Element root = doc.create_element ("Object");
-			doc.append_child (root); // TODO: is that how we set a root element?
+			doc.append_child (root);
 			root.set_attribute ("otype", object.get_type ().name ());
 
 			/* TODO: make sure we don't use an out param for our returned list
@@ -53,6 +51,11 @@ namespace GXmlDom {
 			   [CCode (array_length_type = "guint")] */
 			ParamSpec[] prop_specs = object.get_class ().list_properties ();
 
+			/* Exam the properties of the object and store
+			   them with their name, type and value in XML
+			   Elements.  Use GValue to convert them to
+			   strings. (Too bad deserialising isn't that
+			   easy w.r.t. string conversion.) */
 			foreach (ParamSpec prop_spec in prop_specs) {
 				Element prop = doc.create_element ("Property");
 				prop.set_attribute ("ptype", prop_spec.value_type.name ());
@@ -62,19 +65,13 @@ namespace GXmlDom {
 				object.get_property (prop_spec.name, ref value);
 				prop.content = value.get_string ();
 				root.append_child (prop);
-				
-				// // } else if (t.is_object ()) {
-				// } else {
-				// 	GLib.warning ("Cannot serialise property of type '%s' yet.", prop_spec.value_type.name ());
-				// }				
 			}
 
-
-
-			stdout.printf ("Object XML\n---\n%s\n", doc.to_string ());
-
+			/* Debug output */
 			bool debug = false;
 			if (debug) {
+				stdout.printf ("Object XML\n---\n%s\n", doc.to_string ());
+
 				stdout.printf ("object\n---\n");
 				stdout.printf ("get_type (): %s\n", object.get_type ().name ());
 				stdout.printf ("get_class ().get_type (): %s\n", object.get_class ().get_type ().name ());
@@ -90,8 +87,6 @@ namespace GXmlDom {
 					stdout.printf ("get_blurb (): %s\n", prop.get_blurb ());
 					stdout.printf ("get_nick (): %s\n", prop.get_nick ());
 				}
-				// get properties
-				// serialise each property
 			}
 
 			return doc;
@@ -122,62 +117,10 @@ namespace GXmlDom {
 			return obj;
 		}
 
-		public GLib.Object deserialize_object_old (XNode node) {
-			Element obj_elem = (Element)node;
-
-			Type type = Type.from_name (obj_elem.get_attribute ("otype"));
-			
-			Object obj = Object.newv (type, {});
-
-			Parameter[] parameters;
-
-			ParamSpec[] param_specs = obj.get_class ().list_properties ();
-
-			parameters = new Parameter[param_specs.length];
-
-			for (int i = 0; i < param_specs.length; i++) {
-				for (int j = 0; j < obj_elem.child_nodes.length; j++) {
-					XNode prop_node = obj_elem.child_nodes.nth (i);
-					if (prop_node.node_type == NodeType.ELEMENT) {
-						Element prop_elem = (Element)obj_elem.child_nodes.nth (i);
-						if (param_specs[i].get_name () == prop_elem.get_attribute ("pname")) {
-							Value prop_str_value = new Value (typeof (string));
-							prop_str_value.set_string (prop_elem.content);
-							GLib.message ("prop_str_value: [%s], prop_elem.content: [%s]",
-								      prop_str_value.get_string (), prop_elem.content);
-
-
-							Value prop_value = new Value (Type.from_name (prop_elem.get_attribute ("ptype")));
-
-							
-							//param_specs[i].value_convert (prop_str_value, prop_value, false);
-							//prop_str_value.transform (ref prop_value);
-							string_to_gvalue (prop_elem.content, ref prop_value);
-
-							GLib.message ("prop_str_value: %s",
-								      prop_str_value.strdup_contents ());
-							GLib.message ("  prop_value: %s",
-								      prop_value.strdup_contents ());
-
-
-							Parameter param = { param_specs[i].get_name (), prop_value };
-							parameters[i] = param;
-							break;
-						}
-					}
-				}
-			}
-
-			for (int i = 0; i < parameters.length; i++) {
-				stdout.printf ("param[%d]: name[%s]\n", i, parameters[i].name);
-			}
-			
-			obj = Object.newv (type, parameters);
-
-			return obj;
-		}
-
-		/* TODO: how do you do delegates for struct methods? */
+		/* TODO:
+		 * - can't seem to pass delegates on struct methods to another function :(
+		 * - no easy string_to_gvalue method in GValue :(
+		 */
 		public static bool string_to_gvalue (string str, ref GLib.Value dest) {
 			Type t = dest.type ();
 			GLib.Value dest2 = Value (t);
@@ -188,11 +131,36 @@ namespace GXmlDom {
 				if (ret = int64.try_parse (str, out val)) {
 					dest2.set_int64 (val);
 				}
+			} else if (t == typeof (int)) {
+				int64 val;
+				if (ret = int64.try_parse (str, out val)) {
+					dest2.set_int ((int)val);
+				}
+			} else if (t == typeof (long)) {
+				int64 val;
+				if (ret = int64.try_parse (str, out val)) {
+					dest2.set_long ((long)val);
+				}
+			} else if (t == typeof (uint)) {
+				uint64 val;
+				if (ret = uint64.try_parse (str, out val)) {
+					dest2.set_uint ((uint)val);
+				}
+			} else if (t == typeof (ulong)) {
+				uint64 val;
+				if (ret = uint64.try_parse (str, out val)) {
+					dest2.set_ulong ((ulong)val);
+				}
 			} else if (t == typeof (bool)) {
 				bool val;
 				if (ret = bool.try_parse (str, out val)) {
 					dest2.set_boolean (val);
 				} 
+			} else if (t == typeof (float)) {
+				double val;
+				if (ret = double.try_parse (str, out val)) {
+					dest2.set_float ((float)val);
+				}
 			} else if (t == typeof (double)) {
 				double val;
 				if (ret = double.try_parse (str, out val)) {
@@ -201,33 +169,6 @@ namespace GXmlDom {
 			} else if (t == typeof (string)) {
 				dest2.set_string (str);
 				ret = true;
-			} else if (t == typeof (int)) {
-				int64 val;
-				if (ret = int64.try_parse (str, out val)) {
-					dest2.set_int ((int)val);
-				}
-			} else if (t == typeof (float)) {
-				double val;
-				if (ret = double.try_parse (str, out val)) {
-					dest2.set_float ((float)val);
-				}
-			} else if (t == Type.BOXED) {
-				// ret = parser<BOXED> (str, (ParseMethod)BOXED.parse, (pv) => { dest2.set_BOXED (pv); } );
-			} else if (t == typeof (uint)) {
-				uint64 val;
-				if (ret = uint64.try_parse (str, out val)) {
-					dest2.set_uint ((uint)val);
-				}
-			} else if (t == typeof (long)) {
-				int64 val;
-				if (ret = int64.try_parse (str, out val)) {
-					dest2.set_long ((long)val);
-				}
-			} else if (t == typeof (ulong)) {
-				uint64 val;
-				if (ret = uint64.try_parse (str, out val)) {
-					dest2.set_ulong ((ulong)val);
-				}
 			} else if (t == typeof (char)) {
 				int64 val;
 				if (ret = int64.try_parse (str, out val)) {
@@ -238,10 +179,10 @@ namespace GXmlDom {
 				if (ret = int64.try_parse (str, out val)) {
 					dest2.set_uchar ((uchar)val);
 				}
+			} else if (t == Type.BOXED) {
 			} else if (t.is_enum ()) {
 			} else if (t.is_flags ()) {
 			} else if (t.is_object ()) {
-				// } else if (t == typeof (none)) {
 			} else {
 			}
 
@@ -253,28 +194,27 @@ namespace GXmlDom {
 				return false;
 			}
 		}
-		
 	}
 
-/**
- * SECTION:gxml-serializable
- * @short-description: Serialize and deserialize GObjects
- *
- * TODO: elaborate
- */
 	public interface SerializableInterface : GLib.Object {
 		public abstract void deserialize_property (string property_name, out GLib.Value value, GLib.ParamSpec spec, GXmlDom.XNode property_node);
 		public abstract GXmlDom.XNode serialize_property (string property_name, GLib.Value value, GLib.ParamSpec spec);
 
-		// g_object_class_{find_property,list_properties}
-		public abstract GLib.ParamSpec find_property (string property_name); // TODO: won't these names conflict with GLib.Object ones? :|
+		/* Correspond to: g_object_class_{find_property,list_properties} */
+		public abstract GLib.ParamSpec find_property (string property_name);
 		public abstract GLib.ParamSpec[] list_properties (out int num_specs); // TODO: probably unowned
 
-		// g_object_{set,get}_property
+		/* Correspond to: g_object_{set,get}_property */
 		public abstract void get_property (GLib.ParamSpec spec, GLib.Value value); // TODO: const?
 		public abstract void set_property (GLib.ParamSpec spec, GLib.Value value); // TODO: const?
 	}
-
+	
+	/**
+	 * SECTION:gxml-serializable
+	 * @short-description: Serialize and deserialize GObjects
+	 *
+	 * TODO: elaborate
+	 */
 	public class Serializable : SerializableInterface, GLib.Object {
 		void deserialize_property (string property_name, out GLib.Value value, GLib.ParamSpec spec, GXmlDom.XNode property_node) {
 			// TODO: mimic json_deserialize_pspec
