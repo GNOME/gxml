@@ -12,6 +12,7 @@ class GXmlTest {
 		TextTest.add_tests ();
 		CharacterDataTest.add_tests ();
 		ValaLibxml2Test.add_tests ();
+		XmlSerializableTest.add_tests ();
 		Test.run ();
 
 		return 1;
