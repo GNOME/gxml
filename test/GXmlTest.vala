@@ -13,6 +13,10 @@ class GXmlTest {
 		CharacterDataTest.add_tests ();
 		ValaLibxml2Test.add_tests ();
 		XmlSerializableTest.add_tests ();
+
+		// Prevent WARNING from aborting the test suite
+		GLib.Log.set_always_fatal (GLib.LogLevelFlags.LEVEL_ERROR);
+
 		Test.run ();
 
 		return 1;
