@@ -220,6 +220,7 @@ namespace GXmlDom {
 		}
 
 		public Iterator<XNode> filter (owned Predicate<XNode> f) {
+			// TODO: ask what Traversable delegate wants with this; it complains about how I shouldn't copy a delegate :)
 			return Gee.Traversable.filter_impl<XNode> (this, f);
 		}
 
@@ -724,6 +725,7 @@ namespace GXmlDom {
 			if (this.valid) {
 				return this.get_current ();
 			} else {
+				// TODO: file bug, Iterator wants XNode, not XNode?, but it wants us to be able to return null.
 				return null;
 			}
 		}
