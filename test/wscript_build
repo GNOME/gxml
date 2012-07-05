@@ -11,7 +11,5 @@ bld.program(
     uselib = 'GTK GLIB GEE XML',
     use = 'gxml',
     source = ['AttrTest.vala', 'CharacterDataTest.vala', 'DocumentTest.vala', 'ElementTest.vala', 'GXmlTest.vala', 'NodeListTest.vala', 'TextTest.vala', 'ValaLibxml2Test.vala', 'XmlSerializableTest.vala', 'XNodeTest.vala'],
-    vapi_dirs = ['../gxml', '../vapi'],
-    vala_defines = ['DEBUG']
-    # valaflags = ['-g']  # TODO: how do we communicate this?  Argh!
+    vapi_dirs = ['../gxml', '../vapi']
     )
