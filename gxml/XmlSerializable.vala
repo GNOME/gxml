@@ -31,40 +31,55 @@ using GXmlDom;
 
 [CCode (gir_namespace = "GXmlDom", gir_version = "0.2")]
 namespace GXmlDom {
+	public errordomain SerializationError {
+		UNKNOWN_TYPE
+	}
+
 	public class Serializer : GLib.Object {
 		/* TODO: so it seems we can get property information from GObjectClass
 		   but that's about it.  Need to definitely use introspection for anything
 		   tastier */
 		public GXmlDom.XNode serialize_object (GLib.Object object) {
+			Document doc;
+			Element root;
+			ParamSpec[] prop_specs;
+			Element prop;
+			Value value;
+
 			/* Create an XML Document to return the object
 			   in.  TODO: consider just returning an
 			   <Object> node; but then we'd probably want
 			   a separate document for it to already be a
 			   part of as its owner_document. */
-			Document doc = new Document ();
-			Element root = doc.create_element ("Object");
-			doc.append_child (root);
-			root.set_attribute ("otype", object.get_type ().name ());
-
-			/* TODO: make sure we don't use an out param for our returned list
-			   size in our interface's list_properties (), using
-			   [CCode (array_length_type = "guint")] */
-			ParamSpec[] prop_specs = object.get_class ().list_properties ();
-
-			/* Exam the properties of the object and store
-			   them with their name, type and value in XML
-			   Elements.  Use GValue to convert them to
-			   strings. (Too bad deserialising isn't that
-			   easy w.r.t. string conversion.) */
-			foreach (ParamSpec prop_spec in prop_specs) {
-				Element prop = doc.create_element ("Property");
-				prop.set_attribute ("ptype", prop_spec.value_type.name ());
-				prop.set_attribute ("pname", prop_spec.name);
-
-				Value value = new Value (typeof (string));
-				object.get_property (prop_spec.name, ref value);
-				prop.content = value.get_string ();
-				root.append_child (prop);
+			try {
+				doc = new Document ();
+				root = doc.create_element ("Object");
+				doc.append_child (root);
+				root.set_attribute ("otype", object.get_type ().name ());
+				
+				/* TODO: make sure we don't use an out param for our returned list
+				   size in our interface's list_properties (), using
+				   [CCode (array_length_type = "guint")] */
+				prop_specs = object.get_class ().list_properties ();
+				
+				/* Exam the properties of the object and store
+				   them with their name, type and value in XML
+				   Elements.  Use GValue to convert them to
+				   strings. (Too bad deserialising isn't that
+				   easy w.r.t. string conversion.) */
+				foreach (ParamSpec prop_spec in prop_specs) {
+					prop = doc.create_element ("Property");
+					prop.set_attribute ("ptype", prop_spec.value_type.name ());
+					prop.set_attribute ("pname", prop_spec.name);
+					
+					value = Value (typeof (string));
+					object.get_property (prop_spec.name, ref value);
+					prop.content = value.get_string ();
+					root.append_child (prop);
+				}
+			} catch (GXmlDom.DomError e) {
+				GLib.error ("%s", e.message);
+				// TODO: handle this better
 			}
 
 			/* Debug output */
@@ -76,43 +91,74 @@ namespace GXmlDom {
 				stdout.printf ("get_type (): %s\n", object.get_type ().name ());
 				stdout.printf ("get_class ().get_type (): %s\n", object.get_class ().get_type ().name ());
 				
-				ParamSpec[] properties = object.get_class ().list_properties ();
+				ParamSpec[] properties;
+				properties = object.get_class ().list_properties ();
 				stdout.printf ("object has %d properties\n", properties.length);
-				foreach (ParamSpec prop in properties) {
+				foreach (ParamSpec prop_spec in properties) {
 					stdout.printf ("---\n");
-					stdout.printf ("name: %s\n", prop.name);
-					stdout.printf ("value_type: %s\n", prop.value_type.name ());
-					stdout.printf ("owner_type: %s\n", prop.owner_type.name ());
-					stdout.printf ("get_name (): %s\n", prop.get_name ());
-					stdout.printf ("get_blurb (): %s\n", prop.get_blurb ());
-					stdout.printf ("get_nick (): %s\n", prop.get_nick ());
+					stdout.printf ("name: %s\n", prop_spec.name);
+					stdout.printf ("value_type: %s\n", prop_spec.value_type.name ());
+					stdout.printf ("owner_type: %s\n", prop_spec.owner_type.name ());
+					stdout.printf ("get_name (): %s\n", prop_spec.get_name ());
+					stdout.printf ("get_blurb (): %s\n", prop_spec.get_blurb ());
+					stdout.printf ("get_nick (): %s\n", prop_spec.get_nick ());
 				}
 			}
 
-			return doc;
+			return doc.document_element; // user can get Document through .owner_document
 		}
 
-		public GLib.Object deserialize_object (XNode node) {
-			Element obj_elem = (Element)node;
-
-			NodeList properties = obj_elem.get_elements_by_tag_name ("Property");
+		public GLib.Object deserialize_object (XNode node) throws SerializationError {
+			Element obj_elem;
+			
+			NodeList properties;
 			Parameter[] parameters;
-			string[] names;
+			string[] names; // this is used so we'll have a real reference to it, and it won't get garbled by the loop (like if we just used Value)
+			string otype;
 
+			Object obj;
+			Type type;
+
+			obj_elem = (Element)node;
+
+			properties = obj_elem.get_elements_by_tag_name ("Property");
 			parameters = new Parameter[properties.length];
 			names = new string[properties.length]; // because Parameter.name is unowned
+			otype = obj_elem.get_attribute ("otype");
 
 			for (int i = 0; i < properties.length; i++) {
-				Element prop_elem = (Element)properties.nth (i);
-				Value val = Value (Type.from_name (prop_elem.get_attribute ("ptype")));
+				Element prop_elem;
+				string pname;
+				string ptype;
+				Value val;
 
+				prop_elem = (Element)properties.nth (i);
+				pname = prop_elem.get_attribute ("pname");
+				ptype = prop_elem.get_attribute ("ptype");
+
+				// TODO: consider using ParamSpecs so we won't need ptype to be defined in the XML, we can just infer it since we'll have the property's name
+				if (pname == "" || ptype == "") {
+					GLib.warning ("'%s' object's %d'th property does not have both pname (%s) and ptype (%s)",
+						      otype, i, pname, ptype);
+					// TODO: perhaps use a warning instead, but that aborts tests :|
+				}
+				names[i] = pname;
+
+				type = Type.from_name (ptype);
+				if (type == 0) {
+					throw new SerializationError.UNKNOWN_TYPE ("Deserializing object '%s' has property with unknown type: %s", otype, ptype);
+				}
+				val = Value (type);
 				string_to_gvalue (prop_elem.content, ref val);
-				names[i] = prop_elem.get_attribute ("pname");
+
 				parameters[i] = { names[i], val };
 			}
 
-			Object obj = Object.newv (Type.from_name (obj_elem.get_attribute ("otype")),
-						  parameters);
+			type = Type.from_name (otype);
+			if (type == 0) {
+				throw new SerializationError.UNKNOWN_TYPE ("Deserializing object type not known: %s", otype);
+			}
+			obj = Object.newv (type, parameters);
 
 			return obj;
 		}
@@ -198,17 +244,19 @@ namespace GXmlDom {
 
 	public interface SerializableInterface : GLib.Object {
 		public abstract void deserialize_property (string property_name, out GLib.Value value, GLib.ParamSpec spec, GXmlDom.XNode property_node);
-		public abstract GXmlDom.XNode serialize_property (string property_name, GLib.Value value, GLib.ParamSpec spec);
+		// TODO: just added ? to these, do we really want to allow nulls for them?
+		public abstract GXmlDom.XNode? serialize_property (string property_name, GLib.Value value, GLib.ParamSpec spec);
 
 		/* Correspond to: g_object_class_{find_property,list_properties} */
-		public abstract GLib.ParamSpec find_property (string property_name);
-		public abstract GLib.ParamSpec[] list_properties (out int num_specs); // TODO: probably unowned
+		public abstract GLib.ParamSpec? find_property (string property_name);
+		public abstract GLib.ParamSpec[]? list_properties (out int num_specs); // TODO: probably unowned
 
 		/* Correspond to: g_object_{set,get}_property */
 		public abstract void get_property (GLib.ParamSpec spec, GLib.Value value); // TODO: const?
 		public abstract void set_property (GLib.ParamSpec spec, GLib.Value value); // TODO: const?
 	}
 	
+	// TODO: what is this below? 
 	/**
 	 * SECTION:gxml-serializable
 	 * @short-description: Serialize and deserialize GObjects
@@ -223,7 +271,7 @@ namespace GXmlDom {
 			// convert from XML to a GLib.Value
 			return;
 		}
-		GXmlDom.XNode serialize_property (string property_name, GLib.Value value, GLib.ParamSpec spec) {
+		GXmlDom.XNode? serialize_property (string property_name, GLib.Value value, GLib.ParamSpec spec) {
 			// TODO: mimic json_serialize_pspec
 
 			// convert from GLib.Value to XML
@@ -276,20 +324,20 @@ namespace GXmlDom {
 		}
 
 		// g_object_class_{find_property,list_properties}
-		GLib.ParamSpec find_property (string property_name) {
+		GLib.ParamSpec? find_property (string property_name) {
 			// TODO: call object find property
 			return null;
 		}
-		GLib.ParamSpec[] list_properties (out int num_specs) {
+		GLib.ParamSpec[]? list_properties (out int num_specs) {
 			// TODO: call object list properties
 			return null;
 
 		}
 		// g_object_{set,get}_property
-		void get_property (GLib.ParamSpec spec, GLib.Value value) {
+		new void get_property (GLib.ParamSpec spec, GLib.Value value) {
 			// TODO: call object get property
 		}
-		void set_property (GLib.ParamSpec spec, GLib.Value value) {
+		new void set_property (GLib.ParamSpec spec, GLib.Value value) {
 			// TODO: call object set property
 		}
 	}
