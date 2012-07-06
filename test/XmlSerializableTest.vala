@@ -13,7 +13,9 @@ using Gee;
  * *. collection property: glist, ghashtable,
  * *. gee collection property: list, set, hashtable
  * *. complex: simple object, complex object, enum, struct etc.
- 
+ *
+ * TODO: How do we want to handle the case of A having B and C as properties, and B and C both have D as a property? if we serialize and then deserialize, we'll end up with D1 and D2 separate; we might want to have some memory identifier to tell if we've already deserialised something and then we can just pioint to that.
+ *
  */
 
 // TODO: if I don't subclass GLib.Object, a Vala class's object can't be serialised?
@@ -183,7 +185,7 @@ public enum EnumProperty {
 }
 
 public class EnumProperties : GLib.Object {
-	public EnumProperty enum_property { get; set; } // if you don't use get;set; it's readonly
+	public EnumProperty enum_property { get; set; default = EnumProperty.ONE; } // if you don't use get;set; it's readonly
 
 	public string to_string () {
 		return "%d".printf (enum_property);
@@ -214,7 +216,6 @@ class XmlSerializableTest : GXmlTest {
 
 		try {
 			node = ser.serialize_object (object);
-			// GLib.message ("%s", node.to_string ());
 
 			// TODO: assert that node is right
 			node.owner_document.save_to_path (xml_filename);
@@ -228,10 +229,7 @@ class XmlSerializableTest : GXmlTest {
 					      stringify (object), stringify (object_new));
 				GLib.Test.fail ();
 			}
-		} catch (GXmlDom.DomError e) {
-			GLib.message ("%s", e.message);
-			GLib.Test.fail ();
-		} catch (GXmlDom.SerializationError e) {
+		} catch (GLib.Error e) {
 			GLib.message ("%s", e.message);
 			GLib.Test.fail ();
 		}
@@ -249,12 +247,18 @@ class XmlSerializableTest : GXmlTest {
 				fruit.name = "fish";
 				fruit.age = 3;
 				ser = new Serializer ();
-				fruit_xml = ser.serialize_object (fruit);
+				try {
+					fruit_xml = ser.serialize_object (fruit);
 
-				// TODO: This test currently should change once we can serialise fields and private properties
-				if ("<Object otype='Fruit'><Property pname='age' ptype='gint'>9</Property></Object>" != fruit_xml.to_string ()) {
+					// TODO: This test currently should change once we can serialise fields and private properties
+					if ("<Object otype='Fruit'><Property pname='age' ptype='gint'>9</Property></Object>" != fruit_xml.to_string ()) {
+						GLib.Test.fail ();
+					}
+				} catch (GXmlDom.SerializationError e) {
+					GLib.warning ("%s", e.message);
 					GLib.Test.fail ();
 				}
+
 			});
 		Test.add_func ("/gxml/domnode/xml_serializable_fields", () => {
 				Fruit fruit;
@@ -264,9 +268,15 @@ class XmlSerializableTest : GXmlTest {
 				fruit = new Fruit ();
 				fruit.set_all ("blue", 11, "fish", 3);
 				ser = new Serializer ();
-				fruit_xml = ser.serialize_object (fruit);
 
-				if ("<Object otype='Fruit'><Property pname='colour'>blue</Property><Property pname='weight'>9</Property><Property pname='name'>fish</Property><Property pname='age' ptype='gint'>3</Property></Object>" != fruit_xml.to_string ()) { // weight expected to be 3 because age sets it *3
+				try {
+					fruit_xml = ser.serialize_object (fruit);
+
+					if ("<Object otype='Fruit'><Property pname='colour'>blue</Property><Property pname='weight'>9</Property><Property pname='name'>fish</Property><Property pname='age' ptype='gint'>3</Property></Object>" != fruit_xml.to_string ()) { // weight expected to be 3 because age sets it *3
+						GLib.Test.fail ();
+					}
+				} catch (GXmlDom.SerializationError e) {
+					GLib.warning ("%s", e.message);
 					GLib.Test.fail ();
 				}
 			});
@@ -302,7 +312,6 @@ class XmlSerializableTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/xml_deserialize_bad_property_name", () => {
 				Document doc;
 				Serializer ser;
-				Fruit fruit;
 
 				try {
 					doc = new Document.from_string ("<Object otype='Fruit'><Property name='badname'>3</Property></Object>");
@@ -319,7 +328,6 @@ class XmlSerializableTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/xml_deserialize_bad_object_type", () => {
 				Document doc;
 				Serializer ser;
-				Fruit fruit;
 
 				try {
 					doc = new Document.from_string ("<Object otype='BadType'></Object>");
@@ -379,8 +387,12 @@ class XmlSerializableTest : GXmlTest {
 				SimpleFields obj = new SimpleFields (3, 4.5, "cat", true, 6);
 				test_serialization_deserialization (obj, "simple_fields", (GLib.EqualFunc)SimpleFields.equals, (StringifyFunc)SimpleFields.to_string);
 			});
+		Test.add_func ("/gxml/serialization/simple_properties_private", () => {
+				SimpleProperties obj = new SimpleProperties (3, 4.2, "catfish", true, 9);  // 5th arg is private
+				test_serialization_deserialization (obj, "simple_properties", (GLib.EqualFunc)SimpleProperties.equals, (StringifyFunc)SimpleProperties.to_string);
+			});
 		Test.add_func ("/gxml/serialization/simple_properties", () => {
-				SimpleProperties obj = new SimpleProperties (3, 4.2, "catfish", true, 9);
+				SimpleProperties obj = new SimpleProperties (3, 4.2, "catfish", true, 0); // set private arg just to 0
 				test_serialization_deserialization (obj, "simple_properties", (GLib.EqualFunc)SimpleProperties.equals, (StringifyFunc)SimpleProperties.to_string);
 			});
 		Test.add_func ("/gxml/serialization/collection_properties", () => {
@@ -428,7 +440,7 @@ class XmlSerializableTest : GXmlTest {
 				SimpleProperties simple_properties;
 				ComplexSimpleProperties obj;
 
-				simple_properties = new SimpleProperties (3, 4.2, "catfish", true, 9);
+				simple_properties = new SimpleProperties (3, 4.2, "catfish", true, 0);
 				obj = new ComplexSimpleProperties (simple_properties);
 
 				test_serialization_deserialization (obj, "complex_simple_properties", (GLib.EqualFunc)ComplexSimpleProperties.equals, (StringifyFunc)ComplexSimpleProperties.to_string);
@@ -438,7 +450,7 @@ class XmlSerializableTest : GXmlTest {
 				SimpleProperties simple_properties;
 				ComplexSimpleProperties complex_simple_properties;
 
-				simple_properties = new SimpleProperties (3, 4.2, "catfish", true, 9);
+				simple_properties = new SimpleProperties (3, 4.2, "catfish", true, 0);
 				complex_simple_properties = new ComplexSimpleProperties (simple_properties);
 				obj = new ComplexComplexProperties (complex_simple_properties);
 
