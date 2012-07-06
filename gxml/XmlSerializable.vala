@@ -256,7 +256,7 @@ namespace GXmlDom {
 		 * - can't seem to pass delegates on struct methods to another function :(
 		 * - no easy string_to_gvalue method in GValue :(
 		 */
-		public static bool string_to_gvalue (string str, ref GLib.Value dest) {
+		public static bool string_to_gvalue (string str, ref GLib.Value dest) throws SerializationError {
 			Type t = dest.type ();
 			GLib.Value dest2 = Value (t);
 			bool ret = false;
@@ -286,6 +286,10 @@ namespace GXmlDom {
 				if (ret = uint64.try_parse (str, out val)) {
 					dest2.set_ulong ((ulong)val);
 				}
+			} else if ((int)t == 20) { // gboolean
+				bool val = (str == "TRUE");
+				dest2.set_boolean (val); // TODO: huh, investigate why the type is gboolean and not bool coming out but is going in
+				ret = true;
 			} else if (t == typeof (bool)) {
 				bool val;
 				if (ret = bool.try_parse (str, out val)) {
@@ -316,6 +320,10 @@ namespace GXmlDom {
 				}
 			} else if (t == Type.BOXED) {
 			} else if (t.is_enum ()) {
+				int64 val;
+				if (ret = int64.try_parse (str, out val)) {
+					dest2.set_enum ((int)val);
+				}
 			} else if (t.is_flags ()) {
 			} else if (t.is_object ()) {
 			} else {
@@ -325,8 +333,7 @@ namespace GXmlDom {
 				dest = dest2;
 				return true;
 			} else {
-				GLib.warning ("Cannot convert from string to type '%s' yet.", t.to_string ());
-				return false;
+				throw new SerializationError.UNSUPPORTED_TYPE ("%s/%s", t.name (), t.to_string ());
 			}
 		}
 	}
