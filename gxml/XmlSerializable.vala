@@ -41,7 +41,7 @@ namespace GXmlDom {
 		/* TODO: so it seems we can get property information from GObjectClass
 		   but that's about it.  Need to definitely use introspection for anything
 		   tastier */
-		public GXmlDom.XNode serialize_object (GLib.Object object) {
+		public GXmlDom.XNode serialize_object (GLib.Object object) throws SerializationError {
 			Document doc;
 			Element root;
 			ParamSpec[] prop_specs;
@@ -74,10 +74,49 @@ namespace GXmlDom {
 					prop.set_attribute ("ptype", prop_spec.value_type.name ());
 					prop.set_attribute ("pname", prop_spec.name);
 					
-					value = Value (typeof (string));
-					object.get_property (prop_spec.name, ref value);
-					prop.content = value.get_string ();
+					Type type = prop_spec.value_type;
+
+					if (prop_spec.value_type.is_enum ()) {
+						/* We're going to handle this simply by saving it
+						   as an int.  If we save a string representation,
+						   we can't easily convert it back to the number
+						   in a generic fashion unless we can use GEnumClass,
+						   but I can't figure out how to get that right now,
+						   except from a GParamSpecEnum, but I don't know
+						   how to get that, at least in Vala (e.g. is it
+						   supposed to be as simple in C as casting the
+						   GParamSpec for an enum to GParamSpecEnum (assuming
+						   it truly is the latter, but is returned as the
+						   former by list_properties) */
+						value = Value (typeof (int));
+						object.get_property (prop_spec.name, ref value);
+						prop.content = "%d".printf (value.get_int ());
+						/* TODO: in the future, perhaps figure out GEnumClass
+						   and save it as the human readable enum value :D */
+					} else if (Value.type_transformable (prop_spec.value_type, typeof (string))) { // e.g. int, double, string, bool
+						value = Value (typeof (string));
+						object.get_property (prop_spec.name, ref value);
+						//GLib.warning ("value: %d", value);
+						prop.content = value.get_string ();
+					} else if (type == typeof (GLib.Type)) {
+						prop.content = type.name ();
+					// } else if (type == typeof (GLib.HashTable)) {
+					// } else if (type == typeof (Gee.List)) { // TODO: can we do a catch all for Gee.Collection and have <Collection /> ?
+					// } else if (type.is_a (typeof (Gee.Collection))) {
+					} else if (type.is_a (typeof (GLib.Object))) {
+						// TODO: this is going to get complicated
+						value = Value (typeof (GLib.Object));
+						object.get_property (prop_spec.name, ref value);
+						GLib.Object child_object = value.get_object ();
+						GXmlDom.XNode child_node = this.serialize_object (child_object); // catch serialisation errors?
+						prop.append_child (child_node); // TODO: can we cross documents like this?  Probably not :D want to be able to steal?, attributes seem to get lost
+					} else {
+						throw new SerializationError.UNSUPPORTED_TYPE ("Can't currently serialize type '%s' for property '%s' of object '%s'", type.name (), prop_spec.name, object.get_type ().name ());
+					}
+
 					root.append_child (prop);
+
+					//root.to_string ();
 				}
 			} catch (GXmlDom.DomError e) {
 				GLib.error ("%s", e.message);
