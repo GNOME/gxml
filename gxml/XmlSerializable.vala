@@ -151,7 +151,6 @@ namespace GXmlDom {
 
 		public GLib.Object deserialize_object (XNode node) throws SerializationError {
 			Element obj_elem;
-			NodeList properties;
 
 			string otype;
 			Type type;
@@ -171,52 +170,83 @@ namespace GXmlDom {
 			}
 
 			// Get the list of properties as ParamSpecs
-			obj = Object.newv (type, new Parameter[] {});
+			obj = Object.newv (type, new Parameter[] {}); // TODO: causes problems with Enums when 0 isn't a valid enum value (e.g. starts from 2 or something)
 			obj_class = obj.get_class ();
 			specs = obj_class.list_properties ();
 
-			properties = obj_elem.get_elements_by_tag_name ("Property");
+			foreach (XNode child_node in obj_elem.child_nodes) {
+				if (child_node.node_name == "Property") {
+					Element prop_elem;
+					string pname;
+					string ptype;
+					Value val;
 
-			for (int i = 0; i < properties.length; i++) {
-				Element prop_elem;
-				string pname;
-				string ptype;
-				Value val;
+					prop_elem = (Element)child_node;
+					pname = prop_elem.get_attribute ("pname");
+					ptype = prop_elem.get_attribute ("ptype"); // optional
 
-				prop_elem = (Element)properties.nth (i);
-				pname = prop_elem.get_attribute ("pname");
-				ptype = prop_elem.get_attribute ("ptype"); // optional
-
-				// Check name and type for property
-				property_found = false;
-				foreach (ParamSpec spec in specs) {
-					if (spec.name == pname) {
-						// only doing this if ptype omitted
-						// want ptype shown in XML for readability?
-						type = spec.value_type;
-						property_found = true;
+					// Check name and type for property
+					ParamSpec? spec = null;
+					for (int i = 0; i < specs.length; i++) {
+						if (specs[i].name == pname) {
+							// only doing this if ptype omitted
+							// want ptype shown in XML for readability?
+							spec = specs[i];
+							break;
+						}
 					}
-				}
-				if (!property_found) {
-					throw new SerializationError.UNKNOWN_PROPERTY ("Deserializing object of type '%s' claimed unknown property named '%s'", otype, pname);
-				}
 
-				if (false || ptype != "") {
-					// TODO: undisable if we support fields at some point
-					type = Type.from_name (ptype);
-					if (type == 0) {
-						/* This probably shouldn't happen while we're using
-						   ParamSpecs but if we support non-property fields
-						   later, it might be necessary again :D */
-						throw new SerializationError.UNKNOWN_TYPE ("Deserializing object '%s' has property '%s' with unknown type '%s'", otype, pname, ptype);
+					if (spec == null) {
+						throw new SerializationError.UNKNOWN_PROPERTY ("Deserializing object of type '%s' claimed unknown property named '%s'\nXML [%s]", otype, pname, obj_elem.to_string ());
 					}
+
+					type = spec.value_type;
+
+					if (false || ptype != "") {
+						// TODO: undisable if we support fields at some point
+						type = Type.from_name (ptype);
+						if (type == 0) {
+							/* This probably shouldn't happen while we're using
+							   ParamSpecs but if we support non-property fields
+							   later, it might be necessary again :D */
+							throw new SerializationError.UNKNOWN_TYPE ("Deserializing object '%s' has property '%s' with unknown type '%s'", otype, pname, ptype);
+						}
+					}
+
+					// Get value and save this all as a parameter
+					bool transformable = false;
+					bool transformed = false;
+					val = Value (type);
+					if (GLib.Value.type_transformable (type, typeof (string))) {
+						transformable = true;
+
+						try {
+							string_to_gvalue (prop_elem.content, ref val);
+							transformed = true;
+						} catch (SerializationError e) {
+						}
+						// } else if (type.is_a (typeof (Gee.Collection))) {
+					} else if (type.is_a (typeof (GLib.Object))) {
+						GXmlDom.XNode prop_elem_child;
+						Object property_object;
+
+						try {
+							prop_elem_child = prop_elem.first_child;
+							property_object = this.deserialize_object (prop_elem_child);
+							val.set_object (property_object);
+							transformed = true;
+						} catch (GXmlDom.SerializationError e) {
+							e.message += "\nXML [%s]".printf (prop_elem.to_string ());
+							throw e;
+						}
+					}
+
+					if (transformed == false) {
+						throw new SerializationError.UNSUPPORTED_TYPE ("Cannot deserialize type '%s/%s' for property '%s' of object '%s'\nXML [%s] %s", type.name (), type.to_string (), pname, otype, obj_elem.to_string (), (transformable ? "though it is transformable" : ""));
+					}
+
+					obj.set_property (pname, val);
 				}
-
-				// Get value and save this all as a parameter
-				val = Value (type);
-				string_to_gvalue (prop_elem.content, ref val);
-
-				obj.set_property (pname, val);
 			}
 
 			return obj;
