@@ -32,7 +32,8 @@ using GXmlDom;
 [CCode (gir_namespace = "GXmlDom", gir_version = "0.2")]
 namespace GXmlDom {
 	public errordomain SerializationError {
-		UNKNOWN_TYPE
+		UNKNOWN_TYPE,
+		UNKNOWN_PROPERTY
 	}
 
 	public class Serializer : GLib.Object {
@@ -110,21 +111,34 @@ namespace GXmlDom {
 
 		public GLib.Object deserialize_object (XNode node) throws SerializationError {
 			Element obj_elem;
-			
 			NodeList properties;
-			Parameter[] parameters;
-			string[] names; // this is used so we'll have a real reference to it, and it won't get garbled by the loop (like if we just used Value)
-			string otype;
 
-			Object obj;
+			string otype;
 			Type type;
+			Object obj;
+			unowned ObjectClass obj_class;
+			ParamSpec[] specs;
+			bool property_found;
 
 			obj_elem = (Element)node;
 
+			// Get the object's type
+			// TODO: wish there was a g_object_class_from_name () method
+			otype = obj_elem.get_attribute ("otype");
+			type = Type.from_name (otype);
+			if (type == 0) {
+				throw new SerializationError.UNKNOWN_TYPE ("Deserializing object claims unknown type '%s'", otype);
+			}
+
+			// Get the list of properties as ParamSpecs
+			obj = Object.newv (type, new Parameter[] {});
+			obj_class = obj.get_class ();
+			specs = obj_class.list_properties ();
+
+			// Get ready to collect properties as parameters
 			properties = obj_elem.get_elements_by_tag_name ("Property");
 			parameters = new Parameter[properties.length];
 			names = new string[properties.length]; // because Parameter.name is unowned
-			otype = obj_elem.get_attribute ("otype");
 
 			for (int i = 0; i < properties.length; i++) {
 				Element prop_elem;
@@ -134,31 +148,39 @@ namespace GXmlDom {
 
 				prop_elem = (Element)properties.nth (i);
 				pname = prop_elem.get_attribute ("pname");
-				ptype = prop_elem.get_attribute ("ptype");
+				ptype = prop_elem.get_attribute ("ptype"); // optional
 
-				// TODO: consider using ParamSpecs so we won't need ptype to be defined in the XML, we can just infer it since we'll have the property's name
-				if (pname == "" || ptype == "") {
-					GLib.warning ("'%s' object's %d'th property does not have both pname (%s) and ptype (%s)",
-						      otype, i, pname, ptype);
-					// TODO: perhaps use a warning instead, but that aborts tests :|
+				// Check name and type for property
+				property_found = false;
+				foreach (ParamSpec spec in specs) {
+					if (spec.name == pname) {
+						// only doing this if ptype omitted
+						// want ptype shown in XML for readability?
+						type = spec.value_type;
+						property_found = true;
+					}
 				}
-				names[i] = pname;
+				if (!property_found) {
+					throw new SerializationError.UNKNOWN_PROPERTY ("Deserializing object of type '%s' claimed unknown property named '%s'", otype, pname);
+				}
 
-				type = Type.from_name (ptype);
-				if (type == 0) {
-					throw new SerializationError.UNKNOWN_TYPE ("Deserializing object '%s' has property with unknown type: %s", otype, ptype);
+				if (false || ptype != "") {
+					// TODO: undisable if we support fields at some point
+					type = Type.from_name (ptype);
+					if (type == 0) {
+						/* This probably shouldn't happen while we're using
+						   ParamSpecs but if we support non-property fields
+						   later, it might be necessary again :D */
+						throw new SerializationError.UNKNOWN_TYPE ("Deserializing object '%s' has property '%s' with unknown type '%s'", otype, pname, ptype);
+					}
 				}
+
+				// Get value and save this all as a parameter
 				val = Value (type);
 				string_to_gvalue (prop_elem.content, ref val);
 
-				parameters[i] = { names[i], val };
+				obj.set_property (pname, val);
 			}
-
-			type = Type.from_name (otype);
-			if (type == 0) {
-				throw new SerializationError.UNKNOWN_TYPE ("Deserializing object type not known: %s", otype);
-			}
-			obj = Object.newv (type, parameters);
 
 			return obj;
 		}
