@@ -4,7 +4,7 @@ using GXmlDom;
 class ValaLibxml2Test : GXmlTest {
 	public static void add_tests () {
 		Test.add_func ("/gxml/vala_libxml2/xmlHashTable", () => {
-				try {
+				// try {
 					Xml.HashTable *table = new Xml.HashTable (10);
 					assert (table->size () == 0);
 					table->add_entry ("maple", "syrup");
@@ -31,10 +31,10 @@ class ValaLibxml2Test : GXmlTest {
 					table->free (/* should pass it a string deallocator */ null);
 					/* deallocator: takes (void *payload, string name), just frees payload */
 					// TODO: figure out a way to test whether table was freed
-				} catch (Error e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
-				}
+				// } catch (Error e) {
+				// 	GLib.warning ("%s", e.message);
+				// 	assert (false);
+				// }
 			});
 	}
 }
