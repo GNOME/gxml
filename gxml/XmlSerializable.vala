@@ -135,10 +135,7 @@ namespace GXmlDom {
 			obj_class = obj.get_class ();
 			specs = obj_class.list_properties ();
 
-			// Get ready to collect properties as parameters
 			properties = obj_elem.get_elements_by_tag_name ("Property");
-			parameters = new Parameter[properties.length];
-			names = new string[properties.length]; // because Parameter.name is unowned
 
 			for (int i = 0; i < properties.length; i++) {
 				Element prop_elem;
