@@ -33,7 +33,8 @@ using GXmlDom;
 namespace GXmlDom {
 	public errordomain SerializationError {
 		UNKNOWN_TYPE,
-		UNKNOWN_PROPERTY
+		UNKNOWN_PROPERTY,
+		UNSUPPORTED_TYPE
 	}
 
 	public class Serializer : GLib.Object {
