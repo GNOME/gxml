@@ -50,6 +50,11 @@ public class SimpleFields : GLib.Object {
 	public bool public_bool;
 	private int private_int;
 
+	// TODO: want something like reflection to automate this :D
+	public string to_string () {
+		return "SimpleFields: public_int[%d] public_double[%f] public_string[%s] public_bool[%s] private_int[%d]".printf (public_int, public_double, public_string, public_bool.to_string (), private_int);
+	}
+
 	public SimpleFields (int public_int, double public_double,
 			     string public_string, bool public_bool, int private_int) {
 		this.public_int = public_int;
@@ -74,6 +79,10 @@ public class SimpleProperties : GLib.Object {
 	public bool public_bool { get; set; }
 	private int private_int { get; set; }
 
+	public string to_string () {
+		return "SimpleFields: public_int[%d] public_double[%f] public_string[%s] public_bool[%s] private_int[%d]".printf (public_int, public_double, public_string, public_bool.to_string (), private_int);
+	}
+
 	public SimpleProperties (int public_int, double public_double, string public_string, bool public_bool, int private_int) {
 		this.public_int = public_int;
 		this.public_double = public_double;
@@ -95,6 +104,11 @@ public class CollectionProperties : GLib.Object {
 	public unowned GLib.List list { get; set; } // Need to test these with C code too
 	public GLib.HashTable table { get; set; }
 
+	public string to_string () {
+		return "CollectionProperties: list[length:%u] table[size:%u]".printf (list.length (), table.size ());
+		// TODO: consider stringifying elements
+	}
+
 	public CollectionProperties (GLib.List list, GLib.HashTable table) {
 		this.list = list;
 		this.table = table;
@@ -112,6 +126,11 @@ public class GeeCollectionProperties : GLib.Object {
 	public Gee.HashMap map { get; set; }
 	public Gee.Collection collection { get; set; }
 
+	public string to_string () {
+		return "GeeCollectionProperties: list[size:%d] hash_st[size:%d] geeset[size:%d] map[size:%d] collection[size:%d]".printf (list.size, hash_set.size, geeset.size, map.size, collection.size);
+		// TODO: consider stringifying elements
+	}
+
 	public GeeCollectionProperties (Gee.List list, Gee.HashSet hash_set, Gee.Set geeset, Gee.HashMap map, Gee.Collection collection) {
 		this.list = list;
 		this.hash_set = hash_set;
@@ -128,6 +147,10 @@ public class GeeCollectionProperties : GLib.Object {
 public class ComplexSimpleProperties : GLib.Object {
 	public SimpleProperties simple { get; set; }
 
+	public string to_string () {
+		return "ComplexSimpleProperties: simple[%s]".printf (simple.to_string ());
+	}
+
 	public ComplexSimpleProperties (SimpleProperties simple) {
 		this.simple = simple;
 	}
@@ -139,6 +162,10 @@ public class ComplexSimpleProperties : GLib.Object {
 
 public class ComplexComplexProperties : GLib.Object {
 	public ComplexSimpleProperties complex_simple { get; set; }
+
+	public string to_string () {
+		return "ComplexComplexProperties: complex_simple[%s]".printf (complex_simple.to_string ());
+	}
 
 	public ComplexComplexProperties (ComplexSimpleProperties complex_simple) {
 		this.complex_simple = complex_simple;
@@ -158,6 +185,10 @@ public enum EnumProperty {
 public class EnumProperties : GLib.Object {
 	public EnumProperty enum_property { get; set; } // if you don't use get;set; it's readonly
 
+	public string to_string () {
+		return "%d".printf (enum_property);
+	}
+
 	public EnumProperties (EnumProperty enum_property) {
 		this.enum_property = enum_property;
 	}
@@ -168,9 +199,9 @@ public class EnumProperties : GLib.Object {
 }
 
 class XmlSerializableTest : GXmlTest {
-	// public delegate bool EqualsFunc (GLib.Object object);
+	public delegate string StringifyFunc (GLib.Object object);
 
-	public static GLib.Object test_serialization_deserialization (GLib.Object object, string name, EqualFunc equals) {
+	public static GLib.Object test_serialization_deserialization (GLib.Object object, string name, EqualFunc equals, StringifyFunc stringify) {
 		string xml_filename;
 		Serializer ser;
 		GXmlDom.XNode node;
@@ -183,6 +214,8 @@ class XmlSerializableTest : GXmlTest {
 
 		try {
 			node = ser.serialize_object (object);
+			// GLib.message ("%s", node.to_string ());
+
 			// TODO: assert that node is right
 			node.owner_document.save_to_path (xml_filename);
 			// TODO: assert that saved file is right
@@ -191,6 +224,8 @@ class XmlSerializableTest : GXmlTest {
 			object_new = ser.deserialize_object (doc.document_element);
 
 			if (! equals (object, object_new)) {
+				GLib.warning ("Expected [%s] but got [%s]",
+					      stringify (object), stringify (object_new));
 				GLib.Test.fail ();
 			}
 		} catch (GXmlDom.DomError e) {
@@ -217,7 +252,9 @@ class XmlSerializableTest : GXmlTest {
 				fruit_xml = ser.serialize_object (fruit);
 
 				// TODO: This test currently should change once we can serialise fields and private properties
-				assert ("<Object otype=\"Fruit\"><Property pname=\"age\" ptype=\"gint\">9</Property></Object>" == fruit_xml.to_string ());
+				if ("<Object otype='Fruit'><Property pname='age' ptype='gint'>9</Property></Object>" != fruit_xml.to_string ()) {
+					GLib.Test.fail ();
+				}
 			});
 		Test.add_func ("/gxml/domnode/xml_serializable_fields", () => {
 				Fruit fruit;
@@ -229,38 +266,105 @@ class XmlSerializableTest : GXmlTest {
 				ser = new Serializer ();
 				fruit_xml = ser.serialize_object (fruit);
 
-				if ("<Object otype=\"Fruit\"><Property pname=\"colour\">blue</Property><Property pname=\"weight\">9</Property><Property pname=\"name\">fish</Property><Property pname=\"age\" ptype=\"gint\">3</Property></Object>" != fruit_xml.to_string ()) { // weight expected to be 3 because age sets it *3
+				if ("<Object otype='Fruit'><Property pname='colour'>blue</Property><Property pname='weight'>9</Property><Property pname='name'>fish</Property><Property pname='age' ptype='gint'>3</Property></Object>" != fruit_xml.to_string ()) { // weight expected to be 3 because age sets it *3
 					GLib.Test.fail ();
 				}
 			});
 		Test.add_func ("/gxml/domnode/xml_deserializable", () => {
 				try {
-					Document doc = new Document.from_string ("<Object otype=\"Fruit\"><Property pname=\"age\" ptype=\"gint\">3</Property></Object>"); // Shouldn't need to have type if we have a known property name for a known type
+					Document doc = new Document.from_string ("<Object otype='Fruit'><Property pname='age' ptype='gint'>3</Property></Object>"); // Shouldn't need to have type if we have a known property name for a known type
 					Serializer ser = new Serializer ();
 					Fruit fruit = (Fruit)ser.deserialize_object (doc.document_element);
 
 					if (fruit.age != 3) {
 						GLib.Test.fail (); // TODO: check weight? 
 					}
-				} catch (GXmlDom.SerializationError e) {
+				} catch (GLib.Error e) {
 					GLib.message ("%s", e.message);
 					GLib.Test.fail ();
-				} catch (GXmlDom.DomError e) {
+				}
+			});
+		Test.add_func ("/gxml/domnode/xml_deserialize_no_type", () => {
+				Document doc;
+				Serializer ser;
+				Fruit fruit;
+
+				/* Right now we can infer the type from a property's name, but fields we might need to specify */
+				try {
+					doc = new Document.from_string ("<Object otype='Fruit'><Property pname='age'>3</Property></Object>");
+					ser = new Serializer ();
+					fruit = (Fruit)ser.deserialize_object (doc.document_element);
+				} catch (GLib.Error e) {
+					GLib.message ("%s", e.message);
+					GLib.Test.fail ();
+				}
+			});
+		Test.add_func ("/gxml/domnode/xml_deserialize_bad_property_name", () => {
+				Document doc;
+				Serializer ser;
+				Fruit fruit;
+
+				try {
+					doc = new Document.from_string ("<Object otype='Fruit'><Property name='badname'>3</Property></Object>");
+					ser = new Serializer ();
+					ser.deserialize_object (doc.document_element);
+					GLib.Test.fail ();
+				} catch (GXmlDom.SerializationError.UNKNOWN_PROPERTY e) {
+					// Pass
+				} catch (GLib.Error e) {
+					GLib.message ("%s", e.message);
+					GLib.Test.fail ();
+				}
+			});
+		Test.add_func ("/gxml/domnode/xml_deserialize_bad_object_type", () => {
+				Document doc;
+				Serializer ser;
+				Fruit fruit;
+
+				try {
+					doc = new Document.from_string ("<Object otype='BadType'></Object>");
+					ser = new Serializer ();
+					ser.deserialize_object (doc.document_element);
+					GLib.Test.fail ();
+				} catch (GXmlDom.SerializationError.UNKNOWN_TYPE e) {
+					// Pass
+				} catch (GLib.Error e) {
+					GLib.message ("%s", e.message);
+					GLib.Test.fail ();
+				}
+			});
+		Test.add_func ("/gxml/domnode/xml_deserialize_bad_property_type", () => {
+				Document doc;
+				Serializer ser;
+				Fruit fruit;
+
+				try {
+					doc = new Document.from_string ("<Object otype='Fruit'><Property pname='age' ptype='badtype'>blue</Property></Object>");
+					ser = new Serializer ();
+					fruit = (Fruit)ser.deserialize_object (doc.document_element);
+					GLib.Test.fail ();
+				} catch (GXmlDom.SerializationError.UNKNOWN_TYPE e) {
+					// Pass
+				} catch (GLib.Error e) {
 					GLib.message ("%s", e.message);
 					GLib.Test.fail ();
 				}
 			});
 		Test.add_func ("/gxml/domnode/xml_deserializable_fields", () => {
-				try {
-					Document doc;
-					Serializer ser;
-					Fruit fruit;
+				/* TODO: expecting this one to fail right now,
+				         because we probably still don't support fields,
+					 just properties. */
+				Document doc;
+				Serializer ser;
+				Fruit fruit;
 
-					doc = new Document.from_string ("<Object otype=\"Fruit\"><Property pname=\"colour\">blue</Property><Property pname=\"weight\">11</Property><Property pname=\"name\">fish</Property><Property pname=\"age\" ptype=\"gint\">3</Property></Object>");
+				try {
+					doc = new Document.from_string ("<Object otype='Fruit'><Property pname='colour' ptype='gchararray'>blue</Property><Property pname='weight' ptype='gint'>11</Property><Property pname='name' ptype='gchararray'>fish</Property><Property pname='age' ptype='gint'>3</Property></Object>");
 					ser = new Serializer ();
 					fruit = (Fruit)ser.deserialize_object (doc.document_element);
 
 					if (! fruit.test ("blue", 11, "fish", 3)) {
+						GLib.warning ("Expected [\"%s\", %d, \"%s\", %d] but found [%s]", "blue", 11, "fish", 3, fruit.to_string ());
 						GLib.Test.fail (); // Note that age sets weight normally
 					}
 				} catch (GXmlDom.SerializationError e) {
@@ -273,11 +377,11 @@ class XmlSerializableTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/serialization/simple_fields", () => {
 				SimpleFields obj = new SimpleFields (3, 4.5, "cat", true, 6);
-				test_serialization_deserialization (obj, "simple_fields", (GLib.EqualFunc)SimpleFields.equals);
+				test_serialization_deserialization (obj, "simple_fields", (GLib.EqualFunc)SimpleFields.equals, (StringifyFunc)SimpleFields.to_string);
 			});
 		Test.add_func ("/gxml/serialization/simple_properties", () => {
 				SimpleProperties obj = new SimpleProperties (3, 4.2, "catfish", true, 9);
-				test_serialization_deserialization (obj, "simple_properties", (GLib.EqualFunc)SimpleProperties.equals);
+				test_serialization_deserialization (obj, "simple_properties", (GLib.EqualFunc)SimpleProperties.equals, (StringifyFunc)SimpleProperties.to_string);
 			});
 		Test.add_func ("/gxml/serialization/collection_properties", () => {
 				// TODO: want a test with more complex data than strings
@@ -298,7 +402,7 @@ class XmlSerializableTest : GXmlTest {
 				
 				obj = new CollectionProperties (list, table);
 				
-				test_serialization_deserialization (obj, "collection_properties", (GLib.EqualFunc)CollectionProperties.equals);
+				test_serialization_deserialization (obj, "collection_properties", (GLib.EqualFunc)CollectionProperties.equals, (StringifyFunc)CollectionProperties.to_string);
 			});
 		Test.add_func ("/gxml/serialization/gee_collection_properties", () => {
 				GeeCollectionProperties obj;
@@ -318,7 +422,7 @@ class XmlSerializableTest : GXmlTest {
 				}
 
 				obj = new GeeCollectionProperties (list, hashset, tset, map, col);
-				test_serialization_deserialization (obj, "gee_collection_properties", (GLib.EqualFunc)GeeCollectionProperties.equals);
+				test_serialization_deserialization (obj, "gee_collection_properties", (GLib.EqualFunc)GeeCollectionProperties.equals, (StringifyFunc)GeeCollectionProperties.to_string);
 			});
 		Test.add_func ("/gxml/serialization/complex_simple_properties", () => {
 				SimpleProperties simple_properties;
@@ -327,7 +431,7 @@ class XmlSerializableTest : GXmlTest {
 				simple_properties = new SimpleProperties (3, 4.2, "catfish", true, 9);
 				obj = new ComplexSimpleProperties (simple_properties);
 
-				test_serialization_deserialization (obj, "complex_simple_properties", (GLib.EqualFunc)ComplexSimpleProperties.equals);
+				test_serialization_deserialization (obj, "complex_simple_properties", (GLib.EqualFunc)ComplexSimpleProperties.equals, (StringifyFunc)ComplexSimpleProperties.to_string);
 			});
 		Test.add_func ("/gxml/serialization/complex_complex_properties", () => {
 				ComplexComplexProperties obj;
@@ -338,11 +442,11 @@ class XmlSerializableTest : GXmlTest {
 				complex_simple_properties = new ComplexSimpleProperties (simple_properties);
 				obj = new ComplexComplexProperties (complex_simple_properties);
 
-				test_serialization_deserialization (obj, "complex_complex_properties", (GLib.EqualFunc)ComplexComplexProperties.equals);
+				test_serialization_deserialization (obj, "complex_complex_properties", (GLib.EqualFunc)ComplexComplexProperties.equals, (StringifyFunc)ComplexComplexProperties.to_string);
 			});
 		Test.add_func ("/gxml/serialization/enum_properties", () => {
 				EnumProperties obj = new EnumProperties (EnumProperty.THREE);
-				test_serialization_deserialization (obj, "enum_properties", (GLib.EqualFunc)EnumProperties.equals);
+				test_serialization_deserialization (obj, "enum_properties", (GLib.EqualFunc)EnumProperties.equals, (StringifyFunc)EnumProperties.to_string);
 			});
 		// TODO: more to do, for structs and stuff and things that do interfaces
 		
