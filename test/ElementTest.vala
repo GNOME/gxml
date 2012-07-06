@@ -175,14 +175,17 @@ class ElementTest : GXmlTest  {
 		 * HashTable, and the document will have to re-sync
 		 * before stringifying (or saving)*/
 		Test.add_func ("/gxml/element/syncing_of_dirty_elements", () => {
+				HashTable<string,GXmlDom.Attr> attrs;
+				string str;
+
 				try {
 					Document doc = new Document.from_string ("<?xml version='1.0' encoding='UTF-8'?><entry><link rel='http://schemas.google.com/contacts/2008/rel#photo'/></entry>");
 					XNode root = doc.document_element;
 					foreach (XNode child in root.child_nodes) {
-						HashTable<string,GXmlDom.Attr> attrs = child.attributes;
+						attrs = child.attributes;
 					}
 
-					string str = doc.to_string ();
+					str = doc.to_string ();
 				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
@@ -446,7 +449,12 @@ class ElementTest : GXmlTest  {
 					// during stringification, we don't want to confuse XML <> with text <>
 					Element elem2 = get_elem_new_doc ("messy");
 					elem2.append_child (elem.owner_document.create_text_node ("&lt;<>&gt;"));
-					assert (elem2.to_string () == "<messy>&amp;lt;&lt;&gt;&amp;gt;</messy>");
+					string expected = "<messy>&amp;lt;&lt;&gt;&amp;gt;</messy>";
+					if (elem2.to_string () != expected) {
+						GLib.warning ("Expected [%s] found [%s]",
+							      expected, elem2.to_string ());
+						GLib.Test.fail ();
+					}
 
 					// TODO: want to test with format on and off
 				} catch (GXmlDom.DomError e) {
