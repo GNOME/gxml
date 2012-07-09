@@ -25,7 +25,7 @@ using Gee;
    Test overriding {set,get}_property
 */
 
-public class SerializableTomato : GLib.Object, GXmlDom.SerializableInterface {
+public class SerializableTomato : GLib.Object, GXmlDom.Serializable {
 	public int weight;
 	private int age { get; set; }
 	public int height { get; set; }
@@ -66,7 +66,7 @@ public class SerializableTomato : GLib.Object, GXmlDom.SerializableInterface {
 	}
 }
 
-public class SerializableCapsicum : GLib.Object, GXmlDom.SerializableInterface {
+public class SerializableCapsicum : GLib.Object, GXmlDom.Serializable {
 	public int weight;
 	private int age { get; set; }
 	public int height { get; set; }
@@ -333,24 +333,21 @@ class XmlSerializableTest : GXmlTest {
 
 	public static GLib.Object test_serialization_deserialization (GLib.Object object, string name, EqualFunc equals, StringifyFunc stringify) {
 		string xml_filename;
-		Serializer ser;
 		GXmlDom.XNode node;
 		GXmlDom.Document doc;
 		GLib.Object object_new = null;
 
 		xml_filename = "_serialization_test_" + name + ".xml";
 
-		ser = new Serializer ();
-
 		try {
-			node = ser.serialize_object (object);
+			node = Serialization.serialize_object (object);
 
 			// TODO: assert that node is right
 			node.owner_document.save_to_path (xml_filename);
 			// TODO: assert that saved file is right
 			doc = new GXmlDom.Document.from_path (xml_filename);
 			// TODO: assert that loaded file is right; do document compare with original
-			object_new = ser.deserialize_object (doc.document_element);
+			object_new = Serialization.deserialize_object (doc.document_element);
 
 			if (! equals (object, object_new)) {
 				GLib.warning ("Expected [%s] but got [%s]",
@@ -368,15 +365,13 @@ class XmlSerializableTest : GXmlTest {
 	public static void add_tests () {
 		Test.add_func ("/gxml/domnode/xml_serializable", () => {
 				Fruit fruit;
-				Serializer ser;
 				GXmlDom.XNode fruit_xml;
 
 				fruit = new Fruit ();
 				fruit.name = "fish";
 				fruit.age = 3;
-				ser = new Serializer ();
 				try {
-					fruit_xml = ser.serialize_object (fruit);
+					fruit_xml = Serialization.serialize_object (fruit);
 
 					// TODO: This test currently should change once we can serialise fields and private properties
 					if ("<Object otype='Fruit'><Property pname='age' ptype='gint'>9</Property></Object>" != fruit_xml.to_string ()) {
@@ -390,15 +385,13 @@ class XmlSerializableTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/domnode/xml_serializable_fields", () => {
 				Fruit fruit;
-				Serializer ser;
 				GXmlDom.XNode fruit_xml;
 
 				fruit = new Fruit ();
 				fruit.set_all ("blue", 11, "fish", 3);
-				ser = new Serializer ();
 
 				try {
-					fruit_xml = ser.serialize_object (fruit);
+					fruit_xml = Serialization.serialize_object (fruit);
 
 					if ("<Object otype='Fruit'><Property pname='colour'>blue</Property><Property pname='weight'>9</Property><Property pname='name'>fish</Property><Property pname='age' ptype='gint'>3</Property></Object>" != fruit_xml.to_string ()) { // weight expected to be 3 because age sets it *3
 						GLib.Test.fail ();
@@ -411,8 +404,7 @@ class XmlSerializableTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/xml_deserializable", () => {
 				try {
 					Document doc = new Document.from_string ("<Object otype='Fruit'><Property pname='age' ptype='gint'>3</Property></Object>"); // Shouldn't need to have type if we have a known property name for a known type
-					Serializer ser = new Serializer ();
-					Fruit fruit = (Fruit)ser.deserialize_object (doc.document_element);
+					Fruit fruit = (Fruit)Serialization.deserialize_object (doc.document_element);
 
 					if (fruit.age != 3) {
 						GLib.Test.fail (); // TODO: check weight?
@@ -424,14 +416,12 @@ class XmlSerializableTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/domnode/xml_deserialize_no_type", () => {
 				Document doc;
-				Serializer ser;
 				Fruit fruit;
 
 				/* Right now we can infer the type from a property's name, but fields we might need to specify */
 				try {
 					doc = new Document.from_string ("<Object otype='Fruit'><Property pname='age'>3</Property></Object>");
-					ser = new Serializer ();
-					fruit = (Fruit)ser.deserialize_object (doc.document_element);
+					fruit = (Fruit)Serialization.deserialize_object (doc.document_element);
 				} catch (GLib.Error e) {
 					GLib.message ("%s", e.message);
 					GLib.Test.fail ();
@@ -439,12 +429,10 @@ class XmlSerializableTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/domnode/xml_deserialize_bad_property_name", () => {
 				Document doc;
-				Serializer ser;
 
 				try {
 					doc = new Document.from_string ("<Object otype='Fruit'><Property name='badname'>3</Property></Object>");
-					ser = new Serializer ();
-					ser.deserialize_object (doc.document_element);
+					Serialization.deserialize_object (doc.document_element);
 					GLib.Test.fail ();
 				} catch (GXmlDom.SerializationError.UNKNOWN_PROPERTY e) {
 					// Pass
@@ -455,12 +443,10 @@ class XmlSerializableTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/domnode/xml_deserialize_bad_object_type", () => {
 				Document doc;
-				Serializer ser;
 
 				try {
 					doc = new Document.from_string ("<Object otype='BadType'></Object>");
-					ser = new Serializer ();
-					ser.deserialize_object (doc.document_element);
+					Serialization.deserialize_object (doc.document_element);
 					GLib.Test.fail ();
 				} catch (GXmlDom.SerializationError.UNKNOWN_TYPE e) {
 					// Pass
@@ -471,13 +457,11 @@ class XmlSerializableTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/domnode/xml_deserialize_bad_property_type", () => {
 				Document doc;
-				Serializer ser;
 				Fruit fruit;
 
 				try {
 					doc = new Document.from_string ("<Object otype='Fruit'><Property pname='age' ptype='badtype'>blue</Property></Object>");
-					ser = new Serializer ();
-					fruit = (Fruit)ser.deserialize_object (doc.document_element);
+					fruit = (Fruit)Serialization.deserialize_object (doc.document_element);
 					GLib.Test.fail ();
 				} catch (GXmlDom.SerializationError.UNKNOWN_TYPE e) {
 					// Pass
@@ -491,13 +475,11 @@ class XmlSerializableTest : GXmlTest {
 				         because we probably still don't support fields,
 					 just properties. */
 				Document doc;
-				Serializer ser;
 				Fruit fruit;
 
 				try {
 					doc = new Document.from_string ("<Object otype='Fruit'><Property pname='colour' ptype='gchararray'>blue</Property><Property pname='weight' ptype='gint'>11</Property><Property pname='name' ptype='gchararray'>fish</Property><Property pname='age' ptype='gint'>3</Property></Object>");
-					ser = new Serializer ();
-					fruit = (Fruit)ser.deserialize_object (doc.document_element);
+					fruit = (Fruit)Serialization.deserialize_object (doc.document_element);
 
 					if (! fruit.test ("blue", 11, "fish", 3)) {
 						GLib.warning ("Expected [\"%s\", %d, \"%s\", %d] but found [%s]", "blue", 11, "fish", 3, fruit.to_string ());
@@ -602,8 +584,7 @@ class XmlSerializableTest : GXmlTest {
 				ratings.append (21);
 
 				SerializableCapsicum capsicum = new SerializableCapsicum (2, 3, 5, ratings);
-				Serializer ser = new Serializer ();
-				GXmlDom.XNode node = ser.serialize_object (capsicum);
+				GXmlDom.XNode node = Serialization.serialize_object (capsicum);
 
 				string expected = "<Object otype=\"SerializableCapsicum\"><Property pname=\"height\">6</Property><Property pname=\"ratings\"><rating>8</rating><rating>13</rating><rating>21</rating></Property></Object>";
 				if (node.to_string () != expected) {
@@ -611,7 +592,7 @@ class XmlSerializableTest : GXmlTest {
 					GLib.Test.fail ();
 				}
 
-				SerializableCapsicum capsicum_new = (SerializableCapsicum)ser.deserialize_object (node);
+				SerializableCapsicum capsicum_new = (SerializableCapsicum)Serialization.deserialize_object (node);
 				if (capsicum_new.height != 5 || ratings.length () != 3 || ratings.nth_data (0) != 8 || ratings.nth_data (2) != 21) {
 					GLib.warning ("Did not deserialize as expected.  Got [%s] but expected height and ratings from [%s]", capsicum_new.to_string (), capsicum.to_string ());
 					GLib.Test.fail ();
