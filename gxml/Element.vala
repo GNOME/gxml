@@ -92,7 +92,7 @@ namespace GXmlDom {
 					this.owner_document.dirty_elements.append (this);
 					this._attributes = new HashTable<string,Attr> (GLib.str_hash, GLib.str_equal);
 						// TODO: make sure other HashTables have appropriate hash, equal functions
-					
+
 					for (Xml.Attr *prop = base.node->properties; prop != null; prop = prop->next) {
 						attr = new Attr (prop, this.owner_document);
 						this._attributes.replace (prop->name, attr);
@@ -138,7 +138,7 @@ namespace GXmlDom {
 
 					}
 				}
-				
+
 				// Go through the GXml table of attributes for this element and add corresponding libxml2 ones
 				foreach (string propname in this.attributes.get_keys ()) {
 					attr = this.attributes.lookup (propname);
@@ -201,7 +201,7 @@ namespace GXmlDom {
 				 * like this, and not ones read from the file, so I didn't notice
 				 * something so important was broken. Ugh.  Add more suitable tests.
 				 */
-				   
+
 				attr = this.owner_document.create_attribute (name);
 			}
 			/* TODO: find out if DOM API wants us to create a new one if it doesn't already exist?  (probably, but we'll need to know the doc for that, for doc.create_attribute :| */
@@ -265,7 +265,7 @@ namespace GXmlDom {
 
 		// TODO: consider making the life of TagNameNodeLists optional, and dead by default, at the Document level
 		private void check_add_tag_name (Element basenode, XNode child) {
-			// TODO: make sure there aren't any other NodeTypes that could have elements as children 
+			// TODO: make sure there aren't any other NodeTypes that could have elements as children
 			if (child.node_type == NodeType.ELEMENT || child.node_type == NodeType.DOCUMENT_FRAGMENT) {
 				// the one we're examining is an element, and might need to be added
 				if (child.node_type == NodeType.ELEMENT) {
@@ -284,7 +284,7 @@ namespace GXmlDom {
 		 * whether they're keeping that node in a TagNameNodeList, so we can remove it.
 		 */
 		private void check_remove_tag_name (Element basenode, XNode child) {
-			// TODO: make sure there aren't any other NodeTypes that could have elements as children 
+			// TODO: make sure there aren't any other NodeTypes that could have elements as children
 			if (child.node_type == NodeType.ELEMENT) {
 				// the one we're examining is an element, and might need to be removed from a tag name node list
 				basenode.on_remove_descendant_with_tag_name ((Element)child);

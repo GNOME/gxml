@@ -35,7 +35,7 @@ namespace GXmlDom {
 			get {
 				if (_namespace_definitions == null) {
 					this._namespace_definitions = new NamespaceAttrNodeList (this, this.owner_document);
-				} 
+				}
 				return this._namespace_definitions;
 			}
 			internal set {

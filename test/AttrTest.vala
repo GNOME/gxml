@@ -12,7 +12,7 @@ class AttrTest : GXmlTest {
 					Attr core = node.get_attribute_node ("core");
 					Attr shell = node.get_attribute_node ("shell");
 					Attr price = node.get_attribute_node ("price");
-					
+
 					assert (core.namespace_uri == "http://mom.co.uk/wands");
 					assert (shell.namespace_uri == "http://mom.co.uk/wands");
 					assert (price.namespace_uri == null);
@@ -30,7 +30,7 @@ class AttrTest : GXmlTest {
 					Attr core = node.get_attribute_node ("core");
 					Attr shell = node.get_attribute_node ("shell");
 					Attr price = node.get_attribute_node ("price");
-					
+
 					assert (core.prefix == "wands");
 					assert (shell.prefix == "wands");
 					assert (price.prefix == null);
@@ -48,7 +48,7 @@ class AttrTest : GXmlTest {
 					Attr core = node.get_attribute_node ("core");
 					Attr shell = node.get_attribute_node ("shell");
 					Attr price = node.get_attribute_node ("price");
-					
+
 					assert (core.local_name == "core");
 					assert (shell.local_name == "shell");
 					assert (price.local_name == "price");
@@ -62,7 +62,7 @@ class AttrTest : GXmlTest {
 				try {
 					Document doc = get_doc ();
 					Attr attr = get_attr ("broomSeries", "Nimbus", doc);
-					
+
 					assert (attr.node_name == "broomSeries");
 				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);

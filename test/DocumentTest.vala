@@ -18,9 +18,9 @@ class DocumentTest : GXmlTest {
 		Test.add_func ("/gxml/document/implementation", () => {
 				try {
 					Document doc = get_doc ();
-					
+
 					Implementation impl = doc.implementation;
-					
+
 					assert (impl.has_feature ("xml") == true);
 					assert (impl.has_feature ("xml", "1.0") == true);
 					assert (impl.has_feature ("xml", "2.0") == false);
@@ -35,7 +35,7 @@ class DocumentTest : GXmlTest {
 				try {
 					Document doc = get_doc ();
 					Element root = doc.document_element;
-					
+
 					assert (root.node_name == "Sentences");
 					assert (root.has_child_nodes ());
 				} catch (GXmlDom.DomError e) {
@@ -153,8 +153,8 @@ class DocumentTest : GXmlTest {
 				try {
 					Document doc = get_doc ();
 					DocumentFragment fragment = doc.create_document_fragment ();
-					
-					// TODO: can we set XML in the content, and actually have that translate into real libxml2 underlying nodes? 
+
+					// TODO: can we set XML in the content, and actually have that translate into real libxml2 underlying nodes?
 					Element percy = doc.create_element ("Author");
 					Element percy_name = doc.create_element ("Name");
 					Element percy_email = doc.create_element ("Email");
@@ -163,7 +163,7 @@ class DocumentTest : GXmlTest {
 					percy.append_child (percy_name);
 					percy.append_child (percy_email);
 					fragment.append_child (percy);
-					
+
 					Element ginny = doc.create_element ("Author");
 					Element ginny_name = doc.create_element ("Name");
 					Element ginny_email = doc.create_element ("Email");
@@ -172,7 +172,7 @@ class DocumentTest : GXmlTest {
 					ginny.append_child (ginny_name);
 					ginny.append_child (ginny_email);
 					fragment.append_child (ginny);
-					
+
 					NodeList authors_list = doc.get_elements_by_tag_name ("Authors");
 					assert (authors_list.length == 1);
 					Element authors = (Element)authors_list.item (0);

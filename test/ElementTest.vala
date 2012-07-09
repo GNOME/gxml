@@ -15,7 +15,7 @@ class ElementTest : GXmlTest  {
 	public static void add_tests () {
 		Test.add_func ("/gxml/element/namespace_support_manual", () => {
 				try {
-					// TODO: wanted to use TestElement but CAN'T because Vala won't let me access the internal constructor of Element? 
+					// TODO: wanted to use TestElement but CAN'T because Vala won't let me access the internal constructor of Element?
 					Xml.Doc *xmldoc;
 					Xml.Node *xmlroot;
 					Xml.Node *xmlnode;
@@ -46,11 +46,11 @@ class ElementTest : GXmlTest  {
 				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
-				}				
+				}
 			});
 		Test.add_func ("/gxml/element/namespace_uri", () => {
 				try {
-					// TODO: wanted to use TestElement but CAN'T because Vala won't let me access the internal constructor of Element? 
+					// TODO: wanted to use TestElement but CAN'T because Vala won't let me access the internal constructor of Element?
 					Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
 					XNode root = doc.document_element;
 					XNode node = root.child_nodes.item (0);
@@ -59,11 +59,11 @@ class ElementTest : GXmlTest  {
 				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
-				}				
+				}
 			});
 		Test.add_func ("/gxml/element/testing", () => {
 				try {
-					// TODO: wanted to use TestElement but CAN'T because Vala won't let me access the internal constructor of Element? 
+					// TODO: wanted to use TestElement but CAN'T because Vala won't let me access the internal constructor of Element?
 					Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"><products:Ingredient /></magic:Potion></Potions>");
 					XNode root = doc.document_element;
 					XNode node = root.child_nodes.item (0);
@@ -106,7 +106,7 @@ class ElementTest : GXmlTest  {
 				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
-				}				
+				}
 			});
 		Test.add_func ("/gxml/element/namespace_definitions", () => {
 				try {
@@ -128,7 +128,7 @@ class ElementTest : GXmlTest  {
 				} catch (GXmlDom.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
-				}				
+				}
 			});
 		Test.add_func ("/gxml/element/attributes", () => {
 				try {

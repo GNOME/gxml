@@ -23,7 +23,7 @@ namespace GXmlDom {
 		 * The prefix that this xmlns attribute defines. So,
 		 * if the element was like {{{<Fish xmlns:foods="http://fishies.org/foods" />}}}, the
 		 * defined prefix would be foods.
-		 */ 
+		 */
 		public string defined_prefix {
 			get {
 				return this.node_name;
@@ -36,7 +36,7 @@ namespace GXmlDom {
 		 * The namespace uri that this xmlns attribute defines. So,
 		 * if the element was like {{{<Fish xmlns:foods="http://fishies.org/foods" />}}}, the
 		 * defined namespace uri would be [[http://fishies.org/foods/]].
-		 */ 
+		 */
 		public string defined_namespace_uri {
 			get {
 				return this.node_value;

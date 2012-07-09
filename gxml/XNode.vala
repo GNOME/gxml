@@ -40,13 +40,13 @@ namespace GXmlDom {
 		// TODO: determine best API for exposing these, as it's not defined in the IDL
 		/**
 		 * The list of attributes that store namespace definitions
-		 */ 
+		 */
 		public virtual NodeList? namespace_definitions {
 			get {
 				return null;
 			}
 			internal set {
-			}					
+			}
 		}
 
 		/**

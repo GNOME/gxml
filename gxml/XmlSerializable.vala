@@ -17,7 +17,7 @@
 
   json_serializable_default_{de,}serialize_property -> json_serializable_real_{de,}serialize
 
-  
+
   json_serializable_{de,}serialize_property -> iface->{de,}serialize_property
     these all get init'd to -> json_serializable_real_{de,}serialize_property
       these all call -> json_{de,}serialize_pspec
@@ -260,7 +260,7 @@ namespace GXmlDom {
 			Type t = dest.type ();
 			GLib.Value dest2 = Value (t);
 			bool ret = false;
-			
+
 			if (t == typeof (int64)) {
 				int64 val;
 				if (ret = int64.try_parse (str, out val)) {
@@ -294,7 +294,7 @@ namespace GXmlDom {
 				bool val;
 				if (ret = bool.try_parse (str, out val)) {
 					dest2.set_boolean (val);
-				} 
+				}
 			} else if (t == typeof (float)) {
 				double val;
 				if (ret = double.try_parse (str, out val)) {
@@ -312,7 +312,7 @@ namespace GXmlDom {
 				int64 val;
 				if (ret = int64.try_parse (str, out val)) {
 					dest2.set_char ((char)val);
-				} 
+				}
 			} else if (t == typeof (uchar)) {
 				int64 val;
 				if (ret = int64.try_parse (str, out val)) {

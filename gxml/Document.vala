@@ -53,8 +53,8 @@ namespace GXmlDom {
 		 * accessed and the GXml XNode we created to represent
 		 * them on-demand.  That way, we don't create an XNode
 		 * for EVERY node, even if the user never actually
-		 * accesses it.  
-		 */ 
+		 * accesses it.
+		 */
 		internal HashTable<Xml.Node*, XNode> node_dict = new HashTable<Xml.Node*, XNode> (GLib.direct_hash, GLib.direct_equal);
 		// We don't want want to use XNode's Xml.Node or its dict
 		// internal HashTable<Xml.Attr*, Attr> attr_dict = new HashTable<Xml.Attr*, Attr> (null, null);
@@ -342,7 +342,7 @@ namespace GXmlDom {
 			this.from_libxml2 (doc);
 		}
 		/**
-		 * Creates an empty document. 
+		 * Creates an empty document.
 		 */
 		public Document () throws DomError {
 			Xml.Doc *doc = new Xml.Doc ();
@@ -364,14 +364,14 @@ namespace GXmlDom {
 			// TODO: test that adding attributes works with stringification and saving
 			if (this.dirty_elements.length () > 0) {
 				// tmp_node for generating Xml.Ns* objects when saving attributes
-				tmp_node = new Xml.Node (null, "tmp"); 
+				tmp_node = new Xml.Node (null, "tmp");
 				foreach (Element elem in this.dirty_elements) {
 					elem.save_attributes (tmp_node);
 				}
 				this.dirty_elements = new List<Element> (); // clear the old list
 			}
 		}
-		
+
 
 		/**
 		 * Saves a Document to the file at path file_path

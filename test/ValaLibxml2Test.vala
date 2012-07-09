@@ -25,7 +25,7 @@ class ValaLibxml2Test : GXmlTest {
 					// try removing it again, it shouldn't exist, should fail
 					assert (table->remove_entry ("maple", null) == -1);
 					assert (table->size () == 1);
-					
+
 					assert (table->lookup ("swiss") == "cheese");
 
 					table->free (/* should pass it a string deallocator */ null);
