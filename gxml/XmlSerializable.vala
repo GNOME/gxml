@@ -58,14 +58,10 @@ namespace GXmlDom {
 			}
 		}
 
-		private static GXmlDom.Element serialize_property (GLib.Object object, ParamSpec prop_spec, GXmlDom.Document doc) throws SerializationError, DomError {
-			Element prop;
+		private static GXmlDom.XNode serialize_property (GLib.Object object, ParamSpec prop_spec, GXmlDom.Document doc) throws SerializationError, DomError {
 			Type type;
 			Value value;
-
-			prop = doc.create_element ("Property");
-			prop.set_attribute ("ptype", prop_spec.value_type.name ());
-			prop.set_attribute ("pname", prop_spec.name);
+			XNode value_node;
 
 			type = prop_spec.value_type;
 
@@ -83,16 +79,16 @@ namespace GXmlDom {
 				   former by list_properties) */
 				value = Value (typeof (int));
 				object.get_property (prop_spec.name, ref value);
-				prop.content = "%d".printf (value.get_int ());
+				value_node = doc.create_text_node ("%d".printf (value.get_int ()));
 				/* TODO: in the future, perhaps figure out GEnumClass
 				   and save it as the human readable enum value :D */
 			} else if (Value.type_transformable (prop_spec.value_type, typeof (string))) { // e.g. int, double, string, bool
 				value = Value (typeof (string));
 				object.get_property (prop_spec.name, ref value);
 				//GLib.warning ("value: %d", value);
-				prop.content = value.get_string ();
+				value_node = doc.create_text_node (value.get_string ());
 			} else if (type == typeof (GLib.Type)) {
-				prop.content = type.name ();
+				value_node = doc.create_text_node (type.name ());
 				// } else if (type == typeof (GLib.HashTable)) {
 				// } else if (type == typeof (Gee.List)) { // TODO: can we do a catch all for Gee.Collection and have <Collection /> ?
 				// } else if (type.is_a (typeof (Gee.Collection))) {
@@ -101,13 +97,13 @@ namespace GXmlDom {
 				value = Value (typeof (GLib.Object));
 				object.get_property (prop_spec.name, ref value);
 				GLib.Object child_object = value.get_object ();
-				GXmlDom.XNode child_node = Serialization.serialize_object (child_object); // catch serialisation errors?
-				prop.append_child (child_node); // TODO: can we cross documents like this?  Probably not :D want to be able to steal?, attributes seem to get lost
+				value_node = Serialization.serialize_object (child_object); // catch serialisation errors?
+				// TODO: caller will append_child; can we cross documents like this?  Probably not :D want to be able to steal?, attributes seem to get lost
 			} else {
 				throw new SerializationError.UNSUPPORTED_TYPE ("Can't currently serialize type '%s' for property '%s' of object '%s'", type.name (), prop_spec.name, object.get_type ().name ());
 			}
 
-			return prop;
+			return value_node;
 		}
 
 		/* TODO: so it seems we can get property information from GObjectClass
@@ -119,6 +115,7 @@ namespace GXmlDom {
 			ParamSpec[] prop_specs;
 			Element prop;
 			Serializable serializable = null;
+			XNode value_prop = null;
 
 			if (object.get_type ().is_a (typeof (Serializable))) {
 				serializable = (Serializable)object;
@@ -150,14 +147,19 @@ namespace GXmlDom {
 				   strings. (Too bad deserialising isn't that
 				   easy w.r.t. string conversion.) */
 				foreach (ParamSpec prop_spec in prop_specs) {
-					prop = null;
+					prop = doc.create_element ("Property");
+					prop.set_attribute ("ptype", prop_spec.value_type.name ());
+					prop.set_attribute ("pname", prop_spec.name);
+
+					value_prop = null;
 					if (serializable != null) {
-						prop = serializable.serialize_property (prop_spec.name, prop_spec, doc);
+						value_prop = serializable.serialize_property (prop_spec.name, prop_spec, doc);
 					}
-					if (prop == null) {
-						prop = Serialization.serialize_property (object, prop_spec, doc);
+					if (value_prop == null) {
+						value_prop = Serialization.serialize_property (object, prop_spec, doc);
 					}
 
+					prop.append_child (value_prop);
 					root.append_child (prop);
 				}
 			} catch (GXmlDom.DomError e) {
@@ -288,7 +290,8 @@ namespace GXmlDom {
 						}
 						if (!serialized) {
 							Serialization.deserialize_property (spec, prop_elem, out val);
-							obj.set_property (pname, val); // TODO: should we make a note that for implementing {get,set}_property in the interface, they should specify override (in Vala)?  What about in C?  Need to test which one gets called in which situations (yeah, already read the tutorial)
+							obj.set_property (pname, val);
+							// TODO: should we make a note that for implementing {get,set}_property in the interface, they should specify override (in Vala)?  What about in C?  Need to test which one gets called in which situations (yeah, already read the tutorial)
 						}
 					} catch (SerializationError.UNSUPPORTED_TYPE e) {
 						throw new SerializationError.UNSUPPORTED_TYPE ("Cannot deserialize object '%s's property '%s' with type '%s/%s': %s\nXML [%s]",
@@ -398,7 +401,7 @@ namespace GXmlDom {
 		// TODO: value and property_name are kind of redundant: eliminate?  property_name from spec.property_name and value from the object itself :)
 		/** Serialized properties should have the XML structure <Property pname="PropertyName">...</Property> */
 		// TODO: perhaps we should provide that base structure
-		public virtual GXmlDom.Element? serialize_property (string property_name, /*GLib.Value value,*/ GLib.ParamSpec spec, GXmlDom.Document doc) {
+		public virtual GXmlDom.XNode? serialize_property (string property_name, /*GLib.Value value,*/ GLib.ParamSpec spec, GXmlDom.Document doc) {
 			return null; // default serialize_property gets used
 		}
 

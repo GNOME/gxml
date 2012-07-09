@@ -29,8 +29,7 @@ public class SerializableTomato : GLib.Object, GXmlDom.Serializable {
 	public int weight;
 	private int age { get; set; }
 	public int height { get; set; }
-	public string description;
-	// public unowned GLib.List<int> ratings { get; set; }
+	public string description { get; set; }
 
 	public SerializableTomato (int weight, int age, int height, string description) {
 		this.weight = weight;
@@ -39,28 +38,15 @@ public class SerializableTomato : GLib.Object, GXmlDom.Serializable {
 		this.description = description;
 	}
 
-	// TODO: make common with SerializableCapsicum's to_string ()
 	public string to_string () {
-		string str = "SerializableTomato {weight:%d, age:%d, height:%d, ratings:".printf (weight, age, height);
-		// foreach (int rating in ratings) {
-		// 	str += "%d ".printf (rating);
-		// }
-		str += "}";
-		return str;
+		return "SerializableTomato {weight:%d, age:%d, height:%d, description:%s}".printf (weight, age, height, description);
 	}
 
 	public static bool equals (SerializableTomato a, SerializableTomato b) {
 		bool same = (a.weight == b.weight &&
 			     a.age == b.age &&
-			     a.height == b.height); //  &&
-			     // a.ratings.length () == b.ratings.length ());
-		// if (same) {
-		// 	for (int i = 0; i < a.ratings.length (); i++) {
-		// 		if (a.ratings.nth_data (i) != b.ratings.nth_data (i)) {
-		// 			return false;
-		// 		}
-		// 	}
-		// }
+			     a.height == b.height &&
+			     a.description == b.description);
 
 		return same;
 	}
@@ -114,26 +100,22 @@ public class SerializableCapsicum : GLib.Object, GXmlDom.Serializable {
 
 		return false;
 	}
-	public GXmlDom.Element? serialize_property (string property_name, /*GLib.Value value,*/ GLib.ParamSpec spec, GXmlDom.Document doc) {
+	public GXmlDom.XNode? serialize_property (string property_name, /*GLib.Value value,*/ GLib.ParamSpec spec, GXmlDom.Document doc) {
 		GXmlDom.Element c_prop;
 		GXmlDom.Element rating;
 
 		switch (property_name) {
 		case "ratings":
-			c_prop = doc.create_element ("Property");
-			c_prop.set_attribute ("pname", property_name);
+			GXmlDom.DocumentFragment frag = doc.create_document_fragment ();
 			foreach (int rating_int in ratings) {
 				rating = doc.create_element ("rating");
 				rating.content = "%d".printf (rating_int);
-				c_prop.append_child (rating);
+				frag.append_child (rating);
 			}
-			return c_prop;
+			return frag;
 			break;
 		case "height":
-			c_prop = doc.create_element ("Property");
-			c_prop.set_attribute ("pname", property_name);
-			c_prop.content = "%d".printf (height + 1);
-			return c_prop;
+			return doc.create_text_node ("%d".printf (height + 1));
 			break;
 		default:
 			GLib.error ("Wasn't expecting the SerializableCapsicum property '%s'", property_name);
@@ -592,7 +574,7 @@ class XmlSerializableTest : GXmlTest {
 				capsicum = new SerializableCapsicum (2, 3, 5, ratings);
 				node = Serialization.serialize_object (capsicum);
 
-				expected = "<Object otype=\"SerializableCapsicum\"><Property pname=\"height\">6</Property><Property pname=\"ratings\"><rating>8</rating><rating>13</rating><rating>21</rating></Property></Object>";
+				expected = "<Object otype=\"SerializableCapsicum\"><Property pname=\"height\" ptype=\"gint\">6</Property><Property pname=\"ratings\" ptype=\"gpointer\"><rating>8</rating><rating>13</rating><rating>21</rating></Property></Object>";
 				if (node.to_string () != expected) {
 					GLib.warning ("Did not serialize as expected.  Got [%s] but expected [%s]", node.to_string (), expected);
 					GLib.Test.fail ();
