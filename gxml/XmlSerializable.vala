@@ -118,9 +118,11 @@ namespace GXmlDom {
 			Element root;
 			ParamSpec[] prop_specs;
 			Element prop;
-			bool implements_serializable;
+			Serializable serializable = null;
 
-			implements_serializable = object.get_type ().is_a (typeof (Serializable));
+			if (object.get_type ().is_a (typeof (Serializable))) {
+				serializable = (Serializable)object;
+			}
 
 			/* Create an XML Document to return the object
 			   in.  TODO: consider just returning an
@@ -136,8 +138,8 @@ namespace GXmlDom {
 				/* TODO: make sure we don't use an out param for our returned list
 				   size in our interface's list_properties (), using
 				   [CCode (array_length_type = "guint")] */
-				if (implements_serializable) {
-					prop_specs = ((Serializable)object).list_properties ();
+				if (serializable != null) {
+					prop_specs = serializable.list_properties ();
 				} else {
 					prop_specs = object.get_class ().list_properties ();
 				}
@@ -149,8 +151,8 @@ namespace GXmlDom {
 				   easy w.r.t. string conversion.) */
 				foreach (ParamSpec prop_spec in prop_specs) {
 					prop = null;
-					if (implements_serializable) {
-						prop = ((Serializable)object).serialize_property (prop_spec.name, prop_spec, doc);
+					if (serializable != null) {
+						prop = serializable.serialize_property (prop_spec.name, prop_spec, doc);
 					}
 					if (prop == null) {
 						prop = Serialization.serialize_property (object, prop_spec, doc);
@@ -218,7 +220,6 @@ namespace GXmlDom {
 			if (transformed == false) {
 				throw new SerializationError.UNSUPPORTED_TYPE ("Failed to transform property from string to type.");
 			}
-
 		}
 
 		public static GLib.Object deserialize_object (XNode node) throws SerializationError {
@@ -230,7 +231,7 @@ namespace GXmlDom {
 			unowned ObjectClass obj_class;
 			ParamSpec[] specs;
 			bool property_found;
-			bool implements_serializable;
+			Serializable serializable = null;
 
 			obj_elem = (Element)node;
 
@@ -246,9 +247,12 @@ namespace GXmlDom {
 			obj = Object.newv (type, new Parameter[] {}); // TODO: causes problems with Enums when 0 isn't a valid enum value (e.g. starts from 2 or something)
 			obj_class = obj.get_class ();
 
-			implements_serializable = type.is_a (typeof (Serializable)) ;
-			if (implements_serializable) {
-				specs = ((Serializable)obj).list_properties ();
+			if (type.is_a (typeof (Serializable))) {
+				serializable = (Serializable)obj;
+			}
+
+			if (serializable != null) {
+				specs = serializable.list_properties ();
 			} else {
 				specs = obj_class.list_properties ();
 			}
@@ -266,8 +270,8 @@ namespace GXmlDom {
 
 					// Check name and type for property
 					ParamSpec? spec = null;
-					if (implements_serializable) {
-						spec = ((Serializable)obj).find_property (pname);
+					if (serializable != null) {
+						spec = serializable.find_property (pname);
 					} else {
 						spec = obj_class.find_property (pname);
 					}
@@ -279,8 +283,8 @@ namespace GXmlDom {
 					try {
 						bool serialized = false;
 
-						if (implements_serializable) {
-							serialized = ((Serializable)obj).deserialize_property (spec.name, /* out val, */ spec, prop_elem); // TODO: consider rearranging these or the ones in Serializer to match
+						if (serializable != null) {
+							serialized = serializable.deserialize_property (spec.name, /* out val, */ spec, prop_elem); // TODO: consider rearranging these or the ones in Serializer to match
 						}
 						if (!serialized) {
 							Serialization.deserialize_property (spec, prop_elem, out val);
