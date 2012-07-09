@@ -356,7 +356,10 @@ class XmlSerializableTest : GXmlTest {
 					fruit_xml = Serialization.serialize_object (fruit);
 
 					// TODO: This test currently should change once we can serialise fields and private properties
-					if ("<Object otype='Fruit'><Property pname='age' ptype='gint'>9</Property></Object>" != fruit_xml.to_string ()) {
+					string expectation = "<Object otype=\"Fruit\"><Property pname=\"age\" ptype=\"gint\">9</Property></Object>";
+					if (expectation != fruit_xml.to_string ()) {
+						GLib.warning ("Expected [%s] but found [%s]",
+							      expectation, fruit_xml.to_string ());
 						GLib.Test.fail ();
 					}
 				} catch (GXmlDom.SerializationError e) {
@@ -375,7 +378,10 @@ class XmlSerializableTest : GXmlTest {
 				try {
 					fruit_xml = Serialization.serialize_object (fruit);
 
-					if ("<Object otype='Fruit'><Property pname='colour'>blue</Property><Property pname='weight'>9</Property><Property pname='name'>fish</Property><Property pname='age' ptype='gint'>3</Property></Object>" != fruit_xml.to_string ()) { // weight expected to be 3 because age sets it *3
+					string expectation = "<Object otype=\"Fruit\"><Property pname=\"colour\">blue</Property><Property pname=\"weight\">9</Property><Property pname=\"name\">fish</Property><Property pname=\"age\" ptype=\"gint\">3</Property></Object>";
+					if (expectation != fruit_xml.to_string ()) { // weight expected to be 3 because age sets it *3
+						GLib.warning ("Expected [%s] but found [%s]",
+							      expectation, fruit_xml.to_string ());
 						GLib.Test.fail ();
 					}
 				} catch (GXmlDom.SerializationError e) {
@@ -385,10 +391,12 @@ class XmlSerializableTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/domnode/xml_deserializable", () => {
 				try {
-					Document doc = new Document.from_string ("<Object otype='Fruit'><Property pname='age' ptype='gint'>3</Property></Object>"); // Shouldn't need to have type if we have a known property name for a known type
+					Document doc = new Document.from_string ("<Object otype='Fruit'><Property pname='age' ptype='gint'>3</Property></Object>");
 					Fruit fruit = (Fruit)Serialization.deserialize_object (doc.document_element);
 
-					if (fruit.age != 3) {
+					// we expect 9 because Fruit triples it in the setter
+					if (fruit.age != 9) {
+						GLib.warning ("Expected fruit.age [%d] but found [%d]", 9, fruit.age);
 						GLib.Test.fail (); // TODO: check weight?
 					}
 				} catch (GLib.Error e) {
