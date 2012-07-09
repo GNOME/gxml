@@ -38,15 +38,93 @@ namespace GXmlDom {
 	}
 
 	public class Serializer : GLib.Object {
+		private static void print_debug (GXmlDom.Document doc, GLib.Object object) {
+			stdout.printf ("Object XML\n---\n%s\n", doc.to_string ());
+
+			stdout.printf ("object\n---\n");
+			stdout.printf ("get_type (): %s\n", object.get_type ().name ());
+			stdout.printf ("get_class ().get_type (): %s\n", object.get_class ().get_type ().name ());
+
+			ParamSpec[] properties;
+			properties = object.get_class ().list_properties ();
+			stdout.printf ("object has %d properties\n", properties.length);
+			foreach (ParamSpec prop_spec in properties) {
+				stdout.printf ("---\n");
+				stdout.printf ("name: %s\n", prop_spec.name);
+				stdout.printf ("value_type: %s\n", prop_spec.value_type.name ());
+				stdout.printf ("owner_type: %s\n", prop_spec.owner_type.name ());
+				stdout.printf ("get_name (): %s\n", prop_spec.get_name ());
+				stdout.printf ("get_blurb (): %s\n", prop_spec.get_blurb ());
+				stdout.printf ("get_nick (): %s\n", prop_spec.get_nick ());
+			}
+		}
+
+		private static GXmlDom.Element serialize_property (GLib.Object object, ParamSpec prop_spec, GXmlDom.Document doc) throws SerializationError, DomError {
+			Element prop;
+			Type type;
+			Value value;
+
+			prop = doc.create_element ("Property");
+			prop.set_attribute ("ptype", prop_spec.value_type.name ());
+			prop.set_attribute ("pname", prop_spec.name);
+
+			type = prop_spec.value_type;
+
+			if (prop_spec.value_type.is_enum ()) {
+				/* We're going to handle this simply by saving it
+				   as an int.  If we save a string representation,
+				   we can't easily convert it back to the number
+				   in a generic fashion unless we can use GEnumClass,
+				   but I can't figure out how to get that right now,
+				   except from a GParamSpecEnum, but I don't know
+				   how to get that, at least in Vala (e.g. is it
+				   supposed to be as simple in C as casting the
+				   GParamSpec for an enum to GParamSpecEnum (assuming
+				   it truly is the latter, but is returned as the
+				   former by list_properties) */
+				value = Value (typeof (int));
+				object.get_property (prop_spec.name, ref value);
+				prop.content = "%d".printf (value.get_int ());
+				/* TODO: in the future, perhaps figure out GEnumClass
+				   and save it as the human readable enum value :D */
+			} else if (Value.type_transformable (prop_spec.value_type, typeof (string))) { // e.g. int, double, string, bool
+				value = Value (typeof (string));
+				object.get_property (prop_spec.name, ref value);
+				//GLib.warning ("value: %d", value);
+				prop.content = value.get_string ();
+			} else if (type == typeof (GLib.Type)) {
+				prop.content = type.name ();
+				// } else if (type == typeof (GLib.HashTable)) {
+				// } else if (type == typeof (Gee.List)) { // TODO: can we do a catch all for Gee.Collection and have <Collection /> ?
+				// } else if (type.is_a (typeof (Gee.Collection))) {
+			} else if (type.is_a (typeof (GLib.Object))) {
+				// TODO: this is going to get complicated
+				value = Value (typeof (GLib.Object));
+				object.get_property (prop_spec.name, ref value);
+				GLib.Object child_object = value.get_object ();
+				GXmlDom.XNode child_node = Serializer._serialize_object (child_object); // catch serialisation errors?
+				prop.append_child (child_node); // TODO: can we cross documents like this?  Probably not :D want to be able to steal?, attributes seem to get lost
+			} else {
+				throw new SerializationError.UNSUPPORTED_TYPE ("Can't currently serialize type '%s' for property '%s' of object '%s'", type.name (), prop_spec.name, object.get_type ().name ());
+			}
+
+			return prop;
+		}
+
 		/* TODO: so it seems we can get property information from GObjectClass
 		   but that's about it.  Need to definitely use introspection for anything
 		   tastier */
 		public GXmlDom.XNode serialize_object (GLib.Object object) throws SerializationError {
+			return Serializer._serialize_object (object);
+		}
+		public static GXmlDom.XNode _serialize_object (GLib.Object object) throws SerializationError {
 			Document doc;
 			Element root;
 			ParamSpec[] prop_specs;
 			Element prop;
-			Value value;
+			bool implements_serializable;
+
+			implements_serializable = object.get_type ().is_a (typeof (SerializableInterface));
 
 			/* Create an XML Document to return the object
 			   in.  TODO: consider just returning an
@@ -58,65 +136,31 @@ namespace GXmlDom {
 				root = doc.create_element ("Object");
 				doc.append_child (root);
 				root.set_attribute ("otype", object.get_type ().name ());
-				
+
 				/* TODO: make sure we don't use an out param for our returned list
 				   size in our interface's list_properties (), using
 				   [CCode (array_length_type = "guint")] */
-				prop_specs = object.get_class ().list_properties ();
-				
+				if (implements_serializable) {
+					prop_specs = ((SerializableInterface)object).list_properties ();
+				} else {
+					prop_specs = object.get_class ().list_properties ();
+				}
+
 				/* Exam the properties of the object and store
 				   them with their name, type and value in XML
 				   Elements.  Use GValue to convert them to
 				   strings. (Too bad deserialising isn't that
 				   easy w.r.t. string conversion.) */
 				foreach (ParamSpec prop_spec in prop_specs) {
-					prop = doc.create_element ("Property");
-					prop.set_attribute ("ptype", prop_spec.value_type.name ());
-					prop.set_attribute ("pname", prop_spec.name);
-					
-					Type type = prop_spec.value_type;
-
-					if (prop_spec.value_type.is_enum ()) {
-						/* We're going to handle this simply by saving it
-						   as an int.  If we save a string representation,
-						   we can't easily convert it back to the number
-						   in a generic fashion unless we can use GEnumClass,
-						   but I can't figure out how to get that right now,
-						   except from a GParamSpecEnum, but I don't know
-						   how to get that, at least in Vala (e.g. is it
-						   supposed to be as simple in C as casting the
-						   GParamSpec for an enum to GParamSpecEnum (assuming
-						   it truly is the latter, but is returned as the
-						   former by list_properties) */
-						value = Value (typeof (int));
-						object.get_property (prop_spec.name, ref value);
-						prop.content = "%d".printf (value.get_int ());
-						/* TODO: in the future, perhaps figure out GEnumClass
-						   and save it as the human readable enum value :D */
-					} else if (Value.type_transformable (prop_spec.value_type, typeof (string))) { // e.g. int, double, string, bool
-						value = Value (typeof (string));
-						object.get_property (prop_spec.name, ref value);
-						//GLib.warning ("value: %d", value);
-						prop.content = value.get_string ();
-					} else if (type == typeof (GLib.Type)) {
-						prop.content = type.name ();
-					// } else if (type == typeof (GLib.HashTable)) {
-					// } else if (type == typeof (Gee.List)) { // TODO: can we do a catch all for Gee.Collection and have <Collection /> ?
-					// } else if (type.is_a (typeof (Gee.Collection))) {
-					} else if (type.is_a (typeof (GLib.Object))) {
-						// TODO: this is going to get complicated
-						value = Value (typeof (GLib.Object));
-						object.get_property (prop_spec.name, ref value);
-						GLib.Object child_object = value.get_object ();
-						GXmlDom.XNode child_node = this.serialize_object (child_object); // catch serialisation errors?
-						prop.append_child (child_node); // TODO: can we cross documents like this?  Probably not :D want to be able to steal?, attributes seem to get lost
-					} else {
-						throw new SerializationError.UNSUPPORTED_TYPE ("Can't currently serialize type '%s' for property '%s' of object '%s'", type.name (), prop_spec.name, object.get_type ().name ());
+					prop = null;
+					if (implements_serializable) {
+						prop = ((SerializableInterface)object).serialize_property (prop_spec.name, prop_spec, doc);
+					}
+					if (prop == null) {
+						prop = Serializer.serialize_property (object, prop_spec, doc);
 					}
 
 					root.append_child (prop);
-
-					//root.to_string ();
 				}
 			} catch (GXmlDom.DomError e) {
 				GLib.error ("%s", e.message);
@@ -126,30 +170,65 @@ namespace GXmlDom {
 			/* Debug output */
 			bool debug = false;
 			if (debug) {
-				stdout.printf ("Object XML\n---\n%s\n", doc.to_string ());
-
-				stdout.printf ("object\n---\n");
-				stdout.printf ("get_type (): %s\n", object.get_type ().name ());
-				stdout.printf ("get_class ().get_type (): %s\n", object.get_class ().get_type ().name ());
-				
-				ParamSpec[] properties;
-				properties = object.get_class ().list_properties ();
-				stdout.printf ("object has %d properties\n", properties.length);
-				foreach (ParamSpec prop_spec in properties) {
-					stdout.printf ("---\n");
-					stdout.printf ("name: %s\n", prop_spec.name);
-					stdout.printf ("value_type: %s\n", prop_spec.value_type.name ());
-					stdout.printf ("owner_type: %s\n", prop_spec.owner_type.name ());
-					stdout.printf ("get_name (): %s\n", prop_spec.get_name ());
-					stdout.printf ("get_blurb (): %s\n", prop_spec.get_blurb ());
-					stdout.printf ("get_nick (): %s\n", prop_spec.get_nick ());
-				}
+				Serializer.print_debug (doc, object);
 			}
 
 			return doc.document_element; // user can get Document through .owner_document
 		}
 
+		private static void deserialize_property (ParamSpec spec, Element prop_elem, out Value val) throws SerializationError {
+			Type type;
+
+			type = spec.value_type;
+
+			// if (false || ptype != "") {
+			// 	// TODO: undisable if we support fields at some point
+			// 	type = Type.from_name (ptype);
+			// 	if (type == 0) {
+			// 		/* This probably shouldn't happen while we're using
+			// 		   ParamSpecs but if we support non-property fields
+			// 		   later, it might be necessary again :D */
+			// 		throw new SerializationError.UNKNOWN_TYPE ("Deserializing object '%s' has property '%s' with unknown type '%s'", otype, pname, ptype);
+			// 	}
+			// }
+
+			// Get value and save this all as a parameter
+			bool transformed = false;
+			val = Value (type);
+			if (GLib.Value.type_transformable (type, typeof (string))) {
+				try {
+					string_to_gvalue (prop_elem.content, ref val);
+					transformed = true;
+				} catch (SerializationError e) {
+					throw new SerializationError.UNSUPPORTED_TYPE ("string_to_gvalue should transform it but failed");
+				}
+			// } else if (type.is_a (typeof (Gee.Collection))) {
+			} else if (type.is_a (typeof (GLib.Object))) {
+				GXmlDom.XNode prop_elem_child;
+				Object property_object;
+
+				try {
+					prop_elem_child = prop_elem.first_child;
+					property_object = Serializer._deserialize_object (prop_elem_child);
+					val.set_object (property_object);
+					transformed = true;
+				} catch (GXmlDom.SerializationError e) {
+					// We don't want this one caught by deserialize_object, or we'd have a cascading error message.  Hmm, not so bad if it does, though.
+					e.message += "\nXML [%s]".printf (prop_elem.to_string ());
+					throw e;
+				}
+			}
+
+			if (transformed == false) {
+				throw new SerializationError.UNSUPPORTED_TYPE ("Failed to transform property from string to type.");
+			}
+
+		}
+
 		public GLib.Object deserialize_object (XNode node) throws SerializationError {
+			return Serializer._deserialize_object (node);
+		}
+		public static GLib.Object _deserialize_object (XNode node) throws SerializationError {
 			Element obj_elem;
 
 			string otype;
@@ -158,6 +237,7 @@ namespace GXmlDom {
 			unowned ObjectClass obj_class;
 			ParamSpec[] specs;
 			bool property_found;
+			bool implements_serializable;
 
 			obj_elem = (Element)node;
 
@@ -172,80 +252,51 @@ namespace GXmlDom {
 			// Get the list of properties as ParamSpecs
 			obj = Object.newv (type, new Parameter[] {}); // TODO: causes problems with Enums when 0 isn't a valid enum value (e.g. starts from 2 or something)
 			obj_class = obj.get_class ();
-			specs = obj_class.list_properties ();
+
+			implements_serializable = type.is_a (typeof (SerializableInterface)) ;
+			if (implements_serializable) {
+				specs = ((SerializableInterface)obj).list_properties ();
+			} else {
+				specs = obj_class.list_properties ();
+			}
 
 			foreach (XNode child_node in obj_elem.child_nodes) {
 				if (child_node.node_name == "Property") {
 					Element prop_elem;
 					string pname;
-					string ptype;
 					Value val;
+					//string ptype;
 
 					prop_elem = (Element)child_node;
 					pname = prop_elem.get_attribute ("pname");
-					ptype = prop_elem.get_attribute ("ptype"); // optional
+					//ptype = prop_elem.get_attribute ("ptype"); // optional
 
 					// Check name and type for property
 					ParamSpec? spec = null;
-					for (int i = 0; i < specs.length; i++) {
-						if (specs[i].name == pname) {
-							// only doing this if ptype omitted
-							// want ptype shown in XML for readability?
-							spec = specs[i];
-							break;
-						}
+					if (implements_serializable) {
+						spec = ((SerializableInterface)obj).find_property (pname);
+					} else {
+						spec = obj_class.find_property (pname);
 					}
 
 					if (spec == null) {
 						throw new SerializationError.UNKNOWN_PROPERTY ("Deserializing object of type '%s' claimed unknown property named '%s'\nXML [%s]", otype, pname, obj_elem.to_string ());
 					}
 
-					type = spec.value_type;
+					try {
+						bool serialized = false;
 
-					if (false || ptype != "") {
-						// TODO: undisable if we support fields at some point
-						type = Type.from_name (ptype);
-						if (type == 0) {
-							/* This probably shouldn't happen while we're using
-							   ParamSpecs but if we support non-property fields
-							   later, it might be necessary again :D */
-							throw new SerializationError.UNKNOWN_TYPE ("Deserializing object '%s' has property '%s' with unknown type '%s'", otype, pname, ptype);
+						if (implements_serializable) {
+							serialized = ((SerializableInterface)obj).deserialize_property (spec.name, /* out val, */ spec, prop_elem); // TODO: consider rearranging these or the ones in Serializer to match
 						}
-					}
-
-					// Get value and save this all as a parameter
-					bool transformable = false;
-					bool transformed = false;
-					val = Value (type);
-					if (GLib.Value.type_transformable (type, typeof (string))) {
-						transformable = true;
-
-						try {
-							string_to_gvalue (prop_elem.content, ref val);
-							transformed = true;
-						} catch (SerializationError e) {
+						if (!serialized) {
+							Serializer.deserialize_property (spec, prop_elem, out val);
+							obj.set_property (pname, val); // TODO: should we make a note that for implementing {get,set}_property in the interface, they should specify override (in Vala)?  What about in C?  Need to test which one gets called in which situations (yeah, already read the tutorial)
 						}
-						// } else if (type.is_a (typeof (Gee.Collection))) {
-					} else if (type.is_a (typeof (GLib.Object))) {
-						GXmlDom.XNode prop_elem_child;
-						Object property_object;
-
-						try {
-							prop_elem_child = prop_elem.first_child;
-							property_object = this.deserialize_object (prop_elem_child);
-							val.set_object (property_object);
-							transformed = true;
-						} catch (GXmlDom.SerializationError e) {
-							e.message += "\nXML [%s]".printf (prop_elem.to_string ());
-							throw e;
-						}
+					} catch (SerializationError.UNSUPPORTED_TYPE e) {
+						throw new SerializationError.UNSUPPORTED_TYPE ("Cannot deserialize object '%s's property '%s' with type '%s/%s': %s\nXML [%s]",
+											       otype, spec.name, spec.value_type.name (), spec.value_type.to_string (), e.message, obj_elem.to_string ());
 					}
-
-					if (transformed == false) {
-						throw new SerializationError.UNSUPPORTED_TYPE ("Cannot deserialize type '%s/%s' for property '%s' of object '%s'\nXML [%s] %s", type.name (), type.to_string (), pname, otype, obj_elem.to_string (), (transformable ? "though it is transformable" : ""));
-					}
-
-					obj.set_property (pname, val);
 				}
 			}
 
@@ -339,102 +390,117 @@ namespace GXmlDom {
 	}
 
 	public interface SerializableInterface : GLib.Object {
-		public abstract void deserialize_property (string property_name, out GLib.Value value, GLib.ParamSpec spec, GXmlDom.XNode property_node);
+		/** Return true if your implementation will have handled the given property,
+		    and false elsewise (in which case, XmlSerializable will try to deserialize
+		    it).  */
+		/** OBSOLETENOTE: Return the deserialized value in GLib.Value (even if it's a GLib.Boxed type) because Serializer is going to set the property after calling this, and if you just set it yourself within, it will be overwritten */
+		public virtual bool deserialize_property (string property_name, /* out GLib.Value value, */ GLib.ParamSpec spec, GXmlDom.XNode property_node) {
+			return false; // default deserialize_property gets used
+		}
 		// TODO: just added ? to these, do we really want to allow nulls for them?
-		public abstract GXmlDom.XNode? serialize_property (string property_name, GLib.Value value, GLib.ParamSpec spec);
+		// TODO: value and property_name are kind of redundant: eliminate?  property_name from spec.property_name and value from the object itself :)
+		/** Serialized properties should have the XML structure <Property pname="PropertyName">...</Property> */
+		// TODO: perhaps we should provide that base structure
+		public virtual GXmlDom.Element? serialize_property (string property_name, /*GLib.Value value,*/ GLib.ParamSpec spec, GXmlDom.Document doc) {
+			return null; // default serialize_property gets used
+		}
 
 		/* Correspond to: g_object_class_{find_property,list_properties} */
-		public abstract GLib.ParamSpec? find_property (string property_name);
-		public abstract GLib.ParamSpec[]? list_properties (out int num_specs); // TODO: probably unowned
+		public virtual unowned GLib.ParamSpec? find_property (string property_name) {
+			return this.get_class ().find_property (property_name); // default
+		}
+		public virtual unowned GLib.ParamSpec[] list_properties () {
+			return this.get_class ().list_properties ();
+		}
 
 		/* Correspond to: g_object_{set,get}_property */
-		public abstract void get_property (GLib.ParamSpec spec, GLib.Value value); // TODO: const?
+		public abstract void get_property (GLib.ParamSpec spec, ref GLib.Value value); // TODO: const?
 		public abstract void set_property (GLib.ParamSpec spec, GLib.Value value); // TODO: const?
 	}
-	
-	// TODO: what is this below? 
+
+	// TODO: what is this below?
 	/**
 	 * SECTION:gxml-serializable
 	 * @short-description: Serialize and deserialize GObjects
 	 *
 	 * TODO: elaborate
 	 */
-	public class Serializable : SerializableInterface, GLib.Object {
-		void deserialize_property (string property_name, out GLib.Value value, GLib.ParamSpec spec, GXmlDom.XNode property_node) {
-			// TODO: mimic json_deserialize_pspec
-			// TODO: consider returning GLib.Value instead of using an out param?
+	// public class Serializable : SerializableInterface, GLib.Object {
+	// 	bool deserialize_property (string property_name, out GLib.Value value, GLib.ParamSpec spec, GXmlDom.XNode property_node) {
+	// 		// TODO: mimic json_deserialize_pspec
+	// 		// TODO: consider returning GLib.Value instead of using an out param?
 
-			// convert from XML to a GLib.Value
-			return;
-		}
-		GXmlDom.XNode? serialize_property (string property_name, GLib.Value value, GLib.ParamSpec spec) {
-			// TODO: mimic json_serialize_pspec
+	// 		// convert from XML to a GLib.Value
+	// 		return false;
+	// 	}
+	// 	GXmlDom.Element? serialize_property (string property_name, /*GLib.Value value,*/ GLib.ParamSpec spec, GXmlDom.Document doc) {
+	// 		// TODO: mimic json_serialize_pspec
 
-			// convert from GLib.Value to XML
-			Type t = value.type ();
+	// 		// convert from GLib.Value to XML
+	// 		Type t = value.type ();
 
-			if (t == typeof (int64)) {
-				// do this
-			} else if (t == typeof (bool)) {
-			} else if (t == typeof (double)) {
-			} else if (t == typeof (string)) {
-			} else if (t == typeof (int)) {
-			} else if (t == typeof (float)) {
-			} else if (t == Type.BOXED) {
-			} else if (t == typeof (uint)) {
-			} else if (t == typeof (long)) {
-			} else if (t == typeof (ulong)) {
-			} else if (t == typeof (char)) {
-			} else if (t == typeof (uchar)) {
-			} else if (t.is_enum ()) {
-			} else if (t.is_flags ()) {
-			} else if (t.is_object ()) {
-			//} else if (t == typeof (none)) {
-			} else {
-				
-			}
+	// 		if (t == typeof (int64)) {
+	// 			// do this
+	// 		} else if (t == typeof (bool)) {
+	// 		} else if (t == typeof (double)) {
+	// 		} else if (t == typeof (string)) {
+	// 		} else if (t == typeof (int)) {
+	// 		} else if (t == typeof (float)) {
+	// 		} else if (t == Type.BOXED) {
+	// 		} else if (t == typeof (uint)) {
+	// 		} else if (t == typeof (long)) {
+	// 		} else if (t == typeof (ulong)) {
+	// 		} else if (t == typeof (char)) {
+	// 		} else if (t == typeof (uchar)) {
+	// 		} else if (t.is_enum ()) {
+	// 		} else if (t.is_flags ()) {
+	// 		} else if (t.is_object ()) {
+	// 		//} else if (t == typeof (none)) {
+	// 		} else {
 
-						
-			// switch (value.type ().name ()) {
-			// case "int64":
-			// case "boolean":
-			// case "double":
-			// case "string":
-			// case "int":
-			// case "float":
-			// case "boxed":
-			// case "uint":
-			// case "long":
-			// case "ulong":
-			// case "char":
-			// case "uchar":
-			// case "enum":
-			// case "flags":
-			// case "object":
-			// case "none":
-			// default: /* unsupported */
-				
-			// }
+	// 		}
 
-			return null;
-		}
 
-		// g_object_class_{find_property,list_properties}
-		GLib.ParamSpec? find_property (string property_name) {
-			// TODO: call object find property
-			return null;
-		}
-		GLib.ParamSpec[]? list_properties (out int num_specs) {
-			// TODO: call object list properties
-			return null;
+	// 		// switch (value.type ().name ()) {
+	// 		// case "int64":
+	// 		// case "boolean":
+	// 		// case "double":
+	// 		// case "string":
+	// 		// case "int":
+	// 		// case "float":
+	// 		// case "boxed":
+	// 		// case "uint":
+	// 		// case "long":
+	// 		// case "ulong":
+	// 		// case "char":
+	// 		// case "uchar":
+	// 		// case "enum":
+	// 		// case "flags":
+	// 		// case "object":
+	// 		// case "none":
+	// 		// default: /* unsupported */
 
-		}
-		// g_object_{set,get}_property
-		new void get_property (GLib.ParamSpec spec, GLib.Value value) {
-			// TODO: call object get property
-		}
-		new void set_property (GLib.ParamSpec spec, GLib.Value value) {
-			// TODO: call object set property
-		}
-	}
+	// 		// }
+
+	// 		return null;
+	// 	}
+
+	// 	// g_object_class_{find_property,list_properties}
+	// 	unowned GLib.ParamSpec? find_property (string property_name) {
+	// 		// TODO: call object find property
+	// 		return null;
+	// 	}
+	// 	unowned GLib.ParamSpec[] list_properties () {
+	// 		// TODO: call object list properties
+	// 		return null;
+
+	// 	}
+	// 	// g_object_{set,get}_property
+	// 	new void get_property (GLib.ParamSpec spec, out GLib.Value value) {
+	// 		// TODO: call object get property
+	// 	}
+	// 	new void set_property (GLib.ParamSpec spec, GLib.Value value) {
+	// 		// TODO: call object set property
+	// 	}
+	// }
 }
