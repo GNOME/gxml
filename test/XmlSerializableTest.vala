@@ -345,7 +345,7 @@ class XmlSerializableTest : GXmlTest {
 }
 
 	public static void add_tests () {
-		Test.add_func ("/gxml/domnode/xml_serializable", () => {
+		Test.add_func ("/gxml/domnode/xml_serialize", () => {
 				Fruit fruit;
 				GXmlDom.XNode fruit_xml;
 
@@ -368,7 +368,9 @@ class XmlSerializableTest : GXmlTest {
 				}
 
 			});
-		Test.add_func ("/gxml/domnode/xml_serializable_fields", () => {
+		Test.add_func ("/gxml/domnode/xml_serialize_fields", () => {
+				/* NOTE: We expect this one to fail right now */
+
 				Fruit fruit;
 				GXmlDom.XNode fruit_xml;
 
@@ -389,7 +391,7 @@ class XmlSerializableTest : GXmlTest {
 					GLib.Test.fail ();
 				}
 			});
-		Test.add_func ("/gxml/domnode/xml_deserializable", () => {
+		Test.add_func ("/gxml/domnode/xml_deserialize", () => {
 				try {
 					Document doc = new Document.from_string ("<Object otype='Fruit'><Property pname='age' ptype='gint'>3</Property></Object>");
 					Fruit fruit = (Fruit)Serialization.deserialize_object (doc.document_element);
