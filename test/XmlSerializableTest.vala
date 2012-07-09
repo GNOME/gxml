@@ -455,7 +455,7 @@ class XmlSerializableTest : GXmlTest {
 					doc = new Document.from_string ("<Object otype='Fruit'><Property pname='age' ptype='badtype'>blue</Property></Object>");
 					fruit = (Fruit)Serialization.deserialize_object (doc.document_element);
 					GLib.Test.fail ();
-				} catch (GXmlDom.SerializationError.UNKNOWN_TYPE e) {
+				} catch (GXmlDom.SerializationError.UNSUPPORTED_TYPE e) {
 					// Pass
 				} catch (GLib.Error e) {
 					GLib.message ("%s", e.message);
