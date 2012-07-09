@@ -18,6 +18,134 @@ using Gee;
  *
  */
 
+/*
+  Test overriding nothing (rely on defaults)
+   Test overriding {de,}serialize_property
+   Test overriding list_properties/find_property
+   Test overriding {set,get}_property
+*/
+
+public class SerializableTomato : GLib.Object, GXmlDom.SerializableInterface {
+	public int weight;
+	private int age { get; set; }
+	public int height { get; set; }
+	public string description;
+	// public unowned GLib.List<int> ratings { get; set; }
+
+	public SerializableTomato (int weight, int age, int height, string description) {
+		this.weight = weight;
+		this.age = age;
+		this.height = height;
+		this.description = description;
+	}
+
+	// TODO: make common with SerializableCapsicum's to_string ()
+	public string to_string () {
+		string str = "SerializableTomato {weight:%d, age:%d, height:%d, ratings:".printf (weight, age, height);
+		// foreach (int rating in ratings) {
+		// 	str += "%d ".printf (rating);
+		// }
+		str += "}";
+		return str;
+	}
+
+	public static bool equals (SerializableTomato a, SerializableTomato b) {
+		bool same = (a.weight == b.weight &&
+			     a.age == b.age &&
+			     a.height == b.height); //  &&
+			     // a.ratings.length () == b.ratings.length ());
+		// if (same) {
+		// 	for (int i = 0; i < a.ratings.length (); i++) {
+		// 		if (a.ratings.nth_data (i) != b.ratings.nth_data (i)) {
+		// 			return false;
+		// 		}
+		// 	}
+		// }
+
+		return same;
+	}
+}
+
+public class SerializableCapsicum : GLib.Object, GXmlDom.SerializableInterface {
+	public int weight;
+	private int age { get; set; }
+	public int height { get; set; }
+	public unowned GLib.List<int> ratings { get; set; }
+
+	public string to_string () {
+		string str = "SerializableCapsicum {weight:%d, age:%d, height:%d, ratings:".printf (weight, age, height);
+		foreach (int rating in ratings) {
+			str += "%d ".printf (rating);
+		}
+		str += "}";
+		return str;
+	}
+
+	public SerializableCapsicum (int weight, int age, int height, GLib.List<int> ratings) {
+		this.weight = weight;
+		this.age = age;
+		this.height = height;
+		this.ratings = ratings;
+	}
+
+	/* TODO: do we really need GLib.Value? or should we modify the object directly?
+	   Want an example using GBoxed too
+	   Perhaps these shouldn't be object methods, perhaps they should be static?
+	   Can't have static methods in an interface :(, right? */
+	public bool deserialize_property (string property_name, /* out GLib.Value value, */
+					  GLib.ParamSpec spec, GXmlDom.XNode property_node)  {
+		GLib.Value outvalue = GLib.Value (typeof (int));
+
+		switch (property_name) {
+		case "ratings":
+			this.ratings = new GLib.List<int> ();
+			foreach (GXmlDom.XNode rating in property_node.child_nodes) {
+				int64.try_parse (((GXmlDom.Element)rating).content, out outvalue);
+				this.ratings.append ((int)outvalue.get_int64 ());
+			}
+			return true;
+		case "height":
+			int64.try_parse (((GXmlDom.Element)property_node).content, out outvalue);
+			this.height = (int)outvalue.get_int64 () - 1;
+			return true;
+		default:
+			GLib.error ("Wasn't expecting the SerializableCapsicum property '%s'", property_name);
+		}
+
+		return false;
+	}
+	public GXmlDom.Element? serialize_property (string property_name, /*GLib.Value value,*/ GLib.ParamSpec spec, GXmlDom.Document doc) {
+		GXmlDom.Element c_prop;
+		GXmlDom.Element rating;
+
+		switch (property_name) {
+		case "ratings":
+			c_prop = doc.create_element ("Property");
+			c_prop.set_attribute ("pname", property_name);
+			foreach (int rating_int in ratings) {
+				rating = doc.create_element ("rating");
+				rating.content = "%d".printf (rating_int);
+				c_prop.append_child (rating);
+			}
+			return c_prop;
+			break;
+		case "height":
+			c_prop = doc.create_element ("Property");
+			c_prop.set_attribute ("pname", property_name);
+			c_prop.content = "%d".printf (height + 1);
+			return c_prop;
+			break;
+		default:
+			GLib.error ("Wasn't expecting the SerializableCapsicum property '%s'", property_name);
+		}
+
+		// returning null does a normal serialization
+		return null;
+	}
+}
+
+
+
 // TODO: if I don't subclass GLib.Object, a Vala class's object can't be serialised?
 public class Fruit : GLib.Object {
 	string colour;
@@ -117,7 +245,7 @@ public class CollectionProperties : GLib.Object {
 	}
 
 	public static bool equals (CollectionProperties a, CollectionProperties b) {
-		return false; // TODO: need to figure out how i want to compare these		
+		return false; // TODO: need to figure out how i want to compare these
 	}
 }
 
@@ -287,7 +415,7 @@ class XmlSerializableTest : GXmlTest {
 					Fruit fruit = (Fruit)ser.deserialize_object (doc.document_element);
 
 					if (fruit.age != 3) {
-						GLib.Test.fail (); // TODO: check weight? 
+						GLib.Test.fail (); // TODO: check weight?
 					}
 				} catch (GLib.Error e) {
 					GLib.message ("%s", e.message);
@@ -411,9 +539,9 @@ class XmlSerializableTest : GXmlTest {
 				table.set ("aa", "AA");
 				table.set ("bb", "BB");
 				table.set ("cc", "CC");
-				
+
 				obj = new CollectionProperties (list, table);
-				
+
 				test_serialization_deserialization (obj, "collection_properties", (GLib.EqualFunc)CollectionProperties.equals, (StringifyFunc)CollectionProperties.to_string);
 			});
 		Test.add_func ("/gxml/serialization/gee_collection_properties", () => {
@@ -461,6 +589,35 @@ class XmlSerializableTest : GXmlTest {
 				test_serialization_deserialization (obj, "enum_properties", (GLib.EqualFunc)EnumProperties.equals, (StringifyFunc)EnumProperties.to_string);
 			});
 		// TODO: more to do, for structs and stuff and things that do interfaces
-		
+
+		Test.add_func ("/gxml/serialization/interface_defaults", () => {
+				SerializableTomato tomato = new SerializableTomato (0, 0, 12, "cats");
+
+				test_serialization_deserialization (tomato, "interface_defaults", (GLib.EqualFunc)SerializableTomato.equals, (StringifyFunc)SerializableTomato.to_string);
+			});
+		Test.add_func ("/gxml/serialization/interface_overrides", () => {
+				GLib.List<int> ratings = new GLib.List<int> ();
+				ratings.append (8);
+				ratings.append (13);
+				ratings.append (21);
+
+				SerializableCapsicum capsicum = new SerializableCapsicum (2, 3, 5, ratings);
+				Serializer ser = new Serializer ();
+				GXmlDom.XNode node = ser.serialize_object (capsicum);
+
+				string expected = "<Object otype=\"SerializableCapsicum\"><Property pname=\"height\">6</Property><Property pname=\"ratings\"><rating>8</rating><rating>13</rating><rating>21</rating></Property></Object>";
+				if (node.to_string () != expected) {
+					GLib.warning ("Did not serialize as expected.  Got [%s] but expected [%s]", node.to_string (), expected);
+					GLib.Test.fail ();
+				}
+
+				SerializableCapsicum capsicum_new = (SerializableCapsicum)ser.deserialize_object (node);
+				if (capsicum_new.height != 5 || ratings.length () != 3 || ratings.nth_data (0) != 8 || ratings.nth_data (2) != 21) {
+					GLib.warning ("Did not deserialize as expected.  Got [%s] but expected height and ratings from [%s]", capsicum_new.to_string (), capsicum.to_string ());
+					GLib.Test.fail ();
+				}
+			});
+
+
 	}
 }
