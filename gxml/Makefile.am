@@ -23,7 +23,7 @@ AM_CFLAGS =\
 	$(VALA_CFLAGS) \
 	$(NULL)
 
-lib_LTLIBRARIES = libgxmldom-0.2.la
+lib_LTLIBRARIES = libgxml-0.2.la
 
 VALAFLAGS = \
     $(top_srcdir)/vapi/config.vapi \
@@ -34,7 +34,7 @@ VALAFLAGS = \
     --pkg gio-2.0 \
     $(NULL)
 
-libgxmldom_la_VALASOURCES = \
+libgxml_la_VALASOURCES = \
 	Attr.vala \
 	BackedNode.vala \
 	CDATASection.vala \
@@ -59,20 +59,20 @@ libgxmldom_la_VALASOURCES = \
 	XNode.vala \
 	$(NULL)
 
-libgxmldom_0_2_la_SOURCES = \
+libgxml_0_2_la_SOURCES = \
 	gxml.vala.stamp \
-	$(libgxmldom_la_VALASOURCES:.vala=.c) \
+	$(libgxml_la_VALASOURCES:.vala=.c) \
 	$(NULL)	
 
-gxmldom-0.2.vapi gxml.vala.stamp GXml-0.2.gir gxml-dom.h: $(libgxmldom_la_VALASOURCES)
-	$(VALA_COMPILER) $(VALAFLAGS) -C -H $(top_builddir)/gxml/gxml-dom.h --gir=GXml-0.2.gir  --library gxmldom-0.2 $^
+gxml-0.2.vapi gxml.vala.stamp GXml-0.2.gir gxml.h: $(libgxml_la_VALASOURCES)
+	$(VALA_COMPILER) $(VALAFLAGS) -C -H $(top_builddir)/gxml/gxml.h --gir=GXml-0.2.gir  --library gxml-0.2 $^
 	@touch $@
 
 
 
-libgxmldom_0_2_la_LDFLAGS = 
+libgxml_0_2_la_LDFLAGS = 
 
-libgxmldom_0_2_la_LIBADD = \
+libgxml_0_2_la_LIBADD = \
 	$(GLIB_LIBS) \
 	$(LIBXML_LIBS) \
 	$(GIO_LIBS) \
@@ -81,15 +81,15 @@ libgxmldom_0_2_la_LIBADD = \
 	$(NULL)
 
 include_HEADERS = \
-	$(top_builddir)/gxml/gxml-dom.h \
+	$(top_builddir)/gxml/gxml.h \
 	$(NULL)
 
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = libgxmldom-0.2.pc
+pkgconfig_DATA = libgxml-0.2.pc
 
-gxmlincludedir=$(includedir)/libgxmldom-0.2
-gxmlinclude_HEADERS= gxml-dom.h
+gxmlincludedir=$(includedir)/libgxml-0.2
+gxmlinclude_HEADERS= gxml.h
 
 # GObject Introspection
 
@@ -113,15 +113,15 @@ GXml-0.2.typelib: $(INTROSPECTION_GIRS)
 gir_DATA = $(INTROSPECTION_GIRS)
 typelibs_DATA = GXml-0.2.typelib
 
-vapi: gxmldom-0.2.vapi
+vapi: gxml-0.2.vapi
 vapidir = $(VALA_VAPIDIR)
-vapi_DATA = gxmldom-0.2.vapi
+vapi_DATA = gxml-0.2.vapi
 
-CLEANFILES += $(INTROSPECTION_GIRS) $(typelibs_DATA) gxml-0.2.vapi gxml-dom.h
+CLEANFILES += $(INTROSPECTION_GIRS) $(typelibs_DATA) gxml-0.2.vapi gxml.h
 
 EXTRA_DIST = \
-	libgxmldom-0.2.pc \
-	$(libgxmldom_la_VALASOURCES:.vala=.c) \
+	libgxml-0.2.pc \
+	$(libgxml_la_VALASOURCES:.vala=.c) \
 	$(vapi_DATA) \
 	$(typelibs_DATA) \
 	$(INTROSPECTION_GIRS) \
