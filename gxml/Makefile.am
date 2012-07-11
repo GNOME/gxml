@@ -63,8 +63,8 @@ libgxmldom_0_2_la_SOURCES = \
 	$(libgxmldom_la_VALASOURCES:.vala=.c) \
 	$(NULL)	
 
-gxmldom-0.2.vapi gxml.vala.stamp GXmlDom-0.2.gir gxml-dom.h: $(libgxmldom_la_VALASOURCES)
-	$(VALA_COMPILER) $(VALAFLAGS) -C -H $(top_builddir)/gxml/gxml-dom.h --gir=GXmlDom-0.2.gir  --library gxmldom-0.2 $^
+gxmldom-0.2.vapi gxml.vala.stamp GXml-0.2.gir gxml-dom.h: $(libgxmldom_la_VALASOURCES)
+	$(VALA_COMPILER) $(VALAFLAGS) -C -H $(top_builddir)/gxml/gxml-dom.h --gir=GXml-0.2.gir  --library gxmldom-0.2 $^
 	@touch $@
 
 
@@ -102,15 +102,15 @@ endif
 
 # GIR files are generated automatically by Valac so is not necessary to scan source code to generate it
 INTROSPECTION_GIRS =
-INTROSPECTION_GIRS += GXmlDom-0.2.gir
+INTROSPECTION_GIRS += GXml-0.2.gir
 INTROSPECTION_COMPILER_ARGS = \
     --includedir=.  
 
-GXmlDom-0.2.typelib: $(INTROSPECTION_GIRS)
+GXml-0.2.typelib: $(INTROSPECTION_GIRS)
 	$(INTROSPECTION_COMPILER) $(INTROSPECTION_COMPILER_ARGS)  $< -o $@
 
 gir_DATA = $(INTROSPECTION_GIRS)
-typelibs_DATA = GXmlDom-0.2.typelib
+typelibs_DATA = GXml-0.2.typelib
 
 vapi: gxmldom-0.2.vapi
 vapidir = $(VALA_VAPIDIR)

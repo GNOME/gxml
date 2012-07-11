@@ -1,5 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-namespace GXmlDom {
+namespace GXml {
 	// TODO: libxml2 doesn't seem to have PI objects, but does
 	//       have a function to call when one is parsed.  Let's not
 	//       worry about supporting this for right now.

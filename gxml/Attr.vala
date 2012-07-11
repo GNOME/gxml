@@ -12,8 +12,8 @@
 /* NOTE: figure out how entity references work with Attrs */
 /* NOTE: value as children nodes: can contain Text and EntityReferences */
 
-[CCode (gir_namespace = "GXmlDom", gir_version = "0.2")]
-namespace GXmlDom {
+[CCode (gir_namespace = "GXml", gir_version = "0.2")]
+namespace GXml {
 	/**
 	 * Represents an XML Attr node. These represent name=value
 	 * attributes associated with XML Elements. Values are often

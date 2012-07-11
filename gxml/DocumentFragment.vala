@@ -1,5 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-namespace GXmlDom {
+namespace GXml {
 	/* Lightweight Document object for fragments
 
 	   has a root for the fragment, the fragment of the document is a child to this root

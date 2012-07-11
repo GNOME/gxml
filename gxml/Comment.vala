@@ -1,5 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-namespace GXmlDom {
+namespace GXml {
 	/* TODO: do we really want a comment node, or just use strings? */
 	/**
 	 * An XML comment. An XML example looks like: {{{

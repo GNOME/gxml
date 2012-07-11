@@ -1,5 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-namespace GXmlDom {
+namespace GXml {
 	// TODO: want a method to convert NodeType to a string
 
 	/**

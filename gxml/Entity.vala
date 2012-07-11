@@ -1,5 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-namespace GXmlDom {
+namespace GXml {
 	/**
 	 * The content referenced by an EntityReference, and defined
 	 * in a DocumentType.

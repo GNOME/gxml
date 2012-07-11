@@ -1,5 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-namespace GXmlDom {
+namespace GXml {
 	/**
 	 * Represents an XML Namespace Attr node. These represent
 	 * prefix=uri pairs that define namespaces for XML Elements

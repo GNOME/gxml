@@ -2,7 +2,7 @@
 
 using Gee;
 
-namespace GXmlDom {
+namespace GXml {
 	/**
 	 * The NodeList is a live list used to store nodes, often the
 	 * children of a node, or a list of nodes matching a tag name.

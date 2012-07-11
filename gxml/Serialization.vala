@@ -1,15 +1,28 @@
-using GXmlDom;
+using GXml;
 
-[CCode (gir_namespace = "GXmlDom", gir_version = "0.2")]
-namespace GXmlDom {
+[CCode (gir_namespace = "GXml", gir_version = "0.2")]
+namespace GXml {
 	public errordomain SerializationError {
 		UNKNOWN_TYPE,
 		UNKNOWN_PROPERTY,
 		UNSUPPORTED_TYPE
 	}
 
+	/**
+	 * SECTION:gxml-serialization
+	 * @short_description: Provides functions for serializing GObjects.
+	 * @x-title:gxml-serialization
+	 * @section_id:
+	 * @see_also: #GXml, #GXmlDocument, #GObject
+	 * @stability: Unstable
+	 * @include: gxml/serialization.h
+	 * @image: library.png
+	 *
+	 * GXmlSerialization provides functions to serialize and
+	 * deserialize GObjects into and from GXmlXNodes
+	 */
 	public class Serialization : GLib.Object {
-		private static void print_debug (GXmlDom.Document doc, GLib.Object object) {
+		private static void print_debug (GXml.Document doc, GLib.Object object) {
 			stdout.printf ("Object XML\n---\n%s\n", doc.to_string ());
 
 			stdout.printf ("object\n---\n");
@@ -30,7 +43,7 @@ namespace GXmlDom {
 			}
 		}
 
-		private static GXmlDom.XNode serialize_property (GLib.Object object, ParamSpec prop_spec, GXmlDom.Document doc) throws SerializationError, DomError {
+		private static GXml.XNode serialize_property (GLib.Object object, ParamSpec prop_spec, GXml.Document doc) throws SerializationError, DomError {
 			Type type;
 			Value value;
 			XNode value_node;
@@ -81,7 +94,7 @@ namespace GXmlDom {
 		/* TODO: so it seems we can get property information from GObjectClass
 		   but that's about it.  Need to definitely use introspection for anything
 		   tastier */
-		public static GXmlDom.XNode serialize_object (GLib.Object object) throws SerializationError {
+		public static GXml.XNode serialize_object (GLib.Object object) throws SerializationError {
 			Document doc;
 			Element root;
 			ParamSpec[] prop_specs;
@@ -134,7 +147,7 @@ namespace GXmlDom {
 					prop.append_child (value_prop);
 					root.append_child (prop);
 				}
-			} catch (GXmlDom.DomError e) {
+			} catch (GXml.DomError e) {
 				GLib.error ("%s", e.message);
 				// TODO: handle this better
 			}
@@ -176,7 +189,7 @@ namespace GXmlDom {
 				}
 			// } else if (type.is_a (typeof (Gee.Collection))) {
 			} else if (type.is_a (typeof (GLib.Object))) {
-				GXmlDom.XNode prop_elem_child;
+				GXml.XNode prop_elem_child;
 				Object property_object;
 
 				try {
@@ -184,7 +197,7 @@ namespace GXmlDom {
 					property_object = Serialization.deserialize_object (prop_elem_child);
 					val.set_object (property_object);
 					transformed = true;
-				} catch (GXmlDom.SerializationError e) {
+				} catch (GXml.SerializationError e) {
 					// We don't want this one caught by deserialize_object, or we'd have a cascading error message.  Hmm, not so bad if it does, though.
 					e.message += "\nXML [%s]".printf (prop_elem.to_string ());
 					throw e;

@@ -1,5 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-namespace GXmlDom {
+namespace GXml {
 	/* TODO: do we need an EntityReference? find out what it's used for */
 	// TODO: figure out some way to represent this from libxml2, or handle it ourselves
 	//       may not even need it while based on libxml2

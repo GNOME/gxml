@@ -2,7 +2,7 @@
 
 // NOTE: be careful about what extra data subclasses keep
 
-namespace GXmlDom {
+namespace GXml {
 	/**
 	 * An internal class for nodes whose content is stored in a
 	 * corresponding Xml.Node. This would normally be hidden, but
@@ -244,7 +244,7 @@ namespace GXmlDom {
 		 * {@inheritDoc}
 		 */
 		public override XNode? append_child (XNode new_child) /*throws DomError*/ {
-			if (new_child.owner_document != this.owner_document && new_child.get_type ().is_a (typeof (GXmlDom.BackedNode))) {
+			if (new_child.owner_document != this.owner_document && new_child.get_type ().is_a (typeof (GXml.BackedNode))) {
 				/* The point here is that a node from another document should
 				   have a copy made to be integrated into this one, so we don't
 				   mess up the other document.  (TODO: consider removing it from
