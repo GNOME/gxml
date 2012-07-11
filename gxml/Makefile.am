@@ -54,7 +54,8 @@ libgxmldom_la_VALASOURCES = \
 	Notation.vala \
 	ProcessingInstruction.vala \
 	Text.vala \
-	XmlSerializable.vala \
+	Serializable.vala \
+	Serialization.vala \
 	XNode.vala \
 	$(NULL)
 
