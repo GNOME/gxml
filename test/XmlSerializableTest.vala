@@ -127,6 +127,93 @@ public class SerializableCapsicum : GLib.Object, GXmlDom.Serializable {
 }
 
 
+public class SerializableBanana : GLib.Object, GXmlDom.Serializable {
+	private int private_field;
+	public int public_field;
+	private int private_property { get; set; }
+	public int public_property { get; set; }
+
+	public SerializableBanana (int private_field, int public_field, int private_property, int public_property) {
+		this.private_field = private_field;
+		this.public_field = public_field;
+		this.private_property = private_property;
+		this.public_property = public_property;
+
+	}
+
+	public string to_string () {
+		return "SerializableBanana {private_field:%d, public_field:%d, private_property:%d, public_property:%d}".printf  (this.private_field, this.public_field, this.private_property, this.public_property);
+	}
+
+	public static bool equals (SerializableBanana a, SerializableBanana b) {
+		return (a.private_field == b.private_field &&
+			a.public_field == b.public_field &&
+			a.private_property == b.private_property &&
+			a.public_property == b.public_property);
+	}
+
+	private ParamSpec[] properties = null;
+	public unowned GLib.ParamSpec[] list_properties () {
+		// TODO: so, if someone implements list_properties, but they don't create there array until called, that could be inefficient if they don't cache.  If they create it at construction, then serialising and deserialising will lose it?   offer guidance
+		if (this.properties == null) {
+			properties = new ParamSpec[4];
+			int i = 0;
+			foreach (string name in new string[] { "private-field", "public-field", "private-property", "public-property" }) {
+				properties[i] = new ParamSpecInt (name, name, name, int.MIN, int.MAX, ParamFlags.READABLE); // TODO: offer guidance for these fields, esp. ParamFlags
+				i++;
+				// TODO: does serialisation use anything other than ParamSpec.name? 
+			}			
+		}
+		return this.properties;
+	}
+
+	public unowned GLib.ParamSpec? find_property (string property_name) {
+		GLib.ParamSpec[] properties = this.list_properties ();
+		foreach (ParamSpec prop in properties) {
+			if (prop.name == property_name) {
+				return prop;
+			}
+		}
+		return null;
+	}
+
+	public void get_property (GLib.ParamSpec spec, ref GLib.Value value) {
+		switch (spec.name) {
+		case "private-field":
+			value.set_int (this.private_field);
+			break;
+		case "public-field":
+			value.set_int (this.public_field);
+			break;
+		case "private-property":
+			value.set_int (this.private_property);
+			break;
+		case "public-property":
+			value.set_int (this.public_property);
+			break;
+		}
+	}
+
+	public void set_property (GLib.ParamSpec spec, GLib.Value value) {
+		switch (spec.name) {
+		case "private-field":
+			this.private_field = value.get_int ();
+			break;
+		case "public-field":
+			this.public_field = value.get_int ();
+			break;
+		case "private-property":
+			this.private_property = value.get_int ();
+			break;
+		case "public-property":
+			this.public_property = value.get_int ();
+			break;
+		}
+	}
+		
+}
+
+
 
 // TODO: if I don't subclass GLib.Object, a Vala class's object can't be serialised?
 public class Fruit : GLib.Object {
@@ -569,7 +656,7 @@ class XmlSerializableTest : GXmlTest {
 
 				test_serialization_deserialization (tomato, "interface_defaults", (GLib.EqualFunc)SerializableTomato.equals, (StringifyFunc)SerializableTomato.to_string);
 			});
-		Test.add_func ("/gxml/serialization/interface_overrides", () => {
+		Test.add_func ("/gxml/serialization/interface_overrides_and_list", () => {
 				GXmlDom.XNode node;
 				SerializableCapsicum capsicum;
 				SerializableCapsicum capsicum_new;
@@ -595,6 +682,11 @@ class XmlSerializableTest : GXmlTest {
 					GLib.warning ("Did not deserialize as expected.  Got [%s] but expected height and ratings from [%s]", capsicum_new.to_string (), capsicum.to_string ());
 					GLib.Test.fail ();
 				}
+			});
+		Test.add_func ("/gxml/serialization/interface_override_properties", () => {
+				SerializableBanana banana = new SerializableBanana (17, 19, 23, 29);
+
+				test_serialization_deserialization (banana, "interface_override_properties", (GLib.EqualFunc)SerializableBanana.equals, (StringifyFunc)SerializableBanana.to_string);
 			});
 
 
