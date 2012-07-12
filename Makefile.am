@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 ## Created by Anjuta
 
-SUBDIRS = gxml po
+SUBDIRS = gxml test po
 
 gxmldocdir = ${prefix}/doc/gxml
 gxmldoc_DATA = \
