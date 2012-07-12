@@ -82,6 +82,7 @@ AC_OUTPUT([
 Makefile
 gxml/libgxmldom-0.2.pc
 gxml/Makefile
+test/Makefile
 po/Makefile.in])
 
 dnl Print configuration summary

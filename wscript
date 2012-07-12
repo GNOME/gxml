@@ -24,8 +24,8 @@ def configure(conf):
     conf.check_cfg(package='gee-0.8', uselib_store='GEE', atleast_version='0.6.1', mandatory=1, args='--cflags --libs')
     conf.check_cfg(package='libxml-2.0', uselib_store='XML', atleast_version='2.7.8', mandatory=1, args='--cflags --libs')
     # will probably want mroe packages :D
-    # conf.env['VALAFLAGS'] = '-g --vapi=gxml.vapi --deps gxml.deps' # --use-header --header=gxml.h --includedir=`pwd` '
-    conf.env.CFLAGS = ['-g']
+    # conf.env['VALAFLAGS'] = ['-g', '--vapi=gxml.vapi', '--deps', 'gxml.deps', '--library=gxml'] # --use-header --header=gxml.h --includedir=`pwd` '
+    conf.env.CFLAGS = ['-g', '-shared', '-fPIC']
 
     # conf.check_tool ('gcc vala') # do we need to do this?  only saw it in the valadoc example
     # conf.check_tool ('valadoc') # apparently check_tool doesn't exist in waf 1.7.0? 
