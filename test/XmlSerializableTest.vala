@@ -159,7 +159,7 @@ public class SerializableBanana : GLib.Object, GXmlDom.Serializable {
 			properties = new ParamSpec[4];
 			int i = 0;
 			foreach (string name in new string[] { "private-field", "public-field", "private-property", "public-property" }) {
-				properties[i] = new ParamSpecInt (name, name, name, int.MIN, int.MAX, ParamFlags.READABLE); // TODO: offer guidance for these fields, esp. ParamFlags
+				properties[i] = new ParamSpecInt (name, name, name, int.MIN, int.MAX, 0, ParamFlags.READABLE); // TODO: offer guidance for these fields, esp. ParamFlags
 				i++;
 				// TODO: does serialisation use anything other than ParamSpec.name? 
 			}			
@@ -167,11 +167,13 @@ public class SerializableBanana : GLib.Object, GXmlDom.Serializable {
 		return this.properties;
 	}
 
+	private GLib.ParamSpec prop;
 	public unowned GLib.ParamSpec? find_property (string property_name) {
 		GLib.ParamSpec[] properties = this.list_properties ();
 		foreach (ParamSpec prop in properties) {
 			if (prop.name == property_name) {
-				return prop;
+				this.prop = prop;
+				return this.prop;
 			}
 		}
 		return null;
