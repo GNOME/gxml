@@ -49,6 +49,11 @@ namespace GXml {
 			Type type;
 			Value value;
 			DomNode value_node;
+			Serializable serializable = null;
+
+			if (object.get_type ().is_a (typeof (Serializable))) {
+				serializable = (Serializable)object;
+			}
 
 			type = prop_spec.value_type;
 
@@ -65,14 +70,21 @@ namespace GXml {
 				   it truly is the latter, but is returned as the
 				   former by list_properties) */
 				value = Value (typeof (int));
-				object.get_property (prop_spec.name, ref value);
+				if (serializable != null) {
+					serializable.get_property (prop_spec, ref value);
+				} else {
+					object.get_property (prop_spec.name, ref value);
+				}
 				value_node = doc.create_text_node ("%d".printf (value.get_int ()));
 				/* TODO: in the future, perhaps figure out GEnumClass
 				   and save it as the human readable enum value :D */
 			} else if (Value.type_transformable (prop_spec.value_type, typeof (string))) { // e.g. int, double, string, bool
 				value = Value (typeof (string));
-				object.get_property (prop_spec.name, ref value);
-				//GLib.warning ("value: %d", value);
+				if (serializable != null) {
+					serializable.get_property (prop_spec, ref value);
+				} else {
+					object.get_property (prop_spec.name, ref value);
+				}
 				value_node = doc.create_text_node (value.get_string ());
 			} else if (type == typeof (GLib.Type)) {
 				value_node = doc.create_text_node (type.name ());
@@ -82,7 +94,11 @@ namespace GXml {
 			} else if (type.is_a (typeof (GLib.Object))) {
 				// TODO: this is going to get complicated
 				value = Value (typeof (GLib.Object));
-				object.get_property (prop_spec.name, ref value);
+				if (serializable != null) {
+					serializable.get_property (prop_spec, ref value);
+				} else {
+					object.get_property (prop_spec.name, ref value);
+				}
 				GLib.Object child_object = value.get_object ();
 				value_node = Serialization.serialize_object (child_object); // catch serialisation errors?
 				// TODO: caller will append_child; can we cross documents like this?  Probably not :D want to be able to steal?, attributes seem to get lost
@@ -277,7 +293,11 @@ namespace GXml {
 						}
 						if (!serialized) {
 							Serialization.deserialize_property (spec, prop_elem, out val);
-							obj.set_property (pname, val);
+							if (serializable != null) {
+								serializable.set_property (spec, val);
+							} else {
+								obj.set_property (pname, val);
+							}
 							// TODO: should we make a note that for implementing {get,set}_property in the interface, they should specify override (in Vala)?  What about in C?  Need to test which one gets called in which situations (yeah, already read the tutorial)
 						}
 					} catch (SerializationError.UNSUPPORTED_TYPE e) {
