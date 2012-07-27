@@ -5,7 +5,7 @@ namespace GXml {
 	 * in a DocumentType.
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-11C98490]]
 	 */
-	public class Entity : XNode {
+	public class Entity : DomNode {
 		private Xml.Entity *entity;
 
 		/**
@@ -64,7 +64,7 @@ namespace GXml {
 		}
 
 
-		public override XNode? parent_node {
+		public override DomNode? parent_node {
 			get {
 				return this.owner_document.doctype;
 				// TODO: could this be differen tfrom this.entity->parent?
@@ -85,22 +85,22 @@ namespace GXml {
 		}
 
 		/* Public methods (Node-specific) */
-		public override XNode? insert_before (XNode new_child, XNode? ref_child) throws DomError {
+		public override DomNode? insert_before (DomNode new_child, DomNode? ref_child) throws DomError {
 			return this.child_nodes.insert_before (new_child, ref_child);
 		}
-		public override XNode? replace_child (XNode new_child, XNode old_child) throws DomError {
+		public override DomNode? replace_child (DomNode new_child, DomNode old_child) throws DomError {
 			return this.child_nodes.replace_child (new_child, old_child);
 		}
-		public override XNode? remove_child (XNode old_child) throws DomError {
+		public override DomNode? remove_child (DomNode old_child) throws DomError {
 			return this.child_nodes.remove_child (old_child);
 		}
-		public override XNode? append_child (XNode new_child) throws DomError {
+		public override DomNode? append_child (DomNode new_child) throws DomError {
 			return this.child_nodes.append_child (new_child);
 		}
 		public override bool has_child_nodes () {
 			return (this.child_nodes.length > 0);
 		}
-		public override XNode? clone_nodes (bool deep) {
+		public override DomNode? clone_nodes (bool deep) {
 			return this; // STUB
 		}
 

@@ -45,18 +45,18 @@ namespace GXml {
 	 * more, see:
 	 * [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#i-Document]]
 	 */
-	public class Document : XNode {
+	public class Document : DomNode {
 		/* *** Private properties *** */
 
 		/**
 		 * This contains a map of Xml.Nodes that have been
-		 * accessed and the GXml XNode we created to represent
-		 * them on-demand.  That way, we don't create an XNode
+		 * accessed and the GXml DomNode we created to represent
+		 * them on-demand.  That way, we don't create an DomNode
 		 * for EVERY node, even if the user never actually
 		 * accesses it.
 		 */
-		internal HashTable<Xml.Node*, XNode> node_dict = new HashTable<Xml.Node*, XNode> (GLib.direct_hash, GLib.direct_equal);
-		// We don't want want to use XNode's Xml.Node or its dict
+		internal HashTable<Xml.Node*, DomNode> node_dict = new HashTable<Xml.Node*, DomNode> (GLib.direct_hash, GLib.direct_equal);
+		// We don't want want to use DomNode's Xml.Node or its dict
 		// internal HashTable<Xml.Attr*, Attr> attr_dict = new HashTable<Xml.Attr*, Attr> (null, null);
 
 		/**
@@ -79,8 +79,8 @@ namespace GXml {
 		internal Xml.Doc *xmldoc;
 
 		/* *** Private methods *** */
-		internal unowned XNode? lookup_node (Xml.Node *xmlnode) {
-			unowned XNode domnode;
+		internal unowned DomNode? lookup_node (Xml.Node *xmlnode) {
+			unowned DomNode domnode;
 
 			if (xmlnode == null) {
 				return null; // TODO: consider throwing an error instead
@@ -88,7 +88,7 @@ namespace GXml {
 
 			domnode = this.node_dict.lookup (xmlnode);
 			if (domnode == null) {
-				// If we don't have a cached the appropriate XNode for a given Xml.Node* yet, create it (type matters)
+				// If we don't have a cached the appropriate DomNode for a given Xml.Node* yet, create it (type matters)
 				// TODO: see if we can attach logic to the enum {} to handle this
 				switch ((NodeType)xmlnode->type) {
 				case NodeType.ELEMENT:
@@ -529,7 +529,7 @@ namespace GXml {
 			return str;
 		}
 
-		/*** XNode methods ***/
+		/*** DomNode methods ***/
 
 		/**
 		 * Appends new_child to this document. A document can
@@ -538,7 +538,7 @@ namespace GXml {
 		 *
 		 * @return The newly added child.
 		 */
-		public override XNode? append_child (XNode new_child) throws DomError {
+		public override DomNode? append_child (DomNode new_child) throws DomError {
 			if (new_child.node_type == NodeType.ELEMENT) {
 				if (xmldoc->get_root_element () == null) {
 					xmldoc->set_root_element (((Element)new_child).node);

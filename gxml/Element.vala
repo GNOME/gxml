@@ -6,7 +6,7 @@ namespace GXml {
 	 * Represent an XML Element node. These can have child nodes
 	 * of various types including other Elements. Elements can
 	 * have Attr attributes associated with them. Elements have
-	 * tag names. In addition to methods inherited from XNode,
+	 * tag names. In addition to methods inherited from DomNode,
 	 * Elements have additional methods for manipulating
 	 * attributes, as an alternative to manipulating the
 	 * attributes HashMap directly. For more, see:
@@ -264,7 +264,7 @@ namespace GXml {
 		}
 
 		// TODO: consider making the life of TagNameNodeLists optional, and dead by default, at the Document level
-		private void check_add_tag_name (Element basenode, XNode child) {
+		private void check_add_tag_name (Element basenode, DomNode child) {
 			// TODO: make sure there aren't any other NodeTypes that could have elements as children
 			if (child.node_type == NodeType.ELEMENT || child.node_type == NodeType.DOCUMENT_FRAGMENT) {
 				// the one we're examining is an element, and might need to be added
@@ -273,7 +273,7 @@ namespace GXml {
 				}
 
 				// if we're adding an element with descendants, or a document fragment, they might contain nodes that should go into a tag name node list for an ancestor node
-				foreach (XNode grand_child in child.child_nodes) {
+				foreach (DomNode grand_child in child.child_nodes) {
 					check_add_tag_name (basenode, grand_child);
 				}
 			}
@@ -283,38 +283,38 @@ namespace GXml {
 		 * are elements.  If they are, we check the basenode and its ancestors to see
 		 * whether they're keeping that node in a TagNameNodeList, so we can remove it.
 		 */
-		private void check_remove_tag_name (Element basenode, XNode child) {
+		private void check_remove_tag_name (Element basenode, DomNode child) {
 			// TODO: make sure there aren't any other NodeTypes that could have elements as children
 			if (child.node_type == NodeType.ELEMENT) {
 				// the one we're examining is an element, and might need to be removed from a tag name node list
 				basenode.on_remove_descendant_with_tag_name ((Element)child);
 
 				// if we're removing an element with descendants, it might contain nodes that should also be removed from a tag name node list for an ancestor node
-				foreach (XNode grand_child in child.child_nodes) {
+				foreach (DomNode grand_child in child.child_nodes) {
 					check_remove_tag_name (basenode, grand_child);
 				}
 			}
 		}
 
-		/* ** XNode methods ** */
-		public override XNode? insert_before (XNode new_child, XNode? ref_child) throws DomError {
-			XNode ret = base.insert_before (new_child, ref_child);
+		/* ** DomNode methods ** */
+		public override DomNode? insert_before (DomNode new_child, DomNode? ref_child) throws DomError {
+			DomNode ret = base.insert_before (new_child, ref_child);
 			check_add_tag_name (this, new_child);
 			return ret;
 		}
-		public override XNode? replace_child (XNode new_child, XNode old_child) throws DomError {
+		public override DomNode? replace_child (DomNode new_child, DomNode old_child) throws DomError {
 			check_remove_tag_name (this, old_child);
-			XNode ret = base.replace_child (new_child, old_child);
+			DomNode ret = base.replace_child (new_child, old_child);
 			check_add_tag_name (this, new_child);
 			return ret;
 		}
-		public override XNode? remove_child (XNode old_child) throws DomError {
+		public override DomNode? remove_child (DomNode old_child) throws DomError {
 			check_remove_tag_name (this, old_child);
-			XNode ret = base.remove_child (old_child);
+			DomNode ret = base.remove_child (old_child);
 			return ret;
 		}
-		public override XNode? append_child (XNode new_child) throws DomError {
-			XNode ret = base.append_child (new_child);
+		public override DomNode? append_child (DomNode new_child) throws DomError {
+			DomNode ret = base.append_child (new_child);
 			check_add_tag_name (this, new_child);
 			return ret;
 		}
@@ -368,7 +368,7 @@ namespace GXml {
 		private void on_remove_descendant_with_tag_name (Element elem) {
 			foreach (TagNameNodeList list in tag_name_lists) {
 				if (elem.tag_name == list.tag_name) {
-					foreach (XNode tag_elem in list) {
+					foreach (DomNode tag_elem in list) {
 						if (((Element)tag_elem) == elem) {
 							list.remove_child (tag_elem);
 							break;
@@ -397,7 +397,7 @@ namespace GXml {
 		 */
 		public NodeList get_elements_by_tag_name (string tag_name) {
 			TagNameNodeList tagged = new TagNameNodeList (tag_name, this, this.owner_document);
-			//List<XNode> tagged = new List<XNode> ();
+			//List<DomNode> tagged = new List<DomNode> ();
 			Queue<Xml.Node*> tocheck = new Queue<Xml.Node*> ();
 
 			/* TODO: find out whether we are supposed to include this element,
@@ -435,7 +435,7 @@ namespace GXml {
 
 			// STUB
 
-			foreach (XNode child in this.child_nodes) {
+			foreach (DomNode child in this.child_nodes) {
 				switch (child.node_type) {
 				case NodeType.ELEMENT:
 					((Element)child).normalize ();

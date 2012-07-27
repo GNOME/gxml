@@ -7,7 +7,7 @@ namespace GXml {
 	 * The NodeList is a live list used to store nodes, often the
 	 * children of a node, or a list of nodes matching a tag name.
 	 */
-	public interface NodeList : Gee.Iterable<XNode> {
+	public interface NodeList : Gee.Iterable<DomNode> {
 		public abstract ulong length {
 			get; private set;
 		}
@@ -22,7 +22,7 @@ namespace GXml {
 		 * Access the idx'th item in the list.
 		 */
 		// TODO: this should throw invalid index or something
-		public abstract XNode item (ulong idx);
+		public abstract DomNode item (ulong idx);
 		/* NOTE: children should implement
 		 *     public ulong length;
 		 * TODO: figure out how to require this as a property; maybe have to make it into a method
@@ -34,51 +34,51 @@ namespace GXml {
 		/**
 		 * Call the provided func on each item of the list.
 		 */
-		public abstract void foreach (Func<XNode> func);
+		public abstract void foreach (Func<DomNode> func);
 		// TODO: add hints for performance below, perhaps
 		/**
 		 * Retrieve the first node in the list.
 		 */
-		public abstract XNode first ();
+		public abstract DomNode first ();
 		/**
 		 * Retrieve the last node in the list.
 		 */
-		public abstract XNode last ();
+		public abstract DomNode last ();
 		/**
 		 * Obtain the n'th item in the list. Used for compatibility with GLib.List.
 		 */
-		public abstract XNode? nth (ulong n);
+		public abstract DomNode? nth (ulong n);
 		/**
 		 * Obtain the n'th item in the list. Used for compatibility with GLib.List.
 		 */
-		public abstract XNode? nth_data (ulong n);
+		public abstract DomNode? nth_data (ulong n);
 		/**
 		 * Obtain the item n places before pivot in the list.
 		 */
-		public abstract XNode? nth_prev (XNode pivot, ulong n);
+		public abstract DomNode? nth_prev (DomNode pivot, ulong n);
 		/**
 		 * Obtain index for node target in the list.
 		 */
-		public abstract int find (XNode target);
+		public abstract int find (DomNode target);
 		/**
 		 * Obtain index for node target in the list, using CompareFunc to compare.
 		 */
-		public abstract int find_custom (XNode target, CompareFunc<XNode> cmp);
+		public abstract int find_custom (DomNode target, CompareFunc<DomNode> cmp);
 		/**
 		 * Obtain index for node target in the list.
 		 */
-		public abstract int position (XNode target);
+		public abstract int position (DomNode target);
 		/**
 		 * Obtain index for node target in the list.
 		 */
-		public abstract int index (XNode target);
+		public abstract int index (DomNode target);
 		// TODO: wow, lots of those GList compatibility methods are the same in a case like this.
 
 		/* These exist to support management of a node's children */
-		internal abstract XNode? insert_before (XNode new_child, XNode? ref_child) throws DomError;
-		internal abstract XNode? replace_child (XNode new_child, XNode old_child) throws DomError;
-		internal abstract XNode? remove_child (XNode old_child) /*throws DomError*/;
-		internal abstract XNode? append_child (XNode new_child) /*throws DomError*/;
+		internal abstract DomNode? insert_before (DomNode new_child, DomNode? ref_child) throws DomError;
+		internal abstract DomNode? replace_child (DomNode new_child, DomNode old_child) throws DomError;
+		internal abstract DomNode? remove_child (DomNode old_child) /*throws DomError*/;
+		internal abstract DomNode? append_child (DomNode new_child) /*throws DomError*/;
 
 		/**
 		 * Creates an XML string representation of the nodes in the list.
@@ -93,17 +93,17 @@ namespace GXml {
 
 	/**
 	 * This provides a NodeList that is backed by a GLib.List of
-	 * XNodes.  A root XNode is specified, which is usually the
+	 * DomNodes.  A root DomNode is specified, which is usually the
 	 * owner/parent of the list's contents (children of the
 	 * parent).
 	 */
-	internal class GListNodeList : Gee.Traversable<XNode>, Gee.Iterable<XNode>, NodeList, GLib.Object {
-		internal XNode root;
-		internal GLib.List<XNode> nodes;
+	internal class GListNodeList : Gee.Traversable<DomNode>, Gee.Iterable<DomNode>, NodeList, GLib.Object {
+		internal DomNode root;
+		internal GLib.List<DomNode> nodes;
 
-		internal GListNodeList (XNode root) {
+		internal GListNodeList (DomNode root) {
 			this.root = root;
-			this.nodes = new GLib.List<XNode> ();
+			this.nodes = new GLib.List<DomNode> ();
 		}
 
 		public ulong length {
@@ -117,87 +117,87 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public XNode item (ulong idx) {
+		public DomNode item (ulong idx) {
 			return this.nth_data (idx);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public void foreach (Func<XNode> func) {
+		public void foreach (Func<DomNode> func) {
 			this.nodes.foreach (func);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public XNode first () {
+		public DomNode first () {
 			return this.nodes.first ().data;
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public XNode last () {
+		public DomNode last () {
 			return this.nodes.last ().data;
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public XNode? nth (ulong n) {
+		public DomNode? nth (ulong n) {
 			return this.nth_data (n);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public XNode? nth_data (ulong n) {
+		public DomNode? nth_data (ulong n) {
 			return this.nodes.nth_data ((uint)n);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public XNode? nth_prev (XNode pivot, ulong n) {
-			unowned GLib.List<XNode> list_pivot = this.nodes.find (pivot);
+		public DomNode? nth_prev (DomNode pivot, ulong n) {
+			unowned GLib.List<DomNode> list_pivot = this.nodes.find (pivot);
 			return list_pivot.nth_prev ((uint)n).data;
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public int find (XNode target) {
+		public int find (DomNode target) {
 			return this.index (target);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public int find_custom (XNode target, CompareFunc<XNode> cmp) {
-			unowned GLib.List<XNode> list_pt = this.nodes.find_custom (target, cmp);
+		public int find_custom (DomNode target, CompareFunc<DomNode> cmp) {
+			unowned GLib.List<DomNode> list_pt = this.nodes.find_custom (target, cmp);
 			return this.index (list_pt.data);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public int position (XNode target) {
+		public int position (DomNode target) {
 			return this.index (target);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public int index (XNode target) {
+		public int index (DomNode target) {
 			return this.nodes.index (target);
 		}
 
-		internal XNode? insert_before (XNode new_child, XNode? ref_child) throws DomError {
+		internal DomNode? insert_before (DomNode new_child, DomNode? ref_child) throws DomError {
 			this.nodes.insert_before (this.nodes.find (ref_child), new_child);
 			return new_child;
 		}
-		internal XNode? replace_child (XNode new_child, XNode old_child) throws DomError {
+		internal DomNode? replace_child (DomNode new_child, DomNode old_child) throws DomError {
 			int pos = this.index (old_child);
 			this.remove_child (old_child);
 			this.nodes.insert (new_child, pos);
 			return old_child;
 		}
-		internal XNode? remove_child (XNode old_child) /*throws DomError*/ {
+		internal DomNode? remove_child (DomNode old_child) /*throws DomError*/ {
 			this.nodes.remove (old_child);
 			return old_child;
 		}
-		internal XNode? append_child (XNode new_child) /*throws DomError*/ {
+		internal DomNode? append_child (DomNode new_child) /*throws DomError*/ {
 			this.nodes.append (new_child);
 			return new_child;
 		}
@@ -205,7 +205,7 @@ namespace GXml {
 		public string to_string (bool in_line) {
 			string str = "";
 
-			foreach (XNode node in this.nodes) {
+			foreach (DomNode node in this.nodes) {
 				str += node.to_string ();
 			}
 
@@ -215,27 +215,27 @@ namespace GXml {
 		/*** Traversable methods ***/
 
 		/* TODO: Verify that relying on these *_impl methods is appropriate */
-		public Iterator<XNode> chop (int offset, int length = -1) {
-			return Gee.Traversable.chop_impl<XNode> (this, offset, length);
+		public Iterator<DomNode> chop (int offset, int length = -1) {
+			return Gee.Traversable.chop_impl<DomNode> (this, offset, length);
 		}
 
-		public Iterator<XNode> filter (owned Predicate<XNode> f) {
+		public Iterator<DomNode> filter (owned Predicate<DomNode> f) {
 			// TODO: ask what Traversable delegate wants with this; it complains about how I shouldn't copy a delegate :)
-			return Gee.Traversable.filter_impl<XNode> (this, f);
+			return Gee.Traversable.filter_impl<DomNode> (this, f);
 		}
 
-		public Iterator<A> stream<A> (owned StreamFunc<XNode,A> f) {
+		public Iterator<A> stream<A> (owned StreamFunc<DomNode,A> f) {
 			// TODO: is it appropriate to use Iterator.stream_impl for an Iterable implementer?
-			return Iterator.stream_impl<XNode, A> (this.iterator (), f);
+			return Iterator.stream_impl<DomNode, A> (this.iterator (), f);
 		}
 
 		/*** Iterable methods ***/
 		public GLib.Type element_type {
 			get {
-				return typeof (XNode);
+				return typeof (DomNode);
 			}
 		}
-		public Gee.Iterator<XNode> iterator () {
+		public Gee.Iterator<DomNode> iterator () {
 			return new NodeListIterator (this);
 		}
 
@@ -256,9 +256,9 @@ namespace GXml {
 			 * remove () always fails (does nothing)
 			 */
 
-			private unowned GLib.List<XNode> cur;
-			private unowned GLib.List<XNode> first_node;
-			private unowned GLib.List<XNode> next_node;
+			private unowned GLib.List<DomNode> cur;
+			private unowned GLib.List<DomNode> first_node;
+			private unowned GLib.List<DomNode> next_node;
 
 			public NodeListIterator (GListNodeList list) {
 				this.cur = null;
@@ -266,7 +266,7 @@ namespace GXml {
 				this.next_node = list.nodes;
 			}
 
-			protected override XNode get_current () {
+			protected override DomNode get_current () {
 				return this.cur.data;
 			}
 
@@ -282,7 +282,7 @@ namespace GXml {
 
 			/*** Traversable methods ***/
 
-			public override void foreach (ForallFunc<XNode> f) {
+			public override void foreach (ForallFunc<DomNode> f) {
 				/* TODO: we need to iterate over the items in the iterator,
 				   we are the iterator
 				   but now that Iterator doesn't have a first () to reset with,
@@ -292,7 +292,7 @@ namespace GXml {
 				   and then proceed through our list to the end?
 				   Do we move our cursor along?
 				   Should we just start foreach-ing from wherever our cursor already is? */
-				for (unowned GLib.List<XNode> cur2 = this.first_node; cur2 != null; cur2 = cur2.next) {
+				for (unowned GLib.List<DomNode> cur2 = this.first_node; cur2 != null; cur2 = cur2.next) {
 					f (cur2.data);
 				}
 			}
@@ -303,7 +303,7 @@ namespace GXml {
 	internal class TagNameNodeList : GListNodeList {
 		internal string tag_name;
 
-		internal TagNameNodeList (string tag_name, XNode root, Document owner) {
+		internal TagNameNodeList (string tag_name, DomNode root, Document owner) {
 			base (root);
 			this.tag_name = tag_name;
 		}
@@ -312,7 +312,7 @@ namespace GXml {
 	/* TODO: warning: this list should NOT be edited :(
 	   we need a new, better live AttrNodeList :| */
 	internal class AttrNodeList : GListNodeList {
-		internal AttrNodeList (XNode root, Document owner) {
+		internal AttrNodeList (DomNode root, Document owner) {
 			base (root);
 			base.nodes = root.attributes.get_values ();
 		}
@@ -417,7 +417,7 @@ namespace GXml {
 
 	// TODO: Desperately want to extend List or implement relevant interfaces to make iterable
 	// TODO: remember that the order of interfaces that you're listing as implemented matters
-	internal abstract class ChildNodeList : Gee.Traversable<XNode>, Gee.Iterable<XNode>, NodeList, GLib.Object {
+	internal abstract class ChildNodeList : Gee.Traversable<DomNode>, Gee.Iterable<DomNode>, NodeList, GLib.Object {
 		/* TODO: must be live
 		   if this reflects children of a node, then must always be current
 		   same with nodes from GetElementByTagName, made need separate impls for each */
@@ -440,17 +440,17 @@ namespace GXml {
 			private set { }
 		}
 
-		XNode item (ulong idx) {
+		DomNode item (ulong idx) {
 			return this.nth (idx);
 		}
 
 		/** Iterable methods **/
 		public GLib.Type element_type { // TODO: should we need to use the override keyword when implementing interfaces
 			get {
-				return typeof(XNode);
+				return typeof(DomNode);
 			}
 		}
-		public Gee.Iterator<XNode> iterator () {
+		public Gee.Iterator<DomNode> iterator () {
 			return new NodeListIterator (this);
 		}
 
@@ -458,35 +458,35 @@ namespace GXml {
 		/** GNOME List conventions
 		 ** Probably don't want to keep all of them since they're not all relevant.
 		 **/
-		public void foreach (Func<XNode> func) {
-			XNode node;
+		public void foreach (Func<DomNode> func) {
+			DomNode node;
 
 			for (Xml.Node *cur = head; cur != null; cur = cur->next) {
 				node = this.owner.lookup_node (cur);
 				func (node);
 			}
 		}
-		public XNode first () {
+		public DomNode first () {
 			return this.owner.lookup_node (head);
 		}
-		public XNode last () {
+		public DomNode last () {
 			Xml.Node *cur = head;
 			while (cur != null && cur->next != null) {
 				cur = cur->next;
 			}
 			return this.owner.lookup_node (cur); // TODO :check for nulls?
 		}
-		public XNode? nth (ulong n) {
+		public DomNode? nth (ulong n) {
 			Xml.Node *cur = head;
 			for (int i = 0; i < n && cur != null; i++) {
 				cur = cur->next;
 			}
 			return this.owner.lookup_node (cur);
 		}
-		public XNode? nth_data (ulong n) {
+		public DomNode? nth_data (ulong n) {
 			return nth (n);
 		}
-		public XNode? nth_prev (XNode pivot, ulong n) {
+		public DomNode? nth_prev (DomNode pivot, ulong n) {
 			Xml.Node *cur;
 			for (cur = head; cur != null && this.owner.lookup_node (cur) != pivot; cur = cur->next) {
 			}
@@ -498,7 +498,7 @@ namespace GXml {
 			}
 			return this.owner.lookup_node (cur);
 		}
-		public int find (XNode target) {
+		public int find (DomNode target) {
 			int pos = 0;
 			Xml.Node *cur;
 			for (cur = head; cur != null && this.owner.lookup_node (cur) != target; cur = cur->next) {
@@ -510,7 +510,7 @@ namespace GXml {
 				return pos;
 			}
 		}
-		public int find_custom (XNode target, CompareFunc<XNode> cmp) {
+		public int find_custom (DomNode target, CompareFunc<DomNode> cmp) {
 			int pos = 0;
 			Xml.Node *cur;
 			for (cur = head; cur != null && cmp (this.owner.lookup_node (cur), target) != 0; cur = cur->next) {
@@ -522,15 +522,15 @@ namespace GXml {
 				return pos;
 			}
 		}
-		public int position (XNode target) {
+		public int position (DomNode target) {
 			return find (target);
 		}
-		public int index (XNode target) {
+		public int index (DomNode target) {
 			return find (target);
 		}
 
 		/** Node's child methods, implemented here **/
-		internal new XNode? insert_before (XNode new_child, XNode? ref_child) throws DomError {
+		internal new DomNode? insert_before (DomNode new_child, DomNode? ref_child) throws DomError {
 			Xml.Node *child = head;
 
 			if (ref_child == null) {
@@ -545,7 +545,7 @@ namespace GXml {
 				// TODO: provide a more useful description of ref_child, but there are so many different types
 			} else {
 				if (new_child.node_type == NodeType.DOCUMENT_FRAGMENT) {
-					foreach (XNode new_grand_child in new_child.child_nodes) {
+					foreach (DomNode new_grand_child in new_child.child_nodes) {
 						child->add_prev_sibling (((BackedNode)new_grand_child).node);
 					}
 				} else {
@@ -555,13 +555,13 @@ namespace GXml {
 			return new_child;
 		}
 
-		internal new XNode? replace_child (XNode new_child, XNode old_child) throws DomError {
+		internal new DomNode? replace_child (DomNode new_child, DomNode old_child) throws DomError {
 			// TODO: verify that libxml2 already removes
 			// new_child first if it is found elsewhere in
 			// the tree.
 
 			// TODO: nuts, if Node as an iface can't have properties,
-			//       then I have to cast these to XNodes, ugh.
+			//       then I have to cast these to DomNodes, ugh.
 			// TODO: need to handle errors?
 
 			// TODO: want to do a 'find_child' function
@@ -586,20 +586,20 @@ namespace GXml {
 
 			return old_child;
 		}
-		internal new XNode? remove_child (XNode old_child) /* throws DomError */ {
+		internal new DomNode? remove_child (DomNode old_child) /* throws DomError */ {
 			// TODO: verify that old_child is a valid child here and then unlink
 
 			((BackedNode)old_child).node->unlink (); // TODO: do we need to free libxml2 stuff manually?
 			return old_child;
 		}
 
-		internal virtual XNode? append_child (XNode new_child) /* throws DomError */ {
+		internal virtual DomNode? append_child (DomNode new_child) /* throws DomError */ {
 			// TODO: verify that libxml2 will first remove
 			// new_child if it already exists elsewhere in
 			// the tree.
 
 			if (new_child.node_type == NodeType.DOCUMENT_FRAGMENT) {
-				foreach (XNode grand_child in new_child.child_nodes) {
+				foreach (DomNode grand_child in new_child.child_nodes) {
 					parent_as_xmlnode->add_child (((BackedNode)grand_child).node);
 				}
 			} else {
@@ -612,7 +612,7 @@ namespace GXml {
 		private string _str;
 		public string to_string (bool in_line = true) {
 			_str = "";
-			foreach (XNode node in this) {
+			foreach (DomNode node in this) {
 				_str += node.to_string ();
 			}
 			return _str;
@@ -621,17 +621,17 @@ namespace GXml {
 		/*** Traversable methods ***/
 
 		/* TODO: Verify that relying on these *_impl methods is appropriate */
-		public Iterator<XNode> chop (int offset, int length = -1) {
-			return Gee.Traversable.chop_impl<XNode> (this, offset, length);
+		public Iterator<DomNode> chop (int offset, int length = -1) {
+			return Gee.Traversable.chop_impl<DomNode> (this, offset, length);
 		}
 
-		public Iterator<XNode> filter (owned Predicate<XNode> f) {
-			return Gee.Traversable.filter_impl<XNode> (this, f);
+		public Iterator<DomNode> filter (owned Predicate<DomNode> f) {
+			return Gee.Traversable.filter_impl<DomNode> (this, f);
 		}
 
-		public Iterator<A> stream<A> (owned StreamFunc<XNode,A> f) {
+		public Iterator<A> stream<A> (owned StreamFunc<DomNode,A> f) {
 			// TODO: is it appropriate to use Iterator.stream_impl for an Iterable implementer?
-			return Iterator.stream_impl<XNode, A> (this.iterator (), f);
+			return Iterator.stream_impl<DomNode, A> (this.iterator (), f);
 		}
 
 		/*** NodeListIterator ***/
@@ -653,7 +653,7 @@ namespace GXml {
 
 			/*** model-specific methods ***/
 
-			protected override XNode get_current () {
+			protected override DomNode get_current () {
 				return this.doc.lookup_node (this.cur);
 			}
 
@@ -668,7 +668,7 @@ namespace GXml {
 
 			/*** Traversable methods ***/
 
-			public override void foreach (ForallFunc<XNode> f) {
+			public override void foreach (ForallFunc<DomNode> f) {
 				/* TODO: we need to iterate over the items in the iterator,
 				   we are the iterator
 				   but now that Iterator doesn't have a first () to reset with,
@@ -685,53 +685,53 @@ namespace GXml {
 		}
 	}
 
-	public abstract class GenericNodeListIterator : Gee.Traversable<XNode>, Gee.Iterator<XNode>, GLib.Object {
-		protected abstract XNode get_current ();
+	public abstract class GenericNodeListIterator : Gee.Traversable<DomNode>, Gee.Iterator<DomNode>, GLib.Object {
+		protected abstract DomNode get_current ();
 		protected abstract bool is_empty ();
 		protected abstract void advance ();
 
 		/*** Traversable methods ***/
 
-		public Gee.Iterator<XNode> chop (int offset, int length = -1) {
+		public Gee.Iterator<DomNode> chop (int offset, int length = -1) {
 			/* TODO: is this how the *_impl static methods in Iterator and
 			   Traversable are supposed to be used? */
-			return Gee.Traversable.chop_impl<XNode> (this, offset, length);
+			return Gee.Traversable.chop_impl<DomNode> (this, offset, length);
 		}
 
-		public Gee.Iterator<XNode> filter (owned Predicate<XNode> f) {
+		public Gee.Iterator<DomNode> filter (owned Predicate<DomNode> f) {
 			/* TODO: is this a valid approach? */
-			return Gee.Traversable.filter_impl<XNode> (this, f);
+			return Gee.Traversable.filter_impl<DomNode> (this, f);
 		}
 
-		public Iterator<A> stream<A> (owned StreamFunc<XNode,A> f) {
+		public Iterator<A> stream<A> (owned StreamFunc<DomNode,A> f) {
 			/* TODO: I hope we can do this
 			   What do we want to put there instead of A?  Anything?
 			   We don't need to know A, that's why it's a generic type on the function identifier: the caller names it */
-			return Gee.Iterator.stream_impl<XNode,A> (this, f);
+			return Gee.Iterator.stream_impl<DomNode,A> (this, f);
 		}
 
-		public abstract void foreach (ForallFunc<XNode> f);
+		public abstract void foreach (ForallFunc<DomNode> f);
 
 		/*** Iterator methods ***/
 
 		/**
-		 * Obtain the current XNode in the iteration.
+		 * Obtain the current DomNode in the iteration.
 		 * Returns null if there is none, which occurs
 		 * if the list is empty or if iteration has
 		 * not started (next () has never been
 		 * called).
 		 */
-		public new XNode get () {
+		public new DomNode get () {
 			if (this.valid) {
 				return this.get_current ();
 			} else {
-				// TODO: file bug, Iterator wants XNode, not XNode?, but it wants us to be able to return null.
+				// TODO: file bug, Iterator wants DomNode, not DomNode?, but it wants us to be able to return null.
 				return null;
 			}
 		}
 
 		/**
-		 * Advance to the next XNode in the list
+		 * Advance to the next DomNode in the list
 		 */
 		public bool next () {
 			if (this.is_empty ()) {
@@ -744,7 +744,7 @@ namespace GXml {
 		}
 
 		/**
-		 * Checks whether there is a next XNode in the list.
+		 * Checks whether there is a next DomNode in the list.
 		 */
 		public bool has_next () {
 			return (! this.is_empty ());

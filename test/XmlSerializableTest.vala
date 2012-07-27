@@ -79,13 +79,13 @@ public class SerializableCapsicum : GLib.Object, GXmlDom.Serializable {
 	   Perhaps these shouldn't be object methods, perhaps they should be static?
 	   Can't have static methods in an interface :(, right? */
 	public bool deserialize_property (string property_name, /* out GLib.Value value, */
-					  GLib.ParamSpec spec, GXmlDom.XNode property_node)  {
+					  GLib.ParamSpec spec, GXmlDom.DomNode property_node)  {
 		GLib.Value outvalue = GLib.Value (typeof (int));
 
 		switch (property_name) {
 		case "ratings":
 			this.ratings = new GLib.List<int> ();
-			foreach (GXmlDom.XNode rating in property_node.child_nodes) {
+			foreach (GXmlDom.DomNode rating in property_node.child_nodes) {
 				int64.try_parse (((GXmlDom.Element)rating).content, out outvalue);
 				this.ratings.append ((int)outvalue.get_int64 ());
 			}
@@ -100,7 +100,7 @@ public class SerializableCapsicum : GLib.Object, GXmlDom.Serializable {
 
 		return false;
 	}
-	public GXmlDom.XNode? serialize_property (string property_name, /*GLib.Value value,*/ GLib.ParamSpec spec, GXmlDom.Document doc) {
+	public GXmlDom.DomNode? serialize_property (string property_name, /*GLib.Value value,*/ GLib.ParamSpec spec, GXmlDom.Document doc) {
 		GXmlDom.Element c_prop;
 		GXmlDom.Element rating;
 
@@ -404,7 +404,7 @@ class XmlSerializableTest : GXmlTest {
 
 	public static GLib.Object test_serialization_deserialization (GLib.Object object, string name, EqualFunc equals, StringifyFunc stringify) {
 		string xml_filename;
-		GXmlDom.XNode node;
+		GXmlDom.DomNode node;
 		GXmlDom.Document doc;
 		GLib.Object object_new = null;
 
@@ -436,7 +436,7 @@ class XmlSerializableTest : GXmlTest {
 	public static void add_tests () {
 		Test.add_func ("/gxml/domnode/xml_serialize", () => {
 				Fruit fruit;
-				GXmlDom.XNode fruit_xml;
+				GXmlDom.DomNode fruit_xml;
 
 				fruit = new Fruit ();
 				fruit.name = "fish";
@@ -461,7 +461,7 @@ class XmlSerializableTest : GXmlTest {
 				/* NOTE: We expect this one to fail right now */
 
 				Fruit fruit;
-				GXmlDom.XNode fruit_xml;
+				GXmlDom.DomNode fruit_xml;
 
 				fruit = new Fruit ();
 				fruit.set_all ("blue", 11, "fish", 3);
@@ -659,7 +659,7 @@ class XmlSerializableTest : GXmlTest {
 				test_serialization_deserialization (tomato, "interface_defaults", (GLib.EqualFunc)SerializableTomato.equals, (StringifyFunc)SerializableTomato.to_string);
 			});
 		Test.add_func ("/gxml/serialization/interface_overrides_and_list", () => {
-				GXmlDom.XNode node;
+				GXmlDom.DomNode node;
 				SerializableCapsicum capsicum;
 				SerializableCapsicum capsicum_new;
 				string expected;

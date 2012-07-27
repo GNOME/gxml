@@ -1,12 +1,12 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-using GXmlDom;
+using GXml;
 
 class AttrTest : GXmlTest {
 	public static void add_tests () {
 		Test.add_func ("/gxml/element/namespace_uri", () => {
 				try {
 					Document doc = new Document.from_string ("<Wands xmlns:wands=\"http://mom.co.uk/wands\"><Wand price=\"43.56\" wands:core=\"dragon heart cord\" wands:shell=\"oak\"/></Wands>");
-					XNode root = doc.document_element;
+					DomNode root = doc.document_element;
 					Element node = (Element)root.child_nodes.item (0);
 
 					Attr core = node.get_attribute_node ("core");
@@ -24,7 +24,7 @@ class AttrTest : GXmlTest {
 		Test.add_func ("/gxml/element/prefix", () => {
 				try {
 					Document doc = new Document.from_string ("<Wands xmlns:wands=\"http://mom.co.uk/wands\"><Wand price=\"43.56\" wands:core=\"dragon heart cord\" wands:shell=\"oak\"/></Wands>");
-					XNode root = doc.document_element;
+					DomNode root = doc.document_element;
 					Element node = (Element)root.child_nodes.item (0);
 
 					Attr core = node.get_attribute_node ("core");
@@ -42,7 +42,7 @@ class AttrTest : GXmlTest {
 		Test.add_func ("/gxml/element/local_name", () => {
 				try {
 					Document doc = new Document.from_string ("<Wands xmlns:wands=\"http://mom.co.uk/wands\"><Wand price=\"43.56\" wands:core=\"dragon heart cord\" wands:shell=\"oak\"/></Wands>");
-					XNode root = doc.document_element;
+					DomNode root = doc.document_element;
 					Element node = (Element)root.child_nodes.item (0);
 
 					Attr core = node.get_attribute_node ("core");

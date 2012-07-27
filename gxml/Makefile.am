@@ -43,6 +43,7 @@ libgxml_la_VALASOURCES = \
 	Document.vala \
 	DocumentFragment.vala \
 	DocumentType.vala \
+	DomNode.vala \
 	DomError.vala \
 	Element.vala \
 	Entity.vala \
@@ -56,7 +57,6 @@ libgxml_la_VALASOURCES = \
 	Text.vala \
 	Serializable.vala \
 	Serialization.vala \
-	XNode.vala \
 	$(NULL)
 
 libgxml_0_2_la_SOURCES = \

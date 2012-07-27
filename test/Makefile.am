@@ -61,7 +61,7 @@ gxml_test_VALASOURCES = \
 	TextTest.vala \
 	ValaLibxml2Test.vala \
 	XmlSerializableTest.vala \
-	XNodeTest.vala \
+	DomNodeTest.vala \
 	$(NULL)
 
 gxml_test_SOURCES = \

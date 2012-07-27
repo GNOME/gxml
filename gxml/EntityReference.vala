@@ -10,7 +10,7 @@ namespace GXml {
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-11C98490]]
 	 */
 	// TODO: make sure that character entity references (like the one used in the example above, are valid
-	public class EntityReference : XNode {
+	public class EntityReference : DomNode {
 		internal EntityReference (string refname, Document doc) {
 			// TODO: may want to handle refname differently
 			base (NodeType.ENTITY_REFERENCE, doc); // TODO: what should we pass up?

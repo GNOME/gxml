@@ -5,7 +5,7 @@ class GXmlTest {
 	public static int main (string[] args) {
 		Test.init (ref args); // TODO: why ref?  what if I just pass args?
 		DocumentTest.add_tests ();
-		XNodeTest.add_tests ();
+		DomNodeTest.add_tests ();
 		ElementTest.add_tests ();
 		AttrTest.add_tests ();
 		NodeListTest.add_tests ();

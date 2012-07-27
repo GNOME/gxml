@@ -19,7 +19,7 @@ namespace GXml {
 	 * @image: library.png
 	 *
 	 * GXmlSerialization provides functions to serialize and
-	 * deserialize GObjects into and from GXmlXNodes
+	 * deserialize GObjects into and from GXmlDomNodes
 	 */
 	public class Serialization : GLib.Object {
 		private static void print_debug (GXml.Document doc, GLib.Object object) {
@@ -43,10 +43,12 @@ namespace GXml {
 			}
 		}
 
-		private static GXml.XNode serialize_property (GLib.Object object, ParamSpec prop_spec, GXml.Document doc) throws SerializationError, DomError {
+		// public delegate void GetProperty (GLib.ParamSpec spec, ref GLib.Value value);
+
+		private static GXml.DomNode serialize_property (GLib.Object object, ParamSpec prop_spec, GXml.Document doc) throws SerializationError, DomError {
 			Type type;
 			Value value;
-			XNode value_node;
+			DomNode value_node;
 
 			type = prop_spec.value_type;
 
@@ -94,13 +96,13 @@ namespace GXml {
 		/* TODO: so it seems we can get property information from GObjectClass
 		   but that's about it.  Need to definitely use introspection for anything
 		   tastier */
-		public static GXml.XNode serialize_object (GLib.Object object) throws SerializationError {
+		public static GXml.DomNode serialize_object (GLib.Object object) throws SerializationError {
 			Document doc;
 			Element root;
 			ParamSpec[] prop_specs;
 			Element prop;
 			Serializable serializable = null;
-			XNode value_prop = null;
+			DomNode value_prop = null;
 
 			if (object.get_type ().is_a (typeof (Serializable))) {
 				serializable = (Serializable)object;
@@ -189,7 +191,7 @@ namespace GXml {
 				}
 			// } else if (type.is_a (typeof (Gee.Collection))) {
 			} else if (type.is_a (typeof (GLib.Object))) {
-				GXml.XNode prop_elem_child;
+				GXml.DomNode prop_elem_child;
 				Object property_object;
 
 				try {
@@ -209,7 +211,7 @@ namespace GXml {
 			}
 		}
 
-		public static GLib.Object deserialize_object (XNode node) throws SerializationError {
+		public static GLib.Object deserialize_object (DomNode node) throws SerializationError {
 			Element obj_elem;
 
 			string otype;
@@ -244,7 +246,7 @@ namespace GXml {
 				specs = obj_class.list_properties ();
 			}
 
-			foreach (XNode child_node in obj_elem.child_nodes) {
+			foreach (DomNode child_node in obj_elem.child_nodes) {
 				if (child_node.node_name == "Property") {
 					Element prop_elem;
 					string pname;

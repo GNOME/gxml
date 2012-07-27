@@ -35,14 +35,14 @@ namespace GXml {
 		    and false elsewise (in which case, XmlSerializable will try to deserialize
 		    it).  */
 		/** OBSOLETENOTE: Return the deserialized value in GLib.Value (even if it's a GLib.Boxed type) because Serializer is going to set the property after calling this, and if you just set it yourself within, it will be overwritten */
-		public virtual bool deserialize_property (string property_name, /* out GLib.Value value,*/ GLib.ParamSpec spec, GXml.XNode property_node) {
+		public virtual bool deserialize_property (string property_name, /* out GLib.Value value,*/ GLib.ParamSpec spec, GXml.DomNode property_node) {
 			return false; // default deserialize_property gets used
 		}
 		// TODO: just added ? to these, do we really want to allow nulls for them?
 		// TODO: value and property_name are kind of redundant: eliminate?  property_name from spec.property_name and value from the object itself :)
 		/** Serialized properties should have the XML structure <Property pname="PropertyName">...</Property> */
 		// TODO: perhaps we should provide that base structure
-		public virtual GXml.XNode? serialize_property (string property_name, /*GLib.Value value, */ GLib.ParamSpec spec, GXml.Document doc) {
+		public virtual GXml.DomNode? serialize_property (string property_name, /*GLib.Value value, */ GLib.ParamSpec spec, GXml.Document doc) {
 			return null; // default serialize_property gets used
 		}
 

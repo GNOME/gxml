@@ -3,7 +3,7 @@ using GXmlDom;
 
 class TextTest : GXmlTest {
 	public static void add_tests () {
-		/* NOTE: Node name and node value behaviour tested by XNodeTest */
+		/* NOTE: Node name and node value behaviour tested by DomNodeTest */
 
 		Test.add_func ("/gxml/text/split_text", () => {
 				try {

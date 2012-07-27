@@ -73,7 +73,7 @@ class DocumentTest : GXmlTest {
 					string xml = "<Fruits><Apple></Apple><Orange></Orange></Fruits>";
 					Document doc = new Document.from_string (xml);
 
-					XNode root = doc.document_element;
+					DomNode root = doc.document_element;
 					assert (root.node_name == "Fruits");
 					assert (root.has_child_nodes () == true);
 					assert (root.first_child.node_name == "Apple");
@@ -366,8 +366,8 @@ class DocumentTest : GXmlTest {
 ");
 	}
 
-	public static void print_node (XNode node) {
-		List<GXmlDom.XNode> children = (List<GXmlDom.XNode>)node.child_nodes;
+	public static void print_node (DomNode node) {
+		List<GXml.DomNode> children = (List<GXml.DomNode>)node.child_nodes;
 
 		if (node.node_type != 3)
 			GLib.stdout.printf ("<%s", node.node_name);
@@ -380,7 +380,7 @@ class DocumentTest : GXmlTest {
 		GLib.stdout.printf (">");
 		if (node.node_value != null)
 			GLib.stdout.printf ("%s", node.node_value);
-		foreach (GXmlDom.XNode child in children) {
+		foreach (GXml.DomNode child in children) {
 			// TODO: want a stringification method for Nodes?
 			print_node (child);
 		}

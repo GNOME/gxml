@@ -5,7 +5,7 @@ namespace GXml {
 	 * prefix=uri pairs that define namespaces for XML Elements
 	 * and Attrs.
 	 */
-	public class NamespaceAttr : XNode {
+	public class NamespaceAttr : DomNode {
 		/** Private properties */
 		private Xml.Ns *node;
 

@@ -6,12 +6,12 @@ namespace GXml {
 	 * Represents an XML Node. Documents are nodes, and are
 	 * composed of a tree of nodes. See [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1950641247]]
 	 */
-	public class XNode : GLib.Object {
-		internal XNode (NodeType type, Document owner) {
+	public class DomNode : GLib.Object {
+		internal DomNode (NodeType type, Document owner) {
 			this.node_type = type;
 			this.owner_document = owner;
 		}
-		internal XNode.for_document () {
+		internal DomNode.for_document () {
 			this.node_name = "#document";
 			this.node_type = NodeType.DOCUMENT;
 		}
@@ -21,7 +21,7 @@ namespace GXml {
 			message ("  ns (prefix: %s, uri: %s)", this.prefix, this.namespace_uri);
 			if (this.attributes != null) {
 				message ("  attributes:");
-				foreach (XNode attr in this.attributes.get_values ()) {
+				foreach (DomNode attr in this.attributes.get_values ()) {
 					message ("    %s", attr.node_name);
 				}
 			}
@@ -31,7 +31,7 @@ namespace GXml {
 				//       and instead returning empty collections
 				//     No, probably don't want that, as nodes which don't
 				//     support them really do just want to return null ala spec
-				foreach (XNode child in this.child_nodes) {
+				foreach (DomNode child in this.child_nodes) {
 					message ("    %s", child.node_name);
 				}
 			}
@@ -141,7 +141,7 @@ namespace GXml {
 		 * with elements, the immediate, outer element is the parent.
 		 * <parent><child></child></parent>
 		 */
-		public virtual XNode? parent_node {
+		public virtual DomNode? parent_node {
 			get { return null; }
 			internal set {}
 		}
@@ -166,7 +166,7 @@ namespace GXml {
 		 * Links to the first child. If there are no
 		 * children, it returns null.
 		 */
-		public virtual XNode? first_child {
+		public virtual DomNode? first_child {
 			get { return null; }
 			internal set {}
 		}
@@ -174,7 +174,7 @@ namespace GXml {
 		 * Links to the last child. If there are no
 		 * children, it returns null.
 		 */
-		public virtual XNode? last_child {
+		public virtual DomNode? last_child {
 			get { return null; }
 			internal set {}
 		}
@@ -183,7 +183,7 @@ namespace GXml {
 		 * are no previous siblings, it returns null. Note
 		 * that the children of a node are ordered.
 		 */
-		public virtual XNode? previous_sibling {
+		public virtual DomNode? previous_sibling {
 			get { return null; }
 			internal set {}
 		}
@@ -192,7 +192,7 @@ namespace GXml {
 		 * next sibling, it returns null. Note that the
 		 * children of a node are ordered.
 		 */
-		public virtual XNode? next_sibling {
+		public virtual DomNode? next_sibling {
 			get { return null; }
 			internal set {}
 		}
@@ -218,7 +218,7 @@ namespace GXml {
 		 * @throws DomError.NOT_FOUND if ref_child is not a valid child.
 		 */
 		// #todo: want to throw other relevant errors
-		public virtual XNode? insert_before (XNode new_child, XNode? ref_child) throws DomError {
+		public virtual DomNode? insert_before (DomNode new_child, DomNode? ref_child) throws DomError {
 			return null;
 		}
 		/**
@@ -228,7 +228,7 @@ namespace GXml {
 		 *
 		 * @throws DomError.NOT_FOUND if ref_child is not a valid child.
 		 */
-		public virtual XNode? replace_child (XNode new_child, XNode old_child) throws DomError {
+		public virtual DomNode? replace_child (DomNode new_child, DomNode old_child) throws DomError {
 			return null;
 		}
 		/**
@@ -239,7 +239,7 @@ namespace GXml {
 		 * @throws DomError.NOT_FOUND if old_child is not a valid child.
 		 * #todo: make @throws claim true
 		 */
-		public virtual XNode? remove_child (XNode old_child) throws DomError {
+		public virtual DomNode? remove_child (DomNode old_child) throws DomError {
 			return null;
 		}
 		/**
@@ -247,7 +247,7 @@ namespace GXml {
 		 *
 		 * @return The newly added child.
 		 */
-		public virtual XNode? append_child (XNode new_child) throws DomError {
+		public virtual DomNode? append_child (DomNode new_child) throws DomError {
 			return null;
 		}
 		/**
@@ -264,7 +264,7 @@ namespace GXml {
 		 *
 		 * @return A parentless clone of this node.
 		 */
-		public virtual XNode? clone_nodes (bool deep) {
+		public virtual DomNode? clone_nodes (bool deep) {
 			return null;
 		}
 
@@ -279,7 +279,7 @@ namespace GXml {
 		 */
 		// TODO: need to investigate how to activate format
 		public virtual string to_string (bool format = false, int level = 0) {
-			_str = "XNode(%d:%s)".printf (this.node_type, this.node_name);
+			_str = "DomNode(%d:%s)".printf (this.node_type, this.node_name);
 			return _str;
 		}
 	}
