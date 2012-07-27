@@ -1,5 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-using GXmlDom;
+using GXml;
 using Gee;
 
 /**
@@ -25,7 +25,7 @@ using Gee;
    Test overriding {set,get}_property
 */
 
-public class SerializableTomato : GLib.Object, GXmlDom.Serializable {
+public class SerializableTomato : GLib.Object, GXml.Serializable {
 	public int weight;
 	private int age { get; set; }
 	public int height { get; set; }
@@ -52,7 +52,7 @@ public class SerializableTomato : GLib.Object, GXmlDom.Serializable {
 	}
 }
 
-public class SerializableCapsicum : GLib.Object, GXmlDom.Serializable {
+public class SerializableCapsicum : GLib.Object, GXml.Serializable {
 	public int weight;
 	private int age { get; set; }
 	public int height { get; set; }
@@ -79,19 +79,19 @@ public class SerializableCapsicum : GLib.Object, GXmlDom.Serializable {
 	   Perhaps these shouldn't be object methods, perhaps they should be static?
 	   Can't have static methods in an interface :(, right? */
 	public bool deserialize_property (string property_name, /* out GLib.Value value, */
-					  GLib.ParamSpec spec, GXmlDom.DomNode property_node)  {
+					  GLib.ParamSpec spec, GXml.DomNode property_node)  {
 		GLib.Value outvalue = GLib.Value (typeof (int));
 
 		switch (property_name) {
 		case "ratings":
 			this.ratings = new GLib.List<int> ();
-			foreach (GXmlDom.DomNode rating in property_node.child_nodes) {
-				int64.try_parse (((GXmlDom.Element)rating).content, out outvalue);
+			foreach (GXml.DomNode rating in property_node.child_nodes) {
+				int64.try_parse (((GXml.Element)rating).content, out outvalue);
 				this.ratings.append ((int)outvalue.get_int64 ());
 			}
 			return true;
 		case "height":
-			int64.try_parse (((GXmlDom.Element)property_node).content, out outvalue);
+			int64.try_parse (((GXml.Element)property_node).content, out outvalue);
 			this.height = (int)outvalue.get_int64 () - 1;
 			return true;
 		default:
@@ -100,13 +100,13 @@ public class SerializableCapsicum : GLib.Object, GXmlDom.Serializable {
 
 		return false;
 	}
-	public GXmlDom.DomNode? serialize_property (string property_name, /*GLib.Value value,*/ GLib.ParamSpec spec, GXmlDom.Document doc) {
-		GXmlDom.Element c_prop;
-		GXmlDom.Element rating;
+	public GXml.DomNode? serialize_property (string property_name, /*GLib.Value value,*/ GLib.ParamSpec spec, GXml.Document doc) {
+		GXml.Element c_prop;
+		GXml.Element rating;
 
 		switch (property_name) {
 		case "ratings":
-			GXmlDom.DocumentFragment frag = doc.create_document_fragment ();
+			GXml.DocumentFragment frag = doc.create_document_fragment ();
 			foreach (int rating_int in ratings) {
 				rating = doc.create_element ("rating");
 				rating.content = "%d".printf (rating_int);
@@ -127,7 +127,7 @@ public class SerializableCapsicum : GLib.Object, GXmlDom.Serializable {
 }
 
 
-public class SerializableBanana : GLib.Object, GXmlDom.Serializable {
+public class SerializableBanana : GLib.Object, GXml.Serializable {
 	private int private_field;
 	public int public_field;
 	private int private_property { get; set; }
@@ -404,8 +404,8 @@ class XmlSerializableTest : GXmlTest {
 
 	public static GLib.Object test_serialization_deserialization (GLib.Object object, string name, EqualFunc equals, StringifyFunc stringify) {
 		string xml_filename;
-		GXmlDom.DomNode node;
-		GXmlDom.Document doc;
+		GXml.DomNode node;
+		GXml.Document doc;
 		GLib.Object object_new = null;
 
 		xml_filename = "_serialization_test_" + name + ".xml";
@@ -416,7 +416,7 @@ class XmlSerializableTest : GXmlTest {
 			// TODO: assert that node is right
 			node.owner_document.save_to_path (xml_filename);
 			// TODO: assert that saved file is right
-			doc = new GXmlDom.Document.from_path (xml_filename);
+			doc = new GXml.Document.from_path (xml_filename);
 			// TODO: assert that loaded file is right; do document compare with original
 			object_new = Serialization.deserialize_object (doc.document_element);
 
@@ -436,7 +436,7 @@ class XmlSerializableTest : GXmlTest {
 	public static void add_tests () {
 		Test.add_func ("/gxml/domnode/xml_serialize", () => {
 				Fruit fruit;
-				GXmlDom.DomNode fruit_xml;
+				GXml.DomNode fruit_xml;
 
 				fruit = new Fruit ();
 				fruit.name = "fish";
@@ -451,7 +451,7 @@ class XmlSerializableTest : GXmlTest {
 							      expectation, fruit_xml.to_string ());
 						GLib.Test.fail ();
 					}
-				} catch (GXmlDom.SerializationError e) {
+				} catch (GXml.SerializationError e) {
 					GLib.warning ("%s", e.message);
 					GLib.Test.fail ();
 				}
@@ -461,7 +461,7 @@ class XmlSerializableTest : GXmlTest {
 				/* NOTE: We expect this one to fail right now */
 
 				Fruit fruit;
-				GXmlDom.DomNode fruit_xml;
+				GXml.DomNode fruit_xml;
 
 				fruit = new Fruit ();
 				fruit.set_all ("blue", 11, "fish", 3);
@@ -475,7 +475,7 @@ class XmlSerializableTest : GXmlTest {
 							      expectation, fruit_xml.to_string ());
 						GLib.Test.fail ();
 					}
-				} catch (GXmlDom.SerializationError e) {
+				} catch (GXml.SerializationError e) {
 					GLib.warning ("%s", e.message);
 					GLib.Test.fail ();
 				}
@@ -515,7 +515,7 @@ class XmlSerializableTest : GXmlTest {
 					doc = new Document.from_string ("<Object otype='Fruit'><Property name='badname'>3</Property></Object>");
 					Serialization.deserialize_object (doc.document_element);
 					GLib.Test.fail ();
-				} catch (GXmlDom.SerializationError.UNKNOWN_PROPERTY e) {
+				} catch (GXml.SerializationError.UNKNOWN_PROPERTY e) {
 					// Pass
 				} catch (GLib.Error e) {
 					GLib.message ("%s", e.message);
@@ -529,7 +529,7 @@ class XmlSerializableTest : GXmlTest {
 					doc = new Document.from_string ("<Object otype='BadType'></Object>");
 					Serialization.deserialize_object (doc.document_element);
 					GLib.Test.fail ();
-				} catch (GXmlDom.SerializationError.UNKNOWN_TYPE e) {
+				} catch (GXml.SerializationError.UNKNOWN_TYPE e) {
 					// Pass
 				} catch (GLib.Error e) {
 					GLib.message ("%s", e.message);
@@ -544,7 +544,7 @@ class XmlSerializableTest : GXmlTest {
 					doc = new Document.from_string ("<Object otype='Fruit'><Property pname='age' ptype='badtype'>blue</Property></Object>");
 					fruit = (Fruit)Serialization.deserialize_object (doc.document_element);
 					GLib.Test.fail ();
-				} catch (GXmlDom.SerializationError.UNSUPPORTED_TYPE e) {
+				} catch (GXml.SerializationError.UNSUPPORTED_TYPE e) {
 					// Pass
 				} catch (GLib.Error e) {
 					GLib.message ("%s", e.message);
@@ -566,10 +566,10 @@ class XmlSerializableTest : GXmlTest {
 						GLib.warning ("Expected [\"%s\", %d, \"%s\", %d] but found [%s]", "blue", 11, "fish", 3, fruit.to_string ());
 						GLib.Test.fail (); // Note that age sets weight normally
 					}
-				} catch (GXmlDom.SerializationError e) {
+				} catch (GXml.SerializationError e) {
 					GLib.message ("%s", e.message);
 					GLib.Test.fail ();
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.message ("%s", e.message);
 					GLib.Test.fail ();
 				}
@@ -659,7 +659,7 @@ class XmlSerializableTest : GXmlTest {
 				test_serialization_deserialization (tomato, "interface_defaults", (GLib.EqualFunc)SerializableTomato.equals, (StringifyFunc)SerializableTomato.to_string);
 			});
 		Test.add_func ("/gxml/serialization/interface_overrides_and_list", () => {
-				GXmlDom.DomNode node;
+				GXml.DomNode node;
 				SerializableCapsicum capsicum;
 				SerializableCapsicum capsicum_new;
 				string expected;
