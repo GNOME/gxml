@@ -1,5 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-using GXmlDom;
+using GXml;
 
 /* For testing, based on:
    https://live.gnome.org/Vala/TestSample
@@ -7,15 +7,15 @@ using GXmlDom;
    Using an Element subclass of Node to test Node.
 */
 
-class XNodeTest : GXmlTest {
+class DomNodeTest : GXmlTest {
 	// TODO: test setters?
 
 	public static void add_tests () {
 		Test.add_func ("/gxml/domnode/node_name_get", () => {
 				try {
-					// TODO: should XNodes never have a null name?
+					// TODO: should DomNodes never have a null name?
 					Document doc = get_doc ();
-					XNode node;
+					DomNode node;
 
 					node = get_elem ("elemname", doc);
 					assert (node.node_name == "elemname");
@@ -51,7 +51,7 @@ class XNodeTest : GXmlTest {
 
 					// node = doc.create_notation ("some notation");
 					// assert (node.node_name == ...); // notation name
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -61,7 +61,7 @@ class XNodeTest : GXmlTest {
 					// TODO: implement commented-out types
 
 					Document doc = get_doc ();
-					XNode node;
+					DomNode node;
 
 					node = get_elem ("a", doc);
 					assert (node.node_type == NodeType.ELEMENT);
@@ -98,7 +98,7 @@ class XNodeTest : GXmlTest {
 					// node = doc.create_notation ("some notation");
 					// assert (node.node_type == NodeType.NOTATION);
 
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -110,7 +110,7 @@ class XNodeTest : GXmlTest {
 
 					Document doc = get_doc ();
 
-					XNode node;
+					DomNode node;
 
 					node = doc.create_element ("elem");
 					assert (node.node_value == null);
@@ -142,10 +142,10 @@ class XNodeTest : GXmlTest {
 					// assert (attr.node_value == "harry");
 					/* TODO: figure out a solution.
 					   Attr's node_value doesn't get used when elem is thought of
-					   as a XNode.
-					   XNode wants to get it from XNode's Xml.Node* node,
+					   as a DomNode.
+					   DomNode wants to get it from DomNode's Xml.Node* node,
 					   while Attr wants to get it from Attr's Xml.Attr* node. :( */
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -153,18 +153,18 @@ class XNodeTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/parent_node", () => {
 				try {
 					Document doc = get_doc ();
-					XNode parent = get_elem ("James", doc);
-					XNode child = get_elem ("Harry", doc);
+					DomNode parent = get_elem ("James", doc);
+					DomNode child = get_elem ("Harry", doc);
 
 					assert (child.parent_node == null);
 					parent.append_child (child);
 					assert (child.parent_node == parent);
 
-					XNode attr = doc.create_attribute ("a");
+					DomNode attr = doc.create_attribute ("a");
 					assert (attr.parent_node == null);
 					assert (doc.parent_node == null);
 					// assert (document fragment's parent_node == null); // TODO
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -172,10 +172,10 @@ class XNodeTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/child_nodes", () => {
 				try {
 					Document doc = get_doc ();
-					XNode parent = get_elem ("Molly", doc);
-					XNode child_0 = get_elem ("Percy", doc);
-					XNode child_1 = get_elem ("Ron", doc);
-					XNode child_2 = get_elem ("Ginnie", doc);
+					DomNode parent = get_elem ("Molly", doc);
+					DomNode child_0 = get_elem ("Percy", doc);
+					DomNode child_1 = get_elem ("Ron", doc);
+					DomNode child_2 = get_elem ("Ginnie", doc);
 
 					assert (parent.child_nodes.length == 0);
 					parent.append_child (child_0);
@@ -184,7 +184,7 @@ class XNodeTest : GXmlTest {
 					assert (parent.child_nodes.length == 3);
 					assert (parent.child_nodes.nth_data (0) == child_0);
 					assert (parent.child_nodes.nth_data (2) == child_2);
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -192,10 +192,10 @@ class XNodeTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/first_child", () => {
 				try {
 					Document doc = get_doc ();
-					XNode parent = get_elem ("Molly", doc);
-					XNode child_0 = get_elem ("Percy", doc);
-					XNode child_1 = get_elem ("Ron", doc);
-					XNode child_2 = get_elem ("Ginnie", doc);
+					DomNode parent = get_elem ("Molly", doc);
+					DomNode child_0 = get_elem ("Percy", doc);
+					DomNode child_1 = get_elem ("Ron", doc);
+					DomNode child_2 = get_elem ("Ginnie", doc);
 
 					assert (parent.child_nodes.length == 0);
 					parent.append_child (child_0);
@@ -203,7 +203,7 @@ class XNodeTest : GXmlTest {
 					parent.append_child (child_2);
 
 					assert (parent.first_child == child_0);
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -211,10 +211,10 @@ class XNodeTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/last_child", () => {
 				try {
 					Document doc = get_doc ();
-					XNode parent = get_elem ("Molly", doc);
-					XNode child_0 = get_elem ("Percy", doc);
-					XNode child_1 = get_elem ("Ron", doc);
-					XNode child_2 = get_elem ("Ginnie", doc);
+					DomNode parent = get_elem ("Molly", doc);
+					DomNode child_0 = get_elem ("Percy", doc);
+					DomNode child_1 = get_elem ("Ron", doc);
+					DomNode child_2 = get_elem ("Ginnie", doc);
 
 					assert (parent.child_nodes.length == 0);
 					parent.append_child (child_0);
@@ -222,7 +222,7 @@ class XNodeTest : GXmlTest {
 					parent.append_child (child_2);
 
 					assert (parent.last_child == child_2);
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -230,10 +230,10 @@ class XNodeTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/previous_sibling", () => {
 				try {
 					Document doc = get_doc ();
-					XNode parent = get_elem ("Molly", doc);
-					XNode child_0 = get_elem ("Percy", doc);
-					XNode child_1 = get_elem ("Ron", doc);
-					XNode child_2 = get_elem ("Ginnie", doc);
+					DomNode parent = get_elem ("Molly", doc);
+					DomNode child_0 = get_elem ("Percy", doc);
+					DomNode child_1 = get_elem ("Ron", doc);
+					DomNode child_2 = get_elem ("Ginnie", doc);
 
 					assert (parent.child_nodes.length == 0);
 					parent.append_child (child_0);
@@ -243,7 +243,7 @@ class XNodeTest : GXmlTest {
 					assert (child_0.previous_sibling == null);
 					assert (child_1.previous_sibling == child_0);
 					assert (child_2.previous_sibling == child_1);
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -251,10 +251,10 @@ class XNodeTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/next_sibling", () => {
 				try {
 					Document doc = get_doc ();
-					XNode parent = get_elem ("Molly", doc);
-					XNode child_0 = get_elem ("Percy", doc);
-					XNode child_1 = get_elem ("Ron", doc);
-					XNode child_2 = get_elem ("Ginnie", doc);
+					DomNode parent = get_elem ("Molly", doc);
+					DomNode child_0 = get_elem ("Percy", doc);
+					DomNode child_1 = get_elem ("Ron", doc);
+					DomNode child_2 = get_elem ("Ginnie", doc);
 
 					assert (parent.child_nodes.length == 0);
 					parent.append_child (child_0);
@@ -264,7 +264,7 @@ class XNodeTest : GXmlTest {
 					assert (child_0.next_sibling == child_1);
 					assert (child_1.next_sibling == child_2);
 					assert (child_2.next_sibling == null);
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -272,15 +272,15 @@ class XNodeTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/attributes", () => {
 				try {
 					Document doc = get_doc ();
-					XNode elem = get_elem ("Hogwarts", doc);
-					XNode attr = get_attr ("Potter", "Lily", doc);
+					DomNode elem = get_elem ("Hogwarts", doc);
+					DomNode attr = get_attr ("Potter", "Lily", doc);
 
 					assert (elem.attributes != null);
 					assert (attr.attributes == null);
 
 					// TODO: test more
 					// TODO: test compatibility between live changes and stuff
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -289,11 +289,11 @@ class XNodeTest : GXmlTest {
 				try {
 					Document doc2 = get_doc ();
 					Document doc1 = get_doc ();
-					XNode elem = get_elem ("Malfoy", doc1);
+					DomNode elem = get_elem ("Malfoy", doc1);
 
 					assert (elem.owner_document == doc1);
 					assert (elem.owner_document != doc2);
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -301,10 +301,10 @@ class XNodeTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/insert_before", () => {
 				try {
 					Document doc = get_doc ();
-					XNode parent = get_elem ("Molly", doc);
-					XNode child_0 = get_elem ("Percy", doc);
-					XNode child_1 = get_elem ("Ron", doc);
-					XNode child_2 = get_elem ("Ginnie", doc);
+					DomNode parent = get_elem ("Molly", doc);
+					DomNode child_0 = get_elem ("Percy", doc);
+					DomNode child_1 = get_elem ("Ron", doc);
+					DomNode child_2 = get_elem ("Ginnie", doc);
 
 					assert (parent.child_nodes.length == 0);
 					parent.append_child (child_2);
@@ -323,7 +323,7 @@ class XNodeTest : GXmlTest {
 					assert (child_0.next_sibling == child_1);
 					assert (child_1.next_sibling == child_2);
 					assert (child_2.next_sibling == null);
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -333,10 +333,10 @@ class XNodeTest : GXmlTest {
 					// TODO: for this one, and others that include a ref_child, we want to test passing an irrelevant ref child and a null ref child
 
 					Document doc = get_doc ();
-					XNode parent = get_elem ("Molly", doc);
-					XNode child_0 = get_elem ("Percy", doc);
-					XNode child_1 = get_elem ("Ron", doc);
-					XNode child_2 = get_elem ("Ginnie", doc);
+					DomNode parent = get_elem ("Molly", doc);
+					DomNode child_0 = get_elem ("Percy", doc);
+					DomNode child_1 = get_elem ("Ron", doc);
+					DomNode child_2 = get_elem ("Ginnie", doc);
 
 					assert (parent.child_nodes.length == 0);
 					parent.append_child (child_0);
@@ -353,7 +353,7 @@ class XNodeTest : GXmlTest {
 					assert (child_1.previous_sibling == child_0);
 					assert (child_0.next_sibling == child_1);
 					assert (child_1.next_sibling == null);
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -361,10 +361,10 @@ class XNodeTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/remove_child", () => {
 				try {
 					Document doc = get_doc ();
-					XNode parent = get_elem ("Molly", doc);
-					XNode child_0 = get_elem ("Percy", doc);
-					XNode child_1 = get_elem ("Ron", doc);
-					XNode child_2 = get_elem ("Ginnie", doc);
+					DomNode parent = get_elem ("Molly", doc);
+					DomNode child_0 = get_elem ("Percy", doc);
+					DomNode child_1 = get_elem ("Ron", doc);
+					DomNode child_2 = get_elem ("Ginnie", doc);
 
 					assert (parent.child_nodes.length == 0);
 					parent.append_child (child_0);
@@ -400,7 +400,7 @@ class XNodeTest : GXmlTest {
 					assert (parent.first_child == null);
 					assert (parent.last_child == null);
 					assert (parent.child_nodes.length == 0);
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -408,10 +408,10 @@ class XNodeTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/append_child", () => {
 				try {
 					Document doc = get_doc ();
-					XNode parent = get_elem ("Molly", doc);
-					XNode child_0 = get_elem ("Percy", doc);
-					XNode child_1 = get_elem ("Ron", doc);
-					XNode child_2 = get_elem ("Ginnie", doc);
+					DomNode parent = get_elem ("Molly", doc);
+					DomNode child_0 = get_elem ("Percy", doc);
+					DomNode child_1 = get_elem ("Ron", doc);
+					DomNode child_2 = get_elem ("Ginnie", doc);
 
 					assert (parent.child_nodes.length == 0);
 					parent.append_child (child_0);
@@ -430,7 +430,7 @@ class XNodeTest : GXmlTest {
 					assert (child_0.next_sibling == child_1);
 					assert (child_1.next_sibling == child_2);
 					assert (child_2.next_sibling == null);
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -438,15 +438,15 @@ class XNodeTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/has_child_nodes", () => {
 				try {
 					Document doc = get_doc ();
-					XNode parent = get_elem ("Molly", doc);
-					XNode child_0 = get_elem ("Percy", doc);
+					DomNode parent = get_elem ("Molly", doc);
+					DomNode child_0 = get_elem ("Percy", doc);
 
 					assert (parent.has_child_nodes () == false);
 
 					parent.append_child (child_0);
 
 					assert (parent.has_child_nodes () == true);
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
