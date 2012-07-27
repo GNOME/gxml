@@ -39,7 +39,7 @@ AM_CFLAGS = \
 
 noinst_PROGRAMS = $(TEST_PROGS)
 
-TEST_PROGS = gxml_test
+TEST_PROGS += gxml_test
 
 VALAFLAGS = \
 	$(top_srcdir)/vapi/config.vapi \
@@ -48,7 +48,8 @@ VALAFLAGS = \
 	--pkg gio-2.0 \
 	--pkg gee-0.8 \
 	--pkg posix \
-	--pkg gxml \
+	--pkg gxml-0.2 \
+	--pkg libxml-2.0 \
 	$(NULL)
 
 gxml_test_VALASOURCES = \
@@ -92,7 +93,7 @@ include_HEADERS = \
 
 CLEANFILES += gxml_test
 
-EXTRA_DIST = \
+EXTRA_DIST += \
 	$(NULL)
 
 
