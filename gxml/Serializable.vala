@@ -55,7 +55,11 @@ namespace GXml {
 		}
 
 		/* Correspond to: g_object_{set,get}_property */
-		public abstract void get_property (GLib.ParamSpec spec, ref GLib.Value value);
-		public abstract void set_property (GLib.ParamSpec spec, GLib.Value value);
+		public virtual void get_property (GLib.ParamSpec spec, ref GLib.Value str_value) {
+			((GLib.Object)this).get_property (spec.name, ref str_value);
+		}
+		public virtual void set_property (GLib.ParamSpec spec, GLib.Value value) {
+			((GLib.Object)this).set_property (spec.name, value);
+		}
 	}
 }
