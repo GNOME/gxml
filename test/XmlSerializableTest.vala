@@ -179,7 +179,9 @@ public class SerializableBanana : GLib.Object, GXml.Serializable {
 		return null;
 	}
 
-	public void get_property (GLib.ParamSpec spec, ref GLib.Value value) {
+	public void get_property (GLib.ParamSpec spec, ref GLib.Value str_value) {
+		Value value = Value (typeof (int));
+
 		switch (spec.name) {
 		case "private-field":
 			value.set_int (this.private_field);
@@ -193,7 +195,13 @@ public class SerializableBanana : GLib.Object, GXml.Serializable {
 		case "public-property":
 			value.set_int (this.public_property);
 			break;
+		default:
+			((GLib.Object)this).get_property (spec.name, ref str_value);
+			return;
 		}
+
+		value.transform (ref str_value);
+		return;
 	}
 
 	public void set_property (GLib.ParamSpec spec, GLib.Value value) {
@@ -210,9 +218,12 @@ public class SerializableBanana : GLib.Object, GXml.Serializable {
 		case "public-property":
 			this.public_property = value.get_int ();
 			break;
+		default:
+			((GLib.Object)this).set_property (spec.name, value);
+			return;
 		}
 	}
-		
+
 }
 
 
