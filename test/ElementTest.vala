@@ -1,11 +1,11 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-using GXmlDom;
+using GXml;
 
-// namespace GXmlDom {
+// namespace GXml {
 // 	public class TestElement : Element {
 // 		public TestElement (Xml.Node *node, Document doc) {
 // 			/* /home2/richard/gxml/test/ElementTest.vala:7.4-7.19: error: chain up
-// 			   to `GXmlDom.Element' not supported */
+// 			   to `GXml.Element' not supported */
 // 			base (node, doc);
 // 		}
 // 	}
@@ -43,7 +43,7 @@ class ElementTest : GXmlTest  {
 					assert (node.prefix == "magic");
 					assert (node.local_name == "Potion");
 					assert (node.node_name == "Potion");
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -56,7 +56,7 @@ class ElementTest : GXmlTest  {
 					DomNode node = root.child_nodes.item (0);
 
 					assert (node.namespace_uri == "http://hogwarts.co.uk/magic");
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -79,7 +79,7 @@ class ElementTest : GXmlTest  {
 					// foreach (Attr attr in node.attributes.get_values ()) {
 					// 	message ("attrkey: %s, value: %s", attr.node_name, attr.node_value);
 					// }
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -91,7 +91,7 @@ class ElementTest : GXmlTest  {
 					DomNode node = root.child_nodes.item (0);
 
 					assert (node.prefix == "magic");
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -103,7 +103,7 @@ class ElementTest : GXmlTest  {
 					DomNode node = root.child_nodes.item (0);
 
 					assert (node.local_name == "Potion");
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -125,7 +125,7 @@ class ElementTest : GXmlTest  {
 					assert (namespaces.item (1).node_name == "products");
 					assert (namespaces.item (1).node_value == "http://diagonalley.co.uk/products");
 					assert (node.local_name == "Potion");
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -164,7 +164,7 @@ class ElementTest : GXmlTest  {
 					attributes.remove ("alley");
 					assert (elem.get_attribute ("alley") == "");
 
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -175,7 +175,7 @@ class ElementTest : GXmlTest  {
 		 * HashTable, and the document will have to re-sync
 		 * before stringifying (or saving)*/
 		Test.add_func ("/gxml/element/syncing_of_dirty_elements", () => {
-				HashTable<string,GXmlDom.Attr> attrs;
+				HashTable<string,GXml.Attr> attrs;
 				string str;
 
 				try {
@@ -186,7 +186,7 @@ class ElementTest : GXmlTest  {
 					}
 
 					str = doc.to_string ();
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -201,7 +201,7 @@ class ElementTest : GXmlTest  {
 					assert ("Malfoy" == elem.get_attribute ("name"));
 					elem.set_attribute ("name", "Lovegood");
 					assert ("Lovegood" == elem.get_attribute ("name"));
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -218,7 +218,7 @@ class ElementTest : GXmlTest  {
 					assert (null == elem.get_attribute_node ("name"));
 
 					// Consider testing default attributes (see Attr and specified)
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -230,7 +230,7 @@ class ElementTest : GXmlTest  {
 					assert (elem.get_attribute_node ("name") == null);
 					elem.set_attribute ("name", "Severus");
 					assert (elem.get_attribute_node ("name").value == "Severus");
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -251,7 +251,7 @@ class ElementTest : GXmlTest  {
 					assert (elem.get_attribute_node ("name").value == "Snape");
 					assert (elem.set_attribute_node (attr2).value == "Snape");
 					assert (elem.get_attribute_node ("name").value == "Moody");
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -273,7 +273,7 @@ class ElementTest : GXmlTest  {
 					assert (elem.remove_attribute_node (attr) == attr);
 					assert (elem.get_attribute_node ("name") == null);
 					assert (elem.get_attribute ("name") == "");
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -315,7 +315,7 @@ class ElementTest : GXmlTest  {
 					assert (text.node_value == "gweasley@hogwarts.co.uk");
 
 					// TODO: need to test that preorder traversal order is correct
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -424,7 +424,7 @@ class ElementTest : GXmlTest  {
 					// Test restoring subtree
 					bs.append_child (b4);
 					assert (ts.length == 11);
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -435,7 +435,7 @@ class ElementTest : GXmlTest  {
 					elem.normalize ();
 
 					// STUB
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -457,7 +457,7 @@ class ElementTest : GXmlTest  {
 					}
 
 					// TODO: want to test with format on and off
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}

@@ -1,5 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-using GXmlDom;
+using GXml;
 
 class DocumentTest : GXmlTest {
 	public static void add_tests () {
@@ -26,7 +26,7 @@ class DocumentTest : GXmlTest {
 					assert (impl.has_feature ("xml", "2.0") == false);
 					assert (impl.has_feature ("html") == false);
 					assert (impl.has_feature ("nonsense") == false);
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -38,7 +38,7 @@ class DocumentTest : GXmlTest {
 
 					assert (root.node_name == "Sentences");
 					assert (root.has_child_nodes ());
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -49,7 +49,7 @@ class DocumentTest : GXmlTest {
 					Document doc = get_doc ();
 
 					check_contents (doc);
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -78,7 +78,7 @@ class DocumentTest : GXmlTest {
 					assert (root.has_child_nodes () == true);
 					assert (root.first_child.node_name == "Apple");
 					assert (root.last_child.node_name == "Orange");
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -144,7 +144,7 @@ class DocumentTest : GXmlTest {
 						*/
 					} catch (DomError.INVALID_CHARACTER e) {
 					}
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -217,7 +217,7 @@ class DocumentTest : GXmlTest {
 ";
 					// TODO: want to find a way to flattern the string, strip whitespace
 					assert (doc.to_string () == expected);
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -229,7 +229,7 @@ class DocumentTest : GXmlTest {
 
 					assert (text.node_name == "#text");
 					assert (text.node_value == "Star of my dreams");
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -241,7 +241,7 @@ class DocumentTest : GXmlTest {
 
 					assert (comment.node_name == "#comment");
 					assert (comment.node_value == "Ever since the day we promised.");
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -253,7 +253,7 @@ class DocumentTest : GXmlTest {
 
 					assert (cdata.node_name == "#cdata-section");
 					assert (cdata.node_value == "put in real cdata");
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -267,7 +267,7 @@ class DocumentTest : GXmlTest {
 					assert (instruction.target == "target");
 					assert (instruction.data == "data");
 					assert (instruction.node_value == "data");
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -280,7 +280,7 @@ class DocumentTest : GXmlTest {
 					assert (attr.name == "attrname");
 					assert (attr.node_name == "attrname");
 					assert (attr.node_value == "");
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -292,7 +292,7 @@ class DocumentTest : GXmlTest {
 
 					assert (entity.node_name == "entref");
 					// TODO: think of at least one other smoke test
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -306,7 +306,7 @@ class DocumentTest : GXmlTest {
 					assert (((Element)elems.item (0)).content == "fweasley@hogwarts.co.uk");
 					/* more thorough test exists in Element, since right now
 					   Document uses that one */
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}
@@ -331,7 +331,7 @@ class DocumentTest : GXmlTest {
 </Sentences>
 ");
 					// TODO: want to test with format on and off
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}

@@ -1,5 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-using GXmlDom;
+using GXml;
 
 class NodeListTest : GXmlTest {
 	public static void add_tests () {

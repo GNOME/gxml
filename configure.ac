@@ -80,7 +80,7 @@ AM_CONDITIONAL(ENABLE_GI_SYSTEM_INSTALL, [test x"$enable_gi_system_install" = "x
 
 AC_OUTPUT([
 Makefile
-gxml/libgxmldom-0.2.pc
+gxml/libgxml.pc
 gxml/Makefile
 test/Makefile
 po/Makefile.in])

@@ -1,5 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-using GXmlDom;
+using GXml;
 
 class TextTest : GXmlTest {
 	public static void add_tests () {
@@ -46,7 +46,7 @@ class TextTest : GXmlTest {
 					assert (txt2.node_value == "Const");
 
 
-				} catch (GXmlDom.DomError e) {
+				} catch (GXml.DomError e) {
 					GLib.warning ("%s", e.message);
 					assert (false);
 				}

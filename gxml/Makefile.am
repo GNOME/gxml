@@ -86,7 +86,7 @@ include_HEADERS = \
 
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = libgxml-0.2.pc
+pkgconfig_DATA = libgxml.pc
 
 gxmlincludedir=$(includedir)/libgxml-0.2
 gxmlinclude_HEADERS= gxml.h
