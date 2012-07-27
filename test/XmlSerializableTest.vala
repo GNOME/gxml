@@ -161,8 +161,8 @@ public class SerializableBanana : GLib.Object, GXml.Serializable {
 			foreach (string name in new string[] { "private-field", "public-field", "private-property", "public-property" }) {
 				properties[i] = new ParamSpecInt (name, name, name, int.MIN, int.MAX, 0, ParamFlags.READABLE); // TODO: offer guidance for these fields, esp. ParamFlags
 				i++;
-				// TODO: does serialisation use anything other than ParamSpec.name? 
-			}			
+				// TODO: does serialisation use anything other than ParamSpec.name?
+			}
 		}
 		return this.properties;
 	}
