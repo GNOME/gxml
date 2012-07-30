@@ -1,7 +1,19 @@
 ## Process this file with automake to produce Makefile.in
 ## Created by Anjuta
 
+# What does this do? :D
+ACLOCAL_AMFLAGS = -I m4
+
 SUBDIRS = gxml test po
+
+if HAVE_VALADOC
+SUBDIRS += docs
+endif
+
+DISTCHECK_CONFIGURE_FLAGS = \
+	--enable-docs \
+	$(NULL)
+
 
 gxmldocdir = ${prefix}/doc/gxml
 gxmldoc_DATA = \
