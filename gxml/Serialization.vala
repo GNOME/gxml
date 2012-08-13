@@ -192,6 +192,7 @@ namespace GXml {
 				root = doc.create_element ("Object");
 				doc.append_child (root);
 				root.set_attribute ("otype", object.get_type ().name ());
+				root.set_attribute ("oid", "%p".printf (object));
 
 				/* TODO: make sure we don't use an out param for our returned list
 				   size in our interface's list_properties (), using
@@ -318,6 +319,7 @@ namespace GXml {
 			Element obj_elem;
 
 			string otype;
+			string oid;
 			Type type;
 			Object obj;
 			unowned ObjectClass obj_class;
@@ -326,6 +328,15 @@ namespace GXml {
 			Serializable serializable = null;
 
 			obj_elem = (Element)node;
+
+			oid = obj_elem.get_attribute ("oid");
+
+			if (Serialization.cache == null) {
+				Serialization.cache = new HashTable<string,Object> (str_hash, str_equal);
+			}
+			if (Serialization.cache.contains (oid)) {
+				return Serialization.cache.get (oid);
+			}
 
 			// Get the object's type
 			// TODO: wish there was a g_object_class_from_name () method
@@ -338,6 +349,8 @@ namespace GXml {
 			// Get the list of properties as ParamSpecs
 			obj = Object.newv (type, new Parameter[] {}); // TODO: causes problems with Enums when 0 isn't a valid enum value (e.g. starts from 2 or something)
 			obj_class = obj.get_class ();
+
+			cache.set (oid, obj);
 
 			if (type.is_a (typeof (Serializable))) {
 				serializable = (Serializable)obj;
