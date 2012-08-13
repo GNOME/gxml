@@ -1,25 +1,59 @@
+/*
+ * Copyright (C) 2012 Richard Schwarting
+ *
+ * This library is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 2.1 of the License, or
+ * (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors:
+ *       Richard Schwarting <aquarichy@gmail.com>
+ */
+ 
+/* TODO: so it seems we can get property information from GObjectClass
+   but that's about it.  Need to definitely use introspection for anything
+   tastier */
+/* TODO: document memory management for the C side */
+
 using GXml;
 
 [CCode (gir_namespace = "GXml", gir_version = "0.2")]
 namespace GXml {
+	/**
+	 * Errors from {@link Serialization}.
+	 */
 	public errordomain SerializationError {
+		/**
+		 * An object without a known {@link GLib.Type} was encountered.
+		 */
 		UNKNOWN_TYPE,
+		/**
+		 * A property was described in XML that is not known to the object's type.
+		 */
 		UNKNOWN_PROPERTY,
+		/**
+		 * An object with a known {@link GLib.Type} that we do not support was encountered.
+		 */
 		UNSUPPORTED_TYPE
 	}
 
 	/**
-	 * SECTION:gxml-serialization
-	 * @short_description: Provides functions for serializing GObjects.
-	 * @x-title:gxml-serialization
-	 * @section_id:
-	 * @see_also: #GXml, #GXmlDocument, #GObject
-	 * @stability: Unstable
-	 * @include: gxml/serialization.h
-	 * @image: library.png
+	 * Serializes and deserializes {@link GLib.Object}s to and from
+	 * {@link GXml.DomNode}.
 	 *
-	 * GXmlSerialization provides functions to serialize and
-	 * deserialize GObjects into and from GXmlDomNodes
+	 * Serialization can automatically serialize a variety of public
+	 * properties.  {@link GLib.Object}s can also implement the
+	 * {@link GXml.Serializable} to partially or completely manage
+	 * serialization themselves, including non-public properties or
+	 * data types not automatically supported by {@link GXml.Serialization}.
 	 */
 	public class Serialization : GLib.Object {
 		private static void print_debug (GXml.Document doc, GLib.Object object) {
@@ -43,8 +77,12 @@ namespace GXml {
 			}
 		}
 
-		// public delegate void GetProperty (GLib.ParamSpec spec, ref GLib.Value value);
-
+		/*
+		 * This coordinates the automatic serialization of individual
+		 * properties.  As of 0.2, it supports enums, anything that
+		 * {@link GLib.Value} can transform into a string, and
+		 * operates recursively.
+		 */
 		private static GXml.DomNode serialize_property (GLib.Object object, ParamSpec prop_spec, GXml.Document doc) throws SerializationError, DomError {
 			Type type;
 			Value value;
@@ -109,9 +147,29 @@ namespace GXml {
 			return value_node;
 		}
 
-		/* TODO: so it seems we can get property information from GObjectClass
-		   but that's about it.  Need to definitely use introspection for anything
-		   tastier */
+		/**
+		 * Serializes a {@link GLib.Object} into a {@link GXml.DomNode}.
+		 *
+		 * This takes a {@link GLib.Object} and serializes it into a
+		 * {@link GXml.DomNode} which can be saved to disk or
+		 * transferred over a network.  It handles serialization of
+		 * primitive properties and some more complex ones like enums,
+		 * other {@link GLib.Object}s recursively, and some collections.
+		 *
+		 * The serialization process can be customised for an object
+		 * by having the object implement the {@link GXml.Serializable}
+		 * interface, which allows direct control over the
+		 * conversation of individual properties into {@link GXml.DomNode}s
+		 * and the object's list of properties as used by
+		 * {@link GXml.Serialization}.
+		 *
+		 * A {@link GXml.SerializationError} may be thrown if there is
+		 * a problem serializing a property (e.g. the type is unknown,
+		 * unsupported, or the property isn't known to the object).
+		 *
+		 * @param object A {@link GLib.Object} to serialize
+		 * @return a {@link GXml.DomNode} representing the serialized `object`
+		 */
 		public static GXml.DomNode serialize_object (GLib.Object object) throws SerializationError {
 			Document doc;
 			Element root;
@@ -179,6 +237,12 @@ namespace GXml {
 			return doc.document_element; // user can get Document through .owner_document
 		}
 
+		/*
+		 * This handles deserializing properties individually.
+		 * Because {@link GLib.Value} doesn't handle transforming
+		 * strings back to other types, we use our own function to do
+		 * that.
+		 */
 		private static void deserialize_property (ParamSpec spec, Element prop_elem, out Value val) throws SerializationError {
 			Type type;
 
@@ -227,6 +291,29 @@ namespace GXml {
 			}
 		}
 
+		/*
+		 * This table is used while deserializing objects to avoid
+		 * creating duplicate objects when we encounter multiple
+		 * references to a single serialized object.
+		 * 
+		 * TODO: one problem, if you deserialize two XML structures,
+		 * some differing objects might have the same OID :( Need to
+		 * find make it more unique than just the memory address. */
+		private static HashTable<string,Object> cache = null;
+
+		/**
+		 * Deserialize a {@link GXml.DomNode} back into a {@link GLib.Object}.
+		 *
+		 * This deserializes a {@link GXml.DomNode} back into a {@link GLib.Object}.  The
+		 * {@link GXml.DomNode} must represented a {@link GLib.Object} as serialized by
+		 * {@link GXml.Serialization}.  The types of the objects that are
+		 * being deserialized must be known to the system
+		 * deserializing them or a {@link GXml.SerializationError} will
+		 * result.
+		 *
+		 * @param node {@link GXml.DomNode} representing a {@link GLib.Object}
+		 * @return the deserialized {@link GLib.Object}
+		 */
 		public static GLib.Object deserialize_object (DomNode node) throws SerializationError {
 			Element obj_elem;
 
@@ -313,6 +400,23 @@ namespace GXml {
 		/* TODO:
 		 * - can't seem to pass delegates on struct methods to another function :(
 		 * - no easy string_to_gvalue method in GValue :(
+		 */
+
+		/**
+		 * Transforms a string into another type hosted by {@link GLib.Value}.
+		 *
+		 * A utility function that handles converting a string
+		 * representation of a value into the type specified by the
+		 * supplied #GValue dest.  A #GXmlSerializationError will be
+		 * set if the string cannot be parsed into the desired type.
+		 *
+		 * @param str the string to transform into the given #GValue object
+		 * @param dest the #GValue out parameter that will contain the parsed value from the string
+		 * @return `true` if parsing succeeded, otherwise `false`
+		 */
+		/*
+		 * @todo: what do functions written in Vala return in C when
+		 * they throw an exception?  NULL/0/FALSE?
 		 */
 		public static bool string_to_gvalue (string str, ref GLib.Value dest) throws SerializationError {
 			Type t = dest.type ();
