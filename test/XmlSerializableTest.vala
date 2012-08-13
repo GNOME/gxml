@@ -372,6 +372,25 @@ public class ComplexSimpleProperties : GLib.Object {
  	}
 }
 
+public class ComplexDuplicateProperties : GLib.Object {
+	public SimpleProperties a { get; set; }
+	public SimpleProperties b { get; set; }
+
+	public string to_string () {
+		return "ComplexDuplicateProperties: a[%s] b[%s]".printf (a.to_string (), b.to_string ());
+	}
+
+	public ComplexDuplicateProperties (SimpleProperties simple) {
+		this.a = simple;
+		this.b = simple;
+	}
+
+	public static bool equals (ComplexDuplicateProperties cdp_a, ComplexDuplicateProperties cdp_b) {
+		return (SimpleProperties.equals (cdp_a.a, cdp_b.a) &&
+			SimpleProperties.equals (cdp_a.b, cdp_b.b));
+ 	}
+}
+
 public class ComplexComplexProperties : GLib.Object {
 	public ComplexSimpleProperties complex_simple { get; set; }
 
@@ -448,20 +467,30 @@ class XmlSerializableTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/xml_serialize", () => {
 				Fruit fruit;
 				GXml.DomNode fruit_xml;
+				string expectation;
+				Regex regex;
+
+				/* TODO: This test should change once we can serialise fields
+				   and private properties */
+				expectation = "<Object otype=\"Fruit\" oid=\"0x[0-9a-f]+\"><Property pname=\"age\" ptype=\"gint\">9</Property></Object>";
 
 				fruit = new Fruit ();
 				fruit.name = "fish";
 				fruit.age = 3;
+
 				try {
 					fruit_xml = Serialization.serialize_object (fruit);
 
-					// TODO: This test currently should change once we can serialise fields and private properties
-					string expectation = "<Object otype=\"Fruit\"><Property pname=\"age\" ptype=\"gint\">9</Property></Object>";
-					if (expectation != fruit_xml.to_string ()) {
+					regex = new Regex (expectation);
+					if (! regex.match (fruit_xml.to_string ())) {
 						GLib.warning ("Expected [%s] but found [%s]",
 							      expectation, fruit_xml.to_string ());
 						GLib.Test.fail ();
 					}
+				} catch (RegexError e) {
+					GLib.warning ("Regular expression [%s] for test failed: %s",
+						      expectation, e.message);
+					GLib.Test.fail ();
 				} catch (GXml.SerializationError e) {
 					GLib.warning ("%s", e.message);
 					GLib.Test.fail ();
@@ -473,6 +502,11 @@ class XmlSerializableTest : GXmlTest {
 
 				Fruit fruit;
 				GXml.DomNode fruit_xml;
+				string expectation;
+				Regex regex;
+
+				expectation = "<Object otype=\"Fruit\" oid=\"0x[0-9a-f]+\"><Property pname=\"colour\">blue</Property><Property pname=\"weight\">9</Property><Property pname=\"name\">fish</Property><Property pname=\"age\" ptype=\"gint\">3</Property></Object>";
+				 // weight expected to be 9 because age sets it *3
 
 				fruit = new Fruit ();
 				fruit.set_all ("blue", 11, "fish", 3);
@@ -480,21 +514,28 @@ class XmlSerializableTest : GXmlTest {
 				try {
 					fruit_xml = Serialization.serialize_object (fruit);
 
-					string expectation = "<Object otype=\"Fruit\"><Property pname=\"colour\">blue</Property><Property pname=\"weight\">9</Property><Property pname=\"name\">fish</Property><Property pname=\"age\" ptype=\"gint\">3</Property></Object>";
-					if (expectation != fruit_xml.to_string ()) { // weight expected to be 3 because age sets it *3
+					regex = new Regex (expectation);
+					if (! regex.match (fruit_xml.to_string ())) {
 						GLib.warning ("Expected [%s] but found [%s]",
 							      expectation, fruit_xml.to_string ());
 						GLib.Test.fail ();
 					}
+				} catch (RegexError e) {
+					GLib.warning ("Regular expression [%s] for test failed: %s",
+						      expectation, e.message);
+					GLib.Test.fail ();
 				} catch (GXml.SerializationError e) {
 					GLib.warning ("%s", e.message);
 					GLib.Test.fail ();
 				}
 			});
 		Test.add_func ("/gxml/domnode/xml_deserialize", () => {
+				Document doc;
+				Fruit fruit;
+
 				try {
-					Document doc = new Document.from_string ("<Object otype='Fruit'><Property pname='age' ptype='gint'>3</Property></Object>");
-					Fruit fruit = (Fruit)Serialization.deserialize_object (doc.document_element);
+					doc = new Document.from_string ("<Object otype='Fruit'><Property pname='age' ptype='gint'>3</Property></Object>");
+					fruit = (Fruit)Serialization.deserialize_object (doc.document_element);
 
 					// we expect 9 because Fruit triples it in the setter
 					if (fruit.age != 9) {
@@ -647,6 +688,28 @@ class XmlSerializableTest : GXmlTest {
 
 				test_serialization_deserialization (obj, "complex_simple_properties", (GLib.EqualFunc)ComplexSimpleProperties.equals, (StringifyFunc)ComplexSimpleProperties.to_string);
 			});
+		Test.add_func ("/gxml/serialization/complex_duplicate_properties", () => {
+				/* This tests the case where the same object is referenced multiple
+				   times during serialisation; we want to deserialise it to just
+				   one object, rather than creating a new object for each reference. */
+
+				SimpleProperties simple_properties;
+				ComplexDuplicateProperties obj;
+				ComplexDuplicateProperties restored;
+				GXml.DomNode xml;
+
+				simple_properties = new SimpleProperties (3, 4.2, "catfish", true, 0);
+				obj = new ComplexDuplicateProperties (simple_properties);
+
+				xml = Serialization.serialize_object (obj);
+
+				restored = (ComplexDuplicateProperties)Serialization.deserialize_object (xml);
+
+				if (restored.a != restored.b) {
+					GLib.message ("Properties a (%p) and b (%p) should reference the same object but do not", restored.a, restored.b);
+					GLib.Test.fail ();
+				}
+			});
 		Test.add_func ("/gxml/serialization/complex_complex_properties", () => {
 				ComplexComplexProperties obj;
 				SimpleProperties simple_properties;
@@ -673,7 +736,8 @@ class XmlSerializableTest : GXmlTest {
 				GXml.DomNode node;
 				SerializableCapsicum capsicum;
 				SerializableCapsicum capsicum_new;
-				string expected;
+				string expectation;
+				Regex regex;
 				GLib.List<int> ratings;
 
 				ratings = new GLib.List<int> ();
@@ -684,17 +748,25 @@ class XmlSerializableTest : GXmlTest {
 				capsicum = new SerializableCapsicum (2, 3, 5, ratings);
 				node = Serialization.serialize_object (capsicum);
 
-				expected = "<Object otype=\"SerializableCapsicum\"><Property pname=\"height\" ptype=\"gint\">6</Property><Property pname=\"ratings\" ptype=\"gpointer\"><rating>8</rating><rating>13</rating><rating>21</rating></Property></Object>";
-				if (node.to_string () != expected) {
-					GLib.warning ("Did not serialize as expected.  Got [%s] but expected [%s]", node.to_string (), expected);
-					GLib.Test.fail ();
-				}
+				expectation = "<Object otype=\"SerializableCapsicum\" oid=\"0x[0-9a-f]+\"><Property pname=\"height\" ptype=\"gint\">6</Property><Property pname=\"ratings\" ptype=\"gpointer\"><rating>8</rating><rating>13</rating><rating>21</rating></Property></Object>";
 
-				capsicum_new = (SerializableCapsicum)Serialization.deserialize_object (node);
-				if (capsicum_new.height != 5 || ratings.length () != 3 || ratings.nth_data (0) != 8 || ratings.nth_data (2) != 21) {
-					GLib.warning ("Did not deserialize as expected.  Got [%s] but expected height and ratings from [%s]", capsicum_new.to_string (), capsicum.to_string ());
+				try {
+					regex = new Regex (expectation);
+					if (! regex.match (node.to_string ())) {
+						GLib.warning ("Did not serialize as expected.  Got [%s] but expected [%s]", node.to_string (), expectation);
+						GLib.Test.fail ();
+					}
+					
+					capsicum_new = (SerializableCapsicum)Serialization.deserialize_object (node);
+					if (capsicum_new.height != 5 || ratings.length () != 3 || ratings.nth_data (0) != 8 || ratings.nth_data (2) != 21) {
+						GLib.warning ("Did not deserialize as expected.  Got [%s] but expected height and ratings from [%s]", capsicum_new.to_string (), capsicum.to_string ());
+						GLib.Test.fail ();
+					}
+				} catch (RegexError e) {
+					GLib.warning ("Regular expression [%s] for test failed: %s",
+						      expectation, e.message);
 					GLib.Test.fail ();
-				}
+				}					
 			});
 		Test.add_func ("/gxml/serialization/interface_override_properties", () => {
 				SerializableBanana banana = new SerializableBanana (17, 19, 23, 29);
