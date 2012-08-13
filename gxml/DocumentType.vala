@@ -23,7 +23,7 @@ namespace GXml {
 		/**
 		 * That which follows DOCTYPE, like 'xml' or 'html', For example, the name
 		 * 'html' exists for a document with the XML doctype
-		 * declaration of {{{ <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> }}}
+		 * declaration of {{{ &lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> }}}
 		*/
 		public string name {
 			get {

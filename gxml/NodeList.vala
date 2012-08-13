@@ -28,7 +28,7 @@ namespace GXml {
 		 * TODO: figure out how to require this as a property; maybe have to make it into a method
 		 */
 
-		/*** GNOME List conventions ***
+		/* ** GNOME List conventions ***
 		 * Probably don't want to keep all of them since they're not all relevant.
 		 */
 		/**
@@ -212,7 +212,7 @@ namespace GXml {
 			return str;
 		}
 
-		/*** Traversable methods ***/
+		/* ** Traversable methods ** */
 
 		/* TODO: Verify that relying on these *_impl methods is appropriate */
 		public Iterator<DomNode> chop (int offset, int length = -1) {
@@ -229,7 +229,7 @@ namespace GXml {
 			return Iterator.stream_impl<DomNode, A> (this.iterator (), f);
 		}
 
-		/*** Iterable methods ***/
+		/* ** Iterable methods ***/
 		public GLib.Type element_type {
 			get {
 				return typeof (DomNode);
@@ -280,7 +280,7 @@ namespace GXml {
 				this.next_node = this.cur.next;
 			}
 
-			/*** Traversable methods ***/
+			/* ** Traversable methods ** */
 
 			public override void foreach (ForallFunc<DomNode> f) {
 				/* TODO: we need to iterate over the items in the iterator,
@@ -618,7 +618,7 @@ namespace GXml {
 			return _str;
 		}
 
-		/*** Traversable methods ***/
+		/* ** Traversable methods ***/
 
 		/* TODO: Verify that relying on these *_impl methods is appropriate */
 		public Iterator<DomNode> chop (int offset, int length = -1) {
@@ -634,7 +634,7 @@ namespace GXml {
 			return Iterator.stream_impl<DomNode, A> (this.iterator (), f);
 		}
 
-		/*** NodeListIterator ***/
+		/* ** NodeListIterator ***/
 
 		private class NodeListIterator : GenericNodeListIterator {
 			private Document doc;
@@ -651,7 +651,7 @@ namespace GXml {
 				this.doc = list.owner;
 			}
 
-			/*** model-specific methods ***/
+			/* ** model-specific methods ***/
 
 			protected override DomNode get_current () {
 				return this.doc.lookup_node (this.cur);
@@ -666,7 +666,7 @@ namespace GXml {
 				this.next_node = cur->next;
 			}
 
-			/*** Traversable methods ***/
+			/* ** Traversable methods ***/
 
 			public override void foreach (ForallFunc<DomNode> f) {
 				/* TODO: we need to iterate over the items in the iterator,
@@ -685,12 +685,12 @@ namespace GXml {
 		}
 	}
 
-	public abstract class GenericNodeListIterator : Gee.Traversable<DomNode>, Gee.Iterator<DomNode>, GLib.Object {
+	private abstract class GenericNodeListIterator : Gee.Traversable<DomNode>, Gee.Iterator<DomNode>, GLib.Object {
 		protected abstract DomNode get_current ();
 		protected abstract bool is_empty ();
 		protected abstract void advance ();
 
-		/*** Traversable methods ***/
+		/* ** Traversable methods ***/
 
 		public Gee.Iterator<DomNode> chop (int offset, int length = -1) {
 			/* TODO: is this how the *_impl static methods in Iterator and
@@ -712,7 +712,7 @@ namespace GXml {
 
 		public abstract void foreach (ForallFunc<DomNode> f);
 
-		/*** Iterator methods ***/
+		/* ** Iterator methods ***/
 
 		/**
 		 * Obtain the current DomNode in the iteration.

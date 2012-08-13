@@ -1,15 +1,16 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 namespace GXml {
 	/**
-	 * The content referenced by an EntityReference, and defined
-	 * in a DocumentType.
+	 * The content referenced by an {@link GXml.EntityReference}, and defined
+	 * in a {@link GXml.DocumentType}.
+	 * 
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-11C98490]]
 	 */
 	public class Entity : DomNode {
 		private Xml.Entity *entity;
 
 		/**
-		 * A public identifier for the entity. null when unspecified.
+		 * A public identifier for the entity. `null` when unspecified.
 		 */ // TODO: how are these used?
 		public string public_id {
 			get {
@@ -20,7 +21,7 @@ namespace GXml {
 			}
 		}
 		/**
-		 * A system identifier for the entity. null when unspecified.
+		 * A system identifier for the entity. `null` when unspecified.
 		 */
 		public string system_id {
 			get {
@@ -32,7 +33,7 @@ namespace GXml {
 		}
 		/**
 		 * The notation name for this entity if it is
-		 * unparsed. This is null if the entity is parsed.
+		 * unparsed. This is `null` if the entity is parsed.
 		 */
 		public string notation_name {
 			get {

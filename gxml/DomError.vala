@@ -1,20 +1,16 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
-/* implements DomException
-   note usage at:
-   http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-BBACDC08 */
-namespace GXml {
+/**
+ * Describes various error states. For more, see
+ * [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-BBACDC08]]
+ */
+public errordomain GXml.DomError {
+	/* These error codes are from the IDL: TODO: find out when I should use them */
+	/* TODO: probably want to document them :) */
 	/**
-	 * Describes various error states. For more, see
-	 * [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-BBACDC08]]
+	 * An index or size is out of range, like less than 0 or exceeding some upper bound.
 	 */
-	public errordomain DomError {
-		/* These error codes are from the IDL: TODO: find out when I should use them */
-		/* TODO: probably want to document them :) */
-		/**
-		 * An index or size is out of range, like less than 0 or exceeding some upper bound.
-		 */
-		INDEX_SIZE,
+	INDEX_SIZE,
 		/**
 		 * Text exceeds the maximum size supported in our string implementation.
 		 */ // TODO: figure out what the limits of strings are in vala
@@ -66,5 +62,4 @@ namespace GXml {
 		 * A document lacked a root element.
 		 */
 		INVALID_ROOT
-	}
 }

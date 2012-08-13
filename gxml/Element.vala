@@ -172,7 +172,7 @@ namespace GXml {
 		 * attribute associated with this element with the
 		 * name name.
 		 *
-		 * @param The name of the attribute whose value to retrieve.
+		 * @param name The name of the attribute whose value to retrieve.
 		 *
 		 * @return The value of the named attribute, or "" if
 		 * no such attribute is set.
@@ -234,7 +234,7 @@ namespace GXml {
 		/**
 		 * Set the attribute in Attr for this element.
 		 *
-		 * @param Attr The attribute to set.
+		 * @param new_attr The attribute to set.
 		 *
 		 * @return If an Attr with the same name exists, it
 		 * is replaced and the old Attr is returned.

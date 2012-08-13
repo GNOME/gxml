@@ -197,10 +197,11 @@ namespace GXml {
 			internal set {}
 		}
 		/**
-		 * Returns a HashTable representing the attributes for
-		 * this node. Attributes actually only apply to
-		 * Element nodes. For all other types, attributes is
-		 * null.
+		 * A {@link GLib.HashTable} representing the
+		 * attributes for this node. `attributes` actually
+		 * only apply to {@link GXml.Element} nodes. For all
+		 * other {@link GXml.DomNode} subclasses, `attributes`
+		 * is null.
 		 */
 		public virtual HashTable<string,Attr>? attributes {
 			get { return null; }

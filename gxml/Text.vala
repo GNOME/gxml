@@ -3,6 +3,8 @@ namespace GXml {
 	/* TODO: do we really want a text node, or just use strings? */
 
 	/**
+	 * Text children of an element, not the tags or attributes.
+	 *
 	 * Describes the text found as children of elements throughout
 	 * an XML document, like "He who must not be named" in the
 	 * XML: {{{<name>He who must not be named</name>}}}

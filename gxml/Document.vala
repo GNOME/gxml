@@ -39,10 +39,11 @@ namespace GXml {
 	}
 
 	/**
-	 * Represents an XML Document as a tree of nodes. The Document
-	 * has a document element, which is the root of the tree. A
-	 * Document can have its type defined by a DocumentType. For
-	 * more, see:
+	 * Represents an XML Document as a tree of {@link GXml.DomNode}s.
+	 *
+	 * The Document has a document element, which is the root of
+	 * the tree. A Document can have its type defined by a
+	 * {@link GXml.DocumentType}. For more, see:
 	 * [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#i-Document]]
 	 */
 	public class Document : DomNode {
@@ -483,8 +484,8 @@ namespace GXml {
 		}
 		/**
 		 * Creates an entity reference. XML example:
-		 * {{{&name;
-		 * &apos;}}}
+		 * {{{&amp;name;
+		 * &amp;apos;}}}
 		 */
 		public EntityReference create_entity_reference (string name) throws DomError {
 			check_html ("entity reference"); // TODO: i18n
