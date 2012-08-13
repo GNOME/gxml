@@ -1,0 +1,2 @@
+The best way to debug GXml is to write tests for it.  There are a lot
+of unit tests already.  Feel free to add more.

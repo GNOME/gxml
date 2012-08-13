@@ -1,0 +1,3 @@
+GXml primarily provides a DOM tree representation of an XML structure.
+It also provides serialization services through the GXml.Serialization
+class and the GXml.Serializable interface.

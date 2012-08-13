@@ -73,11 +73,7 @@ PKG_CHECK_MODULES(GIO, $GIO_MODULES)
 AC_SUBST(GIO_CFLAGS)
 AC_SUBST(GIO_LIBS)
 
-dnl Check for GObject Introspection
-GOBJECT_INTROSPECTION_CHECK([0.6.7])
-
-
-
+dnl Documentation
 AC_ARG_ENABLE([docs],
               AS_HELP_STRING([--enable-docs],[Enable documentation generation]),
 	      [enable_docs=$enableval], [enable_docs=no])
@@ -96,7 +92,8 @@ if test "x$enable_docs" = "xyes" -a "x$have_valadoc" != "xyes"; then
   AC_MSG_ERROR([Doc building requested for valadoc but not installed.])
 fi
 
-
+dnl Check for GObject Introspection
+GOBJECT_INTROSPECTION_CHECK([0.6.7])
 
 AC_ARG_ENABLE([gi-system-install],
     AS_HELP_STRING([--enable-gi-system-install], [Install GObject Introspection files along with system installed files [default=yes]]),
@@ -114,6 +111,7 @@ po/Makefile.in])
 dnl Print configuration summary
 echo ""
 echo " Configuration summary for GXml"
-echo "   Installation prefix = $prefix"
-echo "   Enable GObject Introspection System Install: `if test x$enable_gi_system_install != xno; then echo yes; else echo no; fi`"
+echo "   Installation prefix:                          $prefix"
+echo "   Enable GObject Introspection System Install:  `if test x$enable_gi_system_install != xno; then echo yes; else echo no; fi`"
+echo "   Documentation:                                ${have_valadoc}"
 echo ""
