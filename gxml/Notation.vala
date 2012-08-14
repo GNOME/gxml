@@ -2,6 +2,8 @@
 namespace GXml {
 	// TODO: see if we can actually support these via libxml2, I can't seem to get to them through Xml.DTD
 	/**
+	 * Used in defining {@link GXml.DocumentType}s to declare the format of {@link GXml.Entity} and {@link GXml.ProcessingInstruction}s.
+	 *
 	 * Used collectively in defining DocumentTypes. A Notation can
 	 * declare the format of unparsed entities or
 	 * ProcessingInstruction targets.

@@ -5,9 +5,10 @@
 namespace GXml {
 	/**
 	 * An internal class for nodes whose content is stored in a
-	 * corresponding Xml.Node. This would normally be hidden, but
-	 * Vala wants base classes to be at least as public as
-	 * subclasses.
+	 * corresponding Xml.Node.
+	 *
+	 * This would normally be hidden, but Vala wants base classes
+	 * to be at least as public as subclasses.
 	 */
 	public class BackedNode : DomNode {
 		/** Private properties */

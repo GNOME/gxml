@@ -15,10 +15,14 @@
 [CCode (gir_namespace = "GXml", gir_version = "0.2")]
 namespace GXml {
 	/**
-	 * Represents an XML Attr node. These represent name=value
-	 * attributes associated with XML Elements. Values are often
-	 * represented as strings but can also be subtrees for some
-	 * Nodes.  For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-637646024]]
+	 * Represents an XML Attr node, a name=value pair.
+	 *
+	 * To create one, use {@link GXml.Document.create_attribute}.
+	 *
+	 * These represent name=value attributes associated with XML
+	 * {@link GXml.Element}s. Values are often represented as strings but can
+	 * also be more complex subtrees for some nodes.  For more, see:
+	 * [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-637646024]]
 	 */
 	public class Attr : DomNode {
 		/**

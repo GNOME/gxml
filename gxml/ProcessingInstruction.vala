@@ -6,10 +6,15 @@ namespace GXml {
 
 	/**
 	 * Stores processor-specific information with the document in
-	 * a textual format. For example, with XML stylesheets:
-	 * {{{<?xml-stylesheet href="style.xsl" type="text/xml"?>}}}
+	 * a textual format.
+	 *
+	 * To create one, use {@link GXml.Document.create_processing_instruction}.
+	 *
+	 * For an example of a ProcessingInstruction, this one specifies a stylesheet:
+	 * {{{&lt;?xml-stylesheet href="style.xsl" type="text/xml"?>}}}
+	 * 
 	 * The general form is
-	 * {{{<?pi_target processing instruction data?>}}}
+	 * {{{&lt;?pi_target processing instruction data?>}}}
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1004215813]]
 	 */
 	public class ProcessingInstruction : DomNode {

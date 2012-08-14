@@ -409,7 +409,7 @@ namespace GXml {
 		/* Public Methods */
 		/**
 		 * Creates an empty Element node with the tag name
-		 * tag_name. XML example: {{{<Person></Person>}}}
+		 * tag_name. XML example: {{{&lt;Person>&lt;/Person>}}}
 		 */
 		public Element create_element (string tag_name) throws DomError {
 			/* TODO: libxml2 doesn't complain about invalid names, but the spec
@@ -432,13 +432,13 @@ namespace GXml {
 		/**
 		 * Creates a text node containing the text in data.
 		 * XML example:
-		 * {{{<someElement>Text is contained here.</someElement>}}}
+		 * {{{&lt;someElement>Text is contained here.&lt;/someElement>}}}
 		 */
 		public Text create_text_node (string data) {
 			return new Text (this.xmldoc->new_text (data), this);
 		}
 		/**
-		 * Creates an XML comment with data. XML example: {{{<!-- data -->}}}
+		 * Creates an XML comment with data. XML example: {{{&lt;!-- data -->}}}
 		 */
 		public Comment create_comment (string data) {
 			return new Comment (this.xmldoc->new_comment (data), this);
@@ -447,7 +447,7 @@ namespace GXml {
 		/**
 		 * Creates a CDATA section containing data. XML
 		 * example:
-		 * {{{ <![CDATA[Here contains non-XML data, like
+		 * {{{ &lt;![CDATA[Here contains non-XML data, like
 		 * code, or something that requires a lot of special
 		 * XML entities.]]>. }}}
 		 */
@@ -459,8 +459,8 @@ namespace GXml {
 		}
 		/**
 		 * Creates a Processing Instructions. XML example:
-		 * {{{<?pi_target processing instruction data?>
-		 * <?xml-stylesheet href="style.xsl" type="text/xml"?>}}}
+		 * {{{&lt;?pi_target processing instruction data?>
+		 * &lt;?xml-stylesheet href="style.xsl" type="text/xml"?>}}}
 		 */
 		public ProcessingInstruction create_processing_instruction (string target, string data) throws DomError {
 			check_html ("processing instructions"); // TODO: i18n

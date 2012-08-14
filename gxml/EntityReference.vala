@@ -5,8 +5,13 @@ namespace GXml {
 	//       may not even need it while based on libxml2
 	// It's possible that libxml2 already expands entity references and that this class
 	// won't be used
+
 	/**
-	 * A reference to an unparsed entity, like "&apos;" for an apostrophe.
+	 * A reference to an unparsed {@link GXml.Entity}, like "&apos;" for an apostrophe.
+	 *
+	 * To create one, use {@link GXml.Document.create_entity_reference}.
+	 *
+	 * The entity name, e.g. "apos", is stored as the EntityReference's `node_name`.
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-11C98490]]
 	 */
 	// TODO: make sure that character entity references (like the one used in the example above, are valid

@@ -1,8 +1,12 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 namespace GXml {
 	/**
-	 * CharacterData defines an interface for manipulating XML character data. It is used by
-	 * the CDATASection, Text, and Comment node types. For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-FF21A306]]
+	 * CharacterData defines an interface for manipulating XML character data.
+	 *
+	 * It is used by the {@link GXml.CDATASection},
+	 * {@link GXml.Text}, and {@link GXml.Comment} node types. For more,
+	 * see:
+	 * [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-FF21A306]]
 	 */
 	public class CharacterData : BackedNode {
 		/**

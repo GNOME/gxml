@@ -3,7 +3,11 @@ namespace GXml {
 	// TODO: figure out how to create this; Xml.Doc doesn't have new_element()
 
 	/**
-	 * Represent an XML Element node. These can have child nodes
+	 * Represent an XML Element node, which have attributes and children.
+	 * 
+	 * To create one, use {@link GXml.Document.create_element}.
+	 *
+	 * These can have child nodes
 	 * of various types including other Elements. Elements can
 	 * have Attr attributes associated with them. Elements have
 	 * tag names. In addition to methods inherited from DomNode,
@@ -19,10 +23,10 @@ namespace GXml {
 		/**
 		 * The element's tag_name. Multiple elements can have
 		 * the same tag name in a document. XML example:
-		 * {{{<photos>
-		 *   <img src="..." />
-		 *   <img src="..." />
-		 * </photos>}}}
+		 * {{{&lt;photos>
+		 *   &lt;img src="..." />
+		 *   &lt;img src="..." />
+		 * &lt;/photos>}}}
 		 * In this example, photos and img are tag names.
 		 */
 		public string tag_name {
@@ -453,14 +457,14 @@ namespace GXml {
 		// /**
 		//  * This is a convenience method for Elements, mostly
 		//  * useful when you know a given element's children are
-		//  * only Text. With the example {{{<shops><shop
-		//  * id="1">Eeylops Owl Emporium</shop><shop
-		//  * id="2">Obscurus Books</shop></shops>}}} taking the
+		//  * only Text. With the example {{{&lt;shops>&lt;shop
+		//  * id="1">Eeylops Owl Emporium&lt;/shop>&lt;shop
+		//  * id="2">Obscurus Books&lt;/shop>&lt;/shops>}}} taking the
 		//  * node for the shop element with id 1 and using this
 		//  * method, you would get back "Eeylops Owl Emporiums".
 		//  * If you used it on the shops element, you'd get
-		//  * '<shop id="1">Eeylops Owl Emporium</shop><shop
-		//  * id="2">Obscurus Books</shop>'
+		//  * {{{&lt;shop id="1">Eeylops Owl Emporium&lt;/shop>&lt;shop
+		//  * id="2">Obscurus Books&lt;/shop>}}}
 		//  *
 		//  * @return XML string of child contents
 		//  */
@@ -471,14 +475,14 @@ namespace GXml {
 		/**
 		 * This is a convenience property for Elements, mostly
 		 * useful when you know a given element's children are
-		 * only Text. With the example {{{<shops><shop
-		 * id="1">Eeylops Owl Emporium</shop><shop
-		 * id="2">Obscurus Books</shop></shops>}}} taking the
+		 * only Text. With the example {{{&lt;shops>&lt;shop
+		 * id="1">Eeylops Owl Emporium&lt;/shop>&lt;shop
+		 * id="2">Obscurus Books&lt;/shop>&lt;/shops>}}} taking the
 		 * node for the shop element with id 1 and using this
 		 * method, you would get back "Eeylops Owl Emporiums".
 		 * If you used it on the shops element, you'd get
-		 * '<shop id="1">Eeylops Owl Emporium</shop><shop
-		 * id="2">Obscurus Books</shop>'
+		 * {{{&lt;shop id="1">Eeylops Owl Emporium&lt;/shop>&lt;shop
+		 * id="2">Obscurus Books&lt;/shop>}}}
 		 */
 		// TODO: add test
 		public string content {

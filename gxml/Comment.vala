@@ -4,11 +4,13 @@
 /**
  * An XML comment.
  *
+ * To create one, use {@link GXml.Document.create_comment}.
+ *
  * An XML example looks like: {{{
- * <someNode>
+ * &lt;someNode>
  *    &lt;!-- this is a comment -->
  *    text in the node
- *  </someNode> }}}
+ *  &lt;/someNode> }}}
  * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1728279322]]
  */
 public class GXml.Comment : GXml.CharacterData {

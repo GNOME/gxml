@@ -1,7 +1,9 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 namespace GXml {
 	/**
-	 * Represents an XML Namespace Attr node. These represent
+	 * Represents an XML Namespace Attr node.
+	 * 
+	 * These represent
 	 * prefix=uri pairs that define namespaces for XML Elements
 	 * and Attrs.
 	 */
@@ -21,7 +23,7 @@ namespace GXml {
 
 		/**
 		 * The prefix that this xmlns attribute defines. So,
-		 * if the element was like {{{<Fish xmlns:foods="http://fishies.org/foods" />}}}, the
+		 * if the element was like {{{&lt;Fish xmlns:foods="http://fishies.org/foods" />}}}, the
 		 * defined prefix would be foods.
 		 */
 		public string defined_prefix {
@@ -34,7 +36,7 @@ namespace GXml {
 
 		/**
 		 * The namespace uri that this xmlns attribute defines. So,
-		 * if the element was like {{{<Fish xmlns:foods="http://fishies.org/foods" />}}}, the
+		 * if the element was like {{{&lt;Fish xmlns:foods="http://fishies.org/foods" />}}}, the
 		 * defined namespace uri would be [[http://fishies.org/foods/]].
 		 */
 		public string defined_namespace_uri {

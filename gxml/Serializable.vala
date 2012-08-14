@@ -31,9 +31,7 @@ using GXml;
 [CCode (gir_namespace = "GXml", gir_version = "0.2")]
 namespace GXml {
 	/**
-	 * Provides interface methods that a class can implement to
-	 * directly handle serialisation of various properties or
-	 * treat other data as properties.
+	 * Interface allowing implementors direct control over serialisation of properties and other data
 	 *
 	 * A class that implements this interface will still be passed
 	 * to {@link GXml.Serialization.serialize_object} for
@@ -45,7 +43,8 @@ namespace GXml {
 	 * approach should be used instead.  Indeed, not all methods
 	 * need to be implemented, but some accompany one another and
 	 * should be implemented carefully, corresponding to one
-	 * another.
+	 * another.  You can also create virtual properties from
+	 * non-public property fields to enable their serialization.
 	 *
 	 * For an example, look in tests/XmlSerializableTest
 	 */

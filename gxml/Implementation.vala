@@ -2,7 +2,9 @@
 namespace GXml {
 	/**
 	 * Describes the features available in this
-	 * implementation. This can be accessed from a Document
+	 * implementation of the DOM.
+	 *
+	 * This can be accessed from a {@link GXml.Document}
 	 * object. Provided a possible feature and the feature's
 	 * version, it can tell the client whether it is here
 	 * implemented.

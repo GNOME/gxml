@@ -4,8 +4,9 @@ using Gee;
 
 namespace GXml {
 	/**
-	 * The NodeList is a live list used to store nodes, often the
-	 * children of a node, or a list of nodes matching a tag name.
+	 * A live list used to store {@link GXml.DomNode}s. Usually the
+	 * children of a {@link GXml.DomNode}, or the results of
+	 * {@link GXml.Element.get_elements_by_tag_name}. 
 	 */
 	public interface NodeList : Gee.Iterable<DomNode> {
 		public abstract ulong length {

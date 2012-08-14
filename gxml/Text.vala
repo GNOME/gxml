@@ -5,9 +5,11 @@ namespace GXml {
 	/**
 	 * Text children of an element, not the tags or attributes.
 	 *
+	 * To create one, use {@link GXml.Document.create_text_node}.
+	 *
 	 * Describes the text found as children of elements throughout
 	 * an XML document, like "He who must not be named" in the
-	 * XML: {{{<name>He who must not be named</name>}}}
+	 * XML: {{{&lt;name>He who must not be named&lt;/name>}}}
 	 * With libxml2 as a backend, it should be noted that two
 	 * adjacent text nodes are always merged into one Text node,
 	 * so some functionality for Text, like split_text, will not

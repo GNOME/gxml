@@ -3,8 +3,12 @@ namespace GXml {
 	/* TODO: consider adding public signals for new/deleted children */
 
 	/**
-	 * Represents an XML Node. Documents are nodes, and are
-	 * composed of a tree of nodes. See [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1950641247]]
+	 * Represents an XML Node, the base class for most XML structures in
+	 * the {@link GXml.Document}'s tree.
+	 *
+	 * {@link GXml.Document}s are {@link GXml.DomNode}s, and are
+	 * composed of a tree of {@link GXml.DomNode}s.  See
+	 * [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1950641247]]
 	 */
 	public class DomNode : GLib.Object {
 		internal DomNode (NodeType type, Document owner) {
@@ -151,11 +155,12 @@ namespace GXml {
 		 * whereas node_value represents it as a string. This
 		 * can be null for node types that have no children.
 		 *
-		 * The NodeList is live, in that changes to this
+		 * The {@link GXml.NodeList} is live, in that changes to this
 		 * node's children will be reflected in an
-		 * already-active NodeList.
-		 *
-		 * #todo: list nodes that use children for values
+		 * already-active {@link GXml.NodeList}.
+		 */
+		/*
+		 * @todo: list nodes that use children for values
 		 */
 		public virtual NodeList? child_nodes {
 			// TODO: need to implement NodeList
@@ -210,15 +215,15 @@ namespace GXml {
 
 		// These may need to be overridden by subclasses that support them.
 		// TODO: figure out what non-BackedNode classes should be doing with these, anyway
+		// #todo: want to throw other relevant errors
 		/**
 		 * Insert new_child as a child to this node, and place
 		 * it in the list before ref_child. If ref_child is
 		 * null, new_child is appended to the list of children
 		 * instead.
 		 *
-		 * @throws DomError.NOT_FOUND if ref_child is not a valid child.
+		 * Throws {@link GXml.DomError.NOT_FOUND} if ref_child is not a valid child.
 		 */
-		// #todo: want to throw other relevant errors
 		public virtual DomNode? insert_before (DomNode new_child, DomNode? ref_child) throws DomError {
 			return null;
 		}
