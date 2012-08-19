@@ -1,0 +1,49 @@
+#### Common Files
+*#
+*~
+*.c
+*.o
+*.bak
+*.la
+*.lo
+.*
+#### autotools
+configure
+Makefile
+Makefile.in
+config.*
+install.sh
+install-sh
+autom4te.cache
+depcomp
+aclocal.m4
+m4/*
+gtester.mk
+libtool
+ltmain.sh
+missing
+mkinstalldirs
+po/stamp-it
+stamp-h1
+*.stamp
+#### Vala files
+*.typelib
+*.gir
+*.h
+# *.vapi
+gxml/*.vapi
+*.deps
+*.pc
+#### Docs
+docs/gtk-doc
+docs/gxml
+intltool*
+#### Mine
+*.new
+*.orig
+*.rej
+build/
+junk/
+patches/
+old/
+old2/
