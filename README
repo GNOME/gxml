@@ -1,41 +1,30 @@
 GXml is a GObject API that wraps around libxml2.
 
-Version: 0.0.2
+Version: 0.3.0
 
 Below are instructions on how to compile libxml2
 
 Compile:
   Requirements:
-    * Python, for WAF.  You don't need to install WAF yourself, as a minimal WAF
-      script is traditionally packaged with WAF as "waf"
-    * a patched VAPI file libxml2: libxml-2.0.vapi.  The file can be found in
-      patches/ either as a patch to be applied, or as a complete .vapi file.
-      You can copy it like this, but modifying your destination path for your
-      distro:
-
-      # cp patches/libxml-2.0.vapi /usr/share/vala-0.12/vapi/
-
-      That overwrites the .vapi already installed on your system
     * valadoc: we generate documentation using valadoc.  I don't think that it
       packaged for Fedora at least at the time of this writing, so you may have
       to obtain it following instructions at:
 
       https://live.gnome.org/Valadoc
 
-  We use WAF for a build system, which is based on Python, as noted above.
+  autotools for a build system
 
-  $ ./waf configure
-  $ ./waf
-  $ ./waf install
+  $ ./configure
+  $ ./make
+  $ ./maken install
 
   You can use some common ./configure options like --prefix=$SOMEPATH to specify
   where to install it.
 
+Test: You can run the test suite, which is gxml_test, which you may
+  have installed into your $PATH.  You should actually run it from
+  test/, though, as it requires .xml files that are currently just
+  relatively referenced.
 
-Test:
-  You can run the test suite, which is gxml_test, which you may have installed
-  into your $PATH via "./waf install" above.  You should actually run it from build/test/,
-  though, as it requires .xml files that are currently just relatively referenced.
-
-  $ cd build/test/
+  $ cd test/
   $ ./gxml_test
