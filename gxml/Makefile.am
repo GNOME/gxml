@@ -23,7 +23,7 @@ AM_CFLAGS =\
 	$(VALA_CFLAGS) \
 	$(NULL)
 
-lib_LTLIBRARIES = libgxml-0.2.la
+lib_LTLIBRARIES = libgxml.la
 
 VALAFLAGS = \
     $(top_srcdir)/vapi/config.vapi \
@@ -59,20 +59,20 @@ libgxml_la_VALASOURCES = \
 	Serialization.vala \
 	$(NULL)
 
-libgxml_0_2_la_SOURCES = \
+libgxml_la_SOURCES = \
 	gxml.vala.stamp \
 	$(libgxml_la_VALASOURCES:.vala=.c) \
 	$(NULL)	
 
-gxml-0.2.vapi gxml.vala.stamp GXml-0.2.gir gxml.h: $(libgxml_la_VALASOURCES)
-	$(VALA_COMPILER) $(VALAFLAGS) -C -H $(top_builddir)/gxml/gxml.h --gir=GXml-0.2.gir  --library gxml-0.2 $^
+gxml-$(VERSION).vapi gxml.vala.stamp GXml-$(VERSION).gir gxml.h: $(libgxml_la_VALASOURCES)
+	$(VALA_COMPILER) $(VALAFLAGS) -C -H $(top_builddir)/gxml/gxml.h --gir=GXml-$(VERSION).gir  --library gxml-$(VERSION) $^
 	@touch $@
 
 
 
-libgxml_0_2_la_LDFLAGS = 
+libgxml_la_LDFLAGS = 
 
-libgxml_0_2_la_LIBADD = \
+libgxml_la_LIBADD = \
 	$(GLIB_LIBS) \
 	$(LIBXML_LIBS) \
 	$(GIO_LIBS) \
@@ -88,7 +88,7 @@ include_HEADERS = \
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libgxml.pc
 
-gxmlincludedir=$(includedir)/libgxml-0.2
+gxmlincludedir=$(includedir)/libgxml-$(VERSION)
 gxmlinclude_HEADERS= gxml.h
 
 # GObject Introspection
@@ -103,24 +103,24 @@ endif
 
 # GIR files are generated automatically by Valac so is not necessary to scan source code to generate it
 INTROSPECTION_GIRS =
-INTROSPECTION_GIRS += GXml-0.2.gir
+INTROSPECTION_GIRS += GXml-$(VERSION).gir
 INTROSPECTION_COMPILER_ARGS = \
     --includedir=.  
 
-GXml-0.2.typelib: $(INTROSPECTION_GIRS)
+gxml-$(VERSION).typelib: $(INTROSPECTION_GIRS)
 	$(INTROSPECTION_COMPILER) $(INTROSPECTION_COMPILER_ARGS)  $< -o $@
 
 gir_DATA = $(INTROSPECTION_GIRS)
-typelibs_DATA = GXml-0.2.typelib
+typelibs_DATA = gxml-$(VERSION).typelib
 
-vapi: gxml-0.2.vapi
+vapi: gxml-$(VERSION).vapi
 vapidir = $(VALA_VAPIDIR)
-vapi_DATA = gxml-0.2.vapi
+vapi_DATA = gxml-$(VERSION).vapi
 
-CLEANFILES += $(INTROSPECTION_GIRS) $(typelibs_DATA) gxml-0.2.vapi gxml.h
+CLEANFILES += $(INTROSPECTION_GIRS) $(typelibs_DATA) gxml-$(VERSION).vapi gxml.h
 
 EXTRA_DIST = \
-	libgxml-0.2.pc \
+	libgxml.pc \
 	$(libgxml_la_VALASOURCES:.vala=.c) \
 	$(vapi_DATA) \
 	$(typelibs_DATA) \

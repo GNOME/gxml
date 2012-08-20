@@ -28,7 +28,6 @@
 
 using GXml;
 
-[CCode (gir_namespace = "GXml", gir_version = "0.2")]
 namespace GXml {
 	/**
 	 * Interface allowing implementors direct control over serialisation of properties and other data

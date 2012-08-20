@@ -25,7 +25,6 @@
 
 using GXml;
 
-[CCode (gir_namespace = "GXml", gir_version = "0.2")]
 namespace GXml {
 	/**
 	 * Errors from {@link Serialization}.

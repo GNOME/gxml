@@ -12,7 +12,7 @@
 /* NOTE: figure out how entity references work with Attrs */
 /* NOTE: value as children nodes: can contain Text and EntityReferences */
 
-[CCode (gir_namespace = "GXml", gir_version = "0.2")]
+[CCode (gir_namespace = "GXml", gir_version = "0.3")]
 namespace GXml {
 	/**
 	 * Represents an XML Attr node, a name=value pair.

@@ -3,7 +3,7 @@ dnl Process this file with autoconf to produce a configure script.
 AC_CONFIG_MACRO_DIR([m4])
 m4_include(m4/introspection.m4)
 
-AC_INIT(gxml, 0.2)
+AC_INIT(gxml, 0.3)
 
 AC_CONFIG_HEADERS([config.h])
 
