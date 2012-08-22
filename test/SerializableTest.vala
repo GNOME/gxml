@@ -268,7 +268,7 @@ class SerializableTest : GXmlTest {
 					GLib.Test.fail ();
 				}					
 			});
-		Test.add_func ("/gxml/serialization/interface_override_properties_view", () => {
+		Test.add_func ("/gxml/serializable/interface_override_properties_view", () => {
 				SerializableBanana banana = new SerializableBanana (17, 19, 23, 29);
 
 				SerializationTest.test_serialization_deserialization (banana, "interface_override_properties", (GLib.EqualFunc)SerializableBanana.equals, (SerializationTest.StringifyFunc)SerializableBanana.to_string);
