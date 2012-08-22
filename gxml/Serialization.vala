@@ -17,7 +17,7 @@
  * Authors:
  *       Richard Schwarting <aquarichy@gmail.com>
  */
- 
+
 /* TODO: so it seems we can get property information from GObjectClass
    but that's about it.  Need to definitely use introspection for anything
    tastier */
@@ -295,11 +295,16 @@ namespace GXml {
 		 * This table is used while deserializing objects to avoid
 		 * creating duplicate objects when we encounter multiple
 		 * references to a single serialized object.
-		 * 
+		 *
 		 * TODO: one problem, if you deserialize two XML structures,
 		 * some differing objects might have the same OID :( Need to
 		 * find make it more unique than just the memory address. */
 		private static HashTable<string,Object> cache = null;
+
+		public static void clear_cache () {
+			if (Serialization.cache != null)
+				Serialization.cache.remove_all ();
+		}
 
 		/**
 		 * Deserialize a {@link GXml.DomNode} back into a {@link GLib.Object}.
