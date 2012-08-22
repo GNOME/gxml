@@ -1,20 +1,18 @@
 ## Process this file with automake to produce Makefile.in
-
-## Created by Anjuta
-
-NULL =
+## Created by Anjuta and modified based on libfolks
 
 
+### General Compilation flags
 AM_CPPFLAGS = \
+	-include $(CONFIG_HEADER) \
+	-DPACKAGE_DATA_DIR=\""$(datadir)"\" \
 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
-	-DPACKAGE_DATA_DIR=\""$(datadir)"\" 
+	-DG_LOG_DOMAIN=\"gxml\" \
+	$(NULL)
 
-BUILT_SOURCES = gxml.vala.stamp
-CLEANFILES = gxml.vala.stamp
-
-AM_CFLAGS =\
-	 -Wall\
+AM_CFLAGS = \
+	 -Wall \
 	 -g \
 	$(GLIB_CFLAGS) \
 	$(LIBXML_CFLAGS) \
@@ -23,18 +21,23 @@ AM_CFLAGS =\
 	$(VALA_CFLAGS) \
 	$(NULL)
 
+
+# TODO: remove this, or remove -Wall and -g from libgxml_la_CFLAGS
+# AM_CFLAGS = \
+#	 -Wall \
+#	 -g \
+#
+
+
+### Library
+
+# Library to create
 lib_LTLIBRARIES = libgxml.la
 
-VALAFLAGS = \
-    $(top_srcdir)/vapi/config.vapi \
-    --vapidir=$(top_srcdir)/vapi \
-    --pkg libxml-2.0 \
-    --pkg gee-0.8 \
-    --pkg gobject-2.0 \
-    --pkg gio-2.0 \
-    $(NULL)
+VALAC=valac
 
-libgxml_la_VALASOURCES = \
+# Vala source code
+libgxml_la_SOURCES = \
 	Attr.vala \
 	BackedNode.vala \
 	CDATASection.vala \
@@ -59,70 +62,112 @@ libgxml_la_VALASOURCES = \
 	Serialization.vala \
 	$(NULL)
 
-libgxml_la_SOURCES = \
-	gxml.vala.stamp \
-	$(libgxml_la_VALASOURCES:.vala=.c) \
-	$(NULL)	
-
-gxml-$(VERSION).vapi gxml.vala.stamp GXml-$(VERSION).gir gxml.h: $(libgxml_la_VALASOURCES)
-	$(VALA_COMPILER) $(VALAFLAGS) -C -H $(top_builddir)/gxml/gxml.h --gir=GXml-$(VERSION).gir  --library gxml-$(VERSION) $^
-	@touch $@
+gxml.vala.stamp: $(libgxml_la_SOURCES)
 
 
+# libgxml_la_SOURCES = \
+# 	gxml.vala.stamp \
+# 	$(libgxml_la_VALASOURCES:.vala=.c) \
+# 	$(NULL)
 
-libgxml_la_LDFLAGS = 
+# library flags
+libgxml_la_VALAFLAGS = \
+	$(AM_VALAFLAGS) \
+	$(ERROR_VALAFLAGS) \
+	--gir=GXml-$(API_VERSION).gir \
+	--library=gxml \
+	$(top_srcdir)/vapi/config.vapi \
+	--vapidir=. \
+	--vapidir=$(top_srcdir)/vapi \
+	--pkg libxml-2.0 \
+	--pkg gee-0.8 \
+	--pkg gobject-2.0 \
+	--pkg gio-2.0 \
+	--includedir gxml \
+	--vapi gxml.vapi \
+	-H gxml.h \
+	$(NULL)
 
 libgxml_la_LIBADD = \
+	$(AM_LDADD) \
+	$(GEE_LIBS) \
+	$(GIO_LIBS) \
 	$(GLIB_LIBS) \
 	$(LIBXML_LIBS) \
-	$(GIO_LIBS) \
-	$(GEE_LIBS) \
 	$(VALA_LIBS) \
 	$(NULL)
 
-include_HEADERS = \
-	$(top_builddir)/gxml/gxml.h \
+libgxml_la_LDFLAGS = \
+	$(AM_LDFLAGS) \
+	-version-info "$(LT_CURRENT)":"$(LT_REVISION)":"$(LT_AGE)"
+
+# .h header file
+gxmldir= $(includedir)/gxml
+gxml_HEADERS = gxml.h
+
+# .vapi Vala API file
+vapidir = $(datadir)/vala/vapi
+dist_vapi_DATA = \
+	gxml.vapi \
+	gxml.deps \
+	$(NULL)
+
+# .pc pkg-config file
+pkgconfig_in = gxml.pc.in
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = $(pkgconfig_in:.in=)
+
+EXTRA_DIST = \
+	$(pkgconfig_in) \
+	$(NULL)
+
+GITIGNOREFILES = \
+	$(libgxml_la_SOURCES:.vala=.c) \
+	libgxml_la_vala.stamp \
 	$(NULL)
 
 
-pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = libgxml.pc
 
-gxmlincludedir=$(includedir)/libgxml-$(VERSION)
-gxmlinclude_HEADERS= gxml.h
-
-# GObject Introspection
-
+### GObject Introspection
 if ENABLE_GI_SYSTEM_INSTALL
 girdir = $(INTROSPECTION_GIRDIR)
-typelibsdir = $(INTROSPECTION_TYPELIBDIR)
+typelibdir = $(INTROSPECTION_TYPELIBDIR)
 else
 girdir = $(datadir)/gir-1.0
-typelibsdir = $(libdir)/girepository-1.0
+typelibdir = $(libdir)/girepository-1.0
 endif
 
-# GIR files are generated automatically by Valac so is not necessary to scan source code to generate it
+-include $(INTROSPECTION_MAKEFILE)
 INTROSPECTION_GIRS =
-INTROSPECTION_GIRS += GXml-$(VERSION).gir
-INTROSPECTION_COMPILER_ARGS = \
-    --includedir=.  
+INTROSPECTION_SCANNER_ARGS =
+INTROSPECTION_COMPILER_ARGS = --includedir=.
 
-gxml-$(VERSION).typelib: $(INTROSPECTION_GIRS)
-	$(INTROSPECTION_COMPILER) $(INTROSPECTION_COMPILER_ARGS)  $< -o $@
+GXml-$(API_VERSION).gir: libgxml.la
+GIRS = GXml-$(API_VERSION).gir
 
-gir_DATA = $(INTROSPECTION_GIRS)
-typelibs_DATA = gxml-$(VERSION).typelib
+dist_gir_DATA = $(GIRS)
+nodist_typelib_DATA = $(GIRS:.gir=.typelib)
 
-vapi: gxml-$(VERSION).vapi
-vapidir = $(VALA_VAPIDIR)
-vapi_DATA = gxml-$(VERSION).vapi
 
-CLEANFILES += $(INTROSPECTION_GIRS) $(typelibs_DATA) gxml-$(VERSION).vapi gxml.h
 
-EXTRA_DIST = \
-	libgxml.pc \
-	$(libgxml_la_VALASOURCES:.vala=.c) \
-	$(vapi_DATA) \
-	$(typelibs_DATA) \
-	$(INTROSPECTION_GIRS) \
-	gxml.vala.stamp
+### Files to clean
+BUILT_SOURCES = \
+	gxml.vala.stamp \
+	gxml.h \
+	gxml.vapi \
+	$(NULL)
+
+# 	gxml.pc
+# 	$(libgxml_la_VALASOURCES:.vala=.c) \
+# 	$(vapi_DATA) \
+# 	$(typelibs_DATA) \
+# 	$(INTROSPECTION_GIRS) \
+# 	gxml.vala.stamp
+
+## File used to indicate whether code needs rebuilding (?)
+CLEANFILES = $(INTROSPECTION_GIRS) $(typelibs_DATA) $(BUILT_SOURCES) $(nodist_typelib_DATA)
+MAINTAINERCLEANFILES = $(BUILT_SOURCES) $(dist_gir_DATA)
+
+
+
+-include $(top_srcdir)/git.mk
