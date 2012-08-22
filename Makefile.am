@@ -24,11 +24,11 @@ DISTCHECK_CONFIGURE_FLAGS = \
 # in share/doc/
 gxmldocdir = ${prefix}/doc/gxml
 gxmldoc_DATA = \
-	README\
-	COPYING\
-	AUTHORS\
-	ChangeLog\
-	INSTALL\
+	README \
+	COPYING \
+	AUTHORS \
+	ChangeLog \
+	INSTALL \
 	NEWS
 
 # with make dist
