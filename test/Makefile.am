@@ -2,14 +2,11 @@ include $(top_srcdir)/gtester.mk
 
 NULL =
 
-
+### General compilation flags
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
 	-DPACKAGE_DATA_DIR=\""$(datadir)"\"
-
-BUILT_SOURCES = gxml_test.vala.stamp
-CLEANFILES = gxml_test.vala.stamp
 
 AM_CFLAGS = \
 	-Wall \
@@ -18,27 +15,16 @@ AM_CFLAGS = \
 	$(GXML_CFLAGS) \
 	$(GEE_CFLAGS) \
 	$(LIBXML_CFLAGS) \
-	-I../gxml \
+	-I$(srcdir)/gxml \
 	$(NULL)
-# TODO: -I../gxml is a problem, find out how $(*_CFLAGS) work
 
+VALAC=valac
 
 noinst_PROGRAMS = $(TEST_PROGS)
 
 TEST_PROGS += gxml_test
 
-VALAFLAGS = \
-	$(top_srcdir)/vapi/config.vapi \
-	--vapidir=$(top_srcdir)/vapi \
-	--vapidir=$(top_srcdir)/gxml \
-	--pkg gio-2.0 \
-	--pkg gee-0.8 \
-	--pkg posix \
-	--pkg gxml-0.3 \
-	--pkg libxml-2.0 \
-	$(NULL)
-
-gxml_test_VALASOURCES = \
+gxml_test_SOURCES = \
 	AttrTest.vala \
 	CharacterDataTest.vala \
 	DocumentTest.vala \
@@ -51,33 +37,41 @@ gxml_test_VALASOURCES = \
 	DomNodeTest.vala \
 	$(NULL)
 
-gxml_test_SOURCES = \
-	gxml_test.vala.stamp \
-	$(gxml_test_VALASOURCES:.vala=.c) \
+gxml_test.vala.stamp: $(gxml_test_SOURCES)
+
+gxml_test_VALAFLAGS = \
+	$(AM_VALAFLAGS) \
+	$(ERROR_VALAFLAGS) \
+	$(top_srcdir)/vapi/config.vapi \
+	--vapidir=$(top_srcdir)/vapi \
+	--vapidir=$(top_srcdir)/gxml \
+	--pkg gio-2.0 \
+	--pkg gee-0.8 \
+	--pkg posix \
+	--pkg gxml \
+	--pkg libxml-2.0 \
 	$(NULL)
 
-gxml_test.vala.stamp: $(gxml_test_VALASOURCES)
-	$(VALA_COMPILER) $(VALAFLAGS) -C $^
-	@touch $@
-
-gxml_test_LDFLAGS =
-
 gxml_test_LDADD = \
+	$(AM_LDADD) \
 	$(GLIB_LIBS) \
 	$(GXML_LIBS) \
 	-L$(top_srcdir)/gxml -lgxml \
 	$(NULL)
 
-#gxml_test_LIBADD = \
-#	$(NULL)
+gxml_test_LDFLAGS = $(AM_LDFLAGS)
 
-include_HEADERS = \
-	$(top_builddir)/gxml/gxml.h \
-	$(NULL)
+
+
+# include_HEADERS = \
+# 	$(top_builddir)/gxml/gxml.h \
+# 	$(NULL)
 
 #...
 
-CLEANFILES += gxml_test
+BUILT_SOURCES = gxml_test.vala.stamp
+
+CLEANFILES =  $(BUILT_SOURCES) gxml_test
 
 EXTRA_DIST += \
 	$(NULL)
