@@ -261,7 +261,7 @@ class SerializationTest : GXmlTest {
 	}
 
 	public static void add_tests () {
-		Test.add_func ("/gxml/domnode/xml_serialize", () => {
+		Test.add_func ("/gxml/serialization/xml_serialize", () => {
 				Fruit fruit;
 				GXml.DomNode fruit_xml;
 				string expectation;
@@ -294,7 +294,7 @@ class SerializationTest : GXmlTest {
 				}
 
 			});
-		Test.add_func ("/gxml/domnode/xml_serialize_fields", () => {
+		Test.add_func ("/gxml/serialization/xml_serialize_fields", () => {
 				/* NOTE: We expect this one to fail right now */
 
 				Fruit fruit;
@@ -326,7 +326,7 @@ class SerializationTest : GXmlTest {
 					GLib.Test.fail ();
 				}
 			});
-		Test.add_func ("/gxml/domnode/xml_deserialize", () => {
+		Test.add_func ("/gxml/serialization/xml_deserialize", () => {
 				Document doc;
 				Fruit fruit;
 
@@ -344,7 +344,7 @@ class SerializationTest : GXmlTest {
 					GLib.Test.fail ();
 				}
 			});
-		Test.add_func ("/gxml/domnode/xml_deserialize_no_type", () => {
+		Test.add_func ("/gxml/serialization/xml_deserialize_no_type", () => {
 				Document doc;
 				Fruit fruit;
 
@@ -357,7 +357,7 @@ class SerializationTest : GXmlTest {
 					GLib.Test.fail ();
 				}
 			});
-		Test.add_func ("/gxml/domnode/xml_deserialize_bad_property_name", () => {
+		Test.add_func ("/gxml/serialization/xml_deserialize_bad_property_name", () => {
 				Document doc;
 
 				try {
@@ -371,7 +371,7 @@ class SerializationTest : GXmlTest {
 					GLib.Test.fail ();
 				}
 			});
-		Test.add_func ("/gxml/domnode/xml_deserialize_bad_object_type", () => {
+		Test.add_func ("/gxml/serialization/xml_deserialize_bad_object_type", () => {
 				Document doc;
 
 				try {
@@ -385,7 +385,7 @@ class SerializationTest : GXmlTest {
 					GLib.Test.fail ();
 				}
 			});
-		Test.add_func ("/gxml/domnode/xml_deserialize_bad_property_type", () => {
+		Test.add_func ("/gxml/serialization/xml_deserialize_bad_property_type", () => {
 				Document doc;
 				Fruit fruit;
 
@@ -400,7 +400,7 @@ class SerializationTest : GXmlTest {
 					GLib.Test.fail ();
 				}
 			});
-		Test.add_func ("/gxml/domnode/xml_deserializable_fields", () => {
+		Test.add_func ("/gxml/serialization/xml_deserializable_fields", () => {
 				/* TODO: expecting this one to fail right now,
 				         because we probably still don't support fields,
 					 just properties. */
