@@ -75,5 +75,10 @@ BUILT_SOURCES = gxml_test.vala.stamp
 CLEANFILES =  $(BUILT_SOURCES) gxml_test
 
 EXTRA_DIST += \
+	test_out_path_expected.xml \
+	test_out_path.xml \
+	test_out_stream_expected.xml \
+	test_out_stream.xml \
+	test.xml \
 	$(NULL)
 
