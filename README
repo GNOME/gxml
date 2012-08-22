@@ -1,9 +1,5 @@
 GXml is a GObject API that wraps around libxml2.
 
-Version: 0.3.0
-
-Below are instructions on how to compile libxml2
-
 Compile:
   Requirements:
     * valadoc: we generate documentation using valadoc.  I don't think that it
