@@ -1,12 +1,14 @@
 prefix=@prefix@
 exec_prefix=@exec_prefix@
 libdir=@libdir@
+datarootdir=@datarootdir@
+datadir=@datadir@
 includedir=@includedir@
 
-Name: gxml
-Description: gobject API for XML processing
+Name: libgxml
+Description: GObject API for XML manipulation library
 URL: http://live.gnome.org/XML
 Version: @VERSION@
-Requires: libxml-2.0 gee-0.8 glib-2.0
+Requires:
 Libs: -L${libdir} -lgxml
-Cflags: -I${includedir}/gxml-@SHORTVERSION@
+Cflags: -I${includedir}
