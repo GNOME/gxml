@@ -333,7 +333,7 @@ namespace GXml {
 			if (Serialization.cache == null) {
 				Serialization.cache = new HashTable<string,Object> (str_hash, str_equal);
 			}
-			if (Serialization.cache.contains (oid)) {
+			if (oid != "" && Serialization.cache.contains (oid)) {
 				return Serialization.cache.get (oid);
 			}
 
@@ -348,8 +348,6 @@ namespace GXml {
 			// Get the list of properties as ParamSpecs
 			obj = Object.newv (type, new Parameter[] {}); // TODO: causes problems with Enums when 0 isn't a valid enum value (e.g. starts from 2 or something)
 			obj_class = obj.get_class ();
-
-			cache.set (oid, obj);
 
 			if (type.is_a (typeof (Serializable))) {
 				serializable = (Serializable)obj;
@@ -405,6 +403,9 @@ namespace GXml {
 					}
 				}
 			}
+
+			// Set it as the last possible action, so that invalid objects won't end up getting stored
+			Serialization.cache.set (oid, obj);
 
 			return obj;
 		}
