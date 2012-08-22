@@ -226,6 +226,9 @@ public class EnumProperties : GLib.Object {
 	}
 }
 
+
+/* **********************  TEST BEGINS *******************************/
+
 class SerializationTest : GXmlTest {
 	public delegate string StringifyFunc (GLib.Object object);
 
@@ -234,6 +237,9 @@ class SerializationTest : GXmlTest {
 		GXml.DomNode node;
 		GXml.Document doc;
 		GLib.Object object_new = null;
+
+		// make sure we have a fresh cache without collisions from previous tests
+		Serialization.clear_cache ();
 
 		xml_filename = "_serialization_test_" + name + ".xml";
 
@@ -261,11 +267,16 @@ class SerializationTest : GXmlTest {
 	}
 
 	public static void add_tests () {
+		bool auto_fields = GLib.Test.thorough (); /* This enables future-looking tests that should be failing right now */
+
 		Test.add_func ("/gxml/serialization/xml_serialize", () => {
 				Fruit fruit;
 				GXml.DomNode fruit_xml;
 				string expectation;
 				Regex regex;
+
+				// Clear cache to avoid collisions with other tests
+				Serialization.clear_cache ();
 
 				/* TODO: This test should change once we can serialise fields
 				   and private properties */
@@ -293,38 +304,6 @@ class SerializationTest : GXmlTest {
 					GLib.Test.fail ();
 				}
 
-			});
-		Test.add_func ("/gxml/serialization/xml_serialize_fields", () => {
-				/* NOTE: We expect this one to fail right now */
-
-				Fruit fruit;
-				GXml.DomNode fruit_xml;
-				string expectation;
-				Regex regex;
-
-				expectation = "<Object otype=\"Fruit\" oid=\"0x[0-9a-f]+\"><Property pname=\"colour\">blue</Property><Property pname=\"weight\">9</Property><Property pname=\"name\">fish</Property><Property pname=\"age\" ptype=\"gint\">3</Property></Object>";
-				 // weight expected to be 9 because age sets it *3
-
-				fruit = new Fruit ();
-				fruit.set_all ("blue", 11, "fish", 3);
-
-				try {
-					fruit_xml = Serialization.serialize_object (fruit);
-
-					regex = new Regex (expectation);
-					if (! regex.match (fruit_xml.to_string ())) {
-						GLib.warning ("Expected [%s] but found [%s]",
-							      expectation, fruit_xml.to_string ());
-						GLib.Test.fail ();
-					}
-				} catch (RegexError e) {
-					GLib.warning ("Regular expression [%s] for test failed: %s",
-						      expectation, e.message);
-					GLib.Test.fail ();
-				} catch (GXml.SerializationError e) {
-					GLib.warning ("%s", e.message);
-					GLib.Test.fail ();
-				}
 			});
 		Test.add_func ("/gxml/serialization/xml_deserialize", () => {
 				Document doc;
@@ -363,6 +342,7 @@ class SerializationTest : GXmlTest {
 				try {
 					doc = new Document.from_string ("<Object otype='Fruit'><Property name='badname'>3</Property></Object>");
 					Serialization.deserialize_object (doc.document_element);
+					GLib.message ("Expected SerializationError.UNKNOWN_PROPERTY to be thrown for property 'badname' in object 'Fruit' :(  Did not happen.");
 					GLib.Test.fail ();
 				} catch (GXml.SerializationError.UNKNOWN_PROPERTY e) {
 					// Pass
@@ -389,6 +369,9 @@ class SerializationTest : GXmlTest {
 				Document doc;
 				Fruit fruit;
 
+				// Clear cache to avoid collisions with other tests
+				Serialization.clear_cache ();
+
 				try {
 					doc = new Document.from_string ("<Object otype='Fruit'><Property pname='age' ptype='badtype'>blue</Property></Object>");
 					fruit = (Fruit)Serialization.deserialize_object (doc.document_element);
@@ -399,37 +382,6 @@ class SerializationTest : GXmlTest {
 					GLib.message ("%s", e.message);
 					GLib.Test.fail ();
 				}
-			});
-		Test.add_func ("/gxml/serialization/xml_deserializable_fields", () => {
-				/* TODO: expecting this one to fail right now,
-				         because we probably still don't support fields,
-					 just properties. */
-				Document doc;
-				Fruit fruit;
-
-				try {
-					doc = new Document.from_string ("<Object otype='Fruit'><Property pname='colour' ptype='gchararray'>blue</Property><Property pname='weight' ptype='gint'>11</Property><Property pname='name' ptype='gchararray'>fish</Property><Property pname='age' ptype='gint'>3</Property></Object>");
-					fruit = (Fruit)Serialization.deserialize_object (doc.document_element);
-
-					if (! fruit.test ("blue", 11, "fish", 3)) {
-						GLib.warning ("Expected [\"%s\", %d, \"%s\", %d] but found [%s]", "blue", 11, "fish", 3, fruit.to_string ());
-						GLib.Test.fail (); // Note that age sets weight normally
-					}
-				} catch (GXml.SerializationError e) {
-					GLib.message ("%s", e.message);
-					GLib.Test.fail ();
-				} catch (GXml.DomError e) {
-					GLib.message ("%s", e.message);
-					GLib.Test.fail ();
-				}
-			});
-		Test.add_func ("/gxml/serialization/simple_fields", () => {
-				SimpleFields obj = new SimpleFields (3, 4.5, "cat", true, 6);
-				test_serialization_deserialization (obj, "simple_fields", (GLib.EqualFunc)SimpleFields.equals, (StringifyFunc)SimpleFields.to_string);
-			});
-		Test.add_func ("/gxml/serialization/simple_properties_private", () => {
-				SimpleProperties obj = new SimpleProperties (3, 4.2, "catfish", true, 9);  // 5th arg is private
-				test_serialization_deserialization (obj, "simple_properties", (GLib.EqualFunc)SimpleProperties.equals, (StringifyFunc)SimpleProperties.to_string);
 			});
 		Test.add_func ("/gxml/serialization/simple_properties", () => {
 				SimpleProperties obj = new SimpleProperties (3, 4.2, "catfish", true, 0); // set private arg just to 0
@@ -495,6 +447,9 @@ class SerializationTest : GXmlTest {
 				ComplexDuplicateProperties restored;
 				GXml.DomNode xml;
 
+				// Clear cache to avoid collisions with other tests
+				Serialization.clear_cache ();
+
 				simple_properties = new SimpleProperties (3, 4.2, "catfish", true, 0);
 				obj = new ComplexDuplicateProperties (simple_properties);
 
@@ -523,5 +478,84 @@ class SerializationTest : GXmlTest {
 				test_serialization_deserialization (obj, "enum_properties", (GLib.EqualFunc)EnumProperties.equals, (StringifyFunc)EnumProperties.to_string);
 			});
 		// TODO: more to do, for structs and stuff and things that do interfaces
+		if (auto_fields) {
+			GLib.message ("WARNING: thorough tests are expected to fail, as they test " +
+				      "feature not yet implemented, pertaining to automatic handling " +
+				      "of fields and private properties.  You can achieve the same " +
+				      "effect as these features, though, by making a class implement " +
+				      "GXmlSerializable and overriding its view of its properties " +
+				      "for GXmlSerialization.");
+
+			Test.add_func ("/gxml/serialization/xml_automatically_serialize_fields", () => {
+					/* NOTE: We expect this one to fail right now */
+
+					Fruit fruit;
+					GXml.DomNode fruit_xml;
+					string expectation;
+					Regex regex;
+
+					// Clear cache to avoid collisions with other tests
+					Serialization.clear_cache ();
+
+					expectation = "<Object otype=\"Fruit\" oid=\"0x[0-9a-f]+\"><Property pname=\"colour\">blue</Property><Property pname=\"weight\">9</Property><Property pname=\"name\">fish</Property><Property pname=\"age\" ptype=\"gint\">3</Property></Object>";
+					// weight expected to be 9 because age sets it *3
+
+					fruit = new Fruit ();
+					fruit.set_all ("blue", 11, "fish", 3);
+
+					try {
+						fruit_xml = Serialization.serialize_object (fruit);
+
+						regex = new Regex (expectation);
+						if (! regex.match (fruit_xml.to_string ())) {
+							GLib.warning ("Expected [%s] but found [%s]",
+								      expectation, fruit_xml.to_string ());
+							GLib.Test.fail ();
+						}
+					} catch (RegexError e) {
+						GLib.warning ("Regular expression [%s] for test failed: %s",
+							      expectation, e.message);
+						GLib.Test.fail ();
+					} catch (GXml.SerializationError e) {
+						GLib.warning ("%s", e.message);
+						GLib.Test.fail ();
+					}
+				});
+			Test.add_func ("/gxml/serialization/xml_deserialize_fields", () => {
+					/* TODO: expecting this one to fail right now,
+					   because we probably still don't support fields,
+					   just properties. */
+					Document doc;
+					Fruit fruit;
+
+					// Clear cache to avoid collisions with other tests
+					Serialization.clear_cache ();
+
+					try {
+						doc = new Document.from_string ("<Object otype='Fruit'><Property pname='colour' ptype='gchararray'>blue</Property><Property pname='weight' ptype='gint'>11</Property><Property pname='name' ptype='gchararray'>fish</Property><Property pname='age' ptype='gint'>3</Property></Object>");
+						fruit = (Fruit)Serialization.deserialize_object (doc.document_element);
+
+						if (! fruit.test ("blue", 11, "fish", 3)) {
+							GLib.warning ("Expected [\"%s\", %d, \"%s\", %d] but found [%s]", "blue", 11, "fish", 3, fruit.to_string ());
+							GLib.Test.fail (); // Note that age sets weight normally
+						}
+					} catch (GXml.SerializationError e) {
+						GLib.message ("%s", e.message);
+						GLib.Test.fail ();
+					} catch (GXml.DomError e) {
+						GLib.message ("%s", e.message);
+						GLib.Test.fail ();
+					}
+				});
+			Test.add_func ("/gxml/serialization/simple_fields", () => {
+					SimpleFields obj = new SimpleFields (3, 4.5, "cat", true, 6);
+					test_serialization_deserialization (obj, "simple_fields", (GLib.EqualFunc)SimpleFields.equals, (StringifyFunc)SimpleFields.to_string);
+				});
+			Test.add_func ("/gxml/serialization/simple_properties_private", () => {
+					SimpleProperties obj = new SimpleProperties (3, 4.2, "catfish", true, 9);  // 5th arg is private
+					test_serialization_deserialization (obj, "simple_properties", (GLib.EqualFunc)SimpleProperties.equals, (StringifyFunc)SimpleProperties.to_string);
+				});
+		}
+
 	}
 }

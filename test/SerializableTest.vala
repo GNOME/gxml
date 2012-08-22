@@ -240,6 +240,9 @@ class SerializableTest : GXmlTest {
 				Regex regex;
 				GLib.List<int> ratings;
 
+				// Clear cache to avoid collisions with other tests
+				Serialization.clear_cache ();
+
 				ratings = new GLib.List<int> ();
 				ratings.append (8);
 				ratings.append (13);
@@ -256,7 +259,7 @@ class SerializableTest : GXmlTest {
 						GLib.warning ("Did not serialize as expected.  Got [%s] but expected [%s]", node.to_string (), expectation);
 						GLib.Test.fail ();
 					}
-					
+
 					capsicum_new = (SerializableCapsicum)Serialization.deserialize_object (node);
 					if (capsicum_new.height != 5 || ratings.length () != 3 || ratings.nth_data (0) != 8 || ratings.nth_data (2) != 21) {
 						GLib.warning ("Did not deserialize as expected.  Got [%s] but expected height and ratings from [%s]", capsicum_new.to_string (), capsicum.to_string ());
@@ -266,7 +269,7 @@ class SerializableTest : GXmlTest {
 					GLib.warning ("Regular expression [%s] for test failed: %s",
 						      expectation, e.message);
 					GLib.Test.fail ();
-				}					
+				}
 			});
 		Test.add_func ("/gxml/serializable/interface_override_properties_view", () => {
 				SerializableBanana banana = new SerializableBanana (17, 19, 23, 29);
