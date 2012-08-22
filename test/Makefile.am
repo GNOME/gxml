@@ -28,13 +28,14 @@ gxml_test_SOURCES = \
 	AttrTest.vala \
 	CharacterDataTest.vala \
 	DocumentTest.vala \
+	DomNodeTest.vala \
 	ElementTest.vala \
 	GXmlTest.vala \
 	NodeListTest.vala \
 	TextTest.vala \
 	ValaLibxml2Test.vala \
-	XmlSerializableTest.vala \
-	DomNodeTest.vala \
+	SerializableTest.vala \
+	SerializationTest.vala \
 	$(NULL)
 
 gxml_test.vala.stamp: $(gxml_test_SOURCES)
