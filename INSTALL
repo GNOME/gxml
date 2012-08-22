@@ -1,8 +1,0 @@
-To configure:
-  $ waf configure
-To build:
-  $ waf 
-To clean
-  $ waf clean
-To distclean:
-  $ waf distclean
