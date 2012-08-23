@@ -17,6 +17,18 @@ fi
 
 # TODO: consider adding specifying automake and aclocal version here ala libfolks
 
+AUTORECONF=`which autoreconf`
+if test -z $AUTORECONF; then
+        echo "*** No autoreconf found, please intall it ***"
+        exit 1
+fi
+
+INTLTOOLIZE=`which intltoolize`
+if test -z $INTLTOOLIZE; then
+        echo "*** No intltoolize found, please install the intltool package ***"
+        exit 1
+fi
+
 mkdir -p m4
 
 autoreconf -i -f
