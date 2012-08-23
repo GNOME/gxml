@@ -116,6 +116,9 @@ gxml-gtk-doc: $(gxml_doc_files) $(gxml_wiki_files)
 
 .PHONY: $(phony_deps)
 
+distclean:
+	rm -rf $(distclean_dirs) Makefile
+
 # Hack, because I don't know how to make the other ones targets :D
 # all: gxml-gtk-doc gxml-doc
 
