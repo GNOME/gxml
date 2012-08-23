@@ -1,3 +1,5 @@
 dist_noinst_DATA = \
-        config.vapi \
-        libxml-2.0.vapi
+        config.vapi
+
+gxml_vapi.stamp: libxml-2.0.vapi glib-2.0.vapi
+
