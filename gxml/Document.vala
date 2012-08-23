@@ -1,7 +1,7 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /*
  * GXml
- * Copyright (C) Richard Schwarting 2011 <aquarichy@gmail.com>
+ * Copyright (C) Richard Schwarting <aquarichy@gmail.com> et al, 2011
  *
  * GXml is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as

@@ -1,4 +1,10 @@
 =============
+=============
+GXml
+        * autotools (Javier Jardon)
+
+
+=============
 Version 0.3.1
 =============
 GXml
@@ -12,6 +18,7 @@ GXml
         * third release
 	* serialization support
 	* working documentation
+	* autotools, GObject Introspection, and more (Daniel Espinosa Ortiz)
 
 =============
 Version 0.0.2

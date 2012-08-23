@@ -1,1 +1,7 @@
 Richard Schwarting <aquarichy@gmail.com>
+Daniel Espinosa Ortiz <despinosa@git.gnome.org>
+  GIR, autotools, source, GObject introspection
+Javier Jardón <jjardon@gnome.org>
+  autotools, gettext,
+Olav Vitters <olav@vitters.nl>
+  doap
