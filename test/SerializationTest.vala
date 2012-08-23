@@ -387,47 +387,6 @@ class SerializationTest : GXmlTest {
 				SimpleProperties obj = new SimpleProperties (3, 4.2, "catfish", true, 0); // set private arg just to 0
 				test_serialization_deserialization (obj, "simple_properties", (GLib.EqualFunc)SimpleProperties.equals, (StringifyFunc)SimpleProperties.to_string);
 			});
-		Test.add_func ("/gxml/serialization/collection_properties", () => {
-				// TODO: want a test with more complex data than strings
-
-				CollectionProperties obj;
-				GLib.List<string> list;
-				GLib.HashTable<string,string> table;
-
-				list = new GLib.List<string> ();
-				list.append ("a");
-				list.append ("b");
-				list.append ("c");
-
-				table = new GLib.HashTable<string,string> (GLib.str_hash, GLib.str_equal);
-				table.set ("aa", "AA");
-				table.set ("bb", "BB");
-				table.set ("cc", "CC");
-
-				obj = new CollectionProperties (list, table);
-
-				test_serialization_deserialization (obj, "collection_properties", (GLib.EqualFunc)CollectionProperties.equals, (StringifyFunc)CollectionProperties.to_string);
-			});
-		Test.add_func ("/gxml/serialization/gee_collection_properties", () => {
-				GeeCollectionProperties obj;
-
-				Gee.List<string> list = new Gee.ArrayList<string> ();
-				Gee.HashSet<string> hashset = new Gee.HashSet<string> ();
-				Gee.Set<string> tset = new Gee.TreeSet<string> ();
-				Gee.HashMap<string,string> map = new Gee.HashMap<string,string> ();
-				Gee.Collection<string> col = new Gee.LinkedList<string> ();
-
-				foreach (string str in new string[] { "a", "b", "c" }) {
-					list.add (str);
-					hashset.add (str);
-					tset.add (str);
-					map.set (str + str, str + str + str);
-					col.add (str);
-				}
-
-				obj = new GeeCollectionProperties (list, hashset, tset, map, col);
-				test_serialization_deserialization (obj, "gee_collection_properties", (GLib.EqualFunc)GeeCollectionProperties.equals, (StringifyFunc)GeeCollectionProperties.to_string);
-			});
 		Test.add_func ("/gxml/serialization/complex_simple_properties", () => {
 				SimpleProperties simple_properties;
 				ComplexSimpleProperties obj;
@@ -485,6 +444,48 @@ class SerializationTest : GXmlTest {
 				      "effect as these features, though, by making a class implement " +
 				      "GXmlSerializable and overriding its view of its properties " +
 				      "for GXmlSerialization.");
+
+			Test.add_func ("/gxml/serialization/collection_properties", () => {
+					// TODO: want a test with more complex data than strings
+
+					CollectionProperties obj;
+					GLib.List<string> list;
+					GLib.HashTable<string,string> table;
+
+					list = new GLib.List<string> ();
+					list.append ("a");
+					list.append ("b");
+					list.append ("c");
+
+					table = new GLib.HashTable<string,string> (GLib.str_hash, GLib.str_equal);
+					table.set ("aa", "AA");
+					table.set ("bb", "BB");
+					table.set ("cc", "CC");
+
+					obj = new CollectionProperties (list, table);
+
+					test_serialization_deserialization (obj, "collection_properties", (GLib.EqualFunc)CollectionProperties.equals, (StringifyFunc)CollectionProperties.to_string);
+				});
+			Test.add_func ("/gxml/serialization/gee_collection_properties", () => {
+					GeeCollectionProperties obj;
+
+					Gee.List<string> list = new Gee.ArrayList<string> ();
+					Gee.HashSet<string> hashset = new Gee.HashSet<string> ();
+					Gee.Set<string> tset = new Gee.TreeSet<string> ();
+					Gee.HashMap<string,string> map = new Gee.HashMap<string,string> ();
+					Gee.Collection<string> col = new Gee.LinkedList<string> ();
+
+					foreach (string str in new string[] { "a", "b", "c" }) {
+						list.add (str);
+						hashset.add (str);
+						tset.add (str);
+						map.set (str + str, str + str + str);
+						col.add (str);
+					}
+
+					obj = new GeeCollectionProperties (list, hashset, tset, map, col);
+					test_serialization_deserialization (obj, "gee_collection_properties", (GLib.EqualFunc)GeeCollectionProperties.equals, (StringifyFunc)GeeCollectionProperties.to_string);
+				});
 
 			Test.add_func ("/gxml/serialization/xml_automatically_serialize_fields", () => {
 					/* NOTE: We expect this one to fail right now */

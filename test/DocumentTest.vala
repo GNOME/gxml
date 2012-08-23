@@ -56,7 +56,7 @@ class DocumentTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/document/construct_from_stream", () => {
 				try {
-					File fin = File.new_for_path ("test.xml");
+					File fin = File.new_for_path (GXmlTest.get_test_dir () + "/test.xml");
 					InputStream instream = fin.read (null);
 					// TODO use cancellable
 
@@ -87,9 +87,9 @@ class DocumentTest : GXmlTest {
 				try {
 					Document doc = get_doc ();
 					int exit_status;
-					doc.save_to_path ("test_out_path.xml");
+					doc.save_to_path (GLib.Environment.get_tmp_dir () + "/test_out_path.xml"); // TODO: /tmp because of 'make distcheck' being readonly, want to use GXmlTest.get_test_dir () if readable, though
 
-					Process.spawn_sync (null,  { "/usr/bin/diff", "test_out_path.xml", "test_out_path_expected.xml" }, null, 0, null, null /* stdout */, null /* stderr */, out exit_status);
+					Process.spawn_sync (null,  { "/usr/bin/diff", GLib.Environment.get_tmp_dir () + "/test_out_path.xml", GXmlTest.get_test_dir () + "/test_out_path_expected.xml" }, null, 0, null, null /* stdout */, null /* stderr */, out exit_status);
 					assert (exit_status == 0);
 				} catch (GLib.Error e) {
 					GLib.warning ("%s", e.message);
@@ -98,10 +98,10 @@ class DocumentTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/document/save_to_stream", () => {
 				try {
-					File fin = File.new_for_path ("test.xml");
+					File fin = File.new_for_path (GXmlTest.get_test_dir () + "/test.xml");
 					InputStream instream = fin.read (null);
 
-					File fout = File.new_for_path ("test_out_stream.xml");
+					File fout = File.new_for_path (GLib.Environment.get_tmp_dir () + "/test_out_stream.xml");
 					// OutputStream outstream = fout.create (FileCreateFlags.REPLACE_DESTINATION, null); // REPLACE_DESTINATION doesn't work like I thought it would?
 					OutputStream outstream = fout.replace (null, true, FileCreateFlags.REPLACE_DESTINATION, null);
 
@@ -110,7 +110,7 @@ class DocumentTest : GXmlTest {
 
 					doc.save_to_stream (outstream);
 
-					Process.spawn_sync (null,  { "/usr/bin/diff", "test_out_stream.xml", "test_out_stream_expected.xml" }, null, 0, null, null /* stdout */, null /* stderr */, out exit_status);
+					Process.spawn_sync (null,  { "/usr/bin/diff", GLib.Environment.get_tmp_dir () + "/test_out_stream.xml", GXmlTest.get_test_dir () + "/test_out_stream_expected.xml" }, null, 0, null, null /* stdout */, null /* stderr */, out exit_status);
 					assert (exit_status == 0);
 				} catch (GLib.Error e) {
 					GLib.warning ("%s", e.message);

@@ -20,16 +20,24 @@ class GXmlTest {
 
 		Test.run ();
 
-		return 1;
+		return 0;
 	}
 
 	internal static Document get_doc () throws DomError {
 		Document doc = null;
 		try {
-			doc = new Document.from_path ("test.xml");
+			doc = new Document.from_path (get_test_dir () + "/test.xml");
 		} catch (DomError e) {
 		}
 		return doc;
+	}
+
+	internal static string get_test_dir () {
+		if (TEST_DIR == null || TEST_DIR == "") {
+			return ".";
+		} else {
+			return TEST_DIR;
+		}
 	}
 
 	// internal static Attr get_attr_new_doc (string name, string value) throws DomError {
