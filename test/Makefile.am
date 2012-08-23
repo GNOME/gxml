@@ -15,7 +15,8 @@ AM_CFLAGS = \
 	$(GXML_CFLAGS) \
 	$(GEE_CFLAGS) \
 	$(LIBXML_CFLAGS) \
-	-I$(srcdir)/gxml \
+	-I$(top_srcdir) \
+	-DTEST_DIR=\""$(top_srcdir)/test"\" \
 	$(NULL)
 
 VALAC=valac
@@ -44,6 +45,7 @@ gxml_test_VALAFLAGS = \
 	$(AM_VALAFLAGS) \
 	$(ERROR_VALAFLAGS) \
 	$(top_srcdir)/vapi/config.vapi \
+	$(top_srcdir)/vapi/gxml-test.vapi \
 	--vapidir=$(top_srcdir)/vapi \
 	--vapidir=$(top_srcdir)/gxml \
 	--pkg gio-2.0 \
@@ -51,6 +53,7 @@ gxml_test_VALAFLAGS = \
 	--pkg posix \
 	--pkg gxml \
 	--pkg libxml-2.0 \
+	-X -DTEST_DIR=$(top_srcdir)/test \
 	$(NULL)
 
 gxml_test_LDADD = \
@@ -70,15 +73,21 @@ gxml_test_LDFLAGS = $(AM_LDFLAGS)
 
 #...
 
-BUILT_SOURCES = gxml_test.vala.stamp
+testdir = $(top_builddir)/test
 
-CLEANFILES =  $(BUILT_SOURCES) gxml_test
-
-EXTRA_DIST += \
+test_DATA = \
 	test_out_path_expected.xml \
 	test_out_path.xml \
 	test_out_stream_expected.xml \
 	test_out_stream.xml \
 	test.xml \
+	$(NULL)
+
+BUILT_SOURCES = gxml_test.vala.stamp
+
+CLEANFILES =  $(BUILT_SOURCES) gxml_test
+
+EXTRA_DIST += \
+	$(test_DATA) \
 	$(NULL)
 
