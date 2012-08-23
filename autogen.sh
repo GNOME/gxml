@@ -17,6 +17,8 @@ fi
 
 # TODO: consider adding specifying automake and aclocal version here ala libfolks
 
+mkdir -p m4
+
 autoreconf -i -f
 intltoolize --force --copy --automake
 # presumably, this will obvious our tests for:
