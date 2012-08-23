@@ -69,10 +69,12 @@ AM_PROG_CC_C_O
 # Internationalization
 IT_PROG_INTLTOOL([0.35.0])
 
+AM_GNU_GETTEXT_VERSION([0.18.1])
+AM_GNU_GETTEXT([external])
+
 GETTEXT_PACKAGE=gxml
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [GETTEXT package name])
-AM_GLIB_GNU_GETTEXT
 
 # Initialise libtools (handles library creation) with stuff from above
 LT_INIT([disable-static])
@@ -174,7 +176,8 @@ gxml/gxml.pc
 gxml/Makefile
 test/Makefile
 docs/Makefile
-po/Makefile.in])
+po/Makefile.in
+])
 AC_OUTPUT
 
 

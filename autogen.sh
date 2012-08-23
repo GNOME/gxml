@@ -34,12 +34,9 @@ fi
 
 mkdir -p m4
 
-autoreconf -i -f
-intltoolize --force --copy --automake
-# presumably, this will obvious our tests for:
-#   srcdir, autoconf, intltool, xml-i18n-toolize (opt), libtool, glib (gettext), automake, aclocal
-#   TODO: test that disabling any of these results in autoreconf and intltoolize handling it
-#         gracefully or re-add checks
+autopoint --force || exit 1
+AUTOPOINT='intltoolize --automake --copy' autoreconf --force --install
+
 
 cd $OLDDIR
 
