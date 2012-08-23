@@ -67,9 +67,6 @@ AC_PROG_CC
 AM_PROG_CC_C_O
 AC_DISABLE_STATIC
 
-# Introspection
-m4_include(m4/introspection.m4)
-
 # Internationalization
 IT_PROG_INTLTOOL([0.35.0])
 
@@ -160,7 +157,7 @@ if test "x$enable_docs" = "xyes" -a "x$have_valadoc" != "xyes"; then
 fi
 
 # Check for GObject Introspection
-GOBJECT_INTROSPECTION_CHECK([0.6.7])
+GOBJECT_INTROSPECTION_CHECK([1.32.0])
 
 AC_ARG_ENABLE([gi-system-install],
     AS_HELP_STRING([--enable-gi-system-install], [Install GObject Introspection files along with system installed files [default=yes]]),
