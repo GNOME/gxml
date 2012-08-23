@@ -1,8 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 ## Created by Anjuta
 
-# # RHS: this is causing make to run configure? something to do with ./missing?
-# ACLOCAL_AMFLAGS = -I m4
+ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
 
 
 # Set up subdirectories to traverse
@@ -39,6 +38,7 @@ INTLTOOL_FILES = intltool-extract.in \
 EXTRA_DIST = $(gxmldoc_DATA) \
 	autogen.sh \
 	vapi \
+	config.rpath \
 	$(INTLTOOL_FILES)
 
 

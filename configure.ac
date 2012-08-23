@@ -59,27 +59,25 @@ AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([Makefile.am])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_SRCDIR([configure.ac])
-AM_INIT_AUTOMAKE([1.11 dist-bzip2 no-define
+AM_INIT_AUTOMAKE([1.11 dist-xz no-define
                   no-dist-gzip tar-ustar -Wno-portability])
 AM_MAINTAINER_MODE([enable])
 
 AC_PROG_CC
 AM_PROG_CC_C_O
-AC_DISABLE_STATIC
-
-# Introspection
-m4_include(m4/introspection.m4)
 
 # Internationalization
 IT_PROG_INTLTOOL([0.35.0])
 
+AM_GNU_GETTEXT_VERSION([0.18.1])
+AM_GNU_GETTEXT([external])
+
 GETTEXT_PACKAGE=gxml
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [GETTEXT package name])
-AM_GLIB_GNU_GETTEXT
 
 # Initialise libtools (handles library creation) with stuff from above
-LT_INIT
+LT_INIT([disable-static])
 
 PKG_PROG_PKG_CONFIG([0.21])
 GLIB_SETTINGS
@@ -119,13 +117,9 @@ VALADOC_REQUIRED=0.3.1
 PKG_CHECK_MODULES([GLIB],
                   [glib-2.0 >= $GLIB_REQUIRED
                    gobject-2.0 >= $GLIB_REQUIRED])
-AC_SUBST(GLIB_CFLAGS)
-AC_SUBST(GLIB_LIBS)
 
 # Check for vala
 PKG_CHECK_MODULES(VALA, $VALA_MODULES)
-AC_SUBST(VALA_CFLAGS)
-AC_SUBST(VALA_LIBS)
 VALA_BINDIR=`pkg-config $VALA_MODULES --variable=bindir`
 AC_SUBST(VALA_BINDIR)
 VALA_COMPILER="$VALA_BINDIR/valac"
@@ -137,18 +131,12 @@ AC_SUBST(VALA_VAPIDIR)
 
 # Check for libgee
 PKG_CHECK_MODULES(GEE, gee-0.8 >= $GEE_REQUIRED)
-AC_SUBST(GEE_CFLAGS)
-AC_SUBST(GEE_LIBS)
 
 # Check for libxml2
 PKG_CHECK_MODULES(LIBXML, libxml-2.0 >= $LIBXML_REQUIRED)
-AC_SUBST(LIBXML_CFLAGS)
-AC_SUBST(LIBXML_LIBS)
 
 # Check for GIO
 PKG_CHECK_MODULES(GIO, $GIO_MODULES)
-AC_SUBST(GIO_CFLAGS)
-AC_SUBST(GIO_LIBS)
 
 # Documentation with Valadoc
 AC_ARG_ENABLE([docs],
@@ -170,7 +158,7 @@ if test "x$enable_docs" = "xyes" -a "x$have_valadoc" != "xyes"; then
 fi
 
 # Check for GObject Introspection
-GOBJECT_INTROSPECTION_CHECK([0.6.7])
+GOBJECT_INTROSPECTION_CHECK([1.32.0])
 
 AC_ARG_ENABLE([gi-system-install],
     AS_HELP_STRING([--enable-gi-system-install], [Install GObject Introspection files along with system installed files [default=yes]]),
@@ -182,13 +170,15 @@ AM_CONDITIONAL(ENABLE_GI_SYSTEM_INSTALL, [test x"$enable_gi_system_install" = "x
 # TODO: should libgxml.pc have no version number in it?
 
 ### Autoconf generating Makefiles
-AC_OUTPUT([
+AC_CONFIG_FILES([
 Makefile
 gxml/gxml.pc
 gxml/Makefile
 test/Makefile
 docs/Makefile
-po/Makefile.in])
+po/Makefile.in
+])
+AC_OUTPUT
 
 
 
