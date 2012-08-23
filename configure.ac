@@ -65,7 +65,6 @@ AM_MAINTAINER_MODE([enable])
 
 AC_PROG_CC
 AM_PROG_CC_C_O
-AC_DISABLE_STATIC
 
 # Internationalization
 IT_PROG_INTLTOOL([0.35.0])
@@ -76,7 +75,7 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [GETTEXT package name])
 AM_GLIB_GNU_GETTEXT
 
 # Initialise libtools (handles library creation) with stuff from above
-LT_INIT
+LT_INIT([disable-static])
 
 PKG_PROG_PKG_CONFIG([0.21])
 GLIB_SETTINGS
