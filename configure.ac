@@ -59,7 +59,7 @@ AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([Makefile.am])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_SRCDIR([configure.ac])
-AM_INIT_AUTOMAKE([1.11 dist-bzip2 no-define
+AM_INIT_AUTOMAKE([1.11 dist-xz no-define
                   no-dist-gzip tar-ustar -Wno-portability])
 AM_MAINTAINER_MODE([enable])
 
