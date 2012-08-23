@@ -182,13 +182,14 @@ AM_CONDITIONAL(ENABLE_GI_SYSTEM_INSTALL, [test x"$enable_gi_system_install" = "x
 # TODO: should libgxml.pc have no version number in it?
 
 ### Autoconf generating Makefiles
-AC_OUTPUT([
+AC_CONFIG_FILES([
 Makefile
 gxml/gxml.pc
 gxml/Makefile
 test/Makefile
 docs/Makefile
 po/Makefile.in])
+AC_OUTPUT
 
 
 
