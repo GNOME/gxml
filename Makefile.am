@@ -38,6 +38,7 @@ INTLTOOL_FILES = intltool-extract.in \
 
 EXTRA_DIST = $(gxmldoc_DATA) \
 	autogen.sh \
+	vapi \
 	$(INTLTOOL_FILES)
 
 
