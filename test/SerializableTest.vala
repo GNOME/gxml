@@ -95,7 +95,8 @@ public class SerializableCapsicum : GLib.Object, GXml.Serializable {
 			this.height = (int)outvalue.get_int64 () - 1;
 			return true;
 		default:
-			GLib.error ("Wasn't expecting the SerializableCapsicum property '%s'", property_name);
+			Test.message ("Wasn't expecting the SerializableCapsicum property '%s'", property_name);
+			assert_not_reached ();
 		}
 
 		return false;
@@ -107,18 +108,22 @@ public class SerializableCapsicum : GLib.Object, GXml.Serializable {
 		switch (property_name) {
 		case "ratings":
 			GXml.DocumentFragment frag = doc.create_document_fragment ();
-			foreach (int rating_int in ratings) {
-				rating = doc.create_element ("rating");
-				rating.content = "%d".printf (rating_int);
-				frag.append_child (rating);
+			try {
+				foreach (int rating_int in ratings) {
+					rating = doc.create_element ("rating");
+					rating.content = "%d".printf (rating_int);
+					frag.append_child (rating);
+				}
+			} catch (GXml.DomError e) {
+				Test.message ("%s", e.message);
+				assert_not_reached ();
 			}
 			return frag;
-			break;
 		case "height":
 			return doc.create_text_node ("%d".printf (height + 1));
-			break;
 		default:
-			GLib.error ("Wasn't expecting the SerializableCapsicum property '%s'", property_name);
+			Test.message ("Wasn't expecting the SerializableCapsicum property '%s'", property_name);
+			assert_not_reached ();
 		}
 
 		// returning null does a normal serialization
@@ -249,26 +254,36 @@ class SerializableTest : GXmlTest {
 				ratings.append (21);
 
 				capsicum = new SerializableCapsicum (2, 3, 5, ratings);
-				node = Serialization.serialize_object (capsicum);
+				try {
+					node = Serialization.serialize_object (capsicum);
+				} catch (GXml.SerializationError e) {
+					Test.message ("%s", e.message);
+					assert_not_reached ();
+				}
 
 				expectation = "<Object otype=\"SerializableCapsicum\" oid=\"0x[0-9a-f]+\"><Property pname=\"height\" ptype=\"gint\">6</Property><Property pname=\"ratings\" ptype=\"gpointer\"><rating>8</rating><rating>13</rating><rating>21</rating></Property></Object>";
 
 				try {
 					regex = new Regex (expectation);
 					if (! regex.match (node.to_string ())) {
-						GLib.warning ("Did not serialize as expected.  Got [%s] but expected [%s]", node.to_string (), expectation);
-						GLib.Test.fail ();
+						Test.message ("Did not serialize as expected.  Got [%s] but expected [%s]", node.to_string (), expectation);
+						assert_not_reached ();
 					}
 
-					capsicum_new = (SerializableCapsicum)Serialization.deserialize_object (node);
+					try {
+						capsicum_new = (SerializableCapsicum)Serialization.deserialize_object (node);
+					} catch (GXml.SerializationError e) {
+						Test.message ("%s", e.message);
+						assert_not_reached ();
+					}
 					if (capsicum_new.height != 5 || ratings.length () != 3 || ratings.nth_data (0) != 8 || ratings.nth_data (2) != 21) {
-						GLib.warning ("Did not deserialize as expected.  Got [%s] but expected height and ratings from [%s]", capsicum_new.to_string (), capsicum.to_string ());
-						GLib.Test.fail ();
+						Test.message ("Did not deserialize as expected.  Got [%s] but expected height and ratings from [%s]", capsicum_new.to_string (), capsicum.to_string ());
+						assert_not_reached ();
 					}
 				} catch (RegexError e) {
-					GLib.warning ("Regular expression [%s] for test failed: %s",
+					Test.message ("Regular expression [%s] for test failed: %s",
 						      expectation, e.message);
-					GLib.Test.fail ();
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/serializable/interface_override_properties_view", () => {

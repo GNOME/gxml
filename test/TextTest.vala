@@ -33,22 +33,20 @@ class TextTest : GXmlTest {
 
 					try {
 						txt2.split_text (-1);
-						assert (false);
+						assert_not_reached ();
 					} catch (DomError.INDEX_SIZE e) {
-						assert (true);
 					}
 					try {
 						txt2.split_text (10);
-						assert (false);
+						assert_not_reached ();
 					} catch (DomError.INDEX_SIZE e) {
-						assert (true);
 					}
 					assert (txt2.node_value == "Const");
 
 
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 	}

@@ -32,8 +32,8 @@ class ValaLibxml2Test : GXmlTest {
 					/* deallocator: takes (void *payload, string name), just frees payload */
 					// TODO: figure out a way to test whether table was freed
 				// } catch (Error e) {
-				// 	GLib.warning ("%s", e.message);
-				// 	assert (false);
+				// 	Test.message ("%s", e.message);
+				// 	assert_not_reached ();
 				// }
 			});
 	}

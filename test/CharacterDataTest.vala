@@ -11,8 +11,8 @@ class CharacterDataTest : GXmlTest  {
 					assert (txt.data == str);
 					assert (txt.data == txt.node_value);
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/characterdata/length", () => {
@@ -22,8 +22,8 @@ class CharacterDataTest : GXmlTest  {
 
 					assert (txt.length == str.length);
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/characterdata/substring_data", () => {
@@ -35,8 +35,8 @@ class CharacterDataTest : GXmlTest  {
 
 					// TODO: test bounds
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/characterdata/append_data", () => {
@@ -49,8 +49,8 @@ class CharacterDataTest : GXmlTest  {
 					txt.append_data (" if you can't see where it keeps its brain.");
 					assert (txt.data == str_whole);
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/characterdata/insert_data", () => {
@@ -60,8 +60,8 @@ class CharacterDataTest : GXmlTest  {
 					assert (txt.data == "It is our choices that show what we truly are, far more than our abilities.");
 					// TODO: test bounds
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/characterdata/delete_data", () => {
@@ -71,8 +71,8 @@ class CharacterDataTest : GXmlTest  {
 					assert (txt.data == "Happiness can turn on the light.");
 					// TODO: test bounds
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/characterdata/replace_data", () => {
@@ -83,8 +83,8 @@ class CharacterDataTest : GXmlTest  {
 					txt.replace_data (3, 6, "the refrigerator");
 					assert (txt.data == "In the refrigerator, we enter a world that's entirely our own.");
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 	}

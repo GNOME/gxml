@@ -254,13 +254,13 @@ class SerializationTest : GXmlTest {
 			object_new = Serialization.deserialize_object (doc.document_element);
 
 			if (! equals (object, object_new)) {
-				GLib.warning ("Expected [%s] but got [%s]",
+				Test.message ("Expected [%s] but got [%s]",
 					      stringify (object), stringify (object_new));
-				GLib.Test.fail ();
+				assert_not_reached ();
 			}
 		} catch (GLib.Error e) {
-			GLib.message ("%s", e.message);
-			GLib.Test.fail ();
+			Test.message ("%s", e.message);
+			assert_not_reached ();
 		}
 
 		return object_new;
@@ -291,17 +291,17 @@ class SerializationTest : GXmlTest {
 
 					regex = new Regex (expectation);
 					if (! regex.match (fruit_xml.to_string ())) {
-						GLib.warning ("Expected [%s] but found [%s]",
+						Test.message ("Expected [%s] but found [%s]",
 							      expectation, fruit_xml.to_string ());
-						GLib.Test.fail ();
+						assert_not_reached ();
 					}
 				} catch (RegexError e) {
-					GLib.warning ("Regular expression [%s] for test failed: %s",
+					Test.message ("Regular expression [%s] for test failed: %s",
 						      expectation, e.message);
-					GLib.Test.fail ();
+					assert_not_reached ();
 				} catch (GXml.SerializationError e) {
-					GLib.warning ("%s", e.message);
-					GLib.Test.fail ();
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 
 			});
@@ -315,12 +315,12 @@ class SerializationTest : GXmlTest {
 
 					// we expect 9 because Fruit triples it in the setter
 					if (fruit.age != 9) {
-						GLib.warning ("Expected fruit.age [%d] but found [%d]", 9, fruit.age);
-						GLib.Test.fail (); // TODO: check weight?
+						Test.message ("Expected fruit.age [%d] but found [%d]", 9, fruit.age);
+						assert_not_reached (); // TODO: check weight?
 					}
 				} catch (GLib.Error e) {
-					GLib.message ("%s", e.message);
-					GLib.Test.fail ();
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/serialization/xml_deserialize_no_type", () => {
@@ -332,8 +332,8 @@ class SerializationTest : GXmlTest {
 					doc = new Document.from_string ("<Object otype='Fruit'><Property pname='age'>3</Property></Object>");
 					fruit = (Fruit)Serialization.deserialize_object (doc.document_element);
 				} catch (GLib.Error e) {
-					GLib.message ("%s", e.message);
-					GLib.Test.fail ();
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/serialization/xml_deserialize_bad_property_name", () => {
@@ -342,13 +342,13 @@ class SerializationTest : GXmlTest {
 				try {
 					doc = new Document.from_string ("<Object otype='Fruit'><Property name='badname'>3</Property></Object>");
 					Serialization.deserialize_object (doc.document_element);
-					GLib.message ("Expected SerializationError.UNKNOWN_PROPERTY to be thrown for property 'badname' in object 'Fruit' :(  Did not happen.");
-					GLib.Test.fail ();
+					Test.message ("Expected SerializationError.UNKNOWN_PROPERTY to be thrown for property 'badname' in object 'Fruit' :(  Did not happen.");
+					assert_not_reached ();
 				} catch (GXml.SerializationError.UNKNOWN_PROPERTY e) {
 					// Pass
 				} catch (GLib.Error e) {
-					GLib.message ("%s", e.message);
-					GLib.Test.fail ();
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/serialization/xml_deserialize_bad_object_type", () => {
@@ -357,12 +357,12 @@ class SerializationTest : GXmlTest {
 				try {
 					doc = new Document.from_string ("<Object otype='BadType'></Object>");
 					Serialization.deserialize_object (doc.document_element);
-					GLib.Test.fail ();
+					assert_not_reached ();
 				} catch (GXml.SerializationError.UNKNOWN_TYPE e) {
 					// Pass
 				} catch (GLib.Error e) {
-					GLib.message ("%s", e.message);
-					GLib.Test.fail ();
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/serialization/xml_deserialize_bad_property_type", () => {
@@ -375,12 +375,12 @@ class SerializationTest : GXmlTest {
 				try {
 					doc = new Document.from_string ("<Object otype='Fruit'><Property pname='age' ptype='badtype'>blue</Property></Object>");
 					fruit = (Fruit)Serialization.deserialize_object (doc.document_element);
-					GLib.Test.fail ();
+					assert_not_reached ();
 				} catch (GXml.SerializationError.UNSUPPORTED_TYPE e) {
 					// Pass
 				} catch (GLib.Error e) {
-					GLib.message ("%s", e.message);
-					GLib.Test.fail ();
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/serialization/simple_properties", () => {
@@ -412,13 +412,18 @@ class SerializationTest : GXmlTest {
 				simple_properties = new SimpleProperties (3, 4.2, "catfish", true, 0);
 				obj = new ComplexDuplicateProperties (simple_properties);
 
-				xml = Serialization.serialize_object (obj);
+				try {
+					xml = Serialization.serialize_object (obj);
 
-				restored = (ComplexDuplicateProperties)Serialization.deserialize_object (xml);
+					restored = (ComplexDuplicateProperties)Serialization.deserialize_object (xml);
+				} catch (GXml.SerializationError e) {
+					Test.message ("%s", e.message);
+					assert_not_reached ();
+				}
 
 				if (restored.a != restored.b) {
-					GLib.message ("Properties a (%p) and b (%p) should reference the same object but do not", restored.a, restored.b);
-					GLib.Test.fail ();
+					Test.message ("Properties a (%p) and b (%p) should reference the same object but do not", restored.a, restored.b);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/serialization/complex_complex_properties", () => {
@@ -438,7 +443,7 @@ class SerializationTest : GXmlTest {
 			});
 		// TODO: more to do, for structs and stuff and things that do interfaces
 		if (auto_fields) {
-			GLib.message ("WARNING: thorough tests are expected to fail, as they test " +
+			Test.message ("WARNING: thorough tests are expected to fail, as they test " +
 				      "feature not yet implemented, pertaining to automatic handling " +
 				      "of fields and private properties.  You can achieve the same " +
 				      "effect as these features, though, by making a class implement " +
@@ -509,17 +514,17 @@ class SerializationTest : GXmlTest {
 
 						regex = new Regex (expectation);
 						if (! regex.match (fruit_xml.to_string ())) {
-							GLib.warning ("Expected [%s] but found [%s]",
+							Test.message ("Expected [%s] but found [%s]",
 								      expectation, fruit_xml.to_string ());
-							GLib.Test.fail ();
+							assert_not_reached ();
 						}
 					} catch (RegexError e) {
-						GLib.warning ("Regular expression [%s] for test failed: %s",
+						Test.message ("Regular expression [%s] for test failed: %s",
 							      expectation, e.message);
-						GLib.Test.fail ();
+						assert_not_reached ();
 					} catch (GXml.SerializationError e) {
-						GLib.warning ("%s", e.message);
-						GLib.Test.fail ();
+						Test.message ("%s", e.message);
+						assert_not_reached ();
 					}
 				});
 			Test.add_func ("/gxml/serialization/xml_deserialize_fields", () => {
@@ -537,15 +542,15 @@ class SerializationTest : GXmlTest {
 						fruit = (Fruit)Serialization.deserialize_object (doc.document_element);
 
 						if (! fruit.test ("blue", 11, "fish", 3)) {
-							GLib.warning ("Expected [\"%s\", %d, \"%s\", %d] but found [%s]", "blue", 11, "fish", 3, fruit.to_string ());
-							GLib.Test.fail (); // Note that age sets weight normally
+							Test.message ("Expected [\"%s\", %d, \"%s\", %d] but found [%s]", "blue", 11, "fish", 3, fruit.to_string ());
+							assert_not_reached (); // Note that age sets weight normally
 						}
 					} catch (GXml.SerializationError e) {
-						GLib.message ("%s", e.message);
-						GLib.Test.fail ();
+						Test.message ("%s", e.message);
+						assert_not_reached ();
 					} catch (GXml.DomError e) {
-						GLib.message ("%s", e.message);
-						GLib.Test.fail ();
+						Test.message ("%s", e.message);
+						assert_not_reached ();
 					}
 				});
 			Test.add_func ("/gxml/serialization/simple_fields", () => {

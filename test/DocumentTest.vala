@@ -10,7 +10,7 @@ class DocumentTest : GXmlTest {
 				// Document doc = get_doc ();
 				DocumentType type = doc.doctype;
 				HashTable<string,Entity> entities = type.entities;
-				assert (false);
+				assert_not_reached ();
 				// TODO: need to find an example file with a DTD that actually sets entities, annotations
 				// TODO: fill in
 				*/
@@ -27,8 +27,8 @@ class DocumentTest : GXmlTest {
 					assert (impl.has_feature ("html") == false);
 					assert (impl.has_feature ("nonsense") == false);
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/document/document_element", () => {
@@ -39,8 +39,8 @@ class DocumentTest : GXmlTest {
 					assert (root.node_name == "Sentences");
 					assert (root.has_child_nodes ());
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 
@@ -50,8 +50,8 @@ class DocumentTest : GXmlTest {
 
 					check_contents (doc);
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/document/construct_from_stream", () => {
@@ -64,8 +64,8 @@ class DocumentTest : GXmlTest {
 
 					check_contents (doc);
 				} catch (GLib.Error e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/document/construct_from_string", () => {
@@ -79,8 +79,8 @@ class DocumentTest : GXmlTest {
 					assert (root.first_child.node_name == "Apple");
 					assert (root.last_child.node_name == "Orange");
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/document/save", () => {
@@ -92,8 +92,8 @@ class DocumentTest : GXmlTest {
 					Process.spawn_sync (null,  { "/usr/bin/diff", GLib.Environment.get_tmp_dir () + "/test_out_path.xml", GXmlTest.get_test_dir () + "/test_out_path_expected.xml" }, null, 0, null, null /* stdout */, null /* stderr */, out exit_status);
 					assert (exit_status == 0);
 				} catch (GLib.Error e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/document/save_to_stream", () => {
@@ -113,8 +113,8 @@ class DocumentTest : GXmlTest {
 					Process.spawn_sync (null,  { "/usr/bin/diff", GLib.Environment.get_tmp_dir () + "/test_out_stream.xml", GXmlTest.get_test_dir () + "/test_out_stream_expected.xml" }, null, 0, null, null /* stdout */, null /* stderr */, out exit_status);
 					assert (exit_status == 0);
 				} catch (GLib.Error e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/document/create_element", () => {
@@ -128,7 +128,7 @@ class DocumentTest : GXmlTest {
 						assert (elem.tag_name == "Banana");
 						assert (elem.tag_name != "banana");
 					} catch (DomError e) {
-						assert (false);
+						assert_not_reached ();
 					}
 
 					try {
@@ -140,13 +140,13 @@ class DocumentTest : GXmlTest {
 						   but not us? :S
 
 						   // We should not get this far
-						   assert (false);
+						   assert_not_reached ();
 						*/
 					} catch (DomError.INVALID_CHARACTER e) {
 					}
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/document/create_document_fragment", () => {
@@ -218,8 +218,8 @@ class DocumentTest : GXmlTest {
 					// TODO: want to find a way to flattern the string, strip whitespace
 					assert (doc.to_string () == expected);
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/document/create_text_node", () => {
@@ -230,8 +230,8 @@ class DocumentTest : GXmlTest {
 					assert (text.node_name == "#text");
 					assert (text.node_value == "Star of my dreams");
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/document/create_comment", () => {
@@ -242,8 +242,8 @@ class DocumentTest : GXmlTest {
 					assert (comment.node_name == "#comment");
 					assert (comment.node_value == "Ever since the day we promised.");
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/document/create_cdata_section", () => {
@@ -254,8 +254,8 @@ class DocumentTest : GXmlTest {
 					assert (cdata.node_name == "#cdata-section");
 					assert (cdata.node_value == "put in real cdata");
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/document/create_processing_instruction", () => {
@@ -268,8 +268,8 @@ class DocumentTest : GXmlTest {
 					assert (instruction.data == "data");
 					assert (instruction.node_value == "data");
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/document/create_attribute", () => {
@@ -281,8 +281,8 @@ class DocumentTest : GXmlTest {
 					assert (attr.node_name == "attrname");
 					assert (attr.node_value == "");
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/document/create_entity_reference", () => {
@@ -293,8 +293,8 @@ class DocumentTest : GXmlTest {
 					assert (entity.node_name == "entref");
 					// TODO: think of at least one other smoke test
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/document/get_elements_by_tag_name", () => {
@@ -307,8 +307,8 @@ class DocumentTest : GXmlTest {
 					/* more thorough test exists in Element, since right now
 					   Document uses that one */
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/document/to_string", () => {
@@ -332,8 +332,8 @@ class DocumentTest : GXmlTest {
 ");
 					// TODO: want to test with format on and off
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 
 			});

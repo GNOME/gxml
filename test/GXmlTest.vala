@@ -15,9 +15,6 @@ class GXmlTest {
 		SerializationTest.add_tests ();
 		SerializableTest.add_tests ();
 
-		// Prevent WARNING from aborting the test suite
-		GLib.Log.set_always_fatal (GLib.LogLevelFlags.LEVEL_ERROR);
-
 		Test.run ();
 
 		return 0;

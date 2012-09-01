@@ -17,8 +17,8 @@ class AttrTest : GXmlTest {
 					assert (shell.namespace_uri == "http://mom.co.uk/wands");
 					assert (price.namespace_uri == null);
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/element/prefix", () => {
@@ -35,8 +35,8 @@ class AttrTest : GXmlTest {
 					assert (shell.prefix == "wands");
 					assert (price.prefix == null);
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/element/local_name", () => {
@@ -53,8 +53,8 @@ class AttrTest : GXmlTest {
 					assert (shell.local_name == "shell");
 					assert (price.local_name == "price");
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 
@@ -65,8 +65,8 @@ class AttrTest : GXmlTest {
 
 					assert (attr.node_name == "broomSeries");
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/attribute/node_value", () => {
@@ -83,8 +83,8 @@ class AttrTest : GXmlTest {
 					attr.value = "Gringots";
 					assert (attr.node_value == "Gringots");
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/attribute/name", () => {
@@ -94,8 +94,8 @@ class AttrTest : GXmlTest {
 
 					assert (attr.name == "broomSeries");
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/attribute/node_value", () => {
@@ -112,8 +112,8 @@ class AttrTest : GXmlTest {
 					attr.node_value = "Gringots";
 					assert (attr.value == "Gringots");
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/attribute/specified", () => {
@@ -129,8 +129,8 @@ class AttrTest : GXmlTest {
 					elem.set_attribute_node (attr);
 					assert (attr.parent_node == null);
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/attribute/previous_sibling", () => {
@@ -146,8 +146,8 @@ class AttrTest : GXmlTest {
 					assert (attr1.previous_sibling == null);
 					assert (attr2.previous_sibling == null);
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/attribute/next_sibling", () => {
@@ -163,8 +163,8 @@ class AttrTest : GXmlTest {
 					assert (attr1.next_sibling == null);
 					assert (attr2.next_sibling == null);
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/attribute/insert_before", () => {
@@ -179,8 +179,8 @@ class AttrTest : GXmlTest {
 					// the Text nodes should be merged
 					assert (attr.child_nodes.length == 1);
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/attribute/replace_child", () => {
@@ -193,8 +193,8 @@ class AttrTest : GXmlTest {
 					attr.replace_child (txt, attr.child_nodes.item (0));
 					assert (attr.value == "Gryffindor");
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/attribute/remove_child", () => {
@@ -207,8 +207,8 @@ class AttrTest : GXmlTest {
 					attr.remove_child (attr.child_nodes.last ());
 					assert (attr.value == "");
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 	}

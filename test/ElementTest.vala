@@ -44,8 +44,8 @@ class ElementTest : GXmlTest  {
 					assert (node.local_name == "Potion");
 					assert (node.node_name == "Potion");
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/element/namespace_uri", () => {
@@ -57,8 +57,8 @@ class ElementTest : GXmlTest  {
 
 					assert (node.namespace_uri == "http://hogwarts.co.uk/magic");
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/element/testing", () => {
@@ -80,8 +80,8 @@ class ElementTest : GXmlTest  {
 					// 	message ("attrkey: %s, value: %s", attr.node_name, attr.node_value);
 					// }
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/element/prefix", () => {
@@ -92,8 +92,8 @@ class ElementTest : GXmlTest  {
 
 					assert (node.prefix == "magic");
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/element/local_name", () => {
@@ -104,8 +104,8 @@ class ElementTest : GXmlTest  {
 
 					assert (node.local_name == "Potion");
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/element/namespace_definitions", () => {
@@ -126,8 +126,8 @@ class ElementTest : GXmlTest  {
 					assert (namespaces.item (1).node_value == "http://diagonalley.co.uk/products");
 					assert (node.local_name == "Potion");
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/element/attributes", () => {
@@ -165,8 +165,8 @@ class ElementTest : GXmlTest  {
 					assert (elem.get_attribute ("alley") == "");
 
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		/* by accessing .attributes, the element is marked as
@@ -187,8 +187,8 @@ class ElementTest : GXmlTest  {
 
 					str = doc.to_string ();
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/element/get_set_attribute", () => {
@@ -202,8 +202,8 @@ class ElementTest : GXmlTest  {
 					elem.set_attribute ("name", "Lovegood");
 					assert ("Lovegood" == elem.get_attribute ("name"));
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/element/remove_attribute", () => {
@@ -219,8 +219,8 @@ class ElementTest : GXmlTest  {
 
 					// Consider testing default attributes (see Attr and specified)
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/element/get_attribute_node", () => {
@@ -231,8 +231,8 @@ class ElementTest : GXmlTest  {
 					elem.set_attribute ("name", "Severus");
 					assert (elem.get_attribute_node ("name").value == "Severus");
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/element/set_attribute_node", () => {
@@ -252,8 +252,8 @@ class ElementTest : GXmlTest  {
 					assert (elem.set_attribute_node (attr2).value == "Snape");
 					assert (elem.get_attribute_node ("name").value == "Moody");
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 
@@ -274,8 +274,8 @@ class ElementTest : GXmlTest  {
 					assert (elem.get_attribute_node ("name") == null);
 					assert (elem.get_attribute ("name") == "");
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 
@@ -316,8 +316,8 @@ class ElementTest : GXmlTest  {
 
 					// TODO: need to test that preorder traversal order is correct
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/element/get_elements_by_tag_name.live", () => {
@@ -425,8 +425,8 @@ class ElementTest : GXmlTest  {
 					bs.append_child (b4);
 					assert (ts.length == 11);
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/element/normalize", () => {
@@ -436,8 +436,8 @@ class ElementTest : GXmlTest  {
 
 					// STUB
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 		Test.add_func ("/gxml/element/to_string", () => {
@@ -451,15 +451,15 @@ class ElementTest : GXmlTest  {
 					elem2.append_child (elem.owner_document.create_text_node ("&lt;<>&gt;"));
 					string expected = "<messy>&amp;lt;&lt;&gt;&amp;gt;</messy>";
 					if (elem2.to_string () != expected) {
-						GLib.warning ("Expected [%s] found [%s]",
+						Test.message ("Expected [%s] found [%s]",
 							      expected, elem2.to_string ());
-						GLib.Test.fail ();
+						assert_not_reached ();
 					}
 
 					// TODO: want to test with format on and off
 				} catch (GXml.DomError e) {
-					GLib.warning ("%s", e.message);
-					assert (false);
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 			});
 	}
