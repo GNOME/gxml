@@ -73,14 +73,6 @@ gxml_test_LDFLAGS = $(AM_LDFLAGS)
 
 #...
 
-testdir = $(top_builddir)/test
-
-test_DATA = \
-	test_out_path_expected.xml \
-	test_out_stream_expected.xml \
-	test.xml \
-	$(NULL)
-
 BUILT_SOURCES = gxml_test.vala.stamp
 
 CLEANFILES =  $(BUILT_SOURCES) gxml_test
@@ -88,6 +80,8 @@ CLEANFILES =  $(BUILT_SOURCES) gxml_test
 DISTCLEANFILES = _serialization_test_*.xml
 
 EXTRA_DIST += \
-	$(test_DATA) \
+	test_out_path_expected.xml \
+	test_out_stream_expected.xml \
+	test.xml \
 	$(NULL)
 
