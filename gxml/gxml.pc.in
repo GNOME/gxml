@@ -9,6 +9,6 @@ Name: libgxml
 Description: GObject API for XML manipulation library
 URL: http://live.gnome.org/XML
 Version: @VERSION@
-Requires:
+Requires: glib-2.0 gee-0.8 libxml-2.0
 Libs: -L${libdir} -lgxml
 Cflags: -I${includedir}
