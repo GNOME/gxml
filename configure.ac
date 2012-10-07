@@ -161,8 +161,8 @@ fi
 GOBJECT_INTROSPECTION_CHECK([1.32.0])
 
 AC_ARG_ENABLE([gi-system-install],
-    AS_HELP_STRING([--enable-gi-system-install], [Install GObject Introspection files along with system installed files [default=yes]]),
-    [enable_gi_system_install=$enableval],[enable_gi_system_install=yes])
+    AS_HELP_STRING([--enable-gi-system-install], [Install GObject Introspection files along with system installed files [default=no]]),
+    [enable_gi_system_install=$enableval],[enable_gi_system_install=no])
 AM_CONDITIONAL(ENABLE_GI_SYSTEM_INSTALL, [test x"$enable_gi_system_install" = "xyes"])
 
 
