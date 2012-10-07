@@ -129,6 +129,7 @@ GITIGNOREFILES = \
 
 
 ### GObject Introspection
+
 if ENABLE_GI_SYSTEM_INSTALL
 girdir = $(INTROSPECTION_GIRDIR)
 typelibdir = $(INTROSPECTION_TYPELIBDIR)
@@ -137,10 +138,16 @@ girdir = $(datadir)/gir-1.0
 typelibdir = $(libdir)/girepository-1.0
 endif
 
+# dlname:
+#   Extract our dlname like libfolks does, see bgo#658002 and bgo#585116
+#   This is what g-ir-scanner does.
+libgxml_dlname = \
+        `$(SED) -n "s/^dlname='\([A-Za-z0-9.+-]\+\)'/\1/p" libgxml.la`
+
 -include $(INTROSPECTION_MAKEFILE)
 INTROSPECTION_GIRS =
 INTROSPECTION_SCANNER_ARGS =
-INTROSPECTION_COMPILER_ARGS = --includedir=.
+INTROSPECTION_COMPILER_ARGS = --includedir=. -l $(libgxml_dlname)
 
 GXml-$(API_VERSION).gir: libgxml.la
 GIRS = GXml-$(API_VERSION).gir
