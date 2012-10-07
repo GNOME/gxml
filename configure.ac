@@ -46,7 +46,7 @@ m4_define([project_module_version], project_lt_current)
 ### Setup
 
 # Initialise autoconf with project details, version
-AC_INIT([gxml], project_version,
+AC_INIT([GXml], project_version,
         [https://bugzilla.gnome.org/browse.cgi?product=gxml], [gxml],
         [http://live.gnome.org/GXml])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
