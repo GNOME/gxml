@@ -39,8 +39,8 @@ common_doc_files = \
 	$(NULL)
 
 gxmldoc_DATA = \
-	gxml/gxml/gxml.devhelp2 \
-	$(addprefix gxml/gxml/,$(common_doc_files)) \
+	gxml/GXml/GXml.devhelp2 \
+	$(addprefix gxml/GXml/,$(common_doc_files)) \
 	$(NULL)
 
 gxmlgtkdoc_DATA = gtk-doc/gxml/html/*
@@ -56,6 +56,7 @@ $(gxmlgtkdoc_DATA): gxml-gtk-doc
 
 valadoc_flags = \
 	--force \
+	--package-name GXml \
 	--package-version $(PACKAGE_VERSION) \
 	$(NULL)
 
