@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<Bookshelf>
+  <Owner fullname="John Green"/>
+  <Books>
+    <Book author="John Green" title="The Fault in Our Stars"/>
+    <Book author="Jane Austen" title="Pride &amp; Prejudice"/>
+    <Book author="J.D. Salinger" title="Nine Stories"/>
+  </Books>
+</Bookshelf>
