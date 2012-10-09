@@ -281,9 +281,11 @@ namespace GXml {
 		 * @param format false: no formatting, true: formatted, with indentation
 		 * @param level Indentation level
 		 *
-		 * @return XML string for node.
+		 * @return XML string for node
 		 */
 		// TODO: need to investigate how to activate format
+		// TODO: indicate in C that the return value must be freed.
+		// TODO: ask Colin Walters about storing docs in GIR files (might have not been him)
 		public virtual string to_string (bool format = false, int level = 0) {
 			_str = "DomNode(%d:%s)".printf (this.node_type, this.node_name);
 			return _str;
