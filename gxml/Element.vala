@@ -350,8 +350,13 @@ namespace GXml {
 		  see a, add a, visit a
 		*/
 
+		/* This keeps a list of all descendants with a given tag name, so you can do
+		   elem.get_elements_by_tag_name ("name") and find them quickly; whenever a
+		   node is added to the DOM, all its ancestors have it added to their list */
 		private List<TagNameNodeList> tag_name_lists = new List<TagNameNodeList> ();
 
+		/* Adds a new descendant to this elements cached list of child descendants,
+		   used to isolate the subtree of nodes when filtering by tag name */
 		private void on_new_descendant_with_tag_name (Element elem) {
 			// TODO: consider using a HashTable instead
 			foreach (TagNameNodeList list in tag_name_lists) {
