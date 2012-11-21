@@ -226,6 +226,25 @@ public class EnumProperties : GLib.Object {
 	}
 }
 
+public class RecursiveProperty : GLib.Object {
+	public RecursiveProperty recursive_property { get; set; }
+	public string addr { get; set; }
+
+	public string to_string () {
+		return "{addr:%s,recursive_property:{addr:%s,recursive_property:{addr:%s,...}}}".printf (addr, recursive_property.addr, recursive_property.recursive_property.addr);
+		//return "this:%p{recursive_property:%p{recursive_property:%p{...}}}".printf (this, this.recursive_property, this.recursive_property.recursive_property);
+	}
+
+	public RecursiveProperty () {
+		this.recursive_property = this;
+		this.addr = "%p".printf (this);
+	}
+
+	public static bool equals (RecursiveProperty a, RecursiveProperty b) {
+		return (a.to_string () == b.to_string ());
+	}
+}
+
 
 /* **********************  TEST BEGINS *******************************/
 
@@ -239,7 +258,7 @@ class SerializationTest : GXmlTest {
 		GLib.Object object_new = null;
 
 		// make sure we have a fresh cache without collisions from previous tests
-		Serialization.clear_cache ();
+		Serialization.clear_caches ();
 
 		xml_filename = "_serialization_test_" + name + ".xml";
 
@@ -251,6 +270,7 @@ class SerializationTest : GXmlTest {
 			// TODO: assert that saved file is right
 			doc = new GXml.Document.from_path (xml_filename);
 			// TODO: assert that loaded file is right; do document compare with original
+
 			object_new = Serialization.deserialize_object (doc.document_element);
 
 			if (! equals (object, object_new)) {
@@ -276,7 +296,7 @@ class SerializationTest : GXmlTest {
 				Regex regex;
 
 				// Clear cache to avoid collisions with other tests
-				Serialization.clear_cache ();
+				Serialization.clear_caches ();
 
 				/* TODO: This test should change once we can serialise fields
 				   and private properties */
@@ -370,7 +390,7 @@ class SerializationTest : GXmlTest {
 				Fruit fruit;
 
 				// Clear cache to avoid collisions with other tests
-				Serialization.clear_cache ();
+				Serialization.clear_caches ();
 
 				try {
 					doc = new Document.from_string ("<Object otype='Fruit'><Property pname='age' ptype='badtype'>blue</Property></Object>");
@@ -407,7 +427,7 @@ class SerializationTest : GXmlTest {
 				GXml.DomNode xml;
 
 				// Clear cache to avoid collisions with other tests
-				Serialization.clear_cache ();
+				Serialization.clear_caches ();
 
 				simple_properties = new SimpleProperties (3, 4.2, "catfish", true, 0);
 				obj = new ComplexDuplicateProperties (simple_properties);
@@ -441,7 +461,15 @@ class SerializationTest : GXmlTest {
 				EnumProperties obj = new EnumProperties (EnumProperty.THREE);
 				test_serialization_deserialization (obj, "enum_properties", (GLib.EqualFunc)EnumProperties.equals, (StringifyFunc)EnumProperties.to_string);
 			});
-		// TODO: more to do, for structs and stuff and things that do interfaces
+		Test.add_func ("/gxml/serialization/recursion", () => {
+				RecursiveProperty obj = new RecursiveProperty ();
+
+				test_serialization_deserialization (obj, "recursion", (GLib.EqualFunc)RecursiveProperty.equals, (StringifyFunc)RecursiveProperty.to_string);
+			});
+
+
+
+		// TODO: more to do, for structs and stuff and things that interfaces
 		if (auto_fields) {
 			Test.message ("WARNING: thorough tests are expected to fail, as they test " +
 				      "feature not yet implemented, pertaining to automatic handling " +
@@ -501,7 +529,7 @@ class SerializationTest : GXmlTest {
 					Regex regex;
 
 					// Clear cache to avoid collisions with other tests
-					Serialization.clear_cache ();
+					Serialization.clear_caches ();
 
 					expectation = "<Object otype=\"Fruit\" oid=\"0x[0-9a-f]+\"><Property pname=\"colour\">blue</Property><Property pname=\"weight\">9</Property><Property pname=\"name\">fish</Property><Property pname=\"age\" ptype=\"gint\">3</Property></Object>";
 					// weight expected to be 9 because age sets it *3
@@ -535,7 +563,7 @@ class SerializationTest : GXmlTest {
 					Fruit fruit;
 
 					// Clear cache to avoid collisions with other tests
-					Serialization.clear_cache ();
+					Serialization.clear_caches ();
 
 					try {
 						doc = new Document.from_string ("<Object otype='Fruit'><Property pname='colour' ptype='gchararray'>blue</Property><Property pname='weight' ptype='gint'>11</Property><Property pname='name' ptype='gchararray'>fish</Property><Property pname='age' ptype='gint'>3</Property></Object>");
@@ -562,6 +590,7 @@ class SerializationTest : GXmlTest {
 					test_serialization_deserialization (obj, "simple_properties", (GLib.EqualFunc)SimpleProperties.equals, (StringifyFunc)SimpleProperties.to_string);
 				});
 		}
+		/*** WARNING: above block is CONDITIONAL ***/
 
 	}
 }

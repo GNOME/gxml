@@ -246,7 +246,7 @@ class SerializableTest : GXmlTest {
 				GLib.List<int> ratings;
 
 				// Clear cache to avoid collisions with other tests
-				Serialization.clear_cache ();
+				Serialization.clear_caches ();
 
 				ratings = new GLib.List<int> ();
 				ratings.append (8);
