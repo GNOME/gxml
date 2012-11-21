@@ -176,22 +176,41 @@ namespace GXml {
 			Element prop;
 			Serializable serializable = null;
 			DomNode value_prop = null;
+			string oid;
 
-			if (object.get_type ().is_a (typeof (Serializable))) {
-				serializable = (Serializable)object;
-			}
+			// If the object has been serialized before, let's not do it again!
+			oid = "%p".printf (object);
+			Serialization.init_caches ();
 
-			/* Create an XML Document to return the object
-			   in.  TODO: consider just returning an
-			   <Object> node; but then we'd probably want
-			   a separate document for it to already be a
-			   part of as its owner_document. */
 			try {
+				// first, check if its been serialised already, and if so, just return an ObjectRef element for it.
+				if (oid != "" && Serialization.serialize_cache.contains (oid)) {
+					// GLib.message ("cache hit on oid %s", oid);
+					doc = new Document ();
+					root = doc.create_element ("ObjectRef");
+					doc.append_child (root);
+					root.set_attribute ("otype", object.get_type ().name ());
+					root.set_attribute ("oid", oid);
+					return doc.document_element;
+				}
+
+				if (object.get_type ().is_a (typeof (Serializable))) {
+					serializable = (Serializable)object;
+				}
+
+				/* Create an XML Document to return the object
+				   in.  TODO: consider just returning an
+				   <Object> node; but then we'd probably want
+				   a separate document for it to already be a
+				   part of as its owner_document. */
 				doc = new Document ();
 				root = doc.create_element ("Object");
 				doc.append_child (root);
 				root.set_attribute ("otype", object.get_type ().name ());
-				root.set_attribute ("oid", "%p".printf (object));
+				root.set_attribute ("oid", oid);
+
+				// Cache this before we start exploring properties in case there's a cycle
+				Serialization.serialize_cache.set (oid, root);
 
 				/* TODO: make sure we don't use an out param for our returned list
 				   size in our interface's list_properties (), using
@@ -274,8 +293,9 @@ namespace GXml {
 				GXml.DomNode prop_elem_child;
 				Object property_object;
 
+				prop_elem_child = prop_elem.first_child;
+
 				try {
-					prop_elem_child = prop_elem.first_child;
 					property_object = Serialization.deserialize_object (prop_elem_child);
 					val.set_object (property_object);
 					transformed = true;
@@ -299,11 +319,23 @@ namespace GXml {
 		 * TODO: one problem, if you deserialize two XML structures,
 		 * some differing objects might have the same OID :( Need to
 		 * find make it more unique than just the memory address. */
-		private static HashTable<string,Object> cache = null;
+		private static HashTable<string,Object> deserialize_cache = null;
+		private static HashTable<string,GXml.DomNode> serialize_cache = null;
+		// public so that tests can call it
+		public static void clear_caches () {
+			if (Serialization.deserialize_cache != null)
+				Serialization.deserialize_cache.remove_all ();
+			if (Serialization.serialize_cache != null)
+				Serialization.serialize_cache.remove_all ();
+		}
 
-		public static void clear_cache () {
-			if (Serialization.cache != null)
-				Serialization.cache.remove_all ();
+		private static void init_caches () {
+			if (Serialization.deserialize_cache == null) {
+				Serialization.deserialize_cache = new HashTable<string,Object> (str_hash, str_equal);
+			}
+			if (Serialization.serialize_cache == null) {
+				Serialization.serialize_cache = new HashTable<string,GXml.DomNode> (str_hash, str_equal);
+			}
 		}
 
 		/**
@@ -333,13 +365,11 @@ namespace GXml {
 
 			obj_elem = (Element)node;
 
+			// If the object has been deserialised before, get it from cache
 			oid = obj_elem.get_attribute ("oid");
-
-			if (Serialization.cache == null) {
-				Serialization.cache = new HashTable<string,Object> (str_hash, str_equal);
-			}
-			if (oid != "" && Serialization.cache.contains (oid)) {
-				return Serialization.cache.get (oid);
+			Serialization.init_caches ();
+			if (oid != "" && Serialization.deserialize_cache.contains (oid)) {
+				return Serialization.deserialize_cache.get (oid);
 			}
 
 			// Get the object's type
@@ -354,6 +384,9 @@ namespace GXml {
 			obj = Object.newv (type, new Parameter[] {}); // TODO: causes problems with Enums when 0 isn't a valid enum value (e.g. starts from 2 or something)
 			obj_class = obj.get_class ();
 
+			// Set it as the last possible action, so that invalid objects won't end up getting stored // Changed our mind, for deserializing ObjectRefs
+			Serialization.deserialize_cache.set (oid, obj);
+
 			if (type.is_a (typeof (Serializable))) {
 				serializable = (Serializable)obj;
 			}
@@ -363,6 +396,8 @@ namespace GXml {
 			} else {
 				specs = obj_class.list_properties ();
 			}
+
+			SerializationError err = null;
 
 			foreach (DomNode child_node in obj_elem.child_nodes) {
 				if (child_node.node_name == "Property") {
@@ -384,7 +419,8 @@ namespace GXml {
 					}
 
 					if (spec == null) {
-						throw new SerializationError.UNKNOWN_PROPERTY ("Deserializing object of type '%s' claimed unknown property named '%s'\nXML [%s]", otype, pname, obj_elem.to_string ());
+						err = new SerializationError.UNKNOWN_PROPERTY ("Deserializing object of type '%s' claimed unknown property named '%s'\nXML [%s]", otype, pname, obj_elem.to_string ());
+						break;
 					}
 
 					try {
@@ -403,14 +439,17 @@ namespace GXml {
 							// TODO: should we make a note that for implementing {get,set}_property in the interface, they should specify override (in Vala)?  What about in C?  Need to test which one gets called in which situations (yeah, already read the tutorial)
 						}
 					} catch (SerializationError.UNSUPPORTED_TYPE e) {
-						throw new SerializationError.UNSUPPORTED_TYPE ("Cannot deserialize object '%s's property '%s' with type '%s/%s': %s\nXML [%s]",
-											       otype, spec.name, spec.value_type.name (), spec.value_type.to_string (), e.message, obj_elem.to_string ());
+						err = new SerializationError.UNSUPPORTED_TYPE ("Cannot deserialize object '%s's property '%s' with type '%s/%s': %s\nXML [%s]", otype, spec.name, spec.value_type.name (), spec.value_type.to_string (), e.message, obj_elem.to_string ());
+						break;
 					}
 				}
 			}
 
-			// Set it as the last possible action, so that invalid objects won't end up getting stored
-			Serialization.cache.set (oid, obj);
+			// TODO: should make a test to ensure this works
+			if (err != null) {
+				Serialization.deserialize_cache.remove (oid);
+				throw err;
+			}
 
 			return obj;
 		}
