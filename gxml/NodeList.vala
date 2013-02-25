@@ -1,4 +1,27 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* NodeList.vala
+ *
+ * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
+ * Copyright (C) 2013  Daniel Espinosa <esodan@gmail.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+ *
+ * Authors:
+ *      Richard Schwarting <aquarichy@gmail.com>
+ *      Daniel Espinosa <esodan@gmail.com>
+ */
 
 using Gee;
 
@@ -124,8 +147,8 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public void foreach (Func<DomNode> func) {
-			this.nodes.foreach (func);
+		public bool foreach (ForallFunc<DomNode> func) {
+			return iterator ().foreach (func);
 		}
 		/**
 		 * {@inheritDoc}
@@ -213,23 +236,6 @@ namespace GXml {
 			return str;
 		}
 
-		/* ** Traversable methods ** */
-
-		/* TODO: Verify that relying on these *_impl methods is appropriate */
-		public Iterator<DomNode> chop (int offset, int length = -1) {
-			return Gee.Traversable.chop_impl<DomNode> (this, offset, length);
-		}
-
-		public Iterator<DomNode> filter (owned Predicate<DomNode> f) {
-			// TODO: ask what Traversable delegate wants with this; it complains about how I shouldn't copy a delegate :)
-			return Gee.Traversable.filter_impl<DomNode> (this, f);
-		}
-
-		public Iterator<A> stream<A> (owned StreamFunc<DomNode,A> f) {
-			// TODO: is it appropriate to use Iterator.stream_impl for an Iterable implementer?
-			return Iterator.stream_impl<DomNode, A> (this.iterator (), f);
-		}
-
 		/* ** Iterable methods ***/
 		public GLib.Type element_type {
 			get {
@@ -279,23 +285,6 @@ namespace GXml {
 			protected override void advance () {
 				this.cur = this.next_node;
 				this.next_node = this.cur.next;
-			}
-
-			/* ** Traversable methods ** */
-
-			public override void foreach (ForallFunc<DomNode> f) {
-				/* TODO: we need to iterate over the items in the iterator,
-				   we are the iterator
-				   but now that Iterator doesn't have a first () to reset with,
-				   how do we determine when we're at the end, since we're just
-				   cycling around?
-				   Should we manually go from our first node in this call to foreach
-				   and then proceed through our list to the end?
-				   Do we move our cursor along?
-				   Should we just start foreach-ing from wherever our cursor already is? */
-				for (unowned GLib.List<DomNode> cur2 = this.first_node; cur2 != null; cur2 = cur2.next) {
-					f (cur2.data);
-				}
 			}
 		}
 	}
@@ -459,13 +448,8 @@ namespace GXml {
 		/** GNOME List conventions
 		 ** Probably don't want to keep all of them since they're not all relevant.
 		 **/
-		public void foreach (Func<DomNode> func) {
-			DomNode node;
-
-			for (Xml.Node *cur = head; cur != null; cur = cur->next) {
-				node = this.owner.lookup_node (cur);
-				func (node);
-			}
+		public bool foreach (ForallFunc<DomNode> func) {
+			return iterator ().foreach (func);
 		}
 		public DomNode first () {
 			return this.owner.lookup_node (head);
@@ -619,22 +603,6 @@ namespace GXml {
 			return _str;
 		}
 
-		/* ** Traversable methods ***/
-
-		/* TODO: Verify that relying on these *_impl methods is appropriate */
-		public Iterator<DomNode> chop (int offset, int length = -1) {
-			return Gee.Traversable.chop_impl<DomNode> (this, offset, length);
-		}
-
-		public Iterator<DomNode> filter (owned Predicate<DomNode> f) {
-			return Gee.Traversable.filter_impl<DomNode> (this, f);
-		}
-
-		public Iterator<A> stream<A> (owned StreamFunc<DomNode,A> f) {
-			// TODO: is it appropriate to use Iterator.stream_impl for an Iterable implementer?
-			return Iterator.stream_impl<DomNode, A> (this.iterator (), f);
-		}
-
 		/* ** NodeListIterator ***/
 
 		private class NodeListIterator : GenericNodeListIterator {
@@ -666,23 +634,6 @@ namespace GXml {
 				this.cur = this.next_node;
 				this.next_node = cur->next;
 			}
-
-			/* ** Traversable methods ***/
-
-			public override void foreach (ForallFunc<DomNode> f) {
-				/* TODO: we need to iterate over the items in the iterator,
-				   we are the iterator
-				   but now that Iterator doesn't have a first () to reset with,
-				   how do we determine when we're at the end, since we're just
-				   cycling around?
-				   Should we manually go from our first node in this call to foreach
-				   and then proceed through our list to the end?
-				   Do we move our cursor along?
-				   Should we just start foreach-ing from wherever our cursor already is? */
-				for (Xml.Node *cur2 = this.head; cur2 != null; cur2 = cur2->next) {
-					f (this.doc.lookup_node (cur2));
-				}
-			}
 		}
 	}
 
@@ -691,27 +642,14 @@ namespace GXml {
 		protected abstract bool is_empty ();
 		protected abstract void advance ();
 
-		/* ** Traversable methods ***/
-
-		public Gee.Iterator<DomNode> chop (int offset, int length = -1) {
-			/* TODO: is this how the *_impl static methods in Iterator and
-			   Traversable are supposed to be used? */
-			return Gee.Traversable.chop_impl<DomNode> (this, offset, length);
+		public bool foreach (ForallFunc<DomNode> f) {
+			var r = this.get ();
+			bool ret = f(r);
+			if (ret && this.next ())
+				return true;
+			else
+				return false;
 		}
-
-		public Gee.Iterator<DomNode> filter (owned Predicate<DomNode> f) {
-			/* TODO: is this a valid approach? */
-			return Gee.Traversable.filter_impl<DomNode> (this, f);
-		}
-
-		public Iterator<A> stream<A> (owned StreamFunc<DomNode,A> f) {
-			/* TODO: I hope we can do this
-			   What do we want to put there instead of A?  Anything?
-			   We don't need to know A, that's why it's a generic type on the function identifier: the caller names it */
-			return Gee.Iterator.stream_impl<DomNode,A> (this, f);
-		}
-
-		public abstract void foreach (ForallFunc<DomNode> f);
 
 		/* ** Iterator methods ***/
 

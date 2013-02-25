@@ -186,6 +186,6 @@ AC_OUTPUT
 echo ""
 echo " Configuration summary for GXml"
 echo "   Installation prefix:                          $prefix"
-echo "   Enable GObject Introspection System Install:  `if test x$enable_gi_system_install != xno; then echo yes; else echo no; fi`"
+echo "   Enable GObject Introspection System Install (--enable-gi-system-install):  `if test x$enable_gi_system_install != xno; then echo yes; else echo no; fi`"
 echo "   Documentation:                                ${have_valadoc}"
 echo ""
