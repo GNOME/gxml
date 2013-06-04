@@ -466,7 +466,31 @@ class SerializationTest : GXmlTest {
 
 				test_serialization_deserialization (obj, "recursion", (GLib.EqualFunc)RecursiveProperty.equals, (StringifyFunc)RecursiveProperty.to_string);
 			});
+		Test.add_func ("/gxml/serialization/gee_collection_tree_set", () => {
+				Gee.TreeSet<string> s = new Gee.TreeSet<string> ();
 
+				s.add ("stars");
+				s.add ("Sterne");
+				s.add ("etoile");
+
+				test_serialization_deserialization (s, "gee_collection_tree_set",
+								    (ao, bo) => { // equals
+									    Gee.TreeSet<string> a = (Gee.TreeSet<string>)ao;
+									    Gee.TreeSet<string> b = (Gee.TreeSet<string>)bo;
+
+									    return (((Gee.Collection)a).contains_all (b) && ((Gee.Collection)b).contains_all (a));
+								    },
+								    (obj) => { // to_string
+									    Gee.TreeSet<string> tree_set = (Gee.TreeSet<string>)obj;
+
+									    string str = "{ ";
+									    foreach (string item in tree_set) {
+										    str += "[" + item + "] ";
+									    }
+									    str += "}";
+									    return str;
+								    });
+			});
 
 
 		// TODO: more to do, for structs and stuff and things that interfaces
