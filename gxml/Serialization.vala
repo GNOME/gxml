@@ -26,6 +26,21 @@
 using GXml;
 
 namespace GXml {
+	private static void print_object_properties (GLib.Object obj) {
+		ParamSpec[] properties;
+		properties = obj.get_class ().list_properties ();
+		stdout.printf ("object has %d properties\n", properties.length);
+		foreach (ParamSpec prop_spec in properties) {
+			stdout.printf ("---\n");
+			stdout.printf ("name            %s\n", prop_spec.name);
+			stdout.printf ("  value_type    %s\n", prop_spec.value_type.name ());
+			stdout.printf ("  owner_type    %s\n", prop_spec.owner_type.name ());
+			stdout.printf ("  get_name ()   %s\n", prop_spec.get_name ());
+			stdout.printf ("  get_blurb ()  %s\n", prop_spec.get_blurb ());
+			stdout.printf ("  get_nick ()   %s\n", prop_spec.get_nick ());
+		}
+	}
+
 	/**
 	 * Errors from {@link Serialization}.
 	 */
@@ -61,19 +76,7 @@ namespace GXml {
 			stdout.printf ("object\n---\n");
 			stdout.printf ("get_type (): %s\n", object.get_type ().name ());
 			stdout.printf ("get_class ().get_type (): %s\n", object.get_class ().get_type ().name ());
-
-			ParamSpec[] properties;
-			properties = object.get_class ().list_properties ();
-			stdout.printf ("object has %d properties\n", properties.length);
-			foreach (ParamSpec prop_spec in properties) {
-				stdout.printf ("---\n");
-				stdout.printf ("name: %s\n", prop_spec.name);
-				stdout.printf ("value_type: %s\n", prop_spec.value_type.name ());
-				stdout.printf ("owner_type: %s\n", prop_spec.owner_type.name ());
-				stdout.printf ("get_name (): %s\n", prop_spec.get_name ());
-				stdout.printf ("get_blurb (): %s\n", prop_spec.get_blurb ());
-				stdout.printf ("get_nick (): %s\n", prop_spec.get_nick ());
-			}
+			GXml.print_object_properties (object);
 		}
 
 		/*
@@ -114,7 +117,7 @@ namespace GXml {
 				}
 				value_node = doc.create_text_node ("%d".printf (value.get_int ()));
 				/* TODO: in the future, perhaps figure out GEnumClass
-				   and save it as the human readable enum value :D */
+				         and save it as the human readable enum value :D */
 			} else if (Value.type_transformable (prop_spec.value_type, typeof (string))) { // e.g. int, double, string, bool
 				value = Value (typeof (string));
 				if (serializable != null) {
@@ -125,20 +128,49 @@ namespace GXml {
 				value_node = doc.create_text_node (value.get_string ());
 			} else if (type == typeof (GLib.Type)) {
 				value_node = doc.create_text_node (type.name ());
-				// } else if (type == typeof (GLib.HashTable)) {
-				// } else if (type == typeof (Gee.List)) { // TODO: can we do a catch all for Gee.Collection and have <Collection /> ?
-				// } else if (type.is_a (typeof (Gee.Collection))) {
-			} else if (type.is_a (typeof (GLib.Object))) {
+/*
+			} else if (type.is_a (typeof (Gee.Collection))) {
+			    // We need to be able to figure out
+				// * what generics it has, and
+				// * any parametres for delegates it might have used.
+				GXml.print_object_properties (object);
+				value_node = null;
+			} else if (type == typeof (GLib.HashTable)) {
+
+			} else if (type == typeof (Gee.List)) {
+				// TODO: can we do a catch all for Gee.Collection and have <Collection /> ?
+			} else if (type.is_a (typeof (Gee.TreeSet))) {
+				object.get_property (prop_spec, ref value);
+				doc.create_element ("Collection");
+				foreach (Object member in
+			} else if {
+				g-dup-func gpointer
+			    GParamPointer
+			    $43 = {g_type_instance = {g_class = 0x67ad30}, name = 0x7ffff7b7d685 "g-dup-func", flags = 234, value_type = 68, owner_type = 14758512, _nick = 0x7ffff7b7d67c "dup func", _blurb = 
+				0x7ffff7b7d67c "dup func", qdata = 0x0, ref_count = 4, param_id = 2}
+*/
+			} else if (type.is_a (typeof (GLib.Object))
+			           && ! type.is_a (typeof (Gee.Collection))) {
+				GLib.Object child_object;
+
 				// TODO: this is going to get complicated
 				value = Value (typeof (GLib.Object));
 				if (serializable != null) {
 					serializable.get_property (prop_spec, ref value);
 				} else {
 					object.get_property (prop_spec.name, ref value);
+					/* This can fail; consider case of Gee.TreeSet that isn't special cased above, gets error
+					   (/home/richard/mine/development/gnome/gdom/gxml/test/.libs/gxml_test:10996):
+					   GLib-GObject-CRITICAL **: Read-only property 'read-only-view' on class 'GeeReadOnlyBidirSortedSet' has type
+					   'GeeSortedSet' which is not equal to or more restrictive than the type 'GeeBidirSortedSet' of the property
+					   on the interface 'GeeBidirSortedSet' */
 				}
-				GLib.Object child_object = value.get_object ();
+				child_object = value.get_object ();
 				value_node = Serialization.serialize_object (child_object); // catch serialisation errors?
 				// TODO: caller will append_child; can we cross documents like this?  Probably not :D want to be able to steal?, attributes seem to get lost
+			} else if (type.name () == "gpointer") {
+				GLib.warning ("DEBUG: skipping gpointer with name '%s' of object '%s'", prop_spec.name, object.get_type ().name ());
+				value_node = doc.create_text_node (prop_spec.name);
 			} else {
 				throw new SerializationError.UNSUPPORTED_TYPE ("Can't currently serialize type '%s' for property '%s' of object '%s'", type.name (), prop_spec.name, object.get_type ().name ());
 			}
