@@ -181,6 +181,22 @@ namespace GXml {
 			}
 		}
 
+		/**
+		 * Finalise method for Document.
+		 */
+		~Document () {
+			for (Xml.Link *front = new_nodes->front (); front != null; front = new_nodes->front ()) {
+				front->get_data ()->unlink ();
+				front->get_data ()->free ();
+
+				new_nodes->pop_front ();
+			}
+
+			this.xmldoc->free (); // TODO: figure out how to properly invoke the free_function on non-GObject VAPI'd classes
+		}
+
+		Xml.List *new_nodes;
+
 		/** Constructor */
 		/**
 		 * Creates a Document based on a libxml2 Xml.Doc* object.
@@ -203,6 +219,8 @@ namespace GXml {
 			base.for_document ();
 
 			this.owner_document = this; // this doesn't exist until after base()
+
+			this.new_nodes = new Xml.List (); // null, null);
 			this.xmldoc = doc;
 			if (doc->int_subset == null && doc->ext_subset == null) {
 				this.doctype = null;
@@ -420,6 +438,7 @@ namespace GXml {
 			Element new_elem;
 
 			xmlelem = this.xmldoc->new_node (null, tag_name, null);
+			new_nodes->append (xmlelem); // TODO: might want to place this in BackedNode's constructorr
 			new_elem = new Element (xmlelem, this);
 			return new_elem;
 		}
