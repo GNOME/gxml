@@ -382,11 +382,7 @@ namespace Xml {
 		public void dump_memory_enc (out string mem, out int len = null, string enc = "UTF-8");
 
 		[CCode (cname = "xmlDocFormatDump", instance_pos = 1.1)]
-#if POSIX
-		public int dump_format (Posix.FILE f, bool format = true);
-#else
 		public int dump_format (GLib.FileStream f, bool format = true);
-#endif
 
 		[CCode (cname = "xmlDocGetRootElement")]
 		public Node* get_root_element();
