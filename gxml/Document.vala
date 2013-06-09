@@ -349,6 +349,7 @@ namespace GXml {
 			reader.read ();
 			reader.expand ();
 			Xml.Doc *doc = reader.current_doc ();
+			reader.close ();
 
 			this.from_libxml2 (doc);
 		}
@@ -426,6 +427,7 @@ namespace GXml {
 								     &box, null, 0);
 			ctxt->save_doc (this.xmldoc);
 			ctxt->flush ();
+			ctxt->close ();
 		}
 
 		/* Public Methods */
