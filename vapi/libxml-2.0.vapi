@@ -393,6 +393,9 @@ namespace Xml {
 		[CCode (cname = "xmlElemDump", instance_pos = 1.1)]
 		public void elem_dump (GLib.FileStream f, Node* cur);
 
+		[CCode (cname = "xmlFreeDoc")]
+		public void free ();
+
 		[CCode (cname = "xmlGetDocCompressMode")]
 		public int get_compress_mode ();
 
@@ -684,6 +687,9 @@ namespace Xml {
 
 		[CCode (cname = "xmlFreeNodeList")]
 		public void free_list ();
+
+		[CCode (cname = "xmlFreeNode")]
+		public void free ();
 
 		[CCode (cname = "xmlGetLastChild")]
 		public Node* get_last_child ();

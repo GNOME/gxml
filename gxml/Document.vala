@@ -181,6 +181,28 @@ namespace GXml {
 			}
 		}
 
+		List<Xml.Node*> new_nodes = new List<Xml.Node*> ();
+
+		~Document () {
+			List<Xml.Node*> to_free = new List<Xml.Node*> ();
+
+			/* we use two separate loops, because freeing
+			   a node frees its descendants, and we might
+			   have a branch with children that might be
+			   visited after their root ancestor
+			*/
+			foreach (Xml.Node *new_node in new_nodes) {
+				if (new_node->parent == null) {
+					to_free.append (new_node);
+				}
+			}
+			foreach (Xml.Node *freeable in to_free) {
+				freeable->free ();
+			}
+
+			this.xmldoc->free ();
+		}
+
 		/** Constructor */
 		/**
 		 * Creates a Document based on a libxml2 Xml.Doc* object.
@@ -420,6 +442,7 @@ namespace GXml {
 			Element new_elem;
 
 			xmlelem = this.xmldoc->new_node (null, tag_name, null);
+			this.new_nodes.append (xmlelem);
 			new_elem = new Element (xmlelem, this);
 			return new_elem;
 		}
