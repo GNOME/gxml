@@ -384,9 +384,6 @@ namespace Xml {
 		[CCode (cname = "xmlDocFormatDump", instance_pos = 1.1)]
 		public int dump_format (GLib.FileStream f, bool format = true);
 
-		[CCode (cname = "xmlFreeDoc")]
-		public void free (); // TODO: Don't want this, find out how to free Vala objects without defining their deconstructor; we already set free_function above anyway
-
 		[CCode (cname = "xmlDocGetRootElement")]
 		public Node* get_root_element();
 
@@ -640,31 +637,6 @@ namespace Xml {
 	}
 
 	[Compact]
-	[CCode (cname = "xmlLink", cheader_filename = "libxml/list.h")]
-	public class Link {
-		[CCode (cname = "xmlLinkGetData")]
-		public Xml.Node* get_data ();
-	}
-
-	[CCode (cname = "xmlListDeallocator")]
-	public delegate void ListDeallocator (Xml.Link *ptr);
-	[CCode (cname = "xmlListDataCompare")]
-	public delegate void ListDataCompare (Xml.Link *a, Xml.Link *b);
-
-	[Compact]
-	[CCode (cname = "xmlList", free_function = "xmlListDelete", cheader_filename = "libxml/list.h")]
-	public class List {
-		[CCode (cname = "xmlListFront")]
-		public Link front ();
-		[CCode (cname = "xmlListPopFront")]
-		public void pop_front ();
-		[CCode (cname = "xmlListAppend")]
-		public void append (Xml.Node *data);
-		[CCode (cname = "xmlListCreate")]
-		public List (ListDeallocator de = null); //, ListDataCompare co = null);
-	}
-
-	[Compact]
 	[CCode (cname = "xmlNode", free_function = "xmlFreeNode", cheader_filename = "libxml/tree.h")]
 	public class Node {
 		public ElementType type;
@@ -709,9 +681,6 @@ namespace Xml {
 
 		[CCode (cname = "xmlDocCopyNodeList")]
 		public Node* doc_copy_list (Doc* doc);
-
-		[CCode (cname = "xmlFreeNode")]
-		public void free (); // TODO: Don't want this, find out how to free Vala objects without defining their deconstructor; we already set free_function above anyway
 
 		[CCode (cname = "xmlFreeNodeList")]
 		public void free_list ();
