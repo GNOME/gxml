@@ -156,9 +156,15 @@ namespace GXml {
 						saved_attr = this.node->set_prop (propname, attr.node_value);
 					}
 
-					// Replace the old out-of-tree attr with the newly allocated one in the tree, that way xmlFreeDoc can clean up correctly
-					attr.node->free ();
-					attr.node = saved_attr;
+					/* Replace an old out-of-tree attr with the newly
+					 * allocated one in the tree, that way xmlFreeDoc can
+					 * clean up correctly */
+					if (attr.node->parent == null) {
+						/* If it was in-tree, xmlSetProp should correctly handle the
+						   memory when updating the value within its xmlAttr */
+						attr.node->free ();
+						attr.node = saved_attr;
+					}
 				}
 			}
 		}
