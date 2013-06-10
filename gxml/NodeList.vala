@@ -413,7 +413,7 @@ namespace GXml {
 		   same with nodes from GetElementByTagName, made need separate impls for each */
 		// TODO: if necessary, create two versions that use parent instead of head
 
-		internal Document owner;
+		internal weak Document owner;
 		internal abstract Xml.Node *head { get; set; }
 
 		internal abstract Xml.Node *parent_as_xmlnode { get; }
@@ -606,7 +606,7 @@ namespace GXml {
 		/* ** NodeListIterator ***/
 
 		private class NodeListIterator : GenericNodeListIterator {
-			private Document doc;
+			private weak Document doc;
 			private Xml.Node *cur;
 			private Xml.Node *head;
 			private Xml.Node *next_node;

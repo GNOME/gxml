@@ -134,7 +134,7 @@ namespace GXml {
 		/**
 		 * A link to the Document to which this node belongs.
 		 */
-		public Document owner_document {
+		public weak Document owner_document {
 			get;
 			internal set;
 		}
