@@ -277,6 +277,9 @@ namespace Xml {
 		public Ns* ns;
 		public AttributeType atype;
 
+		[CCode (cname = "xmlFreeProp")]
+		public int free();
+
 		[CCode (cname = "xmlRemoveProp")]
 		public int remove();
 	}

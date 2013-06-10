@@ -68,7 +68,7 @@ namespace GXml {
 		}
 
 		/** Private properties */
-		private Xml.Attr *node;
+		internal Xml.Attr *node;
 
 		/** Constructors */
 		internal Attr (Xml.Attr *node, Document doc) {

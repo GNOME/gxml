@@ -95,7 +95,7 @@ namespace GXml {
 				if (this._attributes == null) {
 					this.owner_document.dirty_elements.append (this);
 					this._attributes = new HashTable<string,Attr> (GLib.str_hash, GLib.str_equal);
-						// TODO: make sure other HashTables have appropriate hash, equal functions
+					// TODO: make sure other HashTables have appropriate hash, equal functions
 
 					for (Xml.Attr *prop = base.node->properties; prop != null; prop = prop->next) {
 						attr = new Attr (prop, this.owner_document);
@@ -144,16 +144,21 @@ namespace GXml {
 				}
 
 				// Go through the GXml table of attributes for this element and add corresponding libxml2 ones
-				foreach (string propname in this.attributes.get_keys ()) {
-					attr = this.attributes.lookup (propname);
+				foreach (string propname in this._attributes.get_keys ()) {
+					attr = this._attributes.lookup (propname);
+					Xml.Attr* saved_attr;
 
 					if (attr.namespace_uri != null || attr.prefix != null) {
 						// I hate namespace handling between libxml2 and DOM Level 2/3 Core!
 						ns = tmp_node->new_ns (attr.namespace_uri, attr.prefix);
-						this.node->set_ns_prop (ns, propname, attr.node_value);
+						saved_attr = this.node->set_ns_prop (ns, propname, attr.node_value);
 					} else {
-						this.node->set_prop (propname, attr.node_value);
+						saved_attr = this.node->set_prop (propname, attr.node_value);
 					}
+
+					// Replace the old out-of-tree attr with the newly allocated one in the tree, that way xmlFreeDoc can clean up correctly
+					attr.node->free ();
+					attr.node = saved_attr;
 				}
 			}
 		}
@@ -214,7 +219,6 @@ namespace GXml {
 
 			this.attributes.replace (name, attr);
 			// TODO: replace wanted 'owned', look up what to do
-
 		}
 		/**
 		 * Remove the attribute named name from this element.

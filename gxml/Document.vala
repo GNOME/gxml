@@ -186,6 +186,8 @@ namespace GXml {
 		~Document () {
 			List<Xml.Node*> to_free = new List<Xml.Node*> ();
 
+			sync_dirty_elements ();
+
 			/* we use two separate loops, because freeing
 			   a node frees its descendants, and we might
 			   have a branch with children that might be
@@ -328,10 +330,11 @@ namespace GXml {
 
 			try {
 				instream = fin.read (null);
+				this.from_stream (instream, can);
+				instream.close ();
 			} catch (GLib.Error e) {
 				throw new DomError.INVALID_DOC (e.message);
 			}
-			this.from_stream (instream, can);
 		}
 		/**
 		 * Creates a Document from data provided through the InputStream instream.
@@ -342,13 +345,13 @@ namespace GXml {
 			// TODO: accept Cancellable
 			// Cancellable can = new Cancellable ();
 			InputStreamBox box = { instream, can };
-
+			Xml.Doc *doc;
 			Xml.TextReader reader = new Xml.TextReader.for_io ((Xml.InputReadCallback)_ioread,
 									   (Xml.InputCloseCallback)_ioinclose,
 									   &box, "", null, 0);
 			reader.read ();
 			reader.expand ();
-			Xml.Doc *doc = reader.current_doc ();
+			doc = reader.current_doc ();
 			reader.close ();
 
 			this.from_libxml2 (doc);
@@ -393,6 +396,8 @@ namespace GXml {
 					elem.save_attributes (tmp_node);
 				}
 				this.dirty_elements = new List<Element> (); // clear the old list
+
+				tmp_node->free ();
 			}
 		}
 
