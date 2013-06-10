@@ -193,7 +193,8 @@ class ElementTest : GXmlTest  {
 			});
 		Test.add_func ("/gxml/element/get_set_attribute", () => {
 				try {
-					Element elem = get_elem_new_doc ("student");
+					Document doc;
+					Element elem = get_elem_new_doc ("student", out doc);
 
 					assert ("" == elem.get_attribute ("name"));
 
@@ -208,7 +209,8 @@ class ElementTest : GXmlTest  {
 			});
 		Test.add_func ("/gxml/element/remove_attribute", () => {
 				try {
-					Element elem = get_elem_new_doc ("tagname");
+					Document doc;
+					Element elem = get_elem_new_doc ("tagname", out doc);
 
 					elem.set_attribute ("name", "Malfoy");
 					assert ("Malfoy" == elem.get_attribute ("name"));
@@ -225,7 +227,8 @@ class ElementTest : GXmlTest  {
 			});
 		Test.add_func ("/gxml/element/get_attribute_node", () => {
 				try {
-					Element elem = get_elem_new_doc ("tagname");
+					Document doc;
+					Element elem = get_elem_new_doc ("tagname", out doc);
 
 					assert (elem.get_attribute_node ("name") == null);
 					elem.set_attribute ("name", "Severus");
@@ -237,7 +240,8 @@ class ElementTest : GXmlTest  {
 			});
 		Test.add_func ("/gxml/element/set_attribute_node", () => {
 				try {
-					Element elem = get_elem_new_doc ("tagname");
+					Document doc;
+					Element elem = get_elem_new_doc ("tagname", out doc);
 					Attr attr1 = elem.owner_document.create_attribute ("name");
 					Attr attr2 = elem.owner_document.create_attribute ("name");
 
@@ -260,7 +264,8 @@ class ElementTest : GXmlTest  {
 
 		Test.add_func ("/gxml/element/remove_attribute_node", () => {
 				try {
-					Element elem = get_elem_new_doc ("tagname");
+					Document doc;
+					Element elem = get_elem_new_doc ("tagname", out doc);
 					Attr attr;
 
 					attr = elem.owner_document.create_attribute ("name");
@@ -431,7 +436,8 @@ class ElementTest : GXmlTest  {
 			});
 		Test.add_func ("/gxml/element/normalize", () => {
 				try {
-					Element elem = get_elem_new_doc ("tagname");
+					Document doc;
+					Element elem = get_elem_new_doc ("tagname", out doc);
 					elem.normalize ();
 
 					// STUB
@@ -442,12 +448,13 @@ class ElementTest : GXmlTest  {
 			});
 		Test.add_func ("/gxml/element/to_string", () => {
 				try {
-					Element elem = get_elem_new_doc ("country");
+					Document doc, doc2;
+					Element elem = get_elem_new_doc ("country", out doc);
 					elem.append_child (elem.owner_document.create_text_node ("New Zealand"));
 					assert (elem.to_string () == "<country>New Zealand</country>");
 
 					// during stringification, we don't want to confuse XML <> with text <>
-					Element elem2 = get_elem_new_doc ("messy");
+					Element elem2 = get_elem_new_doc ("messy", out doc2);
 					elem2.append_child (elem.owner_document.create_text_node ("&lt;<>&gt;"));
 					string expected = "<messy>&amp;lt;&lt;&gt;&amp;gt;</messy>";
 					if (elem2.to_string () != expected) {

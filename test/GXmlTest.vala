@@ -47,8 +47,8 @@ class GXmlTest {
 		return attr;
 	}
 
-	internal static Element get_elem_new_doc (string name) throws DomError {
-		return get_elem (name, get_doc ());
+	internal static Element get_elem_new_doc (string name, out Document doc) throws DomError {
+		return get_elem (name, doc = get_doc ());
 	}
 
 	internal static Element get_elem (string name, Document doc) throws DomError {
@@ -56,8 +56,8 @@ class GXmlTest {
 		return elem;
 	}
 
-	internal static Text get_text_new_doc (string data) throws DomError {
-		return get_text (data, get_doc ());
+	internal static Text get_text_new_doc (string data, out Document doc) throws DomError {
+		return get_text (data, doc = get_doc ());
 	}
 
 	internal static Text get_text (string data, Document doc) {
