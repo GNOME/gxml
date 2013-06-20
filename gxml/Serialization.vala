@@ -1,5 +1,7 @@
-/*
- * Copyright (C) 2012 Richard Schwarting et al
+/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* Serialization.vala
+ *
+ * Copyright (C) 2012-2013  Richard Schwarting <aquarichy@gmail.com>
  *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -146,7 +148,7 @@ namespace GXml {
 			} else if {
 				g-dup-func gpointer
 			    GParamPointer
-			    $43 = {g_type_instance = {g_class = 0x67ad30}, name = 0x7ffff7b7d685 "g-dup-func", flags = 234, value_type = 68, owner_type = 14758512, _nick = 0x7ffff7b7d67c "dup func", _blurb = 
+			    $43 = {g_type_instance = {g_class = 0x67ad30}, name = 0x7ffff7b7d685 "g-dup-func", flags = 234, value_type = 68, owner_type = 14758512, _nick = 0x7ffff7b7d67c "dup func", _blurb =
 				0x7ffff7b7d67c "dup func", qdata = 0x0, ref_count = 4, param_id = 2}
 */
 			} else if (type.is_a (typeof (GLib.Object))

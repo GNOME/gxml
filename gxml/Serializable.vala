@@ -1,4 +1,25 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* Serializable.vala
+ *
+ * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors:
+ *      Richard Schwarting <aquarichy@gmail.com>
+ */
+
 
 /*
   Version 3: json-glib version
@@ -116,9 +137,9 @@ namespace GXml {
 
 		/*
 		 * Handles finding the {@link GLib.ParamSpec} for a given property.
-		 * 
+		 *
 		 * @param property_name the name of a property to obtain a {@link GLib.ParamSpec} for
-		 * @return a {@link GLib.ParamSpec} describing the named property 
+		 * @return a {@link GLib.ParamSpec} describing the named property
 		 *
 		 * {@link GXml.Serialization} uses {@link
 		 * GLib.ObjectClass.find_property} (as well as {@link
@@ -169,7 +190,7 @@ namespace GXml {
 		 * all the "properties" to serialize.  Other
 		 * {@link GXml.Serializable} functions should be consistent
 		 * with it.
-		 * 
+		 *
 		 * An implementing class might wish to maintain such
 		 * {@link GLib.ParamSpec} s separately, rather than creating new
 		 * ones for each call.
@@ -206,7 +227,7 @@ namespace GXml {
 		 *
 		 * @todo: why not just return a string? :D Who cares
 		 * how analogous it is to {@link GLib.Object.get_property}? :D
-		 */ 
+		 */
 		public virtual void get_property (GLib.ParamSpec spec, ref GLib.Value str_value) {
 			((GLib.Object)this).get_property (spec.name, ref str_value);
 		}
@@ -231,7 +252,7 @@ namespace GXml {
 		 * {@link GXml.Serializable.set_property} can be used to
 		 * handle this case as a virtual property, supported
 		 * by the other {@link GXml.Serializable} functions.
-		 */ 
+		 */
 		public virtual void set_property (GLib.ParamSpec spec, GLib.Value value) {
 			((GLib.Object)this).set_property (spec.name, value);
 		}
