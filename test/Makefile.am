@@ -15,6 +15,7 @@ AM_CFLAGS = \
 	$(GXML_CFLAGS) \
 	$(GEE_CFLAGS) \
 	$(LIBXML_CFLAGS) \
+	$(GIO_CFLAGS) \
 	-I$(top_srcdir) \
 	-DTEST_DIR=\""$(top_srcdir)/test"\" \
 	$(NULL)
@@ -59,7 +60,10 @@ gxml_test_VALAFLAGS = \
 gxml_test_LDADD = \
 	$(AM_LDADD) \
 	$(GLIB_LIBS) \
+	$(GEE_LIBS) \
 	$(GXML_LIBS) \
+	$(LIBXML_LIBS) \
+	$(GIO_LIBS) \
 	-L$(top_srcdir)/gxml -lgxml \
 	$(NULL)
 
