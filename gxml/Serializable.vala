@@ -2,6 +2,7 @@
 /* Serializable.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
+ + Copyright (C) 2013  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,6 +19,7 @@
  *
  * Authors:
  *      Richard Schwarting <aquarichy@gmail.com>
+ *      Daniel Espinosa <esodan@gmail.com>
  */
 
 
@@ -69,6 +71,50 @@ namespace GXml {
 	 * For an example, look in tests/XmlSerializableTest
 	 */
 	public interface Serializable : GLib.Object {
+		public abstract bool serializable_property_use_blurb { get; set; }
+		/**
+		 * Store all properties to be ignored on serialization.
+		 *
+		 * Implementors: By default {@link list_serializable_properties} initialize
+		 * this property to store all public properties, except this one.
+		 */
+		public abstract HashTable<string,GLib.ParamSpec>  ignored_serializable_properties { get; protected set; }
+		/**
+		 * On deserialization stores any {@link DomNode} not used on this
+		 * object, but exists in current XML file.
+		 *
+		 * This property must be ignored on serialisation.
+		 */
+		public abstract HashTable<string,GXml.DomNode>    unknown_serializable_property { get; protected set; }
+
+		/**
+		 * Used by to add properties and values to DomNode.
+		 *
+		 * This property must be ignored on serialisation.
+		 */
+		public abstract Element                           serialized_xml_node { get; protected set; }
+
+		/**
+		 * Used by to add properties and values to DomNode.
+		 *
+		 * This property must be ignored on serialisation.
+		 */
+		public abstract string                            serialized_xml_node_value { get; protected set; }
+
+		/**
+		 * Serialize this object.
+		 *
+		 * @doc an GXml.Document object to serialise to 
+		 */
+		public virtual DomNode? serialize (Document doc) throws DomError
+		{
+			serialized_xml_node = doc.create_element (this.get_type ().name ());
+			foreach (ParamSpec spec in list_serializable_properties ()) {
+				serialize_property (spec, doc);
+			}
+			serialized_xml_node.node_value = serialized_xml_node_value;
+			return serialized_xml_node;
+		}
 		/**
 		 * Handles deserializing individual properties.
 		 *
@@ -100,8 +146,34 @@ namespace GXml {
 		 * letting them get name from spec
 		 * @todo: consider returning {@link GLib.Value} as out param
 		 */
-		public virtual bool deserialize_property (string property_name, /* out GLib.Value value,*/ GLib.ParamSpec spec, GXml.DomNode property_node) {
-			return false; // default deserialize_property gets used
+		public virtual bool deserialize_property (GLib.ParamSpec spec,
+		                                          GXml.DomNode property_node)
+		{
+			bool ret = false;
+			var prop = find_property_spec (property_node.node_name);
+			if (prop == null) {
+				unknown_serializable_property.set (property_node.node_name, property_node);
+				return false;
+			}
+			Value val = Value (prop.value_type);
+			if (Value.type_transformable (typeof (DomNode), prop.value_type)) {
+				Value tmp = Value (typeof (DomNode));
+				tmp.set_object (property_node);
+				ret = tmp.transform (ref val);
+			}
+			else {
+				if (property_node is GXml.Attr) {
+					if (Value.type_transformable (typeof (string), prop.value_type)) {
+						Value ptmp = Value (typeof (string));
+						ptmp.set_string (property_node.node_value);
+						ret = ptmp.transform (ref val);
+					}
+				}
+			}
+			if (ret) {
+				set_property (prop.name, val);
+			}
+			return ret;
 		}
 
 		/**
@@ -126,14 +198,35 @@ namespace GXml {
 		 * @param doc the {@link GXml.Document} the returned {@link GXml.DomNode} should belong to
 		 * @return a new {@link GXml.DomNode}, or `null`
 		 */
-		/*
-		 * @todo: consider not giving property_name, let them get name from spec?
-		 */
-		public virtual GXml.DomNode? serialize_property (string property_name, /*GLib.Value value, */ GLib.ParamSpec spec, GXml.Document doc) {
-			return null; // default serialize_property gets used
+		public virtual GXml.DomNode? serialize_property (GLib.ParamSpec spec,
+		                                                 GXml.Document doc)
+		                                                 throws DomError
+		{
+			var prop = find_property_spec (spec.name);
+			if (prop == null)
+				return null;
+			if (prop.value_type == typeof (Serializable)) {
+				var v = Value (typeof (Object));
+				get_property (spec.name, ref v);
+				var obj = (Serializable) v.get_object ();
+				var node = obj.serialize (doc);
+				serialized_xml_node.append_child (node);
+			}
+			Value oval = Value (spec.value_type);
+			get_property (spec.name, ref oval);
+			string val = "";
+			if (Value.type_transformable (spec.value_type, typeof (string)))
+			{
+				Value rval = Value (typeof (string));
+				oval.transform (ref rval);
+				val = rval.dup_string ();
+			}
+			string attr_name = spec.name;
+			if (serializable_property_use_blurb)
+				attr_name = spec.get_blurb ();
+			serialized_xml_node.set_attribute (attr_name, val);
+			return (DomNode) serialized_xml_node.get_attribute_node (attr_name);
 		}
-
-		/* Correspond to: g_object_class_{find_property,list_properties} */
 
 		/*
 		 * Handles finding the {@link GLib.ParamSpec} for a given property.
@@ -163,8 +256,36 @@ namespace GXml {
 		 * {@link GLib.ParamSpec} s separately, rather than creating new
 		 * ones for each call.
 		 */
-		public virtual unowned GLib.ParamSpec? find_property (string property_name) {
-			return this.get_class ().find_property (property_name); // default
+		public virtual GLib.ParamSpec? find_property_spec (string property_name) {
+			init_properties ();
+			if (!ignored_serializable_properties.contains (property_name)) {
+				return get_class ().find_property (property_name);
+			}
+			return null;
+		}
+
+		/**
+		 * Used internally to initialize {@link ignored_serializable_properties} property
+		 * and default not to be serialized properties. Unless you override any function 
+		 * is not required to be called at class implementor's construction time.
+		 *
+		 */
+		public virtual void init_properties ()
+		{
+			if (ignored_serializable_properties == null) {
+				ignored_serializable_properties = new HashTable<string,ParamSpec> (str_hash, str_equal);
+				ignored_serializable_properties.set ("ignored-serializable-properties",
+																						get_class ().find_property("ignored-serializable-properties"));
+				ignored_serializable_properties.set ("unknown-serializable-property",
+																						get_class ().find_property("unknown-serializable-property"));
+				ignored_serializable_properties.set ("serialized-xml-node",
+																						get_class ().find_property("serialized-xml-node"));
+				ignored_serializable_properties.set ("serialized-xml-node-value",
+																						get_class ().find_property("serialized-xml-node-value"));
+			}
+			if (unknown_serializable_property == null) {
+				unknown_serializable_property = new HashTable<string,GXml.DomNode> (str_hash, str_equal);
+			}
 		}
 
 		/*
@@ -195,8 +316,16 @@ namespace GXml {
 		 * {@link GLib.ParamSpec} s separately, rather than creating new
 		 * ones for each call.
 		 */
-		public virtual unowned GLib.ParamSpec[] list_properties () {
-			return this.get_class ().list_properties ();
+		public virtual GLib.ParamSpec[] list_serializable_properties ()
+		{
+			init_properties ();
+			ParamSpec[] props = {};
+			foreach (ParamSpec spec in this.get_class ().list_properties ()) {
+				if (!ignored_serializable_properties.contains (spec.name)) {
+					props += spec;
+				}
+			}
+			return props;
 		}
 
 		/*
@@ -228,14 +357,26 @@ namespace GXml {
 		 * @todo: why not just return a string? :D Who cares
 		 * how analogous it is to {@link GLib.Object.get_property}? :D
 		 */
-		public virtual void get_property (GLib.ParamSpec spec, ref GLib.Value str_value) {
-			((GLib.Object)this).get_property (spec.name, ref str_value);
+		public virtual string get_property_value (GLib.ParamSpec spec) 
+		{
+			Value val = Value (spec.value_type);
+			if (!ignored_serializable_properties.contains (spec.name))
+			{
+				Value ret = "";
+				((GLib.Object)this).get_property (spec.name, ref val);
+				if (Value.type_transformable (val.type (), typeof (string)))
+				{
+					val.transform (ref ret);
+					return ret.dup_string ();
+				}
+			}
+			return "";
 		}
 		/*
 		 * Set a property's value.
 		 *
 		 * @param spec Specifies the property whose value will be set
-		 * @param value The value to set the property to.
+		 * @param val The value to set the property to.
 		 *
 		 * {@link GXml.Serialization} uses {@link GLib.Object.set_property} (as
 		 * well as {@link GLib.ObjectClass.find_property},
@@ -253,8 +394,11 @@ namespace GXml {
 		 * handle this case as a virtual property, supported
 		 * by the other {@link GXml.Serializable} functions.
 		 */
-		public virtual void set_property (GLib.ParamSpec spec, GLib.Value value) {
-			((GLib.Object)this).set_property (spec.name, value);
+		public virtual void set_property_value (GLib.ParamSpec spec, GLib.Value val)
+		{
+			if (!ignored_serializable_properties.contains (spec.name)) {
+				((GLib.Object)this).set_property (spec.name, val);
+			}
 		}
 	}
 }

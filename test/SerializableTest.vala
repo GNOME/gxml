@@ -25,24 +25,35 @@ using Gee;
    Test overriding {set,get}_property
 */
 
-public class SerializableTomato : GLib.Object, GXml.Serializable {
+public class SerializableTomato : GLib.Object, GXml.Serializable
+{
+	/*  Serializable abstract properties */
+	public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; private set; }
+	public bool serializable_property_use_blurb { get; set; }
+	public GXml.Element serialized_xml_node { get; protected set; }
+	public string serialized_xml_node_value { get; protected set; }
+	public GLib.HashTable<string,GXml.DomNode> unknown_serializable_property { get; private set; }
+
 	public int weight;
 	private int age { get; set; }
 	public int height { get; set; }
 	public string description { get; set; }
 
-	public SerializableTomato (int weight, int age, int height, string description) {
+	public SerializableTomato (int weight, int age, int height, string description)
+	{
 		this.weight = weight;
 		this.age = age;
 		this.height = height;
 		this.description = description;
 	}
 
-	public string to_string () {
+	public string to_string ()
+	{
 		return "SerializableTomato {weight:%d, age:%d, height:%d, description:%s}".printf (weight, age, height, description);
 	}
 
-	public static bool equals (SerializableTomato a, SerializableTomato b) {
+	public static bool equals (SerializableTomato a, SerializableTomato b)
+	{
 		bool same = (a.weight == b.weight &&
 			     a.age == b.age &&
 			     a.height == b.height &&
@@ -52,13 +63,22 @@ public class SerializableTomato : GLib.Object, GXml.Serializable {
 	}
 }
 
-public class SerializableCapsicum : GLib.Object, GXml.Serializable {
+public class SerializableCapsicum : GLib.Object, GXml.Serializable
+{
+	/*  Serializable abstract properties */
+	public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; private set; }
+	public bool serializable_property_use_blurb { get; set; }
+	public GXml.Element serialized_xml_node { get; protected set; }
+	public string serialized_xml_node_value { get; protected set; }
+	public GLib.HashTable<string,GXml.DomNode> unknown_serializable_property { get; private set; }
+
 	public int weight;
 	private int age { get; set; }
 	public int height { get; set; }
 	public unowned GLib.List<int> ratings { get; set; }
 
-	public string to_string () {
+	public string to_string ()
+	{
 		string str = "SerializableCapsicum {weight:%d, age:%d, height:%d, ratings:".printf (weight, age, height);
 		foreach (int rating in ratings) {
 			str += "%d ".printf (rating);
@@ -67,7 +87,8 @@ public class SerializableCapsicum : GLib.Object, GXml.Serializable {
 		return str;
 	}
 
-	public SerializableCapsicum (int weight, int age, int height, GLib.List<int> ratings) {
+	public SerializableCapsicum (int weight, int age, int height, GLib.List<int> ratings)
+	{
 		this.weight = weight;
 		this.age = age;
 		this.height = height;
@@ -78,11 +99,12 @@ public class SerializableCapsicum : GLib.Object, GXml.Serializable {
 	   Want an example using GBoxed too
 	   Perhaps these shouldn't be object methods, perhaps they should be static?
 	   Can't have static methods in an interface :(, right? */
-	public bool deserialize_property (string property_name, /* out GLib.Value value, */
-					  GLib.ParamSpec spec, GXml.DomNode property_node)  {
+	public bool deserialize_property (GLib.ParamSpec spec,
+	                                  GXml.DomNode property_node)
+	{
 		GLib.Value outvalue = GLib.Value (typeof (int));
 
-		switch (property_name) {
+		switch (spec.name) {
 		case "ratings":
 			this.ratings = new GLib.List<int> ();
 			foreach (GXml.DomNode rating in property_node.child_nodes) {
@@ -95,17 +117,20 @@ public class SerializableCapsicum : GLib.Object, GXml.Serializable {
 			this.height = (int)outvalue.get_int64 () - 1;
 			return true;
 		default:
-			Test.message ("Wasn't expecting the SerializableCapsicum property '%s'", property_name);
+			Test.message ("Wasn't expecting the SerializableCapsicum property '%s'", spec.name);
 			assert_not_reached ();
 		}
 
 		return false;
 	}
-	public GXml.DomNode? serialize_property (string property_name, /*GLib.Value value,*/ GLib.ParamSpec spec, GXml.Document doc) {
+	public GXml.DomNode? serialize_property (GLib.ParamSpec spec,
+	                                         GXml.Document doc)
+	                                         throws GXml.DomError
+	{
 		GXml.Element c_prop;
 		GXml.Element rating;
 
-		switch (property_name) {
+		switch (spec.name) {
 		case "ratings":
 			GXml.DocumentFragment frag = doc.create_document_fragment ();
 			try {
@@ -122,7 +147,7 @@ public class SerializableCapsicum : GLib.Object, GXml.Serializable {
 		case "height":
 			return doc.create_text_node ("%d".printf (height + 1));
 		default:
-			Test.message ("Wasn't expecting the SerializableCapsicum property '%s'", property_name);
+			Test.message ("Wasn't expecting the SerializableCapsicum property '%s'", spec.name);
 			assert_not_reached ();
 		}
 
@@ -132,7 +157,15 @@ public class SerializableCapsicum : GLib.Object, GXml.Serializable {
 }
 
 
-public class SerializableBanana : GLib.Object, GXml.Serializable {
+public class SerializableBanana : GLib.Object, GXml.Serializable
+{
+	/*  Serializable abstract properties */
+	public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; private set; }
+	public bool serializable_property_use_blurb { get; set; }
+	public GXml.Element serialized_xml_node { get; protected set; }
+	public string serialized_xml_node_value { get; protected set; }
+	public GLib.HashTable<string,GXml.DomNode> unknown_serializable_property { get; private set; }
+
 	private int private_field;
 	public int public_field;
 	private int private_property { get; set; }
@@ -184,7 +217,7 @@ public class SerializableBanana : GLib.Object, GXml.Serializable {
 		return null;
 	}
 
-	public void get_property (GLib.ParamSpec spec, ref GLib.Value str_value) {
+	public new void get_property (GLib.ParamSpec spec, ref GLib.Value str_value) {
 		Value value = Value (typeof (int));
 
 		switch (spec.name) {
@@ -209,7 +242,8 @@ public class SerializableBanana : GLib.Object, GXml.Serializable {
 		return;
 	}
 
-	public void set_property (GLib.ParamSpec spec, GLib.Value value) {
+	public new void set_property (GLib.ParamSpec spec, GLib.Value value)
+	{
 		switch (spec.name) {
 		case "private-field":
 			this.private_field = value.get_int ();
@@ -230,7 +264,74 @@ public class SerializableBanana : GLib.Object, GXml.Serializable {
 	}
 }
 
-class SerializableTest : GXmlTest {
+class XmlObjectModel : Object, Serializable
+{
+	/* Serializable interface properties */
+	public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; protected set; }
+	public bool serializable_property_use_blurb { get; set; }
+	public GXml.Element serialized_xml_node { get; protected set; }
+	public string serialized_xml_node_value { get; protected set; }
+	public GLib.HashTable<string,GXml.DomNode> unknown_serializable_property { get; protected set; }
+
+	/* No serializable properties */
+	public string @value { get; set; }
+	public XmlObjectModel ()
+	{
+		serializable_property_use_blurb = true;
+		var pvalue = find_property_spec ("value");
+		ignored_serializable_properties.set ("value", pvalue);
+	}
+	
+	public string to_string ()
+	{
+		var lp = list_serializable_properties ();
+		string ret = this.get_type ().name () +"{Properties:\n";
+		foreach (ParamSpec p in lp) {
+			ret += @"[$(p.name)]{" + get_property_value (p) + "}\n";
+		}
+		return ret + "}";
+	}
+
+	public static bool equals (Object a, Object b)
+	       requires ((a is Serializable) && (b is Serializable))
+	{
+		if (b.get_type () == a.get_type ()) {
+			var alp = ((Serializable)a).list_serializable_properties ();
+			var blp = ((Serializable)b).list_serializable_properties ();
+			bool ret = true;
+			foreach (ParamSpec p in alp) {
+				var bp = ((Serializable)b).find_property_spec (p.name);
+				if (bp != null) {
+					var apval = ((Serializable)a).get_property_value (p);
+					var bpval = ((Serializable)b).get_property_value (bp);
+					if ( apval != bpval)
+						ret = false;
+				}
+			}
+			return ret;
+		}
+		return false;
+	}
+}
+
+class Laptop : XmlObjectModel
+{
+	public string manufacturer { get; set; }
+	public string model { get; set; }
+	public int cores { get; set; }
+	public float ghz { get; set; }
+	
+	public Laptop ()
+	{
+		manufacturer = "MexicanLaptop, Inc.";
+		model = "LQ59678";
+		cores = 8;
+		ghz = (float) 3.5;
+	}
+}
+
+class SerializableTest : GXmlTest
+{
 	public static void add_tests () {
 		Test.add_func ("/gxml/serializable/interface_defaults", () => {
 				SerializableTomato tomato = new SerializableTomato (0, 0, 12, "cats");
@@ -290,6 +391,10 @@ class SerializableTest : GXmlTest {
 				SerializableBanana banana = new SerializableBanana (17, 19, 23, 29);
 
 				SerializationTest.test_serialization_deserialization (banana, "interface_override_properties", (GLib.EqualFunc)SerializableBanana.equals, (SerializationTest.StringifyFunc)SerializableBanana.to_string);
+			});
+		Test.add_func ("/gxml/serializable/xml_object_model/derived_class", () => {
+			var lap = new Laptop ();
+			SerializationTest.test_serialization_deserialization (lap, "derived_class", (GLib.EqualFunc)XmlObjectModel.equals, (SerializationTest.StringifyFunc)XmlObjectModel.to_string);
 			});
 	}
 }

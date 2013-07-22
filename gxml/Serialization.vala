@@ -71,6 +71,7 @@ namespace GXml {
 	 * serialization themselves, including non-public properties or
 	 * data types not automatically supported by {@link GXml.Serialization}.
 	 */
+
 	public class Serialization : GLib.Object {
 		private static void print_debug (GXml.Document doc, GLib.Object object) {
 			stdout.printf ("Object XML\n---\n%s\n", doc.to_string ());
@@ -113,7 +114,7 @@ namespace GXml {
 				   former by list_properties) */
 				value = Value (typeof (int));
 				if (serializable != null) {
-					serializable.get_property (prop_spec, ref value);
+					serializable.get_property (prop_spec.name, ref value);
 				} else {
 					object.get_property (prop_spec.name, ref value);
 				}
@@ -123,7 +124,7 @@ namespace GXml {
 			} else if (Value.type_transformable (prop_spec.value_type, typeof (string))) { // e.g. int, double, string, bool
 				value = Value (typeof (string));
 				if (serializable != null) {
-					serializable.get_property (prop_spec, ref value);
+					serializable.get_property (prop_spec.name, ref value);
 				} else {
 					object.get_property (prop_spec.name, ref value);
 				}
@@ -158,7 +159,7 @@ namespace GXml {
 				// TODO: this is going to get complicated
 				value = Value (typeof (GLib.Object));
 				if (serializable != null) {
-					serializable.get_property (prop_spec, ref value);
+					serializable.get_property (prop_spec.name, ref value);
 				} else {
 					object.get_property (prop_spec.name, ref value);
 					/* This can fail; consider case of Gee.TreeSet that isn't special cased above, gets error
@@ -250,7 +251,7 @@ namespace GXml {
 				   size in our interface's list_properties (), using
 				   [CCode (array_length_type = "guint")] */
 				if (serializable != null) {
-					prop_specs = serializable.list_properties ();
+					prop_specs = serializable.list_serializable_properties ();
 				} else {
 					prop_specs = object.get_class ().list_properties ();
 				}
@@ -267,7 +268,7 @@ namespace GXml {
 
 					value_prop = null;
 					if (serializable != null) {
-						value_prop = serializable.serialize_property (prop_spec.name, prop_spec, doc);
+						value_prop = serializable.serialize_property (prop_spec, doc);
 					}
 					if (value_prop == null) {
 						value_prop = Serialization.serialize_property (object, prop_spec, doc);
@@ -394,7 +395,6 @@ namespace GXml {
 			Object obj;
 			unowned ObjectClass obj_class;
 			ParamSpec[] specs;
-			bool property_found;
 			Serializable serializable = null;
 
 			obj_elem = (Element)node;
@@ -426,7 +426,7 @@ namespace GXml {
 			}
 
 			if (serializable != null) {
-				specs = serializable.list_properties ();
+				specs = serializable.list_serializable_properties ();
 			} else {
 				specs = obj_class.list_properties ();
 			}
@@ -447,7 +447,7 @@ namespace GXml {
 					// Check name and type for property
 					ParamSpec? spec = null;
 					if (serializable != null) {
-						spec = serializable.find_property (pname);
+						spec = serializable.find_property_spec (pname);
 					} else {
 						spec = obj_class.find_property (pname);
 					}
@@ -461,12 +461,12 @@ namespace GXml {
 						bool serialized = false;
 
 						if (serializable != null) {
-							serialized = serializable.deserialize_property (spec.name, /* out val, */ spec, prop_elem); // TODO: consider rearranging these or the ones in Serializer to match
+							serialized = serializable.deserialize_property (spec, prop_elem); // TODO: consider rearranging these or the ones in Serializer to match
 						}
 						if (!serialized) {
 							Serialization.deserialize_property (spec, prop_elem, out val);
 							if (serializable != null) {
-								serializable.set_property (spec, val);
+								serializable.set_property (spec.name, val);
 							} else {
 								obj.set_property (pname, val);
 							}
@@ -509,7 +509,9 @@ namespace GXml {
 		 * @todo: what do functions written in Vala return in C when
 		 * they throw an exception?  NULL/0/FALSE?
 		 */
-		public static bool string_to_gvalue (string str, ref GLib.Value dest) throws SerializationError {
+		public static bool string_to_gvalue (string str, ref GLib.Value dest)
+				throws SerializationError
+		{
 			Type t = dest.type ();
 			GLib.Value dest2 = Value (t);
 			bool ret = false;
@@ -590,4 +592,5 @@ namespace GXml {
 			}
 		}
 	}
-}	
+}
+
