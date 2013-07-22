@@ -88,7 +88,13 @@ namespace GXml {
 		 * {@link GLib.Value} can transform into a string, and
 		 * operates recursively.
 		 */
-		private static GXml.DomNode serialize_property (GLib.Object object, ParamSpec prop_spec, GXml.Document doc) throws SerializationError, DomError {
+		private static GXml.DomNode serialize_property (GLib.Object object,
+		                                                ParamSpec prop_spec,
+		                                                GXml.Document doc)
+		                                                throws Error, 
+		                                                       SerializationError,
+		                                                       DomError
+		{
 			Type type;
 			Value value;
 			DomNode value_node;
@@ -204,12 +210,21 @@ namespace GXml {
 		 * @param object A {@link GLib.Object} to serialize
 		 * @return a {@link GXml.DomNode} representing the serialized `object`
 		 */
-		public static GXml.DomNode serialize_object (GLib.Object object) throws SerializationError {
+		public static GXml.DomNode serialize_object (GLib.Object object) 
+		                                             throws Error,
+		                                                    SerializationError,
+		                                                    DomError
+		{
 			Document doc;
+			if (object is Serializable)
+			{
+				doc = new Document ();
+				return ((Serializable) object).serialize (doc);
+			}
+
 			Element root;
 			ParamSpec[] prop_specs;
 			Element prop;
-			Serializable serializable = null;
 			DomNode value_prop = null;
 			string oid;
 
@@ -229,10 +244,6 @@ namespace GXml {
 					return doc.document_element;
 				}
 
-				if (object.get_type ().is_a (typeof (Serializable))) {
-					serializable = (Serializable)object;
-				}
-
 				/* Create an XML Document to return the object
 				   in.  TODO: consider just returning an
 				   <Object> node; but then we'd probably want
@@ -250,11 +261,7 @@ namespace GXml {
 				/* TODO: make sure we don't use an out param for our returned list
 				   size in our interface's list_properties (), using
 				   [CCode (array_length_type = "guint")] */
-				if (serializable != null) {
-					prop_specs = serializable.list_serializable_properties ();
-				} else {
-					prop_specs = object.get_class ().list_properties ();
-				}
+				prop_specs = object.get_class ().list_properties ();
 
 				/* Exam the properties of the object and store
 				   them with their name, type and value in XML
@@ -266,13 +273,7 @@ namespace GXml {
 					prop.set_attribute ("ptype", prop_spec.value_type.name ());
 					prop.set_attribute ("pname", prop_spec.name);
 
-					value_prop = null;
-					if (serializable != null) {
-						value_prop = serializable.serialize_property (prop_spec, doc);
-					}
-					if (value_prop == null) {
-						value_prop = Serialization.serialize_property (object, prop_spec, doc);
-					}
+					value_prop = Serialization.serialize_property (object, prop_spec, doc);
 
 					prop.append_child (value_prop);
 					root.append_child (prop);
@@ -297,7 +298,11 @@ namespace GXml {
 		 * strings back to other types, we use our own function to do
 		 * that.
 		 */
-		private static void deserialize_property (ParamSpec spec, Element prop_elem, out Value val) throws SerializationError {
+		private static void deserialize_property (ParamSpec spec,
+		                                          Element prop_elem,
+		                                          out Value val)
+		                                          throws SerializationError
+		{
 			Type type;
 
 			type = spec.value_type;

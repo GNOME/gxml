@@ -297,7 +297,7 @@ namespace GXml {
 			return null;
 		}
 
-		private string _str;
+		private string _str = "DomNode";
 		/**
 		 * Provides a string representation of this node.
 		 *
@@ -310,6 +310,7 @@ namespace GXml {
 		// TODO: indicate in C that the return value must be freed.
 		// TODO: ask Colin Walters about storing docs in GIR files (might have not been him)
 		public virtual string to_string (bool format = false, int level = 0) {
+			GLib.message ("At DomNode.to_string()");
 			_str = "DomNode(%d:%s)".printf (this.node_type, this.node_name);
 			return _str;
 		}

@@ -308,7 +308,12 @@ class SerializationTest : GXmlTest {
 
 				try {
 					fruit_xml = Serialization.serialize_object (fruit);
-
+					GLib.message (fruit_xml.to_string ());
+					if (fruit_xml == null) {
+						GLib.message ("Object not serialized!");
+						assert_not_reached ();
+					}
+					GLib.message ("Fruit: " + fruit_xml.to_string ());
 					regex = new Regex (expectation);
 					if (! regex.match (fruit_xml.to_string ())) {
 						Test.message ("Expected [%s] but found [%s]",
@@ -316,11 +321,14 @@ class SerializationTest : GXmlTest {
 						assert_not_reached ();
 					}
 				} catch (RegexError e) {
-					Test.message ("Regular expression [%s] for test failed: %s",
+					GLib.message ("Regular expression [%s] for test failed: %s",
 						      expectation, e.message);
 					assert_not_reached ();
 				} catch (GXml.SerializationError e) {
-					Test.message ("%s", e.message);
+					GLib.message ("%s", e.message);
+					assert_not_reached ();
+				} catch (Error e) {
+					GLib.message (e.message);
 					assert_not_reached ();
 				}
 
@@ -577,7 +585,10 @@ class SerializationTest : GXmlTest {
 					} catch (GXml.SerializationError e) {
 						Test.message ("%s", e.message);
 						assert_not_reached ();
+					} catch (Error e) {
+						Test.message (e.message);
 					}
+					
 				});
 			Test.add_func ("/gxml/serialization/xml_deserialize_fields", () => {
 					/* TODO: expecting this one to fail right now,

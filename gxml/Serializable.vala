@@ -106,13 +106,23 @@ namespace GXml {
 		 *
 		 * @doc an GXml.Document object to serialise to 
 		 */
-		public virtual DomNode? serialize (Document doc) throws DomError
+		public virtual DomNode? serialize (DomNode node) throws DomError
 		{
+			Document doc;
+			if (node is Document)
+				doc = (Document) node;
+			else
+				doc = node.owner_document;
+
 			serialized_xml_node = doc.create_element (this.get_type ().name ());
 			foreach (ParamSpec spec in list_serializable_properties ()) {
-				serialize_property (spec, doc);
+				GLib.message ("Serializing: " + spec.name + 
+				              " on node: " + serialized_xml_node.node_name);
+				serialize_property (spec);
+				GLib.message ("Done");
 			}
 			serialized_xml_node.node_value = serialized_xml_node_value;
+			node.append_child (serialized_xml_node);
 			return serialized_xml_node;
 		}
 		/**
@@ -198,19 +208,22 @@ namespace GXml {
 		 * @param doc the {@link GXml.Document} the returned {@link GXml.DomNode} should belong to
 		 * @return a new {@link GXml.DomNode}, or `null`
 		 */
-		public virtual GXml.DomNode? serialize_property (GLib.ParamSpec spec,
-		                                                 GXml.Document doc)
+		public virtual GXml.DomNode? serialize_property (GLib.ParamSpec spec)
 		                                                 throws DomError
 		{
+			Document doc = serialized_xml_node.owner_document;
 			var prop = find_property_spec (spec.name);
-			if (prop == null)
+			if (prop == null) {
+				GLib.warning ("No such property: " + spec.name);
 				return null;
-			if (prop.value_type == typeof (Serializable)) {
+			}
+			if (prop.value_type.is_a (typeof (Serializable))) {
+			GLib.message ("Is a Serializable Property");
 				var v = Value (typeof (Object));
 				get_property (spec.name, ref v);
 				var obj = (Serializable) v.get_object ();
-				var node = obj.serialize (doc);
-				serialized_xml_node.append_child (node);
+				var node = obj.serialize (serialized_xml_node);
+				return node;
 			}
 			Value oval = Value (spec.value_type);
 			get_property (spec.name, ref oval);
@@ -282,6 +295,8 @@ namespace GXml {
 																						get_class ().find_property("serialized-xml-node"));
 				ignored_serializable_properties.set ("serialized-xml-node-value",
 																						get_class ().find_property("serialized-xml-node-value"));
+				ignored_serializable_properties.set ("serializable-property-use-blurb",
+																						get_class ().find_property("serializable-property-use-blurb"));
 			}
 			if (unknown_serializable_property == null) {
 				unknown_serializable_property = new HashTable<string,GXml.DomNode> (str_hash, str_equal);
