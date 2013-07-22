@@ -91,7 +91,7 @@ namespace GXml {
 		private static GXml.DomNode serialize_property (GLib.Object object,
 		                                                ParamSpec prop_spec,
 		                                                GXml.Document doc)
-		                                                throws Error, 
+		                                                throws Error,
 		                                                       SerializationError,
 		                                                       DomError
 		{

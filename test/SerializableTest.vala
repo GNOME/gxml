@@ -29,7 +29,7 @@ public class SerializableTomato : GLib.Object, GXml.Serializable
 {
 	/*  Serializable abstract properties */
 	public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; private set; }
-	public bool serializable_property_use_blurb { get; set; }
+	public bool serializable_property_use_nick { get; set; }
 	public GXml.Element serialized_xml_node { get; protected set; }
 	public string serialized_xml_node_value { get; protected set; }
 	public GLib.HashTable<string,GXml.DomNode> unknown_serializable_property { get; private set; }
@@ -67,7 +67,7 @@ public class SerializableCapsicum : GLib.Object, GXml.Serializable
 {
 	/*  Serializable abstract properties */
 	public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; private set; }
-	public bool serializable_property_use_blurb { get; set; }
+	public bool serializable_property_use_nick { get; set; }
 	public GXml.Element serialized_xml_node { get; protected set; }
 	public string serialized_xml_node_value { get; protected set; }
 	public GLib.HashTable<string,GXml.DomNode> unknown_serializable_property { get; private set; }
@@ -123,10 +123,10 @@ public class SerializableCapsicum : GLib.Object, GXml.Serializable
 
 		return false;
 	}
-	public GXml.DomNode? serialize_property (GLib.ParamSpec spec,
-	                                         GXml.Document doc)
+	public GXml.DomNode? serialize_property (GLib.ParamSpec spec)
 	                                         throws GXml.DomError
 	{
+		GXml.Document doc = serialized_xml_node.owner_document;
 		GXml.Element c_prop;
 		GXml.Element rating;
 
@@ -161,7 +161,7 @@ public class SerializableBanana : GLib.Object, GXml.Serializable
 {
 	/*  Serializable abstract properties */
 	public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; private set; }
-	public bool serializable_property_use_blurb { get; set; }
+	public bool serializable_property_use_nick { get; set; }
 	public GXml.Element serialized_xml_node { get; protected set; }
 	public string serialized_xml_node_value { get; protected set; }
 	public GLib.HashTable<string,GXml.DomNode> unknown_serializable_property { get; private set; }
@@ -268,7 +268,7 @@ class XmlObjectModel : Object, Serializable
 {
 	/* Serializable interface properties */
 	public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; protected set; }
-	public bool serializable_property_use_blurb { get; set; }
+	public bool serializable_property_use_nick { get; set; }
 	public GXml.Element serialized_xml_node { get; protected set; }
 	public string serialized_xml_node_value { get; protected set; }
 	public GLib.HashTable<string,GXml.DomNode> unknown_serializable_property { get; protected set; }
@@ -277,7 +277,7 @@ class XmlObjectModel : Object, Serializable
 	public string @value { get; set; }
 	public XmlObjectModel ()
 	{
-		serializable_property_use_blurb = true;
+		serializable_property_use_nick = true;
 		var pvalue = find_property_spec ("value");
 		ignored_serializable_properties.set ("value", pvalue);
 	}

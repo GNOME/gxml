@@ -71,7 +71,7 @@ namespace GXml {
 	 * For an example, look in tests/XmlSerializableTest
 	 */
 	public interface Serializable : GLib.Object {
-		public abstract bool serializable_property_use_blurb { get; set; }
+		public abstract bool serializable_property_use_nick { get; set; }
 		/**
 		 * Store all properties to be ignored on serialization.
 		 *
@@ -99,7 +99,7 @@ namespace GXml {
 		 *
 		 * This property must be ignored on serialisation.
 		 */
-		public abstract string                            serialized_xml_node_value { get; protected set; }
+		public abstract string  serialized_xml_node_value { get; protected set; default = null; }
 
 		/**
 		 * Serialize this object.
@@ -121,7 +121,8 @@ namespace GXml {
 				serialize_property (spec);
 				GLib.message ("Done");
 			}
-			serialized_xml_node.node_value = serialized_xml_node_value;
+			if (serialized_xml_node_value != null)
+				serialized_xml_node.content = serialized_xml_node_value;
 			node.append_child (serialized_xml_node);
 			return serialized_xml_node;
 		}
@@ -211,7 +212,6 @@ namespace GXml {
 		public virtual GXml.DomNode? serialize_property (GLib.ParamSpec spec)
 		                                                 throws DomError
 		{
-			Document doc = serialized_xml_node.owner_document;
 			var prop = find_property_spec (spec.name);
 			if (prop == null) {
 				GLib.warning ("No such property: " + spec.name);
@@ -235,8 +235,8 @@ namespace GXml {
 				val = rval.dup_string ();
 			}
 			string attr_name = spec.name;
-			if (serializable_property_use_blurb)
-				attr_name = spec.get_blurb ();
+			if (serializable_property_use_nick)
+				attr_name = spec.get_nick ();
 			serialized_xml_node.set_attribute (attr_name, val);
 			return (DomNode) serialized_xml_node.get_attribute_node (attr_name);
 		}
@@ -295,8 +295,8 @@ namespace GXml {
 																						get_class ().find_property("serialized-xml-node"));
 				ignored_serializable_properties.set ("serialized-xml-node-value",
 																						get_class ().find_property("serialized-xml-node-value"));
-				ignored_serializable_properties.set ("serializable-property-use-blurb",
-																						get_class ().find_property("serializable-property-use-blurb"));
+				ignored_serializable_properties.set ("serializable-property-use-nick",
+																						get_class ().find_property("serializable-property-use-nick"));
 			}
 			if (unknown_serializable_property == null) {
 				unknown_serializable_property = new HashTable<string,GXml.DomNode> (str_hash, str_equal);
