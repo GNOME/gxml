@@ -32,9 +32,8 @@ namespace GXml {
 	 * {@link GXml.Element.get_elements_by_tag_name}.
 	 */
 	public interface NodeList : Gee.Iterable<DomNode> {
-		public abstract ulong length {
-			get; private set;
-		}
+
+		public abstract ulong length { get; private set; }
 		/* NOTE:
 		 * children should define constructors like:
 		 *     internal NodeList (Xml.Node* head, Document owner);
@@ -631,8 +630,10 @@ namespace GXml {
 			}
 
 			protected override void advance () {
-				this.cur = this.next_node;
-				this.next_node = cur->next;
+				if (!is_empty ()) {
+					this.cur = this.next_node;
+					this.next_node = cur->next;
+				}
 			}
 		}
 	}

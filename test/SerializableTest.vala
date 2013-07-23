@@ -31,7 +31,7 @@ public class SerializableTomato : GLib.Object, GXml.Serializable
 	public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; private set; }
 	public bool serializable_property_use_nick { get; set; }
 	public GXml.Element serialized_xml_node { get; protected set; }
-	public string serialized_xml_node_value { get; protected set; }
+	public string? serialized_xml_node_value { get; protected set; }
 	public GLib.HashTable<string,GXml.DomNode> unknown_serializable_property { get; private set; }
 
 	public int weight;
@@ -69,7 +69,7 @@ public class SerializableCapsicum : GLib.Object, GXml.Serializable
 	public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; private set; }
 	public bool serializable_property_use_nick { get; set; }
 	public GXml.Element serialized_xml_node { get; protected set; }
-	public string serialized_xml_node_value { get; protected set; }
+	public string? serialized_xml_node_value { get; protected set; }
 	public GLib.HashTable<string,GXml.DomNode> unknown_serializable_property { get; private set; }
 
 	public int weight;
@@ -95,16 +95,12 @@ public class SerializableCapsicum : GLib.Object, GXml.Serializable
 		this.ratings = ratings;
 	}
 
-	/* TODO: do we really need GLib.Value? or should we modify the object directly?
-	   Want an example using GBoxed too
-	   Perhaps these shouldn't be object methods, perhaps they should be static?
-	   Can't have static methods in an interface :(, right? */
-	public bool deserialize_property (GLib.ParamSpec spec,
-	                                  GXml.DomNode property_node)
+	public bool deserialize_property (GXml.DomNode property_node)
+	                                  throws Error
 	{
 		GLib.Value outvalue = GLib.Value (typeof (int));
 
-		switch (spec.name) {
+		switch (property_node.node_name) {
 		case "ratings":
 			this.ratings = new GLib.List<int> ();
 			foreach (GXml.DomNode rating in property_node.child_nodes) {
@@ -117,7 +113,8 @@ public class SerializableCapsicum : GLib.Object, GXml.Serializable
 			this.height = (int)outvalue.get_int64 () - 1;
 			return true;
 		default:
-			Test.message ("Wasn't expecting the SerializableCapsicum property '%s'", spec.name);
+			Test.message (@"Wasn't expecting the SerializableCapsicum " + 
+			              "property '$(property_node.node_name)'");
 			assert_not_reached ();
 		}
 
@@ -163,7 +160,7 @@ public class SerializableBanana : GLib.Object, GXml.Serializable
 	public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; private set; }
 	public bool serializable_property_use_nick { get; set; }
 	public GXml.Element serialized_xml_node { get; protected set; }
-	public string serialized_xml_node_value { get; protected set; }
+	public string? serialized_xml_node_value { get; protected set; }
 	public GLib.HashTable<string,GXml.DomNode> unknown_serializable_property { get; private set; }
 
 	private int private_field;

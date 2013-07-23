@@ -92,19 +92,19 @@ namespace GXml {
 		 *
 		 * This property must be ignored on serialisation.
 		 */
-		public abstract Element                           serialized_xml_node { get; protected set; }
+		public abstract Element  serialized_xml_node { get; protected set; default = null; }
 
 		/**
 		 * Used by to add properties and values to DomNode.
 		 *
 		 * This property must be ignored on serialisation.
 		 */
-		public abstract string  serialized_xml_node_value { get; protected set; default = null; }
+		public abstract string?  serialized_xml_node_value { get; protected set; default = null; }
 
 		/**
 		 * Serialize this object.
 		 *
-		 * @doc an GXml.Document object to serialise to 
+		 * @doc an {@link GXml.Document} object to serialise to 
 		 */
 		public virtual DomNode? serialize (DomNode node) throws DomError
 		{
@@ -113,27 +113,78 @@ namespace GXml {
 				doc = (Document) node;
 			else
 				doc = node.owner_document;
-			if (serialized_xml_node == null)
-				serialized_xml_node = doc.create_element (this.get_type ().name ());
+			GLib.message ("Serialing on ..." + node.node_name);
+			var element = doc.create_element (this.get_type().name());
 			foreach (ParamSpec spec in list_serializable_properties ()) {
-				serialize_property (spec);
+				GLib.message ("Property to Serialize: " + spec.name);
+				serialize_property (element, spec);
 			}
-			/* FIXME: Save unknown nodes */
-//			if (unknown_serializable_property.size >= 1) {
-//				foreach (DomNode node in unknown_serializable_property.get_values ()) {
-//					if (node is Attr) {
-//						var att = (Attr) node;
-//						serialized_xml_node.set_attribute (att.name, )
-//					}
-//				}
-//				serialized_xml_node.append_child ()
-//			}
 			if (serialized_xml_node_value != null)
 				serialized_xml_node.content = serialized_xml_node_value;
-			node.append_child (serialized_xml_node);
+			node.append_child (element);
+			GLib.message ("Added a new top node" + serialized_xml_node.node_name);
 			return serialized_xml_node;
 		}
 
+		/**
+		 * Handles serializing individual properties.
+		 *
+		 * Interface method to handle serialization of an
+		 * individual property.  The implementing class
+		 * receives a description of it, and should create a
+		 * {@link GXml.DomNode} that encapsulates the property.
+		 * {@link GXml.Serialization} will embed the {@link GXml.DomNode} into
+		 * a "Property" {@link GXml.Element}, so the {@link GXml.DomNode}
+		 * returned can often be something as simple as
+		 * {@link GXml.Text}.
+		 *
+		 * To let {@link GXml.Serialization} attempt to automatically
+		 * serialize the property itself, do not implement
+		 * this method.  If the method returns %NULL,
+		 * {@link GXml.Serialization} will attempt handle it itsel.
+		 *
+		 * @param property_name string name of a property to serialize.
+		 * @param spec the {@link GLib.ParamSpec} describing the property.
+		 * @param doc the {@link GXml.Document} the returned {@link GXml.DomNode} should belong to
+		 * @return a new {@link GXml.DomNode}, or `null`
+		 */
+		public virtual GXml.DomNode? serialize_property (Element element,
+		                                                 GLib.ParamSpec prop)
+		                                                 throws DomError
+		{
+			if (prop.value_type.is_a (typeof (Serializable))) 
+			{
+				GLib.message (@"$(prop.name) Is a Serializable");
+				var v = Value (typeof (Object));
+				get_property (prop.name, ref v);
+				var obj = (Serializable) v.get_object ();
+				return obj.serialize (element);
+			}
+			Value oval = Value (prop.value_type);
+			get_property (prop.name, ref oval);
+			string val = "";
+			if (Value.type_transformable (prop.value_type, typeof (string)))
+			{
+				Value rval = Value (typeof (string));
+				oval.transform (ref rval);
+				val = rval.dup_string ();
+			}
+			string attr_name = prop.name.down ();
+			var attr = element.get_attribute_node (attr_name);
+			if (attr == null) {
+				GLib.message (@"New Attr to add... $(attr_name)");
+				element.set_attribute (attr_name, val);
+			}
+			else
+				attr.value = val;
+			return (DomNode) attr;
+		}
+
+		/**
+		 * Deserialize this object.
+		 *
+		 * @node {@link GXml.DomNode} used to deserialize from.
+		 */
 		public virtual DomNode? deserialize (DomNode node)
 		                                     throws DomError
 		{
@@ -177,23 +228,10 @@ namespace GXml {
 		 * as simple as a {@link GXml.Text} that stores the data as a
 		 * string.
 		 *
-		 * If the implementation has handled deserialization,
-		 * return true.  Return false if you want
-		 * {@link GXml.Serialization} to try to automatically
-		 * deserialize it.  If {@link GXml.Serialization} tries to
-		 * handle it, it will want either {@link GXml.Serializable}'s
-		 * set_property (or at least {@link GLib.Object.set_property})
-		 * to know about the property.
-		 *
 		 * @param property_name the name of the property as a string
 		 * @param spec the {@link GLib.ParamSpec} describing the property.
 		 * @param property_node the {@link GXml.DomNode} encapsulating data to deserialize
 		 * @return `true` if the property was handled, `false` if {@link GXml.Serialization} should handle it.
-		 */
-		/*
-		 * @todo: consider not giving property_name, but
-		 * letting them get name from spec
-		 * @todo: consider returning {@link GLib.Value} as out param
 		 */
 		public virtual bool deserialize_property (GXml.DomNode property_node)
 		                                          throws Error
@@ -204,25 +242,33 @@ namespace GXml {
 				GLib.message ("Found Unknown property: " + property_node.node_name);
 				// FIXME: Event emit
 				unknown_serializable_property.set (property_node.node_name, property_node);
-				return false;
+				return true;
 			}
 			if (prop.value_type.is_a (typeof (Serializable)))
 			{
-				GLib.message (@"$(prop.name): Is Serializable...");
-				var obj = Object.new  (prop.value_type);
-				((Serializable) obj).deserialize (property_node);
-				set_property (prop.name, obj);
+				Value vobj = Value (typeof(Object));
+				get_property (prop.name, ref vobj);
+				if (vobj.get_object () == null) {
+					GLib.message (@"$(prop.name): Is Serializable...");
+					var obj = Object.new  (prop.value_type);
+					((Serializable) obj).deserialize (property_node);
+					set_property (prop.name, obj);
+				}
+				else
+					((Serializable) vobj.get_object ()).deserialize (property_node);
 				return true;
 			}
-			Value val = Value (prop.value_type);
-			if (Value.type_transformable (typeof (DomNode), prop.value_type))
-			{
-				Value tmp = Value (typeof (DomNode));
-				tmp.set_object (property_node);
-				ret = tmp.transform (ref val);
-			}
 			else {
-				if (property_node is GXml.Attr && !ret)
+				Value val = Value (prop.value_type);
+				if (Value.type_transformable (typeof (DomNode), prop.value_type))
+				{
+					Value tmp = Value (typeof (DomNode));
+					tmp.set_object (property_node);
+					ret = tmp.transform (ref val);
+					set_property (prop.name, val);
+					return ret;
+				}
+				if (property_node is GXml.Attr)
 				{
 					Value ptmp = Value (typeof (string));
 					ptmp.set_string (property_node.node_value);
@@ -230,65 +276,11 @@ namespace GXml {
 						ret = ptmp.transform (ref val);
 					else
 						ret = string_to_gvalue (property_node.node_value, ref val);
+					set_property (prop.name, val);
+					return ret;
 				}
 			}
-			if (ret) {
-				set_property (prop.name, val);
-			}
-			return ret;
-		}
-
-		/**
-		 * Handles serializing individual properties.
-		 *
-		 * Interface method to handle serialization of an
-		 * individual property.  The implementing class
-		 * receives a description of it, and should create a
-		 * {@link GXml.DomNode} that encapsulates the property.
-		 * {@link GXml.Serialization} will embed the {@link GXml.DomNode} into
-		 * a "Property" {@link GXml.Element}, so the {@link GXml.DomNode}
-		 * returned can often be something as simple as
-		 * {@link GXml.Text}.
-		 *
-		 * To let {@link GXml.Serialization} attempt to automatically
-		 * serialize the property itself, do not implement
-		 * this method.  If the method returns %NULL,
-		 * {@link GXml.Serialization} will attempt handle it itsel.
-		 *
-		 * @param property_name string name of a property to serialize.
-		 * @param spec the {@link GLib.ParamSpec} describing the property.
-		 * @param doc the {@link GXml.Document} the returned {@link GXml.DomNode} should belong to
-		 * @return a new {@link GXml.DomNode}, or `null`
-		 */
-		public virtual GXml.DomNode? serialize_property (GLib.ParamSpec spec)
-		                                                 throws DomError
-		{
-			var prop = find_property_spec (spec.name);
-			if (prop == null) {
-				GLib.warning ("No such property: " + spec.name);
-				return null;
-			}
-			if (prop.value_type.is_a (typeof (Serializable))) {
-				var v = Value (typeof (Object));
-				get_property (spec.name, ref v);
-				var obj = (Serializable) v.get_object ();
-				var node = obj.serialize (serialized_xml_node);
-				return node;
-			}
-			Value oval = Value (spec.value_type);
-			get_property (spec.name, ref oval);
-			string val = "";
-			if (Value.type_transformable (spec.value_type, typeof (string)))
-			{
-				Value rval = Value (typeof (string));
-				oval.transform (ref rval);
-				val = rval.dup_string ();
-			}
-			string attr_name = spec.name;
-			if (serializable_property_use_nick)
-				attr_name = spec.get_nick ();
-			serialized_xml_node.set_attribute (attr_name, val);
-			return (DomNode) serialized_xml_node.get_attribute_node (attr_name);
+			return false;
 		}
 
 		/*
