@@ -532,7 +532,7 @@ namespace GXml {
 				// TODO: check impact on existing child nodes; they will be
 				//       detached, right?
 				// TODO: is XML in value interpreted or escaped?
-				base.node->set_content (value);
+				base.node->add_content (value);
 			}
 		}
 	}

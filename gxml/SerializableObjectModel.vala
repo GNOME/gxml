@@ -32,7 +32,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 	/* No serializable properties */
 	[Description (blurb="GXml.DomNode contents")]
 	public string @value {
-		get { return serialized_xml_node_value; } 
+		owned get { return serialized_xml_node_value; } 
 		set { serialized_xml_node_value = value; }
 	}
 	public SerializableObjectModel ()

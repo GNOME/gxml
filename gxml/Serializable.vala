@@ -115,13 +115,14 @@ namespace GXml {
 				doc = node.owner_document;
 			GLib.message ("Serialing on ..." + node.node_name);
 			var element = doc.create_element (this.get_type().name());
+			node.append_child (element);
+			GLib.message ("Is NULL VALUE ?" + (serialized_xml_node_value == null).to_string ());
+			if (serialized_xml_node_value != null)
+				element.content = serialized_xml_node.content;
 			foreach (ParamSpec spec in list_serializable_properties ()) {
 				GLib.message ("Property to Serialize: " + spec.name);
 				serialize_property (element, spec);
 			}
-			if (serialized_xml_node_value != null)
-				serialized_xml_node.content = serialized_xml_node_value;
-			node.append_child (element);
 			GLib.message ("Added a new top node" + serialized_xml_node.node_name);
 			return serialized_xml_node;
 		}
