@@ -96,7 +96,7 @@ public class SerializableCapsicum : GLib.Object, GXml.Serializable
 	}
 
 	public bool deserialize_property (GXml.DomNode property_node)
-	                                  throws Error
+                                    throws Error
 	{
 		GLib.Value outvalue = GLib.Value (typeof (int));
 
@@ -120,8 +120,9 @@ public class SerializableCapsicum : GLib.Object, GXml.Serializable
 
 		return false;
 	}
-	public GXml.DomNode? serialize_property (GLib.ParamSpec spec)
-	                                         throws GXml.DomError
+	public GXml.DomNode? serialize_property (Element element,
+                                           GLib.ParamSpec spec)
+                                           throws DomError
 	{
 		GXml.Document doc = serialized_xml_node.owner_document;
 		GXml.Element c_prop;
