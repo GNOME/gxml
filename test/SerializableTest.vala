@@ -264,25 +264,9 @@ public class SerializableBanana : GLib.Object, GXml.Serializable
 	}
 }
 
-class XmlObjectModel : Object, Serializable
+class ObjectModel : SerializableObjectModel
 {
-	/* Serializable interface properties */
-	public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; protected set; }
-	public bool serializable_property_use_nick { get; set; }
-	public GXml.Element serialized_xml_node { get; protected set; }
-	public string serialized_xml_node_value { get; protected set; }
-	public GLib.HashTable<string,GXml.DomNode> unknown_serializable_property { get; protected set; }
-
-	/* No serializable properties */
-	public string @value { get; set; }
-	public XmlObjectModel ()
-	{
-		serializable_property_use_nick = true;
-		var pvalue = find_property_spec ("value");
-		ignored_serializable_properties.set ("value", pvalue);
-	}
-	
-	public string to_string ()
+	public override string to_string ()
 	{
 		var lp = list_serializable_properties ();
 		string ret = this.get_type ().name () +"{Properties:\n";
@@ -291,42 +275,51 @@ class XmlObjectModel : Object, Serializable
 		}
 		return ret + "}";
 	}
-
-	public static bool equals (Object a, Object b)
-	       requires ((a is Serializable) && (b is Serializable))
-	{
-		if (b.get_type () == a.get_type ()) {
-			var alp = ((Serializable)a).list_serializable_properties ();
-			var blp = ((Serializable)b).list_serializable_properties ();
-			bool ret = true;
-			foreach (ParamSpec p in alp) {
-				var bp = ((Serializable)b).find_property_spec (p.name);
-				if (bp != null) {
-					var apval = ((Serializable)a).get_property_value (p);
-					var bpval = ((Serializable)b).get_property_value (bp);
-					if ( apval != bpval)
-						ret = false;
-				}
-			}
-			return ret;
-		}
-		return false;
-	}
 }
 
-class Laptop : XmlObjectModel
+class Computer : ObjectModel
 {
+	[Description (nick="Manufacturer")]
 	public string manufacturer { get; set; }
 	public string model { get; set; }
 	public int cores { get; set; }
 	public float ghz { get; set; }
-	
-	public Laptop ()
+
+	public Computer ()
 	{
 		manufacturer = "MexicanLaptop, Inc.";
 		model = "LQ59678";
 		cores = 8;
 		ghz = (float) 3.5;
+	}
+}
+
+class Manual : ObjectModel
+{
+	public string document { get; set; }
+	public int pages { get; set; }
+
+	public Manual ()
+	{
+		document = "MANUAL DOCUMENTATION";
+		pages = 3;
+		value = "TEXT INTO THE MANUAL DOCUMENT";
+	}
+}
+
+class Package : ObjectModel
+{
+	public Computer computer { get; set; }
+	public Manual manual { get; set; }
+	public string source { get; set; }
+	public string destiny { get; set; }
+
+	public Package ()
+	{
+		computer = new Computer ();
+		manual = new Manual ();
+		source = "Mexico";
+		destiny = "World";
 	}
 }
 
@@ -393,8 +386,8 @@ class SerializableTest : GXmlTest
 				SerializationTest.test_serialization_deserialization (banana, "interface_override_properties", (GLib.EqualFunc)SerializableBanana.equals, (SerializationTest.StringifyFunc)SerializableBanana.to_string);
 			});
 		Test.add_func ("/gxml/serializable/xml_object_model/derived_class", () => {
-			var lap = new Laptop ();
-			SerializationTest.test_serialization_deserialization (lap, "derived_class", (GLib.EqualFunc)XmlObjectModel.equals, (SerializationTest.StringifyFunc)XmlObjectModel.to_string);
+			var computer = new Computer ();
+			SerializationTest.test_serialization_deserialization (computer, "derived_class", (GLib.EqualFunc)SerializableObjectModel.equals, (SerializationTest.StringifyFunc)ObjectModel.to_string);
 			});
 	}
 }

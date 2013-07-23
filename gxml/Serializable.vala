@@ -113,18 +113,54 @@ namespace GXml {
 				doc = (Document) node;
 			else
 				doc = node.owner_document;
-
-			serialized_xml_node = doc.create_element (this.get_type ().name ());
+			if (serialized_xml_node == null)
+				serialized_xml_node = doc.create_element (this.get_type ().name ());
 			foreach (ParamSpec spec in list_serializable_properties ()) {
-				GLib.message ("Serializing: " + spec.name + 
-				              " on node: " + serialized_xml_node.node_name);
 				serialize_property (spec);
-				GLib.message ("Done");
 			}
+			/* FIXME: Save unknown nodes */
+//			if (unknown_serializable_property.size >= 1) {
+//				foreach (DomNode node in unknown_serializable_property.get_values ()) {
+//					if (node is Attr) {
+//						var att = (Attr) node;
+//						serialized_xml_node.set_attribute (att.name, )
+//					}
+//				}
+//				serialized_xml_node.append_child ()
+//			}
 			if (serialized_xml_node_value != null)
 				serialized_xml_node.content = serialized_xml_node_value;
 			node.append_child (serialized_xml_node);
 			return serialized_xml_node;
+		}
+
+		public virtual DomNode? deserialize (DomNode node) throws DomError
+		{
+			Document doc;
+			if (node is Document) {
+				doc = (Document) node;
+				return_val_if_fail (doc.document_element != null, null);
+			}
+			else
+				doc = node.owner_document;
+			if (node is Element)
+				serialized_xml_node = (Element) node;
+			else
+				serialized_xml_node = (Element) doc.document_element;
+			if (serialized_xml_node.node_name == this.get_type().name() 
+			    || serialized_xml_node.node_name == (this.get_type().name()).down ())
+			{
+				foreach (Attr att in serialized_xml_node.attributes.get_values ())
+				{
+					var spec = find_property_spec (att.name);
+					if (spec != null) {
+						deserialize_property (spec, att);
+					}
+				}
+				if (serialized_xml_node.content != null)
+					serialized_xml_node_value = serialized_xml_node.content;
+			}
+			return null;
 		}
 		/**
 		 * Handles deserializing individual properties.
@@ -159,12 +195,21 @@ namespace GXml {
 		 */
 		public virtual bool deserialize_property (GLib.ParamSpec spec,
 		                                          GXml.DomNode property_node)
+		                                          throws Error
 		{
 			bool ret = false;
 			var prop = find_property_spec (property_node.node_name);
 			if (prop == null) {
 				unknown_serializable_property.set (property_node.node_name, property_node);
 				return false;
+			}
+			if (prop.value_type.is_a (typeof (Serializable)))
+			{
+				GLib.message (@"$(prop.name): Is Serializable...");
+				var obj = Object.new  (prop.value_type);
+				((Serializable) obj).deserialize (property_node);
+				set_property (prop.name, obj);
+				return true;
 			}
 			Value val = Value (prop.value_type);
 			if (Value.type_transformable (typeof (DomNode), prop.value_type)) {
@@ -218,7 +263,6 @@ namespace GXml {
 				return null;
 			}
 			if (prop.value_type.is_a (typeof (Serializable))) {
-			GLib.message ("Is a Serializable Property");
 				var v = Value (typeof (Object));
 				get_property (spec.name, ref v);
 				var obj = (Serializable) v.get_object ();
