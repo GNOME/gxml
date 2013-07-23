@@ -29,17 +29,10 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 	public string? serialized_xml_node_value { get; protected set; default=null; }
 	public GLib.HashTable<string,GXml.DomNode> unknown_serializable_property { get; protected set; }
 
-	/* No serializable properties */
-	[Description (blurb="GXml.DomNode contents")]
-	public string @value {
-		owned get { return serialized_xml_node_value; } 
-		set { serialized_xml_node_value = value; }
-	}
 	public SerializableObjectModel ()
 	{
 		serializable_property_use_nick = true;
-		var pvalue = find_property_spec ("value");
-		ignored_serializable_properties.set ("value", pvalue);
+		serialized_xml_node_value = null;
 	}
 	
 	public abstract string to_string ();

@@ -118,7 +118,7 @@ namespace GXml {
 			node.append_child (element);
 			GLib.message ("Is NULL VALUE ?" + (serialized_xml_node_value == null).to_string ());
 			if (serialized_xml_node_value != null)
-				element.content = serialized_xml_node.content;
+				element.content = serialized_xml_node_value;
 			foreach (ParamSpec spec in list_serializable_properties ()) {
 				GLib.message ("Property to Serialize: " + spec.name);
 				serialize_property (element, spec);

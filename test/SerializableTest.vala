@@ -301,7 +301,7 @@ class Manual : ObjectModel
 	{
 		document = "MANUAL DOCUMENTATION";
 		pages = 3;
-		value = "TEXT INTO THE MANUAL DOCUMENT";
+		serialized_xml_node_value = "TEXT INTO THE MANUAL DOCUMENT";
 	}
 }
 
