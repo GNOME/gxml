@@ -323,6 +323,23 @@ class Package : ObjectModel
 	}
 }
 
+const string XML_COMPUTER_FILE = 
+"""<?xml version="1.0"?>
+<computer manufacturer="ThecnicalGroup" model="YH576G" cores="4" ghz="2.8"/>""";
+
+const string XML_MANUAL_FILE =
+"""<?xml version="1.0"?>
+<manual document="Specification" pages="3">This is an Specification file</manual>""";
+
+
+const string XML_PACKAGE_FILE =
+"""<?xml version="1.0"?>
+<PACKAGE source="Mexico/Central" destiny="Japan">
+<manual document="Specification" pages="3">This is an Specification file</manual>
+<Computer manufacturer="LanCorop" model="Lap39120" cores="16" ghz="3.5"/>
+</PACKAGE>""";
+
+
 class SerializableTest : GXmlTest
 {
 	public static void add_tests () {

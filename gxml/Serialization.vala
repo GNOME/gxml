@@ -323,7 +323,7 @@ namespace GXml {
 			val = Value (type);
 			if (GLib.Value.type_transformable (type, typeof (string))) {
 				try {
-					string_to_gvalue (prop_elem.content, ref val);
+					Serializable.string_to_gvalue (prop_elem.content, ref val);
 					transformed = true;
 				} catch (SerializationError e) {
 					throw new SerializationError.UNSUPPORTED_TYPE ("string_to_gvalue should transform it but failed");
@@ -466,7 +466,7 @@ namespace GXml {
 						bool serialized = false;
 
 						if (serializable != null) {
-							serialized = serializable.deserialize_property (spec, prop_elem); // TODO: consider rearranging these or the ones in Serializer to match
+							serialized = serializable.deserialize_property (prop_elem); // TODO: consider rearranging these or the ones in Serializer to match
 						}
 						if (!serialized) {
 							Serialization.deserialize_property (spec, prop_elem, out val);
@@ -491,110 +491,6 @@ namespace GXml {
 			}
 
 			return obj;
-		}
-
-		/* TODO:
-		 * - can't seem to pass delegates on struct methods to another function :(
-		 * - no easy string_to_gvalue method in GValue :(
-		 */
-
-		/**
-		 * Transforms a string into another type hosted by {@link GLib.Value}.
-		 *
-		 * A utility function that handles converting a string
-		 * representation of a value into the type specified by the
-		 * supplied #GValue dest.  A #GXmlSerializationError will be
-		 * set if the string cannot be parsed into the desired type.
-		 *
-		 * @param str the string to transform into the given #GValue object
-		 * @param dest the #GValue out parameter that will contain the parsed value from the string
-		 * @return `true` if parsing succeeded, otherwise `false`
-		 */
-		/*
-		 * @todo: what do functions written in Vala return in C when
-		 * they throw an exception?  NULL/0/FALSE?
-		 */
-		public static bool string_to_gvalue (string str, ref GLib.Value dest)
-				throws SerializationError
-		{
-			Type t = dest.type ();
-			GLib.Value dest2 = Value (t);
-			bool ret = false;
-
-			if (t == typeof (int64)) {
-				int64 val;
-				if (ret = int64.try_parse (str, out val)) {
-					dest2.set_int64 (val);
-				}
-			} else if (t == typeof (int)) {
-				int64 val;
-				if (ret = int64.try_parse (str, out val)) {
-					dest2.set_int ((int)val);
-				}
-			} else if (t == typeof (long)) {
-				int64 val;
-				if (ret = int64.try_parse (str, out val)) {
-					dest2.set_long ((long)val);
-				}
-			} else if (t == typeof (uint)) {
-				uint64 val;
-				if (ret = uint64.try_parse (str, out val)) {
-					dest2.set_uint ((uint)val);
-				}
-			} else if (t == typeof (ulong)) {
-				uint64 val;
-				if (ret = uint64.try_parse (str, out val)) {
-					dest2.set_ulong ((ulong)val);
-				}
-			} else if ((int)t == 20) { // gboolean
-				bool val = (str == "TRUE");
-				dest2.set_boolean (val); // TODO: huh, investigate why the type is gboolean and not bool coming out but is going in
-				ret = true;
-			} else if (t == typeof (bool)) {
-				bool val;
-				if (ret = bool.try_parse (str, out val)) {
-					dest2.set_boolean (val);
-				}
-			} else if (t == typeof (float)) {
-				double val;
-				if (ret = double.try_parse (str, out val)) {
-					dest2.set_float ((float)val);
-				}
-			} else if (t == typeof (double)) {
-				double val;
-				if (ret = double.try_parse (str, out val)) {
-					dest2.set_double (val);
-				}
-			} else if (t == typeof (string)) {
-				dest2.set_string (str);
-				ret = true;
-			} else if (t == typeof (char)) {
-				int64 val;
-				if (ret = int64.try_parse (str, out val)) {
-					dest2.set_char ((char)val);
-				}
-			} else if (t == typeof (uchar)) {
-				int64 val;
-				if (ret = int64.try_parse (str, out val)) {
-					dest2.set_uchar ((uchar)val);
-				}
-			} else if (t == Type.BOXED) {
-			} else if (t.is_enum ()) {
-				int64 val;
-				if (ret = int64.try_parse (str, out val)) {
-					dest2.set_enum ((int)val);
-				}
-			} else if (t.is_flags ()) {
-			} else if (t.is_object ()) {
-			} else {
-			}
-
-			if (ret == true) {
-				dest = dest2;
-				return true;
-			} else {
-				throw new SerializationError.UNSUPPORTED_TYPE ("%s/%s", t.name (), t.to_string ());
-			}
 		}
 	}
 }

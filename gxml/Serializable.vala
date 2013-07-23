@@ -134,7 +134,8 @@ namespace GXml {
 			return serialized_xml_node;
 		}
 
-		public virtual DomNode? deserialize (DomNode node) throws DomError
+		public virtual DomNode? deserialize (DomNode node)
+		                                     throws DomError
 		{
 			Document doc;
 			if (node is Document) {
@@ -147,15 +148,16 @@ namespace GXml {
 				serialized_xml_node = (Element) node;
 			else
 				serialized_xml_node = (Element) doc.document_element;
-			if (serialized_xml_node.node_name == this.get_type().name() 
-			    || serialized_xml_node.node_name == (this.get_type().name()).down ())
+			return_val_if_fail (serialized_xml_node.node_name.down () == get_type().name().down(), null);
+			foreach (Attr attr in serialized_xml_node.attributes.get_values ())
 			{
-				foreach (Attr att in serialized_xml_node.attributes.get_values ())
+				deserialize_property (attr);
+			}
+			if (serialized_xml_node.has_child_nodes ())
+			{
+				foreach (DomNode n in serialized_xml_node.child_nodes)
 				{
-					var spec = find_property_spec (att.name);
-					if (spec != null) {
-						deserialize_property (spec, att);
-					}
+					deserialize_property (n);
 				}
 				if (serialized_xml_node.content != null)
 					serialized_xml_node_value = serialized_xml_node.content;
@@ -193,13 +195,14 @@ namespace GXml {
 		 * letting them get name from spec
 		 * @todo: consider returning {@link GLib.Value} as out param
 		 */
-		public virtual bool deserialize_property (GLib.ParamSpec spec,
-		                                          GXml.DomNode property_node)
+		public virtual bool deserialize_property (GXml.DomNode property_node)
 		                                          throws Error
 		{
 			bool ret = false;
 			var prop = find_property_spec (property_node.node_name);
 			if (prop == null) {
+				GLib.message ("Found Unknown property: " + property_node.node_name);
+				// FIXME: Event emit
 				unknown_serializable_property.set (property_node.node_name, property_node);
 				return false;
 			}
@@ -212,18 +215,21 @@ namespace GXml {
 				return true;
 			}
 			Value val = Value (prop.value_type);
-			if (Value.type_transformable (typeof (DomNode), prop.value_type)) {
+			if (Value.type_transformable (typeof (DomNode), prop.value_type))
+			{
 				Value tmp = Value (typeof (DomNode));
 				tmp.set_object (property_node);
 				ret = tmp.transform (ref val);
 			}
 			else {
-				if (property_node is GXml.Attr) {
-					if (Value.type_transformable (typeof (string), prop.value_type)) {
-						Value ptmp = Value (typeof (string));
-						ptmp.set_string (property_node.node_value);
+				if (property_node is GXml.Attr && !ret)
+				{
+					Value ptmp = Value (typeof (string));
+					ptmp.set_string (property_node.node_value);
+					if (Value.type_transformable (typeof (string), prop.value_type))
 						ret = ptmp.transform (ref val);
-					}
+					else
+						ret = string_to_gvalue (property_node.node_value, ref val);
 				}
 			}
 			if (ret) {
@@ -315,10 +321,11 @@ namespace GXml {
 		 */
 		public virtual GLib.ParamSpec? find_property_spec (string property_name) {
 			init_properties ();
-			if (!ignored_serializable_properties.contains (property_name)) {
-				return get_class ().find_property (property_name);
+			string pn = property_name.down ();
+			if (ignored_serializable_properties.contains (pn)) {
+				return null;
 			}
-			return null;
+			return get_class ().find_property (pn);
 		}
 
 		/**
@@ -457,6 +464,109 @@ namespace GXml {
 		{
 			if (!ignored_serializable_properties.contains (spec.name)) {
 				((GLib.Object)this).set_property (spec.name, val);
+			}
+		}
+				/* TODO:
+		 * - can't seem to pass delegates on struct methods to another function :(
+		 * - no easy string_to_gvalue method in GValue :(
+		 */
+
+		/**
+		 * Transforms a string into another type hosted by {@link GLib.Value}.
+		 *
+		 * A utility function that handles converting a string
+		 * representation of a value into the type specified by the
+		 * supplied #GValue dest.  A #GXmlSerializationError will be
+		 * set if the string cannot be parsed into the desired type.
+		 *
+		 * @param str the string to transform into the given #GValue object
+		 * @param dest the #GValue out parameter that will contain the parsed value from the string
+		 * @return `true` if parsing succeeded, otherwise `false`
+		 */
+		/*
+		 * @todo: what do functions written in Vala return in C when
+		 * they throw an exception?  NULL/0/FALSE?
+		 */
+		public static bool string_to_gvalue (string str, ref GLib.Value dest)
+				throws SerializationError
+		{
+			Type t = dest.type ();
+			GLib.Value dest2 = Value (t);
+			bool ret = false;
+
+			if (t == typeof (int64)) {
+				int64 val;
+				if (ret = int64.try_parse (str, out val)) {
+					dest2.set_int64 (val);
+				}
+			} else if (t == typeof (int)) {
+				int64 val;
+				if (ret = int64.try_parse (str, out val)) {
+					dest2.set_int ((int)val);
+				}
+			} else if (t == typeof (long)) {
+				int64 val;
+				if (ret = int64.try_parse (str, out val)) {
+					dest2.set_long ((long)val);
+				}
+			} else if (t == typeof (uint)) {
+				uint64 val;
+				if (ret = uint64.try_parse (str, out val)) {
+					dest2.set_uint ((uint)val);
+				}
+			} else if (t == typeof (ulong)) {
+				uint64 val;
+				if (ret = uint64.try_parse (str, out val)) {
+					dest2.set_ulong ((ulong)val);
+				}
+			} else if ((int)t == 20) { // gboolean
+				bool val = (str == "TRUE");
+				dest2.set_boolean (val); // TODO: huh, investigate why the type is gboolean and not bool coming out but is going in
+				ret = true;
+			} else if (t == typeof (bool)) {
+				bool val;
+				if (ret = bool.try_parse (str, out val)) {
+					dest2.set_boolean (val);
+				}
+			} else if (t == typeof (float)) {
+				double val;
+				if (ret = double.try_parse (str, out val)) {
+					dest2.set_float ((float)val);
+				}
+			} else if (t == typeof (double)) {
+				double val;
+				if (ret = double.try_parse (str, out val)) {
+					dest2.set_double (val);
+				}
+			} else if (t == typeof (string)) {
+				dest2.set_string (str);
+				ret = true;
+			} else if (t == typeof (char)) {
+				int64 val;
+				if (ret = int64.try_parse (str, out val)) {
+					dest2.set_char ((char)val);
+				}
+			} else if (t == typeof (uchar)) {
+				int64 val;
+				if (ret = int64.try_parse (str, out val)) {
+					dest2.set_uchar ((uchar)val);
+				}
+			} else if (t == Type.BOXED) {
+			} else if (t.is_enum ()) {
+				int64 val;
+				if (ret = int64.try_parse (str, out val)) {
+					dest2.set_enum ((int)val);
+				}
+			} else if (t.is_flags ()) {
+			} else if (t.is_object ()) {
+			} else {
+			}
+
+			if (ret == true) {
+				dest = dest2;
+				return true;
+			} else {
+				throw new SerializationError.UNSUPPORTED_TYPE ("%s/%s", t.name (), t.to_string ());
 			}
 		}
 	}
