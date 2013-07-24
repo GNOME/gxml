@@ -123,7 +123,7 @@ namespace GXml {
 				GLib.message ("Property to Serialize: " + spec.name);
 				serialize_property (element, spec);
 			}
-			GLib.message ("Added a new top node" + serialized_xml_node.node_name);
+			GLib.message ("Added a new top node: " + element.node_name);
 			return serialized_xml_node;
 		}
 
