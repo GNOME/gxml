@@ -25,7 +25,6 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 	/* Serializable interface properties */
 	public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; protected set; }
 	public bool serializable_property_use_nick { get; set; }
-	public GXml.Element serialized_xml_node { get; protected set; }
 	public string? serialized_xml_node_value { get; protected set; default=null; }
 	public GLib.HashTable<string,GXml.DomNode> unknown_serializable_property { get; protected set; }
 
@@ -41,7 +40,6 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 	{
 		if (b.get_type () == a.get_type ()) {
 			var alp = ((Serializable)a).list_serializable_properties ();
-			var blp = ((Serializable)b).list_serializable_properties ();
 			bool ret = true;
 			foreach (ParamSpec p in alp) {
 				var bp = ((Serializable)b).find_property_spec (p.name);

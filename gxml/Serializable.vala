@@ -88,14 +88,7 @@ namespace GXml {
 		public abstract HashTable<string,GXml.DomNode>    unknown_serializable_property { get; protected set; }
 
 		/**
-		 * Used by to add properties and values to DomNode.
-		 *
-		 * This property must be ignored on serialisation.
-		 */
-		public abstract Element  serialized_xml_node { get; protected set; default = null; }
-
-		/**
-		 * Used by to add properties and values to DomNode.
+		 * Used by to add content in an {@link GXml.Element}.
 		 *
 		 * This property must be ignored on serialisation.
 		 */
@@ -116,15 +109,15 @@ namespace GXml {
 			GLib.message ("Serialing on ..." + node.node_name);
 			var element = doc.create_element (this.get_type().name());
 			node.append_child (element);
-			GLib.message ("Is NULL VALUE ?" + (serialized_xml_node_value == null).to_string ());
 			if (serialized_xml_node_value != null)
 				element.content = serialized_xml_node_value;
+			GLib.message ("Node Value is: ?" + element.content);
 			foreach (ParamSpec spec in list_serializable_properties ()) {
 				GLib.message ("Property to Serialize: " + spec.name);
 				serialize_property (element, spec);
 			}
 			GLib.message ("Added a new top node: " + element.node_name);
-			return serialized_xml_node;
+			return element;
 		}
 
 		/**
@@ -187,7 +180,8 @@ namespace GXml {
 		 * @node {@link GXml.DomNode} used to deserialize from.
 		 */
 		public virtual DomNode? deserialize (DomNode node)
-		                                     throws DomError
+		                                     throws SerializableError,
+		                                            DomError
 		{
 			Document doc;
 			if (node is Document) {
@@ -196,23 +190,20 @@ namespace GXml {
 			}
 			else
 				doc = node.owner_document;
-			if (node is Element)
-				serialized_xml_node = (Element) node;
-			else
-				serialized_xml_node = (Element) doc.document_element;
-			return_val_if_fail (serialized_xml_node.node_name.down () == get_type().name().down(), null);
-			foreach (Attr attr in serialized_xml_node.attributes.get_values ())
+			var element = (Element) doc.document_element;
+			return_val_if_fail (element.node_name.down () == get_type().name().down(), null);
+			foreach (Attr attr in element.attributes.get_values ())
 			{
 				deserialize_property (attr);
 			}
-			if (serialized_xml_node.has_child_nodes ())
+			if (element.has_child_nodes ())
 			{
-				foreach (DomNode n in serialized_xml_node.child_nodes)
+				foreach (DomNode n in element.child_nodes)
 				{
 					deserialize_property (n);
 				}
-				if (serialized_xml_node.content != null)
-					serialized_xml_node_value = serialized_xml_node.content;
+				if (serialized_xml_node_value != null)
+					element.content = serialized_xml_node_value;
 			}
 			return null;
 		}
@@ -235,7 +226,8 @@ namespace GXml {
 		 * @return `true` if the property was handled, `false` if {@link GXml.Serialization} should handle it.
 		 */
 		public virtual bool deserialize_property (GXml.DomNode property_node)
-		                                          throws Error
+		                                          throws SerializableError,
+		                                          DomError
 		{
 			bool ret = false;
 			var prop = find_property_spec (property_node.node_name);
@@ -335,8 +327,6 @@ namespace GXml {
 																						get_class ().find_property("ignored-serializable-properties"));
 				ignored_serializable_properties.set ("unknown-serializable-property",
 																						get_class ().find_property("unknown-serializable-property"));
-				ignored_serializable_properties.set ("serialized-xml-node",
-																						get_class ().find_property("serialized-xml-node"));
 				ignored_serializable_properties.set ("serialized-xml-node-value",
 																						get_class ().find_property("serialized-xml-node-value"));
 				ignored_serializable_properties.set ("serializable-property-use-nick",
@@ -469,7 +459,7 @@ namespace GXml {
 		 *
 		 * A utility function that handles converting a string
 		 * representation of a value into the type specified by the
-		 * supplied #GValue dest.  A #GXmlSerializationError will be
+		 * supplied #GValue dest.  A #GXmlSerializableError will be
 		 * set if the string cannot be parsed into the desired type.
 		 *
 		 * @param str the string to transform into the given #GValue object
@@ -481,7 +471,7 @@ namespace GXml {
 		 * they throw an exception?  NULL/0/FALSE?
 		 */
 		public static bool string_to_gvalue (string str, ref GLib.Value dest)
-				throws SerializationError
+		                                     throws SerializableError
 		{
 			Type t = dest.type ();
 			GLib.Value dest2 = Value (t);
@@ -559,8 +549,18 @@ namespace GXml {
 				dest = dest2;
 				return true;
 			} else {
-				throw new SerializationError.UNSUPPORTED_TYPE ("%s/%s", t.name (), t.to_string ());
+				throw new SerializableError.UNSUPPORTED_TYPE ("%s/%s", t.name (), t.to_string ());
 			}
 		}
+	}
+
+	/**
+	 * Errors from {@link Serialization}.
+	 */
+	public errordomain SerializableError {
+		/**
+		 * An object with a known {@link GLib.Type} that we do not support was encountered.
+		 */
+		UNSUPPORTED_TYPE
 	}
 }

@@ -91,8 +91,7 @@ namespace GXml {
 		private static GXml.DomNode serialize_property (GLib.Object object,
 		                                                ParamSpec prop_spec,
 		                                                GXml.Document doc)
-		                                                throws Error,
-		                                                       SerializationError,
+		                                                throws SerializationError,
 		                                                       DomError
 		{
 			Type type;
@@ -211,8 +210,7 @@ namespace GXml {
 		 * @return a {@link GXml.DomNode} representing the serialized `object`
 		 */
 		public static GXml.DomNode serialize_object (GLib.Object object) 
-		                                             throws Error,
-		                                                    SerializationError,
+		                                             throws SerializationError,
 		                                                    DomError
 		{
 			Document doc;
@@ -301,7 +299,9 @@ namespace GXml {
 		private static void deserialize_property (ParamSpec spec,
 		                                          Element prop_elem,
 		                                          out Value val)
-		                                          throws SerializationError
+		                                          throws SerializationError,
+		                                                 SerializableError,
+		                                                 DomError
 		{
 			Type type;
 
@@ -343,7 +343,7 @@ namespace GXml {
 					// We don't want this one caught by deserialize_object, or we'd have a cascading error message.  Hmm, not so bad if it does, though.
 					e.message += "\nXML [%s]".printf (prop_elem.to_string ());
 					throw e;
-				}
+				} 
 			}
 
 			if (transformed == false) {
@@ -391,7 +391,11 @@ namespace GXml {
 		 * @param node {@link GXml.DomNode} representing a {@link GLib.Object}
 		 * @return the deserialized {@link GLib.Object}
 		 */
-		public static GLib.Object deserialize_object (DomNode node) throws SerializationError {
+		public static GLib.Object deserialize_object (DomNode node)
+		                                              throws SerializationError,
+		                                                     SerializableError,
+		                                                     DomError
+		{
 			Element obj_elem;
 
 			string otype;
