@@ -444,7 +444,7 @@ class SerializationTest : GXmlTest {
 					xml = Serialization.serialize_object (obj);
 
 					restored = (ComplexDuplicateProperties)Serialization.deserialize_object (xml);
-				} catch (GXml.SerializationError e) {
+				} catch (Error e) {
 					Test.message ("%s", e.message);
 					assert_not_reached ();
 				}
@@ -611,7 +611,7 @@ class SerializationTest : GXmlTest {
 					} catch (GXml.SerializationError e) {
 						Test.message ("%s", e.message);
 						assert_not_reached ();
-					} catch (GXml.DomError e) {
+					} catch (Error e) {
 						Test.message ("%s", e.message);
 						assert_not_reached ();
 					}

@@ -32,6 +32,7 @@ public class SerializableTomato : GLib.Object, GXml.Serializable
 	public bool serializable_property_use_nick { get; set; }
 	public string? serialized_xml_node_value { get; protected set; }
 	public GLib.HashTable<string,GXml.DomNode> unknown_serializable_property { get; private set; }
+	public string serializable_node_name { get; protected set; }
 
 	public int weight;
 	private int age { get; set; }
@@ -44,6 +45,7 @@ public class SerializableTomato : GLib.Object, GXml.Serializable
 		this.age = age;
 		this.height = height;
 		this.description = description;
+		serializable_node_name = "tomato";
 	}
 
 	public string to_string ()
@@ -69,6 +71,7 @@ public class SerializableCapsicum : GLib.Object, GXml.Serializable
 	public bool serializable_property_use_nick { get; set; }
 	public string? serialized_xml_node_value { get; protected set; }
 	public GLib.HashTable<string,GXml.DomNode> unknown_serializable_property { get; private set; }
+	public string serializable_node_name { get; protected set; }
 
 	public int weight;
 	private int age { get; set; }
@@ -91,10 +94,12 @@ public class SerializableCapsicum : GLib.Object, GXml.Serializable
 		this.age = age;
 		this.height = height;
 		this.ratings = ratings;
+		serializable_node_name = "capsicum";
 	}
 
 	public bool deserialize_property (GXml.DomNode property_node)
-                                    throws Error
+                                    throws SerializableError,
+		                                       DomError
 	{
 		GLib.Value outvalue = GLib.Value (typeof (int));
 
@@ -123,7 +128,6 @@ public class SerializableCapsicum : GLib.Object, GXml.Serializable
                                            throws DomError
 	{
 		GXml.Document doc = element.owner_document;
-		GXml.Element c_prop;
 		GXml.Element rating;
 
 		switch (spec.name) {
@@ -160,6 +164,7 @@ public class SerializableBanana : GLib.Object, GXml.Serializable
 	public bool serializable_property_use_nick { get; set; }
 	public string? serialized_xml_node_value { get; protected set; }
 	public GLib.HashTable<string,GXml.DomNode> unknown_serializable_property { get; private set; }
+	public string serializable_node_name { get; protected set; }
 
 	private int private_field;
 	public int public_field;
@@ -171,7 +176,7 @@ public class SerializableBanana : GLib.Object, GXml.Serializable
 		this.public_field = public_field;
 		this.private_property = private_property;
 		this.public_property = public_property;
-
+		serializable_node_name = "banana";
 	}
 
 	public string to_string () {
@@ -362,7 +367,7 @@ class SerializableTest : GXmlTest
 				capsicum = new SerializableCapsicum (2, 3, 5, ratings);
 				try {
 					node = Serialization.serialize_object (capsicum);
-				} catch (GXml.SerializationError e) {
+				} catch (Error e) {
 					Test.message ("%s", e.message);
 					assert_not_reached ();
 				}
@@ -378,7 +383,7 @@ class SerializableTest : GXmlTest
 
 					try {
 						capsicum_new = (SerializableCapsicum)Serialization.deserialize_object (node);
-					} catch (GXml.SerializationError e) {
+					} catch (Error e) {
 						Test.message ("%s", e.message);
 						assert_not_reached ();
 					}

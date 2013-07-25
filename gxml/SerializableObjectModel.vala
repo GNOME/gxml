@@ -27,13 +27,15 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 	public bool serializable_property_use_nick { get; set; }
 	public string? serialized_xml_node_value { get; protected set; default=null; }
 	public GLib.HashTable<string,GXml.DomNode> unknown_serializable_property { get; protected set; }
+	public string serializable_node_name { get; protected set; }
 
 	public SerializableObjectModel ()
 	{
 		serializable_property_use_nick = true;
 		serialized_xml_node_value = null;
+		serializable_node_name = get_type().name().down();
 	}
-	
+
 	public abstract string to_string ();
 
 	public static bool equals (SerializableObjectModel a, SerializableObjectModel b)
