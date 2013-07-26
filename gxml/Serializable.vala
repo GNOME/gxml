@@ -202,16 +202,23 @@ namespace GXml {
 			}
 			else
 				doc = node.owner_document;
-			var element = (Element) doc.document_element;
+			Element element;
+			if (node is Element)
+				element = (Element) node;
+			else
+				element = (Element) doc.document_element;
 			return_val_if_fail (element.node_name.down () == serializable_node_name, null);
 			foreach (Attr attr in element.attributes.get_values ())
 			{
+				GLib.message (@"Deseralizing Attribute: $(attr.name)");
 				deserialize_property (attr);
 			}
 			if (element.has_child_nodes ())
 			{
+				GLib.message ("Have child Elements ...");
 				foreach (DomNode n in element.child_nodes)
 				{
+					GLib.message (@"Deseralizing Element: $(n.node_name)");
 					deserialize_property (n);
 				}
 				if (serialized_xml_node_value != null)
@@ -251,10 +258,10 @@ namespace GXml {
 			}
 			if (prop.value_type.is_a (typeof (Serializable)))
 			{
+				GLib.message (@"$(prop.name): Is Serializable...");
 				Value vobj = Value (typeof(Object));
 				get_property (prop.name, ref vobj);
 				if (vobj.get_object () == null) {
-					GLib.message (@"$(prop.name): Is Serializable...");
 					var obj = Object.new  (prop.value_type);
 					((Serializable) obj).deserialize (property_node);
 					set_property (prop.name, obj);
@@ -284,10 +291,10 @@ namespace GXml {
 					set_property (prop.name, val);
 					return ret;
 				}
-				// Attribute can't be deseralized with standard methods. Up to the implementor.
-				this.deserialize_unknown_property (property_node, prop);
 			}
-			return false;
+			// Attribute can't be deseralized with standard methods. Up to the implementor.
+			this.deserialize_unknown_property (property_node, prop);
+			return true;
 		}
 
 		/**
@@ -300,8 +307,8 @@ namespace GXml {
 		public signal void serialize_unknown_property (DomNode element, ParamSpec prop, out DomNode node);
 
 		/**
-		 * Signal to deserialize array properties
-		 * 
+		 * Signal to deserialize array properties.
+		 *
 		 * @node a {@link GXml.DomNode} to get attribute from
 		 * @prop a {@link GLib.ParamSpec} describing attribute to deserialize
 		 */
