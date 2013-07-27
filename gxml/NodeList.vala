@@ -555,7 +555,7 @@ namespace GXml {
 				child = child->next;
 			}
 			if (child == null) {
-				GLib.warning ("NOT_FOUND_ERR: ref_child '%s' not found, was supposed to have '%s' inserted before it.", ref_child.node_name, new_child.node_name);
+				GXml.warning (DomException.NOT_FOUND, "ref_child '%s' not found, was supposed to have '%s' inserted before it.".printf (ref_child.node_name, new_child.node_name));
 				return null;
 			} else {
 				if (new_child.node_type == NodeType.DOCUMENT_FRAGMENT) {
@@ -593,7 +593,7 @@ namespace GXml {
 					// it is a valid child
 					child->replace (((BackedNode)new_child).node);
 				} else {
-					GLib.warning ("NOT_FOUND_ERR: old_child '%s' not found, tried to replace with '%s'", old_child.node_name, new_child.node_name);
+					GXml.warning (DomException.NOT_FOUND, "old_child '%s' not found, tried to replace with '%s'".printf (old_child.node_name, new_child.node_name));
 				}
 			}
 

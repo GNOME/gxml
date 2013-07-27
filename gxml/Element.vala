@@ -331,7 +331,7 @@ namespace GXml {
 			this.check_read_only ();
 
 			if (this.attributes.remove (old_attr.name) == false) {
-				GLib.warning ("NOT_FOUND_ERR: No child with name '%s' exists in node '%s'", old_attr.name, this.node_name);
+				GXml.warning (DomException.NOT_FOUND, "No child with name '%s' exists in node '%s'".printf (old_attr.name, this.node_name));
 			}
 
 			return old_attr;
