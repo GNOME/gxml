@@ -240,11 +240,11 @@ namespace GXml {
 			Xml.Node *root;
 
 			if (doc == null)
-				throw new DomError.INVALID_DOC ("Failed to parse document.");
+				this.last_error = new DomError.INVALID_DOC ("Failed to parse document.");
 			if (require_root) {
 				root = doc->get_root_element ();
 				if (root == null)
-					throw new DomError.INVALID_ROOT ("Could not obtain root for document.");
+					this.last_error = new DomError.INVALID_ROOT ("Could not obtain root for document.");
 			}
 
 			// TODO: consider passing root as a base node?
@@ -357,7 +357,7 @@ namespace GXml {
 				this.from_stream (instream, can);
 				instream.close ();
 			} catch (GLib.Error e) {
-				throw new DomError.INVALID_DOC (e.message);
+				this.last_error = new DomError.INVALID_DOC (e.message);
 			}
 		}
 		/**
@@ -566,12 +566,12 @@ namespace GXml {
 		private void check_html (string feature) throws DomError {
 			if (this.doctype != null && this.doctype.name == "html") {
 				// TODO: ^ check name == html by icase
-				throw new DomError.NOT_SUPPORTED ("HTML documents do not support '%s'".printf (feature)); // i18n
+				this.last_error = new DomError.NOT_SUPPORTED ("HTML documents do not support '%s'".printf (feature)); // i18n
 			}
 		}
 		private void check_character_validity (string str) throws DomError {
 			if (true == false) { // TODO: define validity
-				throw new DomError.INVALID_CHARACTER ("'%s' contains invalid characters.".printf (str));
+				this.last_error = new DomError.INVALID_CHARACTER ("'%s' contains invalid characters.".printf (str));
 			}
 		}
 		public override string to_string (bool format = false, int level = 0) {
@@ -598,7 +598,7 @@ namespace GXml {
 				if (xmldoc->get_root_element () == null) {
 					xmldoc->set_root_element (((Element)new_child).node);
 				} else {
-					throw new DomError.HIERARCHY_REQUEST ("Document already has a root element.  Could not add child element with name '%s'".printf (new_child.node_name));
+					this.last_error = new DomError.HIERARCHY_REQUEST ("Document already has a root element.  Could not add child element with name '%s'".printf (new_child.node_name));
 				}
 			} else if (new_child.node_type == NodeType.DOCUMENT_TYPE) {
 				GLib.warning ("Appending document_types not yet supported");
@@ -606,6 +606,14 @@ namespace GXml {
 				GLib.warning ("Appending '%s' not yet supported", new_child.node_type.to_string ());
 			}
 			return null;
+		}
+
+		/**
+		 * Sets the last error encountered.
+		 */
+		public DomError last_error {
+			get;
+			internal set;
 		}
 	}
 }

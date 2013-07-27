@@ -515,7 +515,7 @@ namespace GXml {
 		}
 
 		/** Node's child methods, implemented here **/
-		internal new DomNode? insert_before (DomNode new_child, DomNode? ref_child) throws DomError {
+		internal new DomNode? insert_before (DomNode new_child, DomNode? ref_child) {
 			Xml.Node *child = head;
 
 			if (ref_child == null) {
@@ -526,7 +526,8 @@ namespace GXml {
 				child = child->next;
 			}
 			if (child == null) {
-				throw new DomError.NOT_FOUND ("ref_child not found.");
+				this.owner.last_error = new DomError.NOT_FOUND ("ref_child not found.");
+				return null;
 				// TODO: provide a more useful description of ref_child, but there are so many different types
 			} else {
 				if (new_child.node_type == NodeType.DOCUMENT_FRAGMENT) {
@@ -540,7 +541,7 @@ namespace GXml {
 			return new_child;
 		}
 
-		internal new DomNode? replace_child (DomNode new_child, DomNode old_child) throws DomError {
+		internal new DomNode? replace_child (DomNode new_child, DomNode old_child) {
 			// TODO: verify that libxml2 already removes
 			// new_child first if it is found elsewhere in
 			// the tree.
@@ -564,7 +565,7 @@ namespace GXml {
 					// it is a valid child
 					child->replace (((BackedNode)new_child).node);
 				} else {
-					throw new DomError.NOT_FOUND ("old_child not found");
+					this.owner.last_error = new DomError.NOT_FOUND ("old_child not found");
 					// TODO: provide more useful descr. of old_child
 				}
 			}

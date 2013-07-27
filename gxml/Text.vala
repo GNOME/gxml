@@ -73,7 +73,7 @@ namespace GXml {
 			/* libxml2 doesn't handle this directly, in part because it doesn't
 			   allow Text siblings.  Boo! */
 			if (offset < 0 || offset > this.length) {
-				throw new DomError.INDEX_SIZE ("Offset '%u' is invalid for string of length '%u'", offset, this.length); // i18n
+				this.owner_document.last_error = new DomError.INDEX_SIZE ("Offset '%u' is invalid for string of length '%u'", offset, this.length); // i18n
 			}
 
 			Text other = this.owner_document.create_text_node (this.data.substring ((long)offset));
