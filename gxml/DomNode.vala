@@ -50,7 +50,7 @@ namespace GXml {
 
 		protected void check_wrong_document (DomNode node) {
 			if (this.owner_document != node.owner_document) {
-				GLib.warning ("WRONG_DOCUMENT_ERR: Node tried to interact with this document '%p' but belonged to document '%p'", this.owner_document, node.owner_document);
+				GXml.warning (DomException.WRONG_DOCUMENT, "Node tried to interact with this document '%p' but belonged to document '%p'".printf (this.owner_document, node.owner_document));
 			}
 		}
 

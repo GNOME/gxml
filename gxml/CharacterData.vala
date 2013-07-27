@@ -72,21 +72,21 @@ namespace GXml {
 
 		protected bool check_index_size (string method, int length, ulong offset, ulong? count) {
 			if (offset < 0) {
-				GLib.warning ("INDEX_SIZE_ERR: %s called with offset '%lu' for data of length '%lu'", method, offset, length);
+				GXml.warning (DomException.INDEX_SIZE, "%s called with offset '%lu' for data of length '%lu'".printf (method, offset, length));
 				return false;
 			}
 			if (count < 0) {
-				GLib.warning ("INDEX_SIZE_ERR: %s called with count '%lu'", method, count);
+				GXml.warning (DomException.INDEX_SIZE, "%s called with count '%lu'".printf (method, count));
 				return false;
 			}
 			if (count != null) {
 				if (length < offset + count) { // < or <= ?
-					GLib.warning ("INDEX_SIZE_ERR: %s called with offset '%lu' and count '%lu' for data of length '%lu'", method, offset, count, length);
+					GXml.warning (DomException.INDEX_SIZE, "%s called with offset '%lu' and count '%lu' for data of length '%lu'".printf (method, offset, count, length));
 					return false;
 				}
 			} else {
 				if (length <= offset) { // <= or < ?
-					GLib.warning ("INDEX_SIZE_ERR: %s called with offset '%lu' for data of length '%lu'", method, offset, length);
+					GXml.warning (DomException.INDEX_SIZE, "%s called with offset '%lu' for data of length '%lu'".printf (method, offset, length));
 					return false;
 				}
 			}
