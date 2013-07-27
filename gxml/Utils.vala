@@ -21,12 +21,12 @@
  */
 
 namespace GXml {
-	internal class XmlUtils {
+	public class Utils {
 		private static bool validate_name_start_char (unichar ch) {
 			// Check common ASCII characters
-			if (('a' <= start && start <= 'z')
-				|| ('A' <= start && start <= 'Z')
-				|| start == ':' || start == '_') {
+			if (('a' <= ch && ch <= 'z')
+				|| ('A' <= ch && ch <= 'Z')
+				|| ch == ':' || ch == '_') {
 				return true;
 			}
 
@@ -104,7 +104,7 @@ namespace GXml {
 		 *
 		 * For more, see: [[http://www.w3.org/TR/REC-xml/#NT-Name]]
 		 */
-		internal bool validate_xml_name (string name) {
+		public static bool validate_xml_name (string name) {
 			int ci = 0;
 			unichar ch = 0;
 
