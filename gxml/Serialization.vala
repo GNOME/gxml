@@ -87,7 +87,7 @@ namespace GXml {
 		 * {@link GLib.Value} can transform into a string, and
 		 * operates recursively.
 		 */
-		private static GXml.DomNode serialize_property (GLib.Object object, ParamSpec prop_spec, GXml.Document doc) throws SerializationError, DomError {
+		private static GXml.DomNode serialize_property (GLib.Object object, ParamSpec prop_spec, GXml.Document doc) throws SerializationError {
 			Type type;
 			Value value;
 			DomNode value_node;
@@ -276,7 +276,7 @@ namespace GXml {
 					prop.append_child (value_prop);
 					root.append_child (prop);
 				}
-			} catch (GXml.DomError e) {
+			} catch (GLib.Error e) {
 				GLib.error ("%s", e.message);
 				// TODO: handle this better
 			}
