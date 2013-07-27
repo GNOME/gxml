@@ -294,43 +294,51 @@ namespace GXml {
 		/* Methods */
 
 		/* These may need to be overridden by subclasses that support them.
-		 * TODO: figure out what non-BackedNode classes should be doing with these, anyway
-		 * #todo: want to throw other relevant errors */
+		 * @TODO: figure out what non-BackedNode classes should be doing with these, anyway
+		 * @TODO: want to throw other relevant errors */
 
 		/**
-		 * Insert new_child as a child to this node, and place
-		 * it in the list before ref_child. If ref_child is
-		 * null, new_child is appended to the list of children
-		 * instead.
+		 * Insert `new_child` as a child to this node, and place
+		 * it in the list before `ref_child`.
 		 *
-		 * Throws {@link GXml.DomError.NOT_FOUND} if ref_child is not a valid child.
+		 * If `ref_child` is `null`, `new_child` is appended to the
+		 * list of children instead.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-insertBefore]]
+		 *
+		 * @return `new_child`, the node that has been inserted
 		 */
 		public virtual DomNode? insert_before (DomNode new_child, DomNode? ref_child) throws DomError {
 			return null;
 		}
 		/**
-		 * Replaces old_child with new_child in this node's list of children.
+		 * Replaces `old_child` with `new_child` in this node's list of children.
 		 *
-		 * @return The removed old_child.
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-replaceChild]]
 		 *
-		 * @throws DomError.NOT_FOUND if ref_child is not a valid child.
+		 * @return The removed node `old_child`.
 		 */
 		public virtual DomNode? replace_child (DomNode new_child, DomNode old_child) throws DomError {
 			return null;
 		}
 		/**
-		 * Removes old_child from this node's list of children.
+		 * Removes `old_child` from this node's list of children.
 		 *
-		 * @return The removed old_child.
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-removeChild]]
 		 *
-		 * @throws DomError.NOT_FOUND if old_child is not a valid child.
-		 * #todo: make @throws claim true
+		 * @return The removed node `old_child`.
 		 */
 		public virtual DomNode? remove_child (DomNode old_child) throws DomError {
 			return null;
 		}
 		/**
-		 * Appends new_child to the end of this node's list of children.
+		 * Appends `new_child` to the end of this node's list of children.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-appendChild]]
 		 *
 		 * @return The newly added child.
 		 */
@@ -339,15 +347,23 @@ namespace GXml {
 		}
 		/**
 		 * Indicates whether this node has children.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-hasChildNodes]]
+		 *
+		 * @return `true` if this node has children, `false` if not
 		 */
 		public virtual bool has_child_nodes () {
 			return false;
 		}
+
 		/**
 		 * Creates a parentless copy of this node.
 		 *
-		 * @param deep If true, descendants are cloned as
-		 * well. If false, they are not.
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-cloneNode]]
+		 *
+		 * @param deep If `true`, descendants are cloned as well. If `false`, they are not.
 		 *
 		 * @return A parentless clone of this node.
 		 */
