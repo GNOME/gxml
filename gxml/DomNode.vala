@@ -367,7 +367,7 @@ namespace GXml {
 		 *
 		 * @return A parentless clone of this node.
 		 */
-		public virtual DomNode? clone_nodes (bool deep) {
+		public virtual DomNode? clone_node (bool deep) {
 			return null;
 		}
 
