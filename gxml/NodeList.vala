@@ -119,10 +119,10 @@ namespace GXml {
 
 
 		/* These exist to support management of a node's children */
-		internal abstract DomNode? insert_before (DomNode new_child, DomNode? ref_child) throws DomError;
-		internal abstract DomNode? replace_child (DomNode new_child, DomNode old_child) throws DomError;
-		internal abstract DomNode? remove_child (DomNode old_child) /*throws DomError*/;
-		internal abstract DomNode? append_child (DomNode new_child) /*throws DomError*/;
+		internal abstract DomNode? insert_before (DomNode new_child, DomNode? ref_child);
+		internal abstract DomNode? replace_child (DomNode new_child, DomNode old_child);
+		internal abstract DomNode? remove_child (DomNode old_child);
+		internal abstract DomNode? append_child (DomNode new_child);
 
 		/**
 		 * Creates an XML string representation of the nodes in the list.
@@ -555,9 +555,8 @@ namespace GXml {
 				child = child->next;
 			}
 			if (child == null) {
-				this.owner.last_error = new DomError.NOT_FOUND ("ref_child not found.");
+				GLib.warning ("NOT_FOUND_ERR: ref_child '%s' not found, was supposed to have '%s' inserted before it.", ref_child.node_name, new_child.node_name);
 				return null;
-				// TODO: provide a more useful description of ref_child, but there are so many different types
 			} else {
 				if (new_child.node_type == NodeType.DOCUMENT_FRAGMENT) {
 					foreach (DomNode new_grand_child in new_child.child_nodes) {
@@ -594,8 +593,7 @@ namespace GXml {
 					// it is a valid child
 					child->replace (((BackedNode)new_child).node);
 				} else {
-					this.owner.last_error = new DomError.NOT_FOUND ("old_child not found");
-					// TODO: provide more useful descr. of old_child
+					GLib.warning ("NOT_FOUND_ERR: old_child '%s' not found, tried to replace with '%s'", old_child.node_name, new_child.node_name);
 				}
 			}
 
