@@ -114,7 +114,6 @@ namespace GXml {
 			}
 		}
 
-		/* "raises [DomError] on setting/retrieval"?  */
 		private string _node_value;
 		/**
 		 * The node_value for an attribute is a string
@@ -134,17 +133,13 @@ namespace GXml {
 				return this._node_value;
 			}
 			internal set {
-				try {
-					// TODO: consider adding an empty () method to NodeList
-					foreach (DomNode child in this.child_nodes) {
-						// TODO: this doesn't clear the actual underlying attributes' values, is this what we want to do?  It works if we eventually sync up values
-						this.remove_child (child);
-					}
-					this.append_child (this.owner_document.create_text_node (value));
-					// TODO: may want to normalise
-				} catch (DomError e) {
-					// TODO: handle
+				// TODO: consider adding an empty () method to NodeList
+				foreach (DomNode child in this.child_nodes) {
+					// TODO: this doesn't clear the actual underlying attributes' values, is this what we want to do?  It works if we eventually sync up values
+					this.remove_child (child);
 				}
+				this.append_child (this.owner_document.create_text_node (value));
+				// TODO: may want to normalise
 				// TODO: need to expand entity references too?
 			}
 		}

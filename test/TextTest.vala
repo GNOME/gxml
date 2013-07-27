@@ -32,17 +32,14 @@ class TextTest : GXmlTest {
 					assert (txt1.node_value == "");
 					assert (txt2.node_value == "Const");
 
-					try {
-						txt2.split_text (-1);
-						assert_not_reached ();
-					} catch (DomError.INDEX_SIZE e) {
-					}
-					try {
-						txt2.split_text (10);
-						assert_not_reached ();
-					} catch (DomError.INDEX_SIZE e) {
-					}
+					txt1 = txt2.split_text (-2);
+					assert (txt1 == null);
 					assert (txt2.node_value == "Const");
+
+					txt1 = txt2.split_text (10);
+					assert (txt1 == null);
+					assert (txt2.node_value == "Const");
+
 
 
 				} catch (GXml.DomError e) {

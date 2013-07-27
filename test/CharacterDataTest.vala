@@ -63,7 +63,20 @@ class CharacterDataTest : GXmlTest  {
 					Text txt = get_text_new_doc ("It is our choices that show what we are, far more than our abilities.", out doc);
 					txt.insert_data (35, " truly");
 					assert (txt.data == "It is our choices that show what we truly are, far more than our abilities.");
-					// TODO: test bounds
+
+					txt.insert_data (0, "Yes.  ");
+					assert (txt.data == "Yes.  It is our choices that show what we truly are, far more than our abilities.");
+
+					txt.insert_data (txt.data.length, "  Indeed.");
+					assert (txt.data == "Yes.  It is our choices that show what we truly are, far more than our abilities.  Indeed.");
+
+					// should fail
+					txt.insert_data (txt.data.length + 1, "  Perhaps.");
+					assert (txt.data == "Yes.  It is our choices that show what we truly are, far more than our abilities.  Indeed.");
+
+					// should fail
+					txt.insert_data (-1, "  No.");
+					assert (txt.data == "Yes.  It is our choices that show what we truly are, far more than our abilities.  Indeed.");
 				} catch (GXml.DomError e) {
 					Test.message ("%s", e.message);
 					assert_not_reached ();
