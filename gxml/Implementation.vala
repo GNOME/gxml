@@ -39,6 +39,42 @@ namespace GXml {
 		internal Implementation () {
 		}
 
+		private void check_namespace (string? namespace_uri, string? qualified_name) {
+			if (qualified_name == null && namespace_uri != null) {
+				GXml.warning (DomException.NAMESPACE, "qualified_name is null but namespace_uri [%s] is not.  Both should either be null or not null.".printf (namespace_uri));
+			}
+			if (qualified_name != null) {
+				Document.check_invalid_characters (qualified_name, "new Document's root");
+
+				string[] parts = qualified_name.split (":");
+				if (parts.length == 2) {
+					// we have a prefix!
+					if (namespace_uri == null) {
+						// but we don't have a namespace :|
+						GXml.warning (DomException.NAMESPACE, "namespace_uri is null but qualified_name [%s] has prefixed part.  Both should either be null or not null.".printf (qualified_name));
+					}
+
+					string expected_uri = "http://www.w3.org/XML/1998/namespace";
+					if (parts[0] == "xml" && namespace_uri != expected_uri) {
+						GXml.warning (DomException.NAMESPACE, "qualified_name '%s' specifies namespace 'xml' but namespace_uri is '%s' and not '%s'".printf (qualified_name, namespace_uri, expected_uri));
+					}
+				}
+			}
+			// TODO: We should apparently also report a NAMESPACE_ERR if "the qualifiedName is malformed"; find out what that means
+			if (namespace_uri != null && ! this.has_feature ("XML")) {
+				// Right now, has_feature should always return true for 'XML' so we shouldn't trip this error
+				GXml.warning (DomException.NAMESPACE, "Implementation lacks feature 'XML' but a namespace_uri ('%s') was specified anyway.".printf (namespace_uri));
+			}
+		}
+
+		// Not using DomNode's, because this doctype shouldn't have ANY owner yet
+		protected void check_wrong_document (DocumentType? doctype) {
+			if (doctype != null && doctype.owner_document != null) {
+				GXml.warning (DomException.WRONG_DOCUMENT, "The supplied doctype is already connected to an existing document.");
+			}
+
+		}
+
 		/**
 		 * Creates a Document according to this {@link GXml.Implementation}.
 		 *
@@ -52,39 +88,13 @@ namespace GXml {
 		 * @return The new document.
 		 */
 		public Document create_document (string? namespace_uri, string? qualified_name, DocumentType? doctype) {
-			if (qualified_name == null && namespace_uri != null) {
-				GLib.warning ("NAMESPACE_ERR: qualified_name is null but namespace_uri [%s] is not.  Both should either be null or not null.", namespace_uri);
-			}
-			if (qualified_name != null) {
-				Document.check_invalid_characters (qualified_name, "new Document's root");
+			Document doc;
 
-				string[] parts = qualified_name.split (":");
-				if (parts.length == 2) {
-					// we have a prefix!
-					if (namespace_uri == null) {
-						// but we don't have a namespace :|
-						GLib.warning ("NAMESPACE_ERR: qualified_name is null but namespace_uri [%s] is not.  Both should either be null or not null.", namespace_uri);
-					}
-
-					string expected_uri = "http://www.w3.org/XML/1998/namespace";
-					if (parts[0] == "xml" && namespace_uri != expected_uri) {
-						GLib.warning ("NAMESPACE_ERR: qualified_name '%s' specifies namespace 'xml' but namespace_uri is '%s' and not '%s'",
-							      qualified_name, namespace_uri, expected_uri);
-					}
-				}
-			}
-			// TODO: We should apparently also report a NAMESPACE_ERR if "the qualifiedName is malformed"; find out what that means
-			if (namespace_uri != null && ! this.has_feature ("XML")) {
-				// Right now, has_feature should always return true for 'XML' so we shouldn't trip this error
-				GLib.warning ("NAMESPACE_ERR: Implementation lacks feature 'XML' but a namespace_uri ('%s') was specified anyway.", namespace_uri);
-			}
-
-			if (doctype.owner_document != null) {
-				GLib.warning ("WRONG_DOCUMENT_ERR: The supplied doctype is already connected to an existing document.");
-			}
+			check_namespace (namespace_uri, qualified_name);
+			check_wrong_document (doctype);
 			// TODO: also want to report if the doctype was created by a different implementation; of which we have no way of determining right now
 
-			Document doc = new Document.with_implementation (this, namespace_uri, qualified_name, doctype);
+			doc = new Document.with_implementation (this, namespace_uri, qualified_name, doctype);
 			return doc;
 		}
 
