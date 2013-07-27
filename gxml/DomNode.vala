@@ -294,8 +294,8 @@ namespace GXml {
 		/* Methods */
 
 		/* These may need to be overridden by subclasses that support them.
-		 * #TODO: figure out what non-BackedNode classes should be doing with these, anyway
-		 * #TODO: want to throw other relevant errors */
+		 * @TODO: figure out what non-BackedNode classes should be doing with these, anyway
+		 * @TODO: want to throw other relevant errors */
 
 		/**
 		 * Insert `new_child` as a child to this node, and place
