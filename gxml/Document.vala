@@ -231,7 +231,30 @@ namespace GXml {
 			this.xmldoc->free ();
 		}
 
-		/** Constructor */
+		/** Constructors */
+
+		/**
+		 * Creates a Document from a given Implementation, supporting
+		 * the {@ GXml.Implementation.create_document} method.  It is
+		 * defined here:
+		 * http://www.w3.org/TR/DOM-Level-3-Core/core.html#Level-2-Core-DOM-createDocument
+		 *
+		 * @param impl Implementation creating this Document.
+		 * @param namespace_uri URI for the namespace in which this Document belongs, or `null`.
+		 * @param qualified_name A qualified name for the Document, or `null`.
+		 * @param doctype The type of the document, or `null`.
+		 *
+		 * @return The new document.
+		 */
+		internal Document.with_implementation (Implementation impl, string? namespace_uri, string? qualified_name, DocumentType? doctype) {
+			this ();
+			this.implementation = impl;
+			this.namespace_uri = namespace_uri;
+			/* TODO: find out what should be set to qualified_name; perhaps this.node_name, but then that's supposed
+			   to be "#document" according to NodeType definitions in http://www.w3.org/TR/DOM-Level-3-Core/core.html */
+			this.doctype = doctype;
+		}
+
 		/**
 		 * Creates a Document based on a libxml2 Xml.Doc* object.
 		 */
