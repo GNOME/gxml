@@ -380,7 +380,7 @@ namespace Xml {
 		public int dump (GLib.FileStream f);
 
 		[CCode (cname = "xmlDocDumpFormatMemory")]
-		public void dump_memory_format ([CCode (type = "xmlChar*")] out string mem, out int len = null, bool format = true);
+		public void dump_memory_format ([CCode (type = "xmlChar**")] out string mem, out int len = null, bool format = true);
 
 		[CCode (cname = "xmlDocDumpFormatMemoryEnc")]
 		public void dump_memory_enc_format ([CCode (type = "xmlChar**")] out string mem, out int len = null, string enc = "UTF-8", bool format = true);
