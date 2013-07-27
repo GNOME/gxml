@@ -37,7 +37,9 @@ namespace GXml {
 	 * adjacent text nodes are always merged into one Text node,
 	 * so some functionality for Text, like split_text, will not
 	 * work completely as expected.
-	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1312295772]]
+	 *
+	 * Version: DOM Level 1 Core
+	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-1312295772]]
 	 */
 	public class Text : CharacterData {
 		internal Text (Xml.Node *text_node, Document doc) {
@@ -61,6 +63,9 @@ namespace GXml {
 		 * automatically remerged, so for now, we split the
 		 * text and return the second part as a node outside
 		 * of the document tree.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-38853C1D]]
 		 *
 		 * @param offset The point at which to split the Text,
 		 * in number of characters.
