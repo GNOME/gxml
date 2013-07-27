@@ -248,7 +248,7 @@ namespace GXml {
 		 * Creates a Document from a given Implementation, supporting
 		 * the {@ GXml.Implementation.create_document} method.
 		 *
-		 * DOM version: DOM Level 3 Core
+		 * Version: DOM Level 3 Core
 		 *
 		 * @param impl Implementation creating this Document.
 		 * @param namespace_uri URI for the namespace in which this Document belongs, or `null`.
