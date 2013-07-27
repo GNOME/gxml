@@ -77,6 +77,8 @@ namespace GXml {
 		public Text split_text (ulong offset) {
 			Text other;
 
+			this.check_read_only ();
+
 			/* libxml2 doesn't handle this directly, in part because it doesn't
 			   allow Text siblings.  Boo! */
 			if (! this.check_index_size ("split_text", this.data.length, offset, null)) {
