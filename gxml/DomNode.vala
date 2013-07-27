@@ -47,6 +47,14 @@ namespace GXml {
 		}
 
 		/* Utility methods */
+
+		internal bool check_read_only () {
+			// TODO: introduce a concept of read-only-ness, perhaps
+			// if read-only, raise NO_MODIFICATION_ALLOWED_ERR
+			return false;
+		}
+
+
 		public void dbg_inspect () {
 			message ("node: %s", this.node_name);
 			message ("  ns (prefix: %s, uri: %s)", this.prefix, this.namespace_uri);
