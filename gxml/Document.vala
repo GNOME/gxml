@@ -260,6 +260,11 @@ namespace GXml {
 		internal Document.with_implementation (Implementation impl, string? namespace_uri, string? qualified_name, DocumentType? doctype) {
 			this ();
 			this.implementation = impl;
+
+			DomNode root;
+			root = this.create_element (qualified_name); // TODO: we do not currently support namespaces, but when we do, this new node will want one
+			this.append_child (root);
+
 			this.namespace_uri = namespace_uri;
 			/* TODO: find out what should be set to qualified_name; perhaps this.node_name, but then that's supposed
 			   to be "#document" according to NodeType definitions in http://www.w3.org/TR/DOM-Level-3-Core/core.html */
@@ -302,8 +307,9 @@ namespace GXml {
 		 * Creates a Document from the file at file_path.
 		 */
 		public Document.from_path (string file_path) {
-			Xml.Doc *doc = Xml.Parser.parse_file (file_path); // consider using read_file
 			// TODO: might want to check that the file_path exists
+			// consider using Xml.Parser.read_file
+			Xml.Doc *doc = Xml.Parser.parse_file (file_path);
 			this.from_libxml2 (doc);
 		}
 
