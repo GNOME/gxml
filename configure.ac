@@ -105,9 +105,11 @@ AC_SUBST([API_VERSION])
 
 ### Dependencies
 
+# TODO: what do we do about libvala's versioning?  set it back to -0.18 and see what happens when we upgraded from Fedora 18 to 19
+
 GLIB_REQUIRED=2.16.0
 VALA_REQUIRED=0.16.0
-VALA_MODULES="libvala-0.18 >= 0.16"
+VALA_MODULES="libvala-0.20 >= 0.16"
 GEE_REQUIRED=0.7.0
 LIBXML_REQUIRED=2.7
 GIO_MODULES="gio-2.0 >= 2.16"
