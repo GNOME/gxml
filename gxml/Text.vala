@@ -74,7 +74,7 @@ namespace GXml {
 		 * now, it is not attached to the tree as a sibling to
 		 * the first part, as the spec wants.
 		 */
-		public Text split_text (ulong offset) throws DomError {
+		public Text split_text (ulong offset) {
 			/* libxml2 doesn't handle this directly, in part because it doesn't
 			   allow Text siblings.  Boo! */
 			if (offset < 0 || offset > this.length) {

@@ -231,11 +231,11 @@ namespace GXml {
 			return this.nodes.index (target);
 		}
 
-		internal DomNode? insert_before (DomNode new_child, DomNode? ref_child) throws DomError {
+		internal DomNode? insert_before (DomNode new_child, DomNode? ref_child) {
 			this.nodes.insert_before (this.nodes.find (ref_child), new_child);
 			return new_child;
 		}
-		internal DomNode? replace_child (DomNode new_child, DomNode old_child) throws DomError {
+		internal DomNode? replace_child (DomNode new_child, DomNode old_child) {
 			int pos = this.index (old_child);
 			this.remove_child (old_child);
 			this.nodes.insert (new_child, pos);

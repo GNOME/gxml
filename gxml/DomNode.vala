@@ -309,7 +309,7 @@ namespace GXml {
 		 *
 		 * @return `new_child`, the node that has been inserted
 		 */
-		public virtual DomNode? insert_before (DomNode new_child, DomNode? ref_child) throws DomError {
+		public virtual DomNode? insert_before (DomNode new_child, DomNode? ref_child) {
 			return null;
 		}
 		/**
@@ -320,7 +320,7 @@ namespace GXml {
 		 *
 		 * @return The removed node `old_child`.
 		 */
-		public virtual DomNode? replace_child (DomNode new_child, DomNode old_child) throws DomError {
+		public virtual DomNode? replace_child (DomNode new_child, DomNode old_child) {
 			return null;
 		}
 		/**
@@ -331,7 +331,7 @@ namespace GXml {
 		 *
 		 * @return The removed node `old_child`.
 		 */
-		public virtual DomNode? remove_child (DomNode old_child) throws DomError {
+		public virtual DomNode? remove_child (DomNode old_child) {
 			return null;
 		}
 		/**
@@ -342,7 +342,7 @@ namespace GXml {
 		 *
 		 * @return The newly added child.
 		 */
-		public virtual DomNode? append_child (DomNode new_child) throws DomError {
+		public virtual DomNode? append_child (DomNode new_child) {
 			return null;
 		}
 		/**
