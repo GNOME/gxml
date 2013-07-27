@@ -609,12 +609,6 @@ namespace GXml {
 			return this.document_element.get_elements_by_tag_name (tag_name);
 		}
 
-		private void check_wrong_document (DomNode node) {
-			if (node.owner_document != this) {
-				GLib.warning ("WRONG_DOCUMENT_ERR: Node tried to interact with this document '%p' but belonged to document '%p'", this, node.owner_document);
-			}
-		}
-
 		/**
 		 * Feature should be something like "processing instructions"
 		 */
@@ -660,7 +654,7 @@ namespace GXml {
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-appendChild]]
 		 */
 		public override DomNode? append_child (DomNode new_child) {
-			check_wrong_document (new_child);
+			this.check_wrong_document (new_child);
 			this.check_read_only ();
 
 			if (new_child.node_type == NodeType.ELEMENT) {
