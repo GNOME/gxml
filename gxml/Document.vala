@@ -477,11 +477,13 @@ namespace GXml {
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createElement]]
 		 */
 		public Element create_element (string tag_name) {
-			check_invalid_characters (tag_name, "element");
-
 			// TODO: what should we be passing for ns other than old_ns?  Figure it out; needed for level 2+ support
 			Xml.Node *xmlelem;
 			Element new_elem;
+
+			if (!check_invalid_characters (tag_name, "element")) {
+				return null;
+			}
 
 			xmlelem = this.xmldoc->new_node (null, tag_name, null);
 			this.new_nodes.append (xmlelem);
@@ -614,18 +616,21 @@ namespace GXml {
 		 */
 		private void check_not_supported_html (string feature) {
 			if (this.doctype != null && (this.doctype.name.casefold () == "html".casefold ())) {
-				GLib.warning ("NOT_SUPPORTED_ERR: HTML documents do not support '%s'".printf (feature)); // TODO: i18n
+				GLib.warning ("NOT_SUPPORTED_ERR: HTML documents do not support '%s'", feature); // TODO: i18n
 			}
 		}
 
 		/**
 		 * Subject should be something like "element" or "processing instruction"
 		 */
-		internal static void check_invalid_characters (string name, string subject) {
+		internal static bool check_invalid_characters (string name, string subject) {
 			/* TODO: use Xml.validate_name instead  */
 			if (Xml.validate_name (name, 0) != 0) { // TODO: define validity
-				GLib.warning ("INVALID_CHARACTER_ERR: Provided name '%s' for %s is not a valid XML name", name, subject);
+				GLib.warning ("INVALID_CHARACTER_ERR: Provided name '%s' for '%s' is not a valid XML name", name, subject);
+				return false;
 			}
+
+			return true;
 		}
 
 		/**
