@@ -27,9 +27,10 @@ using Gee;
 
 namespace GXml {
 	/**
-	 * A live list used to store {@link GXml.DomNode}s. Usually the
-	 * children of a {@link GXml.DomNode}, or the results of
-	 * {@link GXml.Element.get_elements_by_tag_name}.
+	 * A live list used to store {@link GXml.DomNode}s.
+	 *
+	 * Usually contains the children of a {@link GXml.DomNode}, or
+	 * the results of {@link GXml.Element.get_elements_by_tag_name}.
 	 */
 	public interface NodeList : Gee.Iterable<DomNode> {
 		public abstract ulong length {
