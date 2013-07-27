@@ -31,31 +31,49 @@ namespace GXml {
 	 *
 	 * Usually contains the children of a {@link GXml.DomNode}, or
 	 * the results of {@link GXml.Element.get_elements_by_tag_name}.
+	 * {@link GXml.NodeList} implements both the DOM Level 1 Core API for
+	 * a NodeList, as well as the {@link GLib.List} API, to make
+	 * it more accessible and familiar to GLib programmers.
+	 * Implementing classes also implement {@link Gee.Iterable}, to make
+	 * iteration in supporting languages (like Vala) nice and
+	 * easy.
+	 *
+	 * Version: DOM Level 1 Core
+	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-536297177]]
 	 */
 	public interface NodeList : Gee.Iterable<DomNode> {
-		public abstract ulong length {
-			get; private set;
-		}
 		/* NOTE:
 		 * children should define constructors like:
 		 *     internal NodeList (Xml.Node* head, Document owner);
 		 */
 
-		/** NodeList methods */
+		/**
+		 * The number of nodes contained within this list
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-length]]
+		 */
+		public abstract ulong length {
+			get; private set;
+		}
+
+
+		/* ** NodeList methods ** */
 
 		/**
 		 * Access the idx'th item in the list.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-item]]
 		 */
-		// TODO: this should throw invalid index or something
 		public abstract DomNode item (ulong idx);
-		/* NOTE: children should implement
-		 *     public ulong length;
-		 * TODO: figure out how to require this as a property; maybe have to make it into a method
-		 */
 
-		/* ** GNOME List conventions ***
+
+		/* ** GNOME List conventions **
+		 * These methods mimic those available through GList, to make GXmlNodeList more familiar to GLib programmers.
 		 * Probably don't want to keep all of them since they're not all relevant.
 		 */
+
 		/**
 		 * Call the provided func on each item of the list.
 		 */
@@ -99,6 +117,7 @@ namespace GXml {
 		public abstract int index (DomNode target);
 		// TODO: wow, lots of those GList compatibility methods are the same in a case like this.
 
+
 		/* These exist to support management of a node's children */
 		internal abstract DomNode? insert_before (DomNode new_child, DomNode? ref_child);
 		internal abstract DomNode? replace_child (DomNode new_child, DomNode old_child);
@@ -111,16 +130,17 @@ namespace GXml {
 		 * @param in_line Whether to parse and expand entities or not.
 		 *
 		 * @return The list as an XML string.
+		 *
+		 * @todo: write a test
 		 */
-		// TODO: write a test
 		public abstract string to_string (bool in_line);
 	}
 
 	/**
 	 * This provides a NodeList that is backed by a GLib.List of
-	 * DomNodes.  A root DomNode is specified, which is usually the
-	 * owner/parent of the list's contents (children of the
-	 * parent).
+	 * DomNodes.  A root {@link GXml.DomNode} is specified, which
+	 * is usually the owner/parent of the list's contents
+	 * (children of the parent).
 	 */
 	internal class GListNodeList : Gee.Traversable<DomNode>, Gee.Iterable<DomNode>, NodeList, GLib.Object {
 		internal DomNode root;
@@ -131,6 +151,9 @@ namespace GXml {
 			this.nodes = new GLib.List<DomNode> ();
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		public ulong length {
 			get {
 				return nodes.length ();
@@ -250,7 +273,6 @@ namespace GXml {
 		/**
 		 * Iterator for NodeLists.  Allows you to iterate a
 		 * collection neatly in vala.
-		 *
 		 */
 		private class NodeListIterator : GenericNodeListIterator {
 			/* When you receive one, initially you cannot get anything.
@@ -290,10 +312,11 @@ namespace GXml {
 		}
 	}
 
-	// TODO: this will somehow need to watch the document and find out as new elements are added, and get reconstructed each time, or get reconstructed-on-the-go?
-	internal class TagNameNodeList : GListNodeList {
-		internal string tag_name;
-
+	/* TODO: this will somehow need to watch the document and find
+	 * out as new elements are added, and get reconstructed each
+	 * time, or get reconstructed-on-the-go?
+	 */
+	internal class TagNameNodeList : GListNodeList { internal string tag_name;
 		internal TagNameNodeList (string tag_name, DomNode root, Document owner) {
 			base (root);
 			this.tag_name = tag_name;
@@ -419,7 +442,9 @@ namespace GXml {
 
 		internal abstract Xml.Node *parent_as_xmlnode { get; }
 
-		// TODO: consider uint
+		/**
+		 * {@inheritDoc}
+		 */
 		public ulong length {
 			get {
 				int len = 0;
@@ -431,7 +456,10 @@ namespace GXml {
 			private set { }
 		}
 
-		DomNode item (ulong idx) {
+		/**
+		 * {@inheritDoc}
+		 */
+		public DomNode item (ulong idx) {
 			return this.nth (idx);
 		}
 
