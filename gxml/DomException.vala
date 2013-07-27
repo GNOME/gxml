@@ -87,3 +87,9 @@ public enum GXml.DomException {
 	 */
         INVALID_ROOT;
 }
+
+// TODO: remove after transitioning tests
+public errordomain GXml.DomError {
+	DUMMY;
+}
+
