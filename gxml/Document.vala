@@ -464,7 +464,7 @@ namespace GXml {
 		/* Public Methods */
 		/**
 		 * Creates an empty Element node with the tag name
-		 * tag_name. XML example: {{{&lt;Person>&lt;/Person>}}}
+		 * tag_name. XML example: {{{<Person></Person>}}}
 		 */
 		public Element create_element (string tag_name) {
 			/* TODO: libxml2 doesn't complain about invalid names, but the spec
@@ -488,13 +488,13 @@ namespace GXml {
 		/**
 		 * Creates a text node containing the text in data.
 		 * XML example:
-		 * {{{&lt;someElement>Text is contained here.&lt;/someElement>}}}
+		 * {{{<someElement>Text is contained here.</someElement>}}}
 		 */
 		public Text create_text_node (string data) {
 			return new Text (this.xmldoc->new_text (data), this);
 		}
 		/**
-		 * Creates an XML comment with data. XML example: {{{&lt;!-- data -->}}}
+		 * Creates an XML comment with data. XML example: {{{<!-- data -->}}}
 		 */
 		public Comment create_comment (string data) {
 			return new Comment (this.xmldoc->new_comment (data), this);
@@ -503,7 +503,7 @@ namespace GXml {
 		/**
 		 * Creates a CDATA section containing data. XML
 		 * example:
-		 * {{{ &lt;![CDATA[Here contains non-XML data, like
+		 * {{{ <![CDATA[Here contains non-XML data, like
 		 * code, or something that requires a lot of special
 		 * XML entities.]]>. }}}
 		 */
@@ -515,8 +515,8 @@ namespace GXml {
 		}
 		/**
 		 * Creates a Processing Instructions. XML example:
-		 * {{{&lt;?pi_target processing instruction data?>
-		 * &lt;?xml-stylesheet href="style.xsl" type="text/xml"?>}}}
+		 * {{{<?pi_target processing instruction data?>
+		 * <?xml-stylesheet href="style.xsl" type="text/xml"?>}}}
 		 */
 		public ProcessingInstruction create_processing_instruction (string target, string data) {
 			check_html ("processing instructions"); // TODO: i18n
@@ -540,8 +540,8 @@ namespace GXml {
 		}
 		/**
 		 * Creates an entity reference. XML example:
-		 * {{{&amp;name;
-		 * &amp;apos;}}}
+		 * {{{&name;
+		 * &apos;}}}
 		 */
 		public EntityReference create_entity_reference (string name) {
 			check_html ("entity reference"); // TODO: i18n
