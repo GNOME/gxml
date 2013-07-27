@@ -77,8 +77,10 @@ namespace GXml {
 		public Text split_text (ulong offset) {
 			/* libxml2 doesn't handle this directly, in part because it doesn't
 			   allow Text siblings.  Boo! */
-			if (offset < 0 || offset > this.length) {
-				this.owner_document.last_error = new DomError.INDEX_SIZE ("Offset '%u' is invalid for string of length '%u'", offset, this.length); // i18n
+			if (offset < 0 || this.length < offset) {
+				GLib.warning ("INDEX_SIZE_ERR: split_text called with offset '%lu' on string of length '%lu'", offset, this.length); // i18n
+				//this.owner_document.last_error = new DomError.INDEX_SIZE ("Offset '%u' is invalid for string of length '%u'", offset, this.length); // i18n
+				return null;
 			}
 
 			Text other = this.owner_document.create_text_node (this.data.substring ((long)offset));
