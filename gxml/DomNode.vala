@@ -30,10 +30,13 @@ namespace GXml {
 	 * the {@link GXml.Document}'s tree.
 	 *
 	 * {@link GXml.Document}s are {@link GXml.DomNode}s, and are
-	 * composed of a tree of {@link GXml.DomNode}s.  See
-	 * [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1950641247]]
+	 * composed of a tree of {@link GXml.DomNode}s.
+	 *
+	 * Version: DOM Level 1 Core
+	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1950641247]]
 	 */
 	public class DomNode : GLib.Object {
+		/* Constructors */
 		internal DomNode (NodeType type, Document owner) {
 			this.node_type = type;
 			this.owner_document = owner;
@@ -43,6 +46,7 @@ namespace GXml {
 			this.node_type = NodeType.DOCUMENT;
 		}
 
+		/* Utility methods */
 		public void dbg_inspect () {
 			message ("node: %s", this.node_name);
 			message ("  ns (prefix: %s, uri: %s)", this.prefix, this.namespace_uri);
@@ -64,9 +68,11 @@ namespace GXml {
 			}
 		}
 
-		// TODO: determine best API for exposing these, as it's not defined in the IDL
+		/* Properties */
+
 		/**
-		 * The list of attributes that store namespace definitions
+		 * The list of attributes that store namespace definitions.  This is not part of a DOM spec.
+		 * @TODO: determine best API for exposing these, as it's not defined in the IDL
 		 */
 		public virtual NodeList? namespace_definitions {
 			get {
@@ -81,6 +87,9 @@ namespace GXml {
 		 * This only applies to Elements and Attrs from DOM
 		 * Level 2 Core that were created with namespace
 		 * support.
+		 *
+		 * Version: DOM Level 2 Core
+		 * URL: [[http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-NodeNSname]]
 		 */
 		public virtual string? namespace_uri {
 			get {
@@ -89,10 +98,14 @@ namespace GXml {
 			internal set {
 			}
 		}
+
 		/**
 		 * Stores the namespace prefix for the node. This
 		 * only applies to Elements and Attrs from DOM Level 2
 		 * Core that were created with namespace support.
+		 *
+		 * Version: DOM Level 2 Core
+		 * URL: [[http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-NodeNSPrefix]]
 		 */
 		public virtual string? prefix {
 			get {
@@ -101,25 +114,16 @@ namespace GXml {
 			internal set {
 			}
 		}
+
 		/**
 		 * Stores the local name within the namespace. This
 		 * only applies to Elements and Attrs from DOM Level 2
 		 * Core that were created with namespace support.
+		 *
+		 * Version: DOM Level 2 Core
+		 * URL: [[http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-NodeNSLocalN]]
 		 */
 		public virtual string? local_name {
-			get {
-				return null;
-			}
-			internal set {
-			}
-		}
-
-		/**
-		 * Stores the value of the Node. The nature of
-		 * node_value varies based on the type of node. This
-		 * can be null.
-		 */
-		public virtual string? node_value {
 			get {
 				return null;
 			}
@@ -131,17 +135,39 @@ namespace GXml {
 		 * Stores the name of the node. Sometimes this is
 		 * similar to the node type, but sometimes, it is
 		 * arbitrary.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-nodeName]]
 		 */
 		public virtual string node_name {
 			get; internal set;
 		}
 
+		/**
+		 * Stores the value of the Node. The nature of
+		 * node_value varies based on the type of node. This
+		 * can be null.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-nodeValue]]
+		 */
+		public virtual string? node_value {
+			get {
+				return null;
+			}
+			internal set {
+				// TODO: NO_MODIFICATION_ALLOWED_ERR if check_read_only ()
+			}
+		}
 
 		private NodeType _node_type;
 		/**
 		 * Stores the type of node. Most XML structures are
 		 * nodes of different types, like Document, Attr,
 		 * Element, etc.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-nodeType]]
 		 */
 		public virtual NodeType node_type {
 			get {
@@ -155,23 +181,19 @@ namespace GXml {
 		}
 
 		/**
-		 * A link to the Document to which this node belongs.
-		 */
-		public weak Document owner_document {
-			get;
-			internal set;
-		}
-
-		// TODO: declare more of interface here
-		/**
 		 * A link to the parent of this node. For example,
 		 * with elements, the immediate, outer element is the parent.
-		 * <parent><child></child></parent>
+		 *
+		 * Example: {{{<parent><child></child></parent>}}}
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-parentNode]]
 		 */
 		public virtual DomNode? parent_node {
 			get { return null; }
 			internal set {}
 		}
+
 		/**
 		 * List of child nodes to this node. These sometimes
 		 * represent the value of a node as a tree of values,
@@ -181,64 +203,100 @@ namespace GXml {
 		 * The {@link GXml.NodeList} is live, in that changes to this
 		 * node's children will be reflected in an
 		 * already-active {@link GXml.NodeList}.
-		 */
-		/*
-		 * @todo: list nodes that use children for values
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-childNodes]]
+		 *
+		 * @todo: identify node types that use children for values, like attribute
 		 */
 		public virtual NodeList? child_nodes {
 			// TODO: need to implement NodeList
 			owned get { return null; }
 			internal set {}
 		}
+
 		/**
 		 * Links to the first child. If there are no
 		 * children, it returns null.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-firstChild]]
 		 */
 		public virtual DomNode? first_child {
 			get { return null; }
 			internal set {}
 		}
+
 		/**
 		 * Links to the last child. If there are no
 		 * children, it returns null.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-lastChild]]
 		 */
 		public virtual DomNode? last_child {
 			get { return null; }
 			internal set {}
 		}
+
 		/**
 		 * Links to this node's preceding sibling. If there
 		 * are no previous siblings, it returns null. Note
 		 * that the children of a node are ordered.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-previousSibling]]
 		 */
 		public virtual DomNode? previous_sibling {
 			get { return null; }
 			internal set {}
 		}
+
 		/**
 		 * Links to this node's next sibling. If there is no
 		 * next sibling, it returns null. Note that the
 		 * children of a node are ordered.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-nextSibling]]
 		 */
 		public virtual DomNode? next_sibling {
 			get { return null; }
 			internal set {}
 		}
+
 		/**
 		 * A {@link GLib.HashTable} representing the
 		 * attributes for this node. `attributes` actually
 		 * only apply to {@link GXml.Element} nodes. For all
 		 * other {@link GXml.DomNode} subclasses, `attributes`
 		 * is null.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-attributes]]
 		 */
 		public virtual HashTable<string,Attr>? attributes {
 			get { return null; }
 			internal set {}
 		}
 
-		// These may need to be overridden by subclasses that support them.
-		// TODO: figure out what non-BackedNode classes should be doing with these, anyway
-		// #todo: want to throw other relevant errors
+		/**
+		 * A link to the {@link GXml.Document} to which this node belongs.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-ownerDocument]]
+		 */
+		public weak Document owner_document {
+			get;
+			internal set;
+		}
+
+		/* Methods */
+
+		/* These may need to be overridden by subclasses that support them.
+		 * TODO: figure out what non-BackedNode classes should be doing with these, anyway
+		 * #todo: want to throw other relevant errors */
+
 		/**
 		 * Insert new_child as a child to this node, and place
 		 * it in the list before ref_child. If ref_child is
