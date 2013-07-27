@@ -336,7 +336,7 @@ namespace Xml {
 		[CCode (cname = "xmlBufferCreate")]
 		public Buffer ();
 
-		[CCode (cname = "xmlBufferContent")]
+		[CCode (cname = "xmlBufferContent", type = "xmlChar*")]
 		public unowned string content ();
 
 		[CCode (cname = "xmlNodeDump")]
@@ -448,10 +448,10 @@ namespace Xml {
 		[CCode (cname = "xmlNewReference")]
 		public Node* new_reference ([CCode (type = "xmlChar*")] string name);
 
-		[CCode (cname = "xmlNodeListGetRawString")]
+		[CCode (cname = "xmlNodeListGetRawString", type = "xmlChar*")]
 		public string node_list_get_raw_string (Node* list, bool in_line);
 
-		[CCode (cname = "xmlNodeListGetString")]
+		[CCode (cname = "xmlNodeListGetString", type = "xmlChar*")]
 		public string node_list_get_string (Node* list, bool in_line);
 
 		[CCode (cname = "xmlSaveFile", instance_pos = -1)]
@@ -720,16 +720,16 @@ namespace Xml {
 		[CCode (cname = "xmlGetLineNo")]
 		public long get_line_no ();
 
-		[CCode (cname = "xmlGetNoNsProp")]
+		[CCode (cname = "xmlGetNoNsProp", type = "xmlChar*")]
 		public string? get_no_ns_prop ([CCode (type = "xmlChar*")] string name);
 
-		[CCode (cname = "xmlGetNodePath")]
+		[CCode (cname = "xmlGetNodePath", type = "xmlChar*")]
 		public string get_path ();
 
-		[CCode (cname = "xmlGetNsProp")]
+		[CCode (cname = "xmlGetNsProp", type = "xmlChar*")]
 		public string? get_ns_prop ([CCode (type = "xmlChar*")] string name, [CCode (type = "xmlChar*")] string ns);
 
-		[CCode (cname = "xmlGetProp")]
+		[CCode (cname = "xmlGetProp", type = "xmlChar*")]
 		public string? get_prop ([CCode (type = "xmlChar*")] string name);
 
 		[CCode (cname = "xmlHasNsProp")]
@@ -762,10 +762,10 @@ namespace Xml {
 		[CCode (cname = "xmlNodeAddContentLen")]
 		public void add_content_len ([CCode (type = "xmlChar*")] string content, int len);
 
-		[CCode (cname = "xmlNodeGetContent")]
+		[CCode (cname = "xmlNodeGetContent", type = "xmlChar*")]
 		public string get_content();
 
-		[CCode (cname = "xmlNodeGetLang")]
+		[CCode (cname = "xmlNodeGetLang", type = "xmlChar*")]
 		public string get_lang();
 
 		[CCode (cname = "xmlNodeGetSpacePreserve")]
@@ -926,13 +926,13 @@ namespace Xml {
 	[Compact]
 	[CCode (cname = "xmlURI", free_function = "xmlFreeURI", cheader_filename = "libxml/uri.h")]
 	public class URI {
-		[CCode (cname = "xmlBuildRelativeURI")]
+		[CCode (cname = "xmlBuildRelativeURI", type = "xmlChar*")]
 		public static string build_relative ([CCode (type = "xmlChar*")] string uri, [CCode (type = "xmlChar*")] string @base);
 
-		[CCode (cname = "xmlBuildURI")]
+		[CCode (cname = "xmlBuildURI", type = "xmlChar*")]
 		public static string build ([CCode (type = "xmlChar*")] string URI, [CCode (type = "xmlChar*")] string @base);
 
-		[CCode (cname = "xmlCanonicPath")]
+		[CCode (cname = "xmlCanonicPath", type = "xmlChar*")]
 		public static string canonic_path ([CCode (type = "xmlChar*")] string path);
 
 		[CCode (cname = "xmlCreateURI")]
@@ -950,19 +950,19 @@ namespace Xml {
 		[CCode (cname = "xmlParseURIReference")]
 		public int parse_reference (string str);
 
-		[CCode (cname = "xmlPathToURI")]
+		[CCode (cname = "xmlPathToURI", type = "xmlChar*")]
 		public static string path_to_uri ([CCode (type = "xmlChar*")] string path);
 
 		[CCode (cname = "xmlPrintURI", instance_pos = -1)]
 		public void print (GLib.FileStream stream);
 
-		[CCode (cname = "xmlSaveUri")]
+		[CCode (cname = "xmlSaveUri", type = "xmlChar*")]
 		public string save ();
 
-		[CCode (cname = "xmlURIEscape")]
+		[CCode (cname = "xmlURIEscape", type = "xmlChar*")]
 		public static string escape ([CCode (type = "xmlChar*")] string str);
 
-		[CCode (cname = "xmlURIEscapeStr")]
+		[CCode (cname = "xmlURIEscapeStr", type = "xmlChar*")]
 		public static string escape_str ([CCode (type = "xmlChar*")] string str, [CCode (type = "xmlChar*")] string list);
 
 		[CCode (cname = "xmlURIUnescapeString")]
@@ -1227,7 +1227,7 @@ namespace Xml {
 		[CCode (cname = "xmlTextReaderAttributeCount")]
 		public int attribute_count ();
 
-		[CCode (cname = "xmlTextReaderBaseUri")]
+		[CCode (cname = "xmlTextReaderBaseUri", type = "xmlChar*")]
 		public string base_uri ();
 
 		[CCode (cname = "xmlTextReaderByteConsumed")]
@@ -1236,34 +1236,34 @@ namespace Xml {
 		[CCode (cname = "xmlTextReaderClose")]
 		public int close ();
 
-		[CCode (cname = "xmlTextReaderConstBaseUri")]
+		[CCode (cname = "xmlTextReaderConstBaseUri", type = "xmlChar*")]
 		public unowned string const_base_uri ();
 
-		[CCode (cname = "xmlTextReaderConstEncoding")]
+		[CCode (cname = "xmlTextReaderConstEncoding", type = "xmlChar*")]
 		public unowned string const_encoding ();
 
-		[CCode (cname = "xmlTextReaderConstLocalName")]
+		[CCode (cname = "xmlTextReaderConstLocalName", type = "xmlChar*")]
 		public unowned string const_local_name ();
 
-		[CCode (cname = "xmlTextReaderConstName")]
+		[CCode (cname = "xmlTextReaderConstName", type = "xmlChar*")]
 		public unowned string const_name ();
 
-		[CCode (cname = "xmlTextReaderConstNamespaceUri")]
+		[CCode (cname = "xmlTextReaderConstNamespaceUri", type = "xmlChar*")]
 		public unowned string const_namespace_uri ();
 
-		[CCode (cname = "xmlTextReaderConstPrefix")]
+		[CCode (cname = "xmlTextReaderConstPrefix", type = "xmlChar*")]
 		public unowned string const_prefix ();
 
-		[CCode (cname = "xmlTextReaderConstString")]
+		[CCode (cname = "xmlTextReaderConstString", type = "xmlChar*")]
 		public unowned string const_string ([CCode (type = "xmlChar*")] string str);
 
-		[CCode (cname = "xmlTextReaderConstValue")]
+		[CCode (cname = "xmlTextReaderConstValue", type = "xmlChar*")]
 		public unowned string const_value ();
 
-		[CCode (cname = "xmlTextReaderConstXmlLang")]
+		[CCode (cname = "xmlTextReaderConstXmlLang", type = "xmlChar*")]
 		public unowned string const_xml_lang ();
 
-		[CCode (cname = "xmlTextReaderConstXmlVersion")]
+		[CCode (cname = "xmlTextReaderConstXmlVersion", type = "xmlChar*")]
 		public unowned string const_xml_version ();
 
 		[CCode (cname = "xmlTextReaderCurrentDoc")]
@@ -1278,13 +1278,13 @@ namespace Xml {
 		[CCode (cname = "xmlTextReaderExpand")]
 		public Node* expand ();
 
-		[CCode (cname = "xmlTextReaderGetAttribute")]
+		[CCode (cname = "xmlTextReaderGetAttribute", type = "xmlChar*")]
 		public string get_attribute (string name);
 
-		[CCode (cname = "xmlTextReaderGetAttributeNo")]
+		[CCode (cname = "xmlTextReaderGetAttributeNo", type = "xmlChar*")]
 		public string get_attribute_no (int no);
 
-		[CCode (cname = "xmlTextReaderGetAttributeNs")]
+		[CCode (cname = "xmlTextReaderGetAttributeNs", type = "xmlChar*")]
 		public string get_attribute_ns ([CCode (type = "xmlChar*")] string local_name, [CCode (type = "xmlChar*")] string namespace_uri);
 
 		[CCode (cname = "xmlTextReaderGetErrorHandler")]
@@ -1317,10 +1317,10 @@ namespace Xml {
 		[CCode (cname = "xmlTextReaderIsValid")]
 		public int is_valid ();
 
-		[CCode (cname = "xmlTextReaderLocalName")]
+		[CCode (cname = "xmlTextReaderLocalName", type = "xmlChar*")]
 		public string local_name ();
 
-		[CCode (cname = "xmlTextReaderLookupNamespace")]
+		[CCode (cname = "xmlTextReaderLookupNamespace", type = "xmlChar*")]
 		public string lookup_namespace ([CCode (type = "xmlChar*")] string prefix);
 
 		[CCode (cname = "xmlTextReaderMoveToAttribute")]
@@ -1341,10 +1341,10 @@ namespace Xml {
 		[CCode (cname = "xmlTextReaderMoveToNextAttribute")]
 		public int move_to_next_attribute ();
 
-		[CCode (cname = "xmlTextReaderName")]
+		[CCode (cname = "xmlTextReaderName", type = "xmlChar*")]
 		public string name ();
 
-		[CCode (cname = "xmlTextReaderNamespaceUri")]
+		[CCode (cname = "xmlTextReaderNamespaceUri", type = "xmlChar*")]
 		public string namespace_uri ();
 
 		[CCode (cname = "xmlTextReaderNext")]
@@ -1359,7 +1359,7 @@ namespace Xml {
 		[CCode (cname = "xmlTextReaderNormalization")]
 		public int normalization ();
 
-		[CCode (cname = "xmlTextReaderPrefix")]
+		[CCode (cname = "xmlTextReaderPrefix", type = "xmlChar*")]
 		public string prefix ();
 
 		[CCode (cname = "xmlTextReaderPreserve")]
@@ -1377,16 +1377,16 @@ namespace Xml {
 		[CCode (cname = "xmlTextReaderReadAttributeValue")]
 		public int read_attribute_value ();
 
-		[CCode (cname = "xmlTextReaderReadInnerXml")]
+		[CCode (cname = "xmlTextReaderReadInnerXml", type = "xmlChar*")]
 		public string read_inner_xml ();
 
-		[CCode (cname = "xmlTextReaderReadOuterXml")]
+		[CCode (cname = "xmlTextReaderReadOuterXml", type = "xmlChar*")]
 		public string read_outer_xml ();
 
 		[CCode (cname = "xmlTextReaderReadState")]
 		public int read_state ();
 
-		[CCode (cname = "xmlTextReaderReadString")]
+		[CCode (cname = "xmlTextReaderReadString", type = "xmlChar*")]
 		public string read_string ();
 
 		[CCode (cname = "xmlTextReaderSchemaValidate")]
@@ -1404,10 +1404,10 @@ namespace Xml {
 		[CCode (cname = "xmlTextReaderStandalone")]
 		public int standalone ();
 
-		[CCode (cname = "xmlTextReaderValue")]
+		[CCode (cname = "xmlTextReaderValue", type = "xmlChar*")]
 		public string value ();
 
-		[CCode (cname = "xmlTextReaderXmlLang")]
+		[CCode (cname = "xmlTextReaderXmlLang", type = "xmlChar*")]
 		public string xml_lang ();
 	}
 
@@ -1794,7 +1794,7 @@ namespace Html {
 		[CCode (cname = "htmlReadIO")]
 		public static Doc* read_io (Xml.InputReadCallback ioread, Xml.InputCloseCallback ioclose, void* ioctx, string url, string? encoding = null, int options = 0);
 
-		[CCode (cname = "htmlGetMetaEncoding")]
+		[CCode (cname = "htmlGetMetaEncoding", type = "xmlChar*")]
 		public string get_meta_encoding ();
 
 		[CCode (cname = "htmlSetMetaEncoding")]
