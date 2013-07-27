@@ -118,36 +118,17 @@ class DocumentTest : GXmlTest {
 				}
 			});
 		Test.add_func ("/gxml/document/create_element", () => {
-				try {
-					Document doc = get_doc ();
-					Element elem = null;
+				Document doc = get_doc ();
+				Element elem = null;
 
-					try {
-						elem = doc.create_element ("Banana");
+				elem = doc.create_element ("Banana");
+				test_error (DomException.NONE);
+				assert (elem.tag_name == "Banana");
+				assert (elem.tag_name != "banana");
 
-						assert (elem.tag_name == "Banana");
-						assert (elem.tag_name != "banana");
-					} catch (DomError e) {
-						assert_not_reached ();
-					}
-
-					try {
-						elem = doc.create_element ("ØÏØÏØ¯ÏØÏ  ²øœ³¤ïØ£");
-
-						/* TODO: want to test this, would need to
-						   circumvent libxml2 though, and would we end up wanting
-						   to validate all nodes libxml2 would let in when reading
-						   but not us? :S
-
-						   // We should not get this far
-						   assert_not_reached ();
-						*/
-					} catch (DomError.INVALID_CHARACTER e) {
-					}
-				} catch (GXml.DomError e) {
-					Test.message ("%s", e.message);
-					assert_not_reached ();
-				}
+				elem = doc.create_element ("ØÏØÏØ¯ÏØÏ  ²øœ³¤ïØ£");
+				test_error (DomException.INVALID_CHARACTER);
+				assert (elem == null);
 			});
 		Test.add_func ("/gxml/document/create_document_fragment", () => {
 				try {
