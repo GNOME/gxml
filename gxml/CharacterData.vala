@@ -28,14 +28,18 @@ namespace GXml {
 	 * CharacterData defines an interface for manipulating XML character data.
 	 *
 	 * It is used by the {@link GXml.CDATASection},
-	 * {@link GXml.Text}, and {@link GXml.Comment} node types. For more,
-	 * see:
-	 * [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-FF21A306]]
+	 * {@link GXml.Text}, and {@link GXml.Comment} node types.
+	 *
+	 * Version: DOM Level 1 Core
+	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-FF21A306]]
 	 */
 	public class CharacterData : BackedNode {
 		/**
 		 * The character data in string form for the node.
 		 * Generally equivalent to node_value.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-72AB8359]]
 		 */
 		public string data {
 			get {
@@ -48,6 +52,9 @@ namespace GXml {
 		}
 		/**
 		 * The number of characters.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-7D61178C]]
 		 */
 		public ulong length {
 			get {
@@ -65,6 +72,9 @@ namespace GXml {
 		 * Retrieves a substring of the character data
 		 * count-characters long, starting from the character
 		 * at offset.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-6531BCCF]]
 		 */
 		public string substring_data (ulong offset, ulong count) { // throws DomError
 			// TODO: handle out of bounds
@@ -72,17 +82,19 @@ namespace GXml {
 		}
 		/**
 		 * Appends arg to the end of the character data.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-32791A2F]]
 		 */
-		public void append_data (string arg) /* throws DomError */ {
+		public void append_data (string arg) {
 			this.data = this.data.concat (arg);
 		}
+
 		/**
 		 * Inserts arg into the character data at offset.
-
-		 length == 5
-		 0 1 2 3 4
-		 f a n c y
-
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-3EDB695F]]
 		 */
 		public void insert_data (ulong offset, string arg) /* throws DomError */ {
 			if (offset < 0 || this.data.length <= offset) {
@@ -92,8 +104,12 @@ namespace GXml {
 
 			this.data = this.data.substring (0, (long)offset).concat (arg, this.data.substring ((long)offset));
 		}
+
 		/**
 		 * Deletes a range of characters, count-characters long, starting from offset.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-7C603781]]
 		 */
 		public void delete_data (ulong offset, ulong count) /* throws DomError */ {
 			if (offset < 0 || this.data.length <= offset || count < 0 || this.data.length < offset + count) {
@@ -103,9 +119,13 @@ namespace GXml {
 
 			this.data = this.data.substring (0, (long)offset).concat (this.data.substring ((long)(offset + count)));
 		}
+
 		/**
 		 * Replaces a range of characters, count-characters
 		 * long, starting at offset, with arg.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-E5CBA7FB]]
 		 */
 		public void replace_data (ulong offset, ulong count, string arg) /* throws DomError */ {
 			if (offset < 0 || this.data.length <= offset || count < 0) {
