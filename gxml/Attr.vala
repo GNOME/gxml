@@ -225,25 +225,25 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override DomNode? insert_before (DomNode new_child, DomNode? ref_child) throws DomError {
+		public override DomNode? insert_before (DomNode new_child, DomNode? ref_child) {
 			return this.child_nodes.insert_before (new_child, ref_child);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public override DomNode? replace_child (DomNode new_child, DomNode old_child) throws DomError {
+		public override DomNode? replace_child (DomNode new_child, DomNode old_child) {
 			return this.child_nodes.replace_child (new_child, old_child);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public override DomNode? remove_child (DomNode old_child) throws DomError {
+		public override DomNode? remove_child (DomNode old_child) {
 			return this.child_nodes.remove_child (old_child);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public override DomNode? append_child (DomNode new_child) throws DomError {
+		public override DomNode? append_child (DomNode new_child) {
 			return this.child_nodes.append_child (new_child);
 		}
 		/**
