@@ -9,7 +9,6 @@ AM_CPPFLAGS = \
 	-DPACKAGE_DATA_DIR=\""$(datadir)"\"
 
 AM_CFLAGS = \
-	-Wall \
 	-g \
 	$(GLIB_CFLAGS) \
 	$(GXML_CFLAGS) \
