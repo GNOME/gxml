@@ -109,7 +109,6 @@ gxml-doc: $(gxml_doc_files) $(gxml_wiki_files)
 #	$(AM_V_GEN)$(VALADOC)
 gxml-gtk-doc: $(gxml_doc_files) $(gxml_wiki_files)
 	$(VALADOC) \
-		-X -l -X $(top_builddir)/gxml/.libs/libgxml-0.2.so \
 		-o gtk-doc/gxml \
 		--doclet=gtkdoc \
 		$(valadoc_flags_gxml) \
