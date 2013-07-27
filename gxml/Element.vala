@@ -270,6 +270,9 @@ namespace GXml {
 		 * @param name The name of the attribute to unset.
 		 */
 		public void remove_attribute (string name) {
+			this.check_read_only (); // TODO: check all this.check_*, and see if we should be aborting the current functions on failure or just warn, like here
+
+
 			this.attributes.remove (name);
 		}
 		/**
@@ -299,6 +302,12 @@ namespace GXml {
 		 * Elsewise, null is returned.
 		 */
 		public Attr set_attribute_node (Attr new_attr) {
+			// TODO: INUSE_ATTRIBUTE_ERR if new_attr already belongs to another element
+
+			this.check_read_only ();
+
+			this.check_wrong_document (new_attr);
+
 			// TODO: need to actually associate this with the libxml2 structure!
 			// TODO: need to do that at the time of saving. We don't right now :|
 			Attr old = this.attributes.lookup (new_attr.name);
@@ -319,8 +328,16 @@ namespace GXml {
 		 * it wasn't found.
 		 */
 		public Attr remove_attribute_node (Attr old_attr) {
+			Attr old;
+
+			this.check_read_only ()
+
 			// TODO: need to check for nulls. < Nope, ? controls that.
-			this.attributes.remove (old_attr.name);
+			old = this.attributes.remove (old_attr.name);
+			if (old == null) {
+				GLib.warning ("NOT_FOUND_ERR: No child with name '%s' exists in node '%s'", old_attr.name, this.node_name);
+			}
+
 			return old_attr;
 		}
 
