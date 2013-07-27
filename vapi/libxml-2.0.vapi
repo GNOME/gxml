@@ -267,6 +267,7 @@ namespace Xml {
 	[CCode (cname = "xmlAttr", free_function = "xmlFreeProp", cheader_filename = "libxml/tree.h")]
 	public class Attr {
 		public ElementType type;
+		[CCode (type = "xmlChar*")]
 		public weak string name;
 		public Node* children;
 		public Node* last;
@@ -288,6 +289,7 @@ namespace Xml {
 	[CCode (cname = "xmlAttribute", cheader_filename = "libxml/tree.h")]
 	public class Attribute {
 		public ElementType type;
+		[CCode (type = "xmlChar*")]
 		public weak string name;
 		public Node* children;
 		public Node* last;
@@ -298,8 +300,11 @@ namespace Xml {
 		public Attribute* nexth;
 		public AttributeType atype;
 		public AttributeDefault def;
+		[CCode (type = "xmlChar*")]
 		public weak string default_value;
+		[CCode (type = "xmlChar*")]
 		public weak string prefix;
+		[CCode (type = "xmlChar*")]
 		public weak string elem;
 	}
 
@@ -357,9 +362,11 @@ namespace Xml {
 		public Dtd* ext_subset;
 		[CCode (cname = "oldNs")]
 		public Ns* old_ns;
+		[CCode (type = "xmlChar*")]
 		public weak string version;
+		[CCode (type = "xmlChar*")]
 		public weak string encoding;
-		[CCode (cname = "URL")]
+		[CCode (cname = "URL", type = "xmlChar*")]
 		public weak string url;
 		public int charset;
 
@@ -473,6 +480,7 @@ namespace Xml {
 	[CCode (cname = "xmlDtd", free_function="xmlFreeDtd", cheader_filename = "libxml/tree.h")]
 	public class Dtd {
 		public ElementType type;
+		[CCode (type = "xmlChar*")]
 		public string name;
 		public Node* children;
 		public Node* last;
@@ -486,7 +494,9 @@ namespace Xml {
 		public HashTable attributes;
 		public HashTable entities;
 
+		[CCode (type = "xmlChar*")]
 		public weak string external_id;
+		[CCode (type = "xmlChar*")]
 		public weak string system_id;
 
 		[CCode (cname = "xmlNewDtd")]
@@ -500,6 +510,7 @@ namespace Xml {
 	[CCode (cname = "xmlElement", cheader_filename = "libxml/tree.h")]
 	public class Element {
 		public ElementType type;
+		[CCode (type = "xmlChar*")]
 		public weak string name;
 		public Node* children;
 		public Node* last;
@@ -508,6 +519,7 @@ namespace Xml {
 		public Node* prev;
 		public Doc* doc;
 		public Attribute* attributes;
+		[CCode (type = "xmlChar*")]
 		public weak string prefix;
 	}
 
@@ -544,10 +556,12 @@ namespace Xml {
 
 		public ElementContentType type;
 		public ElementContentOccur ocur;
+		[CCode (type = "xmlChar*")]
 		public const string name;
 		public ElementContent c1;
 		public ElementContent c2;
 		public ElementContent parent;
+		[CCode (type = "xmlChar*")]
 		public const string prefix;
 	}
 
@@ -572,6 +586,7 @@ namespace Xml {
 	public struct Entity {
 		public void* private;
 		public ElementType type;
+		[CCode (type = "xmlChar*")]
 		public const string name;
 		public Node* children;
 		public Node* last;
@@ -579,16 +594,18 @@ namespace Xml {
 		public Node* next;
 		public Node* prev;
 		public Doc* doc;
+		[CCode (type = "xmlChar*")]
 		public string orig;
+		[CCode (type = "xmlChar*")]
 		public string content;
 		public int length;
 		public EntityType etype;
-		[CCode (cname = "ExternalID")]
+		[CCode (cname = "ExternalID", type = "xmlChar*")]
 		public const string external_id;
-		[CCode (cname = "SystemID")]
+		[CCode (cname = "SystemID", type = "xmlChar*")]
 		public const string system_id;
 		public Entity* nexte;
-		[CCode (cname = "URI")]
+		[CCode (cname = "URI", type = "xmlChar*")]
 		public const string uri;
 		public int owner;
 		public int checked;
@@ -608,6 +625,7 @@ namespace Xml {
 	[CCode (cname = "xmlEnumeration", cheader_filename = "libxml/tree.h")]
 	public struct Enumeration {
 		public Enumeration* next;
+		[CCode (type = "xmlChar*")]
 		public const string name;
 	}
 
@@ -646,6 +664,7 @@ namespace Xml {
 	[CCode (cname = "xmlNode", free_function = "xmlFreeNode", cheader_filename = "libxml/tree.h")]
 	public class Node {
 		public ElementType type;
+		[CCode (type = "xmlChar*")]
 		public weak string name;
 		public Node* children;
 		public Node* last;
@@ -654,6 +673,7 @@ namespace Xml {
 		public Node* prev;
 		public Doc* doc;
 		public Ns* ns;
+		[CCode (type = "xmlChar*")]
 		public string content;
 		public Attr* properties;
 		[CCode (cname = "nsDef")]
@@ -837,7 +857,9 @@ namespace Xml {
 		public Ns (Xml.Node* node, [CCode (type = "xmlChar*")] string href, [CCode (type = "xmlChar*")] string prefix);
 		public Ns* next;
 		public ElementType type;
+		[CCode (type = "xmlChar*")]
 		public string href;
+		[CCode (type = "xmlChar*")]
 		public string prefix;
 		public Doc* context;
 	}
@@ -1487,6 +1509,7 @@ namespace Xml {
 			public NodeSet* nodesetval;
 			public int boolval;
 			public double floatval;
+			[CCode (type = "xmlChar*")]
 			public string stringval;
 			public void* user;
 			public int index;
