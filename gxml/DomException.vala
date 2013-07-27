@@ -99,6 +99,14 @@ namespace GXml {
 		 * A document lacked a root element.
 		 */
 		INVALID_ROOT,
+
+		/**
+		 * There was an issue with the namespace.  A qualified name's prefix may have disagreed with the corresponding namespace or vice versa.
+		 *
+		 * Version: DOM Level 3 Core
+		 * URL: [[http://www.w3.org/TR/DOM-Level-3-Core/core.html#DOMException-NAMESPACE_ERR]]
+		 */
+		NAMESPACE;
 	}
 
 	// TODO: remove after transitioning tests
