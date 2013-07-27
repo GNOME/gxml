@@ -231,7 +231,7 @@ namespace GXml {
 		 * @param name Name of the attribute whose value to set.
 		 * @param value The value to set.
 		 */
-		public void set_attribute (string name, string value) throws DomError {
+		public void set_attribute (string name, string value) {
 			// don't need to use insert
 			Attr attr = this.attributes.lookup (name);
 			if (attr == null) {
@@ -254,7 +254,7 @@ namespace GXml {
 		 *
 		 * @param name The name of the attribute to unset.
 		 */
-		public void remove_attribute (string name) throws DomError {
+		public void remove_attribute (string name) {
 			this.attributes.remove (name);
 		}
 		/**
@@ -277,7 +277,7 @@ namespace GXml {
 		 * is replaced and the old Attr is returned.
 		 * Elsewise, null is returned.
 		 */
-		public Attr set_attribute_node (Attr new_attr) throws DomError {
+		public Attr set_attribute_node (Attr new_attr) {
 			// TODO: need to actually associate this with the libxml2 structure!
 			// TODO: need to do that at the time of saving. We don't right now :|
 			Attr old = this.attributes.lookup (new_attr.name);
@@ -294,7 +294,7 @@ namespace GXml {
 		 * @return The old_attr we wanted to remove, even if
 		 * it wasn't found.
 		 */
-		public Attr remove_attribute_node (Attr old_attr) throws DomError {
+		public Attr remove_attribute_node (Attr old_attr) {
 			// TODO: need to check for nulls. < Nope, ? controls that.
 			this.attributes.remove (old_attr.name);
 			return old_attr;
@@ -334,23 +334,23 @@ namespace GXml {
 		}
 
 		/* ** DomNode methods ** */
-		public override DomNode? insert_before (DomNode new_child, DomNode? ref_child) throws DomError {
+		public override DomNode? insert_before (DomNode new_child, DomNode? ref_child) {
 			DomNode ret = base.insert_before (new_child, ref_child);
 			check_add_tag_name (this, new_child);
 			return ret;
 		}
-		public override DomNode? replace_child (DomNode new_child, DomNode old_child) throws DomError {
+		public override DomNode? replace_child (DomNode new_child, DomNode old_child) {
 			check_remove_tag_name (this, old_child);
 			DomNode ret = base.replace_child (new_child, old_child);
 			check_add_tag_name (this, new_child);
 			return ret;
 		}
-		public override DomNode? remove_child (DomNode old_child) throws DomError {
+		public override DomNode? remove_child (DomNode old_child) {
 			check_remove_tag_name (this, old_child);
 			DomNode ret = base.remove_child (old_child);
 			return ret;
 		}
-		public override DomNode? append_child (DomNode new_child) throws DomError {
+		public override DomNode? append_child (DomNode new_child) {
 			DomNode ret = base.append_child (new_child);
 			check_add_tag_name (this, new_child);
 			return ret;

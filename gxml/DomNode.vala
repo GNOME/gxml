@@ -247,7 +247,7 @@ namespace GXml {
 		 *
 		 * Throws {@link GXml.DomError.NOT_FOUND} if ref_child is not a valid child.
 		 */
-		public virtual DomNode? insert_before (DomNode new_child, DomNode? ref_child) throws DomError {
+		public virtual DomNode? insert_before (DomNode new_child, DomNode? ref_child) {
 			return null;
 		}
 		/**
@@ -257,7 +257,7 @@ namespace GXml {
 		 *
 		 * @throws DomError.NOT_FOUND if ref_child is not a valid child.
 		 */
-		public virtual DomNode? replace_child (DomNode new_child, DomNode old_child) throws DomError {
+		public virtual DomNode? replace_child (DomNode new_child, DomNode old_child) {
 			return null;
 		}
 		/**
@@ -268,7 +268,7 @@ namespace GXml {
 		 * @throws DomError.NOT_FOUND if old_child is not a valid child.
 		 * #todo: make @throws claim true
 		 */
-		public virtual DomNode? remove_child (DomNode old_child) throws DomError {
+		public virtual DomNode? remove_child (DomNode old_child) {
 			return null;
 		}
 		/**
@@ -276,7 +276,7 @@ namespace GXml {
 		 *
 		 * @return The newly added child.
 		 */
-		public virtual DomNode? append_child (DomNode new_child) throws DomError {
+		public virtual DomNode? append_child (DomNode new_child) {
 			return null;
 		}
 		/**

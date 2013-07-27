@@ -233,7 +233,7 @@ namespace GXml {
 		/**
 		 * Creates a Document based on a libxml2 Xml.Doc* object.
 		 */
-		public Document.from_libxml2 (Xml.Doc *doc, bool require_root = true) throws DomError {
+		public Document.from_libxml2 (Xml.Doc *doc, bool require_root = true) {
 			/* All other constructors should call this one,
 			   passing it a Xml.Doc* object */
 
@@ -265,7 +265,7 @@ namespace GXml {
 		 *
 		 * @throws DomError When a Document cannot be constructed for the specified file.
 		 */
-		public Document.from_path (string file_path) throws DomError {
+		public Document.from_path (string file_path) {
 			Xml.Doc *doc = Xml.Parser.parse_file (file_path); // consider using read_file
 			// TODO: might want to check that the file_path exists
 			this.from_libxml2 (doc);
@@ -348,7 +348,7 @@ namespace GXml {
 		 *
 		 * @throws DomError When a Document cannot be constructed for the specified file.
 		 */
-		public Document.from_gfile (File fin, Cancellable? can = null) throws DomError {
+		public Document.from_gfile (File fin, Cancellable? can = null) {
 			// TODO: accept cancellable
 			InputStream instream;
 
@@ -365,7 +365,7 @@ namespace GXml {
 		 *
 		 * @throws DomError When a Document cannot be constructed for the specified stream.
 		 */
-		public Document.from_stream (InputStream instream, Cancellable? can = null) throws DomError {
+		public Document.from_stream (InputStream instream, Cancellable? can = null) {
 			// TODO: accept Cancellable
 			// Cancellable can = new Cancellable ();
 			InputStreamBox box = { instream, can };
@@ -385,7 +385,7 @@ namespace GXml {
 		 *
 		 * @throws DomError When a Document cannot be constructed for the specified data.
 		 */
-		public Document.from_string (string memory) throws DomError {
+		public Document.from_string (string memory) {
 			/* TODO: consider breaking API to support
 			 * xmlParserOptions, encoding, and base URL
 			 * from xmlReadMemory */
@@ -395,7 +395,7 @@ namespace GXml {
 		/**
 		 * Creates an empty document.
 		 */
-		public Document () throws DomError {
+		public Document () {
 			Xml.Doc *doc = new Xml.Doc ();
 			this.from_libxml2 (doc, false);
 		}
@@ -445,7 +445,7 @@ namespace GXml {
 		/**
 		 * Saves a Document to the OutputStream outstream.
 		 */
-		public void save_to_stream (OutputStream outstream, Cancellable? can = null) throws DomError {
+		public void save_to_stream (OutputStream outstream, Cancellable? can = null) {
 			OutputStreamBox box = { outstream, can };
 
 			sync_dirty_elements ();
@@ -464,7 +464,7 @@ namespace GXml {
 		 * Creates an empty Element node with the tag name
 		 * tag_name. XML example: {{{&lt;Person>&lt;/Person>}}}
 		 */
-		public Element create_element (string tag_name) throws DomError {
+		public Element create_element (string tag_name) {
 			/* TODO: libxml2 doesn't complain about invalid names, but the spec
 			   for DOM Level 1 Core wants us to. Handle ourselves? */
 			// TODO: what does libxml2 do with Elements?  should we just use nodes? probably
@@ -506,7 +506,7 @@ namespace GXml {
 		 * XML entities.]]>. }}}
 		 */
 		// TODO: figure out how we can represent ]] in a Valadoc
-		public CDATASection create_cdata_section (string data) throws DomError {
+		public CDATASection create_cdata_section (string data) {
 			check_html ("CDATA section"); // TODO: i18n
 
 			return new CDATASection (this.xmldoc->new_cdata_block (data, (int)data.length), this);
@@ -516,7 +516,7 @@ namespace GXml {
 		 * {{{&lt;?pi_target processing instruction data?>
 		 * &lt;?xml-stylesheet href="style.xsl" type="text/xml"?>}}}
 		 */
-		public ProcessingInstruction create_processing_instruction (string target, string data) throws DomError {
+		public ProcessingInstruction create_processing_instruction (string target, string data) {
 			check_html ("processing instructions"); // TODO: i18n
 			check_character_validity (target);
 			check_character_validity (data); // TODO: do these use different rules?
@@ -530,7 +530,7 @@ namespace GXml {
 		/**
 		 * Creates an Attr attribute with name, usually to be associated with an Element.
 		 */
-		public Attr create_attribute (string name) throws DomError {
+		public Attr create_attribute (string name) {
 			check_character_validity (name);
 
 			return new Attr (this.xmldoc->new_prop (name, ""), this);
@@ -541,7 +541,7 @@ namespace GXml {
 		 * {{{&amp;name;
 		 * &amp;apos;}}}
 		 */
-		public EntityReference create_entity_reference (string name) throws DomError {
+		public EntityReference create_entity_reference (string name) {
 			check_html ("entity reference"); // TODO: i18n
 			check_character_validity (name);
 
@@ -563,13 +563,13 @@ namespace GXml {
 			return this.document_element.get_elements_by_tag_name (tag_name);
 		}
 
-		private void check_html (string feature) throws DomError {
+		private void check_html (string feature) {
 			if (this.doctype != null && this.doctype.name == "html") {
 				// TODO: ^ check name == html by icase
 				this.last_error = new DomError.NOT_SUPPORTED ("HTML documents do not support '%s'".printf (feature)); // i18n
 			}
 		}
-		private void check_character_validity (string str) throws DomError {
+		private void check_character_validity (string str) {
 			if (true == false) { // TODO: define validity
 				this.last_error = new DomError.INVALID_CHARACTER ("'%s' contains invalid characters.".printf (str));
 			}
@@ -593,7 +593,7 @@ namespace GXml {
 		 *
 		 * @return The newly added child.
 		 */
-		public override DomNode? append_child (DomNode new_child) throws DomError {
+		public override DomNode? append_child (DomNode new_child) {
 			if (new_child.node_type == NodeType.ELEMENT) {
 				if (xmldoc->get_root_element () == null) {
 					xmldoc->set_root_element (((Element)new_child).node);
