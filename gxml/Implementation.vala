@@ -38,6 +38,20 @@ namespace GXml {
 		}
 
 		/**
+		 * Creates a Document according to this {@link GXml.Implementation}.
+		 *
+		 * @param namespace_uri URI for the namespace in which this Document belongs, or `null`.
+		 * @param qualified_name A qualified name for the Document, or `null`.
+		 * @param doctype The type of the document, or `null`.
+		 *
+		 * @return The new document.
+		 */
+		public Document create_document (string? namespace_uri, string? qualified_name, DocumentType? doctype) {
+			Document doc = new Document.with_implementation (this, namespace_uri, qualified_name, doctype);
+			return doc;
+		}
+
+		/**
 		 * Reports whether we support a feature at a given version level.
 		 *
 		 * @param feature A feature we might support, usually something like 'xml' or 'html'.
