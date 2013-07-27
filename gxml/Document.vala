@@ -252,18 +252,20 @@ namespace GXml {
 
 			Xml.Node *root;
 
-			if (doc == null)
-				this.last_error = new DomError.INVALID_DOC ("Failed to parse document.");
+			if (doc == null) // should be impossible
+				GLib.warning ("INVALID_DOC_ERR: Failed to parse document, xmlDoc* was NULL");
+
 			if (require_root) {
 				root = doc->get_root_element ();
-				if (root == null)
-					this.last_error = new DomError.INVALID_ROOT ("Could not obtain root for document.");
+				if (root == null) {
+					GLib.warning ("INVALID_ROOT_ERR: Could not obtain a valid root for the document; xmlDoc*'s root was NULL");
+				}
 			}
 
 			// TODO: consider passing root as a base node?
 			base.for_document ();
 
-			this.owner_document = this; // this doesn't exist until after base()
+			this.owner_document = this; // must come after base ()
 			this.xmldoc = doc;
 			if (doc->int_subset == null && doc->ext_subset == null) {
 				this.doctype = null;
@@ -366,7 +368,7 @@ namespace GXml {
 				this.from_stream (instream, can);
 				instream.close ();
 			} catch (GLib.Error e) {
-				this.last_error = new DomError.INVALID_DOC (e.message);
+				GLib.warning ("INVALID_DOC_ERR: Could not load document from GFile: %s", e.message);
 			}
 		}
 		/**
@@ -475,10 +477,9 @@ namespace GXml {
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createElement]]
 		 */
 		public Element create_element (string tag_name) {
-			/* TODO: libxml2 doesn't complain about invalid names, but the spec
-			   for DOM Level 1 Core wants us to. Handle ourselves? */
-			// TODO: what does libxml2 do with Elements?  should we just use nodes? probably
-			// TODO: what should we be passing for ns other than old_ns?  Figure it out
+			check_invalid_characters (tag_name, "element");
+
+			// TODO: what should we be passing for ns other than old_ns?  Figure it out; needed for level 2+ support
 			Xml.Node *xmlelem;
 			Element new_elem;
 
@@ -536,7 +537,7 @@ namespace GXml {
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createCDATASection]]
 		 */
 		public CDATASection create_cdata_section (string data) {
-			check_html ("CDATA section"); // TODO: i18n
+			check_not_supported_html ("CDATA section");
 
 			return new CDATASection (this.xmldoc->new_cdata_block (data, (int)data.length), this);
 		}
@@ -552,9 +553,8 @@ namespace GXml {
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createProcessingInstruction]]
 		 */
 		public ProcessingInstruction create_processing_instruction (string target, string data) {
-			check_html ("processing instructions"); // TODO: i18n
-			check_character_validity (target);
-			check_character_validity (data); // TODO: do these use different rules?
+			check_not_supported_html ("processing instructions");
+			check_invalid_characters (target, "processing instruction");
 
 			// TODO: want to see whether we can find a libxml2 structure for this
 			ProcessingInstruction pi = new ProcessingInstruction (target, data, this);
@@ -571,7 +571,7 @@ namespace GXml {
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createAttribute]]
 		 */
 		public Attr create_attribute (string name) {
-			check_character_validity (name);
+			check_invalid_characters (name, "attribute");
 
 			return new Attr (this.xmldoc->new_prop (name, ""), this);
 			// TODO: should we pass something other than "" for the unspecified value?  probably not, "" is working fine so far
@@ -585,8 +585,8 @@ namespace GXml {
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createEntityReference]]
 		 */
 		public EntityReference create_entity_reference (string name) {
-			check_html ("entity reference"); // TODO: i18n
-			check_character_validity (name);
+			check_not_supported_html ("entity reference");
+			check_invalid_characters (name, "entity reference");
 
 			return new EntityReference (name, this);
 			// TODO: doublecheck that libxml2 doesn't have a welldefined ER
@@ -609,15 +609,33 @@ namespace GXml {
 			return this.document_element.get_elements_by_tag_name (tag_name);
 		}
 
-		private void check_html (string feature) {
-			if (this.doctype != null && this.doctype.name == "html") {
-				// TODO: ^ check name == html by icase
-				this.last_error = new DomError.NOT_SUPPORTED ("HTML documents do not support '%s'".printf (feature)); // i18n
+		private bool check_read_only (DomNode node) {
+			// TODO: introduce a concept of read-only-ness, perhaps
+			return false;
+		}
+
+		private void check_wrong_document (DomNode node) {
+			if (node.owner_document != this) {
+				GLib.warning ("WRONG_DOCUMENT_ERR: Node tried to interact with this document '%p' but belonged to document '%p'", this, node.owner_document);
 			}
 		}
-		private void check_character_validity (string str) {
-			if (true == false) { // TODO: define validity
-				this.last_error = new DomError.INVALID_CHARACTER ("'%s' contains invalid characters.".printf (str));
+
+		/**
+		 * Feature should be something like "processing instructions"
+		 */
+		private void check_not_supported_html (string feature) {
+			if (this.doctype != null && (this.doctype.name.casefold () == "html".casefold ())) {
+				GLib.warning ("NOT_SUPPORTED_ERR: HTML documents do not support '%s'".printf (feature)); // TODO: i18n
+			}
+		}
+
+		/**
+		 * Subject should be something like "element" or "processing instruction"
+		 */
+		internal static void check_invalid_characters (string name, string subject) {
+			/* TODO: use Xml.validate_name instead  */
+			if (Xml.validate_name (name, 0) != 0) { // TODO: define validity
+				GLib.warning ("INVALID_CHARACTER_ERR: Provided name '%s' for %s is not a valid XML name", name, subject);
 			}
 		}
 
@@ -647,17 +665,26 @@ namespace GXml {
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-appendChild]]
 		 */
 		public override DomNode? append_child (DomNode new_child) {
+			check_wrong_document (new_child);
+			check_read_only (this);
+
 			if (new_child.node_type == NodeType.ELEMENT) {
 				if (xmldoc->get_root_element () == null) {
 					xmldoc->set_root_element (((Element)new_child).node);
 				} else {
-					this.last_error = new DomError.HIERARCHY_REQUEST ("Document already has a root element.  Could not add child element with name '%s'".printf (new_child.node_name));
+					GLib.warning ("HIERARCHY_REQUEST_ERR: Document already has a root element.  Could not add child element with name '%s'", new_child.node_name);
 				}
 			} else if (new_child.node_type == NodeType.DOCUMENT_TYPE) {
+				if (this.doctype == null) {
+					this.doctype = (DocumentType)new_child;
+				} else {
+					GLib.warning ("HIERARCHY_REQUEST_ERR: Document already has a doctype.  Could not add new doctype with name '%s'.", ((DocumentType)new_child).name);
+				}
 				GLib.warning ("Appending document_types not yet supported");
 			} else {
 				GLib.warning ("Appending '%s' not yet supported", new_child.node_type.to_string ());
 			}
+
 			return null;
 		}
 
@@ -666,14 +693,6 @@ namespace GXml {
 			Xml.Node *our_copy_xml = ((BackedNode)foreign_node).node->doc_copy (this.xmldoc, deep ? 1 : 0);
 			// TODO: do we need to append this to this.new_nodes?  Do we need to append the result to this.nodes_to_free?  Test memory implications
 			return this.lookup_node (our_copy_xml); // inducing a GXmlNode
-		}
-
-		/**
-		 * Sets the last error encountered.
-		 */
-		public DomError last_error {
-			get;
-			internal set;
 		}
 	}
 }
