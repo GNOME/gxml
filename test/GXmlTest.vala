@@ -3,17 +3,17 @@ using GXml;
 
 class GXmlTest {
 	internal static void GXmlLogFunc (string? log_domain, LogLevelFlags log_levels, string message) {
-		stdout.printf ("log domain [%s] log_levels [%d] message [%s]\n", log_domain, log_levels, message);
-		GXmlTest.last_warning = message;
+		// Hush, we don't want to actually show errors; we'll be testing for those
 	}
 
-	internal static string last_warning = "";
-	internal static void test_last_warning (string? match) {
-		if (last_warning != match) {
-			Test.message ("Expected last warning [%s] but found [%s]", match, last_warning);
+	internal static void test_error (GXml.DomException expected) {
+		if (expected != GXml.last_error) {
+			Test.message ("Expected last error [%s] but found [%s]", expected.to_string (), GXml.last_error.to_string ());
 			Test.fail ();
 		}
-		last_warning = null;
+
+		// clear it
+		GXml.last_error = DomException.NONE;
 	}
 
 	public static int main (string[] args) {
@@ -22,6 +22,7 @@ class GXmlTest {
 		// Sets 29 as fatal flags, 16 + 8 + 4 + 1; bits 0,2,3,4, recursion,error,critical,warning; we'll want to undo that warning one so we can catch it
 		Test.init (ref args);
 
+		// silence warnings we'll be testing for
 		GLib.Log.set_handler ("gxml", GLib.LogLevelFlags.LEVEL_WARNING, GXmlTest.GXmlLogFunc);
 		GLib.Log.set_always_fatal (GLib.LogLevelFlags.FLAG_RECURSION | GLib.LogLevelFlags.LEVEL_ERROR | GLib.LogLevelFlags.LEVEL_CRITICAL);
 
