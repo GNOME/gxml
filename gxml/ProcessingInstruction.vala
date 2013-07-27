@@ -54,15 +54,21 @@ namespace GXml {
 			get;
 			private set;
 		}
+
+		private string _data;
+
 		/**
 		 * The data used by the target, like {{{href="style.xsl" type="text/xml"}}}
 		 */
 		// TODO: confirm that data here is freeform attributes
 		public string data /* throws DomError (not supported yet) */ {
-			get;
+			get {
+				return _data;
+			}
 			set {
-				this.check_read_only (); // TODO: does this prevent data from being set? test
-			};
+				this.check_read_only ();
+				this._data = value;
+			}
 		}
 		/**
 		 * The target name.

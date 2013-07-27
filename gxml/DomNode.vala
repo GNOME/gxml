@@ -48,14 +48,14 @@ namespace GXml {
 
 		/* Utility methods */
 
-		private void check_wrong_document (DomNode node) {
+		protected void check_wrong_document (DomNode node) {
 			if (this.owner_document != node.owner_document) {
 				GLib.warning ("WRONG_DOCUMENT_ERR: Node tried to interact with this document '%p' but belonged to document '%p'", this.owner_document, node.owner_document);
 			}
 		}
 
 
-		internal bool check_read_only () {
+		protected bool check_read_only () {
 			// TODO: introduce a concept of read-only-ness, perhaps
 			// if read-only, raise NO_MODIFICATION_ALLOWED_ERR
 			return false;

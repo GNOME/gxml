@@ -328,13 +328,9 @@ namespace GXml {
 		 * it wasn't found.
 		 */
 		public Attr remove_attribute_node (Attr old_attr) {
-			Attr old;
+			this.check_read_only ();
 
-			this.check_read_only ()
-
-			// TODO: need to check for nulls. < Nope, ? controls that.
-			old = this.attributes.remove (old_attr.name);
-			if (old == null) {
+			if (this.attributes.remove (old_attr.name) == false) {
 				GLib.warning ("NOT_FOUND_ERR: No child with name '%s' exists in node '%s'", old_attr.name, this.node_name);
 			}
 
