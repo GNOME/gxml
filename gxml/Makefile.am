@@ -60,7 +60,6 @@ libgxml_la_SOURCES = \
 	Text.vala \
 	Serializable.vala \
 	Serialization.vala \
-	Utils.vala \
 	$(NULL)
 
 gxml.vala.stamp: $(libgxml_la_SOURCES)
