@@ -45,9 +45,10 @@ namespace GXml {
 			get {
 				return this.node_value;
 			}
-			internal set {
-				// TODO: should this not be private?
-				this.node_value = value;
+			set {
+				if (! this.check_read_only ()) {
+					this.node_value = value;
+				}
 			}
 		}
 		/**
@@ -68,6 +69,31 @@ namespace GXml {
 			base (char_node, doc);
 			// TODO: if this was this (), it would recurse infinitely, maybe valac could detect that
 		}
+
+		protected bool check_index_size (string method, int length, ulong offset, ulong? count) {
+			if (offset < 0) {
+				GLib.warning ("INDEX_SIZE_ERR: %s called with offset '%lu' for data of length '%lu'", method, offset, length);
+				return false;
+			}
+			if (count < 0) {
+				GLib.warning ("INDEX_SIZE_ERR: %s called with count '%lu'", method, count);
+				return false;
+			}
+			if (count != null) {
+				if (length < offset + count) { // < or <= ?
+					GLib.warning ("INDEX_SIZE_ERR: %s called with offset '%lu' and count '%lu' for data of length '%lu'", method, offset, count, length);
+					return false;
+				}
+			} else {
+				if (length <= offset) { // <= or < ?
+					GLib.warning ("INDEX_SIZE_ERR: %s called with offset '%lu' for data of length '%lu'", method, offset, length);
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		/**
 		 * Retrieves a substring of the character data
 		 * count-characters long, starting from the character
@@ -76,8 +102,11 @@ namespace GXml {
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-6531BCCF]]
 		 */
-		public string substring_data (ulong offset, ulong count) { // throws DomError
-			// TODO: handle out of bounds
+		public string substring_data (ulong offset, ulong count) {
+			if (! check_index_size ("substring_data", this.data.length, offset, count)) {
+				return "";
+			}
+
 			return this.data.substring ((long)offset, (long)count);
 		}
 		/**
@@ -96,9 +125,11 @@ namespace GXml {
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-3EDB695F]]
 		 */
-		public void insert_data (ulong offset, string arg) /* throws DomError */ {
-			if (offset < 0 || this.data.length <= offset) {
-				GLib.warning ("INDEX_SIZE_ERR: insert_data called with offset %lu for data of length %lu", offset, this.data.length);
+		public void insert_data (ulong offset, string arg) {
+			/* length == 5
+			   0 1 2 3 4
+			   f a n c y */
+			if (! check_index_size ("insert_data", this.data.length, offset, null)) {
 				return;
 			}
 
@@ -111,9 +142,8 @@ namespace GXml {
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-7C603781]]
 		 */
-		public void delete_data (ulong offset, ulong count) /* throws DomError */ {
-			if (offset < 0 || this.data.length <= offset || count < 0 || this.data.length < offset + count) {
-				GLib.warning ("INDEX_SIZE_ERR: delete_data called with offset %lu and count %lu for data of length %lu", offset, count, this.data.length);
+		public void delete_data (ulong offset, ulong count) {
+			if (! check_index_size ("delete_data", this.data.length, offset, count)) {
 				return;
 			}
 
@@ -127,9 +157,8 @@ namespace GXml {
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-E5CBA7FB]]
 		 */
-		public void replace_data (ulong offset, ulong count, string arg) /* throws DomError */ {
-			if (offset < 0 || this.data.length <= offset || count < 0) {
-				GLib.warning ("INDEX_SIZE_ERR: replace_data called with offset %lu and count %lu for data of length %lu", offset, count, this.data.length);
+		public void replace_data (ulong offset, ulong count, string arg) {
+			if (! check_index_size ("replace_data", this.data.length, offset, count)) {
 				return;
 			}
 
