@@ -249,6 +249,8 @@ namespace GXml {
 		 * defined here:
 		 * http://www.w3.org/TR/DOM-Level-3-Core/core.html#Level-2-Core-DOM-createDocument
 		 *
+		 * Version: DOM Level 3 Core
+		 *
 		 * @param impl Implementation creating this Document.
 		 * @param namespace_uri URI for the namespace in which this Document belongs, or `null`.
 		 * @param qualified_name A qualified name for the Document, or `null`.
