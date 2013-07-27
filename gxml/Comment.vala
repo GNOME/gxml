@@ -24,16 +24,17 @@
  */
 
 /* TODO: do we really want a comment node, or just use strings? */
+
 /**
  * An XML comment.
  *
  * To create one, use {@link GXml.Document.create_comment}.
  *
  * An XML example looks like: {{{
- * &lt;someNode>
- *    &lt;!-- this is a comment -->
+ * <someNode>
+ *    <!-- this is a comment -->
  *    text in the node
- *  &lt;/someNode> }}}
+ *  </someNode> }}}
  * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1728279322]]
  */
 public class GXml.Comment : GXml.CharacterData {
