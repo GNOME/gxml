@@ -78,15 +78,29 @@ namespace GXml {
 		}
 		/**
 		 * Inserts arg into the character data at offset.
+
+		 length == 5
+		 0 1 2 3 4
+		 f a n c y
+
 		 */
 		public void insert_data (ulong offset, string arg) /* throws DomError */ {
-			// TODO: complain about boundaries
+			if (offset < 0 || this.data.length <= offset) {
+				GLib.warning ("INDEX_SIZE_ERR: insert_data called with offset %lu for data of length %lu", offset, this.data.length);
+				return;
+			}
+
 			this.data = this.data.substring (0, (long)offset).concat (arg, this.data.substring ((long)offset));
 		}
 		/**
 		 * Deletes a range of characters, count-characters long, starting from offset.
 		 */
 		public void delete_data (ulong offset, ulong count) /* throws DomError */ {
+			if (offset < 0 || this.data.length <= offset || count < 0 || this.data.length < offset + count) {
+				GLib.warning ("INDEX_SIZE_ERR: delete_data called with offset %lu and count %lu for data of length %lu", offset, count, this.data.length);
+				return;
+			}
+
 			this.data = this.data.substring (0, (long)offset).concat (this.data.substring ((long)(offset + count)));
 		}
 		/**
@@ -94,7 +108,11 @@ namespace GXml {
 		 * long, starting at offset, with arg.
 		 */
 		public void replace_data (ulong offset, ulong count, string arg) /* throws DomError */ {
-			// TODO: bounds
+			if (offset < 0 || this.data.length <= offset || count < 0) {
+				GLib.warning ("INDEX_SIZE_ERR: replace_data called with offset %lu and count %lu for data of length %lu", offset, count, this.data.length);
+				return;
+			}
+
 			this.data = this.data.substring (0, (long)offset).concat (arg, this.data.substring ((long)(offset + count)));
 		}
 	}
