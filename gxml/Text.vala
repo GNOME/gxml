@@ -75,20 +75,20 @@ namespace GXml {
 		 * the first part, as the spec wants.
 		 */
 		public Text split_text (ulong offset) {
+			Text other;
+
 			/* libxml2 doesn't handle this directly, in part because it doesn't
 			   allow Text siblings.  Boo! */
-			if (offset < 0 || this.length < offset) {
-				GLib.warning ("INDEX_SIZE_ERR: split_text called with offset '%lu' on string of length '%lu'", offset, this.length); // i18n
-				//this.owner_document.last_error = new DomError.INDEX_SIZE ("Offset '%u' is invalid for string of length '%u'", offset, this.length); // i18n
-				return null;
+			if (! this.check_index_size ("split_text", this.data.length, offset, null)) {
+				return null; // perhaps return "" Text
 			}
 
-			Text other = this.owner_document.create_text_node (this.data.substring ((long)offset));
+			other = this.owner_document.create_text_node (this.data.substring ((long)offset));
 			this.data = this.data.substring (0, (long)offset);
 
 			/* TODO: Ugh, can't actually let them be siblings in the tree, as
 			         the spec requests, because libxml2 automatically merges Text
-				 sibligns. */
+				 siblings. */
 			/* this.node->add_next_sibling (other.node); */
 
 			return other;
