@@ -36,8 +36,10 @@ namespace GXml {
 	 * tag names. In addition to methods inherited from DomNode,
 	 * Elements have additional methods for manipulating
 	 * attributes, as an alternative to manipulating the
-	 * attributes HashMap directly. For more, see:
-	 * [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-745549614]]
+	 * attributes HashMap directly.
+	 *
+	 * Version: DOM Level 1 Core
+	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-745549614]]
 	 */
 	public class Element : BackedNode {
 		/* Public properties */
@@ -51,6 +53,9 @@ namespace GXml {
 		 *   &lt;img src="..." />
 		 * &lt;/photos>}}}
 		 * In this example, photos and img are tag names.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-104682815]]
 		 */
 		public string tag_name {
 			get {
@@ -62,6 +67,7 @@ namespace GXml {
 			private set {
 			}
 		}
+
 		/**
 		 * Elements do not have a node_value. Instead, their
 		 * contents are stored in Attr attributes and in
@@ -87,17 +93,17 @@ namespace GXml {
 		 * other methods are reflected in the attributes
 		 * HashTable.
 		 */
-		/*
-		 * #todo: verify that because we're giving them a
-		 * reference to our own attributes HashTable for
-		 * manipulating, that our methods do keep it live, so
-		 * we don't need to implement NamedNodeMap.
-		 *
-		 * #todo: make sure we fill our _attributes at
-		 * construction time with the attributes from the
-		 * document.
-		 */
 		public override HashTable<string,Attr>? attributes {
+			/*
+			 * #todo: verify that because we're giving them a
+			 * reference to our own attributes HashTable for
+			 * manipulating, that our methods do keep it live, so
+			 * we don't need to implement NamedNodeMap.
+			 *
+			 * #todo: make sure we fill our _attributes at
+			 * construction time with the attributes from the
+			 * document.
+			 */
 			/* TODO: make sure we want the user to be able
 			 * to manipulate attributes using this
 			 * HashTable. Yes, we do, it should be a live
@@ -210,6 +216,9 @@ namespace GXml {
 		 * attribute associated with this element with the
 		 * name name.
 		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-666EE0F9]]
+		 *
 		 * @param name The name of the attribute whose value to retrieve.
 		 *
 		 * @return The value of the named attribute, or "" if
@@ -227,6 +236,9 @@ namespace GXml {
 		/**
 		 * Set the value of this element's attribute named
 		 * name to the string value.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-F68F082]]
 		 *
 		 * @param name Name of the attribute whose value to set.
 		 * @param value The value to set.
@@ -252,6 +264,9 @@ namespace GXml {
 		/**
 		 * Remove the attribute named name from this element.
 		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-6D6AC0F9]]
+		 *
 		 * @param name The name of the attribute to unset.
 		 */
 		public void remove_attribute (string name) {
@@ -259,6 +274,9 @@ namespace GXml {
 		}
 		/**
 		 * Get the Attr node representing this element's attribute named name.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-217A91B8]]
 		 *
 		 * @param name The name of the Attr node to retrieve.
 		 *
@@ -270,6 +288,9 @@ namespace GXml {
 		}
 		/**
 		 * Set the attribute in Attr for this element.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-887236154]]
 		 *
 		 * @param new_attr The attribute to set.
 		 *
@@ -288,6 +309,9 @@ namespace GXml {
 		/**
 		 * Remove Attr old_attr from this element, if it was
 		 * set.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-D589198]]
 		 *
 		 * @param old_attr The Attr we are removing.
 		 *
@@ -430,6 +454,9 @@ namespace GXml {
 		 * matches. The returned list is updated as necessary
 		 * as the tree changes.
 		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-1938918D]]
+		 *
 		 * @param tag_name The tag name to match for.
 		 *
 		 * @return A NOdeList containing the matching descendants.
@@ -468,14 +495,15 @@ namespace GXml {
 		 * descendants of this element. Sibling Text nodes
 		 * are not distinguishable in XML when stored outside
 		 * of the DOM.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-162CF083]]
 		 */
 		public void normalize () {
 			// TODO: do not normalise CDATASection which
 			//       inherits from Text don't think that
 			//       will be a problem, given that it will
 			//       have a different .node_type
-
-			// STUB
 
 			foreach (DomNode child in this.child_nodes) {
 				switch (child.node_type) {
