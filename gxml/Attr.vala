@@ -239,7 +239,7 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override DomNode? clone_nodes (bool deep) {
+		public override DomNode? clone_node (bool deep) {
 			return this; // STUB
 		}
 	}
