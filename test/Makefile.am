@@ -8,6 +8,7 @@ AM_CPPFLAGS = \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
 	-DPACKAGE_DATA_DIR=\""$(datadir)"\"
 
+# TODO: need to change GXml flags to compile against local copy, not installed copy
 AM_CFLAGS = \
 	-g \
 	$(GLIB_CFLAGS) \
@@ -37,6 +38,7 @@ gxml_test_SOURCES = \
 	ValaLibxml2Test.vala \
 	SerializableTest.vala \
 	SerializationTest.vala \
+	UtilsTest.vala \
 	$(NULL)
 
 gxml_test.vala.stamp: $(gxml_test_SOURCES)
