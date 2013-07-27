@@ -124,7 +124,7 @@ namespace GXml {
 		public override bool has_child_nodes () {
 			return (this.child_nodes.length > 0);
 		}
-		public override DomNode? clone_nodes (bool deep) {
+		public override DomNode? clone_node (bool deep) {
 			return this; // STUB
 		}
 
