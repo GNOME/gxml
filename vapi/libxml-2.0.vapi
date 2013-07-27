@@ -249,6 +249,11 @@ namespace Xml {
 		ASCII,
 	}
 
+	/* from 'parser' module; need to translate between string features and xmlFeature enum
+	[CCode (cname = "xmlHasFeature")]
+	public static bool has_feature (int feature);
+	*/
+
 	/* tree - interfaces for tree manipulation */
 
 	[CCode (cheader_filename = "libxml/tree.h")]
@@ -921,6 +926,12 @@ namespace Xml {
 		public Doc* read_io (Xml.InputReadCallback ioread, Xml.InputCloseCallback ioclose, void* ioctx, string url, string? encoding = null, int options = 0);
 	}
 
+	/* TODO: consider having this return bool, but right now, 0: valid, >0: invalid, -1: internal/API error */
+	[CCode (cname = "xmlValidateQName")]
+	public static int validate_qname ([CCode (type = "xmlChar*")] string value, int space);
+
+	[CCode (cname = "xmlValidateName")]
+	public static int validate_name ([CCode (type = "xmlChar*")] string value, int space);
 
 	/* uri - library of generic URI related routines */
 
