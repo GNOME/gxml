@@ -46,10 +46,12 @@
  * * compare performance between libxml2 and GXml (should be a little different, but not too much)
  */
 
-/** TODO:IMPORTANT: don't use GLib collections, use Libgee! */
+/* TODO:IMPORTANT: don't use GLib collections, use Libgee! */
 
 /**
  * The XML Document Object Model.
+ *
+ * GXml provides a DOM Level 1 Core API in a GObject framework.
  */
 namespace GXml {
 	internal struct InputStreamBox {
@@ -131,7 +133,7 @@ namespace GXml {
 				case NodeType.DOCUMENT_FRAGMENT:
 					new DocumentFragment (xmlnode, this);
 					break;
-				/* TODO: These are not yet implemented */
+					/* TODO: These are not yet implemented */
 				case NodeType.ENTITY_REFERENCE:
 					// new EntityReference (xmlnode, this);
 					break;
