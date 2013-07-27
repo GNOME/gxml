@@ -4,7 +4,6 @@ using GXml;
 class GXmlTest {
 	public static int main (string[] args) {
 		Test.init (ref args); // TODO: why ref?  what if I just pass args?
-		UtilsTest.add_tests ();
 		DocumentTest.add_tests ();
 		DomNodeTest.add_tests ();
 		ElementTest.add_tests ();
@@ -37,6 +36,10 @@ class GXmlTest {
 			return TEST_DIR;
 		}
 	}
+
+	// internal static Attr get_attr_new_doc (string name, string value) throws DomError {
+	// 	return get_attr (name, value, get_doc ());
+	// }
 
 	internal static Attr get_attr (string name, string value, Document doc) throws DomError {
 		Attr attr = doc.create_attribute (name);
