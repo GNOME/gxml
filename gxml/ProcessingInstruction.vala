@@ -60,7 +60,9 @@ namespace GXml {
 		// TODO: confirm that data here is freeform attributes
 		public string data /* throws DomError (not supported yet) */ {
 			get;
-			set;	//this.owner.last_error = new DomError.DOM ("Error");
+			set {
+				this.check_read_only (); // TODO: does this prevent data from being set? test
+			};
 		}
 		/**
 		 * The target name.
