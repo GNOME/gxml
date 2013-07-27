@@ -69,8 +69,10 @@ namespace GXml {
 	 *
 	 * The Document has a document element, which is the root of
 	 * the tree. A Document can have its type defined by a
-	 * {@link GXml.DocumentType}. For more, see:
-	 * [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#i-Document]]
+	 * {@link GXml.DocumentType}.
+	 *
+	 * Version: DOM Level 1 Core
+	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#i-Document]]
 	 */
 	public class Document : DomNode {
 		/* *** Private properties *** */
@@ -180,6 +182,9 @@ namespace GXml {
 		// TODO: DTD
 		/**
 		 * The Document Type Definition (DTD) defining this document. This may be null.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-doctype]]
 		 */
 		public DocumentType? doctype {
 			// either null, or a DocumentType object
@@ -189,6 +194,9 @@ namespace GXml {
 		}
 		/**
 		 * Describes the features of the DOM implementation behind this document.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-implementation]]
 		 */
 		public Implementation implementation {
 			// set in constructor
@@ -197,6 +205,9 @@ namespace GXml {
 		}
 		/**
 		 * The root node of the document's node tree.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-documentElement]]
 		 */
 		public Element document_element {
 			// TODO: should children work at all on Document, or just this, to get root?
@@ -264,8 +275,6 @@ namespace GXml {
 		}
 		/**
 		 * Creates a Document from the file at file_path.
-		 *
-		 * @throws DomError When a Document cannot be constructed for the specified file.
 		 */
 		public Document.from_path (string file_path) {
 			Xml.Doc *doc = Xml.Parser.parse_file (file_path); // consider using read_file
@@ -347,8 +356,6 @@ namespace GXml {
 		}
 		/**
 		 * Creates a Document from the File fin.
-		 *
-		 * @throws DomError When a Document cannot be constructed for the specified file.
 		 */
 		public Document.from_gfile (File fin, Cancellable? can = null) {
 			// TODO: accept cancellable
@@ -364,8 +371,6 @@ namespace GXml {
 		}
 		/**
 		 * Creates a Document from data provided through the InputStream instream.
-		 *
-		 * @throws DomError When a Document cannot be constructed for the specified stream.
 		 */
 		public Document.from_stream (InputStream instream, Cancellable? can = null) {
 			// TODO: accept Cancellable
@@ -384,8 +389,6 @@ namespace GXml {
 		}
 		/**
 		 * Creates a Document from data found in memory.
-		 *
-		 * @throws DomError When a Document cannot be constructed for the specified data.
 		 */
 		public Document.from_string (string memory) {
 			/* TODO: consider breaking API to support
@@ -464,7 +467,12 @@ namespace GXml {
 		/* Public Methods */
 		/**
 		 * Creates an empty Element node with the tag name
-		 * tag_name. XML example: {{{<Person></Person>}}}
+		 * tag_name, which must be a [[http://www.w3.org/TR/REC-xml/#NT-Name|valid XML name].
+		 *
+		 * XML example: {{{<Person></Person>}}}
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createElement]]
 		 */
 		public Element create_element (string tag_name) {
 			/* TODO: libxml2 doesn't complain about invalid names, but the spec
@@ -481,42 +489,67 @@ namespace GXml {
 		}
 		/**
 		 * Creates a DocumentFragment.
+		 *
+		 * Document fragments do not can contain a subset of a
+		 * document, without being a complete tree.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createDocumentFragment]]
 		 */
 		public DocumentFragment create_document_fragment () {
 			return new DocumentFragment (this.xmldoc->new_fragment (), this);
 		}
 		/**
 		 * Creates a text node containing the text in data.
+		 *
 		 * XML example:
 		 * {{{<someElement>Text is contained here.</someElement>}}}
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createTextNode]]
 		 */
 		public Text create_text_node (string data) {
 			return new Text (this.xmldoc->new_text (data), this);
 		}
 		/**
-		 * Creates an XML comment with data. XML example: {{{<!-- data -->}}}
+		 * Creates an XML comment with data.
+		 *
+		 * XML example: {{{<!-- data -->}}}
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createComment]]
 		 */
 		public Comment create_comment (string data) {
 			return new Comment (this.xmldoc->new_comment (data), this);
 			// TODO: should we be passing around Xml.Node* like this?
 		}
 		/**
-		 * Creates a CDATA section containing data. XML
-		 * example:
-		 * {{{ <![CDATA[Here contains non-XML data, like
-		 * code, or something that requires a lot of special
-		 * XML entities.]]>. }}}
+		 * Creates a CDATA section containing data.
+		 *
+		 * These do not apply to HTML doctype documents.
+		 *
+		 * XML example: {{{ <![CDATA[Here contains non-XML
+		 * data, like code, or something that requires a lot
+		 * of special XML entities.]]>. }}}
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createCDATASection]]
 		 */
-		// TODO: figure out how we can represent ]] in a Valadoc
 		public CDATASection create_cdata_section (string data) {
 			check_html ("CDATA section"); // TODO: i18n
 
 			return new CDATASection (this.xmldoc->new_cdata_block (data, (int)data.length), this);
 		}
+
 		/**
-		 * Creates a Processing Instructions. XML example:
-		 * {{{<?pi_target processing instruction data?>
-		 * <?xml-stylesheet href="style.xsl" type="text/xml"?>}}}
+		 * Creates a Processing Instructions.
+		 *
+		 * XML example: {{{<?pi_target processing instruction
+		 * data?> <?xml-stylesheet href="style.xsl"
+		 * type="text/xml"?>}}}
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createProcessingInstruction]]
 		 */
 		public ProcessingInstruction create_processing_instruction (string target, string data) {
 			check_html ("processing instructions"); // TODO: i18n
@@ -530,7 +563,12 @@ namespace GXml {
 		}
 		// TODO: Consider creating a convenience method for create_attribute_with_value (name, value)
 		/**
-		 * Creates an Attr attribute with name, usually to be associated with an Element.
+		 * Creates an Attr attribute with `name`, usually to be associated with an Element.
+		 *
+		 * XML example: {{{<element attributename="attributevalue">content</element>}}}
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createAttribute]]
 		 */
 		public Attr create_attribute (string name) {
 			check_character_validity (name);
@@ -539,29 +577,35 @@ namespace GXml {
 			// TODO: should we pass something other than "" for the unspecified value?  probably not, "" is working fine so far
 		}
 		/**
-		 * Creates an entity reference. XML example:
-		 * {{{&name;
-		 * &apos;}}}
+		 * Creates an entity reference.
+		 *
+		 * XML example: {{{&name; &apos;}}}
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createEntityReference]]
 		 */
 		public EntityReference create_entity_reference (string name) {
 			check_html ("entity reference"); // TODO: i18n
 			check_character_validity (name);
 
 			return new EntityReference (name, this);
-			// STUB: figure out what they mean by entity reference and what libxml2 means by it (xmlNewReference ()?)
+			// TODO: doublecheck that libxml2 doesn't have a welldefined ER
 		}
 
 		/**
 		 * Obtains a list of ELements with the given tag name
-		 * tag_name contained within this document.
+		 * `tag_name` contained within this document.
 		 *
 		 * This list is updated as new elements are added to
 		 * the document.
+		 *
+		 * TODO: verify that that last statement is true
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-getElementsByTagName]]
 		 */
-		// TODO: make that last statement true.
 		public NodeList get_elements_by_tag_name (string tag_name) {
 			// TODO: does this ensure that the root element is also included?
-			// http://www.w3.org/TR/DOM-Level-1/level-one-core.html
 			return this.document_element.get_elements_by_tag_name (tag_name);
 		}
 
@@ -576,6 +620,10 @@ namespace GXml {
 				this.last_error = new DomError.INVALID_CHARACTER ("'%s' contains invalid characters.".printf (str));
 			}
 		}
+
+		/**
+		 * {@inheritDoc}
+		 */
 		public override string to_string (bool format = false, int level = 0) {
 			string str;
 			int len;
@@ -594,6 +642,9 @@ namespace GXml {
 		 * one DocumentType.
 		 *
 		 * @return The newly added child.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-appendChild]]
 		 */
 		public override DomNode? append_child (DomNode new_child) {
 			if (new_child.node_type == NodeType.ELEMENT) {
