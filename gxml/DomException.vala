@@ -1,5 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* DomError.vala
+/* DomException.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
  * Copyright (C) 2011  Daniel Espinosa <esodan@gmail.com>
@@ -28,7 +28,7 @@
  * Version: DOM Level 1 Core
  * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-BBACDC08]]
  */
-public errordomain GXml.DomError {
+public enum GXml.DomException {
 	/* These error codes are from the IDL: TODO: find out when I should use them */
 	/* TODO: probably want to document them :) */
 	/**
