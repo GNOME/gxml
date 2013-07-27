@@ -253,12 +253,12 @@ namespace GXml {
 			Xml.Node *root;
 
 			if (doc == null) // should be impossible
-				GLib.warning ("INVALID_DOC_ERR: Failed to parse document, xmlDoc* was NULL");
+				GXml.warning (DomException.INVALID_DOC, "Failed to parse document, xmlDoc* was NULL");
 
 			if (require_root) {
 				root = doc->get_root_element ();
 				if (root == null) {
-					GLib.warning ("INVALID_ROOT_ERR: Could not obtain a valid root for the document; xmlDoc*'s root was NULL");
+					GXml.warning (DomException.INVALID_ROOT, "Could not obtain a valid root for the document; xmlDoc*'s root was NULL");
 				}
 			}
 
@@ -368,7 +368,7 @@ namespace GXml {
 				this.from_stream (instream, can);
 				instream.close ();
 			} catch (GLib.Error e) {
-				GLib.warning ("INVALID_DOC_ERR: Could not load document from GFile: %s", e.message);
+				GXml.warning (DomException.INVALID_DOC, "Could not load document from GFile: %s".printf (e.message));
 			}
 		}
 		/**
@@ -616,7 +616,7 @@ namespace GXml {
 		 */
 		private void check_not_supported_html (string feature) {
 			if (this.doctype != null && (this.doctype.name.casefold () == "html".casefold ())) {
-				GLib.warning ("NOT_SUPPORTED_ERR: HTML documents do not support '%s'", feature); // TODO: i18n
+				GXml.warning (DomException.NOT_SUPPORTED, "HTML documents do not support '%s'".printf (feature)); // TODO: i18n
 			}
 		}
 
@@ -626,7 +626,7 @@ namespace GXml {
 		internal static bool check_invalid_characters (string name, string subject) {
 			/* TODO: use Xml.validate_name instead  */
 			if (Xml.validate_name (name, 0) != 0) { // TODO: define validity
-				GLib.warning ("INVALID_CHARACTER_ERR: Provided name '%s' for '%s' is not a valid XML name", name, subject);
+				GXml.warning (DomException.INVALID_CHARACTER, "Provided name '%s' for '%s' is not a valid XML name".printf (name, subject));
 				return false;
 			}
 
@@ -666,13 +666,13 @@ namespace GXml {
 				if (xmldoc->get_root_element () == null) {
 					xmldoc->set_root_element (((Element)new_child).node);
 				} else {
-					GLib.warning ("HIERARCHY_REQUEST_ERR: Document already has a root element.  Could not add child element with name '%s'", new_child.node_name);
+					GXml.warning (DomException.HIERARCHY_REQUEST, "Document already has a root element.  Could not add child element with name '%s'".printf (new_child.node_name));
 				}
 			} else if (new_child.node_type == NodeType.DOCUMENT_TYPE) {
 				if (this.doctype == null) {
 					this.doctype = (DocumentType)new_child;
 				} else {
-					GLib.warning ("HIERARCHY_REQUEST_ERR: Document already has a doctype.  Could not add new doctype with name '%s'.", ((DocumentType)new_child).name);
+					GXml.warning (DomException.HIERARCHY_REQUEST, "Document already has a doctype.  Could not add new doctype with name '%s'.".printf (((DocumentType)new_child).name));
 				}
 				GLib.warning ("Appending document_types not yet supported");
 			} else {

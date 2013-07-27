@@ -555,7 +555,7 @@ namespace GXml {
 				child = child->next;
 			}
 			if (child == null) {
-				this.owner.last_error = new DomError.NOT_FOUND ("ref_child not found.");
+				GXml.warning (DomException.NOT_FOUND, "ref_child '%s' not found, was supposed to have '%s' inserted before it.".printf (ref_child.node_name, new_child.node_name));
 				return null;
 				// TODO: provide a more useful description of ref_child, but there are so many different types
 			} else {
@@ -594,8 +594,7 @@ namespace GXml {
 					// it is a valid child
 					child->replace (((BackedNode)new_child).node);
 				} else {
-					this.owner.last_error = new DomError.NOT_FOUND ("old_child not found");
-					// TODO: provide more useful descr. of old_child
+					GXml.warning (DomException.NOT_FOUND, "old_child '%s' not found, tried to replace with '%s'".printf (old_child.node_name, new_child.node_name));
 				}
 			}
 
