@@ -1770,7 +1770,7 @@ namespace Html {
 		[CCode (cname = "htmlNewDoc")]
 		public Doc ([CCode (type = "xmlChar*")] string? uri = null, [CCode (type = "xmlChar*")] string? external_id = null);
 
-		[CCode (cname = "htmlNewNoDtD")]
+		[CCode (cname = "htmlNewDocNoDtD")]
 		public Doc.new_no_dtd ([CCode (type = "xmlChar*")] string? uri = null, [CCode (type = "xmlChar*")] string? external_id = null);
 
 		[CCode (cname = "htmlSAXParseDoc")]
@@ -1882,10 +1882,10 @@ namespace Html {
 		public weak string name;
 		public weak string desc;
 
-		[CCode (cname = "htmlEntityDesc")]
+		[CCode (cname = "htmlEntityLookup")]
 		public static EntityDesc* lookup ([CCode (type = "xmlChar*")] string name);
 
-		[CCode (cname = "htmlEntityValueDesc")]
+		[CCode (cname = "htmlEntityValueLookup")]
 		public static EntityDesc* value_lookup (uint value);
 	}
 
