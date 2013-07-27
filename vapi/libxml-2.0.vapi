@@ -878,6 +878,7 @@ namespace Xml {
 		public ParserCtxt.create_push (Xml.SAXHandler* sax, void* user_data, [CCode (array_length = false)] char[] data, int len, string? filename = null);
 
 		[CCode (cname = "xmlCreateIOParserCtxt")]
+		/* TODO: encoding is supposed to be an Enum I think */
 		public ParserCtxt.create_io (Xml.SAXHandler* sax, void* user_data, Xml.InputReadCallback ioread, Xml.InputCloseCallback ioclose, void* ioctx, string? encoding = null);
 
 		[CCode (cname = "xmlCreateDocParserCtxt")]
@@ -1366,6 +1367,7 @@ namespace Xml {
 		public Node* preserve ();
 
 		[CCode (cname = "xmlTextReaderPreservePattern")]
+		/* TODO: should namespaces be type = xmlChar** or xmlChar*?  Is ** necessary given []? */
 		public int preserve_pattern ([CCode (type = "xmlChar*")] string pattern, [CCode (array_length = false, type = "xmlChar**")] string[] namespaces);
 
 		[CCode (cname = "xmlTextReaderQuoteChar")]
