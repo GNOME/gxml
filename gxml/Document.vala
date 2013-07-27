@@ -609,11 +609,6 @@ namespace GXml {
 			return this.document_element.get_elements_by_tag_name (tag_name);
 		}
 
-		private bool check_read_only (DomNode node) {
-			// TODO: introduce a concept of read-only-ness, perhaps
-			return false;
-		}
-
 		private void check_wrong_document (DomNode node) {
 			if (node.owner_document != this) {
 				GLib.warning ("WRONG_DOCUMENT_ERR: Node tried to interact with this document '%p' but belonged to document '%p'", this, node.owner_document);
@@ -666,7 +661,7 @@ namespace GXml {
 		 */
 		public override DomNode? append_child (DomNode new_child) {
 			check_wrong_document (new_child);
-			check_read_only (this);
+			this.check_read_only ();
 
 			if (new_child.node_type == NodeType.ELEMENT) {
 				if (xmldoc->get_root_element () == null) {
