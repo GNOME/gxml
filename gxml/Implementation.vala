@@ -61,6 +61,9 @@ namespace GXml {
 			case "HTML":
 				// TODO: do we support HTML?
 			default:
+				/* TODO: add in libxml-2.0 (I already created a commented stub
+				Xml.has_feature (feature);
+				*/
 				return false;
 			}
 		}
