@@ -23,7 +23,9 @@ int main () {
 
   // Add an owner node
   owner = gxml_document_create_element (doc, "Owner");
-  //gxml_node_append_child (GXML_NODE (doc), GXML_NODE (root));
+  g_message ("test: owner refcount %u", G_OBJECT (owner)->ref_count);
+  gxml_node_append_child (GXML_NODE (root), GXML_NODE (owner));
+  g_message ("test: owner refcount %u", G_OBJECT (owner)->ref_count);
   /* gxml_node_append_child (GXML_NODE (root), GXML_NODE (owner)); */
   /* gxml_element_set_attribute (owner, "fullname", "John Green"); */
   /* // TODO: need to figure out what sort of errors these would return, */
@@ -50,7 +52,7 @@ int main () {
   /* g_object_unref (book); */
 
   //g_object_unref (owner);
-  g_object_unref (root);
+  //g_object_unref (root);
   g_object_unref (doc);
 
   // TODO: how do we clean them up?
