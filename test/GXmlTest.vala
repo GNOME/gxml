@@ -27,7 +27,7 @@ class GXmlTest {
 		GLib.Log.set_always_fatal (GLib.LogLevelFlags.FLAG_RECURSION | GLib.LogLevelFlags.LEVEL_ERROR | GLib.LogLevelFlags.LEVEL_CRITICAL);
 
 		DocumentTest.add_tests ();
-		DomNodeTest.add_tests ();
+		NodeTest.add_tests ();
 		ElementTest.add_tests ();
 		AttrTest.add_tests ();
 		NodeListTest.add_tests ();
