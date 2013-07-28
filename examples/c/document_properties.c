@@ -8,7 +8,6 @@ int main () {
   xml = "<?xml version=\"1.0\"?><!DOCTYPE bookshelf><Bookshelf><Owner fullname=\"John Green\"/><Books><Book author=\"John Green\" title=\"The Fault in Our Stars\"/><Book author=\"Jane Austen\" title=\"Pride &amp; Prejudice\"/><Book author=\"J.D. Salinger\" title=\"Nine Stories\"/></Books></Bookshelf>";
   doc = gxml_document_new_from_string (xml);
 
-  // should be "#document"
   const gchar *doc_node_name;
   doc_node_name = gxml_node_get_node_name (GXML_NODE (doc));
   printf ("A document's node_name is: %s (which should always be '#document')\n\n", doc_node_name);
