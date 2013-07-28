@@ -40,7 +40,7 @@ namespace GXml {
 	 * {{{<?pi_target processing instruction data?>}}}
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1004215813]]
 	 */
-	public class ProcessingInstruction : DomNode {
+	public class ProcessingInstruction : Node {
 		internal ProcessingInstruction (string target, string data, Document doc) {
 			base (NodeType.PROCESSING_INSTRUCTION, doc); // TODO: want to pass a real Xml.Node* ?
 			this.target = target;

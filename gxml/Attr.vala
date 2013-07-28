@@ -49,7 +49,7 @@ namespace GXml {
 	 * Version: DOM Level 1 Core
 	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-637646024]]
 	 */
-	public class Attr : DomNode {
+	public class Attr : Node {
 		/**
 		 * {@inheritDoc}
 		 */
@@ -127,7 +127,7 @@ namespace GXml {
 			   nice to use elem.node->get/set_prop (name[,value])  :S */
 			get {
 				this._node_value = "";
-				foreach (DomNode child in this.child_nodes) {
+				foreach (Node child in this.child_nodes) {
 					this._node_value += child.node_value;
 					// TODO: verify that Attr node's child types'
 					// node_values are sufficient for building the Attr's value.
@@ -136,7 +136,7 @@ namespace GXml {
 			}
 			internal set {
 				// TODO: consider adding an empty () method to NodeList
-				foreach (DomNode child in this.child_nodes) {
+				foreach (Node child in this.child_nodes) {
 					// TODO: this doesn't clear the actual underlying attributes' values, is this what we want to do?  It works if we eventually sync up values
 					this.remove_child (child);
 				}
@@ -149,7 +149,7 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		/* already doc'd in DomNode */
+		/* already doc'd in Node */
 		public override NodeList? child_nodes {
 			owned get {
 				// TODO: always create a new one?
@@ -220,25 +220,25 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override DomNode? insert_before (DomNode new_child, DomNode? ref_child) {
+		public override Node? insert_before (Node new_child, Node? ref_child) {
 			return this.child_nodes.insert_before (new_child, ref_child);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public override DomNode? replace_child (DomNode new_child, DomNode old_child) {
+		public override Node? replace_child (Node new_child, Node old_child) {
 			return this.child_nodes.replace_child (new_child, old_child);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public override DomNode? remove_child (DomNode old_child) {
+		public override Node? remove_child (Node old_child) {
 			return this.child_nodes.remove_child (old_child);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public override DomNode? append_child (DomNode new_child) {
+		public override Node? append_child (Node new_child) {
 			return this.child_nodes.append_child (new_child);
 		}
 		/**
@@ -250,7 +250,7 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override DomNode? clone_node (bool deep) {
+		public override Node? clone_node (bool deep) {
 			return this; // STUB
 		}
 	}
