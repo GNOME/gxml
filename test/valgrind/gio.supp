@@ -1,0 +1,29 @@
+{
+  label
+  Memcheck:Leak
+  ...
+  fun:gobject_init_ctor
+  fun:_dl_init
+}
+{
+  label:
+  Memcheck:Leak
+  ...
+  fun:_g_io_module_get_default
+  fun:g_file_new_for_path
+}
+{
+  label:
+  Memcheck:Leak
+  ...
+  fun:try_implementation
+  fun:_g_io_module_get_default
+}
+{
+  label
+  Memcheck:Leak
+  ...
+  fun:g_private_get
+  fun:g_cancellable_push_current
+  fun:g_input_stream_read
+}
