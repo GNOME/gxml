@@ -15,8 +15,8 @@ int main () {
   g_free (str);
 
   g_object_unref (doc);
-  // TODO: how do you free a GFile?  g_object_unref ()? 
-  
+  // TODO: how do you free a GFile?  g_object_unref ()?
+
 
   return 0;
 }
