@@ -46,6 +46,7 @@ namespace GXml {
 			// Save the correspondence between this Xml.Node* and its DomNode
 			owner.node_dict.insert (node, this);
 			// TODO: Consider checking whether the Xml.Node* is already recorded.  It shouldn't be.
+			// TODO: BackedNodes' memory are freed when their owner document is freed; let's make sure that when we move a node between documents, that we make sure they'll still be freed
 		}
 
 
