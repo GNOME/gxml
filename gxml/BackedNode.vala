@@ -250,25 +250,25 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override Node? insert_before (Node new_child, Node? ref_child) {
+		public override unowned Node? insert_before (Node new_child, Node? ref_child) {
 			return this.child_nodes.insert_before (new_child, ref_child);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public override Node? replace_child (Node new_child, Node old_child) {
+		public override unowned Node? replace_child (Node new_child, Node old_child) {
 			return this.child_nodes.replace_child (new_child, old_child);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public override Node? remove_child (Node old_child) /*throws DomError*/ {
+		public override unowned Node? remove_child (Node old_child) /*throws DomError*/ {
 			return this.child_nodes.remove_child (old_child);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public override Node? append_child (Node new_child) /*throws DomError*/ {
+		public override unowned Node? append_child (Node new_child) /*throws DomError*/ {
 			if (new_child.owner_document != this.owner_document && new_child.get_type ().is_a (typeof (GXml.BackedNode))) {
 				/* The point here is that a node from another document should
 				   have a copy made to be integrated into this one, so we don't

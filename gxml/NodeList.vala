@@ -119,10 +119,10 @@ namespace GXml {
 
 
 		/* These exist to support management of a node's children */
-		internal abstract Node? insert_before (Node new_child, Node? ref_child);
-		internal abstract Node? replace_child (Node new_child, Node old_child);
-		internal abstract Node? remove_child (Node old_child);
-		internal abstract Node? append_child (Node new_child);
+		internal abstract unowned Node? insert_before (Node new_child, Node? ref_child);
+		internal abstract unowned Node? replace_child (Node new_child, Node old_child);
+		internal abstract unowned Node? remove_child (Node old_child);
+		internal abstract unowned Node? append_child (Node new_child);
 
 		/**
 		 * Creates an XML string representation of the nodes in the list.
@@ -232,21 +232,21 @@ namespace GXml {
 			return this.nodes.index (target);
 		}
 
-		internal Node? insert_before (Node new_child, Node? ref_child) {
+		internal unowned Node? insert_before (Node new_child, Node? ref_child) {
 			this.nodes.insert_before (this.nodes.find (ref_child), new_child);
 			return new_child;
 		}
-		internal Node? replace_child (Node new_child, Node old_child) {
+		internal unowned Node? replace_child (Node new_child, Node old_child) {
 			int pos = this.index (old_child);
 			this.remove_child (old_child);
 			this.nodes.insert (new_child, pos);
 			return old_child;
 		}
-		internal Node? remove_child (Node old_child) /*throws DomError*/ {
+		internal unowned Node? remove_child (Node old_child) /*throws DomError*/ {
 			this.nodes.remove (old_child);
 			return old_child;
 		}
-		internal Node? append_child (Node new_child) /*throws DomError*/ {
+		internal unowned Node? append_child (Node new_child) /*throws DomError*/ {
 			this.nodes.append (new_child);
 			return new_child;
 		}
@@ -545,7 +545,7 @@ namespace GXml {
 		}
 
 		/** Node's child methods, implemented here **/
-		internal new Node? insert_before (Node new_child, Node? ref_child) {
+		internal new unowned Node? insert_before (Node new_child, Node? ref_child) {
 			Xml.Node *child = head;
 
 			if (ref_child == null) {
@@ -570,7 +570,7 @@ namespace GXml {
 			return new_child;
 		}
 
-		internal new Node? replace_child (Node new_child, Node old_child) {
+		internal new unowned Node? replace_child (Node new_child, Node old_child) {
 			// TODO: verify that libxml2 already removes
 			// new_child first if it is found elsewhere in
 			// the tree.
@@ -600,14 +600,14 @@ namespace GXml {
 
 			return old_child;
 		}
-		internal new Node? remove_child (Node old_child) /* throws DomError */ {
+		internal new unowned Node? remove_child (Node old_child) /* throws DomError */ {
 			// TODO: verify that old_child is a valid child here and then unlink
 
 			((BackedNode)old_child).node->unlink (); // TODO: do we need to free libxml2 stuff manually?
 			return old_child;
 		}
 
-		internal virtual Node? append_child (Node new_child) /* throws DomError */ {
+		internal virtual unowned Node? append_child (Node new_child) /* throws DomError */ {
 			// TODO: verify that libxml2 will first remove
 			// new_child if it already exists elsewhere in
 			// the tree.

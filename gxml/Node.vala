@@ -325,7 +325,7 @@ namespace GXml {
 		 *
 		 * @return `new_child`, the node that has been inserted
 		 */
-		public virtual Node? insert_before (Node new_child, Node? ref_child) {
+		public virtual unowned Node? insert_before (Node new_child, Node? ref_child) {
 			return null;
 		}
 		/**
@@ -336,7 +336,7 @@ namespace GXml {
 		 *
 		 * @return The removed node `old_child`.
 		 */
-		public virtual Node? replace_child (Node new_child, Node old_child) {
+		public virtual unowned Node? replace_child (Node new_child, Node old_child) {
 			return null;
 		}
 		/**
@@ -347,7 +347,7 @@ namespace GXml {
 		 *
 		 * @return The removed node `old_child`.
 		 */
-		public virtual Node? remove_child (Node old_child) {
+		public virtual unowned Node? remove_child (Node old_child) {
 			return null;
 		}
 		/**
@@ -358,7 +358,7 @@ namespace GXml {
 		 *
 		 * @return The newly added child.
 		 */
-		public virtual Node? append_child (Node new_child) {
+		public virtual unowned Node? append_child (Node new_child) {
 			return null;
 		}
 		/**
