@@ -394,7 +394,7 @@ namespace GXml {
 			Object obj;
 			unowned ObjectClass obj_class;
 			ParamSpec[] specs;
-			bool property_found;
+			//bool property_found;
 			Serializable serializable = null;
 
 			obj_elem = (Element)node;
@@ -564,7 +564,7 @@ namespace GXml {
 			} else if (t == typeof (char)) {
 				int64 val;
 				if (ret = int64.try_parse (str, out val)) {
-					dest2.set_char ((char)val);
+					dest2.set_schar ((int8)val);
 				}
 			} else if (t == typeof (uchar)) {
 				int64 val;
