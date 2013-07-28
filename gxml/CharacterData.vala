@@ -85,7 +85,7 @@ namespace GXml {
 					return false;
 				}
 			} else {
-				if (length <= offset) { // <= or < ?
+				if (length < offset) { // <= or < ? we need < for CharacterData.insert_data (str.len, "blah"); when appending, but maybe CharacterData.insert_data should length as str.len+1 to check_index_size? 
 					GXml.warning (DomException.INDEX_SIZE, "%s called with offset '%lu' for data of length '%lu'".printf (method, offset, length));
 					return false;
 				}
