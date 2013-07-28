@@ -133,6 +133,9 @@ namespace GXml {
 		 *
 		 * @return The list as an XML string.
 		 */
+		/*
+		 * @todo: write a test
+		 */
 		public abstract string to_string (bool in_line);
 	}
 

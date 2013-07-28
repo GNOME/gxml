@@ -102,7 +102,7 @@ namespace GXml {
 		 * Reports whether we support a feature at a given version level.
 		 *
 		 * Version: DOM Level 1 Core
-		 * URL: http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-hasFeature
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-hasFeature]]
 		 *
 		 * TODO: implement more of this, using libxml2's parser.h's xmlGetFeature, xmlHasFeature, etc.
 		 *
