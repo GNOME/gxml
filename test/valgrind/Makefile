@@ -2,8 +2,9 @@ VALAC=valac
 VALAFLAGS=-g --save-temps --vapidir=../../gxml --pkg gxml
 CC=gcc
 CFLAGS=-g `pkg-config --cflags --libs glib-2.0 gobject-2.0 gxml gio-2.0`
+C_PROGS=unlink_unattached_nodes small2a small2b gfile gobject document document_create_minimal libxml2 document_create_minimal_2
 
-all: unlink_unattached_nodes small2a small2b gobject document example attributes small small2 scope libxml2 supp
+all: $(C_PROGS) example attributes small small2 scope supp
 
 example: example.vala
 	$(VALAC) $(VALAFLAGS) example.vala -o example
@@ -20,30 +21,19 @@ small2: small2.vala
 scope: scope.vala
 	$(VALAC) $(VALAFLAGS) scope.vala -o scope
 
-unlink_unattached_nodes: unlink_unattached_nodes.c
-
-small2a: small2a.c
-
-small2b: small2b.c
-
-gfile: gfile.c
-
-gobject: gobject.c
-
-document: document.c
-
-libxml2: libxml2.c
-
 clean:
-	rm example small small2 small2a small2b gobject document scope attributes unlink_unattached_nodes libxml2 *~ \#*\#
+	rm example small small2 scope attributes $(C_PROGS) *~ \#*\#
 
 runnew:
 	(cd ../.. && make && make install); make clean; make
 	make run
 
-run:
-	G_SLICE=always-malloc valgrind --leak-check=full --show-reachable=yes --suppressions=libxml2.supp --suppressions=gio.supp --suppressions=gtype.supp --suppressions=glib.supp --num-callers=40 ./example
-
 # we compile it for users of GXml
-supp:
+supp: *.supp
 	cat *.supp > ../../gxml.supp
+
+run:
+	G_SLICE=always-malloc valgrind --leak-check=full --show-reachable=yes --suppressions=libxml2.supp --suppressions=gio.supp --suppressions=gtype.supp --suppressions=glib.supp --num-callers=40 ./document_create_minimal_2
+
+run_nosupp:
+	G_SLICE=always-malloc valgrind --leak-check=full --show-reachable=yes --num-callers=40 ./document
