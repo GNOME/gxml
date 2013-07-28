@@ -29,26 +29,26 @@ namespace GXml {
 	 * Represents an XML Node, the base class for most XML structures in
 	 * the {@link GXml.Document}'s tree.
 	 *
-	 * {@link GXml.Document}s are {@link GXml.DomNode}s, and are
-	 * composed of a tree of {@link GXml.DomNode}s.
+	 * {@link GXml.Document}s are {@link GXml.Node}s, and are
+	 * composed of a tree of {@link GXml.Node}s.
 	 *
 	 * Version: DOM Level 1 Core
 	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1950641247]]
 	 */
-	public class DomNode : GLib.Object {
+	public class Node : GLib.Object {
 		/* Constructors */
-		internal DomNode (NodeType type, Document owner) {
+		internal Node (NodeType type, Document owner) {
 			this.node_type = type;
 			this.owner_document = owner;
 		}
-		internal DomNode.for_document () {
+		internal Node.for_document () {
 			this.node_name = "#document";
 			this.node_type = NodeType.DOCUMENT;
 		}
 
 		/* Utility methods */
 
-		protected void check_wrong_document (DomNode node) {
+		protected void check_wrong_document (Node node) {
 			if (this.owner_document != node.owner_document) {
 				GXml.warning (DomException.WRONG_DOCUMENT, "Node tried to interact with this document '%p' but belonged to document '%p'".printf (this.owner_document, node.owner_document));
 			}
@@ -67,7 +67,7 @@ namespace GXml {
 			message ("  ns (prefix: %s, uri: %s)", this.prefix, this.namespace_uri);
 			if (this.attributes != null) {
 				message ("  attributes:");
-				foreach (DomNode attr in this.attributes.get_values ()) {
+				foreach (Node attr in this.attributes.get_values ()) {
 					message ("    %s", attr.node_name);
 				}
 			}
@@ -77,7 +77,7 @@ namespace GXml {
 				//       and instead returning empty collections
 				//     No, probably don't want that, as nodes which don't
 				//     support them really do just want to return null ala spec
-				foreach (DomNode child in this.child_nodes) {
+				foreach (Node child in this.child_nodes) {
 					message ("    %s", child.node_name);
 				}
 			}
@@ -204,7 +204,7 @@ namespace GXml {
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-parentNode]]
 		 */
-		public virtual DomNode? parent_node {
+		public virtual Node? parent_node {
 			get { return null; }
 			internal set {}
 		}
@@ -237,7 +237,7 @@ namespace GXml {
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-firstChild]]
 		 */
-		public virtual DomNode? first_child {
+		public virtual Node? first_child {
 			get { return null; }
 			internal set {}
 		}
@@ -249,7 +249,7 @@ namespace GXml {
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-lastChild]]
 		 */
-		public virtual DomNode? last_child {
+		public virtual Node? last_child {
 			get { return null; }
 			internal set {}
 		}
@@ -262,7 +262,7 @@ namespace GXml {
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-previousSibling]]
 		 */
-		public virtual DomNode? previous_sibling {
+		public virtual Node? previous_sibling {
 			get { return null; }
 			internal set {}
 		}
@@ -275,7 +275,7 @@ namespace GXml {
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-nextSibling]]
 		 */
-		public virtual DomNode? next_sibling {
+		public virtual Node? next_sibling {
 			get { return null; }
 			internal set {}
 		}
@@ -284,7 +284,7 @@ namespace GXml {
 		 * A {@link GLib.HashTable} representing the
 		 * attributes for this node. `attributes` actually
 		 * only apply to {@link GXml.Element} nodes. For all
-		 * other {@link GXml.DomNode} subclasses, `attributes`
+		 * other {@link GXml.Node} subclasses, `attributes`
 		 * is null.
 		 *
 		 * Version: DOM Level 1 Core
@@ -324,7 +324,7 @@ namespace GXml {
 		 *
 		 * @return `new_child`, the node that has been inserted
 		 */
-		public virtual DomNode? insert_before (DomNode new_child, DomNode? ref_child) {
+		public virtual Node? insert_before (Node new_child, Node? ref_child) {
 			return null;
 		}
 		/**
@@ -335,7 +335,7 @@ namespace GXml {
 		 *
 		 * @return The removed node `old_child`.
 		 */
-		public virtual DomNode? replace_child (DomNode new_child, DomNode old_child) {
+		public virtual Node? replace_child (Node new_child, Node old_child) {
 			return null;
 		}
 		/**
@@ -346,7 +346,7 @@ namespace GXml {
 		 *
 		 * @return The removed node `old_child`.
 		 */
-		public virtual DomNode? remove_child (DomNode old_child) {
+		public virtual Node? remove_child (Node old_child) {
 			return null;
 		}
 		/**
@@ -357,7 +357,7 @@ namespace GXml {
 		 *
 		 * @return The newly added child.
 		 */
-		public virtual DomNode? append_child (DomNode new_child) {
+		public virtual Node? append_child (Node new_child) {
 			return null;
 		}
 		/**
@@ -382,7 +382,7 @@ namespace GXml {
 		 *
 		 * @return A parentless clone of this node.
 		 */
-		public virtual DomNode? clone_node (bool deep) {
+		public virtual Node? clone_node (bool deep) {
 			return null;
 		}
 
@@ -399,7 +399,7 @@ namespace GXml {
 		// TODO: indicate in C that the return value must be freed.
 		// TODO: ask Colin Walters about storing docs in GIR files (might have not been him)
 		public virtual string to_string (bool format = false, int level = 0) {
-			_str = "DomNode(%d:%s)".printf (this.node_type, this.node_name);
+			_str = "Node(%d:%s)".printf (this.node_type, this.node_name);
 			return _str;
 		}
 	}
