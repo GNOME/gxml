@@ -87,8 +87,8 @@ namespace GXml {
 
 		/**
 		 * The list of attributes that store namespace definitions.  This is not part of a DOM spec.
-		 * @TODO: determine best API for exposing these, as it's not defined in the IDL
 		 */
+		/* @TODO: determine best API for exposing these, as it's not defined in the IDL */
 		public virtual NodeList? namespace_definitions {
 			get {
 				return null;
@@ -221,7 +221,8 @@ namespace GXml {
 		 *
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-childNodes]]
-		 *
+		 */
+		/*
 		 * @todo: identify node types that use children for values, like attribute
 		 */
 		public virtual NodeList? child_nodes {

@@ -498,7 +498,7 @@ namespace GXml {
 		/* Public Methods */
 		/**
 		 * Creates an empty Element node with the tag name
-		 * tag_name, which must be a [[http://www.w3.org/TR/REC-xml/#NT-Name|valid XML name].
+		 * tag_name, which must be a [[http://www.w3.org/TR/REC-xml/#NT-Name|valid XML name]].
 		 *
 		 * XML example: {{{<Person></Person>}}}
 		 *
@@ -682,10 +682,10 @@ namespace GXml {
 		 * only have one Element child, the root element, and
 		 * one DocumentType.
 		 *
-		 * @return The newly added child.
-		 *
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-appendChild]]
+		 *
+		 * @return The newly added child.
 		 */
 		public override Node? append_child (Node new_child) {
 			this.check_wrong_document (new_child);

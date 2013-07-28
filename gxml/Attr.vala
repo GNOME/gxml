@@ -185,11 +185,11 @@ namespace GXml {
 		 * underlying document. If the attribute is changed,
 		 * it is set to false.
 		 *
-		 * @todo: this requires support from the DTD, and
-		 * probably libxml2's xmlAttribute
-		 *
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-862529273]]
+		 */
+		/* @todo: this requires support from the DTD, and
+		 * probably libxml2's xmlAttribute
 		 */
 		public bool specified {
 			// STUB
