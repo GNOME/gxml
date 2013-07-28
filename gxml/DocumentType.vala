@@ -29,7 +29,7 @@ namespace GXml {
 	 *
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-412266927]]
 	 */
-	public class DocumentType : DomNode {
+	public class DocumentType : Node {
 		private Xml.Dtd *int_subset;
 		private Xml.Dtd *ext_subset;
 

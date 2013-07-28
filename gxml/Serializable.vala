@@ -75,10 +75,10 @@ namespace GXml {
 		 * Interface method to handle deserialization of an
 		 * individual property.  The implementing class
 		 * receives a description of the property and the
-		 * {@link GXml.DomNode} that contains the content.  The
+		 * {@link GXml.Node} that contains the content.  The
 		 * implementing {@link GXml.Serializable} object can extract
-		 * the data from the {@link GXml.DomNode} and store it in its
-		 * property itself. Note that the {@link GXml.DomNode} may be
+		 * the data from the {@link GXml.Node} and store it in its
+		 * property itself. Note that the {@link GXml.Node} may be
 		 * as simple as a {@link GXml.Text} that stores the data as a
 		 * string.
 		 *
@@ -92,7 +92,7 @@ namespace GXml {
 		 *
 		 * @param property_name the name of the property as a string
 		 * @param spec the {@link GLib.ParamSpec} describing the property.
-		 * @param property_node the {@link GXml.DomNode} encapsulating data to deserialize
+		 * @param property_node the {@link GXml.Node} encapsulating data to deserialize
 		 * @return `true` if the property was handled, `false` if {@link GXml.Serialization} should handle it.
 		 */
 		/*
@@ -100,7 +100,7 @@ namespace GXml {
 		 * letting them get name from spec
 		 * @todo: consider returning {@link GLib.Value} as out param
 		 */
-		public virtual bool deserialize_property (string property_name, /* out GLib.Value value,*/ GLib.ParamSpec spec, GXml.DomNode property_node) {
+		public virtual bool deserialize_property (string property_name, /* out GLib.Value value,*/ GLib.ParamSpec spec, GXml.Node property_node) {
 			return false; // default deserialize_property gets used
 		}
 
@@ -110,9 +110,9 @@ namespace GXml {
 		 * Interface method to handle serialization of an
 		 * individual property.  The implementing class
 		 * receives a description of it, and should create a
-		 * {@link GXml.DomNode} that encapsulates the property.
-		 * {@link GXml.Serialization} will embed the {@link GXml.DomNode} into
-		 * a "Property" {@link GXml.Element}, so the {@link GXml.DomNode}
+		 * {@link GXml.Node} that encapsulates the property.
+		 * {@link GXml.Serialization} will embed the {@link GXml.Node} into
+		 * a "Property" {@link GXml.Element}, so the {@link GXml.Node}
 		 * returned can often be something as simple as
 		 * {@link GXml.Text}.
 		 *
@@ -123,13 +123,13 @@ namespace GXml {
 		 *
 		 * @param property_name string name of a property to serialize.
 		 * @param spec the {@link GLib.ParamSpec} describing the property.
-		 * @param doc the {@link GXml.Document} the returned {@link GXml.DomNode} should belong to
-		 * @return a new {@link GXml.DomNode}, or `null`
+		 * @param doc the {@link GXml.Document} the returned {@link GXml.Node} should belong to
+		 * @return a new {@link GXml.Node}, or `null`
 		 */
 		/*
 		 * @todo: consider not giving property_name, let them get name from spec?
 		 */
-		public virtual GXml.DomNode? serialize_property (string property_name, /*GLib.Value value, */ GLib.ParamSpec spec, GXml.Document doc) {
+		public virtual GXml.Node? serialize_property (string property_name, /*GLib.Value value, */ GLib.ParamSpec spec, GXml.Document doc) {
 			return null; // default serialize_property gets used
 		}
 
