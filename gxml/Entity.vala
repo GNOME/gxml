@@ -109,16 +109,16 @@ namespace GXml {
 		}
 
 		/* Public methods (Node-specific) */
-		public override Node? insert_before (Node new_child, Node? ref_child) {
+		public override unowned Node? insert_before (Node new_child, Node? ref_child) {
 			return this.child_nodes.insert_before (new_child, ref_child);
 		}
-		public override Node? replace_child (Node new_child, Node old_child) {
+		public override unowned Node? replace_child (Node new_child, Node old_child) {
 			return this.child_nodes.replace_child (new_child, old_child);
 		}
-		public override Node? remove_child (Node old_child) {
+		public override unowned Node? remove_child (Node old_child) {
 			return this.child_nodes.remove_child (old_child);
 		}
-		public override Node? append_child (Node new_child) {
+		public override unowned Node? append_child (Node new_child) {
 			return this.child_nodes.append_child (new_child);
 		}
 		public override bool has_child_nodes () {

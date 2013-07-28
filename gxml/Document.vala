@@ -686,7 +686,7 @@ namespace GXml {
 		 *
 		 * @return The newly added child.
 		 */
-		public override Node? append_child (Node new_child) {
+		public override unowned Node? append_child (Node new_child) {
 			this.check_wrong_document (new_child);
 			this.check_read_only ();
 
