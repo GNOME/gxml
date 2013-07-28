@@ -81,12 +81,12 @@ namespace GXml {
 
 			/* libxml2 doesn't handle this directly, in part because it doesn't
 			   allow Text siblings.  Boo! */
-			if (! this.check_index_size ("split_text", this.data.length, offset, null)) {
-				return null; // perhaps return "" Text
+			if (this.check_index_size ("split_text", this.data.length, offset, null)) {
+				other = this.owner_document.create_text_node (this.data.substring ((long)offset));
+				this.data = this.data.substring (0, (long)offset);
+			} else {
+				other = this.owner_document.create_text_node ("");
 			}
-
-			other = this.owner_document.create_text_node (this.data.substring ((long)offset));
-			this.data = this.data.substring (0, (long)offset);
 
 			/* TODO: Ugh, can't actually let them be siblings in the tree, as
 			         the spec requests, because libxml2 automatically merges Text
