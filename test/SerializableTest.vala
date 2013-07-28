@@ -79,13 +79,13 @@ public class SerializableCapsicum : GLib.Object, GXml.Serializable {
 	   Perhaps these shouldn't be object methods, perhaps they should be static?
 	   Can't have static methods in an interface :(, right? */
 	public bool deserialize_property (string property_name, /* out GLib.Value value, */
-					  GLib.ParamSpec spec, GXml.DomNode property_node)  {
+					  GLib.ParamSpec spec, GXml.Node property_node)  {
 		GLib.Value outvalue = GLib.Value (typeof (int));
 
 		switch (property_name) {
 		case "ratings":
 			this.ratings = new GLib.List<int> ();
-			foreach (GXml.DomNode rating in property_node.child_nodes) {
+			foreach (GXml.Node rating in property_node.child_nodes) {
 				int64.try_parse (((GXml.Element)rating).content, out outvalue);
 				this.ratings.append ((int)outvalue.get_int64 ());
 			}
@@ -101,7 +101,7 @@ public class SerializableCapsicum : GLib.Object, GXml.Serializable {
 
 		return false;
 	}
-	public GXml.DomNode? serialize_property (string property_name, /*GLib.Value value,*/ GLib.ParamSpec spec, GXml.Document doc) {
+	public GXml.Node? serialize_property (string property_name, /*GLib.Value value,*/ GLib.ParamSpec spec, GXml.Document doc) {
 		GXml.Element c_prop;
 		GXml.Element rating;
 
@@ -238,7 +238,7 @@ class SerializableTest : GXmlTest {
 				SerializationTest.test_serialization_deserialization (tomato, "interface_defaults", (GLib.EqualFunc)SerializableTomato.equals, (SerializationTest.StringifyFunc)SerializableTomato.to_string);
 			});
 		Test.add_func ("/gxml/serializable/interface_override_serialization_on_list", () => {
-				GXml.DomNode node;
+				GXml.Node node;
 				SerializableCapsicum capsicum;
 				SerializableCapsicum capsicum_new;
 				string expectation;
