@@ -13,4 +13,10 @@
   fun:start_thread
   fun:clone
 }
-  
+{
+  label
+  Memcheck:Leak
+  ...
+  fun:g_logv
+  fun:g_log
+}
