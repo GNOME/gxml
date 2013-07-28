@@ -514,9 +514,7 @@ namespace GXml {
 			// TODO: what should we be passing for ns other than old_ns?  Figure it out; needed for level 2+ support
 			Xml.Node *xmlelem;
 
-			if (!check_invalid_characters (tag_name, "element")) {
-				return null;
-			}
+			check_invalid_characters (tag_name, "element");
 
 			xmlelem = this.xmldoc->new_node (null, tag_name, null);
 			this.new_nodes.append (xmlelem);
