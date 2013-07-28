@@ -1,0 +1,43 @@
+{
+  label
+  Memcheck:Leak
+  ...
+  fun:xmlInitCharEncodingHandlers
+}
+{
+  label
+  Memcheck:Leak
+  ...
+  fun:xmlInitParserCtxt
+}
+{
+  label
+  Memcheck:Leak
+  ...
+  fun:xmlInitParser__internal_alias*
+}
+{
+  label
+  Memcheck:Leak
+  ...
+  fun:xmlNewCharEncodingHandler
+  fun:xmlGetCharEncodingHandler
+}
+{
+  label
+  Memcheck:Leak
+  ...
+  fun:__xmlInitializeDict
+  ...
+  fun:xmlDocDumpFormatMemory*
+}
+{
+  label
+  Memcheck:Leak
+  ...
+  fun:__xmlInitializeDict
+  ...
+  fun:xmlNewDocProp
+}
+
+ 

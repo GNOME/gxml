@@ -1,0 +1,45 @@
+{
+  label
+  Memcheck:Leak
+  ...
+  fun:g_type_register_static*
+  fun:*_get_type
+}
+{
+  label
+  Memcheck:Leak
+  ...
+  fun:g_type_add_interface_static
+  fun:*_get_type
+}
+{
+  label
+  Memcheck:Leak
+  ...
+  fun:g_type_interface_add_prerequisite
+  fun:*_get_type
+}
+{
+  label
+  Memcheck:Leak
+  ...
+  fun:g_type_create_instance
+  fun:g_object_constructor
+}
+{
+  label
+  Memcheck:Leak
+  ...
+  fun:g_type_class_ref
+  fun:g_type_create_instance
+}
+{
+  label
+  Memcheck:Leak
+  fun:memalign
+  ...
+  fun:g_type_create_instance
+  fun:*_construct_*
+}
+
+
