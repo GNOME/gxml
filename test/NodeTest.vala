@@ -4,18 +4,18 @@ using GXml;
 /* For testing, based on:
    https://live.gnome.org/Vala/TestSample
 
-   Using an Element subclass of Node to test Node.
+   Using an Element subclass of GXml.Node to test Node.
 */
 
-class DomNodeTest : GXmlTest {
+class NodeTest : GXmlTest {
 	// TODO: test setters?
 
 	public static void add_tests () {
 		Test.add_func ("/gxml/domnode/node_name_get", () => {
 				try {
-					// TODO: should DomNodes never have a null name?
+					// TODO: should Nodes never have a null name?
 					Document doc = get_doc ();
-					DomNode node;
+					GXml.Node node;
 
 					node = get_elem ("elemname", doc);
 					assert (node.node_name == "elemname");
@@ -61,7 +61,7 @@ class DomNodeTest : GXmlTest {
 					// TODO: implement commented-out types
 
 					Document doc = get_doc ();
-					DomNode node;
+					GXml.Node node;
 
 					node = get_elem ("a", doc);
 					assert (node.node_type == NodeType.ELEMENT);
@@ -110,7 +110,7 @@ class DomNodeTest : GXmlTest {
 
 					Document doc = get_doc ();
 
-					DomNode node;
+					GXml.Node node;
 
 					node = doc.create_element ("elem");
 					assert (node.node_value == null);
@@ -142,8 +142,8 @@ class DomNodeTest : GXmlTest {
 					// assert (attr.node_value == "harry");
 					/* TODO: figure out a solution.
 					   Attr's node_value doesn't get used when elem is thought of
-					   as a DomNode.
-					   DomNode wants to get it from DomNode's Xml.Node* node,
+					   as a Node.
+					   GXml.Node wants to get it from Node's Xml.Node* node,
 					   while Attr wants to get it from Attr's Xml.Attr* node. :( */
 				} catch (GXml.DomError e) {
 					Test.message ("%s", e.message);
@@ -153,14 +153,14 @@ class DomNodeTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/parent_node", () => {
 				try {
 					Document doc = get_doc ();
-					DomNode parent = get_elem ("James", doc);
-					DomNode child = get_elem ("Harry", doc);
+					GXml.Node parent = get_elem ("James", doc);
+					GXml.Node child = get_elem ("Harry", doc);
 
 					assert (child.parent_node == null);
 					parent.append_child (child);
 					assert (child.parent_node == parent);
 
-					DomNode attr = doc.create_attribute ("a");
+					GXml.Node attr = doc.create_attribute ("a");
 					assert (attr.parent_node == null);
 					assert (doc.parent_node == null);
 					// assert (document fragment's parent_node == null); // TODO
@@ -172,10 +172,10 @@ class DomNodeTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/child_nodes", () => {
 				try {
 					Document doc = get_doc ();
-					DomNode parent = get_elem ("Molly", doc);
-					DomNode child_0 = get_elem ("Percy", doc);
-					DomNode child_1 = get_elem ("Ron", doc);
-					DomNode child_2 = get_elem ("Ginnie", doc);
+					GXml.Node parent = get_elem ("Molly", doc);
+					GXml.Node child_0 = get_elem ("Percy", doc);
+					GXml.Node child_1 = get_elem ("Ron", doc);
+					GXml.Node child_2 = get_elem ("Ginnie", doc);
 
 					assert (parent.child_nodes.length == 0);
 					parent.append_child (child_0);
@@ -192,10 +192,10 @@ class DomNodeTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/first_child", () => {
 				try {
 					Document doc = get_doc ();
-					DomNode parent = get_elem ("Molly", doc);
-					DomNode child_0 = get_elem ("Percy", doc);
-					DomNode child_1 = get_elem ("Ron", doc);
-					DomNode child_2 = get_elem ("Ginnie", doc);
+					GXml.Node parent = get_elem ("Molly", doc);
+					GXml.Node child_0 = get_elem ("Percy", doc);
+					GXml.Node child_1 = get_elem ("Ron", doc);
+					GXml.Node child_2 = get_elem ("Ginnie", doc);
 
 					assert (parent.child_nodes.length == 0);
 					parent.append_child (child_0);
@@ -211,10 +211,10 @@ class DomNodeTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/last_child", () => {
 				try {
 					Document doc = get_doc ();
-					DomNode parent = get_elem ("Molly", doc);
-					DomNode child_0 = get_elem ("Percy", doc);
-					DomNode child_1 = get_elem ("Ron", doc);
-					DomNode child_2 = get_elem ("Ginnie", doc);
+					GXml.Node parent = get_elem ("Molly", doc);
+					GXml.Node child_0 = get_elem ("Percy", doc);
+					GXml.Node child_1 = get_elem ("Ron", doc);
+					GXml.Node child_2 = get_elem ("Ginnie", doc);
 
 					assert (parent.child_nodes.length == 0);
 					parent.append_child (child_0);
@@ -230,10 +230,10 @@ class DomNodeTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/previous_sibling", () => {
 				try {
 					Document doc = get_doc ();
-					DomNode parent = get_elem ("Molly", doc);
-					DomNode child_0 = get_elem ("Percy", doc);
-					DomNode child_1 = get_elem ("Ron", doc);
-					DomNode child_2 = get_elem ("Ginnie", doc);
+					GXml.Node parent = get_elem ("Molly", doc);
+					GXml.Node child_0 = get_elem ("Percy", doc);
+					GXml.Node child_1 = get_elem ("Ron", doc);
+					GXml.Node child_2 = get_elem ("Ginnie", doc);
 
 					assert (parent.child_nodes.length == 0);
 					parent.append_child (child_0);
@@ -251,10 +251,10 @@ class DomNodeTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/next_sibling", () => {
 				try {
 					Document doc = get_doc ();
-					DomNode parent = get_elem ("Molly", doc);
-					DomNode child_0 = get_elem ("Percy", doc);
-					DomNode child_1 = get_elem ("Ron", doc);
-					DomNode child_2 = get_elem ("Ginnie", doc);
+					GXml.Node parent = get_elem ("Molly", doc);
+					GXml.Node child_0 = get_elem ("Percy", doc);
+					GXml.Node child_1 = get_elem ("Ron", doc);
+					GXml.Node child_2 = get_elem ("Ginnie", doc);
 
 					assert (parent.child_nodes.length == 0);
 					parent.append_child (child_0);
@@ -272,8 +272,8 @@ class DomNodeTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/attributes", () => {
 				try {
 					Document doc = get_doc ();
-					DomNode elem = get_elem ("Hogwarts", doc);
-					DomNode attr = get_attr ("Potter", "Lily", doc);
+					GXml.Node elem = get_elem ("Hogwarts", doc);
+					GXml.Node attr = get_attr ("Potter", "Lily", doc);
 
 					assert (elem.attributes != null);
 					assert (attr.attributes == null);
@@ -289,7 +289,7 @@ class DomNodeTest : GXmlTest {
 				try {
 					Document doc2 = get_doc ();
 					Document doc1 = get_doc ();
-					DomNode elem = get_elem ("Malfoy", doc1);
+					GXml.Node elem = get_elem ("Malfoy", doc1);
 
 					assert (elem.owner_document == doc1);
 					assert (elem.owner_document != doc2);
@@ -301,10 +301,10 @@ class DomNodeTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/insert_before", () => {
 				try {
 					Document doc = get_doc ();
-					DomNode parent = get_elem ("Molly", doc);
-					DomNode child_0 = get_elem ("Percy", doc);
-					DomNode child_1 = get_elem ("Ron", doc);
-					DomNode child_2 = get_elem ("Ginnie", doc);
+					GXml.Node parent = get_elem ("Molly", doc);
+					GXml.Node child_0 = get_elem ("Percy", doc);
+					GXml.Node child_1 = get_elem ("Ron", doc);
+					GXml.Node child_2 = get_elem ("Ginnie", doc);
 
 					assert (parent.child_nodes.length == 0);
 					parent.append_child (child_2);
@@ -333,10 +333,10 @@ class DomNodeTest : GXmlTest {
 					// TODO: for this one, and others that include a ref_child, we want to test passing an irrelevant ref child and a null ref child
 
 					Document doc = get_doc ();
-					DomNode parent = get_elem ("Molly", doc);
-					DomNode child_0 = get_elem ("Percy", doc);
-					DomNode child_1 = get_elem ("Ron", doc);
-					DomNode child_2 = get_elem ("Ginnie", doc);
+					GXml.Node parent = get_elem ("Molly", doc);
+					GXml.Node child_0 = get_elem ("Percy", doc);
+					GXml.Node child_1 = get_elem ("Ron", doc);
+					GXml.Node child_2 = get_elem ("Ginnie", doc);
 
 					assert (parent.child_nodes.length == 0);
 					parent.append_child (child_0);
@@ -361,10 +361,10 @@ class DomNodeTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/remove_child", () => {
 				try {
 					Document doc = get_doc ();
-					DomNode parent = get_elem ("Molly", doc);
-					DomNode child_0 = get_elem ("Percy", doc);
-					DomNode child_1 = get_elem ("Ron", doc);
-					DomNode child_2 = get_elem ("Ginnie", doc);
+					GXml.Node parent = get_elem ("Molly", doc);
+					GXml.Node child_0 = get_elem ("Percy", doc);
+					GXml.Node child_1 = get_elem ("Ron", doc);
+					GXml.Node child_2 = get_elem ("Ginnie", doc);
 
 					assert (parent.child_nodes.length == 0);
 					parent.append_child (child_0);
@@ -408,10 +408,10 @@ class DomNodeTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/append_child", () => {
 				try {
 					Document doc = get_doc ();
-					DomNode parent = get_elem ("Molly", doc);
-					DomNode child_0 = get_elem ("Percy", doc);
-					DomNode child_1 = get_elem ("Ron", doc);
-					DomNode child_2 = get_elem ("Ginnie", doc);
+					GXml.Node parent = get_elem ("Molly", doc);
+					GXml.Node child_0 = get_elem ("Percy", doc);
+					GXml.Node child_1 = get_elem ("Ron", doc);
+					GXml.Node child_2 = get_elem ("Ginnie", doc);
 
 					assert (parent.child_nodes.length == 0);
 					parent.append_child (child_0);
@@ -438,8 +438,8 @@ class DomNodeTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/has_child_nodes", () => {
 				try {
 					Document doc = get_doc ();
-					DomNode parent = get_elem ("Molly", doc);
-					DomNode child_0 = get_elem ("Percy", doc);
+					GXml.Node parent = get_elem ("Molly", doc);
+					GXml.Node child_0 = get_elem ("Percy", doc);
 
 					assert (parent.has_child_nodes () == false);
 

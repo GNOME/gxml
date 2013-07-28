@@ -33,8 +33,8 @@ class ElementTest : GXmlTest  {
 					xmlroot->add_child (xmlnode);
 
 					Document doc = new Document.from_libxml2 (xmldoc);
-					DomNode root = doc.document_element;
-					DomNode node = root.child_nodes.item (0);
+					GXml.Node root = doc.document_element;
+					GXml.Node node = root.child_nodes.item (0);
 
 					assert (node.namespace_uri == null);
 					assert (node.prefix == null);
@@ -52,8 +52,8 @@ class ElementTest : GXmlTest  {
 				try {
 					// TODO: wanted to use TestElement but CAN'T because Vala won't let me access the internal constructor of Element?
 					Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
-					DomNode root = doc.document_element;
-					DomNode node = root.child_nodes.item (0);
+					GXml.Node root = doc.document_element;
+					GXml.Node node = root.child_nodes.item (0);
 
 					assert (node.namespace_uri == "http://hogwarts.co.uk/magic");
 				} catch (GXml.DomError e) {
@@ -65,8 +65,8 @@ class ElementTest : GXmlTest  {
 				try {
 					// TODO: wanted to use TestElement but CAN'T because Vala won't let me access the internal constructor of Element?
 					Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"><products:Ingredient /></magic:Potion></Potions>");
-					DomNode root = doc.document_element;
-					DomNode node = root.child_nodes.item (0);
+					GXml.Node root = doc.document_element;
+					GXml.Node node = root.child_nodes.item (0);
 
 					// root.dbg_inspect ();
 					// node.dbg_inspect ();
@@ -87,8 +87,8 @@ class ElementTest : GXmlTest  {
 		Test.add_func ("/gxml/element/prefix", () => {
 				try {
 					Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
-					DomNode root = doc.document_element;
-					DomNode node = root.child_nodes.item (0);
+					GXml.Node root = doc.document_element;
+					GXml.Node node = root.child_nodes.item (0);
 
 					assert (node.prefix == "magic");
 				} catch (GXml.DomError e) {
@@ -99,8 +99,8 @@ class ElementTest : GXmlTest  {
 		Test.add_func ("/gxml/element/local_name", () => {
 				try {
 					Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
-					DomNode root = doc.document_element;
-					DomNode node = root.child_nodes.item (0);
+					GXml.Node root = doc.document_element;
+					GXml.Node node = root.child_nodes.item (0);
 
 					assert (node.local_name == "Potion");
 				} catch (GXml.DomError e) {
@@ -111,8 +111,8 @@ class ElementTest : GXmlTest  {
 		Test.add_func ("/gxml/element/namespace_definitions", () => {
 				try {
 					Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
-					DomNode root = doc.document_element;
-					DomNode node = root.child_nodes.item (0);
+					GXml.Node root = doc.document_element;
+					GXml.Node node = root.child_nodes.item (0);
 
 					NodeList namespaces = node.namespace_definitions;
 
@@ -180,8 +180,8 @@ class ElementTest : GXmlTest  {
 
 				try {
 					Document doc = new Document.from_string ("<?xml version='1.0' encoding='UTF-8'?><entry><link rel='http://schemas.google.com/contacts/2008/rel#photo'/></entry>");
-					DomNode root = doc.document_element;
-					foreach (DomNode child in root.child_nodes) {
+					GXml.Node root = doc.document_element;
+					foreach (GXml.Node child in root.child_nodes) {
 						attrs = child.attributes;
 					}
 
@@ -288,7 +288,7 @@ class ElementTest : GXmlTest  {
 		Test.add_func ("/gxml/element/get_elements_by_tag_name", () => {
 				try {
 					Document doc;
-					DomNode root;
+					GXml.Node root;
 					Element elem;
 					NodeList emails;
 					Element email;
@@ -361,10 +361,10 @@ class ElementTest : GXmlTest  {
 </A>";
 					doc = new Document.from_string (xml);
 
-					DomNode a = doc.document_element;
-					DomNode bs = a.child_nodes.item (3);
-					DomNode b3 = bs.child_nodes.item (7);
-					DomNode t1, t2;
+					GXml.Node a = doc.document_element;
+					GXml.Node bs = a.child_nodes.item (3);
+					GXml.Node b3 = bs.child_nodes.item (7);
+					GXml.Node t1, t2;
 
 					NodeList ts = ((Element)bs).get_elements_by_tag_name ("t");
 					assert (ts.length == 5);
@@ -378,8 +378,8 @@ class ElementTest : GXmlTest  {
 					assert (ts.length == 7);
 
 					// Test situation where we add a node tree
-					DomNode b4;
-					DomNode d, d2;
+					GXml.Node b4;
+					GXml.Node d, d2;
 
 					b4 = doc.create_element ("B");
 					b4.append_child (doc.create_element ("t"));
