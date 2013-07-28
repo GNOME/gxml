@@ -29,7 +29,7 @@ int main () {
   root = gxml_document_get_document_element (doc);
   root_node_name = gxml_node_get_node_name (GXML_NODE (root));
 
-  printf ("Document has root element with name: %s (should be Bookshelf)\n", root_node_name);  
+  printf ("Document has root element with name: %s (should be Bookshelf)\n", root_node_name);
 
   g_object_unref (doc);
 

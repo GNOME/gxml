@@ -45,7 +45,7 @@ int main () {
   printf ("%s:\n%s\n", __FILE__, str);
   g_free (str);
 
-  g_object_unref (doc); 
+  g_object_unref (doc);
   g_object_unref (root); // TODO: figure out what happens to root if you deallocate doc?! */
   // TODO: perhaps see whether we can make it that all the nodes that are returned are weak references
   g_object_unref (owner);
