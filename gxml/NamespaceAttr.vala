@@ -30,7 +30,7 @@ namespace GXml {
 	 * prefix=uri pairs that define namespaces for XML Elements
 	 * and Attrs.
 	 */
-	public class NamespaceAttr : DomNode {
+	public class NamespaceAttr : Node {
 		/** Private properties */
 		private Xml.Ns *node;
 

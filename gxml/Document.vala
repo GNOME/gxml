@@ -65,7 +65,7 @@ namespace GXml {
 	}
 
 	/**
-	 * Represents an XML Document as a tree of {@link GXml.DomNode}s.
+	 * Represents an XML Document as a tree of {@link GXml.Node}s.
 	 *
 	 * The Document has a document element, which is the root of
 	 * the tree. A Document can have its type defined by a
@@ -74,18 +74,18 @@ namespace GXml {
 	 * Version: DOM Level 1 Core
 	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#i-Document]]
 	 */
-	public class Document : DomNode {
+	public class Document : Node {
 		/* *** Private properties *** */
 
 		/**
 		 * This contains a map of Xml.Nodes that have been
-		 * accessed and the GXml DomNode we created to represent
-		 * them on-demand.  That way, we don't create an DomNode
+		 * accessed and the GXml Node we created to represent
+		 * them on-demand.  That way, we don't create an Node
 		 * for EVERY node, even if the user never actually
 		 * accesses it.
 		 */
-		internal HashTable<Xml.Node*, DomNode> node_dict = new HashTable<Xml.Node*, DomNode> (GLib.direct_hash, GLib.direct_equal);
-		// We don't want want to use DomNode's Xml.Node or its dict
+		internal HashTable<Xml.Node*, Node> node_dict = new HashTable<Xml.Node*, Node> (GLib.direct_hash, GLib.direct_equal);
+		// We don't want want to use Node's Xml.Node or its dict
 		// internal HashTable<Xml.Attr*, Attr> attr_dict = new HashTable<Xml.Attr*, Attr> (null, null);
 
 		/**
@@ -108,8 +108,8 @@ namespace GXml {
 		internal Xml.Doc *xmldoc;
 
 		/* *** Private methods *** */
-		internal unowned DomNode? lookup_node (Xml.Node *xmlnode) {
-			unowned DomNode domnode;
+		internal unowned Node? lookup_node (Xml.Node *xmlnode) {
+			unowned Node domnode;
 
 			if (xmlnode == null) {
 				return null; // TODO: consider throwing an error instead
@@ -117,7 +117,7 @@ namespace GXml {
 
 			domnode = this.node_dict.lookup (xmlnode);
 			if (domnode == null) {
-				// If we don't have a cached the appropriate DomNode for a given Xml.Node* yet, create it (type matters)
+				// If we don't have a cached the appropriate Node for a given Xml.Node* yet, create it (type matters)
 				// TODO: see if we can attach logic to the enum {} to handle this
 				switch ((NodeType)xmlnode->type) {
 				case NodeType.ELEMENT:
@@ -260,7 +260,7 @@ namespace GXml {
 			this ();
 			this.implementation = impl;
 
-			DomNode root;
+			Node root;
 			root = this.create_element (qualified_name); // TODO: we do not currently support namespaces, but when we do, this new node will want one
 			this.append_child (root);
 
@@ -672,7 +672,7 @@ namespace GXml {
 			return str;
 		}
 
-		/*** DomNode methods ***/
+		/*** Node methods ***/
 
 		/**
 		 * Appends new_child to this document. A document can
@@ -684,7 +684,7 @@ namespace GXml {
 		 *
 		 * @return The newly added child.
 		 */
-		public override DomNode? append_child (DomNode new_child) {
+		public override Node? append_child (Node new_child) {
 			this.check_wrong_document (new_child);
 			this.check_read_only ();
 
