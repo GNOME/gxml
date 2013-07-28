@@ -33,11 +33,13 @@ class TextTest : GXmlTest {
 					assert (txt2.node_value == "Const");
 
 					txt1 = txt2.split_text (-2);
-					assert (txt1 == null);
+					test_error (DomException.INDEX_SIZE);
+					assert (txt1.node_value == ""); // TODO: decide if we want to return null instead
 					assert (txt2.node_value == "Const");
 
 					txt1 = txt2.split_text (10);
-					assert (txt1 == null);
+					test_error (DomException.INDEX_SIZE);
+					assert (txt1.node_value == ""); // TODO: decide if we want to return null instead
 					assert (txt2.node_value == "Const");
 
 
