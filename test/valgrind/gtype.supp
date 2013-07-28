@@ -23,6 +23,10 @@
   label
   Memcheck:Leak
   ...
+  fun:g_mutex_impl_new
+  fun:g_mutex_get_impl
+  fun:g_mutex_lock
+  ...
   fun:g_type_create_instance
   fun:g_object_constructor
 }
@@ -36,6 +40,7 @@
 {
   label
   Memcheck:Leak
+  fun:disabled
   fun:memalign
   ...
   fun:g_type_create_instance
