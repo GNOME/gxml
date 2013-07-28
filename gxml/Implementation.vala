@@ -35,7 +35,7 @@ namespace GXml {
 	 * Version: DOM Level 1 Core
 	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-102161490]]
 	 */
-	public class Implementation {
+	public class Implementation : GLib.Object {
 		internal Implementation () {
 		}
 
