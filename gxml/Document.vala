@@ -217,7 +217,10 @@ namespace GXml {
 			}
 		}
 
-		List<Xml.Node*> new_nodes = new List<Xml.Node*> ();
+		/* A list of strong references to all GXml.Nodes that this Document has created  */
+		private List<GXml.Node> nodes_to_free = new List<GXml.Node> ();
+		/* A list of references to Xml.Nodes that were created, and may require freeing */
+		private List<Xml.Node*> new_nodes = new List<Xml.Node*> ();
 
 		~Document () {
 			List<Xml.Node*> to_free = new List<Xml.Node*> ();
@@ -497,17 +500,19 @@ namespace GXml {
 		/* Public Methods */
 		/**
 		 * Creates an empty Element node with the tag name
-		 * tag_name, which must be a [[http://www.w3.org/TR/REC-xml/#NT-Name|valid XML name]].
+		 * tag_name, which must be a
+		 * [[http://www.w3.org/TR/REC-xml/#NT-Name|valid XML name]].
+		 * Its memory is freed when its owner document is
+		 * freed.
 		 *
 		 * XML example: {{{<Person></Person>}}}
 		 *
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createElement]]
 		 */
-		public Element create_element (string tag_name) {
+		public unowned Element create_element (string tag_name) {
 			// TODO: what should we be passing for ns other than old_ns?  Figure it out; needed for level 2+ support
 			Xml.Node *xmlelem;
-			Element new_elem;
 
 			if (!check_invalid_characters (tag_name, "element")) {
 				return null;
@@ -515,23 +520,33 @@ namespace GXml {
 
 			xmlelem = this.xmldoc->new_node (null, tag_name, null);
 			this.new_nodes.append (xmlelem);
-			new_elem = new Element (xmlelem, this);
-			return new_elem;
+
+			Element new_elem = new Element (xmlelem, this);
+			this.nodes_to_free.append (new_elem);
+			unowned Element ret = new_elem;
+
+			return ret;
 		}
 		/**
 		 * Creates a DocumentFragment.
 		 *
 		 * Document fragments do not can contain a subset of a
-		 * document, without being a complete tree.
+		 * document, without being a complete tree.  Its
+		 * memory is freed when its owner document is freed.
 		 *
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createDocumentFragment]]
 		 */
-		public DocumentFragment create_document_fragment () {
-			return new DocumentFragment (this.xmldoc->new_fragment (), this);
+		public unowned DocumentFragment create_document_fragment () {
+			DocumentFragment fragment = new DocumentFragment (this.xmldoc->new_fragment (), this);
+			unowned DocumentFragment ret = fragment;
+			this.nodes_to_free.append (fragment);
+			return ret;
 		}
+
 		/**
 		 * Creates a text node containing the text in data.
+		 * Its memory is freed when its owner document is freed.
 		 *
 		 * XML example:
 		 * {{{<someElement>Text is contained here.</someElement>}}}
@@ -539,25 +554,35 @@ namespace GXml {
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createTextNode]]
 		 */
-		public Text create_text_node (string data) {
-			return new Text (this.xmldoc->new_text (data), this);
+		public unowned Text create_text_node (string data) {
+			Text text = new Text (this.xmldoc->new_text (data), this);
+			unowned Text ret = text;
+			this.nodes_to_free.append (text);
+			return ret;
 		}
+
 		/**
-		 * Creates an XML comment with data.
+		 * Creates an XML comment with data.  Its memory is
+		 * freed when its owner document is freed.
 		 *
 		 * XML example: {{{<!-- data -->}}}
 		 *
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createComment]]
 		 */
-		public Comment create_comment (string data) {
-			return new Comment (this.xmldoc->new_comment (data), this);
+		public unowned Comment create_comment (string data) {
 			// TODO: should we be passing around Xml.Node* like this?
+			Comment comment = new Comment (this.xmldoc->new_comment (data), this);
+			unowned Comment ret = comment;
+			this.nodes_to_free.append (comment);
+			return ret;
 		}
+
 		/**
 		 * Creates a CDATA section containing data.
 		 *
-		 * These do not apply to HTML doctype documents.
+		 * These do not apply to HTML doctype documents.  Its
+		 * memory is freed when its owner document is freed.
 		 *
 		 * XML example: {{{ <![CDATA[Here contains non-XML
 		 * data, like code, or something that requires a lot
@@ -566,10 +591,13 @@ namespace GXml {
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createCDATASection]]
 		 */
-		public CDATASection create_cdata_section (string data) {
+		public unowned CDATASection create_cdata_section (string data) {
 			check_not_supported_html ("CDATA section");
 
-			return new CDATASection (this.xmldoc->new_cdata_block (data, (int)data.length), this);
+			CDATASection cdata = new CDATASection (this.xmldoc->new_cdata_block (data, (int)data.length), this);
+			unowned CDATASection ret = cdata;
+			this.nodes_to_free.append (cdata);
+			return ret;
 		}
 
 		/**
@@ -582,6 +610,8 @@ namespace GXml {
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createProcessingInstruction]]
 		 */
+		/* TODO: this is not backed by a libxml2 structure, and is not stored in the NodeDict, so we don't know
+		   when it will be freed :(  Figure it out */
 		public ProcessingInstruction create_processing_instruction (string target, string data) {
 			check_not_supported_html ("processing instructions");
 			check_invalid_characters (target, "processing instruction");
@@ -600,6 +630,7 @@ namespace GXml {
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createAttribute]]
 		 */
+		/* TODO: figure out memory for this; its a Node, not a BackedNode and thus not in nodedict */
 		public Attr create_attribute (string name) {
 			check_invalid_characters (name, "attribute");
 
