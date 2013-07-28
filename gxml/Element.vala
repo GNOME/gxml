@@ -371,24 +371,24 @@ namespace GXml {
 		}
 
 		/* ** Node methods ** */
-		public override Node? insert_before (Node new_child, Node? ref_child) {
-			Node ret = base.insert_before (new_child, ref_child);
+		public override unowned Node? insert_before (Node new_child, Node? ref_child) {
+			unowned Node ret = base.insert_before (new_child, ref_child);
 			check_add_tag_name (this, new_child);
 			return ret;
 		}
-		public override Node? replace_child (Node new_child, Node old_child) {
+		public override unowned Node? replace_child (Node new_child, Node old_child) {
 			check_remove_tag_name (this, old_child);
-			Node ret = base.replace_child (new_child, old_child);
+			unowned Node ret = base.replace_child (new_child, old_child);
 			check_add_tag_name (this, new_child);
 			return ret;
 		}
-		public override Node? remove_child (Node old_child) {
+		public override unowned Node? remove_child (Node old_child) {
 			check_remove_tag_name (this, old_child);
-			Node ret = base.remove_child (old_child);
+			unowned Node ret = base.remove_child (old_child);
 			return ret;
 		}
-		public override Node? append_child (Node new_child) {
-			Node ret = base.append_child (new_child);
+		public override unowned Node? append_child (Node new_child) {
+			unowned Node ret = base.append_child (new_child);
 			check_add_tag_name (this, new_child);
 			return ret;
 		}
