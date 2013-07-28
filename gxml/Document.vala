@@ -509,9 +509,7 @@ namespace GXml {
 			Xml.Node *xmlelem;
 			Element new_elem;
 
-			if (!check_invalid_characters (tag_name, "element")) {
-				return null;
-			}
+			check_invalid_characters (tag_name, "element");
 
 			xmlelem = this.xmldoc->new_node (null, tag_name, null);
 			this.new_nodes.append (xmlelem);
