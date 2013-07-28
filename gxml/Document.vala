@@ -179,16 +179,15 @@ namespace GXml {
 			}
 		}
 
-		// TODO: DTD
+		// TODO: DTD, sort of works
 		/**
-		 * The Document Type Definition (DTD) defining this document. This may be null.
+		 * The Document Type Definition (DTD) defining this document. This may be `null`.
 		 *
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-doctype]]
 		 */
 		public DocumentType? doctype {
 			// either null, or a DocumentType object
-			// STUB
 			get;
 			private set;
 		}
