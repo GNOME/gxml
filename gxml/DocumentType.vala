@@ -49,7 +49,7 @@ namespace GXml {
 		 * That which follows DOCTYPE in the XML doctype
 		 * declaration, like 'xml' or 'html'. For example, the
 		 * document type name is 'html' for a document with
-		 * the XML doctype declaration of {{{ &lt;!DOCTYPE
+		 * the XML doctype declaration of {{{ <!DOCTYPE
 		 * HTML PUBLIC "-//W3C//DTD HTML 4.01
 		 * Transitional//EN"
 		 * "http://www.w3.org/TR/html4/loose.dtd"> }}}
