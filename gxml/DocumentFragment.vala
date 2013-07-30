@@ -47,9 +47,10 @@ namespace GXml {
 	 * or being completely valid. It can have multiple children,
 	 * which, if the DocumentFragment is inserted as a child to
 	 * another node, become that nodes' children, without the
-	 * DocumentFragment itself existing as a child.  For more,
-	 * see:
-	 * [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-B63ED1A3]]
+	 * DocumentFragment itself existing as a child.
+	 *
+	 * Version: DOM Level 1 Core
+	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-B63ED1A3]]
 	 */
 	public class DocumentFragment : BackedNode {
 		internal DocumentFragment (Xml.Node *fragment_node, Document doc) {

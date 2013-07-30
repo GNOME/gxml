@@ -63,7 +63,7 @@ namespace GXml {
 
 	/**
 	 * Serializes and deserializes {@link GLib.Object}s to and from
-	 * {@link GXml.DomNode}.
+	 * {@link GXml.Node}.
 	 *
 	 * Serialization can automatically serialize a variety of public
 	 * properties.  {@link GLib.Object}s can also implement the
@@ -88,15 +88,19 @@ namespace GXml {
 		 * {@link GLib.Value} can transform into a string, and
 		 * operates recursively.
 		 */
+<<<<<<< HEAD
 		private static GXml.DomNode serialize_property (GLib.Object object,
 		                                                ParamSpec prop_spec,
 		                                                GXml.Document doc)
 		                                                throws SerializationError,
 		                                                       DomError
 		{
+=======
+		private static GXml.Node serialize_property (GLib.Object object, ParamSpec prop_spec, GXml.Document doc) throws SerializationError {
+>>>>>>> gsoc2013
 			Type type;
 			Value value;
-			DomNode value_node;
+			Node value_node;
 			Serializable serializable = null;
 
 			if (object.get_type ().is_a (typeof (Serializable))) {
@@ -187,10 +191,10 @@ namespace GXml {
 		}
 
 		/**
-		 * Serializes a {@link GLib.Object} into a {@link GXml.DomNode}.
+		 * Serializes a {@link GLib.Object} into a {@link GXml.Node}.
 		 *
 		 * This takes a {@link GLib.Object} and serializes it into a
-		 * {@link GXml.DomNode} which can be saved to disk or
+		 * {@link GXml.Node} which can be saved to disk or
 		 * transferred over a network.  It handles serialization of
 		 * primitive properties and some more complex ones like enums,
 		 * other {@link GLib.Object}s recursively, and some collections.
@@ -198,7 +202,7 @@ namespace GXml {
 		 * The serialization process can be customised for an object
 		 * by having the object implement the {@link GXml.Serializable}
 		 * interface, which allows direct control over the
-		 * conversation of individual properties into {@link GXml.DomNode}s
+		 * conversation of individual properties into {@link GXml.Node}s
 		 * and the object's list of properties as used by
 		 * {@link GXml.Serialization}.
 		 *
@@ -207,9 +211,9 @@ namespace GXml {
 		 * unsupported, or the property isn't known to the object).
 		 *
 		 * @param object A {@link GLib.Object} to serialize
-		 * @return a {@link GXml.DomNode} representing the serialized `object`
+		 * @return a {@link GXml.Node} representing the serialized `object`
 		 */
-		public static GXml.DomNode serialize_object (GLib.Object object) 
+		public static GXml.Node serialize_object (GLib.Object object) 
 		                                             throws SerializationError,
 		                                                    DomError
 		{
@@ -276,7 +280,7 @@ namespace GXml {
 					prop.append_child (value_prop);
 					root.append_child (prop);
 				}
-			} catch (GXml.DomError e) {
+			} catch (GLib.Error e) {
 				GLib.error ("%s", e.message);
 				// TODO: handle this better
 			}
@@ -330,7 +334,7 @@ namespace GXml {
 				}
 			// } else if (type.is_a (typeof (Gee.Collection))) {
 			} else if (type.is_a (typeof (GLib.Object))) {
-				GXml.DomNode prop_elem_child;
+				GXml.Node prop_elem_child;
 				Object property_object;
 
 				prop_elem_child = prop_elem.first_child;
@@ -360,7 +364,7 @@ namespace GXml {
 		 * some differing objects might have the same OID :( Need to
 		 * find make it more unique than just the memory address. */
 		private static HashTable<string,Object> deserialize_cache = null;
-		private static HashTable<string,GXml.DomNode> serialize_cache = null;
+		private static HashTable<string,GXml.Node> serialize_cache = null;
 		// public so that tests can call it
 		public static void clear_caches () {
 			if (Serialization.deserialize_cache != null)
@@ -374,24 +378,24 @@ namespace GXml {
 				Serialization.deserialize_cache = new HashTable<string,Object> (str_hash, str_equal);
 			}
 			if (Serialization.serialize_cache == null) {
-				Serialization.serialize_cache = new HashTable<string,GXml.DomNode> (str_hash, str_equal);
+				Serialization.serialize_cache = new HashTable<string,GXml.Node> (str_hash, str_equal);
 			}
 		}
 
 		/**
-		 * Deserialize a {@link GXml.DomNode} back into a {@link GLib.Object}.
+		 * Deserialize a {@link GXml.Node} back into a {@link GLib.Object}.
 		 *
-		 * This deserializes a {@link GXml.DomNode} back into a {@link GLib.Object}.  The
-		 * {@link GXml.DomNode} must represented a {@link GLib.Object} as serialized by
+		 * This deserializes a {@link GXml.Node} back into a {@link GLib.Object}.  The
+		 * {@link GXml.Node} must represented a {@link GLib.Object} as serialized by
 		 * {@link GXml.Serialization}.  The types of the objects that are
 		 * being deserialized must be known to the system
 		 * deserializing them or a {@link GXml.SerializationError} will
 		 * result.
 		 *
-		 * @param node {@link GXml.DomNode} representing a {@link GLib.Object}
+		 * @param node {@link GXml.Node} representing a {@link GLib.Object}
 		 * @return the deserialized {@link GLib.Object}
 		 */
-		public static GLib.Object deserialize_object (DomNode node)
+		public static GLib.Object deserialize_object (Node node)
 		                                              throws SerializationError,
 		                                                     SerializableError,
 		                                                     DomError
@@ -404,6 +408,7 @@ namespace GXml {
 			Object obj;
 			unowned ObjectClass obj_class;
 			ParamSpec[] specs;
+			//bool property_found;
 			Serializable serializable = null;
 
 			obj_elem = (Element)node;
@@ -442,7 +447,7 @@ namespace GXml {
 
 			SerializationError err = null;
 
-			foreach (DomNode child_node in obj_elem.child_nodes) {
+			foreach (Node child_node in obj_elem.child_nodes) {
 				if (child_node.node_name == "Property") {
 					Element prop_elem;
 					string pname;

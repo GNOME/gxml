@@ -31,14 +31,80 @@ namespace GXml {
 	 * object. Provided a possible feature and the feature's
 	 * version, it can tell the client whether it is here
 	 * implemented.
-	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-102161490]]
+	 *
+	 * Version: DOM Level 1 Core
+	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-102161490]]
 	 */
-	public class Implementation {
+	public class Implementation : GLib.Object {
 		internal Implementation () {
+		}
+
+		private void check_namespace (string? namespace_uri, string? qualified_name) {
+			if (qualified_name == null && namespace_uri != null) {
+				GXml.warning (DomException.NAMESPACE, "qualified_name is null but namespace_uri [%s] is not.  Both should either be null or not null.".printf (namespace_uri));
+			}
+			if (qualified_name != null) {
+				Document.check_invalid_characters (qualified_name, "new Document's root");
+
+				string[] parts = qualified_name.split (":");
+				if (parts.length == 2) {
+					// we have a prefix!
+					if (namespace_uri == null) {
+						// but we don't have a namespace :|
+						GXml.warning (DomException.NAMESPACE, "namespace_uri is null but qualified_name [%s] has prefixed part.  Both should either be null or not null.".printf (qualified_name));
+					}
+
+					string expected_uri = "http://www.w3.org/XML/1998/namespace";
+					if (parts[0] == "xml" && namespace_uri != expected_uri) {
+						GXml.warning (DomException.NAMESPACE, "qualified_name '%s' specifies namespace 'xml' but namespace_uri is '%s' and not '%s'".printf (qualified_name, namespace_uri, expected_uri));
+					}
+				}
+			}
+			// TODO: We should apparently also report a NAMESPACE_ERR if "the qualifiedName is malformed"; find out what that means
+			if (namespace_uri != null && ! this.has_feature ("XML")) {
+				// Right now, has_feature should always return true for 'XML' so we shouldn't trip this error
+				GXml.warning (DomException.NAMESPACE, "Implementation lacks feature 'XML' but a namespace_uri ('%s') was specified anyway.".printf (namespace_uri));
+			}
+		}
+
+		// Not using Node's, because this doctype shouldn't have ANY owner yet
+		protected void check_wrong_document (DocumentType? doctype) {
+			if (doctype != null && doctype.owner_document != null) {
+				GXml.warning (DomException.WRONG_DOCUMENT, "The supplied doctype is already connected to an existing document.");
+			}
+
+		}
+
+		/**
+		 * Creates a Document according to this {@link GXml.Implementation}.
+		 *
+		 * Version: DOM Level 3 Core
+		 * URL: [[http://www.w3.org/TR/DOM-Level-3-Core/core.html#Level-2-Core-DOM-createDocument]]
+
+		 * @param namespace_uri URI for the namespace in which this Document belongs, or `null`.
+		 * @param qualified_name A qualified name for the Document, or `null`.
+		 * @param doctype The type of the document, or `null`.
+		 *
+		 * @return The new document.
+		 */
+		public Document create_document (string? namespace_uri, string? qualified_name, DocumentType? doctype) {
+			Document doc;
+
+			check_namespace (namespace_uri, qualified_name);
+			check_wrong_document (doctype);
+			// TODO: also want to report if the doctype was created by a different implementation; of which we have no way of determining right now
+
+			doc = new Document.with_implementation (this, namespace_uri, qualified_name, doctype);
+			return doc;
 		}
 
 		/**
 		 * Reports whether we support a feature at a given version level.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-hasFeature]]
+		 *
+		 * TODO: implement more of this, using libxml2's parser.h's xmlGetFeature, xmlHasFeature, etc.
 		 *
 		 * @param feature A feature we might support, usually something like 'xml' or 'html'.
 		 * @param version A possible version of the feature, or null if any version will do.
@@ -61,6 +127,9 @@ namespace GXml {
 			case "HTML":
 				// TODO: do we support HTML?
 			default:
+				/* TODO: add in libxml-2.0 (I already created a commented stub
+				Xml.has_feature (feature);
+				*/
 				return false;
 			}
 		}

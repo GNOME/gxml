@@ -3,7 +3,7 @@ using GXml;
 
 class TextTest : GXmlTest {
 	public static void add_tests () {
-		/* NOTE: Node name and node value behaviour tested by DomNodeTest */
+		/* NOTE: GXml.Node name and node value behaviour tested by NodeTest */
 
 		Test.add_func ("/gxml/text/split_text", () => {
 				try {
@@ -32,17 +32,16 @@ class TextTest : GXmlTest {
 					assert (txt1.node_value == "");
 					assert (txt2.node_value == "Const");
 
-					try {
-						txt2.split_text (-1);
-						assert_not_reached ();
-					} catch (DomError.INDEX_SIZE e) {
-					}
-					try {
-						txt2.split_text (10);
-						assert_not_reached ();
-					} catch (DomError.INDEX_SIZE e) {
-					}
+					txt1 = txt2.split_text (-2);
+					test_error (DomException.INDEX_SIZE);
+					assert (txt1.node_value == ""); // TODO: decide if we want to return null instead
 					assert (txt2.node_value == "Const");
+
+					txt1 = txt2.split_text (10);
+					test_error (DomException.INDEX_SIZE);
+					assert (txt1.node_value == ""); // TODO: decide if we want to return null instead
+					assert (txt2.node_value == "Const");
+
 
 
 				} catch (GXml.DomError e) {

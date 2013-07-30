@@ -1,5 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* DomError.vala
+/* DomException.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
  * Copyright (C) 2011  Daniel Espinosa <esodan@gmail.com>
@@ -22,17 +22,32 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 
-/**
- * Describes various error states. For more, see
- * [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-BBACDC08]]
- */
-public errordomain GXml.DomError {
-	/* These error codes are from the IDL: TODO: find out when I should use them */
-	/* TODO: probably want to document them :) */
+namespace GXml {
+	public static DomException last_error = DomException.NONE;
+
+	public static void warning (GXml.DomException exception, string message) {
+		GXml.last_error = exception;
+		GLib.warning ("%s", message);
+	}
+
 	/**
-	 * An index or size is out of range, like less than 0 or exceeding some upper bound.
+	 * Describes various error states. For more, see
+	 *
+	 * Version: DOM Level 1 Core
+	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-BBACDC08]]
 	 */
-	INDEX_SIZE,
+	public enum DomException {
+		/**
+		 * Indicates that there has not been a recent error
+		 */
+		NONE,
+
+		/* These error codes are from the IDL: TODO: find out when I should use them */
+		/* TODO: probably want to document them :) */
+		/**
+		 * An index or size is out of range, like less than 0 or exceeding some upper bound.
+		 */
+		INDEX_SIZE,
 		/**
 		 * Text exceeds the maximum size supported in our string implementation.
 		 */ // TODO: figure out what the limits of strings are in vala
@@ -83,5 +98,20 @@ public errordomain GXml.DomError {
 		/**
 		 * A document lacked a root element.
 		 */
-		INVALID_ROOT
+		INVALID_ROOT,
+
+		/**
+		 * There was an issue with the namespace.  A qualified name's prefix may have disagreed with the corresponding namespace or vice versa.
+		 *
+		 * Version: DOM Level 3 Core
+		 * URL: [[http://www.w3.org/TR/DOM-Level-3-Core/core.html#DOMException-NAMESPACE_ERR]]
+		 */
+		NAMESPACE;
+	}
+
+	// TODO: remove after transitioning tests
+	public errordomain DomError {
+		DUMMY;
+	}
 }
+

@@ -253,7 +253,7 @@ class SerializationTest : GXmlTest {
 
 	public static GLib.Object test_serialization_deserialization (GLib.Object object, string name, EqualFunc equals, StringifyFunc stringify) {
 		string xml_filename;
-		GXml.DomNode node;
+		GXml.Node node;
 		GXml.Document doc;
 		GLib.Object object_new = null;
 
@@ -291,7 +291,7 @@ class SerializationTest : GXmlTest {
 
 		Test.add_func ("/gxml/serialization/xml_serialize", () => {
 				Fruit fruit;
-				GXml.DomNode fruit_xml;
+				GXml.Node fruit_xml;
 				string expectation;
 				Regex regex;
 
@@ -432,7 +432,7 @@ class SerializationTest : GXmlTest {
 				SimpleProperties simple_properties;
 				ComplexDuplicateProperties obj;
 				ComplexDuplicateProperties restored;
-				GXml.DomNode xml;
+				GXml.Node xml;
 
 				// Clear cache to avoid collisions with other tests
 				Serialization.clear_caches ();
@@ -556,7 +556,7 @@ class SerializationTest : GXmlTest {
 					/* NOTE: We expect this one to fail right now */
 
 					Fruit fruit;
-					GXml.DomNode fruit_xml;
+					GXml.Node fruit_xml;
 					string expectation;
 					Regex regex;
 

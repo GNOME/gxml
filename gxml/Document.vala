@@ -46,10 +46,12 @@
  * * compare performance between libxml2 and GXml (should be a little different, but not too much)
  */
 
-/** TODO:IMPORTANT: don't use GLib collections, use Libgee! */
+/* TODO:IMPORTANT: don't use GLib collections, use Libgee! */
 
 /**
  * The XML Document Object Model.
+ *
+ * GXml provides a DOM Level 1 Core API in a GObject framework.
  */
 namespace GXml {
 	internal struct InputStreamBox {
@@ -63,25 +65,27 @@ namespace GXml {
 	}
 
 	/**
-	 * Represents an XML Document as a tree of {@link GXml.DomNode}s.
+	 * Represents an XML Document as a tree of {@link GXml.Node}s.
 	 *
 	 * The Document has a document element, which is the root of
 	 * the tree. A Document can have its type defined by a
-	 * {@link GXml.DocumentType}. For more, see:
-	 * [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#i-Document]]
+	 * {@link GXml.DocumentType}.
+	 *
+	 * Version: DOM Level 1 Core
+	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#i-Document]]
 	 */
-	public class Document : DomNode {
+	public class Document : Node {
 		/* *** Private properties *** */
 
 		/**
 		 * This contains a map of Xml.Nodes that have been
-		 * accessed and the GXml DomNode we created to represent
-		 * them on-demand.  That way, we don't create an DomNode
+		 * accessed and the GXml Node we created to represent
+		 * them on-demand.  That way, we don't create an Node
 		 * for EVERY node, even if the user never actually
 		 * accesses it.
 		 */
-		internal HashTable<Xml.Node*, DomNode> node_dict = new HashTable<Xml.Node*, DomNode> (GLib.direct_hash, GLib.direct_equal);
-		// We don't want want to use DomNode's Xml.Node or its dict
+		internal HashTable<Xml.Node*, Node> node_dict = new HashTable<Xml.Node*, Node> (GLib.direct_hash, GLib.direct_equal);
+		// We don't want want to use Node's Xml.Node or its dict
 		// internal HashTable<Xml.Attr*, Attr> attr_dict = new HashTable<Xml.Attr*, Attr> (null, null);
 
 		/**
@@ -104,8 +108,8 @@ namespace GXml {
 		internal Xml.Doc *xmldoc;
 
 		/* *** Private methods *** */
-		internal unowned DomNode? lookup_node (Xml.Node *xmlnode) {
-			unowned DomNode domnode;
+		internal unowned Node? lookup_node (Xml.Node *xmlnode) {
+			unowned Node domnode;
 
 			if (xmlnode == null) {
 				return null; // TODO: consider throwing an error instead
@@ -113,7 +117,7 @@ namespace GXml {
 
 			domnode = this.node_dict.lookup (xmlnode);
 			if (domnode == null) {
-				// If we don't have a cached the appropriate DomNode for a given Xml.Node* yet, create it (type matters)
+				// If we don't have a cached the appropriate Node for a given Xml.Node* yet, create it (type matters)
 				// TODO: see if we can attach logic to the enum {} to handle this
 				switch ((NodeType)xmlnode->type) {
 				case NodeType.ELEMENT:
@@ -131,7 +135,7 @@ namespace GXml {
 				case NodeType.DOCUMENT_FRAGMENT:
 					new DocumentFragment (xmlnode, this);
 					break;
-				/* TODO: These are not yet implemented */
+					/* TODO: These are not yet implemented */
 				case NodeType.ENTITY_REFERENCE:
 					// new EntityReference (xmlnode, this);
 					break;
@@ -175,18 +179,23 @@ namespace GXml {
 			}
 		}
 
-		// TODO: DTD
+		// TODO: DTD, sort of works
 		/**
-		 * The Document Type Definition (DTD) defining this document. This may be null.
+		 * The Document Type Definition (DTD) defining this document. This may be `null`.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-doctype]]
 		 */
 		public DocumentType? doctype {
 			// either null, or a DocumentType object
-			// STUB
 			get;
 			private set;
 		}
 		/**
 		 * Describes the features of the DOM implementation behind this document.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-implementation]]
 		 */
 		public Implementation implementation {
 			// set in constructor
@@ -195,6 +204,9 @@ namespace GXml {
 		}
 		/**
 		 * The root node of the document's node tree.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-documentElement]]
 		 */
 		public Element document_element {
 			// TODO: should children work at all on Document, or just this, to get root?
@@ -205,7 +217,10 @@ namespace GXml {
 			}
 		}
 
-		List<Xml.Node*> new_nodes = new List<Xml.Node*> ();
+		/* A list of strong references to all GXml.Nodes that this Document has created  */
+		private List<GXml.Node> nodes_to_free = new List<GXml.Node> ();
+		/* A list of references to Xml.Nodes that were created, and may require freeing */
+		private List<Xml.Node*> new_nodes = new List<Xml.Node*> ();
 
 		~Document () {
 			List<Xml.Node*> to_free = new List<Xml.Node*> ();
@@ -229,28 +244,58 @@ namespace GXml {
 			this.xmldoc->free ();
 		}
 
-		/** Constructor */
+		/** Constructors */
+
+		/**
+		 * Creates a Document from a given Implementation, supporting
+		 * the {@ GXml.Implementation.create_document} method.
+		 *
+		 * Version: DOM Level 3 Core
+		 *
+		 * @param impl Implementation creating this Document.
+		 * @param namespace_uri URI for the namespace in which this Document belongs, or `null`.
+		 * @param qualified_name A qualified name for the Document, or `null`.
+		 * @param doctype The type of the document, or `null`.
+		 *
+		 * @return The new document.
+		 */
+		internal Document.with_implementation (Implementation impl, string? namespace_uri, string? qualified_name, DocumentType? doctype) {
+			this ();
+			this.implementation = impl;
+
+			Node root;
+			root = this.create_element (qualified_name); // TODO: we do not currently support namespaces, but when we do, this new node will want one
+			this.append_child (root);
+
+			this.namespace_uri = namespace_uri;
+			/* TODO: find out what should be set to qualified_name; perhaps this.node_name, but then that's supposed
+			   to be "#document" according to NodeType definitions in http://www.w3.org/TR/DOM-Level-3-Core/core.html */
+			this.doctype = doctype;
+		}
+
 		/**
 		 * Creates a Document based on a libxml2 Xml.Doc* object.
 		 */
-		public Document.from_libxml2 (Xml.Doc *doc, bool require_root = true) throws DomError {
+		public Document.from_libxml2 (Xml.Doc *doc, bool require_root = true) {
 			/* All other constructors should call this one,
 			   passing it a Xml.Doc* object */
 
 			Xml.Node *root;
 
-			if (doc == null)
-				throw new DomError.INVALID_DOC ("Failed to parse document.");
+			if (doc == null) // should be impossible
+				GXml.warning (DomException.INVALID_DOC, "Failed to parse document, xmlDoc* was NULL");
+
 			if (require_root) {
 				root = doc->get_root_element ();
-				if (root == null)
-					throw new DomError.INVALID_ROOT ("Could not obtain root for document.");
+				if (root == null) {
+					GXml.warning (DomException.INVALID_ROOT, "Could not obtain a valid root for the document; xmlDoc*'s root was NULL");
+				}
 			}
 
 			// TODO: consider passing root as a base node?
 			base.for_document ();
 
-			this.owner_document = this; // this doesn't exist until after base()
+			this.owner_document = this; // must come after base ()
 			this.xmldoc = doc;
 			if (doc->int_subset == null && doc->ext_subset == null) {
 				this.doctype = null;
@@ -262,12 +307,11 @@ namespace GXml {
 		}
 		/**
 		 * Creates a Document from the file at file_path.
-		 *
-		 * @throws DomError When a Document cannot be constructed for the specified file.
 		 */
-		public Document.from_path (string file_path) throws DomError {
-			Xml.Doc *doc = Xml.Parser.parse_file (file_path); // consider using read_file
+		public Document.from_path (string file_path) {
 			// TODO: might want to check that the file_path exists
+			// consider using Xml.Parser.read_file
+			Xml.Doc *doc = Xml.Parser.parse_file (file_path);
 			this.from_libxml2 (doc);
 		}
 
@@ -345,10 +389,8 @@ namespace GXml {
 		}
 		/**
 		 * Creates a Document from the File fin.
-		 *
-		 * @throws DomError When a Document cannot be constructed for the specified file.
 		 */
-		public Document.from_gfile (File fin, Cancellable? can = null) throws DomError {
+		public Document.from_gfile (File fin, Cancellable? can = null) {
 			// TODO: accept cancellable
 			InputStream instream;
 
@@ -357,15 +399,13 @@ namespace GXml {
 				this.from_stream (instream, can);
 				instream.close ();
 			} catch (GLib.Error e) {
-				throw new DomError.INVALID_DOC (e.message);
+				GXml.warning (DomException.INVALID_DOC, "Could not load document from GFile: %s".printf (e.message));
 			}
 		}
 		/**
 		 * Creates a Document from data provided through the InputStream instream.
-		 *
-		 * @throws DomError When a Document cannot be constructed for the specified stream.
 		 */
-		public Document.from_stream (InputStream instream, Cancellable? can = null) throws DomError {
+		public Document.from_stream (InputStream instream, Cancellable? can = null) {
 			// TODO: accept Cancellable
 			// Cancellable can = new Cancellable ();
 			InputStreamBox box = { instream, can };
@@ -382,10 +422,8 @@ namespace GXml {
 		}
 		/**
 		 * Creates a Document from data found in memory.
-		 *
-		 * @throws DomError When a Document cannot be constructed for the specified data.
 		 */
-		public Document.from_string (string memory) throws DomError {
+		public Document.from_string (string memory) {
 			/* TODO: consider breaking API to support
 			 * xmlParserOptions, encoding, and base URL
 			 * from xmlReadMemory */
@@ -395,7 +433,7 @@ namespace GXml {
 		/**
 		 * Creates an empty document.
 		 */
-		public Document () throws DomError {
+		public Document () {
 			Xml.Doc *doc = new Xml.Doc ();
 			this.from_libxml2 (doc, false);
 		}
@@ -445,7 +483,7 @@ namespace GXml {
 		/**
 		 * Saves a Document to the OutputStream outstream.
 		 */
-		public void save_to_stream (OutputStream outstream, Cancellable? can = null) throws DomError {
+		public void save_to_stream (OutputStream outstream, Cancellable? can = null) {
 			OutputStreamBox box = { outstream, can };
 
 			sync_dirty_elements ();
@@ -462,64 +500,119 @@ namespace GXml {
 		/* Public Methods */
 		/**
 		 * Creates an empty Element node with the tag name
-		 * tag_name. XML example: {{{&lt;Person>&lt;/Person>}}}
+		 * tag_name, which must be a
+		 * [[http://www.w3.org/TR/REC-xml/#NT-Name|valid XML name]].
+		 * Its memory is freed when its owner document is
+		 * freed.
+		 *
+		 * XML example: {{{<Person></Person>}}}
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createElement]]
 		 */
-		public Element create_element (string tag_name) throws DomError {
-			/* TODO: libxml2 doesn't complain about invalid names, but the spec
-			   for DOM Level 1 Core wants us to. Handle ourselves? */
-			// TODO: what does libxml2 do with Elements?  should we just use nodes? probably
-			// TODO: what should we be passing for ns other than old_ns?  Figure it out
+		public unowned Element create_element (string tag_name) {
+			// TODO: what should we be passing for ns other than old_ns?  Figure it out; needed for level 2+ support
 			Xml.Node *xmlelem;
-			Element new_elem;
+
+			check_invalid_characters (tag_name, "element");
 
 			xmlelem = this.xmldoc->new_node (null, tag_name, null);
 			this.new_nodes.append (xmlelem);
-			new_elem = new Element (xmlelem, this);
-			return new_elem;
+
+			Element new_elem = new Element (xmlelem, this);
+			this.nodes_to_free.append (new_elem);
+			unowned Element ret = new_elem;
+
+			return ret;
 		}
 		/**
 		 * Creates a DocumentFragment.
+		 *
+		 * Document fragments do not can contain a subset of a
+		 * document, without being a complete tree.  Its
+		 * memory is freed when its owner document is freed.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createDocumentFragment]]
 		 */
-		public DocumentFragment create_document_fragment () {
-			return new DocumentFragment (this.xmldoc->new_fragment (), this);
+		public unowned DocumentFragment create_document_fragment () {
+			DocumentFragment fragment = new DocumentFragment (this.xmldoc->new_fragment (), this);
+			unowned DocumentFragment ret = fragment;
+			this.nodes_to_free.append (fragment);
+			return ret;
 		}
+
 		/**
 		 * Creates a text node containing the text in data.
+		 * Its memory is freed when its owner document is freed.
+		 *
 		 * XML example:
-		 * {{{&lt;someElement>Text is contained here.&lt;/someElement>}}}
+		 * {{{<someElement>Text is contained here.</someElement>}}}
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createTextNode]]
 		 */
-		public Text create_text_node (string data) {
-			return new Text (this.xmldoc->new_text (data), this);
+		public unowned Text create_text_node (string data) {
+			Text text = new Text (this.xmldoc->new_text (data), this);
+			unowned Text ret = text;
+			this.nodes_to_free.append (text);
+			return ret;
 		}
-		/**
-		 * Creates an XML comment with data. XML example: {{{&lt;!-- data -->}}}
-		 */
-		public Comment create_comment (string data) {
-			return new Comment (this.xmldoc->new_comment (data), this);
-			// TODO: should we be passing around Xml.Node* like this?
-		}
-		/**
-		 * Creates a CDATA section containing data. XML
-		 * example:
-		 * {{{ &lt;![CDATA[Here contains non-XML data, like
-		 * code, or something that requires a lot of special
-		 * XML entities.]]>. }}}
-		 */
-		// TODO: figure out how we can represent ]] in a Valadoc
-		public CDATASection create_cdata_section (string data) throws DomError {
-			check_html ("CDATA section"); // TODO: i18n
 
-			return new CDATASection (this.xmldoc->new_cdata_block (data, (int)data.length), this);
-		}
 		/**
-		 * Creates a Processing Instructions. XML example:
-		 * {{{&lt;?pi_target processing instruction data?>
-		 * &lt;?xml-stylesheet href="style.xsl" type="text/xml"?>}}}
+		 * Creates an XML comment with data.  Its memory is
+		 * freed when its owner document is freed.
+		 *
+		 * XML example: {{{<!-- data -->}}}
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createComment]]
 		 */
-		public ProcessingInstruction create_processing_instruction (string target, string data) throws DomError {
-			check_html ("processing instructions"); // TODO: i18n
-			check_character_validity (target);
-			check_character_validity (data); // TODO: do these use different rules?
+		public unowned Comment create_comment (string data) {
+			// TODO: should we be passing around Xml.Node* like this?
+			Comment comment = new Comment (this.xmldoc->new_comment (data), this);
+			unowned Comment ret = comment;
+			this.nodes_to_free.append (comment);
+			return ret;
+		}
+
+		/**
+		 * Creates a CDATA section containing data.
+		 *
+		 * These do not apply to HTML doctype documents.  Its
+		 * memory is freed when its owner document is freed.
+		 *
+		 * XML example: {{{ <![CDATA[Here contains non-XML
+		 * data, like code, or something that requires a lot
+		 * of special XML entities.]]>. }}}
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createCDATASection]]
+		 */
+		public unowned CDATASection create_cdata_section (string data) {
+			check_not_supported_html ("CDATA section");
+
+			CDATASection cdata = new CDATASection (this.xmldoc->new_cdata_block (data, (int)data.length), this);
+			unowned CDATASection ret = cdata;
+			this.nodes_to_free.append (cdata);
+			return ret;
+		}
+
+		/**
+		 * Creates a Processing Instructions.
+		 *
+		 * XML example: {{{<?pi_target processing instruction
+		 * data?> <?xml-stylesheet href="style.xsl"
+		 * type="text/xml"?>}}}
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createProcessingInstruction]]
+		 */
+		/* TODO: this is not backed by a libxml2 structure, and is not stored in the NodeDict, so we don't know
+		   when it will be freed :(  Figure it out */
+		public ProcessingInstruction create_processing_instruction (string target, string data) {
+			check_not_supported_html ("processing instructions");
+			check_invalid_characters (target, "processing instruction");
 
 			// TODO: want to see whether we can find a libxml2 structure for this
 			ProcessingInstruction pi = new ProcessingInstruction (target, data, this);
@@ -528,52 +621,78 @@ namespace GXml {
 		}
 		// TODO: Consider creating a convenience method for create_attribute_with_value (name, value)
 		/**
-		 * Creates an Attr attribute with name, usually to be associated with an Element.
+		 * Creates an Attr attribute with `name`, usually to be associated with an Element.
+		 *
+		 * XML example: {{{<element attributename="attributevalue">content</element>}}}
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createAttribute]]
 		 */
-		public Attr create_attribute (string name) throws DomError {
-			check_character_validity (name);
+		/* TODO: figure out memory for this; its a Node, not a BackedNode and thus not in nodedict */
+		public Attr create_attribute (string name) {
+			check_invalid_characters (name, "attribute");
 
 			return new Attr (this.xmldoc->new_prop (name, ""), this);
 			// TODO: should we pass something other than "" for the unspecified value?  probably not, "" is working fine so far
 		}
 		/**
-		 * Creates an entity reference. XML example:
-		 * {{{&amp;name;
-		 * &amp;apos;}}}
+		 * Creates an entity reference.
+		 *
+		 * XML example: {{{&name; &apos;}}}
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createEntityReference]]
 		 */
-		public EntityReference create_entity_reference (string name) throws DomError {
-			check_html ("entity reference"); // TODO: i18n
-			check_character_validity (name);
+		public EntityReference create_entity_reference (string name) {
+			check_not_supported_html ("entity reference");
+			check_invalid_characters (name, "entity reference");
 
 			return new EntityReference (name, this);
-			// STUB: figure out what they mean by entity reference and what libxml2 means by it (xmlNewReference ()?)
+			// TODO: doublecheck that libxml2 doesn't have a welldefined ER
 		}
 
 		/**
 		 * Obtains a list of ELements with the given tag name
-		 * tag_name contained within this document.
+		 * `tag_name` contained within this document.
 		 *
 		 * This list is updated as new elements are added to
 		 * the document.
+		 *
+		 * TODO: verify that that last statement is true
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-getElementsByTagName]]
 		 */
-		// TODO: make that last statement true.
 		public NodeList get_elements_by_tag_name (string tag_name) {
 			// TODO: does this ensure that the root element is also included?
-			// http://www.w3.org/TR/DOM-Level-1/level-one-core.html
 			return this.document_element.get_elements_by_tag_name (tag_name);
 		}
 
-		private void check_html (string feature) throws DomError {
-			if (this.doctype != null && this.doctype.name == "html") {
-				// TODO: ^ check name == html by icase
-				throw new DomError.NOT_SUPPORTED ("HTML documents do not support '%s'".printf (feature)); // i18n
+		/**
+		 * Feature should be something like "processing instructions"
+		 */
+		private void check_not_supported_html (string feature) {
+			if (this.doctype != null && (this.doctype.name.casefold () == "html".casefold ())) {
+				GXml.warning (DomException.NOT_SUPPORTED, "HTML documents do not support '%s'".printf (feature)); // TODO: i18n
 			}
 		}
-		private void check_character_validity (string str) throws DomError {
-			if (true == false) { // TODO: define validity
-				throw new DomError.INVALID_CHARACTER ("'%s' contains invalid characters.".printf (str));
+
+		/**
+		 * Subject should be something like "element" or "processing instruction"
+		 */
+		internal static bool check_invalid_characters (string name, string subject) {
+			/* TODO: use Xml.validate_name instead  */
+			if (Xml.validate_name (name, 0) != 0) { // TODO: define validity
+				GXml.warning (DomException.INVALID_CHARACTER, "Provided name '%s' for '%s' is not a valid XML name".printf (name, subject));
+				return false;
 			}
+
+			return true;
 		}
+
+		/**
+		 * {@inheritDoc}
+		 */
 		public override string to_string (bool format = false, int level = 0) {
 			string str;
 			int len;
@@ -584,27 +703,39 @@ namespace GXml {
 			return str;
 		}
 
-		/*** DomNode methods ***/
+		/*** Node methods ***/
 
 		/**
 		 * Appends new_child to this document. A document can
 		 * only have one Element child, the root element, and
 		 * one DocumentType.
 		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-appendChild]]
+		 *
 		 * @return The newly added child.
 		 */
-		public override DomNode? append_child (DomNode new_child) throws DomError {
+		public override unowned Node? append_child (Node new_child) {
+			this.check_wrong_document (new_child);
+			this.check_read_only ();
+
 			if (new_child.node_type == NodeType.ELEMENT) {
 				if (xmldoc->get_root_element () == null) {
 					xmldoc->set_root_element (((Element)new_child).node);
 				} else {
-					throw new DomError.HIERARCHY_REQUEST ("Document already has a root element.  Could not add child element with name '%s'".printf (new_child.node_name));
+					GXml.warning (DomException.HIERARCHY_REQUEST, "Document already has a root element.  Could not add child element with name '%s'".printf (new_child.node_name));
 				}
 			} else if (new_child.node_type == NodeType.DOCUMENT_TYPE) {
+				if (this.doctype == null) {
+					this.doctype = (DocumentType)new_child;
+				} else {
+					GXml.warning (DomException.HIERARCHY_REQUEST, "Document already has a doctype.  Could not add new doctype with name '%s'.".printf (((DocumentType)new_child).name));
+				}
 				GLib.warning ("Appending document_types not yet supported");
 			} else {
 				GLib.warning ("Appending '%s' not yet supported", new_child.node_type.to_string ());
 			}
+
 			return null;
 		}
 	}

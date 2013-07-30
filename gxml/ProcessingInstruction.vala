@@ -34,13 +34,13 @@ namespace GXml {
 	 * To create one, use {@link GXml.Document.create_processing_instruction}.
 	 *
 	 * For an example of a ProcessingInstruction, this one specifies a stylesheet:
-	 * {{{&lt;?xml-stylesheet href="style.xsl" type="text/xml"?>}}}
+	 * {{{<?xml-stylesheet href="style.xsl" type="text/xml"?>}}}
 	 *
 	 * The general form is
-	 * {{{&lt;?pi_target processing instruction data?>}}}
+	 * {{{<?pi_target processing instruction data?>}}}
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1004215813]]
 	 */
-	public class ProcessingInstruction : DomNode {
+	public class ProcessingInstruction : Node {
 		internal ProcessingInstruction (string target, string data, Document doc) {
 			base (NodeType.PROCESSING_INSTRUCTION, doc); // TODO: want to pass a real Xml.Node* ?
 			this.target = target;
@@ -54,13 +54,21 @@ namespace GXml {
 			get;
 			private set;
 		}
+
+		private string _data;
+
 		/**
 		 * The data used by the target, like {{{href="style.xsl" type="text/xml"}}}
 		 */
 		// TODO: confirm that data here is freeform attributes
 		public string data /* throws DomError (not supported yet) */ {
-			get;
-			set;	//throw new DomError.DOM ("Error");
+			get {
+				return _data;
+			}
+			set {
+				this.check_read_only ();
+				this._data = value;
+			}
 		}
 		/**
 		 * The target name.

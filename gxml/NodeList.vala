@@ -27,11 +27,21 @@ using Gee;
 
 namespace GXml {
 	/**
-	 * A live list used to store {@link GXml.DomNode}s. Usually the
-	 * children of a {@link GXml.DomNode}, or the results of
-	 * {@link GXml.Element.get_elements_by_tag_name}.
+	 * A live list used to store {@link GXml.Node}s.
+	 *
+	 * Usually contains the children of a {@link GXml.Node}, or
+	 * the results of {@link GXml.Element.get_elements_by_tag_name}.
+	 * {@link GXml.NodeList} implements both the DOM Level 1 Core API for
+	 * a NodeList, as well as the {@link GLib.List} API, to make
+	 * it more accessible and familiar to GLib programmers.
+	 * Implementing classes also implement {@link Gee.Iterable}, to make
+	 * iteration in supporting languages (like Vala) nice and
+	 * easy.
+	 *
+	 * Version: DOM Level 1 Core
+	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-536297177]]
 	 */
-	public interface NodeList : Gee.Iterable<DomNode> {
+	public interface NodeList : Gee.Iterable<Node> {
 
 		public abstract ulong length { get; private set; }
 		/* NOTE:
@@ -39,69 +49,82 @@ namespace GXml {
 		 *     internal NodeList (Xml.Node* head, Document owner);
 		 */
 
-		/** NodeList methods */
+		/**
+		 * The number of nodes contained within this list
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-length]]
+		 */
+		public abstract ulong length {
+			get; private set;
+		}
+
+
+		/* ** NodeList methods ** */
 
 		/**
 		 * Access the idx'th item in the list.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-item]]
 		 */
-		// TODO: this should throw invalid index or something
-		public abstract DomNode item (ulong idx);
-		/* NOTE: children should implement
-		 *     public ulong length;
-		 * TODO: figure out how to require this as a property; maybe have to make it into a method
-		 */
+		public abstract Node item (ulong idx);
 
-		/* ** GNOME List conventions ***
+
+		/* ** GNOME List conventions **
+		 * These methods mimic those available through GList, to make GXmlNodeList more familiar to GLib programmers.
 		 * Probably don't want to keep all of them since they're not all relevant.
 		 */
+
 		/**
 		 * Call the provided func on each item of the list.
 		 */
-		public abstract void foreach (Func<DomNode> func);
+		public abstract void foreach (Func<Node> func);
 		// TODO: add hints for performance below, perhaps
 		/**
 		 * Retrieve the first node in the list.
 		 */
-		public abstract DomNode first ();
+		public abstract Node first ();
 		/**
 		 * Retrieve the last node in the list.
 		 */
-		public abstract DomNode last ();
+		public abstract Node last ();
 		/**
 		 * Obtain the n'th item in the list. Used for compatibility with GLib.List.
 		 */
-		public abstract DomNode? nth (ulong n);
+		public abstract Node? nth (ulong n);
 		/**
 		 * Obtain the n'th item in the list. Used for compatibility with GLib.List.
 		 */
-		public abstract DomNode? nth_data (ulong n);
+		public abstract Node? nth_data (ulong n);
 		/**
 		 * Obtain the item n places before pivot in the list.
 		 */
-		public abstract DomNode? nth_prev (DomNode pivot, ulong n);
+		public abstract Node? nth_prev (Node pivot, ulong n);
 		/**
 		 * Obtain index for node target in the list.
 		 */
-		public abstract int find (DomNode target);
+		public abstract int find (Node target);
 		/**
 		 * Obtain index for node target in the list, using CompareFunc to compare.
 		 */
-		public abstract int find_custom (DomNode target, CompareFunc<DomNode> cmp);
+		public abstract int find_custom (Node target, CompareFunc<Node> cmp);
 		/**
 		 * Obtain index for node target in the list.
 		 */
-		public abstract int position (DomNode target);
+		public abstract int position (Node target);
 		/**
 		 * Obtain index for node target in the list.
 		 */
-		public abstract int index (DomNode target);
+		public abstract int index (Node target);
 		// TODO: wow, lots of those GList compatibility methods are the same in a case like this.
 
+
 		/* These exist to support management of a node's children */
-		internal abstract DomNode? insert_before (DomNode new_child, DomNode? ref_child) throws DomError;
-		internal abstract DomNode? replace_child (DomNode new_child, DomNode old_child) throws DomError;
-		internal abstract DomNode? remove_child (DomNode old_child) /*throws DomError*/;
-		internal abstract DomNode? append_child (DomNode new_child) /*throws DomError*/;
+		internal abstract unowned Node? insert_before (Node new_child, Node? ref_child);
+		internal abstract unowned Node? replace_child (Node new_child, Node old_child);
+		internal abstract unowned Node? remove_child (Node old_child);
+		internal abstract unowned Node? append_child (Node new_child);
 
 		/**
 		 * Creates an XML string representation of the nodes in the list.
@@ -110,25 +133,30 @@ namespace GXml {
 		 *
 		 * @return The list as an XML string.
 		 */
-		// TODO: write a test
+		/*
+		 * @todo: write a test
+		 */
 		public abstract string to_string (bool in_line);
 	}
 
 	/**
 	 * This provides a NodeList that is backed by a GLib.List of
-	 * DomNodes.  A root DomNode is specified, which is usually the
-	 * owner/parent of the list's contents (children of the
-	 * parent).
+	 * Nodes.  A root {@link GXml.Node} is specified, which
+	 * is usually the owner/parent of the list's contents
+	 * (children of the parent).
 	 */
-	internal class GListNodeList : Gee.Traversable<DomNode>, Gee.Iterable<DomNode>, NodeList, GLib.Object {
-		internal DomNode root;
-		internal GLib.List<DomNode> nodes;
+	internal class GListNodeList : Gee.Traversable<Node>, Gee.Iterable<Node>, NodeList, GLib.Object {
+		internal Node root;
+		internal GLib.List<Node> nodes;
 
-		internal GListNodeList (DomNode root) {
+		internal GListNodeList (Node root) {
 			this.root = root;
-			this.nodes = new GLib.List<DomNode> ();
+			this.nodes = new GLib.List<Node> ();
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		public ulong length {
 			get {
 				return nodes.length ();
@@ -140,87 +168,87 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public DomNode item (ulong idx) {
+		public Node item (ulong idx) {
 			return this.nth_data (idx);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public bool foreach (ForallFunc<DomNode> func) {
+		public bool foreach (ForallFunc<Node> func) {
 			return iterator ().foreach (func);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public DomNode first () {
+		public Node first () {
 			return this.nodes.first ().data;
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public DomNode last () {
+		public Node last () {
 			return this.nodes.last ().data;
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public DomNode? nth (ulong n) {
+		public Node? nth (ulong n) {
 			return this.nth_data (n);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public DomNode? nth_data (ulong n) {
+		public Node? nth_data (ulong n) {
 			return this.nodes.nth_data ((uint)n);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public DomNode? nth_prev (DomNode pivot, ulong n) {
-			unowned GLib.List<DomNode> list_pivot = this.nodes.find (pivot);
+		public Node? nth_prev (Node pivot, ulong n) {
+			unowned GLib.List<Node> list_pivot = this.nodes.find (pivot);
 			return list_pivot.nth_prev ((uint)n).data;
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public int find (DomNode target) {
+		public int find (Node target) {
 			return this.index (target);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public int find_custom (DomNode target, CompareFunc<DomNode> cmp) {
-			unowned GLib.List<DomNode> list_pt = this.nodes.find_custom (target, cmp);
+		public int find_custom (Node target, CompareFunc<Node> cmp) {
+			unowned GLib.List<Node> list_pt = this.nodes.find_custom (target, cmp);
 			return this.index (list_pt.data);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public int position (DomNode target) {
+		public int position (Node target) {
 			return this.index (target);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public int index (DomNode target) {
+		public int index (Node target) {
 			return this.nodes.index (target);
 		}
 
-		internal DomNode? insert_before (DomNode new_child, DomNode? ref_child) throws DomError {
+		internal unowned Node? insert_before (Node new_child, Node? ref_child) {
 			this.nodes.insert_before (this.nodes.find (ref_child), new_child);
 			return new_child;
 		}
-		internal DomNode? replace_child (DomNode new_child, DomNode old_child) throws DomError {
+		internal unowned Node? replace_child (Node new_child, Node old_child) {
 			int pos = this.index (old_child);
 			this.remove_child (old_child);
 			this.nodes.insert (new_child, pos);
 			return old_child;
 		}
-		internal DomNode? remove_child (DomNode old_child) /*throws DomError*/ {
+		internal unowned Node? remove_child (Node old_child) /*throws DomError*/ {
 			this.nodes.remove (old_child);
 			return old_child;
 		}
-		internal DomNode? append_child (DomNode new_child) /*throws DomError*/ {
+		internal unowned Node? append_child (Node new_child) /*throws DomError*/ {
 			this.nodes.append (new_child);
 			return new_child;
 		}
@@ -228,7 +256,7 @@ namespace GXml {
 		public string to_string (bool in_line) {
 			string str = "";
 
-			foreach (DomNode node in this.nodes) {
+			foreach (Node node in this.nodes) {
 				str += node.to_string ();
 			}
 
@@ -238,17 +266,16 @@ namespace GXml {
 		/* ** Iterable methods ***/
 		public GLib.Type element_type {
 			get {
-				return typeof (DomNode);
+				return typeof (Node);
 			}
 		}
-		public Gee.Iterator<DomNode> iterator () {
+		public Gee.Iterator<Node> iterator () {
 			return new NodeListIterator (this);
 		}
 
 		/**
 		 * Iterator for NodeLists.  Allows you to iterate a
 		 * collection neatly in vala.
-		 *
 		 */
 		private class NodeListIterator : GenericNodeListIterator {
 			/* When you receive one, initially you cannot get anything.
@@ -262,9 +289,9 @@ namespace GXml {
 			 * remove () always fails (does nothing)
 			 */
 
-			private unowned GLib.List<DomNode> cur;
-			private unowned GLib.List<DomNode> first_node;
-			private unowned GLib.List<DomNode> next_node;
+			private unowned GLib.List<Node> cur;
+			private unowned GLib.List<Node> first_node;
+			private unowned GLib.List<Node> next_node;
 
 			public NodeListIterator (GListNodeList list) {
 				this.cur = null;
@@ -272,7 +299,7 @@ namespace GXml {
 				this.next_node = list.nodes;
 			}
 
-			protected override DomNode get_current () {
+			protected override Node get_current () {
 				return this.cur.data;
 			}
 
@@ -288,11 +315,12 @@ namespace GXml {
 		}
 	}
 
-	// TODO: this will somehow need to watch the document and find out as new elements are added, and get reconstructed each time, or get reconstructed-on-the-go?
-	internal class TagNameNodeList : GListNodeList {
-		internal string tag_name;
-
-		internal TagNameNodeList (string tag_name, DomNode root, Document owner) {
+	/* TODO: this will somehow need to watch the document and find
+	 * out as new elements are added, and get reconstructed each
+	 * time, or get reconstructed-on-the-go?
+	 */
+	internal class TagNameNodeList : GListNodeList { internal string tag_name;
+		internal TagNameNodeList (string tag_name, Node root, Document owner) {
 			base (root);
 			this.tag_name = tag_name;
 		}
@@ -301,7 +329,7 @@ namespace GXml {
 	/* TODO: warning: this list should NOT be edited :(
 	   we need a new, better live AttrNodeList :| */
 	internal class AttrNodeList : GListNodeList {
-		internal AttrNodeList (DomNode root, Document owner) {
+		internal AttrNodeList (Node root, Document owner) {
 			base (root);
 			base.nodes = root.attributes.get_values ();
 		}
@@ -406,7 +434,7 @@ namespace GXml {
 
 	// TODO: Desperately want to extend List or implement relevant interfaces to make iterable
 	// TODO: remember that the order of interfaces that you're listing as implemented matters
-	internal abstract class ChildNodeList : Gee.Traversable<DomNode>, Gee.Iterable<DomNode>, NodeList, GLib.Object {
+	internal abstract class ChildNodeList : Gee.Traversable<Node>, Gee.Iterable<Node>, NodeList, GLib.Object {
 		/* TODO: must be live
 		   if this reflects children of a node, then must always be current
 		   same with nodes from GetElementByTagName, made need separate impls for each */
@@ -417,7 +445,9 @@ namespace GXml {
 
 		internal abstract Xml.Node *parent_as_xmlnode { get; }
 
-		// TODO: consider uint
+		/**
+		 * {@inheritDoc}
+		 */
 		public ulong length {
 			get {
 				int len = 0;
@@ -429,17 +459,20 @@ namespace GXml {
 			private set { }
 		}
 
-		DomNode item (ulong idx) {
+		/**
+		 * {@inheritDoc}
+		 */
+		public Node item (ulong idx) {
 			return this.nth (idx);
 		}
 
 		/** Iterable methods **/
 		public GLib.Type element_type { // TODO: should we need to use the override keyword when implementing interfaces
 			get {
-				return typeof(DomNode);
+				return typeof(Node);
 			}
 		}
-		public Gee.Iterator<DomNode> iterator () {
+		public Gee.Iterator<Node> iterator () {
 			return new NodeListIterator (this);
 		}
 
@@ -447,30 +480,30 @@ namespace GXml {
 		/** GNOME List conventions
 		 ** Probably don't want to keep all of them since they're not all relevant.
 		 **/
-		public bool foreach (ForallFunc<DomNode> func) {
+		public bool foreach (ForallFunc<Node> func) {
 			return iterator ().foreach (func);
 		}
-		public DomNode first () {
+		public Node first () {
 			return this.owner.lookup_node (head);
 		}
-		public DomNode last () {
+		public Node last () {
 			Xml.Node *cur = head;
 			while (cur != null && cur->next != null) {
 				cur = cur->next;
 			}
 			return this.owner.lookup_node (cur); // TODO :check for nulls?
 		}
-		public DomNode? nth (ulong n) {
+		public Node? nth (ulong n) {
 			Xml.Node *cur = head;
 			for (int i = 0; i < n && cur != null; i++) {
 				cur = cur->next;
 			}
 			return this.owner.lookup_node (cur);
 		}
-		public DomNode? nth_data (ulong n) {
+		public Node? nth_data (ulong n) {
 			return nth (n);
 		}
-		public DomNode? nth_prev (DomNode pivot, ulong n) {
+		public Node? nth_prev (Node pivot, ulong n) {
 			Xml.Node *cur;
 			for (cur = head; cur != null && this.owner.lookup_node (cur) != pivot; cur = cur->next) {
 			}
@@ -482,7 +515,7 @@ namespace GXml {
 			}
 			return this.owner.lookup_node (cur);
 		}
-		public int find (DomNode target) {
+		public int find (Node target) {
 			int pos = 0;
 			Xml.Node *cur;
 			for (cur = head; cur != null && this.owner.lookup_node (cur) != target; cur = cur->next) {
@@ -494,7 +527,7 @@ namespace GXml {
 				return pos;
 			}
 		}
-		public int find_custom (DomNode target, CompareFunc<DomNode> cmp) {
+		public int find_custom (Node target, CompareFunc<Node> cmp) {
 			int pos = 0;
 			Xml.Node *cur;
 			for (cur = head; cur != null && cmp (this.owner.lookup_node (cur), target) != 0; cur = cur->next) {
@@ -506,15 +539,15 @@ namespace GXml {
 				return pos;
 			}
 		}
-		public int position (DomNode target) {
+		public int position (Node target) {
 			return find (target);
 		}
-		public int index (DomNode target) {
+		public int index (Node target) {
 			return find (target);
 		}
 
 		/** Node's child methods, implemented here **/
-		internal new DomNode? insert_before (DomNode new_child, DomNode? ref_child) throws DomError {
+		internal new unowned Node? insert_before (Node new_child, Node? ref_child) {
 			Xml.Node *child = head;
 
 			if (ref_child == null) {
@@ -525,11 +558,11 @@ namespace GXml {
 				child = child->next;
 			}
 			if (child == null) {
-				throw new DomError.NOT_FOUND ("ref_child not found.");
-				// TODO: provide a more useful description of ref_child, but there are so many different types
+				GXml.warning (DomException.NOT_FOUND, "ref_child '%s' not found, was supposed to have '%s' inserted before it.".printf (ref_child.node_name, new_child.node_name));
+				return null;
 			} else {
 				if (new_child.node_type == NodeType.DOCUMENT_FRAGMENT) {
-					foreach (DomNode new_grand_child in new_child.child_nodes) {
+					foreach (Node new_grand_child in new_child.child_nodes) {
 						child->add_prev_sibling (((BackedNode)new_grand_child).node);
 					}
 				} else {
@@ -539,13 +572,13 @@ namespace GXml {
 			return new_child;
 		}
 
-		internal new DomNode? replace_child (DomNode new_child, DomNode old_child) throws DomError {
+		internal new unowned Node? replace_child (Node new_child, Node old_child) {
 			// TODO: verify that libxml2 already removes
 			// new_child first if it is found elsewhere in
 			// the tree.
 
 			// TODO: nuts, if Node as an iface can't have properties,
-			//       then I have to cast these to DomNodes, ugh.
+			//       then I have to cast these to Nodes, ugh.
 			// TODO: need to handle errors?
 
 			// TODO: want to do a 'find_child' function
@@ -563,27 +596,26 @@ namespace GXml {
 					// it is a valid child
 					child->replace (((BackedNode)new_child).node);
 				} else {
-					throw new DomError.NOT_FOUND ("old_child not found");
-					// TODO: provide more useful descr. of old_child
+					GXml.warning (DomException.NOT_FOUND, "old_child '%s' not found, tried to replace with '%s'".printf (old_child.node_name, new_child.node_name));
 				}
 			}
 
 			return old_child;
 		}
-		internal new DomNode? remove_child (DomNode old_child) /* throws DomError */ {
+		internal new unowned Node? remove_child (Node old_child) /* throws DomError */ {
 			// TODO: verify that old_child is a valid child here and then unlink
 
 			((BackedNode)old_child).node->unlink (); // TODO: do we need to free libxml2 stuff manually?
 			return old_child;
 		}
 
-		internal virtual DomNode? append_child (DomNode new_child) /* throws DomError */ {
+		internal virtual unowned Node? append_child (Node new_child) /* throws DomError */ {
 			// TODO: verify that libxml2 will first remove
 			// new_child if it already exists elsewhere in
 			// the tree.
 
 			if (new_child.node_type == NodeType.DOCUMENT_FRAGMENT) {
-				foreach (DomNode grand_child in new_child.child_nodes) {
+				foreach (Node grand_child in new_child.child_nodes) {
 					parent_as_xmlnode->add_child (((BackedNode)grand_child).node);
 				}
 			} else {
@@ -596,7 +628,7 @@ namespace GXml {
 		private string _str;
 		public string to_string (bool in_line = true) {
 			_str = "";
-			foreach (DomNode node in this) {
+			foreach (Node node in this) {
 				_str += node.to_string ();
 			}
 			return _str;
@@ -621,7 +653,7 @@ namespace GXml {
 
 			/* ** model-specific methods ***/
 
-			protected override DomNode get_current () {
+			protected override Node get_current () {
 				return this.doc.lookup_node (this.cur);
 			}
 
@@ -638,12 +670,12 @@ namespace GXml {
 		}
 	}
 
-	private abstract class GenericNodeListIterator : Gee.Traversable<DomNode>, Gee.Iterator<DomNode>, GLib.Object {
-		protected abstract DomNode get_current ();
+	private abstract class GenericNodeListIterator : Gee.Traversable<Node>, Gee.Iterator<Node>, GLib.Object {
+		protected abstract Node get_current ();
 		protected abstract bool is_empty ();
 		protected abstract void advance ();
 
-		public bool foreach (ForallFunc<DomNode> f) {
+		public bool foreach (ForallFunc<Node> f) {
 			var r = this.get ();
 			bool ret = f(r);
 			if (ret && this.next ())
@@ -655,23 +687,23 @@ namespace GXml {
 		/* ** Iterator methods ***/
 
 		/**
-		 * Obtain the current DomNode in the iteration.
+		 * Obtain the current Node in the iteration.
 		 * Returns null if there is none, which occurs
 		 * if the list is empty or if iteration has
 		 * not started (next () has never been
 		 * called).
 		 */
-		public new DomNode get () {
+		public new Node get () {
 			if (this.valid) {
 				return this.get_current ();
 			} else {
-				// TODO: file bug, Iterator wants DomNode, not DomNode?, but it wants us to be able to return null.
+				// TODO: file bug, Iterator wants Node, not Node?, but it wants us to be able to return null.
 				return null;
 			}
 		}
 
 		/**
-		 * Advance to the next DomNode in the list
+		 * Advance to the next Node in the list
 		 */
 		public bool next () {
 			if (this.is_empty ()) {
@@ -684,7 +716,7 @@ namespace GXml {
 		}
 
 		/**
-		 * Checks whether there is a next DomNode in the list.
+		 * Checks whether there is a next Node in the list.
 		 */
 		public bool has_next () {
 			return (! this.is_empty ());

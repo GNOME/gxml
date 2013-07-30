@@ -37,7 +37,9 @@ namespace GXml {
 	 * adjacent text nodes are always merged into one Text node,
 	 * so some functionality for Text, like split_text, will not
 	 * work completely as expected.
-	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1312295772]]
+	 *
+	 * Version: DOM Level 1 Core
+	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-1312295772]]
 	 */
 	public class Text : CharacterData {
 		internal Text (Xml.Node *text_node, Document doc) {
@@ -62,6 +64,9 @@ namespace GXml {
 		 * text and return the second part as a node outside
 		 * of the document tree.
 		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-38853C1D]]
+		 *
 		 * @param offset The point at which to split the Text,
 		 * in number of characters.
 		 *
@@ -69,19 +74,23 @@ namespace GXml {
 		 * now, it is not attached to the tree as a sibling to
 		 * the first part, as the spec wants.
 		 */
-		public Text split_text (ulong offset) throws DomError {
+		public Text split_text (ulong offset) {
+			Text other;
+
+			this.check_read_only ();
+
 			/* libxml2 doesn't handle this directly, in part because it doesn't
 			   allow Text siblings.  Boo! */
-			if (offset < 0 || offset > this.length) {
-				throw new DomError.INDEX_SIZE ("Offset '%u' is invalid for string of length '%u'", offset, this.length); // i18n
+			if (this.check_index_size ("split_text", this.data.length, offset, null)) {
+				other = this.owner_document.create_text_node (this.data.substring ((long)offset));
+				this.data = this.data.substring (0, (long)offset);
+			} else {
+				other = this.owner_document.create_text_node ("");
 			}
-
-			Text other = this.owner_document.create_text_node (this.data.substring ((long)offset));
-			this.data = this.data.substring (0, (long)offset);
 
 			/* TODO: Ugh, can't actually let them be siblings in the tree, as
 			         the spec requests, because libxml2 automatically merges Text
-				 sibligns. */
+				 siblings. */
 			/* this.node->add_next_sibling (other.node); */
 
 			return other;

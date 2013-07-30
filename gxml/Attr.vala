@@ -44,10 +44,12 @@ namespace GXml {
 	 *
 	 * These represent name=value attributes associated with XML
 	 * {@link GXml.Element}s. Values are often represented as strings but can
-	 * also be more complex subtrees for some nodes.  For more, see:
-	 * [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-637646024]]
+	 * also be more complex subtrees for some nodes.
+	 *
+	 * Version: DOM Level 1 Core
+	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-637646024]]
 	 */
-	public class Attr : DomNode {
+	public class Attr : Node {
 		/**
 		 * {@inheritDoc}
 		 */
@@ -114,7 +116,6 @@ namespace GXml {
 			}
 		}
 
-		/* "raises [DomError] on setting/retrieval"?  */
 		private string _node_value;
 		/**
 		 * The node_value for an attribute is a string
@@ -126,7 +127,7 @@ namespace GXml {
 			   nice to use elem.node->get/set_prop (name[,value])  :S */
 			get {
 				this._node_value = "";
-				foreach (DomNode child in this.child_nodes) {
+				foreach (Node child in this.child_nodes) {
 					this._node_value += child.node_value;
 					// TODO: verify that Attr node's child types'
 					// node_values are sufficient for building the Attr's value.
@@ -134,17 +135,13 @@ namespace GXml {
 				return this._node_value;
 			}
 			internal set {
-				try {
-					// TODO: consider adding an empty () method to NodeList
-					foreach (DomNode child in this.child_nodes) {
-						// TODO: this doesn't clear the actual underlying attributes' values, is this what we want to do?  It works if we eventually sync up values
-						this.remove_child (child);
-					}
-					this.append_child (this.owner_document.create_text_node (value));
-					// TODO: may want to normalise
-				} catch (DomError e) {
-					// TODO: handle
+				// TODO: consider adding an empty () method to NodeList
+				foreach (Node child in this.child_nodes) {
+					// TODO: this doesn't clear the actual underlying attributes' values, is this what we want to do?  It works if we eventually sync up values
+					this.remove_child (child);
 				}
+				this.append_child (this.owner_document.create_text_node (value));
+				// TODO: may want to normalise
 				// TODO: need to expand entity references too?
 			}
 		}
@@ -152,7 +149,7 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		/* already doc'd in DomNode */
+		/* already doc'd in Node */
 		public override NodeList? child_nodes {
 			owned get {
 				// TODO: always create a new one?
@@ -170,6 +167,9 @@ namespace GXml {
 
 		/**
 		 * The name of the attribute's name=value pair.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-1112119403]]
 		 */
 		public string name {
 			get {
@@ -185,7 +185,10 @@ namespace GXml {
 		 * underlying document. If the attribute is changed,
 		 * it is set to false.
 		 *
-		 * #todo: this requires support from the DTD, and
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-862529273]]
+		 */
+		/* @todo: this requires support from the DTD, and
 		 * probably libxml2's xmlAttribute
 		 */
 		public bool specified {
@@ -199,6 +202,9 @@ namespace GXml {
 		 * It is a stringified version of the value, which can
 		 * also be accessed as a tree node structure of
 		 * child_nodes.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-221662474]]
 		 */
 		public string value {
 			get {
@@ -214,25 +220,25 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override DomNode? insert_before (DomNode new_child, DomNode? ref_child) throws DomError {
+		public override unowned Node? insert_before (Node new_child, Node? ref_child) {
 			return this.child_nodes.insert_before (new_child, ref_child);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public override DomNode? replace_child (DomNode new_child, DomNode old_child) throws DomError {
+		public override unowned Node? replace_child (Node new_child, Node old_child) {
 			return this.child_nodes.replace_child (new_child, old_child);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public override DomNode? remove_child (DomNode old_child) throws DomError {
+		public override unowned Node? remove_child (Node old_child) {
 			return this.child_nodes.remove_child (old_child);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public override DomNode? append_child (DomNode new_child) throws DomError {
+		public override unowned Node? append_child (Node new_child) {
 			return this.child_nodes.append_child (new_child);
 		}
 		/**
@@ -244,7 +250,7 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override DomNode? clone_nodes (bool deep) {
+		public override Node? clone_node (bool deep) {
 			return this; // STUB
 		}
 	}

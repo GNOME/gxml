@@ -33,7 +33,7 @@ namespace GXml {
 	 * To create one, use {@link GXml.Document.create_cdata_section}.
 	 *
 	 * An XML example would be like:
-	 * {{{ &lt;![CDATA[Here contains non-XML data, like code, or something that
+	 * {{{ <![CDATA[Here contains non-XML data, like code, or something that
 	 * requires a lot of special XML entities.]]>. }}}
 	 * It is a type of Text node. For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-667469212]]
 	 */

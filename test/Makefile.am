@@ -9,7 +9,6 @@ AM_CPPFLAGS = \
 	-DPACKAGE_DATA_DIR=\""$(datadir)"\"
 
 AM_CFLAGS = \
-	-Wall \
 	-g \
 	$(GLIB_CFLAGS) \
 	$(GXML_CFLAGS) \
@@ -30,7 +29,7 @@ gxml_test_SOURCES = \
 	AttrTest.vala \
 	CharacterDataTest.vala \
 	DocumentTest.vala \
-	DomNodeTest.vala \
+	NodeTest.vala \
 	ElementTest.vala \
 	GXmlTest.vala \
 	NodeListTest.vala \

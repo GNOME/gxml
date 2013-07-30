@@ -29,7 +29,7 @@ namespace GXml {
 	 *
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-412266927]]
 	 */
-	public class DocumentType : DomNode {
+	public class DocumentType : Node {
 		private Xml.Dtd *int_subset;
 		private Xml.Dtd *ext_subset;
 
@@ -46,15 +46,20 @@ namespace GXml {
 		/* Public properties */
 
 		/**
-		 * That which follows DOCTYPE, like 'xml' or 'html', For example, the name
-		 * 'html' exists for a document with the XML doctype
-		 * declaration of {{{ &lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> }}}
+		 * That which follows DOCTYPE in the XML doctype
+		 * declaration, like 'xml' or 'html'. For example, the
+		 * document type name is 'html' for a document with
+		 * the XML doctype declaration of {{{ <!DOCTYPE
+		 * HTML PUBLIC "-//W3C//DTD HTML 4.01
+		 * Transitional//EN"
+		 * "http://www.w3.org/TR/html4/loose.dtd"> }}}
 		*/
 		public string name {
 			get {
 				// TODO: is it possible for int_subset and ext_subset to have different names?
 				return this.int_subset->name;
 			}
+			// TODO: should this match node_name?
 			private set {
 			}
 		}

@@ -94,7 +94,7 @@ namespace GXml {
 		 *
 		 * This property must be ignored on serialisation.
 		 */
-		public abstract HashTable<string,GXml.DomNode>    unknown_serializable_property { get; protected set; }
+		public abstract HashTable<string,GXml.Node>    unknown_serializable_property { get; protected set; }
 
 		/**
 		 * Used by to add content in an {@link GXml.Element}.
@@ -108,7 +108,7 @@ namespace GXml {
 		 *
 		 * @doc an {@link GXml.Document} object to serialise to 
 		 */
-		public virtual DomNode? serialize (DomNode node) throws DomError
+		public virtual Node? serialize (DomNode node) throws DomError
 		{
 			Document doc;
 			if (node is Document)
@@ -135,9 +135,9 @@ namespace GXml {
 		 * Interface method to handle serialization of an
 		 * individual property.  The implementing class
 		 * receives a description of it, and should create a
-		 * {@link GXml.DomNode} that encapsulates the property.
-		 * {@link GXml.Serialization} will embed the {@link GXml.DomNode} into
-		 * a "Property" {@link GXml.Element}, so the {@link GXml.DomNode}
+		 * {@link GXml.Node} that encapsulates the property.
+		 * {@link GXml.Serialization} will embed the {@link GXml.Node} into
+		 * a "Property" {@link GXml.Element}, so the {@link GXml.Node}
 		 * returned can often be something as simple as
 		 * {@link GXml.Text}.
 		 *
@@ -148,10 +148,10 @@ namespace GXml {
 		 *
 		 * @param property_name string name of a property to serialize.
 		 * @param spec the {@link GLib.ParamSpec} describing the property.
-		 * @param doc the {@link GXml.Document} the returned {@link GXml.DomNode} should belong to
-		 * @return a new {@link GXml.DomNode}, or `null`
+		 * @param doc the {@link GXml.Document} the returned {@link GXml.Node} should belong to
+		 * @return a new {@link GXml.Node}, or `null`
 		 */
-		public virtual GXml.DomNode? serialize_property (Element element,
+		public virtual GXml.Node? serialize_property (Element element,
 		                                                 GLib.ParamSpec prop)
 		                                                 throws DomError
 		{

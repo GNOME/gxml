@@ -73,7 +73,7 @@ class DocumentTest : GXmlTest {
 					string xml = "<Fruits><Apple></Apple><Orange></Orange></Fruits>";
 					Document doc = new Document.from_string (xml);
 
-					DomNode root = doc.document_element;
+					GXml.Node root = doc.document_element;
 					assert (root.node_name == "Fruits");
 					assert (root.has_child_nodes () == true);
 					assert (root.first_child.node_name == "Apple");
@@ -118,36 +118,17 @@ class DocumentTest : GXmlTest {
 				}
 			});
 		Test.add_func ("/gxml/document/create_element", () => {
-				try {
-					Document doc = get_doc ();
-					Element elem = null;
+				Document doc = get_doc ();
+				Element elem = null;
 
-					try {
-						elem = doc.create_element ("Banana");
+				elem = doc.create_element ("Banana");
+				test_error (DomException.NONE);
+				assert (elem.tag_name == "Banana");
+				assert (elem.tag_name != "banana");
 
-						assert (elem.tag_name == "Banana");
-						assert (elem.tag_name != "banana");
-					} catch (DomError e) {
-						assert_not_reached ();
-					}
-
-					try {
-						elem = doc.create_element ("ØÏØÏØ¯ÏØÏ  ²øœ³¤ïØ£");
-
-						/* TODO: want to test this, would need to
-						   circumvent libxml2 though, and would we end up wanting
-						   to validate all nodes libxml2 would let in when reading
-						   but not us? :S
-
-						   // We should not get this far
-						   assert_not_reached ();
-						*/
-					} catch (DomError.INVALID_CHARACTER e) {
-					}
-				} catch (GXml.DomError e) {
-					Test.message ("%s", e.message);
-					assert_not_reached ();
-				}
+				elem = doc.create_element ("ØÏØÏØ¯ÏØÏ  ²øœ³¤ïØ£");
+				test_error (DomException.INVALID_CHARACTER);
+				// assert (elem == null); // TODO: decide what we want returned on DomExceptions
 			});
 		Test.add_func ("/gxml/document/create_document_fragment", () => {
 				try {
@@ -366,8 +347,8 @@ class DocumentTest : GXmlTest {
 ");
 	}
 
-	public static void print_node (DomNode node) {
-		List<GXml.DomNode> children = (List<GXml.DomNode>)node.child_nodes;
+	public static void print_node (GXml.Node node) {
+		List<GXml.Node> children = (List<GXml.Node>)node.child_nodes;
 
 		if (node.node_type != 3)
 			GLib.stdout.printf ("<%s", node.node_name);
@@ -380,7 +361,7 @@ class DocumentTest : GXmlTest {
 		GLib.stdout.printf (">");
 		if (node.node_value != null)
 			GLib.stdout.printf ("%s", node.node_value);
-		foreach (GXml.DomNode child in children) {
+		foreach (GXml.Node child in children) {
 			// TODO: want a stringification method for Nodes?
 			print_node (child);
 		}

@@ -33,11 +33,13 @@ namespace GXml {
 	 * These can have child nodes
 	 * of various types including other Elements. Elements can
 	 * have Attr attributes associated with them. Elements have
-	 * tag names. In addition to methods inherited from DomNode,
+	 * tag names. In addition to methods inherited from Node,
 	 * Elements have additional methods for manipulating
 	 * attributes, as an alternative to manipulating the
-	 * attributes HashMap directly. For more, see:
-	 * [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-745549614]]
+	 * attributes HashMap directly.
+	 *
+	 * Version: DOM Level 1 Core
+	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-745549614]]
 	 */
 	public class Element : BackedNode {
 		/* Public properties */
@@ -51,6 +53,9 @@ namespace GXml {
 		 *   &lt;img src="..." />
 		 * &lt;/photos>}}}
 		 * In this example, photos and img are tag names.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-104682815]]
 		 */
 		public string tag_name {
 			get {
@@ -62,6 +67,7 @@ namespace GXml {
 			private set {
 			}
 		}
+
 		/**
 		 * Elements do not have a node_value. Instead, their
 		 * contents are stored in Attr attributes and in
@@ -87,17 +93,17 @@ namespace GXml {
 		 * other methods are reflected in the attributes
 		 * HashTable.
 		 */
-		/*
-		 * #todo: verify that because we're giving them a
-		 * reference to our own attributes HashTable for
-		 * manipulating, that our methods do keep it live, so
-		 * we don't need to implement NamedNodeMap.
-		 *
-		 * #todo: make sure we fill our _attributes at
-		 * construction time with the attributes from the
-		 * document.
-		 */
 		public override HashTable<string,Attr>? attributes {
+			/*
+			 * #todo: verify that because we're giving them a
+			 * reference to our own attributes HashTable for
+			 * manipulating, that our methods do keep it live, so
+			 * we don't need to implement NamedNodeMap.
+			 *
+			 * #todo: make sure we fill our _attributes at
+			 * construction time with the attributes from the
+			 * document.
+			 */
 			/* TODO: make sure we want the user to be able
 			 * to manipulate attributes using this
 			 * HashTable. Yes, we do, it should be a live
@@ -210,6 +216,9 @@ namespace GXml {
 		 * attribute associated with this element with the
 		 * name name.
 		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-666EE0F9]]
+		 *
 		 * @param name The name of the attribute whose value to retrieve.
 		 *
 		 * @return The value of the named attribute, or "" if
@@ -228,10 +237,13 @@ namespace GXml {
 		 * Set the value of this element's attribute named
 		 * name to the string value.
 		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-F68F082]]
+		 *
 		 * @param name Name of the attribute whose value to set.
 		 * @param value The value to set.
 		 */
-		public void set_attribute (string name, string value) throws DomError {
+		public void set_attribute (string name, string value) {
 			// don't need to use insert
 			Attr attr = this.attributes.lookup (name);
 			if (attr == null) {
@@ -252,13 +264,22 @@ namespace GXml {
 		/**
 		 * Remove the attribute named name from this element.
 		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-6D6AC0F9]]
+		 *
 		 * @param name The name of the attribute to unset.
 		 */
-		public void remove_attribute (string name) throws DomError {
+		public void remove_attribute (string name) {
+			this.check_read_only (); // TODO: check all this.check_*, and see if we should be aborting the current functions on failure or just warn, like here
+
+
 			this.attributes.remove (name);
 		}
 		/**
 		 * Get the Attr node representing this element's attribute named name.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-217A91B8]]
 		 *
 		 * @param name The name of the Attr node to retrieve.
 		 *
@@ -271,13 +292,22 @@ namespace GXml {
 		/**
 		 * Set the attribute in Attr for this element.
 		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-887236154]]
+		 *
 		 * @param new_attr The attribute to set.
 		 *
 		 * @return If an Attr with the same name exists, it
 		 * is replaced and the old Attr is returned.
 		 * Elsewise, null is returned.
 		 */
-		public Attr set_attribute_node (Attr new_attr) throws DomError {
+		public Attr set_attribute_node (Attr new_attr) {
+			// TODO: INUSE_ATTRIBUTE_ERR if new_attr already belongs to another element
+
+			this.check_read_only ();
+
+			this.check_wrong_document (new_attr);
+
 			// TODO: need to actually associate this with the libxml2 structure!
 			// TODO: need to do that at the time of saving. We don't right now :|
 			Attr old = this.attributes.lookup (new_attr.name);
@@ -289,19 +319,26 @@ namespace GXml {
 		 * Remove Attr old_attr from this element, if it was
 		 * set.
 		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-D589198]]
+		 *
 		 * @param old_attr The Attr we are removing.
 		 *
 		 * @return The old_attr we wanted to remove, even if
 		 * it wasn't found.
 		 */
-		public Attr remove_attribute_node (Attr old_attr) throws DomError {
-			// TODO: need to check for nulls. < Nope, ? controls that.
-			this.attributes.remove (old_attr.name);
+		public Attr remove_attribute_node (Attr old_attr) {
+			this.check_read_only ();
+
+			if (this.attributes.remove (old_attr.name) == false) {
+				GXml.warning (DomException.NOT_FOUND, "No child with name '%s' exists in node '%s'".printf (old_attr.name, this.node_name));
+			}
+
 			return old_attr;
 		}
 
 		// TODO: consider making the life of TagNameNodeLists optional, and dead by default, at the Document level
-		private void check_add_tag_name (Element basenode, DomNode child) {
+		private void check_add_tag_name (Element basenode, Node child) {
 			// TODO: make sure there aren't any other NodeTypes that could have elements as children
 			if (child.node_type == NodeType.ELEMENT || child.node_type == NodeType.DOCUMENT_FRAGMENT) {
 				// the one we're examining is an element, and might need to be added
@@ -310,7 +347,7 @@ namespace GXml {
 				}
 
 				// if we're adding an element with descendants, or a document fragment, they might contain nodes that should go into a tag name node list for an ancestor node
-				foreach (DomNode grand_child in child.child_nodes) {
+				foreach (Node grand_child in child.child_nodes) {
 					check_add_tag_name (basenode, grand_child);
 				}
 			}
@@ -320,38 +357,38 @@ namespace GXml {
 		 * are elements.  If they are, we check the basenode and its ancestors to see
 		 * whether they're keeping that node in a TagNameNodeList, so we can remove it.
 		 */
-		private void check_remove_tag_name (Element basenode, DomNode child) {
+		private void check_remove_tag_name (Element basenode, Node child) {
 			// TODO: make sure there aren't any other NodeTypes that could have elements as children
 			if (child.node_type == NodeType.ELEMENT) {
 				// the one we're examining is an element, and might need to be removed from a tag name node list
 				basenode.on_remove_descendant_with_tag_name ((Element)child);
 
 				// if we're removing an element with descendants, it might contain nodes that should also be removed from a tag name node list for an ancestor node
-				foreach (DomNode grand_child in child.child_nodes) {
+				foreach (Node grand_child in child.child_nodes) {
 					check_remove_tag_name (basenode, grand_child);
 				}
 			}
 		}
 
-		/* ** DomNode methods ** */
-		public override DomNode? insert_before (DomNode new_child, DomNode? ref_child) throws DomError {
-			DomNode ret = base.insert_before (new_child, ref_child);
+		/* ** Node methods ** */
+		public override unowned Node? insert_before (Node new_child, Node? ref_child) {
+			unowned Node ret = base.insert_before (new_child, ref_child);
 			check_add_tag_name (this, new_child);
 			return ret;
 		}
-		public override DomNode? replace_child (DomNode new_child, DomNode old_child) throws DomError {
+		public override unowned Node? replace_child (Node new_child, Node old_child) {
 			check_remove_tag_name (this, old_child);
-			DomNode ret = base.replace_child (new_child, old_child);
+			unowned Node ret = base.replace_child (new_child, old_child);
 			check_add_tag_name (this, new_child);
 			return ret;
 		}
-		public override DomNode? remove_child (DomNode old_child) throws DomError {
+		public override unowned Node? remove_child (Node old_child) {
 			check_remove_tag_name (this, old_child);
-			DomNode ret = base.remove_child (old_child);
+			unowned Node ret = base.remove_child (old_child);
 			return ret;
 		}
-		public override DomNode? append_child (DomNode new_child) throws DomError {
-			DomNode ret = base.append_child (new_child);
+		public override unowned Node? append_child (Node new_child) {
+			unowned Node ret = base.append_child (new_child);
 			check_add_tag_name (this, new_child);
 			return ret;
 		}
@@ -410,7 +447,7 @@ namespace GXml {
 		private void on_remove_descendant_with_tag_name (Element elem) {
 			foreach (TagNameNodeList list in tag_name_lists) {
 				if (elem.tag_name == list.tag_name) {
-					foreach (DomNode tag_elem in list) {
+					foreach (Node tag_elem in list) {
 						if (((Element)tag_elem) == elem) {
 							list.remove_child (tag_elem);
 							break;
@@ -430,6 +467,9 @@ namespace GXml {
 		 * matches. The returned list is updated as necessary
 		 * as the tree changes.
 		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-1938918D]]
+		 *
 		 * @param tag_name The tag name to match for.
 		 *
 		 * @return A NOdeList containing the matching descendants.
@@ -439,7 +479,7 @@ namespace GXml {
 		 */
 		public NodeList get_elements_by_tag_name (string tag_name) {
 			TagNameNodeList tagged = new TagNameNodeList (tag_name, this, this.owner_document);
-			//List<DomNode> tagged = new List<DomNode> ();
+			//List<Node> tagged = new List<Node> ();
 			Queue<Xml.Node*> tocheck = new Queue<Xml.Node*> ();
 
 			/* TODO: find out whether we are supposed to include this element,
@@ -468,6 +508,9 @@ namespace GXml {
 		 * descendants of this element. Sibling Text nodes
 		 * are not distinguishable in XML when stored outside
 		 * of the DOM.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-162CF083]]
 		 */
 		public void normalize () {
 			// TODO: do not normalise CDATASection which
@@ -475,9 +518,7 @@ namespace GXml {
 			//       will be a problem, given that it will
 			//       have a different .node_type
 
-			// STUB
-
-			foreach (DomNode child in this.child_nodes) {
+			foreach (Node child in this.child_nodes) {
 				switch (child.node_type) {
 				case NodeType.ELEMENT:
 					((Element)child).normalize ();
