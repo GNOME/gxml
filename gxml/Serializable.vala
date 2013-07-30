@@ -72,7 +72,7 @@ namespace GXml {
 	 */
 	public interface Serializable : GLib.Object {
 		/**
-		 * Defines the way to set DomNode name.
+		 * Defines the way to set Node name.
 		 *
 		 * By default is set to object's type's name lowercase.
 		 *
@@ -89,7 +89,7 @@ namespace GXml {
 		 */
 		public abstract HashTable<string,GLib.ParamSpec>  ignored_serializable_properties { get; protected set; }
 		/**
-		 * On deserialization stores any {@link DomNode} not used on this
+		 * On deserialization stores any {@link Node} not used on this
 		 * object, but exists in current XML file.
 		 *
 		 * This property must be ignored on serialisation.
@@ -108,7 +108,7 @@ namespace GXml {
 		 *
 		 * @doc an {@link GXml.Document} object to serialise to 
 		 */
-		public virtual Node? serialize (DomNode node) throws DomError
+		public virtual Node? serialize (Node node) throws DomError
 		{
 			Document doc;
 			if (node is Document)
@@ -163,7 +163,7 @@ namespace GXml {
 				var obj = (Serializable) v.get_object ();
 				return obj.serialize (element);
 			}
-			DomNode node = null;
+			Node node = null;
 			Value oval = Value (prop.value_type);
 			get_property (prop.name, ref oval);
 			string val = "";
@@ -180,7 +180,7 @@ namespace GXml {
 				}
 				else
 					attr.value = val;
-				return (DomNode) attr;
+				return (Node) attr;
 			}
 			this.serialize_unknown_property (element, prop, out node);
 			return node;
@@ -189,9 +189,9 @@ namespace GXml {
 		/**
 		 * Deserialize this object.
 		 *
-		 * @node {@link GXml.DomNode} used to deserialize from.
+		 * @node {@link GXml.Node} used to deserialize from.
 		 */
-		public virtual DomNode? deserialize (DomNode node)
+		public virtual Node? deserialize (Node node)
 		                                     throws SerializableError,
 		                                            DomError
 		{
@@ -216,7 +216,7 @@ namespace GXml {
 			if (element.has_child_nodes ())
 			{
 				GLib.message ("Have child Elements ...");
-				foreach (DomNode n in element.child_nodes)
+				foreach (Node n in element.child_nodes)
 				{
 					GLib.message (@"Deseralizing Element: $(n.node_name)");
 					deserialize_property (n);
@@ -232,19 +232,19 @@ namespace GXml {
 		 * Interface method to handle deserialization of an
 		 * individual property.  The implementing class
 		 * receives a description of the property and the
-		 * {@link GXml.DomNode} that contains the content.  The
+		 * {@link GXml.Node} that contains the content.  The
 		 * implementing {@link GXml.Serializable} object can extract
-		 * the data from the {@link GXml.DomNode} and store it in its
-		 * property itself. Note that the {@link GXml.DomNode} may be
+		 * the data from the {@link GXml.Node} and store it in its
+		 * property itself. Note that the {@link GXml.Node} may be
 		 * as simple as a {@link GXml.Text} that stores the data as a
 		 * string.
 		 *
 		 * @param property_name the name of the property as a string
 		 * @param spec the {@link GLib.ParamSpec} describing the property.
-		 * @param property_node the {@link GXml.DomNode} encapsulating data to deserialize
+		 * @param property_node the {@link GXml.Node} encapsulating data to deserialize
 		 * @return `true` if the property was handled, `false` if {@link GXml.Serialization} should handle it.
 		 */
-		public virtual bool deserialize_property (GXml.DomNode property_node)
+		public virtual bool deserialize_property (GXml.Node property_node)
 		                                          throws SerializableError,
 		                                          DomError
 		{
@@ -272,9 +272,9 @@ namespace GXml {
 			}
 			else {
 				Value val = Value (prop.value_type);
-				if (Value.type_transformable (typeof (DomNode), prop.value_type))
+				if (Value.type_transformable (typeof (Node), prop.value_type))
 				{
-					Value tmp = Value (typeof (DomNode));
+					Value tmp = Value (typeof (Node));
 					tmp.set_object (property_node);
 					ret = tmp.transform (ref val);
 					set_property (prop.name, val);
@@ -300,19 +300,19 @@ namespace GXml {
 		/**
 		 * Signal to serialize unknown properties.
 		 * 
-		 * @node a {@link GXml.DomNode} to add attribute or child nodes to
+		 * @node a {@link GXml.Node} to add attribute or child nodes to
 		 * @prop a {@link GLib.ParamSpec} describing attribute to serialize
 		 * @attribute set to the {@link GXml.Attr} representing this attribute
 		 */
-		public signal void serialize_unknown_property (DomNode element, ParamSpec prop, out DomNode node);
+		public signal void serialize_unknown_property (Node element, ParamSpec prop, out Node node);
 
 		/**
 		 * Signal to deserialize array properties.
 		 *
-		 * @node a {@link GXml.DomNode} to get attribute from
+		 * @node a {@link GXml.Node} to get attribute from
 		 * @prop a {@link GLib.ParamSpec} describing attribute to deserialize
 		 */
-		public signal void deserialize_unknown_property (DomNode node, ParamSpec prop);
+		public signal void deserialize_unknown_property (Node node, ParamSpec prop);
 
 		/*
 		 * Handles finding the {@link GLib.ParamSpec} for a given property.
@@ -373,7 +373,7 @@ namespace GXml {
 				                                     get_class ().find_property("serializable-node-name"));
 			}
 			if (unknown_serializable_property == null) {
-				unknown_serializable_property = new HashTable<string,GXml.DomNode> (str_hash, str_equal);
+				unknown_serializable_property = new HashTable<string,GXml.Node> (str_hash, str_equal);
 			}
 		}
 

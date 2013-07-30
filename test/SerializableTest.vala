@@ -31,7 +31,7 @@ public class SerializableTomato : GLib.Object, GXml.Serializable
 	public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; private set; }
 	public bool serializable_property_use_nick { get; set; }
 	public string? serialized_xml_node_value { get; protected set; }
-	public GLib.HashTable<string,GXml.DomNode> unknown_serializable_property { get; private set; }
+	public GLib.HashTable<string,GXml.Node> unknown_serializable_property { get; private set; }
 	public string serializable_node_name { get; protected set; }
 
 	public int weight;
@@ -70,7 +70,7 @@ public class SerializableCapsicum : GLib.Object, GXml.Serializable
 	public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; private set; }
 	public bool serializable_property_use_nick { get; set; }
 	public string? serialized_xml_node_value { get; protected set; }
-	public GLib.HashTable<string,GXml.DomNode> unknown_serializable_property { get; private set; }
+	public GLib.HashTable<string,GXml.Node> unknown_serializable_property { get; private set; }
 	public string serializable_node_name { get; protected set; }
 
 	public int weight;
@@ -97,19 +97,10 @@ public class SerializableCapsicum : GLib.Object, GXml.Serializable
 		serializable_node_name = "capsicum";
 	}
 
-<<<<<<< HEAD
-	public bool deserialize_property (GXml.DomNode property_node)
+	public bool deserialize_property (GXml.Node property_node)
                                     throws SerializableError,
 		                                       DomError
 	{
-=======
-	/* TODO: do we really need GLib.Value? or should we modify the object directly?
-	   Want an example using GBoxed too
-	   Perhaps these shouldn't be object methods, perhaps they should be static?
-	   Can't have static methods in an interface :(, right? */
-	public bool deserialize_property (string property_name, /* out GLib.Value value, */
-					  GLib.ParamSpec spec, GXml.Node property_node)  {
->>>>>>> gsoc2013
 		GLib.Value outvalue = GLib.Value (typeof (int));
 
 		switch (property_node.node_name) {
@@ -132,18 +123,12 @@ public class SerializableCapsicum : GLib.Object, GXml.Serializable
 
 		return false;
 	}
-<<<<<<< HEAD
-	public GXml.DomNode? serialize_property (Element element,
+	public GXml.Node? serialize_property (Element element,
                                            GLib.ParamSpec spec)
                                            throws DomError
 	{
-		GXml.Document doc = element.owner_document;
-=======
-	public GXml.Node? serialize_property (string property_name, /*GLib.Value value,*/ GLib.ParamSpec spec, GXml.Document doc) {
-		GXml.Element c_prop;
->>>>>>> gsoc2013
 		GXml.Element rating;
-
+		Document doc = element.owner_document;
 		switch (spec.name) {
 		case "ratings":
 			GXml.DocumentFragment frag = doc.create_document_fragment ();
@@ -177,7 +162,7 @@ public class SerializableBanana : GLib.Object, GXml.Serializable
 	public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; private set; }
 	public bool serializable_property_use_nick { get; set; }
 	public string? serialized_xml_node_value { get; protected set; }
-	public GLib.HashTable<string,GXml.DomNode> unknown_serializable_property { get; private set; }
+	public GLib.HashTable<string,GXml.Node> unknown_serializable_property { get; private set; }
 	public string serializable_node_name { get; protected set; }
 
 	private int private_field;

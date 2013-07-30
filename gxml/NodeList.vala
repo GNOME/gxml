@@ -42,8 +42,6 @@ namespace GXml {
 	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-536297177]]
 	 */
 	public interface NodeList : Gee.Iterable<Node> {
-
-		public abstract ulong length { get; private set; }
 		/* NOTE:
 		 * children should define constructors like:
 		 *     internal NodeList (Xml.Node* head, Document owner);
@@ -55,9 +53,7 @@ namespace GXml {
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-length]]
 		 */
-		public abstract ulong length {
-			get; private set;
-		}
+		public abstract ulong length { get; private set; }
 
 
 		/* ** NodeList methods ** */

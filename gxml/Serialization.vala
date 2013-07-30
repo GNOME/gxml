@@ -88,16 +88,12 @@ namespace GXml {
 		 * {@link GLib.Value} can transform into a string, and
 		 * operates recursively.
 		 */
-<<<<<<< HEAD
-		private static GXml.DomNode serialize_property (GLib.Object object,
+		private static GXml.Node serialize_property (GLib.Object object,
 		                                                ParamSpec prop_spec,
 		                                                GXml.Document doc)
 		                                                throws SerializationError,
 		                                                       DomError
 		{
-=======
-		private static GXml.Node serialize_property (GLib.Object object, ParamSpec prop_spec, GXml.Document doc) throws SerializationError {
->>>>>>> gsoc2013
 			Type type;
 			Value value;
 			Node value_node;
@@ -227,7 +223,7 @@ namespace GXml {
 			Element root;
 			ParamSpec[] prop_specs;
 			Element prop;
-			DomNode value_prop = null;
+			Node value_prop = null;
 			string oid;
 
 			// If the object has been serialized before, let's not do it again!
