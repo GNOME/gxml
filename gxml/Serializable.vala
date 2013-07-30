@@ -221,9 +221,9 @@ namespace GXml {
 					GLib.message (@"Deseralizing Element: $(n.node_name)");
 					deserialize_property (n);
 				}
-				if (serialized_xml_node_value != null)
-					element.content = serialized_xml_node_value;
 			}
+			if (element.content != null)
+					serialized_xml_node_value = element.content;
 			return null;
 		}
 		/**
