@@ -600,9 +600,6 @@ class SerializationTest : GXmlTest {
 					} catch (GXml.SerializationError e) {
 						Test.message ("%s", e.message);
 						assert_not_reached ();
-					} catch (GXml.DomError e) {
-						Test.message ("%s", e.message);
-						assert_not_reached ();
 					}
 				});
 			Test.add_func ("/gxml/serialization/simple_fields", () => {

@@ -108,15 +108,10 @@ public class SerializableCapsicum : GLib.Object, GXml.Serializable {
 		switch (property_name) {
 		case "ratings":
 			GXml.DocumentFragment frag = doc.create_document_fragment ();
-			try {
-				foreach (int rating_int in ratings) {
-					rating = doc.create_element ("rating");
-					rating.content = "%d".printf (rating_int);
-					frag.append_child (rating);
-				}
-			} catch (GXml.DomError e) {
-				Test.message ("%s", e.message);
-				assert_not_reached ();
+			foreach (int rating_int in ratings) {
+				rating = doc.create_element ("rating");
+				rating.content = "%d".printf (rating_int);
+				frag.append_child (rating);
 			}
 			return frag;
 		case "height":
