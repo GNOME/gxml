@@ -14,160 +14,124 @@ using GXml;
 class ElementTest : GXmlTest  {
 	public static void add_tests () {
 		Test.add_func ("/gxml/element/namespace_support_manual", () => {
-				try {
-					// TODO: wanted to use TestElement but CAN'T because Vala won't let me access the internal constructor of Element?
-					Xml.Doc *xmldoc;
-					Xml.Node *xmlroot;
-					Xml.Node *xmlnode;
-					Xml.Ns *ns_magic;
-					Xml.Ns *ns_course;
-					xmldoc = new Xml.Doc ();
+				// TODO: wanted to use TestElement but CAN'T because Vala won't let me access the internal constructor of Element?
+				Xml.Doc *xmldoc;
+				Xml.Node *xmlroot;
+				Xml.Node *xmlnode;
+				Xml.Ns *ns_magic;
+				Xml.Ns *ns_course;
+				xmldoc = new Xml.Doc ();
 
-					xmlroot = xmldoc->new_node (null, "Potions");
-					ns_course = xmlroot->new_ns ("http://hogwarts.co.uk/courses", "course");
-					xmldoc->set_root_element (xmlroot);
+				xmlroot = xmldoc->new_node (null, "Potions");
+				ns_course = xmlroot->new_ns ("http://hogwarts.co.uk/courses", "course");
+				xmldoc->set_root_element (xmlroot);
 
-					xmlnode = xmldoc->new_node (null, "Potion");
-					ns_magic = xmlnode->new_ns ("http://hogwarts.co.uk/magic", "magic");
-					xmlnode->new_ns_prop (ns_course, "commonName", "Florax");
-					xmlroot->add_child (xmlnode);
+				xmlnode = xmldoc->new_node (null, "Potion");
+				ns_magic = xmlnode->new_ns ("http://hogwarts.co.uk/magic", "magic");
+				xmlnode->new_ns_prop (ns_course, "commonName", "Florax");
+				xmlroot->add_child (xmlnode);
 
-					Document doc = new Document.from_libxml2 (xmldoc);
-					GXml.Node root = doc.document_element;
-					GXml.Node node = root.child_nodes.item (0);
+				Document doc = new Document.from_libxml2 (xmldoc);
+				GXml.Node root = doc.document_element;
+				GXml.Node node = root.child_nodes.item (0);
 
-					assert (node.namespace_uri == null);
-					assert (node.prefix == null);
-					xmlnode->set_ns (ns_magic);
-					assert (node.namespace_uri == "http://hogwarts.co.uk/magic");
-					assert (node.prefix == "magic");
-					assert (node.local_name == "Potion");
-					assert (node.node_name == "Potion");
-				} catch (GXml.DomError e) {
-					Test.message ("%s", e.message);
-					assert_not_reached ();
-				}
+				assert (node.namespace_uri == null);
+				assert (node.prefix == null);
+				xmlnode->set_ns (ns_magic);
+				assert (node.namespace_uri == "http://hogwarts.co.uk/magic");
+				assert (node.prefix == "magic");
+				assert (node.local_name == "Potion");
+				assert (node.node_name == "Potion");
 			});
 		Test.add_func ("/gxml/element/namespace_uri", () => {
-				try {
-					// TODO: wanted to use TestElement but CAN'T because Vala won't let me access the internal constructor of Element?
-					Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
-					GXml.Node root = doc.document_element;
-					GXml.Node node = root.child_nodes.item (0);
+				// TODO: wanted to use TestElement but CAN'T because Vala won't let me access the internal constructor of Element?
+				Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
+				GXml.Node root = doc.document_element;
+				GXml.Node node = root.child_nodes.item (0);
 
-					assert (node.namespace_uri == "http://hogwarts.co.uk/magic");
-				} catch (GXml.DomError e) {
-					Test.message ("%s", e.message);
-					assert_not_reached ();
-				}
+				assert (node.namespace_uri == "http://hogwarts.co.uk/magic");
 			});
 		Test.add_func ("/gxml/element/testing", () => {
-				try {
-					// TODO: wanted to use TestElement but CAN'T because Vala won't let me access the internal constructor of Element?
-					Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"><products:Ingredient /></magic:Potion></Potions>");
-					GXml.Node root = doc.document_element;
-					GXml.Node node = root.child_nodes.item (0);
+				// TODO: wanted to use TestElement but CAN'T because Vala won't let me access the internal constructor of Element?
+				Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"><products:Ingredient /></magic:Potion></Potions>");
+				GXml.Node root = doc.document_element;
+				GXml.Node node = root.child_nodes.item (0);
 
-					// root.dbg_inspect ();
-					// node.dbg_inspect ();
-					// node.child_nodes.item (0).dbg_inspect ();
+				// root.dbg_inspect ();
+				// node.dbg_inspect ();
+				// node.child_nodes.item (0).dbg_inspect ();
 
-					assert (node.namespace_uri == "http://hogwarts.co.uk/magic");
+				assert (node.namespace_uri == "http://hogwarts.co.uk/magic");
 
-					// TODO: remove below
-					// message ("going to show attributes on node %s", node.node_name);
-					// foreach (Attr attr in node.attributes.get_values ()) {
-					// 	message ("attrkey: %s, value: %s", attr.node_name, attr.node_value);
-					// }
-				} catch (GXml.DomError e) {
-					Test.message ("%s", e.message);
-					assert_not_reached ();
-				}
+				// TODO: remove below
+				// message ("going to show attributes on node %s", node.node_name);
+				// foreach (Attr attr in node.attributes.get_values ()) {
+				// 	message ("attrkey: %s, value: %s", attr.node_name, attr.node_value);
+				// }
 			});
 		Test.add_func ("/gxml/element/prefix", () => {
-				try {
-					Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
-					GXml.Node root = doc.document_element;
-					GXml.Node node = root.child_nodes.item (0);
+				Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
+				GXml.Node root = doc.document_element;
+				GXml.Node node = root.child_nodes.item (0);
 
-					assert (node.prefix == "magic");
-				} catch (GXml.DomError e) {
-					Test.message ("%s", e.message);
-					assert_not_reached ();
-				}
+				assert (node.prefix == "magic");
 			});
 		Test.add_func ("/gxml/element/local_name", () => {
-				try {
-					Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
-					GXml.Node root = doc.document_element;
-					GXml.Node node = root.child_nodes.item (0);
+				Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
+				GXml.Node root = doc.document_element;
+				GXml.Node node = root.child_nodes.item (0);
 
-					assert (node.local_name == "Potion");
-				} catch (GXml.DomError e) {
-					Test.message ("%s", e.message);
-					assert_not_reached ();
-				}
+				assert (node.local_name == "Potion");
 			});
 		Test.add_func ("/gxml/element/namespace_definitions", () => {
-				try {
-					Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
-					GXml.Node root = doc.document_element;
-					GXml.Node node = root.child_nodes.item (0);
+				Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
+				GXml.Node root = doc.document_element;
+				GXml.Node node = root.child_nodes.item (0);
 
-					NodeList namespaces = node.namespace_definitions;
+				NodeList namespaces = node.namespace_definitions;
 
-					assert (namespaces.length == 2);
+				assert (namespaces.length == 2);
 
-					assert (namespaces.item (0).prefix == "xmlns");
-					assert (namespaces.item (0).node_name == "magic");
-					assert (namespaces.item (0).node_value == "http://hogwarts.co.uk/magic");
-					assert (namespaces.item (1).prefix == "xmlns");
-					assert (namespaces.item (1).node_name == "products");
-					assert (namespaces.item (1).node_value == "http://diagonalley.co.uk/products");
-					assert (node.local_name == "Potion");
-				} catch (GXml.DomError e) {
-					Test.message ("%s", e.message);
-					assert_not_reached ();
-				}
+				assert (namespaces.item (0).prefix == "xmlns");
+				assert (namespaces.item (0).node_name == "magic");
+				assert (namespaces.item (0).node_value == "http://hogwarts.co.uk/magic");
+				assert (namespaces.item (1).prefix == "xmlns");
+				assert (namespaces.item (1).node_name == "products");
+				assert (namespaces.item (1).node_value == "http://diagonalley.co.uk/products");
+				assert (node.local_name == "Potion");
 			});
 		Test.add_func ("/gxml/element/attributes", () => {
-				try {
-					HashTable<string,Attr> attributes;
+				HashTable<string,Attr> attributes;
 
-					Document doc;
-					Element elem;
+				Document doc;
+				Element elem;
 
-					doc = get_doc ();
+				doc = get_doc ();
 
-					elem = doc.create_element ("alphanumeric");
+				elem = doc.create_element ("alphanumeric");
 
-					attributes = elem.attributes;
-					assert (attributes != null);
-					assert (attributes.size () == 0);
+				attributes = elem.attributes;
+				assert (attributes != null);
+				assert (attributes.size () == 0);
 
-					elem.set_attribute ("alley", "Diagon");
-					elem.set_attribute ("train", "Hogwarts Express");
+				elem.set_attribute ("alley", "Diagon");
+				elem.set_attribute ("train", "Hogwarts Express");
 
-					assert (attributes == elem.attributes);
-					assert (attributes.size () == 2);
-					assert (attributes.lookup ("alley").value == "Diagon");
-					assert (attributes.lookup ("train").value == "Hogwarts Express");
+				assert (attributes == elem.attributes);
+				assert (attributes.size () == 2);
+				assert (attributes.lookup ("alley").value == "Diagon");
+				assert (attributes.lookup ("train").value == "Hogwarts Express");
 
-					Attr attr = doc.create_attribute ("owl");
-					attr.value = "Hedwig";
+				Attr attr = doc.create_attribute ("owl");
+				attr.value = "Hedwig";
 
-					attributes.insert ("owl", attr);
+				attributes.insert ("owl", attr);
 
-					assert (attributes.size () == 3);
-					assert (elem.get_attribute ("owl") == "Hedwig");
+				assert (attributes.size () == 3);
+				assert (elem.get_attribute ("owl") == "Hedwig");
 
-					attributes.remove ("alley");
-					assert (elem.get_attribute ("alley") == "");
-
-				} catch (GXml.DomError e) {
-					Test.message ("%s", e.message);
-					assert_not_reached ();
-				}
+				attributes.remove ("alley");
+				assert (elem.get_attribute ("alley") == "");
 			});
 		/* by accessing .attributes, the element is marked as
 		 * dirty, because it can't be sure whether we're
@@ -178,152 +142,117 @@ class ElementTest : GXmlTest  {
 				HashTable<string,GXml.Attr> attrs;
 				string str;
 
-				try {
-					Document doc = new Document.from_string ("<?xml version='1.0' encoding='UTF-8'?><entry><link rel='http://schemas.google.com/contacts/2008/rel#photo'/></entry>");
-					GXml.Node root = doc.document_element;
-					foreach (GXml.Node child in root.child_nodes) {
-						attrs = child.attributes;
-					}
-
-					str = doc.to_string ();
-				} catch (GXml.DomError e) {
-					Test.message ("%s", e.message);
-					assert_not_reached ();
+				Document doc = new Document.from_string ("<?xml version='1.0' encoding='UTF-8'?><entry><link rel='http://schemas.google.com/contacts/2008/rel#photo'/></entry>");
+				GXml.Node root = doc.document_element;
+				foreach (GXml.Node child in root.child_nodes) {
+					attrs = child.attributes;
 				}
+
+				str = doc.to_string ();
 			});
 		Test.add_func ("/gxml/element/get_set_attribute", () => {
-				try {
-					Document doc;
-					Element elem = get_elem_new_doc ("student", out doc);
+				Document doc;
+				Element elem = get_elem_new_doc ("student", out doc);
 
-					assert ("" == elem.get_attribute ("name"));
+				assert ("" == elem.get_attribute ("name"));
 
-					elem.set_attribute ("name", "Malfoy");
-					assert ("Malfoy" == elem.get_attribute ("name"));
-					elem.set_attribute ("name", "Lovegood");
-					assert ("Lovegood" == elem.get_attribute ("name"));
-				} catch (GXml.DomError e) {
-					Test.message ("%s", e.message);
-					assert_not_reached ();
-				}
+				elem.set_attribute ("name", "Malfoy");
+				assert ("Malfoy" == elem.get_attribute ("name"));
+				elem.set_attribute ("name", "Lovegood");
+				assert ("Lovegood" == elem.get_attribute ("name"));
 			});
 		Test.add_func ("/gxml/element/remove_attribute", () => {
-				try {
-					Document doc;
-					Element elem = get_elem_new_doc ("tagname", out doc);
+				Document doc;
+				Element elem = get_elem_new_doc ("tagname", out doc);
 
-					elem.set_attribute ("name", "Malfoy");
-					assert ("Malfoy" == elem.get_attribute ("name"));
-					assert ("Malfoy" == elem.get_attribute_node ("name").value);
-					elem.remove_attribute ("name");
-					assert ("" == elem.get_attribute ("name"));
-					assert (null == elem.get_attribute_node ("name"));
+				elem.set_attribute ("name", "Malfoy");
+				assert ("Malfoy" == elem.get_attribute ("name"));
+				assert ("Malfoy" == elem.get_attribute_node ("name").value);
+				elem.remove_attribute ("name");
+				assert ("" == elem.get_attribute ("name"));
+				assert (null == elem.get_attribute_node ("name"));
 
-					// Consider testing default attributes (see Attr and specified)
-				} catch (GXml.DomError e) {
-					Test.message ("%s", e.message);
-					assert_not_reached ();
-				}
+				// Consider testing default attributes (see Attr and specified)
 			});
 		Test.add_func ("/gxml/element/get_attribute_node", () => {
-				try {
-					Document doc;
-					Element elem = get_elem_new_doc ("tagname", out doc);
+				Document doc;
+				Element elem = get_elem_new_doc ("tagname", out doc);
 
-					assert (elem.get_attribute_node ("name") == null);
-					elem.set_attribute ("name", "Severus");
-					assert (elem.get_attribute_node ("name").value == "Severus");
-				} catch (GXml.DomError e) {
-					Test.message ("%s", e.message);
-					assert_not_reached ();
-				}
+				assert (elem.get_attribute_node ("name") == null);
+				elem.set_attribute ("name", "Severus");
+				assert (elem.get_attribute_node ("name").value == "Severus");
 			});
 		Test.add_func ("/gxml/element/set_attribute_node", () => {
-				try {
-					Document doc;
-					Element elem = get_elem_new_doc ("tagname", out doc);
-					Attr attr1 = elem.owner_document.create_attribute ("name");
-					Attr attr2 = elem.owner_document.create_attribute ("name");
+				Document doc;
+				Element elem = get_elem_new_doc ("tagname", out doc);
+				Attr attr1 = elem.owner_document.create_attribute ("name");
+				Attr attr2 = elem.owner_document.create_attribute ("name");
 
-					attr1.value = "Snape";
-					attr2.value = "Moody";
+				attr1.value = "Snape";
+				attr2.value = "Moody";
 
-					/* We test to make sure that the current value in the node after being set is correct,
-					   and that the old node gets correctly returned when replaced. */
-					assert (elem.get_attribute_node ("name") == null);
-					assert (elem.set_attribute_node (attr1) == null);
-					assert (elem.get_attribute_node ("name").value == "Snape");
-					assert (elem.set_attribute_node (attr2).value == "Snape");
-					assert (elem.get_attribute_node ("name").value == "Moody");
-				} catch (GXml.DomError e) {
-					Test.message ("%s", e.message);
-					assert_not_reached ();
-				}
+				/* We test to make sure that the current value in the node after being set is correct,
+				   and that the old node gets correctly returned when replaced. */
+				assert (elem.get_attribute_node ("name") == null);
+				assert (elem.set_attribute_node (attr1) == null);
+				assert (elem.get_attribute_node ("name").value == "Snape");
+				assert (elem.set_attribute_node (attr2).value == "Snape");
+				assert (elem.get_attribute_node ("name").value == "Moody");
 			});
 
 
 		Test.add_func ("/gxml/element/remove_attribute_node", () => {
-				try {
-					Document doc;
-					Element elem = get_elem_new_doc ("tagname", out doc);
-					Attr attr;
+				Document doc;
+				Element elem = get_elem_new_doc ("tagname", out doc);
+				Attr attr;
 
-					attr = elem.owner_document.create_attribute ("name");
-					attr.value = "Luna";
+				attr = elem.owner_document.create_attribute ("name");
+				attr.value = "Luna";
 
-					/* Test to make sure the current value ends up empty/reset after removal
-					   and that removal returns the removed node. */
-					elem.set_attribute_node (attr);
-					assert (elem.get_attribute_node ("name").value == "Luna");
-					assert (elem.remove_attribute_node (attr) == attr);
-					assert (elem.get_attribute_node ("name") == null);
-					assert (elem.get_attribute ("name") == "");
-				} catch (GXml.DomError e) {
-					Test.message ("%s", e.message);
-					assert_not_reached ();
-				}
+				/* Test to make sure the current value ends up empty/reset after removal
+				   and that removal returns the removed node. */
+				elem.set_attribute_node (attr);
+				assert (elem.get_attribute_node ("name").value == "Luna");
+				assert (elem.remove_attribute_node (attr) == attr);
+				assert (elem.get_attribute_node ("name") == null);
+				assert (elem.get_attribute ("name") == "");
 			});
 
 
 		Test.add_func ("/gxml/element/get_elements_by_tag_name", () => {
-				try {
-					Document doc;
-					GXml.Node root;
-					Element elem;
-					NodeList emails;
-					Element email;
-					Text text;
+				Document doc;
+				GXml.Node root;
+				Element elem;
+				NodeList emails;
+				Element email;
+				Text text;
 
-					doc = get_doc ();
+				doc = get_doc ();
 
-					root = doc.document_element; // child_nodes.nth_data (0);
-					assert (root.node_name == "Sentences");
+				root = doc.document_element; // child_nodes.nth_data (0);
+				assert (root.node_name == "Sentences");
 
-					elem = (Element)root;
-					emails = elem.get_elements_by_tag_name ("Email");
-					assert (emails.length == 2);
+				elem = (Element)root;
+				emails = elem.get_elements_by_tag_name ("Email");
+				assert (emails.length == 2);
 
-					email = (Element)emails.nth_data (0);
-					assert (email.tag_name == "Email");
-					assert (email.child_nodes.length == 1);
+				email = (Element)emails.nth_data (0);
+				assert (email.tag_name == "Email");
+				assert (email.child_nodes.length == 1);
 
-					text = (Text)email.child_nodes.nth_data (0);
-					assert (text.node_name == "#text");
-					assert (text.node_value == "fweasley@hogwarts.co.uk");
+				text = (Text)email.child_nodes.nth_data (0);
+				assert (text.node_name == "#text");
+				assert (text.node_value == "fweasley@hogwarts.co.uk");
 
-					email = (Element)emails.nth_data (1);
-					assert (email.tag_name == "Email");
-					assert (email.child_nodes.length == 1);
+				email = (Element)emails.nth_data (1);
+				assert (email.tag_name == "Email");
+				assert (email.child_nodes.length == 1);
 
-					text = (Text)email.child_nodes.nth_data (0);
-					assert (text.node_name == "#text");
-					assert (text.node_value == "gweasley@hogwarts.co.uk");
+				text = (Text)email.child_nodes.nth_data (0);
+				assert (text.node_name == "#text");
+				assert (text.node_value == "gweasley@hogwarts.co.uk");
 
-					// TODO: need to test that preorder traversal order is correct
-				} catch (GXml.DomError e) {
-					Test.message ("%s", e.message);
-					assert_not_reached ();
-				}
+				// TODO: need to test that preorder traversal order is correct
 			});
 		Test.add_func ("/gxml/element/get_elements_by_tag_name.live", () => {
 				/* Need to test the following cases:
@@ -340,12 +269,11 @@ class ElementTest : GXmlTest  {
 				   remove a tree with 2, list has 5
 				   readd the tree, list has 7
 				*/
-				try {
-					Document doc;
-					string xml;
+				Document doc;
+				string xml;
 
-					xml =
-"<A>
+				xml =
+				"<A>
   <t />
   <Bs>
     <t />
@@ -359,115 +287,101 @@ class ElementTest : GXmlTest  {
   </Bs>
   <Cs><C><t /></C></Cs>
 </A>";
-					doc = new Document.from_string (xml);
+				doc = new Document.from_string (xml);
 
-					GXml.Node a = doc.document_element;
-					GXml.Node bs = a.child_nodes.item (3);
-					GXml.Node b3 = bs.child_nodes.item (7);
-					GXml.Node t1, t2;
+				GXml.Node a = doc.document_element;
+				GXml.Node bs = a.child_nodes.item (3);
+				GXml.Node b3 = bs.child_nodes.item (7);
+				GXml.Node t1, t2;
 
-					NodeList ts = ((Element)bs).get_elements_by_tag_name ("t");
-					assert (ts.length == 5);
+				NodeList ts = ((Element)bs).get_elements_by_tag_name ("t");
+				assert (ts.length == 5);
 
-					// Test adding direct child
-					bs.append_child (t1 = doc.create_element ("t"));
-					assert (ts.length == 6);
+				// Test adding direct child
+				bs.append_child (t1 = doc.create_element ("t"));
+				assert (ts.length == 6);
 
-					// Test adding descendant
-					b3.append_child (doc.create_element ("t"));
-					assert (ts.length == 7);
+				// Test adding descendant
+				b3.append_child (doc.create_element ("t"));
+				assert (ts.length == 7);
 
-					// Test situation where we add a node tree
-					GXml.Node b4;
-					GXml.Node d, d2;
+				// Test situation where we add a node tree
+				GXml.Node b4;
+				GXml.Node d, d2;
 
-					b4 = doc.create_element ("B");
-					b4.append_child (doc.create_element ("t"));
-					d = doc.create_element ("D");
-					d.append_child (t2 = doc.create_element ("t"));
-					b4.append_child (d);
+				b4 = doc.create_element ("B");
+				b4.append_child (doc.create_element ("t"));
+				d = doc.create_element ("D");
+				d.append_child (t2 = doc.create_element ("t"));
+				b4.append_child (d);
 
-					bs.append_child (b4);
+				bs.append_child (b4);
 
-					assert (ts.length == 9);
+				assert (ts.length == 9);
 
-					// Test situation where we use insert_before
-					d2 = doc.create_element ("D");
-					d2.append_child (doc.create_element ("t"));
-					b4.insert_before (d2, d);
+				// Test situation where we use insert_before
+				d2 = doc.create_element ("D");
+				d2.append_child (doc.create_element ("t"));
+				b4.insert_before (d2, d);
 
-					assert (ts.length == 10);
+				assert (ts.length == 10);
 
-					// Test situation where we add a document fragment
-					DocumentFragment frag;
+				// Test situation where we add a document fragment
+				DocumentFragment frag;
 
-					frag = doc.create_document_fragment ();
-					frag.append_child (doc.create_element ("t"));
-					d = doc.create_element ("D");
-					d.append_child (doc.create_element ("t"));
-					frag.append_child (d);
-					d2 = doc.create_element ("D");
-					d2.append_child (doc.create_element ("t"));
-					frag.insert_before (d2, d);
+				frag = doc.create_document_fragment ();
+				frag.append_child (doc.create_element ("t"));
+				d = doc.create_element ("D");
+				d.append_child (doc.create_element ("t"));
+				frag.append_child (d);
+				d2 = doc.create_element ("D");
+				d2.append_child (doc.create_element ("t"));
+				frag.insert_before (d2, d);
 
-					b4.append_child (frag);
-					assert (ts.length == 13);
+				b4.append_child (frag);
+				assert (ts.length == 13);
 
-					// Test removing single child
-					t1.parent_node.remove_child (t1);
-					assert (ts.length == 12);
+				// Test removing single child
+				t1.parent_node.remove_child (t1);
+				assert (ts.length == 12);
 
-					// Test removing deeper descendant
-					t2.parent_node.remove_child (t2);
-					assert (ts.length == 11);
+				// Test removing deeper descendant
+				t2.parent_node.remove_child (t2);
+				assert (ts.length == 11);
 
-					// Test removing subtree
-					b4 = b4.parent_node.remove_child (b4);
+				// Test removing subtree
+				b4 = b4.parent_node.remove_child (b4);
 
-					assert (ts.length == 6);
+				assert (ts.length == 6);
 
-					// Test restoring subtree
-					bs.append_child (b4);
-					assert (ts.length == 11);
-				} catch (GXml.DomError e) {
-					Test.message ("%s", e.message);
-					assert_not_reached ();
-				}
+				// Test restoring subtree
+				bs.append_child (b4);
+				assert (ts.length == 11);
 			});
 		Test.add_func ("/gxml/element/normalize", () => {
-				try {
-					Document doc;
-					Element elem = get_elem_new_doc ("tagname", out doc);
-					elem.normalize ();
+				Document doc;
+				Element elem = get_elem_new_doc ("tagname", out doc);
+				elem.normalize ();
 
-					// STUB
-				} catch (GXml.DomError e) {
-					Test.message ("%s", e.message);
-					assert_not_reached ();
-				}
+				// STUB
 			});
 		Test.add_func ("/gxml/element/to_string", () => {
-				try {
-					Document doc, doc2;
-					Element elem = get_elem_new_doc ("country", out doc);
-					elem.append_child (elem.owner_document.create_text_node ("New Zealand"));
-					assert (elem.to_string () == "<country>New Zealand</country>");
+				Document doc, doc2;
+				Element elem = get_elem_new_doc ("country", out doc);
+				elem.append_child (elem.owner_document.create_text_node ("New Zealand"));
+				assert (elem.to_string () == "<country>New Zealand</country>");
 
-					// during stringification, we don't want to confuse XML <> with text <>
-					Element elem2 = get_elem_new_doc ("messy", out doc2);
-					elem2.append_child (elem.owner_document.create_text_node ("&lt;<>&gt;"));
-					string expected = "<messy>&amp;lt;&lt;&gt;&amp;gt;</messy>";
-					if (elem2.to_string () != expected) {
-						Test.message ("Expected [%s] found [%s]",
-							      expected, elem2.to_string ());
-						assert_not_reached ();
-					}
-
-					// TODO: want to test with format on and off
-				} catch (GXml.DomError e) {
-					Test.message ("%s", e.message);
+				// during stringification, we don't want to confuse XML <> with text <>
+				Element elem2 = get_elem_new_doc ("messy", out doc2);
+				elem2.append_child (elem.owner_document.create_text_node ("&lt;<>&gt;"));
+				string expected = "<messy>&amp;lt;&lt;&gt;&amp;gt;</messy>";
+				if (elem2.to_string () != expected) {
+					Test.message ("Expected [%s] found [%s]",
+						      expected, elem2.to_string ());
 					assert_not_reached ();
 				}
+
+				// TODO: want to test with format on and off
 			});
 	}
 }
