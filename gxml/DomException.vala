@@ -108,10 +108,5 @@ namespace GXml {
 		 */
 		NAMESPACE;
 	}
-
-	// TODO: remove after transitioning tests
-	public errordomain DomError {
-		DUMMY;
-	}
 }
 
