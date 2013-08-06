@@ -233,7 +233,7 @@ class SerializableTest : GXmlTest {
 				SerializationTest.test_serialization_deserialization (tomato, "interface_defaults", (GLib.EqualFunc)SerializableTomato.equals, (SerializationTest.StringifyFunc)SerializableTomato.to_string);
 			});
 		Test.add_func ("/gxml/serializable/interface_override_serialization_on_list", () => {
-				GXml.Node node;
+				GXml.Document doc;
 				SerializableCapsicum capsicum;
 				SerializableCapsicum capsicum_new;
 				string expectation;
@@ -250,7 +250,7 @@ class SerializableTest : GXmlTest {
 
 				capsicum = new SerializableCapsicum (2, 3, 5, ratings);
 				try {
-					node = Serialization.serialize_object (capsicum);
+					doc = Serialization.serialize_object (capsicum);
 				} catch (GXml.SerializationError e) {
 					Test.message ("%s", e.message);
 					assert_not_reached ();
@@ -260,13 +260,13 @@ class SerializableTest : GXmlTest {
 
 				try {
 					regex = new Regex (expectation);
-					if (! regex.match (node.to_string ())) {
-						Test.message ("Did not serialize as expected.  Got [%s] but expected [%s]", node.to_string (), expectation);
+					if (! regex.match (doc.to_string ())) {
+						Test.message ("Did not serialize as expected.  Got [%s] but expected [%s]", doc.to_string (), expectation);
 						assert_not_reached ();
 					}
 
 					try {
-						capsicum_new = (SerializableCapsicum)Serialization.deserialize_object (node);
+						capsicum_new = (SerializableCapsicum)Serialization.deserialize_object (doc);
 					} catch (GXml.SerializationError e) {
 						Test.message ("%s", e.message);
 						assert_not_reached ();
