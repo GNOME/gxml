@@ -275,9 +275,7 @@ namespace GXml {
 				   mess up the other document.  (TODO: consider removing it from
 				   the originating document.)  The node's references should be
 				   updated to this one. */
-				new_child.owner_document.sync_dirty_elements ();
-				Xml.Node *node_copy = ((BackedNode)new_child).node->doc_copy (this.owner_document.xmldoc, 1);
-				return this.child_nodes.append_child (this.owner_document.lookup_node (node_copy));
+				return this.child_nodes.append_child (this.owner_document.copy_node (new_child));
 			} else {
 				return this.child_nodes.append_child (new_child);
 			}
