@@ -33,7 +33,7 @@ supp: *.supp
 	cat *.supp > ../../gxml.supp
 
 run: all
-	G_SLICE=always-malloc valgrind --leak-check=full --show-reachable=yes --suppressions=libxml2.supp --suppressions=gio.supp --suppressions=gtype.supp --suppressions=glib.supp --num-callers=40 ./document_create_minimal_2
+	G_SLICE=always-malloc valgrind --leak-check=full --show-reachable=yes --suppressions=libxml2.supp --suppressions=gio.supp --suppressions=gtype.supp --suppressions=glib.supp --num-callers=40 ./document_create_minimal
 
 run_nosupp:
 	G_SLICE=always-malloc valgrind --leak-check=full --show-reachable=yes --num-callers=40 ./document
