@@ -168,8 +168,9 @@ namespace GXml {
 					   on the interface 'GeeBidirSortedSet' */
 				}
 				child_object = value.get_object ();
-				value_node = Serialization.serialize_object (child_object); // catch serialisation errors?
-				// TODO: caller will append_child; can we cross documents like this?  Probably not :D want to be able to steal?, attributes seem to get lost
+				Document value_doc = Serialization.serialize_object (child_object); // catch serialisation errors?
+
+				value_node = doc.copy_node (value_doc.document_element);
 			} else if (type.name () == "gpointer") {
 				GLib.warning ("DEBUG: skipping gpointer with name '%s' of object '%s'", prop_spec.name, object.get_type ().name ());
 				value_node = doc.create_text_node (prop_spec.name);
@@ -181,13 +182,14 @@ namespace GXml {
 		}
 
 		/**
-		 * Serializes a {@link GLib.Object} into a {@link GXml.Node}.
+		 * Serializes a {@link GLib.Object} into a {@link GXml.Document}.
 		 *
-		 * This takes a {@link GLib.Object} and serializes it into a
-		 * {@link GXml.Node} which can be saved to disk or
-		 * transferred over a network.  It handles serialization of
-		 * primitive properties and some more complex ones like enums,
-		 * other {@link GLib.Object}s recursively, and some collections.
+		 * This takes a {@link GLib.Object} and serializes it
+		 * into a {@link GXml.Document} which can be saved to
+		 * disk or transferred over a network.  It handles
+		 * serialization of primitive properties and some more
+		 * complex ones like enums, other {@link GLib.Object}s
+		 * recursively, and some collections.
 		 *
 		 * The serialization process can be customised for an object
 		 * by having the object implement the {@link GXml.Serializable}
@@ -201,9 +203,9 @@ namespace GXml {
 		 * unsupported, or the property isn't known to the object).
 		 *
 		 * @param object A {@link GLib.Object} to serialize
-		 * @return a {@link GXml.Node} representing the serialized `object`
+		 * @return a {@link GXml.Document} representing the serialized `object`
 		 */
-		public static GXml.Node serialize_object (GLib.Object object) throws SerializationError {
+		public static GXml.Document serialize_object (GLib.Object object) throws SerializationError {
 			Document doc;
 			Element root;
 			ParamSpec[] prop_specs;
@@ -217,15 +219,16 @@ namespace GXml {
 			Serialization.init_caches ();
 
 			try {
+				doc = new Document ();
+
 				// first, check if its been serialised already, and if so, just return an ObjectRef element for it.
 				if (oid != "" && Serialization.serialize_cache.contains (oid)) {
 					// GLib.message ("cache hit on oid %s", oid);
-					doc = new Document ();
 					root = doc.create_element ("ObjectRef");
 					doc.append_child (root);
 					root.set_attribute ("otype", object.get_type ().name ());
 					root.set_attribute ("oid", oid);
-					return doc.document_element;
+					return doc;
 				}
 
 				if (object.get_type ().is_a (typeof (Serializable))) {
@@ -237,7 +240,6 @@ namespace GXml {
 				   <Object> node; but then we'd probably want
 				   a separate document for it to already be a
 				   part of as its owner_document. */
-				doc = new Document ();
 				root = doc.create_element ("Object");
 				doc.append_child (root);
 				root.set_attribute ("otype", object.get_type ().name ());
@@ -287,7 +289,7 @@ namespace GXml {
 				Serialization.print_debug (doc, object);
 			}
 
-			return doc.document_element; // user can get Document through .owner_document
+			return doc;
 		}
 
 		/*
@@ -330,7 +332,7 @@ namespace GXml {
 				prop_elem_child = prop_elem.first_child;
 
 				try {
-					property_object = Serialization.deserialize_object (prop_elem_child);
+					property_object = Serialization.deserialize_object_from_node (prop_elem_child);
 					val.set_object (property_object);
 					transformed = true;
 				} catch (GXml.SerializationError e) {
@@ -373,31 +375,33 @@ namespace GXml {
 		}
 
 		/**
-		 * Deserialize a {@link GXml.Node} back into a {@link GLib.Object}.
+		 * Deserialize a {@link GXml.Document} back into a {@link GLib.Object}.
 		 *
-		 * This deserializes a {@link GXml.Node} back into a {@link GLib.Object}.  The
-		 * {@link GXml.Node} must represented a {@link GLib.Object} as serialized by
-		 * {@link GXml.Serialization}.  The types of the objects that are
-		 * being deserialized must be known to the system
-		 * deserializing them or a {@link GXml.SerializationError} will
-		 * result.
+		 * This deserializes a {@link GXml.Document} back into a
+		 * {@link GLib.Object}.  The {@link GXml.Document}
+		 * must represent a {@link GLib.Object} as serialized
+		 * by {@link GXml.Serialization}.  The types of the
+		 * objects that are being deserialized must be known
+		 * to the system deserializing them or a
+		 * {@link GXml.SerializationError} will result.
 		 *
 		 * @param node {@link GXml.Node} representing a {@link GLib.Object}
 		 * @return the deserialized {@link GLib.Object}
 		 */
-		public static GLib.Object deserialize_object (Node node) throws SerializationError {
+		public static GLib.Object deserialize_object (GXml.Document doc) throws SerializationError {
+			return deserialize_object_from_node (doc.document_element);
+		}
+		internal static GLib.Object deserialize_object_from_node (GXml.Node obj_node) throws SerializationError {
 			Element obj_elem;
-
 			string otype;
 			string oid;
 			Type type;
 			Object obj;
 			unowned ObjectClass obj_class;
 			ParamSpec[] specs;
-			//bool property_found;
 			Serializable serializable = null;
 
-			obj_elem = (Element)node;
+			obj_elem = (Element)obj_node;
 
 			// If the object has been deserialised before, get it from cache
 			oid = obj_elem.get_attribute ("oid");
@@ -470,7 +474,10 @@ namespace GXml {
 							} else {
 								obj.set_property (pname, val);
 							}
-							// TODO: should we make a note that for implementing {get,set}_property in the interface, they should specify override (in Vala)?  What about in C?  Need to test which one gets called in which situations (yeah, already read the tutorial)
+							/* TODO: should we make a note that for implementing {get,set}_property in
+							   the interface, they should specify override (in Vala)?  What about in C?
+							   Need to test which one gets called in which situations (yeah, already read
+							   the tutorial) */
 						}
 					} catch (SerializationError.UNSUPPORTED_TYPE e) {
 						err = new SerializationError.UNSUPPORTED_TYPE ("Cannot deserialize object '%s's property '%s' with type '%s/%s': %s\nXML [%s]", otype, spec.name, spec.value_type.name (), spec.value_type.to_string (), e.message, obj_elem.to_string ());
@@ -590,4 +597,4 @@ namespace GXml {
 			}
 		}
 	}
-}	
+}
