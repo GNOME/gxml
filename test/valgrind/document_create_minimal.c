@@ -43,10 +43,6 @@ int main () {
   g_free (str);
 
   g_object_unref (doc);
-  g_object_unref (root);
-  g_object_unref (owner);
-  g_object_unref (books);
-  g_object_unref (book);
 
   // TODO: how do we clean them up?
 

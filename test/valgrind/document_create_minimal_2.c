@@ -23,16 +23,13 @@ int main () {
 
   // Add an owner node
   owner = gxml_document_create_element (doc, "Owner");
-  g_message ("test: owner refcount %u", G_OBJECT (owner)->ref_count);
   gxml_node_append_child (GXML_NODE (root), GXML_NODE (owner));
-  g_message ("test: owner refcount %u", G_OBJECT (owner)->ref_count);
-  /* gxml_node_append_child (GXML_NODE (root), GXML_NODE (owner)); */
-  /* gxml_element_set_attribute (owner, "fullname", "John Green"); */
+  gxml_element_set_attribute (owner, "fullname", "John Green");
   /* // TODO: need to figure out what sort of errors these would return, */
   /* // want the devhelp pages to describe meaningful possible errors */
 
   /* // Add a collection of books */
-  /* books = gxml_document_create_element (doc, "Books"); */
+  books = gxml_document_create_element (doc, "Books");
   /* gxml_node_append_child (GXML_NODE (root), GXML_NODE (books)); */
   /* for (i = 0; i < sizeof (authors) / sizeof (char*); i++) { */
   /*   book = gxml_document_create_element (doc, "Book"); */
