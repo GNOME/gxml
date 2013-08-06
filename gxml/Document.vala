@@ -738,5 +738,11 @@ namespace GXml {
 
 			return null;
 		}
+
+		internal Node copy_node (Node foreign_node) {
+			foreign_node.owner_document.sync_dirty_elements ();
+			Xml.Node *our_copy_xml = ((BackedNode)foreign_node).node->doc_copy (this.xmldoc, 1);
+			return this.lookup_node (our_copy_xml); // inducing a GXmlNode
+		}
 	}
 }
