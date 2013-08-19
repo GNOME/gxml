@@ -533,35 +533,20 @@ namespace GXml {
 			}
 		}
 
-		// /**
-		//  * This is a convenience method for Elements, mostly
-		//  * useful when you know a given element's children are
-		//  * only Text. With the example {{{&lt;shops>&lt;shop
-		//  * id="1">Eeylops Owl Emporium&lt;/shop>&lt;shop
-		//  * id="2">Obscurus Books&lt;/shop>&lt;/shops>}}} taking the
-		//  * node for the shop element with id 1 and using this
-		//  * method, you would get back "Eeylops Owl Emporiums".
-		//  * If you used it on the shops element, you'd get
-		//  * {{{&lt;shop id="1">Eeylops Owl Emporium&lt;/shop>&lt;shop
-		//  * id="2">Obscurus Books&lt;/shop>}}}
-		//  *
-		//  * @return XML string of child contents
-		//  */
-		// public string content_to_string () {
-		// 	return this.child_nodes.to_string (true);
-		// }
-
 		/**
-		 * This is a convenience property for Elements, mostly
-		 * useful when you know a given element's children are
-		 * only Text. With the example {{{&lt;shops>&lt;shop
-		 * id="1">Eeylops Owl Emporium&lt;/shop>&lt;shop
-		 * id="2">Obscurus Books&lt;/shop>&lt;/shops>}}} taking the
+		 * This is a convenience property for Elements, useful
+		 * when you want to see Text descendents of an
+		 * element. With the XML example {{{<shops><shop
+		 * id="1">Eeylops Owl Emporium</shop><shop
+		 * id="2">Obscurus Books</shop></shops>}}} taking the
 		 * node for the shop element with id 1 and using this
 		 * method, you would get back "Eeylops Owl Emporiums".
 		 * If you used it on the shops element, you'd get
-		 * {{{&lt;shop id="1">Eeylops Owl Emporium&lt;/shop>&lt;shop
-		 * id="2">Obscurus Books&lt;/shop>}}}
+		 * {{{Eeylops Owl EmporiumObscurus Books}}} with the
+		 * XML tags omitted.
+		 *
+		 * Setting content replaces the Element's children
+		 * with a Text node containing `value`.
 		 */
 		// TODO: add test
 		public string content {
