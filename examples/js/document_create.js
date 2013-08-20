@@ -1,34 +1,36 @@
 #!/usr/bin/gjs
 
 const GXml = imports.gi.GXml;
-const Gio = imports.gi.Gio;
 
-function create_a_document () {
-    var authors = [ "John Green", "Jane Austen", "J.D. Salinger" ];
-    var titles = [ "The Fault in Our Stars", "Pride & Prejudice", "Nine Stories" ];
+let doc = GXml.Document.new ();
 
-    try {
-	let doc = GXml.Document.new ();
-	let root = doc.create_element ("Bookshelf");
-	doc.append_child (root);
-	let owner = doc.create_element ("Owner");
-	root.append_child (owner);
-	owner.set_attribute ("fullname", "John Green");
+/* <book></book> */
+let elem = doc.create_element ("book");
+print ("Book element: " + elem.to_string (false, 0));
 
-	let books = doc.create_element ("Books");
-	root.append_child (books);
+let docfragment = doc.create_document_fragment ();
+print ("Fragment: " + docfragment.to_string (false, 0));
 
-	for (var i = 0; i < authors.length; i++) {
-	    let book = doc.create_element ("Book");
-	    book.set_attribute ("author", authors[i]);
-	    book.set_attribute ("title", titles[i]);
-	    books.append_child (book);
-	}
+/* <book>Between the book tags is text!</book> */
+let text = doc.create_text_node ("Between the book tags is text!");
+print ("Text: " + text.to_string (false, 0));
 
-	print ("create_a_document:\n" + doc.to_string (true, 4));
-    } catch (error) {
-	print (error.message);
-    }
-}
+/* <book><!-- comment: I really like this book -->The fault in our stars</book> */
+let comment = doc.create_comment ("comment: I really like this book");
+print ("Comment: " + comment.to_string (false, 0));
 
-create_a_document ();
+/* <![CDATA[non-XML data like code or special entities]]> */
+let cdata = doc.create_cdata_section ("non-XML data like code or special entities");
+print ("CDATA section: " + cdata.to_string (false, 0));
+
+/* <?xml href="style.xsl" type="text/xml"?> */
+let pi = doc.create_processing_instruction ("xml", "href=\"style.xsl\" type=\"text/xml\"");
+print ("Processing Instruction: " + pi.to_string (false, 0));
+
+/* <element id=""> */
+let attr = doc.create_attribute ("id");
+print ("Attribute: " + attr.to_string (false, 0));
+
+/* &apos;   (for an apostrophe, ') */
+let entref = doc.create_entity_reference ("apos");
+print ("Entity reference: " + entref.to_string (false, 0));
