@@ -1,59 +1,55 @@
 #include <gxml/gxml.h>
-#include <stdio.h>
 
 int main () {
   GXmlDocument *doc;
-  GXmlElement *root;
-  GXmlElement *owner;
-  GXmlElement *books;
-  GXmlElement *book;
-  int i;
-  char *str;
-
-  char *authors[] = { "John Green", "Jane Austen", "J.D. Salinger" };
-  char *titles[] = { "The Fault in Our Stars", "Pride & Prejudice", "Nine Stories" };
 
   doc = gxml_document_new ();
 
-  // Add a root node
-  root = gxml_document_create_element (doc, "Bookshelf");
+  /* <bookElement></bookElement> */
+  GXmlElement *elem;
+  elem = gxml_document_create_element (doc, "bookElement");
+  printf ("Book element: %s\n", gxml_node_to_string (GXML_NODE (elem), FALSE, 0));
 
-  gxml_node_append_child (GXML_NODE (doc), GXML_NODE (root));
-  // if we tried to add a second one, it would fail :), and a g_warning would be printed
+  GXmlDocumentFragment *docfragment;
+  docfragment = gxml_document_create_document_fragment (doc);
+  printf ("Document fragment: %s\n", gxml_node_to_string (GXML_NODE (docfragment), FALSE, 0));
 
-  // Add an owner node
-  owner = gxml_document_create_element (doc, "Owner");
-  gxml_node_append_child (GXML_NODE (root), GXML_NODE (owner));
-  gxml_element_set_attribute (owner, "fullname", "John Green");
-  // TODO: need to figure out what sort of errors these would return,
-  // want the devhelp pages to describe meaningful possible errors
+  /* <book>Between the book tags is text!</book> */
+  GXmlText *text;
+  text = gxml_document_create_text_node (doc, "Between the book tags is text!");
+  printf ("Text node: %s\n", gxml_node_to_string (GXML_NODE (text), FALSE, 0));
 
-  // Add a collection of books
-  books = gxml_document_create_element (doc, "Books");
-  gxml_node_append_child (GXML_NODE (root), GXML_NODE (books));
+  /* <book><!-- comment: I really like this book -->The fault in our stars</book> */
+  GXmlComment *comment;
+  comment = gxml_document_create_comment (doc, "comment: I really like this book");
+  printf ("Comment: %s\n", gxml_node_to_string (GXML_NODE (comment), FALSE, 0));
 
-  for (i = 0; i < sizeof (authors) / sizeof (char*); i++) {
-    book = gxml_document_create_element (doc, "Book");
-    gxml_element_set_attribute (book, "author", authors[i]);
-    gxml_element_set_attribute (book, "title", titles[i]);
-    gxml_node_append_child (GXML_NODE (books), GXML_NODE (book));
-  }
+  /* <![CDATA[non-XML data like code or special entities]]> */
+  GXmlCDATASection *cdata;
+  cdata = gxml_document_create_cdata_section (doc, "non-XML data like code or special entities");
+  printf ("CDATA section: %s\n", gxml_node_to_string (GXML_NODE (cdata), FALSE, 0));
 
-  // TODO: want a "gxml_node_from_string ()"; make sure document ownership transfer properly
+  /* <?xml href="style.xsl" type="text/xml"?> */
+  GXmlProcessingInstruction *pi;
+  pi = gxml_document_create_processing_instruction (doc, "xml", "href=\"style.xsl\" type=\"text/xml\"");
+  printf ("Processing Instruction: %s\n", gxml_node_to_string (GXML_NODE (pi), FALSE, 0));
 
-  str = gxml_node_to_string (GXML_NODE (doc), TRUE, 2);
-  printf ("%s:\n%s\n", __FILE__, str);
-  g_free (str);
+  /* <element id=""> */
+  GXmlAttr *attr;
+  attr = gxml_document_create_attribute (doc, "id");
+  printf ("Attribute: %s\n", gxml_node_to_string (GXML_NODE (attr), FALSE, 0));
 
+  /* &apos;   (for an apostrophe, ') */
+  GXmlEntityReference *entref;
+  entref = gxml_document_create_entity_reference (doc, "apos");
+  printf ("Entity reference: %s\n", gxml_node_to_string (GXML_NODE (entref), FALSE, 0));
+
+  gxml_node_append_child (GXML_NODE (doc), GXML_NODE (elem));
+
+  g_object_unref (pi);
+  g_object_unref (entref);
+  g_object_unref (attr);
   g_object_unref (doc);
-  g_object_unref (root); // TODO: figure out what happens to root if you deallocate doc?! */
-  // TODO: perhaps see whether we can make it that all the nodes that are returned are weak references
-  g_object_unref (owner);
-  g_object_unref (books);
-  g_object_unref (book);
-  /* In util/ there's a small programme that tells you when ownership
-     is transfered (that is, you are given a return value that you own
-     and must free. */
 
   return 0;
 }
