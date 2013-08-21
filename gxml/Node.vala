@@ -283,8 +283,8 @@ namespace GXml {
 		}
 
 		/**
-		 * A {@link GLib.HashTable} representing the {@link
-		 * GXml.Attr} attributes for this node. `attributes`
+		 * A {@link GLib.HashTable} representing the {@link GXml.Attr}
+		 * attributes for this node. `attributes`
 		 * actually only apply to {@link GXml.Element}
 		 * nodes. For all other {@link GXml.Node} subclasses,
 		 * `attributes` is null.
