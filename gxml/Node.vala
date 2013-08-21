@@ -56,6 +56,7 @@ namespace GXml {
 
 
 		protected bool check_read_only () {
+			// TODO: protected methods appear in the generated gxml.h and in the GtkDoc, do we want that?
 			// TODO: introduce a concept of read-only-ness, perhaps
 			// if read-only, raise NO_MODIFICATION_ALLOWED_ERR
 			return false;
@@ -282,11 +283,11 @@ namespace GXml {
 		}
 
 		/**
-		 * A {@link GLib.HashTable} representing the
-		 * attributes for this node. `attributes` actually
-		 * only apply to {@link GXml.Element} nodes. For all
-		 * other {@link GXml.Node} subclasses, `attributes`
-		 * is null.
+		 * A {@link GLib.HashTable} representing the {@link
+		 * GXml.Attr} attributes for this node. `attributes`
+		 * actually only apply to {@link GXml.Element}
+		 * nodes. For all other {@link GXml.Node} subclasses,
+		 * `attributes` is null.
 		 *
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-attributes]]
@@ -391,18 +392,24 @@ namespace GXml {
 		/**
 		 * Provides a string representation of this node.
 		 *
-		 * @param format false: no formatting, true: formatted, with indentation
+		 * Note that if the DOM tree contains a Text node, a
+		 * CDATA section, or an EntityRef, it will not be
+		 * formatted, since the current implementation with
+		 * libxml2 will not handle that case.  (See libxml2's
+		 * xmlNodeDumpOutputInternal to understand more.)
+		 *
+		 * @param format false: no formatting, true: formatted, with indentation.
 		 * @param level Indentation level
 		 *
-		 * @return XML string for node
+		 * @return XML string for node, which must be freed.
 		 */
-		// TODO: need to investigate how to activate format
-		// TODO: indicate in C that the return value must be freed.
 		// TODO: ask Colin Walters about storing docs in GIR files (might have not been him)
 		public virtual string to_string (bool format = false, int level = 0) {
 			_str = "Node(%d:%s)".printf (this.node_type, this.node_name);
 			return _str;
 		}
+
+		// TODO: indicate in C that the return value must be freed.
 	}
 }
 
