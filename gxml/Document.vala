@@ -739,9 +739,10 @@ namespace GXml {
 			return null;
 		}
 
-		internal Node copy_node (Node foreign_node) {
+		internal Node copy_node (Node foreign_node, bool deep = true) {
 			foreign_node.owner_document.sync_dirty_elements ();
-			Xml.Node *our_copy_xml = ((BackedNode)foreign_node).node->doc_copy (this.xmldoc, 1);
+			Xml.Node *our_copy_xml = ((BackedNode)foreign_node).node->doc_copy (this.xmldoc, deep ? 1 : 0);
+			// TODO: do we need to append this to this.new_nodes?  Do we need to append the result to this.nodes_to_free?  Test memory implications
 			return this.lookup_node (our_copy_xml); // inducing a GXmlNode
 		}
 	}
