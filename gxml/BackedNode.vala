@@ -291,7 +291,8 @@ namespace GXml {
 		 * {@inheritDoc}
 		 */
 		public override Node? clone_node (bool deep) {
-			return this; // STUB
+			return this.owner_document.copy_node (this, deep);
+			// TODO: add a better test, as we weren't realising this was just a stub; test for memory usage too
 		}
 
 		public override string to_string (bool format = false, int level = 0) {
