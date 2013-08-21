@@ -5,7 +5,7 @@ int main () {
   /* Setup */
   GXmlDocument *doc;
   GXmlNode *bookshelf;
-  doc = gxml_document_new_from_path ("example.xml");
+  doc = gxml_document_new_from_path ("bookshelf_node.xml");
   bookshelf = GXML_NODE (gxml_document_get_document_element (doc));
 
 
