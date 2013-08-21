@@ -166,21 +166,18 @@ int main () {
   owner_document = gxml_node_get_owner_document (bookshelf);
 
   printf ("The owner document for Bookshelf looks like:\n%s\n\n",
-	  str = gxml_node_to_string (owner_document, FALSE, 0));
+	  str = gxml_node_to_string (GXML_NODE (owner_document), FALSE, 0));
   g_free (str);
 
 
   /* Check node types */
-  GTypeClass *nodetype_class = g_type_class_ref (GXML_TYPE_NODE_TYPE);
-
-  doc;
-  bookshelf;
+  GEnumClass *nodetype_class = G_ENUM_CLASS (g_type_class_ref (GXML_TYPE_NODE_TYPE));
   GXmlAttr *author_attr = g_hash_table_lookup (attrs, "author");
 
   GXmlNodeType nodetype;
   GEnumValue *nodetype_value;
 
-  nodetype = gxml_node_get_node_type (doc);
+  nodetype = gxml_node_get_node_type (GXML_NODE (doc));
   nodetype_value = g_enum_get_value (nodetype_class, nodetype);
   printf ("Document is of type: %s\n", nodetype_value->value_name);
 
@@ -188,7 +185,7 @@ int main () {
   nodetype_value = g_enum_get_value (nodetype_class, nodetype);
   printf ("Bookshelf is of type: %s\n", nodetype_value->value_name);
 
-  nodetype = gxml_node_get_node_type (author_attr);
+  nodetype = gxml_node_get_node_type (GXML_NODE (author_attr));
   nodetype_value = g_enum_get_value (nodetype_class, nodetype);
   printf ("author is of type: %s\n", nodetype_value->value_name);
 
