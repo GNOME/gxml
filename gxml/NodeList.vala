@@ -70,53 +70,98 @@ namespace GXml {
 
 
 		/* ** GNOME List conventions **
-		 * These methods mimic those available through GList, to make GXmlNodeList more familiar to GLib programmers.
-		 * Probably don't want to keep all of them since they're not all relevant.
+		 *
+		 * These methods mimic those available through GList,
+		 * to make GXmlNodeList more familiar to GLib
+		 * programmers.  Probably don't want to keep all of
+		 * them since they're not all relevant.
 		 */
 
+		/* TODO: add hints for performance below, perhaps;
+		 * with GList, you can get the first one, and it's a
+		 * GList, and then you just ->next through; with
+		 * GXmlNodeList, you get a GXmlNode which doesn't
+		 * directly track siblings.  We should probably add
+		 * next_sibling and prev_sibling to GXmlNode, though;
+		 * libxml2 supports it, and it's convenient. :D */
+
 		/**
-		 * Call the provided func on each item of the list.
+		 * Call the provided func on each item of the list. Like {@link GLib.List.foreach}.
 		 */
 		public abstract void foreach (Func<Node> func);
-		// TODO: add hints for performance below, perhaps
+
 		/**
-		 * Retrieve the first node in the list.
+		 * Retrieve the first node in the list.  Like {@link GLib.List.first}.
 		 */
 		public abstract Node first ();
+
 		/**
-		 * Retrieve the last node in the list.
+		 * Retrieve the last node in the list.  Like {@link GLib.List.last}.
 		 */
 		public abstract Node last ();
+
 		/**
-		 * Obtain the n'th item in the list. Used for compatibility with GLib.List.
+		 * Obtain the n'th item in the list. Like {@link GLib.List.nth}.
+		 *
+		 * @param n The index of the item to access
 		 */
 		public abstract Node? nth (ulong n);
+
 		/**
-		 * Obtain the n'th item in the list. Used for compatibility with GLib.List.
+		 * Obtain the n'th item in the list. Like {@link GLib.List.nth_data}.
+		 * 
+		 * @param n The index of the item to access
+		 *
+		 * @return The n'th item in the list
 		 */
 		public abstract Node? nth_data (ulong n);
+
 		/**
 		 * Obtain the item n places before pivot in the list.
+		 * Like {@link GLib.List.nth_prev}.
+		 *
+		 * @param pivot A reference point in the list, from which we'll count back.
+		 * @param n How many nodes to count back from the reference point.
+		 *
+		 * @return The node that is `n` nodes before `pivot` in the list
 		 */
 		public abstract Node? nth_prev (Node pivot, ulong n);
+
 		/**
-		 * Obtain index for node target in the list.
+		 * Obtain index for node `target` in the list.  Like {@link GLib.List.find}.
+		 *
+		 * @param target A node in the list
+		 *
+		 * @return The index of `target`
 		 */
 		public abstract int find (Node target);
+
 		/**
-		 * Obtain index for node target in the list, using CompareFunc to compare.
+		 * Obtain index for node `target` in the list, using
+		 * CompareFunc to compare.  Like {@link
+		 * GLib.List.find_custom}.
+		 *
+		 * @param target A node in the list
+		 * @param cmp A comparison function, useful if `target` is a comparable copy of a node actually in the list
+		 *
+		 * @return The index of the first node in the list matching `target` according to `cmp`
 		 */
 		public abstract int find_custom (Node target, CompareFunc<Node> cmp);
+
 		/**
-		 * Obtain index for node target in the list.
+		 * Obtain index for node `target` in the list.  Like
+		 * {@link GLib.List.position}.
+		 *
+		 * @param target A node in the list
+		 *
+		 * @return The position of `target` in the list.
 		 */
 		public abstract int position (Node target);
+
 		/**
 		 * Obtain index for node target in the list.
 		 */
 		public abstract int index (Node target);
-		// TODO: wow, lots of those GList compatibility methods are the same in a case like this.
-
 
 		/* These exist to support management of a node's children */
 		internal abstract unowned Node? insert_before (Node new_child, Node? ref_child);
