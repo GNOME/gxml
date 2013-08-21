@@ -295,6 +295,23 @@ namespace GXml {
 		}
 
 		public override string to_string (bool format = false, int level = 0) {
+			/* TODO: change from xmlNodeDump and xmlBuffer
+			 * to xmlBuf and xmlBufNodeDump; the former
+			 * are 'somehow deprecated' (see xmlNodeDump
+			 * doc); however, it's unclear how to create
+			 * an xmlBuf right now : \ */
+			/* TODO: Consider loading documents with
+			 * xmlKeepBlanksDefault(0) that would cause a
+			 * loaded document to lose all of its blank
+			 * space (space between <> and a
+			 * non-whitespace) when loaded, allowing us to
+			 * use format with xmlNodeDump in cases where
+			 * the document contains a Text (format is
+			 * ignored if Text is contained).  This is
+			 * probably a bad idea; we probably want to
+			 * retain the whitespace we load with, and
+			 * instead we might need to find some other
+			 * way to implement formatting well. */
 			Xml.Buffer *buffer;
 			string str;
 
