@@ -138,8 +138,7 @@ namespace GXml {
 
 		/**
 		 * Obtain index for node `target` in the list, using
-		 * CompareFunc to compare.  Like {@link
-		 * GLib.List.find_custom}.
+		 * CompareFunc to compare.  Like {@link GLib.List.find_custom}.
 		 *
 		 * @param target A node in the list
 		 * @param cmp A comparison function, useful if `target` is a comparable copy of a node actually in the list
