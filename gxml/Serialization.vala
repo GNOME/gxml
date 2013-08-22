@@ -361,7 +361,7 @@ namespace GXml {
 		private static HashTable<string,Object> deserialize_cache = null;
 		private static HashTable<string,GXml.DomNode> serialize_cache = null;
 		// public so that tests can call it
-		public static void clear_caches () {
+		public static void clear_cache () { // TODO: rename to clear_caches, just changed back temporarily to avoid API break for 0.3.2
 			if (Serialization.deserialize_cache != null)
 				Serialization.deserialize_cache.remove_all ();
 			if (Serialization.serialize_cache != null)
