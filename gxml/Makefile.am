@@ -48,7 +48,7 @@ libgxml_la_SOURCES = \
 	DocumentFragment.vala \
 	DocumentType.vala \
 	DomNode.vala \
-	DomException.vala \
+	DomError.vala \
 	Element.vala \
 	Entity.vala \
 	EntityReference.vala \
