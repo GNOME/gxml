@@ -44,8 +44,10 @@ namespace GXml {
 	 *
 	 * These represent name=value attributes associated with XML
 	 * {@link GXml.Element}s. Values are often represented as strings but can
-	 * also be more complex subtrees for some nodes.  For more, see:
-	 * [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-637646024]]
+	 * also be more complex subtrees for some nodes.
+	 *
+	 * Version: DOM Level 1 Core
+	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-637646024]]
 	 */
 	public class Attr : DomNode {
 		/**
@@ -170,6 +172,9 @@ namespace GXml {
 
 		/**
 		 * The name of the attribute's name=value pair.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-1112119403]]
 		 */
 		public string name {
 			get {
@@ -185,8 +190,11 @@ namespace GXml {
 		 * underlying document. If the attribute is changed,
 		 * it is set to false.
 		 *
-		 * #todo: this requires support from the DTD, and
+		 * @todo: this requires support from the DTD, and
 		 * probably libxml2's xmlAttribute
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-862529273]]
 		 */
 		public bool specified {
 			// STUB
@@ -199,6 +207,9 @@ namespace GXml {
 		 * It is a stringified version of the value, which can
 		 * also be accessed as a tree node structure of
 		 * child_nodes.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-221662474]]
 		 */
 		public string value {
 			get {
