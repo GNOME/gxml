@@ -109,7 +109,6 @@ AC_SUBST([API_VERSION])
 
 GLIB_REQUIRED=2.16.0
 VALA_REQUIRED=0.16.0
-VALA_MODULES="libvala-0.20 >= 0.16"
 GEE_REQUIRED=0.7.0
 LIBXML_REQUIRED=2.7
 GIO_MODULES="gio-2.0 >= 2.16"
@@ -121,15 +120,15 @@ PKG_CHECK_MODULES([GLIB],
                    gobject-2.0 >= $GLIB_REQUIRED])
 
 # Check for vala
-PKG_CHECK_MODULES(VALA, $VALA_MODULES)
-VALA_BINDIR=`pkg-config $VALA_MODULES --variable=bindir`
-AC_SUBST(VALA_BINDIR)
-VALA_COMPILER="$VALA_BINDIR/valac"
-AC_SUBST(VALA_COMPILER)
-VALA_VAPIGEN=`pkg-config $VALA_MODULES --variable=vapigen`
-AM_CONDITIONAL(HAVE_VAPIGEN, test x$VALA_VAPIGEN != x"")
-VALA_VAPIDIR=`pkg-config $VALA_MODULES --variable=vapidir`
-AC_SUBST(VALA_VAPIDIR)
+AM_PROG_VALAC([$VALA_REQUIRED])
+AS_IF([test "x$VALAC" = "x"], [
+  AC_MSG_ERROR([Vala requested but valac is not installed])
+])
+
+AC_PATH_PROG([VAPIGEN], [vapigen], [])
+AS_IF([test "x$VAPIGEN" = "x"], [
+  AC_MSG_ERROR([Vala must be built with --enable-vapigen])
+])
 
 # Check for libgee
 PKG_CHECK_MODULES(GEE, gee-0.8 >= $GEE_REQUIRED)
