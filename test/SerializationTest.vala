@@ -258,7 +258,7 @@ class SerializationTest : GXmlTest {
 		GLib.Object object_new = null;
 
 		// make sure we have a fresh cache without collisions from previous tests
-		Serialization.clear_caches ();
+		Serialization.clear_cache ();
 
 		xml_filename = "_serialization_test_" + name + ".xml";
 
@@ -296,7 +296,7 @@ class SerializationTest : GXmlTest {
 				Regex regex;
 
 				// Clear cache to avoid collisions with other tests
-				Serialization.clear_caches ();
+				Serialization.clear_cache ();
 
 				/* TODO: This test should change once we can serialise fields
 				   and private properties */
@@ -390,7 +390,7 @@ class SerializationTest : GXmlTest {
 				Fruit fruit;
 
 				// Clear cache to avoid collisions with other tests
-				Serialization.clear_caches ();
+				Serialization.clear_cache ();
 
 				try {
 					doc = new Document.from_string ("<Object otype='Fruit'><Property pname='age' ptype='badtype'>blue</Property></Object>");
@@ -427,7 +427,7 @@ class SerializationTest : GXmlTest {
 				GXml.DomNode xml;
 
 				// Clear cache to avoid collisions with other tests
-				Serialization.clear_caches ();
+				Serialization.clear_cache ();
 
 				simple_properties = new SimpleProperties (3, 4.2, "catfish", true, 0);
 				obj = new ComplexDuplicateProperties (simple_properties);
@@ -556,7 +556,7 @@ class SerializationTest : GXmlTest {
 					Regex regex;
 
 					// Clear cache to avoid collisions with other tests
-					Serialization.clear_caches ();
+					Serialization.clear_cache ();
 
 					expectation = "<Object otype=\"Fruit\" oid=\"0x[0-9a-f]+\"><Property pname=\"colour\">blue</Property><Property pname=\"weight\">9</Property><Property pname=\"name\">fish</Property><Property pname=\"age\" ptype=\"gint\">3</Property></Object>";
 					// weight expected to be 9 because age sets it *3
@@ -590,7 +590,7 @@ class SerializationTest : GXmlTest {
 					Fruit fruit;
 
 					// Clear cache to avoid collisions with other tests
-					Serialization.clear_caches ();
+					Serialization.clear_cache ();
 
 					try {
 						doc = new Document.from_string ("<Object otype='Fruit'><Property pname='colour' ptype='gchararray'>blue</Property><Property pname='weight' ptype='gint'>11</Property><Property pname='name' ptype='gchararray'>fish</Property><Property pname='age' ptype='gint'>3</Property></Object>");
