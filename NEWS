@@ -3,7 +3,7 @@ Version 0.3.2
 =============
 GXml
         * autotools (Javier Jardon)
-	* internally updated to gee-0.8
+	* internally updated to gee-0.8 (Daniel Espinosa)
 	* test improvements and fixes (Arnel Borja)
 	* doc updates and fixes
 	* more examples
