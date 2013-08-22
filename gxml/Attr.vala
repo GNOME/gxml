@@ -190,7 +190,7 @@ namespace GXml {
 		 * underlying document. If the attribute is changed,
 		 * it is set to false.
 		 *
-		 * @todo: this requires support from the DTD, and
+		 * #todo: this requires support from the DTD, and
 		 * probably libxml2's xmlAttribute
 		 *
 		 * Version: DOM Level 1 Core

@@ -72,7 +72,7 @@ namespace GXml {
 
 		/**
 		 * The list of attributes that store namespace definitions.  This is not part of a DOM spec.
-		 * @TODO: determine best API for exposing these, as it's not defined in the IDL
+		 * #TODO: determine best API for exposing these, as it's not defined in the IDL
 		 */
 		public virtual NodeList? namespace_definitions {
 			get {
@@ -207,7 +207,7 @@ namespace GXml {
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-childNodes]]
 		 *
-		 * @todo: identify node types that use children for values, like attribute
+		 * #todo: identify node types that use children for values, like attribute
 		 */
 		public virtual NodeList? child_nodes {
 			// TODO: need to implement NodeList
@@ -294,8 +294,8 @@ namespace GXml {
 		/* Methods */
 
 		/* These may need to be overridden by subclasses that support them.
-		 * @TODO: figure out what non-BackedNode classes should be doing with these, anyway
-		 * @TODO: want to throw other relevant errors */
+		 * #TODO: figure out what non-BackedNode classes should be doing with these, anyway
+		 * #TODO: want to throw other relevant errors */
 
 		/**
 		 * Insert `new_child` as a child to this node, and place

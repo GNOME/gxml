@@ -127,11 +127,11 @@ namespace GXml {
 		/**
 		 * Creates an XML string representation of the nodes in the list.
 		 *
+		 * #todo: write a test
+		 *
 		 * @param in_line Whether to parse and expand entities or not.
 		 *
 		 * @return The list as an XML string.
-		 *
-		 * @todo: write a test
 		 */
 		public abstract string to_string (bool in_line);
 	}
