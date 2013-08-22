@@ -178,6 +178,11 @@ gxml/gxml.pc
 gxml/Makefile
 test/Makefile
 docs/Makefile
+examples/Makefile
+examples/c/Makefile
+examples/js/Makefile
+examples/python/Makefile
+examples/vala/Makefile
 po/Makefile.in
 ])
 AC_OUTPUT
