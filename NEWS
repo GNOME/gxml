@@ -1,8 +1,18 @@
 =============
+Version 0.3.2
 =============
 GXml
         * autotools (Javier Jardon)
-
+	* internally updated to gee-0.8
+	* test improvements and fixes (Arnel Borja)
+	* doc updates and fixes
+	* more examples
+	* serialization caching
+	* major memory fixes (Document manages its nodes' references; don't free them yourself)
+	* fewer compile time warnings:
+	  * libxml-2.0.vapi fixes,
+	  * no longer uses -Wall; many warnings from valac, out of our control
+	* bug fixes
 
 =============
 Version 0.3.1
