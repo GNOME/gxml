@@ -2,9 +2,9 @@ GXml is a GObject API that wraps around libxml2.
 
 Compile:
   Requirements:
-    * valadoc: we generate documentation using valadoc.  I don't think that it
-      packaged for Fedora at least at the time of this writing, so you may have
-      to obtain it following instructions at:
+    * valadoc: we generate documentation using valadoc.  If it's not
+      packaged for your distro (like Fedora) follow the instructions
+      at:
 
       https://live.gnome.org/Valadoc
 
@@ -12,7 +12,7 @@ Compile:
 
   $ ./configure
   $ ./make
-  $ ./maken install
+  $ ./make install
 
   You can use some common ./configure options like --prefix=$SOMEPATH to specify
   where to install it.
