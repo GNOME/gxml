@@ -248,11 +248,10 @@ namespace GXml {
 
 		/**
 		 * Creates a Document from a given Implementation, supporting
-		 * the {@ GXml.Implementation.create_document} method.  It is
-		 * defined here:
-		 * http://www.w3.org/TR/DOM-Level-3-Core/core.html#Level-2-Core-DOM-createDocument
+		 * the {@ GXml.Implementation.create_document} method.
 		 *
 		 * Version: DOM Level 3 Core
+		 * URL: [[http://www.w3.org/TR/DOM-Level-3-Core/core.html#Level-2-Core-DOM-createDocument]]
 		 *
 		 * @param impl Implementation creating this Document.
 		 * @param namespace_uri URI for the namespace in which this Document belongs, or `null`.
