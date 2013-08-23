@@ -1,2 +1,2 @@
 
-EXTRA_DIST = bookshelf.xml example.c Makefile.example
+EXTRA_DIST = bookshelf.xml example.c Makefile.example output

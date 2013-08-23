@@ -6,5 +6,5 @@ PROGS=document_new document_new_minimal document_new_from_string document_new_fr
 all: $(PROGS)
 
 clean:
-	rm $(PROGS) *.o *~ || true
+	@rm $(PROGS) *.o *~ \#*\# output/*.xml 2>/dev/null || true
 

@@ -9,7 +9,7 @@ int main () {
 
   doc = gxml_document_new_from_path ("bookshelf.xml");
 
-  outfile = g_file_new_for_path ("bookshelf3.xml");
+  outfile = g_file_new_for_path ("output/bookshelf_save_to_stream.xml");
   outstream = g_file_replace (outfile, NULL, FALSE, G_FILE_CREATE_REPLACE_DESTINATION, can, NULL);
   gxml_document_save_to_stream (doc, G_OUTPUT_STREAM (outstream), can);
 
