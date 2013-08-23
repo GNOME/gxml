@@ -31,7 +31,6 @@ namespace GXml {
 	 *
 	 * {@link GXml.Document}s are {@link GXml.Node}s, and are
 	 * composed of a tree of {@link GXml.Node}s.
-mNode.vala
 	 *
 	 * Version: DOM Level 1 Core
 	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1950641247]]
@@ -48,6 +47,7 @@ mNode.vala
 		}
 
 		/* Utility methods */
+
 		protected void check_wrong_document (Node node) {
 			if (this.owner_document != node.owner_document) {
 				GXml.warning (DomException.WRONG_DOCUMENT, "Node tried to interact with this document '%p' but belonged to document '%p'".printf (this.owner_document, node.owner_document));
@@ -311,8 +311,8 @@ mNode.vala
 		/* Methods */
 
 		/* These may need to be overridden by subclasses that support them.
-		 * #TODO: figure out what non-BackedNode classes should be doing with these, anyway
-		 * #TODO: want to throw other relevant errors */
+		 * @TODO: figure out what non-BackedNode classes should be doing with these, anyway
+		 * @TODO: want to throw other relevant errors */
 
 		/**
 		 * Insert `new_child` as a child to this node, and place
