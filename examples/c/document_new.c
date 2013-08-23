@@ -46,14 +46,6 @@ int main () {
   g_free (str);
 
   g_object_unref (doc);
-  g_object_unref (root); // TODO: figure out what happens to root if you deallocate doc?! */
-  // TODO: perhaps see whether we can make it that all the nodes that are returned are weak references
-  g_object_unref (owner);
-  g_object_unref (books);
-  g_object_unref (book);
-  /* In util/ there's a small programme that tells you when ownership
-     is transfered (that is, you are given a return value that you own
-     and must free. */
 
   return 0;
 }
