@@ -180,8 +180,6 @@ namespace GXml {
 			return value_node;
 		}
 
-		private static List<Document> _docs;
-
 		/**
 		 * Serializes a {@link GLib.Object} into a {@link GXml.Node}.
 		 *
@@ -223,7 +221,6 @@ namespace GXml {
 				if (oid != "" && Serialization.serialize_cache.contains (oid)) {
 					// GLib.message ("cache hit on oid %s", oid);
 					doc = new Document ();
-					Serialization._docs.append (doc);
 					root = doc.create_element ("ObjectRef");
 					doc.append_child (root);
 					root.set_attribute ("otype", object.get_type ().name ());
@@ -241,7 +238,6 @@ namespace GXml {
 				   a separate document for it to already be a
 				   part of as its owner_document. */
 				doc = new Document ();
-				Serialization._docs.append (doc);
 
 				root = doc.create_element ("Object");
 				doc.append_child (root);
