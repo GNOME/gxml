@@ -1,2 +1,2 @@
 
-EXTRA_DIST = bookshelf.xml example.js
+EXTRA_DIST = bookshelf.xml example.js output
