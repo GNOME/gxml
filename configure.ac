@@ -125,11 +125,6 @@ AS_IF([test "x$VALAC" = "x"], [
   AC_MSG_ERROR([Vala requested but valac is not installed])
 ])
 
-AC_PATH_PROG([VAPIGEN], [vapigen], [])
-AS_IF([test "x$VAPIGEN" = "x"], [
-  AC_MSG_ERROR([Vala must be built with --enable-vapigen])
-])
-
 # Check for libgee
 PKG_CHECK_MODULES(GEE, gee-0.8 >= $GEE_REQUIRED)
 
