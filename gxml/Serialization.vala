@@ -224,7 +224,6 @@ namespace GXml {
 				// first, check if its been serialised already, and if so, just return an ObjectRef element for it.
 				if (oid != "" && Serialization.serialize_cache.contains (oid)) {
 					// GLib.message ("cache hit on oid %s", oid);
-with actual GXmlDocuments, not just their root nodes.  This is necessary because a GXmlNode is not valid without a reference to its GXmlDocument.
 					root = doc.create_element ("ObjectRef");
 					doc.append_child (root);
 					root.set_attribute ("otype", object.get_type ().name ());
