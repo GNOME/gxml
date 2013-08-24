@@ -670,13 +670,12 @@ namespace GXml {
 			return new_child;
 		}
 
-		private string _str;
 		public string to_string (bool in_line = true) {
-			_str = "";
+			string str = "";
 			foreach (Node node in this) {
-				_str += node.to_string ();
+				str += node.to_string ();
 			}
-			return _str;
+			return str;
 		}
 
 		/* ** NodeListIterator ***/

@@ -388,7 +388,6 @@ namespace GXml {
 			return null;
 		}
 
-		private string _str;
 		/**
 		 * Provides a string representation of this node.
 		 *
@@ -405,11 +404,8 @@ namespace GXml {
 		 */
 		// TODO: ask Colin Walters about storing docs in GIR files (might have not been him)
 		public virtual string to_string (bool format = false, int level = 0) {
-			_str = "Node(%d:%s)".printf (this.node_type, this.node_name);
-			return _str;
+			return "Node(%d:%s)".printf (this.node_type, this.node_name);
 		}
-
-		// TODO: indicate in C that the return value must be freed.
 	}
 }
 
