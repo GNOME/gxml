@@ -34,7 +34,9 @@ namespace GXml {
 		private Xml.Dtd *ext_subset;
 
 		/** Constructor */
-		internal DocumentType (Xml.Dtd *int_subset, Xml.Dtd *ext_subset, Document doc) {
+		internal DocumentType (Xml.Dtd *int_subset,
+				       Xml.Dtd *ext_subset,
+				       Document doc) {
 			// TODO: for name, we want a real name of the doc type
 			base (NodeType.DOCUMENT_TYPE, doc);
 
@@ -65,7 +67,11 @@ namespace GXml {
 		}
 
 		/* TODO: make more static methods internal instead of public, if possible */
-		internal static void myScannerFull (void *payload, void *userdata, string name1, string name2, string name3) {
+		internal static void myScannerFull (void  *payload,
+						    void  *userdata,
+						    string name1,
+						    string name2,
+						    string name3) {
 			GLib.message ("scanner found [%s,%s,%s]", name1, name2, name3);
 		}
 

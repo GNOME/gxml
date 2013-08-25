@@ -39,7 +39,8 @@ namespace GXml {
 		internal Implementation () {
 		}
 
-		private void check_namespace (string? namespace_uri, string? qualified_name) {
+		private void check_namespace (string? namespace_uri,
+					      string? qualified_name) {
 			if (qualified_name == null && namespace_uri != null) {
 				GXml.warning (DomException.NAMESPACE, "qualified_name is null but namespace_uri [%s] is not.  Both should either be null or not null.".printf (namespace_uri));
 			}
@@ -111,7 +112,8 @@ namespace GXml {
 		 *
 		 * @return true if we support the specified feature, false otherwise.
 		 */
-		public bool has_feature (string feature, string? version = null) {
+		public bool has_feature (string  feature,
+					 string? version = null) {
 			/* Level 1 is limited to "xml" and "html" (icase) */
 			switch (feature) {
 			case "xml": // TODO find better way to handle case insensitivity

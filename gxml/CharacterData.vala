@@ -65,12 +65,16 @@ namespace GXml {
 			}
 		}
 
-		internal CharacterData (Xml.Node *char_node, Document doc) {
+		internal CharacterData (Xml.Node *char_node,
+					Document  doc) {
 			base (char_node, doc);
 			// TODO: if this was this (), it would recurse infinitely, maybe valac could detect that
 		}
 
-		protected bool check_index_size (string method, int length, ulong offset, ulong? count) {
+		protected bool check_index_size (string method,
+						 int    length,
+						 ulong  offset,
+						 ulong? count) {
 			if (offset < 0) {
 				GXml.warning (DomException.INDEX_SIZE, "%s called with offset '%lu' for data of length '%lu'".printf (method, offset, length));
 				return false;
@@ -102,7 +106,8 @@ namespace GXml {
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-6531BCCF]]
 		 */
-		public string substring_data (ulong offset, ulong count) {
+		public string substring_data (ulong offset,
+					      ulong count) {
 			if (! check_index_size ("substring_data", this.data.length, offset, count)) {
 				return "";
 			}
@@ -125,7 +130,8 @@ namespace GXml {
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-3EDB695F]]
 		 */
-		public void insert_data (ulong offset, string arg) {
+		public void insert_data (ulong  offset,
+					 string arg) {
 			/* length == 5
 			   0 1 2 3 4
 			   f a n c y */
@@ -142,7 +148,8 @@ namespace GXml {
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-7C603781]]
 		 */
-		public void delete_data (ulong offset, ulong count) {
+		public void delete_data (ulong offset,
+					 ulong count) {
 			if (! check_index_size ("delete_data", this.data.length, offset, count)) {
 				return;
 			}
@@ -157,7 +164,9 @@ namespace GXml {
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-E5CBA7FB]]
 		 */
-		public void replace_data (ulong offset, ulong count, string arg) {
+		public void replace_data (ulong  offset,
+					  ulong  count,
+					  string arg) {
 			if (! check_index_size ("replace_data", this.data.length, offset, count)) {
 				return;
 			}

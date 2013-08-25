@@ -38,7 +38,8 @@ namespace GXml {
 		internal Xml.Node *node;
 
 		/** Constructors */
-		internal BackedNode (Xml.Node *node, Document owner) {
+		internal BackedNode (Xml.Node *node,
+				     Document  owner) {
 			base ((NodeType)node->type, owner);
 			// Considered using node->doc instead, but some subclasses don't have corresponding Xml.Nodes
 			this.node = node;
@@ -250,13 +251,15 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override unowned Node? insert_before (Node new_child, Node? ref_child) {
+		public override unowned Node? insert_before (Node  new_child,
+							     Node? ref_child) {
 			return this.child_nodes.insert_before (new_child, ref_child);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public override unowned Node? replace_child (Node new_child, Node old_child) {
+		public override unowned Node? replace_child (Node new_child,
+							     Node old_child) {
 			return this.child_nodes.replace_child (new_child, old_child);
 		}
 		/**
@@ -295,7 +298,8 @@ namespace GXml {
 			// TODO: add a better test, as we weren't realising this was just a stub; test for memory usage too
 		}
 
-		public override string to_string (bool format = false, int level = 0) {
+		public override string to_string (bool format = false,
+						  int  level  = 0) {
 			/* TODO: change from xmlNodeDump and xmlBuffer
 			 * to xmlBuf and xmlBufNodeDump; the former
 			 * are 'somehow deprecated' (see xmlNodeDump

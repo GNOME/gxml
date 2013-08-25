@@ -38,9 +38,11 @@ namespace GXml {
 	 * It is a type of Text node. For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-667469212]]
 	 */
 	public class CDATASection : Text {
-		internal CDATASection (Xml.Node *cdata_node, Document doc) {
+		internal CDATASection (Xml.Node *cdata_node,
+				       Document  doc) {
 			base (cdata_node, doc);
 		}
+
 		/**
 		 * {@inheritDoc}
 		 */

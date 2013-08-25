@@ -200,7 +200,8 @@ namespace GXml {
 
 
 		/* Constructors */
-		internal Element (Xml.Node *node, Document doc) {
+		internal Element (Xml.Node *node,
+				  Document  doc) {
 			base (node, doc);
 			// TODO: consider string ownership, libxml2 memory
 			// TODO: do memory testing
@@ -243,7 +244,8 @@ namespace GXml {
 		 * @param name Name of the attribute whose value to set.
 		 * @param value The value to set.
 		 */
-		public void set_attribute (string name, string value) {
+		public void set_attribute (string name,
+					   string value) {
 			// don't need to use insert
 			Attr attr = this.attributes.lookup (name);
 			if (attr == null) {
@@ -338,7 +340,8 @@ namespace GXml {
 		}
 
 		// TODO: consider making the life of TagNameNodeLists optional, and dead by default, at the Document level
-		private void check_add_tag_name (Element basenode, Node child) {
+		private void check_add_tag_name (Element basenode,
+						 Node    child) {
 			// TODO: make sure there aren't any other NodeTypes that could have elements as children
 			if (child.node_type == NodeType.ELEMENT || child.node_type == NodeType.DOCUMENT_FRAGMENT) {
 				// the one we're examining is an element, and might need to be added
@@ -357,7 +360,8 @@ namespace GXml {
 		 * are elements.  If they are, we check the basenode and its ancestors to see
 		 * whether they're keeping that node in a TagNameNodeList, so we can remove it.
 		 */
-		private void check_remove_tag_name (Element basenode, Node child) {
+		private void check_remove_tag_name (Element basenode,
+						    Node    child) {
 			// TODO: make sure there aren't any other NodeTypes that could have elements as children
 			if (child.node_type == NodeType.ELEMENT) {
 				// the one we're examining is an element, and might need to be removed from a tag name node list
@@ -371,12 +375,14 @@ namespace GXml {
 		}
 
 		/* ** Node methods ** */
-		public override unowned Node? insert_before (Node new_child, Node? ref_child) {
+		public override unowned Node? insert_before (Node  new_child,
+							     Node? ref_child) {
 			unowned Node ret = base.insert_before (new_child, ref_child);
 			check_add_tag_name (this, new_child);
 			return ret;
 		}
-		public override unowned Node? replace_child (Node new_child, Node old_child) {
+		public override unowned Node? replace_child (Node new_child,
+							     Node old_child) {
 			check_remove_tag_name (this, old_child);
 			unowned Node ret = base.replace_child (new_child, old_child);
 			check_add_tag_name (this, new_child);

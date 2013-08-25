@@ -125,7 +125,8 @@ namespace GXml {
 		 *
 		 * @return The node that is `n` nodes before `pivot` in the list
 		 */
-		public abstract Node? nth_prev (Node pivot, ulong n);
+		public abstract Node? nth_prev (Node  pivot,
+						ulong n);
 
 		/**
 		 * Obtain index for node `target` in the list.  Like {@link GLib.List.find}.
@@ -145,7 +146,8 @@ namespace GXml {
 		 *
 		 * @return The index of the first node in the list matching `target` according to `cmp`
 		 */
-		public abstract int find_custom (Node target, CompareFunc<Node> cmp);
+		public abstract int find_custom (Node              target,
+						 CompareFunc<Node> cmp);
 
 		/**
 		 * Obtain index for node `target` in the list.  Like
@@ -163,8 +165,10 @@ namespace GXml {
 		public abstract int index (Node target);
 
 		/* These exist to support management of a node's children */
-		internal abstract unowned Node? insert_before (Node new_child, Node? ref_child);
-		internal abstract unowned Node? replace_child (Node new_child, Node old_child);
+		internal abstract unowned Node? insert_before (Node  new_child,
+							       Node? ref_child);
+		internal abstract unowned Node? replace_child (Node new_child,
+							       Node old_child);
 		internal abstract unowned Node? remove_child (Node old_child);
 		internal abstract unowned Node? append_child (Node new_child);
 
@@ -248,7 +252,8 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public Node? nth_prev (Node pivot, ulong n) {
+		public Node? nth_prev (Node  pivot,
+				       ulong n) {
 			unowned GLib.List<Node> list_pivot = this.nodes.find (pivot);
 			return list_pivot.nth_prev ((uint)n).data;
 		}
@@ -261,7 +266,8 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public int find_custom (Node target, CompareFunc<Node> cmp) {
+		public int find_custom (Node              target,
+					CompareFunc<Node> cmp) {
 			unowned GLib.List<Node> list_pt = this.nodes.find_custom (target, cmp);
 			return this.index (list_pt.data);
 		}
@@ -278,11 +284,13 @@ namespace GXml {
 			return this.nodes.index (target);
 		}
 
-		internal unowned Node? insert_before (Node new_child, Node? ref_child) {
+		internal unowned Node? insert_before (Node  new_child,
+						      Node? ref_child) {
 			this.nodes.insert_before (this.nodes.find (ref_child), new_child);
 			return new_child;
 		}
-		internal unowned Node? replace_child (Node new_child, Node old_child) {
+		internal unowned Node? replace_child (Node new_child,
+						      Node old_child) {
 			int pos = this.index (old_child);
 			this.remove_child (old_child);
 			this.nodes.insert (new_child, pos);
@@ -363,7 +371,9 @@ namespace GXml {
 	 * out as new elements are added, and get reconstructed each
 	 * time, or get reconstructed-on-the-go?
 	 */
-	internal class TagNameNodeList : GListNodeList { internal string tag_name;
+	internal class TagNameNodeList : GListNodeList {
+		internal string tag_name;
+
 		internal TagNameNodeList (string tag_name, Node root, Document owner) {
 			base (root);
 			this.tag_name = tag_name;
@@ -373,14 +383,16 @@ namespace GXml {
 	/* TODO: warning: this list should NOT be edited :(
 	   we need a new, better live AttrNodeList :| */
 	internal class AttrNodeList : GListNodeList {
-		internal AttrNodeList (Node root, Document owner) {
+		internal AttrNodeList (Node     root,
+				       Document owner) {
 			base (root);
 			base.nodes = root.attributes.get_values ();
 		}
 	}
 
 	internal class NamespaceAttrNodeList : GListNodeList {
-		internal NamespaceAttrNodeList (BackedNode root, Document owner) {
+		internal NamespaceAttrNodeList (BackedNode root,
+						Document   owner) {
 			base (root);
 			for (Xml.Ns *cur = root.node->ns_def; cur != null; cur = cur->next) {
 				this.append_child (new NamespaceAttr (cur, owner));
@@ -400,7 +412,8 @@ namespace GXml {
 			}
 		}
 
-		internal NodeChildNodeList (Xml.Node *parent, Document owner) {
+		internal NodeChildNodeList (Xml.Node *parent,
+					    Document  owner) {
 			this.parent = parent;
 			this.owner = owner;
 		}
@@ -440,7 +453,8 @@ namespace GXml {
 			}
 		}
 
-		internal AttrChildNodeList (Xml.Attr* parent, Document owner) {
+		internal AttrChildNodeList (Xml.Attr* parent,
+					    Document  owner) {
 			this.parent = parent;
 			this.owner = owner;
 		}
@@ -470,7 +484,8 @@ namespace GXml {
 			}
 		}
 
-		internal EntityChildNodeList (Xml.Entity* parent, Document owner) {
+		internal EntityChildNodeList (Xml.Entity* parent,
+					      Document    owner) {
 			this.parent = parent;
 			this.owner = owner;
 		}
@@ -547,7 +562,8 @@ namespace GXml {
 		public Node? nth_data (ulong n) {
 			return nth (n);
 		}
-		public Node? nth_prev (Node pivot, ulong n) {
+		public Node? nth_prev (Node pivot,
+				       ulong n) {
 			Xml.Node *cur;
 			for (cur = head; cur != null && this.owner.lookup_node (cur) != pivot; cur = cur->next) {
 			}
@@ -571,7 +587,8 @@ namespace GXml {
 				return pos;
 			}
 		}
-		public int find_custom (Node target, CompareFunc<Node> cmp) {
+		public int find_custom (Node              target,
+					CompareFunc<Node> cmp) {
 			int pos = 0;
 			Xml.Node *cur;
 			for (cur = head; cur != null && cmp (this.owner.lookup_node (cur), target) != 0; cur = cur->next) {
@@ -591,7 +608,8 @@ namespace GXml {
 		}
 
 		/** Node's child methods, implemented here **/
-		internal new unowned Node? insert_before (Node new_child, Node? ref_child) {
+		internal new unowned Node? insert_before (Node  new_child,
+							  Node? ref_child) {
 			Xml.Node *child = head;
 
 			if (ref_child == null) {
@@ -617,7 +635,8 @@ namespace GXml {
 			return new_child;
 		}
 
-		internal new unowned Node? replace_child (Node new_child, Node old_child) {
+		internal new unowned Node? replace_child (Node new_child,
+							  Node old_child) {
 			// TODO: verify that libxml2 already removes
 			// new_child first if it is found elsewhere in
 			// the tree.

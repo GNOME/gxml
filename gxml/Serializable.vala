@@ -100,7 +100,9 @@ namespace GXml {
 		 * letting them get name from spec
 		 * @todo: consider returning {@link GLib.Value} as out param
 		 */
-		public virtual bool deserialize_property (string property_name, /* out GLib.Value value,*/ GLib.ParamSpec spec, GXml.Node property_node) {
+		public virtual bool deserialize_property (string         property_name,
+							  GLib.ParamSpec spec,
+							  GXml.Node      property_node) {
 			return false; // default deserialize_property gets used
 		}
 
@@ -129,7 +131,9 @@ namespace GXml {
 		/*
 		 * @todo: consider not giving property_name, let them get name from spec?
 		 */
-		public virtual GXml.Node? serialize_property (string property_name, /*GLib.Value value, */ GLib.ParamSpec spec, GXml.Document doc) {
+		public virtual GXml.Node? serialize_property (string         property_name,
+							      GLib.ParamSpec spec,
+							      GXml.Document  doc) {
 			return null; // default serialize_property gets used
 		}
 
@@ -228,7 +232,8 @@ namespace GXml {
 		 * @todo: why not just return a string? :D Who cares
 		 * how analogous it is to {@link GLib.Object.get_property}? :D
 		 */
-		public virtual void get_property (GLib.ParamSpec spec, ref GLib.Value str_value) {
+		public virtual void get_property (GLib.ParamSpec spec,
+						  ref GLib.Value str_value) {
 			((GLib.Object)this).get_property (spec.name, ref str_value);
 		}
 		/*
@@ -253,7 +258,8 @@ namespace GXml {
 		 * handle this case as a virtual property, supported
 		 * by the other {@link GXml.Serializable} functions.
 		 */
-		public virtual void set_property (GLib.ParamSpec spec, GLib.Value value) {
+		public virtual void set_property (GLib.ParamSpec spec,
+						  GLib.Value     value) {
 			((GLib.Object)this).set_property (spec.name, value);
 		}
 	}

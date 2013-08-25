@@ -260,7 +260,10 @@ namespace GXml {
 		 *
 		 * @return The new document.
 		 */
-		internal Document.with_implementation (Implementation impl, string? namespace_uri, string? qualified_name, DocumentType? doctype) {
+		internal Document.with_implementation (Implementation impl,
+						       string?        namespace_uri,
+						       string?        qualified_name,
+						       DocumentType?  doctype) {
 			this ();
 			this.implementation = impl;
 
@@ -277,7 +280,8 @@ namespace GXml {
 		/**
 		 * Creates a Document based on a libxml2 Xml.Doc* object.
 		 */
-		public Document.from_libxml2 (Xml.Doc *doc, bool require_root = true) {
+		public Document.from_libxml2 (Xml.Doc *doc,
+					      bool     require_root = true) {
 			/* All other constructors should call this one,
 			   passing it a Xml.Doc* object */
 
@@ -317,7 +321,9 @@ namespace GXml {
 		}
 
 		// TODO: can we make this private?
-		internal static int _iowrite (void *ctx, char[] buf, int len) {
+		internal static int _iowrite (void  *ctx,
+					      char[] buf,
+					      int    len) {
 			OutputStreamBox *box = (OutputStreamBox*)ctx;
 			OutputStream outstream = box->str;
 			int bytes_writ = -1;
@@ -353,7 +359,9 @@ namespace GXml {
 			return success;
 		}
 		// TODO: can we make this private?
-		internal static int _ioread (void *ctx, char[] buf, int len) {
+		internal static int _ioread (void  *ctx,
+					     char[] buf,
+					     int    len) {
 			InputStreamBox *box = (InputStreamBox*)ctx;
 			InputStream instream = box->str;
 			int bytes_read = -1;
@@ -391,7 +399,8 @@ namespace GXml {
 		/**
 		 * Creates a Document from the File fin.
 		 */
-		public Document.from_gfile (File fin, Cancellable? can = null) {
+		public Document.from_gfile (File         fin,
+					    Cancellable? can = null) {
 			// TODO: accept cancellable
 			InputStream instream;
 
@@ -406,7 +415,8 @@ namespace GXml {
 		/**
 		 * Creates a Document from data provided through the InputStream instream.
 		 */
-		public Document.from_stream (InputStream instream, Cancellable? can = null) {
+		public Document.from_stream (InputStream  instream,
+					     Cancellable? can = null) {
 			// TODO: accept Cancellable
 			// Cancellable can = new Cancellable ();
 			InputStreamBox box = { instream, can };
@@ -484,7 +494,8 @@ namespace GXml {
 		/**
 		 * Saves a Document to the OutputStream outstream.
 		 */
-		public void save_to_stream (OutputStream outstream, Cancellable? can = null) {
+		public void save_to_stream (OutputStream outstream,
+					    Cancellable? can = null) {
 			OutputStreamBox box = { outstream, can };
 
 			sync_dirty_elements ();
@@ -611,7 +622,8 @@ namespace GXml {
 		 */
 		/* TODO: this is not backed by a libxml2 structure, and is not stored in the NodeDict, so we don't know
 		   when it will be freed :(  Figure it out */
-		public ProcessingInstruction create_processing_instruction (string target, string data) {
+		public ProcessingInstruction create_processing_instruction (string target,
+									    string data) {
 			check_not_supported_html ("processing instructions");
 			check_invalid_characters (target, "processing instruction");
 
@@ -681,7 +693,8 @@ namespace GXml {
 		/**
 		 * Subject should be something like "element" or "processing instruction"
 		 */
-		internal static bool check_invalid_characters (string name, string subject) {
+		internal static bool check_invalid_characters (string name,
+							       string subject) {
 			/* TODO: use Xml.validate_name instead  */
 			if (Xml.validate_name (name, 0) != 0) { // TODO: define validity
 				GXml.warning (DomException.INVALID_CHARACTER, "Provided name '%s' for '%s' is not a valid XML name".printf (name, subject));
@@ -694,7 +707,8 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override string to_string (bool format = false, int level = 0) {
+		public override string to_string (bool format = false,
+						  int  level  = 0) {
 			string str;
 			int len;
 
@@ -740,7 +754,8 @@ namespace GXml {
 			return null;
 		}
 
-		internal Node copy_node (Node foreign_node, bool deep = true) {
+		internal Node copy_node (Node foreign_node,
+					 bool deep = true) {
 			foreign_node.owner_document.sync_dirty_elements ();
 			Xml.Node *our_copy_xml = ((BackedNode)foreign_node).node->doc_copy (this.xmldoc, deep ? 1 : 0);
 			// TODO: do we need to append this to this.new_nodes?  Do we need to append the result to this.nodes_to_free?  Test memory implications

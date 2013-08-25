@@ -39,7 +39,8 @@ namespace GXml {
 	 */
 	// TODO: make sure that character entity references (like the one used in the example above, are valid
 	public class EntityReference : Node {
-		internal EntityReference (string refname, Document doc) {
+		internal EntityReference (string   refname,
+					  Document doc) {
 			// TODO: may want to handle refname differently
 			base (NodeType.ENTITY_REFERENCE, doc); // TODO: what should we pass up?
 			this.node_name = refname;

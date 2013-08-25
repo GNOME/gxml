@@ -53,7 +53,8 @@ namespace GXml {
 	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-B63ED1A3]]
 	 */
 	public class DocumentFragment : BackedNode {
-		internal DocumentFragment (Xml.Node *fragment_node, Document doc) {
+		internal DocumentFragment (Xml.Node *fragment_node,
+					   Document  doc) {
 			base (fragment_node, doc);
 		}
 	}

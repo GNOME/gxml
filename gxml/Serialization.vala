@@ -72,7 +72,8 @@ namespace GXml {
 	 * data types not automatically supported by {@link GXml.Serialization}.
 	 */
 	public class Serialization : GLib.Object {
-		private static void print_debug (GXml.Document doc, GLib.Object object) {
+		private static void print_debug (GXml.Document doc,
+						 GLib.Object   object) {
 			stdout.printf ("Object XML\n---\n%s\n", doc.to_string ());
 
 			stdout.printf ("object\n---\n");
@@ -87,7 +88,10 @@ namespace GXml {
 		 * {@link GLib.Value} can transform into a string, and
 		 * operates recursively.
 		 */
-		private static GXml.Node serialize_property (GLib.Object object, ParamSpec prop_spec, GXml.Document doc) throws SerializationError {
+		private static GXml.Node serialize_property (GLib.Object   object,
+							     ParamSpec     prop_spec,
+							     GXml.Document doc)
+		                                             throws SerializationError {
 			Type type;
 			Value value;
 			Node value_node;
@@ -205,7 +209,8 @@ namespace GXml {
 		 * @param object A {@link GLib.Object} to serialize
 		 * @return a {@link GXml.Document} representing the serialized `object`
 		 */
-		public static GXml.Document serialize_object (GLib.Object object) throws SerializationError {
+		public static GXml.Document serialize_object (GLib.Object object)
+		                                              throws SerializationError {
 			Document doc;
 			Element root;
 			ParamSpec[] prop_specs;
@@ -298,7 +303,10 @@ namespace GXml {
 		 * strings back to other types, we use our own function to do
 		 * that.
 		 */
-		private static void deserialize_property (ParamSpec spec, Element prop_elem, out Value val) throws SerializationError {
+		private static void deserialize_property (ParamSpec spec,
+							  Element   prop_elem,
+							  out Value val)
+		                                          throws SerializationError {
 			Type type;
 
 			type = spec.value_type;
@@ -516,7 +524,8 @@ namespace GXml {
 		 * @todo: what do functions written in Vala return in C when
 		 * they throw an exception?  NULL/0/FALSE?
 		 */
-		public static bool string_to_gvalue (string str, ref GLib.Value dest) throws SerializationError {
+		public static bool string_to_gvalue (string         str,
+						     ref GLib.Value dest) throws SerializationError {
 			Type t = dest.type ();
 			GLib.Value dest2 = Value (t);
 			bool ret = false;

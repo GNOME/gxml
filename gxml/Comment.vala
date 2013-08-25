@@ -39,7 +39,8 @@
  */
 public class GXml.Comment : GXml.CharacterData {
 	// TODO: Can I make this only accessible from within the GXml.Dom namespace (e.g. from GXml.Dom.Document?)
-	internal Comment (Xml.Node *comment_node, Document doc) {
+	internal Comment (Xml.Node *comment_node,
+			  Document  doc) {
 		base (comment_node, doc);
 	}
 	public override string node_name {

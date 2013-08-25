@@ -35,7 +35,8 @@ namespace GXml {
 		private Xml.Ns *node;
 
 		/** Constructors */
-		internal NamespaceAttr (Xml.Ns *node, Document doc) {
+		internal NamespaceAttr (Xml.Ns  *node,
+					Document doc) {
 			// TODO: wish valac would warn against using this. before calling base()
 			base (NodeType.ATTRIBUTE, doc); // TODO: want something other than ATTRIBUTE?
 			this.node = node;

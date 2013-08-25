@@ -37,7 +37,8 @@ namespace GXml {
 	 */
 	public class Node : GLib.Object {
 		/* Constructors */
-		internal Node (NodeType type, Document owner) {
+		internal Node (NodeType type,
+			       Document owner) {
 			this.node_type = type;
 			this.owner_document = owner;
 		}
@@ -326,7 +327,8 @@ namespace GXml {
 		 *
 		 * @return `new_child`, the node that has been inserted
 		 */
-		public virtual unowned Node? insert_before (Node new_child, Node? ref_child) {
+		public virtual unowned Node? insert_before (Node  new_child,
+							    Node? ref_child) {
 			return null;
 		}
 		/**
@@ -337,7 +339,8 @@ namespace GXml {
 		 *
 		 * @return The removed node `old_child`.
 		 */
-		public virtual unowned Node? replace_child (Node new_child, Node old_child) {
+		public virtual unowned Node? replace_child (Node new_child,
+							    Node old_child) {
 			return null;
 		}
 		/**
@@ -403,7 +406,8 @@ namespace GXml {
 		 * @return XML string for node, which must be freed.
 		 */
 		// TODO: ask Colin Walters about storing docs in GIR files (might have not been him)
-		public virtual string to_string (bool format = false, int level = 0) {
+		public virtual string to_string (bool format = false,
+						 int  level  = 0) {
 			return "Node(%d:%s)".printf (this.node_type, this.node_name);
 		}
 	}

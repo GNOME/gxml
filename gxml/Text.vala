@@ -42,7 +42,8 @@ namespace GXml {
 	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-1312295772]]
 	 */
 	public class Text : CharacterData {
-		internal Text (Xml.Node *text_node, Document doc) {
+		internal Text (Xml.Node *text_node,
+			       Document  doc) {
 			base (text_node, doc);
 		}
 		/**
