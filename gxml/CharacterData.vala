@@ -110,22 +110,27 @@ namespace GXml {
 			return this.data.substring ((long)offset, (long)count);
 		}
 		/**
-		 * Appends arg to the end of the character data.
+		 * Appends `new_segment` to the end of the character data.
 		 *
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-32791A2F]]
+		 *
+		 * @param new_segment The new data that will be appended at the end
 		 */
-		public void append_data (string arg) {
-			this.data = this.data.concat (arg);
+		public void append_data (string new_segment) {
+			this.data = this.data.concat (new_segment);
 		}
 
 		/**
-		 * Inserts arg into the character data at offset.
+		 * Inserts `new_segment` into the character data at `offset`.
 		 *
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-3EDB695F]]
+		 *
+		 * @param offset The index where the new data will be inserted
+		 * @param new_segment The new data to be inserted
 		 */
-		public void insert_data (ulong offset, string arg) {
+		public void insert_data (ulong offset, string new_segment) {
 			/* length == 5
 			   0 1 2 3 4
 			   f a n c y */
@@ -133,14 +138,17 @@ namespace GXml {
 				return;
 			}
 
-			this.data = this.data.substring (0, (long)offset).concat (arg, this.data.substring ((long)offset));
+			this.data = this.data.substring (0, (long)offset).concat (new_segment, this.data.substring ((long)offset));
 		}
 
 		/**
-		 * Deletes a range of characters, count-characters long, starting from offset.
+		 * Deletes a range of characters, `count`-characters long, starting from `offset`.
 		 *
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-7C603781]]
+		 *
+		 * @param offset The index of the first character in the range to be deleted
+		 * @param count The length in characters of the range to be deleted
 		 */
 		public void delete_data (ulong offset, ulong count) {
 			if (! check_index_size ("delete_data", this.data.length, offset, count)) {
@@ -151,18 +159,22 @@ namespace GXml {
 		}
 
 		/**
-		 * Replaces a range of characters, count-characters
-		 * long, starting at offset, with arg.
+		 * Replaces a range of characters, `count`-characters
+		 * long, starting at `offset`, with `new_segment`.
 		 *
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-E5CBA7FB]]
+		 *
+		 * @param offset The index of the first character in the range that will be replaced
+		 * @param count The length in characters of the range that will be replaced
+		 * @param new_segment The text that will be added
 		 */
-		public void replace_data (ulong offset, ulong count, string arg) {
+		public void replace_data (ulong offset, ulong count, string new_segment) {
 			if (! check_index_size ("replace_data", this.data.length, offset, count)) {
 				return;
 			}
 
-			this.data = this.data.substring (0, (long)offset).concat (arg, this.data.substring ((long)(offset + count)));
+			this.data = this.data.substring (0, (long)offset).concat (new_segment, this.data.substring ((long)(offset + count)));
 		}
 	}
 }
