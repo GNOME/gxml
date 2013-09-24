@@ -561,5 +561,16 @@ namespace GXml {
 				base.node->set_content (value);
 			}
 		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		public override string to_string (bool format = false, int level = 0) {
+			/* TODO: may want to determine a way to only sync when
+			   attributes have been modified */
+
+			this.owner_document.dirty_elements.append (this);
+			return base.to_string (format, level);
+		}
 	}
 }
