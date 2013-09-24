@@ -253,6 +253,13 @@ namespace GXml {
 		public override Node? clone_node (bool deep) {
 			return this; // STUB
 		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		public override string to_string (bool format = false, int level = 0) {
+			return "Attr(%s=\"%s\")".printf (this.name, this.value);
+		}
 	}
 
 }
