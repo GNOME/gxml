@@ -49,8 +49,16 @@ namespace GXml {
 		/* Utility methods */
 
 		protected void check_wrong_document (Node node) {
-			if (this.owner_document != node.owner_document) {
-				GXml.warning (DomException.WRONG_DOCUMENT, "Node tried to interact with this document '%p' but belonged to document '%p'".printf (this.owner_document, node.owner_document));
+			Document this_doc;
+
+			if (this.node_type == NodeType.DOCUMENT) {
+				this_doc = (GXml.Document)this;
+			} else {
+				this_doc = this.owner_document;
+			}
+
+			if (this_doc != node.owner_document) {
+				GXml.warning (DomException.WRONG_DOCUMENT, "Node tried to interact with this document '%p' but belonged to document '%p'".printf (this_doc, node.owner_document));
 			}
 		}
 
@@ -329,6 +337,7 @@ namespace GXml {
 		public virtual unowned Node? insert_before (Node new_child, Node? ref_child) {
 			return null;
 		}
+
 		/**
 		 * Replaces `old_child` with `new_child` in this node's list of children.
 		 *
@@ -340,6 +349,7 @@ namespace GXml {
 		public virtual unowned Node? replace_child (Node new_child, Node old_child) {
 			return null;
 		}
+
 		/**
 		 * Removes `old_child` from this node's list of children.
 		 *
@@ -351,6 +361,7 @@ namespace GXml {
 		public virtual unowned Node? remove_child (Node old_child) {
 			return null;
 		}
+
 		/**
 		 * Appends `new_child` to the end of this node's list of children.
 		 *
@@ -362,6 +373,7 @@ namespace GXml {
 		public virtual unowned Node? append_child (Node new_child) {
 			return null;
 		}
+
 		/**
 		 * Indicates whether this node has children.
 		 *
@@ -408,4 +420,3 @@ namespace GXml {
 		}
 	}
 }
-
