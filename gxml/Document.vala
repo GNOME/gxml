@@ -296,6 +296,7 @@ namespace GXml {
 			// TODO: consider passing root as a base node?
 			base.for_document ();
 
+
 			this.owner_document = this; // must come after base ()
 			this.xmldoc = doc;
 			if (doc->int_subset == null && doc->ext_subset == null) {
@@ -639,10 +640,14 @@ namespace GXml {
 		/**
 		 * Creates an entity reference.
 		 *
-		 * XML example: {{{&name; &apos;}}}
+		 * XML example: {{{&name;}}}, for example an apostrophe has the name 'apos', so in XML it appears as {{{&apos;}}}
 		 *
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createEntityReference]]
+		 *
+		 * @param name The 'name' of the entity reference.
+		 *
+		 * @return An EntityReference for `name`
 		 */
 		public EntityReference create_entity_reference (string name) {
 			check_not_supported_html ("entity reference");
@@ -707,12 +712,92 @@ namespace GXml {
 		/*** Node methods ***/
 
 		/**
-		 * Appends new_child to this document. A document can
-		 * only have one Element child, the root element, and
-		 * one DocumentType.
+		 * {@inheritDoc}
+		 */
+		public override NodeList? child_nodes {
+			owned get {
+				// TODO: always create a new one?
+				// TODO: xmlDoc and xmlNode are very similar, but perhaps we shouldn't do this :D
+				return new NodeChildNodeList ((Xml.Node*)this.xmldoc, this.owner_document);
+			}
+			internal set {
+			}
+		}
+
+
+		/**
+		 * Replaces `old_child` with `new_child` in this node's list of children.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-replaceChild]]
+		 *
+		 * @param new_child The child we will replace `old_child` with
+		 * @param old_child The child being replaced
+		 *
+		 * @return The removed node `old_child`.
+		 */
+		public override unowned Node? replace_child (Node new_child, Node old_child) {
+			if (new_child.node_type == NodeType.ELEMENT ||
+			    new_child.node_type == NodeType.DOCUMENT_TYPE) {
+				/* let append_child do it with its error handling, since
+				   we don't consider position with libxml2 */
+				return this.append_child (new_child);
+			} else {
+				return this.replace_child (new_child, old_child);
+			}
+		}
+
+		/**
+		 * Removes `old_child` from this document's list of
+		 * children.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-removeChild]]
+		 *
+		 * @param old_child The child we wish to remove.
+		 *
+		 * @return The removed node `old_child`.
+		 */
+		public override unowned Node? remove_child (Node old_child) {
+			return this.child_nodes.remove_child (old_child);
+		}
+
+		/**
+		 * Inserts `new_child` into this document before
+		 * `ref_child`, an existing child of this
+		 * {@link GXml.Document}. A document can only have one
+		 * {@link GXml.Element} child (the root element) and
+		 * one {@link GXml.DocumentType}.
+		 *
+		 * Version: DOM Level 1 Core
+		 * URL: [[http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-952280727]]
+		 *
+		 * @param new_child The new node to insert into the document.
+		 * @param ref_child The existing child of the document that new_child will precede.
+		 *
+		 * @return The newly inserted child.
+		 */
+		public override unowned Node? insert_before (Node new_child, Node? ref_child) {
+			if (new_child.node_type == NodeType.ELEMENT ||
+			    new_child.node_type == NodeType.DOCUMENT_TYPE) {
+				/* let append_child do it with its error handling, since
+				   we don't consider position with libxml2 */
+				return this.append_child (new_child);
+			} else {
+				return this.child_nodes.insert_before (new_child, ref_child);
+			}
+		}
+
+		/**
+		 * Appends new_child to this document, appearing at
+		 * the end of its list of children.  A document can
+		 * only have one {@link GXml.Element} child, the root
+		 * element, and one {@link GXml.DocumentType}.
 		 *
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-appendChild]]
+		 *
+		 * @param new_child The child we're appending
 		 *
 		 * @return The newly added child.
 		 */
@@ -732,12 +817,18 @@ namespace GXml {
 				} else {
 					GXml.warning (DomException.HIERARCHY_REQUEST, "Document already has a doctype.  Could not add new doctype with name '%s'.".printf (((DocumentType)new_child).name));
 				}
-				GLib.warning ("Appending document_types not yet supported");
 			} else {
-				GLib.warning ("Appending '%s' not yet supported", new_child.node_type.to_string ());
+				return this.child_nodes.append_child (new_child);
 			}
 
 			return null;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		public override bool has_child_nodes () {
+			return (xmldoc->children != null);
 		}
 
 		internal Node copy_node (Node foreign_node, bool deep = true) {
