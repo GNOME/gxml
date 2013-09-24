@@ -32,7 +32,7 @@ namespace GXml {
 	 *
 	 * Describes the text found as children of elements throughout
 	 * an XML document, like "He who must not be named" in the
-	 * XML: {{{&lt;name>He who must not be named&lt;/name>}}}
+	 * XML: {{{<name>He who must not be named</name>}}}
 	 * With libxml2 as a backend, it should be noted that two
 	 * adjacent text nodes are always merged into one Text node,
 	 * so some functionality for Text, like split_text, will not
@@ -63,6 +63,10 @@ namespace GXml {
 		 * automatically remerged, so for now, we split the
 		 * text and return the second part as a node outside
 		 * of the document tree.
+		 *
+		 * WARNING: behaviour of this function will likely
+		 * change in the future to comply with the DOM Level 1
+		 * Core spec.
 		 *
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-38853C1D]]
