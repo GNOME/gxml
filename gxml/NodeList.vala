@@ -109,7 +109,7 @@ namespace GXml {
 
 		/**
 		 * Obtain the n'th item in the list. Like {@link GLib.List.nth_data}.
-		 * 
+		 *
 		 * @param n The index of the item to access
 		 *
 		 * @return The n'th item in the list
@@ -664,7 +664,11 @@ namespace GXml {
 					parent_as_xmlnode->add_child (((BackedNode)grand_child).node);
 				}
 			} else {
-				parent_as_xmlnode->add_child (((BackedNode)new_child).node);
+				if (new_child.node_type == NodeType.ENTITY_REFERENCE) {
+					GLib.warning ("Appending EntityReferences to Nodes is not yet supported");
+				} else {
+					parent_as_xmlnode->add_child (((BackedNode)new_child).node);
+				}
 			}
 
 			return new_child;
