@@ -2,13 +2,6 @@
   label
   Memcheck:Leak
   ...
-  fun:g_type_class_ref
-  fun:g_object_newv
-}
-{
-  label
-  Memcheck:Leak
-  ...
   fun:g_thread_proxy
   fun:start_thread
   fun:clone

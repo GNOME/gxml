@@ -46,5 +46,10 @@
   fun:g_type_create_instance
   fun:*_construct_*
 }
-
-
+{
+  g_object_newv's class refs
+  Memcheck:Leak
+  ...
+  fun:g_type_class_ref
+  fun:g_object_newv
+}
