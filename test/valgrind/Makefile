@@ -32,8 +32,9 @@ runnew:
 supp: *.supp
 	cat *.supp > ../../gxml.supp
 
+# use this like 'make run SUBJECT=./attributes'
 run: all
-	G_SLICE=always-malloc valgrind --leak-check=full --show-reachable=yes --suppressions=libxml2.supp --suppressions=gio.supp --suppressions=gtype.supp --suppressions=glib.supp --num-callers=40 ./document_create_minimal
+	G_SLICE=always-malloc valgrind --leak-check=full --show-reachable=yes --suppressions=libxml2.supp --suppressions=gio.supp --suppressions=gtype.supp --suppressions=glib.supp --num-callers=40 ${SUBJECT}
 
 run_nosupp:
 	G_SLICE=always-malloc valgrind --leak-check=full --show-reachable=yes --num-callers=40 ./document
