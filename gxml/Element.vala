@@ -86,12 +86,18 @@ namespace GXml {
 		private HashTable<string,Attr> _attributes = null;
 
 		/**
-		 * Contains a HashTable of Attr attributes associated with this element.
+		 * Contains a {@link GLib.HashTable} of
+		 * {@link GXml.Attr} attributes associated with this
+		 * {@link GXml.Element}.
 		 *
 		 * Attributes in the HashTable are updated live, so
 		 * changes in the element's attributes through its
 		 * other methods are reflected in the attributes
-		 * HashTable.
+		 * {@link GLib.HashTable}.
+		 *
+		 * Do not free this or its contents.  It's memory will
+		 * be released when the owning {@link GXml.Document}
+		 * is freed.
 		 */
 		public override HashTable<string,Attr>? attributes {
 			/*
@@ -139,10 +145,10 @@ namespace GXml {
 		}
 
 		/**
-		 * This should be called before saving a GXml Document
-		 * to a libxml2 Xml.Doc*, or else any changes made to
-		 * attributes in the Element will only exist within
-		 * the hash table proxy and will not be recorded.
+		 * This should be called before saving a {@link GXml.Document}
+		 * to a {@link Xml.Doc}*, or else any changes made to
+		 * attributes in the {@link GXml.Element} will only exist within
+		 * the {@link GLib.HashTable} proxy and will not be recorded.
 		 */
 		internal void save_attributes (Xml.Node *tmp_node) {
 			Attr attr;

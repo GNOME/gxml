@@ -96,6 +96,8 @@ namespace GXml {
 
 		/**
 		 * The list of attributes that store namespace definitions.  This is not part of a DOM spec.
+		 *
+		 * The caller must free this using {@link GLib.Object.unref}.
 		 */
 		/* @TODO: determine best API for exposing these, as it's not defined in the IDL */
 		public virtual NodeList? namespace_definitions {
@@ -111,6 +113,9 @@ namespace GXml {
 		 * This only applies to Elements and Attrs from DOM
 		 * Level 2 Core that were created with namespace
 		 * support.
+		 *
+		 * Do not free this.  It's memory will be released
+		 * when the owning {@link GXml.Document} is freed.
 		 *
 		 * Version: DOM Level 2 Core
 		 * URL: [[http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-NodeNSname]]
@@ -128,6 +133,9 @@ namespace GXml {
 		 * only applies to Elements and Attrs from DOM Level 2
 		 * Core that were created with namespace support.
 		 *
+		 * Do not free this.  It's memory will be released
+		 * when the owning {@link GXml.Document} is freed.
+		 *
 		 * Version: DOM Level 2 Core
 		 * URL: [[http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-NodeNSPrefix]]
 		 */
@@ -143,6 +151,9 @@ namespace GXml {
 		 * Stores the local name within the namespace. This
 		 * only applies to Elements and Attrs from DOM Level 2
 		 * Core that were created with namespace support.
+		 *
+		 * Do not free this.  It's memory will be released
+		 * when the owning {@link GXml.Document} is freed.
 		 *
 		 * Version: DOM Level 2 Core
 		 * URL: [[http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-NodeNSLocalN]]
@@ -160,6 +171,9 @@ namespace GXml {
 		 * similar to the node type, but sometimes, it is
 		 * arbitrary.
 		 *
+		 * Do not free this.  It's memory will be released
+		 * when the owning {@link GXml.Document} is freed.
+		 *
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-nodeName]]
 		 */
@@ -171,6 +185,9 @@ namespace GXml {
 		 * Stores the value of the Node. The nature of
 		 * node_value varies based on the type of node. This
 		 * can be null.
+		 *
+		 * Do not free this.  It's memory will be released
+		 * when the owning {@link GXml.Document} is freed.
 		 *
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-nodeValue]]
@@ -210,6 +227,9 @@ namespace GXml {
 		 *
 		 * Example: {{{<parent><child></child></parent>}}}
 		 *
+		 * Do not free this.  It's memory will be released
+		 * when the owning {@link GXml.Document} is freed.
+		 *
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-parentNode]]
 		 */
@@ -228,6 +248,10 @@ namespace GXml {
 		 * node's children will be reflected in an
 		 * already-active {@link GXml.NodeList}.
 		 *
+		 * The caller must call {@link GLib.Object.unref} on
+		 * the list when it is done with it.  The lists are
+		 * constructed dynamically.
+		 *
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-childNodes]]
 		 */
@@ -244,6 +268,9 @@ namespace GXml {
 		 * Links to the first child. If there are no
 		 * children, it returns null.
 		 *
+		 * Do not free this.  It's memory will be released
+		 * when the owning {@link GXml.Document} is freed.
+		 *
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-firstChild]]
 		 */
@@ -255,6 +282,9 @@ namespace GXml {
 		/**
 		 * Links to the last child. If there are no
 		 * children, it returns null.
+		 *
+		 * Do not free this.  It's memory will be released
+		 * when the owning {@link GXml.Document} is freed.
 		 *
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-lastChild]]
@@ -269,6 +299,9 @@ namespace GXml {
 		 * are no previous siblings, it returns null. Note
 		 * that the children of a node are ordered.
 		 *
+		 * Do not free this.  It's memory will be released
+		 * when the owning {@link GXml.Document} is freed.
+		 *
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-previousSibling]]
 		 */
@@ -281,6 +314,9 @@ namespace GXml {
 		 * Links to this node's next sibling. If there is no
 		 * next sibling, it returns null. Note that the
 		 * children of a node are ordered.
+		 *
+		 * Do not free this.  It's memory will be released
+		 * when the owning {@link GXml.Document} is freed.
 		 *
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-nextSibling]]
@@ -295,7 +331,10 @@ namespace GXml {
 		 * attributes for this node. `attributes`
 		 * actually only apply to {@link GXml.Element}
 		 * nodes. For all other {@link GXml.Node} subclasses,
-		 * `attributes` is null.
+		 * `attributes` is %NULL.
+		 *
+		 * Do not free this.  It's memory will be released
+		 * when the owning {@link GXml.Document} is freed.
 		 *
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-attributes]]
@@ -307,6 +346,10 @@ namespace GXml {
 
 		/**
 		 * A link to the {@link GXml.Document} to which this node belongs.
+		 *
+		 * Do not free this unless you intend to free all
+		 * memory owned by the {@link GXml.Document}, including this
+		 * {@link GXml.Node}.
 		 *
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-ownerDocument]]
@@ -332,7 +375,10 @@ namespace GXml {
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-insertBefore]]
 		 *
-		 * @return `new_child`, the node that has been inserted
+		 * @return `new_child`, the node that has been
+		 * inserted.  Do not free it, its memory will be
+		 * released when the owning {@link GXml.Document} is
+		 * freed.
 		 */
 		public virtual unowned Node? insert_before (Node new_child, Node? ref_child) {
 			return null;
@@ -344,7 +390,9 @@ namespace GXml {
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-replaceChild]]
 		 *
-		 * @return The removed node `old_child`.
+		 * @return The removed node `old_child`.  Do not free it, its memory will be
+		 * released when the owning {@link GXml.Document} is
+		 * freed.
 		 */
 		public virtual unowned Node? replace_child (Node new_child, Node old_child) {
 			return null;
@@ -356,7 +404,9 @@ namespace GXml {
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-removeChild]]
 		 *
-		 * @return The removed node `old_child`.
+		 * @return The removed node `old_child`.  Do not free it, its memory will be
+		 * released when the owning {@link GXml.Document} is
+		 * freed.
 		 */
 		public virtual unowned Node? remove_child (Node old_child) {
 			return null;
@@ -368,7 +418,9 @@ namespace GXml {
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-appendChild]]
 		 *
-		 * @return The newly added child.
+		 * @return The newly added child.  Do not free it, its memory will be
+		 * released when the owning {@link GXml.Document} is
+		 * freed.
 		 */
 		public virtual unowned Node? append_child (Node new_child) {
 			return null;
@@ -394,7 +446,9 @@ namespace GXml {
 		 *
 		 * @param deep If `true`, descendants are cloned as well. If `false`, they are not.
 		 *
-		 * @return A parentless clone of this node.
+		 * @return A parentless clone of this node.  Do not
+		 * free it, its memory will be released when the owning
+		 * {@link GXml.Document} is freed.
 		 */
 		public virtual unowned Node? clone_node (bool deep) {
 			return null;
@@ -412,7 +466,8 @@ namespace GXml {
 		 * @param format false: no formatting, true: formatted, with indentation.
 		 * @param level Indentation level
 		 *
-		 * @return XML string for node, which must be freed.
+		 * @return XML string for node.  The caller must free
+		 * this.
 		 */
 		// TODO: ask Colin Walters about storing docs in GIR files (might have not been him)
 		public virtual string to_string (bool format = false, int level = 0) {
