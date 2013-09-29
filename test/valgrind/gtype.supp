@@ -1,26 +1,26 @@
 {
-  label
+  g_type_register_static
   Memcheck:Leak
   ...
   fun:g_type_register_static*
   fun:*_get_type
 }
 {
-  label
+  g_type_add_interface_static
   Memcheck:Leak
   ...
   fun:g_type_add_interface_static
   fun:*_get_type
 }
 {
-  label
+  g_type_interface_add_prerequisite
   Memcheck:Leak
   ...
   fun:g_type_interface_add_prerequisite
   fun:*_get_type
 }
 {
-  label
+  g_type_create_instance mutexes
   Memcheck:Leak
   ...
   fun:g_mutex_impl_new
@@ -31,14 +31,14 @@
   fun:g_object_constructor
 }
 {
-  label
+  g_type_create_instance's class refs
   Memcheck:Leak
   ...
   fun:g_type_class_ref
   fun:g_type_create_instance
 }
 {
-  label
+  g_type_create_instance's memalign
   Memcheck:Leak
   fun:disabled
   fun:memalign
