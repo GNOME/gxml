@@ -253,7 +253,8 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override Node? clone_node (bool deep) {
+		public override unowned Node? clone_node (bool deep) {
+			GLib.warning ("Cloning of Attrs not yet supported");
 			return this; // STUB
 		}
 

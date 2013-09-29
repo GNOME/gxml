@@ -124,7 +124,8 @@ namespace GXml {
 		public override bool has_child_nodes () {
 			return (this.child_nodes.length > 0);
 		}
-		public override Node? clone_node (bool deep) {
+		public override unowned Node? clone_node (bool deep) {
+			GLib.warning ("Cloning of Entity not yet supported");
 			return this; // STUB
 		}
 
