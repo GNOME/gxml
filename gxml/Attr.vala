@@ -46,6 +46,9 @@ namespace GXml {
 	 * {@link GXml.Element}s. Values are often represented as strings but can
 	 * also be more complex subtrees for some nodes.
 	 *
+	 * XML Example: {{{<pie flavour="pumpkin" />}}} Here, we have
+	 * an Attr with the name 'flavour' and the value 'pumpkin'.
+	 *
 	 * Version: DOM Level 1 Core
 	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-637646024]]
 	 */
