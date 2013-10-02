@@ -310,10 +310,15 @@ namespace GXml {
 		/**
 		 * Creates a Document from the file at file_path.
 		 */
-		public Document.from_path (string file_path) {
-			// TODO: might want to check that the file_path exists
-			// consider using Xml.Parser.read_file
-			Xml.Doc *doc = Xml.Parser.parse_file (file_path);
+		public Document.from_path (string file_path) throws GXml.Error {
+			Xml.ParserCtxt ctxt = new Xml.ParserCtxt ();
+			Xml.Doc *doc = ctxt.read_file (file_path, null /* encoding */, 0 /* options */);
+
+			if (doc == null) {
+				Xml.Error *e = ctxt.get_last_error ();
+				throw new GXml.Error.PARSER (GXml.libxml2_error_to_string (e));
+			}
+
 			this.from_libxml2 (doc);
 		}
 
