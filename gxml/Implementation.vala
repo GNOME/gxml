@@ -81,9 +81,9 @@ namespace GXml {
 		 * Version: DOM Level 3 Core
 		 * URL: [[http://www.w3.org/TR/DOM-Level-3-Core/core.html#Level-2-Core-DOM-createDocument]]
 
-		 * @param namespace_uri URI for the namespace in which this Document belongs, or `null`.
-		 * @param qualified_name A qualified name for the Document, or `null`.
-		 * @param doctype The type of the document, or `null`.
+		 * @param namespace_uri URI for the namespace in which this Document belongs, or %NULL.
+		 * @param qualified_name A qualified name for the Document, or %NULL.
+		 * @param doctype The type of the document, or %NULL.
 		 *
 		 * @return The new document.
 		 */
@@ -107,7 +107,7 @@ namespace GXml {
 		 * TODO: implement more of this, using libxml2's parser.h's xmlGetFeature, xmlHasFeature, etc.
 		 *
 		 * @param feature A feature we might support, usually something like 'xml' or 'html'.
-		 * @param version A possible version of the feature, or null if any version will do.
+		 * @param version A possible version of the feature, or %NULL if any version will do.
 		 *
 		 * @return true if we support the specified feature, false otherwise.
 		 */

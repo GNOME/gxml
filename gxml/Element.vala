@@ -289,7 +289,7 @@ namespace GXml {
 		 *
 		 * @param name The name of the Attr node to retrieve.
 		 *
-		 * @return The Attr node named by name for this element, or null if none is set.
+		 * @return The Attr node named by name for this element, or %NULL if none is set.
 		 */
 		public Attr? get_attribute_node (string name) {
 			// TODO: verify that attributes returns null with unknown name
@@ -305,7 +305,7 @@ namespace GXml {
 		 *
 		 * @return If an Attr with the same name exists, it
 		 * is replaced and the old Attr is returned.
-		 * Elsewise, null is returned.
+		 * Elsewise, %NULL is returned.
 		 */
 		public Attr set_attribute_node (Attr new_attr) {
 			// TODO: INUSE_ATTRIBUTE_ERR if new_attr already belongs to another element

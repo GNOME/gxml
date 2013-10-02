@@ -124,7 +124,7 @@ namespace GXml {
 		 * @param property_name string name of a property to serialize.
 		 * @param spec the {@link GLib.ParamSpec} describing the property.
 		 * @param doc the {@link GXml.Document} the returned {@link GXml.Node} should belong to
-		 * @return a new {@link GXml.Node}, or `null`
+		 * @return a new {@link GXml.Node}, or %NULL
 		 */
 		/*
 		 * @todo: consider not giving property_name, let them get name from spec?

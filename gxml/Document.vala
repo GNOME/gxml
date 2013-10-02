@@ -181,7 +181,7 @@ namespace GXml {
 
 		// TODO: DTD, sort of works
 		/**
-		 * The Document Type Definition (DTD) defining this document. This may be `null`.
+		 * The Document Type Definition (DTD) defining this document. This may be %NULL.
 		 *
 		 * Version: DOM Level 1 Core
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-doctype]]
@@ -254,9 +254,9 @@ namespace GXml {
 		 * URL: [[http://www.w3.org/TR/DOM-Level-3-Core/core.html#Level-2-Core-DOM-createDocument]]
 		 *
 		 * @param impl Implementation creating this Document.
-		 * @param namespace_uri URI for the namespace in which this Document belongs, or `null`.
-		 * @param qualified_name A qualified name for the Document, or `null`.
-		 * @param doctype The type of the document, or `null`.
+		 * @param namespace_uri URI for the namespace in which this Document belongs, or %NULL.
+		 * @param qualified_name A qualified name for the Document, or %NULL.
+		 * @param doctype The type of the document, or %NULL.
 		 *
 		 * @return The new document.
 		 */

@@ -734,7 +734,7 @@ namespace GXml {
 
 		/**
 		 * Obtain the current Node in the iteration.
-		 * Returns null if there is none, which occurs
+		 * Returns %NULL if there is none, which occurs
 		 * if the list is empty or if iteration has
 		 * not started (next () has never been
 		 * called).

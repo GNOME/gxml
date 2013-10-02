@@ -385,7 +385,7 @@ namespace GXml {
 		 * to the system deserializing them or a
 		 * {@link GXml.SerializationError} will result.
 		 *
-		 * @param node {@link GXml.Node} representing a {@link GLib.Object}
+		 * @param doc {@link GXml.Document} representing a {@link GLib.Object}
 		 * @return the deserialized {@link GLib.Object}
 		 */
 		public static GLib.Object deserialize_object (GXml.Document doc) throws SerializationError {

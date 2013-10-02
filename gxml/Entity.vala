@@ -33,7 +33,7 @@ namespace GXml {
 		private Xml.Entity *entity;
 
 		/**
-		 * A public identifier for the entity. `null` when unspecified.
+		 * A public identifier for the entity. %NULL when unspecified.
 		 */
 		public string public_id {
 			get {
@@ -44,7 +44,7 @@ namespace GXml {
 			}
 		}
 		/**
-		 * A system identifier for the entity. `null` when unspecified.
+		 * A system identifier for the entity. %NULL when unspecified.
 		 */
 		public string system_id {
 			get {
@@ -56,7 +56,7 @@ namespace GXml {
 		}
 		/**
 		 * The notation name for this entity if it is
-		 * unparsed. This is `null` if the entity is parsed.
+		 * unparsed. This is %NULL if the entity is parsed.
 		 */
 		public string notation_name {
 			get {

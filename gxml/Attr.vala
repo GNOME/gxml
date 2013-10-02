@@ -61,14 +61,11 @@ namespace GXml {
 		 */
 		public override string? namespace_uri {
 			get {
-				// TODO: there can be multiple NSes on a node, using ->next, right now we just return the first.  What should we do?!?!
 				if (this.node->ns == null) {
 					return null;
 				} else {
 					return this.node->ns->href;
 				}
-				// TODO: handle null ns_def
-				// TODO: figure out when node->ns is used, as opposed to ns_def
 			}
 			internal set {
 			}
@@ -111,8 +108,14 @@ namespace GXml {
 
 		/* Public properties (Node general) */
 
+		/* TODO: find out how to get these to appear in GtkDocs, since they're
+		   overriding a base class.  Figure out how to get that multiple lines to
+		   appear in the generated valadoc */
 		/**
 		 * The node_name of an attribute is the attribute's name.
+		 *
+		 * Do not free this.  It's memory will be released
+		 * when the owning {@link GXml.Document} is freed.
 		 */
 		public override string node_name {
 			get {
