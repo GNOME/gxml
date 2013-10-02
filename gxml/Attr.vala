@@ -38,19 +38,22 @@
 [CCode (gir_namespace = "GXml", gir_version = "0.3")]
 namespace GXml {
 	/**
-	 * Represents an XML Attr node, a name=value pair.
+	 * An XML Attr node, which represents a name="value" pair.
+	 *
+	 * These represent name="value" attributes associated with XML Elements
+	 * (see {@link GXml.Element}). Values are often represented as strings but can
+	 * also be more complex subtrees for some nodes.
 	 *
 	 * To create one, use {@link GXml.Document.create_attribute}.
 	 *
-	 * These represent name=value attributes associated with XML
-	 * {@link GXml.Element}s. Values are often represented as strings but can
-	 * also be more complex subtrees for some nodes.
-	 *
-	 * XML Example: {{{<pie flavour="pumpkin" />}}} Here, we have
-	 * an Attr with the name 'flavour' and the value 'pumpkin'.
+	 * XML Example: Here, we have an Attr with the name 'flavour'
+	 * and the value 'pumpkin'. {{{<pie flavour="pumpkin" />}}}
 	 *
 	 * Version: DOM Level 1 Core
+	 *
 	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-637646024]]
+	 *
+	 * @see GXml.Node
 	 */
 	public class Attr : Node {
 		/**
