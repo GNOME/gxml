@@ -70,7 +70,7 @@ namespace GXml {
 			// TODO: if this was this (), it would recurse infinitely, maybe valac could detect that
 		}
 
-		protected bool check_index_size (string method, int length, ulong offset, ulong? count) {
+		internal bool check_index_size (string method, int length, ulong offset, ulong? count) {
 			if (offset < 0) {
 				GXml.warning (DomException.INDEX_SIZE, "%s called with offset '%lu' for data of length '%lu'".printf (method, offset, length));
 				return false;

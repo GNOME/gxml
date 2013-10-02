@@ -48,7 +48,7 @@ namespace GXml {
 
 		/* Utility methods */
 
-		protected void check_wrong_document (Node node) {
+		internal void check_wrong_document (Node node) {
 			Document this_doc;
 
 			if (this.node_type == NodeType.DOCUMENT) {
@@ -63,7 +63,7 @@ namespace GXml {
 		}
 
 
-		protected bool check_read_only () {
+		internal bool check_read_only () {
 			// TODO: protected methods appear in the generated gxml.h and in the GtkDoc, do we want that?
 			// TODO: introduce a concept of read-only-ness, perhaps
 			// if read-only, raise NO_MODIFICATION_ALLOWED_ERR
@@ -71,7 +71,7 @@ namespace GXml {
 		}
 
 
-		public void dbg_inspect () {
+		internal void dbg_inspect () {
 			message ("node: %s", this.node_name);
 			message ("  ns (prefix: %s, uri: %s)", this.prefix, this.namespace_uri);
 			if (this.attributes != null) {
