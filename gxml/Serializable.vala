@@ -2,6 +2,7 @@
 /* Serializable.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
+ + Copyright (C) 2013  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,6 +19,7 @@
  *
  * Authors:
  *      Richard Schwarting <aquarichy@gmail.com>
+ *      Daniel Espinosa <esodan@gmail.com>
  */
 
 
@@ -70,39 +72,43 @@ namespace GXml {
 	 */
 	public interface Serializable : GLib.Object {
 		/**
-		 * Handles deserializing individual properties.
+		 * Defines the way to set Node name.
 		 *
-		 * Interface method to handle deserialization of an
-		 * individual property.  The implementing class
-		 * receives a description of the property and the
-		 * {@link GXml.Node} that contains the content.  The
-		 * implementing {@link GXml.Serializable} object can extract
-		 * the data from the {@link GXml.Node} and store it in its
-		 * property itself. Note that the {@link GXml.Node} may be
-		 * as simple as a {@link GXml.Text} that stores the data as a
-		 * string.
+		 * By default is set to object's type's name lowercase.
 		 *
-		 * If the implementation has handled deserialization,
-		 * return true.  Return false if you want
-		 * {@link GXml.Serialization} to try to automatically
-		 * deserialize it.  If {@link GXml.Serialization} tries to
-		 * handle it, it will want either {@link GXml.Serializable}'s
-		 * set_property (or at least {@link GLib.Object.set_property})
-		 * to know about the property.
-		 *
-		 * @param property_name the name of the property as a string
-		 * @param spec the {@link GLib.ParamSpec} describing the property.
-		 * @param property_node the {@link GXml.Node} encapsulating data to deserialize
-		 * @return `true` if the property was handled, `false` if {@link GXml.Serialization} should handle it.
+		 * This property must be ignored on serialisation.
 		 */
-		/*
-		 * @todo: consider not giving property_name, but
-		 * letting them get name from spec
-		 * @todo: consider returning {@link GLib.Value} as out param
+		public abstract string serializable_node_name { get; protected set; }
+
+		public abstract bool serializable_property_use_nick { get; set; }
+		/**
+		 * Store all properties to be ignored on serialization.
+		 *
+		 * Implementors: By default {@link list_serializable_properties} initialize
+		 * this property to store all public properties, except this one.
 		 */
-		public virtual bool deserialize_property (string property_name, /* out GLib.Value value,*/ GLib.ParamSpec spec, GXml.Node property_node) {
-			return false; // default deserialize_property gets used
-		}
+		public abstract HashTable<string,GLib.ParamSpec>  ignored_serializable_properties { get; protected set; }
+		/**
+		 * On deserialization stores any {@link Node} not used on this
+		 * object, but exists in current XML file.
+		 *
+		 * This property must be ignored on serialisation.
+		 */
+		public abstract HashTable<string,GXml.Node>    unknown_serializable_property { get; protected set; }
+
+		/**
+		 * Used by to add content in an {@link GXml.Element}.
+		 *
+		 * This property must be ignored on serialisation.
+		 */
+		public abstract string?  serialized_xml_node_value { get; protected set; default = null; }
+
+		/**
+		 * Serialize this object.
+		 *
+		 * @doc an {@link GXml.Document} object to serialise to 
+		 */
+		public abstract Node? serialize (Node node);
 
 		/**
 		 * Handles serializing individual properties.
@@ -126,15 +132,70 @@ namespace GXml {
 		 * @param doc the {@link GXml.Document} the returned {@link GXml.Node} should belong to
 		 * @return a new {@link GXml.Node}, or `null`
 		 */
-		/*
-		 * @todo: consider not giving property_name, let them get name from spec?
+		public abstract GXml.Node? serialize_property (Element element,
+		                                               GLib.ParamSpec prop);
+
+		/**
+		 * Deserialize this object.
+		 *
+		 * @node {@link GXml.Node} used to deserialize from.
 		 */
-		public virtual GXml.Node? serialize_property (string property_name, /*GLib.Value value, */ GLib.ParamSpec spec, GXml.Document doc) {
-			return null; // default serialize_property gets used
-		}
+		public abstract Node? deserialize (Node node)
+		                                  throws SerializableError;
+		/**
+		 * Handles deserializing individual properties.
+		 *
+		 * Interface method to handle deserialization of an
+		 * individual property.  The implementing class
+		 * receives a description of the property and the
+		 * {@link GXml.Node} that contains the content.  The
+		 * implementing {@link GXml.Serializable} object can extract
+		 * the data from the {@link GXml.Node} and store it in its
+		 * property itself. Note that the {@link GXml.Node} may be
+		 * as simple as a {@link GXml.Text} that stores the data as a
+		 * string.
+		 *
+		 * @param property_name the name of the property as a string
+		 * @param spec the {@link GLib.ParamSpec} describing the property.
+		 * @param property_node the {@link GXml.Node} encapsulating data to deserialize
+		 * @return `true` if the property was handled, `false` if {@link GXml.Serialization} should handle it.
+		 */
+		public abstract bool deserialize_property (GXml.Node property_node)
+		                                          throws SerializableError;
 
-		/* Correspond to: g_object_class_{find_property,list_properties} */
+		/**
+		 * Signal to serialize unknown properties.
+		 * 
+		 * @element a {@link GXml.Node} to add attribute or child nodes to
+		 * @prop a {@link GLib.ParamSpec} describing attribute to serialize
+		 * @node set to the {@link GXml.Node} representing this attribute
+		 */
+		public signal void serialize_unknown_property (Node element, ParamSpec prop, out Node node);
 
+		/**
+		 * Signal to serialize unknown properties.
+		 * 
+		 * @element a {@link GXml.Node} to add attribute or child nodes to
+		 * @prop a {@link GLib.ParamSpec} describing attribute to serialize
+		 * @node set to the {@link GXml.Node} representing this attribute
+		 */
+		public signal void serialize_unknown_property_type (Node element, ParamSpec prop, out Node node);
+
+		/**
+		 * Signal to deserialize unknown properties.
+		 *
+		 * @node a {@link GXml.Node} to get attribute from
+		 * @prop a {@link GLib.ParamSpec} describing attribute to deserialize
+		 */
+		public signal void deserialize_unknown_property (Node node, ParamSpec prop);
+
+		/**
+		 * Signal to deserialize unknown properties' type.
+		 *
+		 * @node a {@link GXml.Node} to get attribute from
+		 * @prop a {@link GLib.ParamSpec} describing attribute to deserialize
+		 */
+		public signal void deserialize_unknown_property_type (Node node, ParamSpec prop);
 		/*
 		 * Handles finding the {@link GLib.ParamSpec} for a given property.
 		 *
@@ -163,8 +224,39 @@ namespace GXml {
 		 * {@link GLib.ParamSpec} s separately, rather than creating new
 		 * ones for each call.
 		 */
-		public virtual unowned GLib.ParamSpec? find_property (string property_name) {
-			return this.get_class ().find_property (property_name); // default
+		public virtual GLib.ParamSpec? find_property_spec (string property_name) {
+			init_properties ();
+			string pn = property_name.down ();
+			if (ignored_serializable_properties.contains (pn)) {
+				return null;
+			}
+			return get_class ().find_property (pn);
+		}
+
+		/**
+		 * Used internally to initialize {@link ignored_serializable_properties} property
+		 * and default not to be serialized properties. Unless you override any function 
+		 * is not required to be called at class implementor's construction time.
+		 *
+		 */
+		public virtual void init_properties ()
+		{
+			if (ignored_serializable_properties == null) {
+				ignored_serializable_properties = new HashTable<string,ParamSpec> (str_hash, str_equal);
+				ignored_serializable_properties.set ("ignored-serializable-properties",
+				                                     get_class ().find_property("ignored-serializable-properties"));
+				ignored_serializable_properties.set ("unknown-serializable-property",
+				                                     get_class ().find_property("unknown-serializable-property"));
+				ignored_serializable_properties.set ("serialized-xml-node-value",
+				                                     get_class ().find_property("serialized-xml-node-value"));
+				ignored_serializable_properties.set ("serializable-property-use-nick",
+				                                     get_class ().find_property("serializable-property-use-nick"));
+				ignored_serializable_properties.set ("serializable-node-name",
+				                                     get_class ().find_property("serializable-node-name"));
+			}
+			if (unknown_serializable_property == null) {
+				unknown_serializable_property = new HashTable<string,GXml.Node> (str_hash, str_equal);
+			}
 		}
 
 		/*
@@ -195,8 +287,16 @@ namespace GXml {
 		 * {@link GLib.ParamSpec} s separately, rather than creating new
 		 * ones for each call.
 		 */
-		public virtual unowned GLib.ParamSpec[] list_properties () {
-			return this.get_class ().list_properties ();
+		public virtual GLib.ParamSpec[] list_serializable_properties ()
+		{
+			init_properties ();
+			ParamSpec[] props = {};
+			foreach (ParamSpec spec in this.get_class ().list_properties ()) {
+				if (!ignored_serializable_properties.contains (spec.name)) {
+					props += spec;
+				}
+			}
+			return props;
 		}
 
 		/*
@@ -228,14 +328,26 @@ namespace GXml {
 		 * @todo: why not just return a string? :D Who cares
 		 * how analogous it is to {@link GLib.Object.get_property}? :D
 		 */
-		public virtual void get_property (GLib.ParamSpec spec, ref GLib.Value str_value) {
-			((GLib.Object)this).get_property (spec.name, ref str_value);
+		public virtual string get_property_value (GLib.ParamSpec spec) 
+		{
+			Value val = Value (spec.value_type);
+			if (!ignored_serializable_properties.contains (spec.name))
+			{
+				Value ret = "";
+				((GLib.Object)this).get_property (spec.name, ref val);
+				if (Value.type_transformable (val.type (), typeof (string)))
+				{
+					val.transform (ref ret);
+					return ret.dup_string ();
+				}
+			}
+			return "";
 		}
 		/*
 		 * Set a property's value.
 		 *
 		 * @param spec Specifies the property whose value will be set
-		 * @param value The value to set the property to.
+		 * @param val The value to set the property to.
 		 *
 		 * {@link GXml.Serialization} uses {@link GLib.Object.set_property} (as
 		 * well as {@link GLib.ObjectClass.find_property},
@@ -253,8 +365,139 @@ namespace GXml {
 		 * handle this case as a virtual property, supported
 		 * by the other {@link GXml.Serializable} functions.
 		 */
-		public virtual void set_property (GLib.ParamSpec spec, GLib.Value value) {
-			((GLib.Object)this).set_property (spec.name, value);
+		public virtual void set_property_value (GLib.ParamSpec spec, GLib.Value val)
+		{
+			if (!ignored_serializable_properties.contains (spec.name)) {
+				((GLib.Object)this).set_property (spec.name, val);
+			}
 		}
+				/* TODO:
+		 * - can't seem to pass delegates on struct methods to another function :(
+		 * - no easy string_to_gvalue method in GValue :(
+		 */
+
+		/**
+		 * Transforms a string into another type hosted by {@link GLib.Value}.
+		 *
+		 * A utility function that handles converting a string
+		 * representation of a value into the type specified by the
+		 * supplied #GValue dest.  A #GXmlSerializableError will be
+		 * set if the string cannot be parsed into the desired type.
+		 *
+		 * @param str the string to transform into the given #GValue object
+		 * @param dest the #GValue out parameter that will contain the parsed value from the string
+		 * @return `true` if parsing succeeded, otherwise `false`
+		 */
+		/*
+		 * @todo: what do functions written in Vala return in C when
+		 * they throw an exception?  NULL/0/FALSE?
+		 */
+		public static bool string_to_gvalue (string str, ref GLib.Value dest)
+		                                     throws SerializableError
+		{
+			Type t = dest.type ();
+			GLib.Value dest2 = Value (t);
+			bool ret = false;
+
+			if (t == typeof (int64)) {
+				int64 val;
+				if (ret = int64.try_parse (str, out val)) {
+					dest2.set_int64 (val);
+				}
+			} else if (t == typeof (int)) {
+				int64 val;
+				if (ret = int64.try_parse (str, out val)) {
+					dest2.set_int ((int)val);
+				}
+			} else if (t == typeof (long)) {
+				int64 val;
+				if (ret = int64.try_parse (str, out val)) {
+					dest2.set_long ((long)val);
+				}
+			} else if (t == typeof (uint)) {
+				uint64 val;
+				if (ret = uint64.try_parse (str, out val)) {
+					dest2.set_uint ((uint)val);
+				}
+			} else if (t == typeof (ulong)) {
+				uint64 val;
+				if (ret = uint64.try_parse (str, out val)) {
+					dest2.set_ulong ((ulong)val);
+				}
+			} else if ((int)t == 20) { // gboolean
+				bool val = (str == "TRUE");
+				dest2.set_boolean (val); // TODO: huh, investigate why the type is gboolean and not bool coming out but is going in
+				ret = true;
+			} else if (t == typeof (bool)) {
+				bool val;
+				if (ret = bool.try_parse (str, out val)) {
+					dest2.set_boolean (val);
+				}
+			} else if (t == typeof (float)) {
+				double val;
+				if (ret = double.try_parse (str, out val)) {
+					dest2.set_float ((float)val);
+				}
+			} else if (t == typeof (double)) {
+				double val;
+				if (ret = double.try_parse (str, out val)) {
+					dest2.set_double (val);
+				}
+			} else if (t == typeof (string)) {
+				dest2.set_string (str);
+				ret = true;
+			} else if (t == typeof (char)) {
+				int64 val;
+				if (ret = int64.try_parse (str, out val)) {
+					dest2.set_char ((char)val);
+				}
+			} else if (t == typeof (uchar)) {
+				int64 val;
+				if (ret = int64.try_parse (str, out val)) {
+					dest2.set_uchar ((uchar)val);
+				}
+			} else if (t == Type.BOXED) {
+			} else if (t.is_enum ()) {
+				int64 val;
+				if (ret = int64.try_parse (str, out val)) {
+					dest2.set_enum ((int)val);
+				}
+			} else if (t.is_flags ()) {
+			} else if (t.is_object ()) {
+			} else {
+			}
+
+			if (ret == true) {
+				dest = dest2;
+				return true;
+			} else {
+				throw new SerializableError.UNSUPPORTED_TYPE ("%s/%s", t.name (), t.to_string ());
+			}
+		}
+
+		public static string gvalue_to_string (GLib.Value val)
+		                                     throws SerializableError
+		{
+			Value ret = "";
+			if (Value.type_transformable (val.type (), typeof (string)))
+			{
+				val.transform (ref ret);
+				return ret.dup_string ();
+			}
+			else
+			{
+				throw new SerializableError.UNSUPPORTED_TYPE ("Can't transform '%s' to string", val.type ().name ());
+			}
+		}
+	}
+
+	/**
+	 * Errors from {@link Serialization}.
+	 */
+	public errordomain SerializableError {
+		/**
+		 * An object with a known {@link GLib.Type} that we do not support was encountered.
+		 */
+		UNSUPPORTED_TYPE
 	}
 }

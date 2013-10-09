@@ -60,6 +60,8 @@ libgxml_la_SOURCES = \
 	ProcessingInstruction.vala \
 	Text.vala \
 	Serializable.vala \
+	SerializableObjectModel.vala \
+	SerializableJson.vala \
 	Serialization.vala \
 	$(NULL)
 
