@@ -32,7 +32,7 @@
  * serialization themselves, including non-public properties or
  * data types not automatically supported by {@link GXml.Serialization}.
  */
-public class GXml.SerializableJason : GLib.Object, Serializable
+public class GXml.SerializableJson : GLib.Object, Serializable
 {
 	/* Serializable Interface properties */
 	public string serializable_node_name { get; protected set; }
@@ -50,7 +50,7 @@ public class GXml.SerializableJason : GLib.Object, Serializable
    * Is up to you to add convenient Element node to a Document, in order to be
    * used by serialize and add new <Object> tags per object to serialize.
    */
-	public Node? serialize (Node node)
+	public Node? serialize (Node node) throws Error
 	{
 		Document doc;
 		Element root;
@@ -66,46 +66,54 @@ public class GXml.SerializableJason : GLib.Object, Serializable
 
 		root = doc.create_element ("Object");
 		doc.append_child (root);
-		root.set_attribute ("otype", object.get_type ().name ());
+		root.set_attribute ("otype", this.get_type ().name ());
 		root.set_attribute ("oid", oid);
 
-		prop_specs = serializable.list_properties ();
+		prop_specs = list_serializable_properties ();
 
 		foreach (ParamSpec prop_spec in prop_specs) {
 			prop = doc.create_element ("Property");
 			prop.set_attribute ("ptype", prop_spec.value_type.name ());
 			prop.set_attribute ("pname", prop_spec.name);
-			value_prop = serialize_property (prop, prop_spe);
+			value_prop = serialize_property (prop, prop_spec);
 			prop.append_child (value_prop);
 			root.append_child (prop);
 		}
 		return root;
 	}
 
-	public GXml.Node? serialize_property (Element element,
-	                                               GLib.ParamSpec prop)
+	public GXml.Node? serialize_property (Element element, 
+	                                      GLib.ParamSpec prop)
+	                                      throws Error
 	{
 		Type type;
 		Value value;
 		Node value_node = null;
-		
+		Element prop_node;
+
 		type = prop.value_type;
 
-		if (type.is_a (typeof (Serializable)))
-			return (Serializable).serialize ();
+		if (type.is_a (typeof (Serializable))) {
+			value = Value (type);
+			this.get_property (prop.name, ref value);
+			return ((Serializable)value.get_object ()).serialize (element);
+		}
 
 		var doc = element.owner_document;
+		prop_node = doc.create_element ("Property");
+		prop_node.set_attribute ("ptype", prop.value_type.name ());
+		prop_node.set_attribute ("pname", prop.name);
 
 		if (type.is_enum ())
 		{
 			value = Value (typeof (int));
-			this.get_property (prop_spec.name, ref value);
+			this.get_property (prop.name, ref value);
 			value_node = doc.create_text_node ("%d".printf (value.get_int ()));
 		} 
 		else if (Value.type_transformable (type, typeof (string))) 
 		{ // e.g. int, double, string, bool
 			value = Value (typeof (string));
-			this.get_property (prop_spec.name, ref value);
+			this.get_property (prop.name, ref value);
 			value_node = doc.create_text_node (value.get_string ());
 		}
 		else if (type == typeof (GLib.Type)) {
@@ -125,22 +133,18 @@ public class GXml.SerializableJason : GLib.Object, Serializable
 			value_node = doc.copy_node (value_doc.document_element);
 		}
 		else if (type.name () == "gpointer") {
-			GLib.warning ("DEBUG: skipping gpointer with name '%s' of object '%s'", prop_spec.name, object.get_type ().name ());
+			GLib.warning ("DEBUG: skipping gpointer with name '%s' of object '%s'", prop.name, this.get_type ().name ());
 			value_node = doc.create_text_node (prop.name);
 		} else {
-			throw new SerializationError.UNSUPPORTED_TYPE ("Can't currently serialize type '%s' for property '%s' of object '%s'", type.name (), prop.name, object.get_type ().name ());
+			throw new SerializationError.UNSUPPORTED_TYPE ("Can't currently serialize type '%s' for property '%s' of object '%s'", type.name (), prop.name, this.get_type ().name ());
 		}
 
 		return value_node;
 	}
 
-	public Node? deserialize (Node node) throws SerializableError
+	public Node? deserialize (Node node) throws Error
 	{
-		bool ret = true;
 		Element obj_elem;
-		string otype;
-		string oid;
-		Type type;
 		ParamSpec[] specs;
 
 		if (node is Document) {
@@ -158,39 +162,43 @@ public class GXml.SerializableJason : GLib.Object, Serializable
 		return obj_elem;
 	}
 
-	public bool deserialize_property (GXml.Node property_node) throws SerializableError
+	public bool deserialize_property (GXml.Node property_node) throws Error
 	{
-		if (properly_node.node_name == "Property")
+		if (property_node.node_name == "Property")
 		{
 			Element prop_elem;
 			string pname;
+			string otype;
+			Type type;
 			Value val;
+			ParamSpec spec;
 			//string ptype;
 
-			prop_elem = (Element)child_node;
+			prop_elem = (Element)property_node;
 			pname = prop_elem.get_attribute ("pname");
+			otype = prop_elem.get_attribute ("otype");
+			type = Type.from_name (otype);
 			//ptype = prop_elem.get_attribute ("ptype"); // optional
 
 			// Check name and type for property
 			spec = this.find_property_spec (pname);
 
 			if (spec == null) {
-				GLib.message ("Deserializing object of type '%s' claimed unknown property named '%s'\nXML [%s]", otype, pname, obj_elem.to_string ());
+				GLib.message ("Deserializing object of type '%s' claimed unknown property named '%s'\nXML [%s]", otype, pname, property_node.to_string ());
 				unknown_serializable_property.set (property_node.node_name, property_node);
-				continue;
 			}
 			else {
-				if (spec.value_type ().is_a (typeof(Serializable)))
+				if (spec.value_type.is_a (typeof(Serializable)))
 				{
-					Value vobj;
-					this.get_property (pname, out vobj);
-					((Serializable) vobj).deserialize (child_node);
+					Value vobj = Value (spec.value_type);
+					this.get_property (pname, ref vobj);
+					((Serializable) vobj).deserialize (property_node);
 				}
 				else {
 					val = Value (type);
 					if (GLib.Value.type_transformable (type, typeof (string))) {
 						Serializable.string_to_gvalue (prop_elem.content, ref val);
-						this.set_property_value (pname, val);
+						this.set_property_value (spec, val);
 					}
 					else if (type.is_a (typeof (GLib.Object))) 
 					{
@@ -203,11 +211,13 @@ public class GXml.SerializableJason : GLib.Object, Serializable
 						val.set_object (property_object);
 					}
 					else {
-						deserialize_unknown_property_type.set (prop_elem, spec);
-						ret = false;
+						deserialize_unknown_property_type (prop_elem, spec);
+						return false;
 					}
 				}
 			}
+			return true;
 		}
+		return false;
 	}
 }

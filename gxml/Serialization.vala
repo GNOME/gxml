@@ -56,9 +56,17 @@ namespace GXml {
 		 */
 		UNKNOWN_PROPERTY,
 		/**
-		 * An object with a known {@link GLib.Type} that we do not support was encountered.
+		 * Serialization/Deserialization is unsupported for given object type
 		 */
-		UNSUPPORTED_TYPE
+		UNSUPPORTED_OBJECT_TYPE,
+		/**
+		 * Serialization/Deserialization is unsupported for given property type
+		 */
+		UNSUPPORTED_PROPERTY_TYPE,
+		/**
+		 * Serialization/Deserialization is unsupported for given {@link GLib.Type}
+		 */
+		UNSUPPORTED_TYPE,
 	}
 
 	/**
@@ -87,7 +95,11 @@ namespace GXml {
 		 * {@link GLib.Value} can transform into a string, and
 		 * operates recursively.
 		 */
-		private static GXml.Node serialize_property (GLib.Object object, ParamSpec prop_spec, GXml.Document doc) throws SerializationError {
+		private static GXml.Node serialize_property (GLib.Object object,
+		                                             ParamSpec prop_spec,
+		                                             GXml.Document doc)
+						                                         throws Error
+		{
 			Type type;
 			Value value;
 			Node value_node;
@@ -112,21 +124,13 @@ namespace GXml {
 				   it truly is the latter, but is returned as the
 				   former by list_properties) */
 				value = Value (typeof (int));
-				if (serializable != null) {
-					serializable.get_property (prop_spec, ref value);
-				} else {
-					object.get_property (prop_spec.name, ref value);
-				}
+				object.get_property (prop_spec.name, ref value);
 				value_node = doc.create_text_node ("%d".printf (value.get_int ()));
 				/* TODO: in the future, perhaps figure out GEnumClass
 				         and save it as the human readable enum value :D */
 			} else if (Value.type_transformable (prop_spec.value_type, typeof (string))) { // e.g. int, double, string, bool
 				value = Value (typeof (string));
-				if (serializable != null) {
-					serializable.get_property (prop_spec, ref value);
-				} else {
-					object.get_property (prop_spec.name, ref value);
-				}
+				object.get_property (prop_spec.name, ref value);
 				value_node = doc.create_text_node (value.get_string ());
 			} else if (type == typeof (GLib.Type)) {
 				value_node = doc.create_text_node (type.name ());
@@ -152,30 +156,27 @@ namespace GXml {
 				0x7ffff7b7d67c "dup func", qdata = 0x0, ref_count = 4, param_id = 2}
 */
 			} else if (type.is_a (typeof (GLib.Object))
-			           && ! type.is_a (typeof (Gee.Collection))) {
-				GLib.Object child_object;
+			           && ! type.is_a (typeof (Gee.Collection)))
+			  {
+					GLib.Object child_object;
 
-				// TODO: this is going to get complicated
-				value = Value (typeof (GLib.Object));
-				if (serializable != null) {
-					serializable.get_property (prop_spec, ref value);
-				} else {
+					// TODO: this is going to get complicated
+					value = Value (typeof (GLib.Object));
 					object.get_property (prop_spec.name, ref value);
 					/* This can fail; consider case of Gee.TreeSet that isn't special cased above, gets error
-					   (/home/richard/mine/development/gnome/gdom/gxml/test/.libs/gxml_test:10996):
-					   GLib-GObject-CRITICAL **: Read-only property 'read-only-view' on class 'GeeReadOnlyBidirSortedSet' has type
-					   'GeeSortedSet' which is not equal to or more restrictive than the type 'GeeBidirSortedSet' of the property
-					   on the interface 'GeeBidirSortedSet' */
-				}
-				child_object = value.get_object ();
-				Document value_doc = Serialization.serialize_object (child_object); // catch serialisation errors?
+						 (/home/richard/mine/development/gnome/gdom/gxml/test/.libs/gxml_test:10996):
+						 GLib-GObject-CRITICAL **: Read-only property 'read-only-view' on class 'GeeReadOnlyBidirSortedSet' has type
+						 'GeeSortedSet' which is not equal to or more restrictive than the type 'GeeBidirSortedSet' of the property
+						 on the interface 'GeeBidirSortedSet' */
+					child_object = value.get_object ();
+					Document value_doc = Serialization.serialize_object (child_object); // catch serialisation errors?
 
-				value_node = doc.copy_node (value_doc.document_element);
+					value_node = doc.copy_node (value_doc.document_element);
 			} else if (type.name () == "gpointer") {
 				GLib.warning ("DEBUG: skipping gpointer with name '%s' of object '%s'", prop_spec.name, object.get_type ().name ());
 				value_node = doc.create_text_node (prop_spec.name);
 			} else {
-				throw new SerializationError.UNSUPPORTED_TYPE ("Can't currently serialize type '%s' for property '%s' of object '%s'", type.name (), prop_spec.name, object.get_type ().name ());
+				throw new SerializationError.UNSUPPORTED_PROPERTY_TYPE ("Can't currently serialize type '%s' for property '%s' of object '%s'", type.name (), prop_spec.name, object.get_type ().name ());
 			}
 
 			return value_node;
@@ -205,82 +206,64 @@ namespace GXml {
 		 * @param object A {@link GLib.Object} to serialize
 		 * @return a {@link GXml.Document} representing the serialized `object`
 		 */
-		public static GXml.Document serialize_object (GLib.Object object) throws SerializationError {
+		public static GXml.Document serialize_object (GLib.Object object) throws Error
+		{
 			Document doc;
 			Element root;
 			ParamSpec[] prop_specs;
 			Element prop;
-			Serializable serializable = null;
 			Node value_prop = null;
 			string oid;
 
+			Serialization.init_caches ();
+			/* Create an XML Document to return the object
+			in.  TODO: consider just returning an
+			<Object> node; but then we'd probably want
+			a separate document for it to already be a
+			part of as its owner_document. */
+			doc = new Document ();
 			// If the object has been serialized before, let's not do it again!
 			oid = "%p".printf (object);
-			Serialization.init_caches ();
-
-			try {
-				/* Create an XML Document to return the object
-				   in.  TODO: consider just returning an
-				   <Object> node; but then we'd probably want
-				   a separate document for it to already be a
-				   part of as its owner_document. */
-				doc = new Document ();
-
-				// first, check if its been serialised already, and if so, just return an ObjectRef element for it.
-				if (oid != "" && Serialization.serialize_cache.contains (oid)) {
-					// GLib.message ("cache hit on oid %s", oid);
-					root = doc.create_element ("ObjectRef");
-					doc.append_child (root);
-					root.set_attribute ("otype", object.get_type ().name ());
-					root.set_attribute ("oid", oid);
-					return doc;
-				}
-
-				if (object.get_type ().is_a (typeof (Serializable))) {
-					serializable = (Serializable)object;
-				}
-
-				root = doc.create_element ("Object");
+			// first, check if its been serialised already, and if so, just return an ObjectRef element for it.
+			if (oid != "" && Serialization.serialize_cache.contains (oid)) {
+				// GLib.message ("cache hit on oid %s", oid);
+				root = doc.create_element ("ObjectRef");
 				doc.append_child (root);
 				root.set_attribute ("otype", object.get_type ().name ());
 				root.set_attribute ("oid", oid);
+				return doc;
+			}
 
-				// Cache this before we start exploring properties in case there's a cycle
-				Serialization.serialize_cache.set (oid, root);
+			if (object is Serializable) {
+				((Serializable) object).serialize (doc);
+				Serialization.serialize_cache.set (oid, doc.document_element);
+				return doc;
+			}
+			// For now and on assume is not a Serializable object
+			root = doc.create_element ("Object");
+			doc.append_child (root);
+			root.set_attribute ("otype", object.get_type ().name ());
+			root.set_attribute ("oid", oid);
+			// Cache this before we start exploring properties in case there's a cycle
+			Serialization.serialize_cache.set (oid, root);
 
-				/* TODO: make sure we don't use an out param for our returned list
-				   size in our interface's list_properties (), using
-				   [CCode (array_length_type = "guint")] */
-				if (serializable != null) {
-					prop_specs = serializable.list_properties ();
-				} else {
-					prop_specs = object.get_class ().list_properties ();
-				}
+			/* TODO: make sure we don't use an out param for our returned list
+			   size in our interface's list_properties (), using
+			   [CCode (array_length_type = "guint")] */
+			prop_specs = object.get_class ().list_properties ();
 
-				/* Exam the properties of the object and store
-				   them with their name, type and value in XML
-				   Elements.  Use GValue to convert them to
-				   strings. (Too bad deserialising isn't that
-				   easy w.r.t. string conversion.) */
-				foreach (ParamSpec prop_spec in prop_specs) {
-					prop = doc.create_element ("Property");
-					prop.set_attribute ("ptype", prop_spec.value_type.name ());
-					prop.set_attribute ("pname", prop_spec.name);
-
-					value_prop = null;
-					if (serializable != null) {
-						value_prop = serializable.serialize_property (prop_spec.name, prop_spec, doc);
-					}
-					if (value_prop == null) {
-						value_prop = Serialization.serialize_property (object, prop_spec, doc);
-					}
-
-					prop.append_child (value_prop);
-					root.append_child (prop);
-				}
-			} catch (GLib.Error e) {
-				GLib.error ("%s", e.message);
-				// TODO: handle this better
+			/* Exam the properties of the object and store
+			   them with their name, type and value in XML
+			   Elements.  Use GValue to convert them to
+			   strings. (Too bad deserialising isn't that
+			   easy w.r.t. string conversion.) */
+			foreach (ParamSpec prop_spec in prop_specs) {
+				prop = doc.create_element ("Property");
+				prop.set_attribute ("ptype", prop_spec.value_type.name ());
+				prop.set_attribute ("pname", prop_spec.name);
+				value_prop = Serialization.serialize_property (object, prop_spec, doc);
+				prop.append_child (value_prop);
+				root.append_child (prop);
 			}
 
 			/* Debug output */
@@ -298,63 +281,40 @@ namespace GXml {
 		 * strings back to other types, we use our own function to do
 		 * that.
 		 */
-		private static void deserialize_property (ParamSpec spec, Element prop_elem, out Value val) throws SerializationError {
+		private static void deserialize_property (ParamSpec spec, Element prop_elem,
+		                                          out Value val)
+		                                          throws Error
+		{
 			Type type;
-
 			type = spec.value_type;
-
-			// if (false || ptype != "") {
-			// 	// TODO: undisable if we support fields at some point
-			// 	type = Type.from_name (ptype);
-			// 	if (type == 0) {
-			// 		/* This probably shouldn't happen while we're using
-			// 		   ParamSpecs but if we support non-property fields
-			// 		   later, it might be necessary again :D */
-			// 		throw new SerializationError.UNKNOWN_TYPE ("Deserializing object '%s' has property '%s' with unknown type '%s'", otype, pname, ptype);
-			// 	}
-			// }
-
 			// Get value and save this all as a parameter
 			bool transformed = false;
 			val = Value (type);
 			if (GLib.Value.type_transformable (type, typeof (string))) {
-				try {
-					string_to_gvalue (prop_elem.content, ref val);
-					transformed = true;
-				} catch (SerializationError e) {
-					throw new SerializationError.UNSUPPORTED_TYPE ("string_to_gvalue should transform it but failed");
-				}
-			// } else if (type.is_a (typeof (Gee.Collection))) {
+					Serializable.string_to_gvalue (prop_elem.content, ref val);
 			} else if (type.is_a (typeof (GLib.Object))) {
 				GXml.Node prop_elem_child;
 				Object property_object;
-
 				prop_elem_child = prop_elem.first_child;
-
-				try {
-					property_object = Serialization.deserialize_object_from_node (prop_elem_child);
-					val.set_object (property_object);
-					transformed = true;
-				} catch (GXml.SerializationError e) {
-					// We don't want this one caught by deserialize_object, or we'd have a cascading error message.  Hmm, not so bad if it does, though.
-					e.message += "\nXML [%s]".printf (prop_elem.to_string ());
-					throw e;
-				}
-			}
-
-			if (transformed == false) {
-				throw new SerializationError.UNSUPPORTED_TYPE ("Failed to transform property from string to type.");
+				property_object = Serialization.deserialize_object_from_node (prop_elem_child);
+				val.set_object (property_object);
 			}
 		}
 
-		/*
+		/**
+		 * FIXME: DON'T USE CACHE. SERIALIZE OVER NEW OBJECTS OR OVERWRITE PROPERTIES.
+		 *       When serialize a set of objects, you can add Node Elements <Object>
+		 *       as many as objects you have serialized to the XML Document. On
+		 *       deserialization, you must create a new GObject, on the fly, for each
+		 *       <Object> tag found in the file.
+		 *
 		 * This table is used while deserializing objects to avoid
 		 * creating duplicate objects when we encounter multiple
 		 * references to a single serialized object.
 		 *
 		 * TODO: one problem, if you deserialize two XML structures,
 		 * some differing objects might have the same OID :( Need to
-		 * find make it more unique than just the memory address. */
+		 * find make it more unique than just the memory address.  SEE ABOVE!!!!*/
 		private static HashTable<string,Object> deserialize_cache = null;
 		private static HashTable<string,GXml.Node> serialize_cache = null;
 		// public so that tests can call it
@@ -388,10 +348,21 @@ namespace GXml {
 		 * @param node {@link GXml.Node} representing a {@link GLib.Object}
 		 * @return the deserialized {@link GLib.Object}
 		 */
-		public static GLib.Object deserialize_object (GXml.Document doc) throws SerializationError {
+		public static GLib.Object deserialize_object (GXml.Document doc) throws Error
+		{
+			// FIXME: Use some heuristics to find the kind of serialization used
+			//        or ADD A PARAMETER to define the method to use.
+			//        This command use just GObject and JSON methods. No Serializable
+			//        implementators are used.
 			return deserialize_object_from_node (doc.document_element);
 		}
-		internal static GLib.Object deserialize_object_from_node (GXml.Node obj_node) throws SerializationError {
+		/**
+		 * This function must assume deserialize over non-Serializable objects
+		 * because Serializable have its own method serialize/deserialize
+		 */
+		internal static GLib.Object? deserialize_object_from_node (GXml.Node obj_node) 
+		                                                          throws Error
+		{
 			Element obj_elem;
 			string otype;
 			string oid;
@@ -399,10 +370,10 @@ namespace GXml {
 			Object obj;
 			unowned ObjectClass obj_class;
 			ParamSpec[] specs;
-			Serializable serializable = null;
 
 			obj_elem = (Element)obj_node;
 
+			// FIXME: Remove cache.
 			// If the object has been deserialised before, get it from cache
 			oid = obj_elem.get_attribute ("oid");
 			Serialization.init_caches ();
@@ -415,7 +386,7 @@ namespace GXml {
 			otype = obj_elem.get_attribute ("otype");
 			type = Type.from_name (otype);
 			if (type == 0) {
-				throw new SerializationError.UNKNOWN_TYPE ("Deserializing object claims unknown type '%s'", otype);
+				throw new SerializationError.UNKNOWN_TYPE ("Deserializing unknown GType '%s' objects is unsupported", otype);
 			}
 
 			// Get the list of properties as ParamSpecs
@@ -424,177 +395,29 @@ namespace GXml {
 
 			// Set it as the last possible action, so that invalid objects won't end up getting stored // Changed our mind, for deserializing ObjectRefs
 			Serialization.deserialize_cache.set (oid, obj);
-
-			if (type.is_a (typeof (Serializable))) {
-				serializable = (Serializable)obj;
-			}
-
-			if (serializable != null) {
-				specs = serializable.list_properties ();
-			} else {
-				specs = obj_class.list_properties ();
-			}
-
-			SerializationError err = null;
+			specs = obj_class.list_properties ();
 
 			foreach (Node child_node in obj_elem.child_nodes) {
 				if (child_node.node_name == "Property") {
 					Element prop_elem;
 					string pname;
 					Value val;
-					//string ptype;
 
 					prop_elem = (Element)child_node;
 					pname = prop_elem.get_attribute ("pname");
-					//ptype = prop_elem.get_attribute ("ptype"); // optional
-
 					// Check name and type for property
 					ParamSpec? spec = null;
-					if (serializable != null) {
-						spec = serializable.find_property (pname);
-					} else {
-						spec = obj_class.find_property (pname);
-					}
+					spec = obj_class.find_property (pname);
 
 					if (spec == null) {
-						err = new SerializationError.UNKNOWN_PROPERTY ("Deserializing object of type '%s' claimed unknown property named '%s'\nXML [%s]", otype, pname, obj_elem.to_string ());
-						break;
+						throw new SerializationError.UNKNOWN_PROPERTY ("Deserializing property type '%s' for object type '%s' is unsupported-->XML: [%s]", pname, otype, obj_elem.to_string ());
+						return null;
 					}
-
-					try {
-						bool serialized = false;
-
-						if (serializable != null) {
-							serialized = serializable.deserialize_property (spec.name, /* out val, */ spec, prop_elem); // TODO: consider rearranging these or the ones in Serializer to match
-						}
-						if (!serialized) {
-							Serialization.deserialize_property (spec, prop_elem, out val);
-							if (serializable != null) {
-								serializable.set_property (spec, val);
-							} else {
-								obj.set_property (pname, val);
-							}
-							/* TODO: should we make a note that for implementing {get,set}_property in
-							   the interface, they should specify override (in Vala)?  What about in C?
-							   Need to test which one gets called in which situations (yeah, already read
-							   the tutorial) */
-						}
-					} catch (SerializationError.UNSUPPORTED_TYPE e) {
-						err = new SerializationError.UNSUPPORTED_TYPE ("Cannot deserialize object '%s's property '%s' with type '%s/%s': %s\nXML [%s]", otype, spec.name, spec.value_type.name (), spec.value_type.to_string (), e.message, obj_elem.to_string ());
-						break;
-					}
+					Serialization.deserialize_property (spec, prop_elem, out val);
+					obj.set_property (pname, val);
 				}
 			}
-
-			// TODO: should make a test to ensure this works
-			if (err != null) {
-				Serialization.deserialize_cache.remove (oid);
-				throw err;
-			}
-
 			return obj;
-		}
-
-		/* TODO:
-		 * - can't seem to pass delegates on struct methods to another function :(
-		 * - no easy string_to_gvalue method in GValue :(
-		 */
-
-		/**
-		 * Transforms a string into another type hosted by {@link GLib.Value}.
-		 *
-		 * A utility function that handles converting a string
-		 * representation of a value into the type specified by the
-		 * supplied #GValue dest.  A #GXmlSerializationError will be
-		 * set if the string cannot be parsed into the desired type.
-		 *
-		 * @param str the string to transform into the given #GValue object
-		 * @param dest the #GValue out parameter that will contain the parsed value from the string
-		 * @return `true` if parsing succeeded, otherwise `false`
-		 */
-		/*
-		 * @todo: what do functions written in Vala return in C when
-		 * they throw an exception?  NULL/0/FALSE?
-		 */
-		public static bool string_to_gvalue (string str, ref GLib.Value dest) throws SerializationError {
-			Type t = dest.type ();
-			GLib.Value dest2 = Value (t);
-			bool ret = false;
-
-			if (t == typeof (int64)) {
-				int64 val;
-				if (ret = int64.try_parse (str, out val)) {
-					dest2.set_int64 (val);
-				}
-			} else if (t == typeof (int)) {
-				int64 val;
-				if (ret = int64.try_parse (str, out val)) {
-					dest2.set_int ((int)val);
-				}
-			} else if (t == typeof (long)) {
-				int64 val;
-				if (ret = int64.try_parse (str, out val)) {
-					dest2.set_long ((long)val);
-				}
-			} else if (t == typeof (uint)) {
-				uint64 val;
-				if (ret = uint64.try_parse (str, out val)) {
-					dest2.set_uint ((uint)val);
-				}
-			} else if (t == typeof (ulong)) {
-				uint64 val;
-				if (ret = uint64.try_parse (str, out val)) {
-					dest2.set_ulong ((ulong)val);
-				}
-			} else if ((int)t == 20) { // gboolean
-				bool val = (str == "TRUE");
-				dest2.set_boolean (val); // TODO: huh, investigate why the type is gboolean and not bool coming out but is going in
-				ret = true;
-			} else if (t == typeof (bool)) {
-				bool val;
-				if (ret = bool.try_parse (str, out val)) {
-					dest2.set_boolean (val);
-				}
-			} else if (t == typeof (float)) {
-				double val;
-				if (ret = double.try_parse (str, out val)) {
-					dest2.set_float ((float)val);
-				}
-			} else if (t == typeof (double)) {
-				double val;
-				if (ret = double.try_parse (str, out val)) {
-					dest2.set_double (val);
-				}
-			} else if (t == typeof (string)) {
-				dest2.set_string (str);
-				ret = true;
-			} else if (t == typeof (char)) {
-				int64 val;
-				if (ret = int64.try_parse (str, out val)) {
-					dest2.set_schar ((int8)val);
-				}
-			} else if (t == typeof (uchar)) {
-				int64 val;
-				if (ret = int64.try_parse (str, out val)) {
-					dest2.set_uchar ((uchar)val);
-				}
-			} else if (t == Type.BOXED) {
-			} else if (t.is_enum ()) {
-				int64 val;
-				if (ret = int64.try_parse (str, out val)) {
-					dest2.set_enum ((int)val);
-				}
-			} else if (t.is_flags ()) {
-			} else if (t.is_object ()) {
-			} else {
-			}
-
-			if (ret == true) {
-				dest = dest2;
-				return true;
-			} else {
-				throw new SerializationError.UNSUPPORTED_TYPE ("%s/%s", t.name (), t.to_string ());
-			}
 		}
 	}
 }

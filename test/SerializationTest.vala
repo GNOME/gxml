@@ -322,6 +322,9 @@ class SerializationTest : GXmlTest {
 				} catch (GXml.SerializationError e) {
 					Test.message ("%s", e.message);
 					assert_not_reached ();
+				} catch (Error e) {
+					Test.message ("%s", e.message);
+					assert_not_reached ();
 				}
 
 			});
@@ -430,13 +433,13 @@ class SerializationTest : GXmlTest {
 				Serialization.clear_cache ();
 
 				simple_properties = new SimpleProperties (3, 4.2, "catfish", true, 0);
-				obj = new ComplexDuplicateProperties (simple_properties);
 
 				try {
+					obj = new ComplexDuplicateProperties (simple_properties);
 					xml = Serialization.serialize_object (obj);
 
 					restored = (ComplexDuplicateProperties)Serialization.deserialize_object (xml);
-				} catch (GXml.SerializationError e) {
+				} catch (Error e) {
 					Test.message ("%s", e.message);
 					assert_not_reached ();
 				}
@@ -562,9 +565,9 @@ class SerializationTest : GXmlTest {
 					// weight expected to be 9 because age sets it *3
 
 					fruit = new Fruit ();
-					fruit.set_all ("blue", 11, "fish", 3);
 
 					try {
+						fruit.set_all ("blue", 11, "fish", 3);
 						fruit_xml = Serialization.serialize_object (fruit);
 
 						regex = new Regex (expectation);
@@ -577,7 +580,7 @@ class SerializationTest : GXmlTest {
 						Test.message ("Regular expression [%s] for test failed: %s",
 							      expectation, e.message);
 						assert_not_reached ();
-					} catch (GXml.SerializationError e) {
+					} catch (Error e) {
 						Test.message ("%s", e.message);
 						assert_not_reached ();
 					}
@@ -600,7 +603,7 @@ class SerializationTest : GXmlTest {
 							Test.message ("Expected [\"%s\", %d, \"%s\", %d] but found [%s]", "blue", 11, "fish", 3, fruit.to_string ());
 							assert_not_reached (); // Note that age sets weight normally
 						}
-					} catch (GXml.SerializationError e) {
+					} catch (Error e) {
 						Test.message ("%s", e.message);
 						assert_not_reached ();
 					}

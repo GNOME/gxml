@@ -25,7 +25,7 @@ using Gee;
    Test overriding {set,get}_property
 */
 
-public class SerializableTomato : GLib.Object, GXml.Serializable {
+public class SerializableTomato : GXml.SerializableJson {
 	public int weight;
 	private int age { get; set; }
 	public int height { get; set; }
@@ -52,7 +52,7 @@ public class SerializableTomato : GLib.Object, GXml.Serializable {
 	}
 }
 
-public class SerializableCapsicum : GLib.Object, GXml.Serializable {
+public class SerializableCapsicum : GXml.SerializableJson {
 	public int weight;
 	private int age { get; set; }
 	public int height { get; set; }
@@ -102,7 +102,6 @@ public class SerializableCapsicum : GLib.Object, GXml.Serializable {
 		return false;
 	}
 	public GXml.Node? serialize_property (string property_name, /*GLib.Value value,*/ GLib.ParamSpec spec, GXml.Document doc) {
-		GXml.Element c_prop;
 		GXml.Element rating;
 
 		switch (property_name) {
@@ -127,7 +126,7 @@ public class SerializableCapsicum : GLib.Object, GXml.Serializable {
 }
 
 
-public class SerializableBanana : GLib.Object, GXml.Serializable {
+public class SerializableBanana : GXml.SerializableJson {
 	private int private_field;
 	public int public_field;
 	private int private_property { get; set; }
@@ -179,7 +178,7 @@ public class SerializableBanana : GLib.Object, GXml.Serializable {
 		return null;
 	}
 
-	public void get_property (GLib.ParamSpec spec, ref GLib.Value str_value) {
+	public new void get_property (GLib.ParamSpec spec, ref GLib.Value str_value) {
 		Value value = Value (typeof (int));
 
 		switch (spec.name) {
@@ -204,7 +203,7 @@ public class SerializableBanana : GLib.Object, GXml.Serializable {
 		return;
 	}
 
-	public void set_property (GLib.ParamSpec spec, GLib.Value value) {
+	public new void set_property (GLib.ParamSpec spec, GLib.Value value) {
 		switch (spec.name) {
 		case "private-field":
 			this.private_field = value.get_int ();
@@ -251,7 +250,7 @@ class SerializableTest : GXmlTest {
 				capsicum = new SerializableCapsicum (2, 3, 5, ratings);
 				try {
 					doc = Serialization.serialize_object (capsicum);
-				} catch (GXml.SerializationError e) {
+				} catch (Error e) {
 					Test.message ("%s", e.message);
 					assert_not_reached ();
 				}
@@ -267,7 +266,7 @@ class SerializableTest : GXmlTest {
 
 					try {
 						capsicum_new = (SerializableCapsicum)Serialization.deserialize_object (doc);
-					} catch (GXml.SerializationError e) {
+					} catch (Error e) {
 						Test.message ("%s", e.message);
 						assert_not_reached ();
 					}
