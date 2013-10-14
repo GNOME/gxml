@@ -743,7 +743,8 @@ namespace GXml {
 			if (this.valid) {
 				return this.get_current ();
 			} else {
-				// TODO: file bug, Iterator wants Node, not Node?, but it wants us to be able to return null.
+				/* TODO: file bug, Iterator wants Node, not Node?, but it
+				   wants us to be able to return null. */
 				return null;
 			}
 		}
