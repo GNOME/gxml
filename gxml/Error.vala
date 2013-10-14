@@ -1,6 +1,6 @@
 namespace GXml {
 	public errordomain Error {
-		PARSER;
+		PARSER, WRITER;
 	}
 
 	internal static string libxml2_error_to_string (Xml.Error *e) {
