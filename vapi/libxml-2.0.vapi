@@ -1725,6 +1725,10 @@ namespace Xml {
 		public int int2;
 		public void* ctx;
 		public void* node;
+
+		// TODO: should this just be get_last instead?
+		[CCode (cname = "xmlGetLastError")]
+		public static Xml.Error *get_last_error ();
 	}
 
 	[CCode (cname = "xmlErrorDomain", cprefix = "XML_FROM_", cheader_filename = "libxml/xmlerror.h", has_type_id = false)]
