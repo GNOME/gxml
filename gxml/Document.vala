@@ -301,7 +301,6 @@ namespace GXml {
 			// TODO: consider passing root as a base node?
 			base.for_document ();
 
-
 			this.owner_document = this; // must come after base ()
 			this.xmldoc = doc;
 			if (doc->int_subset == null && doc->ext_subset == null) {
@@ -323,11 +322,15 @@ namespace GXml {
 		 * @throws GXml.Error A {@link GXml.Error} if an error occurs while loading
 		 */
 		public Document.from_path (string file_path) throws GXml.Error {
-			Xml.ParserCtxt ctxt = new Xml.ParserCtxt ();
-			Xml.Doc *doc = ctxt.read_file (file_path, null /* encoding */, 0 /* options */);
+			Xml.ParserCtxt ctxt;
+			Xml.Doc *doc;
+			Xml.Error *e;
+
+			ctxt = new Xml.ParserCtxt ();
+			doc = ctxt.read_file (file_path, null /* encoding */, 0 /* options */);
 
 			if (doc == null) {
-				Xml.Error *e = ctxt.get_last_error ();
+				e = ctxt.get_last_error ();
 				GXml.warning (DomException.INVALID_DOC, "Could not load document from path: %s".printf (e->message));
 				throw new GXml.Error.PARSER (GXml.libxml2_error_to_string (e));
 			}
@@ -421,9 +424,10 @@ namespace GXml {
 		 *
 		 * @return A new {@link GXml.Document} for `fin`; this must be freed with {@link GLib.Object.unref}
 		 *
-		 * @throws GLib.Error A {@link GXml.Error} if an error cocurs while reading the file
+		 * @throws GLib.Error A {@link GLib.Error} if an error cocurs while reading the {@link GLib.File}
+		 * @throws GXml.Error A {@link GXml.Error} if an error occurs while reading the file as a stream
 		 */
-		public Document.from_gfile (File fin, Cancellable? can = null) throws GLib.Error {
+		public Document.from_gfile (File fin, Cancellable? can = null) throws GXml.Error, GLib.Error {
 			// TODO: actually handle cancellable
 			InputStream instream;
 
@@ -432,7 +436,7 @@ namespace GXml {
 				this.from_stream (instream, can);
 				instream.close ();
 			} catch (GLib.Error e) {
-				GXml.warning (DomException.INVALID_DOC, "Could not load document from GFile: %s".printf (e.message));
+				GXml.warning (DomException.INVALID_DOC, "Could not load document from GFile: " + e.message);
 				throw e;
 			}
 		}
@@ -456,24 +460,32 @@ namespace GXml {
 			/* TODO: provide Cancellable as user data so we can actually
 			   cancel these */
 			Xml.TextReader reader;
+			Xml.Error *e;
+			string errmsg = null;
 
 			reader = new Xml.TextReader.for_io ((Xml.InputReadCallback)_ioread,
 							    (Xml.InputCloseCallback)_ioinclose,
 							    &box, "", null, 0);
 			if (-1 == reader.read ()) {
-				GXml.warning (DomException.INVALID_DOC, "Could not load document from stream");
-				throw new GXml.Error.PARSER ("Error reading from stream");
-				// TODO: see if we can pull an error from libxml2 somewhere
-			}
-			if (null == reader.expand ()) {
-				GXml.warning (DomException.INVALID_DOC, "Could not load document from stream");
-				throw new GXml.Error.PARSER ("Error expanding from stream");
-				// TODO: see if we can pull an error from libxml2 somewhere
-			}
-			doc = reader.current_doc ();
-			reader.close ();
+				errmsg = "Error reading from stream";
+			} else if (null == reader.expand ()) {
+				errmsg = "Error expanding from stream";
+			} else {
+				// yay
+				doc = reader.current_doc ();
+				reader.close ();
+				this.from_libxml2 (doc);
 
-			this.from_libxml2 (doc);
+				return;
+			}
+
+			// uh oh
+			e = Xml.Error.get_last_error ();
+			if (e != null) {
+				errmsg += ".  " + libxml2_error_to_string (e);
+			}
+			GXml.warning (DomException.INVALID_DOC, errmsg);
+			throw new GXml.Error.PARSER (errmsg);
 		}
 
 		/**
@@ -484,10 +496,13 @@ namespace GXml {
 		 * @return A new {@link GXml.Document} from `memory`; this must be freed with {@link GLib.Object.unref}
 		 */
 		public Document.from_string (string xml) {
+			Xml.Doc *doc;
+
 			/* TODO: consider breaking API to support
 			 * xmlParserOptions, encoding, and base URL
 			 * from xmlReadMemory */
-			Xml.Doc *doc = Xml.Parser.parse_memory (xml, (int)xml.length);
+
+			doc = Xml.Parser.parse_memory (xml, (int)xml.length);
 			this.from_libxml2 (doc);
 		}
 
@@ -497,7 +512,9 @@ namespace GXml {
 		 * @return A new, empty {@link GXml.Document}; this must be freed with {@link GLib.Object.unref}
 		 */
 		public Document () {
-			Xml.Doc *doc = new Xml.Doc ();
+			Xml.Doc *doc;
+
+			doc = new Xml.Doc ();
 			this.from_libxml2 (doc, false);
 		}
 
@@ -511,7 +528,7 @@ namespace GXml {
 		 * should sync.
 		 */
 		internal void sync_dirty_elements () {
-			Xml.Node * tmp_node;
+			Xml.Node *tmp_node;
 
 			// TODO: test that adding attributes works with stringification and saving
 			if (this.dirty_elements.length () > 0) {
@@ -536,19 +553,29 @@ namespace GXml {
 		 */
 		// TODO: is this a simple Unix file path, or does libxml2 do networks, too?
 		public void save_to_path (string file_path) throws GXml.Error {
-			int ret;
+			string errmsg;
+			Xml.Error *e;
 
 			sync_dirty_elements ();
 
 			// TODO: change this to a GIO file so we can save to in a cool way
 
-			ret = this.xmldoc->save_file (file_path);
-
-			if (ret == -1) {
-			 	// TODO: use xmlGetLastError to get the real error message
-				GXml.warning (DomException.X_OTHER, "Could not write document");
-				throw new GXml.Error.WRITER ("Failed to write file to path '%s'".printf (file_path));
+			if (-1 == this.xmldoc->save_file (file_path)) {
+				errmsg = "Failed to write file to path '%s'".printf (file_path);
+			} else {
+				// yay!
+				return;
 			}
+
+			// uh oh
+			e = Xml.Error.get_last_error ();
+			if (e != null) {
+				errmsg += ".  " + libxml2_error_to_string (e);
+			}
+
+			// TODO: use xmlGetLastError to get the real error message
+			GXml.warning (DomException.X_OTHER, errmsg);
+			throw new GXml.Error.WRITER (errmsg);
 		}
 
 		/* TODO: consider adding a save_to_file, but then we
@@ -567,6 +594,7 @@ namespace GXml {
 		public void save_to_stream (OutputStream outstream, Cancellable? can = null) throws GXml.Error {
 			OutputStreamBox box = { outstream, can };
 			string errmsg = null;
+			Xml.Error *e;
 
 			sync_dirty_elements ();
 
@@ -590,6 +618,11 @@ namespace GXml {
 			}
 
 			/* uh oh */
+			e = Xml.Error.get_last_error ();
+			if (e != null) {
+				errmsg += ".  " + libxml2_error_to_string (e);
+			}
+
 			GXml.warning (DomException.X_OTHER, errmsg);
 			throw new GXml.Error.WRITER (errmsg);
 		}
