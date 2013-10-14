@@ -106,7 +106,14 @@ namespace GXml {
 		 * Version: DOM Level 3 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/DOM-Level-3-Core/core.html#DOMException-NAMESPACE_ERR]]
 		 */
-		NAMESPACE;
+		NAMESPACE,
+
+		/**
+		 * Non-DOM error
+		 *
+		 * TODO: consider better naming for this
+		 */
+		X_OTHER;
 	}
 }
 
