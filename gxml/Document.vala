@@ -397,8 +397,8 @@ namespace GXml {
 		/**
 		 * Creates a Document from the File fin.
 		 */
-		public Document.from_gfile (File fin, Cancellable? can = null) {
-			// TODO: accept cancellable
+		public Document.from_gfile (File fin, Cancellable? can = null) throws GLib.Error {
+			// TODO: actually handle cancellable
 			InputStream instream;
 
 			try {
@@ -407,21 +407,26 @@ namespace GXml {
 				instream.close ();
 			} catch (GLib.Error e) {
 				GXml.warning (DomException.INVALID_DOC, "Could not load document from GFile: %s".printf (e.message));
+				throw e;
 			}
 		}
 		/**
 		 * Creates a Document from data provided through the InputStream instream.
 		 */
-		public Document.from_stream (InputStream instream, Cancellable? can = null) {
-			// TODO: accept Cancellable
-			// Cancellable can = new Cancellable ();
+		public Document.from_stream (InputStream instream, Cancellable? can = null) throws GXml.Error {
 			InputStreamBox box = { instream, can };
 			Xml.Doc *doc;
 			Xml.TextReader reader = new Xml.TextReader.for_io ((Xml.InputReadCallback)_ioread,
 									   (Xml.InputCloseCallback)_ioinclose,
 									   &box, "", null, 0);
-			reader.read ();
-			reader.expand ();
+			if (-1 == reader.read ()) {
+				throw new GXml.Error.PARSER ("Error reading from stream");
+				// TODO: see if we can pull an error from libxml2 somewhere
+			}
+			if (null == reader.expand ()) {
+				throw new GXml.Error.PARSER ("Error expanding from stream");
+				// TODO: see if we can pull an error from libxml2 somewhere
+			}
 			doc = reader.current_doc ();
 			reader.close ();
 
@@ -475,11 +480,19 @@ namespace GXml {
 		 * Saves a Document to the file at path file_path
 		 */
 		// TODO: is this a simple Unix file path, or does libxml2 do networks, too?
-		public void save_to_path (string file_path) {
+		public void save_to_path (string file_path) throws GXml.Error {
+			int ret;
+
 			sync_dirty_elements ();
 
 			// TODO: change this to a GIO file so we can save to in a cool way
-			this.xmldoc->save_file (file_path);
+
+			ret = this.xmldoc->save_file (file_path);
+
+			if (ret == -1) {
+				// TODO: use xmlGetLastError to get the real error message
+				throw new GXml.Error.WRITER ("Failed to write file to path '%s'".printf (file_path));
+			}
 		}
 
 		/* TODO: consider adding a save_to_file, but then we
@@ -490,18 +503,34 @@ namespace GXml {
 		/**
 		 * Saves a Document to the OutputStream outstream.
 		 */
-		public void save_to_stream (OutputStream outstream, Cancellable? can = null) {
+		public void save_to_stream (OutputStream outstream, Cancellable? can = null) throws GXml.Error {
 			OutputStreamBox box = { outstream, can };
+			int ret;
 
 			sync_dirty_elements ();
 
-			// TODO: make sure libxml2's vapi gets patched
-			Xml.SaveCtxt *ctxt = new Xml.SaveCtxt.to_io ((Xml.OutputWriteCallback)_iowrite,
-								     (Xml.OutputCloseCallback)_iooutclose,
-								     &box, null, 0);
-			ctxt->save_doc (this.xmldoc);
-			ctxt->flush ();
-			ctxt->close ();
+			/* TODO: provide Cancellable as user data and let these check it
+			         so we can actually be interruptible */
+			Xml.SaveCtxt *ctxt;
+			ctxt = new Xml.SaveCtxt.to_io ((Xml.OutputWriteCallback)_iowrite,
+						       (Xml.OutputCloseCallback)_iooutclose,
+						       &box, null, 0);
+			if (ctxt == null) {
+				throw new GXml.Error.WRITER ("Failed to create serialization context when saving to stream");
+			}
+			
+			ret = ctxt->save_doc (this.xmldoc);
+			if (ret == -1) {
+				throw new GXml.Error.WRITER ("Failed to save document");
+			}
+			ret = ctxt->flush ();
+			if (ret == -1) {
+				throw new GXml.Error.WRITER ("Failed to flush remainder of document when saving to stream");
+			}
+			ret = ctxt->close ();
+			if (ret == -1) {
+				throw new GXml.Error.WRITER ("Failed to close saving context when saving to stream");
+			}
 		}
 
 		/* Public Methods */
