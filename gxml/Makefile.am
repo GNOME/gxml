@@ -62,7 +62,13 @@ libgxml_la_SOURCES = \
 	Text.vala \
 	Serializable.vala \
 	Serialization.vala \
+	XPathError.vala \
+	XPathExpression.vala \
+	XPathNSResolver.vala \
+	XPathResult.vala \
 	$(NULL)
+
+# TODO: do we want XPath files in own directory?
 
 gxml.vala.stamp: $(libgxml_la_SOURCES)
 
@@ -165,6 +171,8 @@ BUILT_SOURCES = \
 	gxml.h \
 	gxml.vapi \
 	$(NULL)
+
+# TODO: should we add *.c to this list?, or is there a var of generated .c we can put in CLEANFILES?
 
 # 	gxml.pc
 # 	$(libgxml_la_VALASOURCES:.vala=.c) \
