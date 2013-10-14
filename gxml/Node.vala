@@ -32,7 +32,7 @@ namespace GXml {
 	 * {@link GXml.Document}s are {@link GXml.Node}s, and are
 	 * composed of a tree of {@link GXml.Node}s.
 	 *
-	 * Version: DOM Level 1 Core
+	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1950641247]]
 	 */
 	public class Node : GLib.Object {
@@ -117,7 +117,7 @@ namespace GXml {
 		 * Do not free this.  It's memory will be released
 		 * when the owning {@link GXml.Document} is freed.
 		 *
-		 * Version: DOM Level 2 Core
+		 * Version: DOM Level 2 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-NodeNSname]]
 		 */
 		public virtual string? namespace_uri {
@@ -136,7 +136,7 @@ namespace GXml {
 		 * Do not free this.  It's memory will be released
 		 * when the owning {@link GXml.Document} is freed.
 		 *
-		 * Version: DOM Level 2 Core
+		 * Version: DOM Level 2 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-NodeNSPrefix]]
 		 */
 		public virtual string? prefix {
@@ -155,7 +155,7 @@ namespace GXml {
 		 * Do not free this.  It's memory will be released
 		 * when the owning {@link GXml.Document} is freed.
 		 *
-		 * Version: DOM Level 2 Core
+		 * Version: DOM Level 2 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-NodeNSLocalN]]
 		 */
 		public virtual string? local_name {
@@ -174,7 +174,7 @@ namespace GXml {
 		 * Do not free this.  It's memory will be released
 		 * when the owning {@link GXml.Document} is freed.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-F68D095]]
 		 */
 		public virtual string node_name {
@@ -189,7 +189,7 @@ namespace GXml {
 		 * Do not free this.  It's memory will be released
 		 * when the owning {@link GXml.Document} is freed.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-F68D080]]
 		 */
 		public virtual string? node_value {
@@ -209,7 +209,7 @@ namespace GXml {
 		 * as a {@link GXml.NodeType.ATTRIBUTE}, Element as a
 		 * {@link GXml.NodeType.ELEMENT}, etc.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-111237558]]
 		 */
 		public virtual NodeType node_type {
@@ -232,7 +232,7 @@ namespace GXml {
 		 * Do not free this.  It's memory will be released
 		 * when the owning {@link GXml.Document} is freed.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-1060184317]]
 		 */
 		public virtual Node? parent_node {
@@ -255,7 +255,7 @@ namespace GXml {
 		 * the list when it is done with it.  The lists are
 		 * constructed dynamically.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-1451460987]]
 		 */
 		/*
@@ -274,7 +274,7 @@ namespace GXml {
 		 * Do not free this.  It's memory will be released
 		 * when the owning {@link GXml.Document} is freed.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-169727388]]
 		 */
 		public virtual Node? first_child {
@@ -289,7 +289,7 @@ namespace GXml {
 		 * Do not free this.  It's memory will be released
 		 * when the owning {@link GXml.Document} is freed.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-61AD09FB]]
 		 */
 		public virtual Node? last_child {
@@ -305,7 +305,7 @@ namespace GXml {
 		 * Do not free this.  It's memory will be released
 		 * when the owning {@link GXml.Document} is freed.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-640FB3C8]]
 		 */
 		public virtual Node? previous_sibling {
@@ -321,7 +321,7 @@ namespace GXml {
 		 * Do not free this.  It's memory will be released
 		 * when the owning {@link GXml.Document} is freed.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-6AC54C2F]]
 		 */
 		public virtual Node? next_sibling {
@@ -339,7 +339,7 @@ namespace GXml {
 		 * Do not free this.  It's memory will be released
 		 * when the owning {@link GXml.Document} is freed.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-84CF09]]
 		 */
 		public virtual HashTable<string,Attr>? attributes {
@@ -354,7 +354,7 @@ namespace GXml {
 		 * memory owned by the {@link GXml.Document}, including this
 		 * {@link GXml.Node}.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#node-ownerDoc]]
 		 */
 		public weak Document owner_document {
@@ -375,7 +375,7 @@ namespace GXml {
 		 * If {@link ref_child} is %NULL, {@link new_child} is appended to the
 		 * list of children instead.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-insertBefore]]
 		 *
 		 * @param new_child A new {@link GXml.Node} that will become a child of the current one
@@ -393,7 +393,7 @@ namespace GXml {
 		/**
 		 * Replaces {@link old_child} with {@link new_child} in this node's list of children.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-replaceChild]]
 		 *
 		 * @param new_child A new {@link GXml.Node} that will become a child of the current one
@@ -411,7 +411,7 @@ namespace GXml {
 		 * Removes {@link old_child} from this node's list of children,
 		 * {@link GXml.Node.child_nodes}.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-removeChild]]
 		 *
 		 * @param old_child The {@link GXml.Node} child to remove from the current one
@@ -428,7 +428,7 @@ namespace GXml {
 		 * Appends {@link new_child} to the end of this node's list of children,
 		 * {@link GXml.Node.child_nodes}.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 *
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-appendChild]]
 		 *
@@ -446,7 +446,7 @@ namespace GXml {
 		/**
 		 * Indicates whether this node has children.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 *
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-hasChildNodes]]
 		 *
@@ -459,7 +459,7 @@ namespace GXml {
 		/**
 		 * Creates a parentless copy of this node.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 *
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-cloneNode]]
 		 *

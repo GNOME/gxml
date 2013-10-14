@@ -71,7 +71,7 @@ namespace GXml {
 	 * the tree. A Document can have its type defined by a
 	 * {@link GXml.DocumentType}.
 	 *
-	 * Version: DOM Level 1 Core
+	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#i-Document]]
 	 */
 	public class Document : Node {
@@ -183,7 +183,7 @@ namespace GXml {
 		/**
 		 * The Document Type Definition (DTD) defining this document. This may be %NULL.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-doctype]]
 		 */
 		public DocumentType? doctype {
@@ -194,7 +194,7 @@ namespace GXml {
 		/**
 		 * Describes the features of the DOM implementation behind this document.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-implementation]]
 		 */
 		public Implementation implementation {
@@ -205,7 +205,7 @@ namespace GXml {
 		/**
 		 * The root node of the document's node tree.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-documentElement]]
 		 */
 		public Element document_element {
@@ -250,7 +250,7 @@ namespace GXml {
 		 * Creates a Document from a given Implementation, supporting
 		 * the {@ GXml.Implementation.create_document} method.
 		 *
-		 * Version: DOM Level 3 Core
+		 * Version: DOM Level 3 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/DOM-Level-3-Core/core.html#Level-2-Core-DOM-createDocument]]
 		 *
 		 * @param impl Implementation creating this Document.
@@ -543,7 +543,7 @@ namespace GXml {
 		 *
 		 * XML example: {{{<Person></Person>}}}
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createElement]]
 		 */
 		public unowned Element create_element (string tag_name) {
@@ -568,7 +568,7 @@ namespace GXml {
 		 * document, without being a complete tree.  Its
 		 * memory is freed when its owner document is freed.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createDocumentFragment]]
 		 */
 		public unowned DocumentFragment create_document_fragment () {
@@ -585,7 +585,7 @@ namespace GXml {
 		 * XML example:
 		 * {{{<someElement>Text is contained here.</someElement>}}}
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createTextNode]]
 		 */
 		public unowned Text create_text_node (string data) {
@@ -601,7 +601,7 @@ namespace GXml {
 		 *
 		 * XML example: {{{<!-- data -->}}}
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createComment]]
 		 */
 		public unowned Comment create_comment (string data) {
@@ -622,7 +622,7 @@ namespace GXml {
 		 * data, like code, or something that requires a lot
 		 * of special XML entities.]]>. }}}
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createCDATASection]]
 		 */
 		public unowned CDATASection create_cdata_section (string data) {
@@ -661,7 +661,7 @@ namespace GXml {
 		 *
 		 * XML example: {{{<element attributename="attributevalue">content</element>}}}
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createAttribute]]
 		 */
 		/* TODO: figure out memory for this; its a Node, not a BackedNode and thus not in nodedict */
@@ -676,7 +676,7 @@ namespace GXml {
 		 *
 		 * XML example: {{{&name;}}}, for example an apostrophe has the name 'apos', so in XML it appears as {{{&apos;}}}
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createEntityReference]]
 		 *
 		 * @param name The 'name' of the entity reference.
@@ -700,7 +700,7 @@ namespace GXml {
 		 *
 		 * TODO: verify that that last statement is true
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-getElementsByTagName]]
 		 */
 		public NodeList get_elements_by_tag_name (string tag_name) {
@@ -762,7 +762,7 @@ namespace GXml {
 		/**
 		 * Replaces `old_child` with `new_child` in this node's list of children.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-replaceChild]]
 		 *
 		 * @param new_child The child we will replace `old_child` with
@@ -785,7 +785,7 @@ namespace GXml {
 		 * Removes `old_child` from this document's list of
 		 * children.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-removeChild]]
 		 *
 		 * @param old_child The child we wish to remove.
@@ -803,7 +803,7 @@ namespace GXml {
 		 * {@link GXml.Element} child (the root element) and
 		 * one {@link GXml.DocumentType}.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-952280727]]
 		 *
 		 * @param new_child The new node to insert into the document.
@@ -828,7 +828,7 @@ namespace GXml {
 		 * only have one {@link GXml.Element} child, the root
 		 * element, and one {@link GXml.DocumentType}.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-appendChild]]
 		 *
 		 * @param new_child The child we're appending

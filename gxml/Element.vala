@@ -38,7 +38,7 @@ namespace GXml {
 	 * attributes, as an alternative to manipulating the
 	 * attributes HashMap directly.
 	 *
-	 * Version: DOM Level 1 Core
+	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-745549614]]
 	 */
 	public class Element : BackedNode {
@@ -54,7 +54,7 @@ namespace GXml {
 		 * &lt;/photos>}}}
 		 * In this example, photos and img are tag names.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-104682815]]
 		 */
 		public string tag_name {
@@ -222,7 +222,7 @@ namespace GXml {
 		 * attribute associated with this element with the
 		 * name name.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-666EE0F9]]
 		 *
 		 * @param name The name of the attribute whose value to retrieve.
@@ -243,7 +243,7 @@ namespace GXml {
 		 * Set the value of this element's attribute named
 		 * name to the string value.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-F68F082]]
 		 *
 		 * @param name Name of the attribute whose value to set.
@@ -270,7 +270,7 @@ namespace GXml {
 		/**
 		 * Remove the attribute named name from this element.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-6D6AC0F9]]
 		 *
 		 * @param name The name of the attribute to unset.
@@ -284,7 +284,7 @@ namespace GXml {
 		/**
 		 * Get the Attr node representing this element's attribute named name.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-217A91B8]]
 		 *
 		 * @param name The name of the Attr node to retrieve.
@@ -298,7 +298,7 @@ namespace GXml {
 		/**
 		 * Set the attribute in Attr for this element.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-887236154]]
 		 *
 		 * @param new_attr The attribute to set.
@@ -325,7 +325,7 @@ namespace GXml {
 		 * Remove Attr old_attr from this element, if it was
 		 * set.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-D589198]]
 		 *
 		 * @param old_attr The Attr we are removing.
@@ -473,7 +473,7 @@ namespace GXml {
 		 * matches. The returned list is updated as necessary
 		 * as the tree changes.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-1938918D]]
 		 *
 		 * @param tag_name The tag name to match for.
@@ -515,7 +515,7 @@ namespace GXml {
 		 * are not distinguishable in XML when stored outside
 		 * of the DOM.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-162CF083]]
 		 */
 		public void normalize () {

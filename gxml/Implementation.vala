@@ -32,7 +32,7 @@ namespace GXml {
 	 * version, it can tell the client whether it is here
 	 * implemented.
 	 *
-	 * Version: DOM Level 1 Core
+	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-102161490]]
 	 */
 	public class Implementation : GLib.Object {
@@ -78,7 +78,7 @@ namespace GXml {
 		/**
 		 * Creates a Document according to this {@link GXml.Implementation}.
 		 *
-		 * Version: DOM Level 3 Core
+		 * Version: DOM Level 3 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/DOM-Level-3-Core/core.html#Level-2-Core-DOM-createDocument]]
 
 		 * @param namespace_uri URI for the namespace in which this Document belongs, or %NULL.
@@ -101,7 +101,7 @@ namespace GXml {
 		/**
 		 * Reports whether we support a feature at a given version level.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-hasFeature]]
 		 *
 		 * TODO: implement more of this, using libxml2's parser.h's xmlGetFeature, xmlHasFeature, etc.

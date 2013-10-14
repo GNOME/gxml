@@ -38,7 +38,7 @@ namespace GXml {
 	 * iteration in supporting languages (like Vala) nice and
 	 * easy.
 	 *
-	 * Version: DOM Level 1 Core
+	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-536297177]]
 	 */
 	public interface NodeList : Gee.Iterable<Node> {
@@ -50,7 +50,7 @@ namespace GXml {
 		/**
 		 * The number of nodes contained within this list
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-length]]
 		 */
 		public abstract ulong length {
@@ -63,7 +63,7 @@ namespace GXml {
 		/**
 		 * Access the idx'th item in the list.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-item]]
 		 */
 		public abstract Node item (ulong idx);

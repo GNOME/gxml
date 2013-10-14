@@ -49,7 +49,7 @@ namespace GXml {
 	 * XML Example: Here, we have an Attr with the name 'flavour'
 	 * and the value 'pumpkin'. {{{<pie flavour="pumpkin" />}}}
 	 *
-	 * Version: DOM Level 1 Core
+	 * Version: DOM Level 1 Core<<BR>>
 	 *
 	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-637646024]]
 	 *
@@ -177,7 +177,7 @@ namespace GXml {
 		/**
 		 * The name of the attribute's name=value pair.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-1112119403]]
 		 */
 		public string name {
@@ -194,7 +194,7 @@ namespace GXml {
 		 * underlying document. If the attribute is changed,
 		 * it is set to false.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-862529273]]
 		 */
 		/* @todo: this requires support from the DTD, and
@@ -212,7 +212,7 @@ namespace GXml {
 		 * also be accessed as a tree node structure of
 		 * child_nodes.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-221662474]]
 		 */
 		public string value {
