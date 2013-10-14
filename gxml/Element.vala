@@ -48,10 +48,10 @@ namespace GXml {
 		/**
 		 * The element's tag_name. Multiple elements can have
 		 * the same tag name in a document. XML example:
-		 * {{{&lt;photos>
-		 *   &lt;img src="..." />
-		 *   &lt;img src="..." />
-		 * &lt;/photos>}}}
+		 * {{{<photos>
+		 *   <img src="..." />
+		 *   <img src="..." />
+		 * </photos>}}}
 		 * In this example, photos and img are tag names.
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
@@ -542,9 +542,11 @@ namespace GXml {
 		/**
 		 * This is a convenience property for Elements, useful
 		 * when you want to see Text descendents of an
-		 * element. With the XML example {{{<shops><shop
-		 * id="1">Eeylops Owl Emporium</shop><shop
-		 * id="2">Obscurus Books</shop></shops>}}} taking the
+		 * element. With the XML example
+		 * {{{<shops>
+		 *   <shop id="1">Eeylops Owl Emporium</shop>
+		 *   <shop id="2">Obscurus Books</shop>
+		 * </shops>}}} taking the
 		 * node for the shop element with id 1 and using this
 		 * method, you would get back "Eeylops Owl Emporiums".
 		 * If you used it on the shops element, you'd get
