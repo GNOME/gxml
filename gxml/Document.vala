@@ -67,8 +67,8 @@ namespace GXml {
 	/**
 	 * Represents an XML Document as a tree of {@link GXml.Node}s.
 	 *
-	 * The Document has a document element, which is the root of
-	 * the tree. A Document can have its type defined by a
+	 * The Document has a root document element {@link GXml.Element}.
+	 * A Document's schema can be defined through its
 	 * {@link GXml.DocumentType}.
 	 *
 	 * Version: DOM Level 1 Core<<BR>>
@@ -253,12 +253,12 @@ namespace GXml {
 		 * Version: DOM Level 3 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/DOM-Level-3-Core/core.html#Level-2-Core-DOM-createDocument]]
 		 *
-		 * @param impl Implementation creating this Document.
-		 * @param namespace_uri URI for the namespace in which this Document belongs, or %NULL.
-		 * @param qualified_name A qualified name for the Document, or %NULL.
-		 * @param doctype The type of the document, or %NULL.
+		 * @param impl Implementation creating this Document
+		 * @param namespace_uri URI for the namespace in which this Document belongs, or %NULL
+		 * @param qualified_name A qualified name for the Document, or %NULL
+		 * @param doctype The type of the document, or %NULL
 		 *
-		 * @return The new document.
+		 * @return The new document; this must be freed with {@link GLib.Object.unref}
 		 */
 		internal Document.with_implementation (Implementation impl, string? namespace_uri, string? qualified_name, DocumentType? doctype) {
 			this ();
@@ -276,6 +276,11 @@ namespace GXml {
 
 		/**
 		 * Creates a Document based on a libxml2 Xml.Doc* object.
+		 *
+		 * @param doc A {@link Xml.Doc} from libxml2
+		 * @param require_root A flag to indicate whether we should require a root node, which the DOM normally expects
+		 *
+		 * @return A new {@link GXml.Document} wrapping the provided {@link Xml.Doc}; this must be freed with {@link GLib.Object.unref}
 		 */
 		public Document.from_libxml2 (Xml.Doc *doc, bool require_root = true) {
 			/* All other constructors should call this one,
@@ -307,8 +312,15 @@ namespace GXml {
 			}
 			this.implementation = new Implementation ();
 		}
+
 		/**
 		 * Creates a Document from the file at file_path.
+		 *
+		 * @param file_path A path to an XML document
+		 *
+		 * @return A {@link GXml.Document} for the given `file_path`; this must be freed with {@link GLib.Object.unref}
+		 *
+		 * @throws GXml.Error A {@link GXml.Error} if an error occurs while loading
 		 */
 		public Document.from_path (string file_path) throws GXml.Error {
 			Xml.ParserCtxt ctxt = new Xml.ParserCtxt ();
@@ -316,14 +328,16 @@ namespace GXml {
 
 			if (doc == null) {
 				Xml.Error *e = ctxt.get_last_error ();
+				GXml.warning (DomException.INVALID_DOC, "Could not load document from path: %s".printf (e->message));
 				throw new GXml.Error.PARSER (GXml.libxml2_error_to_string (e));
 			}
 
 			this.from_libxml2 (doc);
 		}
 
-		// TODO: can we make this private?
+		/* For {@link GXml.Document.save_to_stream}, to write the document in chunks. */
 		internal static int _iowrite (void *ctx, char[] buf, int len) {
+			// TODO: can we make this private?
 			OutputStreamBox *box = (OutputStreamBox*)ctx;
 			OutputStream outstream = box->str;
 			int bytes_writ = -1;
@@ -339,8 +353,10 @@ namespace GXml {
 
 			return bytes_writ;
 		}
-		// TODO: can we make this private?
+
+		/* For {@link GXml.Document.from_stream}, to read the document in chunks. */
 		internal static int _iooutclose (void *ctx) {
+			// TODO: can we make this private?
 			OutputStreamBox *box = (OutputStreamBox*)ctx;
 			OutputStream outstream = box->str;
 			int success = -1;
@@ -358,6 +374,7 @@ namespace GXml {
 
 			return success;
 		}
+
 		// TODO: can we make this private?
 		internal static int _ioread (void *ctx, char[] buf, int len) {
 			InputStreamBox *box = (InputStreamBox*)ctx;
@@ -375,6 +392,7 @@ namespace GXml {
 
 			return bytes_read;
 		}
+
 		// TODO: can we make this private?
 		internal static int _ioinclose (void *ctx) {
 			InputStreamBox *box = (InputStreamBox*)ctx;
@@ -394,8 +412,16 @@ namespace GXml {
 
 			return success;
 		}
+
 		/**
-		 * Creates a Document from the File fin.
+		 * Creates a Document for the {@link GLib.File} `fin`.
+		 *
+		 * @param fin The {@link GLib.File} containing the document
+		 * @param can A {@link GLib.Cancellable} to let you cancel opening the file, or %NULL
+		 *
+		 * @return A new {@link GXml.Document} for `fin`; this must be freed with {@link GLib.Object.unref}
+		 *
+		 * @throws GLib.Error A {@link GXml.Error} if an error cocurs while reading the file
 		 */
 		public Document.from_gfile (File fin, Cancellable? can = null) throws GLib.Error {
 			// TODO: actually handle cancellable
@@ -410,12 +436,25 @@ namespace GXml {
 				throw e;
 			}
 		}
+
 		/**
-		 * Creates a Document from data provided through the InputStream instream.
+		 * Creates a {@link GXml.Document} from data provided
+		 * through a {@link GLib.InputStream}.
+		 *
+		 * @param instream A {@link GLib.InputStream} providing our document
+		 * @param can      A {@link GLib.Cancellable} object allowing the caller
+		 *                 to interrupt and cancel this operation, or %NULL
+		 *
+		 * @return A new {@link GXml.Document} built from the contents of instream;
+		 *         this must be freed with {@link GLib.Object.unref}
+		 *
+		 * @throws GXml.Error A {@link GXml.Error} if an error occurs while reading the stream
 		 */
 		public Document.from_stream (InputStream instream, Cancellable? can = null) throws GXml.Error {
 			InputStreamBox box = { instream, can };
 			Xml.Doc *doc;
+			/* TODO: provide Cancellable as user data so we can actually
+			   cancel these */
 			Xml.TextReader reader = new Xml.TextReader.for_io ((Xml.InputReadCallback)_ioread,
 									   (Xml.InputCloseCallback)_ioinclose,
 									   &box, "", null, 0);
@@ -432,18 +471,26 @@ namespace GXml {
 
 			this.from_libxml2 (doc);
 		}
+
 		/**
 		 * Creates a Document from data found in memory.
+		 *
+		 * @param xml A string representing an XML document
+		 *
+		 * @return A new {@link GXml.Document} from `memory`; this must be freed with {@link GLib.Object.unref}
 		 */
-		public Document.from_string (string memory) {
+		public Document.from_string (string xml) {
 			/* TODO: consider breaking API to support
 			 * xmlParserOptions, encoding, and base URL
 			 * from xmlReadMemory */
-			Xml.Doc *doc = Xml.Parser.parse_memory (memory, (int)memory.length);
+			Xml.Doc *doc = Xml.Parser.parse_memory (xml, (int)xml.length);
 			this.from_libxml2 (doc);
 		}
+
 		/**
 		 * Creates an empty document.
+		 *
+		 * @return A new, empty {@link GXml.Document}; this must be freed with {@link GLib.Object.unref}
 		 */
 		public Document () {
 			Xml.Doc *doc = new Xml.Doc ();
@@ -478,6 +525,10 @@ namespace GXml {
 
 		/**
 		 * Saves a Document to the file at path file_path
+		 *
+		 * @param file_path A path on the local system to save the document to
+		 *
+		 * @throws GXml.Error A {@link GXml.Error} if an error occurs while writing
 		 */
 		// TODO: is this a simple Unix file path, or does libxml2 do networks, too?
 		public void save_to_path (string file_path) throws GXml.Error {
@@ -502,6 +553,11 @@ namespace GXml {
 
 		/**
 		 * Saves a Document to the OutputStream outstream.
+		 *
+		 * @param outstream A destination {@link GLib.OutputStream} to save the XML file to
+		 * @param can A {@link GLib.Cancellable} to cancel saving with, or %NULL
+		 *
+		 * @throws GXml.Error A {@link GXml.Error} is thrown if saving encounters an error
 		 */
 		public void save_to_stream (OutputStream outstream, Cancellable? can = null) throws GXml.Error {
 			OutputStreamBox box = { outstream, can };
@@ -534,9 +590,10 @@ namespace GXml {
 		}
 
 		/* Public Methods */
+
 		/**
-		 * Creates an empty Element node with the tag name
-		 * tag_name, which must be a
+		 * Creates an empty {@link GXml.Element} node with the tag name
+		 * `tag_name`, which must be a
 		 * [[http://www.w3.org/TR/REC-xml/#NT-Name|valid XML name]].
 		 * Its memory is freed when its owner document is
 		 * freed.
@@ -545,6 +602,10 @@ namespace GXml {
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createElement]]
+
+		 * @param tag_name The name of the new {@link GXml.Element}
+		 *
+		 * @return A new {@link GXml.Element}; this should not be freed
 		 */
 		public unowned Element create_element (string tag_name) {
 			// TODO: what should we be passing for ns other than old_ns?  Figure it out; needed for level 2+ support
@@ -562,7 +623,7 @@ namespace GXml {
 			return ret;
 		}
 		/**
-		 * Creates a DocumentFragment.
+		 * Creates a {@link GXml.DocumentFragment}.
 		 *
 		 * Document fragments do not can contain a subset of a
 		 * document, without being a complete tree.  Its
@@ -570,6 +631,8 @@ namespace GXml {
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createDocumentFragment]]
+		 *
+		 * @return A {@link GXml.DocumentFragment}; this should not be freed
 		 */
 		public unowned DocumentFragment create_document_fragment () {
 			DocumentFragment fragment = new DocumentFragment (this.xmldoc->new_fragment (), this);
@@ -579,7 +642,7 @@ namespace GXml {
 		}
 
 		/**
-		 * Creates a text node containing the text in data.
+		 * Creates a {@link GXml.Text} node containing the text in data.
 		 * Its memory is freed when its owner document is freed.
 		 *
 		 * XML example:
@@ -587,9 +650,14 @@ namespace GXml {
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createTextNode]]
+		 *
+		 * @param text_data The textual data for the {@link GXml.Text} node
+		 *
+		 * @return A new {@link GXml.Text} node containing
+		 * the supplied data; this should not be freed
 		 */
-		public unowned Text create_text_node (string data) {
-			Text text = new Text (this.xmldoc->new_text (data), this);
+		public unowned Text create_text_node (string text_data) {
+			Text text = new Text (this.xmldoc->new_text (text_data), this);
 			unowned Text ret = text;
 			this.nodes_to_free.append (text);
 			return ret;
@@ -603,10 +671,15 @@ namespace GXml {
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createComment]]
+		 *
+		 * @param comment_data The content of the comment
+		 *
+		 * @return A new {@link GXml.Comment} containing the
+		 * supplied data; this should not be freed
 		 */
-		public unowned Comment create_comment (string data) {
+		public unowned Comment create_comment (string comment_data) {
 			// TODO: should we be passing around Xml.Node* like this?
-			Comment comment = new Comment (this.xmldoc->new_comment (data), this);
+			Comment comment = new Comment (this.xmldoc->new_comment (comment_data), this);
 			unowned Comment ret = comment;
 			this.nodes_to_free.append (comment);
 			return ret;
@@ -618,35 +691,62 @@ namespace GXml {
 		 * These do not apply to HTML doctype documents.  Its
 		 * memory is freed when its owner document is freed.
 		 *
-		 * XML example: {{{ <![CDATA[Here contains non-XML
-		 * data, like code, or something that requires a lot
-		 * of special XML entities.]]>. }}}
+		 * XML example:
+		 * {{{ <![CDATA[Here contains non-XML data, like code, or something that requires a lot of special XML entities.]]>. }}}
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createCDATASection]]
+		 *
+		 * @param cdata_data The content for the CDATA section
+		 *
+		 * @return A new {@link GXml.CDATASection} with the
+		 * supplied data; this should not be freed
 		 */
-		public unowned CDATASection create_cdata_section (string data) {
+		public unowned CDATASection create_cdata_section (string cdata_data) {
 			check_not_supported_html ("CDATA section");
 
-			CDATASection cdata = new CDATASection (this.xmldoc->new_cdata_block (data, (int)data.length), this);
+			CDATASection cdata = new CDATASection (this.xmldoc->new_cdata_block (cdata_data, (int)cdata_data.length), this);
 			unowned CDATASection ret = cdata;
 			this.nodes_to_free.append (cdata);
 			return ret;
 		}
 
 		/**
-		 * Creates a Processing Instructions.
+		 * Creates a new {@link GXml.ProcessingInstruction}.
 		 *
-		 * XML example: {{{<?pi_target processing instruction
-		 * data?> <?xml-stylesheet href="style.xsl"
-		 * type="text/xml"?>}}}
+		 * Its memory is freed when its owner document is
+		 * freed.
 		 *
-		 * Version: DOM Level 1 Core
+		 * XML example:
+		 * {{{ <?pi_target processing instruction data?>
+		 * <?xml-stylesheet href="style.xsl" type="text/xml"?>}}}
+		 *
+		 * In the above example, the Processing Instruction's
+		 * target is 'xml-stylesheet' and its content data is
+		 * 'href="style.xsl" type="text/xml"'.
+		 *
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createProcessingInstruction]]
+		 *
+		 * @param target The target of the instruction
+		 * @param data The content of the instruction
+		 *
+		 * @return A new {@link GXml.ProcessingInstruction}
+		 * for the given target; this should not be freed
 		 */
-		/* TODO: this is not backed by a libxml2 structure, and is not stored in the NodeDict, so we don't know
-		   when it will be freed :(  Figure it out */
 		public ProcessingInstruction create_processing_instruction (string target, string data) {
+			/* TODO: this is not backed by a libxml2 structure,
+			   and is not stored in the NodeDict, so we don't know
+			   when it will be freed :( Figure it out.
+
+			   It looks like so far this GXmlProcessingInstruction node doesn't
+			   get recorded by its owner_document at all, so the reference
+			   is probably lost.
+
+			   We want to manage it with the GXmlDocument, though, and not
+			   make the developer manage it, because that would be inconsistent
+			   with the rest of the tree (even if the user doesn't insert
+			   this PI into a Document at all.  */
 			check_not_supported_html ("processing instructions");
 			check_invalid_characters (target, "processing instruction");
 
@@ -655,22 +755,51 @@ namespace GXml {
 
 			return pi;
 		}
-		// TODO: Consider creating a convenience method for create_attribute_with_value (name, value)
+
 		/**
-		 * Creates an Attr attribute with `name`, usually to be associated with an Element.
+		 * Creates an {@link GXml.Attr} attribute with `name`, usually to be associated with an Element.
 		 *
 		 * XML example: {{{<element attributename="attributevalue">content</element>}}}
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createAttribute]]
+		 *
+		 * @param name The `name` of the attribute
+		 *
+		 * @return A new {@link GXml.Attr} with the given `name`; this should not be freed
 		 */
-		/* TODO: figure out memory for this; its a Node, not a BackedNode and thus not in nodedict */
 		public Attr create_attribute (string name) {
+			/* TODO: figure out memory for this; its a
+			 * Node, not a BackedNode and thus not in
+			 * nodedict.  It's like Processing Instruction
+			 * in that regard.
+			 *
+			 * That said, we might be able to make it a
+			 * BackedNode after all depending on how
+			 * comfortable we are treating libxml2
+			 * xmlAttrs as xmlNodes. :D
+			 */
 			check_invalid_characters (name, "attribute");
 
 			return new Attr (this.xmldoc->new_prop (name, ""), this);
-			// TODO: should we pass something other than "" for the unspecified value?  probably not, "" is working fine so far
+
+			/* TODO: should we pass something other than
+			   "" for the unspecified value?  probably
+			   not, "" is working fine so far.
+
+			   Actually, this introduces troublesome
+			   compatibility issues when porting libxml2
+			   code to GXml, because in GXml, an
+			   unspecified value is also "" (because of
+			   the spec) whereas in libxml2 it is NULL. */
+
+			/* TODO: want to create a convenience method
+			   to create a new Attr with name and value
+			   spec'd, like create_attribute_with_value
+			   (), make sure that's not already spec'd in
+			   later DOM levels. */
 		}
+
 		/**
 		 * Creates an entity reference.
 		 *
@@ -679,9 +808,9 @@ namespace GXml {
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createEntityReference]]
 		 *
-		 * @param name The 'name' of the entity reference.
+		 * @param name The 'name' of the entity reference
 		 *
-		 * @return An EntityReference for `name`
+		 * @return An {@link GXml.EntityReference} for `name`; this should not be freed
 		 */
 		public EntityReference create_entity_reference (string name) {
 			check_not_supported_html ("entity reference");
@@ -692,19 +821,31 @@ namespace GXml {
 		}
 
 		/**
-		 * Obtains a list of ELements with the given tag name
-		 * `tag_name` contained within this document.
+		 * Obtains a list of {@link GXml.Element}s, each with
+		 * the given tag name `tag_name`, contained within
+		 * this document.
 		 *
-		 * This list is updated as new elements are added to
-		 * the document.
+		 * Note that the list is live, updated as new elements
+		 * are added to the document.
 		 *
-		 * TODO: verify that that last statement is true
+		 * Unlike a {@link GXml.Node} and its subclasses,
+		 * {@link GXml.NodeList} are not part of the document
+		 * tree, and thus their memory is not managed for the
+		 * user, so the user must explicitly free them.
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-getElementsByTagName]]
+		 *
+		 * @param tag_name The {@link GXml.Element} tag name we matching for
+		 *
+		 * @return A {@link GXml.NodeList} of
+		 * {@link GXml.Element}s; this must be freed with
+		 * {@link GLib.Object.unref}.
 		 */
 		public NodeList get_elements_by_tag_name (string tag_name) {
+			// TODO: verify that it is still live :D
 			// TODO: does this ensure that the root element is also included?
+			// TODO: determine whether the use needs to free these lists
 			return this.document_element.get_elements_by_tag_name (tag_name);
 		}
 
@@ -768,7 +909,7 @@ namespace GXml {
 		 * @param new_child The child we will replace `old_child` with
 		 * @param old_child The child being replaced
 		 *
-		 * @return The removed node `old_child`.
+		 * @return The removed node `old_child`; this should not be freed
 		 */
 		public override unowned Node? replace_child (Node new_child, Node old_child) {
 			if (new_child.node_type == NodeType.ELEMENT ||
@@ -788,9 +929,9 @@ namespace GXml {
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-removeChild]]
 		 *
-		 * @param old_child The child we wish to remove.
+		 * @param old_child The child we wish to remove
 		 *
-		 * @return The removed node `old_child`.
+		 * @return The removed node `old_child`; this should not be freed
 		 */
 		public override unowned Node? remove_child (Node old_child) {
 			return this.child_nodes.remove_child (old_child);
@@ -806,10 +947,10 @@ namespace GXml {
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-952280727]]
 		 *
-		 * @param new_child The new node to insert into the document.
-		 * @param ref_child The existing child of the document that new_child will precede.
+		 * @param new_child The new node to insert into the document
+		 * @param ref_child The existing child of the document that new_child will precede, or %NULL
 		 *
-		 * @return The newly inserted child.
+		 * @return The newly inserted child; this should not be freed
 		 */
 		public override unowned Node? insert_before (Node new_child, Node? ref_child) {
 			if (new_child.node_type == NodeType.ELEMENT ||
@@ -833,7 +974,7 @@ namespace GXml {
 		 *
 		 * @param new_child The child we're appending
 		 *
-		 * @return The newly added child.
+		 * @return The newly added child; this should not be freed
 		 */
 		public override unowned Node? append_child (Node new_child) {
 			this.check_wrong_document (new_child);
