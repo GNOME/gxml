@@ -81,11 +81,11 @@ namespace GXml {
 		 * Version: DOM Level 3 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/DOM-Level-3-Core/core.html#Level-2-Core-DOM-createDocument]]
 
-		 * @param namespace_uri URI for the namespace in which this Document belongs, or %NULL.
-		 * @param qualified_name A qualified name for the Document, or %NULL.
-		 * @param doctype The type of the document, or %NULL.
+		 * @param namespace_uri URI for the namespace in which this Document belongs, or %NULL
+		 * @param qualified_name A qualified name for the Document, or %NULL
+		 * @param doctype The type of the document, or %NULL
 		 *
-		 * @return The new document.
+		 * @return The new document
 		 */
 		public Document create_document (string? namespace_uri, string? qualified_name, DocumentType? doctype) {
 			Document doc;
@@ -106,10 +106,10 @@ namespace GXml {
 		 *
 		 * TODO: implement more of this, using libxml2's parser.h's xmlGetFeature, xmlHasFeature, etc.
 		 *
-		 * @param feature A feature we might support, usually something like 'xml' or 'html'.
-		 * @param version A possible version of the feature, or %NULL if any version will do.
+		 * @param feature A feature we might support, usually something like 'xml' or 'html'
+		 * @param version A possible version of the feature, or %NULL if any version will do
 		 *
-		 * @return true if we support the specified feature, false otherwise.
+		 * @return true if we support the specified feature, false otherwise
 		 */
 		public bool has_feature (string feature, string? version = null) {
 			/* Level 1 is limited to "xml" and "html" (icase) */

@@ -91,9 +91,9 @@ namespace GXml {
 		 * to know about the property.
 		 *
 		 * @param property_name the name of the property as a string
-		 * @param spec the {@link GLib.ParamSpec} describing the property.
+		 * @param spec the {@link GLib.ParamSpec} describing the property
 		 * @param property_node the {@link GXml.Node} encapsulating data to deserialize
-		 * @return `true` if the property was handled, `false` if {@link GXml.Serialization} should handle it.
+		 * @return `true` if the property was handled, `false` if {@link GXml.Serialization} should handle it
 		 */
 		/*
 		 * @todo: consider not giving property_name, but
@@ -121,8 +121,8 @@ namespace GXml {
 		 * this method.  If the method returns %NULL,
 		 * {@link GXml.Serialization} will attempt handle it itsel.
 		 *
-		 * @param property_name string name of a property to serialize.
-		 * @param spec the {@link GLib.ParamSpec} describing the property.
+		 * @param property_name string name of a property to serialize
+		 * @param spec the {@link GLib.ParamSpec} describing the property
 		 * @param doc the {@link GXml.Document} the returned {@link GXml.Node} should belong to
 		 * @return a new {@link GXml.Node}, or %NULL
 		 */
@@ -202,7 +202,7 @@ namespace GXml {
 		/*
 		 * Get a string version of the specified property
 		 *
-		 * @param spec The property we're retrieving as a string.
+		 * @param spec The property we're retrieving as a string
 		 *
 		 * {@link GXml.Serialization} uses {@link GLib.Object.get_property} (as
 		 * well as {@link GLib.ObjectClass.find_property},
@@ -235,7 +235,7 @@ namespace GXml {
 		 * Set a property's value.
 		 *
 		 * @param spec Specifies the property whose value will be set
-		 * @param value The value to set the property to.
+		 * @param value The value to set the property to
 		 *
 		 * {@link GXml.Serialization} uses {@link GLib.Object.set_property} (as
 		 * well as {@link GLib.ObjectClass.find_property},

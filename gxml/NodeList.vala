@@ -120,8 +120,8 @@ namespace GXml {
 		 * Obtain the item n places before pivot in the list.
 		 * Like {@link GLib.List.nth_prev}.
 		 *
-		 * @param pivot A reference point in the list, from which we'll count back.
-		 * @param n How many nodes to count back from the reference point.
+		 * @param pivot A reference point in the list, from which we'll count back
+		 * @param n How many nodes to count back from the reference point
 		 *
 		 * @return The node that is `n` nodes before `pivot` in the list
 		 */
@@ -153,7 +153,7 @@ namespace GXml {
 		 *
 		 * @param target A node in the list
 		 *
-		 * @return The position of `target` in the list.
+		 * @return The position of `target` in the list
 		 */
 		public abstract int position (Node target);
 
@@ -173,9 +173,9 @@ namespace GXml {
 		 *
 		 * #todo: write a test
 		 *
-		 * @param in_line Whether to parse and expand entities or not.
+		 * @param in_line Whether to parse and expand entities or not
 		 *
-		 * @return The list as an XML string.
+		 * @return The list as an XML string
 		 */
 		/*
 		 * @todo: write a test

@@ -463,7 +463,7 @@ namespace GXml {
 		 *
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-cloneNode]]
 		 *
-		 * @param deep If %TRUE, descendants are cloned as well. If %FALSE, they are not.
+		 * @param deep If %TRUE, descendants are cloned as well. If %FALSE, they are not
 		 *
 		 * @return A parentless clone of this node.  Do not
 		 * free it, its memory will be released when the owning
@@ -482,7 +482,7 @@ namespace GXml {
 		 * libxml2 will not handle that case.  (See libxml2's
 		 * xmlNodeDumpOutput internals to understand more.)
 		 *
-		 * @param format %FALSE: no formatting, %TRUE: formatted, with indentation.
+		 * @param format %FALSE: no formatting, %TRUE: formatted, with indentation
 		 * @param level Indentation level
 		 *
 		 * @return XML string for node, which must be free
