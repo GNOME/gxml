@@ -108,9 +108,6 @@ namespace GXml {
 
 		/* Public properties (Node general) */
 
-		/* TODO: find out how to get these to appear in GtkDocs, since they're
-		   overriding a base class.  Figure out how to get that multiple lines to
-		   appear in the generated valadoc */
 		/**
 		 * The node_name of an attribute is the attribute's name.
 		 *
