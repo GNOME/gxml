@@ -455,14 +455,18 @@ namespace GXml {
 			Xml.Doc *doc;
 			/* TODO: provide Cancellable as user data so we can actually
 			   cancel these */
-			Xml.TextReader reader = new Xml.TextReader.for_io ((Xml.InputReadCallback)_ioread,
-									   (Xml.InputCloseCallback)_ioinclose,
-									   &box, "", null, 0);
+			Xml.TextReader reader;
+
+			reader = new Xml.TextReader.for_io ((Xml.InputReadCallback)_ioread,
+							    (Xml.InputCloseCallback)_ioinclose,
+							    &box, "", null, 0);
 			if (-1 == reader.read ()) {
+				GXml.warning (DomException.INVALID_DOC, "Could not load document from stream");
 				throw new GXml.Error.PARSER ("Error reading from stream");
 				// TODO: see if we can pull an error from libxml2 somewhere
 			}
 			if (null == reader.expand ()) {
+				GXml.warning (DomException.INVALID_DOC, "Could not load document from stream");
 				throw new GXml.Error.PARSER ("Error expanding from stream");
 				// TODO: see if we can pull an error from libxml2 somewhere
 			}
@@ -541,7 +545,8 @@ namespace GXml {
 			ret = this.xmldoc->save_file (file_path);
 
 			if (ret == -1) {
-				// TODO: use xmlGetLastError to get the real error message
+			 	// TODO: use xmlGetLastError to get the real error message
+				GXml.warning (DomException.X_OTHER, "Could not write document");
 				throw new GXml.Error.WRITER ("Failed to write file to path '%s'".printf (file_path));
 			}
 		}
@@ -561,7 +566,7 @@ namespace GXml {
 		 */
 		public void save_to_stream (OutputStream outstream, Cancellable? can = null) throws GXml.Error {
 			OutputStreamBox box = { outstream, can };
-			int ret;
+			string errmsg = null;
 
 			sync_dirty_elements ();
 
@@ -572,21 +577,21 @@ namespace GXml {
 						       (Xml.OutputCloseCallback)_iooutclose,
 						       &box, null, 0);
 			if (ctxt == null) {
-				throw new GXml.Error.WRITER ("Failed to create serialization context when saving to stream");
+				errmsg = "Failed to create serialization context when saving to stream";
+			} else if (-1 == ctxt->save_doc (this.xmldoc)) {
+				errmsg = "Failed to save document";
+			} else if (-1 == ctxt->flush ()) {
+				errmsg = "Failed to flush remainder of document while saving to stream";
+			} else if (-1 == ctxt->close ()) {
+				errmsg = "Failed to close saving context when saving to stream";
+			} else {
+				/* success! */
+				return;
 			}
-			
-			ret = ctxt->save_doc (this.xmldoc);
-			if (ret == -1) {
-				throw new GXml.Error.WRITER ("Failed to save document");
-			}
-			ret = ctxt->flush ();
-			if (ret == -1) {
-				throw new GXml.Error.WRITER ("Failed to flush remainder of document when saving to stream");
-			}
-			ret = ctxt->close ();
-			if (ret == -1) {
-				throw new GXml.Error.WRITER ("Failed to close saving context when saving to stream");
-			}
+
+			/* uh oh */
+			GXml.warning (DomException.X_OTHER, errmsg);
+			throw new GXml.Error.WRITER (errmsg);
 		}
 
 		/* Public Methods */
