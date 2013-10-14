@@ -225,7 +225,7 @@ namespace GXml {
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-666EE0F9]]
 		 *
-		 * @param name The name of the attribute whose value to retrieve.
+		 * @param name The name of the attribute whose value to retrieve
 		 *
 		 * @return The value of the named attribute, or "" if
 		 * no such attribute is set.
@@ -246,8 +246,8 @@ namespace GXml {
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-F68F082]]
 		 *
-		 * @param name Name of the attribute whose value to set.
-		 * @param value The value to set.
+		 * @param name Name of the attribute whose value to set
+		 * @param value The value to set
 		 */
 		public void set_attribute (string name, string value) {
 			// don't need to use insert
@@ -273,7 +273,7 @@ namespace GXml {
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-6D6AC0F9]]
 		 *
-		 * @param name The name of the attribute to unset.
+		 * @param name The name of the attribute to unset
 		 */
 		public void remove_attribute (string name) {
 			this.check_read_only (); // TODO: check all this.check_*, and see if we should be aborting the current functions on failure or just warn, like here
@@ -287,9 +287,9 @@ namespace GXml {
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-217A91B8]]
 		 *
-		 * @param name The name of the Attr node to retrieve.
+		 * @param name The name of the Attr node to retrieve
 		 *
-		 * @return The Attr node named by name for this element, or %NULL if none is set.
+		 * @return The Attr node named by name for this element, or %NULL if none is set
 		 */
 		public Attr? get_attribute_node (string name) {
 			// TODO: verify that attributes returns null with unknown name
@@ -301,7 +301,7 @@ namespace GXml {
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-887236154]]
 		 *
-		 * @param new_attr The attribute to set.
+		 * @param new_attr The attribute to set
 		 *
 		 * @return If an Attr with the same name exists, it
 		 * is replaced and the old Attr is returned.
@@ -328,7 +328,7 @@ namespace GXml {
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-D589198]]
 		 *
-		 * @param old_attr The Attr we are removing.
+		 * @param old_attr The Attr we are removing
 		 *
 		 * @return The old_attr we wanted to remove, even if
 		 * it wasn't found.
@@ -377,22 +377,38 @@ namespace GXml {
 		}
 
 		/* ** Node methods ** */
+
+		/**
+		 * {@inheritDoc}
+		 */
 		public override unowned Node? insert_before (Node new_child, Node? ref_child) {
 			unowned Node ret = base.insert_before (new_child, ref_child);
 			check_add_tag_name (this, new_child);
 			return ret;
 		}
+
+		/**
+		 * {@inheritDoc}
+		 */
 		public override unowned Node? replace_child (Node new_child, Node old_child) {
 			check_remove_tag_name (this, old_child);
 			unowned Node ret = base.replace_child (new_child, old_child);
 			check_add_tag_name (this, new_child);
 			return ret;
 		}
+
+		/**
+		 * {@inheritDoc}
+		 */
 		public override unowned Node? remove_child (Node old_child) {
 			check_remove_tag_name (this, old_child);
 			unowned Node ret = base.remove_child (old_child);
 			return ret;
 		}
+
+		/**
+		 * {@inheritDoc}
+		 */
 		public override unowned Node? append_child (Node new_child) {
 			unowned Node ret = base.append_child (new_child);
 			check_add_tag_name (this, new_child);
@@ -476,9 +492,9 @@ namespace GXml {
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-1938918D]]
 		 *
-		 * @param tag_name The tag name to match for.
+		 * @param tag_name The tag name to match for
 		 *
-		 * @return A NOdeList containing the matching descendants.
+		 * @return A NodeList containing the matching descendants
 		 */
 		/*TODO: make sure we want to include the current
 		 * element, I think probably not.
