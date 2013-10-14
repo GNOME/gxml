@@ -24,3 +24,36 @@ Test: You can run the test suite, which is gxml_test, which you may
 
   $ cd test/
   $ ./gxml_test
+
+
+
+Writing documentation
+
+  We use Valadoc, http://www.valadoc.org/, which is probably the best
+  solution to generate both valadoc documentation and HTML gtk-doc
+  documentation.
+
+  Some notes:
+
+  - Documentation for overriding functions/methods is shown in
+    valadoc, but not in gtkdoc.  For gtkdoc, you can only go up to the
+    original superclass to see what's been available, even if it's
+    been overriden.  (Would we want this to be any different for
+    gtkdoc?)
+
+  - We don't get an Object Hierarchy in our gtkdoc with valadoc :(
+    TODO: write a patch to valadoc :D
+
+  - We can't highlight special macro values like NULL/null, TRUE/true,
+    or FALSE/false consistently.  For gtkdoc, you can use #NULL, but
+    then in the vala code, we see "#NULL" instead of "null", and the
+    reverse.
+    TODO: write a patch to valadoc :D
+
+  - Multiline descriptions will only have the first line appear in
+    valadoc.
+
+  - For the gtkdoc to be visible in devhelp and you're installing into
+    an abnormal prefix, consider placing a symlink to your prefix
+    installed gtk-doc in /usr/share/gtk-doc/html/.  For example,
+    $ ln -s ~/.local/share/gtk-doc/html/gxml /usr/share/gtk-doc/html
