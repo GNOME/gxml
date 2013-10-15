@@ -1,5 +1,6 @@
 namespace GXml {
 	public errordomain Error {
+		NOT_SUPPORTED, /* TODO: GET RID OF THIS */
 		PARSER, WRITER;
 	}
 
@@ -8,7 +9,7 @@ namespace GXml {
 	 * Returns error message for last registered error.
 	 */
 	internal static string get_last_error_msg () {
-		Xml.Error* error = Xml.get_last_error ();
+		Xml.Error* error = Xml.Error.get_last_error ();
 
 		if (error == null)
 			return "No error reported by libxml2";
@@ -16,7 +17,7 @@ namespace GXml {
 			return libxml2_error_to_string (error);
 	}
 
-	// TODO: replace usage of this with xml_error_msg
+	// TODO: replace usage of this with GXml.get_last_error_msg
 	internal static string libxml2_error_to_string (Xml.Error *e) {
 		return "%s:%s:%d: %s:%d: %s".printf (
 			e->level.to_string ().substring (8 /* skipping XML_ERR_ */),

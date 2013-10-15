@@ -44,7 +44,7 @@ namespace GXml.XPath {
 		public Expression (string expr, NSResolver? ns_resolver = null) throws XPath.Error {
 			expression = Xml.XPath.compile(expr);
 			if (expression == null)
-				throw new XPath.Error.INVALID_EXPRESSION (xml_error_msg ());
+				throw new XPath.Error.INVALID_EXPRESSION (GXml.get_last_error_msg ());
 			this.ns_resolver = ns_resolver;
 		}
 
@@ -58,11 +58,11 @@ namespace GXml.XPath {
 		 * @param context_node context node for the evaluation of this XPath expression
 		 * @param res_type type to cast resulting value to
 		 * @return XPath.Result object containing result type and value
-		 * @throws DomError when node type is not supported as context of evaluation
+		 * @throws GXml.Error when node type is not supported as context of evaluation
 		 * @throws XPath.Error when supplied with invalid XPath expression
 		 */
 		public Result evaluate (Node context_node,
-			ResultType res_type = ResultType.ANY) throws XPath.Error, DomError
+			ResultType res_type = ResultType.ANY) throws XPath.Error, GXml.Error
 		{
 			Document doc = (context_node is Document) ? (Document) context_node : context_node.owner_document;
 			doc.sync_dirty_elements ();
@@ -86,7 +86,7 @@ namespace GXml.XPath {
 			// }
 			else if (context_node is ProcessingInstruction) {
 				/* There is no Xml.Node* field in ProcessingInstruction implementation */
-				throw new DomError.NOT_SUPPORTED("Not implemented");
+				throw new GXml.Error.NOT_SUPPORTED("Not implemented");
 			}
 
 			if (ns_resolver != null)
@@ -98,12 +98,12 @@ namespace GXml.XPath {
 						throw new XPath.Error.INVALID_EXPRESSION ("Namespace prefix " +
 							"and/or URI cannot be empty strings");
 					if (context.register_ns (entry.key, entry.value) == -1)
-						throw new XPath.Error.INVALID_EXPRESSION (xml_error_msg ());
+						throw new XPath.Error.INVALID_EXPRESSION (GXml.get_last_error_msg ());
 				}
 
 			Xml.XPath.Object* xml_result = context.compiled_eval (expression);
 			if (xml_result == null)
-				throw new XPath.Error.INVALID_EXPRESSION (xml_error_msg ());
+				throw new XPath.Error.INVALID_EXPRESSION (GXml.get_last_error_msg ());
 			Result result = new Result (doc, xml_result);
 
 			if (res_type != ResultType.ANY) {

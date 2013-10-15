@@ -504,12 +504,12 @@ namespace GXml {
 		 * @param nsr namespace resolver object (prefix -> URI mapping)
 		 * @param res_type type to cast resulting value to
 		 * @return XPath.Result object containing result type and value
-		 * @throws DomError when node type is not supported as context of evaluation
+		 * @throws GXml.Error when node type is not supported as context of evaluation
 		 * @throws XPath.Error when supplied with invalid XPath expression
 		 */
 		public XPath.Result evaluate (string expr, XPath.NSResolver? nsr = null,
 			XPath.ResultType res_type = XPath.ResultType.ANY)
-			throws DomError, XPath.Error
+			throws GXml.Error, XPath.Error
 		{
 			var expression = new XPath.Expression (expr, nsr);
 			return expression.evaluate (this, res_type);
