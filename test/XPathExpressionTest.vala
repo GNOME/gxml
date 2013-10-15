@@ -234,7 +234,7 @@ class XPathExpressionTest : GXmlTest {
 					);
 					XPath.Expression e = new XPath.Expression("//svg:g/@id", r);
 					XPath.Result result = null;
-					Node context = null;
+					GXml.Node context = null;
 
 					result = e.evaluate(doc);
 					assert (result.result_type == XPath.ResultType.ORDERED_NODE_SNAPSHOT);
@@ -261,7 +261,7 @@ class XPathExpressionTest : GXmlTest {
 					);
 					XPath.Expression e = new XPath.Expression("./svg:g", r);
 					XPath.Result result = null;
-					Node context = null;
+					GXml.Node context = null;
 
 					result = e.evaluate(doc.document_element);
 					assert (result.result_type == XPath.ResultType.ORDERED_NODE_SNAPSHOT);
@@ -293,7 +293,7 @@ class XPathExpressionTest : GXmlTest {
 				try {
 					Document doc = get_doc_with_ns ();
 					XPath.Result result = null;
-					Node context = null;
+					GXml.Node context = null;
 
 					result = doc.evaluate("//svg:g", new XPath.NSResolver("svg", "http://www.w3.org/2000/svg"));
 					assert (result.result_type == XPath.ResultType.ORDERED_NODE_SNAPSHOT);
@@ -323,7 +323,7 @@ class XPathExpressionTest : GXmlTest {
 				try {
 					Document doc = get_doc_with_ns ();
 					XPath.Result result = null;
-					Node context = null;
+					GXml.Node context = null;
 
 					result = doc.evaluate("//i:year/text()", new XPath.NSResolver("i", "proto:item-info"));
 					assert (result.result_type == XPath.ResultType.ORDERED_NODE_SNAPSHOT);
