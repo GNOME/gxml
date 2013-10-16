@@ -415,6 +415,7 @@ namespace GXml {
 			}
 		}
 	}
+
 	internal class AttrChildNodeList : ChildNodeList {
 		Xml.Attr *parent;
 
@@ -425,6 +426,11 @@ namespace GXml {
 			set {
 				parent->children = value;
 			}
+		}
+
+		internal AttrChildNodeList (Xml.Attr* parent, Document owner) {
+			this.parent = parent;
+			this.owner = owner;
 		}
 
 		internal override Xml.Node *parent_as_xmlnode {
@@ -438,11 +444,6 @@ namespace GXml {
 				   or not. */
 				return (Xml.Node*)parent;
 			}
-		}
-
-		internal AttrChildNodeList (Xml.Attr* parent, Document owner) {
-			this.parent = parent;
-			this.owner = owner;
 		}
 	}
 	internal class EntityChildNodeList : ChildNodeList {

@@ -56,6 +56,9 @@ namespace GXml {
 	 * @see GXml.Node
 	 */
 	public class Attr : Node {
+		/** Private properties */
+		internal Xml.Attr *node;
+
 		/**
 		 * {@inheritDoc}
 		 */
@@ -94,9 +97,6 @@ namespace GXml {
 			internal set {
 			}
 		}
-
-		/** Private properties */
-		internal Xml.Attr *node;
 
 		/** Constructors */
 		internal Attr (Xml.Attr *node, Document doc) {
@@ -146,7 +146,6 @@ namespace GXml {
 			internal set {
 				// TODO: consider adding an empty () method to NodeList
 				foreach (Node child in this.child_nodes) {
-					// TODO: this doesn't clear the actual underlying attributes' values, is this what we want to do?  It works if we eventually sync up values
 					this.remove_child (child);
 				}
 				this.append_child (this.owner_document.create_text_node (value));
@@ -158,7 +157,6 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		/* already doc'd in Node */
 		public override NodeList? child_nodes {
 			owned get {
 				// TODO: always create a new one?
