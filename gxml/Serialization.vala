@@ -48,11 +48,11 @@ namespace GXml {
 	 */
 	public errordomain SerializationError {
 		/**
-		 * An object without a known {@link GLib.Type} was encountered.
+		 * An unknown {@link GLib.Type} was encountered.
 		 */
 		UNKNOWN_TYPE,
 		/**
-		 * A property was described in XML that is not known to the object's type.
+		 * A property was described in XML that is not known {@link GLib.Type}.
 		 */
 		UNKNOWN_PROPERTY,
 		/**
@@ -67,6 +67,10 @@ namespace GXml {
 		 * Serialization/Deserialization is unsupported for given {@link GLib.Type}
 		 */
 		UNSUPPORTED_TYPE,
+		/**
+		 * Serialization/Deserialization is unsupported for given XML structure
+		 */
+		UNSUPPORTED_FILE_FORMAT
 	}
 
 	/**
@@ -222,6 +226,10 @@ namespace GXml {
 			a separate document for it to already be a
 			part of as its owner_document. */
 			doc = new Document ();
+			if (object is Serializable) {
+				((Serializable) object).serialize (doc);
+				return doc;
+			}
 			// If the object has been serialized before, let's not do it again!
 			oid = "%p".printf (object);
 			// first, check if its been serialised already, and if so, just return an ObjectRef element for it.
@@ -288,7 +296,6 @@ namespace GXml {
 			Type type;
 			type = spec.value_type;
 			// Get value and save this all as a parameter
-			bool transformed = false;
 			val = Value (type);
 			if (GLib.Value.type_transformable (type, typeof (string))) {
 					Serializable.string_to_gvalue (prop_elem.content, ref val);
@@ -345,17 +352,20 @@ namespace GXml {
 		 * to the system deserializing them or a
 		 * {@link GXml.SerializationError} will result.
 		 *
-		 * @param node {@link GXml.Node} representing a {@link GLib.Object}
+		 * @type object type to deserialize
+		 * @doc a {@link GXml.Document} to deseralize from
 		 * @return the deserialized {@link GLib.Object}
 		 */
-		public static GLib.Object deserialize_object (GXml.Document doc) throws Error
+		public static GLib.Object deserialize_object (Type type, GXml.Document doc) throws Error
 		{
-			// FIXME: Use some heuristics to find the kind of serialization used
-			//        or ADD A PARAMETER to define the method to use.
-			//        This command use just GObject and JSON methods. No Serializable
-			//        implementators are used.
+			if (type.is_a (typeof (Serializable))) {
+				Object object = Object.new (type);
+				((Serializable) object).deserialize (doc);
+				return object;
+			}
 			return deserialize_object_from_node (doc.document_element);
 		}
+
 		/**
 		 * This function must assume deserialize over non-Serializable objects
 		 * because Serializable have its own method serialize/deserialize
@@ -388,6 +398,12 @@ namespace GXml {
 			if (type == 0) {
 				throw new SerializationError.UNKNOWN_TYPE ("Deserializing unknown GType '%s' objects is unsupported", otype);
 			}
+			
+			if (type.is_a (typeof (Serializable))) {
+				obj = Object.new (type);
+				((Serializable) obj).deserialize (obj_node);
+				return obj;
+			}
 
 			// Get the list of properties as ParamSpecs
 			obj = Object.newv (type, new Parameter[] {}); // TODO: causes problems with Enums when 0 isn't a valid enum value (e.g. starts from 2 or something)
@@ -410,7 +426,7 @@ namespace GXml {
 					spec = obj_class.find_property (pname);
 
 					if (spec == null) {
-						throw new SerializationError.UNKNOWN_PROPERTY ("Deserializing property type '%s' for object type '%s' is unsupported-->XML: [%s]", pname, otype, obj_elem.to_string ());
+						throw new SerializationError.UNKNOWN_PROPERTY ("Unknown property '%s' found, for object type '%s'-->XML: [%s]", pname, otype, obj_elem.to_string ());
 						return null;
 					}
 					Serialization.deserialize_property (spec, prop_elem, out val);

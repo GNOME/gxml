@@ -23,6 +23,7 @@
 public abstract class GXml.SerializableObjectModel : Object, Serializable
 {
 	/* Serializable interface properties */
+	protected ParamSpec[] properties { get; set; }
 	public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; protected set; }
 	public bool serializable_property_use_nick { get; set; }
 	public string? serialized_xml_node_value { get; protected set; default=null; }
@@ -34,6 +35,31 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 		serializable_property_use_nick = true;
 		serialized_xml_node_value = null;
 		serializable_node_name = get_type().name().down();
+	}
+
+	public virtual GLib.ParamSpec? find_property_spec (string property_name)
+	{
+		return default_find_property_spec (property_name);
+	}
+
+	public virtual void init_properties ()
+	{
+		default_init_properties ();
+	}
+
+	public virtual GLib.ParamSpec[] list_serializable_properties ()
+	{
+		return default_list_serializable_properties ();
+	}
+
+	public virtual void get_property_value (GLib.ParamSpec spec, ref Value val)
+	{
+		default_get_property_value (spec, ref val);
+	}
+
+	public virtual void set_property_value (GLib.ParamSpec spec, GLib.Value val)
+	{
+		default_set_property_value (spec, val);
 	}
 
 	public Node? serialize (Node node) throws Error
@@ -188,8 +214,10 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 			foreach (ParamSpec p in alp) {
 				var bp = ((Serializable)b).find_property_spec (p.name);
 				if (bp != null) {
-					var apval = ((Serializable)a).get_property_value (p);
-					var bpval = ((Serializable)b).get_property_value (bp);
+					Value apval = Value (p.value_type);
+					((Serializable)a).get_property_value (p, ref apval);
+					Value bpval = Value (bp.value_type);;
+					((Serializable)b).get_property_value (bp, ref bpval);
 					if ( apval != bpval)
 						ret = false;
 				}

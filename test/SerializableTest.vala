@@ -47,7 +47,6 @@ public class SerializableTomato : GXml.SerializableJson {
 			     a.age == b.age &&
 			     a.height == b.height &&
 			     a.description == b.description);
-
 		return same;
 	}
 }
@@ -72,56 +71,45 @@ public class SerializableCapsicum : GXml.SerializableJson {
 		this.age = age;
 		this.height = height;
 		this.ratings = ratings;
+		((Serializable)this).serialize_unknown_property_type.connect (serialize_unknown_property_type);
+		((Serializable)this).deserialize_unknown_property_type.connect (deserialize_unknown_property_type);
 	}
 
 	/* TODO: do we really need GLib.Value? or should we modify the object directly?
 	   Want an example using GBoxed too
 	   Perhaps these shouldn't be object methods, perhaps they should be static?
 	   Can't have static methods in an interface :(, right? */
-	public bool deserialize_property (string property_name, /* out GLib.Value value, */
-					  GLib.ParamSpec spec, GXml.Node property_node)  {
+	public void deserialize_unknown_property_type (GXml.Node element, ParamSpec prop)
+	{
 		GLib.Value outvalue = GLib.Value (typeof (int));
-
-		switch (property_name) {
+		switch (prop.name) {
 		case "ratings":
 			this.ratings = new GLib.List<int> ();
-			foreach (GXml.Node rating in property_node.child_nodes) {
+			foreach (GXml.Node rating in element.child_nodes) {
 				int64.try_parse (((GXml.Element)rating).content, out outvalue);
 				this.ratings.append ((int)outvalue.get_int64 ());
 			}
-			return true;
-		case "height":
-			int64.try_parse (((GXml.Element)property_node).content, out outvalue);
-			this.height = (int)outvalue.get_int64 () - 1;
-			return true;
+			break;
 		default:
-			Test.message ("Wasn't expecting the SerializableCapsicum property '%s'", property_name);
+			Test.message ("Wasn't expecting the SerializableCapsicum property '%s'", prop.name);
 			assert_not_reached ();
 		}
-
-		return false;
 	}
-	public GXml.Node? serialize_property (string property_name, /*GLib.Value value,*/ GLib.ParamSpec spec, GXml.Document doc) {
-		GXml.Element rating;
-
-		switch (property_name) {
+	private void serialize_unknown_property_type (GXml.Node element, ParamSpec prop, out GXml.Node node)
+	{
+		Document doc = element.owner_document;
+		switch (prop.name) {
 		case "ratings":
-			GXml.DocumentFragment frag = doc.create_document_fragment ();
 			foreach (int rating_int in ratings) {
-				rating = doc.create_element ("rating");
-				rating.content = "%d".printf (rating_int);
-				frag.append_child (rating);
+				Element n = doc.create_element ("rating");
+				n.content = "%d".printf (rating_int);
+				element.append_child (n);
 			}
-			return frag;
-		case "height":
-			return doc.create_text_node ("%d".printf (height + 1));
+			break;
 		default:
-			Test.message ("Wasn't expecting the SerializableCapsicum property '%s'", property_name);
+			Test.message ("Wasn't expecting the SerializableCapsicum property '%s'", prop.name);
 			assert_not_reached ();
 		}
-
-		// returning null does a normal serialization
-		return null;
 	}
 }
 
@@ -137,7 +125,6 @@ public class SerializableBanana : GXml.SerializableJson {
 		this.public_field = public_field;
 		this.private_property = private_property;
 		this.public_property = public_property;
-
 	}
 
 	public string to_string () {
@@ -151,74 +138,63 @@ public class SerializableBanana : GXml.SerializableJson {
 			a.public_property == b.public_property);
 	}
 
-	private ParamSpec[] properties = null;
-	public unowned GLib.ParamSpec[] list_properties () {
-		// TODO: so, if someone implements list_properties, but they don't create there array until called, that could be inefficient if they don't cache.  If they create it at construction, then serialising and deserialising will lose it?   offer guidance
-		if (this.properties == null) {
-			properties = new ParamSpec[4];
+	
+	// This method overrides the one implemented at Serializable
+	public override GLib.ParamSpec[] list_serializable_properties ()
+	{
+		if (properties == null) {
+			properties = new ParamSpec [4];
 			int i = 0;
 			foreach (string name in new string[] { "private-field", "public-field", "private-property", "public-property" }) {
-				properties[i] = new ParamSpecInt (name, name, name, int.MIN, int.MAX, 0, ParamFlags.READABLE); // TODO: offer guidance for these fields, esp. ParamFlags
+				// TODO: offer guidance for these fields, esp. ParamFlags
+				properties[i] = (ParamSpec) new ParamSpecInt (name, name, name, int.MIN, int.MAX, 0, ParamFlags.READABLE); 
 				i++;
-				// TODO: does serialisation use anything other than ParamSpec.name?
 			}
 		}
-		return this.properties;
+		return properties;
 	}
 
-	private GLib.ParamSpec prop;
-	public unowned GLib.ParamSpec? find_property (string property_name) {
-		GLib.ParamSpec[] properties = this.list_properties ();
-		foreach (ParamSpec prop in properties) {
-			if (prop.name == property_name) {
-				this.prop = prop;
-				return this.prop;
-			}
-		}
-		return null;
-	}
-
-	public new void get_property (GLib.ParamSpec spec, ref GLib.Value str_value) {
-		Value value = Value (typeof (int));
-
+	// This method overrides the one implemented at Serializable
+	public override void get_property_value (GLib.ParamSpec spec, ref Value val)
+	{
+		val = Value (typeof (int));
 		switch (spec.name) {
 		case "private-field":
-			value.set_int (this.private_field);
+			val.set_int (this.private_field);
 			break;
 		case "public-field":
-			value.set_int (this.public_field);
+			val.set_int (this.public_field);
 			break;
 		case "private-property":
-			value.set_int (this.private_property);
+			val.set_int (this.private_property);
 			break;
 		case "public-property":
-			value.set_int (this.public_property);
+			val.set_int (this.public_property);
 			break;
 		default:
-			((GLib.Object)this).get_property (spec.name, ref str_value);
+			((GLib.Object)this).get_property (spec.name, ref val);
 			return;
 		}
-
-		value.transform (ref str_value);
-		return;
 	}
 
-	public new void set_property (GLib.ParamSpec spec, GLib.Value value) {
+	// This method overrides the one implemented at Serializable
+	public override void set_property_value (GLib.ParamSpec spec, GLib.Value val)
+	{
 		switch (spec.name) {
 		case "private-field":
-			this.private_field = value.get_int ();
+			this.private_field = val.get_int ();
 			break;
 		case "public-field":
-			this.public_field = value.get_int ();
+			this.public_field = val.get_int ();
 			break;
 		case "private-property":
-			this.private_property = value.get_int ();
+			this.private_property = val.get_int ();
 			break;
 		case "public-property":
-			this.public_property = value.get_int ();
+			this.public_property = val.get_int ();
 			break;
 		default:
-			((GLib.Object)this).set_property (spec.name, value);
+			((GLib.Object)this).set_property (spec.name, val);
 			return;
 		}
 	}
@@ -247,11 +223,12 @@ class SerializableTest : GXmlTest {
 				ratings.append (13);
 				ratings.append (21);
 
-				capsicum = new SerializableCapsicum (2, 3, 5, ratings);
+				capsicum = new SerializableCapsicum (2, 3, 6, ratings);
 				try {
-					doc = Serialization.serialize_object (capsicum);
+					doc = new Document ();
+					capsicum.serialize (doc);
 				} catch (Error e) {
-					Test.message ("%s", e.message);
+					GLib.message ("%s", e.message);
 					assert_not_reached ();
 				}
 
@@ -265,13 +242,13 @@ class SerializableTest : GXmlTest {
 					}
 
 					try {
-						capsicum_new = (SerializableCapsicum)Serialization.deserialize_object (doc);
+						capsicum_new = (SerializableCapsicum)Serialization.deserialize_object (typeof (SerializableCapsicum), doc);
 					} catch (Error e) {
 						Test.message ("%s", e.message);
 						assert_not_reached ();
 					}
-					if (capsicum_new.height != 5 || ratings.length () != 3 || ratings.nth_data (0) != 8 || ratings.nth_data (2) != 21) {
-						Test.message ("Did not deserialize as expected.  Got [%s] but expected height and ratings from [%s]", capsicum_new.to_string (), capsicum.to_string ());
+					if (capsicum_new.height != 6 || ratings.length () != 3 || ratings.nth_data (0) != 8 || ratings.nth_data (2) != 21) {
+						Test.message ("Did not deserialize as expected.  Got [%s] but expected height and ratings from [%s], length: %s", capsicum_new.to_string (), capsicum.to_string (), ratings.length ().to_string ());
 						assert_not_reached ();
 					}
 				} catch (RegexError e) {

@@ -251,9 +251,13 @@ public class RecursiveProperty : GLib.Object {
 class SerializationTest : GXmlTest {
 	public delegate string StringifyFunc (GLib.Object object);
 
-	public static GLib.Object test_serialization_deserialization (GLib.Object object, string name, EqualFunc equals, StringifyFunc stringify) {
+	public static GLib.Object test_serialization_deserialization (GLib.Object object, 
+	                                                              string name,
+	                                                              EqualFunc equals,
+	                                                              StringifyFunc stringify)
+	{
 		string xml_filename;
-		GXml.Node node;
+		GXml.Document sdoc;
 		GXml.Document doc;
 		GLib.Object object_new = null;
 
@@ -263,23 +267,22 @@ class SerializationTest : GXmlTest {
 		xml_filename = "_serialization_test_" + name + ".xml";
 
 		try {
-			node = Serialization.serialize_object (object);
-
+			sdoc = Serialization.serialize_object (object);
 			// TODO: assert that node is right
-			node.owner_document.save_to_path (xml_filename);
+			sdoc.save_to_path (xml_filename);
 			// TODO: assert that saved file is right
 			doc = new GXml.Document.from_path (xml_filename);
 			// TODO: assert that loaded file is right; do document compare with original
 
-			object_new = Serialization.deserialize_object (doc);
+			object_new = Serialization.deserialize_object (object.get_type (), doc);
 
 			if (! equals (object, object_new)) {
-				Test.message ("Expected [%s] but got [%s]",
-					      stringify (object), stringify (object_new));
+				GLib.message ("Deserialization: Expected [%s] but got [%s] From XML: [[%s]]",
+					      stringify (object), stringify (object_new), doc.to_string ());
 				assert_not_reached ();
 			}
 		} catch (GLib.Error e) {
-			Test.message ("%s", e.message);
+			GLib.message ("%s", e.message);
 			assert_not_reached ();
 		}
 
@@ -334,15 +337,15 @@ class SerializationTest : GXmlTest {
 
 				try {
 					doc = new Document.from_string ("<Object otype='Fruit'><Property pname='age' ptype='gint'>3</Property></Object>");
-					fruit = (Fruit)Serialization.deserialize_object (doc);
+					fruit = (Fruit)Serialization.deserialize_object (typeof (Fruit), doc);
 
 					// we expect 9 because Fruit triples it in the setter
 					if (fruit.age != 9) {
-						Test.message ("Expected fruit.age [%d] but found [%d]", 9, fruit.age);
+						GLib.message ("Expected fruit.age [%d] but found [%d]", 9, fruit.age);
 						assert_not_reached (); // TODO: check weight?
 					}
 				} catch (GLib.Error e) {
-					Test.message ("%s", e.message);
+					GLib.message ("%s", e.message);
 					assert_not_reached ();
 				}
 			});
@@ -353,7 +356,7 @@ class SerializationTest : GXmlTest {
 				/* Right now we can infer the type from a property's name, but fields we might need to specify */
 				try {
 					doc = new Document.from_string ("<Object otype='Fruit'><Property pname='age'>3</Property></Object>");
-					fruit = (Fruit)Serialization.deserialize_object (doc);
+					fruit = (Fruit)Serialization.deserialize_object (typeof (Fruit), doc);
 				} catch (GLib.Error e) {
 					Test.message ("%s", e.message);
 					assert_not_reached ();
@@ -364,7 +367,7 @@ class SerializationTest : GXmlTest {
 
 				try {
 					doc = new Document.from_string ("<Object otype='Fruit'><Property name='badname'>3</Property></Object>");
-					Serialization.deserialize_object (doc);
+					Serialization.deserialize_object (typeof (Fruit), doc);
 					Test.message ("Expected SerializationError.UNKNOWN_PROPERTY to be thrown for property 'badname' in object 'Fruit' :(  Did not happen.");
 					assert_not_reached ();
 				} catch (GXml.SerializationError.UNKNOWN_PROPERTY e) {
@@ -379,16 +382,19 @@ class SerializationTest : GXmlTest {
 
 				try {
 					doc = new Document.from_string ("<Object otype='BadType'></Object>");
-					Serialization.deserialize_object (doc);
+					Serialization.deserialize_object (0, doc);
 					assert_not_reached ();
-				} catch (GXml.SerializationError.UNKNOWN_TYPE e) {
-					// Pass
 				} catch (GLib.Error e) {
-					Test.message ("%s", e.message);
-					assert_not_reached ();
+					if (e is SerializationError.UNKNOWN_TYPE) {
+					// pass
+					}
+					else {
+						Test.message ("%s", e.message);
+						assert_not_reached ();
+					}
 				}
 			});
-		Test.add_func ("/gxml/serialization/xml_deserialize_bad_property_type", () => {
+		Test.add_func ("/gxml/serialization/xml_deserialize_unknown_property_type", () => {
 				Document doc;
 				Fruit fruit;
 
@@ -396,14 +402,17 @@ class SerializationTest : GXmlTest {
 				Serialization.clear_cache ();
 
 				try {
-					doc = new Document.from_string ("<Object otype='Fruit'><Property pname='age' ptype='badtype'>blue</Property></Object>");
-					fruit = (Fruit)Serialization.deserialize_object (doc);
+					doc = new Document.from_string ("<Object otype='Fruit'><Property pname='unknown' ptype='badtype'>blue</Property></Object>");
+					fruit = (Fruit)Serialization.deserialize_object (typeof (Fruit), doc);
 					assert_not_reached ();
-				} catch (GXml.SerializationError.UNSUPPORTED_TYPE e) {
-					// Pass
 				} catch (GLib.Error e) {
-					Test.message ("%s", e.message);
-					assert_not_reached ();
+					if (e is SerializationError.UNKNOWN_PROPERTY)
+					{ // pass
+					}
+					else {
+						Test.message ("%s", e.message);
+						assert_not_reached ();
+					}
 				}
 			});
 		Test.add_func ("/gxml/serialization/simple_properties", () => {
@@ -438,7 +447,7 @@ class SerializationTest : GXmlTest {
 					obj = new ComplexDuplicateProperties (simple_properties);
 					xml = Serialization.serialize_object (obj);
 
-					restored = (ComplexDuplicateProperties)Serialization.deserialize_object (xml);
+					restored = (ComplexDuplicateProperties)Serialization.deserialize_object (typeof (ComplexDuplicateProperties), xml);
 				} catch (Error e) {
 					Test.message ("%s", e.message);
 					assert_not_reached ();
@@ -597,7 +606,7 @@ class SerializationTest : GXmlTest {
 
 					try {
 						doc = new Document.from_string ("<Object otype='Fruit'><Property pname='colour' ptype='gchararray'>blue</Property><Property pname='weight' ptype='gint'>11</Property><Property pname='name' ptype='gchararray'>fish</Property><Property pname='age' ptype='gint'>3</Property></Object>");
-						fruit = (Fruit)Serialization.deserialize_object (doc);
+						fruit = (Fruit)Serialization.deserialize_object (typeof (Fruit), doc);
 
 						if (! fruit.test ("blue", 11, "fish", 3)) {
 							Test.message ("Expected [\"%s\", %d, \"%s\", %d] but found [%s]", "blue", 11, "fish", 3, fruit.to_string ());
