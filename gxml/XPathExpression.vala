@@ -65,7 +65,6 @@ namespace GXml.XPath {
 			ResultType res_type = ResultType.ANY) throws XPath.Error, GXml.Error
 		{
 			Document doc = (context_node is Document) ? (Document) context_node : context_node.owner_document;
-			doc.sync_dirty_elements ();
 
 			Xml.XPath.Context context = new Xml.XPath.Context (doc.xmldoc);
 
