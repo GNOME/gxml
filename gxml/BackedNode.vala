@@ -194,7 +194,6 @@ namespace GXml {
 			get {
 				_first_child = this.child_nodes.first ();
 				return _first_child;
-				// return this.child_nodes.first ();
 			}
 			internal set {
 			}
@@ -208,7 +207,6 @@ namespace GXml {
 			get {
 				_last_child = this.child_nodes.last ();
 				return _last_child;
-				//return this.child_nodes.last (); //TODO: just want to relay
 			}
 			internal set {
 			}
@@ -260,22 +258,24 @@ namespace GXml {
 		public override unowned Node? replace_child (Node new_child, Node old_child) {
 			return this.child_nodes.replace_child (new_child, old_child);
 		}
+
 		/**
 		 * {@inheritDoc}
 		 */
-		public override unowned Node? remove_child (Node old_child) /*throws DomError*/ {
+		public override unowned Node? remove_child (Node old_child) {
 			return this.child_nodes.remove_child (old_child);
 		}
+
 		/**
 		 * {@inheritDoc}
 		 */
-		public override unowned Node? append_child (Node new_child) /*throws DomError*/ {
+		public override unowned Node? append_child (Node new_child) {
 			if (new_child.owner_document != this.owner_document && new_child.get_type ().is_a (typeof (GXml.BackedNode))) {
 				/* The point here is that a node from another document should
-				   have a copy made to be integrated into this one, so we don't
-				   mess up the other document.  (TODO: consider removing it from
-				   the originating document.)  The node's references should be
-				   updated to this one. */
+				   have a copy made to be integrated into this one, so we
+				   don't mess up the other document.  (TODO: consider
+				   removing it from the originating document.)  The node's
+				   references should be updated to this one. */
 				return this.child_nodes.append_child (this.owner_document.copy_node (new_child));
 			} else {
 				return this.child_nodes.append_child (new_child);
