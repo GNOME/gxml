@@ -54,6 +54,7 @@ libgxml_la_SOURCES = \
 	EntityReference.vala \
 	Error.vala \
 	Implementation.vala \
+	NamedNodeMap.vala \
 	NamespaceAttr.vala \
 	NodeList.vala \
 	NodeType.vala \
