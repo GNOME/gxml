@@ -231,16 +231,6 @@ namespace GXml {
 			internal set {
 			}
 		}
-		/**
-		 * {@inheritDoc}
-		 */
-		public override HashTable<string,Attr>? attributes {
-			get {
-				return null;
-			}
-			internal set {
-			}
-		}
 
 		// TODO: investigate which classes can have children;
 		//       e.g. Text shouldn't, and these should error if we try;
@@ -317,7 +307,6 @@ namespace GXml {
 			Xml.Buffer *buffer;
 			string str;
 
-			this.owner_document.sync_dirty_elements ();
 			buffer = new Xml.Buffer ();
 			buffer->node_dump (this.owner_document.xmldoc, this.node, level, format ? 1 : 0);
 			str = buffer->content ();
