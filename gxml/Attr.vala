@@ -55,77 +55,26 @@ namespace GXml {
 	 *
 	 * @see GXml.Node
 	 */
-	public class Attr : Node {
+	public class Attr : BackedNode {
 		/** Private properties */
-		internal Xml.Attr *node;
-
-		/**
-		 * {@inheritDoc}
-		 */
-		public override string? namespace_uri {
-			get {
-				if (this.node->ns == null) {
-					return null;
-				} else {
-					return this.node->ns->href;
-				}
-			}
-			internal set {
-			}
-		}
-		/**
-		 * {@inheritDoc}
-		 */
-		public override string? prefix {
-			get {
-				if (this.node->ns == null) {
-					return null;
-				} else {
-					return this.node->ns->prefix;
-				}
-			}
-			internal set {
-			}
-		}
-		/**
-		 * {@inheritDoc}
-		 */
-		public override string? local_name {
-			get {
-				return this.node_name;
-			}
-			internal set {
-			}
-		}
+		internal new Xml.Attr *node;
+		/* this displaces BackedNode's xmlNode node */
 
 		/** Constructors */
 		internal Attr (Xml.Attr *node, Document doc) {
 			// TODO: wish valac would warn against using this. before calling base()
-			base (NodeType.ATTRIBUTE, doc);
+			//base (NodeType.ATTRIBUTE, doc);
+			base ((Xml.Node*)node, doc);
 			this.node = node;
 			this.specified = true;
 		}
 
 		/* Public properties (Node general) */
 
+		private string _node_value;
 		/* TODO: find out how to get these to appear in GtkDocs, since they're
 		   overriding a base class.  Figure out how to get that multiple lines to
 		   appear in the generated valadoc */
-		/**
-		 * The node_name of an attribute is the attribute's name.
-		 *
-		 * Do not free this.  It's memory will be released
-		 * when the owning {@link GXml.Document} is freed.
-		 */
-		public override string node_name {
-			get {
-				return this.node->name;
-			}
-			internal set {
-			}
-		}
-
-		private string _node_value;
 		/**
 		 * The node_value for an attribute is a string
 		 * representing the contents of the Attr's tree of
@@ -159,11 +108,11 @@ namespace GXml {
 		 */
 		public override NodeList? child_nodes {
 			owned get {
-				// TODO: always create a new one?
-				//       no, this is broken, if we keep creating new ones
-				//       then changes are lost each time we call one
-				//       unless AttrChildNodeList makes changes to the underlying one
-				//       ugh, how are we even passing tests right now?
+				/* TODO: always create a new one?
+				       no, this is broken, if we keep creating new ones
+				       then changes are lost each time we call one
+				       unless AttrChildNodeList makes changes to the underlying
+				       one ugh, how are we even passing tests right now? */
 				return new AttrChildNodeList (this.node, this.owner_document);
 			}
 			internal set {
@@ -222,45 +171,13 @@ namespace GXml {
 			}
 		}
 
-		/* Public methods (Node-specific) */
-
-		/**
-		 * {@inheritDoc}
-		 */
-		public override unowned Node? insert_before (Node new_child, Node? ref_child) {
-			return this.child_nodes.insert_before (new_child, ref_child);
-		}
-		/**
-		 * {@inheritDoc}
-		 */
-		public override unowned Node? replace_child (Node new_child, Node old_child) {
-			return this.child_nodes.replace_child (new_child, old_child);
-		}
-		/**
-		 * {@inheritDoc}
-		 */
-		public override unowned Node? remove_child (Node old_child) {
-			return this.child_nodes.remove_child (old_child);
-		}
-		/**
-		 * {@inheritDoc}
-		 */
-		public override unowned Node? append_child (Node new_child) {
-			return this.child_nodes.append_child (new_child);
-		}
-		/**
-		 * {@inheritDoc}
-		 */
-		public override bool has_child_nodes () {
-			return (this.child_nodes.length > 0);
-		}
-		/**
-		 * {@inheritDoc}
-		 */
-		public override unowned Node? clone_node (bool deep) {
-			GLib.warning ("Cloning of Attrs not yet supported");
-			return this; // STUB
-		}
+		/* TODO: make sure that xmlCopyNode (used in BackedNode)
+		   is correct for xmlAttr, or we'll have to manually
+		   use xmlCopyProp */
+		// public override unowned Node? clone_node (bool deep) {
+		// 	GLib.warning ("Cloning of Attrs not yet supported");
+		// 	return this; // STUB
+		// }
 
 		/**
 		 * {@inheritDoc}
