@@ -108,6 +108,11 @@ namespace GXml {
 		internal Xml.Doc *xmldoc;
 
 		/* *** Private methods *** */
+		internal unowned Attr? lookup_attr (Xml.Attr *xmlattr) {
+			// Xml.Attr and Xml.Node are intentionally compatible
+			return (Attr)this.lookup_node ((Xml.Node*)xmlattr);
+		}
+
 		internal unowned Node? lookup_node (Xml.Node *xmlnode) {
 			unowned Node domnode;
 
@@ -119,7 +124,8 @@ namespace GXml {
 			if (domnode == null) {
 				// If we don't have a cached the appropriate Node for a given Xml.Node* yet, create it (type matters)
 				// TODO: see if we can attach logic to the enum {} to handle this
-				switch ((NodeType)xmlnode->type) {
+				NodeType nodetype = (NodeType)xmlnode->type;
+				switch (nodetype) {
 				case NodeType.ELEMENT:
 					new Element (xmlnode, this);
 					break;
@@ -135,27 +141,17 @@ namespace GXml {
 				case NodeType.DOCUMENT_FRAGMENT:
 					new DocumentFragment (xmlnode, this);
 					break;
-					/* TODO: These are not yet implemented */
-				case NodeType.ENTITY_REFERENCE:
-					// new EntityReference (xmlnode, this);
-					break;
-				case NodeType.ENTITY:
-					// new Entity (xmlnode, this);
-					break;
-				case NodeType.PROCESSING_INSTRUCTION:
-					// new ProcessingInstruction (xmlnode, this);
-					break;
-				case NodeType.DOCUMENT_TYPE:
-					// new DocumentType (xmlnode, this);
-					break;
-				case NodeType.NOTATION:
-					// new Notation (xmlnode, this);
-					break;
 				case NodeType.ATTRIBUTE:
-					// TODO: error
+					new Attr ((Xml.Attr*)xmlnode, this);
 					break;
-				case NodeType.DOCUMENT:
-					// TODO: error
+					/* TODO: These are not yet implemented (but we won't support Document */
+				case NodeType.ENTITY_REFERENCE:
+				case NodeType.ENTITY:
+				case NodeType.PROCESSING_INSTRUCTION:
+				case NodeType.DOCUMENT_TYPE:
+				case NodeType.NOTATION:
+				case NodeType.DOCUMENT: 
+					GLib.warning ("Looking up %s from an xmlNode* is not supported", nodetype.to_string ());
 					break;
 				}
 
