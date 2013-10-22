@@ -221,8 +221,6 @@ namespace GXml {
 		~Document () {
 			List<Xml.Node*> to_free = new List<Xml.Node*> ();
 
-			sync_dirty_elements ();
-
 			/* we use two separate loops, because freeing
 			   a node frees its descendants, and we might
 			   have a branch with children that might be
@@ -515,32 +513,6 @@ namespace GXml {
 		}
 
 		/**
-		 * This should be called by any function that wants to
-		 * look at libxml2 data structures, particularly the
-		 * attributes of elements.  Such as: saving an Xml.Doc
-		 * to disk, or stringifying an Xml.Node.  GXml
-		 * developer, if you grep for ".node" and ".xmldoc",
-		 * you can help identify potential points where you
-		 * should sync.
-		 */
-		internal void sync_dirty_elements () {
-			Xml.Node *tmp_node;
-
-			// TODO: test that adding attributes works with stringification and saving
-			if (this.dirty_elements.length () > 0) {
-				// tmp_node for generating Xml.Ns* objects when saving attributes
-				tmp_node = new Xml.Node (null, "tmp");
-				foreach (Element elem in this.dirty_elements) {
-					elem.save_attributes (tmp_node);
-				}
-				this.dirty_elements = new List<Element> (); // clear the old list
-
-				tmp_node->free ();
-			}
-		}
-
-
-		/**
 		 * Saves a Document to the file at path file_path
 		 *
 		 * @param file_path A path on the local system to save the document to
@@ -551,8 +523,6 @@ namespace GXml {
 		public void save_to_path (string file_path) throws GXml.Error {
 			string errmsg;
 			Xml.Error *e;
-
-			sync_dirty_elements ();
 
 			// TODO: change this to a GIO file so we can save to in a cool way
 
@@ -591,8 +561,6 @@ namespace GXml {
 			OutputStreamBox box = { outstream, can };
 			string errmsg = null;
 			Xml.Error *e;
-
-			sync_dirty_elements ();
 
 			/* TODO: provide Cancellable as user data and let these check it
 			         so we can actually be interruptible */
@@ -912,7 +880,6 @@ namespace GXml {
 			string str;
 			int len;
 
-			sync_dirty_elements ();
 			this.xmldoc->dump_memory_format (out str, out len, format);
 
 			return str;
@@ -1041,7 +1008,6 @@ namespace GXml {
 		}
 
 		internal unowned Node copy_node (Node foreign_node, bool deep = true) {
-			foreign_node.owner_document.sync_dirty_elements ();
 			Xml.Node *our_copy_xml = ((BackedNode)foreign_node).node->doc_copy (this.xmldoc, deep ? 1 : 0);
 			// TODO: do we need to append this to this.new_nodes?  Do we need to append the result to this.nodes_to_free?  Test memory implications
 			return this.lookup_node (our_copy_xml); // inducing a GXmlNode
