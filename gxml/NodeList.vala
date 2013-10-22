@@ -370,14 +370,14 @@ namespace GXml {
 		}
 	}
 
-	/* TODO: warning: this list should NOT be edited :(
-	   we need a new, better live AttrNodeList :| */
-	internal class AttrNodeList : GListNodeList {
-		internal AttrNodeList (Node root, Document owner) {
-			base (root);
-			base.nodes = root.attributes.get_values ();
-		}
-	}
+	// /* TODO: warning: this list should NOT be edited :(
+	//    we need a new, better live AttrNodeList :| */
+	// internal class AttrNodeList : GListNodeList {
+	// 	internal AttrNodeList (Node root, Document owner) {
+	// 		base (root);
+	// 		base.nodes = root.attributes.get_values ();
+	// 	}
+	// }
 
 	internal class NamespaceAttrNodeList : GListNodeList {
 		internal NamespaceAttrNodeList (BackedNode root, Document owner) {
