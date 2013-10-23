@@ -1,3 +1,37 @@
+* 2013-10-22
+
+** Attributes, and removing them
+
+Problem:
+ Attr a = doc.create_attribute ("foo");
+ elem.set_attribute_node (a);
+ Attr b = elem.get_attribute_node ("foo");
+ a != b
+
+The problems are that
+ 1. Attr a has an xmlAttr a, but set_attribute_node>set_named_item needs to use xmlSetProp which creates a
+    new xmlAttr a'
+
+Separately, we have a problem where when we do set_named_item, it returns the previous Attr,
+but it is in fact is returning a new Attr with the previous value, because again xmlSetProp
+doesn't work on xmlAttr*s, but on strings, and it overwrites the content of the underlying
+xmlAttr*s in an xmlNode*'s properties :(
+
+We want a consistent relationship between an xmlAttr and a GXmlAttr, so that
+1. when we do set_named_item, the supplied GXmlAttr remains the GXmlAttr representing the
+   newly created xmlAttr (do we need to free the old xmlAttr of the GXmlAttr then?)
+2. this needs to be reflected by changes in the lookup_node/lookup_attr handling (separate
+   those?)
+3. we don't want to return a clone from set_named_item; perhaps we can
+   a. copy the underlying xmlAttr that's being replaced
+   b. replace the old GXmlAttr's xmlAttr ourselves with the clone
+   c. then we can return the old GXmlAttr (yay!) even though its insides are a clone of the
+      old xmlAttr
+   d. we'd need to create a new GXmlAttr to deal with the original xmlAttr (whose contents
+      have been replaced by new values now)
+
+
+
 * 2013-10-15
 
 ** Attributes
@@ -11,7 +45,7 @@ Currently attributes are:
 - Users modify the GLib.HashTable
   - periodically we sync the GLib.HashTable of GXml.Attrs with the underlying Xml.Node.properties
      - (like when we're stringifying (since we use libxml2's stringification functions) or saving the document)
-  
+
 
 New design
 - store them in GXml.Document.node_dict like Elements, treating
@@ -62,7 +96,7 @@ GXml.Attr support requirements
 GXml.Element
 - set_attr
 
-  
-  
+
+
 
 
