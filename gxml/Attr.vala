@@ -105,6 +105,57 @@ namespace GXml {
 
 		/**
 		 * {@inheritDoc}
+		 *
+		 * Note: In libxml2, xmlAttrs have parent nodes, which are the Elements that
+		 * contain them.  In the W3C DOM, they specifically don't.
+		 *
+		 * URL: [[http://www.w3.org/2003/01/dom2-javadoc/org/w3c/dom/Attr.html]]
+		 */
+		/* TODO: figure out whether the W3C DOM thinks that the same Attr could
+		 * belong to multiple Elements.  As we have it implemented, each Attr
+		 * can belong to 0 or 1 Elements only.
+		 */
+		public override Node? parent_node {
+			get {
+				return null;
+			}
+			internal set {
+			}
+		}
+		/**
+		 * {@inheritDoc}
+		 *
+		 * Note: In libxml2, xmlAttrs have siblings, which are other Attrs contained
+		 * by the same Element.  In the W3C DOM, they specifically don't.
+		 *
+		 * URL: [[http://www.w3.org/2003/01/dom2-javadoc/org/w3c/dom/Attr.html]]
+		 */
+		public override Node? previous_sibling {
+			get {
+				return null;
+			}
+			internal set {
+			}
+		}
+		/**
+		 * {@inheritDoc}
+		 *
+		 * Note: In libxml2, xmlAttrs have siblings, which are other Attrs contained
+		 * by the same Element.  In the W3C DOM, they specifically don't.
+		 *
+		 * URL: [[http://www.w3.org/2003/01/dom2-javadoc/org/w3c/dom/Attr.html]]
+		 */
+		public override Node? next_sibling {
+			get {
+				return null;
+			}
+			internal set {
+			}
+		}
+
+
+		/**
+		 * {@inheritDoc}
 		 */
 		public override NodeList? child_nodes {
 			owned get {
