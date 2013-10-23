@@ -12,7 +12,7 @@ AM_CPPFLAGS = \
 	$(NULL)
 
 AM_CFLAGS = \
-	 -g \
+	-g \
 	$(GLIB_CFLAGS) \
 	$(LIBXML_CFLAGS) \
 	$(GIO_CFLAGS) \
@@ -21,13 +21,6 @@ AM_CFLAGS = \
 	$(NULL)
 
 # -Wall   # TODO: add this back when we can properly handle more libxml2/vala warnings
-
-
-# TODO: remove this, or remove -Wall and -g from libgxml_la_CFLAGS
-# AM_CFLAGS = \
-#	 -Wall \
-#	 -g \
-#
 
 
 ### Library

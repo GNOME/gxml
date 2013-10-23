@@ -150,7 +150,7 @@ namespace GXml {
 				case NodeType.PROCESSING_INSTRUCTION:
 				case NodeType.DOCUMENT_TYPE:
 				case NodeType.NOTATION:
-				case NodeType.DOCUMENT: 
+				case NodeType.DOCUMENT:
 					GLib.warning ("Looking up %s from an xmlNode* is not supported", nodetype.to_string ());
 					break;
 				}
