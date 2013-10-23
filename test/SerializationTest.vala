@@ -300,7 +300,7 @@ class SerializationTest : GXmlTest {
 
 				/* TODO: This test should change once we can serialise fields
 				   and private properties */
-				expectation = "<Object otype=\"Fruit\" oid=\"0x[0-9a-f]+\"><Property pname=\"age\" ptype=\"gint\">9</Property></Object>";
+				expectation = "<\\?xml version=\"1.0\"\\?>\n<Object otype=\"Fruit\" oid=\"0x[0-9a-f]+\"><Property( pname=\"age\"| ptype=\"gint\")+>9</Property></Object>";
 
 				fruit = new Fruit ();
 				fruit.name = "fish";
@@ -311,6 +311,7 @@ class SerializationTest : GXmlTest {
 
 					regex = new Regex (expectation);
 					if (! regex.match (fruit_xml.to_string ())) {
+						// TODO: how does Test.message work? Nothing ever seems to show up in the test report!
 						Test.message ("Expected [%s] but found [%s]",
 							      expectation, fruit_xml.to_string ());
 						assert_not_reached ();

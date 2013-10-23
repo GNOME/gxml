@@ -256,7 +256,7 @@ class SerializableTest : GXmlTest {
 					assert_not_reached ();
 				}
 
-				expectation = "<Object otype=\"SerializableCapsicum\" oid=\"0x[0-9a-f]+\"><Property pname=\"height\" ptype=\"gint\">6</Property><Property pname=\"ratings\" ptype=\"gpointer\"><rating>8</rating><rating>13</rating><rating>21</rating></Property></Object>";
+				expectation = "<\\?xml version=\"1.0\"\\?>\n<Object otype=\"SerializableCapsicum\" oid=\"0x[0-9a-f]+\"><Property ptype=\"gint\" pname=\"height\">6</Property><Property ptype=\"gpointer\" pname=\"ratings\"><rating>8</rating><rating>13</rating><rating>21</rating></Property></Object>";
 
 				try {
 					regex = new Regex (expectation);
