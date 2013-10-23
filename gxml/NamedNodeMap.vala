@@ -39,7 +39,7 @@ namespace GXml {
 	}
 
 	public class NamedAttrMap : GLib.Object, NamedNodeMap<Attr?> {
-		private Element elem; 
+		private Element elem;
 
 		internal NamedAttrMap (Element e) {
 			this.elem = e;
@@ -50,53 +50,70 @@ namespace GXml {
 			return this.elem.owner_document.lookup_attr (prop);
 		}
 
-		public Attr? set_named_item (Attr? item) {
-			Xml.Attr *prop;
-			Attr old;
+		public Attr? set_named_item (Attr? gxml_attr_new) {
+			Xml.Node *xml_elem;
+			Xml.Attr *xml_prop_old;
+			Xml.Attr *xml_prop_new;
+			Attr gxml_attr_old;
 
 			/* TODO: INUSE_ATTRIBUTE_ERR if new_attr already belongs to
 			   another element */
 			this.elem.check_read_only ();
-			this.elem.check_wrong_document (item);
+			this.elem.check_wrong_document (gxml_attr_new);
 
-			/* we take a clone, because libxml2 recycles xmlAttrs apparently(?),
-			   and we'd just return the old xmlAttr but with the new values */
-			old = this.get_named_item (item.node_name);
-			if (old != null) {
-				old = (GXml.Attr)old.clone_node (true);
+			/* If you set an attribute/property in libxml2, it reuses any existing
+			   Xml.Attr with the same name and just changes the value. With GXml,
+			   if you set a new value, we want a new GXml.Attr to represent that,
+			   and we want the old GXml.Attr to represent the old one. */
+			xml_elem = this.elem.node;
+			gxml_attr_old = this.get_named_item (gxml_attr_new.node_name);
+			if (gxml_attr_old != null) {
+				/* TODO: make sure xmlCopyNode is appropriate for xmlAttrs;
+				   xmlCopyProp didn't seem to do what we wanted  */
+				xml_prop_old = (Xml.Attr*)((Xml.Node*)gxml_attr_old.node)->copy (1);
+				gxml_attr_old.set_xmlnode ((Xml.Node*)xml_prop_old, gxml_attr_old.owner_document);
 			}
 
 			/* TODO: instead of using item.node_value, which uses child_nodes
 			         and iterates over them, use xmlNodeListGetString () */
-			this.elem.node->set_prop (item.node_name, item.node_value);
+			xml_prop_new = xml_elem->set_prop (gxml_attr_new.node_name, gxml_attr_new.node_value);
+			gxml_attr_new.set_xmlnode ((Xml.Node*)xml_prop_new, gxml_attr_new.owner_document); // TODO: what of the old xmlNode that gxml_attr_new used to have?
 
-			return old;
+			return gxml_attr_old;
 		}
 
 		public Attr? remove_named_item (string name) {
-			Attr clone;
-			Attr old;
+			Attr gxml_attr_old;
+			Xml.Attr *xml_prop_old;
+			Xml.Node *xml_elem;
 
-			old = this.get_named_item (name);
-			if (old == null) {
+			gxml_attr_old = this.get_named_item (name);
+			if (gxml_attr_old == null) {
 				GXml.warning (DomException.NOT_FOUND,
 					      "No child with name '%s' exists in node '%s'".printf (name, this.elem.node_name));
 				return null;
 			} else {
-				/* Get a clone, because libxml2's xmlRemoveProp frees an
-				 * Attrs memory, and we still want to return a copy */
-				clone = (Attr)old.clone_node (true);
-				/* TODO: implement cloning for Attrs; may need to clone a
-				 *       new xmlAttr, all so Attrs can exist outside
-				 *       of an Element (will we need an out of tree
-				 *       placeholder Element?) THANKS DOM :( */
-				this.elem.node->has_prop (name)->remove ();
-				/* TODO: embed Xml.Attr into GXml.Attr; but then when we
-				 *       remove xmlAttrs, because they'll be freed from
-				 *       memory, we need to invalidate any GXml.Attrs that
-				 *       hold them (which we can find using doc.lookup_attr()
+				/* xmlRemoveProp () frees the underlying Attr memory
+				   preventing us from returning the old attribute.
+				   We could just clone the GXml.Attr with it, but
+				   then the user would get a GXml.Attr for their old
+				   different that would be different from previous GXml.Attrs
+				   for it pre-removal (since they'd now have a clone).
+
+				   So, instead we're going to clone the underlying xmlNode
+				   and we're going to replace the existing GXmlAttr's
+				   underlying xmlNode with the clone, so the user sees
+				   the same GXmlAttr, and it has memory that wasn't freed.
 				 */
-				return clone;
+				xml_elem = this.elem.node;
+				/* TODO: make sure xmlCopyNode is appropriate for xmlAttrs;
+				   xmlCopyProp didn't seem to do what we wanted  */
+				xml_prop_old = (Xml.Attr*)((Xml.Node*)gxml_attr_old.node)->copy (1);
+				gxml_attr_old.set_xmlnode ((Xml.Node*)xml_prop_old, gxml_attr_old.owner_document);
+
+				xml_elem->has_prop (name)->remove ();
+
+				return gxml_attr_old;
 			}
 		}
 
@@ -110,7 +127,7 @@ namespace GXml {
 
 			if (attr == null) {
 				return null;
-			} else {			
+			} else {
 				return this.elem.owner_document.lookup_attr (attr);
 			}
 		}
