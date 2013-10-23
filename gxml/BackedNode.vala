@@ -37,14 +37,17 @@ namespace GXml {
 		/** Private properties */
 		internal Xml.Node *node;
 
+		internal void set_xmlnode (Xml.Node *node, Document owner) {
+			this.node = node;
+			owner.node_dict.insert (node, this);
+		}
+
 		/** Constructors */
 		internal BackedNode (Xml.Node *node, Document owner) {
 			base ((NodeType)node->type, owner);
-			// Considered using node->doc instead, but some subclasses don't have corresponding Xml.Nodes
-			this.node = node;
 
 			// Save the correspondence between this Xml.Node* and its Node
-			owner.node_dict.insert (node, this);
+			this.set_xmlnode (node, owner);
 			// TODO: Consider checking whether the Xml.Node* is already recorded.  It shouldn't be.
 			// TODO: BackedNodes' memory are freed when their owner document is freed; let's make sure that when we move a node between documents, that we make sure they'll still be freed
 		}
