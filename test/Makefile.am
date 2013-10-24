@@ -79,7 +79,7 @@ gxml_test_LDFLAGS = $(AM_LDFLAGS)
 
 BUILT_SOURCES = gxml_test.vala.stamp
 
-CLEANFILES =  $(BUILT_SOURCES) gxml_test
+CLEANFILES = $(gxml_test_SOURCES:.vala=.c) $(BUILT_SOURCES) gxml_test
 
 DISTCLEANFILES = _serialization_test_*.xml
 

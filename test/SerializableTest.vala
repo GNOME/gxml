@@ -227,7 +227,7 @@ class SerializableTest : GXmlTest {
 				try {
 					doc = new Document ();
 					capsicum.serialize (doc);
-				} catch (Error e) {
+				} catch (GLib.Error e) {
 					GLib.message ("%s", e.message);
 					assert_not_reached ();
 				}
@@ -243,7 +243,7 @@ class SerializableTest : GXmlTest {
 
 					try {
 						capsicum_new = (SerializableCapsicum)Serialization.deserialize_object (typeof (SerializableCapsicum), doc);
-					} catch (Error e) {
+					} catch (GLib.Error e) {
 						Test.message ("%s", e.message);
 						assert_not_reached ();
 					}

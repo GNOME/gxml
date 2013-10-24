@@ -176,7 +176,13 @@ BUILT_SOURCES = \
 # 	gxml.vala.stamp
 
 ## File used to indicate whether code needs rebuilding (?)
-CLEANFILES = $(INTROSPECTION_GIRS) $(typelibs_DATA) $(BUILT_SOURCES) $(nodist_typelib_DATA)
+CLEANFILES = \
+	$(INTROSPECTION_GIRS) \
+	$(typelibs_DATA) \
+	$(BUILT_SOURCES) \
+	$(nodist_typelib_DATA) \
+	$(libgxml_la_SOURCES:.vala=.c)
+
 MAINTAINERCLEANFILES = $(BUILT_SOURCES) $(dist_gir_DATA)
 
 

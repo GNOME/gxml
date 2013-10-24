@@ -325,7 +325,7 @@ class SerializationTest : GXmlTest {
 				} catch (GXml.SerializationError e) {
 					Test.message ("%s", e.message);
 					assert_not_reached ();
-				} catch (Error e) {
+				} catch (GLib.Error e) {
 					Test.message ("%s", e.message);
 					assert_not_reached ();
 				}
@@ -370,11 +370,14 @@ class SerializationTest : GXmlTest {
 					Serialization.deserialize_object (typeof (Fruit), doc);
 					Test.message ("Expected SerializationError.UNKNOWN_PROPERTY to be thrown for property 'badname' in object 'Fruit' :(  Did not happen.");
 					assert_not_reached ();
-				} catch (GXml.SerializationError.UNKNOWN_PROPERTY e) {
-					// Pass
 				} catch (GLib.Error e) {
-					Test.message ("%s", e.message);
-					assert_not_reached ();
+					stdout.printf (@"Cought Error: $(e.message)");
+					if (e is GXml.SerializationError.UNKNOWN_PROPERTY) {
+						// pass
+					} else {
+						GLib.message (@"Error is not UNKNOWN_PROPERTY: $(e.message)");
+						assert_not_reached ();
+					}
 				}
 			});
 		Test.add_func ("/gxml/serialization/xml_deserialize_bad_object_type", () => {
@@ -448,7 +451,7 @@ class SerializationTest : GXmlTest {
 					xml = Serialization.serialize_object (obj);
 
 					restored = (ComplexDuplicateProperties)Serialization.deserialize_object (typeof (ComplexDuplicateProperties), xml);
-				} catch (Error e) {
+				} catch (GLib.Error e) {
 					Test.message ("%s", e.message);
 					assert_not_reached ();
 				}
@@ -589,7 +592,7 @@ class SerializationTest : GXmlTest {
 						Test.message ("Regular expression [%s] for test failed: %s",
 							      expectation, e.message);
 						assert_not_reached ();
-					} catch (Error e) {
+					} catch (GLib.Error e) {
 						Test.message ("%s", e.message);
 						assert_not_reached ();
 					}
@@ -612,7 +615,7 @@ class SerializationTest : GXmlTest {
 							Test.message ("Expected [\"%s\", %d, \"%s\", %d] but found [%s]", "blue", 11, "fish", 3, fruit.to_string ());
 							assert_not_reached (); // Note that age sets weight normally
 						}
-					} catch (Error e) {
+					} catch (GLib.Error e) {
 						Test.message ("%s", e.message);
 						assert_not_reached ();
 					}

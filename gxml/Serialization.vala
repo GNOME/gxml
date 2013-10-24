@@ -102,7 +102,7 @@ namespace GXml {
 		private static GXml.Node serialize_property (GLib.Object object,
 		                                             ParamSpec prop_spec,
 		                                             GXml.Document doc)
-						                                         throws Error
+						                                         throws GLib.Error
 		{
 			Type type;
 			Value value;
@@ -210,7 +210,7 @@ namespace GXml {
 		 * @param object A {@link GLib.Object} to serialize
 		 * @return a {@link GXml.Document} representing the serialized `object`
 		 */
-		public static GXml.Document serialize_object (GLib.Object object) throws Error
+		public static GXml.Document serialize_object (GLib.Object object) throws GLib.Error
 		{
 			Document doc;
 			Element root;
@@ -291,7 +291,7 @@ namespace GXml {
 		 */
 		private static void deserialize_property (ParamSpec spec, Element prop_elem,
 		                                          out Value val)
-		                                          throws Error
+		                                          throws GLib.Error
 		{
 			Type type;
 			type = spec.value_type;
@@ -356,7 +356,7 @@ namespace GXml {
 		 * @doc a {@link GXml.Document} to deseralize from
 		 * @return the deserialized {@link GLib.Object}
 		 */
-		public static GLib.Object deserialize_object (Type type, GXml.Document doc) throws Error
+		public static GLib.Object deserialize_object (Type type, GXml.Document doc) throws GLib.Error
 		{
 			if (type.is_a (typeof (Serializable))) {
 				Object object = Object.new (type);
@@ -371,7 +371,7 @@ namespace GXml {
 		 * because Serializable have its own method serialize/deserialize
 		 */
 		internal static GLib.Object? deserialize_object_from_node (GXml.Node obj_node) 
-		                                                          throws Error
+		                                                          throws GLib.Error
 		{
 			Element obj_elem;
 			string otype;

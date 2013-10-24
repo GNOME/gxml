@@ -76,7 +76,7 @@ public class GXml.SerializableJson : GLib.Object, Serializable
    * Is up to you to add convenient Element node to a Document, in order to be
    * used by serialize and add new <Object> tags per object to serialize.
    */
-	public Node? serialize (Node node) throws Error
+	public Node? serialize (Node node) throws GLib.Error
 	{
 		Document doc;
 		Element root;
@@ -101,7 +101,7 @@ public class GXml.SerializableJson : GLib.Object, Serializable
 
 	public virtual GXml.Node? serialize_property (Element element, 
 	                                      GLib.ParamSpec prop)
-	                                      throws Error
+	                                      throws GLib.Error
 	{
 		Type type;
 		Value val;
@@ -165,7 +165,7 @@ public class GXml.SerializableJson : GLib.Object, Serializable
 		return prop_node;
 	}
 
-	public Node? deserialize (Node node) throws Error
+	public Node? deserialize (Node node) throws GLib.Error
 	{
 		Element obj_elem;
 		ParamSpec[] specs;
@@ -185,7 +185,7 @@ public class GXml.SerializableJson : GLib.Object, Serializable
 		return obj_elem;
 	}
 
-	public virtual bool deserialize_property (GXml.Node property_node) throws Error
+	public virtual bool deserialize_property (GXml.Node property_node) throws GLib.Error
 	{
 		//GLib.message ("At SerializableJson.deserialize_property");
 		if (property_node.node_name == "Property")

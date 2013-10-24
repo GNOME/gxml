@@ -109,7 +109,7 @@ namespace GXml {
 		 *
 		 * @doc an {@link GXml.Document} object to serialise to 
 		 */
-		public abstract Node? serialize (Node node) throws Error;
+		public abstract Node? serialize (Node node) throws GLib.Error;
 
 		/**
 		 * Handles serializing individual properties.
@@ -139,7 +139,7 @@ namespace GXml {
 		 */
 		public abstract GXml.Node? serialize_property (Element element,
 		                                               GLib.ParamSpec prop)
-		                                               throws Error;
+		                                               throws GLib.Error;
 
 		/**
 		 * Deserialize this object.
@@ -147,7 +147,7 @@ namespace GXml {
 		 * @node {@link GXml.Node} used to deserialize from.
 		 */
 		public abstract Node? deserialize (Node node)
-		                                  throws Error;
+		                                  throws GLib.Error;
 		/**
 		 * Handles deserializing individual properties.
 		 *
@@ -171,7 +171,7 @@ namespace GXml {
 		 * @return `true` if the property was handled, `false` if {@link GXml.Serialization} should handle it.
 		 */
 		public abstract bool deserialize_property (GXml.Node property_node)
-		                                          throws Error;
+		                                          throws GLib.Error;
 
 		/**
 		 * Signal to serialize unknown properties. Any new node must be added to

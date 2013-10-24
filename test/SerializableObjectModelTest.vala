@@ -115,7 +115,7 @@ public class Package : ObjectModel
 						((Element) node).content = str;
 						element.append_child (node);
 					}
-				} catch (Error e) {
+				} catch (GLib.Error e) {
 					GLib.message (e.message);
 					assert_not_reached ();
 				}
@@ -129,7 +129,7 @@ public class Package : ObjectModel
 					if (element.node_name == "tag") {
 							tags.append_val (((Element) element).content);
 					}
-				} catch (Error e) {
+				} catch (GLib.Error e) {
 					GLib.message (e.message);
 					assert_not_reached ();
 				}
@@ -192,7 +192,7 @@ class SerializableObjectModelTest : GXmlTest
 					assert_not_reached ();
 				}
 			}
-			catch (Error e) 
+			catch (GLib.Error e) 
 			{
 				GLib.message (e.message);
 				assert_not_reached ();
@@ -221,7 +221,7 @@ class SerializableObjectModelTest : GXmlTest
 					stdout.printf (@"ERROR XML_COMPUTER: ghz val: $(computer.ghz)\n");
 					assert_not_reached ();
 				}
-			} catch (Error e)
+			} catch (GLib.Error e)
 			{
 				GLib.message (@"GHz : $(computer.to_string ()) ERROR: $(e.message)");
 				assert_not_reached ();
@@ -247,7 +247,7 @@ class SerializableObjectModelTest : GXmlTest
 					assert_not_reached ();
 				}
 			}
-			catch (Error e) {
+			catch (GLib.Error e) {
 				GLib.message (@"Error: $(e.message)");
 				assert_not_reached ();
 			}
@@ -265,7 +265,7 @@ class SerializableObjectModelTest : GXmlTest
 			}
 			Element element = doc.document_element;
 			serialize_manual_check (element, manual);
-			} catch (Error e) {
+			} catch (GLib.Error e) {
 				stdout.printf (@"$(e.message)");
 				assert_not_reached ();
 			}
@@ -318,7 +318,7 @@ class SerializableObjectModelTest : GXmlTest
 					assert_not_reached ();
 				}
 			}
-			catch (Error e) {
+			catch (GLib.Error e) {
 				GLib.message (@"Error: $(e.message)");
 				assert_not_reached ();
 			}
@@ -348,7 +348,7 @@ class SerializableObjectModelTest : GXmlTest
 					assert_not_reached ();
 				}
 			}
-			catch (Error e) {
+			catch (GLib.Error e) {
 				GLib.message (@"Error: $(e.message)");
 				assert_not_reached ();
 			}
@@ -377,7 +377,7 @@ class SerializableObjectModelTest : GXmlTest
 					assert_not_reached ();
 				}
 			}
-			catch (Error e) {
+			catch (GLib.Error e) {
 				GLib.message (@"Error: $(e.message)");
 				assert_not_reached ();
 			}
@@ -424,7 +424,7 @@ class SerializableObjectModelTest : GXmlTest
 					assert_not_reached ();
 				}
 			}
-			catch (Error e) {
+			catch (GLib.Error e) {
 				GLib.message (@"Error: $(e.message)");
 				assert_not_reached ();
 			}
@@ -451,7 +451,7 @@ class SerializableObjectModelTest : GXmlTest
 				assert_not_reached ();
 			}
 		}
-		catch (Error e) {
+		catch (GLib.Error e) {
 			GLib.message (@"Error: $(e.message)");
 			assert_not_reached ();
 		}

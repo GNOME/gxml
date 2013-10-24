@@ -62,7 +62,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 		default_set_property_value (spec, val);
 	}
 
-	public Node? serialize (Node node) throws Error
+	public Node? serialize (Node node) throws GLib.Error
 	{
 		Document doc;
 		if (node is Document)
@@ -85,7 +85,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 	
 	public GXml.Node? serialize_property (Element element,
 	                                      GLib.ParamSpec prop)
-	                                      throws Error
+	                                      throws GLib.Error
 	{
 		if (prop.value_type.is_a (typeof (Serializable))) 
 		{
@@ -119,7 +119,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 	}
 	
 	public virtual Node? deserialize (Node node)
-	                                  throws Error
+	                                  throws GLib.Error
 	{
 		Document doc;
 		if (node is Document) {
@@ -154,7 +154,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 	}
 
 	public virtual bool deserialize_property (GXml.Node property_node)
-	                                          throws Error
+	                                          throws GLib.Error
 	{
 		bool ret = false;
 		var prop = find_property_spec (property_node.node_name);
