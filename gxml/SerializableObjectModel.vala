@@ -69,17 +69,17 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 			doc = (Document) node;
 		else
 			doc = node.owner_document;
-		GLib.message ("Serialing on ..." + node.node_name);
+		//GLib.message ("Serialing on ..." + node.node_name);
 		var element = doc.create_element (serializable_node_name);
 		node.append_child (element);
 		if (serialized_xml_node_value != null)
 			element.content = serialized_xml_node_value;
-		GLib.message ("Node Value is: ?" + element.content);
+		//GLib.message ("Node Value is: ?" + element.content);
 		foreach (ParamSpec spec in list_serializable_properties ()) {
-			GLib.message ("Property to Serialize: " + spec.name);
+			//GLib.message ("Property to Serialize: " + spec.name);
 			serialize_property (element, spec);
 		}
-		GLib.message ("Added a new top node: " + element.node_name);
+		//GLib.message ("Added a new top node: " + element.node_name);
 		return element;
 	}
 	
@@ -89,7 +89,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 	{
 		if (prop.value_type.is_a (typeof (Serializable))) 
 		{
-			GLib.message (@"$(prop.name) Is a Serializable");
+			//GLib.message (@"$(prop.name) Is a Serializable");
 			var v = Value (typeof (Object));
 			get_property (prop.name, ref v);
 			var obj = (Serializable) v.get_object ();
@@ -107,7 +107,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 			string attr_name = prop.name.down ();
 			var attr = element.get_attribute_node (attr_name);
 			if (attr == null) {
-				GLib.message (@"New Attr to add... $(attr_name)");
+				//GLib.message (@"New Attr to add... $(attr_name)");
 				element.set_attribute (attr_name, val);
 			}
 			else
@@ -136,15 +136,15 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 		return_val_if_fail (element.node_name.down () == serializable_node_name, null);
 		foreach (Attr attr in element.attributes.get_values ())
 		{
-			GLib.message (@"Deseralizing Attribute: $(attr.name)");
+			//GLib.message (@"Deseralizing Attribute: $(attr.name)");
 			deserialize_property (attr);
 		}
 		if (element.has_child_nodes ())
 		{
-			GLib.message ("Have child Elements ...");
+			//GLib.message ("Have child Elements ...");
 			foreach (Node n in element.child_nodes)
 			{
-				GLib.message (@"Deseralizing Element: $(n.node_name)");
+				//GLib.message (@"Deseralizing Element: $(n.node_name)");
 				deserialize_property (n);
 			}
 		}
@@ -159,14 +159,14 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 		bool ret = false;
 		var prop = find_property_spec (property_node.node_name);
 		if (prop == null) {
-			GLib.message ("Found Unknown property: " + property_node.node_name);
+			//GLib.message ("Found Unknown property: " + property_node.node_name);
 			// FIXME: Event emit
 			unknown_serializable_property.set (property_node.node_name, property_node);
 			return true;
 		}
 		if (prop.value_type.is_a (typeof (Serializable)))
 		{
-			GLib.message (@"$(prop.name): Is Serializable...");
+			//GLib.message (@"$(prop.name): Is Serializable...");
 			Value vobj = Value (typeof(Object));
 			get_property (prop.name, ref vobj);
 			if (vobj.get_object () == null) {

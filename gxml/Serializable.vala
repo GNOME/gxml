@@ -244,6 +244,9 @@ namespace GXml {
 			foreach (ParamSpec spec in props) {
 				if (spec.name.down () == property_name.down ())
 					return spec;
+				if (serializable_property_use_nick)
+					if (spec.get_nick ().down () == property_name.down ())
+						return spec;
 			}
 			return null;
 		}

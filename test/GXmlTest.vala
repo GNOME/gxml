@@ -36,6 +36,7 @@ class GXmlTest {
 		ValaLibxml2Test.add_tests ();
 		SerializationTest.add_tests ();
 		SerializableTest.add_tests ();
+		SerializableObjectModelTest.add_tests ();
 
 		Test.run ();
 
