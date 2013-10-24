@@ -924,6 +924,9 @@ namespace Xml {
 
 		[CCode (cname = "xmlCtxtReadIO")]
 		public Doc* read_io (Xml.InputReadCallback ioread, Xml.InputCloseCallback ioclose, void* ioctx, string url, string? encoding = null, int options = 0);
+
+		[CCode (cname = "xmlCtxtGetLastError")]
+		public Error *get_last_error ();
 	}
 
 	/* TODO: consider having this return bool, but right now, 0: valid, >0: invalid, -1: internal/API error */
@@ -1709,7 +1712,7 @@ namespace Xml {
 	[Compact]
 	[CCode (cname = "xmlError", cheader_filename = "libxml/xmlerror.h")]
 	public struct Error {
-		public int domain;
+		public ErrorDomain domain;
 		public int code;
 		public string message;
 		public ErrorLevel level;
@@ -1722,7 +1725,46 @@ namespace Xml {
 		public int int2;
 		public void* ctx;
 		public void* node;
+
+		// TODO: should this just be get_last instead?
+		[CCode (cname = "xmlGetLastError")]
+		public static Xml.Error *get_last_error ();
 	}
+
+	[CCode (cname = "xmlErrorDomain", cprefix = "XML_FROM_", cheader_filename = "libxml/xmlerror.h", has_type_id = false)]
+	public enum ErrorDomain {
+        NONE = 0,
+        PARSER = 1, /* The XML parser */
+        TREE = 2, /* The tree module */
+        NAMESPACE = 3, /* The XML Namespace module */
+        DTD = 4, /* The XML DTD validation with parser contex */
+        HTML = 5, /* The HTML parser */
+        MEMORY = 6, /* The memory allocator */
+        OUTPUT = 7, /* The serialization code */
+        IO = 8, /* The Input/Output stack */
+        FTP = 9, /* The FTP module */
+        HTTP = 10, /* The HTTP module */
+        XINCLUDE = 11, /* The XInclude processing */
+        XPATH = 12, /* The XPath module */
+        XPOINTER = 13, /* The XPointer module */
+        REGEXP = 14, /* The regular expressions module */
+        DATATYPE = 15, /* The W3C XML Schemas Datatype module */
+        SCHEMASP = 16, /* The W3C XML Schemas parser module */
+        SCHEMASV = 17, /* The W3C XML Schemas validation module */
+        RELAXNGP = 18, /* The Relax-NG parser module */
+        RELAXNGV = 19, /* The Relax-NG validator module */
+        CATALOG = 20, /* The Catalog module */
+        C14N = 21, /* The Canonicalization module */
+        XSLT = 22, /* The XSLT engine from libxslt */
+        VALID = 23, /* The XML DTD validation with valid context */
+        CHECK = 24, /* The error checking module */
+        WRITER = 25, /* The xmlwriter module */
+        MODULE = 26, /* The dynamically loaded module modul */
+        I18N = 27, /* The module handling character conversion */
+        SCHEMATRONV = 28, /* The Schematron validator module */
+        BUFFER = 29, /* The buffers module */
+        URI = 30 /*  The URI module */
+    }
 
 	[CCode (cname = "xmlErrorLevel", cprefix = "XML_ERR_", cheader_filename = "libxml/xmlerror.h", has_type_id = false)]
 	public enum ErrorLevel {

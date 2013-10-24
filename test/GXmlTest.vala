@@ -8,6 +8,7 @@ class GXmlTest {
 
 	internal static void test_error (GXml.DomException expected) {
 		if (expected != GXml.last_error) {
+			stderr.printf ("Expected last error [%s] but found [%s]", expected.to_string (), GXml.last_error.to_string ());
 			Test.message ("Expected last error [%s] but found [%s]", expected.to_string (), GXml.last_error.to_string ());
 			Test.fail ();
 		}
@@ -45,7 +46,12 @@ class GXmlTest {
 
 	internal static Document get_doc () {
 		Document doc = null;
-		doc = new Document.from_path (get_test_dir () + "/test.xml");
+		try {
+			doc = new Document.from_path (get_test_dir () + "/test.xml");
+		} catch (GXml.Error e) {
+			GLib.warning (e.message);
+			assert_not_reached ();
+		}
 		return doc;
 	}
 

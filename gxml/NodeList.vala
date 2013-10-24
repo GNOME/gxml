@@ -38,7 +38,7 @@ namespace GXml {
 	 * iteration in supporting languages (like Vala) nice and
 	 * easy.
 	 *
-	 * Version: DOM Level 1 Core
+	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-536297177]]
 	 */
 	public interface NodeList : Gee.Iterable<Node> {
@@ -50,7 +50,7 @@ namespace GXml {
 		/**
 		 * The number of nodes contained within this list
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-length]]
 		 */
 		public abstract ulong length {
@@ -63,7 +63,7 @@ namespace GXml {
 		/**
 		 * Access the idx'th item in the list.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-item]]
 		 */
 		public abstract Node item (ulong idx);
@@ -120,8 +120,8 @@ namespace GXml {
 		 * Obtain the item n places before pivot in the list.
 		 * Like {@link GLib.List.nth_prev}.
 		 *
-		 * @param pivot A reference point in the list, from which we'll count back.
-		 * @param n How many nodes to count back from the reference point.
+		 * @param pivot A reference point in the list, from which we'll count back
+		 * @param n How many nodes to count back from the reference point
 		 *
 		 * @return The node that is `n` nodes before `pivot` in the list
 		 */
@@ -153,7 +153,7 @@ namespace GXml {
 		 *
 		 * @param target A node in the list
 		 *
-		 * @return The position of `target` in the list.
+		 * @return The position of `target` in the list
 		 */
 		public abstract int position (Node target);
 
@@ -173,9 +173,9 @@ namespace GXml {
 		 *
 		 * #todo: write a test
 		 *
-		 * @param in_line Whether to parse and expand entities or not.
+		 * @param in_line Whether to parse and expand entities or not
 		 *
-		 * @return The list as an XML string.
+		 * @return The list as an XML string
 		 */
 		/*
 		 * @todo: write a test
@@ -734,7 +734,7 @@ namespace GXml {
 
 		/**
 		 * Obtain the current Node in the iteration.
-		 * Returns null if there is none, which occurs
+		 * Returns %NULL if there is none, which occurs
 		 * if the list is empty or if iteration has
 		 * not started (next () has never been
 		 * called).
@@ -743,7 +743,8 @@ namespace GXml {
 			if (this.valid) {
 				return this.get_current ();
 			} else {
-				// TODO: file bug, Iterator wants Node, not Node?, but it wants us to be able to return null.
+				/* TODO: file bug, Iterator wants Node, not Node?, but it
+				   wants us to be able to return null. */
 				return null;
 			}
 		}

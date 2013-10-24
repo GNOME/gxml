@@ -30,8 +30,7 @@
  *
  * To create one, use {@link GXml.Document.create_comment}.
  *
- * An XML example looks like: {{{
- * <someNode>
+ * An XML example looks like: {{{  <someNode>
  *    <!-- this is a comment -->
  *    text in the node
  *  </someNode> }}}

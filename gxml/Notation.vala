@@ -47,7 +47,7 @@ namespace GXml {
 			}
 		}
 		/**
-		 * The public identifier for the notation, or null if not set.
+		 * The public identifier for the notation, or %NULL if not set.
 		 */
 		public string? public_id {
 			get {
@@ -57,7 +57,7 @@ namespace GXml {
 			}
 		}
 		/**
-		 * The system identifier for the notation, or null if not set.
+		 * The system identifier for the notation, or %NULL if not set.
 		 */
 		public string? system_id {
 			get {

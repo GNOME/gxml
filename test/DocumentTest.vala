@@ -39,13 +39,45 @@ class DocumentTest : GXmlTest {
 
 				check_contents (doc);
 			});
-		Test.add_func ("/gxml/document/construct_from_stream", () => {
+		Test.add_func ("/gxml/document/construct_from_path_error", () => {
+				Document doc;
 				try {
-					File fin = File.new_for_path (GXmlTest.get_test_dir () + "/test.xml");
-					InputStream instream = fin.read (null);
-					// TODO use cancellable
+					// file does not exist
+					doc = new Document.from_path ("/tmp/asdfjlkansdlfjl");
+					assert_not_reached ();
+				} catch (GXml.Error e) {
+					assert (e is GXml.Error.PARSER);
+				}
+				test_error (DomException.INVALID_DOC);
 
-					Document doc = new Document.from_stream (instream);
+				try {
+					// file exists, but is not XML (it's a directory!)
+					doc = new Document.from_path ("/tmp/");
+					assert_not_reached ();
+				} catch (GXml.Error e) {
+					assert (e is GXml.Error.PARSER);
+				}
+				test_error (DomException.INVALID_DOC);
+
+				try {
+					doc = new Document.from_path ("test_invalid.xml");
+					assert_not_reached ();
+				} catch (GXml.Error e) {
+					assert (e is GXml.Error.PARSER);
+				}
+				test_error (DomException.INVALID_DOC);
+			});
+		Test.add_func ("/gxml/document/construct_from_stream", () => {
+				File fin;
+				InputStream instream;
+				Document doc;
+
+				try {
+					fin = File.new_for_path (GXmlTest.get_test_dir () + "/test.xml");
+					instream = fin.read (null);
+					/* TODO: test GCancellable */
+
+					doc = new Document.from_stream (instream);
 
 					check_contents (doc);
 				} catch (GLib.Error e) {
@@ -53,49 +85,125 @@ class DocumentTest : GXmlTest {
 					assert_not_reached ();
 				}
 			});
-		Test.add_func ("/gxml/document/construct_from_string", () => {
-				string xml = "<Fruits><Apple></Apple><Orange></Orange></Fruits>";
-				Document doc = new Document.from_string (xml);
+		Test.add_func ("/gxml/document/construct_from_stream_error", () => {
+				File fin;
+				InputStream instream;
+				FileIOStream iostream;
+				Document doc;
 
-				GXml.Node root = doc.document_element;
+				try {
+					fin = File.new_tmp ("gxml.XXXXXX", out iostream);
+					instream = fin.read (null);
+					doc = new Document.from_stream (instream);
+					assert_not_reached ();
+				} catch (GXml.Error e) {
+					assert (e is GXml.Error.PARSER);
+				} catch (GLib.Error e) {
+					stderr.printf ("Test encountered unexpected error '%s'\n", e.message);
+					assert_not_reached ();
+				}
+				test_error (DomException.INVALID_DOC);
+			});
+		Test.add_func ("/gxml/document/construct_from_string", () => {
+				string xml;
+				Document doc;
+				GXml.Node root;
+
+				xml = "<Fruits><Apple></Apple><Orange></Orange></Fruits>";
+				doc = new Document.from_string (xml);
+
+				root = doc.document_element;
 				assert (root.node_name == "Fruits");
 				assert (root.has_child_nodes () == true);
 				assert (root.first_child.node_name == "Apple");
 				assert (root.last_child.node_name == "Orange");
 			});
 		Test.add_func ("/gxml/document/save", () => {
-				try {
-					Document doc = get_doc ();
-					int exit_status;
-					doc.save_to_path (GLib.Environment.get_tmp_dir () + "/test_out_path.xml"); // TODO: /tmp because of 'make distcheck' being readonly, want to use GXmlTest.get_test_dir () if readable, though
+				Document doc;
+				int exit_status;
 
-					Process.spawn_sync (null,  { "/usr/bin/diff", GLib.Environment.get_tmp_dir () + "/test_out_path.xml", GXmlTest.get_test_dir () + "/test_out_path_expected.xml" }, null, 0, null, null /* stdout */, null /* stderr */, out exit_status);
+				try {
+					doc = get_doc ();
+					/* TODO: /tmp because of 'make distcheck' being
+					   readonly, want to use GXmlTest.get_test_dir () if
+					   readable, though */
+					doc.save_to_path (GLib.Environment.get_tmp_dir () + "/test_out_path.xml");
+
+					Process.spawn_sync (null,
+							    { "/usr/bin/diff",
+							      GLib.Environment.get_tmp_dir () + "/test_out_path.xml",
+							      GXmlTest.get_test_dir () + "/test_out_path_expected.xml" },
+							    null, 0, null, null /* stdout */, null /* stderr */, out exit_status);
 					assert (exit_status == 0);
 				} catch (GLib.Error e) {
 					Test.message ("%s", e.message);
 					assert_not_reached ();
 				}
 			});
+		Test.add_func ("/gxml/document/save_error", () => {
+				Document doc;
+
+				try {
+					doc = get_doc ();
+					doc.save_to_path ("/tmp/a/b/c/d/e/f/g/h/i");
+					assert_not_reached ();
+				} catch (GXml.Error e) {
+					assert (e is GXml.Error.WRITER);
+				}
+				test_error (DomException.X_OTHER);
+			});
+
 		Test.add_func ("/gxml/document/save_to_stream", () => {
 				try {
-					File fin = File.new_for_path (GXmlTest.get_test_dir () + "/test.xml");
-					InputStream instream = fin.read (null);
-
-					File fout = File.new_for_path (GLib.Environment.get_tmp_dir () + "/test_out_stream.xml");
-					// OutputStream outstream = fout.create (FileCreateFlags.REPLACE_DESTINATION, null); // REPLACE_DESTINATION doesn't work like I thought it would?
-					OutputStream outstream = fout.replace (null, true, FileCreateFlags.REPLACE_DESTINATION, null);
-
-					Document doc = new Document.from_stream (instream);
+					File fin;
+					File fout;
+					InputStream instream;
+					OutputStream outstream;
+					Document doc;
 					int exit_status;
 
+				        fin = File.new_for_path (GXmlTest.get_test_dir () + "/test.xml");
+					instream = fin.read (null);
+
+					fout = File.new_for_path (GLib.Environment.get_tmp_dir () + "/test_out_stream.xml");
+					// OutputStream outstream = fout.create (FileCreateFlags.REPLACE_DESTINATION, null); // REPLACE_DESTINATION doesn't work like I thought it would?
+					outstream = fout.replace (null, true, FileCreateFlags.REPLACE_DESTINATION, null);
+
+					doc = new Document.from_stream (instream);
 					doc.save_to_stream (outstream);
 
-					Process.spawn_sync (null,  { "/usr/bin/diff", GLib.Environment.get_tmp_dir () + "/test_out_stream.xml", GXmlTest.get_test_dir () + "/test_out_stream_expected.xml" }, null, 0, null, null /* stdout */, null /* stderr */, out exit_status);
+					Process.spawn_sync (null,
+			                                    { "/usr/bin/diff",
+							      GLib.Environment.get_tmp_dir () + "/test_out_stream.xml",
+							      GXmlTest.get_test_dir () + "/test_out_stream_expected.xml" },
+							    null, 0, null, null /* stdout */, null /* stderr */, out exit_status);
+
 					assert (exit_status == 0);
 				} catch (GLib.Error e) {
 					Test.message ("%s", e.message);
 					assert_not_reached ();
 				}
+			});
+		Test.add_func ("/gxml/document/save_to_stream_error", () => {
+				try {
+					File fout;
+					FileIOStream iostream;
+					OutputStream outstream;
+					Document doc;
+					int exit_status;
+
+					doc = GXmlTest.get_doc ();
+
+					fout = File.new_tmp ("gxml.XXXXXX", out iostream);
+					outstream = fout.replace (null, true, FileCreateFlags.REPLACE_DESTINATION, null);
+					outstream.close ();
+
+					doc.save_to_stream (outstream);
+					assert_not_reached ();
+				} catch (GXml.Error e) {
+					assert (e is GXml.Error.WRITER);
+				}
+				test_error (DomException.X_OTHER);
 			});
 		Test.add_func ("/gxml/document/create_element", () => {
 				Document doc = get_doc ();

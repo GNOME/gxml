@@ -38,7 +38,7 @@ namespace GXml {
 	 * attributes, as an alternative to manipulating the
 	 * attributes HashMap directly.
 	 *
-	 * Version: DOM Level 1 Core
+	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-745549614]]
 	 */
 	public class Element : BackedNode {
@@ -48,13 +48,13 @@ namespace GXml {
 		/**
 		 * The element's tag_name. Multiple elements can have
 		 * the same tag name in a document. XML example:
-		 * {{{&lt;photos>
-		 *   &lt;img src="..." />
-		 *   &lt;img src="..." />
-		 * &lt;/photos>}}}
+		 * {{{<photos>
+		 *   <img src="..." />
+		 *   <img src="..." />
+		 * </photos>}}}
 		 * In this example, photos and img are tag names.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-104682815]]
 		 */
 		public string tag_name {
@@ -222,10 +222,10 @@ namespace GXml {
 		 * attribute associated with this element with the
 		 * name name.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-666EE0F9]]
 		 *
-		 * @param name The name of the attribute whose value to retrieve.
+		 * @param name The name of the attribute whose value to retrieve
 		 *
 		 * @return The value of the named attribute, or "" if
 		 * no such attribute is set.
@@ -243,11 +243,11 @@ namespace GXml {
 		 * Set the value of this element's attribute named
 		 * name to the string value.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-F68F082]]
 		 *
-		 * @param name Name of the attribute whose value to set.
-		 * @param value The value to set.
+		 * @param name Name of the attribute whose value to set
+		 * @param value The value to set
 		 */
 		public void set_attribute (string name, string value) {
 			// don't need to use insert
@@ -270,10 +270,10 @@ namespace GXml {
 		/**
 		 * Remove the attribute named name from this element.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-6D6AC0F9]]
 		 *
-		 * @param name The name of the attribute to unset.
+		 * @param name The name of the attribute to unset
 		 */
 		public void remove_attribute (string name) {
 			this.check_read_only (); // TODO: check all this.check_*, and see if we should be aborting the current functions on failure or just warn, like here
@@ -284,12 +284,12 @@ namespace GXml {
 		/**
 		 * Get the Attr node representing this element's attribute named name.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-217A91B8]]
 		 *
-		 * @param name The name of the Attr node to retrieve.
+		 * @param name The name of the Attr node to retrieve
 		 *
-		 * @return The Attr node named by name for this element, or null if none is set.
+		 * @return The Attr node named by name for this element, or %NULL if none is set
 		 */
 		public Attr? get_attribute_node (string name) {
 			// TODO: verify that attributes returns null with unknown name
@@ -298,14 +298,14 @@ namespace GXml {
 		/**
 		 * Set the attribute in Attr for this element.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-887236154]]
 		 *
-		 * @param new_attr The attribute to set.
+		 * @param new_attr The attribute to set
 		 *
 		 * @return If an Attr with the same name exists, it
 		 * is replaced and the old Attr is returned.
-		 * Elsewise, null is returned.
+		 * Elsewise, %NULL is returned.
 		 */
 		public Attr set_attribute_node (Attr new_attr) {
 			// TODO: INUSE_ATTRIBUTE_ERR if new_attr already belongs to another element
@@ -325,10 +325,10 @@ namespace GXml {
 		 * Remove Attr old_attr from this element, if it was
 		 * set.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-D589198]]
 		 *
-		 * @param old_attr The Attr we are removing.
+		 * @param old_attr The Attr we are removing
 		 *
 		 * @return The old_attr we wanted to remove, even if
 		 * it wasn't found.
@@ -377,22 +377,38 @@ namespace GXml {
 		}
 
 		/* ** Node methods ** */
+
+		/**
+		 * {@inheritDoc}
+		 */
 		public override unowned Node? insert_before (Node new_child, Node? ref_child) {
 			unowned Node ret = base.insert_before (new_child, ref_child);
 			check_add_tag_name (this, new_child);
 			return ret;
 		}
+
+		/**
+		 * {@inheritDoc}
+		 */
 		public override unowned Node? replace_child (Node new_child, Node old_child) {
 			check_remove_tag_name (this, old_child);
 			unowned Node ret = base.replace_child (new_child, old_child);
 			check_add_tag_name (this, new_child);
 			return ret;
 		}
+
+		/**
+		 * {@inheritDoc}
+		 */
 		public override unowned Node? remove_child (Node old_child) {
 			check_remove_tag_name (this, old_child);
 			unowned Node ret = base.remove_child (old_child);
 			return ret;
 		}
+
+		/**
+		 * {@inheritDoc}
+		 */
 		public override unowned Node? append_child (Node new_child) {
 			unowned Node ret = base.append_child (new_child);
 			check_add_tag_name (this, new_child);
@@ -473,12 +489,12 @@ namespace GXml {
 		 * matches. The returned list is updated as necessary
 		 * as the tree changes.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-1938918D]]
 		 *
-		 * @param tag_name The tag name to match for.
+		 * @param tag_name The tag name to match for
 		 *
-		 * @return A NOdeList containing the matching descendants.
+		 * @return A NodeList containing the matching descendants
 		 */
 		/*TODO: make sure we want to include the current
 		 * element, I think probably not.
@@ -515,7 +531,7 @@ namespace GXml {
 		 * are not distinguishable in XML when stored outside
 		 * of the DOM.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-162CF083]]
 		 */
 		public void normalize () {
@@ -542,9 +558,11 @@ namespace GXml {
 		/**
 		 * This is a convenience property for Elements, useful
 		 * when you want to see Text descendents of an
-		 * element. With the XML example {{{<shops><shop
-		 * id="1">Eeylops Owl Emporium</shop><shop
-		 * id="2">Obscurus Books</shop></shops>}}} taking the
+		 * element. With the XML example
+		 * {{{<shops>
+		 *   <shop id="1">Eeylops Owl Emporium</shop>
+		 *   <shop id="2">Obscurus Books</shop>
+		 * </shops>}}} taking the
 		 * node for the shop element with id 1 and using this
 		 * method, you would get back "Eeylops Owl Emporiums".
 		 * If you used it on the shops element, you'd get

@@ -49,7 +49,7 @@ namespace GXml {
 	 * another node, become that nodes' children, without the
 	 * DocumentFragment itself existing as a child.
 	 *
-	 * Version: DOM Level 1 Core
+	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-B63ED1A3]]
 	 */
 	public class DocumentFragment : BackedNode {

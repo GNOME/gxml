@@ -38,7 +38,7 @@ namespace GXml {
 	 * so some functionality for Text, like split_text, will not
 	 * work completely as expected.
 	 *
-	 * Version: DOM Level 1 Core
+	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-1312295772]]
 	 */
 	public class Text : CharacterData {
@@ -68,7 +68,7 @@ namespace GXml {
 		 * change in the future to comply with the DOM Level 1
 		 * Core spec.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-38853C1D]]
 		 *
 		 * @param offset The point at which to split the Text,

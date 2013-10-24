@@ -30,7 +30,7 @@ namespace GXml {
 	 * It is used by the {@link GXml.CDATASection},
 	 * {@link GXml.Text}, and {@link GXml.Comment} node types.
 	 *
-	 * Version: DOM Level 1 Core
+	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-FF21A306]]
 	 */
 	public class CharacterData : BackedNode {
@@ -38,7 +38,7 @@ namespace GXml {
 		 * The character data in string form for the node.
 		 * Generally equivalent to node_value.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-72AB8359]]
 		 */
 		public string data {
@@ -54,7 +54,7 @@ namespace GXml {
 		/**
 		 * The number of characters.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-7D61178C]]
 		 */
 		public ulong length {
@@ -70,7 +70,7 @@ namespace GXml {
 			// TODO: if this was this (), it would recurse infinitely, maybe valac could detect that
 		}
 
-		protected bool check_index_size (string method, int length, ulong offset, ulong? count) {
+		internal bool check_index_size (string method, int length, ulong offset, ulong? count) {
 			if (offset < 0) {
 				GXml.warning (DomException.INDEX_SIZE, "%s called with offset '%lu' for data of length '%lu'".printf (method, offset, length));
 				return false;
@@ -99,7 +99,7 @@ namespace GXml {
 		 * count-characters long, starting from the character
 		 * at offset.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-6531BCCF]]
 		 */
 		public string substring_data (ulong offset, ulong count) {
@@ -112,7 +112,7 @@ namespace GXml {
 		/**
 		 * Appends `new_segment` to the end of the character data.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-32791A2F]]
 		 *
 		 * @param new_segment The new data that will be appended at the end
@@ -124,7 +124,7 @@ namespace GXml {
 		/**
 		 * Inserts `new_segment` into the character data at `offset`.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-3EDB695F]]
 		 *
 		 * @param offset The index where the new data will be inserted
@@ -144,7 +144,7 @@ namespace GXml {
 		/**
 		 * Deletes a range of characters, `count`-characters long, starting from `offset`.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-7C603781]]
 		 *
 		 * @param offset The index of the first character in the range to be deleted
@@ -162,7 +162,7 @@ namespace GXml {
 		 * Replaces a range of characters, `count`-characters
 		 * long, starting at `offset`, with `new_segment`.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-E5CBA7FB]]
 		 *
 		 * @param offset The index of the first character in the range that will be replaced

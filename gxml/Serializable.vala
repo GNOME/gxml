@@ -135,7 +135,7 @@ namespace GXml {
 		 * @param property_name string name of a property to serialize.
 		 * @param spec the {@link GLib.ParamSpec} describing the property.
 		 * @param doc the {@link GXml.Document} the returned {@link GXml.Node} should belong to
-		 * @return a new {@link GXml.Node}, or `null`
+		 * @return a new {@link GXml.Node}, or %NULL
 		 */
 		public abstract GXml.Node? serialize_property (Element element,
 		                                               GLib.ParamSpec prop)
@@ -327,7 +327,7 @@ namespace GXml {
 		/*
 		 * Get a string version of the specified property
 		 *
-		 * @param spec The property we're retrieving as a string.
+		 * @param spec The property we're retrieving as a string
 		 *
 		 * {@link GXml.Serialization} uses {@link GLib.Object.get_property} (as
 		 * well as {@link GLib.ObjectClass.find_property},

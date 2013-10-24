@@ -33,7 +33,7 @@ namespace GXml {
 	/**
 	 * Describes various error states. For more, see
 	 *
-	 * Version: DOM Level 1 Core
+	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-BBACDC08]]
 	 */
 	public enum DomException {
@@ -103,10 +103,17 @@ namespace GXml {
 		/**
 		 * There was an issue with the namespace.  A qualified name's prefix may have disagreed with the corresponding namespace or vice versa.
 		 *
-		 * Version: DOM Level 3 Core
+		 * Version: DOM Level 3 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/DOM-Level-3-Core/core.html#DOMException-NAMESPACE_ERR]]
 		 */
-		NAMESPACE;
+		NAMESPACE,
+
+		/**
+		 * Non-DOM error
+		 *
+		 * TODO: consider better naming for this
+		 */
+		X_OTHER;
 	}
 }
 

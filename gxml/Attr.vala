@@ -38,19 +38,22 @@
 [CCode (gir_namespace = "GXml", gir_version = "0.3")]
 namespace GXml {
 	/**
-	 * Represents an XML Attr node, a name=value pair.
+	 * An XML Attr node, which represents a name="value" pair.
+	 *
+	 * These represent name="value" attributes associated with XML Elements
+	 * (see {@link GXml.Element}). Values are often represented as strings but can
+	 * also be more complex subtrees for some nodes.
 	 *
 	 * To create one, use {@link GXml.Document.create_attribute}.
 	 *
-	 * These represent name=value attributes associated with XML
-	 * {@link GXml.Element}s. Values are often represented as strings but can
-	 * also be more complex subtrees for some nodes.
+	 * XML Example: Here, we have an Attr with the name 'flavour'
+	 * and the value 'pumpkin'. {{{<pie flavour="pumpkin" />}}}
 	 *
-	 * XML Example: {{{<pie flavour="pumpkin" />}}} Here, we have
-	 * an Attr with the name 'flavour' and the value 'pumpkin'.
+	 * Version: DOM Level 1 Core<<BR>>
 	 *
-	 * Version: DOM Level 1 Core
 	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-637646024]]
+	 *
+	 * @see GXml.Node
 	 */
 	public class Attr : Node {
 		/**
@@ -58,14 +61,11 @@ namespace GXml {
 		 */
 		public override string? namespace_uri {
 			get {
-				// TODO: there can be multiple NSes on a node, using ->next, right now we just return the first.  What should we do?!?!
 				if (this.node->ns == null) {
 					return null;
 				} else {
 					return this.node->ns->href;
 				}
-				// TODO: handle null ns_def
-				// TODO: figure out when node->ns is used, as opposed to ns_def
 			}
 			internal set {
 			}
@@ -108,8 +108,14 @@ namespace GXml {
 
 		/* Public properties (Node general) */
 
+		/* TODO: find out how to get these to appear in GtkDocs, since they're
+		   overriding a base class.  Figure out how to get that multiple lines to
+		   appear in the generated valadoc */
 		/**
 		 * The node_name of an attribute is the attribute's name.
+		 *
+		 * Do not free this.  It's memory will be released
+		 * when the owning {@link GXml.Document} is freed.
 		 */
 		public override string node_name {
 			get {
@@ -171,7 +177,7 @@ namespace GXml {
 		/**
 		 * The name of the attribute's name=value pair.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-1112119403]]
 		 */
 		public string name {
@@ -188,7 +194,7 @@ namespace GXml {
 		 * underlying document. If the attribute is changed,
 		 * it is set to false.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-862529273]]
 		 */
 		/* @todo: this requires support from the DTD, and
@@ -206,7 +212,7 @@ namespace GXml {
 		 * also be accessed as a tree node structure of
 		 * child_nodes.
 		 *
-		 * Version: DOM Level 1 Core
+		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-221662474]]
 		 */
 		public string value {

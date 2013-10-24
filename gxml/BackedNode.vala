@@ -72,6 +72,7 @@ namespace GXml {
 		 */
 		public override string? namespace_uri {
 			get {
+				// TODO: there can be multiple NSes on a node, using ->next, right now we just return the first.  What should we do?!?!
 				if (this.node->ns == null) {
 					return null;
 				} else {
