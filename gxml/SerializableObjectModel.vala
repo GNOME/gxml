@@ -32,7 +32,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 
 	public SerializableObjectModel ()
 	{
-		serializable_property_use_nick = true;
+		serializable_property_use_nick = false;
 		serialized_xml_node_value = null;
 		serializable_node_name = get_type().name().down();
 	}
@@ -104,7 +104,13 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 			Value rval = Value (typeof (string));
 			oval.transform (ref rval);
 			val = rval.dup_string ();
-			string attr_name = prop.name.down ();
+			string attr_name;
+			if (serializable_property_use_nick &&
+			    prop.get_nick () != null &&
+			    prop.get_nick () != "")
+				attr_name = prop.get_nick ();
+			else
+				attr_name = prop.get_name ();
 			var attr = element.get_attribute_node (attr_name);
 			if (attr == null) {
 				//GLib.message (@"New Attr to add... $(attr_name)");

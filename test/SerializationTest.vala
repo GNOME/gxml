@@ -371,7 +371,7 @@ class SerializationTest : GXmlTest {
 					Test.message ("Expected SerializationError.UNKNOWN_PROPERTY to be thrown for property 'badname' in object 'Fruit' :(  Did not happen.");
 					assert_not_reached ();
 				} catch (GLib.Error e) {
-					stdout.printf (@"Cought Error: $(e.message)");
+					//stdout.printf (@"Cought Error: $(e.message)");
 					if (e is GXml.SerializationError.UNKNOWN_PROPERTY) {
 						// pass
 					} else {

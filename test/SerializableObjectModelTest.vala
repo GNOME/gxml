@@ -21,7 +21,7 @@ const string XML_PACKAGE_FILE =
 <tag>Printer</tag><tag>Partner</tag><tag>Support</tag>
 </PACKAGE>""";
 
-const string XML_PACKAGE_UNKNOWN_FILE =
+const string XML_PACKAGE_UNKNOWN_NODES_FILE =
 """<?xml version="1.0"?>
 <PACKAGE source="Mexico/North" destiny="Brazil" Hope="2/4.04">
   <manual document="Sales Card" pages="1">Selling Card Specification</manual>
@@ -100,6 +100,7 @@ public class Package : ObjectModel
 
 	public Package ()
 	{
+		serializable_property_use_nick = true;
 		computer = new Computer ();
 		manual = new Manual ();
 		source = "Mexico";
@@ -123,16 +124,13 @@ public class Package : ObjectModel
 		});
 		((Serializable) this).deserialize_unknown_property.connect ( (element, prop) => {
 			//GLib.message (@"Deserializing Unknown Property: $(prop.name) | $(prop.get_nick ())");
-			if (prop.get_nick () == "tag")
-			{
-				try {
-					if (element.node_name == "tag") {
-							tags.append_val (((Element) element).content);
-					}
-				} catch (GLib.Error e) {
-					GLib.message (e.message);
-					assert_not_reached ();
+			try {
+				if (element.node_name == "tag") {
+						tags.append_val (((Element) element).content);
 				}
+			} catch (GLib.Error e) {
+				GLib.message (e.message);
+				assert_not_reached ();
 			}
 		});
 		//GLib.message ("PACKAGE: Properties.");
@@ -152,6 +150,20 @@ public class Package : ObjectModel
 		return @"Unknown Properties: {$t}";
 	}
 }
+
+public class Monitor : ObjectModel
+{
+	public string resolution { get; set; }
+	[Description (nick="AcPower")]
+	public int ac_power { get; set; }
+	[Description (nick="DcPower")]
+	public int dc_power { get; set; }
+	public Monitor ()
+	{
+		serializable_property_use_nick = true;
+	}
+}
+
 
 class SerializableObjectModelTest : GXmlTest
 {
@@ -426,6 +438,59 @@ class SerializableObjectModelTest : GXmlTest
 			}
 			catch (GLib.Error e) {
 				GLib.message (@"Error: $(e.message)");
+				assert_not_reached ();
+			}
+		}
+		);
+		Test.add_func ("/gxml/serializable/object_model/serialize_property_nick",
+		() => {
+			var doc = new Document ();
+			var monitor = new Monitor ();
+			try {
+				monitor.resolution = "1204x720";
+				monitor.ac_power = 120;
+				monitor.dc_power = 125;
+				monitor.serialize (doc);
+				//stdout.printf (@"DOC: [$(doc)]");
+				if (doc.document_element == null) {
+					stdout.printf ("ERROR MONITOR: No root Element");
+					assert_not_reached ();
+				}
+				Element element = doc.document_element;
+				if (element.node_name != "monitor") {
+					stdout.printf (@"ERROR MONITOR: root Element $(element.node_name)");
+					assert_not_reached ();
+				}
+				var ac = element.get_attribute_node ("AcPower");
+				if (ac == null) {
+					stdout.printf (@"ERROR MONITOR: attribute AcPower not found");
+					assert_not_reached ();
+				}
+				if (ac.node_value != "120") {
+					stdout.printf (@"ERROR MONITOR: AcPower value $(ac.node_value)");
+					assert_not_reached ();
+				}
+				var dc = element.get_attribute_node ("DcPower");
+				if (dc == null) {
+					stdout.printf (@"ERROR MONITOR: attribute DcPower not found");
+					assert_not_reached ();
+				}
+				if (dc.node_value != "125") {
+					stdout.printf (@"ERROR MONITOR: AcPower value $(dc.node_value)");
+					assert_not_reached ();
+				}
+				var r = element.get_attribute_node ("resolution");
+				if (r == null) {
+					stdout.printf (@"ERROR MONITOR: attribute resolution not found");
+					assert_not_reached ();
+				}
+				if (r.node_value != "1204x720") {
+					stdout.printf (@"ERROR MONITOR: resolution value $(r.node_value)");
+					assert_not_reached ();
+				}
+			}
+			catch (GLib.Error e) {
+				stdout.printf (@"Error: $(e.message)");
 				assert_not_reached ();
 			}
 		}
