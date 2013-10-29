@@ -62,6 +62,16 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 		default_set_property_value (spec, val);
 	}
 
+	public virtual bool transform_from_string (string str, ref GLib.Value dest)
+	{
+		return false;
+	}
+
+	public virtual bool transform_to_string (GLib.Value val, ref string str)
+	{
+		return false;
+	}
+
 	public Node? serialize (Node node) throws GLib.Error
 	{
 		Document doc;
@@ -95,33 +105,37 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 			var obj = (Serializable) v.get_object ();
 			return obj.serialize (element);
 		}
-		Node node = null;
 		Value oval = Value (prop.value_type);
 		get_property (prop.name, ref oval);
 		string val = "";
-		if (Value.type_transformable (prop.value_type, typeof (string)))
-		{
-			Value rval = Value (typeof (string));
-			oval.transform (ref rval);
-			val = rval.dup_string ();
-			string attr_name;
-			if (serializable_property_use_nick &&
-			    prop.get_nick () != null &&
-			    prop.get_nick () != "")
-				attr_name = prop.get_nick ();
-			else
-				attr_name = prop.get_name ();
-			var attr = element.get_attribute_node (attr_name);
-			if (attr == null) {
-				//GLib.message (@"New Attr to add... $(attr_name)");
-				element.set_attribute (attr_name, val);
+		if (!transform_to_string (oval, ref val)) {
+			if (Value.type_transformable (prop.value_type, typeof (string)))
+			{
+				Value rval = Value (typeof (string));
+				oval.transform (ref rval);
+				val = rval.dup_string ();
 			}
-			else
-				attr.value = val;
-			return (Node) attr;
+			else {
+				Node node = null;
+				this.serialize_unknown_property (element, prop, out node);
+				return node;
+			}
 		}
-		this.serialize_unknown_property (element, prop, out node);
-		return node;
+		string attr_name;
+		if (serializable_property_use_nick &&
+		    prop.get_nick () != null &&
+		    prop.get_nick () != "")
+			attr_name = prop.get_nick ();
+		else
+			attr_name = prop.get_name ();
+		var attr = element.get_attribute_node (attr_name);
+		if (attr == null) {
+			//GLib.message (@"New Attr to add... $(attr_name)");
+			element.set_attribute (attr_name, val);
+		}
+		else
+			attr.value = val;
+		return (Node) attr;
 	}
 	
 	public virtual Node? deserialize (Node node)
@@ -196,12 +210,14 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 			}
 			if (property_node is GXml.Attr)
 			{
-				Value ptmp = Value (typeof (string));
-				ptmp.set_string (property_node.node_value);
-				if (Value.type_transformable (typeof (string), prop.value_type))
-					ret = ptmp.transform (ref val);
-				else
-					ret = string_to_gvalue (property_node.node_value, ref val);
+				if (!transform_from_string (property_node.node_value, ref val)) {
+					Value ptmp = Value (typeof (string));
+					ptmp.set_string (property_node.node_value);
+					if (Value.type_transformable (typeof (string), prop.value_type))
+						ret = ptmp.transform (ref val);
+					else
+						ret = string_to_gvalue (property_node.node_value, ref val);
+				}
 				set_property (prop.name, val);
 				return ret;
 			}

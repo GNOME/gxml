@@ -68,6 +68,15 @@ public class GXml.SerializableJson : GLib.Object, Serializable
 		default_set_property_value (spec, val);
 	}
 
+	public virtual bool transform_from_string (string str, ref GLib.Value dest)
+	{
+		return false;
+	}
+
+	public virtual bool transform_to_string (GLib.Value val, ref string str)
+	{
+		return false;
+	}
   /**
    * If @node is a Document serialize just add an <Object> element.
    *
@@ -218,7 +227,11 @@ public class GXml.SerializableJson : GLib.Object, Serializable
 				}
 				else {
 					val = Value (type);
-					if (GLib.Value.type_transformable (type, typeof (string))) {
+					if (transform_from_string (prop_elem.content, ref val)) {
+						this.set_property_value (spec, val);
+						return true;
+					}
+					else if (GLib.Value.type_transformable (type, typeof (string))) {
 						Serializable.string_to_gvalue (prop_elem.content, ref val);
 						this.set_property_value (spec, val);
 						//GLib.message (@"Setting value to property $(spec.name)");
@@ -232,6 +245,7 @@ public class GXml.SerializableJson : GLib.Object, Serializable
 
 						property_object = Serialization.deserialize_object_from_node (prop_elem_child);
 						val.set_object (property_object);
+						return true;
 					}
 					else {
 						deserialize_unknown_property_type (prop_elem, spec);
