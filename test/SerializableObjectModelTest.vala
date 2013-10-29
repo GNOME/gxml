@@ -165,6 +165,20 @@ public class Monitor : ObjectModel
 }
 
 
+public class Cpu : ObjectModel
+{
+	public float ghz { get; set; default = (float) 0.0; }
+	public override bool transform_to_string (GLib.Value val, ref string str)
+	{
+		if (val.type ().is_a (typeof (float))) {
+			str = "%.2f".printf (val.get_float ());
+			return true;
+		}
+		return false;
+	}
+}
+
+
 class SerializableObjectModelTest : GXmlTest
 {
 	public static void add_tests ()
@@ -495,6 +509,38 @@ class SerializableObjectModelTest : GXmlTest
 			}
 		}
 		);
+		Test.add_func ("/gxml/serializable/object_model/override_transform_to_string",
+		() => {
+			var cpu = new Cpu ();
+			cpu.ghz = (float) 3.85;
+			var doc = new Document ();
+			cpu.serialize (doc);
+			stdout.printf (@"DOC: $doc");
+			try {
+				cpu.serialize (doc);
+				if (doc.document_element == null) {
+					stdout.printf (@"ERROR CPU: no root element");
+					assert_not_reached ();
+				}
+				if (doc.document_element.node_name != "cpu") {
+					stdout.printf (@"ERROR CPU: root element $(doc.document_element.node_name)");
+					assert_not_reached ();
+				}
+				var ghz = doc.document_element.get_attribute_node ("ghz");
+				if (ghz == null) {
+					stdout.printf (@"ERROR CPU: no attribute ghz");
+					assert_not_reached ();
+				}
+				if (ghz.node_value != "3.85") {
+					stdout.printf (@"ERROR CPU: ghz $(ghz.node_value)");
+					assert_not_reached ();
+				}
+			}
+			catch (GLib.Error e) {
+				stdout.printf (@"Error: $(e.message)");
+				assert_not_reached ();
+			}
+		});
 	}
 	static void serialize_manual_check (Element element, Manual manual)
 	{
