@@ -190,7 +190,7 @@ class DocumentTest : GXmlTest {
 					FileIOStream iostream;
 					OutputStream outstream;
 					Document doc;
-					int exit_status;
+					//int exit_status;
 
 					doc = GXmlTest.get_doc ();
 
@@ -202,6 +202,9 @@ class DocumentTest : GXmlTest {
 					assert_not_reached ();
 				} catch (GXml.Error e) {
 					assert (e is GXml.Error.WRITER);
+				} catch (GLib.Error e) {
+					stdout.printf (@"ERROR: $(e.message)");
+					assert_not_reached ();
 				}
 				test_error (DomException.X_OTHER);
 			});

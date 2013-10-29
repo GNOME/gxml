@@ -1,4 +1,5 @@
 using GXml;
+using Gee;
 
 const string XML_COMPUTER_FILE = 
 """<?xml version="1.0"?>
@@ -28,6 +29,10 @@ const string XML_PACKAGE_UNKNOWN_NODES_FILE =
   <Computer manufacturer="BoxingLAN" model="J24-EX9" cores="32" ghz="1.8"/>
   <Box size="1" volume="33.15" units="cm3" />
 </PACKAGE>""";
+
+const string XML_CPU_FILE =
+"""<?xml version="1.0"?>
+<cpu ghz="3.85" piles="1,2,3"/>""";
 
 public class ObjectModel : SerializableObjectModel
 {
@@ -109,35 +114,20 @@ public class Package : ObjectModel
 			//GLib.message (@"Serializing Unknown Property: $(prop.name) | $(prop.get_nick ())");
 			if (prop.name == "tags")
 			{
-				try {
-					for (int i = 0; i < tags.length; i++) {
-						var str = tags.index (i);
-						node = element.owner_document.create_element ("tag");
-						((Element) node).content = str;
-						element.append_child (node);
-					}
-				} catch (GLib.Error e) {
-					GLib.message (e.message);
-					assert_not_reached ();
+				for (int i = 0; i < tags.length; i++) {
+					var str = tags.index (i);
+					node = element.owner_document.create_element ("tag");
+					((Element) node).content = str;
+					element.append_child (node);
 				}
 			}
 		});
 		((Serializable) this).deserialize_unknown_property.connect ( (element, prop) => {
 			//GLib.message (@"Deserializing Unknown Property: $(prop.name) | $(prop.get_nick ())");
-			try {
-				if (element.node_name == "tag") {
-						tags.append_val (((Element) element).content);
-				}
-			} catch (GLib.Error e) {
-				GLib.message (e.message);
-				assert_not_reached ();
+			if (element.node_name == "tag") {
+					tags.append_val (((Element) element).content);
 			}
 		});
-		//GLib.message ("PACKAGE: Properties.");
-//		ParamSpec[] par = this.get_class().list_properties();
-//		for (int i = 0; i < par.length; i++ ) {
-//			GLib.message (@"Package: Property: $(par[i].name); Type: $(par[i].value_type)");
-//		}
 	}
 
 	public string unknown_to_string ()
@@ -168,13 +158,50 @@ public class Monitor : ObjectModel
 public class Cpu : ObjectModel
 {
 	public float ghz { get; set; default = (float) 0.0; }
+	public Gee.ArrayList<int> piles { get; set; }
+
+	public Cpu ()
+	{
+		piles = new Gee.ArrayList<int> ();
+	}
+
 	public override bool transform_to_string (GLib.Value val, ref string str)
 	{
 		if (val.type ().is_a (typeof (float))) {
 			str = "%.2f".printf (val.get_float ());
 			return true;
 		}
+		if (val.type ().is_a (typeof (Gee.ArrayList))) {
+			str = piles_to_string ();
+			return true;
+		}
 		return false;
+	}
+	public override bool transform_from_string (string str, ref GLib.Value val)
+	{
+		//stdout.printf (@"Transforming from string type $(val.type ().name ())\n");
+		if (val.type ().is_a (typeof (Gee.ArrayList))) {
+			//stdout.printf ("Is ArraySize: from string\n");
+			var a = new Gee.ArrayList<int> ();
+			foreach (string s in str.split (",")) {
+				a.add (int.parse (s));
+			}
+			val.set_object (a);
+			return true;
+		}
+		return false;
+	}
+	public string piles_to_string ()
+	{
+		string str = "";
+		int i = 0;
+		while (i < piles.size) {
+			str += @"$(piles.get (i))";
+			if ( i + 1 < piles.size)
+				str += ",";
+			i++;
+		}
+		return str;
 	}
 }
 
@@ -513,11 +540,13 @@ class SerializableObjectModelTest : GXmlTest
 		() => {
 			var cpu = new Cpu ();
 			cpu.ghz = (float) 3.85;
+			cpu.piles.add (1);
+			cpu.piles.add (2);
+			cpu.piles.add (3);
 			var doc = new Document ();
-			cpu.serialize (doc);
-			stdout.printf (@"DOC: $doc");
 			try {
 				cpu.serialize (doc);
+				//stdout.printf (@"$doc");
 				if (doc.document_element == null) {
 					stdout.printf (@"ERROR CPU: no root element");
 					assert_not_reached ();
@@ -532,7 +561,49 @@ class SerializableObjectModelTest : GXmlTest
 					assert_not_reached ();
 				}
 				if (ghz.node_value != "3.85") {
-					stdout.printf (@"ERROR CPU: ghz $(ghz.node_value)");
+					stdout.printf (@"ERROR CPU: ghz '$(ghz.node_value)'");
+					assert_not_reached ();
+				}
+				var p = doc.document_element.get_attribute_node ("piles");
+				if (p == null) {
+					stdout.printf (@"ERROR CPU: no attribute piles");
+					assert_not_reached ();
+				}
+				if (p.node_value != "1,2,3") {
+					stdout.printf (@"ERROR CPU: piles '$(p.node_value)'");
+					assert_not_reached ();
+				}
+			}
+			catch (GLib.Error e) {
+				stdout.printf (@"Error: $(e.message)");
+				assert_not_reached ();
+			}
+		});
+		Test.add_func ("/gxml/serializable/object_model/override_transform_from_string",
+		() => {
+			var cpu = new Cpu ();
+			var doc = new Document.from_string (XML_CPU_FILE);
+			try {
+				cpu.deserialize (doc);
+				//stdout.printf (@"$doc");
+				if (cpu.ghz != (float) 3.85) {
+					stdout.printf (@"ERROR CPU: ghz '$(cpu.ghz)'");
+					assert_not_reached ();
+				}
+				if (cpu.piles.size != 3) {
+					stdout.printf (@"ERROR CPU: piles size '$(cpu.piles.size)'");
+					assert_not_reached ();
+				}
+				if (!cpu.piles.contains (1)) {
+					stdout.printf (@"ERROR CPU: piles contains 1 '$(cpu.piles_to_string ())'");
+					assert_not_reached ();
+				}
+				if (!cpu.piles.contains (2)) {
+					stdout.printf (@"ERROR CPU: piles contains 2 '$(cpu.piles_to_string ())'");
+					assert_not_reached ();
+				}
+				if (!cpu.piles.contains (3)) {
+					stdout.printf (@"ERROR CPU: piles contains 3 '$(cpu.piles_to_string ())'");
 					assert_not_reached ();
 				}
 			}
@@ -544,26 +615,20 @@ class SerializableObjectModelTest : GXmlTest
 	}
 	static void serialize_manual_check (Element element, Manual manual)
 	{
-		try {
-			var document = element.get_attribute_node ("document");
-			if (document == null) assert_not_reached ();
-			if (document.node_value != manual.document) {
-				stdout.printf (@"ERROR MANUAL:  document: $(document.node_value)\n");
-				assert_not_reached ();
-			}
-			var pages = element.get_attribute_node ("pages");
-			if (pages == null) assert_not_reached ();
-			if (int.parse (pages.node_value) != manual.pages) {
-				stdout.printf (@"ERROR MANUAL: pages: $(pages.node_value)\n");
-				assert_not_reached ();
-			}
-			if (element.content != manual.contents) {
-				stdout.printf (@"ERROR MANUAL: content: $(element.content)\n");
-				assert_not_reached ();
-			}
+		var document = element.get_attribute_node ("document");
+		if (document == null) assert_not_reached ();
+		if (document.node_value != manual.document) {
+			stdout.printf (@"ERROR MANUAL:  document: $(document.node_value)\n");
+			assert_not_reached ();
 		}
-		catch (GLib.Error e) {
-			GLib.message (@"Error: $(e.message)");
+		var pages = element.get_attribute_node ("pages");
+		if (pages == null) assert_not_reached ();
+		if (int.parse (pages.node_value) != manual.pages) {
+			stdout.printf (@"ERROR MANUAL: pages: $(pages.node_value)\n");
+			assert_not_reached ();
+		}
+		if (element.content != manual.contents) {
+			stdout.printf (@"ERROR MANUAL: content: $(element.content)\n");
 			assert_not_reached ();
 		}
 	}

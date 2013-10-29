@@ -184,6 +184,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 			unknown_serializable_property.set (property_node.node_name, property_node);
 			return true;
 		}
+		//stdout.printf (@"Property name: '$(prop.name)' type: '$(prop.value_type.name ())'\n");
 		if (prop.value_type.is_a (typeof (Serializable)))
 		{
 			//GLib.message (@"$(prop.name): Is Serializable...");
@@ -199,17 +200,12 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 			return true;
 		}
 		else {
+			//stdout.printf (@"Not a Serializable object for type: $(prop.value_type.name ())");
 			Value val = Value (prop.value_type);
-			if (Value.type_transformable (typeof (Node), prop.value_type))
-			{
-				Value tmp = Value (typeof (Node));
-				tmp.set_object (property_node);
-				ret = tmp.transform (ref val);
-				set_property (prop.name, val);
-				return ret;
-			}
+			//stdout.printf (@"No Transformable Node registered method for type: '$(prop.value_type.name ())'");
 			if (property_node is GXml.Attr)
 			{
+				//stdout.printf (@"is an GXml.Attr for type: '$(prop.value_type.name ())'; Value type: '$(val.type ().name ())'");
 				if (!transform_from_string (property_node.node_value, ref val)) {
 					Value ptmp = Value (typeof (string));
 					ptmp.set_string (property_node.node_value);
