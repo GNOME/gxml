@@ -72,7 +72,12 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 		return false;
 	}
 
-	public Node? serialize (Node node) throws GLib.Error
+	public virtual Node? serialize (Node node) throws GLib.Error
+	{
+		return default_serialize (node);
+	}
+
+	public Node? default_serialize (Node node) throws GLib.Error
 	{
 		Document doc;
 		if (node is Document)
@@ -92,8 +97,14 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 		//GLib.message ("Added a new top node: " + element.node_name);
 		return element;
 	}
-	
-	public GXml.Node? serialize_property (Element element,
+
+	public virtual GXml.Node? serialize_property (Element element,
+	                                      GLib.ParamSpec prop)
+	                                      throws GLib.Error
+	{
+		return default_serialize_property (element, prop);
+	}
+	public GXml.Node? default_serialize_property (Element element,
 	                                      GLib.ParamSpec prop)
 	                                      throws GLib.Error
 	{
@@ -137,8 +148,13 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 			attr.value = val;
 		return (Node) attr;
 	}
-	
+
 	public virtual Node? deserialize (Node node)
+	                                  throws GLib.Error
+	{
+		return default_deserialize (node);
+	}
+	public Node? default_deserialize (Node node)
 	                                  throws GLib.Error
 	{
 		Document doc;
@@ -174,6 +190,11 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 	}
 
 	public virtual bool deserialize_property (GXml.Node property_node)
+	                                          throws GLib.Error
+	{
+		return default_deserialize_property (property_node);
+	}
+	public bool default_deserialize_property (GXml.Node property_node)
 	                                          throws GLib.Error
 	{
 		bool ret = false;

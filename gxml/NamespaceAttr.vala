@@ -32,13 +32,13 @@ namespace GXml {
 	 */
 	public class NamespaceAttr : Node {
 		/** Private properties */
-		private Xml.Ns *node;
+		private Xml.Ns *ns;
 
 		/** Constructors */
-		internal NamespaceAttr (Xml.Ns *node, Document doc) {
+		internal NamespaceAttr (Xml.Ns *ns, Document doc) {
 			// TODO: wish valac would warn against using this. before calling base()
 			base (NodeType.ATTRIBUTE, doc); // TODO: want something other than ATTRIBUTE?
-			this.node = node;
+			this.ns = ns;
 		}
 
 		/* Public properties (Node general) */
@@ -106,7 +106,7 @@ namespace GXml {
 		 */
 		public override string node_name {
 			get {
-				return this.node->prefix;
+				return this.ns->prefix;
 			}
 			internal set {
 			}
@@ -116,7 +116,7 @@ namespace GXml {
 		 */
 		public override string? node_value {
 			get {
-				return this.node->href;
+				return this.ns->href;
 			}
 			internal set {
 			}

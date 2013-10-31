@@ -127,6 +127,13 @@ namespace GXml {
 			internal set {
 			}
 		}
+		/**
+		 * Add a new namespace to this {@link GXml.Node}
+		 */
+		public virtual NamespaceAttr? add_namespace_attr (string uri, string prefix)
+		{
+			return null;
+		}
 
 		/**
 		 * Stores the namespace prefix for the node. This

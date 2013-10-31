@@ -83,6 +83,18 @@ namespace GXml {
 			}
 		}
 		/**
+		 * Add a new namespace to this {@link GXml.Node}
+		 */
+		public override NamespaceAttr? add_namespace_attr (string uri, string prefix)
+		{
+			//stdout.printf ("BackedNode: Before add new Namespace\n");
+			var ns = this.node->new_ns (uri, prefix);
+			if (ns == null)
+				return null;
+			else
+				return new NamespaceAttr (ns, owner_document);
+		}
+		/**
 		 * {@inheritDoc}
 		 */
 		public override string? prefix {

@@ -205,6 +205,25 @@ public class Cpu : ObjectModel
 	}
 }
 
+class Configuration : ObjectModel
+{
+	public string device { get; set; }
+
+	public Configuration ()
+	{
+		serializable_property_use_nick = true;
+		serializable_node_name = "Configuration";
+	}
+	public override GXml.Node? serialize (GXml.Node node) throws GLib.Error
+	{
+		//stdout.printf ("CONFIGURATION: Before serialize\n");
+		var n = default_serialize (node);
+		//stdout.printf ("CONFIGURATION: After serialize\n");
+		n.add_namespace_attr ("http://www.gnome.org/gxml/0.4", "om");
+		//stdout.printf (@"CONFIGURATION: Created Node: $node\n");
+		return n;
+	}
+}
 
 class SerializableObjectModelTest : GXmlTest
 {
@@ -604,6 +623,42 @@ class SerializableObjectModelTest : GXmlTest
 				}
 				if (!cpu.piles.contains (3)) {
 					stdout.printf (@"ERROR CPU: piles contains 3 '$(cpu.piles_to_string ())'");
+					assert_not_reached ();
+				}
+			}
+			catch (GLib.Error e) {
+				stdout.printf (@"Error: $(e.message)");
+				assert_not_reached ();
+			}
+		});
+		Test.add_func ("/gxml/serializable/object_model/override_serialize",
+		() => {
+			var doc = new Document ();
+			var configuration = new Configuration ();
+			configuration.device = "Controller";
+			try {
+				configuration.serialize (doc);
+				//stdout.printf (@"DOC: $doc");
+				if (doc.document_element == null) {
+					stdout.printf ("DOC: No root element");
+					assert_not_reached ();
+				}
+				Element element = doc.document_element;
+				if (element.node_name != "Configuration") {
+					stdout.printf (@"CONFIGURATION: Bad node name: $(element.node_name)");
+					assert_not_reached ();
+				}
+				bool found = false;
+				foreach (GXml.Node n in element.namespace_definitions)
+				{
+					if (n.node_name == "om" && n.node_value == "http://www.gnome.org/gxml/0.4")
+						found = true;
+				}
+				if (!found) {
+					stdout.printf (@"CONFIGURATION: No namespace found:");
+					foreach (GXml.Node n in element.namespace_definitions) {
+						stdout.printf (@"CONFIGURATION: Defined Namespace: $(n.node_name):$(n.node_value)");
+					}
 					assert_not_reached ();
 				}
 			}
