@@ -588,6 +588,35 @@ namespace GXml {
 
 		/**
 		 * {@inheritDoc}
+		 *
+		 * For {@link GXml.Element} this method copy attributes and child nodes
+		 * when @deep is set to {@link true}.
+		 *
+		 * @node could be owned by other {@link GXml.Document}.
+		 */
+		public override bool copy (ref Node node, bool deep = false)
+		                    requires (node is Element)
+		{
+			node.node_name = this.node_name;
+			((Element) node).content = null;
+			((Element) node).content = this.content;
+			foreach (Attr attr in attributes.get_values ()) {
+				((Element) node).set_attribute (attr.node_name, attr.node_value);
+			}
+			if (has_child_nodes () && deep) {
+				foreach (Node n in child_nodes) {
+					if (n is Element) {
+						var element = (Node) node.owner_document.create_element (n.node_name);
+						n.copy (ref element, true);
+						node.append_child (	element);
+					}
+				}
+			}
+			return true;
+		}
+
+		/**
+		 * {@inheritDoc}
 		 */
 		public override string to_string (bool format = false, int level = 0) {
 			/* TODO: may want to determine a way to only sync when

@@ -481,6 +481,16 @@ namespace GXml {
 		}
 
 		/**
+		 * Creates a copy of node's definition to @node.
+		 *
+		 * @node: a {@link GXml.Node} to copy values to.
+		 * @deep: {@link true} when you want to copy child nodes too.
+		 */
+		public virtual bool copy (ref Node node, bool deep = false) {
+			return false;
+		}
+
+		/**
 		 * Provides a string representation of this node.
 		 *
 		 * Note that if the DOM tree contains a Text node, a

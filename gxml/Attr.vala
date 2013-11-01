@@ -266,6 +266,22 @@ namespace GXml {
 
 		/**
 		 * {@inheritDoc}
+		 *
+		 * For {@link GXml.Attr} this method copy name and value.
+		 *
+		 * @node could be owned by other {@link GXml.Document}.
+		 *
+		 * @deep paramenter have no effect.
+		 */
+		public override bool copy (ref Node node, bool deep = false)
+		               requires (node is Attr)
+		{
+			node.node_name = this.node_name;
+			node.node_value = this.node_value;
+			return true;
+		}
+		/**
+		 * {@inheritDoc}
 		 */
 		public override string to_string (bool format = false, int level = 0) {
 			return "Attr(%s=\"%s\")".printf (this.name, this.value);

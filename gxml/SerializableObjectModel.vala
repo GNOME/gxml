@@ -84,17 +84,29 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 			doc = (Document) node;
 		else
 			doc = node.owner_document;
-		//GLib.message ("Serialing on ..." + node.node_name);
 		var element = doc.create_element (serializable_node_name);
-		node.append_child (element);
-		if (serialized_xml_node_value != null)
-			element.content = serialized_xml_node_value;
-		//GLib.message ("Node Value is: ?" + element.content);
 		foreach (ParamSpec spec in list_serializable_properties ()) {
-			//GLib.message ("Property to Serialize: " + spec.name);
 			serialize_property (element, spec);
 		}
-		//GLib.message ("Added a new top node: " + element.node_name);
+		foreach (Node n in unknown_serializable_property.get_values ()) {
+			if (n is Element) {
+				var e = (Node) doc.create_element (n.node_name);
+				n.copy (ref e, true);
+				element.append_child (e);
+			}
+			if (n is Attr) {
+				element.set_attribute (n.node_name, n.node_value);
+				var a = (Node) element.get_attribute_node (n.node_name);
+				n.copy (ref a);
+			}
+		}
+				// Setting element content
+		if (serialized_xml_node_value != null) {
+			var t = doc.create_text_node (serialized_xml_node_value);
+			element.append_child (t);
+		}
+
+		node.append_child (element);
 		return element;
 	}
 
@@ -110,7 +122,6 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 	{
 		if (prop.value_type.is_a (typeof (Serializable))) 
 		{
-			//GLib.message (@"$(prop.name) Is a Serializable");
 			var v = Value (typeof (Object));
 			get_property (prop.name, ref v);
 			var obj = (Serializable) v.get_object ();
@@ -141,8 +152,8 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 			attr_name = prop.get_name ();
 		var attr = element.get_attribute_node (attr_name);
 		if (attr == null) {
-			//GLib.message (@"New Attr to add... $(attr_name)");
-			element.set_attribute (attr_name, val);
+			if (val != null)
+				element.set_attribute (attr_name, val);
 		}
 		else
 			attr.value = val;
@@ -172,20 +183,19 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 		return_val_if_fail (element.node_name.down () == serializable_node_name.down (), null);
 		foreach (Attr attr in element.attributes.get_values ())
 		{
-			//GLib.message (@"Deseralizing Attribute: $(attr.name)");
 			deserialize_property (attr);
 		}
+		
 		if (element.has_child_nodes ())
 		{
-			//GLib.message ("Have child Elements ...");
 			foreach (Node n in element.child_nodes)
 			{
-				//GLib.message (@"Deseralizing Element: $(n.node_name)");
-				deserialize_property (n);
+				if (n is Text)
+					serialized_xml_node_value = n.node_value;
+				else
+					deserialize_property (n);
 			}
 		}
-		if (element.content != null)
-				serialized_xml_node_value = element.content;
 		return null;
 	}
 
@@ -200,15 +210,13 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 		bool ret = false;
 		var prop = find_property_spec (property_node.node_name);
 		if (prop == null) {
-			//GLib.message ("Found Unknown property: " + property_node.node_name);
 			// FIXME: Event emit
-			unknown_serializable_property.set (property_node.node_name, property_node);
+			if (!(property_node is Text))
+				unknown_serializable_property.set (property_node.node_name, property_node);
 			return true;
 		}
-		//stdout.printf (@"Property name: '$(prop.name)' type: '$(prop.value_type.name ())'\n");
 		if (prop.value_type.is_a (typeof (Serializable)))
 		{
-			//GLib.message (@"$(prop.name): Is Serializable...");
 			Value vobj = Value (typeof(Object));
 			get_property (prop.name, ref vobj);
 			if (vobj.get_object () == null) {
@@ -221,12 +229,9 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 			return true;
 		}
 		else {
-			//stdout.printf (@"Not a Serializable object for type: $(prop.value_type.name ())");
 			Value val = Value (prop.value_type);
-			//stdout.printf (@"No Transformable Node registered method for type: '$(prop.value_type.name ())'");
 			if (property_node is GXml.Attr)
 			{
-				//stdout.printf (@"is an GXml.Attr for type: '$(prop.value_type.name ())'; Value type: '$(val.type ().name ())'");
 				if (!transform_from_string (property_node.node_value, ref val)) {
 					Value ptmp = Value (typeof (string));
 					ptmp.set_string (property_node.node_value);
