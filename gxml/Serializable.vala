@@ -101,8 +101,10 @@ namespace GXml {
 		 */
 		public abstract HashTable<string,GLib.ParamSpec>  ignored_serializable_properties { get; protected set; }
 		/**
-		 * On deserialization stores any {@link Node} not used on this
+		 * On deserialization stores any {@link GXml.Node} not used on this
 		 * object, but exists in current XML file.
+		 *
+		 * Node's name is used as key to find stored {@link GXml.Node}.
 		 *
 		 * This property is ignored on serialisation.
 		 */

@@ -251,6 +251,11 @@ class Configuration : ObjectModel
 	}
 }
 
+class UnknownAttribute : ObjectModel
+{
+	public string name { get; set; default = ""; }
+}
+
 class SerializableObjectModelTest : GXmlTest
 {
 	public static void add_tests ()
@@ -720,6 +725,54 @@ class SerializableObjectModelTest : GXmlTest
 			var nodename = new NodeName ();
 			try {
 				nodename.deserialize (doc);
+			}
+			catch (GLib.Error e) {
+				stdout.printf (@"Error: $(e.message)");
+				assert_not_reached ();
+			}
+		});
+		Test.add_func ("/gxml/serializable/object_model/unknown_property",
+		() => {
+			var doc = new Document.from_string ("""<?xml version="1.0"?>
+			<UnknownAttribute ignore="true" ignore2="test">
+				<UnknownNode toignore = "true" />
+			</UnknownAttribute>""");
+			var unknown_property = new UnknownAttribute ();
+			try {
+				unknown_property.deserialize (doc);
+				if (unknown_property.unknown_serializable_property.size () != 4) {
+					stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: size $(unknown_property.unknown_serializable_property.size ().to_string ())\n");
+					foreach (string s in unknown_property.unknown_serializable_property.get_keys ()) {
+						stdout.printf (@"Saved unknown property: $(s)\n");
+					}
+					assert_not_reached ();
+				}
+				if (!unknown_property.unknown_serializable_property.contains ("ignore")) {
+					stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: ignore not found");
+					assert_not_reached ();
+				}
+				var ignore = unknown_property.unknown_serializable_property.get ("ignore");
+				if (!(ignore is Attr)) {
+					stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: ignore is not an GXml.Attr");
+					assert_not_reached ();
+				}
+				if (!unknown_property.unknown_serializable_property.contains ("ignore2")) {
+					stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: ignore not found");
+					assert_not_reached ();
+				}
+				var ignore2 = unknown_property.unknown_serializable_property.get ("ignore2");
+				if (!(ignore2 is Attr)) {
+					stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: ignore2 is not an GXml.Attr");
+					assert_not_reached ();
+				}
+				if (!unknown_property.unknown_serializable_property.contains ("UnknownNode")) {
+					stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: node UnknownNode not found");
+					assert_not_reached ();
+				}var unknown_node = unknown_property.unknown_serializable_property.get ("UnknownNode");
+				if (!(unknown_node is Element)) {
+					stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: unknown node is not an GXml.Element");
+					assert_not_reached ();
+				}
 			}
 			catch (GLib.Error e) {
 				stdout.printf (@"Error: $(e.message)");
