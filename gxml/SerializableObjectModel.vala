@@ -169,7 +169,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 			element = (Element) node;
 		else
 			element = (Element) doc.document_element;
-		return_val_if_fail (element.node_name.down () == serializable_node_name, null);
+		return_val_if_fail (element.node_name.down () == serializable_node_name.down (), null);
 		foreach (Attr attr in element.attributes.get_values ())
 		{
 			//GLib.message (@"Deseralizing Attribute: $(attr.name)");

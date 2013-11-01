@@ -205,23 +205,49 @@ public class Cpu : ObjectModel
 	}
 }
 
+class NodeName : ObjectModel
+{
+	public bool invalid { get; set; default = true; }
+	public NodeName ()
+	{
+		serializable_node_name = "NodeName";
+	}
+}
+
 class Configuration : ObjectModel
 {
+	public bool invalid { get; set; default = true; }
 	public string device { get; set; }
 
 	public Configuration ()
 	{
 		serializable_property_use_nick = true;
 		serializable_node_name = "Configuration";
+		init_properties (); // initializing properties to be ignored by default
+		ignored_serializable_properties.set ("invalid",
+				                                 get_class ().find_property("invalid"));
 	}
 	public override GXml.Node? serialize (GXml.Node node) throws GLib.Error
 	{
-		//stdout.printf ("CONFIGURATION: Before serialize\n");
 		var n = default_serialize (node);
-		//stdout.printf ("CONFIGURATION: After serialize\n");
 		n.add_namespace_attr ("http://www.gnome.org/gxml/0.4", "om");
-		//stdout.printf (@"CONFIGURATION: Created Node: $node\n");
 		return n;
+	}
+	public override GXml.Node? deserialize (GXml.Node node) throws GLib.Error
+	{
+		//stdout.printf (@"CONFIGURATOR: Namespaces Check");
+		GXml.Node n;
+		if (node is Document)
+			n = (GXml.Node) (((GXml.Document) node).document_element);
+		else
+			n = node;
+		
+		foreach (GXml.Node ns in n.namespace_definitions) {
+			//stdout.printf (@"Namespace = $(ns.node_value)");
+			if (ns.node_name == "om" && ns.node_value == "http://www.gnome.org/gxml/0.4")
+				invalid = false;
+		}
+		return default_deserialize (node);
 	}
 }
 
@@ -661,6 +687,39 @@ class SerializableObjectModelTest : GXmlTest
 					}
 					assert_not_reached ();
 				}
+			}
+			catch (GLib.Error e) {
+				stdout.printf (@"Error: $(e.message)");
+				assert_not_reached ();
+			}
+		});
+		Test.add_func ("/gxml/serializable/object_model/override_deserialize",
+		() => {
+			var doc = new Document.from_string ("""<?xml version="1.0"?>
+<Configuration xmlns:om="http://www.gnome.org/gxml/0.4" device="Sampler"/>""");
+			var configuration = new Configuration ();
+			try {
+				//stdout.printf (@"$doc");
+				configuration.deserialize (doc);
+				if (configuration.invalid == true) {
+					stdout.printf ("CONFIGURATION: deserialize is INVALID\n");
+					foreach (GXml.Node n in doc.document_element.namespace_definitions) {
+						stdout.printf (@"CONFIGURATION: namespace: $(n.node_value)\n");
+					}
+					assert_not_reached ();
+				}
+			}
+			catch (GLib.Error e) {
+				stdout.printf (@"Error: $(e.message)");
+				assert_not_reached ();
+			}
+		});
+		Test.add_func ("/gxml/serializable/object_model/custome_node_name",
+		() => {
+			var doc = new Document.from_string ("""<?xml version="1.0"?><NodeName />""");
+			var nodename = new NodeName ();
+			try {
+				nodename.deserialize (doc);
 			}
 			catch (GLib.Error e) {
 				stdout.printf (@"Error: $(e.message)");

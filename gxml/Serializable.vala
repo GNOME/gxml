@@ -85,10 +85,19 @@ namespace GXml {
 		/**
 		 * Store all properties to be ignored on serialization.
 		 *
+		 * Use property's cannonical name as key and its {@link GLib.ParamSpec}. To
+		 * get the last one use {@link GLib.get_class} and use, again, property's
+		 * cannonical name to find it.
+		 *
+		 * Long named properties like this 'ignored_serializable_properties' are stored
+		 * by GObject using its cannonical name, then you must use it as key, in this
+		 * case use 'ignored-serializable-properties'.
+		 *
 		 * This property is ignored on serialisation.
 		 *
 		 * Implementors: By default {@link list_serializable_properties} initialize
-		 * this property to store all public properties, except this one.
+		 * this property to store all public properties, except this one. Make shure t
+		 * call {@link init_properties()} before add new propeties.
 		 */
 		public abstract HashTable<string,GLib.ParamSpec>  ignored_serializable_properties { get; protected set; }
 		/**
