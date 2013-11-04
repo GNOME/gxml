@@ -245,10 +245,15 @@ class Configuration : ObjectModel
 	}
 }
 
+class FakeSerializable : ObjectModel
+{
+	public string none { get; set; }
+}
 class UnknownAttribute : ObjectModel
 {
 	public string name { get; set; }
 	public Gee.ArrayList<int> array { get; set; }
+	public FakeSerializable fake { get; set; }
 }
 
 class SerializableObjectModelTest : GXmlTest
@@ -742,6 +747,10 @@ class SerializableObjectModelTest : GXmlTest
 				var array = doc.document_element.get_attribute_node ("array");
 				if (array != null) {
 					stdout.printf (@"ERROR: NULL ATTRIBUTE SERIALIZATION: array found $(array.node_name)");
+					assert_not_reached ();
+				}
+				if (doc.document_element.has_child_nodes ()) {
+					stdout.printf (@"ERROR: NULL ATTRIBUTE SERIALIZATION: Nodes found $(doc.document_element.has_child_nodes ())");
 					assert_not_reached ();
 				}
 			}

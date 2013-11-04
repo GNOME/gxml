@@ -125,7 +125,8 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 			var v = Value (typeof (Object));
 			get_property (prop.name, ref v);
 			var obj = (Serializable) v.get_object ();
-			return obj.serialize (element);
+			if (obj != null)
+				return obj.serialize (element);
 		}
 		Value oval = Value (prop.value_type);
 		get_property (prop.name, ref oval);
