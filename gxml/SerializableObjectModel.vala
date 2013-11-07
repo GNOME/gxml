@@ -139,20 +139,30 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 			if (obj != null)
 				return obj.serialize (element);
 		}
-		Value oval = Value (prop.value_type);
+		Value oval;
+		if (prop.value_type.is_a (Type.ENUM))
+			oval = Value (typeof (int));
+		else
+			oval = Value (prop.value_type);
 		get_property (prop.name, ref oval);
 		string val = "";
-		if (!transform_to_string (oval, ref val)) {
-			if (Value.type_transformable (prop.value_type, typeof (string)))
-			{
-				Value rval = Value (typeof (string));
-				oval.transform (ref rval);
-				val = rval.dup_string ();
-			}
-			else {
-				Node node = null;
-				this.serialize_unknown_property (element, prop, out node);
-				return node;
+		if (prop.value_type.is_a (Type.ENUM)) {
+			val = Enumeration.get_nick_camelcase (prop.value_type, oval.get_int ());
+		}
+		else
+		{
+			if (!transform_to_string (oval, ref val)) {
+				if (Value.type_transformable (prop.value_type, typeof (string)))
+				{
+					Value rval = Value (typeof (string));
+					oval.transform (ref rval);
+					val = rval.dup_string ();
+				}
+				else {
+					Node node = null;
+					this.serialize_unknown_property (element, prop, out node);
+					return node;
+				}
 			}
 		}
 		string attr_name;
@@ -249,16 +259,26 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 			return true;
 		}
 		else {
-			Value val = Value (prop.value_type);
+			Value val;
+			if (prop.value_type == Type.ENUM)
+				val = Value (typeof (int));
+			else
+				val = Value (prop.value_type);
 			if (property_node is GXml.Attr)
 			{
-				if (!transform_from_string (property_node.node_value, ref val)) {
-					Value ptmp = Value (typeof (string));
-					ptmp.set_string (property_node.node_value);
-					if (Value.type_transformable (typeof (string), prop.value_type))
-						ret = ptmp.transform (ref val);
-					else
-						ret = string_to_gvalue (property_node.node_value, ref val);
+				if (prop.value_type.is_a (Type.ENUM)) {
+					var env = Enumeration.parse (prop.value_type, property_node.node_value);
+					val.set_enum (env.value);
+				}
+				else {
+					if (!transform_from_string (property_node.node_value, ref val)) {
+						Value ptmp = Value (typeof (string));
+						ptmp.set_string (property_node.node_value);
+						if (Value.type_transformable (typeof (string), prop.value_type))
+							ret = ptmp.transform (ref val);
+						else
+							ret = string_to_gvalue (property_node.node_value, ref val);
+					}
 				}
 				set_property (prop.name, val);
 				return ret;

@@ -268,7 +268,7 @@ public enum OptionsEnum
 	NORMAL_OPERATION
 }
 
-class Options : Object
+class Options : ObjectModel
 {
 	public string test { get; set; }
 	public OptionsEnum options { get; set; }
@@ -907,7 +907,6 @@ class SerializableObjectModelTest : GXmlTest
 		});
 		Test.add_func ("/gxml/serializable/object_model/enumeration",
 		() => {
-			var doc = new Document ();
 			var e = new Options ();
 			try {
 				e.test = "t1";
@@ -951,6 +950,45 @@ class SerializableObjectModelTest : GXmlTest
 				}
 				catch (GLib.Error e) {
 					stdout.printf (@"ERROR PARSING NormalOperation: $(e.message)");
+					assert_not_reached ();
+				}
+				var env = Enumeration.parse (typeof (OptionsEnum), "NormalOperation");
+				Value v = Value (typeof (int));
+				v.set_int (env.value);
+				e.options = (OptionsEnum) v.get_int ();
+				if (e.options != OptionsEnum.NORMAL_OPERATION) {
+					stdout.printf (@"ERROR: setting NormalOperation: $(e.options)");
+					assert_not_reached ();
+				}
+			}
+			catch (GLib.Error e) {
+				stdout.printf (@"Error: $(e.message)");
+				assert_not_reached ();
+			}
+		});
+		Test.add_func ("/gxml/serializable/object_model/enumeration-serialize",
+		() => {
+			var doc = new Document ();
+			var options = new Options ();
+			options.options = OptionsEnum.NORMAL_OPERATION;
+			try {
+				options.serialize (doc);
+				if (doc.document_element == null)  {
+					stdout.printf (@"ERROR: No root node found");
+					assert_not_reached ();
+				}
+				if (doc.document_element.node_name != "options") {
+					stdout.printf (@"ERROR: bad root name:\n$(doc)");
+					assert_not_reached ();
+				}
+				Element element = doc.document_element;
+				var op = element.get_attribute_node ("options");
+				if (op == null) {
+					stdout.printf (@"ERROR: attribute options not found:\n$(doc)");
+					assert_not_reached ();
+				}
+				if (op.node_value != "NormalOperation") {
+					stdout.printf (@"ERROR: attribute options value invalid: $(op.node_value)\n$(doc)");
 					assert_not_reached ();
 				}
 			}
