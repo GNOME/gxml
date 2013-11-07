@@ -79,7 +79,7 @@ namespace GXml {
 		 *
 		 * This property is ignored on serialisation.
 		 */
-		public abstract string serializable_node_name { get; protected set; }
+		public abstract string serializable_node_name ();
 
 		public abstract bool serializable_property_use_nick { get; set; }
 		/**

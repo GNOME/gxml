@@ -28,13 +28,21 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 	public bool serializable_property_use_nick { get; set; }
 	public string? serialized_xml_node_value { get; protected set; default=null; }
 	public GLib.HashTable<string,GXml.Node> unknown_serializable_property { get; protected set; }
-	public string serializable_node_name { get; protected set; }
+
+
+	public virtual string serializable_node_name ()
+	{
+		return default_serializable_node_name ();
+	}
+	public string default_serializable_node_name ()
+	{
+		return get_type().name().down();
+	}
 
 	public SerializableObjectModel ()
 	{
 		serializable_property_use_nick = false;
 		serialized_xml_node_value = null;
-		serializable_node_name = get_type().name().down();
 	}
 
 	public virtual GLib.ParamSpec? find_property_spec (string property_name)
@@ -72,7 +80,10 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 		return false;
 	}
 
-	public virtual Node? serialize (Node node) throws GLib.Error
+	public virtual Node? serialize (Node node)
+	                     throws GLib.Error
+	                     requires (serializable_node_name () != null)
+	                     requires (node is Document || node is Element)
 	{
 		return default_serialize (node);
 	}
@@ -84,7 +95,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 			doc = (Document) node;
 		else
 			doc = node.owner_document;
-		var element = doc.create_element (serializable_node_name);
+		var element = doc.create_element (serializable_node_name ());
 		foreach (ParamSpec spec in list_serializable_properties ()) {
 			serialize_property (element, spec);
 		}
@@ -163,6 +174,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 
 	public virtual Node? deserialize (Node node)
 	                                  throws GLib.Error
+	                                  requires (serializable_node_name () != null)
 	{
 		return default_deserialize (node);
 	}
@@ -182,8 +194,13 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 		else
 			element = (Element) doc.document_element;
 		return_val_if_fail (element != null, null);
-		return_val_if_fail (serializable_node_name != null, null);
-		return_val_if_fail (element.node_name.down () == serializable_node_name.down (), null);
+		if (serializable_node_name () == null) {
+			message (@"WARNING: Object type '$(get_type ().name ())' have no Node Name defined");
+			assert_not_reached ();
+		}
+		if (element.node_name.down () != serializable_node_name ().down ()) {
+			message (@"WARNING: wrong node name is '$(element.node_name.down ())' is different to '$(serializable_node_name ().down ())'");
+		}
 		foreach (Attr attr in element.attributes.get_values ())
 		{
 			deserialize_property (attr);

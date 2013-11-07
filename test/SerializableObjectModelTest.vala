@@ -202,9 +202,9 @@ public class Cpu : ObjectModel
 class NodeName : ObjectModel
 {
 	public bool invalid { get; set; default = true; }
-	public NodeName ()
+	public override string serializable_node_name ()
 	{
-		serializable_node_name = "NodeName";
+		return "NodeName";
 	}
 }
 
@@ -212,11 +212,14 @@ class Configuration : ObjectModel
 {
 	public bool invalid { get; set; default = true; }
 	public string device { get; set; }
-
+	public override string serializable_node_name ()
+	{
+		return "Configuration";
+	}
+	
 	public Configuration ()
 	{
 		serializable_property_use_nick = true;
-		serializable_node_name = "Configuration";
 		init_properties (); // initializing properties to be ignored by default
 		ignored_serializable_properties.set ("invalid",
 				                                 get_class ().find_property("invalid"));
