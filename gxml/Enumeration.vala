@@ -71,7 +71,7 @@ namespace GXml {
 			EnumClass enumc = (EnumClass) enumeration.class_ref ();
 			EnumValue? enumv = enumc.get_value (val);
 			if (enumv == null)
-				throw new SerializableEnumError.INVALID_VALUE ("value is invalid");
+				throw new EnumerationError.INVALID_VALUE ("value is invalid");
 			if (use_nick && enumv.value_nick != null)
 				return enumv.value_nick;
 			if (camelcase && enumv.value_nick != null) {
@@ -105,11 +105,14 @@ namespace GXml {
 					enumv = ev;
 				if (val == ev.value_nick)
 					enumv = ev;
-				if (val == get_nick_camelcase (enumeration, ev.value))
+				string nick = get_nick_camelcase (enumeration, ev.value);
+				if (val == nick)
+					enumv = ev;
+				if (val.down () == nick.down ())
 					enumv = ev;
 			}
 			if (enumv == null)
-				throw new SerializableEnumError.INVALID_NAME ("text is not valid");
+				throw new EnumerationError.INVALID_TEXT ("text is not valid");
 			return enumv;
 		}
 		/**
@@ -129,7 +132,7 @@ namespace GXml {
 			return enumc.values;
 		}
 	}
-	public errordomain SerializableEnumError
+	public errordomain EnumerationError
 	{
 		/**
 		 * Given value is invalid in enumeration, when transform to string.
@@ -138,6 +141,6 @@ namespace GXml {
 		/**
 		 * Given text to transform to an enumeration's value.
 		 */
-		INVALID_NAME
+		INVALID_TEXT
 	}
 }

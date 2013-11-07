@@ -147,7 +147,9 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 		get_property (prop.name, ref oval);
 		string val = "";
 		if (prop.value_type.is_a (Type.ENUM)) {
-			val = Enumeration.get_nick_camelcase (prop.value_type, oval.get_int ());
+			try {
+				val = Enumeration.get_nick_camelcase (prop.value_type, oval.get_int ());
+			} catch (EnumerationError e) { val = null; }
 		}
 		else
 		{
@@ -267,8 +269,12 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 			if (property_node is GXml.Attr)
 			{
 				if (prop.value_type.is_a (Type.ENUM)) {
-					var env = Enumeration.parse (prop.value_type, property_node.node_value);
-					val.set_enum (env.value);
+					EnumValue env;
+					try {
+						env = Enumeration.parse (prop.value_type, property_node.node_value);
+						val.set_enum (env.value);
+					}
+					catch (EnumerationError e) {}
 				}
 				else {
 					if (!transform_from_string (property_node.node_value, ref val)) {

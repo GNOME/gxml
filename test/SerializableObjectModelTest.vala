@@ -991,6 +991,81 @@ class SerializableObjectModelTest : GXmlTest
 					stdout.printf (@"ERROR: attribute options value invalid: $(op.node_value)\n$(doc)");
 					assert_not_reached ();
 				}
+				options.options = (OptionsEnum) (-1); // invaliding this property. Avoids serialize it.
+				var doc2 = new Document ();
+				options.serialize (doc2);
+				var opts = doc2.document_element.get_attribute_node ("options");
+				if (opts != null) {
+					stdout.printf (@"ERROR: attribute options must not be present:\n$(doc)");
+					assert_not_reached ();
+				}
+			}
+			catch (GLib.Error e) {
+				stdout.printf (@"Error: $(e.message)");
+				assert_not_reached ();
+			}
+		});
+		Test.add_func ("/gxml/serializable/object_model/enumeration-deserialize",
+		() => {
+			var options = new Options ();
+			try {
+				var doc = new Document.from_string ("""<?xml version="1.0"?>
+<options options="NormalOperation"/>""");
+				options.deserialize (doc);
+				if (options.options != OptionsEnum.NORMAL_OPERATION)  {
+					stdout.printf (@"ERROR: Bad value to options property: $(options.options)\n$(doc)");
+					assert_not_reached ();
+				}
+				var doc2 = new Document.from_string ("""<?xml version="1.0"?>
+<options options="normal-operation"/>""");
+				options.deserialize (doc2);
+				if (options.options != OptionsEnum.NORMAL_OPERATION)  {
+					stdout.printf (@"ERROR: Bad value to options property: $(options.options)\n$(doc2)");
+					assert_not_reached ();
+				}
+				var doc3 = new Document.from_string ("""<?xml version="1.0"?>
+<options options="selectbefore"/>""");
+				options.deserialize (doc3);
+				if (options.options != OptionsEnum.SelectBefore)  {
+					stdout.printf (@"ERROR: Bad value to options property: $(options.options)\n$(doc3)");
+					assert_not_reached ();
+				}
+				var doc4 = new Document.from_string ("""<?xml version="1.0"?>
+<options options="OPTIONS_ENUM_SelectBefore"/>""");
+				options.deserialize (doc4);
+				if (options.options != OptionsEnum.SelectBefore)  {
+					stdout.printf (@"ERROR: Bad value to options property: $(options.options)\n$(doc4)");
+					assert_not_reached ();
+				}
+				var doc5 = new Document.from_string ("""<?xml version="1.0"?>
+<options options="SelectBefore"/>""");
+				options.deserialize (doc5);
+				if (options.options != OptionsEnum.SelectBefore)  {
+					stdout.printf (@"ERROR: Bad value to options property: $(options.options)\n$(doc5)");
+					assert_not_reached ();
+				}
+				var doc6 = new Document.from_string ("""<?xml version="1.0"?>
+<options options="SELECTBEFORE"/>""");
+				options.deserialize (doc6);
+				if (options.options != OptionsEnum.SelectBefore)  {
+					stdout.printf (@"ERROR: Bad value to options property: $(options.options)\n$(doc6)");
+					assert_not_reached ();
+				}
+				var doc7 = new Document.from_string ("""<?xml version="1.0"?>
+<options options="NORMAL_OPERATION"/>""");
+				options.deserialize (doc7);
+				if (options.options != OptionsEnum.SelectBefore)  {
+					stdout.printf (@"ERROR: Bad value to options property: $(options.options)\n$(doc7)");
+					assert_not_reached ();
+				}
+				var op2 = new Options ();
+				var doc8 = new Document.from_string ("""<?xml version="1.0"?>
+<options options="INVALID"/>""");
+				op2.deserialize (doc8);
+				if (op2.options != OptionsEnum.SelectBefore)  {
+					stdout.printf (@"ERROR: Bad value to options property: $(op2.options)\n$(doc8)");
+					assert_not_reached ();
+				}
 			}
 			catch (GLib.Error e) {
 				stdout.printf (@"Error: $(e.message)");
