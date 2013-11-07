@@ -259,6 +259,21 @@ class UnknownAttribute : ObjectModel
 	public FakeSerializable fake { get; set; }
 }
 
+public enum OptionsEnum
+{
+	[Description (nick="SelectionOption")]
+	SelectBefore,
+	HoldOn,
+	LeaveHeare,
+	NORMAL_OPERATION
+}
+
+class Options : Object
+{
+	public string test { get; set; }
+	public OptionsEnum options { get; set; }
+}
+
 class SerializableObjectModelTest : GXmlTest
 {
 	public static void add_tests ()
@@ -810,7 +825,7 @@ class SerializableObjectModelTest : GXmlTest
 				assert_not_reached ();
 			}
 		});
-		Test.add_func ("/gxml/serializable/object_model/serialize_unknown_property",
+		Test.add_func ("/gxml/serializable/object_model/deserialize_unknown_property",
 		() => {
 			var doc = new Document.from_string ("""<?xml version="1.0"?>
 			<UnknownAttribute ignore="true" ignore2="test">
@@ -882,6 +897,60 @@ class SerializableObjectModelTest : GXmlTest
 				// TODO: serialized_xml_node_value have more text than expected, may be a bug in Document.to_string ()
 				if (!unknown_property.serialized_xml_node_value.contains ("FAKE TEXT")) {
 					stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: Bad UnknownAttribute node's content text $(unknown_property.serialized_xml_node_value)");
+					assert_not_reached ();
+				}
+			}
+			catch (GLib.Error e) {
+				stdout.printf (@"Error: $(e.message)");
+				assert_not_reached ();
+			}
+		});
+		Test.add_func ("/gxml/serializable/object_model/enumeration",
+		() => {
+			var doc = new Document ();
+			var e = new Options ();
+			try {
+				e.test = "t1";
+				e.options = OptionsEnum.SelectBefore;
+				string s = Enumeration.get_string (typeof (OptionsEnum), e.options);
+				if (s != "OPTIONS_ENUM_SelectBefore") {
+					stdout.printf (@"ERROR: Bad Enum stringification: $(s)");
+					assert_not_reached ();
+				}
+				s = Enumeration.get_nick (typeof (OptionsEnum), e.options);
+				if (s != "selectbefore") {
+					stdout.printf (@"ERROR: Bad Enum nick name: $(s)");
+					assert_not_reached ();
+				}
+				s = Enumeration.get_nick (typeof (OptionsEnum),OptionsEnum.NORMAL_OPERATION);
+				if (s != "normal-operation") {
+					stdout.printf (@"ERROR: Bad Enum nick name: $(s)");
+					assert_not_reached ();
+				}
+				s = Enumeration.get_nick_camelcase (typeof (OptionsEnum),OptionsEnum.NORMAL_OPERATION);
+				if (s != "NormalOperation") {
+					stdout.printf (@"ERROR: Bad Enum nick name: $(s)");
+					assert_not_reached ();
+				}
+				try {
+					Enumeration.parse (typeof (OptionsEnum), "selectbefore");
+				}
+				catch (GLib.Error e) {
+					stdout.printf (@"ERROR PARSING selectbefore: $(e.message)");
+					assert_not_reached ();
+				}
+				try {
+					Enumeration.parse (typeof (OptionsEnum), "normal-operation");
+				}
+				catch (GLib.Error e) {
+					stdout.printf (@"ERROR PARSING normal-operation: $(e.message)");
+					assert_not_reached ();
+				}
+				try {
+					Enumeration.parse (typeof (OptionsEnum), "NormalOperation");
+				}
+				catch (GLib.Error e) {
+					stdout.printf (@"ERROR PARSING NormalOperation: $(e.message)");
 					assert_not_reached ();
 				}
 			}
