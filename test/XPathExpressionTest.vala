@@ -301,7 +301,7 @@ class XPathExpressionTest : GXmlTest {
 					assert (result.nodeset_value[0] != null);
 					assert (result.nodeset_value[0] is Element);
 
-					context = result.nodeset_value[0].attributes["id"];
+					context = result.nodeset_value[0].attributes.get_named_item ("id");
 					assert (context != null);
 					assert (context is Attr);
 
