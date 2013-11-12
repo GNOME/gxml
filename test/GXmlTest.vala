@@ -38,6 +38,7 @@ class GXmlTest {
 		SerializationTest.add_tests ();
 		SerializableTest.add_tests ();
 		SerializableObjectModelTest.add_tests ();
+		SerializableGeeTreeMapTest.add_tests ();
 
 		Test.run ();
 

@@ -74,7 +74,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     return false;
   }
 
-  public virtual Node? serialize (Node node)
+  public virtual GXml.Node? serialize (GXml.Node node)
                        throws GLib.Error
                        requires (node_name () != null)
                        requires (node is Document || node is Element)
@@ -82,7 +82,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     return default_serialize (node);
   }
 
-  public Node? default_serialize (Node node) throws GLib.Error
+  public GXml.Node? default_serialize (GXml.Node node) throws GLib.Error
   {
     Document doc;
     if (node is Document)
@@ -115,13 +115,13 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     return element;
   }
 
-  public virtual GXml.Node? serialize_property (Element element,
+  public virtual GXml.Node? serialize_property (GXml.Element element,
                                         GLib.ParamSpec prop)
                                         throws GLib.Error
   {
     return default_serialize_property (element, prop);
   }
-  public GXml.Node? default_serialize_property (Element element,
+  public GXml.Node? default_serialize_property (GXml.Element element,
                                         GLib.ParamSpec prop)
                                         throws GLib.Error
   {
@@ -178,13 +178,13 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     return (Node) attr;
   }
 
-  public virtual Node? deserialize (Node node)
+  public virtual GXml.Node? deserialize (GXml.Node node)
                                     throws GLib.Error
                                     requires (node_name () != null)
   {
     return default_deserialize (node);
   }
-  public Node? default_deserialize (Node node)
+  public GXml.Node? default_deserialize (GXml.Node node)
                                     throws GLib.Error
   {
     Document doc;

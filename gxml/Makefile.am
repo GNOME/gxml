@@ -65,6 +65,8 @@ libgxml_la_SOURCES = \
 	SerializableObjectModel.vala \
 	SerializableJson.vala \
 	Serialization.vala \
+	SerializableGeeTreeMap.vala \
+	SerializableMapId.vala \
 	$(NULL)
 
 gxml.vala.stamp: $(libgxml_la_SOURCES)
