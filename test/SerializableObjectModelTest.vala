@@ -95,11 +95,11 @@ public class Package : ObjectModel
 	public string destiny { get; set; }
 	[Description (nick="tag", blurb="tags in package")]
 	public Array<string> tags { get {return _tags;} }
-	
+
+	public override bool property_use_nick () { return true; }
 
 	public Package ()
 	{
-		serializable_property_use_nick = true;
 		computer = new Computer ();
 		manual = new Manual ();
 		source = "Mexico";
@@ -142,10 +142,8 @@ public class Monitor : ObjectModel
 	public int ac_power { get; set; }
 	[Description (nick="DcPower")]
 	public int dc_power { get; set; }
-	public Monitor ()
-	{
-		serializable_property_use_nick = true;
-	}
+
+	public override bool property_use_nick () { return true; }
 }
 
 
@@ -202,24 +200,18 @@ public class Cpu : ObjectModel
 class NodeName : ObjectModel
 {
 	public bool invalid { get; set; default = true; }
-	public override string serializable_node_name ()
-	{
-		return "NodeName";
-	}
+	public override string node_name () { return "NodeName"; }
 }
 
 class Configuration : ObjectModel
 {
 	public bool invalid { get; set; default = true; }
 	public string device { get; set; }
-	public override string serializable_node_name ()
-	{
-		return "Configuration";
-	}
+	public override string node_name () { return "Configuration"; }
+	public override bool property_use_nick () { return true; }
 	
 	public Configuration ()
 	{
-		serializable_property_use_nick = true;
 		init_properties (); // initializing properties to be ignored by default
 		ignored_serializable_properties.set ("invalid",
 				                                 get_class ().find_property("invalid"));

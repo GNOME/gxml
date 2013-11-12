@@ -73,16 +73,6 @@ namespace GXml {
 	public interface Serializable : GLib.Object {
 		protected abstract ParamSpec[] properties { get; set; }
 		/**
-		 * Defines the way to set Node name.
-		 *
-		 * By default is set to object's type's name lowercase.
-		 *
-		 * This property is ignored on serialisation.
-		 */
-		public abstract string serializable_node_name ();
-
-		public abstract bool serializable_property_use_nick { get; set; }
-		/**
 		 * Store all properties to be ignored on serialization.
 		 *
 		 * Use property's cannonical name as key and its {@link GLib.ParamSpec}. To
@@ -116,7 +106,15 @@ namespace GXml {
 		 * This property is ignored on serialisation.
 		 */
 		public abstract string?  serialized_xml_node_value { get; protected set; default = null; }
-
+		/**
+		 * Defines the way to set Node name.
+		 */
+		public abstract string node_name ();
+    /**
+		 * Defines the way to set Node's property name, by using
+		 * it's nick instead of default name.
+		 */
+		public abstract bool property_use_nick ();
 		/**
 		 * Serialize this object.
 		 *
@@ -262,7 +260,7 @@ namespace GXml {
 			foreach (ParamSpec spec in props) {
 				if (spec.name.down () == property_name.down ())
 					return spec;
-				if (serializable_property_use_nick)
+				if (property_use_nick ())
 					if (spec.get_nick ().down () == property_name.down ())
 						return spec;
 			}
@@ -291,10 +289,6 @@ namespace GXml {
 				                                     get_class ().find_property("unknown-serializable-property"));
 				ignored_serializable_properties.set ("serialized-xml-node-value",
 				                                     get_class ().find_property("serialized-xml-node-value"));
-				ignored_serializable_properties.set ("serializable-property-use-nick",
-				                                     get_class ().find_property("serializable-property-use-nick"));
-				ignored_serializable_properties.set ("serializable-node-name",
-				                                     get_class ().find_property("serializable-node-name"));
 			}
 			if (unknown_serializable_property == null) {
 				unknown_serializable_property = new HashTable<string,GXml.Node> (str_hash, str_equal);

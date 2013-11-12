@@ -36,12 +36,12 @@ public class GXml.SerializableJson : GLib.Object, Serializable
 {
 	/* Serializable Interface properties */
 	protected ParamSpec[] properties { get; set; }
-	public bool serializable_property_use_nick { get; set; }
 	public HashTable<string,GLib.ParamSpec>  ignored_serializable_properties { get; protected set; }
 	public HashTable<string,GXml.Node>    unknown_serializable_property { get; protected set; }
-
-	public string serializable_node_name () { return ""; }
-	public string?  serialized_xml_node_value { get; protected set; default = null; }
+  public string?  serialized_xml_node_value { get; protected set; default = null; }
+ 
+	public virtual string node_name () { return "Object"; }
+	public virtual bool property_use_nick () { return false; }
 
 	public virtual GLib.ParamSpec? find_property_spec (string property_name)
 	{
