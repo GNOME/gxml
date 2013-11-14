@@ -111,9 +111,11 @@ public class GXml.SerializableTreeMap<K,V> : Gee.TreeMap<K,V>, Serializable
   }
   public GXml.Node? default_deserialize (GXml.Node node)
                     throws GLib.Error
-                    requires (value_type.is_a (typeof (GXml.Serializable)))
-                    requires (value_type.is_a (typeof (SerializableMapId)))
   {
+    if (!(value_type.is_a (typeof (GXml.Serializable)) &&
+        value_type.is_a (typeof (SerializableMapId)))) {
+      throw new SerializableError.UNSUPPORTED_TYPE ("Value type '%s' is unsupported", value_type.name ());
+    }
     if (node is Element) {
       foreach (GXml.Node n in node.child_nodes) {
         var obj = Object.new (value_type);
