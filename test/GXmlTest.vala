@@ -40,6 +40,7 @@ class GXmlTest {
 		SerializableObjectModelTest.add_tests ();
 		SerializableGeeTreeMapTest.add_tests ();
 		SerializableGeeDualKeyMapTest.add_tests ();
+		SerializableGeeArrayListTest.add_tests ();
 
 		Test.run ();
 

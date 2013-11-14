@@ -69,6 +69,7 @@ libgxml_la_SOURCES = \
 	SerializableMapId.vala \
 	SerializableGeeDualKeyMap.vala \
 	SerializableMapDualId.vala \
+	SerializableGeeArrayList.vala \
 	$(NULL)
 
 gxml.vala.stamp: $(libgxml_la_SOURCES)
