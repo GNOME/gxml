@@ -108,6 +108,11 @@ namespace GXml {
 		internal Xml.Doc *xmldoc;
 
 		/* *** Private methods *** */
+		internal unowned Attr? lookup_attr (Xml.Attr *xmlattr) {
+			// Xml.Attr and Xml.Node are intentionally compatible
+			return (Attr)this.lookup_node ((Xml.Node*)xmlattr);
+		}
+
 		internal unowned Node? lookup_node (Xml.Node *xmlnode) {
 			unowned Node domnode;
 
@@ -119,7 +124,8 @@ namespace GXml {
 			if (domnode == null) {
 				// If we don't have a cached the appropriate Node for a given Xml.Node* yet, create it (type matters)
 				// TODO: see if we can attach logic to the enum {} to handle this
-				switch ((NodeType)xmlnode->type) {
+				NodeType nodetype = (NodeType)xmlnode->type;
+				switch (nodetype) {
 				case NodeType.ELEMENT:
 					new Element (xmlnode, this);
 					break;
@@ -135,27 +141,17 @@ namespace GXml {
 				case NodeType.DOCUMENT_FRAGMENT:
 					new DocumentFragment (xmlnode, this);
 					break;
-					/* TODO: These are not yet implemented */
-				case NodeType.ENTITY_REFERENCE:
-					// new EntityReference (xmlnode, this);
-					break;
-				case NodeType.ENTITY:
-					// new Entity (xmlnode, this);
-					break;
-				case NodeType.PROCESSING_INSTRUCTION:
-					// new ProcessingInstruction (xmlnode, this);
-					break;
-				case NodeType.DOCUMENT_TYPE:
-					// new DocumentType (xmlnode, this);
-					break;
-				case NodeType.NOTATION:
-					// new Notation (xmlnode, this);
-					break;
 				case NodeType.ATTRIBUTE:
-					// TODO: error
+					new Attr ((Xml.Attr*)xmlnode, this);
 					break;
+					/* TODO: These are not yet implemented (but we won't support Document */
+				case NodeType.ENTITY_REFERENCE:
+				case NodeType.ENTITY:
+				case NodeType.PROCESSING_INSTRUCTION:
+				case NodeType.DOCUMENT_TYPE:
+				case NodeType.NOTATION:
 				case NodeType.DOCUMENT:
-					// TODO: error
+					GLib.warning ("Looking up %s from an xmlNode* is not supported", nodetype.to_string ());
 					break;
 				}
 
@@ -224,8 +220,6 @@ namespace GXml {
 
 		~Document () {
 			List<Xml.Node*> to_free = new List<Xml.Node*> ();
-
-			sync_dirty_elements ();
 
 			/* we use two separate loops, because freeing
 			   a node frees its descendants, and we might
@@ -519,32 +513,6 @@ namespace GXml {
 		}
 
 		/**
-		 * This should be called by any function that wants to
-		 * look at libxml2 data structures, particularly the
-		 * attributes of elements.  Such as: saving an Xml.Doc
-		 * to disk, or stringifying an Xml.Node.  GXml
-		 * developer, if you grep for ".node" and ".xmldoc",
-		 * you can help identify potential points where you
-		 * should sync.
-		 */
-		internal void sync_dirty_elements () {
-			Xml.Node *tmp_node;
-
-			// TODO: test that adding attributes works with stringification and saving
-			if (this.dirty_elements.length () > 0) {
-				// tmp_node for generating Xml.Ns* objects when saving attributes
-				tmp_node = new Xml.Node (null, "tmp");
-				foreach (Element elem in this.dirty_elements) {
-					elem.save_attributes (tmp_node);
-				}
-				this.dirty_elements = new List<Element> (); // clear the old list
-
-				tmp_node->free ();
-			}
-		}
-
-
-		/**
 		 * Saves a Document to the file at path file_path
 		 *
 		 * @param file_path A path on the local system to save the document to
@@ -555,8 +523,6 @@ namespace GXml {
 		public void save_to_path (string file_path) throws GXml.Error {
 			string errmsg;
 			Xml.Error *e;
-
-			sync_dirty_elements ();
 
 			// TODO: change this to a GIO file so we can save to in a cool way
 
@@ -595,8 +561,6 @@ namespace GXml {
 			OutputStreamBox box = { outstream, can };
 			string errmsg = null;
 			Xml.Error *e;
-
-			sync_dirty_elements ();
 
 			/* TODO: provide Cancellable as user data and let these check it
 			         so we can actually be interruptible */
@@ -916,7 +880,6 @@ namespace GXml {
 			string str;
 			int len;
 
-			sync_dirty_elements ();
 			this.xmldoc->dump_memory_format (out str, out len, format);
 
 			return str;
@@ -1045,7 +1008,6 @@ namespace GXml {
 		}
 
 		internal unowned Node copy_node (Node foreign_node, bool deep = true) {
-			foreign_node.owner_document.sync_dirty_elements ();
 			Xml.Node *our_copy_xml = ((BackedNode)foreign_node).node->doc_copy (this.xmldoc, deep ? 1 : 0);
 			// TODO: do we need to append this to this.new_nodes?  Do we need to append the result to this.nodes_to_free?  Test memory implications
 			return this.lookup_node (our_copy_xml); // inducing a GXmlNode

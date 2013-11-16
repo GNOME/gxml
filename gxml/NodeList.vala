@@ -370,14 +370,14 @@ namespace GXml {
 		}
 	}
 
-	/* TODO: warning: this list should NOT be edited :(
-	   we need a new, better live AttrNodeList :| */
-	internal class AttrNodeList : GListNodeList {
-		internal AttrNodeList (Node root, Document owner) {
-			base (root);
-			base.nodes = root.attributes.get_values ();
-		}
-	}
+	// /* TODO: warning: this list should NOT be edited :(
+	//    we need a new, better live AttrNodeList :| */
+	// internal class AttrNodeList : GListNodeList {
+	// 	internal AttrNodeList (Node root, Document owner) {
+	// 		base (root);
+	// 		base.nodes = root.attributes.get_values ();
+	// 	}
+	// }
 
 	internal class NamespaceAttrNodeList : GListNodeList {
 		internal NamespaceAttrNodeList (BackedNode root, Document owner) {
@@ -415,6 +415,7 @@ namespace GXml {
 			}
 		}
 	}
+
 	internal class AttrChildNodeList : ChildNodeList {
 		Xml.Attr *parent;
 
@@ -425,6 +426,11 @@ namespace GXml {
 			set {
 				parent->children = value;
 			}
+		}
+
+		internal AttrChildNodeList (Xml.Attr* parent, Document owner) {
+			this.parent = parent;
+			this.owner = owner;
 		}
 
 		internal override Xml.Node *parent_as_xmlnode {
@@ -438,11 +444,6 @@ namespace GXml {
 				   or not. */
 				return (Xml.Node*)parent;
 			}
-		}
-
-		internal AttrChildNodeList (Xml.Attr* parent, Document owner) {
-			this.parent = parent;
-			this.owner = owner;
 		}
 	}
 	internal class EntityChildNodeList : ChildNodeList {
