@@ -239,6 +239,7 @@ namespace GXml {
 			else
 				return ""; // IDL says empty string, TODO: consider null instead
 		}
+
 		/**
 		 * Set the value of this element's attribute named
 		 * name to the string value.
