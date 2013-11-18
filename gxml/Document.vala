@@ -1007,10 +1007,20 @@ namespace GXml {
 			return (xmldoc->children != null);
 		}
 
+		/**
+		 * This is used to create a copy of a node.  The node
+		 * can come from another document but the copy will
+		 * belong to this one.  The copied node is owned by
+		 * this document which will manage its memory.
+		 *
+		 * @param foreign_node A node from another document.
+		 * @param deep Whether to clone its descendants
+		 *
+		 * @return An unowned reference to the copied node; this should not be freed
+		 */
 		internal unowned Node copy_node (Node foreign_node, bool deep = true) {
 			Xml.Node *our_copy_xml = ((BackedNode)foreign_node).node->doc_copy (this.xmldoc, deep ? 1 : 0);
-			// TODO: do we need to append this to this.new_nodes?  Do we need to append the result to this.nodes_to_free?  Test memory implications
-			return this.lookup_node (our_copy_xml); // inducing a GXmlNode
+			return this.lookup_node (our_copy_xml); // inducing a GXmlNode for the xmlNode*
 		}
 	}
 }
