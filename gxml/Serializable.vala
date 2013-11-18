@@ -146,6 +146,36 @@ namespace GXml {
 		}
 
 		/**
+		 * Handles serializing individual properties.
+		 *
+		 * Interface method to handle serialization of an
+		 * individual property.  The implementing class
+		 * receives a description of it, and should create a
+		 * {@link GXml.Node} that encapsulates the property.
+		 * {@link GXml.Serialization} will embed the {@link GXml.Node} into
+		 * a "Property" {@link GXml.Element}, so the {@link GXml.Node}
+		 * returned can often be something as simple as
+		 * {@link GXml.Text}.
+		 *
+		 * To let {@link GXml.Serialization} attempt to automatically
+		 * serialize the property itself, do not implement
+		 * this method.  If the method returns %NULL,
+		 * {@link GXml.Serialization} will attempt handle it itself.
+		 *
+		 * @param property_name String name of a property to serialize
+		 * @param spec The {@link GLib.ParamSpec} describing the property
+		 * @param doc The {@link GXml.Document} the returned {@link GXml.Node} should belong to
+		 *
+		 * @return a new {@link GXml.Node}, or %NULL
+		 */
+		public virtual GXml.Node?
+		serialize_property (string property_name,
+				    GLib.ParamSpec spec,
+				    GXml.Document doc) {
+			return null;
+		}
+
+		/**
 		 * Handle deserialization of an object beyond its
 		 * properties.
 		 *
@@ -203,34 +233,6 @@ namespace GXml {
 			return false; // default deserialize_property gets used
 		}
 
-		/**
-		 * Handles serializing individual properties.
-		 *
-		 * Interface method to handle serialization of an
-		 * individual property.  The implementing class
-		 * receives a description of it, and should create a
-		 * {@link GXml.Node} that encapsulates the property.
-		 * {@link GXml.Serialization} will embed the {@link GXml.Node} into
-		 * a "Property" {@link GXml.Element}, so the {@link GXml.Node}
-		 * returned can often be something as simple as
-		 * {@link GXml.Text}.
-		 *
-		 * To let {@link GXml.Serialization} attempt to automatically
-		 * serialize the property itself, do not implement
-		 * this method.  If the method returns %NULL,
-		 * {@link GXml.Serialization} will attempt handle it itsel.
-		 *
-		 * @param property_name string name of a property to serialize
-		 * @param spec the {@link GLib.ParamSpec} describing the property
-		 * @param doc the {@link GXml.Document} the returned {@link GXml.Node} should belong to
-		 * @return a new {@link GXml.Node}, or %NULL
-		 */
-		/*
-		 * @todo: consider not giving property_name, let them get name from spec?
-		 */
-		public virtual GXml.Node? serialize_property (string property_name, /*GLib.Value value, */ GLib.ParamSpec spec, GXml.Document doc) {
-			return null; // default serialize_property gets used
-		}
 
 		/* Correspond to: g_object_class_{find_property,list_properties} */
 
