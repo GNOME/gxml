@@ -376,8 +376,11 @@ namespace GXml {
 		 * @TODO: want to throw other relevant errors */
 
 		/**
-		 * Insert {@link new_child} as a child to this node, and place
-		 * it in the list before {@link ref_child}.
+		 * Insert {@link new_child} as a child to this node,
+		 * and place it in the list before {@link ref_child}.
+		 * If {@link new_child} comes from another document, a copy
+		 * of it belonging to this document is appended and
+		 * returned.
 		 *
 		 * If {@link ref_child} is %NULL, {@link new_child} is appended to the
 		 * list of children instead.
@@ -398,7 +401,10 @@ namespace GXml {
 		}
 
 		/**
-		 * Replaces {@link old_child} with {@link new_child} in this node's list of children.
+		 * Replaces {@link old_child} with {@link new_child}
+		 * in this node's list of children.  If {@link new_child}
+		 * comes from another document, a copy of it belonging
+		 * to this document is appended and returned.
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-replaceChild]]
@@ -432,8 +438,11 @@ namespace GXml {
 		}
 
 		/**
-		 * Appends {@link new_child} to the end of this node's list of children,
-		 * {@link GXml.Node.child_nodes}.
+		 * Appends {@link new_child} to the end of this node's
+		 * list of children, {@link GXml.Node.child_nodes}.
+		 * If the child comes from another document, a copy of
+		 * it belonging to this document is appended and
+		 * returned.
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 *
@@ -442,7 +451,9 @@ namespace GXml {
 		 * @param new_child A new {@link GXml.Node} that will
 		 * become the last child of this current node
 		 *
-		 * @return The newly added child, {@link new_child}.  Do not free it, its memory will be
+		 * @return The newly added child, {@link new_child}, or a
+		 * copy of it if {@link new_child} came from another
+		 * document.  Do not free it, its memory will be
 		 * released when the owning {@link GXml.Document} is
 		 * freed.
 		 */
