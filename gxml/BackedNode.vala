@@ -263,7 +263,8 @@ namespace GXml {
 		 * {@inheritDoc}
 		 */
 		public override unowned Node? append_child (Node new_child) {
-			if (new_child.owner_document != this.owner_document && new_child.get_type ().is_a (typeof (GXml.BackedNode))) {
+			if (new_child.owner_document != this.owner_document
+			    && new_child.get_type ().is_a (typeof (GXml.BackedNode))) {
 				/* The point here is that a node from another document should
 				   have a copy made to be integrated into this one, so we
 				   don't mess up the other document.  (TODO: consider
