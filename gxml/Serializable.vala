@@ -2,6 +2,7 @@
 /* Serializable.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
+ * Copyright (C) 2013  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,6 +19,7 @@
  *
  * Authors:
  *      Richard Schwarting <aquarichy@gmail.com>
+ *      Daniel Espinosa <esodan@gmail.com>
  */
 
 
@@ -69,6 +71,103 @@ namespace GXml {
 	 * For an example, look in tests/XmlSerializableTest
 	 */
 	public interface Serializable : GLib.Object {
+		/**
+		 * Handles serializing potential tasks beyond
+		 * serializing individual properties.
+		 *
+		 * {@link doc} is the {@link GXml.Document} that will
+		 * ultimately contain the serialized object.  You can
+		 * use it to create the {@link GXml.Node}s you want to
+		 * add from here to the serialized object, like
+		 * {@link GXml.Element}s, {@link GXml.DocumentFragment}s,
+		 * and {@link GXml.Text}s.  Return your completed XML
+		 * structure as a {@link GXml.Node} and it will be
+		 * added to an <Object> element in the serialized XML.
+		 *
+		 * Example:
+		 *
+		 * Say we have a {@link GLib.Object}, Cookie, which
+		 * looks like this in Vala,
+		 *
+		 * {{{
+		 * class Cookie {
+		 *   string flavour {}
+		 *   int mass {}
+		 * }
+		 * }}}
+		 *
+		 * The default serialized XML might look like this
+		 *
+		 * {{{
+		 * <Object otype="Cookie" oid="0xC00C1E5">
+		 *   <Property ptype="gchar*" pname="flavour">Chocolate chip</Property>
+		 *   <Property ptype="int" pname="mass">28</Property>
+		 * </Object>
+		 * }}}
+		 *
+		 * If we want additional information not connected to
+		 * any of the properties, we could extend the Cookie
+		 * class like this:
+		 *
+		 * {{{
+		 * class Cookie : Serializable {
+		 *   string flavour {}
+		 *   int mass {}
+		 *   public override Node? serialize (Document doc)
+		 *     throws SerializationError {
+		 *     return doc.create_comment ("<!-- baked on Nov 16 2013 by Wallace Wells -->");
+		 *   }
+		 * }}}
+		 *
+		 * This would result in the following serialized XML:
+		 *
+		 * {{{
+		 * <Object otype="Cookie" oid="0xC00C1E5">
+		 *   <!-- baked on Nov 16 2013 by Wallace Wells -->
+		 *   <Property ptype="gchar*" pname="flavour">Chocolate chip</Property>
+		 *   <Property ptype="int" pname="mass">28</Property>
+		 * </Object>
+		 * }}}
+		 *
+		 * If you want to completely handle serialization of
+		 * your object yourself in {@link Serializable.serialize},
+		 * you can prevent automatic serialization of properties
+		 * by listing them in the {@link Serializable.properties_blacklist}
+		 * or by overriding {@link Serializable.serialize_property}
+		 * and simply returning true.
+		 *
+		 * @param doc The {@link GXml.Document} that contains serialized XML, used to create new {@link GXml.Node}s
+		 *
+		 * @return A {@link GXml.Node} representing serialized content from the implementing object
+		 */
+		public virtual GXml.Node?
+		serialize (GXml.Document doc) {
+			return null;
+		}
+
+		/**
+		 * Handle deserialization of an object beyond its
+		 * properties.
+		 *
+		 * This can cover deserialization tasks outside of
+		 * just properties, like initialising variables
+		 * normally handled by a constructor.  (Note that when
+		 * deserializing, an object's constructor is not
+		 * called.)
+		 *
+		 * @param serialized_node The XML representation of this object
+		 */
+		public virtual void
+		deserialize (GXml.Node serialized_node) {
+			return;
+		}
+
+		/* TODO: consider making the visibility of all of
+		 * these interface virtual methods to protected or
+		 * internal.  In theory, only Serialization should
+		 * need to actually see them.
+		 */
+
 		/**
 		 * Handles deserializing individual properties.
 		 *
