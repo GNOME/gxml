@@ -229,7 +229,10 @@ namespace GXml {
 		 * letting them get name from spec
 		 * @todo: consider returning {@link GLib.Value} as out param
 		 */
-		public virtual bool deserialize_property (string property_name, /* out GLib.Value value,*/ GLib.ParamSpec spec, GXml.Node property_node) {
+		public virtual bool
+		deserialize_property (string property_name,
+				      GLib.ParamSpec spec,
+				      GXml.Node property_node) {
 			return false; // default deserialize_property gets used
 		}
 
