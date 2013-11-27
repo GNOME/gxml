@@ -332,7 +332,7 @@ namespace GXml {
 				prop_elem_child = prop_elem.first_child;
 
 				try {
-					property_object = Serialization.deserialize_object_from_node (prop_elem_child);
+					property_object = Serialization.deserialize_object (prop_elem_child);
 					val.set_object (property_object);
 					transformed = true;
 				} catch (GXml.SerializationError e) {
@@ -388,10 +388,7 @@ namespace GXml {
 		 * @param doc {@link GXml.Document} representing a {@link GLib.Object}
 		 * @return the deserialized {@link GLib.Object}
 		 */
-		public static GLib.Object deserialize_object (GXml.Document doc) throws SerializationError {
-			return deserialize_object_from_node (doc.document_element);
-		}
-		internal static GLib.Object deserialize_object_from_node (GXml.Node obj_node) throws SerializationError {
+		public static GLib.Object deserialize_object (GXml.Node node) throws SerializationError {
 			Element obj_elem;
 			string otype;
 			string oid;
@@ -401,7 +398,11 @@ namespace GXml {
 			ParamSpec[] specs;
 			Serializable serializable = null;
 
-			obj_elem = (Element)obj_node;
+			if (node.get_type ().is_a (typeof (GXml.Document))) {
+				obj_elem = (node as GXml.Document).document_element as GXml.Element;
+			} else {
+				obj_elem = node as GXml.Element;
+			}
 
 			// If the object has been deserialised before, get it from cache
 			oid = obj_elem.get_attribute ("oid");
