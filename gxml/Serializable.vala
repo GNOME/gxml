@@ -132,8 +132,7 @@ namespace GXml {
 		 * If you want to completely handle serialization of
 		 * your object yourself in {@link Serializable.serialize},
 		 * you can prevent automatic serialization of properties
-		 * by listing them in the {@link Serializable.properties_blacklist}
-		 * or by overriding {@link Serializable.serialize_property}
+		 * by overriding {@link Serializable.serialize_property}
 		 * and simply returning true.
 		 *
 		 * @param doc The {@link GXml.Document} that contains serialized XML, used to create new {@link GXml.Node}s
