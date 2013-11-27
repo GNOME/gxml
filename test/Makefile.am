@@ -41,6 +41,7 @@ gxml_test_SOURCES = \
 	SerializableGeeTreeMapTest.vala \
 	SerializableGeeDualKeyMapTest.vala \
 	SerializableGeeArrayListTest.vala \
+	SerializableGeeCollectionsTest.vala \
 	$(NULL)
 
 gxml_test.vala.stamp: $(gxml_test_SOURCES)

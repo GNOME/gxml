@@ -263,6 +263,15 @@ namespace GXml {
         if (property_use_nick ())
           if (spec.get_nick ().down () == property_name.down ())
             return spec;
+        if ("-" in spec.name) {
+          string[] sp = spec.name.split ("-");
+          string n = "";
+          foreach (string s in sp) {
+            n += @"$(s[0])".up () + @"$(s[1:s.length])";
+          }
+          if (n.down () == property_name.down ())
+            return spec;
+        }
       }
       return null;
     }

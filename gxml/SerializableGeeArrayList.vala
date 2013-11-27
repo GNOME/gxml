@@ -112,13 +112,17 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable
   }
   public GXml.Node? default_deserialize (GXml.Node node)
                     throws GLib.Error
-                    requires (element_type.is_a (typeof (GXml.Serializable)))
   {
+    if (!element_type.is_a (typeof (GXml.Serializable))) {
+      throw new SerializableError.UNSUPPORTED_TYPE ("Value type '%s' is unsupported", element_type.name ());
+    }
     if (node is Element) {
       foreach (GXml.Node n in node.child_nodes) {
-        var obj = (Serializable) Object.new (element_type);
-        obj.deserialize (n);
-        add (obj);
+        if (n is Element) {
+          var obj = (Serializable) Object.new (element_type);
+          obj.deserialize (n);
+          add (obj);
+        }
       }
     }
     return node;

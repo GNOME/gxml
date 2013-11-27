@@ -207,18 +207,25 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     if (element.node_name.down () != node_name ().down ()) {
       message (@"WARNING: wrong node name is '$(element.node_name.down ())' is different to '$(node_name ().down ())'");
     }
+#if DEBUG
+    stdout.printf (@"Deserialize Node: $(element.node_name)\n");
+    stdout.printf (@"Node is: $(element)\n\n");
+    stdout.printf (@"Attributes in Node: $(element.node_name)\n");
+#endif
     foreach (Attr attr in element.attributes.get_values ())
     {
       deserialize_property (attr);
     }
-    
+#if DEBUG
+    stdout.printf (@"Elements Nodes in Node: $(element.node_name)\n");
+#endif
     if (element.has_child_nodes ())
     {
       foreach (Node n in element.child_nodes)
       {
         if (n is Text)
           serialized_xml_node_value = n.node_value;
-        else
+        else if (n is Element)
           deserialize_property (n);
       }
     }
@@ -233,6 +240,9 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
   public bool default_deserialize_property (GXml.Node property_node)
                                             throws GLib.Error
   {
+#if DEBUG
+    stdout.printf (@"Deserialize Property Node: $(property_node.node_name)\n");
+#endif
     bool ret = false;
     var prop = find_property_spec (property_node.node_name);
     if (prop == null) {

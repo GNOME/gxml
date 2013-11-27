@@ -196,14 +196,18 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable
   }
   public GXml.Node? default_deserialize (GXml.Node node)
                     throws GLib.Error
-                    requires (value_type.is_a (typeof (GXml.Serializable)))
-                    requires (value_type.is_a (typeof (SerializableMapDualId)))
   {
+    if (!(value_type.is_a (typeof (GXml.Serializable)) &&
+        value_type.is_a (typeof (SerializableMapDualId)))) {
+      throw new SerializableError.UNSUPPORTED_TYPE ("Value type '%s' is unsupported", value_type.name ());
+    }
     if (node is Element) {
       foreach (GXml.Node n in node.child_nodes) {
-        var obj = (SerializableMapDualId<P,S>) Object.new (value_type);
-        ((Serializable) obj).deserialize (n);
-        @set (obj.primary_id (), obj.secondary_id (), obj);
+        if (n is Element) {
+          var obj = (SerializableMapDualId<P,S>) Object.new (value_type);
+          ((Serializable) obj).deserialize (n);
+          @set (obj.primary_id (), obj.secondary_id (), obj);
+        }
       }
     }
     return node;

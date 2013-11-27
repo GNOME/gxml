@@ -118,9 +118,14 @@ public class GXml.SerializableTreeMap<K,V> : Gee.TreeMap<K,V>, Serializable
     }
     if (node is Element) {
       foreach (GXml.Node n in node.child_nodes) {
-        var obj = Object.new (value_type);
-        ((Serializable) obj).deserialize (n);
-        @set (((SerializableMapId<K>) obj).id (), obj);
+        if (n is Element) {
+#if DEBUG
+          stdout.printf (@"Node $(node.node_name) for type '$(get_type ().name ())'\n");
+#endif
+          var obj = Object.new (value_type);
+          ((Serializable) obj).deserialize (n);
+          @set (((SerializableMapId<K>) obj).id (), obj);
+        }
       }
     }
     return node;
