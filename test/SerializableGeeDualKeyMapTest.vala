@@ -167,7 +167,7 @@ class SerializableGeeDualKeyMapTest : GXmlTest
     () => {
       try {
         var doc = new Document.from_string ("""<?xml version="1.0"?>
-<root><spaces name="Small" owner="Wall"/><spaces name="Smallest" owner="Wall"/><spaces name="Big" owner="Floor"/><spaces name="Bigger" owner="Floor"/></root>""");
+<root><spaces name="Small" owner="Wall"/><spaces name="Smallest" owner="Wall"/><spaces name="Big" owner="Floor"/><spaces name="Bigger" owner="Floor"/><spark /></root>""");
         var c = new SerializableDualKeyMap<string,string,Spaces> ();
         c.deserialize (doc.document_element);
         if (c.size != 4) {

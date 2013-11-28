@@ -114,7 +114,8 @@ public class GXml.SerializableTreeMap<K,V> : Gee.TreeMap<K,V>, Serializable
   {
     if (!(value_type.is_a (typeof (GXml.Serializable)) &&
         value_type.is_a (typeof (SerializableMapId)))) {
-      throw new SerializableError.UNSUPPORTED_TYPE ("Value type '%s' is unsupported", value_type.name ());
+      throw new SerializableError.UNSUPPORTED_TYPE ("%s: Value type '%s' is unsupported", 
+                                                    this.get_type ().name (), value_type.name ());
     }
     if (node is Element) {
       foreach (GXml.Node n in node.child_nodes) {
@@ -123,8 +124,10 @@ public class GXml.SerializableTreeMap<K,V> : Gee.TreeMap<K,V>, Serializable
           stdout.printf (@"Node $(node.node_name) for type '$(get_type ().name ())'\n");
 #endif
           var obj = Object.new (value_type);
-          ((Serializable) obj).deserialize (n);
-          @set (((SerializableMapId<K>) obj).id (), obj);
+          if (n.node_name == ((Serializable) obj).node_name ()) {
+            ((Serializable) obj).deserialize (n);
+            @set (((SerializableMapId<K>) obj).id (), obj);
+          }
         }
       }
     }

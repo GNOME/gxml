@@ -204,10 +204,10 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       message (@"WARNING: Object type '$(get_type ().name ())' have no Node Name defined");
       assert_not_reached ();
     }
-    if (element.node_name.down () != node_name ().down ()) {
-      message (@"WARNING: wrong node name is '$(element.node_name.down ())' is different to '$(node_name ().down ())'");
-    }
 #if DEBUG
+    if (element.node_name.down () != node_name ().down ()) {
+      GLib.warning (@"Actual node's name is '$(element.node_name.down ())' expected '$(node_name ().down ())'");
+    }
     stdout.printf (@"Deserialize Node: $(element.node_name)\n");
     stdout.printf (@"Node is: $(element)\n\n");
     stdout.printf (@"Attributes in Node: $(element.node_name)\n");
