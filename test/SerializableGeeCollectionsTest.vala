@@ -5,9 +5,9 @@ using Gee;
 
 class SerializableGeeCollectionsTest : GXmlTest
 {
-  class Planet : SerializableObjectModel, SerializableMapId<string>
+  class Planet : SerializableObjectModel, SerializableMapKey<string>
   {
-    public string id () { return name; }
+    public string get_map_key () { return name; }
     public string name { get; set; }
     public Planet.named (string name) { this.name = name; }
     public override string node_name () { return "planet"; }
@@ -15,9 +15,9 @@ class SerializableGeeCollectionsTest : GXmlTest
 
     public class Collection : SerializableTreeMap<string,Planet> {}
   }
-  class Space : SerializableObjectModel, SerializableMapId<string>
+  class Space : SerializableObjectModel, SerializableMapKey<string>
   {
-    public string id () { return name; }
+    public string get_map_key () { return name; }
     public string name { get; set; }
     public Planet.Collection planets { get; set; }
     
@@ -40,7 +40,7 @@ class SerializableGeeCollectionsTest : GXmlTest
 
     public class Collection : SerializableTreeMap<string,Space> {}
   }
-  class Refaction : SerializableObjectModel, SerializableMapDualId<string,string>
+  class Refaction : SerializableObjectModel, SerializableMapDualKey<string,string>
   {
     public string model { get; set; }
     public string manufacturer { get; set; }
@@ -52,8 +52,8 @@ class SerializableGeeCollectionsTest : GXmlTest
       this.model = model;
     }
     
-    public string primary_id () { return manufacturer; }
-    public string secondary_id () { return model; }
+    public string get_map_primary_key () { return manufacturer; }
+    public string get_map_secondary_key () { return model; }
     
     public override string node_name () { return "refaction"; }
     public override string to_string () { return model; }
@@ -72,7 +72,7 @@ class SerializableGeeCollectionsTest : GXmlTest
 
     public class Collection : SerializableDualKeyMap<string,string,Refaction> {}
   }
-  class SpaceShip : SerializableObjectModel, SerializableMapDualId<string,string>
+  class SpaceShip : SerializableObjectModel, SerializableMapDualKey<string,string>
   {
     public string model { get; set; }
     public string manufacturer { get; set; }
@@ -84,8 +84,8 @@ class SerializableGeeCollectionsTest : GXmlTest
       this.model = model;
     }
     
-    public string primary_id () { return manufacturer; }
-    public string secondary_id () { return model; }
+    public string get_map_primary_key () { return manufacturer; }
+    public string get_map_secondary_key () { return model; }
     
     public override string node_name () { return "ship"; }
     public override string to_string () { return model; }

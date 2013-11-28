@@ -20,8 +20,8 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 using GXml;
-public interface SerializableMapDualId<P,S> : Object
+
+public interface GXml.SerializableMapKey<K> : Object
 {
-  public abstract P primary_id  ();
-  public abstract S secondary_id ();
+  public abstract K get_map_key ();
 }

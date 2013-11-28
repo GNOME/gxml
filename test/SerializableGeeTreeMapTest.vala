@@ -3,9 +3,9 @@ using Gee;
 
 class SerializableGeeTreeMapTest : GXmlTest
 {
-  class Space : SerializableObjectModel, SerializableMapId<string>
+  class Space : SerializableObjectModel, SerializableMapKey<string>
   {
-    public string id () { return name; }
+    public string get_map_key () { return name; }
     public string name { get; set; }
     public Space.named (string name) { this.name = name; }
     public override string node_name () { return "space"; }

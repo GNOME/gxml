@@ -1,10 +1,10 @@
 using GXml;
 using Gee;
 
-class Spaces : SerializableObjectModel, SerializableMapDualId<string,string>
+class Spaces : SerializableObjectModel, SerializableMapDualKey<string,string>
 {
-  public string primary_id  () { return owner; }
-  public string secondary_id () { return name; }
+  public string get_map_primary_key  () { return owner; }
+  public string get_map_secondary_key () { return name; }
   public string name { get; set; }
   public string owner { get; set; }
   public Spaces.full ( string owner, string name)
