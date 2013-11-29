@@ -484,13 +484,9 @@ namespace GXml {
         if (ret = uint64.try_parse (str, out val)) {
           dest2.set_ulong ((ulong)val);
         }
-      } else if ((int)t == 20) { // gboolean
-        bool val = (str == "TRUE");
-        dest2.set_boolean (val); // TODO: huh, investigate why the type is gboolean and not bool coming out but is going in
-        ret = true;
       } else if (t == typeof (bool)) {
         bool val;
-        if (ret = bool.try_parse (str, out val)) {
+        if (ret = bool.try_parse (str.down (), out val)) {
           dest2.set_boolean (val);
         }
       } else if (t == typeof (float)) {

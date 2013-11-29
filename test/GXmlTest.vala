@@ -42,6 +42,7 @@ class GXmlTest {
 		SerializableGeeDualKeyMapTest.add_tests ();
 		SerializableGeeArrayListTest.add_tests ();
 		SerializableGeeCollectionsTest.add_tests ();
+		SerializableBasicTypeTest.add_tests ();
 
 		Test.run ();
 
