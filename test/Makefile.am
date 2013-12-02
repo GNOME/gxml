@@ -41,6 +41,7 @@ gxml_test_SOURCES = \
 	SerializableGeeTreeMapTest.vala \
 	SerializableGeeDualKeyMapTest.vala \
 	SerializableGeeArrayListTest.vala \
+	SerializableGeeHashMapTest.vala \
 	SerializableGeeCollectionsTest.vala \
 	SerializableBasicTypesTest.vala \
 	$(NULL)

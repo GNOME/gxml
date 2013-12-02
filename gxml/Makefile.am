@@ -66,6 +66,7 @@ libgxml_la_SOURCES = \
 	SerializableJson.vala \
 	Serialization.vala \
 	SerializableGeeTreeMap.vala \
+	SerializableGeeHashMap.vala \
 	SerializableMapKey.vala \
 	SerializableGeeDualKeyMap.vala \
 	SerializableMapDualKey.vala \
