@@ -887,7 +887,7 @@ class SerializableObjectModelTest : GXmlTest
           assert_not_reached ();
         }
         // TODO: serialized_xml_node_value have more text than expected, may be a bug in Document.to_string ()
-        if (!unknown_property.serialized_xml_node_value.contains ("FAKE TEXT")) {
+        if (unknown_property.serialized_xml_node_value == "FAKE TEXT") {
           stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: Bad UnknownAttribute node's content text $(unknown_property.serialized_xml_node_value)");
           assert_not_reached ();
         }

@@ -497,13 +497,26 @@ namespace GXml {
 		 */
 		public Document.from_string (string xml) {
 			Xml.Doc *doc;
-
-			/* TODO: consider breaking API to support
-			 * xmlParserOptions, encoding, and base URL
-			 * from xmlReadMemory */
-
 			doc = Xml.Parser.parse_memory (xml, (int)xml.length);
 			this.from_libxml2 (doc);
+		}
+		/**
+		 * Creates a Document from data found in memory using options.
+		 *
+		 * @xml: A string representing an XML document
+		 * @url: the base URL to use for the document
+		 * @encoding: the document encoding
+		 * @options: a combination of {@link Xml.ParserOption}
+		 *
+		 * @return A new {@link GXml.Document} from `memory`; this must be freed with {@link GLib.Object.unref}
+		 */
+		public Document.from_string_with_options (string xml, string? url = null,
+		                                          string? encoding = null,
+		                                          int options = 0)
+		{
+		  Xml.Doc *doc;
+		  doc = Xml.Parser.read_memory (xml, (int)xml.length, url, encoding, options);
+		  this.from_libxml2 (doc);
 		}
 
 		/**
@@ -912,7 +925,7 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override string to_string (bool format = false, int level = 0) {
+		public override string to_string (bool format = true, int level = 0) {
 			string str;
 			int len;
 

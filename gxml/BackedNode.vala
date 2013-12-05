@@ -308,7 +308,7 @@ namespace GXml {
 			// TODO: add a better test, as we weren't realising this was just a stub; test for memory usage too
 		}
 
-		public override string to_string (bool format = false, int level = 0) {
+		public override string to_string (bool format = true, int level = 0) {
 			/* TODO: change from xmlNodeDump and xmlBuffer
 			 * to xmlBuf and xmlBufNodeDump; the former
 			 * are 'somehow deprecated' (see xmlNodeDump
@@ -333,7 +333,6 @@ namespace GXml {
 			buffer = new Xml.Buffer ();
 			buffer->node_dump (this.owner_document.xmldoc, this.node, level, format ? 1 : 0);
 			str = buffer->content ();
-
 			return str;
 		}
 	}

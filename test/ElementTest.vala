@@ -369,8 +369,10 @@ class ElementTest : GXmlTest  {
 				Document doc, doc2;
 				Element elem = get_elem_new_doc ("country", out doc);
 				elem.append_child (elem.owner_document.create_text_node ("New Zealand"));
-				assert (elem.to_string () == "<country>New Zealand</country>");
-
+				if (elem.to_string () != "<country>New Zealand</country>") {
+				  stdout.printf (@"ERROR: Element to_string() fail. Expected <country>New Zealand</country> got: $(elem.to_string ())\n");
+				  assert_not_reached ();
+				}
 				// during stringification, we don't want to confuse XML <> with text <>
 				Element elem2 = get_elem_new_doc ("messy", out doc2);
 				elem2.append_child (elem.owner_document.create_text_node ("&lt;<>&gt;"));

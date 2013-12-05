@@ -111,5 +111,56 @@ class SerializableGeeArrayListTest : GXmlTest
         assert_not_reached ();
       }
     });
+    Test.add_func ("/gxml/serializable/serializable_array_list/deserialize-serialize",
+    () => {
+      try {
+        var idoc = new Document.from_string ("""<?xml version="1.0"?>
+    <root>
+      <aelement name="Big"/>
+      <aelement name="Small"/>
+      <aelement name="Wall">FAKE1</aelement>
+    </root>""");
+        var iroot = idoc.document_element;
+        var ic = new SerializableArrayList<AElement> ();
+        ic.deserialize (iroot);
+        var doc = new Document.from_string ("""<?xml version="1.0"?><root />""");
+        var root = doc.document_element;
+        ic.serialize (root);
+        var c = new SerializableArrayList<AElement> ();
+        c.deserialize (root);
+        if (c.size != 3) {
+          stdout.printf (@"ERROR: incorrect counted. Expected 3, got $(c.size)");
+          assert_not_reached ();
+        }
+        int i = 0;
+        foreach (AElement e in c)
+          i++;
+        if (i != 3) {
+          stdout.printf (@"ERROR: incorrect counted. Expected 3, got $i");
+          assert_not_reached ();
+        }
+        string[] s = {"Big","Small","Wall"};
+        for (int j = 0; j < c.size; j++) {
+          var e = c.get (j);
+          if (s[j] != e.name) {
+            stdout.printf (@"ERROR: incorrect name. Expected $(s[j]), got: $(c.get (j))");
+            assert_not_reached ();
+          }
+          if (e.name == "Wall") {
+            if (e.serialized_xml_node_value != "FAKE1") {
+              string nc = "";
+              if (e.serialized_xml_node_value != null)
+                nc = e.serialized_xml_node_value;
+              stdout.printf (@"ERROR: incorrect node content. Expected 'FAKE1', got: $(nc)");
+              assert_not_reached ();
+            }
+          }
+        }
+      }
+      catch (GLib.Error e) {
+        stdout.printf (@"ERROR: $(e.message)");
+        assert_not_reached ();
+      }
+    });
   }
 }

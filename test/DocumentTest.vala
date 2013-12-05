@@ -200,7 +200,7 @@ class DocumentTest : GXmlTest {
 
 					doc.save_to_stream (outstream);
 					assert_not_reached ();
-				} catch (GXml.Error e) {
+				} catch (GLib.Error e) {
 					assert (e is GXml.Error.WRITER);
 				}
 				test_error (DomException.X_OTHER);
