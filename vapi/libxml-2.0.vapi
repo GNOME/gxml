@@ -1453,6 +1453,23 @@ namespace Xml {
 		[CCode (cname = "xmlXPathOrderDocElems")]
 		public static long order_doc_elements (Doc* doc);
 
+		[CCode (cname = "xmlXPathCompile")]
+		public static CompExpr* compile(string str);
+
+		[CCode (cname = "xmlXPathCastToBoolean")]
+		public static bool cast_to_boolean(Object *o);
+
+		[CCode (cname = "xmlXPathCastToNumber")]
+		public static double cast_to_number(Object *o);
+
+		[CCode (cname = "xmlXPathCastToString")]
+		public static string cast_to_string(Object *o);
+
+		[Compact]
+		[CCode (cname = "xmlXPathCompExpr", free_function = "xmlXPathFreeCompExpr", cheader_filename = "libxml/xpath.h")]
+		public class CompExpr {
+		}
+
 		[Compact]
 		[CCode (cname = "xmlNodeSet", free_function="xmlXPathFreeNodeSet", cheader_filename = "libxml/xpath.h")]
 		public class NodeSet {
@@ -1480,6 +1497,12 @@ namespace Xml {
 
 			[CCode (cname = "xmlXPathEvalExpression", instance_pos = -1)]
 			public Object* eval_expression ([CCode (type = "xmlChar*")] string str);
+
+			[CCode (cname = "xmlXPathCompiledEval", instance_pos = -1)]
+			public Object* compiled_eval(CompExpr* expr);
+
+			[CCode (cname = "xmlXPathCompiledEvalToBoolean", instance_pos = -1)]
+			public int compiled_eval_to_boolean(CompExpr* expr);
 
 			[CCode (cname = "xmlXPathRegisterNs")]
 			public int register_ns ([CCode (type = "xmlChar*")] string prefix, [CCode (type = "xmlChar*")] string ns_uri);
@@ -1727,6 +1750,7 @@ namespace Xml {
 		public void* node;
 
 		// TODO: should this just be get_last instead?
+		// TODO: or should this be outside of this struct?
 		[CCode (cname = "xmlGetLastError")]
 		public static Xml.Error *get_last_error ();
 	}

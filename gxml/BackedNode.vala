@@ -37,14 +37,17 @@ namespace GXml {
 		/** Private properties */
 		internal Xml.Node *node;
 
+		internal void set_xmlnode (Xml.Node *node, Document owner) {
+			this.node = node;
+			owner.node_dict.insert (node, this);
+		}
+
 		/** Constructors */
 		internal BackedNode (Xml.Node *node, Document owner) {
 			base ((NodeType)node->type, owner);
-			// Considered using node->doc instead, but some subclasses don't have corresponding Xml.Nodes
-			this.node = node;
 
 			// Save the correspondence between this Xml.Node* and its Node
-			owner.node_dict.insert (node, this);
+			this.set_xmlnode (node, owner);
 			// TODO: Consider checking whether the Xml.Node* is already recorded.  It shouldn't be.
 			// TODO: BackedNodes' memory are freed when their owner document is freed; let's make sure that when we move a node between documents, that we make sure they'll still be freed
 		}
@@ -206,7 +209,6 @@ namespace GXml {
 			get {
 				_first_child = this.child_nodes.first ();
 				return _first_child;
-				// return this.child_nodes.first ();
 			}
 			internal set {
 			}
@@ -220,7 +222,6 @@ namespace GXml {
 			get {
 				_last_child = this.child_nodes.last ();
 				return _last_child;
-				//return this.child_nodes.last (); //TODO: just want to relay
 			}
 			internal set {
 			}
@@ -245,16 +246,6 @@ namespace GXml {
 			internal set {
 			}
 		}
-		/**
-		 * {@inheritDoc}
-		 */
-		public override HashTable<string,Attr>? attributes {
-			get {
-				return null;
-			}
-			internal set {
-			}
-		}
 
 		// TODO: investigate which classes can have children;
 		//       e.g. Text shouldn't, and these should error if we try;
@@ -272,22 +263,24 @@ namespace GXml {
 		public override unowned Node? replace_child (Node new_child, Node old_child) {
 			return this.child_nodes.replace_child (new_child, old_child);
 		}
+
 		/**
 		 * {@inheritDoc}
 		 */
-		public override unowned Node? remove_child (Node old_child) /*throws DomError*/ {
+		public override unowned Node? remove_child (Node old_child) {
 			return this.child_nodes.remove_child (old_child);
 		}
+
 		/**
 		 * {@inheritDoc}
 		 */
-		public override unowned Node? append_child (Node new_child) /*throws DomError*/ {
+		public override unowned Node? append_child (Node new_child) {
 			if (new_child.owner_document != this.owner_document && new_child.get_type ().is_a (typeof (GXml.BackedNode))) {
 				/* The point here is that a node from another document should
-				   have a copy made to be integrated into this one, so we don't
-				   mess up the other document.  (TODO: consider removing it from
-				   the originating document.)  The node's references should be
-				   updated to this one. */
+				   have a copy made to be integrated into this one, so we
+				   don't mess up the other document.  (TODO: consider
+				   removing it from the originating document.)  The node's
+				   references should be updated to this one. */
 				return this.child_nodes.append_child (this.owner_document.copy_node (new_child));
 			} else {
 				return this.child_nodes.append_child (new_child);
@@ -329,7 +322,6 @@ namespace GXml {
 			Xml.Buffer *buffer;
 			string str;
 
-			this.owner_document.sync_dirty_elements ();
 			buffer = new Xml.Buffer ();
 			buffer->node_dump (this.owner_document.xmldoc, this.node, level, format ? 1 : 0);
 			str = buffer->content ();

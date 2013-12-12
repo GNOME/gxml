@@ -44,6 +44,9 @@ gxml_test_SOURCES = \
 	SerializableGeeHashMapTest.vala \
 	SerializableGeeCollectionsTest.vala \
 	SerializableBasicTypesTest.vala \
+	XPathExpressionTest.vala \
+	XPathNSResolverTest.vala \
+	XPathResultTest.vala \
 	$(NULL)
 
 gxml_test.vala.stamp: $(gxml_test_SOURCES)
@@ -86,6 +89,8 @@ gxml_test_LDFLAGS = $(AM_LDFLAGS)
 BUILT_SOURCES = gxml_test.vala.stamp
 
 CLEANFILES = $(gxml_test_SOURCES:.vala=.c) $(BUILT_SOURCES) gxml_test
+
+# TODO: should we add *.c to this list?, or is there a var of generated .c we can put in CLEANFILES?
 
 DISTCLEANFILES = _serialization_test_*.xml
 

@@ -1,0 +1,102 @@
+* 2013-10-22
+
+** Attributes, and removing them
+
+Problem:
+ Attr a = doc.create_attribute ("foo");
+ elem.set_attribute_node (a);
+ Attr b = elem.get_attribute_node ("foo");
+ a != b
+
+The problems are that
+ 1. Attr a has an xmlAttr a, but set_attribute_node>set_named_item needs to use xmlSetProp which creates a
+    new xmlAttr a'
+
+Separately, we have a problem where when we do set_named_item, it returns the previous Attr,
+but it is in fact is returning a new Attr with the previous value, because again xmlSetProp
+doesn't work on xmlAttr*s, but on strings, and it overwrites the content of the underlying
+xmlAttr*s in an xmlNode*'s properties :(
+
+We want a consistent relationship between an xmlAttr and a GXmlAttr, so that
+1. when we do set_named_item, the supplied GXmlAttr remains the GXmlAttr representing the
+   newly created xmlAttr (do we need to free the old xmlAttr of the GXmlAttr then?)
+2. this needs to be reflected by changes in the lookup_node/lookup_attr handling (separate
+   those?)
+3. we don't want to return a clone from set_named_item; perhaps we can
+   a. copy the underlying xmlAttr that's being replaced
+   b. replace the old GXmlAttr's xmlAttr ourselves with the clone
+   c. then we can return the old GXmlAttr (yay!) even though its insides are a clone of the
+      old xmlAttr
+   d. we'd need to create a new GXmlAttr to deal with the original xmlAttr (whose contents
+      have been replaced by new values now)
+
+
+
+* 2013-10-15
+
+** Attributes
+
+Currently attributes are:
+- Xml.Attr nodes inside their Xml.Node
+- in a GXml.Node, we keep a proxy GLib.HashTable as our DOM's NamedNodeMap
+  - the GLib.HashTable is created on first access
+  - it creates a GXml.Attr for each Xml.Attr in the subject Xml.Node's properties
+
+- Users modify the GLib.HashTable
+  - periodically we sync the GLib.HashTable of GXml.Attrs with the underlying Xml.Node.properties
+     - (like when we're stringifying (since we use libxml2's stringification functions) or saving the document)
+
+
+New design
+- store them in GXml.Document.node_dict like Elements, treating
+  Xml.Attr as Xml.Node (is that really valid? alternatively,
+  corresponding attr dictionary)
+- eliminate syncing
+
+GXml.Attr support requirements
+- already supported through BackedNode
+  - namespace prefixes
+  - local_name
+  - node_name
+  - child_nodes (invisibly returning a NodeChildNodeList instead of an AttrChildNodeList)
+  - insert_before, replace_child, remove_child, append_child, has_child_nodes; even get better error handling
+
+- need to support
+  - specified property (cur impl is a stub anyway)
+  - *node_value*; this is not just node->content
+    - currently we travers Xml.Attr's children via a GXml.AttrChildNodeList
+      - could we replace AttrChildNodeList if we just treat Xml.Attr as an Xml.Node?
+        - yes, we could use NodeChildNodeList; and we already treat Xml.Attr as an Xml.Node in 'parent_as_xmlnode'
+    - still want to build like that
+      - mystery:
+	- if we get a GXml.Element with an attribute lang=de, and we
+          change lang=en, but we don't sync yet, how do we end up with
+          lang=en when we call GXml.Attr.node_value?  Shouldn't it
+          still pick up lang=de from the underlying Xml.Node'
+          Xml.Attr?
+	- No, because GXml.Element.set_attribute creates a new
+          GXml.Attr using Document.create_attribute, which creates a
+          new Xml.Attr using Xml.Doc.new_prop, and then replaces the
+          old GXml.Attr.  So, yes, the underlying Xml.Doc still has
+          the old Xml.Attr with lang=de, but our attributes
+          GLib.HashTable proxy in our GXml.Element has the new
+          GXml.Attr with Xml.Attr (which is not yet attached to the
+          actual underlying Xml.Node or Xml.Doc) and when we stringify
+          or save to disk, we sync first.
+    - we'll iterate directly over Xml.Attr's children (using a
+      NodeChildNodeList though) to build our future string that we'll
+      return (using a NodeList interfae for easy iteration despite
+      performance penalty and to prepare for replacing libxml2 some
+      day)
+  - name (copy cur impl)
+  - value (copy cur impl)
+  - clone_node; currently we don't allow that on Attrs, and we might want to continue to not
+  - to_string (copy cur impl)
+
+GXml.Element
+- set_attr
+
+
+
+
+

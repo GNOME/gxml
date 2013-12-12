@@ -76,7 +76,8 @@ namespace GXml {
 			message ("  ns (prefix: %s, uri: %s)", this.prefix, this.namespace_uri);
 			if (this.attributes != null) {
 				message ("  attributes:");
-				foreach (Node attr in this.attributes.get_values ()) {
+				for (int i = 0; i < this.attributes.length; i++) {
+					Attr attr = this.attributes.item (i);
 					message ("    %s", attr.node_name);
 				}
 			}
@@ -176,7 +177,9 @@ namespace GXml {
 		/**
 		 * Stores the name of the node. Sometimes this is
 		 * similar to the node type, but sometimes, it is
-		 * arbitrary.
+		 * arbitrary data, like for {@link GXml.Attr} where
+		 * the node_name is the name of the Attr's name=value
+		 * pair.
 		 *
 		 * Do not free this.  It's memory will be released
 		 * when the owning {@link GXml.Document} is freed.
@@ -337,7 +340,7 @@ namespace GXml {
 		}
 
 		/**
-		 * A {@link GLib.HashTable} representing the {@link GXml.Attr}
+		 * A {@link GXml.NamedNodeMap} containing the {@link GXml.Attr}
 		 * attributes for this node. `attributes`
 		 * actually only apply to {@link GXml.Element}
 		 * nodes. For all other {@link GXml.Node} subclasses,
@@ -349,9 +352,13 @@ namespace GXml {
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-84CF09]]
 		 */
-		public virtual HashTable<string,Attr>? attributes {
-			get { return null; }
-			internal set {}
+		public virtual NamedAttrMap? attributes {
+			// TODO: verify memory handling
+			get {
+				return null;
+			}
+			internal set {
+			}
 		}
 
 		/**
@@ -508,6 +515,28 @@ namespace GXml {
 		// TODO: ask Colin Walters about storing docs in GIR files (might have not been him)
 		public virtual string to_string (bool format = false, int level = 0) {
 			return "Node(%d:%s)".printf (this.node_type, this.node_name);
+		}
+
+		/*** XPath functions ***/
+
+		/* XPATH:TODO: should Node implement "XPathEvaluator" as an interface? No? */
+
+		/**
+		 * Evaluates XPath expression in context of current DOM node (or Document).
+		 *
+		 * @param expr XPath expression
+		 * @param nsr namespace resolver object (prefix -> URI mapping)
+		 * @param res_type type to cast resulting value to
+		 * @return XPath.Result object containing result type and value
+		 * @throws GXml.Error when node type is not supported as context of evaluation
+		 * @throws XPath.Error when supplied with invalid XPath expression
+		 */
+		public XPath.Result evaluate (string expr, XPath.NSResolver? nsr = null,
+			XPath.ResultType res_type = XPath.ResultType.ANY)
+			throws GXml.Error, XPath.Error
+		{
+			var expression = new XPath.Expression (expr, nsr);
+			return expression.evaluate (this, res_type);
 		}
 	}
 }

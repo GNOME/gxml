@@ -395,9 +395,9 @@ class DocumentTest : GXmlTest {
 
 		if (node.node_type != 3)
 			GLib.stdout.printf ("<%s", node.node_name);
-		HashTable<string, Attr> attrs = node.attributes;
-		foreach (string key in attrs.get_keys ()) {
-			Attr attr = attrs.lookup (key);
+		NamedAttrMap attrs = node.attributes;
+		for (int i = 0; i < attrs.length; i++) {
+			Attr attr = attrs.item (i);
 			GLib.stdout.printf (" %s=\"%s\"", attr.name, attr.value);
 		}
 

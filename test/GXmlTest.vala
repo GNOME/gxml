@@ -44,21 +44,29 @@ class GXmlTest {
 		SerializableGeeArrayListTest.add_tests ();
 		SerializableGeeCollectionsTest.add_tests ();
 		SerializableBasicTypeTest.add_tests ();
+		XPathExpressionTest.add_tests ();
+		XPathNSResolverTest.add_tests ();
+		XPathResultTest.add_tests ();
 
 		Test.run ();
 
 		return 0;
 	}
 
-	internal static Document get_doc () {
+	internal static Document get_doc (string? path = null) {
 		Document doc = null;
 		try {
-			doc = new Document.from_path (get_test_dir () + "/test.xml");
+			doc = new Document.from_path (path != null ? path :
+						      get_test_dir () + "/test.xml");
 		} catch (GXml.Error e) {
 			GLib.warning (e.message);
 			assert_not_reached ();
 		}
 		return doc;
+	}
+
+	internal static Document get_doc_with_ns () {
+		return get_doc (get_test_dir () + "/test_with_ns.xml");
 	}
 
 	internal static string get_test_dir () {

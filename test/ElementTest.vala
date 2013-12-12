@@ -101,7 +101,7 @@ class ElementTest : GXmlTest  {
 				assert (node.local_name == "Potion");
 			});
 		Test.add_func ("/gxml/element/attributes", () => {
-				HashTable<string,Attr> attributes;
+				NamedAttrMap attributes;
 
 				Document doc;
 				Element elem;
@@ -112,25 +112,26 @@ class ElementTest : GXmlTest  {
 
 				attributes = elem.attributes;
 				assert (attributes != null);
-				assert (attributes.size () == 0);
+				assert (attributes.length == 0);
 
 				elem.set_attribute ("alley", "Diagon");
 				elem.set_attribute ("train", "Hogwarts Express");
 
 				assert (attributes == elem.attributes);
-				assert (attributes.size () == 2);
-				assert (attributes.lookup ("alley").value == "Diagon");
-				assert (attributes.lookup ("train").value == "Hogwarts Express");
+				assert (attributes.length == 2);
+				assert (attributes.get_named_item ("alley").value == "Diagon");
+				assert (attributes.get_named_item ("train").value == "Hogwarts Express");
 
-				Attr attr = doc.create_attribute ("owl");
+				Attr attr;
+				attr = doc.create_attribute ("owl");
 				attr.value = "Hedwig";
 
-				attributes.insert ("owl", attr);
+				attributes.set_named_item (attr);
 
-				assert (attributes.size () == 3);
+				assert (attributes.length == 3);
 				assert (elem.get_attribute ("owl") == "Hedwig");
 
-				attributes.remove ("alley");
+				attributes.remove_named_item ("alley");
 				assert (elem.get_attribute ("alley") == "");
 			});
 		/* by accessing .attributes, the element is marked as
@@ -139,7 +140,7 @@ class ElementTest : GXmlTest  {
 		 * HashTable, and the document will have to re-sync
 		 * before stringifying (or saving)*/
 		Test.add_func ("/gxml/element/syncing_of_dirty_elements", () => {
-				HashTable<string,GXml.Attr> attrs;
+				NamedAttrMap attrs;
 				string str;
 
 				Document doc = new Document.from_string ("<?xml version='1.0' encoding='UTF-8'?><entry><link rel='http://schemas.google.com/contacts/2008/rel#photo'/></entry>");

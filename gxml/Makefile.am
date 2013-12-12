@@ -12,7 +12,7 @@ AM_CPPFLAGS = \
 	$(NULL)
 
 AM_CFLAGS = \
-	 -g \
+	-g \
 	$(GLIB_CFLAGS) \
 	$(LIBXML_CFLAGS) \
 	$(GIO_CFLAGS) \
@@ -21,13 +21,6 @@ AM_CFLAGS = \
 	$(NULL)
 
 # -Wall   # TODO: add this back when we can properly handle more libxml2/vala warnings
-
-
-# TODO: remove this, or remove -Wall and -g from libgxml_la_CFLAGS
-# AM_CFLAGS = \
-#	 -Wall \
-#	 -g \
-#
 
 
 ### Library
@@ -54,6 +47,7 @@ libgxml_la_SOURCES = \
 	EntityReference.vala \
 	Error.vala \
 	Implementation.vala \
+	NamedNodeMap.vala \
 	NamespaceAttr.vala \
 	NodeList.vala \
 	NodeType.vala \
@@ -71,7 +65,13 @@ libgxml_la_SOURCES = \
 	SerializableGeeDualKeyMap.vala \
 	SerializableMapDualKey.vala \
 	SerializableGeeArrayList.vala \
+	XPathError.vala \
+	XPathExpression.vala \
+	XPathNSResolver.vala \
+	XPathResult.vala \
 	$(NULL)
+
+# TODO: do we want XPath files in own directory?
 
 gxml.vala.stamp: $(libgxml_la_SOURCES)
 
@@ -174,6 +174,8 @@ BUILT_SOURCES = \
 	gxml.h \
 	gxml.vapi \
 	$(NULL)
+
+# TODO: should we add *.c to this list?, or is there a var of generated .c we can put in CLEANFILES?
 
 # 	gxml.pc
 # 	$(libgxml_la_VALASOURCES:.vala=.c) \

@@ -81,141 +81,41 @@ namespace GXml {
 			}
 		}
 
-		/* HashTable used for XML NamedNodeMap */
-		// TODO: note that NamedNodeMap is 'live' so changes to the Node should be seen in the NamedNodeMap (already retrieved), no duplicating it: http://www.w3.org/TR/DOM-Level-1/level-one-core.html
-		private HashTable<string,Attr> _attributes = null;
+		// Note that NamedNodeMap is 'live' so changes to the Node should be seen in an already obtained NamedNodeMap
+		private NamedAttrMap _attributes = null;
 
 		/**
-		 * Contains a {@link GLib.HashTable} of
+		 * Contains a {@link GXml.NamedAttrMap} of
 		 * {@link GXml.Attr} attributes associated with this
 		 * {@link GXml.Element}.
 		 *
-		 * Attributes in the HashTable are updated live, so
+		 * Attributes in the NamedNodeMap are updated live, so
 		 * changes in the element's attributes through its
 		 * other methods are reflected in the attributes
-		 * {@link GLib.HashTable}.
 		 *
 		 * Do not free this or its contents.  It's memory will
 		 * be released when the owning {@link GXml.Document}
 		 * is freed.
 		 */
-		public override HashTable<string,Attr>? attributes {
-			/*
-			 * #todo: verify that because we're giving them a
-			 * reference to our own attributes HashTable for
-			 * manipulating, that our methods do keep it live, so
-			 * we don't need to implement NamedNodeMap.
-			 *
-			 * #todo: make sure we fill our _attributes at
-			 * construction time with the attributes from the
-			 * document.
-			 */
-			/* TODO: make sure we want the user to be able
-			 * to manipulate attributes using this
-			 * HashTable. Yes, we do, it should be a live
-			 * reflection.  That's OK though, as long as
-			 * we save dirty attributes tables also when
-			 * we save the the ones in our hashtable back
-			 * into the xml.Doc before writing that to
-			 * whatever disk.
-			 */
-			/* TODO: remember that this table needs to be
-			 * synced with libxml2 structures; perhaps use
-			 * a flag that indicates whether it was even
-			 * accessed, and only then sync it later on
-			 */
+		public override NamedAttrMap? attributes {
 			get {
-				Attr attr;
-
+				// TODO: investigate memory handling
 				if (this._attributes == null) {
-					this.owner_document.dirty_elements.append (this);
-					this._attributes = new HashTable<string,Attr> (GLib.str_hash, GLib.str_equal);
-					// TODO: make sure other HashTables have appropriate hash, equal functions
-
-					for (Xml.Attr *prop = base.node->properties; prop != null; prop = prop->next) {
-						attr = new Attr (prop, this.owner_document);
-						this._attributes.replace (prop->name, attr);
-					}
+					this._attributes = new NamedAttrMap (this);
 				}
-
 				return this._attributes;
 			}
 			internal set {
 			}
 		}
 
-		/**
-		 * This should be called before saving a {@link GXml.Document}
-		 * to a {@link Xml.Doc}*, or else any changes made to
-		 * attributes in the {@link GXml.Element} will only exist within
-		 * the {@link GLib.HashTable} proxy and will not be recorded.
-		 */
-		internal void save_attributes (Xml.Node *tmp_node) {
-			Attr attr;
-			Xml.Ns *ns;
-
-			/* First, check if anyone has tried to access attributes, which
-			   means it could have changed.  Do this by checking whether our
-			   underlying local hashtable is still null. */
-			/* TODO: make sure that in normal operation
-			   where attributes aren't _explicitly_ referenced, that we don't
-			   internally induce this._attributes from being created. */
-			if (this._attributes != null) {
-				// First we have to clear the old properties, so we don't create duplicates
-				for (Xml.Attr *xmlattr = this.node->properties; xmlattr != null; xmlattr = xmlattr->next) {
-					// TODO: make sure that this actually works, and that I don't lose my attr->next for the next step by unsetting attr
-					// TODO: need a good test case that makes sure that the properties do not get duplicated, that removed ones stay removed, and new ones appear when recorded to back to a file
-					if (this._attributes.lookup (xmlattr->name) == null) {
-						// this element no longer has an attribute with this name, so get rid of the underlying one when syncing
-						if (xmlattr->ns == null) {
-							// Attr has no namespace
-							this.node->unset_prop (xmlattr->name);
-						} else {
-							// Attr has a namespace
-							this.node->unset_ns_prop (xmlattr->ns, xmlattr->name);
-						}
-
-					}
-				}
-
-				// Go through the GXml table of attributes for this element and add corresponding libxml2 ones
-				foreach (string propname in this._attributes.get_keys ()) {
-					attr = this._attributes.lookup (propname);
-					Xml.Attr* saved_attr;
-
-					if (attr.namespace_uri != null || attr.prefix != null) {
-						// I hate namespace handling between libxml2 and DOM Level 2/3 Core!
-						ns = tmp_node->new_ns (attr.namespace_uri, attr.prefix);
-						saved_attr = this.node->set_ns_prop (ns, propname, attr.node_value);
-					} else {
-						saved_attr = this.node->set_prop (propname, attr.node_value);
-					}
-
-					/* Replace an old out-of-tree attr with the newly
-					 * allocated one in the tree, that way xmlFreeDoc can
-					 * clean up correctly */
-					if (attr.node->parent == null) {
-						/* If it was in-tree, xmlSetProp should correctly handle the
-						   memory when updating the value within its xmlAttr */
-						attr.node->free ();
-						attr.node = saved_attr;
-					}
-				}
-			}
-		}
-
-
 		/* Constructors */
 		internal Element (Xml.Node *node, Document doc) {
 			base (node, doc);
 			// TODO: consider string ownership, libxml2 memory
-			// TODO: do memory testing
-
-			//this.new_descendant_with_tag_name.connect (on_new_descendant_with_tag_name)
 		}
 
 		/* Public Methods */
-		// TODO: for base.attribute-using methods, how do I re-sync base.attributes with Xml.Node* attributes?
 
 		/**
 		 * Retrieve the attribute value, as a string, for an
@@ -231,13 +131,12 @@ namespace GXml {
 		 * no such attribute is set.
 		 */
 		public string get_attribute (string name) {
-			// should I used .attributes.lookup (name)?
-			Attr attr = this.attributes.lookup (name);
+			Attr attr = this.get_attribute_node (name);
 
 			if (attr != null)
 				return attr.value;
 			else
-				return ""; // IDL says empty string, TODO: consider null instead
+				return ""; // IDL says empty string
 		}
 		/**
 		 * Set the value of this element's attribute named
@@ -250,22 +149,12 @@ namespace GXml {
 		 * @param value The value to set
 		 */
 		public void set_attribute (string name, string value) {
-			// don't need to use insert
-			Attr attr = this.attributes.lookup (name);
-			if (attr == null) {
-				/* TODO: I ended up testing only the case where I created attributes
-				 * like this, and not ones read from the file, so I didn't notice
-				 * something so important was broken. Ugh.  Add more suitable tests.
-				 */
+			Attr attr;
 
-				attr = this.owner_document.create_attribute (name);
-			}
-			/* TODO: find out if DOM API wants us to create a new one if it doesn't already exist?  (probably, but we'll need to know the doc for that, for doc.create_attribute :| */
-
+			attr = this.owner_document.create_attribute (name);
 			attr.value = value;
 
-			this.attributes.replace (name, attr);
-			// TODO: replace wanted 'owned', look up what to do
+			this.set_attribute_node (attr);
 		}
 		/**
 		 * Remove the attribute named name from this element.
@@ -277,9 +166,7 @@ namespace GXml {
 		 */
 		public void remove_attribute (string name) {
 			this.check_read_only (); // TODO: check all this.check_*, and see if we should be aborting the current functions on failure or just warn, like here
-
-
-			this.attributes.remove (name);
+			this.attributes.remove_named_item (name);
 		}
 		/**
 		 * Get the Attr node representing this element's attribute named name.
@@ -292,8 +179,7 @@ namespace GXml {
 		 * @return The Attr node named by name for this element, or %NULL if none is set
 		 */
 		public Attr? get_attribute_node (string name) {
-			// TODO: verify that attributes returns null with unknown name
-			return this.attributes.lookup (name);
+			return this.attributes.get_named_item (name);
 		}
 		/**
 		 * Set the attribute in Attr for this element.
@@ -309,16 +195,8 @@ namespace GXml {
 		 */
 		public Attr set_attribute_node (Attr new_attr) {
 			// TODO: INUSE_ATTRIBUTE_ERR if new_attr already belongs to another element
-
-			this.check_read_only ();
-
-			this.check_wrong_document (new_attr);
-
-			// TODO: need to actually associate this with the libxml2 structure!
-			// TODO: need to do that at the time of saving. We don't right now :|
-			Attr old = this.attributes.lookup (new_attr.name);
-			this.attributes.replace (new_attr.name, new_attr);
-			return old;
+			// NO_MODIFICATION_ALLOWED_ERR and WRONG_DOCUMENT_ERR checked within
+			return this.attributes.set_named_item (new_attr);
 		}
 
 		/**
@@ -335,12 +213,7 @@ namespace GXml {
 		 */
 		public Attr remove_attribute_node (Attr old_attr) {
 			this.check_read_only ();
-
-			if (this.attributes.remove (old_attr.name) == false) {
-				GXml.warning (DomException.NOT_FOUND, "No child with name '%s' exists in node '%s'".printf (old_attr.name, this.node_name));
-			}
-
-			return old_attr;
+			return this.attributes.remove_named_item (old_attr.name);
 		}
 
 		// TODO: consider making the life of TagNameNodeLists optional, and dead by default, at the Document level

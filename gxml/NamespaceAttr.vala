@@ -32,7 +32,7 @@ namespace GXml {
 	 */
 	public class NamespaceAttr : Node {
 		/** Private properties */
-		private Xml.Ns *ns;
+		private Xml.Ns *ns; // XPATH:TODO: do they extend us?
 
 		/** Constructors */
 		internal NamespaceAttr (Xml.Ns *ns, Document doc) {
