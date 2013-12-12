@@ -147,11 +147,8 @@ class SerializableGeeArrayListTest : GXmlTest
             assert_not_reached ();
           }
           if (e.name == "Wall") {
-            if (e.serialized_xml_node_value != "FAKE1") {
-              string nc = "";
-              if (e.serialized_xml_node_value != null)
-                nc = e.serialized_xml_node_value;
-              stdout.printf (@"ERROR: incorrect node content. Expected 'FAKE1', got: $(nc)");
+            if (e.serialized_xml_node_value != null) {
+              stdout.printf (@"ERROR: incorrect node '$(e.name)' content. Expected '', got: '$(e.serialized_xml_node_value)'");
               assert_not_reached ();
             }
           }

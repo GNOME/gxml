@@ -103,9 +103,25 @@ namespace GXml {
     /**
      * Used to add content in an {@link GXml.Element}.
      *
+     * By default no contents is serialized/deseralized. Implementors must implement
+     * {@link Serializable.serialize_use_xml_node_value} function returning
+     * {@link true} in order to use this property.
+     *
+     * This property is ignored by default. Implementors must implement
+     * {@link serialize_use_xml_node_value ()} to return {@link true}.
+     *
      * This property is ignored on serialisation.
      */
     public abstract string?  serialized_xml_node_value { get; protected set; default = null; }
+    /**
+     * Used to check {@link GXml.Element}'s contents must be deseralized.
+     *
+     * By default no contents is serialized/deseralized. Implementors must implement
+     * this function returning {@link true} in order to use {@link serialized_xml_node_value}
+     * property's value in serialization to set {@link Element}'s contents.
+     *
+     */
+    public abstract bool serialize_use_xml_node_value ();
     /**
      * Defines the way to set Node name.
      */

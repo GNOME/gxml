@@ -39,7 +39,8 @@ public class GXml.SerializableJson : GLib.Object, Serializable
   public HashTable<string,GLib.ParamSpec>  ignored_serializable_properties { get; protected set; }
   public HashTable<string,GXml.Node>    unknown_serializable_property { get; protected set; }
   public string?  serialized_xml_node_value { get; protected set; default = null; }
- 
+
+  public virtual bool serialize_use_xml_node_value () { return false; }
   public virtual string node_name () { return "Object"; }
   public virtual bool property_use_nick () { return false; }
 

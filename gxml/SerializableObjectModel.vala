@@ -28,6 +28,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
   public string? serialized_xml_node_value { get; protected set; default=null; }
   public GLib.HashTable<string,GXml.Node> unknown_serializable_property { get; protected set; }
 
+  public virtual bool serialize_use_xml_node_value () { return false; }
   public virtual bool property_use_nick () { return false; }
 
   public virtual string node_name ()
@@ -84,6 +85,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 
   public GXml.Node? default_serialize (GXml.Node node) throws GLib.Error
   {
+    stdout.printf (@"$(get_type ().name ()): Serializing on node: $(node.node_name)\n");
     Document doc;
     if (node is Document)
       doc = (Document) node;
@@ -106,9 +108,14 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       }
     }
         // Setting element content
-    if (serialized_xml_node_value != null) {
-      var t = doc.create_text_node (serialized_xml_node_value);
-      element.append_child (t);
+    if (serialize_use_xml_node_value ()) {
+      // Set un empty string if no value is set for node contents
+      string t = "";
+      if (serialized_xml_node_value != null)
+        t = serialized_xml_node_value;
+      var tn = doc.create_text_node (t);
+      stdout.printf (@"SETTING CONTENT FOR: $(get_type ().name ()): $(element.node_name): content '$t'\n");
+      element.append_child (tn);
     }
 
     node.append_child (element);
@@ -223,8 +230,12 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     {
       foreach (Node n in element.child_nodes)
       {
-        if (n is Text)
-          serialized_xml_node_value = n.node_value;
+        if (n is Text) {
+          if (serialize_use_xml_node_value ()) {
+            serialized_xml_node_value = n.node_value;
+            stdout.printf (@"$(get_type ().name ()): NODE '$(element.node_name)' CONTENT '$(n.node_value)'\n");
+          }
+        }
         else if (n is Element)
           deserialize_property (n);
       }

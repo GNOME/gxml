@@ -29,6 +29,7 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable
   public string? serialized_xml_node_value { get; protected set; default=null; }
   public GLib.HashTable<string,GXml.Node> unknown_serializable_property { get; protected set; }
 
+  public virtual bool serialize_use_xml_node_value () { return false; }
   public virtual bool property_use_nick () { return false; }
 
   public virtual string node_name ()
@@ -86,7 +87,8 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable
                               requires (node is Element)
   {
     if (element_type.is_a (typeof (Serializable))) {
-      foreach (G e in this) {
+      for (int i =0; i < size; i++) {
+       G e = get (i);
        ((GXml.Serializable) e).serialize (node);
       }
     }

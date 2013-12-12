@@ -129,8 +129,12 @@ class SerializableGeeDualKeyMapTest : GXmlTest
         bool found2 = false;
         bool found3 = false;
         bool found4 = false;
+        int nodes = 0;
+        int i = 0;
         foreach (GXml.Node n in root.child_nodes) {
+          nodes++;
           if (n is Element && n.node_name == "spaces") {
+            i++;
             var name = ((Element) n).get_attribute_node ("name");
             var owner = ((Element) n).get_attribute_node ("owner");
             if (name != null && owner != null) {
@@ -140,6 +144,15 @@ class SerializableGeeDualKeyMapTest : GXmlTest
               if (name.node_value == "Smallest" && owner.node_value == "Wall") found4 = true;
             }
           }
+        }
+        if (i != 4) {
+          stdout.printf (@"ERROR: Incorrect number of space nodes. Expected 4, got: $nodes\n$(doc)");
+          assert_not_reached ();
+        }
+        // Consider that root node contents have a valid GXml.Text one
+        if (nodes != 4) {
+          stdout.printf (@"ERROR: Incorrect number of nodes. Expected 5, got: $nodes\n$(doc)");
+          assert_not_reached ();
         }
         if (!found1) {
           stdout.printf (@"ERROR: 'Big' / 'Floor' not found\n$(doc)");
@@ -198,6 +211,32 @@ class SerializableGeeDualKeyMapTest : GXmlTest
         }
         if (!found4) {
           stdout.printf (@"ERROR: 'Smallest' / 'Wall' not found\n$(doc)");
+          assert_not_reached ();
+        }
+      }
+      catch (GLib.Error e) {
+        stdout.printf (@"ERROR: $(e.message)");
+        assert_not_reached ();
+      }
+    });
+    Test.add_func ("/gxml/serializable/serializable_dual_key_map/de-se-deserialize",
+    () => {
+      try {
+        var idoc = new Document.from_string ("""<?xml version="1.0"?>
+<root><spaces name="Small" owner="Wall"/><spaces name="Smallest" owner="Wall"/><spaces name="Big" owner="Floor"/><spaces name="Bigger" owner="Floor"/><spark /></root>""");
+        var ic = new SerializableDualKeyMap<string,string,Spaces> ();
+        ic.deserialize (idoc.document_element);
+        if (ic.size != 4) {
+          stdout.printf (@"ERROR: Incorrect size (1st deserialize). Expected 4, got: $(ic.size)\n$idoc\n");
+          assert_not_reached ();
+        }
+        var doc = new Document.from_string ("""<?xml version="1.0"?>
+<root />""");
+        ic.serialize (doc.document_element);
+        var c =  new SerializableDualKeyMap<string,string,Spaces> ();
+        c.deserialize (doc.document_element);
+        if (c.size != 4) {
+          stdout.printf (@"ERROR: Incorrect size. Expected 4, got: $(c.size)\n$doc\n");
           assert_not_reached ();
         }
       }

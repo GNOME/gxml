@@ -66,24 +66,23 @@ public class Manual : ObjectModel
 {
   public string document { get; set; }
   public int pages { get; set; }
-  public string contents {
-    get { return serialized_xml_node_value; }
-    set { serialized_xml_node_value = value; }
-  }
+  public string get_contents () { return serialized_xml_node_value; }
+  public void set_contents (string val) { serialized_xml_node_value = val; }
   
   public Manual ()
   {
     document = "MANUAL DOCUMENTATION";
     pages = 3;
-    contents = "TEXT INTO THE MANUAL DOCUMENT";
+    set_contents ("TEXT INTO THE MANUAL DOCUMENT");
     init_properties ();
     ignored_serializable_properties.set ("contents", get_class ().find_property ("contents"));
   }
   
   public override string to_string ()
   {
-    return base.to_string () + @"CONTENTS: { $contents }";
+    return base.to_string () + @"CONTENTS: { $(get_contents ())}";
   }
+  public override bool serialize_use_xml_node_value () { return true; }
 }
 
 public class Package : ObjectModel
@@ -349,15 +348,15 @@ class SerializableObjectModelTest : GXmlTest
 <manual document="Specification" pages="3">This is an Specification file</manual>""");
         manual.deserialize (doc);
         if (manual.document != "Specification") {
-          stdout.printf (@"ERROR MANUAL:  document: $(manual.document)\n");
+          stdout.printf (@"ERROR MANUAL:  Bad document value. Expected 'Specification', got: $(manual.document)\n");
           assert_not_reached ();
         }
         if (manual.pages != 3) {
-          stdout.printf (@"ERROR MANUAL:  pages: $(manual.pages)\n");
+          stdout.printf (@"ERROR MANUAL:  Bad pages value. Expected '3', got: $(manual.pages)\n");
           assert_not_reached ();
         }
-        if (manual.contents != "This is an Specification file") {
-          stdout.printf (@"ERROR MANUAL:  value: $(manual.contents)\n");
+        if (manual.get_contents () != "This is an Specification file") {
+          stdout.printf (@"ERROR MANUAL:  Bad Element content value. Expected 'This is an Specification file', got: $(manual.get_contents ())\n");
           assert_not_reached ();
         }
       }
@@ -411,8 +410,8 @@ class SerializableObjectModelTest : GXmlTest
           stdout.printf (@"ERROR PACKAGE: manual pages: $(package.manual.pages)\n");
           assert_not_reached ();
         }
-        if (package.manual.contents != "This is an Specification file") {
-          stdout.printf (@"ERROR PACKAGE: manual value: $(package.manual.contents)\n");
+        if (package.manual.get_contents () != "This is an Specification file") {
+          stdout.printf (@"ERROR PACKAGE: manual value: $(package.manual.get_contents ())\n");
           assert_not_reached ();
         }
         if (package.computer.manufacturer != "LanCorop") {
@@ -863,8 +862,10 @@ class SerializableObjectModelTest : GXmlTest
           assert_not_reached ();
         }
         // Consider that Element content text (actually none) is considered a GXml.Node
-        if (element.child_nodes.length != 2) {
-            stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: Too many child nodes $(element.child_nodes.length)");
+        // Because serialize_use_xml_node_value () returns false by default 'FAKE TEXT' is LOST
+        // on serialization
+        if (element.child_nodes.length != 1) {
+            stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: Too many child nodes. Expected 2, got $(element.child_nodes.length)\n");
             assert_not_reached ();
         }
         bool found = false;
@@ -1079,8 +1080,8 @@ class SerializableObjectModelTest : GXmlTest
       stdout.printf (@"ERROR MANUAL: pages: $(pages.node_value)\n");
       assert_not_reached ();
     }
-    if (element.content != manual.contents) {
-      stdout.printf (@"ERROR MANUAL: content: $(element.content)\n");
+    if (element.content != manual.get_contents ()) {
+      stdout.printf (@"ERROR MANUAL: content: Expected $(manual.get_contents ()): got: $(element.content)\n");
       assert_not_reached ();
     }
   }

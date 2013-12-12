@@ -28,6 +28,7 @@ public class GXml.SerializableTreeMap<K,V> : Gee.TreeMap<K,V>, Serializable
   public string? serialized_xml_node_value { get; protected set; default=null; }
   public GLib.HashTable<string,GXml.Node> unknown_serializable_property { get; protected set; }
 
+  public virtual bool serialize_use_xml_node_value () { return false; }
   public virtual bool property_use_nick () { return false; }
 
   public virtual string node_name ()

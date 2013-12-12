@@ -724,6 +724,7 @@ namespace GXml {
 		public bool foreach (ForallFunc<Node> f) {
 			var r = this.get ();
 			bool ret = f(r);
+			stdout.printf (@"GenericNodeListIterator: Continue = $((ret && this.next ()).to_string ())\n");
 			if (ret && this.next ())
 				return true;
 			else
