@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 0; tab-width: 4 -*- */
 /* ObjectModel.vala
  *
  * Copyright (C) 2013  Daniel Espinosa <esodan@gmail.com>
@@ -26,6 +26,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
   protected ParamSpec[] properties { get; set; }
   public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; protected set; }
   public string? serialized_xml_node_value { get; protected set; default=null; }
+  public virtual bool get_enable_unknown_serializable_property () { return false; }
   public GLib.HashTable<string,GXml.Node> unknown_serializable_property { get; protected set; }
 
   public virtual bool serialize_use_xml_node_value () { return false; }
@@ -85,7 +86,9 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 
   public GXml.Node? default_serialize (GXml.Node node) throws GLib.Error
   {
+#if DEBUG
     stdout.printf (@"$(get_type ().name ()): Serializing on node: $(node.node_name)\n");
+#endif
     Document doc;
     if (node is Document)
       doc = (Document) node;
@@ -95,17 +98,19 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     foreach (ParamSpec spec in list_serializable_properties ()) {
       serialize_property (element, spec);
     }
-    foreach (Node n in unknown_serializable_property.get_values ()) {
-      if (n is Element) {
-        var e = (Node) doc.create_element (n.node_name);
-        n.copy (ref e, true);
-        element.append_child (e);
-      }
-      if (n is Attr) {
-        element.set_attribute (n.node_name, n.node_value);
-        var a = (Node) element.get_attribute_node (n.node_name);
-        n.copy (ref a);
-      }
+    if (get_enable_unknown_serializable_property ()) {
+        foreach (Node n in unknown_serializable_property.get_values ()) {
+          if (n is Element) {
+            var e = (Node) doc.create_element (n.node_name);
+            n.copy (ref e, true);
+            element.append_child (e);
+          }
+          if (n is Attr) {
+            element.set_attribute (n.node_name, n.node_value);
+            var a = (Node) element.get_attribute_node (n.node_name);
+            n.copy (ref a);
+          }
+        }
     }
         // Setting element content
     if (serialize_use_xml_node_value ()) {
@@ -114,7 +119,9 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       if (serialized_xml_node_value != null)
         t = serialized_xml_node_value;
       var tn = doc.create_text_node (t);
+#if DEBUG
       stdout.printf (@"SETTING CONTENT FOR: $(get_type ().name ()): $(element.node_name): content '$t'\n");
+#endif
       element.append_child (tn);
     }
 
@@ -233,7 +240,9 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
         if (n is Text) {
           if (serialize_use_xml_node_value ()) {
             serialized_xml_node_value = n.node_value;
+#if DEBUG
             stdout.printf (@"$(get_type ().name ()): NODE '$(element.node_name)' CONTENT '$(n.node_value)'\n");
+#endif
           }
         }
         else if (n is Element)
@@ -306,8 +315,11 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       }
     }
     // Attribute can't be deseralized with standard methods. Up to the implementor.
-    this.deserialize_unknown_property (property_node, prop);
-    return true;
+    if (get_enable_unknown_serializable_property ()) {
+        this.deserialize_unknown_property (property_node, prop);
+        return true;
+    }
+    return false;
   }
   public abstract string to_string ();
 

@@ -336,46 +336,37 @@ class SerializableGeeCollectionsTest : GXmlTest
   </storage>
 </base>""");
         var s = new SpaceBase ();
-        stdout.printf ("\nDeserializing doc\n");
         s.deserialize (doc);
-        // Check First Deserialize iteration
         if (s.charge_zone == null) {
-        stdout.printf (@"ERROR: (1de) No charge zone\n");
+          stdout.printf (@"ERROR: (1de) No charge zone\n");
           assert_not_reached ();
         }
         if (s.charge_zone.spaceships == null) {
-        stdout.printf (@"ERROR: (1de) No spaceships\n");
+          stdout.printf (@"ERROR: (1de) No spaceships\n");
           assert_not_reached ();
         }
         if (s.charge_zone.spaceships.size != 2) {
-        stdout.printf (@"ERROR: (1de) incorrect spaceships number. Expected 2, got $(s.charge_zone.spaceships.size)\n");
+          stdout.printf (@"ERROR: (1de) incorrect spaceships number. Expected 2, got $(s.charge_zone.spaceships.size)\n");
           assert_not_reached ();
         }
         var s1 = s.charge_zone.spaceships.get ("MacToy", "A1234");
         if (s1 == null) {
-        stdout.printf (@"ERROR: No spaceship MacToy/A1234 found\n");
+          stdout.printf (@"ERROR: No spaceship MacToy/A1234 found\n");
           assert_not_reached ();
         }
         if (s1.spaces == null) {
-        stdout.printf (@"ERROR: No spaces for spaceship MacToy/A1234 found\n");
+          stdout.printf (@"ERROR: No spaces for spaceship MacToy/A1234 found\n");
           assert_not_reached ();
         }
         if (s1.spaces.size != 2) {
-        stdout.printf (@"ERROR: Incorrect spaces size for spaceship MacToy/A1234. Expected 2, got: $(s1.spaces.size)\n");
+          stdout.printf (@"ERROR: Incorrect spaces size for spaceship MacToy/A1234. Expected 2, got: $(s1.spaces.size)\n");
           assert_not_reached ();
         }
         // Check First serialize
-        stdout.printf ("\nSerializing to new doc\n");
         var ndoc = new Document ();
         s.serialize (ndoc);
-        stdout.printf (@"Seralized new doc:\n$ndoc\n");
-        assert_not_reached ();
-        // Check Second deserialize
-        stdout.printf ("\nDeserializing new doc\n");
         var ns = new SpaceBase ();
         ns.deserialize (ndoc);
-        //stdout.printf (@"$ndoc");
-        //assert_not_reached ();
         if (ns.serialized_xml_node_value != null) {
           stdout.printf (@"ERROR: wrong base node content, should be '' got: '$(ns.serialized_xml_node_value)''");
           assert_not_reached ();
@@ -419,7 +410,7 @@ class SerializableGeeCollectionsTest : GXmlTest
             }
           }
         }
-        if (i != 5) {
+        if (i != 2) {
           stdout.printf (@"ERROR: Bad ROOT child nodes. Expected 5, got $(i)\n");
           assert_not_reached ();
         }

@@ -74,8 +74,6 @@ public class Manual : ObjectModel
     document = "MANUAL DOCUMENTATION";
     pages = 3;
     set_contents ("TEXT INTO THE MANUAL DOCUMENT");
-    init_properties ();
-    ignored_serializable_properties.set ("contents", get_class ().find_property ("contents"));
   }
   
   public override string to_string ()
@@ -96,6 +94,7 @@ public class Package : ObjectModel
   public Array<string> tags { get {return _tags;} }
 
   public override bool property_use_nick () { return true; }
+  public override bool get_enable_unknown_serializable_property () { return true; }
 
   public Package ()
   {
@@ -248,6 +247,7 @@ class UnknownAttribute : ObjectModel
   public string name { get; set; }
   public Gee.ArrayList<int> array { get; set; }
   public FakeSerializable fake { get; set; }
+  public override bool get_enable_unknown_serializable_property () { return true; }
 }
 
 public enum OptionsEnum

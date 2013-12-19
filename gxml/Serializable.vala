@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 3; tab-width: 3 -*- */
 /* Serializable.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
@@ -90,6 +90,10 @@ namespace GXml {
      * call {@link init_properties()} before add new propeties.
      */
     public abstract HashTable<string,GLib.ParamSpec>  ignored_serializable_properties { get; protected set; }
+    /**
+     * 
+     */
+     public abstract bool get_enable_unknown_serializable_property ();
     /**
      * On deserialization stores any {@link GXml.Node} not used on this
      * object, but exists in current XML file.
