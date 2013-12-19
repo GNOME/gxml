@@ -366,7 +366,7 @@ class ElementTest : GXmlTest  {
 
 				// STUB
 			});
-		Test.add_func ("/gxml/element/to_string", () => {
+		Test.add_func ("/gxml/element/to_string", () =>{
 				Document doc, doc2;
 				Element elem = get_elem_new_doc ("country", out doc);
 				elem.append_child (elem.owner_document.create_text_node ("New Zealand"));
@@ -386,5 +386,51 @@ class ElementTest : GXmlTest  {
 
 				// TODO: want to test with format on and off
 			});
+		Test.add_func ("/gxml/element/content/set", () =>{
+			var doc = new Document ();
+			var root = doc.create_element ("root");
+			doc.append_child (root);
+			root.content = "TEXT1";
+			string d = """<?xml version="1.0"?>
+<root>TEXT1</root>
+""";
+			if (doc.to_string () != d) {
+				stdout.printf (@"Element content error. Expected '$d'\ngot '$(doc)'\n");
+				assert_not_reached ();
+			}
+		});
+		Test.add_func ("/gxml/element/content/overwrite_child_nodes", () =>{
+			var doc = new Document ();
+			var root = doc.create_element ("root");
+			doc.append_child (root);
+			var n = doc.create_element ("child");
+			root.append_child (n);
+			// This will remove all child nodes
+			root.content = "TEXT1";
+			string d = """<?xml version="1.0"?>
+<root>TEXT1</root>
+""";
+			if (doc.to_string () != d) {
+				stdout.printf (@"Element content error. Expected '$d'\ngot '$(doc)'\n");
+				assert_not_reached ();
+			}
+		});
+		Test.add_func ("/gxml/element/content/keep_child_nodes", () =>{
+			var doc = new Document ();
+			var root = doc.create_element ("root");
+			doc.append_child (root);
+			var n = doc.create_element ("child");
+			root.append_child (n);
+			// This will remove all child nodes
+			var t = doc.create_text_node ("TEXT1");
+			root.append_child (t);
+			string d = """<?xml version="1.0"?>
+<root><child/>TEXT1</root>
+""";
+			if (doc.to_string () != d) {
+				stdout.printf (@"Element content error. Expected\n'$d'\ngot\n'$(doc)'\n");
+				assert_not_reached ();
+			}
+		});
 	}
 }

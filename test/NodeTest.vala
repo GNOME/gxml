@@ -153,22 +153,22 @@ class NodeTest : GXmlTest {
 				Document doc = get_doc ();
 				GXml.Node parent = get_elem ("Molly", doc);
 				if (parent == null) {
-					stdout.printf (@"Parent child Molly not found\n");
+					stdout.printf (@"Parent child Molly not created\n");
 					assert_not_reached ();
 				}
 				GXml.Node child_0 = get_elem ("Percy", doc);
 				if (child_0 == null) {
-					stdout.printf (@"Child_0 Percy not found\n");
+					stdout.printf (@"Child_0 Percy not created\n");
 					assert_not_reached ();
 				}
 				GXml.Node child_1 = get_elem ("Ron", doc);
 				if (child_1 == null) {
-					stdout.printf (@"Child Ron not found\n");
+					stdout.printf (@"Child Ron not created\n");
 					assert_not_reached ();
 				}
 				GXml.Node child_2 = get_elem ("Ginnie", doc);
 				if (child_2 == null) {
-					stdout.printf (@"Child Ginnie not found\n");
+					stdout.printf (@"Child Ginnie not created\n");
 					assert_not_reached ();
 				}
 				if (parent.child_nodes.length != 0) {
@@ -182,11 +182,18 @@ class NodeTest : GXmlTest {
 					stdout.printf (@"ChildNode: wrong length. Expected 0 got $(parent.child_nodes.length)\n");
 					assert_not_reached ();
 				}
-				if (parent.child_nodes.@get (0) != child_0) {
+				var c0 = parent.child_nodes.@get (0);
+				if (c0.node_name != child_0.node_name) {
 					stdout.printf (@"ChildNode: wrong child 0.\n");
 					assert_not_reached ();
 				}
-				if (parent.child_nodes.@get (2) != child_2) {
+				var c1 = parent.child_nodes.@get (1);
+				if (c1.node_name != child_1.node_name) {
+					stdout.printf (@"ChildNode: wrong child 1.\n");
+					assert_not_reached ();
+				}
+				var c2 = parent.child_nodes.@get (2);
+				if (c2.node_name != child_2.node_name) {
 					stdout.printf (@"ChildNode: wrong child 2.\n");
 					assert_not_reached ();
 				}

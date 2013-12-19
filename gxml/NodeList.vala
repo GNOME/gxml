@@ -259,14 +259,20 @@ namespace GXml {
 		public override bool remove (Node item)  { return false; }
 		public override bool read_only { get { return true; } }
 		public override int size {
-      get {
-        int len = 0;
-        for (Xml.Node *cur = head; cur != null; cur = cur->next) {
-          len++;
+            get {
+                if (head != null) {
+                    //GLib.warning ("At NodeChildNodeList: get_size");
+                    int len = 1;
+                    var cur = head;
+                    while (cur->next != null) {
+                        cur = cur->next;
+                        len++;
+                    }
+                    return len;
+                }
+                return 0;
+            }
         }
-        return len;
-      }
-    }
 		public override Gee.Iterator<Node> iterator () {
 			return new NodeListIterator (this);
 		}
@@ -285,11 +291,15 @@ namespace GXml {
 			}
 			return this.owner.lookup_node (cur); // TODO :check for nulls?
 		}
-		public new Node @get (int n) {
-			Xml.Node *cur = head;
-			for (int i = 0; i < n && cur != null; i++) {
-				cur = cur->next;
-			}
+		public new Node @get (int n)
+            requires (head != null)
+        {
+            Xml.Node *cur = head;
+            int i = 0;
+            while (cur->next != null && i != n) {
+                cur = cur->next;
+                i++;
+            }
 			return this.owner.lookup_node (cur);
 		}
         public Node item (ulong idx) { return get ((int) idx); }
