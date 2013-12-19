@@ -265,7 +265,10 @@ class DocumentTest : GXmlTest {
 ");
 
 				authors.append_child (fragment);
-				assert (authors.get_elements_by_tag_name ("Author").length == 4);
+				if (authors.get_elements_by_tag_name ("Author").length != 4) {
+					stdout.printf (@"Authors: length error. Expected 4, got $(authors.get_elements_by_tag_name ("Author").length)\n'");
+					assert_not_reached ();
+				}
 
 				string expected = "<?xml version=\"1.0\"?>
 <Sentences>

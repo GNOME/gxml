@@ -237,19 +237,19 @@ class ElementTest : GXmlTest  {
 				emails = elem.get_elements_by_tag_name ("Email");
 				assert (emails.length == 2);
 
-				email = (Element)emails.nth_data (0);
+				email = (Element)emails.@get (0);
 				assert (email.tag_name == "Email");
 				assert (email.child_nodes.length == 1);
 
-				text = (Text)email.child_nodes.nth_data (0);
+				text = (Text)email.child_nodes.@get (0);
 				assert (text.node_name == "#text");
 				assert (text.node_value == "fweasley@hogwarts.co.uk");
 
-				email = (Element)emails.nth_data (1);
+				email = (Element)emails.@get (1);
 				assert (email.tag_name == "Email");
 				assert (email.child_nodes.length == 1);
 
-				text = (Text)email.child_nodes.nth_data (0);
+				text = (Text)email.child_nodes.@get (0);
 				assert (text.node_name == "#text");
 				assert (text.node_value == "gweasley@hogwarts.co.uk");
 

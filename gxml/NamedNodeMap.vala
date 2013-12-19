@@ -22,6 +22,7 @@
  */
 
 using GXml;
+using Gee;
 
 namespace GXml {
 	public interface NamedNodeMap<T> : GLib.Object {
@@ -142,6 +143,15 @@ namespace GXml {
 			}
 		  	private set {
 			}
+		}
+		
+		public Gee.Collection<Attr> get_values ()
+		{
+		  var c = new Gee.ArrayList<Attr> ();
+		  for (int i =0; i < length; i++) {
+		    c.add (item (i));
+		  }
+		  return c;
 		}
 	}
 }

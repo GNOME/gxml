@@ -152,17 +152,44 @@ class NodeTest : GXmlTest {
 		Test.add_func ("/gxml/domnode/child_nodes", () => {
 				Document doc = get_doc ();
 				GXml.Node parent = get_elem ("Molly", doc);
+				if (parent == null) {
+					stdout.printf (@"Parent child Molly not found\n");
+					assert_not_reached ();
+				}
 				GXml.Node child_0 = get_elem ("Percy", doc);
+				if (child_0 == null) {
+					stdout.printf (@"Child_0 Percy not found\n");
+					assert_not_reached ();
+				}
 				GXml.Node child_1 = get_elem ("Ron", doc);
+				if (child_1 == null) {
+					stdout.printf (@"Child Ron not found\n");
+					assert_not_reached ();
+				}
 				GXml.Node child_2 = get_elem ("Ginnie", doc);
-
-				assert (parent.child_nodes.length == 0);
+				if (child_2 == null) {
+					stdout.printf (@"Child Ginnie not found\n");
+					assert_not_reached ();
+				}
+				if (parent.child_nodes.length != 0) {
+					stdout.printf (@"ChildNode: wrong length. Expected 0 got $(parent.child_nodes.length)\n");
+					assert_not_reached ();
+				}
 				parent.append_child (child_0);
 				parent.append_child (child_1);
 				parent.append_child (child_2);
-				assert (parent.child_nodes.length == 3);
-				assert (parent.child_nodes.nth_data (0) == child_0);
-				assert (parent.child_nodes.nth_data (2) == child_2);
+				if (parent.child_nodes.length != 3) {
+					stdout.printf (@"ChildNode: wrong length. Expected 0 got $(parent.child_nodes.length)\n");
+					assert_not_reached ();
+				}
+				if (parent.child_nodes.@get (0) != child_0) {
+					stdout.printf (@"ChildNode: wrong child 0.\n");
+					assert_not_reached ();
+				}
+				if (parent.child_nodes.@get (2) != child_2) {
+					stdout.printf (@"ChildNode: wrong child 2.\n");
+					assert_not_reached ();
+				}
 			});
 		Test.add_func ("/gxml/domnode/first_child", () => {
 				Document doc = get_doc ();
@@ -258,9 +285,9 @@ class NodeTest : GXmlTest {
 				assert (parent.first_child == child_0);
 				assert (parent.last_child == child_2);
 				assert (parent.child_nodes.length == 3);
-				assert (parent.child_nodes.nth_data (0) == child_0);
-				assert (parent.child_nodes.nth_data (1) == child_1);
-				assert (parent.child_nodes.nth_data (2) == child_2);
+				assert (parent.child_nodes.@get (0) == child_0);
+				assert (parent.child_nodes.@get (1) == child_1);
+				assert (parent.child_nodes.@get (2) == child_2);
 				assert (child_0.previous_sibling == null);
 				assert (child_1.previous_sibling == child_0);
 				assert (child_2.previous_sibling == child_1);
@@ -286,8 +313,8 @@ class NodeTest : GXmlTest {
 				assert (parent.first_child == child_0);
 				assert (parent.last_child == child_1);
 				assert (parent.child_nodes.length == 2);
-				assert (parent.child_nodes.nth_data (0) == child_0);
-				assert (parent.child_nodes.nth_data (1) == child_1);
+				assert (parent.child_nodes.@get (0) == child_0);
+				assert (parent.child_nodes.@get (1) == child_1);
 				assert (child_0.previous_sibling == null);
 				assert (child_1.previous_sibling == child_0);
 				assert (child_0.next_sibling == child_1);
@@ -313,8 +340,8 @@ class NodeTest : GXmlTest {
 				assert (parent.first_child == child_0);
 				assert (parent.last_child == child_1);
 				assert (parent.child_nodes.length == 2);
-				assert (parent.child_nodes.nth_data (0) == child_0);
-				assert (parent.child_nodes.nth_data (1) == child_1);
+				assert (parent.child_nodes.@get (0) == child_0);
+				assert (parent.child_nodes.@get (1) == child_1);
 				assert (child_0.previous_sibling == null);
 				assert (child_1.previous_sibling == child_0);
 				assert (child_0.next_sibling == child_1);
@@ -325,7 +352,7 @@ class NodeTest : GXmlTest {
 				assert (parent.first_child == child_1);
 				assert (parent.last_child == child_1);
 				assert (parent.child_nodes.length == 1);
-				assert (parent.child_nodes.nth_data (0) == child_1);
+				assert (parent.child_nodes.@get (0) == child_1);
 				assert (child_1.previous_sibling == null);
 				assert (child_1.next_sibling == null);
 
@@ -350,9 +377,9 @@ class NodeTest : GXmlTest {
 				assert (parent.first_child == child_0);
 				assert (parent.last_child == child_2);
 				assert (parent.child_nodes.length == 3);
-				assert (parent.child_nodes.nth_data (0) == child_0);
-				assert (parent.child_nodes.nth_data (1) == child_1);
-				assert (parent.child_nodes.nth_data (2) == child_2);
+				assert (parent.child_nodes.@get (0) == child_0);
+				assert (parent.child_nodes.@get (1) == child_1);
+				assert (parent.child_nodes.@get (2) == child_2);
 				assert (child_0.previous_sibling == null);
 				assert (child_1.previous_sibling == child_0);
 				assert (child_2.previous_sibling == child_1);
