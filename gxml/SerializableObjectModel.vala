@@ -110,9 +110,13 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
             var a = (Node) element.get_attribute_node (n.node_name);
             n.copy (ref a);
           }
+          if (n is Text) {
+            var tnode = doc.create_text_node (n.node_value);
+            element.append_child (tnode);
+          }
         }
     }
-        // Setting element content
+    // Setting element content
     if (serialize_use_xml_node_value ()) {
       // Set un empty string if no value is set for node contents
       string t = "";
@@ -216,7 +220,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     return_val_if_fail (element != null, null);
     if (node_name () == null) {
       message (@"WARNING: Object type '$(get_type ().name ())' have no Node Name defined");
-      assert_not_reached ();
+      return null;
     }
 #if DEBUG
     if (element.node_name.down () != node_name ().down ()) {
@@ -235,6 +239,33 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 #endif
     if (element.has_child_nodes ())
     {
+      if (get_type ().is_a (typeof (SerializableContainer)))
+      {
+//        stdout.printf (@"This is a Container: found a: $(get_type ().name ())\n");
+        ((SerializableContainer) this).init_containers ();
+      }
+      var cnodes = new Gee.HashMap<string,ParamSpec> ();
+      foreach (ParamSpec spec in list_serializable_properties ())
+      {
+        if (spec.value_type.is_a (typeof (Serializable)))
+        {
+            if (spec.value_type.is_a (typeof (SerializableTreeMap))
+                || spec.value_type.is_a (typeof (SerializableHashMap))
+                || spec.value_type.is_a (typeof (SerializableDualKeyMap))
+                || spec.value_type.is_a (typeof (SerializableArrayList))
+                )
+            {
+              Value vo = Value (spec.value_type);
+              get_property (spec.name, ref vo);
+              var objv = vo.get_object ();
+              if (objv != null) {
+                ((Serializable) objv).deserialize (element);
+                cnodes.@set (((Serializable) objv).node_name (), spec);
+//                stdout.printf (@"Added Key for container node as: $(((Serializable) objv).node_name ())\n");
+              }
+            }
+        }
+      }
       foreach (Node n in element.child_nodes)
       {
         if (n is Text) {
@@ -243,10 +274,19 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 #if DEBUG
             stdout.printf (@"$(get_type ().name ()): NODE '$(element.node_name)' CONTENT '$(n.node_value)'\n");
 #endif
+          } else {
+            if (get_enable_unknown_serializable_property ()) {
+              if (n.node_value._chomp () == n.node_value && n.node_value != "")
+                unknown_serializable_property.set (n.node_name, n);
+            }
           }
         }
-        else if (n is Element)
+        if (n is Element  && !cnodes.has_key (n.node_name)) {
+#if DEBUG
+            stdout.printf (@"$(get_type ().name ()): DESERIALIZING ELEMENT '$(n.node_name)'\n");
+#endif
           deserialize_property (n);
+        }
       }
     }
     return null;
@@ -267,8 +307,10 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     var prop = find_property_spec (property_node.node_name);
     if (prop == null) {
       // FIXME: Event emit
-      if (!(property_node is Text))
+      if (get_enable_unknown_serializable_property ()) {
+//        stdout.printf (@"Adding node $(property_node.node_name) to $(get_type ().name ())\n");
         unknown_serializable_property.set (property_node.node_name, property_node);
+      }
       return true;
     }
     if (prop.value_type.is_a (typeof (Serializable)))
@@ -315,11 +357,8 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       }
     }
     // Attribute can't be deseralized with standard methods. Up to the implementor.
-    if (get_enable_unknown_serializable_property ()) {
-        this.deserialize_unknown_property (property_node, prop);
-        return true;
-    }
-    return false;
+    this.deserialize_unknown_property (property_node, prop);
+    return true;
   }
   public abstract string to_string ();
 

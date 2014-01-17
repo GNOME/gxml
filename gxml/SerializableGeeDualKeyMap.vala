@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /* SerializableGeeTreeModel.vala
  *
  * Copyright (C) 2013  Daniel Espinosa <esodan@gmail.com>
@@ -110,19 +110,15 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable
   protected ParamSpec[] properties { get; set; }
   public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; protected set; }
   public string? serialized_xml_node_value { get; protected set; default=null; }
-  public bool get_enable_unknown_serializable_property () { return false; }
   public GLib.HashTable<string,GXml.Node> unknown_serializable_property { get; protected set; }
 
+  public virtual bool get_enable_unknown_serializable_property () { return false; }
   public virtual bool serialize_use_xml_node_value () { return false; }
   public virtual bool property_use_nick () { return false; }
 
   public virtual string node_name ()
   {
-    return "";
-  }
-  public string default_node_name ()
-  {
-    return get_type().name().down();
+    return ((Serializable) Object.new (value_type)).node_name ();
   }
 
   public virtual GLib.ParamSpec? find_property_spec (string property_name)
@@ -170,11 +166,9 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable
                               throws GLib.Error
                               requires (node is Element)
   {
-    foreach (HashMap<S,V> h in storage.get_values ()) {
-      foreach (V v in h.values) {
+    foreach (V v in values ()) {
         if (v is Serializable)
           ((GXml.Serializable) v).serialize (node);;
-      }
     }
     return node;
   }
@@ -198,20 +192,19 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable
   }
   public GXml.Node? default_deserialize (GXml.Node node)
                     throws GLib.Error
+                    requires (node is Element)
   {
     if (!(value_type.is_a (typeof (GXml.Serializable)) &&
         value_type.is_a (typeof (SerializableMapDualKey)))) {
       throw new SerializableError.UNSUPPORTED_TYPE ("%s: Value type '%s' is unsupported", 
                                                     this.get_type ().name (), value_type.name ());
     }
-    if (node is Element) {
-      foreach (GXml.Node n in node.child_nodes) {
-        if (n is Element) {
-          var obj = (SerializableMapDualKey<P,S>) Object.new (value_type);
-          if (n.node_name == ((Serializable) obj).node_name ()) {
-            ((Serializable) obj).deserialize (n);
-            @set (obj.get_map_primary_key (), obj.get_map_secondary_key (), obj);
-          }
+    foreach (GXml.Node n in node.child_nodes) {
+      if (n is Element) {
+        var obj = (SerializableMapDualKey<P,S>) Object.new (value_type);
+        if (n.node_name == ((Serializable) obj).node_name ()) {
+          ((Serializable) obj).deserialize (n);
+          @set (obj.get_map_primary_key (), obj.get_map_secondary_key (), obj);
         }
       }
     }

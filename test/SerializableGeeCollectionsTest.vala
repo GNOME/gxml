@@ -1,7 +1,30 @@
+/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
+/**
+ *
+ *  GXml.Serializable.GeeCollectionsTest
+ *
+ *  Authors:
+ *
+ *       Daniel Espinosa <esodan@gmail.com>
+ *
+ *
+ *  Copyright (c) 2013-2014 Daniel Espinosa
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Lesser General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Lesser General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Lesser General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 using GXml;
 using Gee;
-
-
 
 class SerializableGeeCollectionsTest : GXmlTest
 {
@@ -28,7 +51,7 @@ class SerializableGeeCollectionsTest : GXmlTest
     
     public class Array : SerializableArrayList<Asteroid> {}
   }
-  class Planet : SerializableObjectModel, SerializableMapKey<string>
+  class Planet : SerializableContainer, SerializableMapKey<string>
   {
     public string get_map_key () { return name; }
     public string name { get; set; }
@@ -36,22 +59,16 @@ class SerializableGeeCollectionsTest : GXmlTest
     public Planet.named (string name) { this.name = name; }
     public override string node_name () { return "planet"; }
     public override string to_string () { return name; }
-    public override GXml.Node? deserialize (GXml.Node node)
-                                    throws GLib.Error
-                                    requires (node is GXml.Element)
+
+    public override void init_containers ()
     {
-      Element element = (Element) node;
-      if (element.has_child_nodes ()) {
-        if (citizens == null)
-          citizens = new Citizen.Array ();
-        citizens.deserialize (element);
-      }
-      return default_deserialize (node);
+      if (citizens == null)
+        citizens = new Citizen.Array ();
     }
 
     public class Collection : SerializableTreeMap<string,Planet> {}
   }
-  class Space : SerializableObjectModel, SerializableMapKey<string>
+  class Space : SerializableContainer, SerializableMapKey<string>
   {
     public string get_map_key () { return name; }
     public string name { get; set; }
@@ -62,22 +79,16 @@ class SerializableGeeCollectionsTest : GXmlTest
     
     public override string node_name () { return "space"; }
     public override string to_string () { return name; }
-    public override GXml.Node? deserialize (GXml.Node node)
-                                    throws GLib.Error
-                                    requires (node is GXml.Element)
+    public override void init_containers ()
     {
-      Element element = (Element) node;
-      if (element.has_child_nodes ()) {
-        if (planets == null)
-          planets = new Planet.Collection ();
-        planets.deserialize (element);
-      }
-      return default_deserialize (node);
+      if (asteroids == null)
+        asteroids = new Asteroid.Array ();
+      if (planets == null)
+        planets = new Planet.Collection ();
     }
-
     public class Collection : SerializableTreeMap<string,Space> {}
   }
-  class Refaction : SerializableObjectModel, SerializableMapDualKey<string,string>
+  class Refaction : SerializableContainer, SerializableMapDualKey<string,string>
   {
     public string model { get; set; }
     public string manufacturer { get; set; }
@@ -94,22 +105,17 @@ class SerializableGeeCollectionsTest : GXmlTest
     
     public override string node_name () { return "refaction"; }
     public override string to_string () { return model; }
-    public override GXml.Node? deserialize (GXml.Node node)
-                                    throws GLib.Error
-                                    requires (node is GXml.Element)
+    public override bool get_enable_unknown_serializable_property () { return true; }
+
+    public override void init_containers ()
     {
-      Element element = (Element) node;
-      if (element.has_child_nodes ()) {
-        if (spaceships == null)
-          spaceships = new SpaceShip.Collection ();
-        spaceships.deserialize (element);
-      }
-      return default_deserialize (node);
+      if (spaceships == null)
+        spaceships = new SpaceShip.Collection ();
     }
 
     public class Collection : SerializableDualKeyMap<string,string,Refaction> {}
   }
-  class SpaceShip : SerializableObjectModel, SerializableMapDualKey<string,string>
+  class SpaceShip : SerializableContainer, SerializableMapDualKey<string,string>
   {
     public string model { get; set; }
     public string manufacturer { get; set; }
@@ -123,63 +129,44 @@ class SerializableGeeCollectionsTest : GXmlTest
     
     public string get_map_primary_key () { return manufacturer; }
     public string get_map_secondary_key () { return model; }
-    
+
     public override string node_name () { return "ship"; }
     public override string to_string () { return model; }
-    public override GXml.Node? deserialize (GXml.Node node)
-                                    throws GLib.Error
-                                    requires (node is GXml.Element)
+    public override bool get_enable_unknown_serializable_property () { return true; }
+
+    public override void init_containers ()
     {
-      Element element = (Element) node;
-      if (element.has_child_nodes ()) {
-        if (spaces == null)
-          spaces = new Space.Collection ();
-        spaces.deserialize (element);
-      }
-      return default_deserialize (node);
+      if (spaces == null)
+        spaces = new Space.Collection ();
     }
 
     public class Collection : SerializableDualKeyMap<string,string,SpaceShip> {}
   }
   
-  class ChargeZone : SerializableObjectModel
+  class ChargeZone : SerializableContainer
   {
     public string name { get; set; }
     public SpaceShip.Collection spaceships { get; set; }
     
     public override string node_name () { return "ChargeZone"; }
     public override string to_string () { return name; }
-    public override GXml.Node? deserialize (GXml.Node node)
-                                    throws GLib.Error
-                                    requires (node is Element)
+    public override void init_containers ()
     {
-      var element = (Element) node;
-      if (element.has_child_nodes ()) {
-        if (spaceships == null)
-          spaceships = new SpaceShip.Collection ();
-        spaceships.deserialize (element);
-      }
-      return default_deserialize (node);
+      if (spaceships == null)
+        spaceships = new SpaceShip.Collection ();
     }
   }
-  class Storage : SerializableObjectModel
+  class Storage : SerializableContainer
   {
     public string name { get; set; }
     public Refaction.Collection refactions { get; set; }
     
     public override string node_name () { return "storage"; }
     public override string to_string () { return name; }
-    public override GXml.Node? deserialize (GXml.Node node)
-                                    throws GLib.Error
-                                    requires (node is Element)
+    public override void init_containers ()
     {
-      var element = (Element) node;
-      if (element.has_child_nodes ()) {
-        if (refactions == null)
-          refactions = new Refaction.Collection ();
-        refactions.deserialize (element);
-      }
-      return default_deserialize (node);
+      if (refactions == null)
+        refactions = new Refaction.Collection ();
     }
   }
 
@@ -191,6 +178,7 @@ class SerializableGeeCollectionsTest : GXmlTest
     public override string node_name () { return "base"; }
     public override string to_string () { return name; }
   }
+
   public static void add_tests ()
   {
     Test.add_func ("/gxml/serializable/convined_gee_containers/deserialize",
@@ -415,6 +403,188 @@ class SerializableGeeCollectionsTest : GXmlTest
           assert_not_reached ();
         }
       }
+      catch (GLib.Error e) {
+        stdout.printf (@"ERROR: $(e.message)");
+        assert_not_reached ();
+      }
+    });
+    Test.add_func ("/gxml/serializable/convined_gee_containers/se-deserialize-unknowns",
+    () => {
+      try {
+        var org_doc = new Document.from_string ("""<?xml version="1.0"?>
+<base name="AlphaOne" >
+  <chargezone name="A1-1">
+    <ship manufacturer="MacToy" model="A1234">
+      <space name="Alpha Centaury">
+        <planet name="Earth">
+          <citizen ctype="Human">1M</citizen>
+          <citizen ctype="Ghost">10M</citizen>
+        </planet>
+        <planet name="Galiumt" />
+      </space>
+      <space name="Galax">
+        <planet name="Saminon">
+          <citizen ctype="Humanes">100M</citizen>
+          <citizen ctype="Jeties">1000M</citizen>
+        </planet>
+        <planet name="Keymanth" />
+      </space>
+    </ship>
+    <ship manufacturer="Memphis" model="AB1">
+      <space name="Proximity">
+        <planet name="Pluton">
+          <citizen ctype="Ork">10000M</citizen>
+          <citizen ctype="Gyk">100000M</citizen>
+        </planet>
+        <planet name="Mercury" />
+      </space>
+    </ship>
+  </chargezone>
+  <storage name="B4-A4">
+    <refaction manufacturer="MacToy" model="Fly045">
+      <ship manufacturer="MacToy" model="A1234" />
+      <ship manufacturer="MegaTrench" model="G045-1" unknown="UNKNOWN ATTR">TEST_TEXT</ship>
+      <UnknownAttribute name="nothing" />
+    </refaction>
+  </storage>
+</base>""");
+        var s = new SpaceBase ();
+        s.deserialize (org_doc);
+        if (s.charge_zone == null) {
+          stdout.printf (@"ERROR: No charge Zone for $(s.name)\n");
+          assert_not_reached ();
+        }
+        if (s.charge_zone.spaceships.size != 2) {
+          stdout.printf (@"ERROR: Bad SpaceShip size: $(s.charge_zone.spaceships.size)\n");
+          assert_not_reached ();
+        }
+        var mssh = s.charge_zone.spaceships.@get ("MacToy","A1234");
+        if (mssh == null) {
+          stdout.printf (@"ERROR: No spaceship MacToy/A1234\n");
+          assert_not_reached ();
+        }
+        
+        if (s.storage == null) {
+          stdout.printf (@"ERROR: No storage\n");
+          assert_not_reached ();
+        }
+        if (mssh.spaces.size != 2) {
+          stdout.printf (@"ERROR: Bad spaces number for MacToy/A1234: $(mssh.spaces.size)\n");
+          assert_not_reached ();
+        }
+        if (s.storage == null) {
+          stdout.printf (@"ERROR: No storage\n");
+          assert_not_reached ();
+        }
+        if (s.storage.refactions.size != 1) {
+          stdout.printf (@"ERROR: Bad number of refactions: got $(s.storage.refactions.size)\n");
+          assert_not_reached ();
+        }
+        var refaction = s.storage.refactions.@get ("MacToy","Fly045");
+        if (refaction == null) {
+          stdout.printf (@"ERROR: No Refaction MacToy/Fly045 found!\n");
+          assert_not_reached ();
+        }
+        if (refaction.unknown_serializable_property == null) {
+          stdout.printf (@"ERROR: Refaction: No unknown properties/nodes found!\n");
+          assert_not_reached ();
+        }
+        if (refaction.unknown_serializable_property.size () != 1) {
+          stdout.printf (@"ERROR: Refaction: Bad unknown properties/nodes number: found $(refaction.unknown_serializable_property.size ())\n");
+          foreach (GXml.Node unk in refaction.unknown_serializable_property.get_values ())
+          {
+            string unkv = "___NULL__";
+            if (unk.node_value != null)
+              unkv = unk.node_value;
+            stdout.printf (@"Unknown Node: $(unk.node_name) / value: '$(unkv)'");
+          }
+          assert_not_reached ();
+        }
+        var doc = new Document ();
+        s.serialize (doc);
+        if (doc.document_element.node_name != "base") {
+          stdout.printf (@"ERROR: bad root node name\n");
+          assert_not_reached ();
+        }
+        stdout.printf (@"$doc\n");
+        foreach (GXml.Node n in doc.document_element.child_nodes) {
+          if (n is Element) {
+            if (n.node_name == "ChargeZone") {
+              
+            }
+            if (n.node_name == "storage") {
+              bool unkfound = false;
+              bool tfound = false;
+              bool attrfound = false;
+              foreach (GXml.Node sn in n.child_nodes) {
+                if (sn is Element) {
+                  if (sn.node_name == "refaction") {
+                    foreach (GXml.Node rn in sn.child_nodes) {
+                      if (rn is Element) {
+                        stdout.printf (@"Refaction current node: '$(rn.node_name)'\n");
+                        if (rn.node_name == "ship") {
+                          var atr = ((Element) rn).get_attribute_node ("manufacturer");
+                          if (atr == null) {
+                            stdout.printf (@"ERROR: No attribute manufacturer for Ship\n");
+                            assert_not_reached ();
+                          }
+                          if (atr.node_value == "MegaTrench") {
+                            var shanattr = ((Element) rn).get_attribute_node ("unknown");
+                            if (shanattr != null) {
+                              attrfound = true;
+                              if (shanattr.node_value != "UNKNOWN ATTR") {
+                                stdout.printf (@"ERROR: Invalid Text Node Value for ship MegaTrench: $(shanattr.node_value)\n");
+                                assert_not_reached ();
+                              }
+                            }
+                            foreach (GXml.Node shn in rn.child_nodes) {
+                              stdout.printf (@"Refaction: Ship MegaTrench: Node: $(shn.node_name)\n");
+                              if (shn is Text) {
+                                tfound = true;
+                                if (shn.node_value != "TEST_TEXT") {
+                                  stdout.printf (@"ERROR: Invalid Text Node Value for ship MegaTrench: $(shn.node_value)\n");
+                                  assert_not_reached ();
+                                }
+                              }
+                            }
+                          }
+                        }
+                        if (rn.node_name == "UnknownAttribute") {
+                          unkfound = true;
+                          var nattr = ((Element) rn).get_attribute_node ("name");
+                          if (nattr == null) {
+                            stdout.printf (@"ERROR: No Unknown Attribute Node with attribute name\n");
+                            assert_not_reached ();
+                          }
+                          if (nattr.node_value != "nothing") {
+                            stdout.printf (@"ERROR: Invalid unknown attribute node's attribute name value: found $(nattr.node_value)\n");
+                            assert_not_reached ();
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              if (!attrfound) {
+                stdout.printf (@"ERROR: No Unknown AttributeText found for ship MegaTrench\n");
+                assert_not_reached ();
+              }
+              if (!tfound) {
+                stdout.printf (@"ERROR: No Text Node Value found for ship MegaTrench\n");
+                assert_not_reached ();
+              }
+              if (!unkfound) {
+                stdout.printf (@"ERROR: No Unknown Attribute Node found for storage\n");
+                assert_not_reached ();
+              }
+            }
+          }
+          if (n is Text) {
+            stdout.printf (@"ROOT NODE VALUE: '$(n.node_value)'\n");
+          }
+        }
+    }
       catch (GLib.Error e) {
         stdout.printf (@"ERROR: $(e.message)");
         assert_not_reached ();

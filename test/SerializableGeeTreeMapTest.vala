@@ -10,30 +10,20 @@ class SerializableGeeTreeMapTest : GXmlTest
     public Space.named (string name) { this.name = name; }
     public override string node_name () { return "space"; }
     public override string to_string () { return name; }
+    public class Collection : SerializableTreeMap<string,Space> {}
   }
 
-  class SpaceContainer : SerializableObjectModel
+  class SpaceContainer : SerializableContainer
   {
     public string owner { get; set; }
-    public SpaceCollection storage { get; set; }
+    public Space.Collection storage { get; set; }
     public override string node_name () { return "spacecontainer"; }
     public override string to_string () { return owner; }
-    public override GXml.Node? deserialize (GXml.Node node)
-                                    throws GLib.Error
-    {
-      Element element;
-      if (node is Document)
-        element = ((Document) node).document_element;
-      else
-        element = (Element) node;
-      if (element.has_child_nodes ()) {
-        if (storage == null)
-          storage = new SpaceCollection ();
-        storage.deserialize (element);
-      }
-      return default_deserialize (node);
+// SerializableContainer overrides
+    public override void init_containers () {
+      if (storage == null)
+        storage = new Space.Collection ();
     }
-    public class SpaceCollection : SerializableTreeMap<string,Space> {}
   }
 
   public static void add_tests ()
@@ -161,6 +151,10 @@ class SerializableGeeTreeMapTest : GXmlTest
           stdout.printf (@"ERROR: owner must be 'Earth' got: $(c.owner)\n$(doc)\n");
           assert_not_reached ();
         }
+        if (c.storage == null) {
+          stdout.printf (@"ERROR: storage doesn't exist\n$(doc)\n");
+          assert_not_reached ();
+        }
         if (c.storage.size != 2) {
           stdout.printf (@"ERROR: Size must be 2 got: $(c.storage.size)\n$(doc)\n");
           assert_not_reached ();
@@ -191,7 +185,7 @@ class SerializableGeeTreeMapTest : GXmlTest
         var c = new SpaceContainer ();
         var o1 = new Space.named ("Big");
         var o2 = new Space.named ("Small");
-        c.storage = new SpaceContainer.SpaceCollection ();
+        c.storage = new Space.Collection ();
         c.storage.set (o1.name, o1);
         c.storage.set (o2.name, o2);
         var doc = new Document ();

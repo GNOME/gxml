@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /* SerializableGeeTreeModel.vala
  *
  * Copyright (C) 2013  Daniel Espinosa <esodan@gmail.com>
@@ -26,19 +26,18 @@ public class GXml.SerializableTreeMap<K,V> : Gee.TreeMap<K,V>, Serializable
   protected ParamSpec[] properties { get; set; }
   public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; protected set; }
   public string? serialized_xml_node_value { get; protected set; default=null; }
-  public bool get_enable_unknown_serializable_property () { return false; }
   public GLib.HashTable<string,GXml.Node> unknown_serializable_property { get; protected set; }
 
+  public bool get_enable_unknown_serializable_property () { return false; }
   public virtual bool serialize_use_xml_node_value () { return false; }
   public virtual bool property_use_nick () { return false; }
 
   public virtual string node_name ()
   {
-    return "";
-  }
-  public string default_node_name ()
-  {
-    return get_type().name().down();
+    if (value_type.is_a (typeof (Serializable)))
+      return ((Serializable) Object.new (value_type)).node_name ();
+    else
+      return get_type ().name ();
   }
 
   public virtual GLib.ParamSpec? find_property_spec (string property_name)

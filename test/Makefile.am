@@ -44,10 +44,10 @@ gxml_test_SOURCES = \
 	SerializableGeeHashMapTest.vala \
 	SerializableGeeCollectionsTest.vala \
 	SerializableBasicTypesTest.vala \
+	$(NULL) \
 	XPathExpressionTest.vala \
 	XPathNSResolverTest.vala \
-	XPathResultTest.vala \
-	$(NULL)
+	XPathResultTest.vala
 
 gxml_test.vala.stamp: $(gxml_test_SOURCES)
 
