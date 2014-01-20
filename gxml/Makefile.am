@@ -66,11 +66,7 @@ libgxml_la_SOURCES = \
 	SerializableMapDualKey.vala \
 	SerializableGeeArrayList.vala \
 	$(NULL) \
-	SerializableContainer.vala \
-	XPathError.vala \
-	XPathExpression.vala \
-	XPathNSResolver.vala \
-	XPathResult.vala
+	SerializableContainer.vala
 
 # TODO: do we want XPath files in own directory?
 

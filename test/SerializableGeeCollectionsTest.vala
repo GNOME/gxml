@@ -506,7 +506,7 @@ class SerializableGeeCollectionsTest : GXmlTest
           stdout.printf (@"ERROR: bad root node name\n");
           assert_not_reached ();
         }
-        stdout.printf (@"$doc\n");
+        //stdout.printf (@"$doc\n");
         foreach (GXml.Node n in doc.document_element.child_nodes) {
           if (n is Element) {
             if (n.node_name == "ChargeZone") {
@@ -521,7 +521,7 @@ class SerializableGeeCollectionsTest : GXmlTest
                   if (sn.node_name == "refaction") {
                     foreach (GXml.Node rn in sn.child_nodes) {
                       if (rn is Element) {
-                        stdout.printf (@"Refaction current node: '$(rn.node_name)'\n");
+                        //stdout.printf (@"Refaction current node: '$(rn.node_name)'\n");
                         if (rn.node_name == "ship") {
                           var atr = ((Element) rn).get_attribute_node ("manufacturer");
                           if (atr == null) {
@@ -538,7 +538,7 @@ class SerializableGeeCollectionsTest : GXmlTest
                               }
                             }
                             foreach (GXml.Node shn in rn.child_nodes) {
-                              stdout.printf (@"Refaction: Ship MegaTrench: Node: $(shn.node_name)\n");
+                              //stdout.printf (@"Refaction: Ship MegaTrench: Node: $(shn.node_name)\n");
                               if (shn is Text) {
                                 tfound = true;
                                 if (shn.node_value != "TEST_TEXT") {

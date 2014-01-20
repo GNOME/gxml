@@ -516,27 +516,5 @@ namespace GXml {
 		public virtual string to_string (bool format = false, int level = 0) {
 			return "Node(%d:%s)".printf (this.node_type, this.node_name);
 		}
-
-		/*** XPath functions ***/
-
-		/* XPATH:TODO: should Node implement "XPathEvaluator" as an interface? No? */
-
-		/**
-		 * Evaluates XPath expression in context of current DOM node (or Document).
-		 *
-		 * @param expr XPath expression
-		 * @param nsr namespace resolver object (prefix -> URI mapping)
-		 * @param res_type type to cast resulting value to
-		 * @return XPath.Result object containing result type and value
-		 * @throws GXml.Error when node type is not supported as context of evaluation
-		 * @throws XPath.Error when supplied with invalid XPath expression
-		 */
-		public XPath.Result evaluate (string expr, XPath.NSResolver? nsr = null,
-			XPath.ResultType res_type = XPath.ResultType.ANY)
-			throws GXml.Error, XPath.Error
-		{
-			var expression = new XPath.Expression (expr, nsr);
-			return expression.evaluate (this, res_type);
-		}
 	}
 }

@@ -44,9 +44,6 @@ class GXmlTest {
 		SerializableGeeArrayListTest.add_tests ();
 		SerializableGeeCollectionsTest.add_tests ();
 		SerializableBasicTypeTest.add_tests ();
-		XPathExpressionTest.add_tests ();
-		XPathNSResolverTest.add_tests ();
-		XPathResultTest.add_tests ();
 
 		Test.run ();
 

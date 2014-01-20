@@ -8,7 +8,7 @@
  *       Daniel Espinosa <esodan@gmail.com>
  *
  *
- *  Copyright (c) 2013 Daniel Espinosa
+ *  Copyright (c) 2013-2014 Daniel Espinosa
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
@@ -49,7 +49,7 @@ class SerializableBasicTypeTest : GXmlTest {
           stdout.printf (@"ERROR: Wrong boolean value. Expected true got: $(b.node_value.down ()) : $(b.node_value)\n");
           assert_not_reached ();
         }
-        stdout.printf (@"\n$doc\n");
+        //stdout.printf (@"\n$doc\n");
       } catch (GLib.Error e) {
         stdout.printf (@"ERROR: $(e.message)");
         assert_not_reached ();
@@ -67,7 +67,7 @@ class SerializableBasicTypeTest : GXmlTest {
           stdout.printf (@"ERROR: Wrong boolean value. Expected true got: $(bt.boolean)\n$doc\n");
           assert_not_reached ();
         }
-        stdout.printf (@"\n$doc\n");
+        //stdout.printf (@"\n$doc\n");
       } catch (GLib.Error e) {
         stdout.printf (@"ERROR: $(e.message)");
         assert_not_reached ();
