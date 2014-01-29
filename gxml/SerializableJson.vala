@@ -22,6 +22,34 @@
  *       Daniel Espinosa <esodan@gmail.com>
  */
 
+
+/*
+  Version 3: json-glib version
+
+  PLAN:
+  * add support for GObject Introspection to allow us to serialise non-property members
+
+  json-glib
+  * has functions to convert XML structures into Objects and vice versa
+  * can convert simple objects automatically
+  * richer objects need to implement interface
+
+  json_serializable_real_serialize -> json_serialize_pspec
+  * how do these get used with GInterfaces?  are these default methods like with superclasses?
+  * TODO: I don't think vala does multiple inheritance, so do we want GXml.Serializable to be an interface or a superclass?
+
+  json_serializable_default_{de,}serialize_property -> json_serializable_real_{de,}serialize
+
+  json_serializable_{de,}serialize_property -> iface->{de,}serialize_property
+    these all get init'd to -> json_serializable_real_{de,}serialize_property
+      these all call -> json_{de,}serialize_pspec
+
+  json_serializable_{find,list,get,set}_propert{y,ies} -> iface->{find,list,get,set}_propert{y,ies}
+    these all get init'd to -> json_serializable_real_{find,list,get,set}_propert{y,ies}
+    these all call -> g_object_{class,}_{find,list,get,set}_propert{y,ies}
+ */
+
+
 /**
  * Serializes and deserializes {@link GLib.Object}s to and from
  * {@link GXml.Node}.

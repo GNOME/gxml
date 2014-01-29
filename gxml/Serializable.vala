@@ -13,7 +13,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
-
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
  *
@@ -21,57 +21,15 @@
  *      Richard Schwarting <aquarichy@gmail.com>
  *      Daniel Espinosa <esodan@gmail.com>
  */
-
-
-/*
-  Version 3: json-glib version
-
-  PLAN:
-  * add support for GObject Introspection to allow us to serialise non-property members
-
-  json-glib
-  * has functions to convert XML structures into Objects and vice versa
-  * can convert simple objects automatically
-  * richer objects need to implement interface
-
-  json_serializable_real_serialize -> json_serialize_pspec
-  * how do these get used with GInterfaces?  are these default methods like with superclasses?
-  * TODO: I don't think vala does multiple inheritance, so do we want GXml.Serializable to be an interface or a superclass?
-
-  json_serializable_default_{de,}serialize_property -> json_serializable_real_{de,}serialize
-
-  json_serializable_{de,}serialize_property -> iface->{de,}serialize_property
-    these all get init'd to -> json_serializable_real_{de,}serialize_property
-      these all call -> json_{de,}serialize_pspec
-
-  json_serializable_{find,list,get,set}_propert{y,ies} -> iface->{find,list,get,set}_propert{y,ies}
-    these all get init'd to -> json_serializable_real_{find,list,get,set}_propert{y,ies}
-    these all call -> g_object_{class,}_{find,list,get,set}_propert{y,ies}
- */
-
-using GXml;
-
 namespace GXml {
   /**
    * Interface allowing implementors direct control over serialisation of properties and other data
-   *
-   * A class that implements this interface will still be passed
-   * to {@link GXml.Serialization.serialize_object} for
-   * serialization.  That function will check whether the object
-   * implements {@link GXml.Serializable} and will then prefer
-   * overridden methods instead of standard ones.  Most of the
-   * methods for this interface can indicate (via return value)
-   * that, for a given property, the standard serialization
-   * approach should be used instead.  Indeed, not all methods
-   * need to be implemented, but some accompany one another and
-   * should be implemented carefully, corresponding to one
-   * another.  You can also create virtual properties from
-   * non-public property fields to enable their serialization.
-   *
-   * For an example, look in tests/XmlSerializableTest
    */
   public interface Serializable : GLib.Object {
-    protected abstract ParamSpec[] properties { get; set; }
+     /**
+      * Convenient property to store serializable properties
+      */
+     protected abstract ParamSpec[] properties { get; set; }
     /**
      * Store all properties to be ignored on serialization.
      *
@@ -90,9 +48,13 @@ namespace GXml {
      * call {@link init_properties()} before add new propeties.
      */
     public abstract HashTable<string,GLib.ParamSpec>  ignored_serializable_properties { get; protected set; }
-    /**
-     * 
-     */
+     /**
+      * Return {@link false} if you want ignore unknown properties and {@link GXml.Node}'s
+      * not in your class definition.
+      *
+      * Take care, disabling this feature you can lost data on serialization, because any unknown
+      * property or element will be ignored.
+      */
      public abstract bool get_enable_unknown_serializable_property ();
     /**
      * On deserialization stores any {@link GXml.Node} not used on this

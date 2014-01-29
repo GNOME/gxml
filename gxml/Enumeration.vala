@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
 /* Serializable.vala
  *
  + Copyright (C) 2013  Daniel Espinosa <esodan@gmail.com>
@@ -131,6 +131,11 @@ namespace GXml {
 			EnumClass enumc = (EnumClass) enumeration.class_ref ();
 			return enumc.values;
 		}
+		/**
+		 * Converts a string to a value in a {@link GLib.EnumValue}
+		 *
+		 * Returns: a value in a {@link GLib.EnumValue
+		 */
 	}
 	public errordomain EnumerationError
 	{

@@ -35,6 +35,7 @@ gxml_test_SOURCES = \
 	NodeListTest.vala \
 	TextTest.vala \
 	ValaLibxml2Test.vala \
+	EnumerationTest.vala \
 	SerializableTest.vala \
 	SerializationTest.vala \
 	SerializableObjectModelTest.vala \
