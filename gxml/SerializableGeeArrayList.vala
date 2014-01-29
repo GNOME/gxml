@@ -1,7 +1,7 @@
 /* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /* SerializableGeeTreeModel.vala
  *
- * Copyright (C) 2013  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2013, 2014  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,7 +22,7 @@
 using GXml;
 using Gee;
 
-public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable
+public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, SerializableCollection
 {
   protected ParamSpec[] properties { get; set; }
   public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; protected set; }

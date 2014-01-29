@@ -1,7 +1,7 @@
 /* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 0; tab-width: 4 -*- */
 /* ObjectModel.vala
  *
- * Copyright (C) 2013  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2013, 2014  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -249,11 +249,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       {
         if (spec.value_type.is_a (typeof (Serializable)))
         {
-            if (spec.value_type.is_a (typeof (SerializableTreeMap))
-                || spec.value_type.is_a (typeof (SerializableHashMap))
-                || spec.value_type.is_a (typeof (SerializableDualKeyMap))
-                || spec.value_type.is_a (typeof (SerializableArrayList))
-                )
+            if (spec.value_type.is_a (typeof (SerializableCollection)))
             {
               Value vo = Value (spec.value_type);
               get_property (spec.name, ref vo);

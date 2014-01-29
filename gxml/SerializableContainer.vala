@@ -19,9 +19,20 @@
  * Authors:
  *      Daniel Espinosa <esodan@gmail.com>
  */
-
+/**
+ * Any class having a collection managed list of nodes must implement this
+ * abstract class.
+ */
 public abstract class GXml.SerializableContainer : SerializableObjectModel
 {
   /* Xom interface properties */
   public abstract void init_containers ();
+}
+
+/**
+ * Fake interface to be implemented by any collection.
+ */
+public interface GXml.SerializableCollection : Object, Serializable
+{
+  public virtual bool is_collection () { return true; }
 }

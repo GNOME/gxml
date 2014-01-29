@@ -22,9 +22,9 @@
 using GXml;
 using Gee;
 
-public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable
+public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable, SerializableCollection
 {
-  private Gee.HashMultiMap<P,HashMap<S,V>> storage;
+  protected Gee.HashMultiMap<P,HashMap<S,V>> storage;
 
   public Type value_type
   {
