@@ -158,6 +158,7 @@ GOBJECT_INTROSPECTION_CHECK([1.32.0])
 ### Autoconf generating Makefiles
 AC_CONFIG_FILES([
 Makefile
+gxml/namespace-info.vala
 gxml/gxml-0.4.pc
 gxml/Makefile
 test/Makefile

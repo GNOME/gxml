@@ -33,6 +33,7 @@ VALAC=valac
 
 # Vala source code
 libgxml_0_4_la_SOURCES = \
+	namespace-info.vala \
 	Attr.vala \
 	BackedNode.vala \
 	CDATASection.vala \
@@ -149,7 +150,7 @@ GXml-0.4.typelib: $(INTROSPECTION_GIRS)
 girdir = $(INTROSPECTION_GIRDIR)
 gir_DATA = $(INTROSPECTION_GIRS)
 typelibdir = $(INTROSPECTION_TYPELIBDIR)
-typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
+typelib_DATA = GXml-0.4.typelib
 CLEANFILES += $(gir_DATA) $(typelibs_DATA)
 endif
 ### Files to clean
@@ -161,6 +162,7 @@ BUILT_SOURCES = \
 
 CLEANFILES += \
 	$(BUILT_SOURCES) \
+	namespace-info.vala \
 	$(libgxml_0_4_la_SOURCES:.vala=.c)
 
 MAINTAINERCLEANFILES = $(BUILT_SOURCES)
