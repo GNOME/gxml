@@ -99,8 +99,8 @@ AC_SUBST([PROJECT_MAJOR_MINOR_VERSION])
 API_VERSION=project_major_minor_version
 AC_SUBST([API_VERSION])
 
-
-
+GXML_VERSION=project_base_version
+AC_SUBST([GXML_VERSION])
 
 
 ### Dependencies
@@ -155,15 +155,6 @@ fi
 # Check for GObject Introspection
 GOBJECT_INTROSPECTION_CHECK([1.32.0])
 
-AC_ARG_ENABLE([gi-system-install],
-    AS_HELP_STRING([--enable-gi-system-install], [Install GObject Introspection files along with system installed files [default=no]]),
-    [enable_gi_system_install=$enableval],[enable_gi_system_install=no])
-AM_CONDITIONAL(ENABLE_GI_SYSTEM_INSTALL, [test x"$enable_gi_system_install" = "xyes"])
-
-
-
-# TODO: should libgxml.pc have no version number in it?
-
 ### Autoconf generating Makefiles
 AC_CONFIG_FILES([
 Makefile
@@ -184,8 +175,8 @@ AC_OUTPUT
 
 # Print configuration summary
 echo ""
-echo " Configuration summary for GXml"
+echo " Configuration summary for GXml-$GXML_VERSION"
 echo "   Installation prefix:                          $prefix"
-echo "   Enable GObject Introspection System Install (--enable-gi-system-install):  `if test x$enable_gi_system_install != xno; then echo yes; else echo no; fi`"
+echo "   Enable GObject Introspection (--enable-instrospection):  `if test x$have_instrospection != xno; then echo yes; else echo no; fi`"
 echo "   Documentation:                                ${have_valadoc}"
 echo ""

@@ -1,7 +1,8 @@
 ## Process this file with automake to produce Makefile.in
 ## Created by Anjuta and modified based on libfolks
 
-
+# Empty variable to be added elements later
+CLEANFILES=
 ### General Compilation flags
 AM_CPPFLAGS = \
 	-include $(CONFIG_HEADER) \
@@ -109,7 +110,7 @@ gxml_HEADERS = gxml.h
 vapidir = $(datadir)/vala/vapi
 dist_vapi_DATA = \
 	gxml-0.4.vapi \
-	gxml.deps \
+	gxml-0.4.deps \
 	$(NULL)
 
 # .pc pkg-config file
@@ -129,34 +130,28 @@ GITIGNOREFILES = \
 
 
 ### GObject Introspection
-
-if ENABLE_GI_SYSTEM_INSTALL
-girdir = $(INTROSPECTION_GIRDIR)
-typelibdir = $(INTROSPECTION_TYPELIBDIR)
-else
-girdir = $(datadir)/gir-1.0
-typelibdir = $(libdir)/girepository-1.0
-endif
-
 # dlname:
 #   Extract our dlname like libfolks does, see bgo#658002 and bgo#585116
 #   This is what g-ir-scanner does.
 libgxml_dlname = \
         `$(SED) -n "s/^dlname='\([A-Za-z0-9.+-]\+\)'/\1/p" libgxml-0.4.la`
 
--include $(INTROSPECTION_MAKEFILE)
-INTROSPECTION_GIRS =
-INTROSPECTION_SCANNER_ARGS =
+# This makes GObject Introspection optional and requires to use --enable-instrospection switch on configure
+if HAVE_INTROSPECTION
+INTROSPECTION_GIRS = GXml-$(API_VERSION).gir
 INTROSPECTION_COMPILER_ARGS = --includedir=. -l $(libgxml_dlname)
 
-GXml-$(API_VERSION).gir: libgxml-0.4.la
-GIRS = GXml-$(API_VERSION).gir
+GXml-0.4.gir: libgxml-0.4.la
 
-dist_gir_DATA = $(GIRS)
-nodist_typelib_DATA = $(GIRS:.gir=.typelib)
+GXml-0.4.typelib: $(INTROSPECTION_GIRS)
+	$(INTROSPECTION_COMPILER) $(INTROSPECTION_COMPILER_ARGS)  $< -o $@
 
-
-
+girdir = $(INTROSPECTION_GIRDIR)
+gir_DATA = $(INTROSPECTION_GIRS)
+typelibdir = $(INTROSPECTION_TYPELIBDIR)
+typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
+CLEANFILES += $(gir_DATA) $(typelibs_DATA)
+endif
 ### Files to clean
 BUILT_SOURCES = \
 	gxml_0_4_la_vala.stamp \
@@ -164,24 +159,11 @@ BUILT_SOURCES = \
 	gxml-0.4.vapi \
 	$(NULL)
 
-# TODO: should we add *.c to this list?, or is there a var of generated .c we can put in CLEANFILES?
-
-# 	gxml.pc
-# 	$(libgxml_la_VALASOURCES:.vala=.c) \
-# 	$(vapi_DATA) \
-# 	$(typelibs_DATA) \
-# 	$(INTROSPECTION_GIRS) \
-# 	gxml.vala.stamp
-
-## File used to indicate whether code needs rebuilding (?)
-CLEANFILES = \
-	$(INTROSPECTION_GIRS) \
-	$(typelibs_DATA) \
+CLEANFILES += \
 	$(BUILT_SOURCES) \
-	$(nodist_typelib_DATA) \
 	$(libgxml_0_4_la_SOURCES:.vala=.c)
 
-MAINTAINERCLEANFILES = $(BUILT_SOURCES) $(dist_gir_DATA)
+MAINTAINERCLEANFILES = $(BUILT_SOURCES)
 
 
 
