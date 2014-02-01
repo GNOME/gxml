@@ -21,8 +21,8 @@ m4_define([project_nano_version], [0])
 #     increment current and set revision to 0
 #   If public symbols have been added since last release, increment age
 #   If public symbols have been removed since last release, set age to 0
-m4_define([project_lt_current], [3])
-m4_define([project_lt_revision], [1])
+m4_define([project_lt_current], [4])
+m4_define([project_lt_revision], [0])
 m4_define([project_lt_age], [0])
 
 # Combine numbers to various version variables (different uses)
@@ -52,7 +52,7 @@ AC_INIT([GXml], project_version,
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 AC_PREREQ([2.65])
-AC_COPYRIGHT([Copyright (C) 2012 Richard Schwarting])
+AC_COPYRIGHT([Copyright (C) 2012 Richard Schwarting, 2013, 2014 (C) Daniel Espinosa])
 
 # Configure various files and settings for autoconf/automake
 AC_CONFIG_MACRO_DIR([m4])
@@ -167,7 +167,7 @@ AM_CONDITIONAL(ENABLE_GI_SYSTEM_INSTALL, [test x"$enable_gi_system_install" = "x
 ### Autoconf generating Makefiles
 AC_CONFIG_FILES([
 Makefile
-gxml/gxml.pc
+gxml/gxml-0.4.pc
 gxml/Makefile
 test/Makefile
 docs/Makefile

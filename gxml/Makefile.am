@@ -26,12 +26,12 @@ AM_CFLAGS = \
 ### Library
 
 # Library to create
-lib_LTLIBRARIES = libgxml.la
+lib_LTLIBRARIES = libgxml-0.4.la
 
 VALAC=valac
 
 # Vala source code
-libgxml_la_SOURCES = \
+libgxml_0_4_la_SOURCES = \
 	Attr.vala \
 	BackedNode.vala \
 	CDATASection.vala \
@@ -65,12 +65,11 @@ libgxml_la_SOURCES = \
 	SerializableGeeDualKeyMap.vala \
 	SerializableMapDualKey.vala \
 	SerializableGeeArrayList.vala \
-	$(NULL) \
 	SerializableContainer.vala
 
 # TODO: do we want XPath files in own directory?
 
-gxml.vala.stamp: $(libgxml_la_SOURCES)
+gxml_0_4_la_vala.stamp: $(libgxml_0_4_la_SOURCES)
 
 
 # libgxml_la_SOURCES = \
@@ -79,11 +78,11 @@ gxml.vala.stamp: $(libgxml_la_SOURCES)
 # 	$(NULL)
 
 # library flags
-libgxml_la_VALAFLAGS = \
+libgxml__0_4_la_VALAFLAGS = \
 	$(AM_VALAFLAGS) \
 	$(ERROR_VALAFLAGS) \
 	--gir=GXml-$(API_VERSION).gir \
-	--library=gxml \
+	--library=gxml-0.4 \
 	$(top_srcdir)/vapi/config.vapi \
 	--vapidir=. \
 	--vapidir=$(top_srcdir)/vapi \
@@ -92,11 +91,11 @@ libgxml_la_VALAFLAGS = \
 	--pkg gobject-2.0 \
 	--pkg gio-2.0 \
 	--includedir gxml \
-	--vapi gxml.vapi \
+	--vapi gxml-0.4.vapi \
 	-H gxml.h \
 	$(NULL)
 
-libgxml_la_LIBADD = \
+libgxml_0_4_la_LIBADD = \
 	$(AM_LDADD) \
 	$(GEE_LIBS) \
 	$(GIO_LIBS) \
@@ -105,23 +104,24 @@ libgxml_la_LIBADD = \
 	$(VALA_LIBS) \
 	$(NULL)
 
-libgxml_la_LDFLAGS = \
+libgxml_0_4_la_LDFLAGS = \
 	$(AM_LDFLAGS) \
 	-version-info "$(LT_CURRENT)":"$(LT_REVISION)":"$(LT_AGE)"
 
 # .h header file
-gxmldir= $(includedir)/gxml
+gxml.h: libgxml-0.4.la
+gxmldir= $(includedir)/gxml-$(API_VERSION)/gxml
 gxml_HEADERS = gxml.h
 
 # .vapi Vala API file
 vapidir = $(datadir)/vala/vapi
 dist_vapi_DATA = \
-	gxml.vapi \
+	gxml-0.4.vapi \
 	gxml.deps \
 	$(NULL)
 
 # .pc pkg-config file
-pkgconfig_in = gxml.pc.in
+pkgconfig_in = gxml-0.4.pc.in
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = $(pkgconfig_in:.in=)
 
@@ -130,8 +130,8 @@ EXTRA_DIST = \
 	$(NULL)
 
 GITIGNOREFILES = \
-	$(libgxml_la_SOURCES:.vala=.c) \
-	libgxml_la_vala.stamp \
+	$(libgxml_0_4_la_SOURCES:.vala=.c) \
+	libgxml_0_4_la_vala.stamp \
 	$(NULL)
 
 
@@ -150,14 +150,14 @@ endif
 #   Extract our dlname like libfolks does, see bgo#658002 and bgo#585116
 #   This is what g-ir-scanner does.
 libgxml_dlname = \
-        `$(SED) -n "s/^dlname='\([A-Za-z0-9.+-]\+\)'/\1/p" libgxml.la`
+        `$(SED) -n "s/^dlname='\([A-Za-z0-9.+-]\+\)'/\1/p" libgxml-0.4.la`
 
 -include $(INTROSPECTION_MAKEFILE)
 INTROSPECTION_GIRS =
 INTROSPECTION_SCANNER_ARGS =
 INTROSPECTION_COMPILER_ARGS = --includedir=. -l $(libgxml_dlname)
 
-GXml-$(API_VERSION).gir: libgxml.la
+GXml-$(API_VERSION).gir: libgxml-0.4.la
 GIRS = GXml-$(API_VERSION).gir
 
 dist_gir_DATA = $(GIRS)
@@ -167,9 +167,9 @@ nodist_typelib_DATA = $(GIRS:.gir=.typelib)
 
 ### Files to clean
 BUILT_SOURCES = \
-	gxml.vala.stamp \
+	gxml_0_4_la_vala.stamp \
 	gxml.h \
-	gxml.vapi \
+	gxml-0.4.vapi \
 	$(NULL)
 
 # TODO: should we add *.c to this list?, or is there a var of generated .c we can put in CLEANFILES?
@@ -187,7 +187,7 @@ CLEANFILES = \
 	$(typelibs_DATA) \
 	$(BUILT_SOURCES) \
 	$(nodist_typelib_DATA) \
-	$(libgxml_la_SOURCES:.vala=.c)
+	$(libgxml_0_4_la_SOURCES:.vala=.c)
 
 MAINTAINERCLEANFILES = $(BUILT_SOURCES) $(dist_gir_DATA)
 
