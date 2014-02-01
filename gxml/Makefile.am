@@ -67,18 +67,10 @@ libgxml_0_4_la_SOURCES = \
 	SerializableGeeArrayList.vala \
 	SerializableContainer.vala
 
-# TODO: do we want XPath files in own directory?
-
 gxml_0_4_la_vala.stamp: $(libgxml_0_4_la_SOURCES)
 
-
-# libgxml_la_SOURCES = \
-# 	gxml.vala.stamp \
-# 	$(libgxml_la_VALASOURCES:.vala=.c) \
-# 	$(NULL)
-
 # library flags
-libgxml__0_4_la_VALAFLAGS = \
+VALAFLAGS = \
 	$(AM_VALAFLAGS) \
 	$(ERROR_VALAFLAGS) \
 	--gir=GXml-$(API_VERSION).gir \

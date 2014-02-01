@@ -59,7 +59,7 @@ gxml_test_VALAFLAGS = \
 	--pkg gio-2.0 \
 	--pkg gee-0.8 \
 	--pkg posix \
-	--pkg gxml \
+	--pkg gxml-0.4 \
 	--pkg libxml-2.0 \
 	-X -DTEST_DIR=$(top_srcdir)/test \
 	$(NULL)
@@ -71,7 +71,7 @@ gxml_test_LDADD = \
 	$(GXML_LIBS) \
 	$(LIBXML_LIBS) \
 	$(GIO_LIBS) \
-	-L$(top_srcdir)/gxml -lgxml \
+	-L$(top_srcdir)/gxml -lgxml-0.4 \
 	$(NULL)
 
 gxml_test_LDFLAGS = $(AM_LDFLAGS)
