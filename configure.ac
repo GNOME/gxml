@@ -66,16 +66,6 @@ AM_MAINTAINER_MODE([enable])
 AC_PROG_CC
 AM_PROG_CC_C_O
 
-# Internationalization
-IT_PROG_INTLTOOL([0.35.0])
-
-AM_GNU_GETTEXT_VERSION([0.18.1])
-AM_GNU_GETTEXT([external])
-
-GETTEXT_PACKAGE=gxml
-AC_SUBST(GETTEXT_PACKAGE)
-AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [GETTEXT package name])
-
 # Initialise libtools (handles library creation) with stuff from above
 LT_INIT([disable-static])
 
@@ -102,6 +92,16 @@ AC_SUBST([API_VERSION])
 GXML_VERSION=project_base_version
 AC_SUBST([GXML_VERSION])
 
+IT_PROG_INTLTOOL([0.35.0])
+
+GETTEXT_PACKAGE=GXml
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], ["$GETTEXT_PACKAGE"],
+                   [The domain to use with gettext])
+AM_GLIB_GNU_GETTEXT
+
+GXML_LOCALEDIR=[${datadir}/locale]
+AC_SUBST(GXML_LOCALEDIR)
 
 ### Dependencies
 

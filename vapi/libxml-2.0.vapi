@@ -1786,8 +1786,10 @@ namespace Xml {
         MODULE = 26, /* The dynamically loaded module modul */
         I18N = 27, /* The module handling character conversion */
         SCHEMATRONV = 28, /* The Schematron validator module */
-        BUFFER = 29, /* The buffers module */
-        URI = 30 /*  The URI module */
+// This items are defined only on libxml 2.9
+// Are commented out in order to compile for GTK+ 3.6 for Windows
+//        BUFFER = 29, /* The buffers module */
+//        URI = 30 /*  The URI module */
     }
 
 	[CCode (cname = "xmlErrorLevel", cprefix = "XML_ERR_", cheader_filename = "libxml/xmlerror.h", has_type_id = false)]
