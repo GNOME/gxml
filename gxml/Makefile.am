@@ -3,25 +3,6 @@
 
 # Empty variable to be added elements later
 CLEANFILES=
-### General Compilation flags
-AM_CPPFLAGS = \
-	-include $(CONFIG_HEADER) \
-	-DPACKAGE_DATA_DIR=\""$(datadir)"\" \
-	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
-	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
-	-DG_LOG_DOMAIN=\"gxml\" \
-	$(NULL)
-
-AM_CFLAGS = \
-	-g \
-	$(GLIB_CFLAGS) \
-	$(LIBXML_CFLAGS) \
-	$(GIO_CFLAGS) \
-	$(GEE_CFLAGS) \
-	$(VALA_CFLAGS) \
-	$(NULL)
-
-# -Wall   # TODO: add this back when we can properly handle more libxml2/vala warnings
 
 
 ### Library
@@ -29,10 +10,8 @@ AM_CFLAGS = \
 # Library to create
 lib_LTLIBRARIES = libgxml-0.4.la
 
-VALAC=valac
-
 # Vala source code
-libgxml_0_4_la_SOURCES = \
+sources = \
 	namespace-info.vala \
 	Attr.vala \
 	BackedNode.vala \
@@ -69,11 +48,30 @@ libgxml_0_4_la_SOURCES = \
 	SerializableGeeArrayList.vala \
 	SerializableContainer.vala
 
-gxml_0_4_la_vala.stamp: $(libgxml_0_4_la_SOURCES)
+
+### General Compilation flags
+AM_CPPFLAGS = \
+	-include $(CONFIG_HEADER) \
+	-DPACKAGE_DATA_DIR=\""$(datadir)"\" \
+	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
+	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
+	-DG_LOG_DOMAIN=\"gxml\" \
+	$(NULL)
+
+AM_CFLAGS = \
+	-g \
+	$(GLIB_CFLAGS) \
+	$(LIBXML_CFLAGS) \
+	$(GIO_CFLAGS) \
+	$(GEE_CFLAGS) \
+	$(VALA_CFLAGS) \
+	$(NULL)
+
+# -Wall   # TODO: add this back when we can properly handle more libxml2/vala warnings
+
 
 # library flags
-VALAFLAGS = \
-	$(AM_VALAFLAGS) \
+AM_VALAFLAGS = \
 	$(ERROR_VALAFLAGS) \
 	--gir=GXml-$(API_VERSION).gir \
 	--library=gxml-0.4 \
@@ -87,10 +85,10 @@ VALAFLAGS = \
 	--includedir gxml \
 	--vapi gxml-0.4.vapi \
 	-H gxml.h \
+	-C \
 	$(NULL)
 
 libgxml_0_4_la_LIBADD = \
-	$(AM_LDADD) \
 	$(GEE_LIBS) \
 	$(GIO_LIBS) \
 	$(GLIB_LIBS) \
@@ -99,15 +97,20 @@ libgxml_0_4_la_LIBADD = \
 	$(NULL)
 
 libgxml_0_4_la_LDFLAGS = \
-	$(AM_LDFLAGS) \
 	-version-info "$(LT_CURRENT)":"$(LT_REVISION)":"$(LT_AGE)"
 
+gxml_0_4_la_vala.stamp: $(sources)
+	$(VALAC) $(AM_VALAFLAGS) $(sources)
+
+libgxml_0_4_la_SOURCES=$(sources:.vala=.c)
+
 # .h header file
-gxml.h: libgxml-0.4.la
+gxml.h: gxml_0_4_la_vala.stamp
 gxmldir= $(includedir)/gxml-$(API_VERSION)/gxml
 gxml_HEADERS = gxml.h
 
 # .vapi Vala API file
+gxml-0.4.vapi: gxml_0_4_la_vala.stamp
 vapidir = $(datadir)/vala/vapi
 dist_vapi_DATA = \
 	gxml-0.4.vapi \
@@ -153,6 +156,45 @@ typelibdir = $(INTROSPECTION_TYPELIBDIR)
 typelib_DATA = GXml-0.4.typelib
 CLEANFILES += $(gir_DATA) $(typelibs_DATA)
 endif
+
+if PLATFORM_WIN32
+libgxml_0_4_la_LDFLAGS += -export-symbols $(builddir)/libgxml-0.4.def
+#libgxml_0_4_la_LDFLAGS += -export-all-symbols -out-implib libgxml-0.4.lib --out-def libgxml-0.4.def
+libgxml_0_4_la_DEPENDENCIES = libgxml-0.4.def
+#libgxml_0_4_la_CFLAGS += -o libgxml-0.4.dll
+
+libgxml-0.4.def: gxml.symbols
+	(echo -e EXPORTS; $(CPP) -P $(DEF_FLAGS) - <$(srcdir)/gxml.symbols | sed -e '/^$$/d' -e 's/^/ /' -e 's/G_GNUC_[^ ]*//g' | sort) > gxml.def.tmp && mv gxml.def.tmp libgxml-0.4.def
+
+libgxml-0.4.lib: libgxml-0.4.def
+	$(DLLTOOL) --dllname libgxml-0.4.a --def libgxml-0.4.def --output-lib libgxml-0.4.lib
+
+#libgxml-0.4.dll: libgxml-0.4.la
+#	$(CC) -shared -o libgxml-0.4.dll $(libgxml_0_4_la_SOURCES) $(libgxml_0_4_la_CFLAGS) \
+#	-Wl,-export-symbols,$(builddir)/gxml.def,-export-lib,libgxml-0.4.lib,$(libgxml_0_4_la_LDFLAGS)
+
+#install-data-local: install-def-files
+#uninstall-local: uninstall-def-files
+
+#install-def-files: gxml.def libgxml-0.4.lib
+#	$(INSTALL) $(builddir)/gxml.def $(DESTDIR)$(libdir)/libgxml-0.4.def
+#	$(INSTALL) $(builddir)/libgxml-0.4.lib $(DESTDIR)$(libdir)/
+
+#uninstall-def-files:
+#	-rm $(DESTDIR)$(libdir)/libgxml-0.4.def
+#	-rm $(DESTDIR)$(libdir)/libgxml-0.4.lib
+libgxml-0.4.lib: libgxml-0.4.la
+libgxmllibdir=$(libdir)
+libgxmllib_DATA=libgxml-0.4.lib
+
+libgxml-0.4.def: libgxml-0.4.la
+libgxmldefdir=$(libdir)
+libgxmldef_DATA=libgxml-0.4.def
+
+endif
+
+
+
 ### Files to clean
 BUILT_SOURCES = \
 	gxml_0_4_la_vala.stamp \
@@ -163,7 +205,9 @@ BUILT_SOURCES = \
 CLEANFILES += \
 	$(BUILT_SOURCES) \
 	namespace-info.vala \
-	$(libgxml_0_4_la_SOURCES:.vala=.c)
+	$(libgxml_0_4_la_SOURCES:.vala=.c) \
+	$(gir_DATA) \
+	$(typelib_DATA)
 
 MAINTAINERCLEANFILES = $(BUILT_SOURCES)
 

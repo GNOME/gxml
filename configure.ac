@@ -155,6 +155,39 @@ fi
 # Check for GObject Introspection
 GOBJECT_INTROSPECTION_CHECK([1.32.0])
 
+dnl Check Cross Compile
+dnl ******************************
+dnl Check for Operating System
+dnl ******************************
+dnl linklibext is the shared link library extension, which varies by platform
+
+#EXPORT_SYM_REGEX='-export-symbols-regex "^(gxml_|fnYM49765777344607__gxml).*"'
+#AC_MSG_CHECKING([for platform])
+#platform_win32=no
+#linklibext=".so"
+case "$host" in
+*-mingw*)
+#    AC_MSG_RESULT([Win32 - MinGW])
+    platform_win32=yes
+#    AC_DEFINE([USING_MINGW],[],[Using MinGW])
+#    NO_UNDEFINED='-no-undefined'
+#    LIBTOOL_EXPORT_OPTIONS=
+#    linklibext=".dll"
+#    AC_CHECK_TOOL(WINDRES, windres, windres)
+#    AC_SUBST(WINDRES)
+#    AC_CHECK_TOOL(DLLTOOL, dlltool, dlltool)
+#    AC_SUBST(DLLTOOL)
+    ;;
+*)
+#    AC_MSG_RESULT([Unix])
+#    NO_UNDEFINED=''
+#    LIBTOOL_EXPORT_OPTIONS=$EXPORT_SYM_REGEX
+#    ;;
+esac
+AM_CONDITIONAL(PLATFORM_WIN32, [test $platform_win32 = yes])
+#AC_SUBST(LIBTOOL_EXPORT_OPTIONS)
+#AC_SUBST(NO_UNDEFINED)
+
 ### Autoconf generating Makefiles
 AC_CONFIG_FILES([
 Makefile
@@ -177,7 +210,8 @@ AC_OUTPUT
 # Print configuration summary
 echo ""
 echo " Configuration summary for GXml-$GXML_VERSION"
-echo "   Installation prefix:                          $prefix"
-echo "   Enable GObject Introspection (--enable-instrospection):  `if test x$have_instrospection != xno; then echo yes; else echo no; fi`"
-echo "   Documentation:                                ${have_valadoc}"
+echo "   Installation prefix:   $prefix"
+echo "   GObject Introspection: $found_introspection"
+echo "   Vala Documentation:    ${have_valadoc}"
+echo "   Platform:              $host"
 echo ""
