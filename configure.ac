@@ -67,7 +67,7 @@ AC_PROG_CC
 AM_PROG_CC_C_O
 
 # Initialise libtools (handles library creation) with stuff from above
-LT_INIT([disable-static])
+LT_INIT()
 
 PKG_PROG_PKG_CONFIG([0.21])
 GLIB_GSETTINGS
