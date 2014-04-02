@@ -60,7 +60,7 @@
  * serialization themselves, including non-public properties or
  * data types not automatically supported by {@link GXml.Serialization}.
  */
-public class GXml.SerializableJson : GLib.Object, Serializable
+public class GXml.Xom.SerializableJson : GLib.Object, Serializable
 {
   /* Serializable Interface properties */
   protected ParamSpec[] properties { get; set; }

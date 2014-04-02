@@ -20,8 +20,8 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 using GXml;
-
-public interface GXml.SerializableMapKey<K> : Object
+public interface GXml.Xom.SerializableMapDualKey<P,S> : Object
 {
-  public abstract K get_map_key ();
+  public abstract P get_map_primary_key  ();
+  public abstract S get_map_secondary_key ();
 }

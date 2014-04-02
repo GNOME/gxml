@@ -57,17 +57,21 @@ libgxml_0_4_la_SOURCES = \
 	ProcessingInstruction.vala \
 	Text.vala \
 	Serializable.vala \
-	Enumeration.vala \
-	SerializableObjectModel.vala \
-	SerializableJson.vala \
+	jgs/JgsSerializable.vala \
+	jgs/JgsSerialization.vala \
+	xom/XomSerializable.vala \
+	xom/Enumeration.vala \
+	xom/SerializableObjectModel.vala \
+	xom/SerializableJson.vala \
 	Serialization.vala \
-	SerializableGeeTreeMap.vala \
-	SerializableGeeHashMap.vala \
-	SerializableMapKey.vala \
-	SerializableGeeDualKeyMap.vala \
-	SerializableMapDualKey.vala \
-	SerializableGeeArrayList.vala \
-	SerializableContainer.vala
+	xom/XomSerialization.vala \
+	xom/SerializableGeeTreeMap.vala \
+	xom/SerializableGeeHashMap.vala \
+	xom/SerializableMapKey.vala \
+	xom/SerializableGeeDualKeyMap.vala \
+	xom/SerializableMapDualKey.vala \
+	xom/SerializableGeeArrayList.vala \
+	xom/SerializableContainer.vala
 
 gxml_0_4_la_vala.stamp: $(libgxml_0_4_la_SOURCES)
 

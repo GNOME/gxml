@@ -1,7 +1,7 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* SerializableGeeTreeModel.vala
+/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 0; tab-width: 2 -*- */
+/* ObjectModel.vala
  *
- * Copyright (C) 2013  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2014  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,9 +19,20 @@
  * Authors:
  *      Daniel Espinosa <esodan@gmail.com>
  */
-using GXml;
-public interface GXml.SerializableMapDualKey<P,S> : Object
+/**
+ * Any class having a collection managed list of nodes must implement this
+ * abstract class.
+ */
+public abstract class GXml.Xom.SerializableContainer : SerializableObjectModel
 {
-  public abstract P get_map_primary_key  ();
-  public abstract S get_map_secondary_key ();
+  /* Xom interface properties */
+  public abstract void init_containers ();
+}
+
+/**
+ * Fake interface to be implemented by any collection.
+ */
+public interface GXml.Xom.SerializableCollection : Object, Serializable
+{
+  public virtual bool is_collection () { return true; }
 }
