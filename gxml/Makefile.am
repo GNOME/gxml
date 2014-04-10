@@ -1,5 +1,4 @@
-## Process this file with automake to produce Makefile.in
-## Created by Anjuta and modified based on libfolks
+-include $(top_srcdir)/git.mk
 
 # Empty variable to be added elements later
 CLEANFILES=
@@ -123,6 +122,7 @@ pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = $(pkgconfig_in:.in=)
 
 EXTRA_DIST = \
+	$(sources) \
 	$(pkgconfig_in) \
 	$(NULL)
 
@@ -203,14 +203,9 @@ BUILT_SOURCES = \
 	$(NULL)
 
 CLEANFILES += \
-	$(BUILT_SOURCES) \
+	$(pkgconfig_DATA) \
 	namespace-info.vala \
-	$(libgxml_0_4_la_SOURCES:.vala=.c) \
+	$(sources:.vala=.c) \
 	$(gir_DATA) \
 	$(typelib_DATA)
 
-MAINTAINERCLEANFILES = $(BUILT_SOURCES)
-
-
-
--include $(top_srcdir)/git.mk
