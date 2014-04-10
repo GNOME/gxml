@@ -99,7 +99,7 @@ libgxml_0_4_la_LDFLAGS = \
 	-version-info "$(LT_CURRENT)":"$(LT_REVISION)":"$(LT_AGE)"
 
 gxml_0_4_la_vala.stamp: $(sources)
-	$(VALAC) $(AM_VALAFLAGS) $(sources)
+	$(VALAC) $(AM_VALAFLAGS) $^
 
 libgxml_0_4_la_SOURCES=$(sources:.vala=.c)
 

@@ -19,7 +19,6 @@ AM_CFLAGS = \
 	-DTEST_DIR=\""$(top_srcdir)/test"\" \
 	$(NULL)
 
-VALAC=valac
 
 noinst_PROGRAMS = $(TEST_PROGS)
 
@@ -71,7 +70,7 @@ gxml_test_LDADD = \
 	$(GXML_LIBS) \
 	$(LIBXML_LIBS) \
 	$(GIO_LIBS) \
-	-L$(top_srcdir)/gxml -lgxml-0.4 \
+	../gxml/libgxml-0.4.la
 	$(NULL)
 
 gxml_test_LDFLAGS = $(AM_LDFLAGS)
