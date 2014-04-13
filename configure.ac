@@ -184,7 +184,7 @@ case "$host" in
 #    LIBTOOL_EXPORT_OPTIONS=$EXPORT_SYM_REGEX
 #    ;;
 esac
-AM_CONDITIONAL(PLATFORM_WIN32, [test $platform_win32 = yes])
+AM_CONDITIONAL(PLATFORM_WIN32, [test x$platform_win32 = xyes])
 #AC_SUBST(LIBTOOL_EXPORT_OPTIONS)
 #AC_SUBST(NO_UNDEFINED)
 

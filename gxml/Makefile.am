@@ -72,7 +72,6 @@ AM_CFLAGS = \
 # library flags
 AM_VALAFLAGS = \
 	$(ERROR_VALAFLAGS) \
-	--gir=GXml-$(API_VERSION).gir \
 	--library=gxml-0.4 \
 	$(top_srcdir)/vapi/config.vapi \
 	--vapidir=. \
@@ -142,6 +141,10 @@ libgxml_dlname = \
 
 # This makes GObject Introspection optional and requires to use --enable-instrospection switch on configure
 if HAVE_INTROSPECTION
+
+AM_VALAFLAGS += \
+	--gir=GXml-$(API_VERSION).gir
+
 INTROSPECTION_GIRS = GXml-$(API_VERSION).gir
 INTROSPECTION_COMPILER_ARGS = --includedir=. -l $(libgxml_dlname)
 
@@ -159,9 +162,7 @@ endif
 
 if PLATFORM_WIN32
 libgxml_0_4_la_LDFLAGS += -export-symbols $(builddir)/libgxml-0.4.def
-#libgxml_0_4_la_LDFLAGS += -export-all-symbols -out-implib libgxml-0.4.lib --out-def libgxml-0.4.def
 libgxml_0_4_la_DEPENDENCIES = libgxml-0.4.def
-#libgxml_0_4_la_CFLAGS += -o libgxml-0.4.dll
 
 libgxml-0.4.def: gxml.symbols
 	(echo -e EXPORTS; $(CPP) -P $(DEF_FLAGS) - <$(srcdir)/gxml.symbols | sed -e '/^$$/d' -e 's/^/ /' -e 's/G_GNUC_[^ ]*//g' | sort) > gxml.def.tmp && mv gxml.def.tmp libgxml-0.4.def
@@ -169,20 +170,6 @@ libgxml-0.4.def: gxml.symbols
 libgxml-0.4.lib: libgxml-0.4.def
 	$(DLLTOOL) --dllname libgxml-0.4.a --def libgxml-0.4.def --output-lib libgxml-0.4.lib
 
-#libgxml-0.4.dll: libgxml-0.4.la
-#	$(CC) -shared -o libgxml-0.4.dll $(libgxml_0_4_la_SOURCES) $(libgxml_0_4_la_CFLAGS) \
-#	-Wl,-export-symbols,$(builddir)/gxml.def,-export-lib,libgxml-0.4.lib,$(libgxml_0_4_la_LDFLAGS)
-
-#install-data-local: install-def-files
-#uninstall-local: uninstall-def-files
-
-#install-def-files: gxml.def libgxml-0.4.lib
-#	$(INSTALL) $(builddir)/gxml.def $(DESTDIR)$(libdir)/libgxml-0.4.def
-#	$(INSTALL) $(builddir)/libgxml-0.4.lib $(DESTDIR)$(libdir)/
-
-#uninstall-def-files:
-#	-rm $(DESTDIR)$(libdir)/libgxml-0.4.def
-#	-rm $(DESTDIR)$(libdir)/libgxml-0.4.lib
 libgxml-0.4.lib: libgxml-0.4.la
 libgxmllibdir=$(libdir)
 libgxmllib_DATA=libgxml-0.4.lib
@@ -206,6 +193,8 @@ CLEANFILES += \
 	$(pkgconfig_DATA) \
 	namespace-info.vala \
 	$(sources:.vala=.c) \
+	gxml-0.4.vapi \
+	gxml.h \
 	$(gir_DATA) \
 	$(typelib_DATA)
 

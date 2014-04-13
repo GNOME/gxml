@@ -13,7 +13,7 @@ endif
 
 # Define available flags
 DISTCHECK_CONFIGURE_FLAGS = \
-	--enable-docs \
+	--disable-introspection \
 	$(NULL)
 
 
