@@ -21,20 +21,23 @@
  */
 using GXml;
 
-public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, SerializableCollection
+public class Xom.SerializableTreeMap<K,V> : Gee.TreeMap<K,V>, Xom.Serializable, Xom.SerializableCollection
 {
   protected ParamSpec[] properties { get; set; }
   public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; protected set; }
   public string? serialized_xml_node_value { get; protected set; default=null; }
   public GLib.HashTable<string,GXml.Node> unknown_serializable_property { get; protected set; }
 
-  public virtual bool get_enable_unknown_serializable_property () { return false; }
+  public bool get_enable_unknown_serializable_property () { return false; }
   public virtual bool serialize_use_xml_node_value () { return false; }
   public virtual bool property_use_nick () { return false; }
 
   public virtual string node_name ()
   {
-    return ((Serializable) Object.new (value_type)).node_name ();
+    if (value_type.is_a (typeof (Xom.Serializable)))
+      return ((Xom.Serializable) Object.new (value_type)).node_name ();
+    else
+      return get_type ().name ();
   }
 
   public virtual GLib.ParamSpec? find_property_spec (string property_name)
@@ -82,9 +85,9 @@ public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, Ser
                               throws GLib.Error
                               requires (node is Element)
   {
-    if (value_type.is_a (typeof (Serializable))) {
+    if (value_type.is_a (typeof (Xom.Serializable))) {
       foreach (V v in values) {
-       ((GXml.Serializable) v).serialize (node);
+       ((Xom.Serializable) v).serialize (node);
       }
     }
     return node;
@@ -110,21 +113,21 @@ public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, Ser
   public GXml.Node? default_deserialize (GXml.Node node)
                     throws GLib.Error
   {
-    if (!(value_type.is_a (typeof (GXml.Serializable)) &&
-        value_type.is_a (typeof (SerializableMapKey)))) {
-      throw new SerializableError.UNSUPPORTED_TYPE ("%s: Value type '%s' is unsupported", 
+    if (!(value_type.is_a (typeof (Xom.Serializable)) &&
+        value_type.is_a (typeof (Xom.SerializableMapKey)))) {
+      throw new Xom.SerializableError.UNSUPPORTED_TYPE ("%s: Value type '%s' is unsupported", 
                                                     this.get_type ().name (), value_type.name ());
     }
-    if (node is Element) {
+    if (node is GXml.Element) {
       foreach (GXml.Node n in node.child_nodes) {
         if (n is Element) {
 #if DEBUG
           stdout.printf (@"Node $(node.node_name) for type '$(get_type ().name ())'\n");
 #endif
           var obj = Object.new (value_type);
-          if (n.node_name == ((Serializable) obj).node_name ()) {
-            ((Serializable) obj).deserialize (n);
-            @set (((SerializableMapKey<K>) obj).get_map_key (), obj);
+          if (n.node_name == ((Xom.Serializable) obj).node_name ()) {
+            ((Xom.Serializable) obj).deserialize (n);
+            @set (((Xom.SerializableMapKey<K>) obj).get_map_key (), obj);
           }
         }
       }

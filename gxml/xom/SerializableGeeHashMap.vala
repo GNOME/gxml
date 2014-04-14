@@ -1,7 +1,7 @@
 /* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /* SerializableGeeTreeModel.vala
  *
- * Copyright (C) 2013  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2013, 2014  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,93 +20,9 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 using GXml;
-using Gee;
 
-public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable, SerializableCollection
+public class Xom.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Xom.Serializable, Xom.SerializableCollection
 {
-  protected Gee.HashMultiMap<P,HashMap<S,V>> storage;
-
-  public Type value_type
-  {
-    get {
-      init ();
-      return typeof (V);
-    }
-  }
-  public Type primary_key_type
-  {
-    get {
-      init ();
-      return typeof (P);
-    }
-  }
-  public Type secondary_key_type
-  {
-    get {
-      init ();
-      return typeof (S);
-    }
-  }
-  public Gee.Collection<P> primary_keys
-  {
-    owned get {
-      init ();
-      return storage.get_keys ();
-    }
-  }
-  public Gee.Collection<S> secondary_keys (P key)
-  {
-    init ();
-    var hs = storage.get (key);
-    var s = new HashSet<S> ();
-    foreach (HashMap<S,V> hm in hs) {
-      s.add_all (hm.keys);
-    }
-    return s;
-  }
-  public Gee.Collection<V> values_for_key (P primary_key)
-  {
-    init ();
-    var hs = storage.get (primary_key);
-    var s = new HashSet<V> ();
-    foreach (HashMap<S,V> hm in hs) {
-      s.add_all (hm.values);
-    }
-    return s;
-  }
-  public Gee.Collection<V> values ()
-  {
-    init ();
-    var s = new Gee.HashSet<V> ();
-    foreach (HashMap<S,V> h in storage.get_values ()) {
-      s.add_all (h.values);
-    }
-    return s;
-  }
-  public new void @set (P primary_key, S secundary_key, V val)
-  {
-    init ();
-    var h = new HashMap<S,V> ();
-    h.@set (secundary_key, val);
-    storage.@set (primary_key, h);
-  }
-  public new V? @get (P primary_key, S secondary_key)
-  {
-    init ();
-    var hs = storage.@get (primary_key);
-    foreach (HashMap<S,V> h in hs) {
-      if (h.has_key (secondary_key))
-        return h.@get (secondary_key);
-    }
-    return null;
-  }
-  public int size { get { return storage.size; } }
-  private void init ()
-  {
-    if (storage == null)
-      storage = new Gee.HashMultiMap<P,HashMap<S,V>> ();
-  }
-  // Serializable Interface
   protected ParamSpec[] properties { get; set; }
   public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; protected set; }
   public string? serialized_xml_node_value { get; protected set; default=null; }
@@ -118,7 +34,7 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable, Serializ
 
   public virtual string node_name ()
   {
-    return ((Serializable) Object.new (value_type)).node_name ();
+    return ((Xom.Serializable) Object.new (value_type)).node_name ();
   }
 
   public virtual GLib.ParamSpec? find_property_spec (string property_name)
@@ -166,9 +82,10 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable, Serializ
                               throws GLib.Error
                               requires (node is Element)
   {
-    foreach (V v in values ()) {
-        if (v is Serializable)
-          ((GXml.Serializable) v).serialize (node);;
+    if (value_type.is_a (typeof (Xom.Serializable))) {
+      foreach (V v in values) {
+       ((Xom.Serializable) v).serialize (node);
+      }
     }
     return node;
   }
@@ -192,19 +109,23 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable, Serializ
   }
   public GXml.Node? default_deserialize (GXml.Node node)
                     throws GLib.Error
-                    requires (node is Element)
   {
-    if (!(value_type.is_a (typeof (GXml.Serializable)) &&
-        value_type.is_a (typeof (SerializableMapDualKey)))) {
-      throw new SerializableError.UNSUPPORTED_TYPE ("%s: Value type '%s' is unsupported", 
+    if (!(value_type.is_a (typeof (Xom.Serializable)) &&
+        value_type.is_a (typeof (Xom.SerializableMapKey)))) {
+      throw new Xom.SerializableError.UNSUPPORTED_TYPE ("%s: Value type '%s' is unsupported", 
                                                     this.get_type ().name (), value_type.name ());
     }
-    foreach (GXml.Node n in node.child_nodes) {
-      if (n is Element) {
-        var obj = (SerializableMapDualKey<P,S>) Object.new (value_type);
-        if (n.node_name == ((Serializable) obj).node_name ()) {
-          ((Serializable) obj).deserialize (n);
-          @set (obj.get_map_primary_key (), obj.get_map_secondary_key (), obj);
+    if (node is Element) {
+      foreach (GXml.Node n in node.child_nodes) {
+        if (n is Element) {
+#if DEBUG
+          stdout.printf (@"Node $(node.node_name) for type '$(get_type ().name ())'\n");
+#endif
+          var obj = Object.new (value_type);
+          if (n.node_name == ((Xom.Serializable) obj).node_name ()) {
+            ((Xom.Serializable) obj).deserialize (n);
+            @set (((Xom.SerializableMapKey<K>) obj).get_map_key (), obj);
+          }
         }
       }
     }
@@ -221,4 +142,3 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable, Serializ
     return true;
   }
 }
-

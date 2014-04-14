@@ -194,7 +194,15 @@ Makefile
 gxml/namespace-info.vala
 gxml/gxml-0.4.pc
 gxml/Makefile
+gxml/xom/namespace-info.vala
+gxml/xom/Makefile
+gxml/xom/xom-0.4.pc
 test/Makefile
+test/test.xml
+test/test_invalid.xml
+test/test_out_path_expected.xml
+test/test_out_stream_expected.xml
+test/test_with_ns.xml
 docs/Makefile
 examples/Makefile
 examples/c/Makefile

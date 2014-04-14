@@ -25,6 +25,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 using GXml;
+using Xom;
 using Gee;
 
 /**
@@ -96,8 +97,8 @@ public class SerializableCapsicum : GXml.SerializableJson {
 		this.age = age;
 		this.height = height;
 		this.ratings = ratings;
-		((Serializable)this).serialize_unknown_property_type.connect (serialize_unknown_property_type);
-		((Serializable)this).deserialize_unknown_property_type.connect (deserialize_unknown_property_type);
+		((GXml.Serializable)this).serialize_unknown_property_type.connect (serialize_unknown_property_type);
+		((GXml.Serializable)this).deserialize_unknown_property_type.connect (deserialize_unknown_property_type);
 	}
 
 	/* TODO: do we really need GLib.Value? or should we modify the object directly?

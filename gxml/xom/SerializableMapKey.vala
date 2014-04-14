@@ -21,7 +21,7 @@
  */
 using GXml;
 
-public interface GXml.SerializableMapKey<K> : Object
+public interface Xom.SerializableMapKey<K> : Object
 {
   public abstract K get_map_key ();
 }

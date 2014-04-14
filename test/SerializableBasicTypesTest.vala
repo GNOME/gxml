@@ -24,6 +24,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 using GXml;
+using Xom;
+
 class SerializableBasicTypeTest : GXmlTest {
   public class BasicType : SerializableObjectModel
   {

@@ -15,8 +15,8 @@ AM_CFLAGS = \
 	$(GEE_CFLAGS) \
 	$(LIBXML_CFLAGS) \
 	$(GIO_CFLAGS) \
-	-I$(top_srcdir) \
-	-DTEST_DIR=\""$(top_srcdir)/test"\" \
+	-I../gxml \
+	-DTEST_DIR=\"$(builddir)\" \
 	$(NULL)
 
 
@@ -54,11 +54,13 @@ gxml_test_VALAFLAGS = \
 	$(top_srcdir)/vapi/config.vapi \
 	$(top_srcdir)/vapi/gxml-test.vapi \
 	--vapidir=$(top_srcdir)/vapi \
-	--vapidir=$(top_srcdir)/gxml \
+	--vapidir=../gxml \
+	--vapidir=../gxml/xom \
 	--pkg gio-2.0 \
 	--pkg gee-0.8 \
 	--pkg posix \
 	--pkg gxml-0.4 \
+	--pkg xom-0.4 \
 	--pkg libxml-2.0 \
 	-X -DTEST_DIR=$(top_srcdir)/test \
 	$(NULL)
@@ -70,7 +72,8 @@ gxml_test_LDADD = \
 	$(GXML_LIBS) \
 	$(LIBXML_LIBS) \
 	$(GIO_LIBS) \
-	../gxml/libgxml-0.4.la
+	../gxml/libgxml-0.4.la\
+	../gxml/xom/libxom-0.4.la \
 	$(NULL)
 
 gxml_test_LDFLAGS = $(AM_LDFLAGS)
@@ -92,6 +95,8 @@ CLEANFILES = $(gxml_test_SOURCES:.vala=.c) $(BUILT_SOURCES) gxml_test
 DISTCLEANFILES = _serialization_test_*.xml
 
 EXTRA_DIST += \
+	test_invalid.xml \
+	test_with_ns.xml \
 	test_out_path_expected.xml \
 	test_out_stream_expected.xml \
 	test.xml \

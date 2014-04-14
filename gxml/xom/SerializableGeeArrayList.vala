@@ -20,12 +20,14 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 using GXml;
+using Gee;
 
-public class GXml.SerializableTreeMap<K,V> : Gee.TreeMap<K,V>, Serializable, SerializableCollection
+public class Xom.SerializableArrayList<G> : Gee.ArrayList<G>, Xom.Serializable, Xom.SerializableCollection
 {
   protected ParamSpec[] properties { get; set; }
   public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; protected set; }
   public string? serialized_xml_node_value { get; protected set; default=null; }
+
   public GLib.HashTable<string,GXml.Node> unknown_serializable_property { get; protected set; }
 
   public bool get_enable_unknown_serializable_property () { return false; }
@@ -34,10 +36,7 @@ public class GXml.SerializableTreeMap<K,V> : Gee.TreeMap<K,V>, Serializable, Ser
 
   public virtual string node_name ()
   {
-    if (value_type.is_a (typeof (Serializable)))
-      return ((Serializable) Object.new (value_type)).node_name ();
-    else
-      return get_type ().name ();
+    return ((Xom.Serializable) Object.new (element_type)).node_name ();
   }
 
   public virtual GLib.ParamSpec? find_property_spec (string property_name)
@@ -85,9 +84,10 @@ public class GXml.SerializableTreeMap<K,V> : Gee.TreeMap<K,V>, Serializable, Ser
                               throws GLib.Error
                               requires (node is Element)
   {
-    if (value_type.is_a (typeof (Serializable))) {
-      foreach (V v in values) {
-       ((GXml.Serializable) v).serialize (node);
+    if (element_type.is_a (typeof (Xom.Serializable))) {
+      for (int i =0; i < size; i++) {
+       G e = get (i);
+       ((Xom.Serializable) e).serialize (node);
       }
     }
     return node;
@@ -113,21 +113,17 @@ public class GXml.SerializableTreeMap<K,V> : Gee.TreeMap<K,V>, Serializable, Ser
   public GXml.Node? default_deserialize (GXml.Node node)
                     throws GLib.Error
   {
-    if (!(value_type.is_a (typeof (GXml.Serializable)) &&
-        value_type.is_a (typeof (SerializableMapKey)))) {
-      throw new SerializableError.UNSUPPORTED_TYPE ("%s: Value type '%s' is unsupported", 
-                                                    this.get_type ().name (), value_type.name ());
+    if (!element_type.is_a (typeof (Xom.Serializable))) {
+      throw new Xom.SerializableError.UNSUPPORTED_TYPE ("%s: Value type '%s' is unsupported", 
+                                                    this.get_type ().name (), element_type.name ());
     }
     if (node is Element) {
       foreach (GXml.Node n in node.child_nodes) {
         if (n is Element) {
-#if DEBUG
-          stdout.printf (@"Node $(node.node_name) for type '$(get_type ().name ())'\n");
-#endif
-          var obj = Object.new (value_type);
-          if (n.node_name == ((Serializable) obj).node_name ()) {
-            ((Serializable) obj).deserialize (n);
-            @set (((SerializableMapKey<K>) obj).get_map_key (), obj);
+          var obj = (Xom.Serializable) Object.new (element_type);
+          if (n.node_name == ((Xom.Serializable) obj).node_name ()) {
+            obj.deserialize (n);
+            add (obj);
           }
         }
       }
@@ -145,3 +141,4 @@ public class GXml.SerializableTreeMap<K,V> : Gee.TreeMap<K,V>, Serializable, Ser
     return true;
   }
 }
+
