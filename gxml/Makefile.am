@@ -35,10 +35,7 @@ sources = \
 	NodeType.vala \
 	Notation.vala \
 	ProcessingInstruction.vala \
-	Text.vala \
-	Serializable.vala \
-	SerializableJson.vala \
-	Serialization.vala
+	Text.vala
 
 
 ### General Compilation flags

@@ -21,7 +21,9 @@ sources = \
 	SerializableGeeDualKeyMap.vala \
 	SerializableMapDualKey.vala \
 	SerializableGeeArrayList.vala \
-	SerializableContainer.vala
+	SerializableContainer.vala \
+	SerializableJson.vala \
+	Serialization.vala
 
 
 ### General Compilation flags
@@ -51,8 +53,7 @@ AM_VALAFLAGS = \
 	--library=xom-0.4 \
 	$(top_srcdir)/vapi/config.vapi \
 	--vapidir=. \
-	--vapidir=$(top_srcdir)/vapi \
-	--vapidir=../gxml \
+	--vapidir=.. \
 	--pkg gxml-0.4 \
 	--pkg libxml-2.0 \
 	--pkg gee-0.8 \

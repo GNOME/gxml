@@ -22,6 +22,7 @@
  *       Daniel Espinosa <esodan@gmail.com>
  */
 
+using GXml;
 
 /*
   Version 3: json-glib version
@@ -60,7 +61,7 @@
  * serialization themselves, including non-public properties or
  * data types not automatically supported by {@link GXml.Serialization}.
  */
-public class GXml.SerializableJson : GLib.Object, Serializable
+public class Xom.SerializableJson : GLib.Object, Xom.Serializable
 {
   /* Serializable Interface properties */
   protected ParamSpec[] properties { get; set; }
@@ -115,7 +116,7 @@ public class GXml.SerializableJson : GLib.Object, Serializable
    * Is up to you to add convenient Element node to a Document, in order to be
    * used by serialize and add new <Object> tags per object to serialize.
    */
-  public Node? serialize (Node node) throws GLib.Error
+  public GXml.Node? serialize (GXml.Node node) throws GLib.Error
   {
     Document doc;
     Element root;
@@ -144,7 +145,7 @@ public class GXml.SerializableJson : GLib.Object, Serializable
   {
     Type type;
     Value val;
-    Node value_node = null;
+    GXml.Node value_node = null;
     Element prop_node;
 
     type = prop.value_type;
@@ -195,7 +196,9 @@ public class GXml.SerializableJson : GLib.Object, Serializable
       this.get_property_value (prop, ref val);
       child_object = val.get_object ();
       Document value_doc = Serialization.serialize_object (child_object);
-      value_node = doc.copy_node (value_doc.document_element);
+      value_node = doc.create_element ("fake");
+      value_doc.document_element.copy (ref value_node, true);
+      //value_node = doc.copy_node (value_doc.document_element);
       prop_node.append_child (value_node);
       return prop_node;
     }
@@ -204,7 +207,7 @@ public class GXml.SerializableJson : GLib.Object, Serializable
     return prop_node;
   }
 
-  public Node? deserialize (Node node) throws GLib.Error
+  public GXml.Node? deserialize (GXml.Node node) throws GLib.Error
   {
     Element obj_elem;
     ParamSpec[] specs;
@@ -218,7 +221,7 @@ public class GXml.SerializableJson : GLib.Object, Serializable
 
     specs = this.list_serializable_properties ();
 
-    foreach (Node child_node in obj_elem.child_nodes) {
+    foreach (GXml.Node child_node in obj_elem.child_nodes) {
       deserialize_property (child_node);
     }
     return obj_elem;

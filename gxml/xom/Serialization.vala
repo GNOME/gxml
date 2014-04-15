@@ -90,7 +90,7 @@ namespace Xom {
 			stdout.printf ("object\n---\n");
 			stdout.printf ("get_type (): %s\n", object.get_type ().name ());
 			stdout.printf ("get_class ().get_type (): %s\n", object.get_class ().get_type ().name ());
-			GXml.print_object_properties (object);
+			Xom.print_object_properties (object);
 		}
 
 		/*
