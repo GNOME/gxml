@@ -126,12 +126,15 @@ AM_VALAFLAGS += \
 	--gir=Xom-$(API_VERSION).gir
 
 INTROSPECTION_GIRS = Xom-$(API_VERSION).gir
-INTROSPECTION_COMPILER_ARGS = --includedir=. -l $(libxom_dlname)
+INTROSPECTION_COMPILER_ARGS = \
+	--includedir=$(builddir) \
+	--includedir=$(top_builddir)/gxml \
+	-l $(libxom_dlname)
 
 Xom-0.4.gir: libxom-0.4.la
 
 Xom-0.4.typelib: $(INTROSPECTION_GIRS)
-	$(INTROSPECTION_COMPILER) $(INTROSPECTION_COMPILER_ARGS)  $< -o $@
+	$(INTROSPECTION_COMPILER) $(INTROSPECTION_COMPILER_ARGS)  $^ -o $@
 
 girdir = $(INTROSPECTION_GIRDIR)
 gir_DATA = $(INTROSPECTION_GIRS)
