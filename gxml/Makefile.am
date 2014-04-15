@@ -151,6 +151,9 @@ CLEANFILES += $(gir_DATA) $(typelibs_DATA)
 endif
 
 if PLATFORM_WIN32
+AM_VALAFLAGS += \
+	--symbols=gxml.symbols
+
 libgxml_0_4_la_LDFLAGS += -export-symbols $(builddir)/libgxml-0.4.def
 libgxml_0_4_la_DEPENDENCIES = libgxml-0.4.def
 
@@ -167,6 +170,9 @@ libgxmllib_DATA=libgxml-0.4.lib
 libgxml-0.4.def: libgxml-0.4.la
 libgxmldefdir=$(libdir)
 libgxmldef_DATA=libgxml-0.4.def
+
+CLEANFILES += \
+	gxml.symbols
 
 endif
 

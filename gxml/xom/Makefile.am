@@ -141,6 +141,9 @@ CLEANFILES += $(gir_DATA) $(typelibs_DATA)
 endif
 
 if PLATFORM_WIN32
+AM_VALAFLAGS += \
+	--symbols=xom.symbols
+
 libxom_0_4_la_LDFLAGS += -export-symbols $(builddir)/libxom-0.4.def
 libxom_0_4_la_DEPENDENCIES = libxom-0.4.def
 
@@ -157,6 +160,9 @@ libxomlib_DATA=libxom-0.4.lib
 libxom-0.4.def: libxom-0.4.la
 libxomdefdir=$(libdir)
 libxomdef_DATA=libxom-0.4.def
+
+CLEANFILES += \
+	xom-0.4.symbols
 
 endif
 
