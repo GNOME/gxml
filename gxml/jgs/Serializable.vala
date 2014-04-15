@@ -70,7 +70,7 @@ namespace GXml.Jgs {
 	 *
 	 * For an example, look in tests/XmlSerializableTest
 	 */
-	public interface Serializable : GLib.Object, GXml.Serializable {
+	public interface Serializable : GLib.Object /*, GXml.Serializable*/ {
 		/**
 		 * Handles serializing potential tasks beyond
 		 * serializing individual properties.
@@ -113,9 +113,9 @@ namespace GXml.Jgs {
 		 * class Cookie : Serializable {
 		 *   string flavour {}
 		 *   int mass {}
-		 *   public override Node? serialize (Document doc)
+		 *   public override Node? serialize (Node doc)
 		 *     throws SerializationError {
-		 *     return doc.create_comment ("<!-- baked on Nov 16 2013 by Wallace Wells -->");
+		 *     return (doc as Document).create_comment ("<!-- baked on Nov 16 2013 by Wallace Wells -->");
 		 *   }
 		 * }}}
 		 *
@@ -135,7 +135,7 @@ namespace GXml.Jgs {
 		 * by overriding {@link Serializable.serialize_property}
 		 * and simply returning true.
 		 *
-		 * @param doc The {@link GXml.Document} that contains serialized XML, used to create new {@link GXml.Node}s
+		 * @param doc The {@link GXml.Document} that contains serialized XML, used to create new {@link GXml.Node}s.  It is represented as a {@link GXml.Node} for interface compatibility with other implementations.
 		 *
 		 * @return A {@link GXml.Node} representing serialized content from the implementing object
 		 */
@@ -151,24 +151,23 @@ namespace GXml.Jgs {
 		 * individual property.  The implementing class
 		 * receives a description of it, and should create a
 		 * {@link GXml.Node} that encapsulates the property.
-		 * {@link GXml.Serialization} will embed the {@link GXml.Node} into
+		 * {@link GXml.Jgs.Serialization} will embed the {@link GXml.Node} into
 		 * a "Property" {@link GXml.Element}, so the {@link GXml.Node}
 		 * returned can often be something as simple as
 		 * {@link GXml.Text}.
 		 *
-		 * To let {@link GXml.Serialization} attempt to automatically
+		 * To let {@link GXml.Jgs.Serialization} attempt to automatically
 		 * serialize the property itself, do not implement
 		 * this method.  If the method returns %NULL,
-		 * {@link GXml.Serialization} will attempt handle it itself.
+		 * {@link GXml.Jgs.Serialization} will attempt handle it itself.
 		 *
-		 * @param property_name String name of a property to serialize
-		 * @param spec The {@link GLib.ParamSpec} describing the property
-		 * @param doc The {@link GXml.Document} the returned {@link GXml.Node} should belong to
+		 * @param doc The {@link GXml.Document} as a {@link GXml.Node} that the returned {@link GXml.Node} should belong to.  It is a {@link GXml.Node} for compatibility with other interface implementations.  Use it to create document nodes to represent the property.
+		 * @param property_spec The {@link GLib.ParamSpec} describing the property
 		 *
 		 * @return a new {@link GXml.Node}, or %NULL
 		 */
 		public virtual GXml.Node?
-		serialize_property (GXml.Node property_element, 
+		serialize_property (GXml.Node doc,
 				    GLib.ParamSpec property_spec)
 		throws GLib.Error {
 			/* TODO: see if esodan changes xom's
@@ -209,7 +208,7 @@ namespace GXml.Jgs {
 		 * individual property.  The implementing class
 		 * receives a description of the property and the
 		 * {@link GXml.Node} that contains the content.  The
-		 * implementing {@link GXml.Serializable} object can extract
+		 * implementing {@link GXml.Jgs.Serializable} object can extract
 		 * the data from the {@link GXml.Node} and store it in its
 		 * property itself. Note that the {@link GXml.Node} may be
 		 * as simple as a {@link GXml.Text} that stores the data as a
@@ -217,16 +216,14 @@ namespace GXml.Jgs {
 		 *
 		 * If the implementation has handled deserialization,
 		 * return true.  Return false if you want
-		 * {@link GXml.Serialization} to try to automatically
-		 * deserialize it.  If {@link GXml.Serialization} tries to
+		 * {@link GXml.Jgs.Serialization} to try to automatically
+		 * deserialize it.  If {@link GXml.Jgs.Serialization} tries to
 		 * handle it, it will want either {@link GXml.Serializable}'s
 		 * set_property (or at least {@link GLib.Object.set_property})
 		 * to know about the property.
 		 *
-		 * @param property_name the name of the property as a string
-		 * @param spec the {@link GLib.ParamSpec} describing the property
-		 * @param property_node the {@link GXml.Node} encapsulating data to deserialize
-		 * @return `true` if the property was handled, `false` if {@link GXml.Serialization} should handle it
+		 * @param property_node the {@link GXml.Node} encapsulating data to deserialize; the node should carry the type, from which you can find the property spec if necessary
+		 * @return `true` if the property was handled, `false` if {@link GXml.Jgs.Serialization} should handle it
 		 */
 		/*
 		 * @todo: consider not giving property_name, but
@@ -236,7 +233,7 @@ namespace GXml.Jgs {
 		public virtual bool
 		deserialize_property (GXml.Node property_node)
 		throws GLib.Error {
-			return false; // default deserialize_property gets used
+			return false; // default deserialize_property in jgs.Serialization gets used
 		}
 
 
@@ -245,30 +242,31 @@ namespace GXml.Jgs {
 		/*
 		 * Handles finding the {@link GLib.ParamSpec} for a given property.
 		 *
-		 * @param property_name the name of a property to obtain a {@link GLib.ParamSpec} for
-		 * @return a {@link GLib.ParamSpec} describing the named property
-		 *
-		 * {@link GXml.Serialization} uses {@link
+		 * {@link GXml.Jgs.Serialization} uses {@link
 		 * GLib.ObjectClass.find_property} (as well as {@link
 		 * GLib.ObjectClass.list_properties}, {@link
 		 * GLib.Object.get_property}, and {@link
 		 * GLib.Object.set_property}) to manage serialization
-		 * of properties.  {@link GXml.Serializable} gives the
-		 * implementing class an opportunity to override
+		 * of properties.  {@link GXml.Jgs.Serializable} gives the
+		 * implementing class an opportunity to provide their own
+		 * logic for 
 		 * {@link GLib.ObjectClass.find_property} to control
-		 * what properties exist for {@link GXml.Serialization}'s
+		 * what properties exist for {@link GXml.Jgs.Serialization}'s
 		 * purposes.
 		 *
 		 * For instance, if an object has private data fields
 		 * that are not installed public properties, but that
-		 * should be serialized, find_property can be defined
+		 * should be serialized, find_property_sn can be defined
 		 * to return a {@link GLib.ParamSpec} for non-installed
-		 * properties.  Other {@link GXml.Serializable} functions
+		 * properties.  Other {@link GXml.Jgs.Serializable} functions
 		 * should be consistent with it.
 		 *
 		 * An implementing class might wish to maintain such
 		 * {@link GLib.ParamSpec} s separately, rather than creating new
 		 * ones for each call.
+		 *
+		 * @param property_name the name of a property to obtain a {@link GLib.ParamSpec} for
+		 * @return a {@link GLib.ParamSpec} describing the named property
 		 */
 		public virtual unowned GLib.ParamSpec? find_property_sn (string property_name) {
 			return this.get_class ().find_property (property_name); // default
@@ -277,30 +275,30 @@ namespace GXml.Jgs {
 		/*
 		 * List the known properties for an object's class
 		 *
-		 * @return an array of {@link GLib.ParamSpec} of
-		 * "properties" for the object.
-		 *
-		 * {@link GXml.Serialization} uses
+		 * {@link GXml.Jgs.Serialization} uses
 		 * {@link GLib.ObjectClass.list_properties} (as well as
 		 * {@link GLib.ObjectClass.find_property},
 		 * {@link GLib.Object.get_property}, and {@link GLib.Object.set_property})
 		 * to manage serialization of an object's properties.
 		 * {@link GXml.Serializable} gives an implementing class an
-		 * opportunity to override
+		 * opportunity to implement their own version of the logic of
 		 * {@link GLib.ObjectClass.list_properties} to control which
-		 * properties exist for {@link GXml.Serialization}'s purposes.
+		 * properties exist for {@link GXml.Jgs.Serialization}'s purposes.
 		 *
 		 * For instance, if an object has private data fields
 		 * that are not installed public properties, but that
 		 * should be serialized, list_properties_sn can be
 		 * defined to return a list of {@link GLib.ParamSpec} s covering
 		 * all the "properties" to serialize.  Other
-		 * {@link GXml.Serializable} functions should be consistent
+		 * {@link GXml.Jgs.Serializable} functions should be consistent
 		 * with it.
 		 *
 		 * An implementing class might wish to maintain such
 		 * {@link GLib.ParamSpec} s separately, rather than creating new
 		 * ones for each call.
+		 *
+		 * @return an array of {@link GLib.ParamSpec} of
+		 * "properties" for the object.
 		 */
 		public virtual unowned GLib.ParamSpec[] list_properties_sn () {
 			return this.get_class ().list_properties ();
@@ -309,13 +307,11 @@ namespace GXml.Jgs {
 		/*
 		 * Get a string version of the specified property
 		 *
-		 * @param spec The property we're retrieving as a string
-		 *
-		 * {@link GXml.Serialization} uses {@link GLib.Object.get_property} (as
+		 * {@link GXml.Jgs.Serialization} uses {@link GLib.Object.get_property} (as
 		 * well as {@link GLib.ObjectClass.find_property},
 		 * {@link GLib.ObjectClass.list_properties}, and
 		 * {@link GLib.Object.set_property}) to manage serialization of
-		 * an object's properties.  {@link GXml.Serializable} gives an
+		 * an object's properties.  {@link GXml.Jgs.Serializable} gives an
 		 * implementing class an opportunity to override
 		 * {@link GLib.Object.get_property} to control what value is
 		 * returned for a given parameter.
@@ -323,14 +319,18 @@ namespace GXml.Jgs {
 		 * For instance, if an object has private data fields
 		 * that are not installed public properties, but that
 		 * should be serialized,
-		 * {@link GXml.Serializable.get_property} can be used to
+		 * {@link GXml.Jgs.Serializable.get_property} can be used to
 		 * handle this case as a virtual property, supported
-		 * by the other {@link GXml.Serializable} functions.
+		 * by the other {@link GXml.Jgs.Serializable} functions.
 		 *
-		 * `spec` is usually obtained from list_properties or find_property.
+		 * `spec` is usually obtained from list_properties or
+		 * find_property (or the corresponding link_properties_sn or
+		 * find_property_sn).
 		 *
 		 * As indicated by its name, `str_value` is a {@link GLib.Value}
 		 * that wants to hold a string type.
+		 *
+		 * @param spec The property we're retrieving as a string
 		 *
 		 * @todo: why not just return a string? :D Who cares
 		 * how analogous it is to {@link GLib.Object.get_property}? :D
@@ -341,14 +341,11 @@ namespace GXml.Jgs {
 		/*
 		 * Set a property's value.
 		 *
-		 * @param spec Specifies the property whose value will be set
-		 * @param value The value to set the property to
-		 *
-		 * {@link GXml.Serialization} uses {@link GLib.Object.set_property} (as
+		 * {@link GXml.Jgs.Serialization} uses {@link GLib.Object.set_property} (as
 		 * well as {@link GLib.ObjectClass.find_property},
 		 * {@link GLib.ObjectClass.list_properties}, and
 		 * {@link GLib.Object.get_property}) to manage serialization of
-		 * an object's properties.  {@link GXml.Serializable} gives an
+		 * an object's properties.  {@link GXml.Jgs.Serializable} gives an
 		 * implementing class an opportunity to override
 		 * {@link GLib.Object.set_property} to control how a property's
 		 * value is set.
@@ -356,9 +353,12 @@ namespace GXml.Jgs {
 		 * For instance, if an object has private data fields
 		 * that are not installed public properties, but that
 		 * should be serialized,
-		 * {@link GXml.Serializable.set_property} can be used to
+		 * {@link GXml.Jgs.Serializable.set_property} can be used to
 		 * handle this case as a virtual property, supported
-		 * by the other {@link GXml.Serializable} functions.
+		 * by the other {@link GXml.Jgs.Serializable} functions.
+		 *
+		 * @param spec Specifies the property whose value will be set
+		 * @param value The value to set the property to
 		 */
 		public virtual void set_property_sn (GLib.ParamSpec spec, GLib.Value value) {
 			((GLib.Object)this).set_property (spec.name, value);
