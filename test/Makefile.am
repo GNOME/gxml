@@ -15,7 +15,7 @@ AM_CFLAGS = \
 	$(GEE_CFLAGS) \
 	$(LIBXML_CFLAGS) \
 	$(GIO_CFLAGS) \
-	-I../gxml \
+	-I$(top_builddir) \
 	-DTEST_DIR=\"$(builddir)\" \
 	$(NULL)
 
@@ -24,7 +24,7 @@ noinst_PROGRAMS = $(TEST_PROGS)
 
 TEST_PROGS += gxml_test
 
-gxml_test_SOURCES = \
+sources = \
 	AttrTest.vala \
 	CharacterDataTest.vala \
 	DocumentTest.vala \
@@ -46,22 +46,25 @@ gxml_test_SOURCES = \
 	SerializableBasicTypesTest.vala \
 	$(NULL)
 
-gxml_test.vala.stamp: $(gxml_test_SOURCES)
+gxml_test.vala.stamp: $(sources)
+	$(VALAC) $(AM_VALAFLAGS) $^
 
-gxml_test_VALAFLAGS = \
-	$(AM_VALAFLAGS) \
-	$(ERROR_VALAFLAGS) \
+gxml_test_SOURCES = $(sources:.vala=.c)
+
+AM_VALAFLAGS = \
 	$(top_srcdir)/vapi/config.vapi \
 	$(top_srcdir)/vapi/gxml-test.vapi \
 	--vapidir=$(top_srcdir)/vapi \
-	--vapidir=../gxml \
-	--vapidir=../gxml/xom \
+	--vapidir=$(top_builddir)/gxml/xom \
+	--vapidir=$(top_builddir)/gxml \
 	--pkg gio-2.0 \
 	--pkg gee-0.8 \
 	--pkg posix \
 	--pkg gxml-0.4 \
 	--pkg xom-0.4 \
 	--pkg libxml-2.0 \
+	-C \
+	-g \
 	-X -DTEST_DIR=$(top_srcdir)/test \
 	$(NULL)
 
