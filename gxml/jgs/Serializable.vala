@@ -140,7 +140,7 @@ namespace GXml.Jgs {
 		 * @return A {@link GXml.Node} representing serialized content from the implementing object
 		 */
 		public virtual GXml.Node?
-		serialize (GXml.Document doc) {
+		serialize (GXml.Node doc) {
 			return null;
 		}
 
@@ -168,9 +168,13 @@ namespace GXml.Jgs {
 		 * @return a new {@link GXml.Node}, or %NULL
 		 */
 		public virtual GXml.Node?
-		serialize_property (string property_name,
-				    GLib.ParamSpec spec,
-				    GXml.Document doc) {
+		serialize_property (GXml.Node property_element, 
+				    GLib.ParamSpec property_spec)
+		throws GLib.Error {
+			/* TODO: see if esodan changes xom's
+			 * serialize_property to Element as per his
+			 * e-mail dated "Wed, Apr 2, 2014 at 4:09
+			 * PM" */
 			return null;
 		}
 
@@ -180,14 +184,15 @@ namespace GXml.Jgs {
 		 *
 		 * This can cover deserialization tasks outside of
 		 * just properties, like initialising variables
-		 * normally handled by a constructor.  (Note that when
+		 * normally handled by a contructor.  (Note that when
 		 * deserializing, an object's constructor is not
 		 * called.)
 		 *
 		 * @param serialized_node The XML representation of this object
 		 */
-		public virtual void
-		deserialize (GXml.Node serialized_node) {
+		public virtual GXml.Node?
+		deserialize (GXml.Node serialized_node)
+		throws GLib.Error {
 			return;
 		}
 
@@ -229,9 +234,8 @@ namespace GXml.Jgs {
 		 * @todo: consider returning {@link GLib.Value} as out param
 		 */
 		public virtual bool
-		deserialize_property (/* string property_name,
-				      GLib.ParamSpec spec,
-				      */ GXml.Node property_node) {
+		deserialize_property (GXml.Node property_node)
+		throws GLib.Error {
 			return false; // default deserialize_property gets used
 		}
 
@@ -266,7 +270,7 @@ namespace GXml.Jgs {
 		 * {@link GLib.ParamSpec} s separately, rather than creating new
 		 * ones for each call.
 		 */
-		public virtual unowned GLib.ParamSpec? find_property (string property_name) {
+		public virtual unowned GLib.ParamSpec? find_property_sn (string property_name) {
 			return this.get_class ().find_property (property_name); // default
 		}
 
@@ -288,7 +292,7 @@ namespace GXml.Jgs {
 		 *
 		 * For instance, if an object has private data fields
 		 * that are not installed public properties, but that
-		 * should be serialized, list_properties can be
+		 * should be serialized, list_properties_sn can be
 		 * defined to return a list of {@link GLib.ParamSpec} s covering
 		 * all the "properties" to serialize.  Other
 		 * {@link GXml.Serializable} functions should be consistent
@@ -298,7 +302,7 @@ namespace GXml.Jgs {
 		 * {@link GLib.ParamSpec} s separately, rather than creating new
 		 * ones for each call.
 		 */
-		public virtual unowned GLib.ParamSpec[] list_properties () {
+		public virtual unowned GLib.ParamSpec[] list_properties_sn () {
 			return this.get_class ().list_properties ();
 		}
 
@@ -331,7 +335,7 @@ namespace GXml.Jgs {
 		 * @todo: why not just return a string? :D Who cares
 		 * how analogous it is to {@link GLib.Object.get_property}? :D
 		 */
-		public virtual void get_property (GLib.ParamSpec spec, ref GLib.Value str_value) {
+		public virtual void get_property_sn (GLib.ParamSpec spec, ref GLib.Value str_value) {
 			((GLib.Object)this).get_property (spec.name, ref str_value);
 		}
 		/*
@@ -356,7 +360,7 @@ namespace GXml.Jgs {
 		 * handle this case as a virtual property, supported
 		 * by the other {@link GXml.Serializable} functions.
 		 */
-		public virtual void set_property (GLib.ParamSpec spec, GLib.Value value) {
+		public virtual void set_property_sn (GLib.ParamSpec spec, GLib.Value value) {
 			((GLib.Object)this).set_property (spec.name, value);
 		}
 	}
