@@ -27,7 +27,7 @@
 
 using GXml;
 
-namespace GXml {
+namespace GXml.Jgs {
 	private static void print_object_properties (GLib.Object obj) {
 		ParamSpec[] properties;
 		properties = obj.get_class ().list_properties ();
@@ -67,9 +67,9 @@ namespace GXml {
 	 *
 	 * Serialization can automatically serialize a variety of public
 	 * properties.  {@link GLib.Object}s can also implement the
-	 * {@link GXml.Serializable} to partially or completely manage
+	 * {@link GXml.Jgs.Serializable} to partially or completely manage
 	 * serialization themselves, including non-public properties or
-	 * data types not automatically supported by {@link GXml.Serialization}.
+	 * data types not automatically supported by {@link GXml.Jgs.Serialization}.
 	 */
 	public class Serialization : GLib.Object {
 		private static void print_debug (GXml.Document doc, GLib.Object object) {
@@ -113,7 +113,7 @@ namespace GXml {
 				   former by list_properties) */
 				value = Value (typeof (int));
 				if (serializable != null) {
-					serializable.get_property (prop_spec, ref value);
+					serializable.get_property_sn (prop_spec, ref value);
 				} else {
 					object.get_property (prop_spec.name, ref value);
 				}
@@ -123,7 +123,7 @@ namespace GXml {
 			} else if (Value.type_transformable (prop_spec.value_type, typeof (string))) { // e.g. int, double, string, bool
 				value = Value (typeof (string));
 				if (serializable != null) {
-					serializable.get_property (prop_spec, ref value);
+					serializable.get_property_sn (prop_spec, ref value);
 				} else {
 					object.get_property (prop_spec.name, ref value);
 				}
@@ -158,7 +158,7 @@ namespace GXml {
 				// TODO: this is going to get complicated
 				value = Value (typeof (GLib.Object));
 				if (serializable != null) {
-					serializable.get_property (prop_spec, ref value);
+					serializable.get_property_sn (prop_spec, ref value);
 				} else {
 					object.get_property (prop_spec.name, ref value);
 					/* This can fail; consider case of Gee.TreeSet that isn't special cased above, gets error
@@ -192,13 +192,13 @@ namespace GXml {
 		 * recursively, and some collections.
 		 *
 		 * The serialization process can be customised for an object
-		 * by having the object implement the {@link GXml.Serializable}
+		 * by having the object implement the {@link GXml.Jgs.Serializable}
 		 * interface, which allows direct control over the
 		 * conversation of individual properties into {@link GXml.Node}s
 		 * and the object's list of properties as used by
-		 * {@link GXml.Serialization}.
+		 * {@link GXml.Jgs.Serialization}.
 		 *
-		 * A {@link GXml.SerializationError} may be thrown if there is
+		 * A {@link GXml.Jgs.SerializationError} may be thrown if there is
 		 * a problem serializing a property (e.g. the type is unknown,
 		 * unsupported, or the property isn't known to the object).
 		 *
@@ -252,7 +252,7 @@ namespace GXml {
 				   size in our interface's list_properties (), using
 				   [CCode (array_length_type = "guint")] */
 				if (serializable != null) {
-					prop_specs = serializable.list_properties ();
+					prop_specs = serializable.list_properties_sn ();
 				} else {
 					prop_specs = object.get_class ().list_properties ();
 				}
@@ -269,7 +269,7 @@ namespace GXml {
 
 					value_prop = null;
 					if (serializable != null) {
-						value_prop = serializable.serialize_property (prop_spec.name, prop_spec, doc);
+						value_prop = serializable.serialize_property_sn (prop_spec.name, prop_spec, doc);
 					}
 					if (value_prop == null) {
 						value_prop = Serialization.serialize_property (object, prop_spec, doc);
@@ -335,7 +335,7 @@ namespace GXml {
 					property_object = Serialization.deserialize_object (prop_elem_child);
 					val.set_object (property_object);
 					transformed = true;
-				} catch (GXml.SerializationError e) {
+				} catch (GXml.Jgs.SerializationError e) {
 					// We don't want this one caught by deserialize_object, or we'd have a cascading error message.  Hmm, not so bad if it does, though.
 					e.message += "\nXML [%s]".printf (prop_elem.to_string ());
 					throw e;
@@ -380,10 +380,10 @@ namespace GXml {
 		 * This deserializes a {@link GXml.Document} back into a
 		 * {@link GLib.Object}.  The {@link GXml.Document}
 		 * must represent a {@link GLib.Object} as serialized
-		 * by {@link GXml.Serialization}.  The types of the
+		 * by {@link GXml.Jgs.Serialization}.  The types of the
 		 * objects that are being deserialized must be known
 		 * to the system deserializing them or a
-		 * {@link GXml.SerializationError} will result.
+		 * {@link GXml.Jgs.SerializationError} will result.
 		 *
 		 * @param doc {@link GXml.Document} representing a {@link GLib.Object}
 		 * @return the deserialized {@link GLib.Object}
@@ -431,7 +431,7 @@ namespace GXml {
 			}
 
 			if (serializable != null) {
-				specs = serializable.list_properties ();
+				specs = serializable.list_properties_sn ();
 			} else {
 				specs = obj_class.list_properties ();
 			}
@@ -452,7 +452,7 @@ namespace GXml {
 					// Check name and type for property
 					ParamSpec? spec = null;
 					if (serializable != null) {
-						spec = serializable.find_property (pname);
+						spec = serializable.find_property_sn (pname);
 					} else {
 						spec = obj_class.find_property (pname);
 					}
@@ -471,11 +471,11 @@ namespace GXml {
 						if (!serialized) {
 							Serialization.deserialize_property (spec, prop_elem, out val);
 							if (serializable != null) {
-								serializable.set_property (spec, val);
+								serializable.set_property_sn (spec, val);
 							} else {
 								obj.set_property (pname, val);
 							}
-							/* TODO: should we make a note that for implementing {get,set}_property in
+							/* TODO: should we make a note that for implementing {get,set}_property_sn in
 							   the interface, they should specify override (in Vala)?  What about in C?
 							   Need to test which one gets called in which situations (yeah, already read
 							   the tutorial) */
