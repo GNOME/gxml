@@ -35,6 +35,11 @@ class GXmlTest {
 		TextTest.add_tests ();
 		CharacterDataTest.add_tests ();
 		ValaLibxml2Test.add_tests ();
+		Jgs.SerializationTest.add_tests ();
+		Jgs.SerializableTest.add_tests ();
+
+		/* XOM:
+		   todo: namespace, move into own directory */
 		SerializationTest.add_tests ();
 		SerializableTest.add_tests ();
 		SerializableObjectModelTest.add_tests ();
