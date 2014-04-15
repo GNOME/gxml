@@ -1,5 +1,6 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 using GXml;
+using GXml.Jgs;
 using Gee;
 
 /**
@@ -248,7 +249,7 @@ public class RecursiveProperty : GLib.Object {
 
 /* **********************  TEST BEGINS *******************************/
 
-class SerializationTest : GXmlTest {
+class Jgs.SerializationTest : GXmlTest {
 	public delegate string StringifyFunc (GLib.Object object);
 
 	public static GLib.Object test_serialization_deserialization (GLib.Object object, string name, EqualFunc equals, StringifyFunc stringify) {
@@ -258,12 +259,12 @@ class SerializationTest : GXmlTest {
 		GLib.Object object_new = null;
 
 		// make sure we have a fresh cache without collisions from previous tests
-		Serialization.clear_cache ();
+		GXml.Jgs.Serialization.clear_cache ();
 
 		xml_filename = "_serialization_test_" + name + ".xml";
 
 		try {
-			node = Serialization.serialize_object (object);
+			node = GXml.Jgs.Serialization.serialize_object (object);
 
 			// TODO: assert that node is right
 			node.owner_document.save_to_path (xml_filename);
@@ -271,7 +272,7 @@ class SerializationTest : GXmlTest {
 			doc = new GXml.Document.from_path (xml_filename);
 			// TODO: assert that loaded file is right; do document compare with original
 
-			object_new = Serialization.deserialize_object (doc);
+			object_new = GXml.Jgs.Serialization.deserialize_object (doc);
 
 			if (! equals (object, object_new)) {
 				Test.message ("Expected [%s] but got [%s]",
@@ -289,14 +290,14 @@ class SerializationTest : GXmlTest {
 	public static void add_tests () {
 		bool auto_fields = GLib.Test.thorough (); /* This enables future-looking tests that should be failing right now */
 
-		Test.add_func ("/gxml/serialization/xml_serialize", () => {
+		Test.add_func ("/gxml/jgs/serialization/xml_serialize", () => {
 				Fruit fruit;
 				GXml.Node fruit_xml;
 				string expectation;
 				Regex regex;
 
 				// Clear cache to avoid collisions with other tests
-				Serialization.clear_cache ();
+				GXml.Jgs.Serialization.clear_cache ();
 
 				/* TODO: This test should change once we can serialise fields
 				   and private properties */
@@ -307,7 +308,7 @@ class SerializationTest : GXmlTest {
 				fruit.age = 3;
 
 				try {
-					fruit_xml = Serialization.serialize_object (fruit);
+					fruit_xml = GXml.Jgs.Serialization.serialize_object (fruit);
 
 					regex = new Regex (expectation);
 					if (! regex.match (fruit_xml.to_string ())) {
@@ -320,19 +321,19 @@ class SerializationTest : GXmlTest {
 					Test.message ("Regular expression [%s] for test failed: %s",
 						      expectation, e.message);
 					assert_not_reached ();
-				} catch (GXml.SerializationError e) {
+				} catch (GXml.Jgs.SerializationError e) {
 					Test.message ("%s", e.message);
 					assert_not_reached ();
 				}
 
 			});
-		Test.add_func ("/gxml/serialization/xml_deserialize", () => {
+		Test.add_func ("/gxml/jgs/serialization/xml_deserialize", () => {
 				Document doc;
 				Fruit fruit;
 
 				try {
 					doc = new Document.from_string ("<Object otype='Fruit'><Property pname='age' ptype='gint'>3</Property></Object>");
-					fruit = (Fruit)Serialization.deserialize_object (doc);
+					fruit = (Fruit)GXml.Jgs.Serialization.deserialize_object (doc);
 
 					// we expect 9 because Fruit triples it in the setter
 					if (fruit.age != 9) {
@@ -344,71 +345,71 @@ class SerializationTest : GXmlTest {
 					assert_not_reached ();
 				}
 			});
-		Test.add_func ("/gxml/serialization/xml_deserialize_no_type", () => {
+		Test.add_func ("/gxml/jgs/serialization/xml_deserialize_no_type", () => {
 				Document doc;
 				Fruit fruit;
 
 				/* Right now we can infer the type from a property's name, but fields we might need to specify */
 				try {
 					doc = new Document.from_string ("<Object otype='Fruit'><Property pname='age'>3</Property></Object>");
-					fruit = (Fruit)Serialization.deserialize_object (doc);
+					fruit = (Fruit)GXml.Jgs.Serialization.deserialize_object (doc);
 				} catch (GLib.Error e) {
 					Test.message ("%s", e.message);
 					assert_not_reached ();
 				}
 			});
-		Test.add_func ("/gxml/serialization/xml_deserialize_bad_property_name", () => {
+		Test.add_func ("/gxml/jgs/serialization/xml_deserialize_bad_property_name", () => {
 				Document doc;
 
 				try {
 					doc = new Document.from_string ("<Object otype='Fruit'><Property name='badname'>3</Property></Object>");
-					Serialization.deserialize_object (doc);
+					GXml.Jgs.Serialization.deserialize_object (doc);
 					Test.message ("Expected SerializationError.UNKNOWN_PROPERTY to be thrown for property 'badname' in object 'Fruit' :(  Did not happen.");
 					assert_not_reached ();
-				} catch (GXml.SerializationError.UNKNOWN_PROPERTY e) {
+				} catch (GXml.Jgs.SerializationError.UNKNOWN_PROPERTY e) {
 					// Pass
 				} catch (GLib.Error e) {
 					Test.message ("%s", e.message);
 					assert_not_reached ();
 				}
 			});
-		Test.add_func ("/gxml/serialization/xml_deserialize_bad_object_type", () => {
+		Test.add_func ("/gxml/jgs/serialization/xml_deserialize_bad_object_type", () => {
 				Document doc;
 
 				try {
 					doc = new Document.from_string ("<Object otype='BadType'></Object>");
-					Serialization.deserialize_object (doc);
+					Gxml.Jgs.Serialization.deserialize_object (doc);
 					assert_not_reached ();
-				} catch (GXml.SerializationError.UNKNOWN_TYPE e) {
+				} catch (GXml.Jgs.SerializationError.UNKNOWN_TYPE e) {
 					// Pass
 				} catch (GLib.Error e) {
 					Test.message ("%s", e.message);
 					assert_not_reached ();
 				}
 			});
-		Test.add_func ("/gxml/serialization/xml_deserialize_bad_property_type", () => {
+		Test.add_func ("/gxml/jgs/serialization/xml_deserialize_bad_property_type", () => {
 				Document doc;
 				Fruit fruit;
 
 				// Clear cache to avoid collisions with other tests
-				Serialization.clear_cache ();
+				GXml.Jgs.Serialization.clear_cache ();
 
 				try {
 					doc = new Document.from_string ("<Object otype='Fruit'><Property pname='age' ptype='badtype'>blue</Property></Object>");
-					fruit = (Fruit)Serialization.deserialize_object (doc);
+					fruit = (Fruit)GXml.Jgs.Serialization.deserialize_object (doc);
 					assert_not_reached ();
-				} catch (GXml.SerializationError.UNSUPPORTED_TYPE e) {
+				} catch (GXml.Jgs.SerializationError.UNSUPPORTED_TYPE e) {
 					// Pass
 				} catch (GLib.Error e) {
 					Test.message ("%s", e.message);
 					assert_not_reached ();
 				}
 			});
-		Test.add_func ("/gxml/serialization/simple_properties", () => {
+		Test.add_func ("/gxml/jgs/serialization/simple_properties", () => {
 				SimpleProperties obj = new SimpleProperties (3, 4.2, "catfish", true, 0); // set private arg just to 0
 				test_serialization_deserialization (obj, "simple_properties", (GLib.EqualFunc)SimpleProperties.equals, (StringifyFunc)SimpleProperties.to_string);
 			});
-		Test.add_func ("/gxml/serialization/complex_simple_properties", () => {
+		Test.add_func ("/gxml/jgs/serialization/complex_simple_properties", () => {
 				SimpleProperties simple_properties;
 				ComplexSimpleProperties obj;
 
@@ -417,7 +418,7 @@ class SerializationTest : GXmlTest {
 
 				test_serialization_deserialization (obj, "complex_simple_properties", (GLib.EqualFunc)ComplexSimpleProperties.equals, (StringifyFunc)ComplexSimpleProperties.to_string);
 			});
-		Test.add_func ("/gxml/serialization/complex_duplicate_properties", () => {
+		Test.add_func ("/gxml/jgs/serialization/complex_duplicate_properties", () => {
 				/* This tests the case where the same object is referenced multiple
 				   times during serialisation; we want to deserialise it to just
 				   one object, rather than creating a new object for each reference. */
@@ -428,16 +429,16 @@ class SerializationTest : GXmlTest {
 				GXml.Document xml;
 
 				// Clear cache to avoid collisions with other tests
-				Serialization.clear_cache ();
+				GXml.Jgs.Serialization.clear_cache ();
 
 				simple_properties = new SimpleProperties (3, 4.2, "catfish", true, 0);
 				obj = new ComplexDuplicateProperties (simple_properties);
 
 				try {
-					xml = Serialization.serialize_object (obj);
+					xml = GXml.Jgs.Serialization.serialize_object (obj);
 
-					restored = (ComplexDuplicateProperties)Serialization.deserialize_object (xml);
-				} catch (GXml.SerializationError e) {
+					restored = (ComplexDuplicateProperties)GXml.Jgs.Serialization.deserialize_object (xml);
+				} catch (GXml.Jgs.SerializationError e) {
 					Test.message ("%s", e.message);
 					assert_not_reached ();
 				}
@@ -447,7 +448,7 @@ class SerializationTest : GXmlTest {
 					assert_not_reached ();
 				}
 			});
-		Test.add_func ("/gxml/serialization/complex_complex_properties", () => {
+		Test.add_func ("/gxml/jgs/serialization/complex_complex_properties", () => {
 				ComplexComplexProperties obj;
 				SimpleProperties simple_properties;
 				ComplexSimpleProperties complex_simple_properties;
@@ -458,11 +459,11 @@ class SerializationTest : GXmlTest {
 
 				test_serialization_deserialization (obj, "complex_complex_properties", (GLib.EqualFunc)ComplexComplexProperties.equals, (StringifyFunc)ComplexComplexProperties.to_string);
 			});
-		Test.add_func ("/gxml/serialization/enum_properties", () => {
+		Test.add_func ("/gxml/jgs/serialization/enum_properties", () => {
 				EnumProperties obj = new EnumProperties (EnumProperty.THREE);
 				test_serialization_deserialization (obj, "enum_properties", (GLib.EqualFunc)EnumProperties.equals, (StringifyFunc)EnumProperties.to_string);
 			});
-		Test.add_func ("/gxml/serialization/recursion", () => {
+		Test.add_func ("/gxml/jgs/serialization/recursion", () => {
 				RecursiveProperty obj = new RecursiveProperty ();
 
 				test_serialization_deserialization (obj, "recursion", (GLib.EqualFunc)RecursiveProperty.equals, (StringifyFunc)RecursiveProperty.to_string);
@@ -473,7 +474,7 @@ class SerializationTest : GXmlTest {
 		if (auto_fields) {
 			/* This doesn't really belong here, but auto_fields should really change to future_tests,
 			   as automatically serializing fields and GeeCollections are both currently not supported. */
-			Test.add_func ("/gxml/serialization/gee_collection_tree_set", () => {
+			Test.add_func ("/gxml/jgs/serialization/gee_collection_tree_set", () => {
 					Gee.TreeSet<string> s = new Gee.TreeSet<string> ();
 
 					s.add ("stars");
@@ -503,10 +504,10 @@ class SerializationTest : GXmlTest {
 				      "feature not yet implemented, pertaining to automatic handling " +
 				      "of fields and private properties.  You can achieve the same " +
 				      "effect as these features, though, by making a class implement " +
-				      "GXmlSerializable and overriding its view of its properties " +
-				      "for GXmlSerialization.");
+				      "GXmlJgsSerializable and overriding its view of its properties " +
+				      "for GXmlJgsSerialization.");
 
-			Test.add_func ("/gxml/serialization/collection_properties", () => {
+			Test.add_func ("/gxml/jgs/serialization/collection_properties", () => {
 					// TODO: want a test with more complex data than strings
 
 					CollectionProperties obj;
@@ -527,7 +528,7 @@ class SerializationTest : GXmlTest {
 
 					test_serialization_deserialization (obj, "collection_properties", (GLib.EqualFunc)CollectionProperties.equals, (StringifyFunc)CollectionProperties.to_string);
 				});
-			Test.add_func ("/gxml/serialization/gee_collection_properties", () => {
+			Test.add_func ("/gxml/jgs/serialization/gee_collection_properties", () => {
 					GeeCollectionProperties obj;
 
 					Gee.List<string> list = new Gee.ArrayList<string> ();
@@ -548,7 +549,7 @@ class SerializationTest : GXmlTest {
 					test_serialization_deserialization (obj, "gee_collection_properties", (GLib.EqualFunc)GeeCollectionProperties.equals, (StringifyFunc)GeeCollectionProperties.to_string);
 				});
 
-			Test.add_func ("/gxml/serialization/xml_automatically_serialize_fields", () => {
+			Test.add_func ("/gxml/jgs/serialization/xml_automatically_serialize_fields", () => {
 					/* NOTE: We expect this one to fail right now */
 
 					Fruit fruit;
@@ -557,7 +558,7 @@ class SerializationTest : GXmlTest {
 					Regex regex;
 
 					// Clear cache to avoid collisions with other tests
-					Serialization.clear_cache ();
+					GXml.Jgs.Serialization.clear_cache ();
 
 					expectation = "<Object otype=\"Fruit\" oid=\"0x[0-9a-f]+\"><Property pname=\"colour\">blue</Property><Property pname=\"weight\">9</Property><Property pname=\"name\">fish</Property><Property pname=\"age\" ptype=\"gint\">3</Property></Object>";
 					// weight expected to be 9 because age sets it *3
@@ -566,7 +567,7 @@ class SerializationTest : GXmlTest {
 					fruit.set_all ("blue", 11, "fish", 3);
 
 					try {
-						fruit_xml = Serialization.serialize_object (fruit);
+						fruit_xml = GXml.Jgs.Serialization.serialize_object (fruit);
 
 						regex = new Regex (expectation);
 						if (! regex.match (fruit_xml.to_string ())) {
@@ -578,12 +579,12 @@ class SerializationTest : GXmlTest {
 						Test.message ("Regular expression [%s] for test failed: %s",
 							      expectation, e.message);
 						assert_not_reached ();
-					} catch (GXml.SerializationError e) {
+					} catch (GXml.Jgs.SerializationError e) {
 						Test.message ("%s", e.message);
 						assert_not_reached ();
 					}
 				});
-			Test.add_func ("/gxml/serialization/xml_deserialize_fields", () => {
+			Test.add_func ("/gxml/jgs/serialization/xml_deserialize_fields", () => {
 					/* TODO: expecting this one to fail right now,
 					   because we probably still don't support fields,
 					   just properties. */
@@ -591,26 +592,26 @@ class SerializationTest : GXmlTest {
 					Fruit fruit;
 
 					// Clear cache to avoid collisions with other tests
-					Serialization.clear_cache ();
+					GXml.Jgs.Serialization.clear_cache ();
 
 					try {
 						doc = new Document.from_string ("<Object otype='Fruit'><Property pname='colour' ptype='gchararray'>blue</Property><Property pname='weight' ptype='gint'>11</Property><Property pname='name' ptype='gchararray'>fish</Property><Property pname='age' ptype='gint'>3</Property></Object>");
-						fruit = (Fruit)Serialization.deserialize_object (doc);
+						fruit = (Fruit)GXml.Jgs.Serialization.deserialize_object (doc);
 
 						if (! fruit.test ("blue", 11, "fish", 3)) {
 							Test.message ("Expected [\"%s\", %d, \"%s\", %d] but found [%s]", "blue", 11, "fish", 3, fruit.to_string ());
 							assert_not_reached (); // Note that age sets weight normally
 						}
-					} catch (GXml.SerializationError e) {
+					} catch (GXml.Jgs.SerializationError e) {
 						Test.message ("%s", e.message);
 						assert_not_reached ();
 					}
 				});
-			Test.add_func ("/gxml/serialization/simple_fields", () => {
+			Test.add_func ("/gxml/jgs/serialization/simple_fields", () => {
 					SimpleFields obj = new SimpleFields (3, 4.5, "cat", true, 6);
 					test_serialization_deserialization (obj, "simple_fields", (GLib.EqualFunc)SimpleFields.equals, (StringifyFunc)SimpleFields.to_string);
 				});
-			Test.add_func ("/gxml/serialization/simple_properties_private", () => {
+			Test.add_func ("/gxml/jgs/serialization/simple_properties_private", () => {
 					SimpleProperties obj = new SimpleProperties (3, 4.2, "catfish", true, 9);  // 5th arg is private
 					test_serialization_deserialization (obj, "simple_properties", (GLib.EqualFunc)SimpleProperties.equals, (StringifyFunc)SimpleProperties.to_string);
 				});

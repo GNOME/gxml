@@ -1,5 +1,6 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 using GXml;
+using GXml.Jgs;
 using Gee;
 
 /**
@@ -25,7 +26,7 @@ using Gee;
    Test overriding {set,get}_property
 */
 
-public class SerializableTomato : GLib.Object, GXml.Serializable {
+public class SerializableTomato : GLib.Object, GXml.Jgs.Serializable {
 	public int weight;
 	private int age { get; set; }
 	public int height { get; set; }
@@ -52,7 +53,7 @@ public class SerializableTomato : GLib.Object, GXml.Serializable {
 	}
 }
 
-public class SerializableCapsicum : GLib.Object, GXml.Serializable {
+public class SerializableCapsicum : GLib.Object, Gxml.Jgs.Serializable {
 	public int weight;
 	private int age { get; set; }
 	public int height { get; set; }
@@ -127,7 +128,7 @@ public class SerializableCapsicum : GLib.Object, GXml.Serializable {
 }
 
 
-public class SerializableBanana : GLib.Object, GXml.Serializable {
+public class SerializableBanana : GLib.Object, Gxml.Jgs.Serializable {
 	private int private_field;
 	public int public_field;
 	private int private_property { get; set; }
@@ -153,7 +154,7 @@ public class SerializableBanana : GLib.Object, GXml.Serializable {
 	}
 
 	private ParamSpec[] properties = null;
-	public unowned GLib.ParamSpec[] list_properties () {
+	public unowned GLib.ParamSpec[] list_properties_sn () {
 		// TODO: so, if someone implements list_properties, but they don't create there array until called, that could be inefficient if they don't cache.  If they create it at construction, then serialising and deserialising will lose it?   offer guidance
 		if (this.properties == null) {
 			properties = new ParamSpec[4];
@@ -168,8 +169,8 @@ public class SerializableBanana : GLib.Object, GXml.Serializable {
 	}
 
 	private GLib.ParamSpec prop;
-	public unowned GLib.ParamSpec? find_property (string property_name) {
-		GLib.ParamSpec[] properties = this.list_properties ();
+	public unowned GLib.ParamSpec? find_property_sn (string property_name) {
+		GLib.ParamSpec[] properties = this.list_properties_sn ();
 		foreach (ParamSpec prop in properties) {
 			if (prop.name == property_name) {
 				this.prop = prop;
@@ -179,7 +180,7 @@ public class SerializableBanana : GLib.Object, GXml.Serializable {
 		return null;
 	}
 
-	public void get_property (GLib.ParamSpec spec, ref GLib.Value str_value) {
+	public void get_property_sn (GLib.ParamSpec spec, ref GLib.Value str_value) {
 		Value value = Value (typeof (int));
 
 		switch (spec.name) {
@@ -196,7 +197,7 @@ public class SerializableBanana : GLib.Object, GXml.Serializable {
 			value.set_int (this.public_property);
 			break;
 		default:
-			((GLib.Object)this).get_property (spec.name, ref str_value);
+			this.get_property (spec.name, ref str_value);
 			return;
 		}
 
@@ -204,7 +205,7 @@ public class SerializableBanana : GLib.Object, GXml.Serializable {
 		return;
 	}
 
-	public void set_property (GLib.ParamSpec spec, GLib.Value value) {
+	public void set_property_sn (GLib.ParamSpec spec, GLib.Value value) {
 		switch (spec.name) {
 		case "private-field":
 			this.private_field = value.get_int ();
@@ -219,7 +220,7 @@ public class SerializableBanana : GLib.Object, GXml.Serializable {
 			this.public_property = value.get_int ();
 			break;
 		default:
-			((GLib.Object)this).set_property (spec.name, value);
+			this.set_property (spec.name, value);
 			return;
 		}
 	}
@@ -227,12 +228,12 @@ public class SerializableBanana : GLib.Object, GXml.Serializable {
 
 class SerializableTest : GXmlTest {
 	public static void add_tests () {
-		Test.add_func ("/gxml/serializable/interface_defaults", () => {
+		Test.add_func ("/gxml/jgs/serializable/interface_defaults", () => {
 				SerializableTomato tomato = new SerializableTomato (0, 0, 12, "cats");
 
-				SerializationTest.test_serialization_deserialization (tomato, "interface_defaults", (GLib.EqualFunc)SerializableTomato.equals, (SerializationTest.StringifyFunc)SerializableTomato.to_string);
+				Jgs.SerializationTest.test_serialization_deserialization (tomato, "interface_defaults", (GLib.EqualFunc)SerializableTomato.equals, (Jgs.SerializationTest.StringifyFunc)SerializableTomato.to_string);
 			});
-		Test.add_func ("/gxml/serializable/interface_override_serialization_on_list", () => {
+		Test.add_func ("/gxml/jgs/serializable/interface_override_serialization_on_list", () => {
 				GXml.Document doc;
 				SerializableCapsicum capsicum;
 				SerializableCapsicum capsicum_new;
@@ -281,10 +282,10 @@ class SerializableTest : GXmlTest {
 					assert_not_reached ();
 				}
 			});
-		Test.add_func ("/gxml/serializable/interface_override_properties_view", () => {
+		Test.add_func ("/gxml/jgs/serializable/interface_override_properties_view", () => {
 				SerializableBanana banana = new SerializableBanana (17, 19, 23, 29);
 
-				SerializationTest.test_serialization_deserialization (banana, "interface_override_properties", (GLib.EqualFunc)SerializableBanana.equals, (SerializationTest.StringifyFunc)SerializableBanana.to_string);
+				Jgs.SerializationTest.test_serialization_deserialization (banana, "interface_override_properties", (GLib.EqualFunc)SerializableBanana.equals, (Jgs.SerializationTest.StringifyFunc)SerializableBanana.to_string);
 			});
 	}
 }
