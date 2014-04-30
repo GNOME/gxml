@@ -112,15 +112,15 @@ GITIGNOREFILES = \
 
 
 
+# This makes GObject Introspection optional and requires to use --enable-instrospection switch on configure
+if HAVE_INTROSPECTION
+
 ### GObject Introspection
 # dlname:
 #   Extract our dlname like libfolks does, see bgo#658002 and bgo#585116
 #   This is what g-ir-scanner does.
 libxom_dlname = \
         `$(SED) -n "s/^dlname='\([A-Za-z0-9.+-]\+\)'/\1/p" libxom-0.4.la`
-
-# This makes GObject Introspection optional and requires to use --enable-instrospection switch on configure
-if HAVE_INTROSPECTION
 
 AM_VALAFLAGS += \
 	--gir=Xom-$(API_VERSION).gir

@@ -4,7 +4,7 @@ SUBDIRS = . xom
 
 # Empty variable to be added elements later
 CLEANFILES=
-
+BUILT_SOURCES=
 
 ### Library
 
@@ -116,11 +116,14 @@ EXTRA_DIST = \
 	$(NULL)
 
 GITIGNOREFILES = \
-	$(libgxml_0_4_la_SOURCES:.vala=.c) \
+	$(sources:.vala=.c) \
 	libgxml_0_4_la_vala.stamp \
 	$(NULL)
 
 
+
+# This makes GObject Introspection optional and requires to use --enable-instrospection switch on configure
+if HAVE_INTROSPECTION
 
 ### GObject Introspection
 # dlname:
@@ -129,8 +132,6 @@ GITIGNOREFILES = \
 libgxml_dlname = \
         `$(SED) -n "s/^dlname='\([A-Za-z0-9.+-]\+\)'/\1/p" libgxml-0.4.la`
 
-# This makes GObject Introspection optional and requires to use --enable-instrospection switch on configure
-if HAVE_INTROSPECTION
 
 AM_VALAFLAGS += \
 	--gir=GXml-$(API_VERSION).gir
@@ -154,32 +155,29 @@ if PLATFORM_WIN32
 AM_VALAFLAGS += \
 	--symbols=gxml.symbols
 
-libgxml_0_4_la_LDFLAGS += -export-symbols $(builddir)/libgxml-0.4.def
-libgxml_0_4_la_DEPENDENCIES = libgxml-0.4.def
+libgxml_0_4_la_LDFLAGS += -shared -o libgxml-0.4.dll -no-undefined \
+	-out-imlib -export-all-symbols -output-def
 
 libgxml-0.4.def: gxml.symbols
-	(echo -e EXPORTS; $(CPP) -P $(DEF_FLAGS) - <$(srcdir)/gxml.symbols | sed -e '/^$$/d' -e 's/^/ /' -e 's/G_GNUC_[^ ]*//g' | sort) > gxml.def.tmp && mv gxml.def.tmp libgxml-0.4.def
-
-libgxml-0.4.lib: libgxml-0.4.def
-	$(DLLTOOL) --dllname libgxml-0.4.a --def libgxml-0.4.def --output-lib libgxml-0.4.lib
-
-libgxml-0.4.lib: libgxml-0.4.la
-libgxmllibdir=$(libdir)
-libgxmllib_DATA=libgxml-0.4.lib
+	(echo -e EXPRTS; $(CPP) -P $(DEF_FLAGS) - <$^ | sed -e '/^$$/d' -e 's/^/ /' -e 's/G_GNUC_[^ ]*//g' | sort) > gxml.def.tmp && mv gxml.def.tmp libgxml-0.4.def
 
 libgxml-0.4.def: libgxml-0.4.la
 libgxmldefdir=$(libdir)
 libgxmldef_DATA=libgxml-0.4.def
 
 CLEANFILES += \
-	gxml.symbols
+	gxml.symbols \
+	libgxml-0.4.def \
+	libgxml-0.4.lib \
+	libgxml-0.4.dll
 
+BUILT_SOURCES += libgxml-0.4.def
 endif
 
 
 
 ### Files to clean
-BUILT_SOURCES = \
+BUILT_SOURCES += \
 	gxml_0_4_la_vala.stamp \
 	gxml.h \
 	gxml-0.4.vapi \
@@ -190,7 +188,5 @@ CLEANFILES += \
 	namespace-info.vala \
 	$(sources:.vala=.c) \
 	gxml-0.4.vapi \
-	gxml.h \
-	$(gir_DATA) \
-	$(typelib_DATA)
+	gxml.h
 

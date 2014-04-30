@@ -67,7 +67,7 @@ AC_PROG_CC
 AM_PROG_CC_C_O
 
 # Initialise libtools (handles library creation) with stuff from above
-LT_INIT()
+LT_INIT(win32-dll)
 
 PKG_PROG_PKG_CONFIG([0.21])
 GLIB_GSETTINGS
