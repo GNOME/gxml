@@ -49,6 +49,8 @@ sources = \
 gxml_test.vala.stamp: $(sources)
 	$(VALAC) $(AM_VALAFLAGS) $^
 
+$(sources:.vala=.c): gxml_test.vala.stamp
+
 gxml_test_SOURCES = $(sources:.vala=.c)
 
 AM_VALAFLAGS = \
@@ -98,6 +100,7 @@ CLEANFILES = $(gxml_test_SOURCES:.vala=.c) $(BUILT_SOURCES) gxml_test
 DISTCLEANFILES = _serialization_test_*.xml
 
 EXTRA_DIST += \
+	$(sources) \
 	test_invalid.xml \
 	test_with_ns.xml \
 	test_out_path_expected.xml \

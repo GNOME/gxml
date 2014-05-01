@@ -2,6 +2,7 @@
 
 # Empty variable to be added elements later
 CLEANFILES=
+BUILT_SOURCES=
 
 
 ### Library
@@ -80,7 +81,12 @@ libxom_0_4_la_LDFLAGS = \
 xom_0_4_la_vala.stamp: $(sources)
 	$(VALAC) $(AM_VALAFLAGS) $^
 
-libxom_0_4_la_SOURCES=$(sources:.vala=.c)
+$(sources:.vala=.c): xom_0_4_la_vala.stamp
+
+libxom_0_4_la_SOURCES= $(sources:.vala=.c)
+
+
+libxom_0_4_la_DEPENDENCIES= xom_0_4_la_vala.stamp
 
 # .h header file
 xom.h: xom_0_4_la_vala.stamp
@@ -106,10 +112,15 @@ EXTRA_DIST = \
 	$(NULL)
 
 GITIGNOREFILES = \
-	$(libxom_0_4_la_SOURCES:.vala=.c) \
-	libxom_0_4_la_vala.stamp \
+	$(sources:.vala=.c) \
+	xom_0_4_la_vala.stamp \
 	$(NULL)
 
+BUILT_SOURCES += \
+	xom_0_4_la_vala.stamp \
+	$(builddir)/../xom.h \
+	xom-0.4.vapi \
+	$(NULL)
 
 
 # This makes GObject Introspection optional and requires to use --enable-instrospection switch on configure
@@ -147,36 +158,28 @@ if PLATFORM_WIN32
 AM_VALAFLAGS += \
 	--symbols=xom.symbols
 
-libxom_0_4_la_LDFLAGS += -export-symbols $(builddir)/libxom-0.4.def
-libxom_0_4_la_DEPENDENCIES = libxom-0.4.def
+libxom_0_4_la_LDFLAGS += -shared -o libxom-0.4.dll -no-undefined \
+	-out-imlib -export-all-symbols -output-def
+
+xom.symbols: xom_0_4_la_vala.stamp
 
 libxom-0.4.def: xom.symbols
-	(echo -e EXPORTS; $(CPP) -P $(DEF_FLAGS) - <$(srcdir)/xom.symbols | sed -e '/^$$/d' -e 's/^/ /' -e 's/G_GNUC_[^ ]*//g' | sort) > gxml.def.tmp && mv gxml.def.tmp libxom-0.4.def
-
-libxom-0.4.lib: libxom-0.4.def
-	$(DLLTOOL) --dllname libxom-0.4.a --def libxom-0.4.def --output-lib libxom-0.4.lib
-
-libxom-0.4.lib: libxom-0.4.la
-libxomlibdir=$(libdir)
-libxomlib_DATA=libxom-0.4.lib
+	(echo -e EXPORTS; $(CPP) -P $(DEF_FLAGS) - <$(srcdir)/xom.symbols \
+	| sed -e '/^$$/d' -e 's/^/ /' -e 's/G_GNUC_[^ ]*//g' \
+	| sort) > xom.def.tmp && mv xom.def.tmp libxom-0.4.def
 
 libxom-0.4.def: libxom-0.4.la
 libxomdefdir=$(libdir)
 libxomdef_DATA=libxom-0.4.def
 
 CLEANFILES += \
-	xom-0.4.symbols
+	xom-0.4.symbols \
+	libxom-0.4.def
+
+BUILT_SOURCES += libxom-0.4.def
 
 endif
 
-
-
-### Files to clean
-BUILT_SOURCES = \
-	xom_0_4_la_vala.stamp \
-	$(builddir)/../xom.h \
-	xom-0.4.vapi \
-	$(NULL)
 
 CLEANFILES += \
 	$(pkgconfig_DATA) \

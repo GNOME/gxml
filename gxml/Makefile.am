@@ -90,7 +90,10 @@ libgxml_0_4_la_LDFLAGS = \
 gxml_0_4_la_vala.stamp: $(sources)
 	$(VALAC) $(AM_VALAFLAGS) $^
 
+$(sources:.vala=.c): gxml_0_4_la_vala.stamp
+
 libgxml_0_4_la_SOURCES=$(sources:.vala=.c)
+libgxml_0_4_la_DEPENDENCIES= gxml_0_4_la_vala.stamp
 
 # .h header file
 gxml.h: gxml_0_4_la_vala.stamp
@@ -120,6 +123,12 @@ GITIGNOREFILES = \
 	libgxml_0_4_la_vala.stamp \
 	$(NULL)
 
+
+BUILT_SOURCES += \
+	gxml_0_4_la_vala.stamp \
+	gxml.h \
+	gxml-0.4.vapi \
+	$(NULL)
 
 
 # This makes GObject Introspection optional and requires to use --enable-instrospection switch on configure
@@ -158,8 +167,12 @@ AM_VALAFLAGS += \
 libgxml_0_4_la_LDFLAGS += -shared -o libgxml-0.4.dll -no-undefined \
 	-out-imlib -export-all-symbols -output-def
 
+gxml.symbols: gxml_0_4_la_vala.stamp
+
 libgxml-0.4.def: gxml.symbols
-	(echo -e EXPRTS; $(CPP) -P $(DEF_FLAGS) - <$^ | sed -e '/^$$/d' -e 's/^/ /' -e 's/G_GNUC_[^ ]*//g' | sort) > gxml.def.tmp && mv gxml.def.tmp libgxml-0.4.def
+	(echo -e EXPRTS; $(CPP) -P $(DEF_FLAGS) \
+	- <$^ | sed -e '/^$$/d' -e 's/^/ /' -e 's/G_GNUC_[^ ]*//g' \
+	| sort) > gxml.def.tmp && mv gxml.def.tmp libgxml-0.4.def
 
 libgxml-0.4.def: libgxml-0.4.la
 libgxmldefdir=$(libdir)
@@ -167,21 +180,12 @@ libgxmldef_DATA=libgxml-0.4.def
 
 CLEANFILES += \
 	gxml.symbols \
-	libgxml-0.4.def \
-	libgxml-0.4.lib \
-	libgxml-0.4.dll
+	libgxml-0.4.def
 
-BUILT_SOURCES += libgxml-0.4.def
-endif
-
-
-
-### Files to clean
 BUILT_SOURCES += \
-	gxml_0_4_la_vala.stamp \
-	gxml.h \
-	gxml-0.4.vapi \
-	$(NULL)
+	libgxml-0.4.def
+
+endif
 
 CLEANFILES += \
 	$(pkgconfig_DATA) \
