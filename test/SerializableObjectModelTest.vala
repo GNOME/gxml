@@ -24,9 +24,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 using GXml;
-using Xom;
 using Gee;
-
 const string XML_COMPUTER_FILE = 
 """<?xml version="1.0"?>
 <computer manufacturer="ThecnicalGroup" model="YH576G" cores="4" ghz="2.8"/>""";
@@ -126,7 +124,7 @@ public class Package : ObjectModel
     manual = new Manual ();
     source = "Mexico";
     destiny = "World";
-    ((Xom.Serializable) this).serialize_unknown_property.connect ( (element, prop, out node) => {
+    ((Serializable) this).serialize_unknown_property.connect ( (element, prop, out node) => {
       //GLib.message (@"Serializing Unknown Property: $(prop.name) | $(prop.get_nick ())");
       if (prop.name == "tags")
       {
@@ -138,7 +136,7 @@ public class Package : ObjectModel
         }
       }
     });
-    ((Xom.Serializable) this).deserialize_unknown_property.connect ( (element, prop) => {
+    ((Serializable) this).deserialize_unknown_property.connect ( (element, prop) => {
       //GLib.message (@"Deserializing Unknown Property: $(prop.name) | $(prop.get_nick ())");
       if (element.node_name == "tag") {
         tags.append_val (((Element) element).content);

@@ -194,9 +194,6 @@ Makefile
 gxml/namespace-info.vala
 gxml/gxml-0.4.pc
 gxml/Makefile
-gxml/xom/namespace-info.vala
-gxml/xom/Makefile
-gxml/xom/xom-0.4.pc
 test/Makefile
 test/test.xml
 test/test_invalid.xml

@@ -19,9 +19,8 @@
  * Authors:
  *      Daniel Espinosa <esodan@gmail.com>
  */
-using GXml;
 
-public abstract class Xom.SerializableObjectModel : Object, Serializable
+public abstract class GXml.SerializableObjectModel : Object, Serializable
 {
   /* Serializable interface properties */
   protected ParamSpec[] properties { get; set; }
@@ -80,7 +79,7 @@ public abstract class Xom.SerializableObjectModel : Object, Serializable
   public virtual GXml.Node? serialize (GXml.Node node)
                        throws GLib.Error
                        requires (node_name () != null)
-                       requires (node is GXml.Document || node is Element)
+                       requires (node is Document || node is Element)
   {
     return default_serialize (node);
   }
@@ -90,9 +89,9 @@ public abstract class Xom.SerializableObjectModel : Object, Serializable
 #if DEBUG
     stdout.printf (@"$(get_type ().name ()): Serializing on node: $(node.node_name)\n");
 #endif
-    GXml.Document doc;
-    if (node is GXml.Document)
-      doc = (GXml.Document) node;
+    Document doc;
+    if (node is Document)
+      doc = (Document) node;
     else
       doc = node.owner_document;
     var element = doc.create_element (node_name ());
@@ -100,15 +99,15 @@ public abstract class Xom.SerializableObjectModel : Object, Serializable
       serialize_property (element, spec);
     }
     if (get_enable_unknown_serializable_property ()) {
-        foreach (GXml.Node n in unknown_serializable_property.get_values ()) {
-          if (n is GXml.Element) {
-            var e = (GXml.Node) doc.create_element (n.node_name);
+        foreach (Node n in unknown_serializable_property.get_values ()) {
+          if (n is Element) {
+            var e = (Node) doc.create_element (n.node_name);
             n.copy (ref e, true);
             element.append_child (e);
           }
           if (n is Attr) {
             element.set_attribute (n.node_name, n.node_value);
-            var a = (GXml.Node) element.get_attribute_node (n.node_name);
+            var a = (Node) element.get_attribute_node (n.node_name);
             n.copy (ref a);
           }
           if (n is Text) {
@@ -174,7 +173,7 @@ public abstract class Xom.SerializableObjectModel : Object, Serializable
           val = rval.dup_string ();
         }
         else {
-          GXml.Node node = null;
+          Node node = null;
           this.serialize_unknown_property (element, prop, out node);
           return node;
         }
@@ -194,7 +193,7 @@ public abstract class Xom.SerializableObjectModel : Object, Serializable
     }
     else
       attr.value = val;
-    return (GXml.Node) attr;
+    return (Node) attr;
   }
 
   public virtual GXml.Node? deserialize (GXml.Node node)
@@ -206,18 +205,18 @@ public abstract class Xom.SerializableObjectModel : Object, Serializable
   public GXml.Node? default_deserialize (GXml.Node node)
                                     throws GLib.Error
   {
-    GXml.Document doc;
-    if (node is GXml.Document) {
-      doc = (GXml.Document) node;
+    Document doc;
+    if (node is Document) {
+      doc = (Document) node;
       return_val_if_fail (doc.document_element != null, null);
     }
     else
       doc = node.owner_document;
-    GXml.Element element;
-    if (node is GXml.Element)
+    Element element;
+    if (node is Element)
       element = (Element) node;
     else
-      element = (GXml.Element) doc.document_element;
+      element = (Element) doc.document_element;
     return_val_if_fail (element != null, null);
     if (node_name () == null) {
       message (@"WARNING: Object type '$(get_type ().name ())' have no Node Name defined");
@@ -263,7 +262,7 @@ public abstract class Xom.SerializableObjectModel : Object, Serializable
             }
         }
       }
-      foreach (GXml.Node n in element.child_nodes)
+      foreach (Node n in element.child_nodes)
       {
         if (n is Text) {
           if (serialize_use_xml_node_value ()) {
@@ -278,7 +277,7 @@ public abstract class Xom.SerializableObjectModel : Object, Serializable
             }
           }
         }
-        if (n is GXml.Element  && !cnodes.has_key (n.node_name)) {
+        if (n is Element  && !cnodes.has_key (n.node_name)) {
 #if DEBUG
             stdout.printf (@"$(get_type ().name ()): DESERIALIZING ELEMENT '$(n.node_name)'\n");
 #endif

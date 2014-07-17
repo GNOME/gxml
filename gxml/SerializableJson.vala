@@ -22,8 +22,6 @@
  *       Daniel Espinosa <esodan@gmail.com>
  */
 
-using GXml;
-
 /*
   Version 3: json-glib version
 
@@ -61,7 +59,7 @@ using GXml;
  * serialization themselves, including non-public properties or
  * data types not automatically supported by {@link GXml.Serialization}.
  */
-public class Xom.SerializableJson : GLib.Object, Xom.Serializable
+public class GXml.SerializableJson : GLib.Object, GXml.Serializable
 {
   /* Serializable Interface properties */
   protected ParamSpec[] properties { get; set; }

@@ -25,7 +25,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 using GXml;
-using Xom;
 using Gee;
 
 /**
@@ -51,7 +50,7 @@ using Gee;
    Test overriding {set,get}_property
 */
 
-public class SerializableTomato : Xom.SerializableJson {
+public class SerializableTomato : GXml.SerializableJson {
 	public int weight;
 	private int age { get; set; }
 	public int height { get; set; }
@@ -77,7 +76,7 @@ public class SerializableTomato : Xom.SerializableJson {
 	}
 }
 
-public class SerializableCapsicum : Xom.SerializableJson {
+public class SerializableCapsicum : GXml.SerializableJson {
 	public int weight;
 	private int age { get; set; }
 	public int height { get; set; }
@@ -97,8 +96,8 @@ public class SerializableCapsicum : Xom.SerializableJson {
 		this.age = age;
 		this.height = height;
 		this.ratings = ratings;
-		((Xom.Serializable)this).serialize_unknown_property_type.connect (serialize_unknown_property_type);
-		((Xom.Serializable)this).deserialize_unknown_property_type.connect (deserialize_unknown_property_type);
+		((Serializable)this).serialize_unknown_property_type.connect (serialize_unknown_property_type);
+		((Serializable)this).deserialize_unknown_property_type.connect (deserialize_unknown_property_type);
 	}
 
 	/* TODO: do we really need GLib.Value? or should we modify the object directly?
@@ -140,7 +139,7 @@ public class SerializableCapsicum : Xom.SerializableJson {
 }
 
 
-public class SerializableBanana : Xom.SerializableJson {
+public class SerializableBanana : GXml.SerializableJson {
 	private int private_field;
 	public int public_field;
 	private int private_property { get; set; }

@@ -25,9 +25,8 @@
    tastier */
 /* TODO: document memory management for the C side */
 
-using GXml;
 
-namespace Xom {
+namespace GXml {
 	private static void print_object_properties (GLib.Object obj) {
 		ParamSpec[] properties;
 		properties = obj.get_class ().list_properties ();

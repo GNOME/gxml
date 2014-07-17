@@ -1,7 +1,5 @@
 -include $(top_srcdir)/git.mk
 
-SUBDIRS = . xom
-
 # Empty variable to be added elements later
 CLEANFILES=
 BUILT_SOURCES=
@@ -35,7 +33,19 @@ sources = \
 	NodeType.vala \
 	Notation.vala \
 	ProcessingInstruction.vala \
-	Text.vala
+	Text.vala \
+	Serializable.vala \
+	Enumeration.vala \
+	SerializableObjectModel.vala \
+	SerializableJson.vala \
+	Serialization.vala \
+	SerializableGeeTreeMap.vala \
+	SerializableGeeHashMap.vala \
+	SerializableMapKey.vala \
+	SerializableGeeDualKeyMap.vala \
+	SerializableMapDualKey.vala \
+	SerializableGeeArrayList.vala \
+	SerializableContainer.vala
 
 
 ### General Compilation flags

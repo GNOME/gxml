@@ -19,9 +19,8 @@
  * Authors:
  *      Daniel Espinosa <esodan@gmail.com>
  */
-using GXml;
 
-namespace Xom {
+namespace GXml {
   /**
    * Interface allowing implementors direct control over serialisation of properties and other data
    */

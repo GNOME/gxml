@@ -1,6 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
 using GXml;
-using Xom;
 using Gee;
 
 /**
@@ -324,7 +323,7 @@ class SerializationTest : GXmlTest {
 					Test.message ("Regular expression [%s] for test failed: %s",
 						      expectation, e.message);
 					assert_not_reached ();
-				} catch (Xom.SerializationError e) {
+				} catch (GXml.SerializationError e) {
 					Test.message ("%s", e.message);
 					assert_not_reached ();
 				} catch (GLib.Error e) {
@@ -374,7 +373,7 @@ class SerializationTest : GXmlTest {
 					assert_not_reached ();
 				} catch (GLib.Error e) {
 					//stdout.printf (@"Cought Error: $(e.message)");
-					if (e is Xom.SerializationError.UNKNOWN_PROPERTY) {
+					if (e is GXml.SerializationError.UNKNOWN_PROPERTY) {
 						// pass
 					} else {
 						GLib.message (@"Error is not UNKNOWN_PROPERTY: $(e.message)");
@@ -390,7 +389,7 @@ class SerializationTest : GXmlTest {
 					Serialization.deserialize_object (0, doc);
 					assert_not_reached ();
 				} catch (GLib.Error e) {
-					if (e is Xom.SerializationError.UNKNOWN_TYPE) {
+					if (e is GXml.SerializationError.UNKNOWN_TYPE) {
 					// pass
 					}
 					else {
@@ -411,7 +410,7 @@ class SerializationTest : GXmlTest {
 					fruit = (Fruit)Serialization.deserialize_object (typeof (Fruit), doc);
 					assert_not_reached ();
 				} catch (GLib.Error e) {
-					if (e is Xom.SerializationError.UNKNOWN_PROPERTY)
+					if (e is GXml.SerializationError.UNKNOWN_PROPERTY)
 					{ // pass
 					}
 					else {

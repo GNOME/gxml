@@ -22,7 +22,7 @@
 
 using GXml;
 
-namespace Xom {
+namespace GXml {
 	public class Enumeration
 	{
 		/**

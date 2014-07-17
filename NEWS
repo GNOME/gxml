@@ -1,8 +1,19 @@
 =============
+Version 0.4
+=============
+- Added Examples (Richard Schwarting)
+- Improved Build system (Daniel Espinosa)
+- Windows crosscopilation support (Daniel Espinosa)
+- Added/Improved Serialization Framework (Richard Schwarting, Daniel Espinosa)
+- Added missing License (Richard Schwarting)
+- Renamed DomNode to Node (Richard Schwarting)
+- Added Unit Tests (Richard Schwarting, Daniel Espinosa)
+
+=============
 Version 0.3.2
 =============
 GXml
-        * autotools (Javier Jardon)
+	* autotools (Javier Jardon)
 	* internally updated to gee-0.8 (Daniel Espinosa)
 	* test improvements and fixes (Arnel Borja)
 	* doc updates and fixes
