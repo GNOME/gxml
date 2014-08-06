@@ -20,12 +20,19 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 /**
- * Any class having a collection managed list of nodes must implement this
+ * Any {link GXml.Serializable} class having a collection managed list of {link GXml.Node} must implement this
  * abstract class.
  */
 public abstract class GXml.SerializableContainer : SerializableObjectModel
 {
-  /* Xom interface properties */
+  /**
+   * Implementors must implement this function and initialize any Serializable container.
+   *
+   * Gee Serializable clases requires to be initialized with required typed objects to contain 
+   * its collections and Serializable interface don't know required type. Then you must use this
+   * function to initialize any Serializable collection objects in order to serialize/deserialize
+   * all {link GXml.Node} to given clases.
+   */
   public abstract void init_containers ();
 }
 

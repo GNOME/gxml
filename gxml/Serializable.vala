@@ -73,7 +73,8 @@ namespace GXml {
      * {@link true} in order to use this property.
      *
      * This property is ignored by default. Implementors must implement
-     * {@link serialize_use_xml_node_value ()} to return {@link true}.
+     * {@link serialize_use_xml_node_value ()} to return {@link true} and add a
+     * set and get function to get/set this value, in order to use your own API.
      *
      * This property is ignored on serialisation.
      */

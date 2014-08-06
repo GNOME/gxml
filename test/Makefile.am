@@ -44,6 +44,7 @@ sources = \
 	SerializableGeeHashMapTest.vala \
 	SerializableGeeCollectionsTest.vala \
 	SerializableBasicTypesTest.vala \
+	gxml-performance.vala \
 	$(NULL)
 
 gxml_test.vala.stamp: $(sources)

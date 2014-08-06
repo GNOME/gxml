@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
 using GXml;
 
 class GXmlTest {
@@ -45,6 +45,7 @@ class GXmlTest {
 		SerializableGeeCollectionsTest.add_tests ();
 		SerializableBasicTypeTest.add_tests ();
 		SerializableEnumerationTest.add_tests ();
+		Performance.add_tests ();
 
 		Test.run ();
 

@@ -196,6 +196,7 @@ gxml/gxml-0.4.pc
 gxml/Makefile
 test/Makefile
 test/test.xml
+test/test-large.xml
 test/test_invalid.xml
 test/test_out_path_expected.xml
 test/test_out_stream_expected.xml
