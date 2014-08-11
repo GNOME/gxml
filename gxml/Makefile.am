@@ -3,6 +3,7 @@
 # Empty variable to be added elements later
 CLEANFILES=
 BUILT_SOURCES=
+AM_VALAFLAGS=
 
 ### Library
 
@@ -68,9 +69,16 @@ AM_CFLAGS = \
 
 # -Wall   # TODO: add this back when we can properly handle more libxml2/vala warnings
 
+if DEBUG
+  AM_VALAFLAGS += \
+    -D DEBUG \
+    --enable-mem-profiler \
+    -g
+endif
+
 
 # library flags
-AM_VALAFLAGS = \
+AM_VALAFLAGS += \
 	$(ERROR_VALAFLAGS) \
 	--library=gxml-0.4 \
 	$(top_srcdir)/vapi/config.vapi \

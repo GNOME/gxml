@@ -148,6 +148,13 @@ if test x$enable_docs = xyes; then
 fi
 AM_CONDITIONAL([HAVE_VALADOC], [test x$have_valadoc = xyes])
 
+debug=no
+AC_ARG_ENABLE(debug,
+	AS_HELP_STRING([--enable-debug], [Enable Debug options [default=no]]),
+        [debug=$enableval], [debug="no"])
+
+AM_CONDITIONAL(DEBUG, [test $debug = yes])
+
 if test "x$enable_docs" = "xyes" -a "x$have_valadoc" != "xyes"; then
   AC_MSG_ERROR([Doc building requested for valadoc but not installed.])
 fi

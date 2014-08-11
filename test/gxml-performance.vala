@@ -78,23 +78,29 @@ public class Performance
     Test.add_func ("/gxml/performance/document", 
     () => {
       Test.timer_start ();
+      double time;
       var d = new Document.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
+      time = Test.timer_elapsed ();
+      Test.minimized_result (time, "Load large document: %g seconds", time);
+      Test.timer_start ();
       foreach (GXml.Node n in ((GXml.Node)d.document_element).child_nodes) {
         if (n.node_name == "Book1") { /* Fake just to access the node */ }
       }
-      double time;
       time = Test.timer_elapsed ();
-      Test.minimized_result (time, "serialize/performance: %g s", time);
+      Test.minimized_result (time, "Itirate over all loaded nodes: %g seconds", time);
     });
     Test.add_func ("/gxml/performance/deserialize", 
     () => {
+      double time;
       Test.timer_start ();
       var d = new Document.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
+      time = Test.timer_elapsed ();
+      Test.minimized_result (time, "open document from path: %g seconds", time);
+      Test.timer_start ();
       var bs = new BookStore ();
       bs.deserialize (d);
-      double time;
       time = Test.timer_elapsed ();
-      Test.minimized_result (time, "serialize/performance: %g s", time);
+      Test.minimized_result (time, "serialize/performance: %g seconds", time);
     });
   }
 }
