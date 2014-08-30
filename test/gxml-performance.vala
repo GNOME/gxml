@@ -100,6 +100,25 @@ public class Performance
       var bs = new BookStore ();
       bs.deserialize (d);
       time = Test.timer_elapsed ();
+      Test.minimized_result (time, "deserialize/performance: %g seconds", time);
+    });
+
+    Test.add_func ("/gxml/performance/serialize",
+    () => {
+      double time;
+      Test.timer_start ();
+      var d = new Document.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
+      time = Test.timer_elapsed ();
+      Test.minimized_result (time, "open document from path: %g seconds", time);
+      Test.timer_start ();
+      var bs = new BookStore ();
+      bs.deserialize (d);
+      time = Test.timer_elapsed ();
+      Test.minimized_result (time, "deserialize/performance: %g seconds", time);
+      Test.timer_start ();
+      var d2 = new Document ();
+      bs.serialize (d2);
+      time = Test.timer_elapsed ();
       Test.minimized_result (time, "serialize/performance: %g seconds", time);
     });
   }

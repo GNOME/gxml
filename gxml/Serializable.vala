@@ -43,16 +43,16 @@ namespace GXml {
      * This property is ignored on serialisation.
      *
      * Implementors: By default {@link list_serializable_properties} initialize
-     * this property to store all public properties, except this one. Make shure t
+     * this property to store all public properties, except this one. Make shure to
      * call {@link init_properties()} before add new propeties.
      */
     public abstract HashTable<string,GLib.ParamSpec>  ignored_serializable_properties { get; protected set; }
      /**
-      * Return {@link false} if you want ignore unknown properties and {@link GXml.Node}'s
+      * Return {@link false} if you want to ignore unknown properties and {@link GXml.Node}'s
       * not in your class definition.
       *
       * Take care, disabling this feature you can lost data on serialization, because any unknown
-      * property or element will be ignored.
+      * property or element will be discarted.
       */
      public abstract bool get_enable_unknown_serializable_property ();
     /**
@@ -101,34 +101,17 @@ namespace GXml {
      * Serialize this object.
      *
      * @doc an {@link GXml.Document} object to serialise to 
+     *
+     * This method must call serialize_property() recursivally on all properties
+     * to serialize.
      */
     public abstract GXml.Node? serialize (GXml.Node node) throws GLib.Error;
 
     /**
-     * Handles serializing individual properties.
+     * Serialize a property @prop on a {@link GXml.Element}.
      *
-     * Interface method to handle serialization of an
-     * individual property.  The implementing class
-     * receives a description of it, and should create a
-     * {@link GXml.Node} that encapsulates the property.
-     * {@link GXml.Serialization} will embed the {@link GXml.Node} into
-     * a "Property" {@link GXml.Element}, so the {@link GXml.Node}
-     * returned can often be something as simple as
-     * {@link GXml.Text}.
-     *
-     * To let {@link GXml.Serialization} attempt to automatically
-     * serialize the property itself, do not implement
-     * this method.  If the method returns %NULL,
-     * {@link GXml.Serialization} will attempt handle it itsel.
-     *
-     * Implementors:
-     * Use Serializable.get_property_value in order to allow derived classes to
-     * override the properties to serialize.
-     *
-     * @param property_name string name of a property to serialize.
-     * @param spec the {@link GLib.ParamSpec} describing the property.
-     * @param doc the {@link GXml.Document} the returned {@link GXml.Node} should belong to
-     * @return a new {@link GXml.Node}, or %NULL
+     * This method is called recursivally by serialize() method over all properties
+     * to be serialized.
      */
     public abstract GXml.Node? serialize_property (GXml.Element element,
                                                    GLib.ParamSpec prop)
