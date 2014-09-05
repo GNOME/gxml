@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 0; tab-width: 4 -*- */
+/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 0; tab-width: 2 -*- */
 /* ObjectModel.vala
  *
  * Copyright (C) 2013, 2014  Daniel Espinosa <esodan@gmail.com>
@@ -67,11 +67,13 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
   }
 
   public virtual bool transform_from_string (string str, ref GLib.Value dest)
+                                            throws GLib.Error
   {
     return false;
   }
 
   public virtual bool transform_to_string (GLib.Value val, ref string str)
+                                          throws GLib.Error
   {
     return false;
   }

@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /* Serialization.vala
  *
  * Copyright (C) 2012-2013  Richard Schwarting <aquarichy@gmail.com>
@@ -98,11 +98,13 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
   }
 
   public virtual bool transform_from_string (string str, ref GLib.Value dest)
+                                            throws GLib.Error
   {
     return false;
   }
 
   public virtual bool transform_to_string (GLib.Value val, ref string str)
+                                            throws GLib.Error
   {
     return false;
   }

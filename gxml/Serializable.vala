@@ -157,7 +157,9 @@ namespace GXml {
      * @prop a {@link GLib.ParamSpec} describing attribute to serialize
      * @node set to the {@link GXml.Node} representing this attribute
      */
-    public signal void serialize_unknown_property (GXml.Node element, ParamSpec prop, out GXml.Node node);
+    public signal void serialize_unknown_property (GXml.Node element,
+                                                   ParamSpec prop,
+                                                   out GXml.Node node);
 
     /**
      * Signal to serialize unknown properties. Any new node must be added to
@@ -167,7 +169,9 @@ namespace GXml {
      * @prop a {@link GLib.ParamSpec} describing attribute to serialize
      * @node set to the {@link GXml.Node} representing this attribute
      */
-    public signal void serialize_unknown_property_type (GXml.Node element, ParamSpec prop, out GXml.Node node);
+    public signal void serialize_unknown_property_type (GXml.Node element,
+                                                        ParamSpec prop,
+                                                        out GXml.Node node);
 
     /**
      * Signal to deserialize unknown properties.
@@ -175,7 +179,8 @@ namespace GXml {
      * @node a {@link GXml.Node} to get attribute from
      * @prop a {@link GLib.ParamSpec} describing attribute to deserialize
      */
-    public signal void deserialize_unknown_property (GXml.Node node, ParamSpec prop);
+    public signal void deserialize_unknown_property (GXml.Node node,
+                                                     ParamSpec prop);
 
     /**
      * Signal to deserialize unknown properties' type.
@@ -183,7 +188,8 @@ namespace GXml {
      * @node a {@link GXml.Node} to get attribute from
      * @prop a {@link GLib.ParamSpec} describing attribute to deserialize
      */
-    public signal void deserialize_unknown_property_type (GXml.Node node, ParamSpec prop);
+    public signal void deserialize_unknown_property_type (GXml.Node node,
+                                                          ParamSpec prop);
 
     /**
      * Handles finding the {@link GLib.ParamSpec} for a given property.
@@ -403,7 +409,8 @@ namespace GXml {
      * @node a {@link GXml.Node} to get attribute from
      * @prop a {@link GLib.ParamSpec} describing attribute to deserialize
      */
-    public abstract bool transform_from_string (string str, ref GLib.Value dest);
+    public abstract bool transform_from_string (string str, ref GLib.Value dest)
+                                                throws GLib.Error;
 
     /**
      * Transforms a string into another type hosted by {@link GLib.Value}.
@@ -441,6 +448,7 @@ namespace GXml {
         }
       } else if (t == typeof (uint)) {
         uint64 val;
+        ;
         if (ret = uint64.try_parse (str, out val)) {
           dest2.set_uint ((uint)val);
         }
@@ -492,7 +500,8 @@ namespace GXml {
         dest = dest2;
         return true;
       } else {
-        throw new SerializableError.UNSUPPORTED_TYPE ("%s/%s", t.name (), t.to_string ());
+        throw new SerializableError.UNSUPPORTED_TYPE_ERROR ("Transformation Error on '%s' or Unsupported type: '%s'",
+                                                      str, t.name ());
       }
     }
 
@@ -515,7 +524,8 @@ namespace GXml {
      * @node a {@link GXml.Node} to get attribute from
      * @prop a {@link GLib.ParamSpec} describing attribute to deserialize
      */
-    public abstract bool transform_to_string (GLib.Value val, ref string str);
+    public abstract bool transform_to_string (GLib.Value val, ref string str)
+                                              throws GLib.Error;
     /**
      * Transforms a {@link GLib.Value} to its string representation.
      *
@@ -533,7 +543,7 @@ namespace GXml {
       }
       else
       {
-        throw new SerializableError.UNSUPPORTED_TYPE ("Can't transform '%s' to string", val.type ().name ());
+        throw new SerializableError.UNSUPPORTED_TYPE_ERROR ("Can't transform '%s' to string", val.type ().name ());
       }
     }
   }
@@ -545,6 +555,7 @@ namespace GXml {
     /**
      * An object with a known {@link GLib.Type} that we do not support was encountered.
      */
-    UNSUPPORTED_TYPE
+    UNSUPPORTED_TYPE_ERROR,
+    STR_TO_VALUE_ERROR,
   }
 }

@@ -74,6 +74,7 @@ public class Computer : ObjectModel
   public string model { get; set; }
   public int cores { get; set; }
   public float ghz { get; set; }
+  public uint quantity { get; set; }
 
   public Computer ()
   {
@@ -943,6 +944,22 @@ class SerializableObjectModelTest : GXmlTest
                        stdout.printf (@"ERROR: $(e.message)\n");
                        assert_not_reached ();
                      }
+                   });
+    Test.add_func ("/gxml/serializable/object_model/deserialize_incorrect_uint",
+                   () => {
+                     try {
+                       var doc = new Document.from_string (
+                            """<?xml version="1.0"?>
+                            <PACKAGE source="Mexico/North" destiny="Brazil" Hope="2/4.04">
+                            <manual document="Sales Card" pages="1">Selling Card Specification</manual>
+                            <Computer manufacturer="BoxingLAN" model="J24-EX9" cores="32.5" ghz="1.8" quantity="0.2" />
+                            <Box size="1" volume="33.15" units="cm3" />
+                            </PACKAGE>""");
+                       Test.message (@"XML:\n$(doc)");
+                       var pkg = new Package ();
+                       pkg.deserialize (doc);
+                     }
+                     catch (GXml.SerializableError e) { Test.message ("Error thrown for invalid string to guint"); }
                    });
   }
   static void serialize_manual_check (Element element, Manual manual)

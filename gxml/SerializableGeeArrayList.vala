@@ -114,7 +114,7 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
                     throws GLib.Error
   {
     if (!element_type.is_a (typeof (GXml.Serializable))) {
-      throw new SerializableError.UNSUPPORTED_TYPE ("%s: Value type '%s' is unsupported", 
+      throw new SerializableError.UNSUPPORTED_TYPE_ERROR ("%s: Value type '%s' is unsupported", 
                                                     this.get_type ().name (), element_type.name ());
     }
     if (node is Element) {
