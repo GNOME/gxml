@@ -7,7 +7,7 @@ ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
 # Set up subdirectories to traverse
 SUBDIRS = gxml test po examples
 
-if HAVE_VALADOC
+if ENABLE_DOCS
 SUBDIRS += docs
 endif
 

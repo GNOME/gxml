@@ -143,10 +143,31 @@ AM_CONDITIONAL([ENABLE_DOCS], [test x$enable_docs = xyes])
 have_valadoc=no
 if test x$enable_docs = xyes; then
   # make sure the library is new enough and the program exists
-  AC_PATH_PROG([VALADOC], [valadoc], [:])
-  AS_IF([test "$VALADOC" != :], have_valadoc=yes)
+  AC_PATH_PROG([VALADOC], [valadoc], [no])
+  if test "x$VALADOC" = "xno";
+  then
+      AC_MSG_RESULT([valadoc documentation not build because not found])
+  else
+      AC_SUBST(VALADOC)
+      have_valadoc="yes"
+  fi
 fi
 AM_CONDITIONAL([HAVE_VALADOC], [test x$have_valadoc = xyes])
+
+dnl Find yelp-build program
+enable_mallard_doc="no"
+if test x$enable_docs = xyes; then
+  AC_PATH_PROG(YELP_BUILD, [yelp-build], [no])
+  if test "x$YELP_BUILD" = "xno";
+  then
+      AC_MSG_RESULT([Mallard documentation not build because yelp-build has not been found])
+  else
+      YELP_HELP_INIT
+      AC_SUBST(YELP_BUILD)
+      enable_mallard_doc="yes"
+  fi
+fi
+AM_CONDITIONAL(ENABLE_MALLARD_DOC, [test "$enable_mallard_doc" = "yes"])
 
 debug=no
 AC_ARG_ENABLE(debug,
@@ -154,10 +175,6 @@ AC_ARG_ENABLE(debug,
         [debug=$enableval], [debug="no"])
 
 AM_CONDITIONAL(DEBUG, [test $debug = yes])
-
-if test "x$enable_docs" = "xyes" -a "x$have_valadoc" != "xyes"; then
-  AC_MSG_ERROR([Doc building requested for valadoc but not installed.])
-fi
 
 # Check for GObject Introspection
 GOBJECT_INTROSPECTION_CHECK([1.32.0])
@@ -209,6 +226,9 @@ test/test_out_path_expected.xml
 test/test_out_stream_expected.xml
 test/test_with_ns.xml
 docs/Makefile
+docs/valadoc/Makefile
+docs/mallard/Makefile
+docs/mallard/C/Makefile
 examples/Makefile
 examples/c/Makefile
 examples/js/Makefile

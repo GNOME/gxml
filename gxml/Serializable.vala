@@ -100,7 +100,7 @@ namespace GXml {
     /**
      * Serialize this object.
      *
-     * @doc an {@link GXml.Document} object to serialise to 
+     * @doc an {@link GXml.Document} object to serialize to 
      *
      * This method must call serialize_property() recursivally on all properties
      * to serialize.

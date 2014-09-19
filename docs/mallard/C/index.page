@@ -1,0 +1,25 @@
+<page xmlns="http://projectmallard.org/1.0/"
+	type="guide" id="index">
+
+  <info>
+    <revision pkgversion="0.4" version="0.1" date="2014-09-18" status="incomplete"/>
+    <credit type="author">
+      <name>Daniel Espinosa</name>
+      <email>esodan@gmail.com</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+
+  <title>
+    GXml Serialization Framework Manual
+  </title>
+  <p>
+  This guide provides examples and applications of GXml's Serialization Framework.
+  </p>
+  <p>GXml Serialization Framework allows <code>GLib.Object</code> objects to be serialized to XML files.</p>
+  <p>It has a <code>Serializable</code> interface to be implemented by a <code>GLib.Object</code> class, allowing great flexibility on how the object must be represented in XML format.</p>
+  <p>Today GXml have two implementations, one of them is <code>SerializableObjectModel</code>, using a model where each object is a XML node and a each object's property is a XML node property.</p>
+  <p>Serialization Framework have containers implementations, allowing to store <code>Serializable</code> objects in arrays, hash tables and multikey stores.</p>
+</page>
