@@ -1,7 +1,8 @@
 
 sources = \
 	index.page \
-	gxml-serializable.page
+	gxml-serializable.page \
+	gxml-serializable-objectmodel.page
 
 JS_FILES= \
 	C.css \

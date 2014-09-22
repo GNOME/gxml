@@ -1,0 +1,19 @@
+<page xmlns="http://projectmallard.org/1.0/"
+	 type="topic" id="gxml-serializable-objectmodel">
+
+  <info>
+    <revision pkgversion="0.4" version="0.1" date="2014-09-18" status="incomplete" />
+    <credit type="author">
+      <name>Daniel Espinosa</name>
+      <email>esodan@gmail.com</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+    <link type="topic" xref="index" >Home</link>
+  </info>
+
+  <title>SerializableObjectModel implementation</title>
+  <p><code>SerializableObjectModel</code> is a class implementing <code>Serializable</code> interface. This implementation consider each object as a XML node, represented in GXml as a <code>GXml.Element</code> and its properties is represented by <code>GXml.Attr</code>. Each property, if it is a <code>Serializable</code> object, is represented as child nodes.</p>
+  <p>If a object's value property must be represented as a XML node content, then it requires to override <code>serialize_use_xml_node_value()</code> and set value at <code>serialized_xml_node_value</code>, as decribed at <link type="topic" xref="gxml-serializable#gxml-serializable-node-contents">Node content</link>.</p>
+</page>

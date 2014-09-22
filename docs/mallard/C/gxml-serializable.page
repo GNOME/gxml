@@ -53,5 +53,20 @@
   <title>Deserialize</title>
   <p><code>Serializable</code> interface allows you to implement your own <code>deserialize()</code> method. Your implementation should take a <code>GXml.Node</code> and deserialize from it. Given <code>GXml.Node</code>, could be an <code>GXml.Element</code> or a <code>GXml.Document</code>, your implementaiton should take care about this and return XML nodes representing your class object.</p>
   <p>Your implementation could take <code>GXml.Element</code>'s name to detect the property to set up or detect the root element in a <code>GXml.Document</code> to use. Then you can iterate over all node's properties and set up your object properties; you can use <code>gvalue_to_string()</code> to transform most common value types from string to the required value's type.</p>
+  <section id="gxml-serializable-deserialize-supportedtypes">
+  <title>Supported types</title>
+  <p><code>Serializable</code> interface support a number of data types to convert from its string representation. These are supported types:</p>
+  <list>
+    <item><p>integers: int8, int64, uint, long, ulong, char, uchar</p></item>
+    <item><p>boolean</p></item>
+    <item><p>floats: float, double</p></item>
+    <item><p>enumerations</p></item>
+  </list>
+  <section id="gxml-serializable-deserialize-enums">
+  <p>Enumerations have a set of utility methods to better represent on serialisation/deserialization.</p>
+  <p>Enumerations could be converted to string using its definition on <code>GLib.EnumClass</code>, by taking its nick name directly or converting to its camel case representation.</p>
+  <p>Any enumeration value type in a <code>GLib.Object</code>'s property could be deserialized from its definition given on <code>GLib.EnumClass</code> (name and nick) or from its camel case representation.</p>
+  </section>
+  </section>
   </section>
 </page>
