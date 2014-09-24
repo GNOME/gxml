@@ -57,8 +57,8 @@ $(gxmlgtkdoc_DATA): gxml-gtk-doc
 
 valadoc_flags = \
 	--force \
-	--package-name GXml \
-	--package-version $(PACKAGE_VERSION) \
+	--package-name=GXml \
+	--package-version=$(PACKAGE_VERSION) \
 	$(NULL)
 
 #	$(top_srcdir)/gxml/internal.vala 
@@ -92,28 +92,19 @@ valadoc_flags_gxml = \
 	$(addprefix --pkg=,$(gxml_doc_deps)) \
 	--vapidir=$(top_srcdir)/gxml \
 	--vapidir=$(top_srcdir)/vapi \
-	--wiki=$(top_srcdir)/docs/wiki \
-	$(gxml_doc_files) \
+	--wiki=$(top_srcdir)/docs/valadoc/wiki \
 	$(NULL)
 
 
 #	$(AM_V_GEN)$(VALADOC) 
-gxml-doc: $(gxml_doc_files) $(gxml_wiki_files)
-	$(VALADOC) \
-		-o gxml/ \
-		--doclet=devhelp \
-		$(valadoc_flags_gxml) \
-		$(NULL)
+gxml-doc:
+	$(VALADOC) -o gxml/ --doclet=devhelp $(valadoc_flags_gxml) $(top_srcdir)/gxml/*.vala
 
 # TODO: need to figure out how to not rely on -0.2 in this Makefile.am
 # AM_V_GEN: what does it do?  It appears to prettify output but also obscure errors :D
 #	$(AM_V_GEN)$(VALADOC)
-gxml-gtk-doc: $(gxml_doc_files) $(gxml_wiki_files)
-	$(VALADOC) \
-		-o gtk-doc/gxml \
-		--doclet=gtkdoc \
-		$(valadoc_flags_gxml) \
-		$(NULL)
+gxml-gtk-doc:
+	$(VALADOC) -o gtk-doc/gxml --doclet=gtkdoc $(valadoc_flags_gxml) $(top_srcdir)/gxml/*.vala
 
 .PHONY: $(phony_deps)
 

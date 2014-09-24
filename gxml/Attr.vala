@@ -235,9 +235,9 @@ namespace GXml {
 		 *
 		 * For {@link GXml.Attr} this method copy name and value.
 		 *
-		 * @node could be owned by other {@link GXml.Document}.
+		 * @param node could be owned by other {@link GXml.Document}.
 		 *
-		 * @deep paramenter have no effect.
+		 * @param deep paramenter have no effect.
 		 */
 		public override bool copy (ref Node node, bool deep = false)
 		               requires (node is Attr)

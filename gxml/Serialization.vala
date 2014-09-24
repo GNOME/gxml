@@ -342,7 +342,7 @@ namespace GXml {
 
 		/**
 		 * Deserialize a {@link GXml.Document} back into a {@link GLib.Object}.
-		 *
+		 * 
 		 * This deserializes a {@link GXml.Document} back into a
 		 * {@link GLib.Object}.  The {@link GXml.Document}
 		 * must represent a {@link GLib.Object} as serialized
@@ -350,9 +350,9 @@ namespace GXml {
 		 * objects that are being deserialized must be known
 		 * to the system deserializing them or a
 		 * {@link GXml.SerializationError} will result.
-		 *
-		 * @type object type to deserialize
-		 * @doc a {@link GXml.Document} to deseralize from
+		 * 
+		 * @param type object type to deserialize
+		 * @param doc a {@link GXml.Document} to deseralize from
 		 * @return the deserialized {@link GLib.Object}
 		 */
 		public static GLib.Object deserialize_object (Type type, GXml.Document doc) throws GLib.Error

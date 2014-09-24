@@ -28,10 +28,10 @@ namespace GXml {
 	/**
 	 * Represents an XML Node, the base class for most XML structures in
 	 * the {@link GXml.Document}'s tree.
-	 *
+	 * 
 	 * {@link GXml.Document}s are {@link GXml.Node}s, and are
 	 * composed of a tree of {@link GXml.Node}s.
-	 *
+	 * 
 	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1950641247]]
 	 */
@@ -490,8 +490,8 @@ namespace GXml {
 		/**
 		 * Creates a copy of node's definition to @node.
 		 *
-		 * @node: a {@link GXml.Node} to copy values to.
-		 * @deep: {@link true} when you want to copy child nodes too.
+		 * @param node: a {@link GXml.Node} to copy values to.
+		 * @param deep: {@link true} when you want to copy child nodes too.
 		 */
 		public virtual bool copy (ref Node node, bool deep = false) {
 			return false;
