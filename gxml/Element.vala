@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
 /* Element.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
@@ -463,9 +463,9 @@ namespace GXml {
 		 * {@inheritDoc}
 		 *
 		 * For {@link GXml.Element} this method copy attributes and child nodes
-		 * when @deep is set to {@link true}.
+		 * when @deep is set to true.
 		 *
-		 * {@link [node]} could be owned by other {@link GXml.Document}.
+		 * @param node could be owned by other {@link GXml.Document}.
 		 */
 		public override bool copy (ref Node node, bool deep = false)
 		                    requires (node is Element)

@@ -30,8 +30,8 @@ namespace GXml {
 		 *
 		 * Returns: an string representing an enumeration's value.
 		 *
-		 * @param enumeration: a {@link GLib.Type} of type {@link GLib.Type.ENUM}
-		 * @param val: an integer to parse an enum value of type @enumeration.
+		 * @param enumeration a {@link GLib.Type} of type {@link GLib.Type.ENUM}
+		 * @param val an integer to parse an enum value of type @enumeration.
 		 */
 		public static string get_nick (Type enumeration, int val) throws GLib.Error
 		{
@@ -43,8 +43,8 @@ namespace GXml {
 		 *
 		 * Returns: an string representing an enumeration's value.
 		 *
-		 * @param enumeration: a {@link GLib.Type} of type {@link GLib.Type.ENUM}
-		 * @param val: an integer to parse an enum value of type @param enumeration.
+		 * @param enumeration a {@link GLib.Type} of type {@link GLib.Type.ENUM}
+		 * @param val an integer to parse an enum value of type @param enumeration.
 		 */
 		public static string get_nick_camelcase (Type enumeration, int val) throws GLib.Error
 		{
@@ -55,10 +55,9 @@ namespace GXml {
 		 *
 		 * Returns: an string representing an enumeration's value.
 		 *
-		 * @param enumeration: a {@link GLib.Type} of type {@link GLib.Type.ENUM}
-		 * @param val: an integer to parse an enum value of type @enumeration.
-		 * @param use_nick: makes to returns value's nick name in {@link GLib.EnumClass}
-		 * @param camelcase: makes to returns value's nick name in {@link GLib.EnumClass}
+		 * @param enumeration a {@link GLib.Type} of type {@link GLib.Type.ENUM}
+		 * @param use_nick makes to returns value's nick name in {@link GLib.EnumClass}
+		 * @param camelcase makes to returns value's nick name in {@link GLib.EnumClass}
 		 * as camel case representation. If @use_nick is set this take no effect.
 		 */
 		public static string get_string (Type enumeration, int val, 
@@ -89,10 +88,8 @@ namespace GXml {
 		 * 
 		 * Returns: an {@link GLib.EnumValue} representing an enumeration's value.
 		 * 
-		 * @param enumeration: a {@link GLib.Type} of type {@link GLib.Type.ENUM}
-		 * @param val: a string to parse an enum value of type @param enumeration.
-		 * @param camelcase: makes to returns value's nick name in {@link GLib.EnumClass}
-		 * as camel case representation. If @use_nick is set this take no effect.
+		 * @param enumeration a {@link GLib.Type} of type {@link GLib.Type.ENUM}
+		 * @param val a string to parse an enum value of type @param enumeration.
 		 */
 		public static EnumValue? parse (Type enumeration, string val)
 		                  throws GLib.Error
@@ -120,10 +117,7 @@ namespace GXml {
 		 * 
 		 * Returns: an array of {@link GLib.EnumValue} representing an enumeration.
 		 * 
-		 * @param enumeration: a {@link GLib.Type} of type {@link GLib.Type.ENUM}
-		 * @param val: a string to parse an enum value of type @enumeration.
-		 * @param camelcase: makes to returns value's nick name in {@link GLib.EnumClass}
-		 * as camel case representation. If @use_nick is set this take no effect.
+		 * @param enumeration a {@link GLib.Type} of type {@link GLib.Type.ENUM}
 		 */
 		public static unowned EnumValue[] to_array (Type enumeration)
 		                               requires (enumeration.is_a (Type.ENUM))

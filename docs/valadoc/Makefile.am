@@ -88,7 +88,7 @@ gxml_doc_deps = \
 
 valadoc_flags_gxml = \
 	$(valadoc_flags) \
-	-X $(top_srcdir)/gxml/gxml.h \
+	-X $(top_builddir)/gxml/gxml.h \
 	$(addprefix --pkg=,$(gxml_doc_deps)) \
 	--vapidir=$(top_srcdir)/gxml \
 	--vapidir=$(top_srcdir)/vapi \

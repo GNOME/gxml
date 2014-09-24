@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
 /* Node.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
@@ -490,8 +490,8 @@ namespace GXml {
 		/**
 		 * Creates a copy of node's definition to @node.
 		 *
-		 * @param node: a {@link GXml.Node} to copy values to.
-		 * @param deep: {@link true} when you want to copy child nodes too.
+		 * @param node a {@link GXml.Node} to copy values to.
+		 * @param deep true when you want to copy child nodes too.
 		 */
 		public virtual bool copy (ref Node node, bool deep = false) {
 			return false;

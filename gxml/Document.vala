@@ -497,10 +497,10 @@ namespace GXml {
 		/**
 		 * Creates a Document from data found in memory using options.
 		 *
-		 * @param xml: A string representing an XML document
-		 * @param url: the base URL to use for the document
-		 * @param encoding: the document encoding
-		 * @param options: a combination of {@link Xml.ParserOption}
+		 * @param xml A string representing an XML document
+		 * @param url the base URL to use for the document
+		 * @param encoding the document encoding
+		 * @param options a combination of {@link Xml.ParserOption}
 		 *
 		 * @return A new {@link GXml.Document} from `memory`; this must be freed with {@link GLib.Object.unref}
 		 */
