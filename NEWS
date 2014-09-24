@@ -1,4 +1,9 @@
 =============
+Version 0.4.1
+=============
+- Fixed compile with Vala 0.26 (Daniel Espinosa)
+
+=============
 Version 0.4
 =============
 - Added Examples (Richard Schwarting)
