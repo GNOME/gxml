@@ -123,10 +123,7 @@ PKG_CHECK_MODULES([GLIB],
                    gobject-2.0 >= $GLIB_REQUIRED])
 
 # Check for vala
-AM_PROG_VALAC([$VALA_REQUIRED])
-AS_IF([test "x$VALAC" = "x"], [
-  AC_MSG_ERROR([Vala requested but valac is not installed])
-])
+VALAC_CHECK
 
 # Check for libgee
 PKG_CHECK_MODULES(GEE, gee-0.8 >= $GEE_REQUIRED)
@@ -151,8 +148,9 @@ if test x$enable_docs = xyes; then
   then
       AC_MSG_RESULT([valadoc documentation not build because not found])
   else
-      AC_SUBST(VALADOC)
+      VAPIDIR=`$PKG_CONFIG --variable=vapidir libvalac-$VALA_REQUIRED`
       have_valadoc="yes"
+      AC_SUBST(VALADOC)
   fi
 fi
 AM_CONDITIONAL([HAVE_VALADOC], [test x$have_valadoc = xyes])
