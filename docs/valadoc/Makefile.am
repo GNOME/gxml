@@ -1,8 +1,9 @@
 -include $(top_srcdir)/git.mk
+CLEANFILES=
 
 VALADOC_FLAGS = \
 	--force \
-	--package-name=GXml \
+	--package-name=gxml-$(API_VERSION) \
 	--package-version=$(PACKAGE_VERSION) \
 	$(top_srcdir)/vapi/libxml-2.0.vapi \
 	--pkg glib-2.0 \
@@ -23,26 +24,44 @@ WIKI_FILES = \
 sources= \
 	$(top_srcdir)/gxml/*.vala
 
+distclean_dirs=
+
+if ENABLE_DEVHELP_DOCS
 gxmldocdir=$(datadir)/devhelp/books/gxml-$(API_VERSION)
 gxmldoc_DATA = \
-	gxml/GXml/GXml.devhelp2 \
-	gxml/GXml/*.png \
-	gxml/GXml/*.html \
-	gxml/GXml/*.htm
+	gxml/gxml-$(API_VERSION)/gxml-$(API_VERSION).devhelp2 \
+	gxml/gxml-$(API_VERSION)/*.png \
+	gxml/gxml-$(API_VERSION)/*.html \
+	gxml/gxml-$(API_VERSION)/*.htm \
+	gxml/gxml-$(API_VERSION)/*.css \
+	gxml/gxml-$(API_VERSION)/*.js
 
 gxmldocimgdir=$(datadir)/devhelp/books/gxml-$(API_VERSION)/img
 gxmldocimg_DATA=\
-	gxml/GXml/img/*
+	gxml/gxml-$(API_VERSION)/img/*
+
+$(gxmldoc_DATA) $(gxmldocimg_DATA): gxml-doc
 
 gxml-doc:
-	$(VALADOC) -o gxml/ --doclet=devhelp $(VALADOC_FLAGS) $(sources)
+	$(VALADOC) -o gxml --doclet=devhelp $(VALADOC_FLAGS) $(sources)
 
+all: gxml-doc
 
+clean-local: clean-local-gxml-doc
+.PHONY: clean-local-gxml-doc
+clean-local-gxml-doc:
+	-rm -rf gxml
+
+endif
+
+if ENABLE_GTK_DOCS
 gxmlgtkdocdir=$(datadir)/gtk-doc/html/gxml
 gxmlgtkdoc_DATA= \
-	gtk-doc/gxml/html/*
+	gtk-doc/gxml/*.txt \
+	gtk-doc/gxml/html/*.bak \
+	gtk-doc/gxml/html/*.types \
+	gtk-doc/gxml/html/sgml.stamp
 
-$(gxmldoc_DATA): gxml-doc
 $(gxmlgtkdoc_DATA): gxml-gtk-doc
 
 gxml-gtk-doc:
@@ -50,14 +69,14 @@ gxml-gtk-doc:
 	-X $(top_builddir)/gxml/gxml.h \
 	$(VALADOC_FLAGS) $(sources)
 
-all: gxml-doc gxml-gtk-doc
+all: gxml-gtk-doc
 
-distclean_dirs = \
-	gxml \
-	gtk-doc
+clean-local: clean-local-gtk-doc
+.PHONY: clean-local-gtk-doc
+clean-local-gtk-doc:
+	-rm -rf gtk-doc
 
-clean:
-	rm -rf $(distclean_dirs)
+endif
 
 EXTRA_DIST = \
 	$(WIKI_FILES)

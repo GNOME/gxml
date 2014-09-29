@@ -11,8 +11,8 @@
 
 # Release Version
 m4_define([project_major_version], [0])
-m4_define([project_minor_version], [5])
-m4_define([project_micro_version], [0])
+m4_define([project_minor_version], [4])
+m4_define([project_micro_version], [2])
 m4_define([project_nano_version], [0])
 
 # LT_VERSION
@@ -21,7 +21,7 @@ m4_define([project_nano_version], [0])
 #     increment current and set revision to 0
 #   If public symbols have been added since last release, increment age
 #   If public symbols have been removed since last release, set age to 0
-m4_define([project_lt_current], [5])
+m4_define([project_lt_current], [4])
 m4_define([project_lt_revision], [0])
 m4_define([project_lt_age], [0])
 
@@ -89,7 +89,11 @@ AC_SUBST([LT_AGE])
 PROJECT_MAJOR_MINOR_VERSION=project_major_minor_version
 AC_SUBST([PROJECT_MAJOR_MINOR_VERSION])
 
-API_VERSION=project_major_minor_version
+# This is used to identify a set of API compatible beatween versions 
+# - If new versions are compatible with the actual one, just leave this untouched
+# - If new version breaks API change it in order to allow paralled installations
+#   with old versions. Change name of pc files to use a new API too.
+API_VERSION=0.4
 AC_SUBST([API_VERSION])
 
 GXML_VERSION=project_base_version
@@ -155,6 +159,14 @@ if test x$enable_docs = xyes; then
 fi
 AM_CONDITIONAL([HAVE_VALADOC], [test x$have_valadoc = xyes])
 
+
+AC_ARG_ENABLE([devhelp-docs],
+              AS_HELP_STRING([--enable-devhelp-docs],[Enable DevHelp documentation generation]),
+	      [enable_devhelp_docs=$enableval], [enable_devhelp_docs=no])
+AC_ARG_ENABLE([gtk-docs],
+              AS_HELP_STRING([--enable-gtk-docs],[Enable gtk-doc documentation generation]),
+	      [enable_devhelp_docs=$enableval], [enable_gtk_docs=no])
+
 dnl Find yelp-build program
 enable_mallard_doc="no"
 if test x$enable_docs = xyes; then
@@ -169,6 +181,8 @@ if test x$enable_docs = xyes; then
   fi
 fi
 AM_CONDITIONAL(ENABLE_MALLARD_DOC, [test "$enable_mallard_doc" = "yes"])
+AM_CONDITIONAL([ENABLE_DEVHELP_DOCS], [test "x$enable_docs" = "xyes" -a "x$enable_devhelp_docs" = "xyes"])
+AM_CONDITIONAL([ENABLE_GTK_DOCS], [test "x$enable_docs" = "xyes" -a "x$enable_gtk_docs" = "xyes"])
 
 debug=no
 AC_ARG_ENABLE(debug,
@@ -247,5 +261,7 @@ echo " Configuration summary for GXml-$GXML_VERSION"
 echo "   Installation prefix:   $prefix"
 echo "   GObject Introspection: $found_introspection"
 echo "   Documentation:         ${enable_docs}"
+echo "       DevHelp Doc:       `if test x${enable_docs} = xyes -a x${enable_devhelp_docs} = xyes; then echo yes; else echo no; fi`"
+echo "       Gtk-Doc:           `if test x${enable_docs} = xyes -a x${enable_gtk_docs} = xyes; then echo yes; else echo no; fi`"
 echo "   Platform:              $host"
 echo ""
