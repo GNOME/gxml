@@ -176,6 +176,7 @@ gir_DATA = $(INTROSPECTION_GIRS)
 typelibdir = $(INTROSPECTION_TYPELIBDIR)
 typelib_DATA = GXml-0.4.typelib
 CLEANFILES += $(gir_DATA) $(typelibs_DATA)
+
 endif
 
 if PLATFORM_WIN32

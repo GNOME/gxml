@@ -29,9 +29,9 @@ m4_define([_VALAC_CHECK_INTERNAL],
       AC_MSG_ERROR([valac is not installed])
     ], [
       check_prog=yes
-      valac_version=`$VALAC --version`
-      VAPIDIR=$datadir/vala-$valac_version/vapi
-      VAPIDIR_UNVERSIONED=$datadir/vala-$valac_version/vapi
+      VALAC_VERSION=`$VALAC --api-version`
+      VAPIDIR=$datadir/vala-$VALAC_VERSION/vapi
+      VAPIDIR_UNVERSIONED=$datadir/vala-$VALAC_VERSION/vapi
     ])
   ], [
     AS_IF([ test "x$1" = "x"], [
@@ -62,6 +62,7 @@ m4_define([_VALAC_CHECK_INTERNAL],
 	AC_SUBST([VAPIGEN_MAKEFILE])
 	AC_SUBST([GEN_INTROSPECT])
 	AC_SUBST([VALA_GEN_INTROSPECT])
+	AC_SUBST([VALAC_VERSION])
 ])
 
 dnl Check VAPIGEN
