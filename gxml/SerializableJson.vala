@@ -50,14 +50,13 @@
 
 
 /**
- * Serializes and deserializes {@link GLib.Object}s to and from
- * {@link GXml.Node}.
- *
- * Serialization can automatically serialize a variety of public
- * properties.  {@link GLib.Object}s can also implement the
- * {@link GXml.Serializable} to partially or completely manage
- * serialization themselves, including non-public properties or
- * data types not automatically supported by {@link GXml.Serialization}.
+ * An implementation of {@link Serializable} using an {@link Element} called "Object".
+ * 
+ * {@link Element} have two properties with object type and object id.
+ * 
+ * It uses a set children {@link Element} for each Object property with two {@link Attr},
+ * one for its type and one for its name; property's value is set as the property
+ * {@link Element}'s content text.
  */
 public class GXml.SerializableJson : GLib.Object, GXml.Serializable
 {

@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /* SerializableGeeTreeModel.vala
  *
  * Copyright (C) 2013  Daniel Espinosa <esodan@gmail.com>
@@ -20,8 +20,21 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 using GXml;
+/**
+ * Interface to get two keys used to store {@link Serializable} objects.
+ * 
+ * This interface must be implemented by classes derived from {@link GXml.SerializableDualKeyMap}.
+ */
 public interface GXml.SerializableMapDualKey<P,S> : Object
 {
+  /**
+   * Implement this function to return the value to be used as primary key on
+   * {@link SerializableDualKeyMap} containers.
+   */
   public abstract P get_map_primary_key  ();
+  /**
+   * Implement this function to return the value to be used as secondary key on
+   * {@link SerializableDualKeyMap} containers.
+   */
   public abstract S get_map_secondary_key ();
 }

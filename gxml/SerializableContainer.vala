@@ -20,24 +20,24 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 /**
- * Any {link GXml.Serializable} class having a collection managed list of {link GXml.Node} must implement this
- * abstract class.
+ * Any {@link GXml.Serializable} class having a collection managed list of
+ * {@link GXml.Node} must implement this abstract class.
+ * 
+ * Gee Serializable clases requires to be initialized with required typed objects to contain 
+ * its collections and Serializable interface don't know required type. Then you must use this
+ * function to initialize any Serializable collection objects in order to serialize/deserialize
+ * all {@link GXml.Node} to given clases.
  */
 public abstract class GXml.SerializableContainer : SerializableObjectModel
 {
   /**
    * Implementors must implement this function and initialize any Serializable container.
-   *
-   * Gee Serializable clases requires to be initialized with required typed objects to contain 
-   * its collections and Serializable interface don't know required type. Then you must use this
-   * function to initialize any Serializable collection objects in order to serialize/deserialize
-   * all {link GXml.Node} to given clases.
    */
   public abstract void init_containers ();
 }
 
 /**
- * Fake interface to be implemented by any collection.
+ * Fake interface to be implemented by any collection of {@link Serializable} objects.
  */
 public interface GXml.SerializableCollection : Object, Serializable
 {

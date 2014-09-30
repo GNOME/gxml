@@ -22,6 +22,11 @@
 using GXml;
 using Gee;
 
+/**
+ * A {@link Serializable} objects container. It uses two keys and value store.
+ * 
+ * It implements {@link Serializable} and {@link SerializableCollection} interfaces.
+ */
 public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable, SerializableCollection
 {
   protected Gee.HashMultiMap<P,HashMap<S,V>> storage;

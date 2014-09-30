@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
 /* DomException.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
@@ -25,6 +25,12 @@
 namespace GXml {
 	public static DomException last_error = DomException.NONE;
 
+	/**
+	 * Log DOM exception warnings.
+	 * 
+	 * @param exception rised
+	 * @param message message to log
+	 */
 	public static void warning (GXml.DomException exception, string message) {
 		GXml.last_error = exception;
 		GLib.warning ("%s", message);
@@ -32,7 +38,7 @@ namespace GXml {
 
 	/**
 	 * Describes various error states. For more, see
-	 *
+	 * 
 	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-BBACDC08]]
 	 */
@@ -48,9 +54,10 @@ namespace GXml {
 		 * An index or size is out of range, like less than 0 or exceeding some upper bound.
 		 */
 		INDEX_SIZE,
+		// TODO: figure out what the limits of strings are in vala
 		/**
 		 * Text exceeds the maximum size supported in our string implementation.
-		 */ // TODO: figure out what the limits of strings are in vala
+		 */
 		DOMSTRING_SIZE,
 		/**
 		 * A node asked to be inserted into an invalid location.
@@ -60,9 +67,10 @@ namespace GXml {
 		 * A node created for one document wanted to be used in another.
 		 */
 		WRONG_DOCUMENT,
+		// TODO: which characters are invalid?
 		/**
 		 * An invalid character was found in a name.
-		 */ // TODO: which characters are invalid?
+		 */
 		INVALID_CHARACTER,
 		/**
 		 * Tried to specify data for a node that did not support it.
@@ -107,11 +115,9 @@ namespace GXml {
 		 * URL: [[http://www.w3.org/TR/DOM-Level-3-Core/core.html#DOMException-NAMESPACE_ERR]]
 		 */
 		NAMESPACE,
-
+		//TODO: consider better naming for this
 		/**
 		 * Non-DOM error
-		 *
-		 * TODO: consider better naming for this
 		 */
 		X_OTHER;
 	}

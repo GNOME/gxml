@@ -165,7 +165,7 @@ AC_ARG_ENABLE([devhelp-docs],
 	      [enable_devhelp_docs=$enableval], [enable_devhelp_docs=no])
 AC_ARG_ENABLE([gtk-docs],
               AS_HELP_STRING([--enable-gtk-docs],[Enable gtk-doc documentation generation]),
-	      [enable_devhelp_docs=$enableval], [enable_gtk_docs=no])
+	      [enable_gtk_docs=$enableval], [enable_gtk_docs=no])
 
 dnl Find yelp-build program
 enable_mallard_doc="no"

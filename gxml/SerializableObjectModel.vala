@@ -20,6 +20,19 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 
+/**
+ * Object Model is an {@link Serializable} implementation using {@link Element}
+ * to represent {@link GLib.Object} class objects.
+ * 
+ * This implementation consider each object as a XML node, represented in GXml 
+ * as a {@link GXml.Element} and its properties is represented by {@link GXml.Attr}.
+ * Each property, if it is a {@link Serializable} object, is represented as child
+ * {@link Element}.
+ * 
+ * If a object's value property must be represented as a XML node content, 
+ * then it requires to override {@link Serializable.serialize_use_xml_node_value}
+ * and set value at {@link Serializable.serialized_xml_node_value}.
+ */
 public abstract class GXml.SerializableObjectModel : Object, Serializable
 {
   /* Serializable interface properties */

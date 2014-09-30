@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
 /* BackedNode.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
@@ -29,7 +29,7 @@ namespace GXml {
 	/**
 	 * An internal class for nodes whose content is stored in a
 	 * corresponding Xml.Node.
-	 *
+	 * 
 	 * This would normally be hidden, but Vala wants base classes
 	 * to be at least as public as subclasses.
 	 */
@@ -42,7 +42,7 @@ namespace GXml {
 			owner.node_dict.insert (node, this);
 		}
 
-		/** Constructors */
+		/* Constructors */
 		internal BackedNode (Xml.Node *node, Document owner) {
 			base ((NodeType)node->type, owner);
 
@@ -86,7 +86,7 @@ namespace GXml {
 			}
 		}
 		/**
-		 * Add a new namespace to this {@link GXml.Node}
+		 * {@inheritDoc}
 		 */
 		public override NamespaceAttr? add_namespace_attr (string uri, string prefix)
 		{

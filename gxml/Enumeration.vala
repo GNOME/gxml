@@ -23,6 +23,19 @@
 using GXml;
 
 namespace GXml {
+	/**
+	 * Convenient static methods for enumeration serialization to string.
+	 * 
+	 * Enumerations have a set of utility methods to better represent on
+	 * serialisation/deserialization.
+	 * 
+	 * Enumerations could be converted to string using its definition on {@link GLib.EnumClass},
+	 * by taking its nick name directly or converting to its camel case representation.
+	 * 
+	 * Any enumeration value type in a <code>GLib.Object</code>'s property could be
+	 * deserialized from its definition given on {@link GLib.EnumClass} (name and
+	 * nick) or from its camel case representation.
+	 */
 	public class Enumeration
 	{
 		/**

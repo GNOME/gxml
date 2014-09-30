@@ -1,8 +1,8 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
 /* Node.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
- * Copyright (C) 2011  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2011,2014  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -25,6 +25,9 @@ using GXml;
 using Gee;
 
 namespace GXml {
+	/**
+	 * A collection of elements with a named objects.
+	 */
 	public interface NamedNodeMap<T> : GLib.Object {
 		// TODO: consider adding lookup, remove, etc from GLib.HashTable as convenience API
 		// TODO: figure out how to let people do attributes["pie"] for attributes.get_named_item ("pie"); GLib HashTables can do it
@@ -39,6 +42,11 @@ namespace GXml {
 		}
 	}
 
+	/**
+	 * A class implementing {@link NamedNodeMap} interface for {@link Attr} objects.
+	 * 
+	 * A collection of {@link NamedNodeMap} of type {@link Attr} objects in a {@link Element}.
+	 */
 	public class NamedAttrMap : GLib.Object, NamedNodeMap<Attr?> {
 		private Element elem;
 

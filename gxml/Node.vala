@@ -35,7 +35,7 @@ namespace GXml {
 	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1950641247]]
 	 */
-	public class Node : GLib.Object {
+	public abstract class Node : GLib.Object {
 		/* Constructors */
 		internal Node (NodeType type, Document owner) {
 			this.node_type = type;
@@ -95,12 +95,12 @@ namespace GXml {
 
 		/* Properties */
 
+		/* TODO: determine best API for exposing these, as it's not defined in the IDL */
 		/**
 		 * The list of attributes that store namespace definitions.  This is not part of a DOM spec.
 		 *
 		 * The caller must free this using {@link GLib.Object.unref}.
 		 */
-		/* @TODO: determine best API for exposing these, as it's not defined in the IDL */
 		public virtual NodeList? namespace_definitions {
 			get {
 				return null;
@@ -250,6 +250,10 @@ namespace GXml {
 			internal set {}
 		}
 
+		
+		/*
+		 * TODO: identify node types that use children for values, like attribute
+		 */
 		/**
 		 * List of child nodes to this node. These sometimes
 		 * represent the value of a node as a tree of
@@ -267,9 +271,6 @@ namespace GXml {
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-1451460987]]
-		 */
-		/*
-		 * @todo: identify node types that use children for values, like attribute
 		 */
 		public virtual NodeList? child_nodes {
 			// TODO: need to implement NodeList
@@ -497,6 +498,7 @@ namespace GXml {
 			return false;
 		}
 
+		// TODO: ask Colin Walters about storing docs in GIR files (might have not been him)
 		/**
 		 * Provides a string representation of this node.
 		 *
@@ -512,7 +514,6 @@ namespace GXml {
 		 * @return XML string for node, which must be free
 		 * this.
 		 */
-		// TODO: ask Colin Walters about storing docs in GIR files (might have not been him)
 		public virtual string to_string (bool format = false, int level = 0) {
 			return "Node(%d:%s)".printf (this.node_type, this.node_name);
 		}

@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /* SerializableGeeTreeModel.vala
  *
  * Copyright (C) 2013  Daniel Espinosa <esodan@gmail.com>
@@ -21,7 +21,17 @@
  */
 using GXml;
 
+/**
+ * Interface to get one key used to store {@link Serializable} objects.
+ * 
+ * This interface must be implemented by classes derived from {@link SerializableTreeMap}
+ * and {@link SerializableHashMap}.
+ */
 public interface GXml.SerializableMapKey<K> : Object
 {
+  /**
+   * Implement this function to return the value to be used as key on {@link SerializableTreeMap}
+   * and {@link SerializableHashMap} containers.
+   */
   public abstract K get_map_key ();
 }

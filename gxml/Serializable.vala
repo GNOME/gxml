@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 3; tab-width: 3 -*- */
+/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /* Serializable.vala
  *
  * Copyright (C) 2013  Daniel Espinosa <esodan@gmail.com>
@@ -22,47 +22,63 @@
 
 namespace GXml {
   /**
-   * Interface allowing implementors direct control over serialisation of properties and other data
+   * GXml {@link GLib.Object} serialization framework main interface to XML files.
+   * 
+   * Implementors of this interface, could define or override the way you want to 
+   * represent your class in a XML file.
    */
-  public interface Serializable : GLib.Object {
-     /**
-      * Convenient property to store serializable properties
-      */
-     protected abstract ParamSpec[] properties { get; set; }
-    /**
-     * Store all properties to be ignored on serialization.
-     *
-     * Use property's cannonical name as key and its {@link GLib.ParamSpec}. To
-     * get the last one use {@link GLib.Object.get_class} and use, again, property's
-     * cannonical name to find it.
-     *
-     * Long named properties like this 'ignored_serializable_properties' are stored
-     * by GObject using its cannonical name, then you must use it as key, in this
-     * case use 'ignored-serializable-properties'.
-     *
-     * This property is ignored on serialisation.
-     *
-     * Implementors: By default {@link list_serializable_properties} initialize
-     * this property to store all public properties, except this one. Make shure to
-     * call {@link init_properties} before add new propeties.
-     */
-    public abstract HashTable<string,GLib.ParamSpec>  ignored_serializable_properties { get; protected set; }
-     /**
-      * Return false if you want to ignore unknown properties and {@link GXml.Node}'s
-      * not in your class definition.
-      *
-      * Take care, disabling this feature you can lost data on serialization, because any unknown
-      * property or element will be discarted.
-      */
-     public abstract bool get_enable_unknown_serializable_property ();
+    public interface Serializable : GLib.Object {
+   /**
+   * Convenient property to store serializable properties
+   */
+   protected abstract ParamSpec[] properties { get; set; }
+   /**
+   * Store all properties to be ignored on serialization.
+   *
+   * Use property's cannonical name as key and its {@link GLib.ParamSpec}. To
+   * get the last one use {@link GLib.Object.get_class} and use, again, property's
+   * cannonical name to find it.
+   *
+   * Long named properties like this 'ignored_serializable_properties' are stored
+   * by GObject using its cannonical name, then you must use it as key, in this
+   * case use 'ignored-serializable-properties'.
+   *
+   * This property is ignored on serialisation.
+   *
+   * Implementors: By default {@link list_serializable_properties} initialize
+   * this property to store all public properties, except this one. Make shure to
+   * call {@link init_properties} before add new propeties.
+   */
+   public abstract HashTable<string,GLib.ParamSpec>  ignored_serializable_properties { get; protected set; }
+   /**
+    * Return false if you want to ignore unknown properties and {@link GXml.Node}'s
+    * not in your class definition.
+    *
+    * Take care, disabling this feature you can lost data on serialization, because any unknown
+    * property or element will be discarted.
+    */
+   public abstract bool get_enable_unknown_serializable_property ();
     /**
      * On deserialization stores any {@link GXml.Node} not used on this
      * object, but exists in current XML file.
-     *
+     * 
      * Node's name is used as key to find stored {@link GXml.Node}.
-     *
+     * 
+     * XML allows great flexibility, providing different ways to represent the same
+     * information. This is a problem when you try to deserialize them.
+     * 
+     * In order to deserialize correctly, you must create your XML, both by
+     * serializing a {@link Serializable} object or by hand writing. By using the
+     * former, you can add extra information, like nodes or properties, but most of
+     * them could be ignored or lost on deserialization/serialization process. To
+     * avoid data lost, you can override {@link get_enable_unknown_serializable_property}
+     * method in order to return true, your implementation or the ones in GXml, will
+     * store all unknown properties and nodes on deserialization and must serialize
+     * again back to the XML file. Even you are allowed to get this unknown objects
+     * by iterating on {@link unknown_serializable_property} hash table.
+     * 
      * This property is ignored on serialisation.
-     */
+     */     
     public abstract HashTable<string,GXml.Node>    unknown_serializable_property { get; protected set; }
 
     /**
@@ -79,49 +95,102 @@ namespace GXml {
      * This property is ignored on serialisation.
      */
     public abstract string?  serialized_xml_node_value { get; protected set; default = null; }
-    /**
-     * Used to check {@link GXml.Element}'s contents must be deseralized.
-     *
-     * By default no contents is serialized/deseralized. Implementors must implement
-     * this function returning true in order to use {@link serialized_xml_node_value}
-     * property's value in serialization to set {@link GXml.Element}'s contents.
-     *
+      /**
+      * Used to check {@link GXml.Element}'s contents must be deseralized.
+      * 
+      * By default GXml's implementations doesn't deseriaze/serialize XML node contents.
+      * In order to enable it, you must override {@link serialize_use_xml_node_value}
+      * method to return true and store XML node's content to {@link serialized_xml_node_value}
+      * property.
+      * 
+      * Implementors could set up methods to provide a clean easy to use API to set
+      * nodes contents. In most cases, users would like to set a value through a getter
+      * or setter or through a property in the class. If you use a property, you should
+      * add it to {@link ignored_serializable_properties} in order to see its value
+      * in a XML node property.
+      *
      */
     public abstract bool serialize_use_xml_node_value ();
-    /**
-     * Defines the way to set Node name.
-     */
+      /**
+      * Defines the way to set Node name.
+      */
     public abstract string node_name ();
-    /**
-     * Defines the way to set Node's property name, by using
-     * it's nick instead of default name.
-     */
+      /**
+      * Defines the way to set Node's property name, by using
+      * it's nick instead of default name.
+      * 
+      * When serialize a class property, by default it uses its name given  on class
+      * declaration, but is less common to see XML node properties with names like
+      * "your_property", but more common is to use "YourProperty". In order
+      * to use this kind of names, your implementation should use properties' nick
+      * name and override {@link property_use_nick} method to return true. This should
+      * instruct your code to use this method to use property's nick name. This is
+      * the default in GXml default implementations.
+      */
     public abstract bool property_use_nick ();
-    /**
-     * Serialize this object.
-     * 
-     * This method must call serialize_property() recursivally on all properties
-     * to serialize.
-     * 
-     * @param node an {@link GXml.Node} object to serialize to.
-     */
+      /**
+      * Serialize this object.
+      * 
+      * This method must call {@link serialize_property} recursivally on all properties
+      * to serialize.
+      * 
+      * {@link Serializable} interface allows you to implement your own {@link serialize}
+      * method. Your implementation should take a {@link GXml.Node} and serialize
+      * over it. Given {@link GXml.Node}, could be an {@link GXml.Element} or a
+      * {@link GXml.Document}, your implementaiton should take care about this and
+      * return XML nodes representing your class object.
+      * 
+      * @param node an {@link GXml.Node} object to serialize to.
+      */
     public abstract GXml.Node? serialize (GXml.Node node) throws GLib.Error;
 
-    /**
-     * Serialize a property @prop on a {@link GXml.Element}.
-     * 
-     * This method is called recursivally by {@link serialize} method over all properties
-     * to be serialized.
+      /**
+      * Serialize a property @prop on a {@link GXml.Element}.
+      * 
+      * This method is called recursivally by {@link serialize} method over all properties
+      * to be serialized.
+      * 
+      * You can get control on class's properties to be serialized to XML. Allowing
+      * to provide ones, storing runtime information and ones to be stored in XML.
+      * By default, all object's properties are serialized. In order to skip properties
+      * from serialization process you must add its canonical name as key and its
+      * canonical name as value, to {@link ignored_serializable_properties} store.
+      * 
+      * Implementator must use {@link ignored_serializable_properties} property to
+      * check if a property should be serialized. This allows to dynamically remove,
+      * on convenience, properties on serialization. You can use {@link list_serializable_properties}
+      * method as a convenient function, using its default implementation, or even
+      * override it at your convenience to automate dynamic serializable properties
+      * at run time; just make sure to skip the unwanted properties.
+      * 
+      * There are more methods to avoid properties serialization, like to override
+      * {@link init_properties} default implementation. It stores all {@link Serializable}'s
+      * properties to be ignored by default; you must ensure to initialize correctly,
+      * by calling {@link default_init_properties} method before any other code in
+      * your overrided method.
+      * 
      */
     public abstract GXml.Node? serialize_property (GXml.Element element,
                                                    GLib.ParamSpec prop)
                                                    throws GLib.Error;
 
-    /**
-     * Deserialize this object.
-     * 
-     * @param node {@link GXml.Node} used to deserialize from.
-     */
+      /**
+      * Deserialize this object.
+      * 
+      * {@link Serializable} interface allows you to implement your own {@link deserialize}
+      * method. Your implementation should take a {@link GXml.Node} and deserialize
+      * from it. Given {@link GXml.Node}, could be an {@link GXml.Element} or a
+      * {@link GXml.Document}, your implementaiton should take care about this
+      * and return XML nodes representing your class object.
+      * 
+      * Your implementation could take {@link GXml.Element}'s name to detect the
+      * property to set up or detect the root element in a {@link GXml.Document}
+      * to use. Then you can iterate over all node's properties and set up your
+      * object properties; you can use {@link gvalue_to_string} to transform most
+      * common value types from string to the required value's type.
+      * 
+      * @param node {@link GXml.Node} used to deserialize from.
+      */
     public abstract GXml.Node? deserialize (GXml.Node node)
                                       throws GLib.Error;
     /**
@@ -408,18 +477,26 @@ namespace GXml {
     public abstract bool transform_from_string (string str, ref GLib.Value dest)
                                                 throws GLib.Error;
 
-    /**
-     * Transforms a string into another type hosted by {@link GLib.Value}.
-     *
-     * A utility function that handles converting a string
-     * representation of a value into the type specified by the
-     * supplied #GValue dest.  A #GXmlSerializableError will be
-     * set if the string cannot be parsed into the desired type.
-     *
-     * @param str the string to transform into the given #GValue object
-     * @param dest the #GValue out parameter that will contain the parsed value from the string
-     * @return `true` if parsing succeeded, otherwise `false`
-     */
+     /**
+      * Transforms a string into another type hosted by {@link GLib.Value}.
+      *
+      * A utility function that handles converting a string
+      * representation of a value into the type specified by the
+      * supplied #GValue dest.  A #GXmlSerializableError will be
+      * set if the string cannot be parsed into the desired type.
+      * 
+      * {@link Serializable} interface support a number of data types to convert
+      * from its string representation. These are supported types:
+      * 
+      * a. integers: int8, int64, uint, long, ulong, char, uchar
+      * a. boolean
+      * a. floats: float, double
+      * a. enumerations
+      *
+      * @param str the string to transform into the given #GValue object
+      * @param dest the #GValue out parameter that will contain the parsed value from the string
+      * @return `true` if parsing succeeded, otherwise `false`
+      */
     public static bool string_to_gvalue (string str, ref GLib.Value dest)
                                          throws SerializableError
     {
@@ -525,7 +602,7 @@ namespace GXml {
     /**
      * Transforms a {@link GLib.Value} to its string representation.
      *
-     * By default use GObject standard transformations.
+     * By default use {@link GLib.Value} standard transformations.
      *
      */
     public static string gvalue_to_string (GLib.Value val)

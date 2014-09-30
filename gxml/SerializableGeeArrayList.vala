@@ -22,6 +22,12 @@
 using GXml;
 using Gee;
 
+/**
+ * A {@link Serializable} objects container.
+ * 
+ * It is derived  It implements {@link Serializable} and {@link SerializableCollection}
+ * interfaces.
+ */
 public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, SerializableCollection
 {
   protected ParamSpec[] properties { get; set; }

@@ -23,24 +23,6 @@
  */
 
 
-/*
- * GXml
- * Copyright (C) Richard Schwarting <aquarichy@gmail.com> et al, 2011
- *
- * GXml is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * GXml is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General
- * Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with GXml. If not, see <http://www.gnu.org/licenses/>.
- */
-
 /* TODO:
  * * later on, go over libxml2 docs for Tree and Node and Document, etc., and see if we're missing anything significant
  * * compare performance between libxml2 and GXml (should be a little different, but not too much)

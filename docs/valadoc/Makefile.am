@@ -5,9 +5,9 @@ VALADOC_FLAGS = \
 	--force \
 	--package-name=gxml-$(API_VERSION) \
 	--package-version=$(PACKAGE_VERSION) \
-	$(top_srcdir)/vapi/libxml-2.0.vapi \
 	--pkg glib-2.0 \
 	--pkg gio-2.0 \
+	--pkg libxml-2.0 \
 	--pkg gee-0.8 \
 	--vapidir=$(top_srcdir)/gxml \
 	--vapidir=$(top_srcdir)/vapi \

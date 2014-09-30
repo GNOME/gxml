@@ -26,7 +26,7 @@
 namespace GXml {
 	/**
 	 * Defines a Document, such as the entities that it can use.
-	 *
+	 * 
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-412266927]]
 	 */
 	public class DocumentType : Node {

@@ -20,7 +20,12 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 using GXml;
-
+/**
+ * A {@link Serializable} objects container.
+ * 
+ * It uses a key and value store implementing {@link Gee.TreeMap} interface.
+ * It implements {@link Serializable} and {@link SerializableCollection} interfaces.
+ */
 public class GXml.SerializableTreeMap<K,V> : Gee.TreeMap<K,V>, Serializable, SerializableCollection
 {
   protected ParamSpec[] properties { get; set; }
