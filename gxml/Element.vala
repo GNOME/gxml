@@ -465,7 +465,8 @@ namespace GXml {
 		 * For {@link GXml.Element} this method copy attributes and child nodes
 		 * when @deep is set to true.
 		 *
-		 * @param node could be owned by other {@link GXml.Document}.
+		 * @param node: could be owned by other {@link GXml.Document}.
+		 * @param deep: copy child nodes if true.
 		 */
 		public override bool copy (ref Node node, bool deep = false)
 		                    requires (node is Element)

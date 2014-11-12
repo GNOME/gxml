@@ -1,4 +1,11 @@
 =============
+Version 0.4.2
+=============
+- Fixes to Vala bindings documentation for DevHelp (Daniel Espinosa)
+- Preview of gtk-doc and documented GIR generation (Daniel Espinosa)
+
+
+=============
 Version 0.4.1
 =============
 - Fixed compile with Vala 0.26 (Daniel Espinosa)

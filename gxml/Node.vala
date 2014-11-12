@@ -491,8 +491,8 @@ namespace GXml {
 		/**
 		 * Creates a copy of node's definition to @node.
 		 *
-		 * @param node a {@link GXml.Node} to copy values to.
-		 * @param deep true when you want to copy child nodes too.
+		 * @param node: a {@link GXml.Node} to copy values to.
+		 * @param deep: {@link true} when you want to copy child nodes too.
 		 */
 		public virtual bool copy (ref Node node, bool deep = false) {
 			return false;
