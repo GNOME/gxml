@@ -95,6 +95,20 @@ namespace GXml {
      * This property is ignored on serialisation.
      */
     public abstract string?  serialized_xml_node_value { get; protected set; default = null; }
+
+    /**
+     * Used to set specific namespace for an {@link GXml.Element}.
+     *
+     * By default no namspace prefix is added to {@link GXml.Element} on serialized. Implementors
+     * must consider {@link Serializable.serialize_set_namespace} proterty value
+     * to discover if this node should have a namespace.
+     *
+     * {@link GXml.Element} namespace should be added before to serialize any
+     * property.
+     *
+     * This property is ignored on serialisation.
+     */
+    public abstract string? serialize_set_namespace { get; set; default = null; }
       /**
       * Used to check {@link GXml.Element}'s contents must be deseralized.
       * 
@@ -297,6 +311,8 @@ namespace GXml {
                                              get_class ().find_property("unknown-serializable-property"));
         ignored_serializable_properties.set ("serialized-xml-node-value",
                                              get_class ().find_property("serialized-xml-node-value"));
+        ignored_serializable_properties.set ("serialize-set-namespace",
+                                             get_class ().find_property("serialize_set_namespace"));
       }
       if (unknown_serializable_property == null) {
         unknown_serializable_property = new HashTable<string,GXml.Node> (str_hash, str_equal);

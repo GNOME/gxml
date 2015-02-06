@@ -115,6 +115,7 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable, Serializ
   protected ParamSpec[] properties { get; set; }
   public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; protected set; }
   public string? serialized_xml_node_value { get; protected set; default=null; }
+  public string? serialize_set_namespace { get; set; default = null; }
   public GLib.HashTable<string,GXml.Node> unknown_serializable_property { get; protected set; }
 
   public virtual bool get_enable_unknown_serializable_property () { return false; }

@@ -134,7 +134,9 @@ namespace GXml {
 			} else if (Value.type_transformable (prop_spec.value_type, typeof (string))) { // e.g. int, double, string, bool
 				value = Value (typeof (string));
 				object.get_property (prop_spec.name, ref value);
-				value_node = doc.create_text_node (value.get_string ());
+				string str = value.get_string ();
+				if (str == null) str = "";
+				value_node = doc.create_text_node (str);
 			} else if (type == typeof (GLib.Type)) {
 				value_node = doc.create_text_node (type.name ());
 /*

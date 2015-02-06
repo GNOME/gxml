@@ -39,6 +39,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
   protected ParamSpec[] properties { get; set; }
   public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; protected set; }
   public string? serialized_xml_node_value { get; protected set; default=null; }
+  public string? serialize_set_namespace { get; set; default = null; }
   public virtual bool get_enable_unknown_serializable_property () { return false; }
   public GLib.HashTable<string,GXml.Node> unknown_serializable_property { get; protected set; }
 

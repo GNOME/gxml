@@ -229,9 +229,16 @@ class SerializableTest : GXmlTest {
 	public static void add_tests () {
 		Test.add_func ("/gxml/serializable/interface_defaults", () => {
 				SerializableTomato tomato = new SerializableTomato (0, 0, 12, "cats");
-
-				SerializationTest.test_serialization_deserialization (tomato, "interface_defaults", (GLib.EqualFunc)SerializableTomato.equals, (SerializationTest.StringifyFunc)SerializableTomato.to_string);
-			});
+				var doc = new Document ();
+				tomato.serialize (doc);
+				GLib.message (doc.to_string ());
+				SerializableTomato tomato2 = new SerializableTomato (1,1,4,"dogs");
+				tomato2.deserialize (doc);
+				assert (tomato.weight != tomato2.weight);
+				assert (tomato2.weight == 1);
+				assert (tomato.height == tomato2.height);
+				assert (tomato.description == tomato2.description);
+		});
 		Test.add_func ("/gxml/serializable/interface_override_serialization_on_list", () => {
 				GXml.Document doc;
 				SerializableCapsicum capsicum;

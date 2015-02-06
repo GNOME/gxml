@@ -66,6 +66,7 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
   public HashTable<string,GXml.Node>    unknown_serializable_property { get; protected set; }
   public virtual bool get_enable_unknown_serializable_property () { return false; }
   public string?  serialized_xml_node_value { get; protected set; default = null; }
+  public string? serialize_set_namespace { get; set; default = null; }
 
   public virtual bool serialize_use_xml_node_value () { return false; }
   public virtual string node_name () { return "Object"; }
@@ -176,7 +177,9 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
       Value t = Value (typeof (string));
       this.get_property_value (prop, ref val);
       val.transform (ref t);
-      value_node = doc.create_text_node (t.get_string ());
+      string str = t.get_string ();
+      if (str == null) str = "";
+      value_node = doc.create_text_node (str);
       prop_node.append_child (value_node);
       return prop_node;
     }
