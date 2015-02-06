@@ -28,9 +28,9 @@ class SerializableBasicTypeTest : GXmlTest {
   public class BasicType : SerializableObjectModel
   {
     public bool boolean { get; set; }
-    public int  integer { get; set; }
-    public float  floatval { get; set; }
-    public double  doubleval { get; set; }
+    public int  integer { get; set; default = 0; }
+    public float  floatval { get; set; default = (float) 0.0; }
+    public double  doubleval { get; set; default = 0.0; }
     public override string node_name () { return "basictype"; }
     public override string to_string () { return get_type ().name (); }
   }
@@ -147,6 +147,54 @@ class SerializableBasicTypeTest : GXmlTest {
 <basictype floatval="156.156b"/>""");
         bt.deserialize (doc6);
         assert (bt.floatval == (float) 156.156);
+        var doc7 = new Document.from_string ("""<?xml version="1.0"?>
+<basictype boolean="true"/>""");
+        bt.floatval = (float) 0.0;
+        bt.deserialize (doc7);
+        assert (bt.floatval == 0.0);
+      } catch (GLib.Error e) {
+        stdout.printf (@"ERROR: $(e.message)");
+        assert_not_reached ();
+      }
+    });
+    Test.add_func ("/gxml/serializable/basic_types/double",
+    () => {
+      try {
+        var bt = new BasicType ();
+        bt.boolean = true;
+        var doc = new Document.from_string ("""<?xml version="1.0"?>
+<basictype doubleval="156"/>""");
+        bt.deserialize (doc);
+        assert (bt.doubleval == 156.0);
+        var doc1 = new Document.from_string ("""<?xml version="1.0"?>
+<basictype doubleval="a156"/>""");
+        bt.deserialize (doc1);
+        assert (bt.doubleval == 0.0);
+        var doc2 = new Document.from_string ("""<?xml version="1.0"?>
+<basictype doubleval="156b"/>""");
+        bt.deserialize (doc2);
+        assert (bt.doubleval == 156.0);
+        var doc3 = new Document.from_string ("""<?xml version="1.0"?>
+<basictype doubleval="156.0"/>""");
+        bt.deserialize (doc3);
+        assert (bt.doubleval == 156.0);
+        var doc4 = new Document.from_string ("""<?xml version="1.0"?>
+<basictype doubleval="0.156"/>""");
+        bt.deserialize (doc4);
+        assert (bt.doubleval == 0.156);
+        var doc5 = new Document.from_string ("""<?xml version="1.0"?>
+<basictype doubleval="a156.156"/>""");
+        bt.deserialize (doc5);
+        assert (bt.doubleval == 0.0);
+        var doc6 = new Document.from_string ("""<?xml version="1.0"?>
+<basictype doubleval="156.156b"/>""");
+        bt.deserialize (doc6);
+        assert (bt.doubleval == 156.156);
+        var doc7 = new Document.from_string ("""<?xml version="1.0"?>
+<basictype boolean="true"/>""");
+        bt.doubleval = 0.0;
+        bt.deserialize (doc7);
+        assert (bt.doubleval == 0.0);
       } catch (GLib.Error e) {
         stdout.printf (@"ERROR: $(e.message)");
         assert_not_reached ();
