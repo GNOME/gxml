@@ -466,66 +466,67 @@ namespace GXml {
       GLib.Value dest2 = Value (t);
       bool ret = false;
 
-      if (t == typeof (int64)) {
+      if (t == typeof (int64)
+        || t == typeof (uint64)) {
         int64 val;
-        if (ret = int64.try_parse (str, out val)) {
-          dest2.set_int64 (val);
-        }
+        val = (int64) double.parse (str);
+        dest2.set_int64 (val);
+        ret = true;
       } else if (t == typeof (int)) {
-        int64 val;
-        if (ret = int64.try_parse (str, out val)) {
-          dest2.set_int ((int)val);
-        }
+        int val;
+        val = (int) double.parse (str);
+        dest2.set_int (val);
+        ret = true;
       } else if (t == typeof (long)) {
-        int64 val;
-        if (ret = int64.try_parse (str, out val)) {
-          dest2.set_long ((long)val);
-        }
+        long val;
+        val = (long) double.parse (str);
+        dest2.set_long (val);
+        ret = true;
       } else if (t == typeof (uint)) {
-        uint64 val;
-        ;
-        if (ret = uint64.try_parse (str, out val)) {
-          dest2.set_uint ((uint)val);
-        }
+        uint val;
+        val = (uint) double.parse (str);
+        dest2.set_uint (val);
+        ret = true;
       } else if (t == typeof (ulong)) {
-        uint64 val;
-        if (ret = uint64.try_parse (str, out val)) {
-          dest2.set_ulong ((ulong)val);
-        }
+        ulong val;
+        val = (ulong) double.parse (str);
+        dest2.set_ulong (val);
+        ret = true;
       } else if (t == typeof (bool)) {
         bool val;
         if (ret = bool.try_parse (str.down (), out val)) {
           dest2.set_boolean (val);
         }
       } else if (t == typeof (float)) {
-        double val;
-        if (ret = double.try_parse (str, out val)) {
-          dest2.set_float ((float)val);
-        }
+        float val;
+        val = (float) double.parse (str);
+        dest2.set_float (val);
+        ret = true;
       } else if (t == typeof (double)) {
         double val;
-        if (ret = double.try_parse (str, out val)) {
-          dest2.set_double (val);
-        }
+        val = (double) double.parse (str);
+        dest2.set_double (val);
+        ret = true;
       } else if (t == typeof (string)) {
         dest2.set_string (str);
         ret = true;
       } else if (t == typeof (char)) {
-        int64 val;
-        if (ret = int64.try_parse (str, out val)) {
-          dest2.set_char ((char)val);
-        }
+        char val;
+        val = (char) double.parse (str);
+        dest2.set_char (val);
+        ret = true;
       } else if (t == typeof (uchar)) {
-        int64 val;
-        if (ret = int64.try_parse (str, out val)) {
-          dest2.set_uchar ((uchar)val);
-        }
+        uchar val;
+        val = (uchar) double.parse (str);
+        dest2.set_uchar (val);
+        ret = true;
       } else if (t == Type.BOXED) {
+        // TODO: Boxed type transformation
       } else if (t.is_enum ()) {
-        int64 val;
-        if (ret = int64.try_parse (str, out val)) {
-          dest2.set_enum ((int)val);
-        }
+        int val;
+        val = (int) double.parse (str);
+        dest2.set_enum (val);
+        ret = true;
       } else if (t.is_flags ()) {
       } else if (t.is_object ()) {
       } else {

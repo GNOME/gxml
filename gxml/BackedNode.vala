@@ -102,6 +102,7 @@ namespace GXml {
 		 */
 		public override bool set_namespace (string uri, string prefix)
 		{
+			if (node == null) return false;
 			if (node->ns_def != null) {
 				for (Xml.Ns *cur = node->ns_def; cur != null; cur = cur->next) {
 					if ((string) cur->prefix == prefix && (string) cur->href == uri) {
@@ -110,13 +111,24 @@ namespace GXml {
 					}
 				}
 			}
-			// Not found in this node, searching on root element
-			if (owner_document.document_element.node->ns_def != null) {
-				for (Xml.Ns *cur = owner_document.document_element.node->ns_def; cur != null; cur = cur->next) {
+			// Not found search on parent
+			if (node->parent != null) {
+				for (Xml.Ns *cur = node->parent->ns_def; cur != null; cur = cur->next) {
 					if ((string) cur->prefix == prefix && (string) cur->href == uri) {
 						this.node->set_ns (cur);
 						return true;
 					}
+				}
+			}
+			// Not found in this node, searching on root element
+			if (owner_document == null) return false;
+			if (owner_document.document_element == null) return false;
+			if (owner_document.document_element.node == null) return false;
+			if (owner_document.document_element.node->ns_def == null) return false;
+			for (Xml.Ns *cur = owner_document.document_element.node->ns_def; cur != null; cur = cur->next) {
+				if ((string) cur->prefix == prefix && (string) cur->href == uri) {
+					this.node->set_ns (cur);
+					return true;
 				}
 			}
 			return false;

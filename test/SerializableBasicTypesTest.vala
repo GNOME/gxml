@@ -28,6 +28,9 @@ class SerializableBasicTypeTest : GXmlTest {
   public class BasicType : SerializableObjectModel
   {
     public bool boolean { get; set; }
+    public int  integer { get; set; }
+    public float  floatval { get; set; }
+    public double  doubleval { get; set; }
     public override string node_name () { return "basictype"; }
     public override string to_string () { return get_type ().name (); }
   }
@@ -68,6 +71,44 @@ class SerializableBasicTypeTest : GXmlTest {
           assert_not_reached ();
         }
         //stdout.printf (@"\n$doc\n");
+      } catch (GLib.Error e) {
+        stdout.printf (@"ERROR: $(e.message)");
+        assert_not_reached ();
+      }
+    });
+    Test.add_func ("/gxml/serializable/basic_types/integer",
+    () => {
+      try {
+        var bt = new BasicType ();
+        bt.boolean = true;
+        var doc = new Document.from_string ("""<?xml version="1.0"?>
+<basictype integer="156"/>""");
+        bt.deserialize (doc);
+        assert (bt.integer == 156);
+        var doc1 = new Document.from_string ("""<?xml version="1.0"?>
+<basictype integer="a156"/>""");
+        bt.deserialize (doc1);
+        assert (bt.integer == 0);
+        var doc2 = new Document.from_string ("""<?xml version="1.0"?>
+<basictype integer="156b"/>""");
+        bt.deserialize (doc2);
+        assert (bt.integer == 156);
+        var doc3 = new Document.from_string ("""<?xml version="1.0"?>
+<basictype integer="156.0"/>""");
+        bt.deserialize (doc3);
+        assert (bt.integer == 156);
+        var doc4 = new Document.from_string ("""<?xml version="1.0"?>
+<basictype integer="0.156"/>""");
+        bt.deserialize (doc4);
+        assert (bt.integer == 0);
+        var doc5 = new Document.from_string ("""<?xml version="1.0"?>
+<basictype integer="a156.156"/>""");
+        bt.deserialize (doc5);
+        assert (bt.integer == 0);
+        var doc6 = new Document.from_string ("""<?xml version="1.0"?>
+<basictype integer="156.156b"/>""");
+        bt.deserialize (doc6);
+        assert (bt.integer == 156);
       } catch (GLib.Error e) {
         stdout.printf (@"ERROR: $(e.message)");
         assert_not_reached ();
