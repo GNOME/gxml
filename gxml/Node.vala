@@ -35,7 +35,7 @@ namespace GXml {
 	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1950641247]]
 	 */
-	public abstract class Node : GLib.Object {
+	public class Node : GLib.Object {
 		/* Constructors */
 		internal Node (NodeType type, Document owner) {
 			this.node_type = type;
