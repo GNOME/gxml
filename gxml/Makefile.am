@@ -175,7 +175,7 @@ girdir = $(INTROSPECTION_GIRDIR)
 gir_DATA = $(INTROSPECTION_GIRS)
 typelibdir = $(INTROSPECTION_TYPELIBDIR)
 typelib_DATA = GXml-0.6.typelib
-CLEANFILES += $(gir_DATA) $(typelibs_DATA)
+CLEANFILES += $(gir_DATA) $(typelib_DATA)
 
 endif
 
