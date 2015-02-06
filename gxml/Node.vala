@@ -135,6 +135,16 @@ namespace GXml {
 		{
 			return null;
 		}
+		
+		/**
+		 * Set namespace to this {@link GXml.Node}
+		 *
+		 * Returns: {@link true} if namespace exists.
+		 */
+		public virtual bool set_namespace (string uri, string prefix)
+		{
+			return false;
+		}
 
 		/**
 		 * Stores the namespace prefix for the node. This
