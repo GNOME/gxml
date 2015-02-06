@@ -31,6 +31,7 @@ class GXmlTest {
 		NodeTest.add_tests ();
 		ElementTest.add_tests ();
 		AttrTest.add_tests ();
+		NamespaceTest.add_tests ();
 		NodeListTest.add_tests ();
 		TextTest.add_tests ();
 		CharacterDataTest.add_tests ();

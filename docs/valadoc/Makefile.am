@@ -1,3 +1,5 @@
+SUBDIRS=
+
 # inspired by folks' documentation Makefile.am
 
 # distclean_dirs? 

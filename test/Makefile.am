@@ -31,6 +31,7 @@ sources = \
 	NodeTest.vala \
 	ElementTest.vala \
 	GXmlTest.vala \
+	NamespaceTest.vala \
 	NodeListTest.vala \
 	TextTest.vala \
 	ValaLibxml2Test.vala \

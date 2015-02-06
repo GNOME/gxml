@@ -104,14 +104,14 @@ namespace GXml {
 		{
 			for (Xml.Ns *cur = node->ns_def; cur != null; cur = cur->next) {
 				if ((string) cur->prefix == prefix && (string) cur->href == uri) {
-					this.node->ns = cur;
+					node->set_ns (cur);
 					return true;
 				}
 			}
 			// Not found in this node, searching on root element
 			for (Xml.Ns *cur = owner_document.document_element.node->ns_def; cur != null; cur = cur->next) {
 				if ((string) cur->prefix == prefix && (string) cur->href == uri) {
-					this.node->ns = cur;
+					this.node->set_ns (cur);
 					return true;
 				}
 			}
