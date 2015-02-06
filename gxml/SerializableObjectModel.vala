@@ -111,6 +111,12 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     else
       doc = node.owner_document;
     var element = doc.create_element (node_name ());
+    node.append_child (element);
+    if (serialize_set_namespace != null) {
+      string[] str = serialize_set_namespace.split ("|", 2);
+      doc.document_element.add_namespace_attr (str[1], str[0]);
+      element.set_namespace (str[1], str[0]);
+    }
     foreach (ParamSpec spec in list_serializable_properties ()) {
       serialize_property (element, spec);
     }
@@ -144,8 +150,6 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 #endif
       element.append_child (tn);
     }
-
-    node.append_child (element);
     return element;
   }
 

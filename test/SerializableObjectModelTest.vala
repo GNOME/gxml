@@ -273,6 +273,20 @@ class UnknownAttribute : ObjectModel
   public override bool get_enable_unknown_serializable_property () { return true; }
 }
 
+public class NameSpace : SerializableObjectModel
+{
+  public NameSpace ()
+  {
+    serialize_set_namespace = "gxml|http://www.gnome.org/GXml";
+  }
+  public override string to_string ()
+  {
+    if (serialize_set_namespace != null)
+      return serialize_set_namespace;
+    return "";
+  }
+}
+
 class SerializableObjectModelTest : GXmlTest
 {
   public static void add_tests ()
@@ -961,6 +975,13 @@ class SerializableObjectModelTest : GXmlTest
                      }
                      catch (GXml.SerializableError e) { Test.message ("Error thrown for invalid string to guint"); }
                    });
+    
+    Test.add_func ("/gxml/serializable/object_model/set_namespace", () => {
+      var ns = new NameSpace ();
+      var doc = new Document ();
+      ns.serialize (doc);
+      assert (doc.document_element.to_string () == "<gxml:namespace xmlns:gxml=\"http://www.gnome.org/GXml\"/>");
+    });
   }
   static void serialize_manual_check (Element element, Manual manual)
   {

@@ -231,7 +231,6 @@ class SerializableTest : GXmlTest {
 				SerializableTomato tomato = new SerializableTomato (0, 0, 12, "cats");
 				var doc = new Document ();
 				tomato.serialize (doc);
-				GLib.message (doc.to_string ());
 				SerializableTomato tomato2 = new SerializableTomato (1,1,4,"dogs");
 				tomato2.deserialize (doc);
 				assert (tomato.weight != tomato2.weight);

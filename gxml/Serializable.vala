@@ -106,6 +106,8 @@ namespace GXml {
      * {@link GXml.Element} namespace should be added before to serialize any
      * property.
      *
+     * This property should have a format "prefix|url".
+     *
      * This property is ignored on serialisation.
      */
     public abstract string? serialize_set_namespace { get; set; default = null; }
