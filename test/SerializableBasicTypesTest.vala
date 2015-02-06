@@ -114,5 +114,43 @@ class SerializableBasicTypeTest : GXmlTest {
         assert_not_reached ();
       }
     });
+    Test.add_func ("/gxml/serializable/basic_types/float",
+    () => {
+      try {
+        var bt = new BasicType ();
+        bt.boolean = true;
+        var doc = new Document.from_string ("""<?xml version="1.0"?>
+<basictype floatval="156"/>""");
+        bt.deserialize (doc);
+        assert (bt.floatval == 156.0);
+        var doc1 = new Document.from_string ("""<?xml version="1.0"?>
+<basictype floatval="a156"/>""");
+        bt.deserialize (doc1);
+        assert (bt.floatval == 0.0);
+        var doc2 = new Document.from_string ("""<?xml version="1.0"?>
+<basictype floatval="156b"/>""");
+        bt.deserialize (doc2);
+        assert (bt.floatval == 156.0);
+        var doc3 = new Document.from_string ("""<?xml version="1.0"?>
+<basictype floatval="156.0"/>""");
+        bt.deserialize (doc3);
+        assert (bt.floatval == 156.0);
+        var doc4 = new Document.from_string ("""<?xml version="1.0"?>
+<basictype floatval="0.156"/>""");
+        bt.deserialize (doc4);
+        assert (bt.floatval == (float) 0.156);
+        var doc5 = new Document.from_string ("""<?xml version="1.0"?>
+<basictype floatval="a156.156"/>""");
+        bt.deserialize (doc5);
+        assert (bt.floatval == 0.0);
+        var doc6 = new Document.from_string ("""<?xml version="1.0"?>
+<basictype floatval="156.156b"/>""");
+        bt.deserialize (doc6);
+        assert (bt.floatval == (float) 156.156);
+      } catch (GLib.Error e) {
+        stdout.printf (@"ERROR: $(e.message)");
+        assert_not_reached ();
+      }
+    });
   }
 }
