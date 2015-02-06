@@ -100,19 +100,23 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public virtual bool set_namespace (string uri, string prefix)
+		public override bool set_namespace (string uri, string prefix)
 		{
-			for (Xml.Ns *cur = node->ns_def; cur != null; cur = cur->next) {
-				if ((string) cur->prefix == prefix && (string) cur->href == uri) {
-					node->set_ns (cur);
-					return true;
+			if (node->ns_def != null) {
+				for (Xml.Ns *cur = node->ns_def; cur != null; cur = cur->next) {
+					if ((string) cur->prefix == prefix && (string) cur->href == uri) {
+						node->set_ns (cur);
+						return true;
+					}
 				}
 			}
 			// Not found in this node, searching on root element
-			for (Xml.Ns *cur = owner_document.document_element.node->ns_def; cur != null; cur = cur->next) {
-				if ((string) cur->prefix == prefix && (string) cur->href == uri) {
-					this.node->set_ns (cur);
-					return true;
+			if (owner_document.document_element.node->ns_def != null) {
+				for (Xml.Ns *cur = owner_document.document_element.node->ns_def; cur != null; cur = cur->next) {
+					if ((string) cur->prefix == prefix && (string) cur->href == uri) {
+						this.node->set_ns (cur);
+						return true;
+					}
 				}
 			}
 			return false;
