@@ -255,8 +255,14 @@ namespace GXml {
      */
     public virtual GLib.ParamSpec? default_find_property_spec (string property_name) {
       init_properties ();
+      #if DEBUG
+      GLib.message ("Searching Property: "+property_name.down ());
+      #endif
       var props = list_serializable_properties ();
       foreach (ParamSpec spec in props) {
+        #if DEBUG
+        GLib.message ("Checking Property: "+spec.name.down ()+ " Nick: "+spec.get_nick ().down ());
+        #endif
         if (spec.name.down () == property_name.down ())
           return spec;
         if (property_use_nick ())

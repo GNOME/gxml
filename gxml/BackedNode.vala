@@ -88,7 +88,7 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override NamespaceAttr? add_namespace_attr (string uri, string prefix)
+		public override NamespaceAttr? add_namespace_attr (string uri, string? prefix)
 		{
 			//stdout.printf ("BackedNode: Before add new Namespace\n");
 			var ns = this.node->new_ns (uri, prefix);
@@ -100,22 +100,13 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override bool set_namespace (string uri, string prefix)
+		public override bool set_namespace (string uri, string? prefix)
 		{
 			if (node == null) return false;
 			if (node->ns_def != null) {
 				for (Xml.Ns *cur = node->ns_def; cur != null; cur = cur->next) {
 					if ((string) cur->prefix == prefix && (string) cur->href == uri) {
 						node->set_ns (cur);
-						return true;
-					}
-				}
-			}
-			// Not found search on parent
-			if (node->parent != null) {
-				for (Xml.Ns *cur = node->parent->ns_def; cur != null; cur = cur->next) {
-					if ((string) cur->prefix == prefix && (string) cur->href == uri) {
-						this.node->set_ns (cur);
 						return true;
 					}
 				}

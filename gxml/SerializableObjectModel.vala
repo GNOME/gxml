@@ -133,7 +133,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     }
     // Setting element content
     if (serialize_use_xml_node_value ()) {
-      // Set un empty string if no value is set for node contents
+      // Set an empty string if no value is set for node contents
       string t = "";
       if (serialized_xml_node_value != null)
         t = serialized_xml_node_value;
@@ -143,8 +143,8 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 #endif
       element.append_child (tn);
     }
-
     node.append_child (element);
+
     return element;
   }
 
@@ -317,6 +317,9 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     bool ret = false;
     var prop = find_property_spec (property_node.node_name);
     if (prop == null) {
+#if DEBUG
+    stdout.printf (@"Property not found: $(property_node.node_name)\n");
+#endif
       // FIXME: Event emit
       if (get_enable_unknown_serializable_property ()) {
 //        stdout.printf (@"Adding node $(property_node.node_name) to $(get_type ().name ())\n");
@@ -326,6 +329,9 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     }
     if (prop.value_type.is_a (typeof (Serializable)))
     {
+#if DEBUG
+    stdout.printf (@"Is Serializable: $(property_node.node_name)\n");
+#endif
       Value vobj = Value (typeof(Object));
       get_property (prop.name, ref vobj);
       if (vobj.get_object () == null) {
