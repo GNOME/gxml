@@ -2,7 +2,7 @@
 /* ProcessingInstruction.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
- * Copyright (C) 2011  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2011-2015  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -40,7 +40,7 @@ namespace GXml {
 	 * {{{<?pi_target processing instruction data?>}}}
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1004215813]]
 	 */
-	public class ProcessingInstruction : Node {
+	public class ProcessingInstruction : xNode {
 		internal ProcessingInstruction (string target, string data, Document doc) {
 			base (NodeType.PROCESSING_INSTRUCTION, doc); // TODO: want to pass a real Xml.Node* ?
 			this.target = target;

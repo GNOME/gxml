@@ -1,4 +1,27 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* Notation.vala
+ *
+ * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
+ * Copyright (C) 2011-2015  Daniel Espinosa <esodan@gmail.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors:
+ *      Richard Schwarting <aquarichy@gmail.com>
+ *      Daniel Espinosa <esodan@gmail.com>
+ */
+
 using GXml;
 
 class DocumentTest : GXmlTest {
@@ -107,7 +130,7 @@ class DocumentTest : GXmlTest {
 		Test.add_func ("/gxml/document/construct_from_string", () => {
 				string xml;
 				Document doc;
-				GXml.Node root;
+				GXml.xNode root;
 
 				xml = "<Fruits><Apple></Apple><Orange></Orange></Fruits>";
 				doc = new Document.from_string (xml);
@@ -393,8 +416,8 @@ class DocumentTest : GXmlTest {
 ");
 	}
 
-	public static void print_node (GXml.Node node) {
-		List<GXml.Node> children = (List<GXml.Node>)node.child_nodes;
+	public static void print_node (GXml.xNode node) {
+		List<GXml.xNode> children = (List<GXml.xNode>)node.child_nodes;
 
 		if (node.node_type != 3)
 			GLib.stdout.printf ("<%s", node.node_name);
@@ -407,7 +430,7 @@ class DocumentTest : GXmlTest {
 		GLib.stdout.printf (">");
 		if (node.node_value != null)
 			GLib.stdout.printf ("%s", node.node_value);
-		foreach (GXml.Node child in children) {
+		foreach (GXml.xNode child in children) {
 			// TODO: want a stringification method for Nodes?
 			print_node (child);
 		}

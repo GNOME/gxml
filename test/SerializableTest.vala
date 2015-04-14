@@ -9,7 +9,7 @@
  *       Daniel Espinosa <esodan@gmail.com>
  *
  *  Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
- *  Copyright (c) 2013-2014 Daniel Espinosa <esodan@gmail.com>
+ *  Copyright (c) 2013-2015 Daniel Espinosa <esodan@gmail.com>
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
@@ -104,13 +104,13 @@ public class SerializableCapsicum : GXml.SerializableJson {
 	   Want an example using GBoxed too
 	   Perhaps these shouldn't be object methods, perhaps they should be static?
 	   Can't have static methods in an interface :(, right? */
-	public void deserialize_unknown_property_type (GXml.Node element, ParamSpec prop)
+	public void deserialize_unknown_property_type (GXml.xNode element, ParamSpec prop)
 	{
 		GLib.Value outvalue = GLib.Value (typeof (int));
 		switch (prop.name) {
 		case "ratings":
 			this.ratings = new GLib.List<int> ();
-			foreach (GXml.Node rating in element.child_nodes) {
+			foreach (GXml.xNode rating in element.child_nodes) {
 				int64.try_parse (((GXml.Element)rating).content, out outvalue);
 				this.ratings.append ((int)outvalue.get_int64 ());
 			}
@@ -120,7 +120,7 @@ public class SerializableCapsicum : GXml.SerializableJson {
 			assert_not_reached ();
 		}
 	}
-	private void serialize_unknown_property_type (GXml.Node element, ParamSpec prop, out GXml.Node node)
+	private void serialize_unknown_property_type (GXml.xNode element, ParamSpec prop, out GXml.xNode node)
 	{
 		Document doc = element.owner_document;
 		switch (prop.name) {

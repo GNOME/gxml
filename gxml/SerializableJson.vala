@@ -2,7 +2,7 @@
 /* Serialization.vala
  *
  * Copyright (C) 2012-2013  Richard Schwarting <aquarichy@gmail.com>
- * Copyright (C) 2013  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2013-2015  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -63,7 +63,7 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
   /* Serializable Interface properties */
   protected ParamSpec[] properties { get; set; }
   public HashTable<string,GLib.ParamSpec>  ignored_serializable_properties { get; protected set; }
-  public HashTable<string,GXml.Node>    unknown_serializable_property { get; protected set; }
+  public HashTable<string,GXml.xNode>    unknown_serializable_property { get; protected set; }
   public virtual bool get_enable_unknown_serializable_property () { return false; }
   public string?  serialized_xml_node_value { get; protected set; default = null; }
   public string? serialize_set_namespace { get; set; default = null; }
@@ -116,7 +116,7 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
    * Is up to you to add convenient Element node to a Document, in order to be
    * used by serialize and add new <Object> tags per object to serialize.
    */
-  public GXml.Node? serialize (GXml.Node node) throws GLib.Error
+  public GXml.xNode? serialize (GXml.xNode node) throws GLib.Error
   {
     Document doc;
     Element root;
@@ -139,13 +139,13 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
     return root;
   }
 
-  public virtual GXml.Node? serialize_property (Element element, 
+  public virtual GXml.xNode? serialize_property (Element element, 
                                         GLib.ParamSpec prop)
                                         throws GLib.Error
   {
     Type type;
     Value val;
-    GXml.Node value_node = null;
+    GXml.xNode value_node = null;
     Element prop_node;
 
     type = prop.value_type;
@@ -209,7 +209,7 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
     return prop_node;
   }
 
-  public GXml.Node? deserialize (GXml.Node node) throws GLib.Error
+  public GXml.xNode? deserialize (GXml.xNode node) throws GLib.Error
   {
     Element obj_elem;
     ParamSpec[] specs;
@@ -223,13 +223,13 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
 
     specs = this.list_serializable_properties ();
 
-    foreach (GXml.Node child_node in obj_elem.child_nodes) {
+    foreach (GXml.xNode child_node in obj_elem.child_nodes) {
       deserialize_property (child_node);
     }
     return obj_elem;
   }
 
-  public virtual bool deserialize_property (GXml.Node property_node) throws GLib.Error
+  public virtual bool deserialize_property (GXml.xNode property_node) throws GLib.Error
   {
     //GLib.message ("At SerializableJson.deserialize_property");
     if (property_node.node_name == "Property")
@@ -273,7 +273,7 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
           }
           else if (type.is_a (typeof (GLib.Object))) 
           {
-            GXml.Node prop_elem_child;
+            GXml.xNode prop_elem_child;
             Object property_object;
 
             prop_elem_child = prop_elem.first_child;

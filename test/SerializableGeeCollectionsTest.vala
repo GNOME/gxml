@@ -8,7 +8,7 @@
  *       Daniel Espinosa <esodan@gmail.com>
  *
  *
- *  Copyright (c) 2013-2014 Daniel Espinosa
+ *  Copyright (c) 2013-2015 Daniel Espinosa
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
@@ -386,12 +386,12 @@ class SerializableGeeCollectionsTest : GXmlTest
           assert_not_reached ();
         }
         int i = 0;
-        foreach (GXml.Node n in ndoc.document_element.child_nodes)
+        foreach (GXml.xNode n in ndoc.document_element.child_nodes)
         {
           i++;
           if (n is Text) { if (n.node_value != "") assert_not_reached (); }
           if (n.node_name == "ChargeZone") {
-            foreach (GXml.Node cn in n.child_nodes)
+            foreach (GXml.xNode cn in n.child_nodes)
             {
               if (n is Text) { if (n.node_value != "") assert_not_reached (); }
               
@@ -491,7 +491,7 @@ class SerializableGeeCollectionsTest : GXmlTest
         }
         if (refaction.unknown_serializable_property.size () != 1) {
           stdout.printf (@"ERROR: Refaction: Bad unknown properties/nodes number: found $(refaction.unknown_serializable_property.size ())\n");
-          foreach (GXml.Node unk in refaction.unknown_serializable_property.get_values ())
+          foreach (GXml.xNode unk in refaction.unknown_serializable_property.get_values ())
           {
             string unkv = "___NULL__";
             if (unk.node_value != null)
@@ -507,7 +507,7 @@ class SerializableGeeCollectionsTest : GXmlTest
           assert_not_reached ();
         }
         //stdout.printf (@"$doc\n");
-        foreach (GXml.Node n in doc.document_element.child_nodes) {
+        foreach (GXml.xNode n in doc.document_element.child_nodes) {
           if (n is Element) {
             if (n.node_name == "ChargeZone") {
               
@@ -516,10 +516,10 @@ class SerializableGeeCollectionsTest : GXmlTest
               bool unkfound = false;
               bool tfound = false;
               bool attrfound = false;
-              foreach (GXml.Node sn in n.child_nodes) {
+              foreach (GXml.xNode sn in n.child_nodes) {
                 if (sn is Element) {
                   if (sn.node_name == "refaction") {
-                    foreach (GXml.Node rn in sn.child_nodes) {
+                    foreach (GXml.xNode rn in sn.child_nodes) {
                       if (rn is Element) {
                         //stdout.printf (@"Refaction current node: '$(rn.node_name)'\n");
                         if (rn.node_name == "ship") {
@@ -537,7 +537,7 @@ class SerializableGeeCollectionsTest : GXmlTest
                                 assert_not_reached ();
                               }
                             }
-                            foreach (GXml.Node shn in rn.child_nodes) {
+                            foreach (GXml.xNode shn in rn.child_nodes) {
                               //stdout.printf (@"Refaction: Ship MegaTrench: Node: $(shn.node_name)\n");
                               if (shn is Text) {
                                 tfound = true;

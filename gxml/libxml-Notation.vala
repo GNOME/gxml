@@ -32,7 +32,7 @@ namespace GXml {
 	 * ProcessingInstruction targets.
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-5431D1B9]]
 	 */
-	public class Notation : Node {
+	public class Notation : xNode {
 		// private Xml.Notation *notation; // TODO: wrap libxml's xmlNotation
 
 		/**

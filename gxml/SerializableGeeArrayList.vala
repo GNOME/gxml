@@ -1,7 +1,7 @@
 /* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /* SerializableGeeTreeModel.vala
  *
- * Copyright (C) 2013, 2014  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2013-2015  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -35,7 +35,7 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
   public string? serialized_xml_node_value { get; protected set; default=null; }
   public string? serialize_set_namespace { get; set; default = null; }
 
-  public GLib.HashTable<string,GXml.Node> unknown_serializable_property { get; protected set; }
+  public GLib.HashTable<string,GXml.xNode> unknown_serializable_property { get; protected set; }
 
   public bool get_enable_unknown_serializable_property () { return false; }
   public virtual bool serialize_use_xml_node_value () { return false; }
@@ -81,13 +81,13 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
     return false;
   }
 
-  public virtual GXml.Node? serialize (GXml.Node node)
+  public virtual GXml.xNode? serialize (GXml.xNode node)
                               throws GLib.Error
                               requires (node is Element)
   {
     return default_serialize (node);
   }
-  public GXml.Node? default_serialize (GXml.Node node)
+  public GXml.xNode? default_serialize (GXml.xNode node)
                               throws GLib.Error
                               requires (node is Element)
   {
@@ -99,25 +99,25 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
     }
     return node;
   }
-  public virtual GXml.Node? serialize_property (GXml.Element element,
+  public virtual GXml.xNode? serialize_property (GXml.Element element,
                                         GLib.ParamSpec prop)
                                         throws GLib.Error
   {
     return default_serialize_property (element, prop);
   }
-  public GXml.Node? default_serialize_property (GXml.Element element,
+  public GXml.xNode? default_serialize_property (GXml.Element element,
                                         GLib.ParamSpec prop)
                                         throws GLib.Error
   {
     return element;
   }
-  public virtual GXml.Node? deserialize (GXml.Node node)
+  public virtual GXml.xNode? deserialize (GXml.xNode node)
                                     throws GLib.Error
                                     requires (node_name () != null)
   {
     return default_deserialize (node);
   }
-  public GXml.Node? default_deserialize (GXml.Node node)
+  public GXml.xNode? default_deserialize (GXml.xNode node)
                     throws GLib.Error
   {
     if (!element_type.is_a (typeof (GXml.Serializable))) {
@@ -125,7 +125,7 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
                                                     this.get_type ().name (), element_type.name ());
     }
     if (node is Element) {
-      foreach (GXml.Node n in node.child_nodes) {
+      foreach (GXml.xNode n in node.child_nodes) {
         if (n is Element) {
           var obj = (Serializable) Object.new (element_type);
           if (n.node_name == ((Serializable) obj).node_name ()) {
@@ -137,12 +137,12 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
     }
     return node;
   }
-  public virtual bool deserialize_property (GXml.Node property_node)
+  public virtual bool deserialize_property (GXml.xNode property_node)
                                             throws GLib.Error
   {
     return default_deserialize_property (property_node);
   }
-  public bool default_deserialize_property (GXml.Node property_node)
+  public bool default_deserialize_property (GXml.xNode property_node)
                                             throws GLib.Error
   {
     return true;

@@ -2,7 +2,7 @@
 /* EntityReference.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
- * Copyright (C) 2011  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2011, 2015  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -37,7 +37,7 @@ namespace GXml {
 	 * The entity name, e.g. "apos", is stored as the EntityReference's `node_name`.
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-11C98490]]
 	 */
-	public class EntityReference : Node {
+	public class EntityReference : xNode {
 		internal EntityReference (string refname, Document doc) {
 			// TODO: may want to handle refname differently
 			base (NodeType.ENTITY_REFERENCE, doc); // TODO: what should we pass up?

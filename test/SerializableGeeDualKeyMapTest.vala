@@ -8,7 +8,7 @@
  *       Daniel Espinosa <esodan@gmail.com>
  *
  *
- *  Copyright (c) 2013-2014 Daniel Espinosa
+ *  Copyright (c) 2013-2015 Daniel Espinosa
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
@@ -156,7 +156,7 @@ class SerializableGeeDualKeyMapTest : GXmlTest
         bool found4 = false;
         int nodes = 0;
         int i = 0;
-        foreach (GXml.Node n in root.child_nodes) {
+        foreach (GXml.xNode n in root.child_nodes) {
           nodes++;
           if (n is Element && n.node_name == "spaces") {
             i++;

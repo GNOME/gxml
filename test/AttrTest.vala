@@ -1,4 +1,27 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* Notation.vala
+ *
+ * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
+ * Copyright (C) 2011-2015  Daniel Espinosa <esodan@gmail.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors:
+ *      Richard Schwarting <aquarichy@gmail.com>
+ *      Daniel Espinosa <esodan@gmail.com>
+ */
+
 using GXml;
 
 /* TODO: add tests for g_warnings being set; apparently you can trap g_criticals and test error messages with gtester */
@@ -6,7 +29,7 @@ class AttrTest : GXmlTest {
 	public static void add_tests () {
 		Test.add_func ("/gxml/element/namespace_uri", () => {
 				Document doc = new Document.from_string ("<Wands xmlns:wands=\"http://mom.co.uk/wands\"><Wand price=\"43.56\" wands:core=\"dragon heart cord\" wands:shell=\"oak\"/></Wands>");
-				GXml.Node root = doc.document_element;
+				GXml.xNode root = doc.document_element;
 				Element node = (Element)root.child_nodes.item (0);
 
 				Attr core = node.get_attribute_node ("core");
@@ -19,7 +42,7 @@ class AttrTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/element/prefix", () => {
 				Document doc = new Document.from_string ("<Wands xmlns:wands=\"http://mom.co.uk/wands\"><Wand price=\"43.56\" wands:core=\"dragon heart cord\" wands:shell=\"oak\"/></Wands>");
-				GXml.Node root = doc.document_element;
+				GXml.xNode root = doc.document_element;
 				Element node = (Element)root.child_nodes.item (0);
 
 				Attr core = node.get_attribute_node ("core");
@@ -32,7 +55,7 @@ class AttrTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/element/local_name", () => {
 				Document doc = new Document.from_string ("<Wands xmlns:wands=\"http://mom.co.uk/wands\"><Wand price=\"43.56\" wands:core=\"dragon heart cord\" wands:shell=\"oak\"/></Wands>");
-				GXml.Node root = doc.document_element;
+				GXml.xNode root = doc.document_element;
 				Element node = (Element)root.child_nodes.item (0);
 
 				Attr core = node.get_attribute_node ("core");

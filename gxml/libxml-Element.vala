@@ -2,7 +2,7 @@
 /* Element.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
- * Copyright (C) 2011  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2011,2015  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -217,7 +217,7 @@ namespace GXml {
 		}
 
 		// TODO: consider making the life of TagNameNodeLists optional, and dead by default, at the Document level
-		private void check_add_tag_name (Element basenode, Node child) {
+		private void check_add_tag_name (Element basenode, xNode child) {
 			// TODO: make sure there aren't any other NodeTypes that could have elements as children
 			if (child.node_type == NodeType.ELEMENT || child.node_type == NodeType.DOCUMENT_FRAGMENT) {
 				// the one we're examining is an element, and might need to be added
@@ -226,7 +226,7 @@ namespace GXml {
 				}
 
 				// if we're adding an element with descendants, or a document fragment, they might contain nodes that should go into a tag name node list for an ancestor node
-				foreach (Node grand_child in child.child_nodes) {
+				foreach (xNode grand_child in child.child_nodes) {
 					check_add_tag_name (basenode, grand_child);
 				}
 			}
@@ -236,14 +236,14 @@ namespace GXml {
 		 * are elements.  If they are, we check the basenode and its ancestors to see
 		 * whether they're keeping that node in a TagNameNodeList, so we can remove it.
 		 */
-		private void check_remove_tag_name (Element basenode, Node child) {
+		private void check_remove_tag_name (Element basenode, xNode child) {
 			// TODO: make sure there aren't any other NodeTypes that could have elements as children
 			if (child.node_type == NodeType.ELEMENT) {
 				// the one we're examining is an element, and might need to be removed from a tag name node list
 				basenode.on_remove_descendant_with_tag_name ((Element)child);
 
 				// if we're removing an element with descendants, it might contain nodes that should also be removed from a tag name node list for an ancestor node
-				foreach (Node grand_child in child.child_nodes) {
+				foreach (xNode grand_child in child.child_nodes) {
 					check_remove_tag_name (basenode, grand_child);
 				}
 			}
@@ -254,8 +254,8 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override unowned Node? insert_before (Node new_child, Node? ref_child) {
-			unowned Node ret = base.insert_before (new_child, ref_child);
+		public override unowned xNode? insert_before (xNode new_child, xNode? ref_child) {
+			unowned xNode ret = base.insert_before (new_child, ref_child);
 			check_add_tag_name (this, new_child);
 			return ret;
 		}
@@ -263,9 +263,9 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override unowned Node? replace_child (Node new_child, Node old_child) {
+		public override unowned xNode? replace_child (xNode new_child, xNode old_child) {
 			check_remove_tag_name (this, old_child);
-			unowned Node ret = base.replace_child (new_child, old_child);
+			unowned xNode ret = base.replace_child (new_child, old_child);
 			check_add_tag_name (this, new_child);
 			return ret;
 		}
@@ -273,17 +273,17 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override unowned Node? remove_child (Node old_child) {
+		public override unowned xNode? remove_child (xNode old_child) {
 			check_remove_tag_name (this, old_child);
-			unowned Node ret = base.remove_child (old_child);
+			unowned xNode ret = base.remove_child (old_child);
 			return ret;
 		}
 
 		/**
 		 * {@inheritDoc}
 		 */
-		public override unowned Node? append_child (Node new_child) {
-			unowned Node ret = base.append_child (new_child);
+		public override unowned xNode? append_child (xNode new_child) {
+			unowned xNode ret = base.append_child (new_child);
 			check_add_tag_name (this, new_child);
 			return ret;
 		}
@@ -342,7 +342,7 @@ namespace GXml {
 		private void on_remove_descendant_with_tag_name (Element elem) {
 			foreach (TagNameNodeList list in tag_name_lists) {
 				if (elem.tag_name == list.tag_name) {
-					foreach (Node tag_elem in list) {
+					foreach (xNode tag_elem in list) {
 						if (((Element)tag_elem) == elem) {
 							list.remove_child (tag_elem);
 							break;
@@ -374,7 +374,7 @@ namespace GXml {
 		 */
 		public NodeList get_elements_by_tag_name (string tag_name) {
 			TagNameNodeList tagged = new TagNameNodeList (tag_name, this, this.owner_document);
-			//List<Node> tagged = new List<Node> ();
+			//List<xNode> tagged = new List<xNode> ();
 			Queue<Xml.Node*> tocheck = new Queue<Xml.Node*> ();
 
 			/* TODO: find out whether we are supposed to include this element,
@@ -413,7 +413,7 @@ namespace GXml {
 			//       will be a problem, given that it will
 			//       have a different .node_type
 
-			foreach (Node child in this.child_nodes) {
+			foreach (xNode child in this.child_nodes) {
 				switch (child.node_type) {
 				case NodeType.ELEMENT:
 					((Element)child).normalize ();
@@ -468,7 +468,7 @@ namespace GXml {
 		 * @param node: could be owned by other {@link GXml.Document}.
 		 * @param deep: copy child nodes if true.
 		 */
-		public override bool copy (ref Node node, bool deep = false)
+		public override bool copy (ref xNode node, bool deep = false)
 		                    requires (node is Element)
 		{
 			node.node_name = this.node_name;
@@ -478,9 +478,9 @@ namespace GXml {
 				((Element) node).set_attribute (attr.node_name, attr.node_value);
 			}
 			if (has_child_nodes () && deep) {
-				foreach (Node n in child_nodes) {
+				foreach (xNode n in child_nodes) {
 					if (n is Element) {
-						var element = (Node) node.owner_document.create_element (n.node_name);
+						var element = (xNode) node.owner_document.create_element (n.node_name);
 						n.copy (ref element, true);
 						node.append_child (	element);
 					}

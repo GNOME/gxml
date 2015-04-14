@@ -1,7 +1,7 @@
 /* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*-  */
 /* librescl
  *
- * Copyright (C) 2013. 2014 Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2013-2015 Daniel Espinosa <esodan@gmail.com>
  *
  * librescl is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -83,7 +83,7 @@ public class Performance
       time = Test.timer_elapsed ();
       Test.minimized_result (time, "Load large document: %g seconds", time);
       Test.timer_start ();
-      foreach (GXml.Node n in ((GXml.Node)d.document_element).child_nodes) {
+      foreach (GXml.xNode n in ((GXml.xNode)d.document_element).child_nodes) {
         if (n.node_name == "Book1") { /* Fake just to access the node */ }
       }
       time = Test.timer_elapsed ();

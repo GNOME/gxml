@@ -2,7 +2,7 @@
 /* BackedNode.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
- * Copyright (C) 2011  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2011,2015  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -33,7 +33,7 @@ namespace GXml {
 	 * This would normally be hidden, but Vala wants base classes
 	 * to be at least as public as subclasses.
 	 */
-	public class BackedNode : Node {
+	public class BackedNode : xNode {
 		/** Private properties */
 		internal Xml.Node *node;
 
@@ -211,7 +211,7 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override Node? parent_node {
+		public override xNode? parent_node {
 			get {
 				return this.owner_document.lookup_node (this.node->parent);
 				// TODO: is parent never null? parent is probably possible to be null, like when you create a new element unattached
@@ -237,11 +237,11 @@ namespace GXml {
 			}
 		}
 
-		private Node? _first_child;
+		private xNode? _first_child;
 		/**
 		 * {@inheritDoc}
 		 */
-		public override Node? first_child {
+		public override xNode? first_child {
 			get {
 				_first_child = this.child_nodes.first ();
 				return _first_child;
@@ -250,11 +250,11 @@ namespace GXml {
 			}
 		}
 
-		private Node? _last_child;
+		private xNode? _last_child;
 		/**
 		 * {@inheritDoc}
 		 */
-		public override Node? last_child {
+		public override xNode? last_child {
 			get {
 				_last_child = this.child_nodes.last ();
 				return _last_child;
@@ -265,7 +265,7 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override Node? previous_sibling {
+		public override xNode? previous_sibling {
 			get {
 				return this.owner_document.lookup_node (this.node->prev);
 			}
@@ -275,7 +275,7 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override Node? next_sibling {
+		public override xNode? next_sibling {
 			get {
 				return this.owner_document.lookup_node (this.node->next);
 			}
@@ -290,27 +290,27 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override unowned Node? insert_before (Node new_child, Node? ref_child) {
+		public override unowned xNode? insert_before (xNode new_child, xNode? ref_child) {
 			return this.child_nodes.insert_before (new_child, ref_child);
 		}
 		/**
 		 * {@inheritDoc}
 		 */
-		public override unowned Node? replace_child (Node new_child, Node old_child) {
+		public override unowned xNode? replace_child (xNode new_child, xNode old_child) {
 			return this.child_nodes.replace_child (new_child, old_child);
 		}
 
 		/**
 		 * {@inheritDoc}
 		 */
-		public override unowned Node? remove_child (Node old_child) {
+		public override unowned xNode? remove_child (xNode old_child) {
 			return this.child_nodes.remove_child (old_child);
 		}
 
 		/**
 		 * {@inheritDoc}
 		 */
-		public override unowned Node? append_child (Node new_child) {
+		public override unowned xNode? append_child (xNode new_child) {
 			if (new_child.owner_document != this.owner_document && new_child.get_type ().is_a (typeof (GXml.BackedNode))) {
 				/* The point here is that a node from another document should
 				   have a copy made to be integrated into this one, so we
@@ -332,7 +332,7 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override unowned Node? clone_node (bool deep) {
+		public override unowned xNode? clone_node (bool deep) {
 			return this.owner_document.copy_node (this, deep);
 			// TODO: add a better test, as we weren't realising this was just a stub; test for memory usage too
 		}

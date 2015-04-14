@@ -30,7 +30,7 @@ namespace GXml {
 	 * prefix=uri pairs that define namespaces for XML Elements
 	 * and Attrs.
 	 */
-	public class NamespaceAttr : Node {
+	public class NamespaceAttr : xNode {
 		/** Private properties */
 		private Xml.Ns *ns; // XPATH:TODO: do they extend us?
 

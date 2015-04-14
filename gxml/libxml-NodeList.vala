@@ -1,7 +1,7 @@
 /* NodeList.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
- * Copyright (C) 2013  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2013-2015  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -26,9 +26,9 @@ using Gee;
 
 namespace GXml {
 	/**
-	 * A live list used to store {@link GXml.Node}s.
+	 * A live list used to store {@link GXml.xNode}s.
 	 *
-	 * Usually contains the children of a {@link GXml.Node}, or
+	 * Usually contains the children of a {@link GXml.xNode}, or
 	 * the results of {@link GXml.Element.get_elements_by_tag_name}.
 	 * {@link GXml.NodeList} implements both the DOM Level 1 Core API for
 	 * a NodeList, as well as the {@link GLib.List} API, to make
@@ -40,7 +40,7 @@ namespace GXml {
 	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-536297177]]
 	 */
-	public interface NodeList : GLib.Object, Gee.Iterable<Node>, Gee.Collection<Node>
+	public interface NodeList : GLib.Object, Gee.Iterable<xNode>, Gee.Collection<xNode>
 	{
 		/* NOTE:
 		 * children should define constructors like:
@@ -66,13 +66,13 @@ namespace GXml {
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-item]]
 		 */
-		public abstract Node item (ulong idx);
+		public abstract xNode item (ulong idx);
 
 		/* These exist to support management of a node's children */
-		public abstract unowned Node? insert_before (Node new_child, Node? ref_child);
-		public abstract unowned Node? replace_child (Node new_child, Node old_child);
-		public abstract unowned Node? remove_child (Node old_child);
-		public abstract unowned Node? append_child (Node new_child);
+		public abstract unowned xNode? insert_before (xNode new_child, xNode? ref_child);
+		public abstract unowned xNode? replace_child (xNode new_child, xNode old_child);
+		public abstract unowned xNode? remove_child (xNode old_child);
+		public abstract unowned xNode? append_child (xNode new_child);
 
 		/**
 		 * Creates an XML string representation of the nodes in the list.
@@ -91,18 +91,18 @@ namespace GXml {
 		/**
 		 * Retrieve the first node in the list.  Like {@link GLib.List.first}.
 		 */
-		public abstract Node first ();
+		public abstract xNode first ();
 
 		/**
 		 * Retrieve the last node in the list.  Like {@link GLib.List.last}.
 		 */
-		public abstract Node last ();
+		public abstract xNode last ();
 		/**
 		 * Obtain the n'th item in the list. Like {@link GLib.List.nth}.
 		 *
 		 * @param n The index of the item to access
 		 */
-		public abstract new Node @get (int n);
+		public abstract new xNode @get (int n);
 	}
 }
 
@@ -112,7 +112,7 @@ namespace GXml {
 	 * time, or get reconstructed-on-the-go?
 	 */
 	internal class TagNameNodeList : GXml.ArrayList { internal string tag_name;
-		internal TagNameNodeList (string tag_name, Node root, Document owner) {
+		internal TagNameNodeList (string tag_name, xNode root, Document owner) {
 			base (root);
 			this.tag_name = tag_name;
 		}
@@ -121,7 +121,7 @@ namespace GXml {
 	// /* TODO: warning: this list should NOT be edited :(
 	//    we need a new, better live AttrNodeList :| */
 	// internal class AttrNodeList : GListNodeList {
-	// 	internal AttrNodeList (Node root, Document owner) {
+	// 	internal AttrNodeList (xNode root, Document owner) {
 	// 		base (root);
 	// 		base.nodes = root.attributes.get_values ();
 	// 	}
@@ -227,7 +227,7 @@ namespace GXml {
 
 	// TODO: Desperately want to extend List or implement relevant interfaces to make iterable
 	// TODO: remember that the order of interfaces that you're listing as implemented matters
-	internal abstract class ChildNodeList :  Gee.AbstractCollection<Node>, NodeList
+	internal abstract class ChildNodeList :  Gee.AbstractCollection<xNode>, NodeList
 {
 		/* TODO: must be live
 		   if this reflects children of a node, then must always be current
@@ -249,14 +249,14 @@ namespace GXml {
 			private set { }
 		}
 
-        public override bool add (Node item)
+        public override bool add (xNode item)
         {
                 append_child (item);
                 return true;
         }
 		public override void clear () {}
-		public override bool contains (Node item) { return false; }
-		public override bool remove (Node item)  { return false; }
+		public override bool contains (xNode item) { return false; }
+		public override bool remove (xNode item)  { return false; }
 		public override bool read_only { get { return true; } }
 		public override int size {
             get {
@@ -273,25 +273,25 @@ namespace GXml {
                 return 0;
             }
         }
-		public override Gee.Iterator<Node> iterator () {
+		public override Gee.Iterator<xNode> iterator () {
 			return new NodeListIterator (this);
 		}
-		public override bool @foreach (ForallFunc<Node> func) {
+		public override bool @foreach (ForallFunc<xNode> func) {
 			return iterator ().foreach (func);
 		}
 
 		/** GNOME List conventions */
-		public Node first () {
+		public xNode first () {
 			return this.owner.lookup_node (head);
 		}
-		public Node last () {
+		public xNode last () {
 			Xml.Node *cur = head;
 			while (cur != null && cur->next != null) {
 				cur = cur->next;
 			}
 			return this.owner.lookup_node (cur); // TODO :check for nulls?
 		}
-		public new Node @get (int n)
+		public new xNode @get (int n)
             requires (head != null)
         {
             Xml.Node *cur = head;
@@ -302,10 +302,10 @@ namespace GXml {
             }
 			return this.owner.lookup_node (cur);
 		}
-        public Node item (ulong idx) { return get ((int) idx); }
+        public xNode item (ulong idx) { return get ((int) idx); }
 
 		/** Node's child methods, implemented here **/
-		internal new unowned Node? insert_before (Node new_child, Node? ref_child) {
+		internal new unowned xNode? insert_before (xNode new_child, xNode? ref_child) {
 			Xml.Node *child = head;
 
 			if (ref_child == null) {
@@ -321,7 +321,7 @@ namespace GXml {
 				// TODO: provide a more useful description of ref_child, but there are so many different types
 			} else {
 				if (new_child.node_type == NodeType.DOCUMENT_FRAGMENT) {
-					foreach (Node new_grand_child in new_child.child_nodes) {
+					foreach (xNode new_grand_child in new_child.child_nodes) {
 						child->add_prev_sibling (((BackedNode)new_grand_child).node);
 					}
 				} else {
@@ -331,7 +331,7 @@ namespace GXml {
 			return new_child;
 		}
 
-		internal new unowned Node? replace_child (Node new_child, Node old_child) {
+		internal new unowned xNode? replace_child (xNode new_child, xNode old_child) {
 			// TODO: verify that libxml2 already removes
 			// new_child first if it is found elsewhere in
 			// the tree.
@@ -361,20 +361,20 @@ namespace GXml {
 
 			return old_child;
 		}
-		internal new unowned Node? remove_child (Node old_child) /* throws DomError */ {
+		internal new unowned xNode? remove_child (xNode old_child) /* throws DomError */ {
 			// TODO: verify that old_child is a valid child here and then unlink
 
 			((BackedNode)old_child).node->unlink (); // TODO: do we need to free libxml2 stuff manually?
 			return old_child;
 		}
 
-		internal virtual unowned Node? append_child (Node new_child) /* throws DomError */ {
+		internal virtual unowned xNode? append_child (xNode new_child) /* throws DomError */ {
 			// TODO: verify that libxml2 will first remove
 			// new_child if it already exists elsewhere in
 			// the tree.
 
 			if (new_child.node_type == NodeType.DOCUMENT_FRAGMENT) {
-				foreach (Node grand_child in new_child.child_nodes) {
+				foreach (xNode grand_child in new_child.child_nodes) {
 					parent_as_xmlnode->add_child (((BackedNode)grand_child).node);
 				}
 			} else {
@@ -390,7 +390,7 @@ namespace GXml {
 
 		public string to_string (bool in_line = true) {
 			string str = "";
-			foreach (Node node in this) {
+			foreach (xNode node in this) {
 				str += node.to_string ();
 			}
 			return str;
@@ -398,7 +398,7 @@ namespace GXml {
 
 		/* ** NodeListIterator ***/
 
-		private class NodeListIterator : GLib.Object, Gee.Traversable<Node>, Gee.Iterator<Node>
+		private class NodeListIterator : GLib.Object, Gee.Traversable<xNode>, Gee.Iterator<xNode>
 		{
 			private weak Document doc;
 			private Xml.Node *cur;
@@ -412,7 +412,7 @@ namespace GXml {
 				this.doc = list.owner;
 			}
 			/* Gee.Iterator interface */
-			public new Node @get () { return this.doc.lookup_node (this.cur); }
+			public new xNode @get () { return this.doc.lookup_node (this.cur); }
 			public bool has_next () { return head == null ? false : true; }
 			public bool next () {
 				if (has_next ()) {
@@ -427,7 +427,7 @@ namespace GXml {
 			public bool valid { get { return cur != null ? true : false; } }
 
 			/* Traversable interface */
-			public new bool @foreach (Gee.ForallFunc<Node> f)
+			public new bool @foreach (Gee.ForallFunc<xNode> f)
 			{
 				if (next ())
 					return f (get ());
@@ -437,21 +437,21 @@ namespace GXml {
 	}
 }
 
-internal class GXml.ArrayList : Gee.ArrayList<Node>, NodeList
+internal class GXml.ArrayList : Gee.ArrayList<GXml.xNode>, NodeList
 {
-  public GXml.Node root;
+  public GXml.xNode root;
 
   public ulong length {
     get { return size; }
     private set {}
   }
 
-  public ArrayList (GXml.Node root)
+  public ArrayList (GXml.xNode root)
   {
     this.root = root;
   }
 
-        public unowned Node? insert_before (Node new_child, Node? ref_child)
+        public unowned xNode? insert_before (xNode new_child, xNode? ref_child)
     {
         int i = -1;
         if (contains (ref_child)) {
@@ -462,7 +462,7 @@ internal class GXml.ArrayList : Gee.ArrayList<Node>, NodeList
         return null;
     }
 
-  public unowned Node? replace_child (Node new_child, Node old_child)
+  public unowned xNode? replace_child (xNode new_child, xNode old_child)
   {
     if (contains (old_child)) {
       int i = index_of (old_child);
@@ -473,17 +473,17 @@ internal class GXml.ArrayList : Gee.ArrayList<Node>, NodeList
     return null;
   }
 
-  public unowned Node? remove_child (Node old_child)
+  public unowned xNode? remove_child (xNode old_child)
   {
     if (contains (old_child)) {
-      unowned Node n = old_child;
+      unowned xNode n = old_child;
       remove_at (index_of (old_child));
       return n;
     }
     return null;
   }
 
-  public unowned Node? append_child (Node new_child)
+  public unowned xNode? append_child (xNode new_child)
   {
     add (new_child);
     return new_child;
@@ -492,14 +492,14 @@ internal class GXml.ArrayList : Gee.ArrayList<Node>, NodeList
 /**
      * Retrieve the first node in the list.  Like {@link GLib.List.first}.
      */
-    public Node first () { return first (); }
+    public xNode first () { return first (); }
 
     /**
      * Retrieve the last node in the list.  Like {@link GLib.List.last}.
      */
-    public Node last () { return last (); }
+    public xNode last () { return last (); }
 
-    public Node item (ulong idx)
+    public xNode item (ulong idx)
     {
         return @get((int) idx);
     }
@@ -507,7 +507,7 @@ internal class GXml.ArrayList : Gee.ArrayList<Node>, NodeList
     public string to_string (bool in_line) 
     {
         string str = "";
-		foreach (Node node in this) {
+		foreach (xNode node in this) {
 			str += node.to_string ();
 		}
 

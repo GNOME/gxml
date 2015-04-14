@@ -8,7 +8,7 @@
  *       Daniel Espinosa <esodan@gmail.com>
  *
  *
- *  Copyright (c) 2013-2014 Daniel Espinosa
+ *  Copyright (c) 2013-2015 Daniel Espinosa
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
@@ -121,7 +121,7 @@ class SerializableGeeHashMapTest : GXmlTest
         }
         bool found1 = false;
         bool found2 = false;
-        foreach (GXml.Node n in root.child_nodes) {
+        foreach (GXml.xNode n in root.child_nodes) {
           if (n is Element && n.node_name == "space") {
             var name = ((Element) n).get_attribute_node ("name");
             if (name != null) {
@@ -129,7 +129,7 @@ class SerializableGeeHashMapTest : GXmlTest
               if (name.node_value == "Small") found2 = true;
             }
             if (n.has_child_nodes ()) {
-              foreach (GXml.Node nd in n.child_nodes) {
+              foreach (GXml.xNode nd in n.child_nodes) {
                 if (nd is Text) {
                   if (nd.node_value != "FAKE TEXT") {
                     stdout.printf (@"ERROR: node content don't much. Expected 'FAKE TEXT', got: $(nd.node_value)\n$(doc)\n");
@@ -246,7 +246,7 @@ class SerializableGeeHashMapTest : GXmlTest
         }
         bool found1 = false;
         bool found2 = false;
-        foreach (GXml.Node n in root.child_nodes) {
+        foreach (GXml.xNode n in root.child_nodes) {
           if (n is Element && n.node_name == "space") {
             var name = ((Element) n).get_attribute_node ("name");
             if (name != null) {

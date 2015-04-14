@@ -1,8 +1,8 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
-/* Node.vala
+/* xNode.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
- * Copyright (C) 2011  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2011-2015  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -26,29 +26,29 @@ namespace GXml {
 	/* TODO: consider adding public signals for new/deleted children */
 
 	/**
-	 * Represents an XML Node, the base class for most XML structures in
+	 * Represents an XML xNode, the base class for most XML structures in
 	 * the {@link GXml.Document}'s tree.
 	 * 
-	 * {@link GXml.Document}s are {@link GXml.Node}s, and are
-	 * composed of a tree of {@link GXml.Node}s.
+	 * {@link GXml.Document}s are {@link GXml.xNode}s, and are
+	 * composed of a tree of {@link GXml.xNode}s.
 	 * 
 	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1950641247]]
 	 */
-	public abstract class Node : GLib.Object {
+	public abstract class xNode : GLib.Object {
 		/* Constructors */
-		internal Node (NodeType type, Document owner) {
+		internal xNode (NodeType type, Document owner) {
 			this.node_type = type;
 			this.owner_document = owner;
 		}
-		internal Node.for_document () {
+		internal xNode.for_document () {
 			this.node_name = "#document";
 			this.node_type = NodeType.DOCUMENT;
 		}
 
 		/* Utility methods */
 
-		internal void check_wrong_document (Node node) {
+		internal void check_wrong_document (xNode node) {
 			Document this_doc;
 
 			if (this.node_type == NodeType.DOCUMENT) {
@@ -58,7 +58,7 @@ namespace GXml {
 			}
 
 			if (this_doc != node.owner_document) {
-				GXml.warning (DomException.WRONG_DOCUMENT, "Node tried to interact with this document '%p' but belonged to document '%p'".printf (this_doc, node.owner_document));
+				GXml.warning (DomException.WRONG_DOCUMENT, "xNode tried to interact with this document '%p' but belonged to document '%p'".printf (this_doc, node.owner_document));
 			}
 		}
 
@@ -87,7 +87,7 @@ namespace GXml {
 				//       and instead returning empty collections
 				//     No, probably don't want that, as nodes which don't
 				//     support them really do just want to return null ala spec
-				foreach (Node child in this.child_nodes) {
+				foreach (xNode child in this.child_nodes) {
 					message ("    %s", child.node_name);
 				}
 			}
@@ -129,7 +129,7 @@ namespace GXml {
 			}
 		}
 		/**
-		 * Add a new namespace to this {@link GXml.Node}
+		 * Add a new namespace to this {@link GXml.xNode}
 		 */
 		public virtual NamespaceAttr? add_namespace_attr (string uri, string prefix)
 		{
@@ -137,7 +137,7 @@ namespace GXml {
 		}
 		
 		/**
-		 * Set namespace to this {@link GXml.Node}
+		 * Set namespace to this {@link GXml.xNode}
 		 *
 		 * Returns: {@link true} if namespace exists.
 		 */
@@ -202,7 +202,7 @@ namespace GXml {
 		}
 
 		/**
-		 * Stores the value of the Node. The nature of
+		 * Stores the value of the xNode. The nature of
 		 * node_value varies based on the type of node. This
 		 * can be %NULL.
 		 *
@@ -255,7 +255,7 @@ namespace GXml {
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-1060184317]]
 		 */
-		public virtual Node? parent_node {
+		public virtual xNode? parent_node {
 			get { return null; }
 			internal set {}
 		}
@@ -267,7 +267,7 @@ namespace GXml {
 		/**
 		 * List of child nodes to this node. These sometimes
 		 * represent the value of a node as a tree of
-		 * {@link GXml.Node}, whereas node_value represents
+		 * {@link GXml.xNode}, whereas node_value represents
 		 * it as a string. This can be %NULL for node types
 		 * that have no children.
 		 *
@@ -298,7 +298,7 @@ namespace GXml {
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-169727388]]
 		 */
-		public virtual Node? first_child {
+		public virtual xNode? first_child {
 			get { return null; }
 			internal set {}
 		}
@@ -313,7 +313,7 @@ namespace GXml {
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-61AD09FB]]
 		 */
-		public virtual Node? last_child {
+		public virtual xNode? last_child {
 			get { return null; }
 			internal set {}
 		}
@@ -329,7 +329,7 @@ namespace GXml {
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-640FB3C8]]
 		 */
-		public virtual Node? previous_sibling {
+		public virtual xNode? previous_sibling {
 			get { return null; }
 			internal set {}
 		}
@@ -345,7 +345,7 @@ namespace GXml {
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-6AC54C2F]]
 		 */
-		public virtual Node? next_sibling {
+		public virtual xNode? next_sibling {
 			get { return null; }
 			internal set {}
 		}
@@ -354,7 +354,7 @@ namespace GXml {
 		 * A {@link GXml.NamedNodeMap} containing the {@link GXml.Attr}
 		 * attributes for this node. `attributes`
 		 * actually only apply to {@link GXml.Element}
-		 * nodes. For all other {@link GXml.Node} subclasses,
+		 * nodes. For all other {@link GXml.xNode} subclasses,
 		 * `attributes` is %NULL.
 		 *
 		 * Do not free this.  It's memory will be released
@@ -377,7 +377,7 @@ namespace GXml {
 		 *
 		 * Do not free this unless you intend to free all
 		 * memory owned by the {@link GXml.Document}, including this
-		 * {@link GXml.Node}.
+		 * {@link GXml.xNode}.
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#node-ownerDoc]]
@@ -403,7 +403,7 @@ namespace GXml {
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-insertBefore]]
 		 *
-		 * @param new_child A new {@link GXml.Node} that will become a child of the current one
+		 * @param new_child A new {@link GXml.xNode} that will become a child of the current one
 		 * @param ref_child The child that {@link new_child} will be placed ahead of
 		 *
 		 * @return {@link new_child}, the node that has been
@@ -411,7 +411,7 @@ namespace GXml {
 		 * released when the owning {@link GXml.Document} is
 		 * freed.
 		 */
-		public virtual unowned Node? insert_before (Node new_child, Node? ref_child) {
+		public virtual unowned xNode? insert_before (xNode new_child, xNode? ref_child) {
 			return null;
 		}
 
@@ -421,50 +421,50 @@ namespace GXml {
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-replaceChild]]
 		 *
-		 * @param new_child A new {@link GXml.Node} that will become a child of the current one
-		 * @param old_child A {@link GXml.Node} that will be removed and replaced by {@link new_child}
+		 * @param new_child A new {@link GXml.xNode} that will become a child of the current one
+		 * @param old_child A {@link GXml.xNode} that will be removed and replaced by {@link new_child}
 		 *
 		 * @return The removed node {@link old_child}.  Do not free it, its memory will be
 		 * released when the owning {@link GXml.Document} is
 		 * freed.
 		 */
-		public virtual unowned Node? replace_child (Node new_child, Node old_child) {
+		public virtual unowned xNode? replace_child (xNode new_child, xNode old_child) {
 			return null;
 		}
 
 		/**
 		 * Removes {@link old_child} from this node's list of children,
-		 * {@link GXml.Node.child_nodes}.
+		 * {@link GXml.xNode.child_nodes}.
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-removeChild]]
 		 *
-		 * @param old_child The {@link GXml.Node} child to remove from the current one
+		 * @param old_child The {@link GXml.xNode} child to remove from the current one
 		 *
 		 * @return The removed node {@link old_child}.  Do not free it, its memory will be
 		 * released when the owning {@link GXml.Document} is
 		 * freed
 		 */
-		public virtual unowned Node? remove_child (Node old_child) {
+		public virtual unowned xNode? remove_child (xNode old_child) {
 			return null;
 		}
 
 		/**
 		 * Appends {@link new_child} to the end of this node's list of children,
-		 * {@link GXml.Node.child_nodes}.
+		 * {@link GXml.xNode.child_nodes}.
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 *
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-appendChild]]
 		 *
-		 * @param new_child A new {@link GXml.Node} that will
+		 * @param new_child A new {@link GXml.xNode} that will
 		 * become the last child of this current node
 		 *
 		 * @return The newly added child, {@link new_child}.  Do not free it, its memory will be
 		 * released when the owning {@link GXml.Document} is
 		 * freed.
 		 */
-		public virtual unowned Node? append_child (Node new_child) {
+		public virtual unowned xNode? append_child (xNode new_child) {
 			return null;
 		}
 
@@ -494,17 +494,17 @@ namespace GXml {
 		 * free it, its memory will be released when the owning
 		 * {@link GXml.Document} is freed.
 		 */
-		public virtual unowned Node? clone_node (bool deep) {
+		public virtual unowned xNode? clone_node (bool deep) {
 			return null;
 		}
 
 		/**
 		 * Creates a copy of node's definition to @node.
 		 *
-		 * @param node: a {@link GXml.Node} to copy values to.
+		 * @param node: a {@link GXml.xNode} to copy values to.
 		 * @param deep: {@link true} when you want to copy child nodes too.
 		 */
-		public virtual bool copy (ref Node node, bool deep = false) {
+		public virtual bool copy (ref xNode node, bool deep = false) {
 			return false;
 		}
 
@@ -525,7 +525,7 @@ namespace GXml {
 		 * this.
 		 */
 		public virtual string to_string (bool format = false, int level = 0) {
-			return "Node(%d:%s)".printf (this.node_type, this.node_name);
+			return "xNode(%d:%s)".printf (this.node_type, this.node_name);
 		}
 	}
 }

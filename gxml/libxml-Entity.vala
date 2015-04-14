@@ -2,7 +2,7 @@
 /* Entity.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
- * Copyright (C) 2011  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2011, 2015  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -29,7 +29,7 @@ namespace GXml {
 	 *
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-527DCFF2]]
 	 */
-	public class Entity : Node {
+	public class Entity : xNode {
 		private Xml.Entity *entity;
 
 		/**
@@ -76,7 +76,7 @@ namespace GXml {
 			this.entity = entity;
 		}
 
-		/* Public properties (Node-specific) */
+		/* Public properties (xNode-specific) */
 
 		public override string node_name {
 			get {
@@ -88,7 +88,7 @@ namespace GXml {
 		}
 
 
-		public override Node? parent_node {
+		public override xNode? parent_node {
 			get {
 				return this.owner_document.doctype;
 				// TODO: could this be differen tfrom this.entity->parent?
@@ -108,23 +108,23 @@ namespace GXml {
 			}
 		}
 
-		/* Public methods (Node-specific) */
-		public override unowned Node? insert_before (Node new_child, Node? ref_child) {
+		/* Public methods (xNode-specific) */
+		public override unowned xNode? insert_before (xNode new_child, xNode? ref_child) {
 			return this.child_nodes.insert_before (new_child, ref_child);
 		}
-		public override unowned Node? replace_child (Node new_child, Node old_child) {
+		public override unowned xNode? replace_child (xNode new_child, xNode old_child) {
 			return this.child_nodes.replace_child (new_child, old_child);
 		}
-		public override unowned Node? remove_child (Node old_child) {
+		public override unowned xNode? remove_child (xNode old_child) {
 			return this.child_nodes.remove_child (old_child);
 		}
-		public override unowned Node? append_child (Node new_child) {
+		public override unowned xNode? append_child (xNode new_child) {
 			return this.child_nodes.append_child (new_child);
 		}
 		public override bool has_child_nodes () {
 			return (this.child_nodes.length > 0);
 		}
-		public override unowned Node? clone_node (bool deep) {
+		public override unowned xNode? clone_node (bool deep) {
 			GLib.warning ("Cloning of Entity not yet supported");
 			return this; // STUB
 		}

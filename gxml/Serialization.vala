@@ -2,6 +2,7 @@
 /* Serialization.vala
  *
  * Copyright (C) 2012-2013  Richard Schwarting <aquarichy@gmail.com>
+ * Copyright (C) 2015  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -18,6 +19,7 @@
  *
  * Authors:
  *       Richard Schwarting <aquarichy@gmail.com>
+ *       Daniel Espinosa <esodan@gmail.com>
  */
 
 /* TODO: so it seems we can get property information from GObjectClass
@@ -74,7 +76,7 @@ namespace GXml {
 
 	/**
 	 * Serializes and deserializes {@link GLib.Object}s to and from
-	 * {@link GXml.Node}.
+	 * {@link GXml.xNode}.
 	 *
 	 * Serialization can automatically serialize a variety of public
 	 * properties.  {@link GLib.Object}s can also implement the
@@ -98,14 +100,14 @@ namespace GXml {
 		 * {@link GLib.Value} can transform into a string, and
 		 * operates recursively.
 		 */
-		private static GXml.Node serialize_property (GLib.Object object,
+		private static GXml.xNode serialize_property (GLib.Object object,
 		                                             ParamSpec prop_spec,
 		                                             GXml.Document doc)
 						                                         throws GLib.Error
 		{
 			Type type;
 			Value value;
-			GXml.Node value_node;
+			GXml.xNode value_node;
 			Serializable serializable = null;
 
 			if (object.get_type ().is_a (typeof (Serializable))) {
@@ -200,7 +202,7 @@ namespace GXml {
 		 * The serialization process can be customised for an object
 		 * by having the object implement the {@link GXml.Serializable}
 		 * interface, which allows direct control over the
-		 * conversation of individual properties into {@link GXml.Node}s
+		 * conversation of individual properties into {@link GXml.xNode}s
 		 * and the object's list of properties as used by
 		 * {@link GXml.Serialization}.
 		 *
@@ -217,7 +219,7 @@ namespace GXml {
 			Element root;
 			ParamSpec[] prop_specs;
 			Element prop;
-			GXml.Node value_prop = null;
+			GXml.xNode value_prop = null;
 			string oid;
 
 			Serialization.init_caches ();
@@ -301,7 +303,7 @@ namespace GXml {
 			if (GLib.Value.type_transformable (type, typeof (string))) {
 					Serializable.string_to_gvalue (prop_elem.content, ref val);
 			} else if (type.is_a (typeof (GLib.Object))) {
-				GXml.Node prop_elem_child;
+				GXml.xNode prop_elem_child;
 				Object property_object;
 				prop_elem_child = prop_elem.first_child;
 				property_object = Serialization.deserialize_object_from_node (prop_elem_child);
@@ -324,7 +326,7 @@ namespace GXml {
 		 * some differing objects might have the same OID :( Need to
 		 * find make it more unique than just the memory address.  SEE ABOVE!!!!*/
 		private static HashTable<string,Object> deserialize_cache = null;
-		private static HashTable<string,GXml.Node> serialize_cache = null;
+		private static HashTable<string,GXml.xNode> serialize_cache = null;
 		// public so that tests can call it
 		public static void clear_cache () { // TODO: rename to clear_caches, just changed back temporarily to avoid API break for 0.3.2
 			if (Serialization.deserialize_cache != null)
@@ -338,7 +340,7 @@ namespace GXml {
 				Serialization.deserialize_cache = new HashTable<string,Object> (str_hash, str_equal);
 			}
 			if (Serialization.serialize_cache == null) {
-				Serialization.serialize_cache = new HashTable<string,GXml.Node> (str_hash, str_equal);
+				Serialization.serialize_cache = new HashTable<string,GXml.xNode> (str_hash, str_equal);
 			}
 		}
 
@@ -371,7 +373,7 @@ namespace GXml {
 		 * This function must assume deserialize over non-Serializable objects
 		 * because Serializable have its own method serialize/deserialize
 		 */
-		internal static GLib.Object? deserialize_object_from_node (GXml.Node obj_node) 
+		internal static GLib.Object? deserialize_object_from_node (GXml.xNode obj_node) 
 		                                                          throws GLib.Error
 		{
 			Element obj_elem;
@@ -414,7 +416,7 @@ namespace GXml {
 			Serialization.deserialize_cache.set (oid, obj);
 			specs = obj_class.list_properties ();
 
-			foreach (GXml.Node child_node in obj_elem.child_nodes) {
+			foreach (GXml.xNode child_node in obj_elem.child_nodes) {
 				if (child_node.node_name == "Property") {
 					Element prop_elem;
 					string pname;

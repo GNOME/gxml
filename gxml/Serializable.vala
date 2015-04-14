@@ -1,7 +1,7 @@
 /* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /* Serializable.vala
  *
- * Copyright (C) 2013  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2013-2015  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -51,7 +51,7 @@ namespace GXml {
    */
    public abstract HashTable<string,GLib.ParamSpec>  ignored_serializable_properties { get; protected set; }
    /**
-    * Return false if you want to ignore unknown properties and {@link GXml.Node}'s
+    * Return false if you want to ignore unknown properties and {@link GXml.xNode}'s
     * not in your class definition.
     *
     * Take care, disabling this feature you can lost data on serialization, because any unknown
@@ -59,10 +59,10 @@ namespace GXml {
     */
    public abstract bool get_enable_unknown_serializable_property ();
     /**
-     * On deserialization stores any {@link GXml.Node} not used on this
+     * On deserialization stores any {@link GXml.xNode} not used on this
      * object, but exists in current XML file.
      * 
-     * Node's name is used as key to find stored {@link GXml.Node}.
+     * Node's name is used as key to find stored {@link GXml.xNode}.
      * 
      * XML allows great flexibility, providing different ways to represent the same
      * information. This is a problem when you try to deserialize them.
@@ -79,7 +79,7 @@ namespace GXml {
      * 
      * This property is ignored on serialisation.
      */     
-    public abstract HashTable<string,GXml.Node>    unknown_serializable_property { get; protected set; }
+    public abstract HashTable<string,GXml.xNode>    unknown_serializable_property { get; protected set; }
 
     /**
      * Used to add content in an {@link GXml.Element}.
@@ -152,7 +152,7 @@ namespace GXml {
      * 
      * @param doc an {@link GXml.Document} object to serialize to.
      */
-    public abstract GXml.Node? serialize (GXml.Node node) throws GLib.Error;
+    public abstract GXml.xNode? serialize (GXml.xNode node) throws GLib.Error;
 
     /**
      * Serialize a property @prop on a {@link GXml.Element}.
@@ -160,16 +160,16 @@ namespace GXml {
      * This method is called recursivally by {@link serialize} method over all properties
      * to be serialized.
      */
-    public abstract GXml.Node? serialize_property (GXml.Element element,
+    public abstract GXml.xNode? serialize_property (GXml.Element element,
                                                    GLib.ParamSpec prop)
                                                    throws GLib.Error;
 
     /**
      * Deserialize this object.
      * 
-     * @param node {@link GXml.Node} used to deserialize from.
+     * @param node {@link GXml.xNode} used to deserialize from.
      */
-    public abstract GXml.Node? deserialize (GXml.Node node)
+    public abstract GXml.xNode? deserialize (GXml.xNode node)
                                       throws GLib.Error;
     /**
      * Handles deserializing individual properties.
@@ -177,10 +177,10 @@ namespace GXml {
      * Interface method to handle deserialization of an
      * individual property.  The implementing class
      * receives a description of the property and the
-     * {@link GXml.Node} that contains the content.  The
+     * {@link GXml.xNode} that contains the content.  The
      * implementing {@link GXml.Serializable} object can extract
-     * the data from the {@link GXml.Node} and store it in its
-     * property itself. Note that the {@link GXml.Node} may be
+     * the data from the {@link GXml.xNode} and store it in its
+     * property itself. Note that the {@link GXml.xNode} may be
      * as simple as a {@link GXml.Text} that stores the data as a
      * string.
      *
@@ -188,52 +188,52 @@ namespace GXml {
      * Use Serializable.get_property_value in order to allow derived classes to
      * override the properties to serialize.
      *
-     * @param property_node the {@link GXml.Node} encapsulating data to deserialize
+     * @param property_node the {@link GXml.xNode} encapsulating data to deserialize
      * @return `true` if the property was handled, `false` if {@link GXml.Serialization} should handle it.
      */
-    public abstract bool deserialize_property (GXml.Node property_node)
+    public abstract bool deserialize_property (GXml.xNode property_node)
                                               throws GLib.Error;
 
     /**
      * Signal to serialize unknown properties. Any new node must be added to
      * @param element before return the new @param node added.
      * 
-     * @param element a {@link GXml.Node} to add attribute or child nodes to
+     * @param element a {@link GXml.xNode} to add attribute or child nodes to
      * @param prop a {@link GLib.ParamSpec} describing attribute to serialize
-     * @param node set to the {@link GXml.Node} representing this attribute
+     * @param node set to the {@link GXml.xNode} representing this attribute
      */
-    public signal void serialize_unknown_property (GXml.Node element,
+    public signal void serialize_unknown_property (GXml.xNode element,
                                                    ParamSpec prop,
-                                                   out GXml.Node node);
+                                                   out GXml.xNode node);
 
     /**
      * Signal to serialize unknown properties. Any new node must be added to
      * @param element before return the new @node added.
      * 
-     * @param element a {@link GXml.Node} to add attribute or child nodes to
+     * @param element a {@link GXml.xNode} to add attribute or child nodes to
      * @param prop a {@link GLib.ParamSpec} describing attribute to serialize
-     * @param node set to the {@link GXml.Node} representing this attribute
+     * @param node set to the {@link GXml.xNode} representing this attribute
      */
-    public signal void serialize_unknown_property_type (GXml.Node element,
+    public signal void serialize_unknown_property_type (GXml.xNode element,
                                                         ParamSpec prop,
-                                                        out GXml.Node node);
+                                                        out GXml.xNode node);
 
     /**
      * Signal to deserialize unknown properties.
      *
-     * @param node a {@link GXml.Node} to get attribute from
+     * @param node a {@link GXml.xNode} to get attribute from
      * @param prop a {@link GLib.ParamSpec} describing attribute to deserialize
      */
-    public signal void deserialize_unknown_property (GXml.Node node,
+    public signal void deserialize_unknown_property (GXml.xNode node,
                                                      ParamSpec prop);
 
     /**
      * Signal to deserialize unknown properties' type.
      *
-     * @param node a {@link GXml.Node} to get attribute from
+     * @param node a {@link GXml.xNode} to get attribute from
      * @param prop a {@link GLib.ParamSpec} describing attribute to deserialize
      */
-    public signal void deserialize_unknown_property_type (GXml.Node node,
+    public signal void deserialize_unknown_property_type (GXml.xNode node,
                                                           ParamSpec prop);
 
     /**
@@ -317,7 +317,7 @@ namespace GXml {
                                              get_class ().find_property("serialize_set_namespace"));
       }
       if (unknown_serializable_property == null) {
-        unknown_serializable_property = new HashTable<string,GXml.Node> (str_hash, str_equal);
+        unknown_serializable_property = new HashTable<string,GXml.xNode> (str_hash, str_equal);
       }
     }
 

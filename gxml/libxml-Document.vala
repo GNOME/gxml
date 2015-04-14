@@ -2,7 +2,7 @@
 /* Document.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
- * Copyright (C) 2011  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2011-2015  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -24,7 +24,7 @@
 
 
 /* TODO:
- * * later on, go over libxml2 docs for Tree and Node and Document, etc., and see if we're missing anything significant
+ * * later on, go over libxml2 docs for Tree and xNode and Document, etc., and see if we're missing anything significant
  * * compare performance between libxml2 and GXml (should be a little different, but not too much)
  */
 
@@ -47,7 +47,7 @@ namespace GXml {
 	}
 
 	/**
-	 * Represents an XML Document as a tree of {@link GXml.Node}s.
+	 * Represents an XML Document as a tree of {@link GXml.xNode}s.
 	 *
 	 * The Document has a root document element {@link GXml.Element}.
 	 * A Document's schema can be defined through its
@@ -56,17 +56,17 @@ namespace GXml {
 	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#i-Document]]
 	 */
-	public class Document : Node {
+	public class Document : xNode {
 		/* *** Private properties *** */
 
 		/**
 		 * This contains a map of Xml.Nodes that have been
-		 * accessed and the GXml Node we created to represent
-		 * them on-demand.  That way, we don't create an Node
+		 * accessed and the GXml xNode we created to represent
+		 * them on-demand.  That way, we don't create an xNode
 		 * for EVERY node, even if the user never actually
 		 * accesses it.
 		 */
-		internal HashTable<Xml.Node*, Node> node_dict = new HashTable<Xml.Node*, Node> (GLib.direct_hash, GLib.direct_equal);
+		internal HashTable<Xml.Node*, xNode> node_dict = new HashTable<Xml.Node*, xNode> (GLib.direct_hash, GLib.direct_equal);
 		// We don't want want to use Node's Xml.Node or its dict
 		// internal HashTable<Xml.Attr*, Attr> attr_dict = new HashTable<Xml.Attr*, Attr> (null, null);
 
@@ -95,8 +95,8 @@ namespace GXml {
 			return (Attr)this.lookup_node ((Xml.Node*)xmlattr);
 		}
 
-		internal unowned Node? lookup_node (Xml.Node *xmlnode) {
-			unowned Node domnode;
+		internal unowned xNode? lookup_node (Xml.Node *xmlnode) {
+			unowned xNode domnode;
 
 			if (xmlnode == null) {
 				return null; // TODO: consider throwing an error instead
@@ -196,7 +196,7 @@ namespace GXml {
 		}
 
 		/* A list of strong references to all GXml.Nodes that this Document has created  */
-		private List<GXml.Node> nodes_to_free = new List<GXml.Node> ();
+		private List<GXml.xNode> nodes_to_free = new List<GXml.xNode> ();
 		/* A list of references to Xml.Nodes that were created, and may require freeing */
 		private List<Xml.Node*> new_nodes = new List<Xml.Node*> ();
 
@@ -240,7 +240,7 @@ namespace GXml {
 			this ();
 			this.implementation = impl;
 
-			Node root;
+			xNode root;
 			root = this.create_element (qualified_name); // TODO: we do not currently support namespaces, but when we do, this new node will want one
 			this.append_child (root);
 
@@ -825,7 +825,7 @@ namespace GXml {
 		 * Note that the list is live, updated as new elements
 		 * are added to the document.
 		 *
-		 * Unlike a {@link GXml.Node} and its subclasses,
+		 * Unlike a {@link GXml.xNode} and its subclasses,
 		 * {@link GXml.NodeList} are not part of the document
 		 * tree, and thus their memory is not managed for the
 		 * user, so the user must explicitly free them.
@@ -907,7 +907,7 @@ namespace GXml {
 		 *
 		 * @return The removed node `old_child`; this should not be freed
 		 */
-		public override unowned Node? replace_child (Node new_child, Node old_child) {
+		public override unowned xNode? replace_child (xNode new_child, xNode old_child) {
 			if (new_child.node_type == NodeType.ELEMENT ||
 			    new_child.node_type == NodeType.DOCUMENT_TYPE) {
 				/* let append_child do it with its error handling, since
@@ -929,7 +929,7 @@ namespace GXml {
 		 *
 		 * @return The removed node `old_child`; this should not be freed
 		 */
-		public override unowned Node? remove_child (Node old_child) {
+		public override unowned xNode? remove_child (xNode old_child) {
 			return this.child_nodes.remove_child (old_child);
 		}
 
@@ -948,7 +948,7 @@ namespace GXml {
 		 *
 		 * @return The newly inserted child; this should not be freed
 		 */
-		public override unowned Node? insert_before (Node new_child, Node? ref_child) {
+		public override unowned xNode? insert_before (xNode new_child, xNode? ref_child) {
 			if (new_child.node_type == NodeType.ELEMENT ||
 			    new_child.node_type == NodeType.DOCUMENT_TYPE) {
 				/* let append_child do it with its error handling, since
@@ -972,7 +972,7 @@ namespace GXml {
 		 *
 		 * @return The newly added child; this should not be freed
 		 */
-		public override unowned Node? append_child (Node new_child) {
+		public override unowned xNode? append_child (xNode new_child) {
 			this.check_wrong_document (new_child);
 			this.check_read_only ();
 
@@ -1002,7 +1002,7 @@ namespace GXml {
 			return (xmldoc->children != null);
 		}
 
-		public unowned Node copy_node (Node foreign_node, bool deep = true) {
+		public unowned xNode copy_node (xNode foreign_node, bool deep = true) {
 			Xml.Node *our_copy_xml = ((BackedNode)foreign_node).node->doc_copy (this.xmldoc, deep ? 1 : 0);
 			// TODO: do we need to append this to this.new_nodes?  Do we need to append the result to this.nodes_to_free?  Test memory implications
 			return this.lookup_node (our_copy_xml); // inducing a GXmlNode

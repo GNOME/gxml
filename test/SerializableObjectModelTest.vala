@@ -8,7 +8,7 @@
  *       Daniel Espinosa <esodan@gmail.com>
  *
  *
- *  Copyright (c) 2014 Daniel Espinosa
+ *  Copyright (c) 2014-2015 Daniel Espinosa
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
@@ -148,7 +148,7 @@ public class Package : ObjectModel
   public string unknown_to_string ()
   {
     string t = "";
-    foreach (GXml.Node node in unknown_serializable_property.get_values ())
+    foreach (GXml.xNode node in unknown_serializable_property.get_values ())
     {
       t+= node.to_string () ;
     }
@@ -237,22 +237,22 @@ class Configuration : ObjectModel
     ignored_serializable_properties.set ("invalid",
                                          get_class ().find_property("invalid"));
   }
-  public override GXml.Node? serialize (GXml.Node node) throws GLib.Error
+  public override GXml.xNode? serialize (GXml.xNode node) throws GLib.Error
   {
     var n = default_serialize (node);
     n.add_namespace_attr ("http://www.gnome.org/gxml/0.4", "om");
     return n;
   }
-  public override GXml.Node? deserialize (GXml.Node node) throws GLib.Error
+  public override GXml.xNode? deserialize (GXml.xNode node) throws GLib.Error
   {
     //stdout.printf (@"CONFIGURATOR: Namespaces Check");
-    GXml.Node n;
+    GXml.xNode n;
     if (node is Document)
-      n = (GXml.Node) (((GXml.Document) node).document_element);
+      n = (GXml.xNode) (((GXml.Document) node).document_element);
     else
       n = node;
 
-    foreach (GXml.Node ns in n.namespace_definitions) {
+    foreach (GXml.xNode ns in n.namespace_definitions) {
       //stdout.printf (@"Namespace = $(ns.node_value)");
       if (ns.node_name == "om" && ns.node_value == "http://www.gnome.org/gxml/0.4")
         invalid = false;
@@ -534,7 +534,7 @@ class SerializableObjectModelTest : GXmlTest
                        bool com = false;
                        bool cus = false;
                        bool sal = false;
-                       foreach (GXml.Node n in element.child_nodes) {
+                       foreach (GXml.xNode n in element.child_nodes) {
                          //stdout.printf (@"Found Element: $(n.node_name)");
                          if (n.node_name == "tag") {
                            //stdout.printf (@"Found: $(n.node_name)");
@@ -712,14 +712,14 @@ class SerializableObjectModelTest : GXmlTest
                          assert_not_reached ();
                        }
                        bool found = false;
-                       foreach (GXml.Node n in element.namespace_definitions)
+                       foreach (GXml.xNode n in element.namespace_definitions)
                        {
                          if (n.node_name == "om" && n.node_value == "http://www.gnome.org/gxml/0.4")
                            found = true;
                        }
                        if (!found) {
                          stdout.printf (@"CONFIGURATION: No namespace found:");
-                         foreach (GXml.Node n in element.namespace_definitions) {
+                         foreach (GXml.xNode n in element.namespace_definitions) {
                            stdout.printf (@"CONFIGURATION: Defined Namespace: $(n.node_name):$(n.node_value)");
                          }
                          assert_not_reached ();
@@ -740,7 +740,7 @@ class SerializableObjectModelTest : GXmlTest
                        configuration.deserialize (doc);
                        if (configuration.invalid == true) {
                          stdout.printf ("CONFIGURATION: deserialize is INVALID\n");
-                         foreach (GXml.Node n in doc.document_element.namespace_definitions) {
+                         foreach (GXml.xNode n in doc.document_element.namespace_definitions) {
                            stdout.printf (@"CONFIGURATION: namespace: $(n.node_value)\n");
                          }
                          assert_not_reached ();
@@ -801,7 +801,7 @@ class SerializableObjectModelTest : GXmlTest
                        unknown_property.deserialize (doc);
                        if (unknown_property.unknown_serializable_property.size () != 4) {
                          stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: size $(unknown_property.unknown_serializable_property.size ().to_string ())\n");
-                         foreach (GXml.Node un in unknown_property.unknown_serializable_property.get_values ()) {
+                         foreach (GXml.xNode un in unknown_property.unknown_serializable_property.get_values ()) {
                            string sv = "__NULL__";
                            if (un.node_value != null)
                              sv = un.node_value;
@@ -895,7 +895,7 @@ class SerializableObjectModelTest : GXmlTest
                          assert_not_reached ();
                        }
                        bool found = false;
-                       foreach (GXml.Node n in element.child_nodes) {
+                       foreach (GXml.xNode n in element.child_nodes) {
                          if (n.node_name == "UnknownNode") {
                            found = true;
                            var direction = ((Element) n).get_attribute_node ("direction");
@@ -937,7 +937,7 @@ class SerializableObjectModelTest : GXmlTest
                        unknown_property.serialize (ndoc);
                        if (ndoc.document_element.child_nodes.size != 2) {
                          stdout.printf (@"ERROR: Root incorrect child node number: found '$(doc.document_element.child_nodes.size)\n");
-                         foreach (GXml.Node rn in ndoc.document_element.child_nodes) {
+                         foreach (GXml.xNode rn in ndoc.document_element.child_nodes) {
                            string nv = "__NULL__";
                            if (rn.node_value != null)
                              nv = rn.node_value;
@@ -946,7 +946,7 @@ class SerializableObjectModelTest : GXmlTest
                          stdout.printf (@"$(ndoc)\n");
                          assert_not_reached ();
                        }
-                       foreach (GXml.Node n in ndoc.document_element.child_nodes) {
+                       foreach (GXml.xNode n in ndoc.document_element.child_nodes) {
                          if (n is Text) {
                            if (n.node_value != "TEXT") {
                              stdout.printf (@"ERROR: Unknown Text Element not set: found '$(n.node_value)\n");

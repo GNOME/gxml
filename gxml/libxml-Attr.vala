@@ -2,7 +2,7 @@
 /* Attr.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
- * Copyright (C) 2011  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2011,2015  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -85,7 +85,7 @@ namespace GXml {
 			   nice to use elem.node->get/set_prop (name[,value])  :S */
 			get {
 				this._node_value = "";
-				foreach (Node child in this.child_nodes) {
+				foreach (xNode child in this.child_nodes) {
 					this._node_value += child.node_value;
 					// TODO: verify that Attr node's child types'
 					// node_values are sufficient for building the Attr's value.
@@ -94,7 +94,7 @@ namespace GXml {
 			}
 			internal set {
 				// TODO: consider adding an empty () method to NodeList
-				foreach (Node child in this.child_nodes) {
+				foreach (xNode child in this.child_nodes) {
 					this.remove_child (child);
 				}
 				this.append_child (this.owner_document.create_text_node (value));
@@ -115,7 +115,7 @@ namespace GXml {
 		 * belong to multiple Elements.  As we have it implemented, each Attr
 		 * can belong to 0 or 1 Elements only.
 		 */
-		public override Node? parent_node {
+		public override xNode? parent_node {
 			get {
 				return null;
 			}
@@ -130,7 +130,7 @@ namespace GXml {
 		 *
 		 * URL: [[http://www.w3.org/2003/01/dom2-javadoc/org/w3c/dom/Attr.html]]
 		 */
-		public override Node? previous_sibling {
+		public override xNode? previous_sibling {
 			get {
 				return null;
 			}
@@ -145,7 +145,7 @@ namespace GXml {
 		 *
 		 * URL: [[http://www.w3.org/2003/01/dom2-javadoc/org/w3c/dom/Attr.html]]
 		 */
-		public override Node? next_sibling {
+		public override xNode? next_sibling {
 			get {
 				return null;
 			}
@@ -239,7 +239,7 @@ namespace GXml {
 		 *
 		 * @param deep paramenter have no effect.
 		 */
-		public override bool copy (ref Node node, bool deep = false)
+		public override bool copy (ref xNode node, bool deep = false)
 		               requires (node is Attr)
 		{
 			node.node_name = this.node_name;
