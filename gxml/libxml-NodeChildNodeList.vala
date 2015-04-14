@@ -32,7 +32,8 @@
 	// 	}
 	// }
 
-internal class GXml.NodeChildNodeList : ChildNodeList {
+internal class GXml.NodeChildNodeList : ChildNodeList
+{
 	Xml.Node *parent;
 
 	internal override Xml.Node *head {
