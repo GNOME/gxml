@@ -363,5 +363,16 @@ namespace GXml {
 			str = buffer->content ();
 			return str;
 		}
+		// GXml.Node interface implementations
+		/*
+		public Gee.LinkedList<GXml.Namespace> namespaces { get; }
+		public Gee.LinkedList<GXml.Node> childs { get; }
+		public Gee.Map<string,GXml.Node> attrs { get; }
+		public string name { get; construct set; }
+		public string @value { get; set; }
+		public GXml.NodeType type_node { get; construct set; }
+		public GXml.Document document { get; construct set; }
+		public GXml.Node copy ();
+		public string to_string ();*/
 	}
 }

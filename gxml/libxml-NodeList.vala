@@ -111,7 +111,7 @@ namespace GXml {
 	 * out as new elements are added, and get reconstructed each
 	 * time, or get reconstructed-on-the-go?
 	 */
-	internal class TagNameNodeList : GXml.ArrayList { internal string tag_name;
+  internal class TagNameNodeList : GXml.LinkedList { internal string tag_name;
 		internal TagNameNodeList (string tag_name, xNode root, xDocument owner) {
 			base (root);
 			this.tag_name = tag_name;
@@ -127,7 +127,7 @@ namespace GXml {
 	// 	}
 	// }
 
-	internal class NamespaceAttrNodeList : GXml.ArrayList {
+	internal class NamespaceAttrNodeList : GXml.LinkedList {
 		internal NamespaceAttrNodeList (BackedNode root, xDocument owner) {
 			base (root);
 			for (Xml.Ns *cur = root.node->ns_def; cur != null; cur = cur->next) {
@@ -437,7 +437,7 @@ namespace GXml {
 	}
 }
 
-internal class GXml.ArrayList : Gee.ArrayList<GXml.xNode>, NodeList
+internal class GXml.LinkedList : Gee.LinkedList<GXml.xNode>, NodeList
 {
   public GXml.xNode root;
 
@@ -446,7 +446,7 @@ internal class GXml.ArrayList : Gee.ArrayList<GXml.xNode>, NodeList
     private set {}
   }
 
-  public ArrayList (GXml.xNode root)
+  public LinkedList (GXml.xNode root)
   {
     this.root = root;
   }
