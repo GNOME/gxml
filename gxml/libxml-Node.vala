@@ -71,28 +71,6 @@ namespace GXml {
 		}
 
 
-		internal void dbg_inspect () {
-			message ("node: %s", this.node_name);
-			message ("  ns (namespace_prefix: %s, uri: %s)", this.namespace_prefix, this.namespace_uri);
-			if (this.attributes != null) {
-				message ("  attributes:");
-				for (int i = 0; i < this.attributes.length; i++) {
-					Attr attr = this.attributes.item (i);
-					message ("    %s", attr.node_name);
-				}
-			}
-			message ("  children:");
-			if (this.child_nodes != null) {
-				// TODO: consider having non-null hcild_nodes and attributes,
-				//       and instead returning empty collections
-				//     No, probably don't want that, as nodes which don't
-				//     support them really do just want to return null ala spec
-				foreach (xNode child in this.child_nodes) {
-					message ("    %s", child.node_name);
-				}
-			}
-		}
-
 		/* Properties */
 
 		/* TODO: determine best API for exposing these, as it's not defined in the IDL */

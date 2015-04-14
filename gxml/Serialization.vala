@@ -430,7 +430,6 @@ namespace GXml {
 
 					if (spec == null) {
 						throw new SerializationError.UNKNOWN_PROPERTY ("Unknown property '%s' found, for object type '%s'-->XML: [%s]", pname, otype, obj_elem.to_string ());
-						return null;
 					}
 					Serialization.deserialize_property (spec, prop_elem, out val);
 					obj.set_property (pname, val);
