@@ -109,22 +109,22 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
     return false;
   }
   /**
-   * If @node is a Document serialize just add an <Object> element.
+   * If @node is a xDocument serialize just add an <Object> element.
    *
    * If @node is an Element serialize add to it an <Object> element.
    *
-   * Is up to you to add convenient Element node to a Document, in order to be
+   * Is up to you to add convenient Element node to a xDocument, in order to be
    * used by serialize and add new <Object> tags per object to serialize.
    */
   public GXml.xNode? serialize (GXml.xNode node) throws GLib.Error
   {
-    Document doc;
+    xDocument doc;
     Element root;
     ParamSpec[] props;
     string oid = "%p".printf(this);
 
-    if (node is Document)
-      doc = (Document) node;
+    if (node is xDocument)
+      doc = (xDocument) node;
     else
       doc = node.owner_document;
 
@@ -197,7 +197,7 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
       val = Value (typeof (GLib.Object));
       this.get_property_value (prop, ref val);
       child_object = val.get_object ();
-      Document value_doc = Serialization.serialize_object (child_object);
+      xDocument value_doc = Serialization.serialize_object (child_object);
       value_node = doc.create_element ("fake");
       value_doc.document_element.copy (ref value_node, true);
       //value_node = doc.copy_node (value_doc.document_element);
@@ -214,7 +214,7 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
     Element obj_elem;
     ParamSpec[] specs;
 
-    if (node is Document) {
+    if (node is xDocument) {
       obj_elem = node.owner_document.document_element;
     }
     else {

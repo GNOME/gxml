@@ -72,7 +72,7 @@ class SerializableGeeArrayListTest : GXmlTest
         var o2 = new AElement.named ("Small");
         c.add (o1);
         c.add (o2);
-        var doc = new Document ();
+        var doc = new xDocument ();
         var root = doc.create_element ("root");
         doc.append_child (root);
         c.serialize (root);
@@ -108,7 +108,7 @@ class SerializableGeeArrayListTest : GXmlTest
     Test.add_func ("/gxml/serializable/serializable_array_list/deserialize",
     () => {
       try {
-        var doc = new Document.from_string ("""<?xml version="1.0"?>
+        var doc = new xDocument.from_string ("""<?xml version="1.0"?>
   <root><aelement name="Big"/><aelement name="Small"/></root>""");
         var c = new SerializableArrayList<AElement> ();
         c.deserialize (doc.document_element);
@@ -139,7 +139,7 @@ class SerializableGeeArrayListTest : GXmlTest
     Test.add_func ("/gxml/serializable/serializable_array_list/deserialize-serialize",
     () => {
       try {
-        var idoc = new Document.from_string ("""<?xml version="1.0"?>
+        var idoc = new xDocument.from_string ("""<?xml version="1.0"?>
     <root>
       <aelement name="Big"/>
       <aelement name="Small"/>
@@ -148,7 +148,7 @@ class SerializableGeeArrayListTest : GXmlTest
         var iroot = idoc.document_element;
         var ic = new SerializableArrayList<AElement> ();
         ic.deserialize (iroot);
-        var doc = new Document.from_string ("""<?xml version="1.0"?><root />""");
+        var doc = new xDocument.from_string ("""<?xml version="1.0"?><root />""");
         var root = doc.document_element;
         ic.serialize (root);
         var c = new SerializableArrayList<AElement> ();

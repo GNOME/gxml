@@ -44,7 +44,7 @@ namespace GXml {
 	{
 		/* NOTE:
 		 * children should define constructors like:
-		 *     internal NodeList (Xml.Node* head, Document owner);
+		 *     internal NodeList (Xml.Node* head, xDocument owner);
 		 */
 
 		/**
@@ -112,7 +112,7 @@ namespace GXml {
 	 * time, or get reconstructed-on-the-go?
 	 */
 	internal class TagNameNodeList : GXml.ArrayList { internal string tag_name;
-		internal TagNameNodeList (string tag_name, xNode root, Document owner) {
+		internal TagNameNodeList (string tag_name, xNode root, xDocument owner) {
 			base (root);
 			this.tag_name = tag_name;
 		}
@@ -121,14 +121,14 @@ namespace GXml {
 	// /* TODO: warning: this list should NOT be edited :(
 	//    we need a new, better live AttrNodeList :| */
 	// internal class AttrNodeList : GListNodeList {
-	// 	internal AttrNodeList (xNode root, Document owner) {
+	// 	internal AttrNodeList (xNode root, xDocument owner) {
 	// 		base (root);
 	// 		base.nodes = root.attributes.get_values ();
 	// 	}
 	// }
 
 	internal class NamespaceAttrNodeList : GXml.ArrayList {
-		internal NamespaceAttrNodeList (BackedNode root, Document owner) {
+		internal NamespaceAttrNodeList (BackedNode root, xDocument owner) {
 			base (root);
 			for (Xml.Ns *cur = root.node->ns_def; cur != null; cur = cur->next) {
 				this.append_child (new NamespaceAttr (cur, owner));
@@ -148,7 +148,7 @@ namespace GXml {
 			}
 		}
 
-		internal NodeChildNodeList (Xml.Node *parent, Document owner) {
+		internal NodeChildNodeList (Xml.Node *parent, xDocument owner) {
 			this.parent = parent;
 			this.owner = owner;
 		}
@@ -176,7 +176,7 @@ namespace GXml {
 			}
 		}
 
-		internal AttrChildNodeList (Xml.Attr* parent, Document owner) {
+		internal AttrChildNodeList (Xml.Attr* parent, xDocument owner) {
 			this.parent = parent;
 			this.owner = owner;
 		}
@@ -219,7 +219,7 @@ namespace GXml {
 			}
 		}
 
-		internal EntityChildNodeList (Xml.Entity* parent, Document owner) {
+		internal EntityChildNodeList (Xml.Entity* parent, xDocument owner) {
 			this.parent = parent;
 			this.owner = owner;
 		}
@@ -234,7 +234,7 @@ namespace GXml {
 		   same with nodes from GetElementByTagName, made need separate impls for each */
 		// TODO: if necessary, create two versions that use parent instead of head
 
-		internal weak Document owner;
+		internal weak xDocument owner;
 		internal abstract Xml.Node *head { get; set; }
 
 		internal abstract Xml.Node *parent_as_xmlnode { get; }
@@ -400,7 +400,7 @@ namespace GXml {
 
 		private class NodeListIterator : GLib.Object, Gee.Traversable<xNode>, Gee.Iterator<xNode>
 		{
-			private weak Document doc;
+			private weak xDocument doc;
 			private Xml.Node *cur;
 			private Xml.Node *head;
 

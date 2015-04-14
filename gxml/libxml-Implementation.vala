@@ -27,7 +27,7 @@ namespace GXml {
 	 * Describes the features available in this
 	 * implementation of the DOM.
 	 *
-	 * This can be accessed from a {@link GXml.Document}
+	 * This can be accessed from a {@link GXml.xDocument}
 	 * object. Provided a possible feature and the feature's
 	 * version, it can tell the client whether it is here
 	 * implemented.
@@ -44,7 +44,7 @@ namespace GXml {
 				GXml.warning (DomException.NAMESPACE, "qualified_name is null but namespace_uri [%s] is not.  Both should either be null or not null.".printf (namespace_uri));
 			}
 			if (qualified_name != null) {
-				Document.check_invalid_characters (qualified_name, "new Document's root");
+				xDocument.check_invalid_characters (qualified_name, "new Document's root");
 
 				string[] parts = qualified_name.split (":");
 				if (parts.length == 2) {
@@ -76,25 +76,25 @@ namespace GXml {
 		}
 
 		/**
-		 * Creates a Document according to this {@link GXml.Implementation}.
+		 * Creates a xDocument according to this {@link GXml.Implementation}.
 		 *
 		 * Version: DOM Level 3 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/DOM-Level-3-Core/core.html#Level-2-Core-DOM-createDocument]]
 
-		 * @param namespace_uri URI for the namespace in which this Document belongs, or %NULL
-		 * @param qualified_name A qualified name for the Document, or %NULL
+		 * @param namespace_uri URI for the namespace in which this xDocument belongs, or %NULL
+		 * @param qualified_name A qualified name for the xDocument, or %NULL
 		 * @param doctype The type of the document, or %NULL
 		 *
 		 * @return The new document
 		 */
-		public Document create_document (string? namespace_uri, string? qualified_name, DocumentType? doctype) {
-			Document doc;
+		public xDocument create_document (string? namespace_uri, string? qualified_name, DocumentType? doctype) {
+			xDocument doc;
 
 			check_namespace (namespace_uri, qualified_name);
 			check_wrong_document (doctype);
 			// TODO: also want to report if the doctype was created by a different implementation; of which we have no way of determining right now
 
-			doc = new Document.with_implementation (this, namespace_uri, qualified_name, doctype);
+			doc = new xDocument.with_implementation (this, namespace_uri, qualified_name, doctype);
 			return doc;
 		}
 

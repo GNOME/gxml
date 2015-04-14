@@ -70,7 +70,7 @@ namespace GXml {
 			}
 		}
 
-		internal Entity (Xml.Entity *entity, Document doc) {
+		internal Entity (Xml.Entity *entity, xDocument doc) {
 			base (NodeType.ENTITY, doc);
 
 			this.entity = entity;

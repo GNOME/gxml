@@ -2,7 +2,7 @@
 /* NamespaceAttr.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
- * Copyright (C) 2011  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2011,2015  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -35,7 +35,7 @@ namespace GXml {
 		private Xml.Ns *ns; // XPATH:TODO: do they extend us?
 
 		/** Constructors */
-		internal NamespaceAttr (Xml.Ns *ns, Document doc) {
+		internal NamespaceAttr (Xml.Ns *ns, xDocument doc) {
 			// TODO: wish valac would warn against using this. before calling base()
 			base (NodeType.ATTRIBUTE, doc); // TODO: want something other than ATTRIBUTE?
 			this.ns = ns;

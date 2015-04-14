@@ -79,7 +79,7 @@ public class Performance
     () => {
       Test.timer_start ();
       double time;
-      var d = new Document.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
+      var d = new xDocument.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
       time = Test.timer_elapsed ();
       Test.minimized_result (time, "Load large document: %g seconds", time);
       Test.timer_start ();
@@ -93,7 +93,7 @@ public class Performance
     () => {
       double time;
       Test.timer_start ();
-      var d = new Document.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
+      var d = new xDocument.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
       time = Test.timer_elapsed ();
       Test.minimized_result (time, "open document from path: %g seconds", time);
       Test.timer_start ();
@@ -107,7 +107,7 @@ public class Performance
     () => {
       double time;
       Test.timer_start ();
-      var d = new Document.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
+      var d = new xDocument.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
       time = Test.timer_elapsed ();
       Test.minimized_result (time, "open document from path: %g seconds", time);
       Test.timer_start ();
@@ -116,7 +116,7 @@ public class Performance
       time = Test.timer_elapsed ();
       Test.minimized_result (time, "deserialize/performance: %g seconds", time);
       Test.timer_start ();
-      var d2 = new Document ();
+      var d2 = new xDocument ();
       bs.serialize (d2);
       time = Test.timer_elapsed ();
       Test.minimized_result (time, "serialize/performance: %g seconds", time);

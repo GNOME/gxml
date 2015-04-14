@@ -101,7 +101,7 @@ class SerializableGeeTreeMapTest : GXmlTest
         var o2 = new Space.named ("Small");
         c.set (o1.name, o1);
         c.set (o2.name, o2);
-        var doc = new Document ();
+        var doc = new xDocument ();
         var root = doc.create_element ("root");
         doc.append_child (root);
         c.serialize (root);
@@ -137,7 +137,7 @@ class SerializableGeeTreeMapTest : GXmlTest
     Test.add_func ("/gxml/serializable/serializable_tree_map/deserialize",
     () => {
       try {
-        var doc = new Document.from_string ("""<?xml version="1.0"?>
+        var doc = new xDocument.from_string ("""<?xml version="1.0"?>
   <root><space name="Big"/><space name="Small"/></root>""");
         var c = new SerializableTreeMap<string,Space> ();
         c.deserialize (doc.document_element);
@@ -168,7 +168,7 @@ class SerializableGeeTreeMapTest : GXmlTest
     Test.add_func ("/gxml/serializable/serializable_tree_map/container_class/deserialize",
     () => {
       try {
-        var doc = new Document.from_string ("""<?xml version="1.0"?>
+        var doc = new xDocument.from_string ("""<?xml version="1.0"?>
   <spacecontainer owner="Earth"><space name="Big"/><space name="Small"/></spacecontainer>""");
         var c = new SpaceContainer ();
         c.deserialize (doc);
@@ -213,7 +213,7 @@ class SerializableGeeTreeMapTest : GXmlTest
         c.storage = new Space.Collection ();
         c.storage.set (o1.name, o1);
         c.storage.set (o2.name, o2);
-        var doc = new Document ();
+        var doc = new xDocument ();
         c.serialize (doc);
         if (doc.document_element == null) {
           stdout.printf (@"ERROR: doc have no root node\n$(doc)\n");

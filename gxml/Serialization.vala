@@ -85,7 +85,7 @@ namespace GXml {
 	 * data types not automatically supported by {@link GXml.Serialization}.
 	 */
 	public class Serialization : GLib.Object {
-		private static void print_debug (GXml.Document doc, GLib.Object object) {
+		private static void print_debug (GXml.xDocument doc, GLib.Object object) {
 			stdout.printf ("Object XML\n---\n%s\n", doc.to_string ());
 
 			stdout.printf ("object\n---\n");
@@ -102,7 +102,7 @@ namespace GXml {
 		 */
 		private static GXml.xNode serialize_property (GLib.Object object,
 		                                             ParamSpec prop_spec,
-		                                             GXml.Document doc)
+		                                             GXml.xDocument doc)
 						                                         throws GLib.Error
 		{
 			Type type;
@@ -176,7 +176,7 @@ namespace GXml {
 						 'GeeSortedSet' which is not equal to or more restrictive than the type 'GeeBidirSortedSet' of the property
 						 on the interface 'GeeBidirSortedSet' */
 					child_object = value.get_object ();
-					Document value_doc = Serialization.serialize_object (child_object); // catch serialisation errors?
+					xDocument value_doc = Serialization.serialize_object (child_object); // catch serialisation errors?
 					// TODO: Make copy_node public to allow others to use it
 					value_node = doc.copy_node (value_doc.document_element);
 			} else if (type.name () == "gpointer") {
@@ -190,10 +190,10 @@ namespace GXml {
 		}
 
 		/**
-		 * Serializes a {@link GLib.Object} into a {@link GXml.Document}.
+		 * Serializes a {@link GLib.Object} into a {@link GXml.xDocument}.
 		 *
 		 * This takes a {@link GLib.Object} and serializes it
-		 * into a {@link GXml.Document} which can be saved to
+		 * into a {@link GXml.xDocument} which can be saved to
 		 * disk or transferred over a network.  It handles
 		 * serialization of primitive properties and some more
 		 * complex ones like enums, other {@link GLib.Object}s
@@ -211,11 +211,11 @@ namespace GXml {
 		 * unsupported, or the property isn't known to the object).
 		 *
 		 * @param object A {@link GLib.Object} to serialize
-		 * @return a {@link GXml.Document} representing the serialized `object`
+		 * @return a {@link GXml.xDocument} representing the serialized `object`
 		 */
-		public static GXml.Document serialize_object (GLib.Object object) throws GLib.Error
+		public static GXml.xDocument serialize_object (GLib.Object object) throws GLib.Error
 		{
-			Document doc;
+			xDocument doc;
 			Element root;
 			ParamSpec[] prop_specs;
 			Element prop;
@@ -223,12 +223,12 @@ namespace GXml {
 			string oid;
 
 			Serialization.init_caches ();
-			/* Create an XML Document to return the object
+			/* Create an XML xDocument to return the object
 			in.  TODO: consider just returning an
 			<Object> node; but then we'd probably want
 			a separate document for it to already be a
 			part of as its owner_document. */
-			doc = new Document ();
+			doc = new xDocument ();
 			if (object is Serializable) {
 				((Serializable) object).serialize (doc);
 				return doc;
@@ -314,7 +314,7 @@ namespace GXml {
 		/**
 		 * FIXME: DON'T USE CACHE. SERIALIZE OVER NEW OBJECTS OR OVERWRITE PROPERTIES.
 		 *       When serialize a set of objects, you can add Node Elements <Object>
-		 *       as many as objects you have serialized to the XML Document. On
+		 *       as many as objects you have serialized to the XML xDocument. On
 		 *       deserialization, you must create a new GObject, on the fly, for each
 		 *       <Object> tag found in the file.
 		 *
@@ -345,10 +345,10 @@ namespace GXml {
 		}
 
 		/**
-		 * Deserialize a {@link GXml.Document} back into a {@link GLib.Object}.
+		 * Deserialize a {@link GXml.xDocument} back into a {@link GLib.Object}.
 		 * 
-		 * This deserializes a {@link GXml.Document} back into a
-		 * {@link GLib.Object}.  The {@link GXml.Document}
+		 * This deserializes a {@link GXml.xDocument} back into a
+		 * {@link GLib.Object}.  The {@link GXml.xDocument}
 		 * must represent a {@link GLib.Object} as serialized
 		 * by {@link GXml.Serialization}.  The types of the
 		 * objects that are being deserialized must be known
@@ -356,10 +356,10 @@ namespace GXml {
 		 * {@link GXml.SerializationError} will result.
 		 * 
 		 * @param type object type to deserialize
-		 * @param doc a {@link GXml.Document} to deseralize from
+		 * @param doc a {@link GXml.xDocument} to deseralize from
 		 * @return the deserialized {@link GLib.Object}
 		 */
-		public static GLib.Object deserialize_object (Type type, GXml.Document doc) throws GLib.Error
+		public static GLib.Object deserialize_object (Type type, GXml.xDocument doc) throws GLib.Error
 		{
 			if (type.is_a (typeof (Serializable))) {
 				Object object = Object.new (type);

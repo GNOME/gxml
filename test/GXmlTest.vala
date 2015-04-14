@@ -1,4 +1,26 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
+/* GXmlTest.vala
+ *
+ * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
+ * Copyright (C) 2011-2015  Daniel Espinosa <esodan@gmail.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors:
+ *      Richard Schwarting <aquarichy@gmail.com>
+ *      Daniel Espinosa <esodan@gmail.com>
+ */
 using GXml;
 
 class GXmlTest {
@@ -53,10 +75,10 @@ class GXmlTest {
 		return 0;
 	}
 
-	internal static Document get_doc (string? path = null) {
-		Document doc = null;
+	internal static xDocument get_doc (string? path = null) {
+		xDocument doc = null;
 		try {
-			doc = new Document.from_path (path != null ? path :
+			doc = new xDocument.from_path (path != null ? path :
 						      get_test_dir () + "/test.xml");
 		} catch (GXml.Error e) {
 			GLib.warning (e.message);
@@ -65,7 +87,7 @@ class GXmlTest {
 		return doc;
 	}
 
-	internal static Document get_doc_with_ns () {
+	internal static xDocument get_doc_with_ns () {
 		return get_doc (get_test_dir () + "/test_with_ns.xml");
 	}
 
@@ -81,26 +103,26 @@ class GXmlTest {
 	// 	return get_attr (name, value, get_doc ());
 	// }
 
-	internal static Attr get_attr (string name, string value, Document doc) {
+	internal static Attr get_attr (string name, string value, xDocument doc) {
 		Attr attr = doc.create_attribute (name);
 		attr.value = value;
 		return attr;
 	}
 
-	internal static Element get_elem_new_doc (string name, out Document doc) {
+	internal static Element get_elem_new_doc (string name, out xDocument doc) {
 		return get_elem (name, doc = get_doc ());
 	}
 
-	internal static Element get_elem (string name, Document doc) {
+	internal static Element get_elem (string name, xDocument doc) {
 		Element elem = doc.create_element (name);
 		return elem;
 	}
 
-	internal static Text get_text_new_doc (string data, out Document doc) {
+	internal static Text get_text_new_doc (string data, out xDocument doc) {
 		return get_text (data, doc = get_doc ());
 	}
 
-	internal static Text get_text (string data, Document doc) {
+	internal static Text get_text (string data, xDocument doc) {
 		Text txt = doc.create_text_node (data);
 		return txt;
 	}

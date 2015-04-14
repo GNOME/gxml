@@ -26,7 +26,7 @@ using GXml;
 
 // namespace GXml {
 // 	public class TestElement : Element {
-// 		public TestElement (Xml.Node *node, Document doc) {
+// 		public TestElement (Xml.Node *node, xDocument doc) {
 // 			/* /home2/richard/gxml/test/ElementTest.vala:7.4-7.19: error: chain up
 // 			   to `GXml.Element' not supported */
 // 			base (node, doc);
@@ -54,7 +54,7 @@ class ElementTest : GXmlTest  {
 				xmlnode->new_ns_prop (ns_course, "commonName", "Florax");
 				xmlroot->add_child (xmlnode);
 
-				Document doc = new Document.from_libxml2 (xmldoc);
+				xDocument doc = new xDocument.from_libxml2 (xmldoc);
 				GXml.xNode root = doc.document_element;
 				GXml.xNode node = root.child_nodes.item (0);
 
@@ -68,7 +68,7 @@ class ElementTest : GXmlTest  {
 			});
 		Test.add_func ("/gxml/element/namespace_uri", () => {
 				// TODO: wanted to use TestElement but CAN'T because Vala won't let me access the internal constructor of Element?
-				Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
+				xDocument doc = new xDocument.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
 				GXml.xNode root = doc.document_element;
 				GXml.xNode node = root.child_nodes.item (0);
 
@@ -76,7 +76,7 @@ class ElementTest : GXmlTest  {
 			});
 		Test.add_func ("/gxml/element/testing", () => {
 				// TODO: wanted to use TestElement but CAN'T because Vala won't let me access the internal constructor of Element?
-				Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"><products:Ingredient /></magic:Potion></Potions>");
+				xDocument doc = new xDocument.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"><products:Ingredient /></magic:Potion></Potions>");
 				GXml.xNode root = doc.document_element;
 				GXml.xNode node = root.child_nodes.item (0);
 
@@ -93,21 +93,21 @@ class ElementTest : GXmlTest  {
 				// }
 			});
 		Test.add_func ("/gxml/element/prefix", () => {
-				Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
+				xDocument doc = new xDocument.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
 				GXml.xNode root = doc.document_element;
 				GXml.xNode node = root.child_nodes.item (0);
 
 				assert (node.prefix == "magic");
 			});
 		Test.add_func ("/gxml/element/local_name", () => {
-				Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
+				xDocument doc = new xDocument.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
 				GXml.xNode root = doc.document_element;
 				GXml.xNode node = root.child_nodes.item (0);
 
 				assert (node.local_name == "Potion");
 			});
 		Test.add_func ("/gxml/element/namespace_definitions", () => {
-				Document doc = new Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
+				xDocument doc = new xDocument.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
 				GXml.xNode root = doc.document_element;
 				GXml.xNode node = root.child_nodes.item (0);
 
@@ -126,7 +126,7 @@ class ElementTest : GXmlTest  {
 		Test.add_func ("/gxml/element/attributes", () => {
 				NamedAttrMap attributes;
 
-				Document doc;
+				xDocument doc;
 				Element elem;
 
 				doc = get_doc ();
@@ -166,7 +166,7 @@ class ElementTest : GXmlTest  {
 				NamedAttrMap attrs;
 				string str;
 
-				Document doc = new Document.from_string ("<?xml version='1.0' encoding='UTF-8'?><entry><link rel='http://schemas.google.com/contacts/2008/rel#photo'/></entry>");
+				xDocument doc = new xDocument.from_string ("<?xml version='1.0' encoding='UTF-8'?><entry><link rel='http://schemas.google.com/contacts/2008/rel#photo'/></entry>");
 				GXml.xNode root = doc.document_element;
 				foreach (GXml.xNode child in root.child_nodes) {
 					attrs = child.attributes;
@@ -175,7 +175,7 @@ class ElementTest : GXmlTest  {
 				str = doc.to_string ();
 			});
 		Test.add_func ("/gxml/element/get_set_attribute", () => {
-				Document doc;
+				xDocument doc;
 				Element elem = get_elem_new_doc ("student", out doc);
 
 				assert ("" == elem.get_attribute ("name"));
@@ -186,7 +186,7 @@ class ElementTest : GXmlTest  {
 				assert ("Lovegood" == elem.get_attribute ("name"));
 			});
 		Test.add_func ("/gxml/element/remove_attribute", () => {
-				Document doc;
+				xDocument doc;
 				Element elem = get_elem_new_doc ("tagname", out doc);
 
 				elem.set_attribute ("name", "Malfoy");
@@ -199,7 +199,7 @@ class ElementTest : GXmlTest  {
 				// Consider testing default attributes (see Attr and specified)
 			});
 		Test.add_func ("/gxml/element/get_attribute_node", () => {
-				Document doc;
+				xDocument doc;
 				Element elem = get_elem_new_doc ("tagname", out doc);
 
 				assert (elem.get_attribute_node ("name") == null);
@@ -207,7 +207,7 @@ class ElementTest : GXmlTest  {
 				assert (elem.get_attribute_node ("name").value == "Severus");
 			});
 		Test.add_func ("/gxml/element/set_attribute_node", () => {
-				Document doc;
+				xDocument doc;
 				Element elem = get_elem_new_doc ("tagname", out doc);
 				Attr attr1 = elem.owner_document.create_attribute ("name");
 				Attr attr2 = elem.owner_document.create_attribute ("name");
@@ -226,7 +226,7 @@ class ElementTest : GXmlTest  {
 
 
 		Test.add_func ("/gxml/element/remove_attribute_node", () => {
-				Document doc;
+				xDocument doc;
 				Element elem = get_elem_new_doc ("tagname", out doc);
 				Attr attr;
 
@@ -244,7 +244,7 @@ class ElementTest : GXmlTest  {
 
 
 		Test.add_func ("/gxml/element/get_elements_by_tag_name", () => {
-				Document doc;
+				xDocument doc;
 				GXml.xNode root;
 				Element elem;
 				NodeList emails;
@@ -293,7 +293,7 @@ class ElementTest : GXmlTest  {
 				   remove a tree with 2, list has 5
 				   readd the tree, list has 7
 				*/
-				Document doc;
+				xDocument doc;
 				string xml;
 
 				xml =
@@ -311,7 +311,7 @@ class ElementTest : GXmlTest  {
   </Bs>
   <Cs><C><t /></C></Cs>
 </A>";
-				doc = new Document.from_string (xml);
+				doc = new xDocument.from_string (xml);
 
 				GXml.xNode a = doc.document_element;
 				GXml.xNode bs = a.child_nodes.item (3);
@@ -383,14 +383,14 @@ class ElementTest : GXmlTest  {
 				assert (ts.length == 11);
 			});
 		Test.add_func ("/gxml/element/normalize", () => {
-				Document doc;
+				xDocument doc;
 				Element elem = get_elem_new_doc ("tagname", out doc);
 				elem.normalize ();
 
 				// STUB
 			});
 		Test.add_func ("/gxml/element/to_string", () =>{
-				Document doc, doc2;
+				xDocument doc, doc2;
 				Element elem = get_elem_new_doc ("country", out doc);
 				elem.append_child (elem.owner_document.create_text_node ("New Zealand"));
 				if (elem.to_string () != "<country>New Zealand</country>") {
@@ -410,7 +410,7 @@ class ElementTest : GXmlTest  {
 				// TODO: want to test with format on and off
 			});
 		Test.add_func ("/gxml/element/content/set", () =>{
-			var doc = new Document ();
+			var doc = new xDocument ();
 			var root = doc.create_element ("root");
 			doc.append_child (root);
 			root.content = "TEXT1";
@@ -423,7 +423,7 @@ class ElementTest : GXmlTest  {
 			}
 		});
 		Test.add_func ("/gxml/element/content/overwrite_child_nodes", () =>{
-			var doc = new Document ();
+			var doc = new xDocument ();
 			var root = doc.create_element ("root");
 			doc.append_child (root);
 			var n = doc.create_element ("child");
@@ -439,7 +439,7 @@ class ElementTest : GXmlTest  {
 			}
 		});
 		Test.add_func ("/gxml/element/content/keep_child_nodes", () =>{
-			var doc = new Document ();
+			var doc = new xDocument ();
 			var root = doc.create_element ("root");
 			doc.append_child (root);
 			var n = doc.create_element ("child");

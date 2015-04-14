@@ -31,7 +31,7 @@ namespace GXml {
 	 * Stores processor-specific information with the document in
 	 * a textual format.
 	 *
-	 * To create one, use {@link GXml.Document.create_processing_instruction}.
+	 * To create one, use {@link GXml.xDocument.create_processing_instruction}.
 	 *
 	 * For an example of a ProcessingInstruction, this one specifies a stylesheet:
 	 * {{{<?xml-stylesheet href="style.xsl" type="text/xml"?>}}}
@@ -41,7 +41,7 @@ namespace GXml {
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1004215813]]
 	 */
 	public class ProcessingInstruction : xNode {
-		internal ProcessingInstruction (string target, string data, Document doc) {
+		internal ProcessingInstruction (string target, string data, xDocument doc) {
 			base (NodeType.PROCESSING_INSTRUCTION, doc); // TODO: want to pass a real Xml.Node* ?
 			this.target = target;
 			this.data = data;

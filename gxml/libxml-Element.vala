@@ -28,7 +28,7 @@ namespace GXml {
 	/**
 	 * Represent an XML Element node, which have attributes and children.
 	 *
-	 * To create one, use {@link GXml.Document.create_element}.
+	 * To create one, use {@link GXml.xDocument.create_element}.
 	 *
 	 * These can have child nodes
 	 * of various types including other Elements. Elements can
@@ -61,7 +61,7 @@ namespace GXml {
 			get {
 				// This is the same as node_name from Node:
 				// http://www.w3.org/TR/DOM-Level-1/level-one-core.html
-				// TODO: is this the same as tagname from Document's get_elem_by...?
+				// TODO: is this the same as tagname from xDocument's get_elem_by...?
 				return base.node_name;
 			}
 			private set {
@@ -94,7 +94,7 @@ namespace GXml {
 		 * other methods are reflected in the attributes
 		 *
 		 * Do not free this or its contents.  It's memory will
-		 * be released when the owning {@link GXml.Document}
+		 * be released when the owning {@link GXml.xDocument}
 		 * is freed.
 		 */
 		public override NamedAttrMap? attributes {
@@ -110,7 +110,7 @@ namespace GXml {
 		}
 
 		/* Constructors */
-		internal Element (Xml.Node *node, Document doc) {
+		internal Element (Xml.Node *node, xDocument doc) {
 			base (node, doc);
 			// TODO: consider string ownership, libxml2 memory
 		}
@@ -216,7 +216,7 @@ namespace GXml {
 			return this.attributes.remove_named_item (old_attr.name);
 		}
 
-		// TODO: consider making the life of TagNameNodeLists optional, and dead by default, at the Document level
+		// TODO: consider making the life of TagNameNodeLists optional, and dead by default, at the xDocument level
 		private void check_add_tag_name (Element basenode, xNode child) {
 			// TODO: make sure there aren't any other NodeTypes that could have elements as children
 			if (child.node_type == NodeType.ELEMENT || child.node_type == NodeType.DOCUMENT_FRAGMENT) {
@@ -465,7 +465,7 @@ namespace GXml {
 		 * For {@link GXml.Element} this method copy attributes and child nodes
 		 * when @deep is set to true.
 		 *
-		 * @param node: could be owned by other {@link GXml.Document}.
+		 * @param node: could be owned by other {@link GXml.xDocument}.
 		 * @param deep: copy child nodes if true.
 		 */
 		public override bool copy (ref xNode node, bool deep = false)

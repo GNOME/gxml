@@ -1,7 +1,7 @@
-/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
+/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
 /**
  *
- *  GXml.Serializable.BasicTypeTest
+ *  GXml.Serializable.SerializableTest
  *
  *  Authors:
  *
@@ -122,7 +122,7 @@ public class SerializableCapsicum : GXml.SerializableJson {
 	}
 	private void serialize_unknown_property_type (GXml.xNode element, ParamSpec prop, out GXml.xNode node)
 	{
-		Document doc = element.owner_document;
+		xDocument doc = element.owner_document;
 		switch (prop.name) {
 		case "ratings":
 			foreach (int rating_int in ratings) {
@@ -228,8 +228,9 @@ public class SerializableBanana : GXml.SerializableJson {
 class SerializableTest : GXmlTest {
 	public static void add_tests () {
 		Test.add_func ("/gxml/serializable/interface_defaults", () => {
+			try {
 				SerializableTomato tomato = new SerializableTomato (0, 0, 12, "cats");
-				var doc = new Document ();
+				var doc = new xDocument ();
 				tomato.serialize (doc);
 				SerializableTomato tomato2 = new SerializableTomato (1,1,4,"dogs");
 				tomato2.deserialize (doc);
@@ -237,9 +238,15 @@ class SerializableTest : GXmlTest {
 				assert (tomato2.weight == 1);
 				assert (tomato.height == tomato2.height);
 				assert (tomato.description == tomato2.description);
+			} catch (GLib.Error e) {
+#if DEBUG
+				GLib.message ("ERROR: "+e.message);
+#endif
+				assert_not_reached ();
+			}
 		});
 		Test.add_func ("/gxml/serializable/interface_override_serialization_on_list", () => {
-				GXml.Document doc;
+				GXml.xDocument doc;
 				SerializableCapsicum capsicum;
 				SerializableCapsicum capsicum_new;
 				string expectation;
@@ -256,7 +263,7 @@ class SerializableTest : GXmlTest {
 
 				capsicum = new SerializableCapsicum (2, 3, 6, ratings);
 				try {
-					doc = new Document ();
+					doc = new xDocument ();
 					capsicum.serialize (doc);
 				} catch (GLib.Error e) {
 					GLib.message ("%s", e.message);

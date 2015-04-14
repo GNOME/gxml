@@ -1,5 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
-/* Document.vala
+/* xDocument.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
  * Copyright (C) 2011-2015  Daniel Espinosa <esodan@gmail.com>
@@ -24,7 +24,7 @@
 
 
 /* TODO:
- * * later on, go over libxml2 docs for Tree and xNode and Document, etc., and see if we're missing anything significant
+ * * later on, go over libxml2 docs for Tree and xNode and xDocument, etc., and see if we're missing anything significant
  * * compare performance between libxml2 and GXml (should be a little different, but not too much)
  */
 
@@ -47,16 +47,16 @@ namespace GXml {
 	}
 
 	/**
-	 * Represents an XML Document as a tree of {@link GXml.xNode}s.
+	 * Represents an XML xDocument as a tree of {@link GXml.xNode}s.
 	 *
-	 * The Document has a root document element {@link GXml.Element}.
-	 * A Document's schema can be defined through its
+	 * The xDocument has a root document element {@link GXml.Element}.
+	 * A xDocument's schema can be defined through its
 	 * {@link GXml.DocumentType}.
 	 *
 	 * Version: DOM Level 1 Core<<BR>>
-	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#i-Document]]
+	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#i-xDocument]]
 	 */
-	public class Document : xNode {
+	public class xDocument : xNode {
 		/* *** Private properties *** */
 
 		/**
@@ -85,7 +85,7 @@ namespace GXml {
 		/* TODO: for future reference, find out if internals
 		   are only accessible by children when they're
 		   compiled together.  I have a test that had a
-		   separately compiled TestDocument : Document class,
+		   separately compiled TestDocument : xDocument class,
 		   and it couldn't access the internal xmldoc. */
 		internal Xml.Doc *xmldoc;
 
@@ -126,7 +126,7 @@ namespace GXml {
 				case NodeType.ATTRIBUTE:
 					new Attr ((Xml.Attr*)xmlnode, this);
 					break;
-					/* TODO: These are not yet implemented (but we won't support Document */
+					/* TODO: These are not yet implemented (but we won't support xDocument */
 				case NodeType.ENTITY_REFERENCE:
 				case NodeType.ENTITY:
 				case NodeType.PROCESSING_INSTRUCTION:
@@ -159,7 +159,7 @@ namespace GXml {
 
 		// TODO: DTD, sort of works
 		/**
-		 * The Document Type Definition (DTD) defining this document. This may be %NULL.
+		 * The xDocument Type Definition (DTD) defining this document. This may be %NULL.
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-doctype]]
@@ -187,7 +187,7 @@ namespace GXml {
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-documentElement]]
 		 */
 		public Element document_element {
-			// TODO: should children work at all on Document, or just this, to get root?
+			// TODO: should children work at all on xDocument, or just this, to get root?
 			get {
 				return (Element)this.lookup_node (this.xmldoc->get_root_element ());
 			}
@@ -195,12 +195,12 @@ namespace GXml {
 			}
 		}
 
-		/* A list of strong references to all GXml.Nodes that this Document has created  */
+		/* A list of strong references to all GXml.Nodes that this xDocument has created  */
 		private List<GXml.xNode> nodes_to_free = new List<GXml.xNode> ();
 		/* A list of references to Xml.Nodes that were created, and may require freeing */
 		private List<Xml.Node*> new_nodes = new List<Xml.Node*> ();
 
-		~Document () {
+		~xDocument () {
 			List<Xml.Node*> to_free = new List<Xml.Node*> ();
 
 			/* we use two separate loops, because freeing
@@ -223,20 +223,20 @@ namespace GXml {
 		/** Constructors */
 
 		/**
-		 * Creates a Document from a given Implementation, supporting
+		 * Creates a xDocument from a given Implementation, supporting
 		 * the {@ GXml.Implementation.create_document} method.
 		 *
 		 * Version: DOM Level 3 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/DOM-Level-3-Core/core.html#Level-2-Core-DOM-createDocument]]
 		 *
-		 * @param impl Implementation creating this Document
-		 * @param namespace_uri URI for the namespace in which this Document belongs, or %NULL
-		 * @param qualified_name A qualified name for the Document, or %NULL
+		 * @param impl Implementation creating this xDocument
+		 * @param namespace_uri URI for the namespace in which this xDocument belongs, or %NULL
+		 * @param qualified_name A qualified name for the xDocument, or %NULL
 		 * @param doctype The type of the document, or %NULL
 		 *
 		 * @return The new document; this must be freed with {@link GLib.Object.unref}
 		 */
-		internal Document.with_implementation (Implementation impl, string? namespace_uri, string? qualified_name, DocumentType? doctype) {
+		internal xDocument.with_implementation (Implementation impl, string? namespace_uri, string? qualified_name, DocumentType? doctype) {
 			this ();
 			this.implementation = impl;
 
@@ -251,14 +251,14 @@ namespace GXml {
 		}
 
 		/**
-		 * Creates a Document based on a libxml2 Xml.Doc* object.
+		 * Creates a xDocument based on a libxml2 Xml.Doc* object.
 		 *
 		 * @param doc A {@link Xml.Doc} from libxml2
 		 * @param require_root A flag to indicate whether we should require a root node, which the DOM normally expects
 		 *
-		 * @return A new {@link GXml.Document} wrapping the provided {@link Xml.Doc}; this must be freed with {@link GLib.Object.unref}
+		 * @return A new {@link GXml.xDocument} wrapping the provided {@link Xml.Doc}; this must be freed with {@link GLib.Object.unref}
 		 */
-		public Document.from_libxml2 (Xml.Doc *doc, bool require_root = true) {
+		public xDocument.from_libxml2 (Xml.Doc *doc, bool require_root = true) {
 			/* All other constructors should call this one,
 			   passing it a Xml.Doc* object */
 
@@ -289,15 +289,15 @@ namespace GXml {
 		}
 
 		/**
-		 * Creates a Document from the file at file_path.
+		 * Creates a xDocument from the file at file_path.
 		 *
 		 * @param file_path A path to an XML document
 		 *
-		 * @return A {@link GXml.Document} for the given `file_path`; this must be freed with {@link GLib.Object.unref}
+		 * @return A {@link GXml.xDocument} for the given `file_path`; this must be freed with {@link GLib.Object.unref}
 		 *
 		 * @throws GXml.Error A {@link GXml.Error} if an error occurs while loading
 		 */
-		public Document.from_path (string file_path) throws GXml.Error {
+		public xDocument.from_path (string file_path) throws GXml.Error {
 			Xml.ParserCtxt ctxt;
 			Xml.Doc *doc;
 			Xml.Error *e;
@@ -314,7 +314,7 @@ namespace GXml {
 			this.from_libxml2 (doc);
 		}
 
-		/* For {@link GXml.Document.save_to_stream}, to write the document in chunks. */
+		/* For {@link GXml.xDocument.save_to_stream}, to write the document in chunks. */
 		internal static int _iowrite (void *ctx, char[] buf, int len) {
 			// TODO: can we make this private?
 			OutputStreamBox *box = (OutputStreamBox*)ctx;
@@ -333,7 +333,7 @@ namespace GXml {
 			return bytes_writ;
 		}
 
-		/* For {@link GXml.Document.from_stream}, to read the document in chunks. */
+		/* For {@link GXml.xDocument.from_stream}, to read the document in chunks. */
 		internal static int _iooutclose (void *ctx) {
 			// TODO: can we make this private?
 			OutputStreamBox *box = (OutputStreamBox*)ctx;
@@ -393,17 +393,17 @@ namespace GXml {
 		}
 
 		/**
-		 * Creates a Document for the {@link GLib.File} `fin`.
+		 * Creates a xDocument for the {@link GLib.File} `fin`.
 		 *
 		 * @param fin The {@link GLib.File} containing the document
 		 * @param can A {@link GLib.Cancellable} to let you cancel opening the file, or %NULL
 		 *
-		 * @return A new {@link GXml.Document} for `fin`; this must be freed with {@link GLib.Object.unref}
+		 * @return A new {@link GXml.xDocument} for `fin`; this must be freed with {@link GLib.Object.unref}
 		 *
 		 * @throws GLib.Error A {@link GLib.Error} if an error cocurs while reading the {@link GLib.File}
 		 * @throws GXml.Error A {@link GXml.Error} if an error occurs while reading the file as a stream
 		 */
-		public Document.from_gfile (File fin, Cancellable? can = null) throws GXml.Error, GLib.Error {
+		public xDocument.from_gfile (File fin, Cancellable? can = null) throws GXml.Error, GLib.Error {
 			// TODO: actually handle cancellable
 			InputStream instream;
 
@@ -418,19 +418,19 @@ namespace GXml {
 		}
 
 		/**
-		 * Creates a {@link GXml.Document} from data provided
+		 * Creates a {@link GXml.xDocument} from data provided
 		 * through a {@link GLib.InputStream}.
 		 *
 		 * @param instream A {@link GLib.InputStream} providing our document
 		 * @param can      A {@link GLib.Cancellable} object allowing the caller
 		 *                 to interrupt and cancel this operation, or %NULL
 		 *
-		 * @return A new {@link GXml.Document} built from the contents of instream;
+		 * @return A new {@link GXml.xDocument} built from the contents of instream;
 		 *         this must be freed with {@link GLib.Object.unref}
 		 *
 		 * @throws GXml.Error A {@link GXml.Error} if an error occurs while reading the stream
 		 */
-		public Document.from_stream (InputStream instream, Cancellable? can = null) throws GXml.Error {
+		public xDocument.from_stream (InputStream instream, Cancellable? can = null) throws GXml.Error {
 			InputStreamBox box = { instream, can };
 			Xml.Doc *doc;
 			/* TODO: provide Cancellable as user data so we can actually
@@ -465,28 +465,28 @@ namespace GXml {
 		}
 
 		/**
-		 * Creates a Document from data found in memory.
+		 * Creates a xDocument from data found in memory.
 		 *
 		 * @param xml A string representing an XML document
 		 *
-		 * @return A new {@link GXml.Document} from `memory`; this must be freed with {@link GLib.Object.unref}
+		 * @return A new {@link GXml.xDocument} from `memory`; this must be freed with {@link GLib.Object.unref}
 		 */
-		public Document.from_string (string xml) {
+		public xDocument.from_string (string xml) {
 			Xml.Doc *doc;
 			doc = Xml.Parser.parse_memory (xml, (int)xml.length);
 			this.from_libxml2 (doc);
 		}
 		/**
-		 * Creates a Document from data found in memory using options.
+		 * Creates a xDocument from data found in memory using options.
 		 *
 		 * @param xml: A string representing an XML document
 		 * @param url: the base URL to use for the document
 		 * @param encoding: the document encoding
 		 * @param options: a combination of {@link Xml.ParserOption}
 		 *
-		 * @return A new {@link GXml.Document} from `memory`; this must be freed with {@link GLib.Object.unref}
+		 * @return A new {@link GXml.xDocument} from `memory`; this must be freed with {@link GLib.Object.unref}
 		 */
-		public Document.from_string_with_options (string xml, string? url = null,
+		public xDocument.from_string_with_options (string xml, string? url = null,
 		                                          string? encoding = null,
 		                                          int options = 0)
 		{
@@ -498,9 +498,9 @@ namespace GXml {
 		/**
 		 * Creates an empty document.
 		 *
-		 * @return A new, empty {@link GXml.Document}; this must be freed with {@link GLib.Object.unref}
+		 * @return A new, empty {@link GXml.xDocument}; this must be freed with {@link GLib.Object.unref}
 		 */
-		public Document () {
+		public xDocument () {
 			Xml.Doc *doc;
 
 			doc = new Xml.Doc ();
@@ -508,7 +508,7 @@ namespace GXml {
 		}
 
 		/**
-		 * Saves a Document to the file at path file_path
+		 * Saves a xDocument to the file at path file_path
 		 *
 		 * @param file_path A path on the local system to save the document to
 		 *
@@ -545,7 +545,7 @@ namespace GXml {
 		 */
 
 		/**
-		 * Saves a Document to the OutputStream outstream.
+		 * Saves a xDocument to the OutputStream outstream.
 		 *
 		 * @param outstream A destination {@link GLib.OutputStream} to save the XML file to
 		 * @param can A {@link GLib.Cancellable} to cancel saving with, or %NULL
@@ -622,7 +622,7 @@ namespace GXml {
 		/**
 		 * Creates a {@link GXml.DocumentFragment}.
 		 *
-		 * Document fragments do not can contain a subset of a
+		 * xDocument fragments do not can contain a subset of a
 		 * document, without being a complete tree.  Its
 		 * memory is freed when its owner document is freed.
 		 *
@@ -743,7 +743,7 @@ namespace GXml {
 			   We want to manage it with the GXmlDocument, though, and not
 			   make the developer manage it, because that would be inconsistent
 			   with the rest of the tree (even if the user doesn't insert
-			   this PI into a Document at all.  */
+			   this PI into a xDocument at all.  */
 			check_not_supported_html ("processing instructions");
 			check_invalid_characters (target, "processing instruction");
 
@@ -936,7 +936,7 @@ namespace GXml {
 		/**
 		 * Inserts `new_child` into this document before
 		 * `ref_child`, an existing child of this
-		 * {@link GXml.Document}. A document can only have one
+		 * {@link GXml.xDocument}. A document can only have one
 		 * {@link GXml.Element} child (the root element) and
 		 * one {@link GXml.DocumentType}.
 		 *

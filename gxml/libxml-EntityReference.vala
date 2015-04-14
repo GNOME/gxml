@@ -32,13 +32,13 @@ namespace GXml {
 	/**
 	 * A reference to an unparsed {@link GXml.Entity}, like "&apos;" for an apostrophe.
 	 * 
-	 * To create one, use {@link GXml.Document.create_entity_reference}.
+	 * To create one, use {@link GXml.xDocument.create_entity_reference}.
 	 * 
 	 * The entity name, e.g. "apos", is stored as the EntityReference's `node_name`.
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-11C98490]]
 	 */
 	public class EntityReference : xNode {
-		internal EntityReference (string refname, Document doc) {
+		internal EntityReference (string refname, xDocument doc) {
 			// TODO: may want to handle refname differently
 			base (NodeType.ENTITY_REFERENCE, doc); // TODO: what should we pass up?
 			this.node_name = refname;

@@ -44,7 +44,7 @@ namespace GXml {
 	 * (see {@link GXml.Element}). Values are often represented as strings but can
 	 * also be more complex subtrees for some nodes.
 	 *
-	 * To create one, use {@link GXml.Document.create_attribute}.
+	 * To create one, use {@link GXml.xDocument.create_attribute}.
 	 *
 	 * XML Example: Here, we have an Attr with the name 'flavour'
 	 * and the value 'pumpkin'. {{{<pie flavour="pumpkin" />}}}
@@ -61,7 +61,7 @@ namespace GXml {
 		/* this displaces BackedNode's xmlNode node */
 
 		/** Constructors */
-		internal Attr (Xml.Attr *node, Document doc) {
+		internal Attr (Xml.Attr *node, xDocument doc) {
 			// TODO: wish valac would warn against using this. before calling base()
 			//base (NodeType.ATTRIBUTE, doc);
 			base ((Xml.Node*)node, doc);
@@ -235,7 +235,7 @@ namespace GXml {
 		 *
 		 * For {@link GXml.Attr} this method copy name and value.
 		 *
-		 * @param node could be owned by other {@link GXml.Document}.
+		 * @param node could be owned by other {@link GXml.xDocument}.
 		 *
 		 * @param deep paramenter have no effect.
 		 */

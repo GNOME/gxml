@@ -27,9 +27,9 @@ namespace GXml {
 
 	/**
 	 * Represents an XML xNode, the base class for most XML structures in
-	 * the {@link GXml.Document}'s tree.
+	 * the {@link GXml.xDocument}'s tree.
 	 * 
-	 * {@link GXml.Document}s are {@link GXml.xNode}s, and are
+	 * {@link GXml.xDocument}s are {@link GXml.xNode}s, and are
 	 * composed of a tree of {@link GXml.xNode}s.
 	 * 
 	 * Version: DOM Level 1 Core<<BR>>
@@ -37,7 +37,7 @@ namespace GXml {
 	 */
 	public abstract class xNode : GLib.Object {
 		/* Constructors */
-		internal xNode (NodeType type, Document owner) {
+		internal xNode (NodeType type, xDocument owner) {
 			this.node_type = type;
 			this.owner_document = owner;
 		}
@@ -49,10 +49,10 @@ namespace GXml {
 		/* Utility methods */
 
 		internal void check_wrong_document (xNode node) {
-			Document this_doc;
+			xDocument this_doc;
 
 			if (this.node_type == NodeType.DOCUMENT) {
-				this_doc = (GXml.Document)this;
+				this_doc = (GXml.xDocument)this;
 			} else {
 				this_doc = this.owner_document;
 			}
@@ -116,7 +116,7 @@ namespace GXml {
 		 * support.
 		 *
 		 * Do not free this.  It's memory will be released
-		 * when the owning {@link GXml.Document} is freed.
+		 * when the owning {@link GXml.xDocument} is freed.
 		 *
 		 * Version: DOM Level 2 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-NodeNSname]]
@@ -152,7 +152,7 @@ namespace GXml {
 		 * Core that were created with namespace support.
 		 *
 		 * Do not free this.  It's memory will be released
-		 * when the owning {@link GXml.Document} is freed.
+		 * when the owning {@link GXml.xDocument} is freed.
 		 *
 		 * Version: DOM Level 2 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-NodeNSPrefix]]
@@ -171,7 +171,7 @@ namespace GXml {
 		 * Core that were created with namespace support.
 		 *
 		 * Do not free this.  It's memory will be released
-		 * when the owning {@link GXml.Document} is freed.
+		 * when the owning {@link GXml.xDocument} is freed.
 		 *
 		 * Version: DOM Level 2 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-NodeNSLocalN]]
@@ -192,7 +192,7 @@ namespace GXml {
 		 * pair.
 		 *
 		 * Do not free this.  It's memory will be released
-		 * when the owning {@link GXml.Document} is freed.
+		 * when the owning {@link GXml.xDocument} is freed.
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-F68D095]]
@@ -207,7 +207,7 @@ namespace GXml {
 		 * can be %NULL.
 		 *
 		 * Do not free this.  It's memory will be released
-		 * when the owning {@link GXml.Document} is freed.
+		 * when the owning {@link GXml.xDocument} is freed.
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-F68D080]]
@@ -224,7 +224,7 @@ namespace GXml {
 		private NodeType _node_type;
 		/**
 		 * Stores the type of node. Most XML structures are
-		 * nodes of different types, like {@link GXml.Document}
+		 * nodes of different types, like {@link GXml.xDocument}
 		 * as a {@link GXml.NodeType.DOCUMENT}, {@link GXml.Attr}
 		 * as a {@link GXml.NodeType.ATTRIBUTE}, Element as a
 		 * {@link GXml.NodeType.ELEMENT}, etc.
@@ -250,7 +250,7 @@ namespace GXml {
 		 * XML example: {{{<parent><child></child></parent>}}}
 		 *
 		 * Do not free this.  It's memory will be released
-		 * when the owning {@link GXml.Document} is freed.
+		 * when the owning {@link GXml.xDocument} is freed.
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-1060184317]]
@@ -293,7 +293,7 @@ namespace GXml {
 		 * children, it returns %NULL.
 		 *
 		 * Do not free this.  It's memory will be released
-		 * when the owning {@link GXml.Document} is freed.
+		 * when the owning {@link GXml.xDocument} is freed.
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-169727388]]
@@ -308,7 +308,7 @@ namespace GXml {
 		 * children, it returns %NULL.
 		 *
 		 * Do not free this.  It's memory will be released
-		 * when the owning {@link GXml.Document} is freed.
+		 * when the owning {@link GXml.xDocument} is freed.
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-61AD09FB]]
@@ -324,7 +324,7 @@ namespace GXml {
 		 * that the children of a node are ordered.
 		 *
 		 * Do not free this.  It's memory will be released
-		 * when the owning {@link GXml.Document} is freed.
+		 * when the owning {@link GXml.xDocument} is freed.
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-640FB3C8]]
@@ -340,7 +340,7 @@ namespace GXml {
 		 * children of a node are ordered.
 		 *
 		 * Do not free this.  It's memory will be released
-		 * when the owning {@link GXml.Document} is freed.
+		 * when the owning {@link GXml.xDocument} is freed.
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-6AC54C2F]]
@@ -358,7 +358,7 @@ namespace GXml {
 		 * `attributes` is %NULL.
 		 *
 		 * Do not free this.  It's memory will be released
-		 * when the owning {@link GXml.Document} is freed.
+		 * when the owning {@link GXml.xDocument} is freed.
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-84CF09]]
@@ -373,16 +373,16 @@ namespace GXml {
 		}
 
 		/**
-		 * A link to the {@link GXml.Document} to which this node belongs.
+		 * A link to the {@link GXml.xDocument} to which this node belongs.
 		 *
 		 * Do not free this unless you intend to free all
-		 * memory owned by the {@link GXml.Document}, including this
+		 * memory owned by the {@link GXml.xDocument}, including this
 		 * {@link GXml.xNode}.
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#node-ownerDoc]]
 		 */
-		public weak Document owner_document {
+		public weak xDocument owner_document {
 			get;
 			internal set;
 		}
@@ -408,7 +408,7 @@ namespace GXml {
 		 *
 		 * @return {@link new_child}, the node that has been
 		 * inserted.  Do not free it, its memory will be
-		 * released when the owning {@link GXml.Document} is
+		 * released when the owning {@link GXml.xDocument} is
 		 * freed.
 		 */
 		public virtual unowned xNode? insert_before (xNode new_child, xNode? ref_child) {
@@ -425,7 +425,7 @@ namespace GXml {
 		 * @param old_child A {@link GXml.xNode} that will be removed and replaced by {@link new_child}
 		 *
 		 * @return The removed node {@link old_child}.  Do not free it, its memory will be
-		 * released when the owning {@link GXml.Document} is
+		 * released when the owning {@link GXml.xDocument} is
 		 * freed.
 		 */
 		public virtual unowned xNode? replace_child (xNode new_child, xNode old_child) {
@@ -442,7 +442,7 @@ namespace GXml {
 		 * @param old_child The {@link GXml.xNode} child to remove from the current one
 		 *
 		 * @return The removed node {@link old_child}.  Do not free it, its memory will be
-		 * released when the owning {@link GXml.Document} is
+		 * released when the owning {@link GXml.xDocument} is
 		 * freed
 		 */
 		public virtual unowned xNode? remove_child (xNode old_child) {
@@ -461,7 +461,7 @@ namespace GXml {
 		 * become the last child of this current node
 		 *
 		 * @return The newly added child, {@link new_child}.  Do not free it, its memory will be
-		 * released when the owning {@link GXml.Document} is
+		 * released when the owning {@link GXml.xDocument} is
 		 * freed.
 		 */
 		public virtual unowned xNode? append_child (xNode new_child) {
@@ -492,7 +492,7 @@ namespace GXml {
 		 *
 		 * @return A parentless clone of this node.  Do not
 		 * free it, its memory will be released when the owning
-		 * {@link GXml.Document} is freed.
+		 * {@link GXml.xDocument} is freed.
 		 */
 		public virtual unowned xNode? clone_node (bool deep) {
 			return null;

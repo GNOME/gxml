@@ -2,7 +2,7 @@
 /* Text.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
- * Copyright (C) 2011  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2011,2015  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28,7 +28,7 @@ namespace GXml {
 	/**
 	 * Text children of an element, not the tags or attributes.
 	 *
-	 * To create one, use {@link GXml.Document.create_text_node}.
+	 * To create one, use {@link GXml.xDocument.create_text_node}.
 	 *
 	 * Describes the text found as children of elements throughout
 	 * an XML document, like "He who must not be named" in the
@@ -42,7 +42,7 @@ namespace GXml {
 	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-1312295772]]
 	 */
 	public class Text : CharacterData {
-		internal Text (Xml.Node *text_node, Document doc) {
+		internal Text (Xml.Node *text_node, xDocument doc) {
 			base (text_node, doc);
 		}
 		/**

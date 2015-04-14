@@ -142,7 +142,7 @@ class SerializableGeeDualKeyMapTest : GXmlTest
         c.set (o2.owner, o2.name, o2);
         c.set (o3.owner, o3.name, o3);
         c.set (o4.owner, o4.name, o4);
-        var doc = new Document ();
+        var doc = new xDocument ();
         var root = doc.create_element ("root");
         doc.append_child (root);
         c.serialize (root);
@@ -204,7 +204,7 @@ class SerializableGeeDualKeyMapTest : GXmlTest
     Test.add_func ("/gxml/serializable/serializable_dual_key_map/deserialize",
     () => {
       try {
-        var doc = new Document.from_string ("""<?xml version="1.0"?>
+        var doc = new xDocument.from_string ("""<?xml version="1.0"?>
 <root><spaces name="Small" owner="Wall"/><spaces name="Smallest" owner="Wall"/><spaces name="Big" owner="Floor"/><spaces name="Bigger" owner="Floor"/><spark /></root>""");
         var c = new SerializableDualKeyMap<string,string,Spaces> ();
         c.deserialize (doc.document_element);
@@ -247,7 +247,7 @@ class SerializableGeeDualKeyMapTest : GXmlTest
     Test.add_func ("/gxml/serializable/serializable_dual_key_map/de-se-deserialize",
     () => {
       try {
-        var idoc = new Document.from_string ("""<?xml version="1.0"?>
+        var idoc = new xDocument.from_string ("""<?xml version="1.0"?>
 <root><spaces name="Small" owner="Wall"/><spaces name="Smallest" owner="Wall"/><spaces name="Big" owner="Floor"/><spaces name="Bigger" owner="Floor"/><spark /></root>""");
         var ic = new SerializableDualKeyMap<string,string,Spaces> ();
         ic.deserialize (idoc.document_element);
@@ -255,7 +255,7 @@ class SerializableGeeDualKeyMapTest : GXmlTest
           stdout.printf (@"ERROR: Incorrect size (1st deserialize). Expected 4, got: $(ic.size)\n$idoc\n");
           assert_not_reached ();
         }
-        var doc = new Document.from_string ("""<?xml version="1.0"?>
+        var doc = new xDocument.from_string ("""<?xml version="1.0"?>
 <root />""");
         ic.serialize (doc.document_element);
         var c =  new SerializableDualKeyMap<string,string,Spaces> ();

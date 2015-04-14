@@ -111,7 +111,7 @@ class SerializableGeeHashMapTest : GXmlTest
         o2.set_value ("FAKE TEXT");
         c.set (o1.name, o1);
         c.set (o2.name, o2);
-        var doc = new Document ();
+        var doc = new xDocument ();
         var root = doc.create_element ("root");
         doc.append_child (root);
         c.serialize (root);
@@ -157,7 +157,7 @@ class SerializableGeeHashMapTest : GXmlTest
     Test.add_func ("/gxml/serializable/serializable_hash_map/deserialize",
     () => {
       try {
-        var doc = new Document.from_string ("""<?xml version="1.0"?>
+        var doc = new xDocument.from_string ("""<?xml version="1.0"?>
   <root><space name="Big"/><space name="Small"/></root>""");
         var c = new SerializableHashMap<string,Space> ();
         c.deserialize (doc.document_element);
@@ -188,7 +188,7 @@ class SerializableGeeHashMapTest : GXmlTest
     Test.add_func ("/gxml/serializable/serializable_hash_map/container_class/deserialize",
     () => {
       try {
-        var doc = new Document.from_string ("""<?xml version="1.0"?>
+        var doc = new xDocument.from_string ("""<?xml version="1.0"?>
   <spacecontainer owner="Earth"><space name="Big"/><space name="Small"/></spacecontainer>""");
         var c = new SpaceContainer ();
         c.deserialize (doc);
@@ -229,7 +229,7 @@ class SerializableGeeHashMapTest : GXmlTest
         c.storage = new Space.Collection ();
         c.storage.set (o1.name, o1);
         c.storage.set (o2.name, o2);
-        var doc = new Document ();
+        var doc = new xDocument ();
         c.serialize (doc);
         if (doc.document_element == null) {
           stdout.printf (@"ERROR: doc have no root node\n$(doc)\n");
@@ -272,7 +272,7 @@ class SerializableGeeHashMapTest : GXmlTest
     Test.add_func ("/gxml/serializable/serializable_hash_map/deserialize-serialize",
     () => {
       try {
-        var idoc = new Document.from_string ("""<?xml version="1.0"?>
+        var idoc = new xDocument.from_string ("""<?xml version="1.0"?>
     <spacecontainer owner="Earth">
       <space name="Big"/>
       <space name="Big">FAKE1</space>
@@ -284,7 +284,7 @@ class SerializableGeeHashMapTest : GXmlTest
     </spacecontainer>""");
         var isc = new SpaceContainer ();
         isc.deserialize (idoc);
-        var doc = new Document ();
+        var doc = new xDocument ();
         isc.serialize (doc);
         var sc = new SpaceContainer ();
         sc.deserialize (doc);

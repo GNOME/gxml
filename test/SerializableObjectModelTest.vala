@@ -247,8 +247,8 @@ class Configuration : ObjectModel
   {
     //stdout.printf (@"CONFIGURATOR: Namespaces Check");
     GXml.xNode n;
-    if (node is Document)
-      n = (GXml.xNode) (((GXml.Document) node).document_element);
+    if (node is xDocument)
+      n = (GXml.xNode) (((GXml.xDocument) node).document_element);
     else
       n = node;
 
@@ -295,7 +295,7 @@ class SerializableObjectModelTest : GXmlTest
                    () => {
                      try {
                        var computer = new Computer ();
-                       var doc = new Document ();
+                       var doc = new xDocument ();
                        computer.serialize (doc);
                        if (doc.document_element.tag_name.down () != "computer") {
                          stdout.printf ("ERROR XML_COMPUTER: computer\n");
@@ -337,7 +337,7 @@ class SerializableObjectModelTest : GXmlTest
                    () => {
                      var computer = new Computer ();
                      try {
-                       var doc = new Document.from_string (XML_COMPUTER_FILE);
+                       var doc = new xDocument.from_string (XML_COMPUTER_FILE);
                        computer.deserialize (doc);
                        if (computer.manufacturer != "ThecnicalGroup") {
                          stdout.printf (@"ERROR XML_COMPUTER: manufacturer val: $(computer.manufacturer)\n");
@@ -366,7 +366,7 @@ class SerializableObjectModelTest : GXmlTest
                    () => {
                      var manual = new Manual ();
                      try {
-                       var doc = new Document.from_string ("""<?xml version="1.0"?>
+                       var doc = new xDocument.from_string ("""<?xml version="1.0"?>
                        <manual document="Specification" pages="3">This is an Specification file</manual>""");
                        manual.deserialize (doc);
                        if (manual.document != "Specification") {
@@ -390,7 +390,7 @@ class SerializableObjectModelTest : GXmlTest
                    );
     Test.add_func ("/gxml/serializable/object_model/serialize_object_contents",
                    () => {
-                     var doc = new Document ();
+                     var doc = new xDocument ();
                      var manual = new Manual ();
                      try {
                        manual.serialize (doc);
@@ -410,7 +410,7 @@ class SerializableObjectModelTest : GXmlTest
                    () => {
                      var package = new Package ();
                      try {
-                       var doc = new Document.from_string (XML_PACKAGE_FILE);
+                       var doc = new xDocument.from_string (XML_PACKAGE_FILE);
                        package.deserialize (doc);
                        if (package.source != "Mexico/Central") {
                          stdout.printf (@"ERROR PACKAGE: source: $(package.source)\n");
@@ -461,7 +461,7 @@ class SerializableObjectModelTest : GXmlTest
                    );
     Test.add_func ("/gxml/serializable/object_model/serialize_serializable_properties",
                    () => {
-                     var doc = new Document ();
+                     var doc = new xDocument ();
                      var package = new Package ();
                      try {
                        package.serialize (doc);
@@ -491,7 +491,7 @@ class SerializableObjectModelTest : GXmlTest
                    );
     Test.add_func ("/gxml/serializable/object_model/deserialize_array_property",
                    () => {
-                     var doc = new Document.from_string (XML_PACKAGE_FILE);
+                     var doc = new xDocument.from_string (XML_PACKAGE_FILE);
                      var package = new Package ();
                      try {
                        package.deserialize (doc);
@@ -520,7 +520,7 @@ class SerializableObjectModelTest : GXmlTest
                    );
     Test.add_func ("/gxml/serializable/object_model/serialize_array_property",
                    () => {
-                     var doc = new Document ();
+                     var doc = new xDocument ();
                      var package = new Package ();
                      package.tags.append_val ("Computer");
                      package.tags.append_val ("Customer");
@@ -567,7 +567,7 @@ class SerializableObjectModelTest : GXmlTest
                    );
     Test.add_func ("/gxml/serializable/object_model/serialize_property_nick",
                    () => {
-                     var doc = new Document ();
+                     var doc = new xDocument ();
                      var monitor = new Monitor ();
                      try {
                        monitor.resolution = "1204x720";
@@ -625,7 +625,7 @@ class SerializableObjectModelTest : GXmlTest
                      cpu.piles.add (1);
                      cpu.piles.add (2);
                      cpu.piles.add (3);
-                     var doc = new Document ();
+                     var doc = new xDocument ();
                      try {
                        cpu.serialize (doc);
                        //stdout.printf (@"$doc");
@@ -664,7 +664,7 @@ class SerializableObjectModelTest : GXmlTest
     Test.add_func ("/gxml/serializable/object_model/override_transform_from_string",
                    () => {
                      var cpu = new Cpu ();
-                     var doc = new Document.from_string (XML_CPU_FILE);
+                     var doc = new xDocument.from_string (XML_CPU_FILE);
                      try {
                        cpu.deserialize (doc);
                        //stdout.printf (@"$doc");
@@ -696,7 +696,7 @@ class SerializableObjectModelTest : GXmlTest
                    });
     Test.add_func ("/gxml/serializable/object_model/override_serialize",
                    () => {
-                     var doc = new Document ();
+                     var doc = new xDocument ();
                      var configuration = new Configuration ();
                      configuration.device = "Controller";
                      try {
@@ -732,7 +732,7 @@ class SerializableObjectModelTest : GXmlTest
                    });
     Test.add_func ("/gxml/serializable/object_model/override_deserialize",
                    () => {
-                     var doc = new Document.from_string ("""<?xml version="1.0"?>
+                     var doc = new xDocument.from_string ("""<?xml version="1.0"?>
                      <Configuration xmlns:om="http://www.gnome.org/gxml/0.4" device="Sampler"/>""");
                      var configuration = new Configuration ();
                      try {
@@ -753,7 +753,7 @@ class SerializableObjectModelTest : GXmlTest
                    });
     Test.add_func ("/gxml/serializable/object_model/custome_node_name",
                    () => {
-                     var doc = new Document.from_string ("""<?xml version="1.0"?><NodeName />""");
+                     var doc = new xDocument.from_string ("""<?xml version="1.0"?><NodeName />""");
                      var nodename = new NodeName ();
                      try {
                        nodename.deserialize (doc);
@@ -765,7 +765,7 @@ class SerializableObjectModelTest : GXmlTest
                    });
     Test.add_func ("/gxml/serializable/object_model/no_serialize_null_property",
                    () => {
-                     var doc = new Document();
+                     var doc = new xDocument();
                      var unknown_property = new UnknownAttribute (); // name is set to null
                      try {
                        unknown_property.serialize (doc);
@@ -792,7 +792,7 @@ class SerializableObjectModelTest : GXmlTest
                    });
     Test.add_func ("/gxml/serializable/object_model/unknown_property",
                    () => {
-                     var doc = new Document.from_string ("""<?xml version="1.0"?>
+                     var doc = new xDocument.from_string ("""<?xml version="1.0"?>
                      <UnknownAttribute ignore="true" ignore2="test">
                      <UnknownNode toignore = "true" />TEXT
                      </UnknownAttribute>""");
@@ -843,7 +843,7 @@ class SerializableObjectModelTest : GXmlTest
                    });
     Test.add_func ("/gxml/serializable/object_model/deserialize_unknown_property",
                    () => {
-                     var doc = new Document.from_string ("""<?xml version="1.0"?>
+                     var doc = new xDocument.from_string ("""<?xml version="1.0"?>
                      <UnknownAttribute ignore="true" ignore2="test">
                      <UnknownNode direction = "fordward">
                      <UnknownChild t = "test">
@@ -857,7 +857,7 @@ class SerializableObjectModelTest : GXmlTest
                      var unknown_property = new UnknownAttribute ();
                      try {
                        unknown_property.deserialize (doc);
-                       var doc2 = new Document ();
+                       var doc2 = new xDocument ();
                        unknown_property.serialize (doc2);
                        if (doc2.document_element == null) {
                          stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: No Root Element");
@@ -913,7 +913,7 @@ class SerializableObjectModelTest : GXmlTest
                          stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: UnknownNode No not found");
                          assert_not_reached ();
                        }
-                       // TODO: serialized_xml_node_value have more text than expected, may be a bug in Document.to_string ()
+                       // TODO: serialized_xml_node_value have more text than expected, may be a bug in xDocument.to_string ()
                        if (unknown_property.serialized_xml_node_value == "FAKE TEXT") {
                          stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: Bad UnknownAttribute node's content text $(unknown_property.serialized_xml_node_value)");
                          assert_not_reached ();
@@ -927,13 +927,13 @@ class SerializableObjectModelTest : GXmlTest
     Test.add_func ("/gxml/serializable/object_model/serialize_unknown_property",
                    () => {
                      try {
-                       var doc = new Document.from_string ("""<?xml version="1.0"?>
+                       var doc = new xDocument.from_string ("""<?xml version="1.0"?>
                      <UnknownAttribute ignore="true" ignore2="test">
                      <UnknownNode toignore = "true" />TEXT
                      </UnknownAttribute>""");
                         var unknown_property = new UnknownAttribute ();
                        unknown_property.deserialize (doc);
-                       var ndoc = new Document ();
+                       var ndoc = new xDocument ();
                        unknown_property.serialize (ndoc);
                        if (ndoc.document_element.child_nodes.size != 2) {
                          stdout.printf (@"ERROR: Root incorrect child node number: found '$(doc.document_element.child_nodes.size)\n");
@@ -962,7 +962,7 @@ class SerializableObjectModelTest : GXmlTest
     Test.add_func ("/gxml/serializable/object_model/deserialize_incorrect_uint",
                    () => {
                      try {
-                       var doc = new Document.from_string (
+                       var doc = new xDocument.from_string (
                             """<?xml version="1.0"?>
                             <PACKAGE source="Mexico/North" destiny="Brazil" Hope="2/4.04">
                             <manual document="Sales Card" pages="1">Selling Card Specification</manual>
@@ -973,14 +973,24 @@ class SerializableObjectModelTest : GXmlTest
                        var pkg = new Package ();
                        pkg.deserialize (doc);
                      }
-                     catch (GXml.SerializableError e) { Test.message ("Error thrown for invalid string to guint"); }
+                     catch (GLib.Error e) {
+                       Test.message ("Error thrown for invalid string to guint");
+                       assert_not_reached ();
+                     }
                    });
     
     Test.add_func ("/gxml/serializable/object_model/set_namespace", () => {
-      var ns = new NameSpace ();
-      var doc = new Document ();
-      ns.serialize (doc);
-      assert (doc.document_element.to_string () == "<gxml:namespace xmlns:gxml=\"http://www.gnome.org/GXml\"/>");
+      try {
+        var ns = new NameSpace ();
+        var doc = new xDocument ();
+        ns.serialize (doc);
+        assert (doc.document_element.to_string () == "<gxml:namespace xmlns:gxml=\"http://www.gnome.org/GXml\"/>");
+      } catch (GLib.Error e) {
+#if DEBUG
+        GLib.message ("ERROR: "+e.message);
+#endif
+        assert_not_reached ();
+      }
     });
   }
   static void serialize_manual_check (Element element, Manual manual)

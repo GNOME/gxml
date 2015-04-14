@@ -29,8 +29,8 @@ class DocumentTest : GXmlTest {
 		Test.add_func ("/gxml/document/doctype", () => {
 				// STUB
 				/*
-				Document doc = new Document.from_path ("/tmp/dtdtest2.xml");
-				// Document doc = get_doc ();
+				xDocument doc = new xDocument.from_path ("/tmp/dtdtest2.xml");
+				// xDocument doc = get_doc ();
 				DocumentType type = doc.doctype;
 				HashTable<string,Entity> entities = type.entities;
 				assert_not_reached ();
@@ -39,7 +39,7 @@ class DocumentTest : GXmlTest {
 				*/
 			});
 		Test.add_func ("/gxml/document/implementation", () => {
-				Document doc = get_doc ();
+				xDocument doc = get_doc ();
 
 				Implementation impl = doc.implementation;
 
@@ -50,7 +50,7 @@ class DocumentTest : GXmlTest {
 				assert (impl.has_feature ("nonsense") == false);
 			});
 		Test.add_func ("/gxml/document/document_element", () => {
-				Document doc = get_doc ();
+				xDocument doc = get_doc ();
 				Element root = doc.document_element;
 
 				assert (root.node_name == "Sentences");
@@ -58,15 +58,15 @@ class DocumentTest : GXmlTest {
 			});
 
 		Test.add_func ("/gxml/document/construct_from_path", () => {
-				Document doc = get_doc ();
+				xDocument doc = get_doc ();
 
 				check_contents (doc);
 			});
 		Test.add_func ("/gxml/document/construct_from_path_error", () => {
-				Document doc;
+				xDocument doc;
 				try {
 					// file does not exist
-					doc = new Document.from_path ("/tmp/asdfjlkansdlfjl");
+					doc = new xDocument.from_path ("/tmp/asdfjlkansdlfjl");
 					assert_not_reached ();
 				} catch (GXml.Error e) {
 					assert (e is GXml.Error.PARSER);
@@ -75,7 +75,7 @@ class DocumentTest : GXmlTest {
 
 				try {
 					// file exists, but is not XML (it's a directory!)
-					doc = new Document.from_path ("/tmp/");
+					doc = new xDocument.from_path ("/tmp/");
 					assert_not_reached ();
 				} catch (GXml.Error e) {
 					assert (e is GXml.Error.PARSER);
@@ -83,7 +83,7 @@ class DocumentTest : GXmlTest {
 				test_error (DomException.INVALID_DOC);
 
 				try {
-					doc = new Document.from_path ("test_invalid.xml");
+					doc = new xDocument.from_path ("test_invalid.xml");
 					assert_not_reached ();
 				} catch (GXml.Error e) {
 					assert (e is GXml.Error.PARSER);
@@ -93,14 +93,14 @@ class DocumentTest : GXmlTest {
 		Test.add_func ("/gxml/document/construct_from_stream", () => {
 				File fin;
 				InputStream instream;
-				Document doc;
+				xDocument doc;
 
 				try {
 					fin = File.new_for_path (GXmlTest.get_test_dir () + "/test.xml");
 					instream = fin.read (null);
 					/* TODO: test GCancellable */
 
-					doc = new Document.from_stream (instream);
+					doc = new xDocument.from_stream (instream);
 
 					check_contents (doc);
 				} catch (GLib.Error e) {
@@ -112,12 +112,12 @@ class DocumentTest : GXmlTest {
 				File fin;
 				InputStream instream;
 				FileIOStream iostream;
-				Document doc;
+				xDocument doc;
 
 				try {
 					fin = File.new_tmp ("gxml.XXXXXX", out iostream);
 					instream = fin.read (null);
-					doc = new Document.from_stream (instream);
+					doc = new xDocument.from_stream (instream);
 					assert_not_reached ();
 				} catch (GXml.Error e) {
 					assert (e is GXml.Error.PARSER);
@@ -129,11 +129,11 @@ class DocumentTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/document/construct_from_string", () => {
 				string xml;
-				Document doc;
+				xDocument doc;
 				GXml.xNode root;
 
 				xml = "<Fruits><Apple></Apple><Orange></Orange></Fruits>";
-				doc = new Document.from_string (xml);
+				doc = new xDocument.from_string (xml);
 
 				root = doc.document_element;
 				assert (root.node_name == "Fruits");
@@ -142,7 +142,7 @@ class DocumentTest : GXmlTest {
 				assert (root.last_child.node_name == "Orange");
 			});
 		Test.add_func ("/gxml/document/save", () => {
-				Document doc;
+				xDocument doc;
 				int exit_status;
 
 				try {
@@ -164,7 +164,7 @@ class DocumentTest : GXmlTest {
 				}
 			});
 		Test.add_func ("/gxml/document/save_error", () => {
-				Document doc;
+				xDocument doc;
 
 				try {
 					doc = get_doc ();
@@ -182,7 +182,7 @@ class DocumentTest : GXmlTest {
 					File fout;
 					InputStream instream;
 					OutputStream outstream;
-					Document doc;
+					xDocument doc;
 					int exit_status;
 
 				        fin = File.new_for_path (GXmlTest.get_test_dir () + "/test.xml");
@@ -192,7 +192,7 @@ class DocumentTest : GXmlTest {
 					// OutputStream outstream = fout.create (FileCreateFlags.REPLACE_DESTINATION, null); // REPLACE_DESTINATION doesn't work like I thought it would?
 					outstream = fout.replace (null, true, FileCreateFlags.REPLACE_DESTINATION, null);
 
-					doc = new Document.from_stream (instream);
+					doc = new xDocument.from_stream (instream);
 					doc.save_to_stream (outstream);
 
 					Process.spawn_sync (null,
@@ -212,7 +212,7 @@ class DocumentTest : GXmlTest {
 					File fout;
 					FileIOStream iostream;
 					OutputStream outstream;
-					Document doc;
+					xDocument doc;
 					int exit_status;
 
 					doc = GXmlTest.get_doc ();
@@ -229,7 +229,7 @@ class DocumentTest : GXmlTest {
 				test_error (DomException.X_OTHER);
 			});
 		Test.add_func ("/gxml/document/create_element", () => {
-				Document doc = get_doc ();
+				xDocument doc = get_doc ();
 				Element elem = null;
 
 				elem = doc.create_element ("Banana");
@@ -242,7 +242,7 @@ class DocumentTest : GXmlTest {
 				// assert (elem == null); // TODO: decide what we want returned on DomExceptions
 			});
 		Test.add_func ("/gxml/document/create_document_fragment", () => {
-				Document doc = get_doc ();
+				xDocument doc = get_doc ();
 				DocumentFragment fragment = doc.create_document_fragment ();
 
 				// TODO: can we set XML in the content, and actually have that translate into real libxml2 underlying nodes?
@@ -313,28 +313,28 @@ class DocumentTest : GXmlTest {
 				assert (doc.to_string () == expected);
 			});
 		Test.add_func ("/gxml/document/create_text_node", () => {
-				Document doc = get_doc ();
+				xDocument doc = get_doc ();
 				Text text = doc.create_text_node ("Star of my dreams");
 
 				assert (text.node_name == "#text");
 				assert (text.node_value == "Star of my dreams");
 			});
 		Test.add_func ("/gxml/document/create_comment", () => {
-				Document doc = get_doc ();
+				xDocument doc = get_doc ();
 				Comment comment = doc.create_comment ("Ever since the day we promised.");
 
 				assert (comment.node_name == "#comment");
 				assert (comment.node_value == "Ever since the day we promised.");
 			});
 		Test.add_func ("/gxml/document/create_cdata_section", () => {
-				Document doc = get_doc ();
+				xDocument doc = get_doc ();
 				CDATASection cdata = doc.create_cdata_section ("put in real cdata");
 
 				assert (cdata.node_name == "#cdata-section");
 				assert (cdata.node_value == "put in real cdata");
 			});
 		Test.add_func ("/gxml/document/create_processing_instruction", () => {
-				Document doc = get_doc ();
+				xDocument doc = get_doc ();
 				ProcessingInstruction instruction = doc.create_processing_instruction ("target", "data");
 
 				assert (instruction.node_name == "target");
@@ -343,7 +343,7 @@ class DocumentTest : GXmlTest {
 				assert (instruction.node_value == "data");
 			});
 		Test.add_func ("/gxml/document/create_attribute", () => {
-				Document doc = get_doc ();
+				xDocument doc = get_doc ();
 				Attr attr = doc.create_attribute ("attrname");
 
 				assert (attr.name == "attrname");
@@ -351,23 +351,23 @@ class DocumentTest : GXmlTest {
 				assert (attr.node_value == "");
 			});
 		Test.add_func ("/gxml/document/create_entity_reference", () => {
-				Document doc = get_doc ();
+				xDocument doc = get_doc ();
 				EntityReference entity = doc.create_entity_reference ("entref");
 
 				assert (entity.node_name == "entref");
 				// TODO: think of at least one other smoke test
 			});
 		Test.add_func ("/gxml/document/get_elements_by_tag_name", () => {
-				Document doc = get_doc ();
+				xDocument doc = get_doc ();
 				NodeList elems = doc.get_elements_by_tag_name ("Email");
 
 				assert (elems.length == 2);
 				assert (((Element)elems.item (0)).content == "fweasley@hogwarts.co.uk");
 				/* more thorough test exists in Element, since right now
-				   Document uses that one */
+				   xDocument uses that one */
 			});
 		Test.add_func ("/gxml/document/to_string", () => {
-				Document doc = get_doc ();
+				xDocument doc = get_doc ();
 				assert (doc.to_string () == "<?xml version=\"1.0\"?>
 <Sentences>
   <Sentence lang=\"en\">I like the colour blue.</Sentence>
@@ -389,7 +389,7 @@ class DocumentTest : GXmlTest {
 			});
 	}
 
-	private static void check_contents (Document test_doc) {
+	private static void check_contents (xDocument test_doc) {
 		Element root = test_doc.document_element;
 
 		assert (root.node_name == "Sentences");

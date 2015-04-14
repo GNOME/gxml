@@ -37,13 +37,13 @@ namespace GXml {
 		/** Private properties */
 		internal Xml.Node *node;
 
-		internal void set_xmlnode (Xml.Node *node, Document owner) {
+		internal void set_xmlnode (Xml.Node *node, xDocument owner) {
 			this.node = node;
 			owner.node_dict.insert (node, this);
 		}
 
 		/* Constructors */
-		internal BackedNode (Xml.Node *node, Document owner) {
+		internal BackedNode (Xml.Node *node, xDocument owner) {
 			base ((NodeType)node->type, owner);
 
 			// Save the correspondence between this Xml.Node* and its Node

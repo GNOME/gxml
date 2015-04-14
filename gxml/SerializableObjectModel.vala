@@ -95,7 +95,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
   public virtual GXml.xNode? serialize (GXml.xNode node)
                        throws GLib.Error
                        requires (node_name () != null)
-                       requires (node is Document || node is Element)
+                       requires (node is xDocument || node is Element)
   {
     return default_serialize (node);
   }
@@ -105,9 +105,9 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 #if DEBUG
     stdout.printf (@"$(get_type ().name ()): Serializing on node: $(node.node_name)\n");
 #endif
-    Document doc;
-    if (node is Document)
-      doc = (Document) node;
+    xDocument doc;
+    if (node is xDocument)
+      doc = (xDocument) node;
     else
       doc = node.owner_document;
     var element = doc.create_element (node_name ());
@@ -225,9 +225,9 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
   public GXml.xNode? default_deserialize (GXml.xNode node)
                                     throws GLib.Error
   {
-    Document doc;
-    if (node is Document) {
-      doc = (Document) node;
+    xDocument doc;
+    if (node is xDocument) {
+      doc = (xDocument) node;
       return_val_if_fail (doc.document_element != null, null);
     }
     else

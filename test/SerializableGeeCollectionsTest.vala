@@ -184,7 +184,7 @@ class SerializableGeeCollectionsTest : GXmlTest
     Test.add_func ("/gxml/serializable/convined_gee_containers/deserialize",
     () => {
       try {
-        var doc = new Document.from_string ("""<?xml version="1.0"?>
+        var doc = new xDocument.from_string ("""<?xml version="1.0"?>
 <base name="AlphaOne" >
   <chargezone name="A1-1">
     <ship manufacturer="MacToy" model="A1234">
@@ -287,7 +287,7 @@ class SerializableGeeCollectionsTest : GXmlTest
     Test.add_func ("/gxml/serializable/convined_gee_containers/de-se-deserialize",
     () => {
       try {
-        var doc = new Document.from_string ("""<?xml version="1.0"?>
+        var doc = new xDocument.from_string ("""<?xml version="1.0"?>
 <base name="AlphaOne" >
   <chargezone name="A1-1">
     <ship manufacturer="MacToy" model="A1234">
@@ -351,7 +351,7 @@ class SerializableGeeCollectionsTest : GXmlTest
           assert_not_reached ();
         }
         // Check First serialize
-        var ndoc = new Document ();
+        var ndoc = new xDocument ();
         s.serialize (ndoc);
         var ns = new SpaceBase ();
         ns.deserialize (ndoc);
@@ -411,7 +411,7 @@ class SerializableGeeCollectionsTest : GXmlTest
     Test.add_func ("/gxml/serializable/convined_gee_containers/se-deserialize-unknowns",
     () => {
       try {
-        var org_doc = new Document.from_string ("""<?xml version="1.0"?>
+        var org_doc = new xDocument.from_string ("""<?xml version="1.0"?>
 <base name="AlphaOne" >
   <chargezone name="A1-1">
     <ship manufacturer="MacToy" model="A1234">
@@ -500,7 +500,7 @@ class SerializableGeeCollectionsTest : GXmlTest
           }
           assert_not_reached ();
         }
-        var doc = new Document ();
+        var doc = new xDocument ();
         s.serialize (doc);
         if (doc.document_element.node_name != "base") {
           stdout.printf (@"ERROR: bad root node name\n");

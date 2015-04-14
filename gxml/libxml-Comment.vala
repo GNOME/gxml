@@ -2,7 +2,7 @@
 /* Comment.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
- * Copyright (C) 2011  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2011,2015  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28,7 +28,7 @@
 /**
  * An XML comment.
  *
- * To create one, use {@link GXml.Document.create_comment}.
+ * To create one, use {@link GXml.xDocument.create_comment}.
  *
  * An XML example looks like: {{{  <someNode>
  *    <!-- this is a comment -->
@@ -37,8 +37,8 @@
  * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1728279322]]
  */
 public class GXml.Comment : GXml.CharacterData {
-	// TODO: Can I make this only accessible from within the GXml.Dom namespace (e.g. from GXml.Dom.Document?)
-	internal Comment (Xml.Node *comment_node, Document doc) {
+	// TODO: Can I make this only accessible from within the GXml.Dom namespace (e.g. from GXml.Dom.xDocument?)
+	internal Comment (Xml.Node *comment_node, xDocument doc) {
 		base (comment_node, doc);
 	}
 	public override string node_name {

@@ -2,7 +2,7 @@
 /* CDataSection.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
- * Copyright (C) 2011  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2011,2015  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -30,14 +30,14 @@ namespace GXml {
 	 * An XML CDATA section, which contains non-XML data that is
 	 * stored in an XML document.
 	 *
-	 * To create one, use {@link GXml.Document.create_cdata_section}.
+	 * To create one, use {@link GXml.xDocument.create_cdata_section}.
 	 *
 	 * An XML example would be like:
 	 * {{{ <![CDATA[Here contains non-XML data, like code, or something that requires a lot of special XML entities.]]>.}}}
 	 * It is a type of Text node. For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-667469212]]
 	 */
 	public class CDATASection : Text {
-		internal CDATASection (Xml.Node *cdata_node, Document doc) {
+		internal CDATASection (Xml.Node *cdata_node, xDocument doc) {
 			base (cdata_node, doc);
 		}
 		/**
