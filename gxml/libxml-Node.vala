@@ -73,7 +73,7 @@ namespace GXml {
 
 		internal void dbg_inspect () {
 			message ("node: %s", this.node_name);
-			message ("  ns (prefix: %s, uri: %s)", this.prefix, this.namespace_uri);
+			message ("  ns (namespace_prefix: %s, uri: %s)", this.namespace_prefix, this.namespace_uri);
 			if (this.attributes != null) {
 				message ("  attributes:");
 				for (int i = 0; i < this.attributes.length; i++) {
@@ -131,7 +131,7 @@ namespace GXml {
 		/**
 		 * Add a new namespace to this {@link GXml.xNode}
 		 */
-		public virtual NamespaceAttr? add_namespace_attr (string uri, string prefix)
+		public virtual NamespaceAttr? add_namespace_attr (string uri, string namespace_prefix)
 		{
 			return null;
 		}
@@ -141,7 +141,7 @@ namespace GXml {
 		 *
 		 * Returns: {@link true} if namespace exists.
 		 */
-		public virtual bool set_namespace (string uri, string prefix)
+		public virtual bool set_namespace (string uri, string namespace_prefix)
 		{
 			return false;
 		}
@@ -157,7 +157,7 @@ namespace GXml {
 		 * Version: DOM Level 2 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-NodeNSPrefix]]
 		 */
-		public virtual string? prefix {
+		public virtual string? namespace_prefix {
 			get {
 				return null;
 			}

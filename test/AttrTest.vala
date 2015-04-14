@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
 /* Notation.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
@@ -40,7 +40,7 @@ class AttrTest : GXmlTest {
 				assert (shell.namespace_uri == "http://mom.co.uk/wands");
 				assert (price.namespace_uri == null);
 			});
-		Test.add_func ("/gxml/element/prefix", () => {
+		Test.add_func ("/gxml/element/namespace_prefix", () => {
 				xDocument doc = new xDocument.from_string ("<Wands xmlns:wands=\"http://mom.co.uk/wands\"><Wand price=\"43.56\" wands:core=\"dragon heart cord\" wands:shell=\"oak\"/></Wands>");
 				GXml.xNode root = doc.document_element;
 				xElement node = (xElement)root.child_nodes.item (0);
@@ -49,9 +49,9 @@ class AttrTest : GXmlTest {
 				Attr shell = node.get_attribute_node ("shell");
 				Attr price = node.get_attribute_node ("price");
 
-				assert (core.prefix == "wands");
-				assert (shell.prefix == "wands");
-				assert (price.prefix == null);
+				assert (core.namespace_prefix == "wands");
+				assert (shell.namespace_prefix == "wands");
+				assert (price.namespace_prefix == null);
 			});
 		Test.add_func ("/gxml/element/local_name", () => {
 				xDocument doc = new xDocument.from_string ("<Wands xmlns:wands=\"http://mom.co.uk/wands\"><Wand price=\"43.56\" wands:core=\"dragon heart cord\" wands:shell=\"oak\"/></Wands>");

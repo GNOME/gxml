@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
 /* NamespaceAttr.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
@@ -84,7 +84,7 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override string? prefix {
+		public override string? namespace_prefix {
 			get {
 				return "xmlns";
 			}
@@ -121,5 +121,10 @@ namespace GXml {
 			internal set {
 			}
 		}
+		// GXml.Namespace interface implementations
+		/*
+		public abstract string uri { get; set; }
+		public abstract string prefix { get; set; }
+		*/
 	}
 }

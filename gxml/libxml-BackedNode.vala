@@ -88,10 +88,10 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override NamespaceAttr? add_namespace_attr (string uri, string prefix)
+		public override NamespaceAttr? add_namespace_attr (string uri, string namespace_prefix)
 		{
 			//stdout.printf ("BackedNode: Before add new Namespace\n");
-			var ns = this.node->new_ns (uri, prefix);
+			var ns = this.node->new_ns (uri, namespace_prefix);
 			if (ns == null)
 				return null;
 			else
@@ -100,12 +100,12 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override bool set_namespace (string uri, string prefix)
+		public override bool set_namespace (string uri, string namespace_prefix)
 		{
 			if (node == null) return false;
 			if (node->ns_def != null) {
 				for (Xml.Ns *cur = node->ns_def; cur != null; cur = cur->next) {
-					if ((string) cur->prefix == prefix && (string) cur->href == uri) {
+					if ((string) cur->prefix == namespace_prefix && (string) cur->href == uri) {
 						node->set_ns (cur);
 						return true;
 					}
@@ -114,7 +114,7 @@ namespace GXml {
 			// Not found search on parent
 			if (node->parent != null) {
 				for (Xml.Ns *cur = node->parent->ns_def; cur != null; cur = cur->next) {
-					if ((string) cur->prefix == prefix && (string) cur->href == uri) {
+					if ((string) cur->prefix == namespace_prefix && (string) cur->href == uri) {
 						this.node->set_ns (cur);
 						return true;
 					}
@@ -126,7 +126,7 @@ namespace GXml {
 			if (owner_document.document_element.node == null) return false;
 			if (owner_document.document_element.node->ns_def == null) return false;
 			for (Xml.Ns *cur = owner_document.document_element.node->ns_def; cur != null; cur = cur->next) {
-				if ((string) cur->prefix == prefix && (string) cur->href == uri) {
+				if ((string) cur->prefix == namespace_prefix && (string) cur->href == uri) {
 					this.node->set_ns (cur);
 					return true;
 				}
@@ -136,7 +136,7 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override string? prefix {
+		public override string? namespace_prefix {
 			get {
 				if (this.node->ns == null) {
 					return null;
@@ -365,7 +365,12 @@ namespace GXml {
 		}
 		// GXml.Node interface implementations
 		/*
-		public Gee.LinkedList<GXml.Namespace> namespaces { get; }
+		public Gee.LinkedList<GXml.Namespace> namespaces
+		{
+			get {
+				return _namespace_definitions;
+			}
+		}
 		public Gee.LinkedList<GXml.Node> childs { get; }
 		public Gee.Map<string,GXml.Node> attrs { get; }
 		public string name { get; construct set; }

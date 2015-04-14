@@ -59,10 +59,10 @@ class ElementTest : GXmlTest  {
 				GXml.xNode node = root.child_nodes.item (0);
 
 				assert (node.namespace_uri == null);
-				assert (node.prefix == null);
+				assert (node.namespace_prefix == null);
 				xmlnode->set_ns (ns_magic);
 				assert (node.namespace_uri == "http://hogwarts.co.uk/magic");
-				assert (node.prefix == "magic");
+				assert (node.namespace_prefix == "magic");
 				assert (node.local_name == "Potion");
 				assert (node.node_name == "Potion");
 			});
@@ -92,12 +92,12 @@ class ElementTest : GXmlTest  {
 				// 	message ("attrkey: %s, value: %s", attr.node_name, attr.node_value);
 				// }
 			});
-		Test.add_func ("/gxml/element/prefix", () => {
+		Test.add_func ("/gxml/element/namespace_prefix", () => {
 				xDocument doc = new xDocument.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
 				GXml.xNode root = doc.document_element;
 				GXml.xNode node = root.child_nodes.item (0);
 
-				assert (node.prefix == "magic");
+				assert (node.namespace_prefix == "magic");
 			});
 		Test.add_func ("/gxml/element/local_name", () => {
 				xDocument doc = new xDocument.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
@@ -115,10 +115,10 @@ class ElementTest : GXmlTest  {
 
 				assert (namespaces.length == 2);
 
-				assert (namespaces.item (0).prefix == "xmlns");
+				assert (namespaces.item (0).namespace_prefix == "xmlns");
 				assert (namespaces.item (0).node_name == "magic");
 				assert (namespaces.item (0).node_value == "http://hogwarts.co.uk/magic");
-				assert (namespaces.item (1).prefix == "xmlns");
+				assert (namespaces.item (1).namespace_prefix == "xmlns");
 				assert (namespaces.item (1).node_name == "products");
 				assert (namespaces.item (1).node_value == "http://diagonalley.co.uk/products");
 				assert (node.local_name == "Potion");
