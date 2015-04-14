@@ -24,7 +24,7 @@ using Gee;
 
 public interface GXml.Namespace : Object
 {
-  public abstract string uri { get; set; }
-  public abstract string prefix { get; set; }
+  public abstract string uri { get; }
+  public abstract string prefix { get; }
 }
 

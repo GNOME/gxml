@@ -122,9 +122,15 @@ namespace GXml {
 			}
 		}
 		// GXml.Namespace interface implementations
-		/*
-		public abstract string uri { get; set; }
-		public abstract string prefix { get; set; }
-		*/
+		public string uri {
+			get {
+				return namespace_uri;
+			}
+		}
+		public string prefix {
+			get {
+				return namespace_prefix;
+			}
+		}
 	}
 }
