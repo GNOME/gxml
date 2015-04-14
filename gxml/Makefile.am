@@ -13,6 +13,11 @@ lib_LTLIBRARIES = libgxml-0.6.la
 # Vala source code
 sources = \
 	namespace-info.vala \
+	Attribute.vala \
+	Element.vala \
+	Document.vala \
+	Namespace.vala \
+	Node.vala \
 	libxml-Attr.vala \
 	libxml-BackedNode.vala \
 	libxml-CDATASection.vala \
