@@ -489,16 +489,6 @@ internal class GXml.LinkedList : Gee.LinkedList<GXml.xNode>, NodeList
     return new_child;
   }
 
-/**
-     * Retrieve the first node in the list.  Like {@link GLib.List.first}.
-     */
-    public xNode first () { return first (); }
-
-    /**
-     * Retrieve the last node in the list.  Like {@link GLib.List.last}.
-     */
-    public xNode last () { return last (); }
-
     public xNode item (ulong idx)
     {
         return @get((int) idx);
