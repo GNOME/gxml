@@ -13,28 +13,28 @@ lib_LTLIBRARIES = libgxml-0.6.la
 # Vala source code
 sources = \
 	namespace-info.vala \
-	Attr.vala \
-	BackedNode.vala \
-	CDATASection.vala \
-	CharacterData.vala \
-	Comment.vala \
-	Document.vala \
-	DocumentFragment.vala \
-	DocumentType.vala \
-	Node.vala \
-	DomException.vala \
-	Element.vala \
-	Entity.vala \
-	EntityReference.vala \
-	Error.vala \
-	Implementation.vala \
-	NamedNodeMap.vala \
-	NamespaceAttr.vala \
-	NodeList.vala \
-	NodeType.vala \
-	Notation.vala \
-	ProcessingInstruction.vala \
-	Text.vala \
+	libxml-Attr.vala \
+	libxml-BackedNode.vala \
+	libxml-CDATASection.vala \
+	libxml-CharacterData.vala \
+	libxml-Comment.vala \
+	libxml-DocumentFragment.vala \
+	libxml-DocumentType.vala \
+	libxml-Document.vala \
+	libxml-DomException.vala \
+	libxml-Element.vala \
+	libxml-EntityReference.vala \
+	libxml-Entity.vala \
+	libxml-Error.vala \
+	libxml-Implementation.vala \
+	libxml-NamedNodeMap.vala \
+	libxml-NamespaceAttr.vala \
+	libxml-NodeList.vala \
+	libxml-NodeType.vala \
+	libxml-Node.vala \
+	libxml-Notation.vala \
+	libxml-ProcessingInstruction.vala \
+	libxml-Text.vala \
 	Serializable.vala \
 	Enumeration.vala \
 	SerializableObjectModel.vala \
