@@ -19,7 +19,9 @@ sources = \
 	Namespace.vala \
 	Node.vala \
 	libxml-Attr.vala \
+	libxml-AttrChildNodeList.vala \
 	libxml-BackedNode.vala \
+	libxml-ChildNodeList.vala \
 	libxml-CDATASection.vala \
 	libxml-CharacterData.vala \
 	libxml-Comment.vala \
@@ -28,17 +30,22 @@ sources = \
 	libxml-Document.vala \
 	libxml-DomException.vala \
 	libxml-Element.vala \
-	libxml-EntityReference.vala \
 	libxml-Entity.vala \
+	libxml-EntityChildNodeList.vala\
+	libxml-EntityReference.vala \
 	libxml-Error.vala \
 	libxml-Implementation.vala \
+	libxml-LinkedList.vala \
 	libxml-NamedNodeMap.vala \
 	libxml-NamespaceAttr.vala \
+	libxml-NodeChildNodeList.vala \
 	libxml-NodeList.vala \
 	libxml-NodeType.vala \
 	libxml-Node.vala \
 	libxml-Notation.vala \
 	libxml-ProcessingInstruction.vala \
+	libxml-TagNameNodeList.vala \
+	libxml-NamespaceAttrNodeList.vala \
 	libxml-Text.vala \
 	Serializable.vala \
 	Enumeration.vala \

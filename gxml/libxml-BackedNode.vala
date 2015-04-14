@@ -364,14 +364,19 @@ namespace GXml {
 			return str;
 		}
 		// GXml.Node interface implementations
-		/*
 		public Gee.LinkedList<GXml.Namespace> namespaces
 		{
 			get {
 				return _namespace_definitions;
 			}
 		}
-		public Gee.LinkedList<GXml.Node> childs { get; }
+		/*
+		public Gee.LinkedList<GXml.Node> childs
+		{
+			get {
+				
+			}
+		}
 		public Gee.Map<string,GXml.Node> attrs { get; }
 		public string name { get; construct set; }
 		public string @value { get; set; }
