@@ -77,49 +77,70 @@ public class Performance
   {
     Test.add_func ("/gxml/performance/document", 
     () => {
-      Test.timer_start ();
-      double time;
-      var d = new xDocument.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
-      time = Test.timer_elapsed ();
-      Test.minimized_result (time, "Load large document: %g seconds", time);
-      Test.timer_start ();
-      foreach (GXml.xNode n in ((GXml.xNode)d.document_element).child_nodes) {
-        if (n.node_name == "Book1") { /* Fake just to access the node */ }
+      try {
+        Test.timer_start ();
+        double time;
+        var d = new xDocument.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "Load large document: %g seconds", time);
+        Test.timer_start ();
+        foreach (GXml.xNode n in ((GXml.xNode)d.document_element).child_nodes) {
+          if (n.node_name == "Book1") { /* Fake just to access the node */ }
+        }
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "Itirate over all loaded nodes: %g seconds", time);
+      } catch (GLib.Error e) {
+#if DEBUG
+        GLib.message ("ERROR: "+e.message);
+#endif
+        assert_not_reached ();
       }
-      time = Test.timer_elapsed ();
-      Test.minimized_result (time, "Itirate over all loaded nodes: %g seconds", time);
     });
     Test.add_func ("/gxml/performance/deserialize", 
     () => {
-      double time;
-      Test.timer_start ();
-      var d = new xDocument.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
-      time = Test.timer_elapsed ();
-      Test.minimized_result (time, "open document from path: %g seconds", time);
-      Test.timer_start ();
-      var bs = new BookStore ();
-      bs.deserialize (d);
-      time = Test.timer_elapsed ();
-      Test.minimized_result (time, "deserialize/performance: %g seconds", time);
+      try {
+        double time;
+        Test.timer_start ();
+        var d = new xDocument.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "open document from path: %g seconds", time);
+        Test.timer_start ();
+        var bs = new BookStore ();
+        bs.deserialize (d);
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "deserialize/performance: %g seconds", time);
+      } catch (GLib.Error e) {
+#if DEBUG
+        GLib.message ("ERROR: "+e.message);
+#endif
+        assert_not_reached ();
+      }
     });
 
     Test.add_func ("/gxml/performance/serialize",
     () => {
-      double time;
-      Test.timer_start ();
-      var d = new xDocument.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
-      time = Test.timer_elapsed ();
-      Test.minimized_result (time, "open document from path: %g seconds", time);
-      Test.timer_start ();
-      var bs = new BookStore ();
-      bs.deserialize (d);
-      time = Test.timer_elapsed ();
-      Test.minimized_result (time, "deserialize/performance: %g seconds", time);
-      Test.timer_start ();
-      var d2 = new xDocument ();
-      bs.serialize (d2);
-      time = Test.timer_elapsed ();
-      Test.minimized_result (time, "serialize/performance: %g seconds", time);
+      try {
+        double time;
+        Test.timer_start ();
+        var d = new xDocument.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "open document from path: %g seconds", time);
+        Test.timer_start ();
+        var bs = new BookStore ();
+        bs.deserialize (d);
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "deserialize/performance: %g seconds", time);
+        Test.timer_start ();
+        var d2 = new xDocument ();
+        bs.serialize (d2);
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "serialize/performance: %g seconds", time);
+      } catch (GLib.Error e) {
+#if DEBUG
+        GLib.message ("ERROR: "+e.message);
+#endif
+        assert_not_reached ();
+      }
     });
   }
 }
