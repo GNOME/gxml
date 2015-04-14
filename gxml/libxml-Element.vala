@@ -1,5 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
-/* Element.vala
+/* libxml-Element.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
  * Copyright (C) 2011,2015  Daniel Espinosa <esodan@gmail.com>
@@ -26,7 +26,7 @@ namespace GXml {
 	// TODO: figure out how to create this; Xml.Doc doesn't have new_element()
 
 	/**
-	 * Represent an XML Element node, which have attributes and children.
+	 * Represent an XML xElement node, which have attributes and children.
 	 *
 	 * To create one, use {@link GXml.xDocument.create_element}.
 	 *
@@ -41,7 +41,7 @@ namespace GXml {
 	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-745549614]]
 	 */
-	public class Element : BackedNode {
+	public class xElement : BackedNode {
 		/* Public properties */
 
 		// TODO: find out how to do double-spaces in Valadoc, so we can indent <img...
@@ -87,7 +87,7 @@ namespace GXml {
 		/**
 		 * Contains a {@link GXml.NamedAttrMap} of
 		 * {@link GXml.Attr} attributes associated with this
-		 * {@link GXml.Element}.
+		 * {@link GXml.xElement}.
 		 *
 		 * Attributes in the NamedNodeMap are updated live, so
 		 * changes in the element's attributes through its
@@ -110,7 +110,7 @@ namespace GXml {
 		}
 
 		/* Constructors */
-		internal Element (Xml.Node *node, xDocument doc) {
+		internal xElement (Xml.Node *node, xDocument doc) {
 			base (node, doc);
 			// TODO: consider string ownership, libxml2 memory
 		}
@@ -217,12 +217,12 @@ namespace GXml {
 		}
 
 		// TODO: consider making the life of TagNameNodeLists optional, and dead by default, at the xDocument level
-		private void check_add_tag_name (Element basenode, xNode child) {
+		private void check_add_tag_name (xElement basenode, xNode child) {
 			// TODO: make sure there aren't any other NodeTypes that could have elements as children
 			if (child.node_type == NodeType.ELEMENT || child.node_type == NodeType.DOCUMENT_FRAGMENT) {
 				// the one we're examining is an element, and might need to be added
 				if (child.node_type == NodeType.ELEMENT) {
-					basenode.on_new_descendant_with_tag_name ((Element)child);
+					basenode.on_new_descendant_with_tag_name ((xElement)child);
 				}
 
 				// if we're adding an element with descendants, or a document fragment, they might contain nodes that should go into a tag name node list for an ancestor node
@@ -232,15 +232,15 @@ namespace GXml {
 			}
 		}
 		/**
-		 * Checks whether a descendant of a node is an Element, or whether its descendants
+		 * Checks whether a descendant of a node is an xElement, or whether its descendants
 		 * are elements.  If they are, we check the basenode and its ancestors to see
 		 * whether they're keeping that node in a TagNameNodeList, so we can remove it.
 		 */
-		private void check_remove_tag_name (Element basenode, xNode child) {
+		private void check_remove_tag_name (xElement basenode, xNode child) {
 			// TODO: make sure there aren't any other NodeTypes that could have elements as children
 			if (child.node_type == NodeType.ELEMENT) {
 				// the one we're examining is an element, and might need to be removed from a tag name node list
-				basenode.on_remove_descendant_with_tag_name ((Element)child);
+				basenode.on_remove_descendant_with_tag_name ((xElement)child);
 
 				// if we're removing an element with descendants, it might contain nodes that should also be removed from a tag name node list for an ancestor node
 				foreach (xNode grand_child in child.child_nodes) {
@@ -322,7 +322,7 @@ namespace GXml {
 
 		/* Adds a new descendant to this elements cached list of child descendants,
 		   used to isolate the subtree of nodes when filtering by tag name */
-		private void on_new_descendant_with_tag_name (Element elem) {
+		private void on_new_descendant_with_tag_name (xElement elem) {
 			// TODO: consider using a HashTable instead
 			foreach (TagNameNodeList list in tag_name_lists) {
 				// TODO: take into account case sensitivity or insensitivity?
@@ -332,18 +332,18 @@ namespace GXml {
 				}
 			}
 			if (this.parent_node != null && this.parent_node.node_type == NodeType.ELEMENT)
-				((Element)this.parent_node).on_new_descendant_with_tag_name (elem);
+				((xElement)this.parent_node).on_new_descendant_with_tag_name (elem);
 		}
 		/**
 		 * Checks whether this element has a TagNameNodeList containing this element,
 		 * and if so, removes it.  It also asks the parents above if they have such
 		 * a list.
 		 */
-		private void on_remove_descendant_with_tag_name (Element elem) {
+		private void on_remove_descendant_with_tag_name (xElement elem) {
 			foreach (TagNameNodeList list in tag_name_lists) {
 				if (elem.tag_name == list.tag_name) {
 					foreach (xNode tag_elem in list) {
-						if (((Element)tag_elem) == elem) {
+						if (((xElement)tag_elem) == elem) {
 							list.remove_child (tag_elem);
 							break;
 						}
@@ -352,12 +352,12 @@ namespace GXml {
 				}
 			}
 			if (this.parent_node != null && this.parent_node.node_type == NodeType.ELEMENT)
-				((Element)this.parent_node).on_remove_descendant_with_tag_name (elem);
+				((xElement)this.parent_node).on_remove_descendant_with_tag_name (elem);
 		}
 
 		/**
 		 * Obtains a NodeList of Elements with the given
-		 * tag_name that are descendants of this Element.
+		 * tag_name that are descendants of this xElement.
 		 * This will include the current element if it
 		 * matches. The returned list is updated as necessary
 		 * as the tree changes.
@@ -416,7 +416,7 @@ namespace GXml {
 			foreach (xNode child in this.child_nodes) {
 				switch (child.node_type) {
 				case NodeType.ELEMENT:
-					((Element)child).normalize ();
+					((xElement)child).normalize ();
 					break;
 				case NodeType.TEXT:
 					// TODO: check siblings: what happens in vala when you modify a list you're iterating?
@@ -442,7 +442,7 @@ namespace GXml {
 		 * {{{Eeylops Owl EmporiumObscurus Books}}} with the
 		 * XML tags omitted.
 		 *
-		 * Setting content replaces the Element's children
+		 * Setting content replaces the xElement's children
 		 * with a Text node containing `value`.
 		 */
 		// TODO: add test
@@ -462,24 +462,24 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 *
-		 * For {@link GXml.Element} this method copy attributes and child nodes
+		 * For {@link GXml.xElement} this method copy attributes and child nodes
 		 * when @deep is set to true.
 		 *
 		 * @param node: could be owned by other {@link GXml.xDocument}.
 		 * @param deep: copy child nodes if true.
 		 */
 		public override bool copy (ref xNode node, bool deep = false)
-		                    requires (node is Element)
+		                    requires (node is xElement)
 		{
 			node.node_name = this.node_name;
-			((Element) node).content = null;
-			((Element) node).content = this.content;
+			((xElement) node).content = null;
+			((xElement) node).content = this.content;
 			foreach (Attr attr in attributes.get_values ()) {
-				((Element) node).set_attribute (attr.node_name, attr.node_value);
+				((xElement) node).set_attribute (attr.node_name, attr.node_value);
 			}
 			if (has_child_nodes () && deep) {
 				foreach (xNode n in child_nodes) {
-					if (n is Element) {
+					if (n is xElement) {
 						var element = (xNode) node.owner_document.create_element (n.node_name);
 						n.copy (ref element, true);
 						node.append_child (	element);

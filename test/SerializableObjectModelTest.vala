@@ -132,7 +132,7 @@ public class Package : ObjectModel
         for (int i = 0; i < tags.length; i++) {
           var str = tags.index (i);
           node = element.owner_document.create_element ("tag");
-          ((Element) node).content = str;
+          ((xElement) node).content = str;
           element.append_child (node);
         }
       }
@@ -140,7 +140,7 @@ public class Package : ObjectModel
     ((Serializable) this).deserialize_unknown_property.connect ( (element, prop) => {
       //GLib.message (@"Deserializing Unknown Property: $(prop.name) | $(prop.get_nick ())");
       if (element.node_name == "tag") {
-        tags.append_val (((Element) element).content);
+        tags.append_val (((xElement) element).content);
       }
     });
   }
@@ -378,7 +378,7 @@ class SerializableObjectModelTest : GXmlTest
                          assert_not_reached ();
                        }
                        if (manual.get_contents () != "This is an Specification file") {
-                         stdout.printf (@"ERROR MANUAL:  Bad Element content value. Expected 'This is an Specification file', got: $(manual.get_contents ())\n");
+                         stdout.printf (@"ERROR MANUAL:  Bad xElement content value. Expected 'This is an Specification file', got: $(manual.get_contents ())\n");
                          assert_not_reached ();
                        }
                      }
@@ -395,10 +395,10 @@ class SerializableObjectModelTest : GXmlTest
                      try {
                        manual.serialize (doc);
                        if (doc.document_element.node_name != "manual") {
-                         stdout.printf (@"ERROR MANUAL:  Element: $(doc.document_element.node_name)\n");
+                         stdout.printf (@"ERROR MANUAL:  xElement: $(doc.document_element.node_name)\n");
                          assert_not_reached ();
                        }
-                       Element element = doc.document_element;
+                       xElement element = doc.document_element;
                        serialize_manual_check (element, manual);
                      } catch (GLib.Error e) {
                        stdout.printf (@"$(e.message)");
@@ -466,10 +466,10 @@ class SerializableObjectModelTest : GXmlTest
                      try {
                        package.serialize (doc);
                        if (doc.document_element.node_name != "package") {
-                         stdout.printf (@"ERROR MANUAL:  Element: $(doc.document_element.node_name)\n");
+                         stdout.printf (@"ERROR MANUAL:  xElement: $(doc.document_element.node_name)\n");
                          assert_not_reached ();
                        }
-                       Element element = doc.document_element;
+                       xElement element = doc.document_element;
                        var source = element.get_attribute_node ("source");
                        if (source == null ) assert_not_reached ();
                        if (source.node_value != "Mexico") {
@@ -530,19 +530,19 @@ class SerializableObjectModelTest : GXmlTest
                        //stdout.printf (@"$(doc)");
                        if (doc.document_element.node_name != "package")
                          assert_not_reached ();
-                       Element element = doc.document_element;
+                       xElement element = doc.document_element;
                        bool com = false;
                        bool cus = false;
                        bool sal = false;
                        foreach (GXml.xNode n in element.child_nodes) {
-                         //stdout.printf (@"Found Element: $(n.node_name)");
+                         //stdout.printf (@"Found xElement: $(n.node_name)");
                          if (n.node_name == "tag") {
                            //stdout.printf (@"Found: $(n.node_name)");
-                           if (((Element) n).content == "Computer")
+                           if (((xElement) n).content == "Computer")
                              com = true;
-                           if (((Element) n).content == "Customer")
+                           if (((xElement) n).content == "Customer")
                              cus = true;
-                           if (((Element) n).content == "Sale")
+                           if (((xElement) n).content == "Sale")
                              sal = true;
                          }
                        }
@@ -576,12 +576,12 @@ class SerializableObjectModelTest : GXmlTest
                        monitor.serialize (doc);
                        //stdout.printf (@"DOC: [$(doc)]");
                        if (doc.document_element == null) {
-                         stdout.printf ("ERROR MONITOR: No root Element");
+                         stdout.printf ("ERROR MONITOR: No root xElement");
                          assert_not_reached ();
                        }
-                       Element element = doc.document_element;
+                       xElement element = doc.document_element;
                        if (element.node_name != "monitor") {
-                         stdout.printf (@"ERROR MONITOR: root Element $(element.node_name)");
+                         stdout.printf (@"ERROR MONITOR: root xElement $(element.node_name)");
                          assert_not_reached ();
                        }
                        var ac = element.get_attribute_node ("AcPower");
@@ -706,7 +706,7 @@ class SerializableObjectModelTest : GXmlTest
                          stdout.printf ("DOC: No root element");
                          assert_not_reached ();
                        }
-                       Element element = doc.document_element;
+                       xElement element = doc.document_element;
                        if (element.node_name != "Configuration") {
                          stdout.printf (@"CONFIGURATION: Bad node name: $(element.node_name)");
                          assert_not_reached ();
@@ -831,8 +831,8 @@ class SerializableObjectModelTest : GXmlTest
                          stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: node UnknownNode not found");
                          assert_not_reached ();
                        }var unknown_node = unknown_property.unknown_serializable_property.get ("UnknownNode");
-                       if (!(unknown_node is Element)) {
-                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: unknown node is not an GXml.Element");
+                       if (!(unknown_node is xElement)) {
+                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: unknown node is not an GXml.xElement");
                          assert_not_reached ();
                        }
                      }
@@ -860,12 +860,12 @@ class SerializableObjectModelTest : GXmlTest
                        var doc2 = new xDocument ();
                        unknown_property.serialize (doc2);
                        if (doc2.document_element == null) {
-                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: No Root Element");
+                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: No Root xElement");
                          assert_not_reached ();
                        }
-                       Element element = doc2.document_element;
+                       xElement element = doc2.document_element;
                        if (element.node_name.down () != "unknownattribute") {
-                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: Root Element Bad name $(element.node_name.down ())");
+                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: Root xElement Bad name $(element.node_name.down ())");
                          assert_not_reached ();
                        }
                        var ignore = element.get_attribute_node ("ignore");
@@ -898,7 +898,7 @@ class SerializableObjectModelTest : GXmlTest
                        foreach (GXml.xNode n in element.child_nodes) {
                          if (n.node_name == "UnknownNode") {
                            found = true;
-                           var direction = ((Element) n).get_attribute_node ("direction");
+                           var direction = ((xElement) n).get_attribute_node ("direction");
                            if (direction == null)  {
                              stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: UnknownNode No attribute direction");
                              assert_not_reached ();
@@ -949,7 +949,7 @@ class SerializableObjectModelTest : GXmlTest
                        foreach (GXml.xNode n in ndoc.document_element.child_nodes) {
                          if (n is Text) {
                            if (n.node_value != "TEXT") {
-                             stdout.printf (@"ERROR: Unknown Text Element not set: found '$(n.node_value)\n");
+                             stdout.printf (@"ERROR: Unknown Text xElement not set: found '$(n.node_value)\n");
                              assert_not_reached ();
                            }
                          }
@@ -993,7 +993,7 @@ class SerializableObjectModelTest : GXmlTest
       }
     });
   }
-  static void serialize_manual_check (Element element, Manual manual)
+  static void serialize_manual_check (xElement element, Manual manual)
   {
     var document = element.get_attribute_node ("document");
     if (document == null) assert_not_reached ();

@@ -33,7 +33,7 @@ class SerializableGeeCollectionsTest : GXmlTest
     public string ctype { get; set; }
     public string get_value () { return serialized_xml_node_value; }
     public void set_value (string val) { serialized_xml_node_value = val; }
-    //Enable set Element content
+    //Enable set xElement content
     public override bool serialize_use_xml_node_value () { return true; }
     public override string to_string () { return @"Citizen: $ctype"; }
     public override string node_name () { return "citizen"; }
@@ -508,7 +508,7 @@ class SerializableGeeCollectionsTest : GXmlTest
         }
         //stdout.printf (@"$doc\n");
         foreach (GXml.xNode n in doc.document_element.child_nodes) {
-          if (n is Element) {
+          if (n is xElement) {
             if (n.node_name == "ChargeZone") {
               
             }
@@ -517,19 +517,19 @@ class SerializableGeeCollectionsTest : GXmlTest
               bool tfound = false;
               bool attrfound = false;
               foreach (GXml.xNode sn in n.child_nodes) {
-                if (sn is Element) {
+                if (sn is xElement) {
                   if (sn.node_name == "refaction") {
                     foreach (GXml.xNode rn in sn.child_nodes) {
-                      if (rn is Element) {
+                      if (rn is xElement) {
                         //stdout.printf (@"Refaction current node: '$(rn.node_name)'\n");
                         if (rn.node_name == "ship") {
-                          var atr = ((Element) rn).get_attribute_node ("manufacturer");
+                          var atr = ((xElement) rn).get_attribute_node ("manufacturer");
                           if (atr == null) {
                             stdout.printf (@"ERROR: No attribute manufacturer for Ship\n");
                             assert_not_reached ();
                           }
                           if (atr.node_value == "MegaTrench") {
-                            var shanattr = ((Element) rn).get_attribute_node ("unknown");
+                            var shanattr = ((xElement) rn).get_attribute_node ("unknown");
                             if (shanattr != null) {
                               attrfound = true;
                               if (shanattr.node_value != "UNKNOWN ATTR") {
@@ -551,7 +551,7 @@ class SerializableGeeCollectionsTest : GXmlTest
                         }
                         if (rn.node_name == "UnknownAttribute") {
                           unkfound = true;
-                          var nattr = ((Element) rn).get_attribute_node ("name");
+                          var nattr = ((xElement) rn).get_attribute_node ("name");
                           if (nattr == null) {
                             stdout.printf (@"ERROR: No Unknown Attribute Node with attribute name\n");
                             assert_not_reached ();

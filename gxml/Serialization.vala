@@ -216,9 +216,9 @@ namespace GXml {
 		public static GXml.xDocument serialize_object (GLib.Object object) throws GLib.Error
 		{
 			xDocument doc;
-			Element root;
+			xElement root;
 			ParamSpec[] prop_specs;
-			Element prop;
+			xElement prop;
 			GXml.xNode value_prop = null;
 			string oid;
 
@@ -292,7 +292,7 @@ namespace GXml {
 		 * strings back to other types, we use our own function to do
 		 * that.
 		 */
-		private static void deserialize_property (ParamSpec spec, Element prop_elem,
+		private static void deserialize_property (ParamSpec spec, xElement prop_elem,
 		                                          out Value val)
 		                                          throws GLib.Error
 		{
@@ -376,7 +376,7 @@ namespace GXml {
 		internal static GLib.Object? deserialize_object_from_node (GXml.xNode obj_node) 
 		                                                          throws GLib.Error
 		{
-			Element obj_elem;
+			xElement obj_elem;
 			string otype;
 			string oid;
 			Type type;
@@ -384,7 +384,7 @@ namespace GXml {
 			unowned ObjectClass obj_class;
 			ParamSpec[] specs;
 
-			obj_elem = (Element)obj_node;
+			obj_elem = (xElement)obj_node;
 
 			// FIXME: Remove cache.
 			// If the object has been deserialised before, get it from cache
@@ -418,11 +418,11 @@ namespace GXml {
 
 			foreach (GXml.xNode child_node in obj_elem.child_nodes) {
 				if (child_node.node_name == "Property") {
-					Element prop_elem;
+					xElement prop_elem;
 					string pname;
 					Value val;
 
-					prop_elem = (Element)child_node;
+					prop_elem = (xElement)child_node;
 					pname = prop_elem.get_attribute ("pname");
 					// Check name and type for property
 					ParamSpec? spec = null;

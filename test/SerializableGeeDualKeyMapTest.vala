@@ -158,10 +158,10 @@ class SerializableGeeDualKeyMapTest : GXmlTest
         int i = 0;
         foreach (GXml.xNode n in root.child_nodes) {
           nodes++;
-          if (n is Element && n.node_name == "spaces") {
+          if (n is xElement && n.node_name == "spaces") {
             i++;
-            var name = ((Element) n).get_attribute_node ("name");
-            var owner = ((Element) n).get_attribute_node ("owner");
+            var name = ((xElement) n).get_attribute_node ("name");
+            var owner = ((xElement) n).get_attribute_node ("owner");
             if (name != null && owner != null) {
               if (name.node_value == "Big" && owner.node_value == "Floor") found1 = true;
               if (name.node_value == "Small" && owner.node_value == "Wall") found2 = true;

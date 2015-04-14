@@ -122,8 +122,8 @@ class SerializableGeeHashMapTest : GXmlTest
         bool found1 = false;
         bool found2 = false;
         foreach (GXml.xNode n in root.child_nodes) {
-          if (n is Element && n.node_name == "space") {
-            var name = ((Element) n).get_attribute_node ("name");
+          if (n is xElement && n.node_name == "space") {
+            var name = ((xElement) n).get_attribute_node ("name");
             if (name != null) {
               if (name.node_value == "Big") found1 = true;
               if (name.node_value == "Small") found2 = true;
@@ -247,8 +247,8 @@ class SerializableGeeHashMapTest : GXmlTest
         bool found1 = false;
         bool found2 = false;
         foreach (GXml.xNode n in root.child_nodes) {
-          if (n is Element && n.node_name == "space") {
-            var name = ((Element) n).get_attribute_node ("name");
+          if (n is xElement && n.node_name == "space") {
+            var name = ((xElement) n).get_attribute_node ("name");
             if (name != null) {
               if (name.node_value == "Big") found1 = true;
               if (name.node_value == "Small") found2 = true;

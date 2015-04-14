@@ -51,7 +51,7 @@ class DocumentTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/document/document_element", () => {
 				xDocument doc = get_doc ();
-				Element root = doc.document_element;
+				xElement root = doc.document_element;
 
 				assert (root.node_name == "Sentences");
 				assert (root.has_child_nodes ());
@@ -230,7 +230,7 @@ class DocumentTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/document/create_element", () => {
 				xDocument doc = get_doc ();
-				Element elem = null;
+				xElement elem = null;
 
 				elem = doc.create_element ("Banana");
 				test_error (DomException.NONE);
@@ -246,18 +246,18 @@ class DocumentTest : GXmlTest {
 				DocumentFragment fragment = doc.create_document_fragment ();
 
 				// TODO: can we set XML in the content, and actually have that translate into real libxml2 underlying nodes?
-				Element percy = doc.create_element ("Author");
-				Element percy_name = doc.create_element ("Name");
-				Element percy_email = doc.create_element ("Email");
+				xElement percy = doc.create_element ("Author");
+				xElement percy_name = doc.create_element ("Name");
+				xElement percy_email = doc.create_element ("Email");
 				percy_name.content = "Percy";
 				percy_email.content = "pweasley@hogwarts.co.uk";
 				percy.append_child (percy_name);
 				percy.append_child (percy_email);
 				fragment.append_child (percy);
 
-				Element ginny = doc.create_element ("Author");
-				Element ginny_name = doc.create_element ("Name");
-				Element ginny_email = doc.create_element ("Email");
+				xElement ginny = doc.create_element ("Author");
+				xElement ginny_name = doc.create_element ("Name");
+				xElement ginny_email = doc.create_element ("Email");
 				ginny_name.content = "Ginny";
 				ginny_email.content = "weasleyg@hogwarts.co.uk";
 				ginny.append_child (ginny_name);
@@ -266,7 +266,7 @@ class DocumentTest : GXmlTest {
 
 				NodeList authors_list = doc.get_elements_by_tag_name ("Authors");
 				assert (authors_list.length == 1);
-				Element authors = (Element)authors_list.item (0);
+				xElement authors = (xElement)authors_list.item (0);
 				assert (authors.get_elements_by_tag_name ("Author").length == 2);
 				assert (fragment.child_nodes.length == 2);
 
@@ -362,8 +362,8 @@ class DocumentTest : GXmlTest {
 				NodeList elems = doc.get_elements_by_tag_name ("Email");
 
 				assert (elems.length == 2);
-				assert (((Element)elems.item (0)).content == "fweasley@hogwarts.co.uk");
-				/* more thorough test exists in Element, since right now
+				assert (((xElement)elems.item (0)).content == "fweasley@hogwarts.co.uk");
+				/* more thorough test exists in xElement, since right now
 				   xDocument uses that one */
 			});
 		Test.add_func ("/gxml/document/to_string", () => {
@@ -390,7 +390,7 @@ class DocumentTest : GXmlTest {
 	}
 
 	private static void check_contents (xDocument test_doc) {
-		Element root = test_doc.document_element;
+		xElement root = test_doc.document_element;
 
 		assert (root.node_name == "Sentences");
 		assert (root.has_child_nodes () == true);

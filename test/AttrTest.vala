@@ -30,7 +30,7 @@ class AttrTest : GXmlTest {
 		Test.add_func ("/gxml/element/namespace_uri", () => {
 				xDocument doc = new xDocument.from_string ("<Wands xmlns:wands=\"http://mom.co.uk/wands\"><Wand price=\"43.56\" wands:core=\"dragon heart cord\" wands:shell=\"oak\"/></Wands>");
 				GXml.xNode root = doc.document_element;
-				Element node = (Element)root.child_nodes.item (0);
+				xElement node = (xElement)root.child_nodes.item (0);
 
 				Attr core = node.get_attribute_node ("core");
 				Attr shell = node.get_attribute_node ("shell");
@@ -43,7 +43,7 @@ class AttrTest : GXmlTest {
 		Test.add_func ("/gxml/element/prefix", () => {
 				xDocument doc = new xDocument.from_string ("<Wands xmlns:wands=\"http://mom.co.uk/wands\"><Wand price=\"43.56\" wands:core=\"dragon heart cord\" wands:shell=\"oak\"/></Wands>");
 				GXml.xNode root = doc.document_element;
-				Element node = (Element)root.child_nodes.item (0);
+				xElement node = (xElement)root.child_nodes.item (0);
 
 				Attr core = node.get_attribute_node ("core");
 				Attr shell = node.get_attribute_node ("shell");
@@ -56,7 +56,7 @@ class AttrTest : GXmlTest {
 		Test.add_func ("/gxml/element/local_name", () => {
 				xDocument doc = new xDocument.from_string ("<Wands xmlns:wands=\"http://mom.co.uk/wands\"><Wand price=\"43.56\" wands:core=\"dragon heart cord\" wands:shell=\"oak\"/></Wands>");
 				GXml.xNode root = doc.document_element;
-				Element node = (Element)root.child_nodes.item (0);
+				xElement node = (xElement)root.child_nodes.item (0);
 
 				Attr core = node.get_attribute_node ("core");
 				Attr shell = node.get_attribute_node ("shell");
@@ -110,7 +110,7 @@ class AttrTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/attribute/parent_node", () => {
 				xDocument doc = get_doc ();
-				Element elem = get_elem ("creature", doc);
+				xElement elem = get_elem ("creature", doc);
 				Attr attr = get_attr ("breed", "Dragons", doc);
 
 				assert (attr.parent_node == null);
@@ -119,7 +119,7 @@ class AttrTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/attribute/previous_sibling", () => {
 				xDocument doc = get_doc ();
-				Element elem = get_elem ("creature", doc);
+				xElement elem = get_elem ("creature", doc);
 				Attr attr1 = get_attr ("breed", "Dragons", doc);
 				Attr attr2 = get_attr ("size", "large", doc);
 
@@ -131,7 +131,7 @@ class AttrTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/attribute/next_sibling", () => {
 				xDocument doc = get_doc ();
-				Element elem = get_elem ("creature", doc);
+				xElement elem = get_elem ("creature", doc);
 				Attr attr1 = get_attr ("breed", "Dragons", doc);
 				Attr attr2 = get_attr ("size", "large", doc);
 

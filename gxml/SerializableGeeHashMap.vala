@@ -80,13 +80,13 @@ public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, Ser
 
   public virtual GXml.xNode? serialize (GXml.xNode node)
                               throws GLib.Error
-                              requires (node is Element)
+                              requires (node is xElement)
   {
     return default_serialize (node);
   }
   public GXml.xNode? default_serialize (GXml.xNode node)
                               throws GLib.Error
-                              requires (node is Element)
+                              requires (node is xElement)
   {
     if (value_type.is_a (typeof (Serializable))) {
       foreach (V v in values) {
@@ -95,13 +95,13 @@ public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, Ser
     }
     return node;
   }
-  public virtual GXml.xNode? serialize_property (GXml.Element element,
+  public virtual GXml.xNode? serialize_property (GXml.xElement element,
                                         GLib.ParamSpec prop)
                                         throws GLib.Error
   {
     return default_serialize_property (element, prop);
   }
-  public GXml.xNode? default_serialize_property (GXml.Element element,
+  public GXml.xNode? default_serialize_property (GXml.xElement element,
                                         GLib.ParamSpec prop)
                                         throws GLib.Error
   {
@@ -121,9 +121,9 @@ public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, Ser
       throw new SerializableError.UNSUPPORTED_TYPE_ERROR ("%s: Value type '%s' is unsupported", 
                                                     this.get_type ().name (), value_type.name ());
     }
-    if (node is Element) {
+    if (node is xElement) {
       foreach (GXml.xNode n in node.child_nodes) {
-        if (n is Element) {
+        if (n is xElement) {
 #if DEBUG
           stdout.printf (@"Node $(node.node_name) for type '$(get_type ().name ())'\n");
 #endif

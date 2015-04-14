@@ -120,7 +120,7 @@ class SerializableEnumerationTest : GXmlTest
                          stdout.printf (@"ERROR: bad root name:\n$(doc)");
                          assert_not_reached ();
                        }
-                       Element element = doc.document_element;
+                       xElement element = doc.document_element;
                        var op = element.get_attribute_node ("options");
                        if (op == null) {
                          stdout.printf (@"ERROR: attribute options not found:\n$(doc)");

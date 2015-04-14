@@ -45,12 +45,12 @@ namespace GXml {
 	/**
 	 * A class implementing {@link NamedNodeMap} interface for {@link Attr} objects.
 	 * 
-	 * A collection of {@link NamedNodeMap} of type {@link Attr} objects in a {@link Element}.
+	 * A collection of {@link NamedNodeMap} of type {@link Attr} objects in a {@link xElement}.
 	 */
 	public class NamedAttrMap : GLib.Object, NamedNodeMap<Attr?> {
-		private Element elem;
+		private xElement elem;
 
-		internal NamedAttrMap (Element e) {
+		internal NamedAttrMap (xElement e) {
 			this.elem = e;
 		}
 

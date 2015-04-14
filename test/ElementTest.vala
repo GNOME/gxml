@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
 /* Notation.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
@@ -25,10 +25,10 @@
 using GXml;
 
 // namespace GXml {
-// 	public class TestElement : Element {
+// 	public class TestElement : xElement {
 // 		public TestElement (Xml.Node *node, xDocument doc) {
 // 			/* /home2/richard/gxml/test/ElementTest.vala:7.4-7.19: error: chain up
-// 			   to `GXml.Element' not supported */
+// 			   to `GXml.xElement' not supported */
 // 			base (node, doc);
 // 		}
 // 	}
@@ -37,7 +37,7 @@ using GXml;
 class ElementTest : GXmlTest  {
 	public static void add_tests () {
 		Test.add_func ("/gxml/element/namespace_support_manual", () => {
-				// TODO: wanted to use TestElement but CAN'T because Vala won't let me access the internal constructor of Element?
+				// TODO: wanted to use TestElement but CAN'T because Vala won't let me access the internal constructor of xElement?
 				Xml.Doc *xmldoc;
 				Xml.Node *xmlroot;
 				Xml.Node *xmlnode;
@@ -67,7 +67,7 @@ class ElementTest : GXmlTest  {
 				assert (node.node_name == "Potion");
 			});
 		Test.add_func ("/gxml/element/namespace_uri", () => {
-				// TODO: wanted to use TestElement but CAN'T because Vala won't let me access the internal constructor of Element?
+				// TODO: wanted to use TestElement but CAN'T because Vala won't let me access the internal constructor of xElement?
 				xDocument doc = new xDocument.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
 				GXml.xNode root = doc.document_element;
 				GXml.xNode node = root.child_nodes.item (0);
@@ -75,7 +75,7 @@ class ElementTest : GXmlTest  {
 				assert (node.namespace_uri == "http://hogwarts.co.uk/magic");
 			});
 		Test.add_func ("/gxml/element/testing", () => {
-				// TODO: wanted to use TestElement but CAN'T because Vala won't let me access the internal constructor of Element?
+				// TODO: wanted to use TestElement but CAN'T because Vala won't let me access the internal constructor of xElement?
 				xDocument doc = new xDocument.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"><products:Ingredient /></magic:Potion></Potions>");
 				GXml.xNode root = doc.document_element;
 				GXml.xNode node = root.child_nodes.item (0);
@@ -127,7 +127,7 @@ class ElementTest : GXmlTest  {
 				NamedAttrMap attributes;
 
 				xDocument doc;
-				Element elem;
+				xElement elem;
 
 				doc = get_doc ();
 
@@ -176,7 +176,7 @@ class ElementTest : GXmlTest  {
 			});
 		Test.add_func ("/gxml/element/get_set_attribute", () => {
 				xDocument doc;
-				Element elem = get_elem_new_doc ("student", out doc);
+				xElement elem = get_elem_new_doc ("student", out doc);
 
 				assert ("" == elem.get_attribute ("name"));
 
@@ -187,7 +187,7 @@ class ElementTest : GXmlTest  {
 			});
 		Test.add_func ("/gxml/element/remove_attribute", () => {
 				xDocument doc;
-				Element elem = get_elem_new_doc ("tagname", out doc);
+				xElement elem = get_elem_new_doc ("tagname", out doc);
 
 				elem.set_attribute ("name", "Malfoy");
 				assert ("Malfoy" == elem.get_attribute ("name"));
@@ -200,7 +200,7 @@ class ElementTest : GXmlTest  {
 			});
 		Test.add_func ("/gxml/element/get_attribute_node", () => {
 				xDocument doc;
-				Element elem = get_elem_new_doc ("tagname", out doc);
+				xElement elem = get_elem_new_doc ("tagname", out doc);
 
 				assert (elem.get_attribute_node ("name") == null);
 				elem.set_attribute ("name", "Severus");
@@ -208,7 +208,7 @@ class ElementTest : GXmlTest  {
 			});
 		Test.add_func ("/gxml/element/set_attribute_node", () => {
 				xDocument doc;
-				Element elem = get_elem_new_doc ("tagname", out doc);
+				xElement elem = get_elem_new_doc ("tagname", out doc);
 				Attr attr1 = elem.owner_document.create_attribute ("name");
 				Attr attr2 = elem.owner_document.create_attribute ("name");
 
@@ -227,7 +227,7 @@ class ElementTest : GXmlTest  {
 
 		Test.add_func ("/gxml/element/remove_attribute_node", () => {
 				xDocument doc;
-				Element elem = get_elem_new_doc ("tagname", out doc);
+				xElement elem = get_elem_new_doc ("tagname", out doc);
 				Attr attr;
 
 				attr = elem.owner_document.create_attribute ("name");
@@ -246,9 +246,9 @@ class ElementTest : GXmlTest  {
 		Test.add_func ("/gxml/element/get_elements_by_tag_name", () => {
 				xDocument doc;
 				GXml.xNode root;
-				Element elem;
+				xElement elem;
 				NodeList emails;
-				Element email;
+				xElement email;
 				Text text;
 
 				doc = get_doc ();
@@ -256,11 +256,11 @@ class ElementTest : GXmlTest  {
 				root = doc.document_element; // child_nodes.nth_data (0);
 				assert (root.node_name == "Sentences");
 
-				elem = (Element)root;
+				elem = (xElement)root;
 				emails = elem.get_elements_by_tag_name ("Email");
 				assert (emails.length == 2);
 
-				email = (Element)emails.@get (0);
+				email = (xElement)emails.@get (0);
 				assert (email.tag_name == "Email");
 				assert (email.child_nodes.length == 1);
 
@@ -268,7 +268,7 @@ class ElementTest : GXmlTest  {
 				assert (text.node_name == "#text");
 				assert (text.node_value == "fweasley@hogwarts.co.uk");
 
-				email = (Element)emails.@get (1);
+				email = (xElement)emails.@get (1);
 				assert (email.tag_name == "Email");
 				assert (email.child_nodes.length == 1);
 
@@ -318,7 +318,7 @@ class ElementTest : GXmlTest  {
 				GXml.xNode b3 = bs.child_nodes.item (7);
 				GXml.xNode t1, t2;
 
-				NodeList ts = ((Element)bs).get_elements_by_tag_name ("t");
+				NodeList ts = ((xElement)bs).get_elements_by_tag_name ("t");
 				assert (ts.length == 5);
 
 				// Test adding direct child
@@ -384,21 +384,21 @@ class ElementTest : GXmlTest  {
 			});
 		Test.add_func ("/gxml/element/normalize", () => {
 				xDocument doc;
-				Element elem = get_elem_new_doc ("tagname", out doc);
+				xElement elem = get_elem_new_doc ("tagname", out doc);
 				elem.normalize ();
 
 				// STUB
 			});
 		Test.add_func ("/gxml/element/to_string", () =>{
 				xDocument doc, doc2;
-				Element elem = get_elem_new_doc ("country", out doc);
+				xElement elem = get_elem_new_doc ("country", out doc);
 				elem.append_child (elem.owner_document.create_text_node ("New Zealand"));
 				if (elem.to_string () != "<country>New Zealand</country>") {
-				  stdout.printf (@"ERROR: Element to_string() fail. Expected <country>New Zealand</country> got: $(elem.to_string ())\n");
+				  stdout.printf (@"ERROR: xElement to_string() fail. Expected <country>New Zealand</country> got: $(elem.to_string ())\n");
 				  assert_not_reached ();
 				}
 				// during stringification, we don't want to confuse XML <> with text <>
-				Element elem2 = get_elem_new_doc ("messy", out doc2);
+				xElement elem2 = get_elem_new_doc ("messy", out doc2);
 				elem2.append_child (elem.owner_document.create_text_node ("&lt;<>&gt;"));
 				string expected = "<messy>&amp;lt;&lt;&gt;&amp;gt;</messy>";
 				if (elem2.to_string () != expected) {
@@ -418,7 +418,7 @@ class ElementTest : GXmlTest  {
 <root>TEXT1</root>
 """;
 			if (doc.to_string () != d) {
-				stdout.printf (@"Element content error. Expected '$d'\ngot '$(doc)'\n");
+				stdout.printf (@"xElement content error. Expected '$d'\ngot '$(doc)'\n");
 				assert_not_reached ();
 			}
 		});
@@ -434,7 +434,7 @@ class ElementTest : GXmlTest  {
 <root>TEXT1</root>
 """;
 			if (doc.to_string () != d) {
-				stdout.printf (@"Element content error. Expected '$d'\ngot '$(doc)'\n");
+				stdout.printf (@"xElement content error. Expected '$d'\ngot '$(doc)'\n");
 				assert_not_reached ();
 			}
 		});
@@ -451,7 +451,7 @@ class ElementTest : GXmlTest  {
 <root><child/>TEXT1</root>
 """;
 			if (doc.to_string () != d) {
-				stdout.printf (@"Element content error. Expected\n'$d'\ngot\n'$(doc)'\n");
+				stdout.printf (@"xElement content error. Expected\n'$d'\ngot\n'$(doc)'\n");
 				assert_not_reached ();
 			}
 		});

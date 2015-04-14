@@ -49,7 +49,7 @@ namespace GXml {
 	/**
 	 * Represents an XML xDocument as a tree of {@link GXml.xNode}s.
 	 *
-	 * The xDocument has a root document element {@link GXml.Element}.
+	 * The xDocument has a root document element {@link GXml.xElement}.
 	 * A xDocument's schema can be defined through its
 	 * {@link GXml.DocumentType}.
 	 *
@@ -80,7 +80,7 @@ namespace GXml {
 		 * Perhaps I really should implement a NamedNodeMap :|
 		 * TODO: do that
 		 */
-		internal List<Element> dirty_elements = new List<Element> ();
+		internal List<xElement> dirty_elements = new List<xElement> ();
 
 		/* TODO: for future reference, find out if internals
 		   are only accessible by children when they're
@@ -109,7 +109,7 @@ namespace GXml {
 				NodeType nodetype = (NodeType)xmlnode->type;
 				switch (nodetype) {
 				case NodeType.ELEMENT:
-					new Element (xmlnode, this);
+					new xElement (xmlnode, this);
 					break;
 				case NodeType.TEXT:
 					new Text (xmlnode, this);
@@ -186,10 +186,10 @@ namespace GXml {
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-documentElement]]
 		 */
-		public Element document_element {
+		public xElement document_element {
 			// TODO: should children work at all on xDocument, or just this, to get root?
 			get {
-				return (Element)this.lookup_node (this.xmldoc->get_root_element ());
+				return (xElement)this.lookup_node (this.xmldoc->get_root_element ());
 			}
 			private set {
 			}
@@ -589,7 +589,7 @@ namespace GXml {
 		/* Public Methods */
 
 		/**
-		 * Creates an empty {@link GXml.Element} node with the tag name
+		 * Creates an empty {@link GXml.xElement} node with the tag name
 		 * `tag_name`, which must be a
 		 * [[http://www.w3.org/TR/REC-xml/#NT-Name|valid XML name]].
 		 * Its memory is freed when its owner document is
@@ -600,11 +600,11 @@ namespace GXml {
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createElement]]
 
-		 * @param tag_name The name of the new {@link GXml.Element}
+		 * @param tag_name The name of the new {@link GXml.xElement}
 		 *
-		 * @return A new {@link GXml.Element}; this should not be freed
+		 * @return A new {@link GXml.xElement}; this should not be freed
 		 */
-		public unowned Element create_element (string tag_name) {
+		public unowned xElement create_element (string tag_name) {
 			// TODO: what should we be passing for ns other than old_ns?  Figure it out; needed for level 2+ support
 			Xml.Node *xmlelem;
 
@@ -613,9 +613,9 @@ namespace GXml {
 			xmlelem = this.xmldoc->new_node (null, tag_name, null);
 			this.new_nodes.append (xmlelem);
 
-			Element new_elem = new Element (xmlelem, this);
+			xElement new_elem = new xElement (xmlelem, this);
 			this.nodes_to_free.append (new_elem);
-			unowned Element ret = new_elem;
+			unowned xElement ret = new_elem;
 
 			return ret;
 		}
@@ -754,7 +754,7 @@ namespace GXml {
 		}
 
 		/**
-		 * Creates an {@link GXml.Attr} attribute with `name`, usually to be associated with an Element.
+		 * Creates an {@link GXml.Attr} attribute with `name`, usually to be associated with an xElement.
 		 *
 		 * XML example: {{{<element attributename="attributevalue">content</element>}}}
 		 *
@@ -818,7 +818,7 @@ namespace GXml {
 		}
 
 		/**
-		 * Obtains a list of {@link GXml.Element}s, each with
+		 * Obtains a list of {@link GXml.xElement}s, each with
 		 * the given tag name `tag_name`, contained within
 		 * this document.
 		 *
@@ -833,10 +833,10 @@ namespace GXml {
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-getElementsByTagName]]
 		 *
-		 * @param tag_name The {@link GXml.Element} tag name we matching for
+		 * @param tag_name The {@link GXml.xElement} tag name we matching for
 		 *
 		 * @return A {@link GXml.NodeList} of
-		 * {@link GXml.Element}s; this must be freed with
+		 * {@link GXml.xElement}s; this must be freed with
 		 * {@link GLib.Object.unref}.
 		 */
 		public NodeList get_elements_by_tag_name (string tag_name) {
@@ -937,7 +937,7 @@ namespace GXml {
 		 * Inserts `new_child` into this document before
 		 * `ref_child`, an existing child of this
 		 * {@link GXml.xDocument}. A document can only have one
-		 * {@link GXml.Element} child (the root element) and
+		 * {@link GXml.xElement} child (the root element) and
 		 * one {@link GXml.DocumentType}.
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
@@ -962,7 +962,7 @@ namespace GXml {
 		/**
 		 * Appends new_child to this document, appearing at
 		 * the end of its list of children.  A document can
-		 * only have one {@link GXml.Element} child, the root
+		 * only have one {@link GXml.xElement} child, the root
 		 * element, and one {@link GXml.DocumentType}.
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
@@ -978,7 +978,7 @@ namespace GXml {
 
 			if (new_child.node_type == NodeType.ELEMENT) {
 				if (xmldoc->get_root_element () == null) {
-					xmldoc->set_root_element (((Element)new_child).node);
+					xmldoc->set_root_element (((xElement)new_child).node);
 				} else {
 					GXml.warning (DomException.HIERARCHY_REQUEST, "Document already has a root element.  Could not add child element with name '%s'".printf (new_child.node_name));
 				}

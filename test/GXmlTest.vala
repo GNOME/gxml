@@ -109,12 +109,12 @@ class GXmlTest {
 		return attr;
 	}
 
-	internal static Element get_elem_new_doc (string name, out xDocument doc) {
+	internal static xElement get_elem_new_doc (string name, out xDocument doc) {
 		return get_elem (name, doc = get_doc ());
 	}
 
-	internal static Element get_elem (string name, xDocument doc) {
-		Element elem = doc.create_element (name);
+	internal static xElement get_elem (string name, xDocument doc) {
+		xElement elem = doc.create_element (name);
 		return elem;
 	}
 

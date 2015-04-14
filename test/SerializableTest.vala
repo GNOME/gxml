@@ -111,7 +111,7 @@ public class SerializableCapsicum : GXml.SerializableJson {
 		case "ratings":
 			this.ratings = new GLib.List<int> ();
 			foreach (GXml.xNode rating in element.child_nodes) {
-				int64.try_parse (((GXml.Element)rating).content, out outvalue);
+				int64.try_parse (((GXml.xElement)rating).content, out outvalue);
 				this.ratings.append ((int)outvalue.get_int64 ());
 			}
 			break;
@@ -126,7 +126,7 @@ public class SerializableCapsicum : GXml.SerializableJson {
 		switch (prop.name) {
 		case "ratings":
 			foreach (int rating_int in ratings) {
-				Element n = doc.create_element ("rating");
+				xElement n = doc.create_element ("rating");
 				n.content = "%d".printf (rating_int);
 				element.append_child (n);
 			}

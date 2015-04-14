@@ -21,13 +21,13 @@
  */
 
 /**
- * Object Model is an {@link Serializable} implementation using {@link Element}
+ * Object Model is an {@link Serializable} implementation using {@link xElement}
  * to represent {@link GLib.Object} class objects.
  * 
  * This implementation consider each object as a XML node, represented in GXml 
- * as a {@link GXml.Element} and its properties is represented by {@link GXml.Attr}.
+ * as a {@link GXml.xElement} and its properties is represented by {@link GXml.Attr}.
  * Each property, if it is a {@link Serializable} object, is represented as child
- * {@link Element}.
+ * {@link xElement}.
  * 
  * If a object's value property must be represented as a XML node content, 
  * then it requires to override {@link Serializable.serialize_use_xml_node_value}
@@ -95,7 +95,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
   public virtual GXml.xNode? serialize (GXml.xNode node)
                        throws GLib.Error
                        requires (node_name () != null)
-                       requires (node is xDocument || node is Element)
+                       requires (node is xDocument || node is xElement)
   {
     return default_serialize (node);
   }
@@ -122,7 +122,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     }
     if (get_enable_unknown_serializable_property ()) {
         foreach (xNode n in unknown_serializable_property.get_values ()) {
-          if (n is Element) {
+          if (n is xElement) {
             var e = (xNode) doc.create_element (n.node_name);
             n.copy (ref e, true);
             element.append_child (e);
@@ -153,13 +153,13 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     return element;
   }
 
-  public virtual GXml.xNode? serialize_property (GXml.Element element,
+  public virtual GXml.xNode? serialize_property (GXml.xElement element,
                                         GLib.ParamSpec prop)
                                         throws GLib.Error
   {
     return default_serialize_property (element, prop);
   }
-  public GXml.xNode? default_serialize_property (GXml.Element element,
+  public GXml.xNode? default_serialize_property (GXml.xElement element,
                                         GLib.ParamSpec prop)
                                         throws GLib.Error
   {
@@ -232,11 +232,11 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     }
     else
       doc = node.owner_document;
-    Element element;
-    if (node is Element)
-      element = (Element) node;
+    xElement element;
+    if (node is xElement)
+      element = (xElement) node;
     else
-      element = (Element) doc.document_element;
+      element = (xElement) doc.document_element;
     return_val_if_fail (element != null, null);
     if (node_name () == null) {
       message (@"WARNING: Object type '$(get_type ().name ())' have no Node Name defined");
@@ -297,7 +297,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
             }
           }
         }
-        if (n is Element  && !cnodes.has_key (n.node_name)) {
+        if (n is xElement  && !cnodes.has_key (n.node_name)) {
 #if DEBUG
             stdout.printf (@"$(get_type ().name ()): DESERIALIZING ELEMENT '$(n.node_name)'\n");
 #endif

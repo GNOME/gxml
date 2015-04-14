@@ -164,13 +164,13 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable, Serializ
 
   public virtual GXml.xNode? serialize (GXml.xNode node)
                               throws GLib.Error
-                              requires (node is Element)
+                              requires (node is xElement)
   {
     return default_serialize (node);
   }
   public GXml.xNode? default_serialize (GXml.xNode node)
                               throws GLib.Error
-                              requires (node is Element)
+                              requires (node is xElement)
   {
     foreach (V v in values ()) {
         if (v is Serializable)
@@ -178,13 +178,13 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable, Serializ
     }
     return node;
   }
-  public virtual GXml.xNode? serialize_property (GXml.Element element,
+  public virtual GXml.xNode? serialize_property (GXml.xElement element,
                                         GLib.ParamSpec prop)
                                         throws GLib.Error
   {
     return default_serialize_property (element, prop);
   }
-  public GXml.xNode? default_serialize_property (GXml.Element element,
+  public GXml.xNode? default_serialize_property (GXml.xElement element,
                                         GLib.ParamSpec prop)
                                         throws GLib.Error
   {
@@ -198,7 +198,7 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable, Serializ
   }
   public GXml.xNode? default_deserialize (GXml.xNode node)
                     throws GLib.Error
-                    requires (node is Element)
+                    requires (node is xElement)
   {
     if (!(value_type.is_a (typeof (GXml.Serializable)) &&
         value_type.is_a (typeof (SerializableMapDualKey)))) {
@@ -206,7 +206,7 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable, Serializ
                                                     this.get_type ().name (), value_type.name ());
     }
     foreach (GXml.xNode n in node.child_nodes) {
-      if (n is Element) {
+      if (n is xElement) {
         var obj = (SerializableMapDualKey<P,S>) Object.new (value_type);
         if (n.node_name == ((Serializable) obj).node_name ()) {
           ((Serializable) obj).deserialize (n);
