@@ -26,5 +26,10 @@ public interface GXml.Document : Object, GXml.Node
 {
   public abstract GXml.Node root { get; }
   public abstract GLib.File file { get; set; }
+  /**
+   * This method sould create a new {@link GXml.Element}
+   * is a matter of you to add as a child to any other
+   * {@link GXml.Node}.
+   */
   public abstract GXml.Node create_element (string name);
 }

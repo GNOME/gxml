@@ -103,7 +103,7 @@ class SerializableGeeTreeMapTest : GXmlTest
         c.set (o2.name, o2);
         var doc = new xDocument ();
         var root = (xElement) doc.create_element ("root");
-        doc.append_child (root);
+        doc.childs.add (root);
         c.serialize (root);
         if (!root.has_child_nodes ()) {
           stdout.printf (@"ERROR: root node have no childs $(doc)\n");
