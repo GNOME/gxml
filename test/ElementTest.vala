@@ -131,7 +131,7 @@ class ElementTest : GXmlTest  {
 
 				doc = get_doc ();
 
-				elem = doc.create_element ("alphanumeric");
+				elem = (xElement) doc.create_element ("alphanumeric");
 
 				attributes = elem.attributes;
 				assert (attributes != null);
@@ -322,21 +322,21 @@ class ElementTest : GXmlTest  {
 				assert (ts.length == 5);
 
 				// Test adding direct child
-				bs.append_child (t1 = doc.create_element ("t"));
+				bs.append_child (t1 = (xElement) doc.create_element ("t"));
 				assert (ts.length == 6);
 
 				// Test adding descendant
-				b3.append_child (doc.create_element ("t"));
+				b3.append_child ((xElement) doc.create_element ("t"));
 				assert (ts.length == 7);
 
 				// Test situation where we add a node tree
 				GXml.xNode b4;
 				GXml.xNode d, d2;
 
-				b4 = doc.create_element ("B");
-				b4.append_child (doc.create_element ("t"));
-				d = doc.create_element ("D");
-				d.append_child (t2 = doc.create_element ("t"));
+				b4 = (xElement) doc.create_element ("B");
+				b4.append_child ((xElement) doc.create_element ("t"));
+				d = (xElement) doc.create_element ("D");
+				d.append_child (t2 = (xElement) doc.create_element ("t"));
 				b4.append_child (d);
 
 				bs.append_child (b4);
@@ -344,8 +344,8 @@ class ElementTest : GXmlTest  {
 				assert (ts.length == 9);
 
 				// Test situation where we use insert_before
-				d2 = doc.create_element ("D");
-				d2.append_child (doc.create_element ("t"));
+				d2 = (xElement) doc.create_element ("D");
+				d2.append_child ((xElement) doc.create_element ("t"));
 				b4.insert_before (d2, d);
 
 				assert (ts.length == 10);
@@ -354,12 +354,12 @@ class ElementTest : GXmlTest  {
 				DocumentFragment frag;
 
 				frag = doc.create_document_fragment ();
-				frag.append_child (doc.create_element ("t"));
-				d = doc.create_element ("D");
-				d.append_child (doc.create_element ("t"));
+				frag.append_child ((xElement) doc.create_element ("t"));
+				d = (xElement) doc.create_element ("D");
+				d.append_child ((xElement) doc.create_element ("t"));
 				frag.append_child (d);
-				d2 = doc.create_element ("D");
-				d2.append_child (doc.create_element ("t"));
+				d2 = (xElement) doc.create_element ("D");
+				d2.append_child ((xElement) doc.create_element ("t"));
 				frag.insert_before (d2, d);
 
 				b4.append_child (frag);
@@ -411,8 +411,8 @@ class ElementTest : GXmlTest  {
 			});
 		Test.add_func ("/gxml/element/content/set", () =>{
 			var doc = new xDocument ();
-			var root = doc.create_element ("root");
-			doc.append_child (root);
+			var root = (xElement) doc.create_element ("root");
+			doc.append_child ((xNode) root);
 			root.content = "TEXT1";
 			string d = """<?xml version="1.0"?>
 <root>TEXT1</root>
@@ -424,9 +424,9 @@ class ElementTest : GXmlTest  {
 		});
 		Test.add_func ("/gxml/element/content/overwrite_child_nodes", () =>{
 			var doc = new xDocument ();
-			var root = doc.create_element ("root");
+			var root = (xElement) doc.create_element ("root");
 			doc.append_child (root);
-			var n = doc.create_element ("child");
+			var n = (xElement) doc.create_element ("child");
 			root.append_child (n);
 			// This will remove all child nodes
 			root.content = "TEXT1";
@@ -440,12 +440,12 @@ class ElementTest : GXmlTest  {
 		});
 		Test.add_func ("/gxml/element/content/keep_child_nodes", () =>{
 			var doc = new xDocument ();
-			var root = doc.create_element ("root");
+			var root = (xElement) doc.create_element ("root");
 			doc.append_child (root);
-			var n = doc.create_element ("child");
+			var n = (xElement) doc.create_element ("child");
 			root.append_child (n);
 			// This will remove all child nodes
-			var t = doc.create_text_node ("TEXT1");
+			var t = (xElement) doc.create_text_node ("TEXT1");
 			root.append_child (t);
 			string d = """<?xml version="1.0"?>
 <root><child/>TEXT1</root>

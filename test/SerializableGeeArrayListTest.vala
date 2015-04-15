@@ -73,7 +73,7 @@ class SerializableGeeArrayListTest : GXmlTest
         c.add (o1);
         c.add (o2);
         var doc = new xDocument ();
-        var root = doc.create_element ("root");
+        var root = (xElement) doc.create_element ("root");
         doc.append_child (root);
         c.serialize (root);
         if (!root.has_child_nodes ()) {

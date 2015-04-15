@@ -124,7 +124,7 @@ class NodeTest : GXmlTest {
 
 				GXml.xNode node;
 
-				node = doc.create_element ("elem");
+				node = (xElement) doc.create_element ("elem");
 				assert (node.node_value == null);
 
 				node = doc.create_attribute ("name");

@@ -112,7 +112,7 @@ class SerializableGeeHashMapTest : GXmlTest
         c.set (o1.name, o1);
         c.set (o2.name, o2);
         var doc = new xDocument ();
-        var root = doc.create_element ("root");
+        var root = (xElement) doc.create_element ("root");
         doc.append_child (root);
         c.serialize (root);
         if (!root.has_child_nodes ()) {

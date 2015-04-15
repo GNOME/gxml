@@ -126,7 +126,7 @@ public class SerializableCapsicum : GXml.SerializableJson {
 		switch (prop.name) {
 		case "ratings":
 			foreach (int rating_int in ratings) {
-				xElement n = doc.create_element ("rating");
+				xElement n = (xElement) doc.create_element ("rating");
 				n.content = "%d".printf (rating_int);
 				element.append_child (n);
 			}

@@ -110,7 +110,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       doc = (xDocument) node;
     else
       doc = node.owner_document;
-    var element = doc.create_element (node_name ());
+    var element = (xElement) doc.create_element (node_name ());
     node.append_child (element);
     if (serialize_set_namespace != null) {
       string[] str = serialize_set_namespace.split ("|", 2);

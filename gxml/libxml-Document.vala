@@ -242,7 +242,7 @@ namespace GXml {
 			this.implementation = impl;
 
 			xNode root;
-			root = this.create_element (qualified_name); // TODO: we do not currently support namespaces, but when we do, this new node will want one
+			root = (xNode) this.create_element (qualified_name); // TODO: we do not currently support namespaces, but when we do, this new node will want one
 			this.append_child (root);
 
 			this.namespace_uri = namespace_uri;
@@ -606,7 +606,7 @@ namespace GXml {
 		 *
 		 * @return A new {@link GXml.xElement}; this should not be freed
 		 */
-		public unowned xElement create_element (string tag_name) {
+		public GXml.Node create_element (string tag_name) {
 			// TODO: what should we be passing for ns other than old_ns?  Figure it out; needed for level 2+ support
 			Xml.Node *xmlelem;
 

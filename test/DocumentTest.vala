@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
 /* Notation.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
@@ -232,12 +232,12 @@ class DocumentTest : GXmlTest {
 				xDocument doc = get_doc ();
 				xElement elem = null;
 
-				elem = doc.create_element ("Banana");
+				elem = (xElement) doc.create_element ("Banana");
 				test_error (DomException.NONE);
 				assert (elem.tag_name == "Banana");
 				assert (elem.tag_name != "banana");
 
-				elem = doc.create_element ("ØÏØÏØ¯ÏØÏ  ²øœ³¤ïØ£");
+				elem = (xElement) doc.create_element ("ØÏØÏØ¯ÏØÏ  ²øœ³¤ïØ£");
 				test_error (DomException.INVALID_CHARACTER);
 				// assert (elem == null); // TODO: decide what we want returned on DomExceptions
 			});
@@ -246,18 +246,18 @@ class DocumentTest : GXmlTest {
 				DocumentFragment fragment = doc.create_document_fragment ();
 
 				// TODO: can we set XML in the content, and actually have that translate into real libxml2 underlying nodes?
-				xElement percy = doc.create_element ("Author");
-				xElement percy_name = doc.create_element ("Name");
-				xElement percy_email = doc.create_element ("Email");
+				xElement percy = (xElement) doc.create_element ("Author");
+				xElement percy_name = (xElement) doc.create_element ("Name");
+				xElement percy_email = (xElement) doc.create_element ("Email");
 				percy_name.content = "Percy";
 				percy_email.content = "pweasley@hogwarts.co.uk";
 				percy.append_child (percy_name);
 				percy.append_child (percy_email);
 				fragment.append_child (percy);
 
-				xElement ginny = doc.create_element ("Author");
-				xElement ginny_name = doc.create_element ("Name");
-				xElement ginny_email = doc.create_element ("Email");
+				xElement ginny = (xElement) doc.create_element ("Author");
+				xElement ginny_name = (xElement) doc.create_element ("Name");
+				xElement ginny_email = (xElement) doc.create_element ("Email");
 				ginny_name.content = "Ginny";
 				ginny_email.content = "weasleyg@hogwarts.co.uk";
 				ginny.append_child (ginny_name);

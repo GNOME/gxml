@@ -114,7 +114,7 @@ class GXmlTest {
 	}
 
 	internal static xElement get_elem (string name, xDocument doc) {
-		xElement elem = doc.create_element (name);
+		xElement elem = (xElement) doc.create_element (name);
 		return elem;
 	}
 

@@ -128,7 +128,7 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
     else
       doc = node.owner_document;
 
-    root = doc.create_element ("Object");
+    root = (xElement) doc.create_element ("Object");
     doc.append_child (root);
     root.set_attribute ("otype", this.get_type ().name ());
     root.set_attribute ("oid", oid);
@@ -157,7 +157,7 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
     }
 
     var doc = element.owner_document;
-    prop_node = doc.create_element ("Property");
+    prop_node = (xElement) doc.create_element ("Property");
     prop_node.set_attribute ("ptype", prop.value_type.name ());
     prop_node.set_attribute ("pname", prop.name);
     element.append_child (prop_node);
@@ -198,7 +198,7 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
       this.get_property_value (prop, ref val);
       child_object = val.get_object ();
       xDocument value_doc = Serialization.serialize_object (child_object);
-      value_node = doc.create_element ("fake");
+      value_node = (xNode) doc.create_element ("fake");
       value_doc.document_element.copy (ref value_node, true);
       //value_node = doc.copy_node (value_doc.document_element);
       prop_node.append_child (value_node);

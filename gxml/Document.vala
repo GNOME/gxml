@@ -26,4 +26,5 @@ public interface GXml.Document : Object, GXml.Node
 {
   public abstract GXml.Node root { get; }
   public abstract GLib.File file { get; set; }
+  public abstract GXml.Node create_element (string name);
 }

@@ -238,7 +238,7 @@ namespace GXml {
 			// first, check if its been serialised already, and if so, just return an ObjectRef element for it.
 			if (oid != "" && Serialization.serialize_cache.contains (oid)) {
 				// GLib.message ("cache hit on oid %s", oid);
-				root = doc.create_element ("ObjectRef");
+				root = (xElement) doc.create_element ("ObjectRef");
 				doc.append_child (root);
 				root.set_attribute ("otype", object.get_type ().name ());
 				root.set_attribute ("oid", oid);
@@ -251,7 +251,7 @@ namespace GXml {
 				return doc;
 			}
 			// For now and on assume is not a Serializable object
-			root = doc.create_element ("Object");
+			root = (xElement) doc.create_element ("Object");
 			doc.append_child (root);
 			root.set_attribute ("otype", object.get_type ().name ());
 			root.set_attribute ("oid", oid);
@@ -269,7 +269,7 @@ namespace GXml {
 			   strings. (Too bad deserialising isn't that
 			   easy w.r.t. string conversion.) */
 			foreach (ParamSpec prop_spec in prop_specs) {
-				prop = doc.create_element ("Property");
+				prop = (xElement) doc.create_element ("Property");
 				prop.set_attribute ("ptype", prop_spec.value_type.name ());
 				prop.set_attribute ("pname", prop_spec.name);
 				value_prop = Serialization.serialize_property (object, prop_spec, doc);
