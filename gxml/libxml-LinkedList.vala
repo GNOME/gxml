@@ -85,7 +85,7 @@ internal class GXml.LinkedList : Gee.LinkedList<GXml.xNode>, NodeList
   {
     string str = "";
 	  foreach (xNode node in this) {
-		  str += node.to_string ();
+		  str += node.stringify ();
 	  }
 	  return str;
   }

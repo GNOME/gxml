@@ -480,15 +480,6 @@ namespace GXml {
 			return null;
 		}
 
-		/**
-		 * Creates a copy of node's definition to @node.
-		 *
-		 * @param node: a {@link GXml.xNode} to copy values to.
-		 * @param deep: {@link true} when you want to copy child nodes too.
-		 */
-		public virtual bool copy (ref xNode node, bool deep = false) {
-			return false;
-		}
 
 		// TODO: ask Colin Walters about storing docs in GIR files (might have not been him)
 		/**
@@ -506,7 +497,7 @@ namespace GXml {
 		 * @return XML string for node, which must be free
 		 * this.
 		 */
-		public virtual string to_string (bool format = false, int level = 0) {
+		public virtual string stringify (bool format = false, int level = 0) {
 			return "xNode(%d:%s)".printf (this.node_type, this.node_name);
 		}
 		
@@ -514,12 +505,20 @@ namespace GXml {
 		public virtual Gee.BidirList<GXml.Namespace> namespaces { get { return _namespace_definitions; } }
 		public virtual Gee.BidirList<GXml.Node> childs { get { return (BidirList<GXml.Node>) child_nodes; } }
 		public virtual Gee.Map<string,GXml.Node> attrs { get { return (Map<string,GXml.Node>) _attributes; } }
+		public virtual string name { get { return node_name; } }
+		public virtual string @value { get { return node_value; } set { node_value = value; } }
+		public GXml.NodeType type_node { get { return node_type; } }
+		/**
+		 * Creates a copy of node's definition to @node.
+		 *
+		 * @param node: a {@link GXml.xNode} to copy values to.
+		 * @param deep: {@link true} when you want to copy child nodes too.
+		 */
+		public virtual bool copy (ref xNode node, bool deep = false) { // TODO: Change to GXml.Node
+			return false;
+		}
 		/*
-		public string name { get; construct set; }
-		public string @value { get; set; }
-		public GXml.NodeType type_node { get; construct set; }
 		public GXml.Document document { get; construct set; }
-		public GXml.Node copy ();
 		public string to_string ();*/
 	}
 }

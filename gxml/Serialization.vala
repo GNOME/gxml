@@ -86,7 +86,7 @@ namespace GXml {
 	 */
 	public class Serialization : GLib.Object {
 		private static void print_debug (GXml.xDocument doc, GLib.Object object) {
-			stdout.printf ("Object XML\n---\n%s\n", doc.to_string ());
+			stdout.printf ("Object XML\n---\n%s\n", doc.stringify ());
 
 			stdout.printf ("object\n---\n");
 			stdout.printf ("get_type (): %s\n", object.get_type ().name ());
@@ -429,7 +429,7 @@ namespace GXml {
 					spec = obj_class.find_property (pname);
 
 					if (spec == null) {
-						throw new SerializationError.UNKNOWN_PROPERTY ("Unknown property '%s' found, for object type '%s'-->XML: [%s]", pname, otype, obj_elem.to_string ());
+						throw new SerializationError.UNKNOWN_PROPERTY ("Unknown property '%s' found, for object type '%s'-->XML: [%s]", pname, otype, obj_elem.stringify ());
 					}
 					Serialization.deserialize_property (spec, prop_elem, out val);
 					obj.set_property (pname, val);

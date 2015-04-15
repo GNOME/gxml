@@ -873,7 +873,7 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override string to_string (bool format = true, int level = 0) {
+		public override string stringify (bool format = true, int level = 0) {
 			string str;
 			int len;
 

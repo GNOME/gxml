@@ -337,7 +337,7 @@ namespace GXml {
 			// TODO: add a better test, as we weren't realising this was just a stub; test for memory usage too
 		}
 
-		public override string to_string (bool format = true, int level = 0) {
+		public override string stringify (bool format = true, int level = 0) {
 			/* TODO: change from xmlNodeDump and xmlBuffer
 			 * to xmlBuf and xmlBufNodeDump; the former
 			 * are 'somehow deprecated' (see xmlNodeDump

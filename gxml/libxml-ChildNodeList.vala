@@ -219,7 +219,7 @@ internal abstract class GXml.ChildNodeList : AbstractBidirList<xNode>, NodeList
 		public string to_string (bool in_line = true) {
 			string str = "";
 			foreach (xNode node in this) {
-				str += node.to_string ();
+				str += node.stringify ();
 			}
 			return str;
 		}

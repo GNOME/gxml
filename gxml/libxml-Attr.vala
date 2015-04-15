@@ -180,12 +180,10 @@ namespace GXml {
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-1112119403]]
 		 */
-		public string name {
+		public override string name {
 			get {
 				// TODO: make sure that this is the right name, and that ownership is correct
 				return this.node_name;
-			}
-			private set {
 			}
 		}
 
@@ -215,7 +213,7 @@ namespace GXml {
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-221662474]]
 		 */
-		public string value {
+		public override string value {
 			get {
 				return this.node_value;
 			}
@@ -251,7 +249,7 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override string to_string (bool format = false, int level = 0) {
+		public override string stringify (bool format = false, int level = 0) {
 			return "Attr(%s=\"%s\")".printf (this.name, this.value);
 		}
 	}

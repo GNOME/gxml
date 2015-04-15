@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
 /* DocumentType.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
@@ -52,13 +52,10 @@ namespace GXml {
 		 * the XML doctype declaration of
 		 * {{{ <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> }}}
 		 */
-		public string name {
+		public override string name {
 			get {
 				// TODO: is it possible for int_subset and ext_subset to have different names?
 				return this.int_subset->name;
-			}
-			// TODO: should this match node_name?
-			private set {
 			}
 		}
 

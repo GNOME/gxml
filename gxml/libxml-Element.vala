@@ -492,12 +492,12 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override string to_string (bool format = false, int level = 0) {
+		public override string stringify (bool format = false, int level = 0) {
 			/* TODO: may want to determine a way to only sync when
 			   attributes have been modified */
 
 			this.owner_document.dirty_elements.append (this);
-			return base.to_string (format, level);
+			return base.stringify (format, level);
 		}
 	}
 }

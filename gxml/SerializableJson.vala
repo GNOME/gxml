@@ -250,7 +250,7 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
       spec = this.find_property_spec (pname);
 
       if (spec == null) {
-        GLib.message ("Deserializing object of type '%s' claimed unknown property named '%s'\nXML [%s]", ptype, pname, property_node.to_string ());
+        GLib.message ("Deserializing object of type '%s' claimed unknown property named '%s'\nXML [%s]", ptype, pname, property_node.stringify ());
         unknown_serializable_property.set (property_node.node_name, property_node);
       }
       else {
