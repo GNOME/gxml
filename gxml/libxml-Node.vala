@@ -508,6 +508,7 @@ namespace GXml {
 		public virtual string name { get { return node_name; } }
 		public virtual string @value { get { return node_value; } set { node_value = value; } }
 		public GXml.NodeType type_node { get { return node_type; } }
+		public virtual string to_string () { return stringify (); }
 		/**
 		 * Creates a copy of node's definition to @node.
 		 *
@@ -518,7 +519,6 @@ namespace GXml {
 			return false;
 		}
 		/*
-		public GXml.Document document { get; construct set; }
-		public string to_string ();*/
+		public GXml.Document document { get; construct set; }*/
 	}
 }
