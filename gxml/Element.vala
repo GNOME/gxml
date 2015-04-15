@@ -24,7 +24,14 @@ using Gee;
 
 public interface GXml.Element : Object, GXml.Node
 {
-  public abstract GXml.Node root { get; set; }
-  public abstract GLib.File file { get; set; }
-  public abstract string to_string ();
+    public abstract void normalize ();
+    public abstract void set_attribute (string name, string value);
+    /**
+     * This should be just a different name for {@link GXml.Node.name}.
+     */
+    public abstract string tag_name { get; }
+    /**
+     * This should be just a different name for {@link GXml.Node.value}.
+     */
+    public abstract string content { owned get; set; }
 }

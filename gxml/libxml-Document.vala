@@ -1009,5 +1009,10 @@ namespace GXml {
 			// TODO: do we need to append this to this.new_nodes?  Do we need to append the result to this.nodes_to_free?  Test memory implications
 			return this.lookup_node (our_copy_xml); // inducing a GXmlNode
 		}
+		// GXml.Document interface
+		public GLib.File file { get; set; }
+		/*
+		public abstract GXml.Node root { get; set; }
+		*/
 	}
 }

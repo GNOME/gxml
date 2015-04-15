@@ -64,8 +64,6 @@ namespace GXml {
 				// TODO: is this the same as tagname from xDocument's get_elem_by...?
 				return base.node_name;
 			}
-			private set {
-			}
 		}
 
 		/**

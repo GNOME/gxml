@@ -26,5 +26,4 @@ public interface GXml.Document : Object, GXml.Node
 {
   public abstract GXml.Node root { get; set; }
   public abstract GLib.File file { get; set; }
-  public abstract string to_string ();
 }
