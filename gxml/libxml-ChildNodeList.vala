@@ -23,7 +23,7 @@
 
 using Gee;
 
-internal abstract class GXml.ChildNodeList : AbstractList<xNode>, NodeList
+internal abstract class GXml.ChildNodeList : AbstractBidirList<xNode>, NodeList
 {
 		/* TODO: must be live
 		   if this reflects children of a node, then must always be current
@@ -117,6 +117,8 @@ internal abstract class GXml.ChildNodeList : AbstractList<xNode>, NodeList
 		}
 		public override Gee.List<xNode>? slice (int start, int stop) { return null; }
 
+    // Gee.AbstractBidirList
+		public override Gee.BidirListIterator<xNode> bidir_list_iterator () { return new Iterator (this); }
 		/** GNOME List conventions */
 		public xNode first () {
 			return this.owner.lookup_node (head);
@@ -226,7 +228,8 @@ internal abstract class GXml.ChildNodeList : AbstractList<xNode>, NodeList
 		/* ** NodeListIterator ***/
 
 		private class Iterator : GLib.Object,
-      Gee.Traversable<xNode>, Gee.Iterator<xNode>, Gee.ListIterator<xNode>
+      Gee.Traversable<xNode>, Gee.Iterator<xNode>, Gee.ListIterator<xNode>,
+      Gee.BidirIterator<xNode>, Gee.BidirListIterator<xNode>
 		{
       private ChildNodeList list;
 			private weak xDocument doc;
@@ -244,18 +247,29 @@ internal abstract class GXml.ChildNodeList : AbstractList<xNode>, NodeList
 			}
 			/* Gee.Iterator interface */
 			public new xNode @get () { return this.doc.lookup_node (this.cur); }
-			public bool has_next () { return head == null ? false : true; }
+			public bool has_next () {
+        if (cur == null) {
+          if (head == null) return false;
+          return true;
+        }
+        return cur->next == null ? false : true;
+      }
 			public bool next () {
-				if (has_next ()) {
+        if (cur == null) {
+          cur = head;
           i++;
-					cur = head;
-					head = head->next;
-					return true;
-				}
-				return false;
+          return true;
+        }
+				if (cur->next == null) return false;
+        i++;
+				cur = cur->next;
+				return true;
 			}
-			public void remove () {}
-			public bool read_only { get { return true; } }
+			public void remove () {
+        var n = get ();
+        list.remove_child (n);
+      }
+			public bool read_only { get { return false; } }
 			public bool valid { get { return cur != null ? true : false; } }
 
 			/* Traversable interface */
@@ -275,5 +289,37 @@ internal abstract class GXml.ChildNodeList : AbstractList<xNode>, NodeList
         var n = get ();
         list.replace_child (item, n);
 		  }
+      // Gee.BidirIterator
+      public bool first () {
+        var n = ((BackedNode) list.first ()).node;
+        if (n == null) return false;
+        head = n;
+        cur = head;
+        i = 0;
+        return true;
+      }
+		  public bool has_previous () {
+        if (cur->prev != null) return true;
+        return false;
+		  }
+		  public bool last () {
+        if (cur == null) return false;
+        while (cur->next != null) {
+          cur = cur->next;
+          i++;
+        }
+        return true;
+		  }
+		  public bool previous () {
+        if (cur->prev == null) return false;
+        cur = cur->prev;
+        i--;
+        return true;
+		  }
+      // Gee.BidirListIterator
+      public void insert (xNode item) {
+        var n = get ();
+        list.insert_before (item, n);
+      }
 		}
 	}
