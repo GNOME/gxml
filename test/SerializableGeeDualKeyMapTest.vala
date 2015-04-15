@@ -144,7 +144,7 @@ class SerializableGeeDualKeyMapTest : GXmlTest
         c.set (o4.owner, o4.name, o4);
         var doc = new xDocument ();
         var root = (xElement) doc.create_element ("root");
-        doc.append_child (root);
+        doc.childs.add (root);
         c.serialize (root);
         if (!root.has_child_nodes ()) {
           stdout.printf (@"ERROR: root node have no childs $(doc)\n");
