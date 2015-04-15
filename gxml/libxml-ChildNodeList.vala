@@ -23,7 +23,8 @@
 
 using Gee;
 
-internal abstract class GXml.ChildNodeList :  Gee.AbstractCollection<GXml.xNode>, NodeList
+internal abstract class GXml.ChildNodeList : Object,
+	Traversable<xNode>, Iterable<xNode>, Gee.Collection<GXml.xNode>, NodeList
 {
 		/* TODO: must be live
 		   if this reflects children of a node, then must always be current
@@ -45,34 +46,37 @@ internal abstract class GXml.ChildNodeList :  Gee.AbstractCollection<GXml.xNode>
 			protected set { }
 		}
 
-        public override bool add (xNode item)
-        {
-                append_child (item);
-                return true;
+		
+		public Gee.Collection<xNode> read_only_view { owned get { return new ChildNodeListReadOnly (this); } }
+
+		public bool add (xNode item)
+		{
+			append_child (item);
+			return true;
+		}
+		public void clear () {}
+		public bool contains (xNode item) { return false; }
+		public bool remove (xNode item)  { return false; }
+		public bool read_only { get { return true; } }
+		public int size {
+	    get {
+        if (head != null) {
+          //GLib.warning ("At NodeChildNodeList: get_size");
+          int len = 1;
+          var cur = head;
+          while (cur->next != null) {
+              cur = cur->next;
+              len++;
+          }
+          return len;
         }
-		public override void clear () {}
-		public override bool contains (xNode item) { return false; }
-		public override bool remove (xNode item)  { return false; }
-		public override bool read_only { get { return true; } }
-		public override int size {
-            get {
-                if (head != null) {
-                    //GLib.warning ("At NodeChildNodeList: get_size");
-                    int len = 1;
-                    var cur = head;
-                    while (cur->next != null) {
-                        cur = cur->next;
-                        len++;
-                    }
-                    return len;
-                }
-                return 0;
-            }
-        }
-		public override Gee.Iterator<xNode> iterator () {
+        return 0;
+	    }
+		}
+		public Gee.Iterator<xNode> iterator () {
 			return new NodeListIterator (this);
 		}
-		public override bool @foreach (ForallFunc<xNode> func) {
+		public bool @foreach (ForallFunc<xNode> func) {
 			return iterator ().foreach (func);
 		}
 
@@ -229,5 +233,26 @@ internal abstract class GXml.ChildNodeList :  Gee.AbstractCollection<GXml.xNode>
 					return f (get ());
 				return false;
 			}
+		}
+	}
+
+	internal class GXml.ChildNodeListReadOnly : Object,
+		Traversable<xNode>, Iterable<xNode>, Collection<GXml.xNode>
+	{
+		public GXml.ChildNodeList list;
+		public Gee.Collection<xNode> read_only_view { owned get { return new ChildNodeListReadOnly (list); } }
+		public ChildNodeListReadOnly (ChildNodeList list)
+		{
+			this.list = list;
+		}
+		public bool add (xNode item) { return false; }
+		public void clear () {}
+		public bool contains (xNode item) { return list.contains (item); }
+		public bool remove (xNode item)  { return false; }
+		public bool read_only { get { return true; } }
+		public int size { get { return list.size; } }
+		public Gee.Iterator<xNode> iterator () { return list.iterator (); }
+		public bool @foreach (ForallFunc<xNode> func) {
+			return iterator ().foreach (func);
 		}
 	}
