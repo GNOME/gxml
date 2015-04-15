@@ -22,6 +22,8 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 
+using Gee;
+
 namespace GXml {
 	/* TODO: consider adding public signals for new/deleted children */
 
@@ -36,6 +38,9 @@ namespace GXml {
 	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1950641247]]
 	 */
 	public abstract class xNode : GLib.Object {
+		protected NodeList _child_nodes;
+		protected Gee.Map<string,xNode> _attributes = new Gee.HashMap<string,xNode> ();
+		private NamespaceAttrNodeList _namespace_definitions = null;
 		/* Constructors */
 		internal xNode (NodeType type, xDocument owner) {
 			this.node_type = type;
@@ -504,5 +509,17 @@ namespace GXml {
 		public virtual string to_string (bool format = false, int level = 0) {
 			return "xNode(%d:%s)".printf (this.node_type, this.node_name);
 		}
+		
+		// GXml.Node interface implementations
+		public virtual Gee.BidirList<GXml.Namespace> namespaces { get { return _namespace_definitions; } }
+		public virtual Gee.BidirList<GXml.Node> childs { get { return (BidirList<GXml.Node>) child_nodes; } }
+		public virtual Gee.Map<string,GXml.Node> attrs { get { return (Map<string,GXml.Node>) _attributes; } }
+		/*
+		public string name { get; construct set; }
+		public string @value { get; set; }
+		public GXml.NodeType type_node { get; construct set; }
+		public GXml.Document document { get; construct set; }
+		public GXml.Node copy ();
+		public string to_string ();*/
 	}
 }

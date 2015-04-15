@@ -82,7 +82,7 @@ namespace GXml {
 		}
 
 		// Note that NamedNodeMap is 'live' so changes to the Node should be seen in an already obtained NamedNodeMap
-		private NamedAttrMap _attributes = null;
+		private new NamedAttrMap _attributes = null;
 
 		/**
 		 * Contains a {@link GXml.NamedAttrMap} of

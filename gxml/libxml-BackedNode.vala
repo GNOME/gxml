@@ -38,7 +38,6 @@ namespace GXml {
 	public class BackedNode : xNode {
 		/** Private properties */
 		internal Xml.Node *node;
-		protected NodeList _child_nodes;
 
 		internal void set_xmlnode (Xml.Node *node, xDocument owner) {
 			this.node = node;
@@ -366,26 +365,5 @@ namespace GXml {
 			str = buffer->content ();
 			return str;
 		}
-		// GXml.Node interface implementations
-		public Gee.BidirList<GXml.Namespace> namespaces
-		{
-			get {
-				return _namespace_definitions;
-			}
-		}
-		/*
-		public Gee.BidirList<GXml.Node> childs
-		{
-			owned get {
-				return (Gee.BidirList) child_nodes;
-			}
-		}
-		public Gee.Map<string,GXml.Node> attrs { get; }
-		public string name { get; construct set; }
-		public string @value { get; set; }
-		public GXml.NodeType type_node { get; construct set; }
-		public GXml.Document document { get; construct set; }
-		public GXml.Node copy ();
-		public string to_string ();*/
 	}
 }

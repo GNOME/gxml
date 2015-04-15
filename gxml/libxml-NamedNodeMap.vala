@@ -47,7 +47,7 @@ namespace GXml {
 	 * 
 	 * A collection of {@link NamedNodeMap} of type {@link Attr} objects in a {@link xElement}.
 	 */
-	public class NamedAttrMap : GLib.Object, NamedNodeMap<Attr?> {
+	public class NamedAttrMap : AbstractMap<string,xNode>, NamedNodeMap<Attr?> {
 		private xElement elem;
 
 		internal NamedAttrMap (xElement e) {
@@ -152,7 +152,7 @@ namespace GXml {
 		  	private set {
 			}
 		}
-		
+
 		public Gee.Collection<Attr> get_values ()
 		{
 		  var c = new Gee.ArrayList<Attr> ();
@@ -160,6 +160,138 @@ namespace GXml {
 		    c.add (item (i));
 		  }
 		  return c;
+		}
+		// Gee.AbstractMap
+		public override void clear () {
+			foreach (string key in keys) {
+				remove_named_item (key);
+			}
+		}
+		public override new xNode @get (string key) { return get_named_item (key); }
+		public override bool has (string key, xNode value) {
+			var e = get_named_item (key);
+			if (e == null) return false;
+			if (!(value is BackedNode)) return false;
+			if (((BackedNode) value).node == ((BackedNode) e).node) return true;
+			if (((Attr) value).node == ((Attr) e).node) return true;
+			return false;
+		}
+		public override bool has_key (string key) {
+			if (get_named_item (key) == null) return false;
+			return true;
+		}
+		public override Gee.MapIterator<string,xNode> map_iterator () { return new Iterator (this); }
+		public override new void @set (string key, xNode value) {
+			var n = get_named_item (key);
+			if (n == null) return;
+			remove_named_item (key);
+			set_named_item ((Attr) value);
+		}
+		public override bool unset (string key, out xNode value = null) {
+			var n = get_named_item (key);
+			if (n == null) return false;
+			remove_named_item (key);
+			return true;
+		}
+		public override Gee.Set<Gee.Map.Entry<string,xNode>> entries {
+			owned get {
+				var s = new HashSet<Gee.Map.Entry<string,xNode>> ();
+				var iter = map_iterator ();
+				while (iter.next ()) {
+					var v = iter.get_value ();
+					var e = new Entry (iter.get_key (), v);
+					s.add (e);
+				}
+				return s;
+			}
+		}
+		public override Gee.Set<string> keys {
+			owned get {
+				var s = new HashSet<string> ();
+				var iter = map_iterator ();
+				while (iter.next ()) {
+					s.add (iter.get_key ());
+				}
+				return s;
+			}
+		}
+		public override bool read_only { get { return false; } }
+		public override int size {
+			get {
+				var iter = map_iterator ();
+				int i = 0;
+				while (iter.next ()) i++;
+				return i;
+			}
+		}
+		public override Gee.Collection<xNode> values {
+			owned get {
+				var s = new ArrayList <xNode> ();
+				var iter = map_iterator ();
+				while (iter.next ()) {
+					s.add (iter.get_value ());
+				}
+				return s;
+			}
+		}
+		public class Entry : Gee.Map.Entry<string,xNode> {
+			public Entry (string k, xNode v) {
+				_key = k;
+				value = v;
+			}
+			private string _key;
+			public override string key { get { return _key; } }
+			public override bool read_only { get { return true; } }
+			public override xNode value { get; set; }
+		}
+		// Map Iterator
+		private class Iterator : Object, Gee.MapIterator<string,xNode>
+		{
+			NamedAttrMap m;
+			Xml.Attr *cur= null;
+			Xml.Attr *head = null;
+			public Iterator (NamedAttrMap m) {
+				this.m = m;
+				head = m.elem.node->properties;
+			}
+			public string get_key () { return cur->name; }
+			public xNode get_value () { return m.get_named_item (get_key ()); }
+			public bool has_next ()
+			{
+				if (cur == null) {
+					if (head == null) return false;
+					return true;
+				}
+				if (cur->next == null) return false;
+				return true;
+			}
+			public bool next () {
+				if (cur == null) {
+					cur = head;
+					return true;
+				}
+				if (cur->next == null) return false;
+				cur = cur->next;
+				return true;
+			}
+			public void set_value (xNode value) {
+				if (!(value is Attr)) return;
+				var n = m.get_named_item (get_key ());
+				if (n == null) return;
+				m.remove_named_item (get_key ());
+				m.set_named_item ((Attr) value);
+			}
+			public void unset () {
+				m.remove_named_item (get_key ());
+			}
+			public bool mutable { get { return true; } }
+			public bool read_only { get { return false; } }
+			public bool valid {
+				get {
+					if (cur == null) return false;
+					return true;
+				}
+			}
 		}
 	}
 }
