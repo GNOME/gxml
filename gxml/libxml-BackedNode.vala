@@ -57,8 +57,6 @@ namespace GXml {
 
 
 		/* Public properties */
-
-		private NamespaceAttrNodeList _namespace_definitions = null;
 		/**
 		 * {@inheritDoc}
 		 */
