@@ -261,8 +261,7 @@ namespace GXml {
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-1451460987]]
 		 */
 		public virtual NodeList? child_nodes {
-			// TODO: need to implement NodeList
-			owned get { return null; }
+			get { return null; }
 			internal set {}
 		}
 

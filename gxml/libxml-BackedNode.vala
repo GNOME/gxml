@@ -25,6 +25,8 @@
 
 // NOTE: be careful about what extra data subclasses keep
 
+using Gee;
+
 namespace GXml {
 	/**
 	 * An internal class for nodes whose content is stored in a
@@ -36,6 +38,7 @@ namespace GXml {
 	public class BackedNode : xNode {
 		/** Private properties */
 		internal Xml.Node *node;
+		protected NodeList _child_nodes;
 
 		internal void set_xmlnode (Xml.Node *node, xDocument owner) {
 			this.node = node;
@@ -50,6 +53,7 @@ namespace GXml {
 			this.set_xmlnode (node, owner);
 			// TODO: Consider checking whether the Xml.Node* is already recorded.  It shouldn't be.
 			// TODO: BackedNodes' memory are freed when their owner document is freed; let's make sure that when we move a node between documents, that we make sure they'll still be freed
+			_child_nodes = new NodeChildNodeList (this.node, this.owner_document);
 		}
 
 
@@ -229,9 +233,8 @@ namespace GXml {
 		 * {@inheritDoc}
 		 */
 		public override NodeList? child_nodes {
-			owned get {
-				// TODO: always create a new one?
-				return new NodeChildNodeList (this.node, this.owner_document);
+			get {
+				return _child_nodes;
 			}
 			internal set {
 			}
@@ -364,17 +367,17 @@ namespace GXml {
 			return str;
 		}
 		// GXml.Node interface implementations
-		public Gee.LinkedList<GXml.Namespace> namespaces
+		public Gee.BidirList<GXml.Namespace> namespaces
 		{
 			get {
 				return _namespace_definitions;
 			}
 		}
 		/*
-		public Gee.LinkedList<GXml.Node> childs
+		public Gee.BidirList<GXml.Node> childs
 		{
-			get {
-				
+			owned get {
+				return (Gee.BidirList) child_nodes;
 			}
 		}
 		public Gee.Map<string,GXml.Node> attrs { get; }

@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
 /* Entity.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
@@ -31,6 +31,7 @@ namespace GXml {
 	 */
 	public class Entity : xNode {
 		private Xml.Entity *entity;
+		private NodeList _entity_list;
 
 		/**
 		 * A public identifier for the entity. %NULL when unspecified.
@@ -72,8 +73,8 @@ namespace GXml {
 
 		internal Entity (Xml.Entity *entity, xDocument doc) {
 			base (NodeType.ENTITY, doc);
-
 			this.entity = entity;
+			_entity_list = new EntityChildNodeList (this.entity, this.owner_document);
 		}
 
 		/* Public properties (xNode-specific) */
@@ -99,10 +100,10 @@ namespace GXml {
 		// node_value == null
 
 		public override NodeList? child_nodes {
-			owned get {
+			get {
 				// TODO: always create a new one?
 				//       probably not a good idea; want to create one local one
-				return new EntityChildNodeList (this.entity, this.owner_document);
+				return _entity_list;
 			}
 			internal set {
 			}

@@ -24,8 +24,8 @@ using Gee;
 
 public interface GXml.Node : Object
 {
-  public abstract Gee.LinkedList<GXml.Namespace> namespaces { get; }
-  public abstract Gee.LinkedList<GXml.Node> childs { get; }
+  public abstract Gee.BidirList<GXml.Namespace> namespaces { get; }
+  public abstract Gee.BidirList<GXml.Node> childs { get; }
   public abstract Gee.Map<string,GXml.Node> attrs { get; }
   public abstract string name { get; construct set; }
   public abstract string @value { get; set; }

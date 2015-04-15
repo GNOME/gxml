@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
 /* Attr.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
@@ -57,8 +57,9 @@ namespace GXml {
 	 */
 	public class Attr : BackedNode {
 		/** Private properties */
-		internal new Xml.Attr *node;
 		/* this displaces BackedNode's xmlNode node */
+		internal new Xml.Attr *node;
+		internal AttrChildNodeList _attr_list;
 
 		/** Constructors */
 		internal Attr (Xml.Attr *node, xDocument doc) {
@@ -67,6 +68,7 @@ namespace GXml {
 			base ((Xml.Node*)node, doc);
 			this.node = node;
 			this.specified = true;
+			_attr_list = new AttrChildNodeList (this.node, this.owner_document);
 		}
 
 		/* Public properties (Node general) */
@@ -158,13 +160,13 @@ namespace GXml {
 		 * {@inheritDoc}
 		 */
 		public override NodeList? child_nodes {
-			owned get {
+			get {
 				/* TODO: always create a new one?
 				       no, this is broken, if we keep creating new ones
 				       then changes are lost each time we call one
 				       unless AttrChildNodeList makes changes to the underlying
 				       one ugh, how are we even passing tests right now? */
-				return new AttrChildNodeList (this.node, this.owner_document);
+				return _attr_list;
 			}
 			internal set {
 			}

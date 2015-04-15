@@ -417,7 +417,6 @@ class DocumentTest : GXmlTest {
 	}
 
 	public static void print_node (GXml.xNode node) {
-		List<GXml.xNode> children = (List<GXml.xNode>)node.child_nodes;
 
 		if (node.node_type != 3)
 			GLib.stdout.printf ("<%s", node.node_name);
@@ -430,7 +429,7 @@ class DocumentTest : GXmlTest {
 		GLib.stdout.printf (">");
 		if (node.node_value != null)
 			GLib.stdout.printf ("%s", node.node_value);
-		foreach (GXml.xNode child in children) {
+		foreach (GXml.xNode child in node.child_nodes) {
 			// TODO: want a stringification method for Nodes?
 			print_node (child);
 		}

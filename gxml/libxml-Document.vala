@@ -88,6 +88,7 @@ namespace GXml {
 		   separately compiled TestDocument : xDocument class,
 		   and it couldn't access the internal xmldoc. */
 		internal Xml.Doc *xmldoc;
+		internal NodeChildNodeList _node_list;
 
 		/* *** Private methods *** */
 		internal unowned Attr? lookup_attr (Xml.Attr *xmlattr) {
@@ -505,6 +506,7 @@ namespace GXml {
 
 			doc = new Xml.Doc ();
 			this.from_libxml2 (doc, false);
+			_node_list = new NodeChildNodeList ((Xml.Node*)this.xmldoc, this.owner_document);
 		}
 
 		/**
@@ -886,10 +888,10 @@ namespace GXml {
 		 * {@inheritDoc}
 		 */
 		public override NodeList? child_nodes {
-			owned get {
+			get {
 				// TODO: always create a new one?
 				// TODO: xmlDoc and xmlNode are very similar, but perhaps we shouldn't do this :D
-				return new NodeChildNodeList ((Xml.Node*)this.xmldoc, this.owner_document);
+				return _node_list;
 			}
 			internal set {
 			}
