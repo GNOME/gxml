@@ -24,6 +24,6 @@ using Gee;
 
 public interface GXml.Document : Object, GXml.Node
 {
-  public abstract GXml.Node root { get; set; }
+  public abstract GXml.Node root { get; }
   public abstract GLib.File file { get; set; }
 }

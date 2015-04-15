@@ -56,7 +56,7 @@ namespace GXml {
 	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#i-xDocument]]
 	 */
-	public class xDocument : xNode {
+	public class xDocument : xNode, GXml.Document {
 		/* *** Private properties *** */
 
 		/**
@@ -1011,8 +1011,8 @@ namespace GXml {
 		}
 		// GXml.Document interface
 		public GLib.File file { get; set; }
+		public virtual GXml.Node root { get { return document_element; } }
 		/*
-		public abstract GXml.Node root { get; set; }
 		*/
 	}
 }

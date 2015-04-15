@@ -41,7 +41,7 @@ namespace GXml {
 	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-745549614]]
 	 */
-	public class xElement : BackedNode {
+	public class xElement : BackedNode, GXml.Element {
 		/* Public properties */
 
 		// TODO: find out how to do double-spaces in Valadoc, so we can indent <img...
