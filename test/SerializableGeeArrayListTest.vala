@@ -80,9 +80,8 @@ class SerializableGeeArrayListTest : GXmlTest
         bool found1 = false;
         bool found2 = false;
         foreach (GXml.Node n in root.childs) {
-          GLib.message ("Node name ="+n.name);
           if (n is Element && n.name == "aelement") {
-            var name = ((xElement) n).get_attribute_node ("name");
+            var name = n.attrs.get ("name");
             if (name != null) {
               if (name.value == "Big") found1 = true;
               if (name.value == "Small") found2 = true;
@@ -90,11 +89,11 @@ class SerializableGeeArrayListTest : GXmlTest
           }
         }
         if (!found1) {
-          stdout.printf (@"ERROR: Big space node is not found\n");
+          stdout.printf (@"ERROR: Big space node was not found\n");
           assert_not_reached ();
         }
         if (!found2) {
-          stdout.printf (@"ERROR: Small space node is not found\n");
+          stdout.printf (@"ERROR: Small space node was not found\n");
           assert_not_reached ();
         }
       }
