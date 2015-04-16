@@ -102,21 +102,18 @@ class SerializableGeeTreeMapTest : GXmlTest
         c.set (o1.name, o1);
         c.set (o2.name, o2);
         var doc = new xDocument ();
-        var root = (xElement) doc.create_element ("root");
+        var root = doc.create_element ("root");
         doc.childs.add (root);
-        c.serialize (root);
-        if (!root.has_child_nodes ()) {
-          stdout.printf (@"ERROR: root node have no childs $(doc)\n");
-          assert_not_reached ();
-        }
+        c.serialize ((xNode) root);
+        assert (root.childs.size == 2);
         bool found1 = false;
         bool found2 = false;
-        foreach (GXml.xNode n in root.child_nodes) {
-          if (n is xElement && n.node_name == "space") {
-            var name = ((xElement) n).get_attribute_node ("name");
+        foreach (GXml.Node n in root.childs) {
+          if (n is Element && n.name == "space") {
+            var name = n.attrs.get ("name");
             if (name != null) {
-              if (name.node_value == "Big") found1 = true;
-              if (name.node_value == "Small") found2 = true;
+              if (name.value == "Big") found1 = true;
+              if (name.value == "Small") found2 = true;
             }
           }
         }
@@ -215,27 +212,24 @@ class SerializableGeeTreeMapTest : GXmlTest
         c.storage.set (o2.name, o2);
         var doc = new xDocument ();
         c.serialize (doc);
-        if (doc.document_element == null) {
+        if (doc.root == null) {
           stdout.printf (@"ERROR: doc have no root node\n$(doc)\n");
           assert_not_reached ();
         }
-        if (doc.document_element.node_name != "spacecontainer") {
+        if (doc.root.name != "spacecontainer") {
           stdout.printf (@"ERROR: bad doc root node's name: $(doc.document_element.node_name)\n$(doc)\n");
           assert_not_reached ();
         }
-        var root = doc.document_element;
-        if (!root.has_child_nodes ()) {
-          stdout.printf (@"ERROR: root node have no childs $(doc)\n");
-          assert_not_reached ();
-        }
+        var root = doc.root;
+        assert (root.childs.size == 2);
         bool found1 = false;
         bool found2 = false;
-        foreach (GXml.xNode n in root.child_nodes) {
-          if (n is xElement && n.node_name == "space") {
-            var name = ((xElement) n).get_attribute_node ("name");
+        foreach (GXml.Node n in root.childs) {
+          if (n is Element && n.name == "space") {
+            var name = n.attrs.get ("name");
             if (name != null) {
-              if (name.node_value == "Big") found1 = true;
-              if (name.node_value == "Small") found2 = true;
+              if (name.value == "Big") found1 = true;
+              if (name.value == "Small") found2 = true;
             }
           }
         }
