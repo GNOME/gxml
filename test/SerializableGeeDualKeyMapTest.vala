@@ -143,30 +143,27 @@ class SerializableGeeDualKeyMapTest : GXmlTest
         c.set (o3.owner, o3.name, o3);
         c.set (o4.owner, o4.name, o4);
         var doc = new xDocument ();
-        var root = (xElement) doc.create_element ("root");
+        var root = doc.create_element ("root");
         doc.childs.add (root);
-        c.serialize (root);
-        if (!root.has_child_nodes ()) {
-          stdout.printf (@"ERROR: root node have no childs $(doc)\n");
-          assert_not_reached ();
-        }
+        c.serialize ( (xNode) root);
+        assert (root.childs.size == 4);
         bool found1 = false;
         bool found2 = false;
         bool found3 = false;
         bool found4 = false;
         int nodes = 0;
         int i = 0;
-        foreach (GXml.xNode n in root.child_nodes) {
+        foreach (GXml.Node n in root.childs) {
           nodes++;
-          if (n is xElement && n.node_name == "spaces") {
+          if (n is Element && n.name == "spaces") {
             i++;
-            var name = ((xElement) n).get_attribute_node ("name");
-            var owner = ((xElement) n).get_attribute_node ("owner");
+            var name = n.attrs.get ("name");
+            var owner = n.attrs.get ("owner");
             if (name != null && owner != null) {
-              if (name.node_value == "Big" && owner.node_value == "Floor") found1 = true;
-              if (name.node_value == "Small" && owner.node_value == "Wall") found2 = true;
-              if (name.node_value == "Bigger" && owner.node_value == "Floor") found3 = true;
-              if (name.node_value == "Smallest" && owner.node_value == "Wall") found4 = true;
+              if (name.value == "Big" && owner.value == "Floor") found1 = true;
+              if (name.value == "Small" && owner.value == "Wall") found2 = true;
+              if (name.value == "Bigger" && owner.value == "Floor") found3 = true;
+              if (name.value == "Smallest" && owner.value == "Wall") found4 = true;
             }
           }
         }
