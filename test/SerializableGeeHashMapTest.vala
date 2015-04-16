@@ -112,27 +112,27 @@ class SerializableGeeHashMapTest : GXmlTest
         c.set (o1.name, o1);
         c.set (o2.name, o2);
         var doc = new xDocument ();
-        var root = (xElement) doc.create_element ("root");
+        var root = doc.create_element ("root");
         doc.childs.add (root);
-        c.serialize (root);
-        if (!root.has_child_nodes ()) {
+        c.serialize ((xNode)root);
+        if (root.childs.size == 0) {
           stdout.printf (@"ERROR: root node have no childs $(doc)\n");
           assert_not_reached ();
         }
         bool found1 = false;
         bool found2 = false;
-        foreach (GXml.xNode n in root.child_nodes) {
-          if (n is xElement && n.node_name == "space") {
-            var name = ((xElement) n).get_attribute_node ("name");
+        foreach (GXml.Node n in root.childs) {
+          if (n is Element && n.name == "space") {
+            var name = n.attrs.get ("name");
             if (name != null) {
-              if (name.node_value == "Big") found1 = true;
-              if (name.node_value == "Small") found2 = true;
+              if (name.value == "Big") found1 = true;
+              if (name.value == "Small") found2 = true;
             }
-            if (n.has_child_nodes ()) {
-              foreach (GXml.xNode nd in n.child_nodes) {
+            if (n.childs.size > 0) {
+              foreach (GXml.Node nd in n.childs) {
                 if (nd is Text) {
-                  if (nd.node_value != "FAKE TEXT") {
-                    stdout.printf (@"ERROR: node content don't much. Expected 'FAKE TEXT', got: $(nd.node_value)\n$(doc)\n");
+                  if (nd.value != "FAKE TEXT") {
+                    stdout.printf (@"ERROR: node content don't much. Expected 'FAKE TEXT', got: $(nd.value)\n$(doc)\n");
                     assert_not_reached ();
                   }
                 }
@@ -239,19 +239,19 @@ class SerializableGeeHashMapTest : GXmlTest
           stdout.printf (@"ERROR: bad doc root node's name: $(doc.document_element.node_name)\n$(doc)\n");
           assert_not_reached ();
         }
-        var root = doc.document_element;
-        if (!root.has_child_nodes ()) {
+        var root = doc.root;
+        if (root.childs.size == 0) {
           stdout.printf (@"ERROR: root node have no childs $(doc)\n");
           assert_not_reached ();
         }
         bool found1 = false;
         bool found2 = false;
-        foreach (GXml.xNode n in root.child_nodes) {
-          if (n is xElement && n.node_name == "space") {
-            var name = ((xElement) n).get_attribute_node ("name");
+        foreach (GXml.Node n in root.childs) {
+          if (n is Element && n.name == "space") {
+            var name = n.attrs.get ("name");
             if (name != null) {
-              if (name.node_value == "Big") found1 = true;
-              if (name.node_value == "Small") found2 = true;
+              if (name.value == "Big") found1 = true;
+              if (name.value == "Small") found2 = true;
             }
           }
         }
