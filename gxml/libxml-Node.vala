@@ -39,7 +39,7 @@ namespace GXml {
 	 */
 	public abstract class xNode : GLib.Object, GXml.Node {
 		protected NodeList _child_nodes;
-		protected Gee.Map<string,xNode> _attributes = new Gee.HashMap<string,xNode> ();
+		protected NamedAttrMap _attributes = null;
 		internal NamespaceAttrNodeList _namespace_definitions = null;
 		/* Constructors */
 		internal xNode (NodeType type, xDocument owner) {

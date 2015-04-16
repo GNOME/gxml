@@ -79,9 +79,6 @@ namespace GXml {
 			}
 		}
 
-		// Note that NamedNodeMap is 'live' so changes to the Node should be seen in an already obtained NamedNodeMap
-		private new NamedAttrMap _attributes = null;
-
 		/**
 		 * Contains a {@link GXml.NamedAttrMap} of
 		 * {@link GXml.Attr} attributes associated with this
@@ -101,7 +98,7 @@ namespace GXml {
 				if (this._attributes == null) {
 					this._attributes = new NamedAttrMap (this);
 				}
-				return this._attributes;
+				return (NamedAttrMap) this._attributes;
 			}
 			internal set {
 			}
