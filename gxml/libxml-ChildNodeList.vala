@@ -57,7 +57,6 @@ internal abstract class GXml.ChildNodeList : AbstractBidirList<xNode>, NodeList
 		public override int size {
 	    get {
         if (head != null) {
-          //GLib.warning ("At NodeChildNodeList: get_size");
           int len = 1;
           var cur = head;
           while (cur->next != null) {

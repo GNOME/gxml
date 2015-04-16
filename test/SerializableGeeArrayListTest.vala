@@ -73,21 +73,19 @@ class SerializableGeeArrayListTest : GXmlTest
         c.add (o1);
         c.add (o2);
         var doc = new xDocument ();
-        var root = (xElement) doc.create_element ("root");
+        var root = doc.create_element ("root");
         doc.childs.add (root);
-        c.serialize (root);
-        if (!root.has_child_nodes ()) {
-          stdout.printf (@"ERROR: root node have no childs $(doc)\n");
-          assert_not_reached ();
-        }
+        c.serialize ((xNode) root);
+        assert (root.childs.size == 2);
         bool found1 = false;
         bool found2 = false;
-        foreach (GXml.xNode n in root.child_nodes) {
-          if (n is xElement && n.node_name == "aelement") {
+        foreach (GXml.Node n in root.childs) {
+          GLib.message ("Node name ="+n.name);
+          if (n is Element && n.name == "aelement") {
             var name = ((xElement) n).get_attribute_node ("name");
             if (name != null) {
-              if (name.node_value == "Big") found1 = true;
-              if (name.node_value == "Small") found2 = true;
+              if (name.value == "Big") found1 = true;
+              if (name.value == "Small") found2 = true;
             }
           }
         }
