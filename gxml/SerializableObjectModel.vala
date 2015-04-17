@@ -92,12 +92,12 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     return false;
   }
 
-  public virtual GXml.xNode? serialize (GXml.xNode node)
+  public virtual GXml.Node? serialize (GXml.Node node)
                        throws GLib.Error
                        requires (node_name () != null)
                        requires (node is xDocument || node is xElement)
   {
-    return default_serialize (node);
+    return default_serialize ((xNode)node);
   }
 
   public GXml.xNode? default_serialize (GXml.xNode node) throws GLib.Error
@@ -169,7 +169,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       get_property (prop.name, ref v);
       var obj = (Serializable) v.get_object ();
       if (obj != null)
-        return obj.serialize (element);
+        return (xNode)obj.serialize (element);
     }
     Value oval;
     if (prop.value_type.is_a (Type.ENUM))

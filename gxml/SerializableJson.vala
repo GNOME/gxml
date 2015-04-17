@@ -116,7 +116,7 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
    * Is up to you to add convenient xElement node to a xDocument, in order to be
    * used by serialize and add new <Object> tags per object to serialize.
    */
-  public GXml.xNode? serialize (GXml.xNode node) throws GLib.Error
+  public GXml.Node? serialize (GXml.Node node) throws GLib.Error
   {
     xDocument doc;
     xElement root;
@@ -126,7 +126,7 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
     if (node is xDocument)
       doc = (xDocument) node;
     else
-      doc = node.owner_document;
+      doc = (xDocument) node.document;
 
     root = (xElement) doc.create_element ("Object");
     doc.append_child (root);
@@ -153,7 +153,7 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
     if (type.is_a (typeof (Serializable))) {
       val = Value (type);
       this.get_property_value (prop, ref val);
-      return ((Serializable) val.get_object ()).serialize (element);
+      return (xNode)((Serializable) val.get_object ()).serialize (element);
     }
 
     var doc = element.owner_document;

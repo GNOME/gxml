@@ -237,11 +237,11 @@ class Configuration : ObjectModel
     ignored_serializable_properties.set ("invalid",
                                          get_class ().find_property("invalid"));
   }
-  public override GXml.xNode? serialize (GXml.xNode node) throws GLib.Error
+  public override GXml.Node? serialize (GXml.Node node) throws GLib.Error
   {
-    var n = default_serialize (node);
+    var n = (xNode) default_serialize ((xNode)node);
     n.add_namespace_attr ("http://www.gnome.org/gxml/0.4", "om");
-    return n;
+    return (GXml.Node)n;
   }
   public override GXml.xNode? deserialize (GXml.xNode node) throws GLib.Error
   {

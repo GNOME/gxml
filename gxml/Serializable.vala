@@ -152,7 +152,7 @@ namespace GXml {
      * 
      * @param doc an {@link GXml.Document} object to serialize to.
      */
-    public abstract GXml.xNode? serialize (GXml.xNode node) throws GLib.Error;
+    public abstract GXml.Node? serialize (GXml.Node node) throws GLib.Error;
 
     /**
      * Serialize a property @prop on a {@link GXml.xElement}.

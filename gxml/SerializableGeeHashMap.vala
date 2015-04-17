@@ -78,13 +78,13 @@ public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, Ser
     return false;
   }
 
-  public virtual GXml.xNode? serialize (GXml.xNode node)
+  public virtual GXml.Node? serialize (GXml.Node node)
                               throws GLib.Error
                               requires (node is xElement)
   {
     return default_serialize (node);
   }
-  public GXml.xNode? default_serialize (GXml.xNode node)
+  public GXml.Node? default_serialize (GXml.Node node)
                               throws GLib.Error
                               requires (node is xElement)
   {
