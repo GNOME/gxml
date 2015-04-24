@@ -160,7 +160,7 @@ namespace GXml {
      * This method is called recursivally by {@link serialize} method over all properties
      * to be serialized.
      */
-    public abstract GXml.xNode? serialize_property (GXml.xElement element,
+    public abstract GXml.Node? serialize_property (GXml.Node element,
                                                    GLib.ParamSpec prop)
                                                    throws GLib.Error;
 

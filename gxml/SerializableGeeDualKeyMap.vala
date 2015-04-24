@@ -178,13 +178,13 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable, Serializ
     }
     return node;
   }
-  public virtual GXml.xNode? serialize_property (GXml.xElement element,
+  public virtual GXml.Node? serialize_property (GXml.Node element,
                                         GLib.ParamSpec prop)
                                         throws GLib.Error
   {
     return default_serialize_property (element, prop);
   }
-  public GXml.xNode? default_serialize_property (GXml.xElement element,
+  public GXml.Node? default_serialize_property (GXml.Node element,
                                         GLib.ParamSpec prop)
                                         throws GLib.Error
   {

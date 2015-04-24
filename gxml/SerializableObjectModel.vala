@@ -153,11 +153,13 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     return element;
   }
 
-  public virtual GXml.xNode? serialize_property (GXml.xElement element,
+  public virtual GXml.Node? serialize_property (GXml.Node element,
                                         GLib.ParamSpec prop)
                                         throws GLib.Error
   {
-    return default_serialize_property (element, prop);
+    if (element is xElement)
+      return default_serialize_property ((xElement) element, prop);
+    return null;
   }
   public GXml.xNode? default_serialize_property (GXml.xElement element,
                                         GLib.ParamSpec prop)

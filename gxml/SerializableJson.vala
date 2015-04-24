@@ -139,10 +139,12 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
     return root;
   }
 
-  public virtual GXml.xNode? serialize_property (xElement element, 
+  public virtual GXml.Node? serialize_property (GXml.Node node, 
                                         GLib.ParamSpec prop)
                                         throws GLib.Error
+                                        requires (node is xElement)
   {
+    xElement element = (xElement) node;
     Type type;
     Value val;
     GXml.xNode value_node = null;
