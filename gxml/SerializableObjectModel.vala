@@ -158,13 +158,14 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
                                         throws GLib.Error
   {
     if (element is xElement)
-      return default_serialize_property ((xElement) element, prop);
+      return default_serialize_property ((GXml.Element) element, prop);
     return null;
   }
-  public GXml.xNode? default_serialize_property (GXml.xElement element,
+  public GXml.Node? default_serialize_property (GXml.Element oelement,
                                         GLib.ParamSpec prop)
                                         throws GLib.Error
   {
+    xElement element = (xElement) oelement;
     if (prop.value_type.is_a (typeof (Serializable))) 
     {
       var v = Value (typeof (Object));
@@ -195,7 +196,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
           val = rval.dup_string ();
         }
         else {
-          xNode node = null;
+          Node node = null;
           this.serialize_unknown_property (element, prop, out node);
           return node;
         }
@@ -215,7 +216,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     }
     else
       attr.value = val;
-    return (xNode) attr;
+    return attr;
   }
 
   public virtual GXml.Node? deserialize (GXml.Node node)

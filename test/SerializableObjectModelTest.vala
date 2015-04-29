@@ -131,9 +131,9 @@ public class Package : ObjectModel
       {
         for (int i = 0; i < tags.length; i++) {
           var str = tags.index (i);
-          node = (xElement) element.owner_document.create_element ("tag");
+          node = (xElement) element.document.create_element ("tag");
           ((xElement) node).content = str;
-          element.append_child (node);
+          element.childs.add (node);
         }
       }
     });

@@ -177,10 +177,10 @@ namespace GXml {
      * Interface method to handle deserialization of an
      * individual property.  The implementing class
      * receives a description of the property and the
-     * {@link GXml.xNode} that contains the content.  The
+     * {@link GXml.Node} that contains the content.  The
      * implementing {@link GXml.Serializable} object can extract
-     * the data from the {@link GXml.xNode} and store it in its
-     * property itself. Note that the {@link GXml.xNode} may be
+     * the data from the {@link GXml.Node} and store it in its
+     * property itself. Note that the {@link GXml.Node} may be
      * as simple as a {@link GXml.Text} that stores the data as a
      * string.
      *
@@ -198,13 +198,13 @@ namespace GXml {
      * Signal to serialize unknown properties. Any new node must be added to
      * @param element before return the new @param node added.
      * 
-     * @param element a {@link GXml.xNode} to add attribute or child nodes to
+     * @param element a {@link GXml.Node} to add attribute or child nodes to
      * @param prop a {@link GLib.ParamSpec} describing attribute to serialize
-     * @param node set to the {@link GXml.xNode} representing this attribute
+     * @param node set to the {@link GXml.Node} representing this attribute
      */
-    public signal void serialize_unknown_property (GXml.xNode element,
+    public signal void serialize_unknown_property (GXml.Node element,
                                                    ParamSpec prop,
-                                                   out GXml.xNode node);
+                                                   out GXml.Node node);
 
     /**
      * Signal to serialize unknown properties. Any new node must be added to
