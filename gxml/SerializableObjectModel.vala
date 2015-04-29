@@ -218,27 +218,27 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     return (xNode) attr;
   }
 
-  public virtual GXml.xNode? deserialize (GXml.xNode node)
+  public virtual GXml.Node? deserialize (GXml.Node node)
                                     throws GLib.Error
                                     requires (node_name () != null)
   {
-    return default_deserialize (node);
+    return default_deserialize ((xNode) node);
   }
-  public GXml.xNode? default_deserialize (GXml.xNode node)
+  public GXml.xNode? default_deserialize (GXml.Node node)
                                     throws GLib.Error
   {
-    xDocument doc;
-    if (node is xDocument) {
-      doc = (xDocument) node;
-      return_val_if_fail (doc.document_element != null, null);
+    Document doc;
+    if (node is Document) {
+      doc = (Document) node;
+      return_val_if_fail (doc.root != null, null);
     }
     else
-      doc = node.owner_document;
-    xElement element;
-    if (node is xElement)
-      element = (xElement) node;
+      doc = node.document;
+    Element element;
+    if (node is Element)
+      element = (Element) node;
     else
-      element = (xElement) doc.document_element;
+      element = (Element) doc.root;
     return_val_if_fail (element != null, null);
     if (node_name () == null) {
       message (@"WARNING: Object type '$(get_type ().name ())' have no Node Name defined");
@@ -252,14 +252,14 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     stdout.printf (@"Node is: $(element)\n\n");
     stdout.printf (@"Attributes in Node: $(element.node_name)\n");
 #endif
-    foreach (Attr attr in element.attributes.get_values ())
+    foreach (GXml.Node attr in ((xElement)element).attributes.get_values ())
     {
-      deserialize_property (attr);
+      deserialize_property ((xNode)attr);
     }
 #if DEBUG
     stdout.printf (@"Elements Nodes in Node: $(element.node_name)\n");
 #endif
-    if (element.has_child_nodes ())
+    if (((xElement)element).has_child_nodes ())
     {
       if (get_type ().is_a (typeof (SerializableContainer)))
       {
@@ -284,26 +284,26 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
             }
         }
       }
-      foreach (xNode n in element.child_nodes)
+      foreach (Node n in element.childs)
       {
         if (n is Text) {
           if (serialize_use_xml_node_value ()) {
-            serialized_xml_node_value = n.node_value;
+            serialized_xml_node_value = n.value;
 #if DEBUG
             stdout.printf (@"$(get_type ().name ()): NODE '$(element.node_name)' CONTENT '$(n.node_value)'\n");
 #endif
           } else {
             if (get_enable_unknown_serializable_property ()) {
-              if (n.node_value._chomp () == n.node_value && n.node_value != "")
-                unknown_serializable_property.set (n.node_name, n);
+              if (n.value._chomp () == n.value && n.value != "")
+                unknown_serializable_property.set (n.name,(xNode) n);
             }
           }
         }
-        if (n is xElement  && !cnodes.has_key (n.node_name)) {
+        if (n is xElement  && !cnodes.has_key (n.name)) {
 #if DEBUG
             stdout.printf (@"$(get_type ().name ()): DESERIALIZING ELEMENT '$(n.node_name)'\n");
 #endif
-          deserialize_property (n);
+          deserialize_property ((xNode)n);
         }
       }
     }

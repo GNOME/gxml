@@ -107,13 +107,13 @@ public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, Ser
   {
     return element;
   }
-  public virtual GXml.xNode? deserialize (GXml.xNode node)
+  public virtual GXml.Node? deserialize (GXml.Node node)
                                     throws GLib.Error
                                     requires (node_name () != null)
   {
     return default_deserialize (node);
   }
-  public GXml.xNode? default_deserialize (GXml.xNode node)
+  public GXml.Node? default_deserialize (GXml.Node node)
                     throws GLib.Error
   {
     if (!(value_type.is_a (typeof (GXml.Serializable)) &&
@@ -121,14 +121,14 @@ public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, Ser
       throw new SerializableError.UNSUPPORTED_TYPE_ERROR ("%s: Value type '%s' is unsupported", 
                                                     this.get_type ().name (), value_type.name ());
     }
-    if (node is xElement) {
-      foreach (GXml.xNode n in node.child_nodes) {
-        if (n is xElement) {
+    if (node is Element) {
+      foreach (GXml.Node n in node.childs) {
+        if (n is Element) {
 #if DEBUG
           stdout.printf (@"Node $(node.node_name) for type '$(get_type ().name ())'\n");
 #endif
           var obj = Object.new (value_type);
-          if (n.node_name == ((Serializable) obj).node_name ()) {
+          if (n.name == ((Serializable) obj).node_name ()) {
             ((Serializable) obj).deserialize (n);
             @set (((SerializableMapKey<K>) obj).get_map_key (), obj);
           }

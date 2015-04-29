@@ -211,8 +211,9 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
     return prop_node;
   }
 
-  public GXml.xNode? deserialize (GXml.xNode node) throws GLib.Error
+  public GXml.Node? deserialize (GXml.Node n) throws GLib.Error
   {
+    xNode node = (xNode) n;
     xElement obj_elem;
     ParamSpec[] specs;
 
