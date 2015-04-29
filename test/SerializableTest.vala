@@ -120,8 +120,9 @@ public class SerializableCapsicum : GXml.SerializableJson {
 			assert_not_reached ();
 		}
 	}
-	private void serialize_unknown_property_type (GXml.xNode element, ParamSpec prop, out GXml.xNode node)
+	private void serialize_unknown_property_type (GXml.Node elem, ParamSpec prop, out GXml.xNode node)
 	{
+		xElement element = (xElement) elem;
 		xDocument doc = element.owner_document;
 		switch (prop.name) {
 		case "ratings":

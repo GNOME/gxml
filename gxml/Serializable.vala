@@ -214,7 +214,7 @@ namespace GXml {
      * @param prop a {@link GLib.ParamSpec} describing attribute to serialize
      * @param node set to the {@link GXml.xNode} representing this attribute
      */
-    public signal void serialize_unknown_property_type (GXml.xNode element,
+    public signal void serialize_unknown_property_type (GXml.Node element,
                                                         ParamSpec prop,
                                                         out GXml.xNode node);
 
