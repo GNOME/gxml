@@ -105,16 +105,16 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 #if DEBUG
     stdout.printf (@"$(get_type ().name ()): Serializing on node: $(node.node_name)\n");
 #endif
-    xDocument doc;
-    if (node is xDocument)
-      doc = (xDocument) node;
+    Document doc;
+    if (node is GXml.Document)
+      doc = (GXml.Document) node;
     else
-      doc = node.owner_document;
+      doc = node.document;
     var element = (xElement) doc.create_element (node_name ());
     node.append_child (element);
     if (serialize_set_namespace != null) {
       string[] str = serialize_set_namespace.split ("|", 2);
-      doc.document_element.add_namespace_attr (str[1], str[0]);
+      ((xElement)doc.root).add_namespace_attr (str[1], str[0]);
       element.set_namespace (str[1], str[0]);
     }
     foreach (ParamSpec spec in list_serializable_properties ()) {
@@ -133,7 +133,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
             n.copy (ref a);
           }
           if (n is Text) {
-            var tnode = doc.create_text_node (n.node_value);
+            var tnode = ((xDocument) doc).create_text_node (n.node_value);
             element.append_child (tnode);
           }
         }
@@ -144,7 +144,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       string t = "";
       if (serialized_xml_node_value != null)
         t = serialized_xml_node_value;
-      var tn = doc.create_text_node (t);
+      var tn = ((xDocument) doc).create_text_node (t);
 #if DEBUG
       stdout.printf (@"SETTING CONTENT FOR: $(get_type ().name ()): $(element.node_name): content '$t'\n");
 #endif
