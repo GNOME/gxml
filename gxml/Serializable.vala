@@ -191,7 +191,7 @@ namespace GXml {
      * @param property_node the {@link GXml.xNode} encapsulating data to deserialize
      * @return `true` if the property was handled, `false` if {@link GXml.Serialization} should handle it.
      */
-    public abstract bool deserialize_property (GXml.xNode property_node)
+    public abstract bool deserialize_property (GXml.Node property_node)
                                               throws GLib.Error;
 
     /**

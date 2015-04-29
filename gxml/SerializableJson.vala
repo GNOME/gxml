@@ -232,8 +232,11 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
     return obj_elem;
   }
 
-  public virtual bool deserialize_property (GXml.xNode property_node) throws GLib.Error
+  public virtual bool deserialize_property (GXml.Node nproperty)
+    throws GLib.Error
+    requires (nproperty is xNode)
   {
+    xNode property_node = (xNode) nproperty;
     //GLib.message ("At SerializableJson.deserialize_property");
     if (property_node.node_name == "Property")
     {

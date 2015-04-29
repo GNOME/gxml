@@ -310,14 +310,16 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     return null;
   }
 
-  public virtual bool deserialize_property (GXml.xNode property_node)
+  public virtual bool deserialize_property (GXml.Node property_node)
                                             throws GLib.Error
   {
     return default_deserialize_property (property_node);
   }
-  public bool default_deserialize_property (GXml.xNode property_node)
+  public bool default_deserialize_property (GXml.Node nproperty)
                                             throws GLib.Error
+                                            requires (nproperty is xNode)
   {
+    xNode property_node = (xNode) nproperty;
 #if DEBUG
     stdout.printf (@"Deserialize Property Node: $(property_node.node_name)\n");
 #endif

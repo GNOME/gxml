@@ -216,12 +216,12 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable, Serializ
     }
     return node;
   }
-  public virtual bool deserialize_property (GXml.xNode property_node)
+  public virtual bool deserialize_property (GXml.Node property_node)
                                             throws GLib.Error
   {
     return default_deserialize_property (property_node);
   }
-  public bool default_deserialize_property (GXml.xNode property_node)
+  public bool default_deserialize_property (GXml.Node property_node)
                                             throws GLib.Error
   {
     return true;

@@ -137,12 +137,12 @@ public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, Ser
     }
     return node;
   }
-  public virtual bool deserialize_property (GXml.xNode property_node)
+  public virtual bool deserialize_property (GXml.Node property_node)
                                             throws GLib.Error
   {
     return default_deserialize_property (property_node);
   }
-  public bool default_deserialize_property (GXml.xNode property_node)
+  public bool default_deserialize_property (GXml.Node property_node)
                                             throws GLib.Error
   {
     return true;
