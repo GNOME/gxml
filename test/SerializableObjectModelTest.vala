@@ -139,7 +139,7 @@ public class Package : ObjectModel
     });
     ((Serializable) this).deserialize_unknown_property.connect ( (element, prop) => {
       //GLib.message (@"Deserializing Unknown Property: $(prop.name) | $(prop.get_nick ())");
-      if (element.node_name == "tag") {
+      if (element.name == "tag") {
         tags.append_val (((xElement) element).content);
       }
     });
