@@ -19,12 +19,16 @@
  * Authors:
  *      Daniel Espinosa <esodan@gmail.com>
  */
-
+// FIXME: Port this class as an implementation of Gee interfaces
 internal class GXml.NamespaceAttrNodeList : GXml.LinkedList {
 	internal NamespaceAttrNodeList (BackedNode root, xDocument owner) {
 		base (root);
-		for (Xml.Ns *cur = root.node->ns_def; cur != null; cur = cur->next) {
+    if (root.node->ns_def == null) return;
+		Xml.Ns *cur = root.node->ns_def;
+		while (cur != null) {
 			this.append_child (new NamespaceAttr (cur, owner));
+			if (cur->next == null) break;
+			cur = cur->next;
 		}
 	}
 }
