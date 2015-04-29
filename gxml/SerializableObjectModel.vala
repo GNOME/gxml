@@ -133,8 +133,8 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
             n.copy (ref a);
           }
           if (n is Text) {
-            var tnode = ((xDocument) doc).create_text_node (n.node_value);
-            element.append_child (tnode);
+            var tnode = doc.create_text (n.node_value);
+            element.childs.add (tnode);
           }
         }
     }
@@ -144,11 +144,11 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       string t = "";
       if (serialized_xml_node_value != null)
         t = serialized_xml_node_value;
-      var tn = ((xDocument) doc).create_text_node (t);
+      var tn = doc.create_text (t);
 #if DEBUG
       stdout.printf (@"SETTING CONTENT FOR: $(get_type ().name ()): $(element.node_name): content '$t'\n");
 #endif
-      element.append_child (tn);
+      element.childs.add (tn);
     }
     return element;
   }

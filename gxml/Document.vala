@@ -32,4 +32,5 @@ public interface GXml.Document : Object, GXml.Node
    * {@link GXml.Node}.
    */
   public abstract GXml.Node create_element (string name);
+  public abstract GXml.Node create_text (string text);
 }
