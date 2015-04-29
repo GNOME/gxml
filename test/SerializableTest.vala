@@ -104,8 +104,9 @@ public class SerializableCapsicum : GXml.SerializableJson {
 	   Want an example using GBoxed too
 	   Perhaps these shouldn't be object methods, perhaps they should be static?
 	   Can't have static methods in an interface :(, right? */
-	public void deserialize_unknown_property_type (GXml.xNode element, ParamSpec prop)
+	public void deserialize_unknown_property_type (GXml.Node elem, ParamSpec prop)
 	{
+		xNode element = (xNode) elem;
 		GLib.Value outvalue = GLib.Value (typeof (int));
 		switch (prop.name) {
 		case "ratings":

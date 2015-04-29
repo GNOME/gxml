@@ -233,7 +233,7 @@ namespace GXml {
      * @param node a {@link GXml.xNode} to get attribute from
      * @param prop a {@link GLib.ParamSpec} describing attribute to deserialize
      */
-    public signal void deserialize_unknown_property_type (GXml.xNode node,
+    public signal void deserialize_unknown_property_type (GXml.Node node,
                                                           ParamSpec prop);
 
     /**
