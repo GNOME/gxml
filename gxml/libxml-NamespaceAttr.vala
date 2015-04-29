@@ -124,12 +124,12 @@ namespace GXml {
 		// GXml.Namespace interface implementations
 		public string uri {
 			get {
-				return namespace_uri;
+				return defined_namespace_uri;
 			}
 		}
 		public string prefix {
 			get {
-				return namespace_prefix;
+				return defined_prefix;
 			}
 		}
 	}

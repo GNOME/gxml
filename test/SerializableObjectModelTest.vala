@@ -253,8 +253,10 @@ class Configuration : ObjectModel
       n = node;
 
     foreach (GXml.Namespace ns in n.namespaces) {
-      //stdout.printf (@"Namespace = $(ns.node_value)");
-      if (ns.prefix == "om" && ns.prefix == "http://www.gnome.org/gxml/0.4")
+#if DEBUG
+      GLib.message (@"Namespace = $(ns.prefix):$(ns.uri)");
+#endif
+      if (ns.prefix == "om" && ns.uri == "http://www.gnome.org/gxml/0.4")
         invalid = false;
     }
     return default_deserialize (node);
@@ -729,20 +731,27 @@ class SerializableObjectModelTest : GXmlTest
                        stdout.printf (@"Error: $(e.message)");
                        assert_not_reached ();
                      }
-                   });/*
+                   });
     Test.add_func ("/gxml/serializable/object_model/override_deserialize",
                    () => {
                      var doc = new xDocument.from_string ("""<?xml version="1.0"?>
                      <Configuration xmlns:om="http://www.gnome.org/gxml/0.4" device="Sampler"/>""");
                      var configuration = new Configuration ();
                      try {
-                       //stdout.printf (@"$doc");
+#if DEBUG
+                       GLib.message ("Deserializing doc...");
+#endif
                        configuration.deserialize (doc);
+#if DEBUG
+                       GLib.message ("Verifing Configuration...");
+#endif
                        if (configuration.invalid == true) {
+#if DEBUG
                          stdout.printf ("CONFIGURATION: deserialize is INVALID\n");
                          foreach (GXml.xNode n in doc.document_element.namespace_definitions) {
                            stdout.printf (@"CONFIGURATION: namespace: $(n.node_value)\n");
                          }
+#endif
                          assert_not_reached ();
                        }
                      }
@@ -750,7 +759,7 @@ class SerializableObjectModelTest : GXmlTest
                        stdout.printf (@"Error: $(e.message)");
                        assert_not_reached ();
                      }
-                   });*/
+                   });
     Test.add_func ("/gxml/serializable/object_model/custome_node_name",
                    () => {
                      var doc = new xDocument.from_string ("""<?xml version="1.0"?><NodeName />""");
