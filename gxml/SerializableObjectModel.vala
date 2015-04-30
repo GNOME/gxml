@@ -155,11 +155,10 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       return default_serialize_property ((GXml.Element) element, prop);
     return null;
   }
-  public GXml.Node? default_serialize_property (GXml.Element oelement,
+  public GXml.Node? default_serialize_property (GXml.Element element,
                                         GLib.ParamSpec prop)
                                         throws GLib.Error
   {
-    xElement element = (xElement) oelement;
     if (prop.value_type.is_a (typeof (Serializable))) 
     {
       var v = Value (typeof (Object));
@@ -203,10 +202,10 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       attr_name = prop.get_nick ();
     else
       attr_name = prop.get_name ();
-    var attr = element.get_attribute_node (attr_name);
+    var attr = element.get_attr (attr_name);
     if (attr == null) {
       if (val != null)
-        element.set_attribute (attr_name, val);
+        element.set_attr (attr_name, val);
     }
     else
       attr.value = val;
