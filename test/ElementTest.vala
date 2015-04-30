@@ -111,16 +111,16 @@ class ElementTest : GXmlTest  {
 				GXml.xNode root = doc.document_element;
 				GXml.xNode node = root.child_nodes.item (0);
 
-				NodeList namespaces = node.namespace_definitions;
+				Gee.List<Namespace> namespaces = node.namespace_definitions;
 
-				assert (namespaces.length == 2);
+				assert (namespaces.size == 2);
 
-				assert (namespaces.item (0).namespace_prefix == "xmlns");
-				assert (namespaces.item (0).node_name == "magic");
-				assert (namespaces.item (0).node_value == "http://hogwarts.co.uk/magic");
-				assert (namespaces.item (1).namespace_prefix == "xmlns");
-				assert (namespaces.item (1).node_name == "products");
-				assert (namespaces.item (1).node_value == "http://diagonalley.co.uk/products");
+				assert (((NamespaceAttr)namespaces.get (0)).namespace_prefix == "xmlns");
+				assert (namespaces.get (0).prefix == "magic");
+				assert (namespaces.get (0).uri == "http://hogwarts.co.uk/magic");
+				assert (((NamespaceAttr)namespaces.get (1)).namespace_prefix == "xmlns");
+				assert (namespaces.get (1).prefix == "products");
+				assert (namespaces.get (1).uri == "http://diagonalley.co.uk/products");
 				assert (node.local_name == "Potion");
 			});
 		Test.add_func ("/gxml/element/attributes", () => {

@@ -66,7 +66,7 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
   public HashTable<string,GXml.xNode>    unknown_serializable_property { get; protected set; }
   public virtual bool get_enable_unknown_serializable_property () { return false; }
   public string?  serialized_xml_node_value { get; protected set; default = null; }
-  public string? serialize_set_namespace { get; set; default = null; }
+  public virtual bool set_namespace (GXml.Node node) { return true; }
 
   public virtual bool serialize_use_xml_node_value () { return false; }
   public virtual string node_name () { return "Object"; }

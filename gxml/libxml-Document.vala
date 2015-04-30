@@ -215,10 +215,10 @@ namespace GXml {
 				}
 			}
 			foreach (Xml.Node *freeable in to_free) {
-				freeable->free ();
+				delete freeable;
 			}
 
-			this.xmldoc->free ();
+			delete this.xmldoc;
 		}
 
 		/** Constructors */
@@ -307,7 +307,7 @@ namespace GXml {
 			doc = ctxt.read_file (file_path, null /* encoding */, 0 /* options */);
 
 			if (doc == null) {
-				e = ctxt.get_last_error ();
+				e = Xmlx.parser_context_get_last_error (ctxt);
 				GXml.warning (DomException.INVALID_DOC, "Could not load document from path: %s".printf (e->message));
 				throw new GXml.Error.PARSER (GXml.libxml2_error_to_string (e));
 			}
@@ -457,7 +457,7 @@ namespace GXml {
 			}
 
 			// uh oh
-			e = Xml.Error.get_last_error ();
+			e = Xmlx.get_last_error ();
 			if (e != null) {
 				errmsg += ".  " + libxml2_error_to_string (e);
 			}
@@ -531,7 +531,7 @@ namespace GXml {
 			}
 
 			// uh oh
-			e = Xml.Error.get_last_error ();
+			e = Xmlx.get_last_error ();
 			if (e != null) {
 				errmsg += ".  " + libxml2_error_to_string (e);
 			}
@@ -579,7 +579,7 @@ namespace GXml {
 			}
 
 			/* uh oh */
-			e = Xml.Error.get_last_error ();
+			e = Xmlx.get_last_error ();
 			if (e != null) {
 				errmsg += ".  " + libxml2_error_to_string (e);
 			}
@@ -862,7 +862,7 @@ namespace GXml {
 		 */
 		internal static bool check_invalid_characters (string name, string subject) {
 			/* TODO: use Xml.validate_name instead  */
-			if (Xml.validate_name (name, 0) != 0) { // TODO: define validity
+			if (Xmlx.validate_name (name, 0) != 0) { // TODO: define validity
 				GXml.warning (DomException.INVALID_CHARACTER, "Provided name '%s' for '%s' is not a valid XML name".printf (name, subject));
 				return false;
 			}

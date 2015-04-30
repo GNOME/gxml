@@ -60,10 +60,10 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override NodeList? namespace_definitions {
+		public override Gee.List<Namespace>? namespace_definitions {
 			get {
 				if (_namespace_definitions == null) {
-					this._namespace_definitions = new NamespaceAttrNodeList (this, this.owner_document);
+					this._namespace_definitions = new NamespaceAttrNodeList (this);
 				}
 				return this._namespace_definitions;
 			}
@@ -103,36 +103,16 @@ namespace GXml {
 		 */
 		public override bool set_namespace (string uri, string namespace_prefix)
 		{
+			GLib.message ("Setting a new Namespace...");
 			if (node == null) return false;
-			if (node->ns_def != null) {
-				for (Xml.Ns *cur = node->ns_def; cur != null; cur = cur->next) {
-					if ((string) cur->prefix == namespace_prefix && (string) cur->href == uri) {
-						node->set_ns (cur);
-						return true;
-					}
-				}
+			Xml.Ns* ns = node->doc->search_ns_by_href (node, uri);
+			if (ns != null) {
+				node->set_ns (ns);
+				return true;
 			}
-			// Not found search on parent
-			if (node->parent != null) {
-				for (Xml.Ns *cur = node->parent->ns_def; cur != null; cur = cur->next) {
-					if ((string) cur->prefix == namespace_prefix && (string) cur->href == uri) {
-						this.node->set_ns (cur);
-						return true;
-					}
-				}
-			}
-			// Not found in this node, searching on root element
-			if (owner_document == null) return false;
-			if (owner_document.document_element == null) return false;
-			if (owner_document.document_element.node == null) return false;
-			if (owner_document.document_element.node->ns_def == null) return false;
-			for (Xml.Ns *cur = owner_document.document_element.node->ns_def; cur != null; cur = cur->next) {
-				if ((string) cur->prefix == namespace_prefix && (string) cur->href == uri) {
-					this.node->set_ns (cur);
-					return true;
-				}
-			}
-			return false;
+			ns = node->new_ns (uri, namespace_prefix);
+			node->set_ns (ns);
+			return true;
 		}
 		/**
 		 * {@inheritDoc}

@@ -30,6 +30,7 @@ namespace GXml {
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-412266927]]
 	 */
 	public class DocumentType : xNode {
+		private Xml.Doc* doc;
 		private Xml.Dtd *int_subset;
 		private Xml.Dtd *ext_subset;
 
@@ -38,8 +39,9 @@ namespace GXml {
 			// TODO: for name, we want a real name of the doc type
 			base (NodeType.DOCUMENT_TYPE, doc);
 
-			this.int_subset = int_subset;
-			this.ext_subset = ext_subset;
+			this.doc = doc.xmldoc;
+			this.int_subset = this.doc->int_subset;
+			this.ext_subset = this.doc->ext_subset;
 		}
 
 
@@ -74,7 +76,7 @@ namespace GXml {
 				// TODO: need to create a HashTable<string,Entity> uniting these two
 				//       discard duplicates
 				// TODO: what type of hashtable is Xml.Dtd*'s entities?
-				Xml.HashTable *table = this.int_subset->entities;
+				Xml.HashTable *table = Xmlx.doc_get_dtd_entities (this.doc);
 
 				GLib.message ("About to scan for entities");
 				table->scan_full ((Xml.HashScannerFull)myScannerFull, null);

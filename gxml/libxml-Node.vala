@@ -84,7 +84,7 @@ namespace GXml {
 		 *
 		 * The caller must free this using {@link GLib.Object.unref}.
 		 */
-		public virtual NodeList? namespace_definitions {
+		public virtual Gee.List<Namespace>? namespace_definitions {
 			get {
 				return null;
 			}
@@ -502,7 +502,7 @@ namespace GXml {
 		}
 		
 		// GXml.Node interface implementations
-		public virtual Gee.BidirList<GXml.Namespace> namespaces { get { return (Gee.BidirList) namespace_definitions; } }
+		public virtual Gee.List<GXml.Namespace> namespaces { get { return namespace_definitions; } }
 		public virtual Gee.BidirList<GXml.Node> childs { get { return (BidirList<GXml.Node>) child_nodes; } }
 		public virtual Gee.Map<string,GXml.Node> attrs { get { return (Map<string,GXml.Node>) _attributes; } }
 		public virtual string name { get { return node_name; } }

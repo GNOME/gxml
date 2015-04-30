@@ -24,7 +24,7 @@ using Gee;
 
 public interface GXml.Node : Object
 {
-  public abstract Gee.BidirList<GXml.Namespace> namespaces { get; }
+  public abstract Gee.List<GXml.Namespace> namespaces { get; }
   public abstract Gee.BidirList<GXml.Node> childs { get; }
   public abstract Gee.Map<string,GXml.Node> attrs { get; }
   public abstract string name { get; }
@@ -32,6 +32,7 @@ public interface GXml.Node : Object
   public abstract GXml.NodeType type_node { get; }
   public abstract GXml.Document document { get; }
   public abstract string to_string ();
+  public abstract bool set_namespace (string uri, string prefix);
   public virtual string ns_prefix () { return namespaces.first ().prefix; }
   public virtual string ns_urf () { return namespaces.first ().uri; }
 }

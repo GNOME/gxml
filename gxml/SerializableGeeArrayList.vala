@@ -33,7 +33,7 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
   protected ParamSpec[] properties { get; set; }
   public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; protected set; }
   public string? serialized_xml_node_value { get; protected set; default=null; }
-  public string? serialize_set_namespace { get; set; default = null; }
+  public virtual bool set_namespace (GXml.Node node) { return true; }
 
   public GLib.HashTable<string,GXml.xNode> unknown_serializable_property { get; protected set; }
 

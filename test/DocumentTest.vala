@@ -65,6 +65,7 @@ class DocumentTest : GXmlTest {
 		Test.add_func ("/gxml/document/construct_from_path_error", () => {
 				xDocument doc;
 				try {
+				GLib.message ("invalid file...");
 					// file does not exist
 					doc = new xDocument.from_path ("/tmp/asdfjlkansdlfjl");
 					assert_not_reached ();
@@ -72,6 +73,7 @@ class DocumentTest : GXmlTest {
 					assert (e is GXml.Error.PARSER);
 				}
 				test_error (DomException.INVALID_DOC);
+				GLib.message ("invalid is directory...");
 
 				try {
 					// file exists, but is not XML (it's a directory!)
@@ -81,7 +83,7 @@ class DocumentTest : GXmlTest {
 					assert (e is GXml.Error.PARSER);
 				}
 				test_error (DomException.INVALID_DOC);
-
+				GLib.message ("invalid xml...");
 				try {
 					doc = new xDocument.from_path ("test_invalid.xml");
 					assert_not_reached ();

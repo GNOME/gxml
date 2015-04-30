@@ -94,6 +94,7 @@ AM_VALAFLAGS += \
 	$(ERROR_VALAFLAGS) \
 	--library=gxml-0.6 \
 	$(top_srcdir)/vapi/config.vapi \
+	$(top_srcdir)/vapi/xlibxml-1.0.vapi \
 	--vapidir=. \
 	--vapidir=$(top_srcdir)/vapi \
 	--pkg libxml-2.0 \
@@ -122,13 +123,15 @@ gxml_0_6_la_vala.stamp: $(sources)
 
 $(sources:.vala=.c): gxml_0_6_la_vala.stamp
 
-libgxml_0_6_la_SOURCES=$(sources:.vala=.c)
+libgxml_0_6_la_SOURCES= \
+  $(sources:.vala=.c) \
+  xlibxml.c
 libgxml_0_6_la_DEPENDENCIES= gxml_0_6_la_vala.stamp
 
 # .h header file
 gxml.h: gxml_0_6_la_vala.stamp
 gxmldir= $(includedir)/gxml-$(API_VERSION)/gxml
-gxml_HEADERS = gxml.h
+gxml_HEADERS = gxml.h xlibxml.h
 
 # .vapi Vala API file
 gxml-0.6.vapi: gxml_0_6_la_vala.stamp

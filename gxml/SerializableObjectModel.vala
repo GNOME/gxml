@@ -39,13 +39,13 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
   protected ParamSpec[] properties { get; set; }
   public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; protected set; }
   public string? serialized_xml_node_value { get; protected set; default=null; }
-  public string? serialize_set_namespace { get; set; default = null; }
   public virtual bool get_enable_unknown_serializable_property () { return false; }
   public GLib.HashTable<string,GXml.xNode> unknown_serializable_property { get; protected set; }
 
   public virtual bool serialize_use_xml_node_value () { return false; }
   public virtual bool property_use_nick () { return false; }
 
+  public virtual bool set_namespace (GXml.Node node) { return true; }
   public virtual string node_name ()
   {
     return default_node_name ();
@@ -112,11 +112,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       doc = node.document;
     var element = (xElement) doc.create_element (node_name ());
     node.append_child (element);
-    if (serialize_set_namespace != null) {
-      string[] str = serialize_set_namespace.split ("|", 2);
-      ((xElement)doc.root).add_namespace_attr (str[1], str[0]);
-      element.set_namespace (str[1], str[0]);
-    }
+    set_namespace (element);
     foreach (ParamSpec spec in list_serializable_properties ()) {
       serialize_property (element, spec);
     }

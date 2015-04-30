@@ -82,7 +82,7 @@ namespace GXml {
     public abstract HashTable<string,GXml.xNode>    unknown_serializable_property { get; protected set; }
 
     /**
-     * Used to add content in an {@link GXml.xElement}.
+     * Used to add content in an {@link GXml.Element}.
      *
      * By default no contents is serialized/deseralized. Implementors must implement
      * {@link Serializable.serialize_use_xml_node_value} function returning
@@ -97,22 +97,22 @@ namespace GXml {
     public abstract string?  serialized_xml_node_value { get; protected set; default = null; }
 
     /**
-     * Used to set specific namespace for an {@link GXml.xElement}.
+     * Used to set specific namespace for an {@link GXml.Element}.
      *
-     * By default no namspace prefix is added to {@link GXml.xElement} on serialized. Implementors
+     * By default no namspace prefix is added to {@link GXml.Element} on serialized. Implementors
      * must consider {@link Serializable.serialize_set_namespace} proterty value
      * to discover if this node should have a namespace.
      *
-     * {@link GXml.xElement} namespace should be added before to serialize any
+     * {@link GXml.Element} namespace should be added before to serialize any
      * property.
      *
      * This property should have a format "prefix|url".
      *
      * This property is ignored on serialisation.
      */
-    public abstract string? serialize_set_namespace { get; set; default = null; }
+    public abstract bool set_namespace (GXml.Node node);
       /**
-      * Used to check {@link GXml.xElement}'s contents must be deseralized.
+      * Used to check {@link GXml.Element}'s contents must be deseralized.
       * 
       * By default GXml's implementations doesn't deseriaze/serialize XML node contents.
       * In order to enable it, you must override {@link serialize_use_xml_node_value}
@@ -155,7 +155,7 @@ namespace GXml {
     public abstract GXml.Node? serialize (GXml.Node node) throws GLib.Error;
 
     /**
-     * Serialize a property @prop on a {@link GXml.xElement}.
+     * Serialize a property @prop on a {@link GXml.Element}.
      * 
      * This method is called recursivally by {@link serialize} method over all properties
      * to be serialized.
