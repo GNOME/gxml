@@ -97,10 +97,10 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
                        requires (node_name () != null)
                        requires (node is xDocument || node is xElement)
   {
-    return default_serialize ((xNode)node);
+    return default_serialize (node);
   }
 
-  public GXml.xNode? default_serialize (GXml.xNode node) throws GLib.Error
+  public GXml.Node? default_serialize (GXml.Node node) throws GLib.Error
   {
 #if DEBUG
     stdout.printf (@"$(get_type ().name ()): Serializing on node: $(node.node_name)\n");
@@ -110,26 +110,24 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       doc = (GXml.Document) node;
     else
       doc = node.document;
-    var element = (xElement) doc.create_element (node_name ());
-    node.append_child (element);
+    var element = (Element) doc.create_element (node_name ());
+    node.childs.add (element);
     set_namespace (element);
     foreach (ParamSpec spec in list_serializable_properties ()) {
       serialize_property (element, spec);
     }
     if (get_enable_unknown_serializable_property ()) {
-        foreach (xNode n in unknown_serializable_property.get_values ()) {
+        foreach (Node n in unknown_serializable_property.get_values ()) {
           if (n is xElement) {
-            var e = (xNode) doc.create_element (n.node_name);
-            n.copy (ref e, true);
-            element.append_child (e);
+            var e = doc.create_element (n.name);
+            GXml.Node.copy (node.document, e, n, true);
+            element.childs.add (e);
           }
           if (n is Attr) {
-            element.set_attribute (n.node_name, n.node_value);
-            var a = (xNode) element.get_attribute_node (n.node_name);
-            n.copy (ref a);
+            element.set_attr (n.name, n.value); // TODO: Namespace
           }
           if (n is Text) {
-            var tnode = doc.create_text (n.node_value);
+            var tnode = doc.create_text (n.value);
             element.childs.add (tnode);
           }
         }

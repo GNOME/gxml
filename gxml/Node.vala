@@ -35,5 +35,24 @@ public interface GXml.Node : Object
   public abstract bool set_namespace (string uri, string prefix);
   public virtual string ns_prefix () { return namespaces.first ().prefix; }
   public virtual string ns_urf () { return namespaces.first ().uri; }
+  public static bool copy (GXml.Document doc, GXml.Node node, GXml.Node source, bool deep)
+  {
+    if (node is GXml.Document) return false;
+    if (source is GXml.Element && node is GXml.Element) {
+      ((GXml.Element) node).content = ((GXml.Element) source).content;
+      foreach (GXml.Node p in source.attrs.values) {
+        ((GXml.Element) node).set_attr (p.name, p.value); // TODO: Namespace
+      }
+      if (!deep) return true;
+      foreach (Node c in node.childs) {
+        if (c is Element) {
+          var e = doc.create_element (c.name); // TODO: Namespace
+          node.childs.add (e);
+          copy (doc, e, c, deep);
+        }
+      }
+    }
+    return false;
+  }
 }
 

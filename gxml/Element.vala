@@ -25,7 +25,8 @@ using Gee;
 public interface GXml.Element : Object, GXml.Node
 {
     public abstract void normalize ();
-    public abstract void set_attribute (string name, string value);
+    public abstract void set_attr (string name, string value);
+    public abstract GXml.Node get_attr (string name);
     /**
      * This should be just a different name for {@link GXml.Node.name}.
      */

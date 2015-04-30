@@ -504,20 +504,11 @@ namespace GXml {
 		// GXml.Node interface implementations
 		public virtual Gee.List<GXml.Namespace> namespaces { get { return namespace_definitions; } }
 		public virtual Gee.BidirList<GXml.Node> childs { get { return (BidirList<GXml.Node>) child_nodes; } }
-		public virtual Gee.Map<string,GXml.Node> attrs { get { return (Map<string,GXml.Node>) _attributes; } }
+		public virtual Gee.Map<string,GXml.Node> attrs { get { return (Map<string,GXml.Node>) attributes; } }
 		public virtual string name { get { return node_name; } }
 		public virtual string @value { get { return node_value; } set { node_value = value; } }
 		public GXml.NodeType type_node { get { return node_type; } }
 		public virtual string to_string () { return stringify (); }
 		public GXml.Document document { get { return this.owner_document; } }
-		/**
-		 * Creates a copy of node's definition to @node.
-		 *
-		 * @param node: a {@link GXml.xNode} to copy values to.
-		 * @param deep: {@link true} when you want to copy child nodes too.
-		 */
-		public virtual bool copy (ref xNode node, bool deep = false) { // TODO: Change to GXml.Node
-			return false;
-		}
 	}
 }

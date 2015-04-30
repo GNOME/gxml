@@ -200,8 +200,9 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
       this.get_property_value (prop, ref val);
       child_object = val.get_object ();
       xDocument value_doc = Serialization.serialize_object (child_object);
-      value_node = (xNode) doc.create_element ("fake");
-      value_doc.document_element.copy (ref value_node, true);
+      value_node = (xNode) doc.create_element (doc.document_element.name);
+      // FIXME: This is not correct! May is time to remove Serialization and SerializableJson
+      GXml.Node.copy (value_doc, value_node, value_doc.document_element, true);
       //value_node = doc.copy_node (value_doc.document_element);
       prop_node.append_child (value_node);
       return prop_node;

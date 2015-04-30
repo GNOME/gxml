@@ -456,36 +456,6 @@ namespace GXml {
 
 		/**
 		 * {@inheritDoc}
-		 *
-		 * For {@link GXml.xElement} this method copy attributes and child nodes
-		 * when @deep is set to true.
-		 *
-		 * @param node: could be owned by other {@link GXml.xDocument}.
-		 * @param deep: copy child nodes if true.
-		 */
-		public override bool copy (ref xNode node, bool deep = false)
-		                    requires (node is xElement)
-		{
-			node.node_name = this.node_name;
-			((xElement) node).content = null;
-			((xElement) node).content = this.content;
-			foreach (Attr attr in attributes.get_values ()) {
-				((xElement) node).set_attribute (attr.node_name, attr.node_value);
-			}
-			if (has_child_nodes () && deep) {
-				foreach (xNode n in child_nodes) {
-					if (n is xElement) {
-						var element = (xNode) node.owner_document.create_element (n.node_name);
-						n.copy (ref element, true);
-						node.append_child (	element);
-					}
-				}
-			}
-			return true;
-		}
-
-		/**
-		 * {@inheritDoc}
 		 */
 		public override string stringify (bool format = false, int level = 0) {
 			/* TODO: may want to determine a way to only sync when
@@ -494,5 +464,8 @@ namespace GXml {
 			this.owner_document.dirty_elements.append (this);
 			return base.stringify (format, level);
 		}
+		// GXml.Element interface
+    public void set_attr (string name, string value) { set_attribute (name, value); }
+    public GXml.Node get_attr (string name) { return (GXml.Node) get_attribute_node (name); }
 	}
 }
