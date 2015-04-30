@@ -21,13 +21,13 @@
  */
 
 /**
- * Object Model is an {@link Serializable} implementation using {@link xElement}
+ * Object Model is an {@link Serializable} implementation using {@link Element}
  * to represent {@link GLib.Object} class objects.
  * 
  * This implementation consider each object as a XML node, represented in GXml 
- * as a {@link GXml.xElement} and its properties is represented by {@link GXml.Attr}.
+ * as a {@link GXml.Element} and its properties is represented by {@link GXml.Attr}.
  * Each property, if it is a {@link Serializable} object, is represented as child
- * {@link xElement}.
+ * {@link Element}.
  * 
  * If a object's value property must be represented as a XML node content, 
  * then it requires to override {@link Serializable.serialize_use_xml_node_value}
@@ -95,7 +95,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
   public virtual GXml.Node? serialize (GXml.Node node)
                        throws GLib.Error
                        requires (node_name () != null)
-                       requires (node is xDocument || node is xElement)
+                       requires (node is xDocument || node is GXml.Element)
   {
     return default_serialize (node);
   }
@@ -117,8 +117,8 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       serialize_property (element, spec);
     }
     if (get_enable_unknown_serializable_property ()) {
-        foreach (Node n in unknown_serializable_property.get_values ()) {
-          if (n is xElement) {
+        foreach (GXml.Node n in unknown_serializable_property.get_values ()) {
+          if (n is GXml.Element) {
             var e = doc.create_element (n.name);
             GXml.Node.copy (node.document, e, n, true);
             element.childs.add (e);
@@ -151,7 +151,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
                                         GLib.ParamSpec prop)
                                         throws GLib.Error
   {
-    if (element is xElement)
+    if (element is GXml.Element)
       return default_serialize_property ((GXml.Element) element, prop);
     return null;
   }
@@ -254,7 +254,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 #if DEBUG
     stdout.printf (@"Elements Nodes in Node: $(element.name)\n");
 #endif
-    if (((xElement)element).has_child_nodes ())
+    if (element.childs.size > 0)
     {
       if (get_type ().is_a (typeof (SerializableContainer)))
       {
@@ -294,7 +294,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
             }
           }
         }
-        if (n is xElement  && !cnodes.has_key (n.name)) {
+        if (n is GXml.Element  && !cnodes.has_key (n.name)) {
 #if DEBUG
             stdout.printf (@"$(get_type ().name ()): DESERIALIZING ELEMENT '$(n.name)'\n");
 #endif
