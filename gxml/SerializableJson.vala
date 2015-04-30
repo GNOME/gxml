@@ -63,7 +63,7 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
   /* Serializable Interface properties */
   protected ParamSpec[] properties { get; set; }
   public HashTable<string,GLib.ParamSpec>  ignored_serializable_properties { get; protected set; }
-  public HashTable<string,GXml.xNode>    unknown_serializable_property { get; protected set; }
+  public HashTable<string,GXml.Node>    unknown_serializable_property { get; protected set; }
   public virtual bool get_enable_unknown_serializable_property () { return false; }
   public string?  serialized_xml_node_value { get; protected set; default = null; }
   public virtual bool set_namespace (GXml.Node node) { return true; }
@@ -147,7 +147,7 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
     xElement element = (xElement) node;
     Type type;
     Value val;
-    GXml.xNode value_node = null;
+    GXml.Node value_node = null;
     xElement prop_node;
 
     type = prop.value_type;
@@ -169,7 +169,7 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
       val = Value (typeof (int));
       this.get_property_value (prop, ref val);
       value_node = doc.create_text_node ("%d".printf (val.get_int ()));
-      prop_node.append_child (value_node);
+      prop_node.childs.add (value_node);
       return prop_node;
     } 
     else if (Value.type_transformable (type, typeof (string))) 
@@ -182,12 +182,12 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
       string str = t.get_string ();
       if (str == null) str = "";
       value_node = doc.create_text_node (str);
-      prop_node.append_child (value_node);
+      prop_node.childs.add (value_node);
       return prop_node;
     }
     else if (type == typeof (GLib.Type)) {
       value_node = doc.create_text_node (type.name ());
-      prop_node.append_child (value_node);
+      prop_node.childs.add (value_node);
       return prop_node;
     }
     else if (type.is_a (typeof (GLib.Object))
@@ -204,7 +204,7 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
       // FIXME: This is not correct! May is time to remove Serialization and SerializableJson
       GXml.Node.copy (value_doc, value_node, value_doc.document_element, true);
       //value_node = doc.copy_node (value_doc.document_element);
-      prop_node.append_child (value_node);
+      prop_node.childs.add (value_node);
       return prop_node;
     }
     //GLib.message ("DEBUG: serialing unknown property type '%s' of object '%s'", prop.name, this.get_type ().name ());

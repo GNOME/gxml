@@ -148,7 +148,7 @@ public class Package : ObjectModel
   public string unknown_to_string ()
   {
     string t = "";
-    foreach (GXml.xNode node in unknown_serializable_property.get_values ())
+    foreach (GXml.Node node in unknown_serializable_property.get_values ())
     {
       t+= node.to_string () ;
     }
@@ -819,11 +819,11 @@ class SerializableObjectModelTest : GXmlTest
                        unknown_property.deserialize (doc);
                        if (unknown_property.unknown_serializable_property.size () != 4) {
                          stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: size $(unknown_property.unknown_serializable_property.size ().to_string ())\n");
-                         foreach (GXml.xNode un in unknown_property.unknown_serializable_property.get_values ()) {
+                         foreach (GXml.Node un in unknown_property.unknown_serializable_property.get_values ()) {
                            string sv = "__NULL__";
-                           if (un.node_value != null)
-                             sv = un.node_value;
-                           stdout.printf (@"Saved unknown property: $(un.node_name) / '$(sv)'\n");
+                           if (un.value != null)
+                             sv = un.value;
+                           stdout.printf (@"Saved unknown property: $(un.name) / '$(sv)'\n");
                          }
                          assert_not_reached ();
                        }

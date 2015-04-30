@@ -491,12 +491,12 @@ class SerializableGeeCollectionsTest : GXmlTest
         }
         if (refaction.unknown_serializable_property.size () != 1) {
           stdout.printf (@"ERROR: Refaction: Bad unknown properties/nodes number: found $(refaction.unknown_serializable_property.size ())\n");
-          foreach (GXml.xNode unk in refaction.unknown_serializable_property.get_values ())
+          foreach (GXml.Node unk in refaction.unknown_serializable_property.get_values ())
           {
             string unkv = "___NULL__";
-            if (unk.node_value != null)
-              unkv = unk.node_value;
-            stdout.printf (@"Unknown Node: $(unk.node_name) / value: '$(unkv)'");
+            if (unk.value != null)
+              unkv = unk.value;
+            stdout.printf (@"Unknown Node: $(unk.name) / value: '$(unkv)'");
           }
           assert_not_reached ();
         }

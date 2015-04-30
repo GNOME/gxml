@@ -40,7 +40,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
   public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; protected set; }
   public string? serialized_xml_node_value { get; protected set; default=null; }
   public virtual bool get_enable_unknown_serializable_property () { return false; }
-  public GLib.HashTable<string,GXml.xNode> unknown_serializable_property { get; protected set; }
+  public GLib.HashTable<string,GXml.Node> unknown_serializable_property { get; protected set; }
 
   public virtual bool serialize_use_xml_node_value () { return false; }
   public virtual bool property_use_nick () { return false; }
@@ -95,7 +95,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
   public virtual GXml.Node? serialize (GXml.Node node)
                        throws GLib.Error
                        requires (node_name () != null)
-                       requires (node is xDocument || node is GXml.Element)
+                       requires (node is GXml.Document || node is GXml.Element)
   {
     return default_serialize (node);
   }
@@ -217,7 +217,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
                                     throws GLib.Error
                                     requires (node_name () != null)
   {
-    return default_deserialize ((xNode) node);
+    return default_deserialize (node);
   }
   public GXml.xNode? default_deserialize (GXml.Node node)
                                     throws GLib.Error
@@ -249,7 +249,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 #endif
     foreach (GXml.Node attr in ((xElement)element).attributes.get_values ())
     {
-      deserialize_property ((xNode)attr);
+      deserialize_property (attr);
     }
 #if DEBUG
     stdout.printf (@"Elements Nodes in Node: $(element.name)\n");
@@ -290,7 +290,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
           } else {
             if (get_enable_unknown_serializable_property ()) {
               if (n.value._chomp () == n.value && n.value != "")
-                unknown_serializable_property.set (n.name,(xNode) n);
+                unknown_serializable_property.set (n.name, n);
             }
           }
         }
@@ -298,7 +298,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 #if DEBUG
             stdout.printf (@"$(get_type ().name ()): DESERIALIZING ELEMENT '$(n.name)'\n");
 #endif
-          deserialize_property ((xNode)n);
+          deserialize_property (n);
         }
       }
     }
@@ -312,7 +312,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
   }
   public bool default_deserialize_property (GXml.Node nproperty)
                                             throws GLib.Error
-                                            requires (nproperty is xNode)
+                                            requires (nproperty is Node)
   {
     xNode property_node = (xNode) nproperty;
 #if DEBUG
