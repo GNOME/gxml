@@ -166,7 +166,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       get_property (prop.name, ref v);
       var obj = (Serializable) v.get_object ();
       if (obj != null)
-        return (xNode)obj.serialize (element);
+        return obj.serialize (element);
     }
     Value oval;
     if (prop.value_type.is_a (Type.ENUM))
@@ -219,7 +219,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
   {
     return default_deserialize (node);
   }
-  public GXml.xNode? default_deserialize (GXml.Node node)
+  public GXml.Node? default_deserialize (GXml.Node node)
                                     throws GLib.Error
   {
     Document doc;
@@ -310,21 +310,19 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
   {
     return default_deserialize_property (property_node);
   }
-  public bool default_deserialize_property (GXml.Node nproperty)
+  public bool default_deserialize_property (GXml.Node property_node)
                                             throws GLib.Error
-                                            requires (nproperty is Node)
   {
-    xNode property_node = (xNode) nproperty;
 #if DEBUG
     stdout.printf (@"Deserialize Property Node: $(property_node.node_name)\n");
 #endif
     bool ret = false;
-    var prop = find_property_spec (property_node.node_name);
+    var prop = find_property_spec (property_node.name);
     if (prop == null) {
       // FIXME: Event emit
       if (get_enable_unknown_serializable_property ()) {
 //        stdout.printf (@"Adding node $(property_node.node_name) to $(get_type ().name ())\n");
-        unknown_serializable_property.set (property_node.node_name, property_node);
+        unknown_serializable_property.set (property_node.name, property_node);
       }
       return true;
     }
@@ -352,19 +350,19 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
         if (prop.value_type.is_a (Type.ENUM)) {
           EnumValue env;
           try {
-            env = Enumeration.parse (prop.value_type, property_node.node_value);
+            env = Enumeration.parse (prop.value_type, property_node.value);
             val.set_enum (env.value);
           }
           catch (EnumerationError e) {}
         }
         else {
-          if (!transform_from_string (property_node.node_value, ref val)) {
+          if (!transform_from_string (property_node.value, ref val)) {
             Value ptmp = Value (typeof (string));
-            ptmp.set_string (property_node.node_value);
+            ptmp.set_string (property_node.value);
             if (Value.type_transformable (typeof (string), prop.value_type))
               ret = ptmp.transform (ref val);
             else
-              ret = string_to_gvalue (property_node.node_value, ref val);
+              ret = string_to_gvalue (property_node.value, ref val);
           }
         }
         set_property (prop.name, val);
