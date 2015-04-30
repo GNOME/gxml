@@ -240,18 +240,22 @@ class Configuration : ObjectModel
   public override GXml.Node? serialize (GXml.Node node) throws GLib.Error
   {
     var n = (xNode) default_serialize ((xNode)node);
-    n.add_namespace_attr ("http://www.gnome.org/gxml/0.4", "om");
+    n.set_namespace ("http://www.gnome.org/gxml/0.4", "om");
     return (GXml.Node)n;
   }
   public override GXml.Node? deserialize (GXml.Node node) throws GLib.Error
   {
-    //stdout.printf (@"CONFIGURATOR: Namespaces Check");
+#if DEBUG
+    GLib.message (@"CONFIGURATOR: Deserializing... $(node.to_string ())");
+#endif
     GXml.Node n;
     if (node is Document)
       n = (GXml.Node) (((GXml.Document) node).root);
     else
       n = node;
-
+#if DEBUG
+    GLib.message ("Checking namespaces... in GXml.Node");
+#endif
     foreach (GXml.Namespace ns in n.namespaces) {
 #if DEBUG
       GLib.message (@"Namespace = $(ns.prefix):$(ns.uri)");
@@ -704,12 +708,16 @@ class SerializableObjectModelTest : GXmlTest
                        configuration.serialize (doc);
                        //stdout.printf (@"DOC: $doc");
                        if (doc.document_element == null) {
-                         stdout.printf ("DOC: No root element");
+#if DEBUG
+                         GLib.message ("DOC: No root element");
+#endif
                          assert_not_reached ();
                        }
                        GXml.Element element = (GXml.Element) doc.root;
                        if (element.name != "Configuration") {
-                         stdout.printf (@"CONFIGURATION: Bad node name: $(element.name)");
+#if DEBUG
+                         GLib.message (@"CONFIGURATION: Bad node name: $(element.name)");
+#endif
                          assert_not_reached ();
                        }
                        bool found = false;
@@ -719,10 +727,12 @@ class SerializableObjectModelTest : GXmlTest
                            found = true;
                        }
                        if (!found) {
+#if DEBUG
                          stdout.printf (@"CONFIGURATION: No namespace found: size: $(element.namespaces.size)");
                          foreach (GXml.Namespace n in element.namespaces) {
                            stdout.printf (@"CONFIGURATION: Defined Namespace: $(n.prefix):$(n.uri)");
                          }
+#endif
                          assert_not_reached ();
                        }
                      }

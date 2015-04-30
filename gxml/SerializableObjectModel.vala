@@ -242,19 +242,19 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       return null;
     }
 #if DEBUG
-    if (element.node_name.down () != node_name ().down ()) {
-      GLib.warning (@"Actual node's name is '$(element.node_name.down ())' expected '$(node_name ().down ())'");
+    if (element.name.down () != node_name ().down ()) {
+      GLib.warning (@"Actual node's name is '$(element.name.down ())' expected '$(node_name ().down ())'");
     }
-    stdout.printf (@"Deserialize Node: $(element.node_name)\n");
+    stdout.printf (@"Deserialize Node: $(element.name)\n");
     stdout.printf (@"Node is: $(element)\n\n");
-    stdout.printf (@"Attributes in Node: $(element.node_name)\n");
+    stdout.printf (@"Attributes in Node: $(element.name)\n");
 #endif
     foreach (GXml.Node attr in ((xElement)element).attributes.get_values ())
     {
       deserialize_property ((xNode)attr);
     }
 #if DEBUG
-    stdout.printf (@"Elements Nodes in Node: $(element.node_name)\n");
+    stdout.printf (@"Elements Nodes in Node: $(element.name)\n");
 #endif
     if (((xElement)element).has_child_nodes ())
     {
@@ -287,7 +287,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
           if (serialize_use_xml_node_value ()) {
             serialized_xml_node_value = n.value;
 #if DEBUG
-            stdout.printf (@"$(get_type ().name ()): NODE '$(element.node_name)' CONTENT '$(n.node_value)'\n");
+            stdout.printf (@"$(get_type ().name ()): NODE '$(element.name)' CONTENT '$(n.value)'\n");
 #endif
           } else {
             if (get_enable_unknown_serializable_property ()) {
@@ -298,7 +298,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
         }
         if (n is xElement  && !cnodes.has_key (n.name)) {
 #if DEBUG
-            stdout.printf (@"$(get_type ().name ()): DESERIALIZING ELEMENT '$(n.node_name)'\n");
+            stdout.printf (@"$(get_type ().name ()): DESERIALIZING ELEMENT '$(n.name)'\n");
 #endif
           deserialize_property ((xNode)n);
         }

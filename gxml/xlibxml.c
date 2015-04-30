@@ -40,3 +40,8 @@ xmlErrorPtr gxml_get_last_error ()
 {
   return xmlGetLastError ();
 }
+
+xmlNsPtr* gxml_doc_get_ns_list (xmlDoc* doc, xmlNode* node)
+{
+  return xmlGetNsList (doc, node);
+}

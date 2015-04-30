@@ -28,4 +28,6 @@ namespace Xmlx {
   static Xml.Error* parser_context_get_last_error (Xml.ParserCtxt ctx);
   [CCode (cname = "gxml_get_last_error", cheader_filename = "gxml/xlibxml.h")]
   static Xml.Error* get_last_error ();
+  [CCode (cname = "gxml_doc_get_ns_list", array_null_terminated = true, cheader_filename = "gxml/xlibxml.h")]
+  static Xml.Ns*[] doc_get_ns_list (Xml.Doc* doc, Xml.Node* node);
 }

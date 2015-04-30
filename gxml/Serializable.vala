@@ -111,6 +111,7 @@ namespace GXml {
      * This property is ignored on serialisation.
      */
     public abstract bool set_namespace (GXml.Node node);
+    //public abstract Namespace @namespace { get; set; default = null; }
       /**
       * Used to check {@link GXml.Element}'s contents must be deseralized.
       * 

@@ -28,5 +28,6 @@ void*       gxml_doc_get_intsubset_entities    (xmlDoc *doc);
 int         gxml_validate_name                 (xmlChar* name, int space);
 xmlErrorPtr gxml_parser_context_get_last_error (void* ctx);
 xmlErrorPtr gxml_get_last_error                ();
+xmlNsPtr*   gxml_doc_get_ns_list               (xmlDoc* doc, xmlNode* node);
 
 #endif

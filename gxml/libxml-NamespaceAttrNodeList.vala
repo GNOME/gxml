@@ -21,14 +21,17 @@
  */
 using Gee;
 using Xml;
+using Xmlx;
 // FIXME: Port this class as an implementation of Gee interfaces
 internal abstract class GXml.AbstractNamespaceAttrNodeList : Object,
   Gee.Traversable<Namespace>, Gee.Iterable<Namespace>, Gee.Collection<Namespace>
 {
   protected unowned BackedNode node;
+  protected Xml.Ns*[] name_spaces;
 
   internal AbstractNamespaceAttrNodeList (BackedNode root) {
     this.node = root;
+    name_spaces = Xmlx.doc_get_ns_list (node.node->doc, node.node);
   }
   public bool add (Namespace item) { return false; }
   public void clear ()
@@ -50,17 +53,7 @@ internal abstract class GXml.AbstractNamespaceAttrNodeList : Object,
   {
     owned get { return new NamespaceAttrNodeList (this.node); }
   }
-  public int size {
-    get {
-      int i = 0;
-      Xml.Ns* cur = node.node->ns;
-      while (cur != null) {
-        i++;
-        cur = cur->next;
-      }
-      return i;
-    }
-  }
+  public int size { get { return name_spaces.length; } }
   public Gee.Iterator<Namespace> iterator () { return new Iterator (this); }
 
   public new bool @foreach (Gee.ForallFunc<Namespace> f) {
@@ -83,37 +76,34 @@ internal abstract class GXml.AbstractNamespaceAttrNodeList : Object,
     }
     public bool has_next ()
     {
-      if (cur == null) {
-        if (nl.node.node == null) return false;
-        if (nl.node.node->ns == null) return false;
-        return true;
+      if (nl.name_spaces.length > 0) {
+        
+      if (i < nl.name_spaces.length) return true;
       }
-      if (cur->next == null) return false;
-      return true;
+      return false;
     }
 		public bool next ()
     {
-      if (cur == null) {
-        if (nl.node.node == null) return false;
-        if (nl.node.node->ns == null) return false;
-        cur = nl.node.node->ns;
-        i++;
+      i++;
+      if (i < nl.name_spaces.length){
+        cur = nl.name_spaces [i];
+        return true;
       }
-      if (cur->next == null) return false;
-      cur = cur->next;
-      return true;
+      return false;
     }
     public void remove () { return; }
     public bool read_only { get { return true; } }
     public bool valid
     {
       get {
+        if (i < 0 || i >= nl.name_spaces.length)
         if (cur == null) return false;
         return true;
       }
     }
     public new bool @foreach (Gee.ForallFunc<Namespace> f)
     {
+      GLib.message ("Iterating over all Namespaces");
       while (has_next ()) {
         next ();
         if (!f(@get())) return false;
@@ -128,19 +118,18 @@ internal class GXml.NamespaceAttrNodeList : AbstractNamespaceAttrNodeList,
 {
   public NamespaceAttrNodeList (BackedNode root) {
     base (root);
+#if DEBUG
+    GLib.message (@"Initialized Namespace List...)");
+    GLib.message (@"Checking Namespaces: Xml.Node null? $((node.node == null).to_string ()) - Ns is null? $((node.node->ns == null).to_string ()) - NsList: $((name_spaces == null).to_string ())");
+    GLib.message (@"Number of Namespaces found: $(name_spaces.length)");
+#endif
   }
   public new Namespace @get (int index)
   {
     Xml.Ns* cur = null;
-    if (this.node.node != null) {
-      if (node.node->ns != null) {
-        cur = node.node->ns;
-        int i = 0;
-        while (cur != null) {
-          if (index == i) break;
-          cur = cur->next;
-          i++;
-        }
+    if (name_spaces != null) {
+      if (index >= 0 && index < name_spaces.length) {
+        cur = name_spaces[index];
       }
     }
     return (Namespace) new NamespaceAttr (cur, node.owner_document);
@@ -149,12 +138,12 @@ internal class GXml.NamespaceAttrNodeList : AbstractNamespaceAttrNodeList,
   {
     int i = -1;
     Xml.Ns* cur = null;
-    if (node.node != null) {
-      cur = node.node->ns;
-      while (cur != null) {
-        i++;
-        if (item.uri == cur->href && item.prefix == cur->prefix) break;
-        cur = cur->next;
+    if (name_spaces != null) {
+      for (int j = 0; j < name_spaces.length; j++) {
+        if (item.uri == cur->href && item.prefix == cur->prefix) {
+          i = j;
+          break;
+        }
       }
     }
     return i;
