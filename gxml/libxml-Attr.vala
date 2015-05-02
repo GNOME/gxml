@@ -55,7 +55,7 @@ namespace GXml {
 	 *
 	 * @see GXml.Node
 	 */
-	public class Attr : BackedNode {
+	public class Attr : BackedNode, GXml.Attribute {
 		/** Private properties */
 		/* this displaces BackedNode's xmlNode node */
 		internal new Xml.Attr *node;

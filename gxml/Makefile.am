@@ -37,6 +37,7 @@ sources = \
 	libxml-Implementation.vala \
 	libxml-LinkedList.vala \
 	libxml-NamedNodeMap.vala \
+	libxml-NamedAttrMap.vala \
 	libxml-NamespaceAttr.vala \
 	libxml-NodeChildNodeList.vala \
 	libxml-NodeList.vala \

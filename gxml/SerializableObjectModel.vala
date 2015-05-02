@@ -246,7 +246,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     stdout.printf (@"Node is: $(element)\n\n");
     stdout.printf (@"Attributes in Node: $(element.name)\n");
 #endif
-    foreach (GXml.Node attr in ((xElement)element).attributes.get_values ())
+    foreach (GXml.Node attr in element.attrs.values)
     {
       deserialize_property (attr);
     }
