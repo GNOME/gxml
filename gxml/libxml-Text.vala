@@ -41,8 +41,8 @@ namespace GXml {
 	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-1312295772]]
 	 */
-	public class Text : CharacterData {
-		internal Text (Xml.Node *text_node, xDocument doc) {
+	public class xText : CharacterData, GXml.Text {
+		internal xText (Xml.Node *text_node, xDocument doc) {
 			base (text_node, doc);
 		}
 		/**
@@ -78,8 +78,8 @@ namespace GXml {
 		 * now, it is not attached to the tree as a sibling to
 		 * the first part, as the spec wants.
 		 */
-		public Text split_text (ulong offset) {
-			Text other;
+		public xText split_text (ulong offset) {
+			xText other;
 
 			this.check_read_only ();
 

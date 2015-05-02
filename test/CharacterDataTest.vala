@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
 /* CharacterDataTest.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
@@ -29,7 +29,7 @@ class CharacterDataTest : GXmlTest  {
 		Test.add_func ("/gxml/characterdata/data", () => {
 				string str = "It does not do to dwell on dreams and forget to live, remember that.";
 				xDocument doc;
-				Text txt = get_text_new_doc (str, out doc);
+				xText txt = get_text_new_doc (str, out doc);
 
 				assert (txt.data == str);
 				assert (txt.data == txt.node_value);
@@ -37,13 +37,13 @@ class CharacterDataTest : GXmlTest  {
 		Test.add_func ("/gxml/characterdata/length", () => {
 				string str = "After all, to the well-organized mind, death is but the next great adventure.";
 				xDocument doc;
-				Text txt = get_text_new_doc (str, out doc);
+				xText txt = get_text_new_doc (str, out doc);
 
 				assert (txt.length == str.length);
 			});
 		Test.add_func ("/gxml/characterdata/substring_data", () => {
 				xDocument doc;
-				Text txt = get_text_new_doc ("The trouble is, humans do have a knack of choosing precisely those things that are worst for them.", out doc);
+				xText txt = get_text_new_doc ("The trouble is, humans do have a knack of choosing precisely those things that are worst for them.", out doc);
 				string str = txt.substring_data (4, 7);
 
 				assert (str == "trouble");
@@ -54,7 +54,7 @@ class CharacterDataTest : GXmlTest  {
 				string str_start = "Never trust anything that can think for itself";
 				string str_whole = "Never trust anything that can think for itself if you can't see where it keeps its brain.";
 				xDocument doc;
-				Text txt = get_text_new_doc ("Never trust anything that can think for itself", out doc);
+				xText txt = get_text_new_doc ("Never trust anything that can think for itself", out doc);
 
 				assert (txt.data == str_start);
 				txt.append_data (" if you can't see where it keeps its brain.");
@@ -62,7 +62,7 @@ class CharacterDataTest : GXmlTest  {
 			});
 		Test.add_func ("/gxml/characterdata/insert_data", () => {
 				xDocument doc;
-				Text txt = get_text_new_doc ("It is our choices that show what we are, far more than our abilities.", out doc);
+				xText txt = get_text_new_doc ("It is our choices that show what we are, far more than our abilities.", out doc);
 				txt.insert_data (35, " truly");
 				assert (txt.data == "It is our choices that show what we truly are, far more than our abilities.");
 
@@ -82,7 +82,7 @@ class CharacterDataTest : GXmlTest  {
 			});
 		Test.add_func ("/gxml/characterdata/delete_data", () => {
 				xDocument doc;
-				Text txt = get_text_new_doc ("Happiness can be found, even in the darkest of times, if one only remembers to turn on the light.", out doc);
+				xText txt = get_text_new_doc ("Happiness can be found, even in the darkest of times, if one only remembers to turn on the light.", out doc);
 				txt.delete_data (14, 65);
 				assert (txt.data == "Happiness can turn on the light.");
 				// TODO: test bounds
@@ -91,7 +91,7 @@ class CharacterDataTest : GXmlTest  {
 				// TODO: test bounds
 
 				xDocument doc;
-				Text txt = get_text_new_doc ("In dreams, we enter a world that's entirely our own.", out doc);
+				xText txt = get_text_new_doc ("In dreams, we enter a world that's entirely our own.", out doc);
 				txt.replace_data (3, 6, "the refrigerator");
 				assert (txt.data == "In the refrigerator, we enter a world that's entirely our own.");
 			});

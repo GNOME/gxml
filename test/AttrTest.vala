@@ -144,7 +144,7 @@ class AttrTest : GXmlTest {
 		Test.add_func ("/gxml/attribute/insert_before", () => {
 				xDocument doc = get_doc ();
 				Attr attr = get_attr ("pie", "Dumbleberry", doc);
-				Text txt = doc.create_text_node ("Whipped ");
+				xText txt = doc.create_text_node ("Whipped ");
 
 				assert (attr.value == "Dumbleberry");
 				attr.insert_before (txt, attr.child_nodes.first ());
@@ -155,7 +155,7 @@ class AttrTest : GXmlTest {
 		Test.add_func ("/gxml/attribute/replace_child", () => {
 				xDocument doc = get_doc ();
 				Attr attr = get_attr ("WinningHouse", "Slytherin", doc);
-				Text txt = doc.create_text_node ("Gryffindor");
+				xText txt = doc.create_text_node ("Gryffindor");
 
 				assert (attr.value == "Slytherin");
 				attr.replace_child (txt, attr.child_nodes.item (0));

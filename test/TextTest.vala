@@ -29,8 +29,8 @@ class TextTest : GXmlTest {
 
 		Test.add_func ("/gxml/text/split_text", () => {
 				xDocument doc;
-				Text txt1 = get_text_new_doc ("Constant vigilance!", out doc);
-				Text txt2 = txt1.split_text (5);
+				xText txt1 = get_text_new_doc ("Constant vigilance!", out doc);
+				xText txt2 = txt1.split_text (5);
 
 				assert (txt1.node_value == "Const");
 				assert (txt2.node_value == "ant vigilance!");

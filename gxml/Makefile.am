@@ -18,6 +18,7 @@ sources = \
 	Document.vala \
 	Namespace.vala \
 	Node.vala \
+	Text.vala \
 	libxml-Attr.vala \
 	libxml-AttrChildNodeList.vala \
 	libxml-BackedNode.vala \

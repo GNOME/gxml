@@ -118,12 +118,12 @@ class GXmlTest {
 		return elem;
 	}
 
-	internal static Text get_text_new_doc (string data, out xDocument doc) {
+	internal static xText get_text_new_doc (string data, out xDocument doc) {
 		return get_text (data, doc = get_doc ());
 	}
 
-	internal static Text get_text (string data, xDocument doc) {
-		Text txt = doc.create_text_node (data);
+	internal static xText get_text (string data, xDocument doc) {
+		xText txt = doc.create_text_node (data);
 		return txt;
 	}
 }

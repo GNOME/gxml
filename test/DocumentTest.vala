@@ -316,7 +316,7 @@ class DocumentTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/document/create_text_node", () => {
 				xDocument doc = get_doc ();
-				Text text = doc.create_text_node ("Star of my dreams");
+				xText text = doc.create_text_node ("Star of my dreams");
 
 				assert (text.node_name == "#text");
 				assert (text.node_value == "Star of my dreams");

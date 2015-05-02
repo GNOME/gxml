@@ -249,7 +249,7 @@ class ElementTest : GXmlTest  {
 				xElement elem;
 				NodeList emails;
 				xElement email;
-				Text text;
+				xText text;
 
 				doc = get_doc ();
 
@@ -264,7 +264,7 @@ class ElementTest : GXmlTest  {
 				assert (email.tag_name == "Email");
 				assert (email.child_nodes.length == 1);
 
-				text = (Text)email.child_nodes.@get (0);
+				text = (xText)email.child_nodes.@get (0);
 				assert (text.node_name == "#text");
 				assert (text.node_value == "fweasley@hogwarts.co.uk");
 
@@ -272,7 +272,7 @@ class ElementTest : GXmlTest  {
 				assert (email.tag_name == "Email");
 				assert (email.child_nodes.length == 1);
 
-				text = (Text)email.child_nodes.@get (0);
+				text = (xText)email.child_nodes.@get (0);
 				assert (text.node_name == "#text");
 				assert (text.node_value == "gweasley@hogwarts.co.uk");
 

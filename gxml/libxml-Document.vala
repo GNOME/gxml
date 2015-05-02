@@ -113,7 +113,7 @@ namespace GXml {
 					new xElement (xmlnode, this);
 					break;
 				case NodeType.TEXT:
-					new Text (xmlnode, this);
+					new xText (xmlnode, this);
 					break;
 				case NodeType.CDATA_SECTION:
 					new CDATASection (xmlnode, this);
@@ -655,9 +655,9 @@ namespace GXml {
 		 * @return A new {@link GXml.Text} node containing
 		 * the supplied data; this should not be freed
 		 */
-		public unowned Text create_text_node (string text_data) {
-			Text text = new Text (this.xmldoc->new_text (text_data), this);
-			unowned Text ret = text;
+		public unowned xText create_text_node (string text_data) {
+			xText text = new xText (this.xmldoc->new_text (text_data), this);
+			unowned xText ret = text;
 			this.nodes_to_free.append (text);
 			return ret;
 		}
