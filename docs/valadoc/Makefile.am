@@ -83,6 +83,7 @@ gxml_doc_files = \
 
 # todo: find out what dependencies I want/need to set
 gxml_doc_deps = \
+	xlibxml-1.0 \
 	gio-2.0 \
 	gee-0.8 \
 	libxml-2.0 \

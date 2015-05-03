@@ -115,7 +115,8 @@ AC_SUBST(GXML_LOCALEDIR)
 # TODO: what do we do about libvala's versioning?  set it back to -0.18 and see what happens when we upgraded from Fedora 18 to 19
 
 GLIB_REQUIRED=2.32.0
-VALA_REQUIRED=0.20.0
+VALA_REQUIRED=0.26.0
+LIBVALA_REQUIRED=0.26
 GEE_REQUIRED=0.10.5
 LIBXML_REQUIRED=2.7
 GIO_MODULES="gio-2.0 >= 2.16"
@@ -145,7 +146,7 @@ GOBJECT_INTROSPECTION_CHECK([1.32.0])
 # Documentation with Valadoc
 AC_ARG_ENABLE([docs],
               AS_HELP_STRING([--enable-docs],[Enable documentation generation]),
-	      [enable_docs=$enableval], [enable_docs=no])
+        [enable_docs=$enableval], [enable_docs=no])
 AM_CONDITIONAL([ENABLE_DOCS], [test x$enable_docs = xyes])
 
 have_valadoc=no
@@ -156,7 +157,7 @@ if test x$enable_docs = xyes; then
   then
       AC_MSG_RESULT([valadoc documentation not build because not found])
   else
-      VAPIDIR=`$PKG_CONFIG --variable=vapidir libvalac-$VALA_REQUIRED`
+      VAPIDIR=`$PKG_CONFIG --variable=vapidir libvala-$LIBVALA_REQUIRED`
       have_valadoc="yes"
       AC_SUBST(VALADOC)
   fi
@@ -166,15 +167,20 @@ AM_CONDITIONAL([HAVE_VALADOC], [test x$have_valadoc = xyes])
 
 AC_ARG_ENABLE([devhelp-docs],
               AS_HELP_STRING([--enable-devhelp-docs],[Enable DevHelp documentation generation]),
-	      [enable_devhelp_docs=$enableval], [enable_devhelp_docs=no])
+        [enable_devhelp_docs=$enableval], [enable_devhelp_docs=no])
 
 AC_ARG_ENABLE([gtk-docs],
               AS_HELP_STRING([--enable-gtk-docs],[Enable gtk-doc documentation generation]),
-	      [enable_gtk_docs=$enableval], [enable_gtk_docs=no])
+        [enable_gtk_docs=$enableval], [enable_gtk_docs=no])
+
+have_gtkdoc=no
+if test x$enable_gtk_docs = xyes; then
+  PKG_CHECK_MODULES([GTKDOC], gtk-doc)
+fi
 
 AC_ARG_ENABLE([gir-docs],
               AS_HELP_STRING([--enable-gir-docs],[Enable documented GIR generation]),
-	      [enable_gir_docs=$enableval], [enable_gir_docs=no])
+        [enable_gir_docs=$enableval], [enable_gir_docs=no])
 
 
 dnl Find yelp-build program

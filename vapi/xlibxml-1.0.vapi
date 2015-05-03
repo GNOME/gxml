@@ -16,18 +16,18 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
  *
  * Author:
- * 	Daniel Espinosa <esodan@gmail.com>
+ * Daniel Espinosa <esodan@gmail.com>
  */
 [CCode (cheader_filename = "gxml/xlibxml.h")]
 namespace Xmlx {
   [CCode (cname = "gxml_doc_get_intsubset_entities", cheader_filename = "gxml/xlibxml.h")]
-  static Xml.HashTable doc_get_dtd_entities (Xml.Doc *doc);
+  public static Xml.HashTable doc_get_dtd_entities (Xml.Doc *doc);
   [CCode (cname = "gxml_validate_name", cheader_filename = "gxml//xlibxml.h")]
-  static int validate_name (string name, int space);
+  public static int validate_name (string name, int space);
   [CCode (cname = "gxml_parser_context_get_last_error", cheader_filename = "gxml/xlibxml.h")]
-  static Xml.Error* parser_context_get_last_error (Xml.ParserCtxt ctx);
+  public static Xml.Error* parser_context_get_last_error (Xml.ParserCtxt ctx);
   [CCode (cname = "gxml_get_last_error", cheader_filename = "gxml/xlibxml.h")]
-  static Xml.Error* get_last_error ();
+  public static Xml.Error* get_last_error ();
   [CCode (cname = "gxml_doc_get_ns_list", array_null_terminated = true, cheader_filename = "gxml/xlibxml.h")]
-  static Xml.Ns*[] doc_get_ns_list (Xml.Doc* doc, Xml.Node* node);
+  public static Xml.Ns*[] doc_get_ns_list (Xml.Doc* doc, Xml.Node* node);
 }
