@@ -175,7 +175,11 @@ AC_ARG_ENABLE([gtk-docs],
 
 have_gtkdoc=no
 if test x$enable_gtk_docs = xyes; then
-  PKG_CHECK_MODULES([GTKDOC], gtk-doc)
+  if test x$have_valadoc = xyes; then
+    PKG_CHECK_MODULES([GTKDOC], gtk-doc)
+  else
+    AC_MSG_ERROR([You should require valadoc enabled to generate gtk-doc documentation. Use --enable-valadoc])
+  fi
 fi
 
 AC_ARG_ENABLE([gir-docs],
