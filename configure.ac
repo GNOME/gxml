@@ -179,7 +179,13 @@ AC_ARG_ENABLE([gir-docs],
 
 if test x$enable_devhelp_docs = xyes; then
   if test x$have_valadoc = xno; then
-    AC_MSG_ERROR([You should require valadoc and gtk-doc, to generate devhelp documentation. Use --enable-valadoc and --enable-gtk-doc])
+    AC_MSG_ERROR([valadoc and gtk-doc is required, to generate devhelp documentation. Use --enable-valadoc and --enable-gtk-doc])
+  fi
+fi
+
+if test x$enable_gir_docs = xyes; then
+  if test x$have_valadoc = xno; then
+    AC_MSG_ERROR([valadoc is required, to generate GIR documentation. Use --enable-valadoc and --enable-gtk-doc])
   fi
 fi
 
@@ -189,7 +195,7 @@ if test x$enable_gtk_docs = xyes; then
     PKG_CHECK_MODULES([GTKDOC], gtk-doc)
     have_gtkdoc=yes
   else
-    AC_MSG_ERROR([You should require valadoc, to generate gtk-doc documentation. Use --enable-valadoc])
+    AC_MSG_ERROR([valadoc is required, to generate gtk-doc documentation. Use --enable-valadoc])
   fi
 fi
 
