@@ -173,18 +173,25 @@ AC_ARG_ENABLE([gtk-docs],
               AS_HELP_STRING([--enable-gtk-docs],[Enable gtk-doc documentation generation]),
         [enable_gtk_docs=$enableval], [enable_gtk_docs=no])
 
+AC_ARG_ENABLE([gir-docs],
+              AS_HELP_STRING([--enable-gir-docs],[Enable documented GIR generation]),
+        [enable_gir_docs=$enableval], [enable_gir_docs=no])
+
+if test x$enable_devhelp_docs = xyes; then
+  if test x$have_valadoc = xno; then
+    AC_MSG_ERROR([You should require valadoc and gtk-doc, to generate devhelp documentation. Use --enable-valadoc and --enable-gtk-doc])
+  fi
+fi
+
 have_gtkdoc=no
 if test x$enable_gtk_docs = xyes; then
   if test x$have_valadoc = xyes; then
     PKG_CHECK_MODULES([GTKDOC], gtk-doc)
+    have_gtkdoc=yes
   else
-    AC_MSG_ERROR([You should require valadoc enabled to generate gtk-doc documentation. Use --enable-valadoc])
+    AC_MSG_ERROR([You should require valadoc, to generate gtk-doc documentation. Use --enable-valadoc])
   fi
 fi
-
-AC_ARG_ENABLE([gir-docs],
-              AS_HELP_STRING([--enable-gir-docs],[Enable documented GIR generation]),
-        [enable_gir_docs=$enableval], [enable_gir_docs=no])
 
 
 dnl Find yelp-build program
