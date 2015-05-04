@@ -26,7 +26,7 @@ using Gee;
  *
  * Its features relays on {@link GXml.Node} interface inplementation to access
  * {@link GXml.Element} properties.
- * 
+ *
  * Attribute's name could be get from {@link GXml.Node.name} property. Its value
  * should be get from {@link GXml.Node.value} property.
  */

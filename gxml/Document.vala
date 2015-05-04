@@ -38,14 +38,14 @@ public interface GXml.Document : Object, GXml.Node
   public abstract GLib.File file { get; set; }
   /**
    * This method should create a new {@link GXml.Element}.
-   * 
+   *
    * Is a matter of you to add as a child to any other
    * {@link GXml.Node}.
    */
   public abstract GXml.Node create_element (string name);
   /**
    * Creates a new {@link GXml.Text}.
-   * 
+   *
    * Is a matter of you to add as a child to any other
    * {@link GXml.Node}, like a {@link GXml.Element} node.
    */

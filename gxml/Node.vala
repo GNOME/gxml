@@ -33,7 +33,7 @@ public interface GXml.Node : Object
   public abstract Gee.List<GXml.Namespace> namespaces { get; }
   /**
    * Collection of {@link GXml.Node} as childs.
-   * 
+   *
    * Depend on {@link GXml.Node} type, this childs could of different, like,
    * elements, element's contents or properties.
    */
@@ -64,31 +64,31 @@ public interface GXml.Node : Object
   public abstract string to_string ();
   /**
    * Set a namespace to this node.
-   * 
+   *
    * Search for existing document's namespaces and applies it if found or creates
    * a new one, appending to document's namespaces collection.
    */
   public abstract bool set_namespace (string uri, string prefix);
   /**
    * Node's defaults namespace's prefix.
-   * 
+   *
    * This allways returns first {@link GXml.Namespace}'s prefix in {@link GXml.Node}'s
     * namespaces collection.
    */
   public virtual string ns_prefix () { return namespaces.first ().prefix; }
   /**
    * Node's defaults namespace's URI.
-   * 
+   *
    * This allways returns first {@link GXml.Namespace}'s URI in {@link GXml.Node}'s
    * namespaces collection.
    */
   public virtual string ns_urf () { return namespaces.first ().uri; }
   /**
    * Copy a {@link GXml.Node} relaing on {@link GXml.Document} to other {@link GXml.Node}.
-   * 
+   *
    * node could belongs from different {@link GXml.Document}, while source is a node
    * belonging to given document.
-   * 
+   *
    * Just {@link GXml.Element} objects are supported. For attributes, use
    * {@link GXml.Element.set_attr} method, passing source's name and value as arguments.
    */

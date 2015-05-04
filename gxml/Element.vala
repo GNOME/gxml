@@ -23,7 +23,7 @@
 using Gee;
 /**
  * Interface to access XML document's tags, properties and content.
- * 
+ *
  * Provides methods to create new XML tags properties and its values, and 
  * access to tag's contents.
  */
@@ -31,18 +31,18 @@ public interface GXml.Element : Object, GXml.Node
 {
     /**
      * This merges all adjacent {@link GXml.Text} nodes that are
-		 * descendants of this {@link GXml.Element}.
-      */
+     * descendants of this {@link GXml.Element}.
+     */
     public abstract void normalize ();
     /**
      * Add a new {@link GXml.Attribute} to this {@link GXml.Element}.
-     * 
+     *
      * You should provide a name and a value.
      */
     public abstract void set_attr (string name, string value);
     /**
      * Search for a {@link GXml.Attribute} with given name.
-     * 
+     *
      * All attributes could be get using {@link GXml.Node.attrs} property.
      */
     public abstract GXml.Node get_attr (string name);

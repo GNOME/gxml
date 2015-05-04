@@ -20,9 +20,12 @@ sources= \
 gxmlgtkdocdir=$(datadir)/gtk-doc/html/gxml
 gxmlgtkdoc_DATA= \
 	gtk-doc/gxml/*.txt \
-	gtk-doc/gxml/html/*.bak \
-	gtk-doc/gxml/html/*.types \
-	gtk-doc/gxml/html/sgml.stamp
+	gtk-doc/gxml/*.xml \
+	gtk-doc/gxml/xml/*.xml \
+	gtk-doc/gxml/xml/*.top \
+	gtk-doc/gxml/xml/*.bottom \
+	gtk-doc/gxml/*.types \
+	gtk-doc/gxml/sgml.stamp
 
 $(gxmlgtkdoc_DATA): gxml-gtk-doc
 

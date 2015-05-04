@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
 /* Comment.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
@@ -30,10 +30,15 @@
  *
  * To create one, use {@link GXml.xDocument.create_comment}.
  *
- * An XML example looks like: {{{  <someNode>
+ * An XML example looks like:
+ *
+ * {{{
+ *  <someNode>
  *    <!-- this is a comment -->
  *    text in the node
- *  </someNode> }}}
+ *  </someNode>
+ * }}}
+ *
  * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1728279322]]
  */
 public class GXml.Comment : GXml.CharacterData {

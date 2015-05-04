@@ -24,10 +24,10 @@ using Gee;
 
 /**
  * Interface to handle XML Namespaces.
- * 
+ *
  * Basic information for a XML document's namespaces and applied to a given
  * {@link GXml.Node}.
- * 
+ *
  * Namespace management is a matter of this or other libraries, implementing
  * this interfaces.
  */
@@ -39,7 +39,7 @@ public interface GXml.Namespace : Object
   public abstract string uri { get; }
   /**
    * Read-only property to get namespace's prefix.
-   * 
+   *
    * Prefix should be added to {@link GXml.Element} or {@link GXml.Attribute}
    * name in order to apply a given namespace, unless it is the default.
    */
