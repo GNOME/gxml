@@ -37,7 +37,7 @@ public abstract class GXml.SerializableContainer : SerializableObjectModel
 }
 
 /**
- * Fake interface to be implemented by any collection of {@link Serializable} objects.
+ * Serializable Framework. interface to be implemented by any collection of {@link Serializable} objects.
  */
 public interface GXml.SerializableCollection : Object, Serializable
 {

@@ -26,7 +26,9 @@ using Gee;
 
 namespace GXml {
 	/**
-	 * A live list used to store {@link GXml.xNode}s.
+	 * DOM API. Interface to access a list of nodes.
+   *
+   * A live list used to store {@link GXml.xNode}s.
 	 *
 	 * Usually contains the children of a {@link GXml.xNode}, or
 	 * the results of {@link GXml.Element.get_elements_by_tag_name}.

@@ -21,7 +21,7 @@
  */
 using GXml;
 /**
- * Interface to get two keys used to store {@link Serializable} objects.
+ * Serializable Framework. Interface to get two keys to be used to store {@link Serializable} objects.
  * 
  * This interface must be implemented by classes derived from {@link GXml.SerializableDualKeyMap}.
  */

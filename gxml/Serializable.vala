@@ -22,7 +22,7 @@
 
 namespace GXml {
   /**
-   * GXml {@link GLib.Object} serialization framework main interface to XML files.
+   * Serialization framework. Base interface.
    *
    * Implementors of this interface, could define or override the way you want to 
    * represent your class in a XML file.

@@ -22,7 +22,7 @@
 using GXml;
 
 /**
- * Interface to get one key used to store {@link Serializable} objects.
+ * Serializable Framework. Interface to get one key to be used to store {@link Serializable} objects.
  * 
  * This interface must be implemented by classes derived from {@link SerializableTreeMap}
  * and {@link SerializableHashMap}.

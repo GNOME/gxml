@@ -26,7 +26,7 @@ using Gee;
 
 namespace GXml {
 	/**
-	 * A collection of elements with a named objects.
+	 * DOM API. A collection of elements with a named objects.
 	 */
 	public interface NamedNodeMap<T> : GLib.Object {
 		// TODO: consider adding lookup, remove, etc from GLib.HashTable as convenience API
