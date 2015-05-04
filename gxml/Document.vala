@@ -21,6 +21,12 @@
  */
 
 using Gee;
+
+public errordomain GXml.DocumentError {
+  INVALID_DOCUMENT_ERROR,
+  INVALID_FILE
+}
+
 /**
  * Interface to handle XML documents.
  *
@@ -44,6 +50,19 @@ public interface GXml.Document : Object, GXml.Node
    */
   public abstract GXml.Node create_element (string name);
   /**
+   * This method should finalize a new created {@link GXml.Element}.
+   *
+   * Once a {@link GXml.Element} was created and setup, you should finalize it
+   * by calling this method. Is a good practice to call this function, even if
+   * current implemention doesn't requires it.
+   *
+   * Setup a new {@link GXml.Element} include: set its attributes and add childs
+   * {@link GXml.Node}. When finish, call this function.
+   *
+   * This function is useful when using {@link GXml.TextWriter} implementations.
+   */
+  public virtual void finalize_element () { return; }
+  /**
    * Creates a new {@link GXml.Text}.
    *
    * Is a matter of you to add as a child to any other
@@ -51,10 +70,71 @@ public interface GXml.Document : Object, GXml.Node
    */
   public abstract GXml.Node create_text (string text);
   /**
+   * This method should finalize a new created {@link GXml.Text}.
+   *
+   * Once a {@link GXml.Text} was created and setup, you should finalize it
+   * by calling this method. Is a good practice to call this function, even if
+   * current implemention doesn't requires it.
+   *
+   * Setup a new {@link GXml.Text} include: set its text, done when it is created.
+   * When finish, call this fucntion.
+   *
+   * This function is useful when using {@link GXml.TextWriter} implementations.
+   */
+  public virtual void finalize_text () { return; }
+  /**
    * Creates a new {@link GXml.Comment}.
    *
    * Is a matter of you to add as a child to any other
    * {@link GXml.Node}, like a {@link GXml.Element} node.
    */
   public abstract GXml.Node create_comment (string text);
+  /**
+   * This method should finalize a new created {@link GXml.Comment}.
+   *
+   * Once a {@link GXml.Comment} was created and setup, you should finalize it
+   * by calling this method. Is a good practice to call this function, even if
+   * current implemention doesn't requires it.
+   *
+   * Setup a new {@link GXml.Comment} include: set its text, done when it is created.
+   * When finish, call this fucntion.
+   *
+   * This function is useful when using {@link GXml.TextWriter} implementations.
+   */
+  public virtual void finalize_comment () { return; }
+  /**
+   * Creates a new {@link GXml.Document} using default implementation class.
+   *
+   * As an interface you can create your own implementation of it, but if 
+   * default one is required use this.
+   */
+   public static GXml.Document new_default ()
+   {
+     return new xDocument ();
+   }
+  /**
+   * Creates a new {@link GXml.Document} from a file path using default implementation class.
+   *
+   * As an interface you can create your own implementation of it, but if 
+   * default one is required use this.
+   */
+   public static GXml.Document new_default_for_path (string path)
+     throws GLib.Error
+   {
+     File f = File.new_for_path (path);
+     return GXml.Document.new_default_for_file (f);
+   }
+  /**
+   * Creates a new {@link GXml.Document} from a {@link GLib.File} using default implementation class.
+   *
+   * As an interface you can create your own implementation of it, but if 
+   * default one is required use this.
+   */
+   public static GXml.Document new_default_for_file (GLib.File file)
+     throws GLib.Error
+   {
+     if (!file.query_exists ())
+       throw new DocumentError.INVALID_FILE ("Invalid file");
+     return new xDocument.from_path (file.get_path ());
+   }
 }

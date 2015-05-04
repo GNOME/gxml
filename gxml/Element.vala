@@ -46,6 +46,16 @@ public interface GXml.Element : Object, GXml.Node
      * All attributes could be get using {@link GXml.Node.attrs} property.
      */
     public abstract GXml.Node get_attr (string name);
+  /**
+   * This method should finalize a new created {@link GXml.Attribute}.
+   *
+   * Once a {@link GXml.Attribute} was created and setup, you should finalize it
+   * by calling this method. Is a good practice to call this function, even if
+   * current implemention doesn't requires it.
+   *
+   * This function is useful when using {@link GXml.TextWriter} implementations.
+   */
+  public virtual void finalize_attr () { return; }
     /**
      * This should be just a different name for {@link GXml.Node.name}.
      */
