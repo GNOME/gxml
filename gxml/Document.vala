@@ -21,16 +21,33 @@
  */
 
 using Gee;
-
+/**
+ * Interface to handle XML documents.
+ *
+ * Provides basic interfaces to read and create XML documents.
+ */
 public interface GXml.Document : Object, GXml.Node
 {
+  /**
+   * XML document root node as a {@link GXml.Element}.
+   */
   public abstract GXml.Node root { get; }
+  /**
+   * Stores a {@link GLib.File} to save/read XML documents to/from.
+   */
   public abstract GLib.File file { get; set; }
   /**
-   * This method sould create a new {@link GXml.Element}
-   * is a matter of you to add as a child to any other
+   * This method should create a new {@link GXml.Element}.
+   * 
+   * Is a matter of you to add as a child to any other
    * {@link GXml.Node}.
    */
   public abstract GXml.Node create_element (string name);
+  /**
+   * Creates a new {@link GXml.Text}.
+   * 
+   * Is a matter of you to add as a child to any other
+   * {@link GXml.Node}, like a {@link GXml.Element} node.
+   */
   public abstract GXml.Node create_text (string text);
 }

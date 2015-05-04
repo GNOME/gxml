@@ -22,19 +22,76 @@
 
 using Gee;
 
+/**
+ * Base interface providing basic functionalities to all GXml interfaces.
+ */
 public interface GXml.Node : Object
 {
+  /**
+   * Collection of Namespaces applied to this {@link GXml.Node}.
+   */
   public abstract Gee.List<GXml.Namespace> namespaces { get; }
+  /**
+   * Collection of {@link GXml.Node} as childs.
+   * 
+   * Depend on {@link GXml.Node} type, this childs could of different, like,
+   * elements, element's contents or properties.
+   */
   public abstract Gee.BidirList<GXml.Node> childs { get; }
+  /**
+   * Attributes in this {@link GXml.Node}.
+   */
   public abstract Gee.Map<string,GXml.Node> attrs { get; }
+  /**
+   * Node's name. The meaning differs, depending on node's type.
+   */
   public abstract string name { get; }
+  /**
+   * Node's value. The meaning differs, depending on node's type.
+   */
   public abstract string @value { get; set; }
+  /**
+   * Node's type as a enumeration.
+   */
   public abstract GXml.NodeType type_node { get; }
+  /**
+   * Node's XML document holding this node.
+   */
   public abstract GXml.Document document { get; }
+  /**
+   * Node's string representation.
+   */
   public abstract string to_string ();
+  /**
+   * Set a namespace to this node.
+   * 
+   * Search for existing document's namespaces and applies it if found or creates
+   * a new one, appending to document's namespaces collection.
+   */
   public abstract bool set_namespace (string uri, string prefix);
+  /**
+   * Node's defaults namespace's prefix.
+   * 
+   * This allways returns first {@link GXml.Namespace}'s prefix in {@link GXml.Node}'s
+    * namespaces collection.
+   */
   public virtual string ns_prefix () { return namespaces.first ().prefix; }
+  /**
+   * Node's defaults namespace's URI.
+   * 
+   * This allways returns first {@link GXml.Namespace}'s URI in {@link GXml.Node}'s
+   * namespaces collection.
+   */
   public virtual string ns_urf () { return namespaces.first ().uri; }
+  /**
+   * Copy a {@link GXml.Node} relaing on {@link GXml.Document} to other {@link GXml.Node}.
+   * 
+   * node could belongs from different {@link GXml.Document}, while source is a node
+   * belonging to given document.
+   * 
+   * Just {@link GXml.Element} objects are supported. For attributes, use
+   * {@link GXml.Element.set_attr} method, passing source's name and value as arguments.
+   */
   public static bool copy (GXml.Document doc, GXml.Node node, GXml.Node source, bool deep)
   {
     if (node is GXml.Document) return false;
