@@ -14,8 +14,9 @@ lib_LTLIBRARIES = libgxml-0.6.la
 sources = \
 	namespace-info.vala \
 	Attribute.vala \
-	Element.vala \
+	Comment.vala\
 	Document.vala \
+	Element.vala \
 	Namespace.vala \
 	Node.vala \
 	Text.vala \

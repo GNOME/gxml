@@ -323,7 +323,7 @@ class DocumentTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/document/create_comment", () => {
 				xDocument doc = get_doc ();
-				Comment comment = doc.create_comment ("Ever since the day we promised.");
+				xComment comment = doc.create_comment ("Ever since the day we promised.");
 
 				assert (comment.node_name == "#comment");
 				assert (comment.node_value == "Ever since the day we promised.");

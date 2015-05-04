@@ -119,7 +119,7 @@ namespace GXml {
 					new CDATASection (xmlnode, this);
 					break;
 				case NodeType.COMMENT:
-					new Comment (xmlnode, this);
+					new xComment (xmlnode, this);
 					break;
 				case NodeType.DOCUMENT_FRAGMENT:
 					new DocumentFragment (xmlnode, this);
@@ -676,10 +676,10 @@ namespace GXml {
 		 * @return A new {@link GXml.Comment} containing the
 		 * supplied data; this should not be freed
 		 */
-		public unowned Comment create_comment (string comment_data) {
+		public unowned xComment create_comment (string comment_data) {
 			// TODO: should we be passing around Xml.Node* like this?
-			Comment comment = new Comment (this.xmldoc->new_comment (comment_data), this);
-			unowned Comment ret = comment;
+			xComment comment = new xComment (this.xmldoc->new_comment (comment_data), this);
+			unowned xComment ret = comment;
 			this.nodes_to_free.append (comment);
 			return ret;
 		}
