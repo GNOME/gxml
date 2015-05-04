@@ -666,7 +666,11 @@ namespace GXml {
 		 * Creates an XML comment with data.  Its memory is
 		 * freed when its owner document is freed.
 		 *
-		 * XML example: {{{<!-- data -->}}}
+		 * XML example:
+		 *
+		 * {{{
+		 *  <!-- data -->
+		 * }}}
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createComment]]
@@ -676,7 +680,7 @@ namespace GXml {
 		 * @return A new {@link GXml.Comment} containing the
 		 * supplied data; this should not be freed
 		 */
-		public unowned xComment create_comment (string comment_data) {
+		public unowned xComment create_managed_comment (string comment_data) {
 			// TODO: should we be passing around Xml.Node* like this?
 			xComment comment = new xComment (this.xmldoc->new_comment (comment_data), this);
 			unowned xComment ret = comment;
@@ -1013,5 +1017,9 @@ namespace GXml {
 		public GLib.File file { get; set; }
 		public virtual GXml.Node root { get { return document_element; } }
 		public GXml.Node create_text (string str) { return (GXml.Node) this.create_text_node (str); }
+		public GXml.Node create_comment (string text)
+		{
+			return create_managed_comment (text);
+		}
 	}
 }

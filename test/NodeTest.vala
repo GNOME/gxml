@@ -60,8 +60,8 @@ class NodeTest : GXmlTest {
 				node = doc.create_processing_instruction ("target", "data");
 				assert (node.node_name == "target");
 
-				node = doc.create_comment ("some comment");
-				assert (node.node_name == "#comment");
+				node = (xNode) doc.create_comment ("some comment");
+				assert (node.name == "#comment");
 
 				assert (doc.node_name == "#document");
 
@@ -101,7 +101,7 @@ class NodeTest : GXmlTest {
 				node = doc.create_processing_instruction ("target", "data");
 				assert (node.node_type == NodeType.PROCESSING_INSTRUCTION);
 
-				node = doc.create_comment ("some comment");
+				node = (xNode) doc.create_comment ("some comment");
 				assert (node.node_type == NodeType.COMMENT);
 
 				assert (doc.node_type == NodeType.DOCUMENT);
@@ -145,7 +145,7 @@ class NodeTest : GXmlTest {
 				node = doc.create_processing_instruction ("target", "proc inst data");
 				assert (node.node_value == "proc inst data");
 
-				node = doc.create_comment ("some comment");
+				node = (xNode) doc.create_comment ("some comment");
 				assert (node.node_value == "some comment");
 
 				assert (doc.node_value == null);
