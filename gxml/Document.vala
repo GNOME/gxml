@@ -51,10 +51,10 @@ public interface GXml.Document : Object, GXml.Node
    */
   public abstract GXml.Node create_text (string text);
   /**
-   * Creates a new {@link GXml.Text}.
+   * Creates a new {@link GXml.Comment}.
    *
    * Is a matter of you to add as a child to any other
    * {@link GXml.Node}, like a {@link GXml.Element} node.
    */
-  //public abstract GXml.Node create_comment (string text);
+  public abstract GXml.Node create_comment (string text);
 }

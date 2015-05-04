@@ -18,6 +18,12 @@
  * Author:
  * Daniel Espinosa <esodan@gmail.com>
  */
+
+/**
+ * Utility functions not present in libxml-2.0 bindings to be used internaly.
+ *
+ * Don't use this namespace's functions in your code. Instead, use GXml's public API.
+ */
 [CCode (cheader_filename = "gxml/xlibxml.h")]
 namespace Xmlx {
   [CCode (cname = "gxml_doc_get_intsubset_entities", cheader_filename = "gxml/xlibxml.h")]
