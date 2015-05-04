@@ -177,18 +177,6 @@ AC_ARG_ENABLE([gir-docs],
               AS_HELP_STRING([--enable-gir-docs],[Enable documented GIR generation]),
         [enable_gir_docs=$enableval], [enable_gir_docs=no])
 
-if test x$enable_devhelp_docs = xyes; then
-  if test x$have_valadoc = xno; then
-    AC_MSG_ERROR([valadoc and gtk-doc is required, to generate devhelp documentation. Use --enable-valadoc and --enable-gtk-doc])
-  fi
-fi
-
-if test x$enable_gir_docs = xyes; then
-  if test x$have_valadoc = xno; then
-    AC_MSG_ERROR([valadoc is required, to generate GIR documentation. Use --enable-valadoc and --enable-gtk-doc])
-  fi
-fi
-
 have_gtkdoc=no
 if test x$enable_gtk_docs = xyes; then
   if test x$have_valadoc = xyes; then
@@ -199,6 +187,18 @@ if test x$enable_gtk_docs = xyes; then
   fi
 fi
 
+
+if test x$enable_devhelp_docs = xyes; then
+  if test x$have_valadoc = xno -o x$have_gtkdoc = xno; then
+    AC_MSG_ERROR([valadoc and gtk-doc is required, to generate devhelp documentation. Use --enable-valadoc and --enable-gtk-doc])
+  fi
+fi
+
+if test x$enable_gir_docs = xyes; then
+  if test x$have_valadoc = xno; then
+    AC_MSG_ERROR([valadoc is required, to generate GIR documentation. Use --enable-valadoc and --enable-gtk-doc])
+  fi
+fi
 
 dnl Find yelp-build program
 enable_mallard_doc="no"
