@@ -137,5 +137,41 @@ class TwDocumentTest : GXmlTest {
 					assert_not_reached ();
 				}
 			});
+		Test.add_func ("/gxml/tw-document/save/root/childs", () => {
+				try {
+					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
+					if (f.query_exists ()) f.delete ();
+					var d = new TwDocument (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
+					var e = d.create_element ("root");
+					d.childs.add (e);
+					assert (d.childs.size == 1);
+					assert (d.root != null);
+					assert (d.root.name == "root");
+					assert (d.root.value == null);
+					var root = (GXml.Element) d.root;
+					var e1 = (GXml.Element) d.create_element ("child");
+					e1.set_attr ("name","Test1");
+					root.childs.add (e1);
+					var e2 = (GXml.Element) d.create_element ("child");
+					e2.set_attr ("name","Test2");
+					root.childs.add (e2);
+					d.save ();
+					var istream = f.read ();
+					uint8[] buffer = new uint8[2048];
+					istream.read_all (buffer, null);
+					istream.close ();
+					assert ("<?xml version=\"1.0\"?>" in ((string)buffer));
+					assert ("<root>" in ((string)buffer));
+					assert ("</root>" in ((string)buffer));
+					assert ("<child name=\"Test1\"/>" in ((string)buffer));
+					assert ("<child name=\"Test2\"/>" in ((string)buffer));
+				}
+				catch (GLib.Error e) {
+#if DEBUG
+					GLib.message (@"ERROR: $(e.message)");
+#endif
+					assert_not_reached ();
+				}
+			});
 	}
 }
