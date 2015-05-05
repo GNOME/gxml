@@ -108,6 +108,7 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
   }
   public void start_node (Xml.TextWriter tw, GXml.Node node)
   {
+    int size = 0;
 #if DEBUG
     GLib.message (@"Starting Node: start Node: '$(node.name)'");
 #endif
@@ -136,14 +137,16 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
 #if DEBUG
     GLib.message ("Starting Element: write attribute with NS");
 #endif
-          tw.write_attribute_ns (attr.ns_prefix (), attr.name, attr.ns_uri (), attr.value);
+          size += tw.write_attribute_ns (attr.ns_prefix (), attr.name, attr.ns_uri (), attr.value);
         }
         else {
 #if DEBUG
     GLib.message ("Starting Element: write attribute no NS");
 #endif
-          tw.write_attribute (attr.name, attr.value);
+          size += tw.write_attribute (attr.name, attr.value);
         }
+        if (size > 1500)
+          tw.flush ();
       }
 #if DEBUG
     GLib.message (@"Starting Element: writting Node '$(node.name)' childs");
@@ -156,12 +159,16 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
           start_node (tw, n);
           if (n.value != null)
             tw.write_string (n.value);
-          tw.end_element ();
+          size += tw.end_element ();
+          if (size > 1500)
+            tw.flush ();
         }
       }
     }
     if (node is GXml.Comment) {
-      tw.write_comment (node.value);
+      size += tw.write_comment (node.value);
+      if (size > 1500)
+        tw.flush ();
     }
   }
 }
