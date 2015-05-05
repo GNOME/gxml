@@ -61,7 +61,14 @@ sources = \
 	SerializableGeeDualKeyMap.vala \
 	SerializableMapDualKey.vala \
 	SerializableGeeArrayList.vala \
-	SerializableContainer.vala
+	SerializableContainer.vala \
+	TwAttribute.vala \
+	TwComment.vala \
+	TwDocument.vala \
+	TwElement.vala \
+	TwNamespace.vala \
+	TwNode.vala \
+	TwText.vala
 
 
 ### General Compilation flags

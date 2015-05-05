@@ -103,38 +103,58 @@ public interface GXml.Document : Object, GXml.Node
    */
   public virtual void finalize_comment () { return; }
   /**
+   * Save this {@link GXml.Document} to {@link GXml.Document.file}
+   */
+  public abstract bool save (GLib.Cancellable? cancellable) throws GLib.Error;
+  /**
+   * Save this {@link GXml.Document} to given {@link GLib.File}
+   *
+   * This overrides actual {@link GXml.Document.file}
+   */
+  public virtual bool save_as (GLib.File f, GLib.Cancellable? cancellable) throws GLib.Error
+  {
+    if (f.query_exists ()) {
+      f = file;
+      save (cancellable);
+      return true;
+    }
+    return false;
+  }
+  /**
    * Creates a new {@link GXml.Document} using default implementation class.
    *
    * As an interface you can create your own implementation of it, but if 
    * default one is required use this.
    */
-   public static GXml.Document new_default ()
-   {
-     return new xDocument ();
-   }
+  public static GXml.Document new_default ()
+  {
+   return new xDocument ();
+  }
   /**
    * Creates a new {@link GXml.Document} from a file path using default implementation class.
    *
    * As an interface you can create your own implementation of it, but if 
    * default one is required use this.
    */
-   public static GXml.Document new_default_for_path (string path)
-     throws GLib.Error
-   {
-     File f = File.new_for_path (path);
-     return GXml.Document.new_default_for_file (f);
-   }
+  public static GXml.Document new_default_for_path (string path)
+   throws GLib.Error
+  {
+   File f = File.new_for_path (path);
+   return GXml.Document.new_default_for_file (f);
+  }
   /**
    * Creates a new {@link GXml.Document} from a {@link GLib.File} using default implementation class.
    *
    * As an interface you can create your own implementation of it, but if 
    * default one is required use this.
    */
-   public static GXml.Document new_default_for_file (GLib.File file)
-     throws GLib.Error
-   {
-     if (!file.query_exists ())
-       throw new DocumentError.INVALID_FILE ("Invalid file");
-     return new xDocument.from_path (file.get_path ());
-   }
+  public static GXml.Document new_default_for_file (GLib.File f)
+   throws GLib.Error
+  {
+    var d = new xDocument.from_path (f.get_path ());
+    if (!f.query_exists ())
+      throw new DocumentError.INVALID_FILE ("Invalid file");
+    d.file = f;
+    return d;
+  }
 }
