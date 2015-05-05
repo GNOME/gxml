@@ -236,5 +236,69 @@ class TwDocumentTest : GXmlTest {
 				assert_not_reached ();
 			}
 		});
+		Test.add_func ("/gxml/tw-document/save/childs-childs", () => {
+#if DEBUG
+				GLib.message (@"TwDocument root childs/childs...");
+#endif
+			try {
+#if DEBUG
+				GLib.message (@"Checking file to save to...");
+#endif
+				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-large.xml");
+				if (f.query_exists ()) f.delete ();
+#if DEBUG
+				GLib.message (@"Creating Document...");
+#endif
+				var d = new TwDocument (GXmlTestConfig.TEST_SAVE_DIR+"/tw-large.xml");
+				var e = d.create_element ("bookstore");
+				d.childs.add (e);
+				assert (d.childs.size == 1);
+				assert (d.root != null);
+				assert (d.root.name == "bookstore");
+				assert (d.root.value == null);
+				var r = (GXml.Element) d.root;
+				r.set_attr ("name","The Great Book");
+#if DEBUG
+				GLib.message (@"Creating chidls...");
+#endif
+				for (int i = 0; i < 30000; i++){
+					var b = (GXml.Element) d.create_element ("book");
+					r.childs.add (b);
+					var aths = (GXml.Element) d.create_element ("Authors");
+					b.childs.add (aths);
+					var ath1 = (GXml.Element) d.create_element ("Author");
+					aths.childs.add (ath1);
+					var name1 = (GXml.Element) d.create_element ("Name");
+					name1.content = "Fred";
+					ath1.childs.add (name1);
+					var email1 = (GXml.Element) d.create_element ("Email");
+					email1.content = "fweasley@hogwarts.co.uk";
+					ath1.childs.add (email1);
+					var ath2 = (GXml.Element) d.create_element ("Author");
+					aths.childs.add (ath2);
+					var name2 = (GXml.Element) d.create_element ("Name");
+					name2.content = "Greoge";
+					ath2.childs.add (name2);
+					var email2 = (GXml.Element) d.create_element ("Email");
+					email2.content = "gweasley@hogwarts.co.uk";
+					ath2.childs.add (email2);
+				}
+				assert (d.root.childs.size == 30000);
+				d.save ();
+				var istream = f.read ();
+				uint8[] buffer = new uint8[2048];
+				istream.read (buffer, null);
+				istream.close ();
+				assert ("<?xml version=\"1.0\"?>" in ((string)buffer));
+				assert ("<bookstore name=\"The Great Book\">" in ((string)buffer));
+				assert ("<book>" in ((string)buffer));
+				assert ("<Authors>" in ((string)buffer));
+				assert ("<Author>" in ((string)buffer));
+			}
+			catch (GLib.Error e) {
+				GLib.message (@"ERROR: $(e.message)");
+				assert_not_reached ();
+			}
+		});
 	}
 }
