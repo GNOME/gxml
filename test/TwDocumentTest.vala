@@ -296,7 +296,9 @@ class TwDocumentTest : GXmlTest {
 				assert ("<Author>" in ((string)buffer));
 			}
 			catch (GLib.Error e) {
+#if DEBUG
 				GLib.message (@"ERROR: $(e.message)");
+#endif
 				assert_not_reached ();
 			}
 		});

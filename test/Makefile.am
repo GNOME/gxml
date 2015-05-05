@@ -72,6 +72,10 @@ AM_VALAFLAGS = \
 	-X -DTEST_DIR=$(top_srcdir)/test \
 	$(NULL)
 
+if DEBUG
+AM_VALAFLAGS+= -D DEBUG
+endif
+
 gxml_test_LDADD = \
 	$(AM_LDADD) \
 	$(GLIB_LIBS) \

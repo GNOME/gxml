@@ -757,8 +757,8 @@ class SerializableObjectModelTest : GXmlTest
                        if (configuration.invalid == true) {
 #if DEBUG
                          stdout.printf ("CONFIGURATION: deserialize is INVALID\n");
-                         foreach (GXml.xNode n in doc.document_element.namespace_definitions) {
-                           stdout.printf (@"CONFIGURATION: namespace: $(n.node_value)\n");
+                         foreach (GXml.Namespace n in doc.document_element.namespace_definitions) {
+                           stdout.printf (@"CONFIGURATION: namespace: $(n.uri)\n");
                          }
 #endif
                          assert_not_reached ();
