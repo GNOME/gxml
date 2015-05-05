@@ -31,7 +31,4 @@ public class GXml.TwAttribute : GXml.TwNode, GXml.Attribute
     _name = name;
     _value = value;
   }
-  // GXml.Attribute
-  public override string name { get { return _name; } }
-  public override string @value { get { return _value; } set  { _value = value;} }
 }
