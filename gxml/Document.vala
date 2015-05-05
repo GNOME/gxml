@@ -108,6 +108,8 @@ public interface GXml.Document : Object, GXml.Node
   public virtual void finalize_comment () { return; }
   /**
    * Save this {@link GXml.Document} to {@link GXml.Document.file}
+   *
+   * If {@link GXml.Document.file} doesn't exists, it creates a new file to save to.
    */
   public abstract bool save (GLib.Cancellable? cancellable = null) throws GLib.Error;
   /**

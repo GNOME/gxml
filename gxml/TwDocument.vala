@@ -24,7 +24,6 @@ using Xml;
 
 public class GXml.TwDocument : GXml.TwNode, GXml.Document
 {
-  Gee.ArrayList<GXml.Node> _namespaces = new Gee.ArrayList<GXml.Node> ();
   GXml.Element _root = null;
   public TwDocument (string file)
   {
@@ -78,36 +77,85 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
     }
   }
   public bool save (GLib.Cancellable? cancellable = null)
+    requires (file != null)
   {
     var tw = new Xml.TextWriter.filename (file.get_path ());
     tw.start_document ();
     tw.set_indent (indent);
     // Root
-    if (root == null) tw.end_document ();
+    if (root == null) {
+      tw.end_document ();
+      return true;
+    }
+#if DEBUG
+    GLib.message ("Starting writting Document Root node");
+#endif
     start_node (tw, root);
+#if DEBUG
+    GLib.message ("Writting Document Root node's contents");
+#endif
     tw.write_string (root.value);
+#if DEBUG
+    GLib.message ("Ending writting Document Root node");
+#endif
     tw.end_element ();
+#if DEBUG
+    GLib.message ("Ending Document");
+#endif
     tw.end_document ();
+    tw.flush ();
     return true;
   }
   public void start_node (Xml.TextWriter tw, GXml.Node node)
   {
+#if DEBUG
+    GLib.message (@"Starting Node: start Node: '$(node.name)'");
+#endif
     if (node is GXml.Element) {
+#if DEBUG
+    GLib.message (@"Starting Element... '$(node.name)'");
+    GLib.message (@"Element Document is Null... '$((node.document == null).to_string ())'");
+    GLib.message (@"Namespaces in Element... '$(node.namespaces.size)'");
+#endif
       if (node.namespaces.size > 0) {
-        tw.start_element_ns (root.ns_prefix (), root.name, root.ns_uri ());
+#if DEBUG
+    GLib.message ("Starting Element: start with NS");
+#endif
+        tw.start_element_ns (node.ns_prefix (), node.name, node.ns_uri ());
       } else {
-        tw.start_element (root.name);
+#if DEBUG
+    GLib.message ("Starting Element: start no NS");
+#endif
+        tw.start_element (node.name);
       }
-      foreach (GXml.Node attr in attrs.values) {
-        if (attr.namespaces.size > 0)
+#if DEBUG
+    GLib.message ("Starting Element: writting attributes");
+#endif
+      foreach (GXml.Node attr in node.attrs.values) {
+        if (attr.namespaces.size > 0) {
+#if DEBUG
+    GLib.message ("Starting Element: write attribute with NS");
+#endif
           tw.write_attribute_ns (attr.ns_prefix (), attr.name, attr.ns_uri (), attr.value);
-        else
+        }
+        else {
+#if DEBUG
+    GLib.message ("Starting Element: write attribute no NS");
+#endif
           tw.write_attribute (attr.name, attr.value);
+        }
       }
-      foreach (GXml.Node n in childs) {
+#if DEBUG
+    GLib.message (@"Starting Element: writting Node '$(node.name)' childs");
+#endif
+      foreach (GXml.Node n in node.childs) {
         if (n is GXml.Element) {
+#if DEBUG
+    GLib.message (@"Starting Child Element: writting Node '$(n.name)'");
+#endif
           start_node (tw, n);
-          tw.write_string (n.value);
+          if (n.value != null)
+            tw.write_string (n.value);
           tw.end_element ();
         }
       }

@@ -27,7 +27,6 @@ public class GXml.TwElement : GXml.TwNode, GXml.Element
     requires (d is TwDocument)
   {
     _doc = d;
-    ((TwDocument) document).tw = ((TwDocument) d).tw;
     _name = name;
   }
   // GXml.Element

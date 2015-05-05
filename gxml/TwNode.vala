@@ -23,8 +23,9 @@ using Gee;
 
 public abstract class GXml.TwNode : Object, GXml.Node
 {
-  Gee.HashMap<string,GXml.Node> _attrs = new Gee.HashMap<string,GXml.Node> ();
-  Gee.ArrayList<GXml.Node> _childs = new Gee.ArrayList<GXml.Node> ();
+  protected Gee.HashMap<string,GXml.Node> _attrs = new Gee.HashMap<string,GXml.Node> ();
+  protected Gee.ArrayList<GXml.Node> _childs = new Gee.ArrayList<GXml.Node> ();
+  protected Gee.ArrayList<GXml.Node> _namespaces = new Gee.ArrayList<GXml.Node> ();
   protected string _name = null;
   protected string _value = null;
   protected GXml.Document _doc;
@@ -52,7 +53,7 @@ public abstract class GXml.TwNode : Object, GXml.Node
   public virtual Gee.BidirList<GXml.Node> childs { get { return _childs; } }
   public virtual GXml.Document document { get { return _doc; } }
   public virtual string name { get { return _name; } }
-  public virtual Gee.List<GXml.Namespace> namespaces { get { return document.namespaces; } }
+  public virtual Gee.List<GXml.Namespace> namespaces { get { return _namespaces; } }
   public virtual GXml.NodeType type_node { get { return GXml.NodeType.DOCUMENT; } }
   public virtual string value { get { return _value; } set  { _value = value; } }
 }

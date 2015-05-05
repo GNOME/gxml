@@ -103,7 +103,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
   public GXml.Node? default_serialize (GXml.Node node) throws GLib.Error
   {
 #if DEBUG
-    stdout.printf (@"$(get_type ().name ()): Serializing on node: $(node.node_name)\n");
+    stdout.printf (@"$(get_type ().name ()): Serializing on node: $(node.name)\n");
 #endif
     Document doc;
     if (node is GXml.Document)
@@ -140,7 +140,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
         t = serialized_xml_node_value;
       var tn = doc.create_text (t);
 #if DEBUG
-      stdout.printf (@"SETTING CONTENT FOR: $(get_type ().name ()): $(element.node_name): content '$t'\n");
+      stdout.printf (@"SETTING CONTENT FOR: $(get_type ().name ()): $(element.name): content '$t'\n");
 #endif
       element.childs.add (tn);
     }
@@ -313,7 +313,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
                                             throws GLib.Error
   {
 #if DEBUG
-    stdout.printf (@"Deserialize Property Node: $(property_node.node_name)\n");
+    stdout.printf (@"Deserialize Property Node: $(property_node.name)\n");
 #endif
     bool ret = false;
     var prop = find_property_spec (property_node.name);
