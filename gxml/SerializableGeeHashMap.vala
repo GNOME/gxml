@@ -80,13 +80,13 @@ public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, Ser
 
   public virtual GXml.Node? serialize (GXml.Node node)
                               throws GLib.Error
-                              requires (node is xElement)
+                              requires (node is GXml.Element)
   {
     return default_serialize (node);
   }
   public GXml.Node? default_serialize (GXml.Node node)
                               throws GLib.Error
-                              requires (node is xElement)
+                              requires (node is GXml.Element)
   {
     if (value_type.is_a (typeof (Serializable))) {
       foreach (V v in values) {

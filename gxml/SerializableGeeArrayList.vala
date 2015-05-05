@@ -83,13 +83,13 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
 
   public virtual GXml.Node? serialize (GXml.Node node)
                               throws GLib.Error
-                              requires (node is xElement)
+                              requires (node is GXml.Element)
   {
     return default_serialize (node);
   }
   public GXml.Node? default_serialize (GXml.Node node)
                               throws GLib.Error
-                              requires (node is xElement)
+                              requires (node is GXml.Element)
   {
     if (element_type.is_a (typeof (Serializable))) {
       for (int i =0; i < size; i++) {

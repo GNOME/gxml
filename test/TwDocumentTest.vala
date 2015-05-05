@@ -259,7 +259,7 @@ class TwDocumentTest : GXmlTest {
 				var r = (GXml.Element) d.root;
 				r.set_attr ("name","The Great Book");
 #if DEBUG
-				GLib.message (@"Creating chidls...");
+				GLib.message (@"Creating childs...");
 #endif
 				for (int i = 0; i < 30000; i++){
 					var b = (GXml.Element) d.create_element ("book");

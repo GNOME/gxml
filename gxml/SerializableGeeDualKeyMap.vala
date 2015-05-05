@@ -164,13 +164,13 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable, Serializ
 
   public virtual GXml.Node? serialize (GXml.Node node)
                               throws GLib.Error
-                              requires (node is xElement)
+                              requires (node is GXml.Element)
   {
     return default_serialize (node);
   }
   public GXml.Node? default_serialize (GXml.Node node)
                               throws GLib.Error
-                              requires (node is xElement)
+                              requires (node is GXml.Element)
   {
     foreach (V v in values ()) {
         if (v is Serializable)

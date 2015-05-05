@@ -119,12 +119,9 @@ public interface GXml.Document : Object, GXml.Node
    */
   public virtual bool save_as (GLib.File f, GLib.Cancellable? cancellable = null) throws GLib.Error
   {
-    if (f.query_exists ()) {
-      f = file;
-      save (cancellable);
-      return true;
-    }
-    return false;
+    file = f;
+    save (cancellable);
+    return true;
   }
   /**
    * Creates a new {@link GXml.Document} using default implementation class.

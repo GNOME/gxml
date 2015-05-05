@@ -141,6 +141,36 @@ public class Performance
 #endif
         assert_not_reached ();
       }
+    });Test.add_func ("/gxml/performance/tw-serialize",
+    () => {
+      try {
+        double time;
+        Test.timer_start ();
+        var d = new xDocument.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "open document from path: %g seconds", time);
+        Test.timer_start ();
+        var bs = new BookStore ();
+        bs.deserialize (d);
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "standard deserialize/performance: %g seconds", time);
+        Test.timer_start ();
+        var d2 = new TwDocument (GXmlTest.get_test_dir () + "/test-large.xml");
+        bs.serialize (d2);
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "TwDocument serialize/performance: %g seconds", time);
+        Test.timer_start ();
+        var nf = GLib.File.new_for_path (GXmlTest.get_test_dir () + "/test-large-tw.xml");
+        d2.indent = true;
+        d2.save_as (nf);
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "TwDocument Write to disk serialize/performance: %g seconds", time);
+      } catch (GLib.Error e) {
+#if DEBUG
+        GLib.message ("ERROR: "+e.message);
+#endif
+        assert_not_reached ();
+      }
     });
   }
 }
