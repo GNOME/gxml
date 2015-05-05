@@ -82,7 +82,7 @@ public interface GXml.Node : Object
    * This allways returns first {@link GXml.Namespace}'s URI in {@link GXml.Node}'s
    * namespaces collection.
    */
-  public virtual string ns_urf () { return namespaces.first ().uri; }
+  public virtual string ns_uri () { return namespaces.first ().uri; }
   /**
    * Copy a {@link GXml.Node} relaing on {@link GXml.Document} to other {@link GXml.Node}.
    *

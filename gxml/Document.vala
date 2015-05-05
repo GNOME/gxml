@@ -35,6 +35,10 @@ public errordomain GXml.DocumentError {
 public interface GXml.Document : Object, GXml.Node
 {
   /**
+   * Controls if writting this documents should use indent.
+   */
+  public abstract bool indent { get; set; }
+  /**
    * XML document root node as a {@link GXml.Element}.
    */
   public abstract GXml.Node root { get; }

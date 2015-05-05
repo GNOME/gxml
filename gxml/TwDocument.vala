@@ -30,8 +30,6 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
   {
     var f = File.new_for_path (file);
     this.file = f;
-    tw = new Xml.TextWriter.filename (file);
-    tw->start_document ();
   }
   // GXml.Node
   public override bool set_namespace (string uri, string prefix)
@@ -41,6 +39,7 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
   }
   public override GXml.Document document { get { return this; } }
   // GXml.Document
+  public bool indent { get; set; default = false; }
   public GXml.Node create_comment (string text)
   {
     var c = new TwComment (this, text);
@@ -62,7 +61,41 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
   public GXml.Node root { get { return _root; } }
   public bool save (GLib.Cancellable? cancellable)
   {
-    // TODO:
-    return false;
+    var tw = new Xml.TextWriter.filename (file.get_path ());
+    tw.start_document ();
+    tw.set_indent (indent);
+    // Root
+    if (root == null) tw.end_document ();
+    start_node (tw, root);
+    tw.write_string (root.value);
+    tw.end_element ();
+    tw.end_document ();
+    return true;
+  }
+  public void start_node (Xml.TextWriter tw, GXml.Node node)
+  {
+    if (node is GXml.Element) {
+      if (node.namespaces.size > 0) {
+        tw.start_element_ns (root.ns_prefix (), root.name, root.ns_uri ());
+      } else {
+        tw.start_element (root.name);
+      }
+      foreach (GXml.Node attr in attrs.values) {
+        if (attr.namespaces.size > 0)
+          tw.write_attribute_ns (attr.ns_prefix (), attr.name, attr.ns_uri (), attr.value);
+        else
+          tw.write_attribute (attr.name, attr.value);
+      }
+      foreach (GXml.Node n in childs) {
+        if (n is GXml.Element) {
+          start_node (tw, n);
+          tw.write_string (n.value);
+          tw.end_element ();
+        }
+      }
+    }
+    if (node is GXml.Comment) {
+      tw.write_comment (node.value);
+    }
   }
 }
