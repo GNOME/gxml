@@ -69,6 +69,7 @@ class GXmlTest {
 		SerializableBasicTypeTest.add_tests ();
 		SerializableEnumerationTest.add_tests ();
 		Performance.add_tests ();
+		TwDocumentTest.add_tests ();
 
 		Test.run ();
 

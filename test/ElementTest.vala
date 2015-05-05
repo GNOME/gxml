@@ -445,7 +445,7 @@ class ElementTest : GXmlTest  {
 			var n = (xElement) doc.create_element ("child");
 			root.append_child (n);
 			// This will remove all child nodes
-			var t = (xElement) doc.create_text_node ("TEXT1");
+			var t = (xText) doc.create_text_node ("TEXT1");
 			root.append_child (t);
 			string d = """<?xml version="1.0"?>
 <root><child/>TEXT1</root>

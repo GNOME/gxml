@@ -58,8 +58,26 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
     return t;
   }
   public GLib.File file { get; set; }
-  public GXml.Node root { get { return _root; } }
-  public bool save (GLib.Cancellable? cancellable)
+  public GXml.Node root {
+    get {
+      if (_root == null) {
+        int found = 0;
+        for (int i = 0; i < childs.size; i++) {
+          GXml.Node n = childs.get (i);
+          if (n is GXml.Element) {
+            found++;
+            if (found == 1)
+              _root = (GXml.Element) n;
+          }
+        }
+        if (found > 1) {
+          GLib.warning ("Document have more than one GXmlElement. Using first found");
+        }
+      }
+      return _root;
+    }
+  }
+  public bool save (GLib.Cancellable? cancellable = null)
   {
     var tw = new Xml.TextWriter.filename (file.get_path ());
     tw.start_document ();

@@ -103,7 +103,9 @@ namespace GXml {
 		 */
 		public override bool set_namespace (string uri, string namespace_prefix)
 		{
+#if DEBUG
 			GLib.message ("Setting a new Namespace...");
+#endif
 			if (node == null) return false;
 			Xml.Ns* ns = node->doc->search_ns_by_href (node, uri);
 			if (ns != null) {

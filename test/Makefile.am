@@ -25,6 +25,7 @@ noinst_PROGRAMS = $(TEST_PROGS)
 TEST_PROGS += gxml_test
 
 sources = \
+	tests-config.vala \
 	AttrTest.vala \
 	CharacterDataTest.vala \
 	DocumentTest.vala \
@@ -46,6 +47,7 @@ sources = \
 	SerializableGeeCollectionsTest.vala \
 	SerializableBasicTypesTest.vala \
 	gxml-performance.vala \
+	TwDocumentTest.vala \
 	$(NULL)
 
 gxml_test.vala.stamp: $(sources)

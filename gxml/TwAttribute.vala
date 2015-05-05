@@ -23,8 +23,6 @@ using Gee;
 
 public class GXml.TwAttribute : GXml.TwNode, GXml.Attribute
 {
-  private string _name = null;
-  private string _value = null;
   public TwAttribute (GXml.Document d, string name, string value)
     requires (d is TwDocument)
   {

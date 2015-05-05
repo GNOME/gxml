@@ -23,12 +23,12 @@ using Gee;
 
 public class GXml.TwElement : GXml.TwNode, GXml.Element
 {
-  private string _content = null;
   public TwElement (GXml.Document d, string name)
     requires (d is TwDocument)
   {
     _doc = d;
     ((TwDocument) document).tw = ((TwDocument) d).tw;
+    _name = name;
   }
   // GXml.Element
   public void set_attr (string name, string value)
@@ -39,6 +39,6 @@ public class GXml.TwElement : GXml.TwNode, GXml.Element
   public GXml.Node get_attr (string name) { return attrs.get (name); }
   public void normalize () {}
   public string content {
-    owned get { return _content; } set { } }
+    owned get { return _value; } set { _value = value; } }
   public string tag_name { get { return name; } }
 }

@@ -109,13 +109,13 @@ public interface GXml.Document : Object, GXml.Node
   /**
    * Save this {@link GXml.Document} to {@link GXml.Document.file}
    */
-  public abstract bool save (GLib.Cancellable? cancellable) throws GLib.Error;
+  public abstract bool save (GLib.Cancellable? cancellable = null) throws GLib.Error;
   /**
    * Save this {@link GXml.Document} to given {@link GLib.File}
    *
    * This overrides actual {@link GXml.Document.file}
    */
-  public virtual bool save_as (GLib.File f, GLib.Cancellable? cancellable) throws GLib.Error
+  public virtual bool save_as (GLib.File f, GLib.Cancellable? cancellable = null) throws GLib.Error
   {
     if (f.query_exists ()) {
       f = file;
