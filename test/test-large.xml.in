@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <bookstore name="The Great Book">
-  <book>
+  <book year="2015" isbn="ISBN0000000">
     <Authors>
       <Author>
         <Name>Fred</Name>
