@@ -42,19 +42,24 @@ class Author : SerializableObjectModel
   public class Array : SerializableArrayList<Author> {}
 }
 
+class Authors : SerializableContainer
+{
+  public string number { get; set; }
+  public Author.Array array { get; set; }
+  public override void init_containers ()
+  {
+    if (array == null)
+      array = new Author.Array ();
+  }
+  public override string to_string () { return @"$(get_type ().name ())"; }
+}
 
-
-class Book : SerializableContainer
+class Book : SerializableObjectModel
 {
   public string year { get; set; }
   public string isbn { get; set; }
   public Name   name { get; set; }
-  public Author.Array authors { get; set; }
-  public override void init_containers ()
-  {
-    if (authors == null)
-      authors = new Author.Array ();
-  }
+  public Authors authors { get; set; }
   public override string to_string () { return @"$(name.get_name ()), $(year)"; }
   public class Array : SerializableArrayList<Book> {}
 }
@@ -154,6 +159,25 @@ public class Performance
         bs.deserialize (d);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "standard deserialize/performance: %g seconds", time);
+        var author = new Author ();
+        GLib.message (@"Is Serializable $((author is Serializable).to_string ())");
+        assert (bs.name == "The Great Book");
+        assert (bs.books.size > 10);
+        var b = bs.books.first ();
+        assert (b != null);
+        assert (b.name != null);
+        assert (b.name.get_name () == "Book1");
+        assert (b.year == "2015");
+        assert (b.authors != null);
+        assert (b.authors.array != null);
+        GLib.message (@"Authors: $(b.authors.array.size.to_string ())");
+        assert (b.authors.array.size == 2);
+        var a = b.authors.array.first ();
+        assert (a != null);
+        assert (a.name != null);
+        assert (a.name.get_name () == "Fred");
+        assert (a.email != null);
+        assert (a.email.get_mail () == "fweasley@hogwarts.co.uk");
         Test.timer_start ();
         var d2 = new TwDocument (GXmlTest.get_test_dir () + "/test-large.xml");
         bs.serialize (d2);

@@ -235,13 +235,13 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       element = (Element) doc.root;
     return_val_if_fail (element != null, null);
     if (node_name () == null) {
-      message (@"WARNING: Object type '$(get_type ().name ())' have no Node Name defined");
+      GLib.warning (@"WARNING: Object type '$(get_type ().name ())' have no Node Name defined");
       return null;
     }
-#if DEBUG
     if (element.name.down () != node_name ().down ()) {
       GLib.warning (@"Actual node's name is '$(element.name.down ())' expected '$(node_name ().down ())'");
     }
+#if DEBUG
     stdout.printf (@"Deserialize Node: $(element.name)\n");
     stdout.printf (@"Node is: $(element)\n\n");
     stdout.printf (@"Attributes in Node: $(element.name)\n");
@@ -250,14 +250,13 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     {
       deserialize_property (attr);
     }
-#if DEBUG
-    stdout.printf (@"Elements Nodes in Node: $(element.name)\n");
-#endif
     if (element.childs.size > 0)
     {
       if (get_type ().is_a (typeof (SerializableContainer)))
       {
-//        stdout.printf (@"This is a Container: found a: $(get_type ().name ())\n");
+#if DEBUG
+        stdout.printf (@"This is a Container: found a: $(get_type ().name ())\n");
+#endif
         ((SerializableContainer) this).init_containers ();
       }
       var cnodes = new Gee.HashMap<string,ParamSpec> ();
@@ -278,6 +277,9 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
             }
         }
       }
+#if DEBUG
+    stdout.printf (@"Elements Nodes in Node: $(element.name)\n");
+#endif
       foreach (Node n in element.childs)
       {
         if (n is Text) {
@@ -320,13 +322,18 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     if (prop == null) {
       // FIXME: Event emit
       if (get_enable_unknown_serializable_property ()) {
-//        stdout.printf (@"Adding node $(property_node.node_name) to $(get_type ().name ())\n");
+#if DEBUG
+    GLib.message (@"Adding unknown node $(property_node.name) to $(get_type ().name ())\n");
+#endif
         unknown_serializable_property.set (property_node.name, property_node);
       }
       return true;
     }
     if (prop.value_type.is_a (typeof (Serializable)))
     {
+#if DEBUG
+      GLib.message (@"'$(property_node.name)' Is Serializable: deserializing");
+#endif
       Value vobj = Value (typeof(Object));
       get_property (prop.name, ref vobj);
       if (vobj.get_object () == null) {

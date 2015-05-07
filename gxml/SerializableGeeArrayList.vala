@@ -125,11 +125,23 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
                                                     this.get_type ().name (), element_type.name ());
     }
     if (node is Element) {
+#if DEBUG
+            GLib.message (@"Deserializing ArrayList on Element: $(node.name)");
+#endif
       foreach (GXml.Node n in node.childs) {
         if (n is Element) {
+#if DEBUG
+            GLib.message (@"Cheking Node $(n.name) on ArrayList in Element: $(node.name)");
+#endif
           var obj = (Serializable) Object.new (element_type);
-          if (n.name == ((Serializable) obj).node_name ()) {
+#if DEBUG
+            GLib.message (@"Creating a new Object to add: '$(obj.node_name ())' to Node: '$(node.name)'");
+#endif
+          if (n.name.down () == ((Serializable) obj).node_name ().down ()) {
             obj.deserialize (n);
+#if DEBUG
+            GLib.message (@"SerializableArrayList: Adding object: '$(obj.node_name ())' to Node: '$(node.name)'");
+#endif
             add (obj);
           }
         }
