@@ -159,8 +159,6 @@ public class Performance
         bs.deserialize (d);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "standard deserialize/performance: %g seconds", time);
-        var author = new Author ();
-        GLib.message (@"Is Serializable $((author is Serializable).to_string ())");
         assert (bs.name == "The Great Book");
         assert (bs.books.size > 10);
         var b = bs.books.first ();
@@ -170,7 +168,6 @@ public class Performance
         assert (b.year == "2015");
         assert (b.authors != null);
         assert (b.authors.array != null);
-        GLib.message (@"Authors: $(b.authors.array.size.to_string ())");
         assert (b.authors.array.size == 2);
         var a = b.authors.array.first ();
         assert (a != null);

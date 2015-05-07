@@ -138,11 +138,10 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       string t = "";
       if (serialized_xml_node_value != null)
         t = serialized_xml_node_value;
-      var tn = doc.create_text (t);
+      var tn = element.content  = t;
 #if DEBUG
-      stdout.printf (@"SETTING CONTENT FOR: $(get_type ().name ()): $(element.name): content '$t'\n");
+      stdout.printf (@"SET CONTENT FOR: $(get_type ().name ()): $(element.name): content '$t'\n");
 #endif
-      element.childs.add (tn);
     }
     return element;
   }

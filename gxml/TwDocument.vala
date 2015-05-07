@@ -170,5 +170,10 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
       if (size > 1500)
         tw.flush ();
     }
+    if (node is GXml.Text) {
+      size += tw.write_string (node.value);
+      if (size > 1500)
+        tw.flush ();
+    }
   }
 }
