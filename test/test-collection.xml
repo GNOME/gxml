@@ -18,6 +18,8 @@
   <inventory number="1" row="5" inventory="K004"/>
   <category name="Fiction"/>
   <category name="Motivational"/>
+  <resume chapter = "I" text="Nothing to say"/>
+  <resume chapter = "II" text="Nothing to say"/>
  </book>
  <book year="2015" isbn="ISBN0000001">
   <name>Book2</name>

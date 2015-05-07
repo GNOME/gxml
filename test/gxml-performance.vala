@@ -73,6 +73,16 @@ class Category : SerializableObjectModel, SerializableMapKey<string>
   public class Map : SerializableHashMap<string,Category> {}
 }
 
+
+class Resume : SerializableObjectModel, SerializableMapKey<string>
+{
+  public string chapter { get; set; }
+  public string text { get; set; }
+  public string get_map_key () { return chapter; }
+  public override string to_string () { return "Chapter: "+chapter+"\n"+text; }
+  public class Map : SerializableTreeMap<string,Resume> {}
+}
+
 class Book : SerializableContainer
 {
   public string year { get; set; }
@@ -81,6 +91,7 @@ class Book : SerializableContainer
   public Authors authors { get; set; }
   public Inventory.DualKeyMap inventory_registers { get; set; }
   public Category.Map categories { get; set; }
+  public Resume.Map resumes { get; set; }
   public override string to_string () { return @"$(name.get_name ()), $(year)"; }
   public override void init_containers ()
   {
@@ -88,6 +99,8 @@ class Book : SerializableContainer
       inventory_registers = new Inventory.DualKeyMap ();
     if (categories == null)
       categories = new Category.Map ();
+    if (resumes == null)
+      resumes = new Resume.Map ();
   }
   public class Array : SerializableArrayList<Book> {}
 }
