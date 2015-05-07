@@ -54,13 +54,30 @@ class Authors : SerializableContainer
   public override string to_string () { return @"$(get_type ().name ())"; }
 }
 
-class Book : SerializableObjectModel
+class Inventory : SerializableObjectModel, SerializableMapDualKey<int,string>
+{
+  public int number { get; set; }
+  public int row { get; set; }
+  public string inventory { get; set; }
+  public int get_map_primary_key  () { return number; }
+  public string get_map_secondary_key () { return inventory; }
+  public override string to_string () { return @"||$(number.to_string ())|$(row.to_string ())|$(inventory)||"; }
+  public class DualKeyMap : SerializableDualKeyMap<int, string, Inventory> {}
+}
+
+class Book : SerializableContainer
 {
   public string year { get; set; }
   public string isbn { get; set; }
   public Name   name { get; set; }
   public Authors authors { get; set; }
+  public Inventory.DualKeyMap inventory_registers { get; set; }
   public override string to_string () { return @"$(name.get_name ()), $(year)"; }
+  public override void init_containers ()
+  {
+    if (inventory_registers == null)
+      inventory_registers = new Inventory.DualKeyMap ();
+  }
   public class Array : SerializableArrayList<Book> {}
 }
 
@@ -146,7 +163,8 @@ public class Performance
 #endif
         assert_not_reached ();
       }
-    });Test.add_func ("/gxml/performance/tw-serialize",
+    });
+    Test.add_func ("/gxml/performance/tw-serialize",
     () => {
       try {
         double time;

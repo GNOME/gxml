@@ -106,6 +106,7 @@ DISTCLEANFILES = _serialization_test_*.xml
 
 EXTRA_DIST += \
 	$(sources) \
+	test-large.xml \
 	test_invalid.xml \
 	test_with_ns.xml \
 	test_out_path_expected.xml \

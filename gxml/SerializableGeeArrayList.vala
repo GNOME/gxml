@@ -135,12 +135,12 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
 #endif
           var obj = (Serializable) Object.new (element_type);
 #if DEBUG
-            GLib.message (@"Creating a new Object to add: '$(obj.node_name ())' to Node: '$(node.name)'");
+            GLib.message (@"Creating a new Object to add: '$(obj.node_name ())' from Node: '$(node.name)'");
 #endif
           if (n.name.down () == ((Serializable) obj).node_name ().down ()) {
             obj.deserialize (n);
 #if DEBUG
-            GLib.message (@"SerializableArrayList: Adding object: '$(obj.node_name ())' to Node: '$(node.name)'");
+            GLib.message (@"SerializableArrayList: Adding object: '$(obj.node_name ())' from Node: '$(node.name)'");
 #endif
             add (obj);
           }

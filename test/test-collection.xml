@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<bookstore name="The Great Book">
+ <book year="2015" isbn="ISBN0000000">
+  <name>Book1</name>
+  <authors>
+   <author>
+    <name>Fred</name>
+    <email>fweasley@hogwarts.co.uk</email>
+   </author>
+   <author>
+    <name>George</name>
+    <email>gweasley@hogwarts.co.uk</email>
+   </author>
+  </authors>
+  <inventory number="1" row="5" inventory="K001"/>
+  <inventory number="1" row="5" inventory="K002"/>
+  <inventory number="1" row="5" inventory="K003"/>
+  <inventory number="1" row="5" inventory="K004"/>
+ </book>
+ <book year="2015" isbn="ISBN0000001">
+  <name>Book2</name>
+  <authors>
+   <author>
+    <name>Fred</name>
+    <email>fweasley@hogwarts.co.uk</email>
+   </author>
+   <author>
+    <name>George</name>
+    <email>gweasley@hogwarts.co.uk</email>
+   </author>
+  </authors>
+ </book>
+ <book year="2014" isbn="ISBN0000000">
+  <name>Book3</name>
+  <authors>
+   <author>
+    <name>Fred</name>
+    <email>fweasley@hogwarts.co.uk</email>
+   </author>
+   <author>
+    <name>George</name>
+    <email>gweasley@hogwarts.co.uk</email>
+   </author>
+  </authors>
+ </book>
+</bookstore>

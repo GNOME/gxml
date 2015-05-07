@@ -200,6 +200,9 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable, Serializ
                     throws GLib.Error
                     requires (node is Element)
   {
+#if DEBUG
+            GLib.message (@"Deserializing DualKeyMap on Element: $(node.name)");
+#endif
     if (!(value_type.is_a (typeof (GXml.Serializable)) &&
         value_type.is_a (typeof (SerializableMapDualKey)))) {
       throw new SerializableError.UNSUPPORTED_TYPE_ERROR ("%s: Value type '%s' is unsupported", 
@@ -208,9 +211,18 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable, Serializ
     foreach (GXml.Node n in node.childs) {
       if (n is Element) {
         var obj = (SerializableMapDualKey<P,S>) Object.new (value_type);
-        if (n.name == ((Serializable) obj).node_name ()) {
+#if DEBUG
+            GLib.message (@"Creating a new Object to add: '$(((Serializable)obj).node_name ())' from Node: '$(node.name)'");
+#endif
+        if (n.name.down () == ((Serializable) obj).node_name ().down ()) {
           ((Serializable) obj).deserialize (n);
+#if DEBUG
+            GLib.message (@"SerializableDualKeyMap: Setting object: '$(((Serializable)obj).node_name ())' from Node: '$(node.name)'");
+#endif
           @set (obj.get_map_primary_key (), obj.get_map_secondary_key (), obj);
+#if DEBUG
+            GLib.message (@"SerializableDualKeyMap: Size = '$(this.size)'");
+#endif
         }
       }
     }

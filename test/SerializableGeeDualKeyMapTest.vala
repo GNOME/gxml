@@ -267,5 +267,35 @@ class SerializableGeeDualKeyMapTest : GXmlTest
         assert_not_reached ();
       }
     });
+    Test.add_func ("/gxml/serializable/serializable_dual_key_map/deserialize-node-names",
+    () => {
+      try {
+        var d = new xDocument.from_path (GXmlTestConfig.TEST_DIR + "/test-collection.xml");
+        var bs = new BookStore ();
+        bs.deserialize (d);
+        assert (bs.name == "The Great Book");
+        assert (bs.books.size == 3);
+        var b = bs.books.first ();
+        assert (b != null);
+        assert (b.name != null);
+        assert (b.name.get_name () == "Book1");
+        assert (b.year == "2015");
+        assert (b.authors != null);
+        assert (b.authors.array != null);
+        assert (b.authors.array.size == 2);
+        assert (b.inventory_registers != null);
+        assert (b.inventory_registers.size == 4);
+        var ir = b.inventory_registers.get (1,"K001");
+        assert (ir != null);
+        assert (ir.number == 1);
+        assert (ir.inventory == "K001");
+        assert (ir.row == 5);
+      } catch (GLib.Error e) {
+#if DEBUG
+        GLib.message ("ERROR: "+e.message);
+#endif
+        assert_not_reached ();
+      }
+    });
   }
 }
