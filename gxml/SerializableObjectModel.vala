@@ -203,8 +203,12 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       attr_name = prop.get_name ();
     var attr = element.get_attr (attr_name);
     if (attr == null) {
-      if (val != null)
+      if (val != null) {
+#if DEBUG
+        GLib.message (@"Setting attribute: '$(attr_name)' : val: '$(val)' to node: '$(element.name)'");
+#endif
         element.set_attr (attr_name, val);
+      }
     }
     else
       attr.value = val;
@@ -350,7 +354,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
         val = Value (typeof (int));
       else
         val = Value (prop.value_type);
-      if (property_node is GXml.Attr)
+      if (property_node is GXml.Attribute)
       {
         if (prop.value_type.is_a (Type.ENUM)) {
           EnumValue env;

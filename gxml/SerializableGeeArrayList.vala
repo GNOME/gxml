@@ -131,7 +131,7 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
       foreach (GXml.Node n in node.childs) {
         if (n is Element) {
 #if DEBUG
-            GLib.message (@"Cheking Node $(n.name) on ArrayList in Element: $(node.name)");
+            GLib.message (@"Checking Node $(n.name) on ArrayList in Element: $(node.name)");
 #endif
           var obj = (Serializable) Object.new (element_type);
 #if DEBUG

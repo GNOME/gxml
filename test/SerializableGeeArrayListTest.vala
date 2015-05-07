@@ -72,10 +72,10 @@ class SerializableGeeArrayListTest : GXmlTest
         var o2 = new AElement.named ("Small");
         c.add (o1);
         c.add (o2);
-        var doc = new xDocument ();
+        var doc = new TwDocument ("/tmp/diieiw81!");
         var root = doc.create_element ("root");
         doc.childs.add (root);
-        c.serialize ((xNode) root);
+        c.serialize (root);
         assert (root.childs.size == 2);
         bool found1 = false;
         bool found2 = false;
@@ -145,35 +145,28 @@ class SerializableGeeArrayListTest : GXmlTest
         var iroot = idoc.document_element;
         var ic = new SerializableArrayList<AElement> ();
         ic.deserialize (iroot);
-        var doc = new xDocument.from_string ("""<?xml version="1.0"?><root />""");
-        var root = doc.document_element;
+        var doc = new TwDocument ("/tmp/diieiw81!");
+        var root = doc.create_element ("root");
+        doc.childs.add (root);
         ic.serialize (root);
         var c = new SerializableArrayList<AElement> ();
         c.deserialize (root);
-        if (c.size != 3) {
-          stdout.printf (@"ERROR: incorrect counted. Expected 3, got $(c.size)");
-          assert_not_reached ();
-        }
-        int i = 0;
+        assert (c.size == 3);
+        int count_elements = 0;
         foreach (AElement e in c)
-          i++;
-        if (i != 3) {
-          stdout.printf (@"ERROR: incorrect counted. Expected 3, got $i");
-          assert_not_reached ();
-        }
+          count_elements++;
+        assert (count_elements == 3);
         string[] s = {"Big","Small","Wall"};
+#if DEBUG
+        GLib.message ("Dump deserialized from document...");
+        for (int k = 0; k < c.size; k++) {
+          string str = "";
+          if (c.get (k).name != null) str = c.get (k).name;
+          GLib.message (@"Expected name = $(s[k]) got: $(str)");
+        }
+#endif
         for (int j = 0; j < c.size; j++) {
-          var e = c.get (j);
-          if (s[j] != e.name) {
-            stdout.printf (@"ERROR: incorrect name. Expected $(s[j]), got: $(c.get (j))");
-            assert_not_reached ();
-          }
-          if (e.name == "Wall") {
-            if (e.serialized_xml_node_value != null) {
-              stdout.printf (@"ERROR: incorrect node '$(e.name)' content. Expected '', got: '$(e.serialized_xml_node_value)'");
-              assert_not_reached ();
-            }
-          }
+          assert (s[j] == c.get (j).name);
         }
       }
       catch (GLib.Error e) {
