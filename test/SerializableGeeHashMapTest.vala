@@ -353,5 +353,33 @@ class SerializableGeeHashMapTest : GXmlTest
         assert_not_reached ();
       }
     });
+    Test.add_func ("/gxml/serializable/serializable_hash_map/deserialize-node-names",
+    () => {
+      try {
+        var d = new xDocument.from_path (GXmlTestConfig.TEST_DIR + "/test-collection.xml");
+        var bs = new BookStore ();
+        bs.deserialize (d);
+        assert (bs.name == "The Great Book");
+        assert (bs.books.size == 3);
+        var b = bs.books.first ();
+        assert (b != null);
+        assert (b.name != null);
+        assert (b.name.get_name () == "Book1");
+        assert (b.year == "2015");
+        assert (b.authors != null);
+        assert (b.authors.array != null);
+        assert (b.authors.array.size == 2);
+        assert (b.categories != null);
+        assert (b.categories.size == 2);
+        var c = b.categories.get ("Fiction");
+        assert (c != null);
+        assert (c.name == "Fiction");
+      } catch (GLib.Error e) {
+#if DEBUG
+        GLib.message ("ERROR: "+e.message);
+#endif
+        assert_not_reached ();
+      }
+    });
   }
 }

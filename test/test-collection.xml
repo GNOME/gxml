@@ -16,6 +16,8 @@
   <inventory number="1" row="5" inventory="K002"/>
   <inventory number="1" row="5" inventory="K003"/>
   <inventory number="1" row="5" inventory="K004"/>
+  <category name="Fiction"/>
+  <category name="Motivational"/>
  </book>
  <book year="2015" isbn="ISBN0000001">
   <name>Book2</name>

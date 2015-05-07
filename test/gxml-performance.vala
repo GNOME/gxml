@@ -65,6 +65,14 @@ class Inventory : SerializableObjectModel, SerializableMapDualKey<int,string>
   public class DualKeyMap : SerializableDualKeyMap<int, string, Inventory> {}
 }
 
+class Category : SerializableObjectModel, SerializableMapKey<string>
+{
+  public string name { get; set; }
+  public string get_map_key () { return name; }
+  public override string to_string () { return "Category: "+name; }
+  public class Map : SerializableHashMap<string,Category> {}
+}
+
 class Book : SerializableContainer
 {
   public string year { get; set; }
@@ -72,11 +80,14 @@ class Book : SerializableContainer
   public Name   name { get; set; }
   public Authors authors { get; set; }
   public Inventory.DualKeyMap inventory_registers { get; set; }
+  public Category.Map categories { get; set; }
   public override string to_string () { return @"$(name.get_name ()), $(year)"; }
   public override void init_containers ()
   {
     if (inventory_registers == null)
       inventory_registers = new Inventory.DualKeyMap ();
+    if (categories == null)
+      categories = new Category.Map ();
   }
   public class Array : SerializableArrayList<Book> {}
 }
