@@ -148,7 +148,7 @@ public class Package : ObjectModel
   public string unknown_to_string ()
   {
     string t = "";
-    foreach (GXml.Node node in unknown_serializable_property.get_values ())
+    foreach (GXml.Attribute node in unknown_serializable_property.values)
     {
       t+= node.to_string () ;
     }
@@ -817,9 +817,18 @@ class SerializableObjectModelTest : GXmlTest
                      var unknown_property = new UnknownAttribute ();
                      try {
                        unknown_property.deserialize (doc);
-                       if (unknown_property.unknown_serializable_property.size () != 4) {
-                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: size $(unknown_property.unknown_serializable_property.size ().to_string ())\n");
-                         foreach (GXml.Node un in unknown_property.unknown_serializable_property.get_values ()) {
+#if DEBUG
+                       foreach (GXml.Attribute a in unknown_property.unknown_serializable_property.values) {
+                         GLib.message (@"Unknown Attribute: $(a.name) = $(a.value)");
+                       }
+                       foreach (GXml.Node un in unknown_property.unknown_serializable_nodes) {
+                         GLib.message (@"Unknown Node: $(un.name) = $(un.to_string ())");
+                       }
+#endif
+                       assert (unknown_property.unknown_serializable_property.size == 2);
+                       if (unknown_property.unknown_serializable_property.size != 2) {
+                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: size $(unknown_property.unknown_serializable_property.size.to_string ())\n");
+                         foreach (GXml.Node un in unknown_property.unknown_serializable_property.values) {
                            string sv = "__NULL__";
                            if (un.value != null)
                              sv = un.value;
@@ -827,7 +836,7 @@ class SerializableObjectModelTest : GXmlTest
                          }
                          assert_not_reached ();
                        }
-                       if (!unknown_property.unknown_serializable_property.contains ("ignore")) {
+                       if (!unknown_property.unknown_serializable_property.has_key ("ignore")) {
                          stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: ignore not found");
                          assert_not_reached ();
                        }
@@ -836,7 +845,7 @@ class SerializableObjectModelTest : GXmlTest
                          stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: ignore is not an GXml.Attr");
                          assert_not_reached ();
                        }
-                       if (!unknown_property.unknown_serializable_property.contains ("ignore2")) {
+                       if (!unknown_property.unknown_serializable_property.has_key ("ignore2")) {
                          stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: ignore not found");
                          assert_not_reached ();
                        }
@@ -845,14 +854,26 @@ class SerializableObjectModelTest : GXmlTest
                          stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: ignore2 is not an GXml.Attr");
                          assert_not_reached ();
                        }
-                       if (!unknown_property.unknown_serializable_property.contains ("UnknownNode")) {
-                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: node UnknownNode not found");
-                         assert_not_reached ();
-                       }var unknown_node = unknown_property.unknown_serializable_property.get ("UnknownNode");
-                       if (!(unknown_node is xElement)) {
-                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: unknown node is not an GXml.xElement");
-                         assert_not_reached ();
+#if DEBUG
+                       GLib.message (@"Unknown nodes = $(unknown_property.unknown_serializable_nodes.size)");
+#endif
+                       assert (unknown_property.unknown_serializable_nodes.size == 2);
+                       bool foundn = false;
+                       bool foundt = false;
+                       GXml.Node unkn;
+                       foreach (GXml.Node n in unknown_property.unknown_serializable_nodes) {
+                         if (n.name == "UnknownNode") {
+                           foundn = true;
+                           assert (n.attrs.get ("toignore") != null);
+                           assert (n.attrs.get ("toignore").value == "true");
+                         }
+                         if (n is Text) {
+                           foundt = true;
+                           assert (n.value == "TEXT");
+                         }
                        }
+                       assert (foundn);
+                       assert (foundt);
                      }
                      catch (GLib.Error e) {
                        stdout.printf (@"Error: $(e.message)");
@@ -1003,6 +1024,29 @@ class SerializableObjectModelTest : GXmlTest
         var doc = new xDocument ();
         ns.serialize (doc);
         assert (doc.document_element.to_string () == "<gxml:namespace xmlns:gxml=\"http://www.gnome.org/GXml\"/>");
+      } catch (GLib.Error e) {
+#if DEBUG
+        GLib.message ("ERROR: "+e.message);
+#endif
+        assert_not_reached ();
+      }
+    });
+  Test.add_func ("/gxml/serializable/object_model/find-unknown_property", () => {
+      try {
+        var p = new Package ();
+        var doc = new xDocument.from_string ("""<?xml version="1.0"?>
+<PACKAGE source="Mexico/North" destiny="Brazil" Unknown="2/4.04">
+<manual document="Sales Card" pages="1">Selling Card Specification</manual>
+<Computer manufacturer="BoxingLAN" model="J24-EX9" cores="32" ghz="1.8"/>
+<Box size="1" volume="33.15" units="cm3" />
+UNKNOWN CONTENT
+</PACKAGE>""");
+        p.deserialize (doc);
+        assert (p.unknown_serializable_property != null);
+        var ukattr = p.unknown_serializable_property.get ("Unknown");
+        assert (ukattr != null);
+        assert (ukattr.name == "Unknown");
+        assert (ukattr.value == "2/4.04");
       } catch (GLib.Error e) {
 #if DEBUG
         GLib.message ("ERROR: "+e.message);

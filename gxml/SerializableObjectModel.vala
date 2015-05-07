@@ -20,6 +20,8 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 
+using Gee;
+
 /**
  * Object Model is an {@link Serializable} implementation using {@link Element}
  * to represent {@link GLib.Object} class objects.
@@ -35,12 +37,33 @@
  */
 public abstract class GXml.SerializableObjectModel : Object, Serializable
 {
+  Gee.HashMap<string,GXml.Attribute> _unknown_serializable_property = new Gee.HashMap<string,GXml.Attribute> ();
+  Gee.ArrayList<GXml.Node> _unknown_serializable_nodes = new Gee.ArrayList<GXml.Node> ();
   /* Serializable interface properties */
   protected ParamSpec[] properties { get; set; }
   public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; protected set; }
   public string? serialized_xml_node_value { get; protected set; default=null; }
   public virtual bool get_enable_unknown_serializable_property () { return false; }
-  public GLib.HashTable<string,GXml.Node> unknown_serializable_property { get; protected set; }
+  public Gee.Map<string,GXml.Attribute> unknown_serializable_property
+  {
+    get {
+      return _unknown_serializable_property;
+    }
+    protected set {
+      if (value is Gee.HashMap)
+        _unknown_serializable_property = (Gee.HashMap<string,GXml.Attribute>) value;
+    }
+  }
+  public Gee.Collection<GXml.Node> unknown_serializable_nodes
+  {
+    get {
+      return _unknown_serializable_nodes;
+    }
+    protected set {
+      if (value is Gee.ArrayList)
+        _unknown_serializable_nodes = (Gee.ArrayList<GXml.Node>) value;
+    }
+  }
 
   public virtual bool serialize_use_xml_node_value () { return false; }
   public virtual bool property_use_nick () { return false; }
@@ -117,18 +140,24 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       serialize_property (element, spec);
     }
     if (get_enable_unknown_serializable_property ()) {
-        foreach (GXml.Node n in unknown_serializable_property.get_values ()) {
+        // Serializing unknown Attributes
+        foreach (GXml.Attribute attr in unknown_serializable_property.values) {
+          element.set_attr (attr.name, attr.value); // TODO: Namespace
+        }
+        // Serializing unknown Nodes
+        foreach (GXml.Node n in unknown_serializable_nodes) {
           if (n is GXml.Element) {
             var e = doc.create_element (n.name);
             GXml.Node.copy (node.document, e, n, true);
             element.childs.add (e);
           }
-          if (n is Attr) {
-            element.set_attr (n.name, n.value); // TODO: Namespace
-          }
           if (n is Text) {
-            var tnode = doc.create_text (n.value);
-            element.childs.add (tnode);
+            // If no Element contents is recognized add contents
+            if (!serialize_use_xml_node_value ()) {
+              if (element.content == null)
+                element.content = "";
+              element.content += n.value;
+            }
           }
         }
     }
@@ -294,7 +323,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
           } else {
             if (get_enable_unknown_serializable_property ()) {
               if (n.value._chomp () == n.value && n.value != "")
-                unknown_serializable_property.set (n.name, n);
+                unknown_serializable_nodes.add (n);
             }
           }
         }
@@ -325,10 +354,18 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     if (prop == null) {
       // FIXME: Event emit
       if (get_enable_unknown_serializable_property ()) {
+        if (property_node is GXml.Attribute) {
 #if DEBUG
-    GLib.message (@"Adding unknown node $(property_node.name) to $(get_type ().name ())\n");
+          GLib.message (@"Adding unknown attribute $(property_node.name) to $(get_type ().name ())\n");
 #endif
-        unknown_serializable_property.set (property_node.name, property_node);
+          unknown_serializable_property.set (property_node.name, (GXml.Attribute) property_node);
+        }
+        if (property_node is GXml.Element) {
+          unknown_serializable_nodes.add (property_node);
+#if DEBUG
+          GLib.message (@"Adding unknown node $(property_node.name) to $(get_type ().name ()): Size=$(unknown_serializable_nodes.size.to_string ())");
+#endif
+        }
       }
       return true;
     }

@@ -112,11 +112,32 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable, Serializ
       storage = new Gee.HashMultiMap<P,HashMap<S,V>> ();
   }
   // Serializable Interface
+  Gee.HashMap<string,GXml.Attribute> _unknown_serializable_property = new Gee.HashMap<string,GXml.Attribute> ();
+  Gee.ArrayList<GXml.Node> _unknown_serializable_nodes = new Gee.ArrayList<GXml.Node> ();
+  public Gee.Map<string,GXml.Attribute> unknown_serializable_property
+  {
+    get {
+      return _unknown_serializable_property;
+    }
+    protected set {
+      if (value is Gee.HashMap)
+        _unknown_serializable_property = (Gee.HashMap<string,GXml.Attribute>) value;
+    }
+  }
+  public Gee.Collection<GXml.Node> unknown_serializable_nodes
+  {
+    get {
+      return _unknown_serializable_nodes;
+    }
+    protected set {
+      if (value is Gee.ArrayList)
+        _unknown_serializable_nodes = (Gee.ArrayList<GXml.Node>) value;
+    }
+  }
   protected ParamSpec[] properties { get; set; }
   public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; protected set; }
   public string? serialized_xml_node_value { get; protected set; default=null; }
   public virtual bool set_namespace (GXml.Node node) { return true; }
-  public GLib.HashTable<string,GXml.xNode> unknown_serializable_property { get; protected set; }
 
   public virtual bool get_enable_unknown_serializable_property () { return false; }
   public virtual bool serialize_use_xml_node_value () { return false; }

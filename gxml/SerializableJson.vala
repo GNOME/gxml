@@ -60,10 +60,11 @@
  */
 public class GXml.SerializableJson : GLib.Object, GXml.Serializable
 {
+  Gee.HashMap<string,GXml.Attribute> _unknown_serializable_property = new Gee.HashMap<string,GXml.Attribute> ();
+  Gee.ArrayList<GXml.Node> _unknown_serializable_nodes = new Gee.ArrayList<GXml.Node> ();
   /* Serializable Interface properties */
   protected ParamSpec[] properties { get; set; }
   public HashTable<string,GLib.ParamSpec>  ignored_serializable_properties { get; protected set; }
-  public HashTable<string,GXml.Node>    unknown_serializable_property { get; protected set; }
   public virtual bool get_enable_unknown_serializable_property () { return false; }
   public string?  serialized_xml_node_value { get; protected set; default = null; }
   public virtual bool set_namespace (GXml.Node node) { return true; }
@@ -71,6 +72,27 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
   public virtual bool serialize_use_xml_node_value () { return false; }
   public virtual string node_name () { return "Object"; }
   public virtual bool property_use_nick () { return false; }
+
+  public Gee.Map<string,GXml.Attribute> unknown_serializable_property
+  {
+    get {
+      return _unknown_serializable_property;
+    }
+    protected set {
+      if (value is Gee.HashMap)
+        _unknown_serializable_property = (Gee.HashMap<string,GXml.Attribute>) value;
+    }
+  }
+  public Gee.Collection<GXml.Node> unknown_serializable_nodes
+  {
+    get {
+      return _unknown_serializable_nodes;
+    }
+    protected set {
+      if (value is Gee.ArrayList)
+        _unknown_serializable_nodes = (Gee.ArrayList<GXml.Node>) value;
+    }
+  }
 
   public virtual GLib.ParamSpec? find_property_spec (string property_name)
   {
@@ -258,7 +280,7 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
 
       if (spec == null) {
         GLib.message ("Deserializing object of type '%s' claimed unknown property named '%s'\nXML [%s]", ptype, pname, property_node.stringify ());
-        unknown_serializable_property.set (property_node.node_name, property_node);
+          unknown_serializable_property.set (property_node.node_name, (GXml.Attribute) property_node);
       }
       else {
         if (spec.value_type.is_a (typeof(Serializable)))

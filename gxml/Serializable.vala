@@ -20,6 +20,8 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 
+using Gee;
+
 namespace GXml {
   /**
    * Serialization framework. Base interface.
@@ -59,27 +61,51 @@ namespace GXml {
     */
    public abstract bool get_enable_unknown_serializable_property ();
     /**
-     * On deserialization stores any {@link GXml.Node} not used on this
+     * On deserialization stores any {@link GXml.Attribute} not used on this
      * object, but exists in current XML file.
      *
-     * Node's name is used as key to find stored {@link GXml.Node}.
+     * Node's name is used as key to find stored {@link GXml.Attribute}, key is
+     * case sensitive.
      *
      * XML allows great flexibility, providing different ways to represent the same
      * information. This is a problem when you try to deserialize them.
      *
      * In order to deserialize correctly, you must create your XML, both by
      * serializing a {@link Serializable} object or by hand writing. By using the
-     * former, you can add extra information, like nodes or properties, but most of
+     * former, you can add extra information, like attributes, but most of
      * them could be ignored or lost on deserialization/serialization process. To
      * avoid data lost, you can override {@link get_enable_unknown_serializable_property}
+     * method in order to return true, your implementation or the ones in GXml, will
+     * store all unknown attributes on deserialization and must serialize
+     * again back to the XML file. Even you are allowed to get this unknown objects
+     * by iterating on {@link unknown_serializable_property} collection, if you know
+     * attribute's name, use it to retrieve it.
+     *
+     * This property is ignored on serialisation.
+     */
+    public abstract Gee.Map<string,GXml.Attribute>    unknown_serializable_property { get; protected set; }
+
+    
+    /**
+     * On deserialization stores any {@link GXml.Node} not used on this
+     * object, but exists in current XML file.
+     *
+     * XML allows great flexibility, providing different ways to represent the same
+     * information. This is a problem when you try to deserialize them.
+     *
+     * In order to deserialize correctly, you must create your XML, both by
+     * serializing a {@link Serializable} object or by hand writing. By using the
+     * former, you can add extra information, like nodes or contents in known nodes,
+     * but most of them could be ignored or lost on deserialization/serialization process.
+     * To avoid data lost, you can override {@link get_enable_unknown_serializable_property}
      * method in order to return true, your implementation or the ones in GXml, will
      * store all unknown properties and nodes on deserialization and must serialize
      * again back to the XML file. Even you are allowed to get this unknown objects
      * by iterating on {@link unknown_serializable_property} hash table.
      *
      * This property is ignored on serialisation.
-     */     
-    public abstract HashTable<string,GXml.Node>    unknown_serializable_property { get; protected set; }
+     */
+    public abstract Gee.Collection<GXml.Node>    unknown_serializable_nodes { get; protected set; }
 
     /**
      * Used to add content in an {@link GXml.Element}.
@@ -312,13 +338,12 @@ namespace GXml {
                                              get_class ().find_property("ignored-serializable-properties"));
         ignored_serializable_properties.set ("unknown-serializable-property",
                                              get_class ().find_property("unknown-serializable-property"));
+        ignored_serializable_properties.set ("unknown-serializable-nodes",
+                                             get_class ().find_property("unknown-serializable-nodes"));
         ignored_serializable_properties.set ("serialized-xml-node-value",
                                              get_class ().find_property("serialized-xml-node-value"));
         ignored_serializable_properties.set ("serialize-set-namespace",
                                              get_class ().find_property("serialize_set_namespace"));
-      }
-      if (unknown_serializable_property == null) {
-        unknown_serializable_property = new HashTable<string,GXml.Node> (str_hash, str_equal);
       }
     }
 
