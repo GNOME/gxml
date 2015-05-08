@@ -836,24 +836,10 @@ class SerializableObjectModelTest : GXmlTest
                          }
                          assert_not_reached ();
                        }
-                       if (!unknown_property.unknown_serializable_properties.has_key ("ignore")) {
-                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: ignore not found");
-                         assert_not_reached ();
-                       }
                        var ignore = unknown_property.unknown_serializable_properties.get ("ignore");
-                       if (!(ignore is Attr)) {
-                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: ignore is not an GXml.Attr");
-                         assert_not_reached ();
-                       }
-                       if (!unknown_property.unknown_serializable_properties.has_key ("ignore2")) {
-                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: ignore not found");
-                         assert_not_reached ();
-                       }
+                       assert (ignore != null);
                        var ignore2 = unknown_property.unknown_serializable_properties.get ("ignore2");
-                       if (!(ignore2 is Attr)) {
-                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: ignore2 is not an GXml.Attr");
-                         assert_not_reached ();
-                       }
+                       assert (ignore2 != null);
 #if DEBUG
                        GLib.message (@"Unknown nodes = $(unknown_property.unknown_serializable_nodes.size)");
 #endif

@@ -485,21 +485,9 @@ class SerializableGeeCollectionsTest : GXmlTest
           stdout.printf (@"ERROR: No Refaction MacToy/Fly045 found!\n");
           assert_not_reached ();
         }
-        if (refaction.unknown_serializable_properties == null) {
-          stdout.printf (@"ERROR: Refaction: No unknown properties/nodes found!\n");
-          assert_not_reached ();
-        }
-        if (refaction.unknown_serializable_properties.size != 1) {
-          stdout.printf (@"ERROR: Refaction: Bad unknown properties/nodes number: found $(refaction.unknown_serializable_properties.size)\n");
-          foreach (GXml.Node unk in refaction.unknown_serializable_properties.values)
-          {
-            string unkv = "___NULL__";
-            if (unk.value != null)
-              unkv = unk.value;
-            stdout.printf (@"Unknown Node: $(unk.name) / value: '$(unkv)'");
-          }
-          assert_not_reached ();
-        }
+        assert (refaction.unknown_serializable_properties != null);
+        assert (refaction.unknown_serializable_properties.size == 0);
+        assert (refaction.unknown_serializable_nodes.size == 1);
         var doc = new xDocument ();
         s.serialize (doc);
         if (doc.document_element.node_name != "base") {

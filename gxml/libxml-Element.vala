@@ -447,7 +447,7 @@ namespace GXml {
 		 */
 		public string content {
 			owned get {
-				_content = null;
+				_content = "";
 				foreach (xNode n in child_nodes) {
 					if (n is xText) {
 						if (_content == null) _content = "";
