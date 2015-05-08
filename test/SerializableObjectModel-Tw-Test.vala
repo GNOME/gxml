@@ -33,36 +33,17 @@ class SerializableObjectModelTwTest : GXmlTest
                    () => {
                      try {
                        var computer = new Computer ();
-                       var doc = new xDocument ();
+                       var doc = new TwDocument ();
                        computer.serialize (doc);
-                       if (doc.document_element.tag_name.down () != "computer") {
-                         stdout.printf ("ERROR XML_COMPUTER: computer\n");
-                         assert_not_reached ();
-                       }
-                       var m = doc.document_element.get_attribute_node ("manufacturer");
-                       if (m == null) assert_not_reached ();
-                       if (m.node_value != "MexicanLaptop, Inc.") {
-                         stdout.printf ("ERROR XML_COMPUTER: manufacturer\n");
-                         assert_not_reached ();
-                       }
-                       var mod = doc.document_element.get_attribute_node ("model");
-                       if (mod == null) assert_not_reached ();
-                       if (mod.node_value != "LQ59678") {
-                         stdout.printf ("ERROR XML_COMPUTER: model\n");
-                         assert_not_reached ();
-                       }
-                       var c = doc.document_element.get_attribute_node ("cores");
-                       if (c == null) assert_not_reached ();
-                       if (c.node_value != "8") {
-                         stdout.printf ("ERROR XML_COMPUTER: cores val\n");
-                         assert_not_reached ();
-                       }
-                       var g = doc.document_element.get_attribute_node ("ghz");
-                       if (g == null) assert_not_reached ();
-                       if (double.parse (g.node_value) != (double) 3.5) {
-                         stdout.printf ("ERROR XML_COMPUTER: ghz val\n");
-                         assert_not_reached ();
-                       }
+                       assert (doc.root.name.down () == "computer") ;
+                       var m = doc.root.attrs.get ("manufacturer");
+                       assert (m != null);
+                       var mod = doc.root.attrs.get ("model");
+                       assert (mod != null);
+                       var c = doc.root.attrs.get ("cores");
+                       assert (c != null);
+                       var g = doc.root.attrs.get ("ghz");
+                       assert (g != null);
                      }
                      catch (GLib.Error e) 
                      {
