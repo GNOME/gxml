@@ -336,8 +336,8 @@ namespace GXml {
         ignored_serializable_properties = new HashTable<string,ParamSpec> (str_hash, str_equal);
         ignored_serializable_properties.set ("ignored-serializable-properties",
                                              get_class ().find_property("ignored-serializable-properties"));
-        ignored_serializable_properties.set ("unknown-serializable-property",
-                                             get_class ().find_property("unknown-serializable-property"));
+        ignored_serializable_properties.set ("unknown-serializable-properties",
+                                             get_class ().find_property("unknown-serializable-properties"));
         ignored_serializable_properties.set ("unknown-serializable-nodes",
                                              get_class ().find_property("unknown-serializable-nodes"));
         ignored_serializable_properties.set ("serialized-xml-node-value",
