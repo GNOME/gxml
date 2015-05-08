@@ -879,7 +879,9 @@ class SerializableObjectModelTest : GXmlTest
                      try {
                        unknown_property.deserialize (doc);
                        var doc2 = (GXml.Document) new xDocument ();
+#if DEBUG
                        GLib.message ("Prepare to Serialize...");
+#endif
                        unknown_property.serialize (doc2);
                        GLib.message ("After Serialize...");
 #if DEBUG

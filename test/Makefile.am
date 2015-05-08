@@ -40,6 +40,7 @@ sources = \
 	SerializableTest.vala \
 	SerializationTest.vala \
 	SerializableObjectModelTest.vala \
+	SerializableObjectModel-Tw-Test.vala \
 	SerializableGeeTreeMapTest.vala \
 	SerializableGeeDualKeyMapTest.vala \
 	SerializableGeeArrayListTest.vala \
