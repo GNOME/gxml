@@ -24,16 +24,8 @@ using Xml;
 
 public class GXml.TwDocument : GXml.TwNode, GXml.Document
 {
-  protected FileIOStream _doc_iostream;
   GXml.Element _root = null;
-  public TwDocument ()
-  {
-    try  {
-      file = GLib.File.new_tmp (null, out _doc_iostream);
-    } catch (GLib.Error e) {
-      GLib.warning ("Couldn't create temporaly file for TwDocument:"+e.message);
-    }
-  }
+  public TwDocument () {}
   public TwDocument.for_path (string file)
   {
     var f = File.new_for_path (file);
@@ -87,8 +79,8 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
   }
   public bool save (GLib.Cancellable? cancellable = null)
     throws GLib.Error
-    requires (file != null)
   {
+    if (file == null) return false;
     return save_to (file, cancellable);
   }
   public bool save_to (GLib.File f, GLib.Cancellable? cancellable = null)
