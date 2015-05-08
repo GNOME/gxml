@@ -422,16 +422,15 @@ class ElementTest : GXmlTest  {
 				assert_not_reached ();
 			}
 		});
-		Test.add_func ("/gxml/element/content/overwrite_child_nodes", () =>{
+		Test.add_func ("/gxml/element/content/add_aside_child_nodes", () =>{
 			var doc = new xDocument ();
 			var root = (xElement) doc.create_element ("root");
 			doc.append_child (root);
 			var n = (xElement) doc.create_element ("child");
 			root.append_child (n);
-			// This will remove all child nodes
 			root.content = "TEXT1";
 			string d = """<?xml version="1.0"?>
-<root>TEXT1</root>
+<root><child/>TEXT1</root>
 """;
 			if (doc.to_string () != d) {
 				stdout.printf (@"xElement content error. Expected '$d'\ngot '$(doc)'\n");
