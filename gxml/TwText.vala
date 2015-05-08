@@ -31,6 +31,11 @@ public class GXml.TwText : GXml.TwNode, GXml.Text
     ((TwDocument) document).tw = ((TwDocument) d).tw;
     _str = text;
   }
+  // GXml.Node
+  public override string @value {
+    get { return _str; }
+    set { _str = value; }
+  }
   // GXml.Text
   public string str { get { return _str; } }
 }

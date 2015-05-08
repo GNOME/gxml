@@ -32,24 +32,16 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
 {
   Gee.HashMap<string,GXml.Attribute> _unknown_serializable_property = new Gee.HashMap<string,GXml.Attribute> ();
   Gee.ArrayList<GXml.Node> _unknown_serializable_nodes = new Gee.ArrayList<GXml.Node> ();
-  public Gee.Map<string,GXml.Attribute> unknown_serializable_property
+  public Gee.Map<string,GXml.Attribute> unknown_serializable_properties
   {
     get {
       return _unknown_serializable_property;
-    }
-    protected set {
-      if (value is Gee.HashMap)
-        _unknown_serializable_property = (Gee.HashMap<string,GXml.Attribute>) value;
     }
   }
   public Gee.Collection<GXml.Node> unknown_serializable_nodes
   {
     get {
       return _unknown_serializable_nodes;
-    }
-    protected set {
-      if (value is Gee.ArrayList)
-        _unknown_serializable_nodes = (Gee.ArrayList<GXml.Node>) value;
     }
   }
   protected ParamSpec[] properties { get; set; }

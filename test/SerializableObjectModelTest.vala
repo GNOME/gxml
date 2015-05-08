@@ -148,7 +148,7 @@ public class Package : ObjectModel
   public string unknown_to_string ()
   {
     string t = "";
-    foreach (GXml.Attribute node in unknown_serializable_property.values)
+    foreach (GXml.Attribute node in unknown_serializable_properties.values)
     {
       t+= node.to_string () ;
     }
@@ -818,17 +818,17 @@ class SerializableObjectModelTest : GXmlTest
                      try {
                        unknown_property.deserialize (doc);
 #if DEBUG
-                       foreach (GXml.Attribute a in unknown_property.unknown_serializable_property.values) {
+                       foreach (GXml.Attribute a in unknown_property.unknown_serializable_properties.values) {
                          GLib.message (@"Unknown Attribute: $(a.name) = $(a.value)");
                        }
                        foreach (GXml.Node un in unknown_property.unknown_serializable_nodes) {
                          GLib.message (@"Unknown Node: $(un.name) = $(un.to_string ())");
                        }
 #endif
-                       assert (unknown_property.unknown_serializable_property.size == 2);
-                       if (unknown_property.unknown_serializable_property.size != 2) {
-                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: size $(unknown_property.unknown_serializable_property.size.to_string ())\n");
-                         foreach (GXml.Node un in unknown_property.unknown_serializable_property.values) {
+                       assert (unknown_property.unknown_serializable_properties.size == 2);
+                       if (unknown_property.unknown_serializable_properties.size != 2) {
+                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: size $(unknown_property.unknown_serializable_properties.size.to_string ())\n");
+                         foreach (GXml.Node un in unknown_property.unknown_serializable_properties.values) {
                            string sv = "__NULL__";
                            if (un.value != null)
                              sv = un.value;
@@ -836,20 +836,20 @@ class SerializableObjectModelTest : GXmlTest
                          }
                          assert_not_reached ();
                        }
-                       if (!unknown_property.unknown_serializable_property.has_key ("ignore")) {
+                       if (!unknown_property.unknown_serializable_properties.has_key ("ignore")) {
                          stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: ignore not found");
                          assert_not_reached ();
                        }
-                       var ignore = unknown_property.unknown_serializable_property.get ("ignore");
+                       var ignore = unknown_property.unknown_serializable_properties.get ("ignore");
                        if (!(ignore is Attr)) {
                          stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: ignore is not an GXml.Attr");
                          assert_not_reached ();
                        }
-                       if (!unknown_property.unknown_serializable_property.has_key ("ignore2")) {
+                       if (!unknown_property.unknown_serializable_properties.has_key ("ignore2")) {
                          stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: ignore not found");
                          assert_not_reached ();
                        }
-                       var ignore2 = unknown_property.unknown_serializable_property.get ("ignore2");
+                       var ignore2 = unknown_property.unknown_serializable_properties.get ("ignore2");
                        if (!(ignore2 is Attr)) {
                          stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: ignore2 is not an GXml.Attr");
                          assert_not_reached ();
@@ -884,66 +884,108 @@ class SerializableObjectModelTest : GXmlTest
                    () => {
                      var doc = new xDocument.from_string ("""<?xml version="1.0"?>
                      <UnknownAttribute ignore="true" ignore2="test">
-                     <UnknownNode direction = "fordward">
-                     <UnknownChild t = "test">
-                     <UnknownChildTwo t = "test">
-                     SECOND FAKE TEXT
-                     </UnknownChildTwo>
-                     </UnknownChild>
-                     </UnknownNode>
-                     FAKE TEXT
-                     </UnknownAttribute>""");
+                      <UnknownNode direction = "fordward">
+                       <UnknownChild t = "test">
+                        <UnknownChildTwo t = "test">SECOND FAKE TEXT</UnknownChildTwo>
+                       </UnknownChild>
+                     </UnknownNode>FAKE TEXT</UnknownAttribute>""");
                      var unknown_property = new UnknownAttribute ();
                      try {
                        unknown_property.deserialize (doc);
-                       var doc2 = new xDocument ();
+                       var doc2 = (GXml.Document) new xDocument ();
+                       GLib.message ("Prepare to Serialize...");
                        unknown_property.serialize (doc2);
-                       if (doc2.document_element == null) {
+                       GLib.message ("After Serialize...");
+#if DEBUG
+                       GLib.message ("Serialized back document: \n"+doc2.to_string ());
+#endif
+                       if (doc2.root == null) {
                          stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: No Root xElement");
                          assert_not_reached ();
                        }
-                       xElement element = doc2.document_element;
-                       if (element.node_name.down () != "unknownattribute") {
-                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: Root xElement Bad name $(element.node_name.down ())");
+                       GXml.Element element = (GXml.Element) doc2.root;
+                       if (element.name.down () != "unknownattribute") {
+                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: Root xElement Bad name $(element.name.down ())");
                          assert_not_reached ();
                        }
-                       var ignore = element.get_attribute_node ("ignore");
+                       var ignore = element.attrs.get ("ignore");
                        if (ignore == null) {
                          stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: No attribute ignore");
                          assert_not_reached ();
                        }
-                       if (ignore.node_value != "true") {
-                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: Attribute ignore bad value $(ignore.node_value)");
+                       if (ignore.value != "true") {
+                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: Attribute ignore bad value $(ignore.value)");
                          assert_not_reached ();
                        }
-                       var ignore2 = element.get_attribute_node ("ignore2");
+                       var ignore2 = element.attrs.get ("ignore2");
                        if (ignore2 == null) {
                          stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: No attribute ignore");
                          assert_not_reached ();
                        }
-                       if (ignore2.node_value != "test") {
-                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: Attribute ignore2 bad value $(ignore2.node_value)");
+                       if (ignore2.value != "test") {
+                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: Attribute ignore2 bad value $(ignore2.value)");
                          assert_not_reached ();
                        }
-                       if (!element.has_child_nodes ()) {
+                       if (element.childs.size == 0) {
                          stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: No child nodes");
                          assert_not_reached ();
                        }
-                       if (element.child_nodes.length != 2) {
-                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: Too many child nodes. Expected 2, got $(element.child_nodes.length)\n");
-                         assert_not_reached ();
+                       assert (element.childs.size == 2);
+                       var unkn = element.childs.get (0);
+                       assert (unkn != null);
+                       assert (unkn.name == "UnknownNode");
+                       int countechilds = 0;
+                       GXml.Node child = unkn;
+                       foreach (GXml.Node n in unkn.childs) {
+                         if (n is GXml.Element) countechilds++;
+                         if (n.name == "UnknownChild") child = n;
                        }
+                       assert (countechilds == 1);
+                       var cunkn = child;
+                       assert (cunkn != null);
+                       assert (cunkn.name == "UnknownChild");
+                       assert (cunkn.attrs.size == 1);
+                       var ca = cunkn.attrs.get ("t");
+                       assert (ca != null);
+                       assert (ca.value == "test");
+                       countechilds = 0;
+                       foreach (GXml.Node cn in cunkn.childs) {
+                         if (cn is GXml.Element) countechilds++;
+                         if (cn.name == "UnknownChildTwo") child = cn;
+                       }
+                       assert (countechilds == 1);
+                       var scunkn = child;
+                       assert (scunkn != null);
+                       assert (scunkn.name == "UnknownChildTwo");
+                       var sca = scunkn.attrs.get ("t");
+                       assert (sca != null);
+                       assert (sca.value == "test");
                        bool found = false;
-                       foreach (GXml.xNode n in element.child_nodes) {
-                         if (n.node_name == "UnknownNode") {
+#if DEBUG
+                       GLib.message (@"Second unknown child. Childs nodes = $(scunkn.childs.size)");
+#endif
+                       foreach (GXml.Node tn in scunkn.childs) {
+                         assert (tn is GXml.Text);
+#if DEBUG
+                       GLib.message (@"Second unknown Text child = $(tn.value)");
+#endif
+                         if (tn.value == "SECOND FAKE TEXT") found = true;
+                       }
+                       assert (found);
+                       var tscunkn = cunkn.childs.get (0);
+                       assert (tscunkn is GXml.Text);
+                       assert (element.content == "FAKE TEXT");
+                       found = false;
+                       foreach (GXml.Node n in element.childs) {
+                         if (n.name == "UnknownNode") {
                            found = true;
-                           var direction = ((xElement) n).get_attribute_node ("direction");
+                           var direction = ((Element) n).attrs.get ("direction");
                            if (direction == null)  {
                              stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: UnknownNode No attribute direction");
                              assert_not_reached ();
                            }
-                           if (direction.node_value != "fordward") {
-                             stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: UnknownNode attribute direction bad value $(direction.node_value)");
+                           if (direction.value != "fordward") {
+                             stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: UnknownNode attribute direction bad value $(direction.value)");
                              assert_not_reached ();
                            }
                          }
@@ -975,7 +1017,7 @@ class SerializableObjectModelTest : GXmlTest
                        var ndoc = new xDocument ();
                        unknown_property.serialize (ndoc);
                        if (ndoc.document_element.child_nodes.size != 2) {
-                         stdout.printf (@"ERROR: Root incorrect child node number: found '$(doc.document_element.child_nodes.size)\n");
+                         stdout.printf (@"ERROR: Root incorrect child node number: found '$(doc.document_element.childs.size)\n");
                          foreach (GXml.xNode rn in ndoc.document_element.child_nodes) {
                            string nv = "__NULL__";
                            if (rn.node_value != null)
@@ -1042,8 +1084,8 @@ class SerializableObjectModelTest : GXmlTest
 UNKNOWN CONTENT
 </PACKAGE>""");
         p.deserialize (doc);
-        assert (p.unknown_serializable_property != null);
-        var ukattr = p.unknown_serializable_property.get ("Unknown");
+        assert (p.unknown_serializable_properties != null);
+        var ukattr = p.unknown_serializable_properties.get ("Unknown");
         assert (ukattr != null);
         assert (ukattr.name == "Unknown");
         assert (ukattr.value == "2/4.04");

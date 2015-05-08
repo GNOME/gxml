@@ -24,8 +24,17 @@ using Xml;
 
 public class GXml.TwDocument : GXml.TwNode, GXml.Document
 {
+  protected FileIOStream _doc_iostream;
   GXml.Element _root = null;
-  public TwDocument (string file)
+  public TwDocument ()
+  {
+    try  {
+      file = GLib.File.new_tmp (null, out _doc_iostream);
+    } catch (GLib.Error e) {
+      GLib.warning ("Couldn't create temporaly file for TwDocument:"+e.message);
+    }
+  }
+  public TwDocument.for_path (string file)
   {
     var f = File.new_for_path (file);
     this.file = f;
@@ -77,9 +86,14 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
     }
   }
   public bool save (GLib.Cancellable? cancellable = null)
+    throws GLib.Error
     requires (file != null)
   {
-    var tw = new Xml.TextWriter.filename (file.get_path ());
+    return save_to (file, cancellable);
+  }
+  public bool save_to (GLib.File f, GLib.Cancellable? cancellable = null)
+  {
+    var tw = new Xml.TextWriter.filename (f.get_path ());
     tw.start_document ();
     tw.set_indent (indent);
     // Root
@@ -175,5 +189,24 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
       if (size > 1500)
         tw.flush ();
     }
+  }
+  public override string to_string ()
+  {
+    GLib.message ("TwDocument: to_string ()");
+    try {
+      var f = GLib.File.new_tmp (null, null);
+      save_to (f);
+      uint8 buffer[10000];
+      var istream = f.read ();
+      istream.read (buffer);
+      istream.close ();
+      f.delete ();
+      return (string) buffer;
+    } catch (GLib.Error e) {
+#if DEBUG
+      GLib.message ("Error on stringify this TwDocuent: "+e.message);
+#endif
+    }
+    return "";
   }
 }

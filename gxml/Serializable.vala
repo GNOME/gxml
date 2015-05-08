@@ -83,7 +83,7 @@ namespace GXml {
      *
      * This property is ignored on serialisation.
      */
-    public abstract Gee.Map<string,GXml.Attribute>    unknown_serializable_property { get; protected set; }
+    public abstract Gee.Map<string,GXml.Attribute>    unknown_serializable_properties { get; }
 
     
     /**
@@ -105,7 +105,7 @@ namespace GXml {
      *
      * This property is ignored on serialisation.
      */
-    public abstract Gee.Collection<GXml.Node>    unknown_serializable_nodes { get; protected set; }
+    public abstract Gee.Collection<GXml.Node>    unknown_serializable_nodes { get; }
 
     /**
      * Used to add content in an {@link GXml.Element}.

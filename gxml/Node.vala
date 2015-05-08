@@ -91,21 +91,55 @@ public interface GXml.Node : Object
    *
    * Just {@link GXml.Element} objects are supported. For attributes, use
    * {@link GXml.Element.set_attr} method, passing source's name and value as arguments.
+   *
+   * @param doc: a {@link GXml.Document} owning destiny node
+   * @param node: a {@link GXml.Element} to copy nodes to
+   * @param source: a {@link GXml.Element} to copy nodes from, it could be holded by different {@link GXml.Document}
    */
   public static bool copy (GXml.Document doc, GXml.Node node, GXml.Node source, bool deep)
   {
+#if DEBUG
+    GLib.message ("Copying GXml.Node");
+#endif
     if (node is GXml.Document) return false;
     if (source is GXml.Element && node is GXml.Element) {
-      ((GXml.Element) node).content = ((GXml.Element) source).content;
+#if DEBUG
+    GLib.message ("Copying source and destiny nodes are GXml.Elements... copying...");
+    GLib.message ("Copying source's attributes to destiny node");
+#endif
       foreach (GXml.Node p in source.attrs.values) {
         ((GXml.Element) node).set_attr (p.name, p.value); // TODO: Namespace
       }
-      if (!deep) return true;
-      foreach (Node c in node.childs) {
+#if DEBUG
+      GLib.message ("Copying source's child nodes to destiny node");
+#endif
+      foreach (Node c in source.childs) {
         if (c is Element) {
+          if (c.name == null) continue;
+#if DEBUG
+            GLib.message (@"Copying child Element node: $(c.name)");
+#endif
+          if (!deep){
+#if DEBUG
+            GLib.message (@"No deep copy was requested, skeeping node $(c.name)");
+#endif
+            continue;
+          }
           var e = doc.create_element (c.name); // TODO: Namespace
           node.childs.add (e);
           copy (doc, e, c, deep);
+        }
+        if (c is Text) {
+          if (c.value == null) {
+            GLib.warning ("Text node with NULL string");
+            continue;
+          }
+          var t = doc.create_text (c.value);
+          node.childs.add (t);
+#if DEBUG
+          GLib.message (@"Copying source's Text node '$(source.name)' to destiny node with text: $(c.value) : Size= $(node.childs.size)");
+          GLib.message (@"Added Text: $(node.childs.get (node.childs.size - 1))");
+#endif
         }
       }
     }

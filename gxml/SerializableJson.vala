@@ -73,24 +73,16 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
   public virtual string node_name () { return "Object"; }
   public virtual bool property_use_nick () { return false; }
 
-  public Gee.Map<string,GXml.Attribute> unknown_serializable_property
+  public Gee.Map<string,GXml.Attribute> unknown_serializable_properties
   {
     get {
       return _unknown_serializable_property;
-    }
-    protected set {
-      if (value is Gee.HashMap)
-        _unknown_serializable_property = (Gee.HashMap<string,GXml.Attribute>) value;
     }
   }
   public Gee.Collection<GXml.Node> unknown_serializable_nodes
   {
     get {
       return _unknown_serializable_nodes;
-    }
-    protected set {
-      if (value is Gee.ArrayList)
-        _unknown_serializable_nodes = (Gee.ArrayList<GXml.Node>) value;
     }
   }
 
@@ -280,7 +272,7 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
 
       if (spec == null) {
         GLib.message ("Deserializing object of type '%s' claimed unknown property named '%s'\nXML [%s]", ptype, pname, property_node.stringify ());
-          unknown_serializable_property.set (property_node.node_name, (GXml.Attribute) property_node);
+          unknown_serializable_properties.set (property_node.node_name, (GXml.Attribute) property_node);
       }
       else {
         if (spec.value_type.is_a (typeof(Serializable)))

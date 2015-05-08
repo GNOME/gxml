@@ -218,7 +218,7 @@ public class Performance
         assert (a.email != null);
         assert (a.email.get_mail () == "fweasley@hogwarts.co.uk");
         Test.timer_start ();
-        var d2 = new TwDocument (GXmlTest.get_test_dir () + "/test-large.xml");
+        var d2 = new TwDocument.for_path (GXmlTest.get_test_dir () + "/test-large.xml");
         bs.serialize (d2);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "TwDocument serialize/performance: %g seconds", time);

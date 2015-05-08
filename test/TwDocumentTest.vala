@@ -30,7 +30,7 @@ class TwDocumentTest : GXmlTest {
 			try {
 				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 				if (f.query_exists ()) f.delete ();
-				var d = new TwDocument (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
+				var d = new TwDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 				var e = d.create_element ("root");
 				d.childs.add (e);
 				assert (d.childs.size == 1);
@@ -49,7 +49,7 @@ class TwDocumentTest : GXmlTest {
 				try {
 					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 					if (f.query_exists ()) f.delete ();
-					var d = new TwDocument (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
+					var d = new TwDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 					var e = d.create_element ("root");
 					d.childs.add (e);
 					assert (d.childs.size == 1);
@@ -75,7 +75,7 @@ class TwDocumentTest : GXmlTest {
 				try {
 					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 					if (f.query_exists ()) f.delete ();
-					var d = new TwDocument (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
+					var d = new TwDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 					var e = d.create_element ("root");
 					d.childs.add (e);
 					assert (d.childs.size == 1);
@@ -112,7 +112,7 @@ class TwDocumentTest : GXmlTest {
 				try {
 					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 					if (f.query_exists ()) f.delete ();
-					var d = new TwDocument (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
+					var d = new TwDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 					var e = d.create_element ("root");
 					d.childs.add (e);
 					assert (d.childs.size == 1);
@@ -141,7 +141,7 @@ class TwDocumentTest : GXmlTest {
 				try {
 					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 					if (f.query_exists ()) f.delete ();
-					var d = new TwDocument (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
+					var d = new TwDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 					var e = d.create_element ("root");
 					d.childs.add (e);
 					assert (d.childs.size == 1);
@@ -186,7 +186,7 @@ class TwDocumentTest : GXmlTest {
 #if DEBUG
 				GLib.message (@"Creating Document...");
 #endif
-				var d = new TwDocument (GXmlTestConfig.TEST_SAVE_DIR+"/tw-large.xml");
+				var d = new TwDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-large.xml");
 				var e = d.create_element ("bookstore");
 				d.childs.add (e);
 				assert (d.childs.size == 1);
@@ -249,7 +249,7 @@ class TwDocumentTest : GXmlTest {
 #if DEBUG
 				GLib.message (@"Creating Document...");
 #endif
-				var d = new TwDocument (GXmlTestConfig.TEST_SAVE_DIR+"/tw-large.xml");
+				var d = new TwDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-large.xml");
 				var e = d.create_element ("bookstore");
 				d.childs.add (e);
 				assert (d.childs.size == 1);

@@ -485,13 +485,13 @@ class SerializableGeeCollectionsTest : GXmlTest
           stdout.printf (@"ERROR: No Refaction MacToy/Fly045 found!\n");
           assert_not_reached ();
         }
-        if (refaction.unknown_serializable_property == null) {
+        if (refaction.unknown_serializable_properties == null) {
           stdout.printf (@"ERROR: Refaction: No unknown properties/nodes found!\n");
           assert_not_reached ();
         }
-        if (refaction.unknown_serializable_property.size != 1) {
-          stdout.printf (@"ERROR: Refaction: Bad unknown properties/nodes number: found $(refaction.unknown_serializable_property.size)\n");
-          foreach (GXml.Node unk in refaction.unknown_serializable_property.values)
+        if (refaction.unknown_serializable_properties.size != 1) {
+          stdout.printf (@"ERROR: Refaction: Bad unknown properties/nodes number: found $(refaction.unknown_serializable_properties.size)\n");
+          foreach (GXml.Node unk in refaction.unknown_serializable_properties.values)
           {
             string unkv = "___NULL__";
             if (unk.value != null)

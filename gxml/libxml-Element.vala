@@ -42,6 +42,8 @@ namespace GXml {
 	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-745549614]]
 	 */
 	public class xElement : BackedNode, GXml.Element {
+		string _content = null;
+	
 		/* Public properties */
 
 		// TODO: find out how to do double-spaces in Valadoc, so we can indent <img...
@@ -430,27 +432,35 @@ namespace GXml {
 		 * {{{<shops>
 		 *   <shop id="1">Eeylops Owl Emporium</shop>
 		 *   <shop id="2">Obscurus Books</shop>
-		 * </shops>}}} taking the
+		 * </shops>}}}
+		 * taking the
 		 * node for the shop element with id 1 and using this
 		 * method, you would get back "Eeylops Owl Emporiums".
 		 * If you used it on the shops element, you'd get
 		 * {{{Eeylops Owl EmporiumObscurus Books}}} with the
 		 * XML tags omitted.
 		 *
-		 * Setting content replaces the xElement's children
-		 * with a Text node containing `value`.
+		 * This property search and contatenade all children {@link GXml.Text}
+		 * in the {@link GXml.Node} and returns them, no mutter were they
+		 * are in the tree of childs. When setting, this property creates a new
+		 * {@link GXml.Text} and add it to this {@link GXml.Element}.
 		 */
-		// TODO: add test
 		public string content {
 			owned get {
-				// <> in with stringifying child nodes would get escaped, here the content is preserved
-				return base.node->get_content ();
+				_content = null;
+				foreach (xNode n in child_nodes) {
+					if (n is xText) {
+						if (_content == null) _content = "";
+						_content += n.value;
+					}
+				}
+				return _content;
 			}
 			set {
-				// TODO: check impact on existing child nodes; they will be
-				//       detached, right?
-				// TODO: is XML in value interpreted or escaped?
-				base.node->set_content (value);
+				if (value != null && value != "") {
+					var t = owner_document.create_text_node (value);
+					this.append_child (t);
+				}
 			}
 		}
 
