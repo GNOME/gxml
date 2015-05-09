@@ -281,20 +281,21 @@ class SerializableObjectModelTwTest : GXmlTest
          stdout.printf (@"Error: $(e.message)");
          assert_not_reached ();
        }
-     });/*
+     });
     Test.add_func ("/gxml/tw/serializable/object_model/set_namespace", () => {
       try {
         var ns = new NameSpace ();
         var doc = new TwDocument ();
         ns.serialize (doc);
-        assert (doc.root.to_string () == "<gxml:namespace xmlns:gxml=\"http://www.gnome.org/GXml\"/>");
+        string str = doc.to_string ();
+        assert ("<gxml:namespace xmlns:gxml=\"http://www.gnome.org/GXml\"/>" in str);
       } catch (GLib.Error e) {
 #if DEBUG
         GLib.message ("ERROR: "+e.message);
 #endif
         assert_not_reached ();
       }
-    });
+    });/*
   Test.add_func ("/gxml/tw/serializable/object_model/find-unknown_property", () => {
       try {
         var p = new Package ();
