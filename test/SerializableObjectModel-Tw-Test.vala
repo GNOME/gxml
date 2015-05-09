@@ -285,9 +285,9 @@ class SerializableObjectModelTwTest : GXmlTest
     Test.add_func ("/gxml/tw/serializable/object_model/set_namespace", () => {
       try {
         var ns = new NameSpace ();
-        var doc = new xDocument ();
+        var doc = new TwDocument ();
         ns.serialize (doc);
-        assert (doc.document_element.to_string () == "<gxml:namespace xmlns:gxml=\"http://www.gnome.org/GXml\"/>");
+        assert (doc.root.to_string () == "<gxml:namespace xmlns:gxml=\"http://www.gnome.org/GXml\"/>");
       } catch (GLib.Error e) {
 #if DEBUG
         GLib.message ("ERROR: "+e.message);

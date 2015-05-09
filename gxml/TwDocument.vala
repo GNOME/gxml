@@ -86,12 +86,16 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
   public bool save_to (GLib.File f, GLib.Cancellable? cancellable = null)
   {
     var tw = new Xml.TextWriter.filename (f.get_path ());
+    write_document (tw);
+    return true;
+  }
+  public virtual void write_document (Xml.TextWriter tw)
+  {
     tw.start_document ();
     tw.set_indent (indent);
     // Root
     if (root == null) {
       tw.end_document ();
-      return true;
     }
 #if DEBUG
     GLib.message ("Starting writting Document Root node");
@@ -110,9 +114,8 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
 #endif
     tw.end_document ();
     tw.flush ();
-    return true;
   }
-  public void start_node (Xml.TextWriter tw, GXml.Node node)
+  public virtual void start_node (Xml.TextWriter tw, GXml.Node node)
   {
     int size = 0;
 #if DEBUG
@@ -184,21 +187,15 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
   }
   public override string to_string ()
   {
-    GLib.message ("TwDocument: to_string ()");
-    try {
-      var f = GLib.File.new_tmp (null, null);
-      save_to (f);
-      uint8 buffer[10000];
-      var istream = f.read ();
-      istream.read (buffer);
-      istream.close ();
-      f.delete ();
-      return (string) buffer;
-    } catch (GLib.Error e) {
 #if DEBUG
-      GLib.message ("Error on stringify this TwDocuent: "+e.message);
+    GLib.message ("TwDocument: to_string ()");
 #endif
-    }
-    return "";
+    Xml.Doc doc = new Xml.Doc ();
+    Xml.TextWriter* tw = Xmlx.new_text_writer_doc (ref doc);
+    write_document (tw);
+    string str;
+    int size;
+    doc.dump_memory (out str, out size);
+    return str;
   }
 }

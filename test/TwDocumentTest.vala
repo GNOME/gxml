@@ -302,5 +302,18 @@ class TwDocumentTest : GXmlTest {
 				assert_not_reached ();
 			}
 		});
+		
+		Test.add_func ("/gxml/tw-document/to_string", () => {
+			var doc = new TwDocument ();
+			var r = doc.create_element ("root");
+			doc.childs.add (r);
+#if DEBUG
+			GLib.message (@"$(doc)");
+#endif
+			GLib.message (@"\n$(doc)");
+			string str = doc.to_string ();
+			assert ("<?xml version=\"1.0\"?>" in str);
+			assert ("<root/>" in str);
+		});
 	}
 }

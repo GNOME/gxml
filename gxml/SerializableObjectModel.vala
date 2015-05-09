@@ -183,7 +183,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       string t = "";
       if (serialized_xml_node_value != null)
         t = serialized_xml_node_value;
-      var tn = element.content  = t;
+      element.content  = t;
 #if DEBUG
       stdout.printf (@"SET CONTENT FOR: $(get_type ().name ()): $(element.name): content '$t'\n");
 #endif

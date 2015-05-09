@@ -36,4 +36,6 @@ namespace Xmlx {
   public static Xml.Error* get_last_error ();
   [CCode (cname = "gxml_doc_get_ns_list", array_null_terminated = true, cheader_filename = "gxml/xlibxml.h")]
   public static Xml.Ns*[] doc_get_ns_list (Xml.Doc* doc, Xml.Node* node);
+  [CCode (cname = "gxml_new_text_writer_doc", cheader_filename = "gxml/xlibxml.h")]
+  public static Xml.TextWriter new_text_writer_doc (ref Xml.Doc doc);
 }

@@ -23,6 +23,7 @@
 
 #include <libxml/tree.h>
 #include <libxml/parser.h>
+#include <libxml/xmlwriter.h>
 
 void*       gxml_doc_get_intsubset_entities    (xmlDoc *doc);
 int         gxml_validate_name                 (xmlChar* name, int space);

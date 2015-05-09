@@ -45,3 +45,8 @@ xmlNsPtr* gxml_doc_get_ns_list (xmlDoc* doc, xmlNode* node)
 {
   return xmlGetNsList (doc, node);
 }
+
+xmlTextWriterPtr gxml_new_text_writer_doc (xmlDoc** doc)
+{
+  return xmlNewTextWriterDoc (doc, 0);
+}
