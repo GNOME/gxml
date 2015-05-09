@@ -295,17 +295,16 @@ class SerializableObjectModelTwTest : GXmlTest
 #endif
         assert_not_reached ();
       }
-    });/*
+    });
   Test.add_func ("/gxml/tw/serializable/object_model/find-unknown_property", () => {
       try {
         var p = new Package ();
-        var doc = new xDocument.from_string ("""<?xml version="1.0"?>
-<PACKAGE source="Mexico/North" destiny="Brazil" Unknown="2/4.04">
-<manual document="Sales Card" pages="1">Selling Card Specification</manual>
-<Computer manufacturer="BoxingLAN" model="J24-EX9" cores="32" ghz="1.8"/>
-<Box size="1" volume="33.15" units="cm3" />
-UNKNOWN CONTENT
-</PACKAGE>""");
+        var doc = new TwDocument ();
+        var r = (Element) doc.create_element ("PACKAGE");
+        doc.childs.add (r);
+        r.set_attr ("source", "Mexico/North");
+        r.set_attr ("destiny", "Brazil");
+        r.set_attr ("Unknown", "2/4.04");
         p.deserialize (doc);
         assert (p.unknown_serializable_properties != null);
         var ukattr = p.unknown_serializable_properties.get ("Unknown");
@@ -319,6 +318,39 @@ UNKNOWN CONTENT
         assert_not_reached ();
       }
     });
+    Test.add_func ("/gxml/tw/serializable/object_model/find-unknown_node", () => {
+      try {
+        var p = new Package ();
+        var doc = new TwDocument ();
+        var r = (Element) doc.create_element ("PACKAGE");
+        doc.childs.add (r);
+        r.set_attr ("source", "Mexico/North");
+        r.set_attr ("destiny", "Brazil");
+        var c = (Element) doc.create_element ("Unknown");
+        r.childs.add (c);
+        c.set_attr ("prop","value");
+        p.deserialize (doc);
+        assert (p.unknown_serializable_nodes != null);
+        bool found = false;
+        GXml.Node un = c;
+        foreach (GXml.Node n in p.unknown_serializable_nodes) {
+          if (n.name == "Unknown") {
+            found = true;
+            un = n;
+          }
+        }
+        assert (found);
+        var ukattr = un.attrs.get ("prop");
+        assert (ukattr != null);
+        assert (ukattr.name == "prop");
+        assert (ukattr.value == "value");
+      } catch (GLib.Error e) {
+#if DEBUG
+        GLib.message ("ERROR: "+e.message);
+#endif
+        assert_not_reached ();
+      }
+    });/*
     // TODO: Add deserialize to TwDocument
     Test.add_func ("/gxml/tw/serializable/object_model/override_transform_from_string",
      () => {
