@@ -239,49 +239,16 @@ class SerializableObjectModelTwTest : GXmlTest
          stdout.printf (@"Error: $(e.message)");
          assert_not_reached ();
        }
-     });/*
-    Test.add_func ("/gxml/tw/serializable/object_model/override_transform_from_string",
-     () => {
-       var cpu = new Cpu ();
-       var doc = new xDocument.from_string (XML_CPU_FILE);
-       try {
-         cpu.deserialize (doc);
-         //stdout.printf (@"$doc");
-         if (cpu.ghz != (float) 3.85) {
-           stdout.printf (@"ERROR CPU: ghz '$(cpu.ghz)'");
-           assert_not_reached ();
-         }
-         if (cpu.piles.size != 3) {
-           stdout.printf (@"ERROR CPU: piles size '$(cpu.piles.size)'");
-           assert_not_reached ();
-         }
-         if (!cpu.piles.contains (1)) {
-           stdout.printf (@"ERROR CPU: piles contains 1 '$(cpu.piles_to_string ())'");
-           assert_not_reached ();
-         }
-         if (!cpu.piles.contains (2)) {
-           stdout.printf (@"ERROR CPU: piles contains 2 '$(cpu.piles_to_string ())'");
-           assert_not_reached ();
-         }
-         if (!cpu.piles.contains (3)) {
-           stdout.printf (@"ERROR CPU: piles contains 3 '$(cpu.piles_to_string ())'");
-           assert_not_reached ();
-         }
-       }
-       catch (GLib.Error e) {
-         stdout.printf (@"Error: $(e.message)");
-         assert_not_reached ();
-       }
      });
     Test.add_func ("/gxml/tw/serializable/object_model/override_serialize",
      () => {
-       var doc = new xDocument ();
+       var doc = new TwDocument ();
        var configuration = new Configuration ();
        configuration.device = "Controller";
        try {
          configuration.serialize (doc);
          //stdout.printf (@"DOC: $doc");
-         if (doc.document_element == null) {
+         if (doc.root == null) {
 #if DEBUG
            GLib.message ("DOC: No root element");
 #endif
@@ -314,8 +281,7 @@ class SerializableObjectModelTwTest : GXmlTest
          stdout.printf (@"Error: $(e.message)");
          assert_not_reached ();
        }
-     });
-
+     });/*
     Test.add_func ("/gxml/tw/serializable/object_model/set_namespace", () => {
       try {
         var ns = new NameSpace ();
@@ -353,6 +319,39 @@ UNKNOWN CONTENT
       }
     });
     // TODO: Add deserialize to TwDocument
+    Test.add_func ("/gxml/tw/serializable/object_model/override_transform_from_string",
+     () => {
+       var cpu = new Cpu ();
+       var doc = new TwDocument.from_string (XML_CPU_FILE);
+       try {
+         cpu.deserialize (doc);
+         //stdout.printf (@"$doc");
+         if (cpu.ghz != (float) 3.85) {
+           stdout.printf (@"ERROR CPU: ghz '$(cpu.ghz)'");
+           assert_not_reached ();
+         }
+         if (cpu.piles.size != 3) {
+           stdout.printf (@"ERROR CPU: piles size '$(cpu.piles.size)'");
+           assert_not_reached ();
+         }
+         if (!cpu.piles.contains (1)) {
+           stdout.printf (@"ERROR CPU: piles contains 1 '$(cpu.piles_to_string ())'");
+           assert_not_reached ();
+         }
+         if (!cpu.piles.contains (2)) {
+           stdout.printf (@"ERROR CPU: piles contains 2 '$(cpu.piles_to_string ())'");
+           assert_not_reached ();
+         }
+         if (!cpu.piles.contains (3)) {
+           stdout.printf (@"ERROR CPU: piles contains 3 '$(cpu.piles_to_string ())'");
+           assert_not_reached ();
+         }
+       }
+       catch (GLib.Error e) {
+         stdout.printf (@"Error: $(e.message)");
+         assert_not_reached ();
+       }
+     });
     Test.add_func ("/gxml/tw/serializable/object_model/deserialize_serializable_properties",
      () => {
        var package = new Package ();

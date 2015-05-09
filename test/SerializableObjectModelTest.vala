@@ -239,7 +239,7 @@ class Configuration : ObjectModel
   }
   public override GXml.Node? serialize (GXml.Node node) throws GLib.Error
   {
-    var n = (xNode) default_serialize ((xNode)node);
+    var n = default_serialize (node);
     n.set_namespace ("http://www.gnome.org/gxml/0.4", "om");
     return (GXml.Node)n;
   }
