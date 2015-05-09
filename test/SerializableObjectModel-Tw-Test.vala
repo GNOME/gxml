@@ -144,10 +144,10 @@ class SerializableObjectModelTwTest : GXmlTest
          GLib.message (@"Error: $(e.message)");
          assert_not_reached ();
        }
-     });/*
+     });
     Test.add_func ("/gxml/tw/serializable/object_model/serialize_property_nick",
      () => {
-       var doc = new xDocument ();
+       var doc = new TwDocument ();
        var monitor = new Monitor ();
        try {
          monitor.resolution = "1204x720";
@@ -155,40 +155,40 @@ class SerializableObjectModelTwTest : GXmlTest
          monitor.dc_power = 125;
          monitor.serialize (doc);
          //stdout.printf (@"DOC: [$(doc)]");
-         if (doc.document_element == null) {
-           stdout.printf ("ERROR MONITOR: No root xElement");
+         if (doc.root == null) {
+           stdout.printf ("ERROR MONITOR: No root Element");
            assert_not_reached ();
          }
-         xElement element = doc.document_element;
-         if (element.node_name != "monitor") {
-           stdout.printf (@"ERROR MONITOR: root xElement $(element.node_name)");
+         Element element = (Element) doc.root;
+         if (element.name != "monitor") {
+           stdout.printf (@"ERROR MONITOR: root xElement $(element.name)");
            assert_not_reached ();
          }
-         var ac = element.get_attribute_node ("AcPower");
+         var ac = element.attrs.get ("AcPower");
          if (ac == null) {
            stdout.printf (@"ERROR MONITOR: attribute AcPower not found");
            assert_not_reached ();
          }
-         if (ac.node_value != "120") {
-           stdout.printf (@"ERROR MONITOR: AcPower value $(ac.node_value)");
+         if (ac.value != "120") {
+           stdout.printf (@"ERROR MONITOR: AcPower value $(ac.value)");
            assert_not_reached ();
          }
-         var dc = element.get_attribute_node ("DcPower");
+         var dc = element.attrs.get ("DcPower");
          if (dc == null) {
            stdout.printf (@"ERROR MONITOR: attribute DcPower not found");
            assert_not_reached ();
          }
-         if (dc.node_value != "125") {
-           stdout.printf (@"ERROR MONITOR: AcPower value $(dc.node_value)");
+         if (dc.value != "125") {
+           stdout.printf (@"ERROR MONITOR: AcPower value $(dc.value)");
            assert_not_reached ();
          }
-         var r = element.get_attribute_node ("resolution");
+         var r = element.attrs.get ("resolution");
          if (r == null) {
            stdout.printf (@"ERROR MONITOR: attribute resolution not found");
            assert_not_reached ();
          }
-         if (r.node_value != "1204x720") {
-           stdout.printf (@"ERROR MONITOR: resolution value $(r.node_value)");
+         if (r.value != "1204x720") {
+           stdout.printf (@"ERROR MONITOR: resolution value $(r.value)");
            assert_not_reached ();
          }
        }
@@ -196,7 +196,7 @@ class SerializableObjectModelTwTest : GXmlTest
          stdout.printf (@"Error: $(e.message)");
          assert_not_reached ();
        }
-     });
+     });/*
     Test.add_func ("/gxml/tw/serializable/object_model/override_transform_to_string",
      () => {
        var cpu = new Cpu ();
