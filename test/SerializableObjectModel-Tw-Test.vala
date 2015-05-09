@@ -196,7 +196,7 @@ class SerializableObjectModelTwTest : GXmlTest
          stdout.printf (@"Error: $(e.message)");
          assert_not_reached ();
        }
-     });/*
+     });
     Test.add_func ("/gxml/tw/serializable/object_model/override_transform_to_string",
      () => {
        var cpu = new Cpu ();
@@ -204,34 +204,34 @@ class SerializableObjectModelTwTest : GXmlTest
        cpu.piles.add (1);
        cpu.piles.add (2);
        cpu.piles.add (3);
-       var doc = new xDocument ();
+       var doc = new TwDocument ();
        try {
          cpu.serialize (doc);
          //stdout.printf (@"$doc");
-         if (doc.document_element == null) {
+         if (doc.root == null) {
            stdout.printf (@"ERROR CPU: no root element");
            assert_not_reached ();
          }
-         if (doc.document_element.node_name != "cpu") {
-           stdout.printf (@"ERROR CPU: root element $(doc.document_element.node_name)");
+         if (doc.root.name != "cpu") {
+           stdout.printf (@"ERROR CPU: root element $(doc.root.name)");
            assert_not_reached ();
          }
-         var ghz = doc.document_element.get_attribute_node ("ghz");
+         var ghz = doc.root.attrs.get ("ghz");
          if (ghz == null) {
            stdout.printf (@"ERROR CPU: no attribute ghz");
            assert_not_reached ();
          }
-         if (ghz.node_value != "3.85") {
-           stdout.printf (@"ERROR CPU: ghz '$(ghz.node_value)'");
+         if (ghz.value != "3.85") {
+           stdout.printf (@"ERROR CPU: ghz '$(ghz.value)'");
            assert_not_reached ();
          }
-         var p = doc.document_element.get_attribute_node ("piles");
+         var p = doc.root.attrs.get ("piles");
          if (p == null) {
            stdout.printf (@"ERROR CPU: no attribute piles");
            assert_not_reached ();
          }
-         if (p.node_value != "1,2,3") {
-           stdout.printf (@"ERROR CPU: piles '$(p.node_value)'");
+         if (p.value != "1,2,3") {
+           stdout.printf (@"ERROR CPU: piles '$(p.value)'");
            assert_not_reached ();
          }
        }
@@ -239,7 +239,7 @@ class SerializableObjectModelTwTest : GXmlTest
          stdout.printf (@"Error: $(e.message)");
          assert_not_reached ();
        }
-     });
+     });/*
     Test.add_func ("/gxml/tw/serializable/object_model/override_transform_from_string",
      () => {
        var cpu = new Cpu ();
