@@ -26,6 +26,23 @@ using GXml;
 
 class TwDocumentTest : GXmlTest {
 	public static void add_tests () {
+		Test.add_func ("/gxml/tw-document", () => {
+			try {
+				var d = new TwDocument ();
+				assert (d.name == "#document");
+				assert (d.root == null);
+				assert (d.childs != null);
+				assert (d.attrs != null);
+				assert (d.childs.size == 0);
+				assert (d.value == null);
+			}
+			catch (GLib.Error e) {
+#if DEBUG
+				GLib.message (@"ERROR: $(e.message)");
+#endif
+				assert_not_reached ();
+			}
+		});
 		Test.add_func ("/gxml/tw-document/root", () => {
 			try {
 				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
@@ -36,7 +53,7 @@ class TwDocumentTest : GXmlTest {
 				assert (d.childs.size == 1);
 				assert (d.root != null);
 				assert (d.root.name == "root");
-				assert (d.root.value == null);
+				assert (d.root.value == "");
 			}
 			catch (GLib.Error e) {
 #if DEBUG
@@ -44,7 +61,7 @@ class TwDocumentTest : GXmlTest {
 #endif
 				assert_not_reached ();
 			}
-			});
+		});
 		Test.add_func ("/gxml/tw-document/save/root", () => {
 				try {
 					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
@@ -55,7 +72,7 @@ class TwDocumentTest : GXmlTest {
 					assert (d.childs.size == 1);
 					assert (d.root != null);
 					assert (d.root.name == "root");
-					assert (d.root.value == null);
+					assert (d.root.value == "");
 					d.save ();
 					var istream = f.read ();
 					uint8[] buffer = new uint8[2048];
@@ -81,7 +98,7 @@ class TwDocumentTest : GXmlTest {
 					assert (d.childs.size == 1);
 					assert (d.root != null);
 					assert (d.root.name == "root");
-					assert (d.root.value == null);
+					assert (d.root.value == "");
 					var root = (GXml.Element) d.root;
 					root.set_attr ("Pos","on");
 					var at1 = root.get_attr ("Pos");
@@ -118,9 +135,15 @@ class TwDocumentTest : GXmlTest {
 					assert (d.childs.size == 1);
 					assert (d.root != null);
 					assert (d.root.name == "root");
-					assert (d.root.value == null);
+					assert (d.root.value == "");
 					var root = (GXml.Element) d.root;
 					root.content = "GXml TwDocument Test";
+					assert (root.childs.size == 1);
+					assert (root.content == "GXml TwDocument Test");
+					var t = root.childs.get (0);
+					assert (t.value == "GXml TwDocument Test");
+					assert (t is GXml.Text);
+					//GLib.message (@"$d");
 					d.save ();
 					var istream = f.read ();
 					uint8[] buffer = new uint8[2048];
@@ -147,14 +170,17 @@ class TwDocumentTest : GXmlTest {
 					assert (d.childs.size == 1);
 					assert (d.root != null);
 					assert (d.root.name == "root");
-					assert (d.root.value == null);
+					assert (d.root.value == "");
 					var root = (GXml.Element) d.root;
 					var e1 = (GXml.Element) d.create_element ("child");
 					e1.set_attr ("name","Test1");
+					assert (e1.childs.size == 0);
 					root.childs.add (e1);
 					var e2 = (GXml.Element) d.create_element ("child");
 					e2.set_attr ("name","Test2");
+					assert (e2.childs.size == 0);
 					root.childs.add (e2);
+					assert (root.childs.size == 2);
 					d.save ();
 					var istream = f.read ();
 					uint8[] buffer = new uint8[2048];
@@ -192,7 +218,7 @@ class TwDocumentTest : GXmlTest {
 				assert (d.childs.size == 1);
 				assert (d.root != null);
 				assert (d.root.name == "bookstore");
-				assert (d.root.value == null);
+				assert (d.root.value == "");
 				var r = (GXml.Element) d.root;
 				r.set_attr ("name","The Great Book");
 #if DEBUG
@@ -255,7 +281,7 @@ class TwDocumentTest : GXmlTest {
 				assert (d.childs.size == 1);
 				assert (d.root != null);
 				assert (d.root.name == "bookstore");
-				assert (d.root.value == null);
+				assert (d.root.value == "");
 				var r = (GXml.Element) d.root;
 				r.set_attr ("name","The Great Book");
 #if DEBUG
@@ -310,10 +336,10 @@ class TwDocumentTest : GXmlTest {
 #if DEBUG
 			GLib.message (@"$(doc)");
 #endif
-			GLib.message (@"\n$(doc)");
 			string str = doc.to_string ();
 			assert ("<?xml version=\"1.0\"?>" in str);
 			assert ("<root/>" in str);
+			assert ("<root/>" in doc.to_string ());
 		});
 	}
 }

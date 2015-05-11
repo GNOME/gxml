@@ -883,8 +883,8 @@ class SerializableObjectModelTest : GXmlTest
                        GLib.message ("Prepare to Serialize...");
 #endif
                        unknown_property.serialize (doc2);
-                       GLib.message ("After Serialize...");
 #if DEBUG
+                       GLib.message ("After Serialize...");
                        GLib.message ("Serialized back document: \n"+doc2.to_string ());
 #endif
                        if (doc2.root == null) {

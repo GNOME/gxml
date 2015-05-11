@@ -450,14 +450,20 @@ namespace GXml {
 				_content = "";
 				foreach (xNode n in child_nodes) {
 					if (n is xText) {
-						if (_content == null) _content = "";
 						_content += n.value;
 					}
 				}
 				return _content;
 			}
 			set {
-				if (value != null && value != "") {
+				if (value != null) {
+					// Remove all GXml.Text elements by just one with given content
+					for (int i = 0; i < childs.size; i++) {
+						var n = childs.get (i);
+						if (n is Text) {
+							childs.remove_at (i);
+						}
+					}
 					var t = owner_document.create_text_node (value);
 					this.append_child (t);
 				}

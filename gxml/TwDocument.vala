@@ -25,6 +25,9 @@ using Xml;
 public class GXml.TwDocument : GXml.TwNode, GXml.Document
 {
   GXml.Element _root = null;
+  construct {
+    _name = "#document";
+  }
   public TwDocument () {}
   public TwDocument.for_path (string file)
   {
@@ -102,10 +105,6 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
 #endif
     start_node (tw, root);
 #if DEBUG
-    GLib.message ("Writting Document Root node's contents");
-#endif
-    tw.write_string (root.value);
-#if DEBUG
     GLib.message ("Ending writting Document Root node");
 #endif
     tw.end_element ();
@@ -166,9 +165,13 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
     GLib.message (@"Starting Child Element: writting Node '$(n.name)'");
 #endif
           start_node (tw, n);
-          if (n.value != null)
-            tw.write_string (n.value);
           size += tw.end_element ();
+          if (size > 1500)
+            tw.flush ();
+        }
+        if (n is GXml.Text) {
+          //GLib.message ("Writting Element's contents");
+          size += tw.write_string (node.value);
           if (size > 1500)
             tw.flush ();
         }
@@ -179,11 +182,6 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
       if (size > 1500)
         tw.flush ();
     }
-    if (node is GXml.Text) {
-      size += tw.write_string (node.value);
-      if (size > 1500)
-        tw.flush ();
-    }
   }
   public override string to_string ()
   {
@@ -191,7 +189,7 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
     GLib.message ("TwDocument: to_string ()");
 #endif
     Xml.Doc doc = new Xml.Doc ();
-    Xml.TextWriter* tw = Xmlx.new_text_writer_doc (ref doc);
+    Xml.TextWriter tw = Xmlx.new_text_writer_doc (ref doc);
     write_document (tw);
     string str;
     int size;

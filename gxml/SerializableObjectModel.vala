@@ -130,6 +130,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 
   public GXml.Node? default_serialize (GXml.Node node) throws GLib.Error
   {
+    assert (node.name != null);
 #if DEBUG
     stdout.printf (@"$(get_type ().name ()): Serializing on node: $(node.name)\n");
 #endif
@@ -181,6 +182,9 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     if (serialize_use_xml_node_value ()) {
       // Set un empty string if no value is set for node contents
       string t = "";
+#if DEBUG
+      stdout.printf (@"SET CONTENT FOR: $(get_type ().name ()): $(element.name)\n");
+#endif
       if (serialized_xml_node_value != null)
         t = serialized_xml_node_value;
       element.content  = t;

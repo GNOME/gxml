@@ -46,8 +46,10 @@ sources = \
 	SerializableGeeArrayListTest.vala \
 	SerializableGeeHashMapTest.vala \
 	SerializableGeeCollectionsTest.vala \
+	SerializableGeeCollections-Tw-Test.vala \
 	SerializableBasicTypesTest.vala \
 	gxml-performance.vala \
+	TwElementTest.vala \
 	TwDocumentTest.vala \
 	$(NULL)
 

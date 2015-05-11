@@ -56,14 +56,14 @@ class SerializableObjectModelTwTest : GXmlTest
       () => {
        var doc = new TwDocument ();
        var manual = new Manual ();
+       assert (manual.document == "MANUAL DOCUMENTATION");
+       assert (manual.pages == 3);
+       assert (manual.get_contents () == "TEXT INTO THE MANUAL DOCUMENT");
        try {
+         GLib.message ("Before Serialize...");
          manual.serialize (doc);
-         if (doc.root.name != "manual") {
-           stdout.printf (@"ERROR MANUAL:  xElement: $(doc.root.name)\n");
-           assert_not_reached ();
-         }
+         GLib.message ("After Serialize...");
          Element element = (Element) doc.root;
-         serialize_manual_check (element, manual);
        } catch (GLib.Error e) {
          stdout.printf (@"$(e.message)");
          assert_not_reached ();
@@ -579,20 +579,11 @@ Test.add_func ("/gxml/tw/serializable/object_model/override_deserialize",
   static void serialize_manual_check (Element element, Manual manual)
   {
     var document = element.attrs.get ("document");
-    if (document == null) assert_not_reached ();
-    if (document.value != manual.document) {
-      stdout.printf (@"ERROR MANUAL:  document: $(document.value)\n");
-      assert_not_reached ();
-    }
+    assert (document != null);
+    assert (document.value == manual.document);
     var pages = element.attrs.get ("pages");
-    if (pages == null) assert_not_reached ();
-    if (int.parse (pages.value) != manual.pages) {
-      stdout.printf (@"ERROR MANUAL: pages: $(pages.value)\n");
-      assert_not_reached ();
-    }
-    if (element.content != manual.get_contents ()) {
-      stdout.printf (@"ERROR MANUAL: content: Expected $(manual.get_contents ()): got: $(element.content)\n");
-      assert_not_reached ();
-    }
+    assert (pages != null);
+    assert (int.parse (pages.value) == manual.pages);
+    assert (element.content == manual.get_contents ());
   }
 }

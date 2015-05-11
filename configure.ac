@@ -241,6 +241,13 @@ AC_ARG_ENABLE(debug,
 
 AM_CONDITIONAL(DEBUG, [test $debug = yes])
 
+performance=no
+AC_ARG_ENABLE(performance-tests,
+	AS_HELP_STRING([--enable-performance-tests], [Enable Performance tests (slow down Unit Tests processing) [default=no]]),
+        [performance=$enableval], [performance="no"])
+
+AM_CONDITIONAL(ENABLE_PERFORMANCE_TESTS, [test $performance = yes])
+
 dnl Check Cross Compile
 dnl ******************************
 dnl Check for Operating System
@@ -308,11 +315,13 @@ AC_OUTPUT
 # Print configuration summary
 echo ""
 echo " Configuration summary for GXml-$GXML_VERSION"
-echo "   Installation prefix:   $prefix"
-echo "   GObject Introspection: $found_introspection"
-echo "   Documentation:         ${enable_docs}"
-echo "       DevHelp Doc:       `if test x${devhelpdocs} = xyes; then echo yes; else echo no; fi`"
-echo "       Gtk-Doc:           `if test x${gtkdocs} = xyes; then echo yes; else echo no; fi`"
-echo "       GIR Documented:    $girdocs"
-echo "   Platform:              $host"
+echo "   Installation prefix:     $prefix"
+echo "   GObject Introspection:   $found_introspection"
+echo "   Documentation:           ${enable_docs}"
+echo "       DevHelp Doc:         `if test x${devhelpdocs} = xyes; then echo yes; else echo no; fi`"
+echo "       Gtk-Doc:             `if test x${gtkdocs} = xyes; then echo yes; else echo no; fi`"
+echo "       GIR Documented:      $girdocs"
+echo "   Enable Performance Test: $performance"
+echo "   Debug:                   $debug"
+echo "   Platform:                $host"
 echo ""

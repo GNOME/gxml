@@ -23,11 +23,21 @@ using Gee;
 
 public class GXml.TwElement : GXml.TwNode, GXml.Element
 {
+  private string _content = null;
   public TwElement (GXml.Document d, string name)
     requires (d is TwDocument)
   {
     _doc = d;
     _name = name;
+  }
+  // GXml.Node
+  public override string value
+  {
+    get {
+      calculate_content ();
+      return _content;
+    }
+    set { update_content (value); }
   }
   // GXml.Element
   public void set_attr (string name, string value)
@@ -38,6 +48,37 @@ public class GXml.TwElement : GXml.TwNode, GXml.Element
   public GXml.Node get_attr (string name) { return attrs.get (name); }
   public void normalize () {}
   public string content {
-    owned get { return _value; } set { _value = value; } }
+    owned get {
+      calculate_content ();
+      return _content;
+    }
+    set {
+      update_content (value);
+    }
+  }
   public string tag_name { get { return name; } }
+  private void calculate_content ()
+  {
+    _content = "";
+    foreach (GXml.Node n in childs) {
+      if (n is Text) {
+        _content += n.value;
+      }
+    }
+  }
+  private void update_content (string? val)
+  {
+    // Remove all GXml.Text elements
+    for (int i = 0; i < childs.size; i++) {
+      var n = childs.get (i);
+      if (n is Text) {
+        //GLib.message (@"Removing Text at: $i");
+        childs.remove_at (i);
+      }
+    }
+    if (val != null) {
+      var t = document.create_text (val);
+      this.childs.add (t);
+    }
+  }
 }

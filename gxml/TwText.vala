@@ -24,6 +24,9 @@ using Gee;
 public class GXml.TwText : GXml.TwNode, GXml.Text
 {
   private string _str = null;
+  construct {
+    _name = "#text";
+  }
   public TwText (GXml.Document d, string text)
     requires (d is GXml.TwDocument)
   {
