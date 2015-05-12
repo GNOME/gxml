@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
 /* ProcessingInstruction.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
@@ -40,34 +40,28 @@ namespace GXml {
 	 * {{{<?pi_target processing instruction data?>}}}
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1004215813]]
 	 */
-	public class xProcessingInstruction : xNode {
+	public class xProcessingInstruction : xNode, GXml.ProcessingInstruction {
+		string _target;
+		string _data;
 		internal xProcessingInstruction (string target, string data, xDocument doc) {
 			base (NodeType.PROCESSING_INSTRUCTION, doc); // TODO: want to pass a real Xml.Node* ?
-			this.target = target;
-			this.data = data;
+			this._target = target;
+			this._data = data;
 		}
 
 		/**
 		 * The target for the processing instruction, like "xml-stylesheet".
 		 */
 		public string target {
-			get;
-			private set;
+			get { return _target; }
 		}
-
-		private string _data;
 
 		/**
 		 * The data used by the target, like {{{href="style.xsl" type="text/xml"}}}
 		 */
-		// TODO: confirm that data here is freeform attributes
 		public string data /* throws DomError (not supported yet) */ {
 			get {
 				return _data;
-			}
-			set {
-				this.check_read_only ();
-				this._data = value;
 			}
 		}
 		/**
