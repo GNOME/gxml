@@ -51,6 +51,7 @@ sources = \
 	gxml-performance.vala \
 	TwElementTest.vala \
 	TwDocumentTest.vala \
+	TwCDATATest.vala \
 	$(NULL)
 
 gxml_test.vala.stamp: $(sources)

@@ -1019,6 +1019,7 @@ namespace GXml {
 		public virtual GXml.Node root { get { return document_element; } }
 		public GXml.Node create_text (string str) { return (GXml.Node) this.create_text_node (str); }
 		public GXml.Node create_comment (string text) { return create_managed_comment (text); }
+		public GXml.Node create_cdata (string text) { return create_cdata_section (text); }
 		public bool save (GLib.Cancellable? cancellable = null)
 			throws GLib.Error
 			requires (file != null)

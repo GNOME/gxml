@@ -1,7 +1,6 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
 /* Notation.vala
  *
- * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
  * Copyright (C) 2011-2015  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -18,7 +17,6 @@
  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
  *
  * Authors:
- *      Richard Schwarting <aquarichy@gmail.com>
  *      Daniel Espinosa <esodan@gmail.com>
  */
 

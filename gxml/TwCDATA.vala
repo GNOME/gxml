@@ -1,5 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 0; tab-width: 2 -*- */
-/* ObjectModel.vala
+/* TwCDATA.vala
  *
  * Copyright (C) 2015  Daniel Espinosa <esodan@gmail.com>
  *
@@ -22,14 +21,23 @@
 
 using Gee;
 
-/**
- * CDATA sections in XML documents.
- */
-public interface GXml.CDATA : Object, GXml.Node
+public class GXml.TwCDATA : GXml.TwNode, GXml.CDATA
 {
-  
-  /**
-   * This should be implemented by returning {@link GXml.Node.value}
-   */
-  public abstract string str { get; }
+  private string _str = null;
+  construct {
+    _name = "#cdata";
+  }
+  public TwCDATA (GXml.Document d, string text)
+    requires (d is GXml.TwDocument)
+  {
+    _doc = d;
+    _str = text;
+  }
+  // GXml.Node
+  public override string @value {
+    get { return _str; }
+    set { _str = value; }
+  }
+  // GXml.CDATA
+  public string str { get { return _str; } }
 }

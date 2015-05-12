@@ -68,6 +68,7 @@ sources = \
 	SerializableContainer.vala \
 	TwAttribute.vala \
 	TwComment.vala \
+	TwCDATA.vala \
 	TwDocument.vala \
 	TwElement.vala \
 	TwNamespace.vala \

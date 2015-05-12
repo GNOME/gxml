@@ -60,6 +60,11 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
     var t = new TwText (this, text);
     return t;
   }
+  public GXml.Node create_cdata (string text)
+  {
+    var t = new TwCDATA (this, text);
+    return t;
+  }
   public GLib.File file { get; set; }
   public GXml.Node root {
     get {
@@ -160,6 +165,9 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
     GLib.message (@"Starting Element: writting Node '$(node.name)' childs");
 #endif
       foreach (GXml.Node n in node.childs) {
+#if DEBUG
+    GLib.message (@"Child Node is: $(n.get_type ().name ())");
+#endif
         if (n is GXml.Element) {
 #if DEBUG
     GLib.message (@"Starting Child Element: writting Node '$(n.name)'");
@@ -175,12 +183,23 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
           if (size > 1500)
             tw.flush ();
         }
+        if (n is GXml.Comment) {
+#if DEBUG
+    GLib.message (@"Starting Child Element: writting Text '$(n.value)'");
+#endif
+          size += tw.write_comment (n.value);
+          if (size > 1500)
+            tw.flush ();
+        }
+        if (n is GXml.CDATA) {
+#if DEBUG
+    GLib.message (@"Starting Child Element: writting CDATA '$(n.value)'");
+#endif
+          size += Xmlx.text_writer_write_cdata (tw, n.value);
+          if (size > 1500)
+            tw.flush ();
+        }
       }
-    }
-    if (node is GXml.Comment) {
-      size += tw.write_comment (node.value);
-      if (size > 1500)
-        tw.flush ();
     }
   }
   public override string to_string ()

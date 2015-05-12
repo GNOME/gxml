@@ -54,38 +54,12 @@ public interface GXml.Document : Object, GXml.Node
    */
   public abstract GXml.Node create_element (string name);
   /**
-   * This method should finalize a new created {@link GXml.Element}.
-   *
-   * Once a {@link GXml.Element} was created and setup, you should finalize it
-   * by calling this method. Is a good practice to call this function, even if
-   * current implemention doesn't requires it.
-   *
-   * Setup a new {@link GXml.Element} include: set its attributes and add childs
-   * {@link GXml.Node}. When finish, call this function.
-   *
-   * This function is useful when using {@link GXml.TextWriter} implementations.
-   */
-  public virtual void finalize_element () { return; }
-  /**
    * Creates a new {@link GXml.Text}.
    *
    * Is a matter of you to add as a child to any other
    * {@link GXml.Node}, like a {@link GXml.Element} node.
    */
   public abstract GXml.Node create_text (string text);
-  /**
-   * This method should finalize a new created {@link GXml.Text}.
-   *
-   * Once a {@link GXml.Text} was created and setup, you should finalize it
-   * by calling this method. Is a good practice to call this function, even if
-   * current implemention doesn't requires it.
-   *
-   * Setup a new {@link GXml.Text} include: set its text, done when it is created.
-   * When finish, call this fucntion.
-   *
-   * This function is useful when using {@link GXml.TextWriter} implementations.
-   */
-  public virtual void finalize_text () { return; }
   /**
    * Creates a new {@link GXml.Comment}.
    *
@@ -94,18 +68,12 @@ public interface GXml.Document : Object, GXml.Node
    */
   public abstract GXml.Node create_comment (string text);
   /**
-   * This method should finalize a new created {@link GXml.Comment}.
+   * Creates a new {@link GXml.CDATA}.
    *
-   * Once a {@link GXml.Comment} was created and setup, you should finalize it
-   * by calling this method. Is a good practice to call this function, even if
-   * current implemention doesn't requires it.
-   *
-   * Setup a new {@link GXml.Comment} include: set its text, done when it is created.
-   * When finish, call this fucntion.
-   *
-   * This function is useful when using {@link GXml.TextWriter} implementations.
+   * Is a matter of you to add as a child to any other
+   * {@link GXml.Node}, like a {@link GXml.Element} node.
    */
-  public virtual void finalize_comment () { return; }
+  public abstract GXml.Node create_cdata (string text);
   /**
    * Save this {@link GXml.Document} to {@link GXml.Document.file}
    *

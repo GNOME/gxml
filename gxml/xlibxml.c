@@ -50,3 +50,8 @@ xmlTextWriterPtr gxml_new_text_writer_doc (xmlDoc** doc)
 {
   return xmlNewTextWriterDoc (doc, 0);
 }
+
+int gxml_text_writer_write_cdata (xmlTextWriterPtr tw, const xmlChar* text)
+{
+  return xmlTextWriterWriteCDATA (tw, text);
+}
