@@ -346,7 +346,7 @@ class DocumentTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/document/create_attribute", () => {
 				xDocument doc = get_doc ();
-				Attr attr = doc.create_attribute ("attrname");
+				xAttr attr = doc.create_attribute ("attrname");
 
 				assert (attr.name == "attrname");
 				assert (attr.node_name == "attrname");
@@ -424,7 +424,7 @@ class DocumentTest : GXmlTest {
 			GLib.stdout.printf ("<%s", node.node_name);
 		NamedAttrMap attrs = node.attributes;
 		for (int i = 0; i < attrs.length; i++) {
-			Attr attr = attrs.item (i);
+			xAttr attr = attrs.item (i);
 			GLib.stdout.printf (" %s=\"%s\"", attr.name, attr.value);
 		}
 

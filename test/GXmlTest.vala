@@ -107,8 +107,8 @@ class GXmlTest {
 	// 	return get_attr (name, value, get_doc ());
 	// }
 
-	internal static Attr get_attr (string name, string value, xDocument doc) {
-		Attr attr = doc.create_attribute (name);
+	internal static xAttr get_attr (string name, string value, xDocument doc) {
+		xAttr attr = doc.create_attribute (name);
 		attr.value = value;
 		return attr;
 	}

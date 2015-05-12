@@ -55,14 +55,14 @@ namespace GXml {
 	 *
 	 * @see GXml.Node
 	 */
-	public class Attr : BackedNode, GXml.Attribute {
+	public class xAttr : BackedNode, GXml.Attribute {
 		/** Private properties */
 		/* this displaces BackedNode's xmlNode node */
 		internal new Xml.Attr *node;
 		internal AttrChildNodeList _attr_list;
 
 		/** Constructors */
-		internal Attr (Xml.Attr *node, xDocument doc) {
+		internal xAttr (Xml.Attr *node, xDocument doc) {
 			// TODO: wish valac would warn against using this. before calling base()
 			//base (NodeType.ATTRIBUTE, doc);
 			base ((Xml.Node*)node, doc);

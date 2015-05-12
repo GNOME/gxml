@@ -128,7 +128,7 @@ namespace GXml {
 		 * no such attribute is set.
 		 */
 		public string get_attribute (string name) {
-			Attr attr = this.get_attribute_node (name);
+			xAttr attr = this.get_attribute_node (name);
 
 			if (attr != null)
 				return attr.value;
@@ -146,7 +146,7 @@ namespace GXml {
 		 * @param value The value to set
 		 */
 		public void set_attribute (string name, string value) {
-			Attr attr;
+			xAttr attr;
 
 			attr = this.owner_document.create_attribute (name);
 			attr.value = value;
@@ -175,7 +175,7 @@ namespace GXml {
 		 *
 		 * @return The Attr node named by name for this element, or %NULL if none is set
 		 */
-		public Attr? get_attribute_node (string name) {
+		public xAttr? get_attribute_node (string name) {
 			return this.attributes.get_named_item (name);
 		}
 		/**
@@ -190,7 +190,7 @@ namespace GXml {
 		 * is replaced and the old Attr is returned.
 		 * Elsewise, %NULL is returned.
 		 */
-		public Attr set_attribute_node (Attr new_attr) {
+		public xAttr set_attribute_node (xAttr new_attr) {
 			// TODO: INUSE_ATTRIBUTE_ERR if new_attr already belongs to another element
 			// NO_MODIFICATION_ALLOWED_ERR and WRONG_DOCUMENT_ERR checked within
 			return this.attributes.set_named_item (new_attr);
@@ -208,7 +208,7 @@ namespace GXml {
 		 * @return The old_attr we wanted to remove, even if
 		 * it wasn't found.
 		 */
-		public Attr remove_attribute_node (Attr old_attr) {
+		public xAttr remove_attribute_node (xAttr old_attr) {
 			this.check_read_only ();
 			return this.attributes.remove_named_item (old_attr.name);
 		}

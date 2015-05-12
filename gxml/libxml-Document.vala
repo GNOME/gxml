@@ -91,9 +91,9 @@ namespace GXml {
 		internal NodeChildNodeList _node_list;
 
 		/* *** Private methods *** */
-		internal unowned Attr? lookup_attr (Xml.Attr *xmlattr) {
+		internal unowned xAttr? lookup_attr (Xml.Attr *xmlattr) {
 			// Xml.Attr and Xml.Node are intentionally compatible
-			return (Attr)this.lookup_node ((Xml.Node*)xmlattr);
+			return (xAttr)this.lookup_node ((Xml.Node*)xmlattr);
 		}
 
 		internal unowned xNode? lookup_node (Xml.Node *xmlnode) {
@@ -125,7 +125,7 @@ namespace GXml {
 					new DocumentFragment (xmlnode, this);
 					break;
 				case NodeType.ATTRIBUTE:
-					new Attr ((Xml.Attr*)xmlnode, this);
+					new xAttr ((Xml.Attr*)xmlnode, this);
 					break;
 					/* TODO: These are not yet implemented (but we won't support xDocument */
 				case NodeType.ENTITY_REFERENCE:
@@ -771,7 +771,7 @@ namespace GXml {
 		 *
 		 * @return A new {@link GXml.Attr} with the given `name`; this should not be freed
 		 */
-		public Attr create_attribute (string name) {
+		public xAttr create_attribute (string name) {
 			/* TODO: figure out memory for this; its a
 			 * Node, not a BackedNode and thus not in
 			 * nodedict.  It's like Processing Instruction
@@ -784,7 +784,7 @@ namespace GXml {
 			 */
 			check_invalid_characters (name, "attribute");
 
-			return new Attr (this.xmldoc->new_prop (name, ""), this);
+			return new xAttr (this.xmldoc->new_prop (name, ""), this);
 
 			/* TODO: should we pass something other than
 			   "" for the unspecified value?  probably

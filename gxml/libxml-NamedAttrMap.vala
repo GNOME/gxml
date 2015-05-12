@@ -76,7 +76,7 @@ namespace GXml {
 			{
 				string k = "";
 				if (cur != null) k = cur->name;
-				return new Entry (k, (GXml.Attribute) new Attr (cur, (xDocument) nm.elem.document));
+				return new Entry (k, (GXml.Attribute) new xAttr (cur, (xDocument) nm.elem.document));
 			}
 			public bool has_next ()
 			{
@@ -121,7 +121,7 @@ namespace GXml {
 	 * A collection of {@link NamedNodeMap} of type {@link Attr} objects in a {@link xElement}.
 	 */
 	public class NamedAttrMap : AbstractNamedAttrMap, Map<string,GXml.Attribute>,
-		NamedNodeMap<Attr?>
+		NamedNodeMap<xAttr?>
 	{
 		internal NamedAttrMap (xElement e)
 		{
@@ -141,7 +141,7 @@ namespace GXml {
 		public new Attribute @get (string key)
 		{
 			var at = elem.node->has_prop (key);
-			return (Attribute) new Attr(at, (xDocument) elem.document);
+			return (Attribute) new xAttr(at, (xDocument) elem.document);
 		}
 		public bool has (string key, Attribute value)
 		{
@@ -236,16 +236,16 @@ namespace GXml {
 			public bool mutable { get { return true; } }
 		}
 		// NamedNodeMap interface
-		public Attr? get_named_item (string name) {
+		public xAttr? get_named_item (string name) {
 			Xml.Attr *prop = this.elem.node->has_prop (name);
 			return this.elem.owner_document.lookup_attr (prop);
 		}
 
-		public Attr? set_named_item (Attr? gxml_attr_new) {
+		public xAttr? set_named_item (xAttr? gxml_attr_new) {
 			Xml.Node *xml_elem;
 			Xml.Attr *xml_prop_old;
 			Xml.Attr *xml_prop_new;
-			Attr gxml_attr_old;
+			xAttr gxml_attr_old;
 
 			/* TODO: INUSE_ATTRIBUTE_ERR if new_attr already belongs to
 			   another element */
@@ -273,8 +273,8 @@ namespace GXml {
 			return gxml_attr_old;
 		}
 
-		public Attr? remove_named_item (string name) {
-			Attr gxml_attr_old;
+		public xAttr? remove_named_item (string name) {
+			xAttr gxml_attr_old;
 			Xml.Attr *xml_prop_old;
 			Xml.Node *xml_elem;
 
@@ -308,7 +308,7 @@ namespace GXml {
 			}
 		}
 
-		public Attr? item (ulong index) {
+		public xAttr? item (ulong index) {
 			Xml.Attr *attr;
 
 			attr = this.elem.node->properties;

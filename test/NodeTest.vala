@@ -128,7 +128,7 @@ class NodeTest : GXmlTest {
 				assert (node.node_value == null);
 
 				node = doc.create_attribute ("name");
-				((Attr)node).value = "Harry Potter";
+				((xAttr)node).value = "Harry Potter";
 				assert (node.node_value == "Harry Potter");
 
 				node = doc.create_text_node ("text content");
@@ -153,10 +153,10 @@ class NodeTest : GXmlTest {
 				/* TODO: xDocument Type, xDocument Fragment, Notation */
 				// assert (attr.node_value == "harry");
 				/* TODO: figure out a solution.
-				   Attr's node_value doesn't get used when elem is thought of
+				   xAttr's node_value doesn't get used when elem is thought of
 				   as a Node.
 				   GXml.xNode wants to get it from Node's Xml.Node* node,
-				   while Attr wants to get it from Attr's Xml.Attr* node. :( */
+				   while xAttr wants to get it from xAttr's Xml.Attr* node. :( */
 			});
 		Test.add_func ("/gxml/domnode/parent_node", () => {
 				xDocument doc = get_doc ();

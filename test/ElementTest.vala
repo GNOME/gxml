@@ -145,7 +145,7 @@ class ElementTest : GXmlTest  {
 				assert (attributes.get_named_item ("alley").value == "Diagon");
 				assert (attributes.get_named_item ("train").value == "Hogwarts Express");
 
-				Attr attr;
+				xAttr attr;
 				attr = doc.create_attribute ("owl");
 				attr.value = "Hedwig";
 
@@ -209,8 +209,8 @@ class ElementTest : GXmlTest  {
 		Test.add_func ("/gxml/element/set_attribute_node", () => {
 				xDocument doc;
 				xElement elem = get_elem_new_doc ("tagname", out doc);
-				Attr attr1 = elem.owner_document.create_attribute ("name");
-				Attr attr2 = elem.owner_document.create_attribute ("name");
+				xAttr attr1 = elem.owner_document.create_attribute ("name");
+				xAttr attr2 = elem.owner_document.create_attribute ("name");
 
 				attr1.value = "Snape";
 				attr2.value = "Moody";
@@ -228,7 +228,7 @@ class ElementTest : GXmlTest  {
 		Test.add_func ("/gxml/element/remove_attribute_node", () => {
 				xDocument doc;
 				xElement elem = get_elem_new_doc ("tagname", out doc);
-				Attr attr;
+				xAttr attr;
 
 				attr = elem.owner_document.create_attribute ("name");
 				attr.value = "Luna";
