@@ -52,7 +52,7 @@ namespace GXml {
 	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-B63ED1A3]]
 	 */
-	public class DocumentFragment : BackedNode {
+	public class DocumentFragment : BackedNode { // TODO: Create DomDocumentFragment interface
 		internal DocumentFragment (Xml.Node *fragment_node, xDocument doc) {
 			base (fragment_node, doc);
 		}

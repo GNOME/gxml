@@ -29,13 +29,13 @@ namespace GXml {
 	 * 
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-412266927]]
 	 */
-	public class DocumentType : xNode {
+	public class xDocumentType : xNode {
 		private Xml.Doc* doc;
 		private Xml.Dtd *int_subset;
 		private Xml.Dtd *ext_subset;
 
 		/** Constructor */
-		internal DocumentType (Xml.Dtd *int_subset, Xml.Dtd *ext_subset, xDocument doc) {
+		internal xDocumentType (Xml.Dtd *int_subset, Xml.Dtd *ext_subset, xDocument doc) {
 			// TODO: for name, we want a real name of the doc type
 			base (NodeType.DOCUMENT_TYPE, doc);
 

@@ -68,7 +68,7 @@ namespace GXml {
 		}
 
 		// Not using Node's, because this doctype shouldn't have ANY owner yet
-		internal void check_wrong_document (DocumentType? doctype) {
+		internal void check_wrong_document (xDocumentType? doctype) {
 			if (doctype != null && doctype.owner_document != null) {
 				GXml.warning (DomException.WRONG_DOCUMENT, "The supplied doctype is already connected to an existing document.");
 			}
@@ -87,7 +87,7 @@ namespace GXml {
 		 *
 		 * @return The new document
 		 */
-		public xDocument create_document (string? namespace_uri, string? qualified_name, DocumentType? doctype) {
+		public xDocument create_document (string? namespace_uri, string? qualified_name, xDocumentType? doctype) {
 			xDocument doc;
 
 			check_namespace (namespace_uri, qualified_name);

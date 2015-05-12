@@ -51,7 +51,7 @@ namespace GXml {
 	 *
 	 * The xDocument has a root document element {@link GXml.xElement}.
 	 * A xDocument's schema can be defined through its
-	 * {@link GXml.DocumentType}.
+	 * {@link GXml.xDocumentType}.
 	 *
 	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#i-xDocument]]
@@ -165,8 +165,8 @@ namespace GXml {
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#attribute-doctype]]
 		 */
-		public DocumentType? doctype {
-			// either null, or a DocumentType object
+		public xDocumentType? doctype {
+			// either null, or a xDocumentType object
 			get;
 			private set;
 		}
@@ -237,7 +237,7 @@ namespace GXml {
 		 *
 		 * @return The new document; this must be freed with {@link GLib.Object.unref}
 		 */
-		internal xDocument.with_implementation (Implementation impl, string? namespace_uri, string? qualified_name, DocumentType? doctype) {
+		internal xDocument.with_implementation (Implementation impl, string? namespace_uri, string? qualified_name, xDocumentType? doctype) {
 			this ();
 			this.implementation = impl;
 
@@ -284,7 +284,7 @@ namespace GXml {
 				this.doctype = null;
 			} else {
 				// TODO: make sure libxml2 binding patch for this makes it through
-				this.doctype = new DocumentType (doc->int_subset, doc->ext_subset, this);
+				this.doctype = new xDocumentType (doc->int_subset, doc->ext_subset, this);
 			}
 			this.implementation = new Implementation ();
 		}
@@ -944,7 +944,7 @@ namespace GXml {
 		 * `ref_child`, an existing child of this
 		 * {@link GXml.xDocument}. A document can only have one
 		 * {@link GXml.xElement} child (the root element) and
-		 * one {@link GXml.DocumentType}.
+		 * one {@link GXml.xDocumentType}.
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-952280727]]
@@ -969,7 +969,7 @@ namespace GXml {
 		 * Appends new_child to this document, appearing at
 		 * the end of its list of children.  A document can
 		 * only have one {@link GXml.xElement} child, the root
-		 * element, and one {@link GXml.DocumentType}.
+		 * element, and one {@link GXml.xDocumentType}.
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-appendChild]]
@@ -990,9 +990,9 @@ namespace GXml {
 				}
 			} else if (new_child.node_type == NodeType.DOCUMENT_TYPE) {
 				if (this.doctype == null) {
-					this.doctype = (DocumentType)new_child;
+					this.doctype = (xDocumentType)new_child;
 				} else {
-					GXml.warning (DomException.HIERARCHY_REQUEST, "Document already has a doctype.  Could not add new doctype with name '%s'.".printf (((DocumentType)new_child).name));
+					GXml.warning (DomException.HIERARCHY_REQUEST, "Document already has a doctype.  Could not add new doctype with name '%s'.".printf (((xDocumentType)new_child).name));
 				}
 			} else {
 				return this.child_nodes.append_child (new_child);
