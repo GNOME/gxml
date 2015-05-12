@@ -22,19 +22,20 @@
 
 using GXml;
 
-class TwComentTest : GXmlTest {
+class TwCommentTest : GXmlTest {
 	public static void add_tests () {
 		Test.add_func ("/gxml/tw-comment", () => {
 			try {
 				var d = new TwDocument ();
 				var r = d.create_element ("root");
 				d.childs.add (r);
-				var cd = d.create_comment ("This is a comment");
-				assert (cd.value == "This is a comment");
-				d.root.childs.add (cd);
+				var c = d.create_comment ("This is a comment");
+				assert (c.value == "This is a comment");
+				d.root.childs.add (c);
+				GLib.message (@"$d");
 				assert (d.root.childs.size == 1);
 				string str = d.to_string ();
-				assert ("<root><!This is a comment></root>" in str);
+				assert ("<root><!--This is a comment--></root>" in str);
 #if DEBUG
 				GLib.message (@"$d");
 #endif

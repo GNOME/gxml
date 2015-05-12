@@ -46,9 +46,6 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
   public GXml.Node create_comment (string text)
   {
     var c = new TwComment (this, text);
-    if (root == null)
-      return c;
-    root.childs.add (c);
     return c;
   }
   public GXml.Node create_element (string name)
@@ -185,7 +182,7 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
         }
         if (n is GXml.Comment) {
 #if DEBUG
-    GLib.message (@"Starting Child Element: writting Text '$(n.value)'");
+    GLib.message (@"Starting Child Element: writting Comment '$(n.value)'");
 #endif
           size += tw.write_comment (n.value);
           if (size > 1500)

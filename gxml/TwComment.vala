@@ -28,8 +28,12 @@ public class GXml.TwComment : GXml.TwNode, GXml.Comment
     requires (doc is GXml.TwDocument)
   {
     _doc = doc;
-    ((TwDocument) document).tw = ((TwDocument) doc).tw;
     _str = text;
+  }
+  // GXml.Node
+  public override string @value {
+    get { return _str; }
+    set { _str = value; }
   }
   // GXml.Comment
   public string str { get { return _str; } }

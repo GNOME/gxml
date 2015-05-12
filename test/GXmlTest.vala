@@ -73,6 +73,7 @@ class GXmlTest {
 		Performance.add_tests ();
 		TwElementTest.add_tests ();
 		TwCDATATest.add_tests ();
+		TwCommentTest.add_tests ();
 		TwDocumentTest.add_tests ();
 
 		Test.run ();
