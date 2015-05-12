@@ -32,7 +32,7 @@ namespace GXml {
 	 * ProcessingInstruction targets.
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-5431D1B9]]
 	 */
-	public class xNotation : xNode {
+	public class xNotation : xNode, GXml.Notation {
 		// private Xml.Notation *notation; // TODO: wrap libxml's xmlNotation
 
 		/**
@@ -53,17 +53,13 @@ namespace GXml {
 			get {
 				return null; // notation->public_id;
 			}
-			private set {
-			}
 		}
 		/**
 		 * The system identifier for the notation, or %NULL if not set.
 		 */
-		public string? system_id {
+		public string? external_id {
 			get {
 				return null; // notation->system_id;
-			}
-			private set {
 			}
 		}
 		internal xNotation (/* Xml.Notation *notation, */ xDocument doc) {

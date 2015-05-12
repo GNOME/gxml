@@ -23,6 +23,8 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 
+using Gee;
+
 namespace GXml {
 	/**
 	 * Defines a xDocument, such as the entities that it can use.
@@ -71,7 +73,7 @@ namespace GXml {
 		 * A HashTable of entities defined for this DocumentType.
 		 */
 		// TODO: provide examples
-		public HashTable<string,Entity>? entities {
+		public Gee.Map<string,Entity>? entities {
 			get {
 				// TODO: need to create a HashTable<string,Entity> uniting these two
 				//       discard duplicates
@@ -90,7 +92,7 @@ namespace GXml {
 		 * A HashTable of notations defined for this DocumentType.
 		 */
 		// TODO: provide examples
-		public HashTable<string,xNotation>? notations {
+		public Gee.Map<string,xNotation>? notations {
 			get {
 				// TODO: need to create a HashTable<string,xNotation> uniting the two
 				//       discard duplicates

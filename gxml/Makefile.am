@@ -21,6 +21,7 @@ sources = \
 	Element.vala \
 	Namespace.vala \
 	Node.vala \
+	Notation.vala \
 	Text.vala \
 	libxml-Attr.vala \
 	libxml-AttrChildNodeList.vala \
