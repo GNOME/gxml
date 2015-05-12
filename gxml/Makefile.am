@@ -17,6 +17,7 @@ sources = \
 	Comment.vala\
 	CDATA.vala \
 	Document.vala \
+	DocumentType.vala \
 	Element.vala \
 	Namespace.vala \
 	Node.vala \
