@@ -15,6 +15,7 @@ sources = \
 	namespace-info.vala \
 	Attribute.vala \
 	Comment.vala\
+	CDATA.vala \
 	Document.vala \
 	Element.vala \
 	Namespace.vala \

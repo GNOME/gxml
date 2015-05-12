@@ -36,7 +36,7 @@ namespace GXml {
 	 * {{{ <![CDATA[Here contains non-XML data, like code, or something that requires a lot of special XML entities.]]>.}}}
 	 * It is a type of Text node. For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-667469212]]
 	 */
-	public class CDATASection : xText {
+	public class CDATASection : xText, GXml.CDATA {
 		internal CDATASection (Xml.Node *cdata_node, xDocument doc) {
 			base (cdata_node, doc);
 		}
