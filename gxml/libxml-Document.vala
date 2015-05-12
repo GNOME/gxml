@@ -116,7 +116,7 @@ namespace GXml {
 					new xText (xmlnode, this);
 					break;
 				case NodeType.CDATA_SECTION:
-					new CDATASection (xmlnode, this);
+					new xCDATASection (xmlnode, this);
 					break;
 				case NodeType.COMMENT:
 					new xComment (xmlnode, this);
@@ -705,11 +705,11 @@ namespace GXml {
 		 * @return A new {@link GXml.CDATASection} with the
 		 * supplied data; this should not be freed
 		 */
-		public unowned CDATASection create_cdata_section (string cdata_data) {
+		public unowned xCDATASection create_cdata_section (string cdata_data) {
 			check_not_supported_html ("CDATA section");
 
-			CDATASection cdata = new CDATASection (this.xmldoc->new_cdata_block (cdata_data, (int)cdata_data.length), this);
-			unowned CDATASection ret = cdata;
+			xCDATASection cdata = new xCDATASection (this.xmldoc->new_cdata_block (cdata_data, (int)cdata_data.length), this);
+			unowned xCDATASection ret = cdata;
 			this.nodes_to_free.append (cdata);
 			return ret;
 		}

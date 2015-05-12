@@ -330,7 +330,7 @@ class DocumentTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/document/create_cdata_section", () => {
 				xDocument doc = get_doc ();
-				CDATASection cdata = doc.create_cdata_section ("put in real cdata");
+				xCDATASection cdata = doc.create_cdata_section ("put in real cdata");
 
 				assert (cdata.node_name == "#cdata-section");
 				assert (cdata.node_value == "put in real cdata");
