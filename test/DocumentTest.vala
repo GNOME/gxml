@@ -337,7 +337,7 @@ class DocumentTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/document/create_processing_instruction", () => {
 				xDocument doc = get_doc ();
-				ProcessingInstruction instruction = doc.create_processing_instruction ("target", "data");
+				xProcessingInstruction instruction = doc.create_processing_instruction ("target", "data");
 
 				assert (instruction.node_name == "target");
 				assert (instruction.target == "target");

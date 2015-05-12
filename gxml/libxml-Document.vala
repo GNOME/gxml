@@ -737,7 +737,7 @@ namespace GXml {
 		 * @return A new {@link GXml.ProcessingInstruction}
 		 * for the given target; this should not be freed
 		 */
-		public ProcessingInstruction create_processing_instruction (string target, string data) {
+		public xProcessingInstruction create_processing_instruction (string target, string data) {
 			/* TODO: this is not backed by a libxml2 structure,
 			   and is not stored in the NodeDict, so we don't know
 			   when it will be freed :( Figure it out.
@@ -754,7 +754,7 @@ namespace GXml {
 			check_invalid_characters (target, "processing instruction");
 
 			// TODO: want to see whether we can find a libxml2 structure for this
-			ProcessingInstruction pi = new ProcessingInstruction (target, data, this);
+			xProcessingInstruction pi = new xProcessingInstruction (target, data, this);
 
 			return pi;
 		}
