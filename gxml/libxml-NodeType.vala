@@ -29,7 +29,7 @@
  *
  * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1950641247]]
  */
-public enum GXml.NodeType {
+public enum GXml.NodeType { // TODO: Rename to DomNodeType
 	/* NOTE: bug in vala?  if I don't have == 0, I fail when creating
 	   this class because I can't set default values for NodeType properties
 	   GLib-GObject-CRITICAL **: g_param_spec_enum: assertion `g_enum_get_value (enum_class, default_value) != NULL' failed */

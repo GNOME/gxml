@@ -90,9 +90,9 @@ namespace GXml {
 		 * A HashTable of notations defined for this DocumentType.
 		 */
 		// TODO: provide examples
-		public HashTable<string,Notation>? notations {
+		public HashTable<string,xNotation>? notations {
 			get {
-				// TODO: need to create a HashTable<string,Notation> uniting the two
+				// TODO: need to create a HashTable<string,xNotation> uniting the two
 				//       discard duplicates
 				// TODO: what type of hashtable is Xml.Dtd*'s notations?
 				//Xml.HashTable *table =  this.int_subset->notations;
