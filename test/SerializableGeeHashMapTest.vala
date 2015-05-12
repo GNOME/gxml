@@ -111,14 +111,11 @@ class SerializableGeeHashMapTest : GXmlTest
         o2.set_value ("FAKE TEXT");
         c.set (o1.name, o1);
         c.set (o2.name, o2);
-        var doc = new xDocument ();
+        var doc = new TwDocument ();
         var root = doc.create_element ("root");
         doc.childs.add (root);
-        c.serialize ((xNode)root);
-        if (root.childs.size == 0) {
-          stdout.printf (@"ERROR: root node have no childs $(doc)\n");
-          assert_not_reached ();
-        }
+        c.serialize (root);
+        assert (root.childs.size > 0);
         bool found1 = false;
         bool found2 = false;
         foreach (GXml.Node n in root.childs) {
@@ -229,21 +226,12 @@ class SerializableGeeHashMapTest : GXmlTest
         c.storage = new Space.Collection ();
         c.storage.set (o1.name, o1);
         c.storage.set (o2.name, o2);
-        var doc = new xDocument ();
+        var doc = new TwDocument ();
         c.serialize (doc);
-        if (doc.document_element == null) {
-          stdout.printf (@"ERROR: doc have no root node\n$(doc)\n");
-          assert_not_reached ();
-        }
-        if (doc.document_element.node_name != "spacecontainer") {
-          stdout.printf (@"ERROR: bad doc root node's name: $(doc.document_element.node_name)\n$(doc)\n");
-          assert_not_reached ();
-        }
+        assert (doc.root != null);
+        assert (doc.root.name == "spacecontainer");
         var root = doc.root;
-        if (root.childs.size == 0) {
-          stdout.printf (@"ERROR: root node have no childs $(doc)\n");
-          assert_not_reached ();
-        }
+        assert (root.childs.size > 0);
         bool found1 = false;
         bool found2 = false;
         foreach (GXml.Node n in root.childs) {
@@ -255,14 +243,8 @@ class SerializableGeeHashMapTest : GXmlTest
             }
           }
         }
-        if (!found1) {
-          stdout.printf (@"ERROR: Big space node is not found\n$(doc)\n");
-          assert_not_reached ();
-        }
-        if (!found2) {
-          stdout.printf (@"ERROR: Small space node is not found\n$(doc)\n");
-          assert_not_reached ();
-        }
+        assert (found1);
+        assert (found2);
       }
       catch (GLib.Error e) {
         stdout.printf (@"ERROR: $(e.message)");
@@ -284,70 +266,31 @@ class SerializableGeeHashMapTest : GXmlTest
     </spacecontainer>""");
         var isc = new SpaceContainer ();
         isc.deserialize (idoc);
-        var doc = new xDocument ();
+        var doc = new TwDocument ();
         isc.serialize (doc);
         var sc = new SpaceContainer ();
         sc.deserialize (doc);
-        if (sc.storage == null) {
-          stdout.printf (@"ERROR: No storage found\n");
-          assert_not_reached ();
-        }
-        if (sc.storage.size != 5) {
-          stdout.printf (@"ERROR: wrong storage size. Expected 5, got: $(sc.storage.size)\n");
-          assert_not_reached ();
-        }
+        assert (sc.storage != null);
+        assert (sc.storage.size == 5);
         int i = 0;
         foreach (Space s in sc.storage.values)
           i++;
-        if (i != 5) {
-          stdout.printf (@"ERROR: wrong storage size counted. Expected 5, got: $(sc.storage.size)\n");
-          assert_not_reached ();
-        }
+        assert (i == 5);
         var s1 = sc.storage.get ("Big");
-        if (s1 == null) {
-          stdout.printf (@"ERROR: space 'Big' not found\n");
-          assert_not_reached ();
-        }
-        if (s1.get_value () != "FAKE1") {
-          stdout.printf (@"ERROR: wrong s1 text. Expected 'FAKE1', got: $(s1.get_value ())\n");
-          assert_not_reached ();
-        }
+        assert (s1 != null);
+        assert (s1.get_value () == "FAKE1");
         var s2 = sc.storage.get ("Small");
-        if (s2 == null) {
-          stdout.printf (@"ERROR: space 'Small' not found\n");
-          assert_not_reached ();
-        }
-        if (s2.get_value () != "") {
-          stdout.printf (@"ERROR: wrong s2 text. Expected '', got: '$(s2.get_value ())'\n");
-          assert_not_reached ();
-        }
+        assert (s2 != null);
+        assert (s2.get_value () == "");
         var s3 = sc.storage.get ("Yum1");
-        if (s3 == null) {
-          stdout.printf (@"ERROR: space 'Yum1' not found\n");
-          assert_not_reached ();
-        }
-        if (s3.get_value () != "FAKE2") {
-          stdout.printf (@"ERROR: wrong s3 text. Expected 'FAKE2', got: $(s3.get_value ())\n");
-          assert_not_reached ();
-        }
+        assert (s3 != null);
+        assert (s3.get_value () == "FAKE2");
         var s4 = sc.storage.get ("Yum2");
-        if (s4 == null) {
-          stdout.printf (@"ERROR: space 'Yum2' not found\n");
-          assert_not_reached ();
-        }
-        if (s4.get_value () != "FAKE3") {
-          stdout.printf (@"ERROR: wrong s4 text. Expected 'FAKE3', got: $(s4.get_value ())\n");
-          assert_not_reached ();
-        }
+        assert (s4 != null);
+        assert (s4.get_value () == "FAKE3");
         var s5 = sc.storage.get ("Yum3");
-        if (s5 == null) {
-          stdout.printf (@"ERROR: space 'Yum3' not found\n");
-          assert_not_reached ();
-        }
-        if (s5.get_value () != "FAKE5") {
-          stdout.printf (@"ERROR: wrong s5 text. Expected 'FAKE5', got: $(s5.get_value ())\n");
-          assert_not_reached ();
-        }
+        assert (s5 != null);
+        assert (s5.get_value () == "FAKE5");
       } catch (GLib.Error e) {
         stdout.printf (@"ERROR: $(e.message)");
         assert_not_reached ();
