@@ -33,7 +33,7 @@ namespace GXml {
 	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-FF21A306]]
 	 */
-	public class CharacterData : BackedNode {
+	public class xCharacterData : BackedNode {
 		/**
 		 * The character data in string form for the node.
 		 * Generally equivalent to node_value.
@@ -65,7 +65,7 @@ namespace GXml {
 			}
 		}
 
-		internal CharacterData (Xml.Node *char_node, xDocument doc) {
+		internal xCharacterData (Xml.Node *char_node, xDocument doc) {
 			base (char_node, doc);
 			// TODO: if this was this (), it would recurse infinitely, maybe valac could detect that
 		}

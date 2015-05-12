@@ -41,7 +41,7 @@ namespace GXml {
 	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-1312295772]]
 	 */
-	public class xText : CharacterData, GXml.Text {
+	public class xText : xCharacterData, GXml.Text {
 		internal xText (Xml.Node *text_node, xDocument doc) {
 			base (text_node, doc);
 		}

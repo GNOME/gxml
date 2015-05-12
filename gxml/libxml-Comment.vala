@@ -41,7 +41,7 @@
  *
  * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1728279322]]
  */
-public class GXml.xComment : GXml.CharacterData, GXml.Comment {
+public class GXml.xComment : GXml.xCharacterData, GXml.Comment {
 	// TODO: Can I make this only accessible from within the GXml.Dom namespace (e.g. from GXml.Dom.xDocument?)
 	internal xComment (Xml.Node *comment_node, xDocument doc) {
 		base (comment_node, doc);
