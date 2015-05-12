@@ -55,3 +55,8 @@ int gxml_text_writer_write_cdata (xmlTextWriterPtr tw, const xmlChar* text)
 {
   return xmlTextWriterWriteCDATA (tw, text);
 }
+
+int gxml_text_writer_write_pi (xmlTextWriterPtr tw, const xmlChar* target, const xmlChar* data)
+{
+  return xmlTextWriterWritePI (tw, target, data);
+}

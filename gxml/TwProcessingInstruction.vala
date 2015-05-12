@@ -21,23 +21,26 @@
 
 using Gee;
 
-public class GXml.TwComment : GXml.TwNode, GXml.Comment
+public class GXml.TwProcessingInstruction : GXml.TwNode, GXml.ProcessingInstruction
 {
-  private string _str = "";
+  private string _target = "";
+  private string _data = "";
   construct {
-    _name = "#comment";
+    _name = "#processinginstruction";
   }
-  public TwComment (GXml.Document doc, string text)
+  public TwProcessingInstruction (GXml.Document doc, string target, string data)
     requires (doc is GXml.TwDocument)
   {
     _doc = doc;
-    _str = text;
+    _target = target;
+    _data = data;
   }
   // GXml.Node
   public override string @value {
-    get { return _str; }
-    set {  }
+    get { return _data; }
+    set {}
   }
-  // GXml.Comment
-  public string str { get { return _str; } }
+  // GXml.ProcessingInstruction
+  public string target { get { return _target; } }
+  public string data { get { return _data; } }
 }

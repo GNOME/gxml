@@ -40,4 +40,6 @@ namespace Xmlx {
   public static Xml.TextWriter new_text_writer_doc (ref Xml.Doc doc);
   [CCode (cname = "gxml_text_writer_write_cdata", cheader_filename = "gxml/xlibxml.h")]
   public static int text_writer_write_cdata (Xml.TextWriter tw, string text);
+  [CCode (cname = "gxml_text_writer_write_pi", cheader_filename = "gxml/xlibxml.h")]
+  public static int text_writer_write_pi (Xml.TextWriter tw, string target, string data);
 }

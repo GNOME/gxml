@@ -36,7 +36,7 @@ public class GXml.TwCDATA : GXml.TwNode, GXml.CDATA
   // GXml.Node
   public override string @value {
     get { return _str; }
-    set { _str = value; }
+    set {}
   }
   // GXml.CDATA
   public string str { get { return _str; } }

@@ -48,6 +48,11 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
     var c = new TwComment (this, text);
     return c;
   }
+  public GXml.Node create_pi (string target, string data)
+  {
+    var pi = new TwProcessingInstruction (this, target, data);
+    return pi;
+  }
   public GXml.Node create_element (string name)
   {
     return new TwElement (this, name);
@@ -193,6 +198,14 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
     GLib.message (@"Starting Child Element: writting CDATA '$(n.value)'");
 #endif
           size += Xmlx.text_writer_write_cdata (tw, n.value);
+          if (size > 1500)
+            tw.flush ();
+        }
+        if (n is GXml.ProcessingInstruction) {
+#if DEBUG
+    GLib.message (@"Starting Child Element: writting ProcessingInstruction '$(n.value)'");
+#endif
+          size += Xmlx.text_writer_write_pi (tw, ((ProcessingInstruction) n).target, ((ProcessingInstruction) n).data);
           if (size > 1500)
             tw.flush ();
         }

@@ -31,5 +31,6 @@ xmlErrorPtr gxml_parser_context_get_last_error (void* ctx);
 xmlErrorPtr gxml_get_last_error                ();
 xmlNsPtr*   gxml_doc_get_ns_list               (xmlDoc* doc, xmlNode* node);
 int         gxml_text_writer_write_cdata       (xmlTextWriter* tw, const xmlChar* text);
+int         gxml_text_writer_write_pi          (xmlTextWriter* tw, const xmlChar* target, const xmlChar* data);
 
 #endif

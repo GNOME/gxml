@@ -75,6 +75,13 @@ public interface GXml.Document : Object, GXml.Node
    */
   public abstract GXml.Node create_cdata (string text);
   /**
+   * Creates a new {@link GXml.ProcessingInstruction}.
+   *
+   * Is a matter of you to add as a child to any other
+   * {@link GXml.Node}, like a {@link GXml.Element} node.
+   */
+  public abstract GXml.Node create_pi (string target, string data);
+  /**
    * Save this {@link GXml.Document} to {@link GXml.Document.file}
    *
    * If {@link GXml.Document.file} doesn't exists, it creates a new file to save to.

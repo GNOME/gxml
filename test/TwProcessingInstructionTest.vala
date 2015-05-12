@@ -22,20 +22,21 @@
 
 using GXml;
 
-class TwCommentTest : GXmlTest {
+class TwProcessingInstructionTest : GXmlTest {
 	public static void add_tests () {
 		Test.add_func ("/gxml/tw-comment", () => {
 			try {
 				var d = new TwDocument ();
 				var r = d.create_element ("root");
 				d.childs.add (r);
-				var c = d.create_comment ("This is a comment");
-				assert (c.name == "#comment");
-				assert (c.value == "This is a comment");
-				d.root.childs.add (c);
+				var pi = d.create_pi ("xslt","transform");
+				assert (pi.name == "#processinginstruction");
+				assert (pi.value == "transform");
+				d.root.childs.add (pi);
 				assert (d.root.childs.size == 1);
+				GLib.message (@"Document created: $d");
 				string str = d.to_string ();
-				assert ("<root><!--This is a comment--></root>" in str);
+				assert ("<root><?xslt transform?></root>" in str);
 #if DEBUG
 				GLib.message (@"$d");
 #endif

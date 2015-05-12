@@ -75,6 +75,7 @@ class GXmlTest {
 		TwCDATATest.add_tests ();
 		TwCommentTest.add_tests ();
 		TwDocumentTest.add_tests ();
+		TwProcessingInstructionTest.add_tests ();
 
 		Test.run ();
 

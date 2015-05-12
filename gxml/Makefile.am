@@ -73,6 +73,7 @@ sources = \
 	TwElement.vala \
 	TwNamespace.vala \
 	TwNode.vala \
+	TwProcessingInstruction.vala \
 	TwText.vala
 
 
