@@ -101,7 +101,7 @@ class SerializableGeeTreeMapTest : GXmlTest
         var o2 = new Space.named ("Small");
         c.set (o1.name, o1);
         c.set (o2.name, o2);
-        var doc = new xDocument ();
+        var doc = new TwDocument ();
         var root = doc.create_element ("root");
         doc.childs.add (root);
         c.serialize ((xNode) root);
@@ -210,14 +210,14 @@ class SerializableGeeTreeMapTest : GXmlTest
         c.storage = new Space.Collection ();
         c.storage.set (o1.name, o1);
         c.storage.set (o2.name, o2);
-        var doc = new xDocument ();
+        var doc = new TwDocument ();
         c.serialize (doc);
         if (doc.root == null) {
           stdout.printf (@"ERROR: doc have no root node\n$(doc)\n");
           assert_not_reached ();
         }
         if (doc.root.name != "spacecontainer") {
-          stdout.printf (@"ERROR: bad doc root node's name: $(doc.document_element.node_name)\n$(doc)\n");
+          stdout.printf (@"ERROR: bad doc root node's name: $(doc.root.name)\n$(doc)\n");
           assert_not_reached ();
         }
         var root = doc.root;
