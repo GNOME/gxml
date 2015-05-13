@@ -164,17 +164,25 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
 #if DEBUG
       GLib.message ("Starting Element: start with NS");
 #endif
-          if (node.document.namespaces.first ().uri == node.ns_uri () && !node.document.prefix_default_ns) {
-            // Don't prefix. Using default namespace and prefix_default_ns = false
-            tw.start_element (node.name);
+          if (node.document.namespaces.first ().uri == node.ns_uri ()) {
+            if (node.document.prefix_default_ns)  // Default NS at root element
+              tw.start_element_ns (node.ns_prefix (), node.name, null);
+            else // Don't prefix. Using default namespace and prefix_default_ns = false
+              tw.start_element (node.name);
           }
           else
-            tw.start_element_ns (node.ns_prefix (), node.name, node.ns_uri ());
+            if (node.document.ns_top)
+              tw.start_element_ns (node.ns_prefix (), node.name, null);
+            else
+              tw.start_element_ns (node.ns_prefix (), node.name, node.ns_uri ());
         } else {
 #if DEBUG
-      GLib.message ("Starting Element: start no NS");
+      GLib.message ("Starting Element: start no NS: Check for default prefix_default_ns enabled");
 #endif
-          tw.start_element (node.name);
+          if (node.document.prefix_default_ns)
+            tw.start_element_ns (node.document.ns_prefix (), node.name, null);
+          else
+            tw.start_element (node.name);
         }
       }
 #if DEBUG
