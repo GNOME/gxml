@@ -290,6 +290,7 @@ class SerializableObjectModelTwTest : GXmlTest
         string str = doc.to_string ();
 #if DEBUG
         GLib.message (@"$doc");
+#endif
         assert ("<namespace xmlns:gxml=\"http://www.gnome.org/GXml\"/>" in str);
       } catch (GLib.Error e) {
 #if DEBUG
