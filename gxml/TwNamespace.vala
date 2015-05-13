@@ -25,7 +25,7 @@ public class GXml.TwNamespace : GXml.TwNode, GXml.Namespace
 {
   private string _uri = null;
   private string _prefix = null;
-  public TwNamespace (GXml.Document d, string uri, string prefix)
+  public TwNamespace (GXml.Document d, string uri, string? prefix)
     requires (d is TwDocument)
   {
     _doc = d;

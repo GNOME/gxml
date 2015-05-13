@@ -34,7 +34,6 @@ class TwProcessingInstructionTest : GXmlTest {
 				assert (pi.value == "transform");
 				d.root.childs.add (pi);
 				assert (d.root.childs.size == 1);
-				GLib.message (@"Document created: $d");
 				string str = d.to_string ();
 				assert ("<root><?xslt transform?></root>" in str);
 #if DEBUG

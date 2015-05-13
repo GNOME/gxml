@@ -95,5 +95,186 @@ class TwElementTest : GXmlTest {
 			e.content = null;
 			assert (e.childs.size == 1);
 		});
+		Test.add_func ("/gxml/tw-element/namespaces/default", () => {
+			var d = new TwDocument ();
+			var r = d.create_element ("root");
+			d.childs.add (r);
+			// Set default namespace
+			d.set_namespace ("http://www.gnome.org/gxml", null);
+			var e = d.create_element ("child");
+			r.childs.add (e);
+			assert (d.namespaces.size == 1);
+			string str = d.to_string ();
+#if DEBUG
+			GLib.message (@"$d");
+#endif
+			assert ("<root xmlns=\"http://www.gnome.org/gxml\">" in str);
+		});
+		Test.add_func ("/gxml/tw-element/namespaces/default-prefix", () => {
+			var d = new TwDocument ();
+			var r = d.create_element ("root");
+			d.childs.add (r);
+			// Set default namespace
+			d.set_namespace ("http://www.gnome.org/gxml", "gxml");
+			var e = d.create_element ("child");
+			r.childs.add (e);
+			assert (d.namespaces.size == 1);
+			string str = d.to_string ();
+#if DEBUG
+			GLib.message (@"$d");
+#endif
+			assert ("<root xmlns:gxml=\"http://www.gnome.org/gxml\">" in str);
+		});
+		Test.add_func ("/gxml/tw-element/namespaces/default-prefix-null", () => {
+			var d = new TwDocument ();
+			var r = d.create_element ("root");
+			d.childs.add (r);
+			// Set default namespace
+			d.set_namespace ("http://www.gnome.org/gxml", null);
+			var e = d.create_element ("child");
+			r.childs.add (e);
+			assert (d.namespaces.size == 1);
+			string str = d.to_string ();
+#if DEBUG
+			GLib.message (@"$d");
+#endif
+			assert ("<root xmlns=\"http://www.gnome.org/gxml\">" in str);
+		});
+		Test.add_func ("/gxml/tw-element/namespaces/default/enable-prefix_default_ns", () => {
+			var d = new TwDocument ();
+			var r = d.create_element ("root");
+			d.childs.add (r);
+			// Set default namespace
+			d.set_namespace ("http://www.gnome.org/gxml", "gxml");
+			d.prefix_default_ns = true;
+			var e = d.create_element ("child");
+			r.childs.add (e);
+			assert (d.namespaces.size == 1);
+			string str = d.to_string ();
+#if DEBUG
+			GLib.message (@"$d");
+#endif
+			assert ("<gxml:root xmlns:gxml=\"http://www.gnome.org/gxml\">" in str);
+		});
+		Test.add_func ("/gxml/tw-element/multiple-namespaces", () => {
+			var d = new TwDocument ();
+			var r = d.create_element ("root");
+			d.childs.add (r);
+			r.set_namespace ("http://git.gnome.org/browse/gxml", "gxml");
+			var e = d.create_element ("child");
+			r.childs.add (e);
+			assert (r.namespaces.size == 1);
+			assert (d.namespaces.size == 1);
+			e.set_namespace ("http://developer.gnome.org/", "dg");
+			assert (e.namespaces.size == 1);
+			assert (r.namespaces.size == 1);
+			assert (d.namespaces.size == 2);
+			var e2 = d.create_element ("nons");
+			e.childs.add (e2);
+			e2.set_namespace ("http://www.gnome.org/", null);
+			assert (e.namespaces.size == 1);
+			assert (r.namespaces.size == 1);
+			assert (e2.namespaces.size == 1);
+			assert (d.namespaces.size == 3);
+			string str = d.to_string ();
+#if DEBUG
+			GLib.message (@"$d");
+#endif
+			assert ("<root xmlns:gxml=\"http://git.gnome.org/browse/gxml\">" in str);
+			assert ("</root>" in str);
+			assert ("<dg:child xmlns:dg=\"http://developer.gnome.org/\">" in str);
+			assert ("<nons xmlns=\"http://www.gnome.org/\"/>" in str);
+		});
+		Test.add_func ("/gxml/tw-element/multiple-namespaces/default", () => {
+			var d = new TwDocument ();
+			var r = d.create_element ("root");
+			d.childs.add (r);
+			// Default NS
+			d.set_namespace ("http://git.gnome.org/browse/gxml", null);
+			var e = d.create_element ("child");
+			r.childs.add (e);
+			assert (d.namespaces.size == 1);
+			e.set_namespace ("http://developer.gnome.org/", "dg");
+			assert (e.namespaces.size == 1);
+			assert (d.namespaces.size == 2);
+			var e2 = d.create_element ("children");
+			e.childs.add (e2);
+			assert (e.namespaces.size == 1);
+			assert (e2.namespaces.size == 0);
+			assert (d.namespaces.size == 2);
+			var e3 = d.create_element ("nons");
+			e.childs.add (e3);
+			e3.set_namespace ("http://www.gnome.org/", "ns");
+			assert (e.namespaces.size == 1);
+			assert (e2.namespaces.size == 0);
+			assert (e3.namespaces.size == 1);
+			assert (d.namespaces.size == 3);
+			var e4 = d.create_element ("childrenons");
+			e3.childs.add (e4);
+			assert (e.namespaces.size == 1);
+			assert (e2.namespaces.size == 0);
+			assert (e3.namespaces.size == 1);
+			assert (e4.namespaces.size == 0);
+			assert (d.namespaces.size == 3);
+			string str = d.to_string ();
+#if DEBUG
+			GLib.message (@"$d");
+#endif
+			assert ("<root xmlns=\"http://git.gnome.org/browse/gxml\">" in str);
+			assert ("</root>" in str);
+			assert ("<dg:child xmlns:dg=\"http://developer.gnome.org/\">" in str);
+			assert ("<children/>" in str);
+			assert ("<ns:nons xmlns:ns=\"http://www.gnome.org/\">" in str);
+			assert ("<childrenons/>" in str);
+			assert ("</ns:nons>" in str);
+			assert ("</dg:child>" in str);
+		});/*
+		Test.add_func ("/gxml/tw-element/multiple-namespaces/default/enable-ns_top", () => {
+			var d = new TwDocument ();
+			var r = d.create_element ("root");
+			d.childs.add (r);
+			// Default NS
+			d.set_namespace ("http://git.gnome.org/browse/gxml", null);
+			// All namespaces declaration should be on root node
+			d.ns_top = true;
+			var e = d.create_element ("child");
+			r.childs.add (e);
+			assert (d.namespaces.size == 1);
+			e.set_namespace ("http://developer.gnome.org/", "dg");
+			assert (e.namespaces.size == 1);
+			assert (d.namespaces.size == 2);
+			var e2 = d.create_element ("children");
+			e.childs.add (e2);
+			assert (e.namespaces.size == 1);
+			assert (e2.namespaces.size == 0);
+			assert (d.namespaces.size == 2);
+			var e3 = d.create_element ("nons");
+			e.childs.add (e3);
+			e3.set_namespace ("http://www.gnome.org/", "ns");
+			assert (e.namespaces.size == 1);
+			assert (e2.namespaces.size == 0);
+			assert (e3.namespaces.size == 1);
+			assert (d.namespaces.size == 3);
+			var e4 = d.create_element ("childrenons");
+			e3.childs.add (e4);
+			assert (e.namespaces.size == 1);
+			assert (e2.namespaces.size == 0);
+			assert (e3.namespaces.size == 1);
+			assert (e4.namespaces.size == 0);
+			assert (d.namespaces.size == 3);
+			string str = d.to_string ();
+#if DEBUG
+			GLib.message (@"$d");
+#endif
+			assert_not_reached ();
+			assert ("<root xmlns=\"http://git.gnome.org/browse/gxml\" xmlns:dg=\"http://developer.gnome.org/\" xmlns:ns=\"http://www.gnome.org/\">" in str);
+			assert ("</root>" in str);
+			assert ("<dg:child>" in str);
+			assert ("<children/>" in str);
+			assert ("<ns:nons >" in str);
+			assert ("<childrenons/>" in str);
+			assert ("</ns:nons>" in str);
+			assert ("</dg:child>" in str);
+		});*/
 	}
 }

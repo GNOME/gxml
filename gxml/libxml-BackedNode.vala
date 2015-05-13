@@ -89,7 +89,7 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override NamespaceAttr? add_namespace_attr (string uri, string namespace_prefix)
+		public override NamespaceAttr? add_namespace_attr (string uri, string? namespace_prefix)
 		{
 			//stdout.printf ("BackedNode: Before add new Namespace\n");
 			var ns = this.node->new_ns (uri, namespace_prefix);
@@ -101,7 +101,7 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override bool set_namespace (string uri, string namespace_prefix)
+		public override bool set_namespace (string uri, string? namespace_prefix)
 		{
 #if DEBUG
 			GLib.message ("Setting a new Namespace...");

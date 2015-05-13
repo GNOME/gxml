@@ -39,6 +39,22 @@ public interface GXml.Document : Object, GXml.Node
    */
   public abstract bool indent { get; set; }
   /**
+   * Controls if writting this documentsshould use namespaces
+   * declaration at root {@link GXml.Element}.
+   *
+   * This removes full declaration at childs nodes, because they
+   * are just prefixed if a prefix was defined for namespace apply.
+   */
+  public abstract bool ns_top { get; set; }
+  /**
+   * Controls if writting this document should use default namespace's prefix
+   * to prefix root's childs {@link GXml.Element}.
+   *
+   * This removes prefix on childs using default namespace. Default namespace
+   * is the first one found in {@link GXml.Node.namespaces} for this document.
+   */
+  public abstract bool prefix_default_ns { get; set; }
+  /**
    * XML document root node as a {@link GXml.Element}.
    */
   public abstract GXml.Node root { get; }

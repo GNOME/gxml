@@ -35,7 +35,7 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
     this.file = f;
   }
   // GXml.Node
-  public override bool set_namespace (string uri, string prefix)
+  public override bool set_namespace (string uri, string? prefix)
   {
     _namespaces.add (new TwNamespace (this, uri, prefix));
     return true;
@@ -43,6 +43,28 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
   public override GXml.Document document { get { return this; } }
   // GXml.Document
   public bool indent { get; set; default = false; }
+  public bool ns_top { get; set; default = false; }
+  public bool prefix_default_ns { get; set; default = false; }
+  public GLib.File file { get; set; }
+  public GXml.Node root {
+    get {
+      if (_root == null) {
+        int found = 0;
+        for (int i = 0; i < childs.size; i++) {
+          GXml.Node n = childs.get (i);
+          if (n is GXml.Element) {
+            found++;
+            if (found == 1)
+              _root = (GXml.Element) n;
+          }
+        }
+        if (found > 1) {
+          GLib.warning ("Document have more than one root GXmlElement. Using first found");
+        }
+      }
+      return _root;
+    }
+  }
   public GXml.Node create_comment (string text)
   {
     var c = new TwComment (this, text);
@@ -67,26 +89,6 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
     var t = new TwCDATA (this, text);
     return t;
   }
-  public GLib.File file { get; set; }
-  public GXml.Node root {
-    get {
-      if (_root == null) {
-        int found = 0;
-        for (int i = 0; i < childs.size; i++) {
-          GXml.Node n = childs.get (i);
-          if (n is GXml.Element) {
-            found++;
-            if (found == 1)
-              _root = (GXml.Element) n;
-          }
-        }
-        if (found > 1) {
-          GLib.warning ("Document have more than one GXmlElement. Using first found");
-        }
-      }
-      return _root;
-    }
-  }
   public bool save (GLib.Cancellable? cancellable = null)
     throws GLib.Error
   {
@@ -110,7 +112,7 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
 #if DEBUG
     GLib.message ("Starting writting Document Root node");
 #endif
-    start_node (tw, root);
+    start_node (tw, root, true);
 #if DEBUG
     GLib.message ("Ending writting Document Root node");
 #endif
@@ -121,7 +123,7 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
     tw.end_document ();
     tw.flush ();
   }
-  public virtual void start_node (Xml.TextWriter tw, GXml.Node node)
+  public virtual void start_node (Xml.TextWriter tw, GXml.Node node, bool root)
   {
     int size = 0;
 #if DEBUG
@@ -133,16 +135,47 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
     GLib.message (@"Element Document is Null... '$((node.document == null).to_string ())'");
     GLib.message (@"Namespaces in Element... '$(node.namespaces.size)'");
 #endif
-      if (node.namespaces.size > 0) {
+      if (root) {
+        if (node.document.namespaces.size > 0) {
+          var dns = node.document.namespaces.get (0);
+          assert (dns != null);
+          if (prefix_default_ns)
+            tw.start_element_ns (dns.prefix, node.name, dns.uri);
+          else {
+            // Write default namespace no prefix
+            tw.start_element (node.name);
+            if (dns.prefix == null)
+              tw.write_attribute ("xmlns",dns.uri);
+            else
+              tw.write_attribute ("xmlns:"+dns.prefix,dns.uri);
+          }
+          if (node.document.namespaces.size > 1 && node.document.ns_top) {
+            for (int i = 1; i < node.document.namespaces.size; i++) {
+              GXml.Namespace ns = node.document.namespaces.get (i);
+              tw.write_attribute ("xmlns:"+ns.prefix, ns.uri);
+            }
+          }
+        }
+        else
+          tw.start_element (node.name);
+      }
+      else {
+        if (node.namespaces.size > 0) {
 #if DEBUG
-    GLib.message ("Starting Element: start with NS");
+      GLib.message ("Starting Element: start with NS");
 #endif
-        tw.start_element_ns (node.ns_prefix (), node.name, node.ns_uri ());
-      } else {
+          if (node.document.namespaces.first ().uri == node.ns_uri () && !node.document.prefix_default_ns) {
+            // Don't prefix. Using default namespace and prefix_default_ns = false
+            tw.start_element (node.name);
+          }
+          else
+            tw.start_element_ns (node.ns_prefix (), node.name, node.ns_uri ());
+        } else {
 #if DEBUG
-    GLib.message ("Starting Element: start no NS");
+      GLib.message ("Starting Element: start no NS");
 #endif
-        tw.start_element (node.name);
+          tw.start_element (node.name);
+        }
       }
 #if DEBUG
     GLib.message ("Starting Element: writting attributes");
@@ -174,7 +207,7 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
 #if DEBUG
     GLib.message (@"Starting Child Element: writting Node '$(n.name)'");
 #endif
-          start_node (tw, n);
+          start_node (tw, n, false);
           size += tw.end_element ();
           if (size > 1500)
             tw.flush ();

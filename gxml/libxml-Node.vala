@@ -114,7 +114,7 @@ namespace GXml {
 		/**
 		 * Add a new namespace to this {@link GXml.xNode}
 		 */
-		public virtual NamespaceAttr? add_namespace_attr (string uri, string namespace_prefix)
+		public virtual NamespaceAttr? add_namespace_attr (string uri, string? namespace_prefix)
 		{
 			return null;
 		}
@@ -124,7 +124,7 @@ namespace GXml {
 		 *
 		 * Returns: {@link true} if namespace exists.
 		 */
-		public virtual bool set_namespace (string uri, string namespace_prefix)
+		public virtual bool set_namespace (string uri, string? namespace_prefix)
 		{
 			return false;
 		}

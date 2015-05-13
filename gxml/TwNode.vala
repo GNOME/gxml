@@ -32,7 +32,7 @@ public abstract class GXml.TwNode : Object, GXml.Node
   internal Xml.TextWriter *tw;
 
   // GXml.Node
-  public virtual bool set_namespace (string uri, string prefix)
+  public virtual bool set_namespace (string uri, string? prefix)
   {
     bool found = false;
     foreach (GXml.Namespace ns in document.namespaces) {

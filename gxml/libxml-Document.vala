@@ -1015,6 +1015,8 @@ namespace GXml {
 		}
 		// GXml.Document interface
 		public bool indent { get; set; default = false; }
+		public bool ns_top { get; set; default = false; }
+		public bool prefix_default_ns { get; set; default = false; }
 		public GLib.File file { get; set; }
 		public virtual GXml.Node root { get { return document_element; } }
 		public GXml.Node create_text (string str) { return (GXml.Node) this.create_text_node (str); }

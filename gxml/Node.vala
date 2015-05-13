@@ -68,7 +68,7 @@ public interface GXml.Node : Object
    * Search for existing document's namespaces and applies it if found or creates
    * a new one, appending to document's namespaces collection.
    */
-  public abstract bool set_namespace (string uri, string prefix);
+  public abstract bool set_namespace (string uri, string? prefix);
   /**
    * Node's defaults namespace's prefix.
    *

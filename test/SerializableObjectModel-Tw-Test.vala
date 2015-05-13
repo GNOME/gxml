@@ -288,7 +288,9 @@ class SerializableObjectModelTwTest : GXmlTest
         var doc = new TwDocument ();
         ns.serialize (doc);
         string str = doc.to_string ();
-        assert ("<gxml:namespace xmlns:gxml=\"http://www.gnome.org/GXml\"/>" in str);
+#if DEBUG
+        GLib.message (@"$doc");
+        assert ("<namespace xmlns:gxml=\"http://www.gnome.org/GXml\"/>" in str);
       } catch (GLib.Error e) {
 #if DEBUG
         GLib.message ("ERROR: "+e.message);
