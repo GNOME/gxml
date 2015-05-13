@@ -60,9 +60,7 @@ class SerializableObjectModelTwTest : GXmlTest
        assert (manual.pages == 3);
        assert (manual.get_contents () == "TEXT INTO THE MANUAL DOCUMENT");
        try {
-         GLib.message ("Before Serialize...");
          manual.serialize (doc);
-         GLib.message ("After Serialize...");
          Element element = (Element) doc.root;
        } catch (GLib.Error e) {
          stdout.printf (@"$(e.message)");

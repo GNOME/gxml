@@ -229,7 +229,15 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
 #if DEBUG
     GLib.message (@"Starting Element '$(node.name)': write attribute '$(attr.name)' with NS");
 #endif
-          size += tw.write_attribute_ns (attr.ns_prefix (), attr.name, attr.ns_uri (), attr.value);
+          if (!declared_ns.contains (attr.ns_uri ())) {
+            size += tw.write_attribute_ns (attr.ns_prefix (), attr.name, attr.ns_uri (), attr.value);
+            declared_ns.add (attr.ns_uri ());
+#if DEBUG
+              GLib.message (@"Declared NS: $(attr.ns_uri ()) Total declared = $(declared_ns.size.to_string ())");
+#endif
+          }
+          else
+            size += tw.write_attribute_ns (attr.ns_prefix (), attr.name, null, attr.value);
         }
         else {
 #if DEBUG

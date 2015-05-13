@@ -145,7 +145,7 @@ class SerializableGeeDualKeyMapTest : GXmlTest
         var doc = new TwDocument ();
         var root = doc.create_element ("root");
         doc.childs.add (root);
-        c.serialize ( (xNode) root);
+        c.serialize (root);
         assert (root.childs.size == 4);
         bool found1 = false;
         bool found2 = false;

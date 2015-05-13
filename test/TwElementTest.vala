@@ -497,5 +497,30 @@ class TwElementTest : GXmlTest {
 			assert ("</gxml:nons>" in str);
 			assert ("</gxml:child>" in str);
 		});
+		Test.add_func ("/gxml/tw-element/attr-namespace", () => {
+			var d = new TwDocument ();
+			var r = d.create_element ("root");
+			d.childs.add (r);
+			// Default NS
+			d.set_namespace ("http://git.gnome.org/browse/gxml", "gxml");
+			var c = (Element) d.create_element ("child");
+			r.childs.add (c);
+			c.set_attr ("at","val");
+			var a = c.get_attr ("at");
+			assert (a != null);
+#if DEBUG
+			GLib.message (@"$d");
+#endif
+			a.set_namespace ("http://git.gnome.org/browse/gxml", "gxml");
+			assert (a.namespaces.size == 1);
+			assert (d.namespaces.size == 1);
+			string str = d.to_string ();
+#if DEBUG
+			GLib.message (@"$d");
+#endif
+			assert ("<root xmlns:gxml=\"http://git.gnome.org/browse/gxml\">" in str);
+			assert ("<child gxml:at=\"val\"/>" in str);
+			assert ("</root>" in str);
+		});
 	}
 }
