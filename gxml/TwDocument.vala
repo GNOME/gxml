@@ -35,6 +35,20 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
     this.file = f;
   }
   // GXml.Node
+  /**
+   * {@inheritDoc}
+   *
+   * All namespaces are stored at {@link GXml.Node.namespaces} owned by
+   * this {@link GXml.TwDocument}.
+   *
+   * First namespace at list, is considered default one for the document. If
+   * you haven't declared a namespace for this document or for its root element,
+   * and you define one for a child node, this one is added for the first time
+   * to document's namespaces, then this becomes the default namespace. To avoid
+   * this, you should set a namespace for documento or its root, then childs.
+   *
+   * Default {@link GXml.Namespace} for a document is the first
+   */
   public override bool set_namespace (string uri, string? prefix)
   {
     _namespaces.add (new TwNamespace (this, uri, prefix));
