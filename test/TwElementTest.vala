@@ -359,6 +359,110 @@ class TwElementTest : GXmlTest {
 			assert ("</ns:nons>" in str);
 			assert ("</dg:child>" in str);
 		});
+		Test.add_func ("/gxml/tw-element/multiple-namespaces/child-default", () => {
+			var d = new TwDocument ();
+			var r = d.create_element ("root");
+			d.childs.add (r);
+			// Default NS
+			d.set_namespace ("http://git.gnome.org/browse/gxml", null);
+			// All namespaces declaration should be on root node
+			d.ns_top = true;
+			var e = d.create_element ("child");
+			r.childs.add (e);
+			assert (d.namespaces.size == 1);
+			e.set_namespace ("http://developer.gnome.org/", "dg");
+			assert (e.namespaces.size == 1);
+			assert (d.namespaces.size == 2);
+			var e2 = d.create_element ("children");
+			e.childs.add (e2);
+			assert (e.namespaces.size == 1);
+			assert (e2.namespaces.size == 0);
+			assert (d.namespaces.size == 2);
+			var e3 = d.create_element ("nons");
+			e.childs.add (e3);
+			e3.set_namespace ("http://www.gnome.org/", null);
+			assert (e.namespaces.size == 1);
+			assert (e2.namespaces.size == 0);
+			assert (e3.namespaces.size == 1);
+			assert (d.namespaces.size == 3);
+			// This child should use http://www.gnome.org/ namespace by default, no prefix
+			var e4 = d.create_element ("childrenons");
+			e3.childs.add (e4);
+			assert (e.namespaces.size == 1);
+			assert (e2.namespaces.size == 0);
+			assert (e3.namespaces.size == 1);
+			assert (e4.namespaces.size == 0);
+			assert (d.namespaces.size == 3);
+			var c2 = d.create_element ("soup");
+			d.root.childs.add (c2);
+			// apply default namespace, should avoid prefix
+			c2.set_namespace ("http://git.gnome.org/browse/gxml", null);
+			string str = d.to_string ();
+#if DEBUG
+			GLib.message (@"$d");
+#endif
+			assert ("<root xmlns=\"http://git.gnome.org/browse/gxml\" xmlns:dg=\"http://developer.gnome.org/\">" in str);
+			assert ("<soup/>" in str);
+			assert ("</root>" in str);
+			assert ("<dg:child>" in str);
+			assert ("<children/>" in str);
+			assert ("<nons xmlns=\"http://www.gnome.org/\">" in str);
+			assert ("<childrenons/>" in str);
+			assert ("</nons>" in str);
+			assert ("</dg:child>" in str);
+		});
+		Test.add_func ("/gxml/tw-element/multiple-namespaces/child-default/enable-prefix_default_ns", () => {
+			var d = new TwDocument ();
+			var r = d.create_element ("root");
+			d.childs.add (r);
+			// Default NS
+			d.set_namespace ("http://git.gnome.org/browse/gxml", null);
+			d.prefix_default_ns = true;
+			var e = d.create_element ("child");
+			r.childs.add (e);
+			assert (d.namespaces.size == 1);
+			e.set_namespace ("http://developer.gnome.org/", "dg");
+			assert (e.namespaces.size == 1);
+			assert (d.namespaces.size == 2);
+			var e2 = d.create_element ("children");
+			e.childs.add (e2);
+			assert (e.namespaces.size == 1);
+			assert (e2.namespaces.size == 0);
+			assert (d.namespaces.size == 2);
+			var e3 = d.create_element ("nons");
+			e.childs.add (e3);
+			e3.set_namespace ("http://www.gnome.org/", "ns");
+			assert (e.namespaces.size == 1);
+			assert (e2.namespaces.size == 0);
+			assert (e3.namespaces.size == 1);
+			assert (d.namespaces.size == 3);
+			// This child should use http://www.gnome.org/ namespace by default, no prefix
+			var e4 = d.create_element ("childrenons");
+			e3.childs.add (e4);
+			e4.set_namespace ("http://www.gnome.org/", "ns");
+			assert (e.namespaces.size == 1);
+			assert (e2.namespaces.size == 0);
+			assert (e3.namespaces.size == 1);
+			assert (e4.namespaces.size == 1);
+			assert (d.namespaces.size == 3);
+			var c2 = d.create_element ("soup");
+			d.root.childs.add (c2);
+			// apply default namespace, should avoid prefix
+			c2.set_namespace ("http://git.gnome.org/browse/gxml", null);
+			string str = d.to_string ();
+#if DEBUG
+			GLib.message (@"$d");
+#endif
+			assert ("<root xmlns=\"http://git.gnome.org/browse/gxml\">" in str);
+			assert ("<soup/>" in str);
+			assert ("</root>" in str);
+			assert ("<dg:child xmlns:dg=\"http://developer.gnome.org/\">" in str);
+			assert ("<children/>" in str);
+			assert ("<ns:nons xmlns:ns=\"http://www.gnome.org/\">" in str);
+			assert ("<ns:childrenons/>" in str);
+			assert ("</ns:nons>" in str);
+			assert ("</dg:child>" in str);
+		});
 		Test.add_func ("/gxml/tw-element/multiple-namespaces/default/enable-prefix_default_ns", () => {
 			var d = new TwDocument ();
 			var r = d.create_element ("root");

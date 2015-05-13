@@ -109,10 +109,11 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
     if (root == null) {
       tw.end_document ();
     }
+    var dns = new ArrayList<string> ();
 #if DEBUG
     GLib.message ("Starting writting Document Root node");
 #endif
-    start_node (tw, root, true);
+    start_node (tw, root, true, ref dns);
 #if DEBUG
     GLib.message ("Ending writting Document Root node");
 #endif
@@ -123,7 +124,7 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
     tw.end_document ();
     tw.flush ();
   }
-  public virtual void start_node (Xml.TextWriter tw, GXml.Node node, bool root)
+  public virtual void start_node (Xml.TextWriter tw, GXml.Node node, bool root, ref Gee.ArrayList<string> declared_ns)
   {
     int size = 0;
 #if DEBUG
@@ -139,20 +140,34 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
         if (node.document.namespaces.size > 0) {
           var dns = node.document.namespaces.get (0);
           assert (dns != null);
-          if (prefix_default_ns)
+          if (prefix_default_ns) {
             tw.start_element_ns (dns.prefix, node.name, dns.uri);
+            declared_ns.add (dns.uri);
+#if DEBUG
+              GLib.message (@"Declared NS: '$(dns.uri)' Total declared = $(declared_ns.size.to_string ())");
+#endif
+          }
           else {
-            // Write default namespace no prefix
             tw.start_element (node.name);
             if (dns.prefix == null)
-              tw.write_attribute ("xmlns",dns.uri);
+              tw.write_attribute ("xmlns",dns.uri);// Write default namespace no prefix
             else
               tw.write_attribute ("xmlns:"+dns.prefix,dns.uri);
+            // Add to declared namespaces
+            declared_ns.add (dns.uri);
+#if DEBUG
+              GLib.message (@"Declared NS: $(dns.uri) Total declared = $(declared_ns.size.to_string ())");
+#endif
           }
           if (node.document.namespaces.size > 1 && node.document.ns_top) {
             for (int i = 1; i < node.document.namespaces.size; i++) {
               GXml.Namespace ns = node.document.namespaces.get (i);
+              if (ns.prefix == null) continue;
               tw.write_attribute ("xmlns:"+ns.prefix, ns.uri);
+              declared_ns.add (ns.uri);
+#if DEBUG
+              GLib.message (@"Declared NS: '$(ns.uri)' Total declared = $(declared_ns.size.to_string ())");
+#endif
             }
           }
         }
@@ -162,22 +177,43 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
       else {
         if (node.namespaces.size > 0) {
 #if DEBUG
-      GLib.message ("Starting Element: start with NS");
+      GLib.message (@"Starting Element: '$(node.name)' start with NS");
 #endif
-          if (node.document.namespaces.first ().uri == node.ns_uri ()) {
+          if (node.document.ns_uri () == node.ns_uri ()) {
+#if DEBUG
+      GLib.message (@"Node '$(node.name)' Have Default NS");
+#endif
             if (node.document.prefix_default_ns)  // Default NS at root element
               tw.start_element_ns (node.ns_prefix (), node.name, null);
             else // Don't prefix. Using default namespace and prefix_default_ns = false
               tw.start_element (node.name);
           }
-          else
-            if (node.document.ns_top)
-              tw.start_element_ns (node.ns_prefix (), node.name, null);
-            else
+          else {
+#if DEBUG
+      GLib.message (@"No default NS in use for Node '$(node.name)'. Ns = '$(node.ns_uri ())'");
+#endif
+            if (node.ns_prefix () == null && !declared_ns.contains (node.ns_uri ())) {// Its a default ns for children
               tw.start_element_ns (node.ns_prefix (), node.name, node.ns_uri ());
+              declared_ns.add (node.ns_uri ());
+#if DEBUG
+              GLib.message (@"Declared NS: '$(node.ns_uri ())' Total declared = $(declared_ns.size.to_string ())");
+#endif
+            }
+            else {
+              if (node.document.ns_top || declared_ns.contains (node.ns_uri ()))
+                tw.start_element_ns (node.ns_prefix (), node.name, null);
+              else {
+                tw.start_element_ns (node.ns_prefix (), node.name, node.ns_uri ());
+                declared_ns.add (node.ns_uri ());
+#if DEBUG
+              GLib.message (@"Declared NS: $(node.ns_uri ()) Total declared = $(declared_ns.size.to_string ())");
+#endif
+              }
+            }
+          }
         } else {
 #if DEBUG
-      GLib.message ("Starting Element: start no NS: Check for default prefix_default_ns enabled");
+      GLib.message (@"Starting Element: '$(node.name)' : start no NS: Check for default prefix_default_ns enabled");
 #endif
           if (node.document.prefix_default_ns)
             tw.start_element_ns (node.document.ns_prefix (), node.name, null);
@@ -186,18 +222,18 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
         }
       }
 #if DEBUG
-    GLib.message ("Starting Element: writting attributes");
+    GLib.message (@"Starting Element '$(node.name)': writting attributes");
 #endif
       foreach (GXml.Node attr in node.attrs.values) {
         if (attr.namespaces.size > 0) {
 #if DEBUG
-    GLib.message ("Starting Element: write attribute with NS");
+    GLib.message (@"Starting Element '$(node.name)': write attribute '$(attr.name)' with NS");
 #endif
           size += tw.write_attribute_ns (attr.ns_prefix (), attr.name, attr.ns_uri (), attr.value);
         }
         else {
 #if DEBUG
-    GLib.message ("Starting Element: write attribute no NS");
+    GLib.message (@"Starting Element '$(node.name)': write attribute '$(attr.name)' no NS");
 #endif
           size += tw.write_attribute (attr.name, attr.value);
         }
@@ -215,7 +251,13 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
 #if DEBUG
     GLib.message (@"Starting Child Element: writting Node '$(n.name)'");
 #endif
-          start_node (tw, n, false);
+          if (node.namespaces.size > 0) {
+            if (node.document.namespaces.size > 0)
+              if (node.ns_uri () != node.document.ns_uri ())
+                if (n.namespaces.size == 0 && node.ns_prefix == null) // Apply parent ns
+                  n.set_namespace (node.ns_uri (), node.ns_prefix ());
+          }
+          start_node (tw, n, false, ref declared_ns);
           size += tw.end_element ();
           if (size > 1500)
             tw.flush ();
