@@ -21,6 +21,9 @@
 
 using Gee;
 
+/**
+ * Class implemeting {@link GXml.CDATA} interface, not tied to libxml-2.0 library.
+ */
 public class GXml.TwCDATA : GXml.TwNode, GXml.CDATA
 {
   private string _str = null;

@@ -21,6 +21,9 @@
 
 using Gee;
 
+/**
+ * Class implemeting {@link GXml.Namespace}, not tied to libxml-2.0 library.
+ */
 public class GXml.TwNamespace : GXml.TwNode, GXml.Namespace
 {
   private string _uri = null;

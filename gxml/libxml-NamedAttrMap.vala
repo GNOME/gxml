@@ -26,9 +26,9 @@ using Gee;
 
 namespace GXml {
 	/**
-	 * A class implementing {@link NamedNodeMap} interface for {@link Attr} objects.
+	 * A class implementing {@link GXml.NamedNodeMap} interface for {@link GXml.xAttr} objects.
 	 * 
-	 * A collection of {@link NamedNodeMap} of type {@link Attr} objects in a {@link xElement}.
+	 * A collection of {@link GXml.NamedNodeMap} of type {@link GXml.Attr} objects in a {@link GXml.xElement}.
 	 */
 	public abstract class AbstractNamedAttrMap : Object,
 		Traversable<Entry<string,GXml.Attribute>>,
@@ -116,9 +116,9 @@ namespace GXml {
 		}
 	}
 		/**
-	 * A class implementing {@link NamedNodeMap} interface for {@link Attr} objects.
+	 * A class implementing {@link GXml.NamedNodeMap} interface for {@link GXml.xAttr} objects.
 	 * 
-	 * A collection of {@link NamedNodeMap} of type {@link Attr} objects in a {@link xElement}.
+	 * A collection of {@link GXml.NamedNodeMap} of type {@link GXml.xAttr} objects in a {@link GXml.xElement}.
 	 */
 	public class NamedAttrMap : AbstractNamedAttrMap, Map<string,GXml.Attribute>,
 		NamedNodeMap<xAttr?>

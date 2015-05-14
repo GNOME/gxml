@@ -23,7 +23,7 @@
 using Gee;
 
 /**
- * Base interface providing basic functionalities to all GXml interfaces.
+ * Interface for XML Processing Instruction sections.
  */
 public interface GXml.ProcessingInstruction : Object, GXml.Node
 {

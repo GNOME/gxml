@@ -21,6 +21,9 @@
 
 using Gee;
 
+/**
+ * Base node abstract class implemeting {@link GXml.Node} interface, not tied to libxml-2.0 library.
+ */
 public abstract class GXml.TwNode : Object, GXml.Node
 {
   protected Gee.HashMap<string,GXml.Node> _attrs = new Gee.HashMap<string,GXml.Node> ();

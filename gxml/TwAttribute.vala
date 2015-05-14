@@ -21,6 +21,9 @@
 
 using Gee;
 
+/**
+ * Class implemeting {@link GXml.Attribute} interface, not tied to libxml-2.0 library.
+ */
 public class GXml.TwAttribute : GXml.TwNode, GXml.Attribute
 {
   public TwAttribute (GXml.Document d, string name, string value)

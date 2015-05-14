@@ -21,6 +21,9 @@
 
 using Gee;
 
+/**
+ * Class implemeting {@link GXml.ProcessingInstruction} interface, not tied to libxml-2.0 library.
+ */
 public class GXml.TwProcessingInstruction : GXml.TwNode, GXml.ProcessingInstruction
 {
   private string _target = "";

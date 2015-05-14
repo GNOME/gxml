@@ -22,6 +22,12 @@
 using Gee;
 using Xml;
 
+/**
+ * Class implemeting {@link GXml.Document} interface, not tied to libxml-2.0 library.
+ *
+ * This class use {@link Xml.TextWriter} to write down XML documents using
+ * its contained {@link GXml.Node} childs or other XML structures.
+ */
 public class GXml.TwDocument : GXml.TwNode, GXml.Document
 {
   GXml.Element _root = null;

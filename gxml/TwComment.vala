@@ -21,6 +21,9 @@
 
 using Gee;
 
+/**
+ * Class implemeting {@link GXml.Comment} interface, not tied to libxml-2.0 library.
+ */
 public class GXml.TwComment : GXml.TwNode, GXml.Comment
 {
   private string _str = "";

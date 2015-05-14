@@ -76,7 +76,7 @@ namespace GXml {
 
 	/**
 	 * Serializes and deserializes {@link GLib.Object}s to and from
-	 * {@link GXml.xNode}.
+	 * {@link GXml.xNode}, using {@link SerializableJson} method.
 	 *
 	 * Serialization can automatically serialize a variety of public
 	 * properties.  {@link GLib.Object}s can also implement the
