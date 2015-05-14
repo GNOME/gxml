@@ -24,11 +24,11 @@
 
 namespace GXml {
 	/**
-	 * Represents an XML Namespace Attr node.
+	 * Represents an XML Namespace for a {@link GXml.Node} node.
 	 *
 	 * These represent
-	 * prefix=uri pairs that define namespaces for XML Elements
-	 * and Attrs.
+	 * prefix=uri pairs that define namespaces for XML {@link GXml.xElements}
+	 * and {@link GXml.xAttr}.
 	 */
 	public class NamespaceAttr : xNode, GXml.Namespace {
 		/** Private properties */

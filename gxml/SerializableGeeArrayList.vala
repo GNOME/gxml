@@ -23,7 +23,7 @@ using GXml;
 using Gee;
 
 /**
- * A {@link Serializable} objects container.
+ * Serializable Framework. A {@link Serializable} objects container based on {@link Gee.ArrayList}.
  * 
  * It is derived  It implements {@link Serializable} and {@link SerializableCollection}
  * interfaces.
