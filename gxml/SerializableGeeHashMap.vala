@@ -21,7 +21,7 @@
  */
 using GXml;
 /**
- * A {@link Serializable} objects container.
+ * Serializable Framework. A {@link Serializable} objects container based on {@link Gee.HashMap}.
  * 
  * It uses a key and value store implementing {@link Gee.HashMap} interface.
  * It implements {@link Serializable} and {@link SerializableCollection} interfaces.
