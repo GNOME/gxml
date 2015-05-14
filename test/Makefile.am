@@ -108,7 +108,10 @@ CLEANFILES = $(gxml_test_SOURCES:.vala=.c) $(BUILT_SOURCES) gxml_test
 
 # TODO: should we add *.c to this list?, or is there a var of generated .c we can put in CLEANFILES?
 
-DISTCLEANFILES = _serialization_test_*.xml
+DISTCLEANFILES = \
+  _serialization_test_*.xml \
+  test-large-tw.xml \
+  tw-test.xml
 
 EXTRA_DIST += \
 	$(sources) \
@@ -118,5 +121,7 @@ EXTRA_DIST += \
 	test_out_path_expected.xml \
 	test_out_stream_expected.xml \
 	test.xml \
+	tw-test.xml \
+	test-collection.xml \
 	$(NULL)
 

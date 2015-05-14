@@ -84,6 +84,7 @@ AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
 	-DG_LOG_DOMAIN=\"gxml\" \
+	-I$(top_srcdir) \
 	$(NULL)
 
 AM_CFLAGS = \
