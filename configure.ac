@@ -190,13 +190,13 @@ fi
 
 if test x$enable_devhelp_docs = xyes; then
   if test x$have_valadoc = xno -o x$have_gtkdoc = xno; then
-    AC_MSG_ERROR([valadoc and gtk-doc is required, to generate devhelp documentation. Use --enable-valadoc and --enable-gtk-doc])
+    AC_MSG_ERROR([valadoc and gtk-doc is required, to generate devhelp documentation. Use --enable-valadoc and --enable-gtk-docs])
   fi
 fi
 
 if test x$enable_gir_docs = xyes; then
   if test x$have_valadoc = xno; then
-    AC_MSG_ERROR([valadoc is required, to generate GIR documentation. Use --enable-valadoc and --enable-gtk-doc])
+    AC_MSG_ERROR([valadoc is required, to generate GIR documentation. Use --enable-valadoc and --enable-gtk-docs])
   fi
 fi
 
