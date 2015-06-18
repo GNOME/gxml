@@ -38,32 +38,34 @@ using Gee;
 public abstract class GXml.SerializableObjectModel : Object, Serializable
 {
   // holds all unknown nodes
-  protected GXml.TwDocument _doc;
+  protected GXml.TwDocument _doc = null;
   /* Serializable interface properties */
   protected ParamSpec[] properties { get; set; }
   public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; protected set; }
   public string? serialized_xml_node_value { get; protected set; default=null; }
   public virtual bool get_enable_unknown_serializable_property () { return false; }
-  public Gee.Map<string,GXml.Attribute> unknown_serializable_properties
-  {
-    get {
-      return (Gee.Map<string,GXml.Attribute>) _doc.root.attrs;
-    }
-  }
-  public Gee.Collection<GXml.Node> unknown_serializable_nodes
-  {
-    get {
-      return _doc.root.childs;
-    }
-  }
-
   /**
    * All unknown nodes, will be stored in a per-object {@link GXml.Document}
    * in its {@link GXml.Element} root. Then, all unknown properties will be
    * stored as properties in document's root and all unknown childs {@link GXml.Node}
    * as root's childs.
    */
-  construct
+  public Gee.Map<string,GXml.Attribute> unknown_serializable_properties
+  {
+    get {
+      if (_doc == null) init_unknown_doc ();
+      return (Gee.Map<string,GXml.Attribute>) _doc.root.attrs;
+    }
+  }
+  public Gee.Collection<GXml.Node> unknown_serializable_nodes
+  {
+    get {
+      if (_doc == null) init_unknown_doc ();
+      return _doc.root.childs;
+    }
+  }
+
+  private void init_unknown_doc ()
   {
     _doc = new TwDocument ();
     var r = _doc.create_element ("root");
@@ -374,6 +376,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     if (prop == null) {
       // FIXME: Event emit
       if (get_enable_unknown_serializable_property ()) {
+        if (_doc == null) init_unknown_doc ();
         if (property_node is GXml.Attribute) {
 #if DEBUG
           GLib.message (@"Adding unknown attribute $(property_node.name) to $(get_type ().name ())\n");
