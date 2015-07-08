@@ -126,7 +126,6 @@ EXTRA_DIST += \
 	test_out_path_expected.xml \
 	test_out_stream_expected.xml \
 	test.xml \
-	tw-test.xml \
 	test-collection.xml \
 	$(NULL)
 

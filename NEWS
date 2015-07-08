@@ -1,4 +1,53 @@
 =============
+Version 0.6.0
+=============
+
+This new version is API/ABI incompatible with 0.4 series.
+
+Most work has been on simplifying API for Vala programers users, using interfaces and
+Gee classes, allowing to create new backends based or different from libxml2. This
+work allowed to re-implement existing classes without radically modify API for existing
+applications and makes room to improve performance and memory usage.
+
+News and changes are as follow:
+
+
+* Added new interfaces to simplify implementing new backends for XML reading/writting,
+  containers are Gee ones.
+
+* Renamed GXml 0.4 DOM classes to prefixing a "x", to avoid conflicts with new interfaces
+
+* GXml DOM classes, now implement new interfaces
+
+* GXml DOM classes now implement Gee interfaces to access directly to libxml2 structures,
+  reducing extra processing and memory consumption when they are referenced from permament
+  on memory GObject classes. Reimplementing most other DOM classes to implement Gee classes
+  in on roadmap, to reduce memory and possibly increase performance on parsing.
+
+* Improved XML namespaces handling
+
+* Added new TwDocument class, as pure Vala XML tree container implementation of
+  new interfaces
+
+* Implemented a 3-5 times faster XML writer using TwDocument and libxml2 xmlTextWriter.
+  A new TwDocument and xmlTextReader is on roadmap, to improve parsing performance.
+
+* Serializable framework ported to new interfaces, allowing to use different
+  backends when serialize/deserialize GObjects.
+
+* Serializable and its implementations, has gained serialization performance improvements
+  using TwDocument and better namespace handling.
+
+* Improved documentation
+
+* Added --enable-performance-tests, just to reduce the time required to run all
+  unit tests.
+
+New interfaces makes room to convert any GObject as a GXml.Node object, making de/serialization
+more transparent and possibly better performance and memory usage reduction, by avoiding
+intermediate XML trees using libxml2 or TwDocument. Another plan includes, GObject mapping to XSD.
+
+=============
 Version 0.4.2
 =============
 - Fixes to Vala bindings documentation for DevHelp (Daniel Espinosa)
