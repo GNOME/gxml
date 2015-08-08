@@ -188,9 +188,10 @@ if HAVE_INTROSPECTION
 # dlname:
 #   Extract our dlname like libfolks does, see bgo#658002 and bgo#585116
 #   This is what g-ir-scanner does.
-libgxml_dlname = \
-        `$(SED) -n "s/^dlname='\([A-Za-z0-9.+-]\+\)'/\1/p" libgxml-0.6.la`
-
+libgxml_dlname=\
+	`$(SED) -nE "s/^dlname='([A-Za-z0-9.+-]+)'/\1/p" libgxml-0.6.la`
+#libgxml_dlname=\
+#	`$(GREP) -e dlname libgxml-0.6.la | $(SED) s/dlname=\'// | $(SED) s/\'//`
 
 AM_VALAFLAGS += \
 	--gir=GXml-$(API_VERSION).gir
