@@ -55,6 +55,7 @@ sources = \
 	libxml-NamespaceAttrNodeList.vala \
 	libxml-Text.vala \
 	Serializable.vala \
+	SerializableProperty.vala \
 	Enumeration.vala \
 	SerializableObjectModel.vala \
 	SerializableJson.vala \
