@@ -56,6 +56,7 @@ sources = \
 	libxml-Text.vala \
 	Serializable.vala \
 	SerializableProperty.vala \
+	SerializableBool.vala \
 	Enumeration.vala \
 	SerializableObjectModel.vala \
 	SerializableJson.vala \
