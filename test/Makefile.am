@@ -39,6 +39,7 @@ sources = \
 	EnumerationTest.vala \
 	SerializableTest.vala \
 	SerializablePropertyBoolTest.vala \
+	SerializablePropertyValueListTest.vala \
 	SerializationTest.vala \
 	SerializableObjectModelTest.vala \
 	SerializableObjectModel-Tw-Test.vala \

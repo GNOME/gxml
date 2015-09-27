@@ -36,16 +36,22 @@ public class GXml.SerializableValueList : SerializableObjectModel, SerializableP
   private string _name = null;
   private ArrayList<string> _values = null;
   public SerializableValueList.with_name (string name) { _name = name; }
-  public void add_value (string val)
+  public void add_values (string[] vals)
   {
     if (_values == null) _values = new ArrayList<string> ();
-    _values.add (val);
+    for (int i = 0; i < vals.length; i++) {
+      _values.add (vals[i]);
+    }
   }
-  public string get_value (int index)
-    requires (index >= 0)
+  public string? get_value_at (int index)
   {
     if (_values == null) return null;
+    if (index < 0 || index >= _values.size) return null;
     return _values.get (index);
+  }
+  public void select_value_at (int index)
+  {
+    _val = get_value_at (index);
   }
   public string[] get_values () { return _values.to_array (); }
   public string get_serializable_property_value () { return _val; }

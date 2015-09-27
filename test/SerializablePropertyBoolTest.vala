@@ -1,7 +1,7 @@
 /* -*- Mode: vala; indent-tabs-mode: nil; tab-width: 2 -*- */
 /**
  *
- *  GXml.Serializable.BasicTypeTest
+ *  SerializablePropertyBoolTest.vala
  *
  *  Authors:
  *
