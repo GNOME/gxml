@@ -40,6 +40,7 @@ class SerializablePropertyBoolTest : GXmlTest {
         var bn = new BoolNode ();
         var doc = new xDocument ();
         bn.serialize (doc);
+        Test.message ("XML:\n"+doc.to_string ());
         var element = doc.document_element;
         var b = element.get_attribute_node ("boolean");
         assert (b == null);
@@ -47,6 +48,53 @@ class SerializablePropertyBoolTest : GXmlTest {
         assert (s == null);
         var i = element.get_attribute_node ("integer");
         assert (i.value == "0");
+      } catch (GLib.Error e) {
+        Test.message (@"ERROR: $(e.message)");
+        assert_not_reached ();
+      }
+    });
+    Test.add_func ("/gxml/serializable/Bool/changes",
+    () => {
+      try {
+        var bn = new BoolNode ();
+        var doc = new xDocument ();
+        bn.boolean = new SerializableBool.with_name ("boolean");
+        bn.serialize (doc);
+        Test.message ("XML:\n"+doc.to_string ());
+        var element = doc.document_element;
+        var b = element.get_attribute_node ("boolean");
+        assert (b == null);
+        var s = element.get_attribute_node ("name");
+        assert (s == null);
+        var i = element.get_attribute_node ("integer");
+        assert (i.value == "0");
+        // Change values
+        // set to TRUE
+        bn.boolean.set_value (true);
+        var doc2 = new xDocument ();
+        bn.serialize (doc2);
+        Test.message ("XML2:\n"+doc2.to_string ());
+        var element2 = doc2.document_element;
+        var b2 = element2.get_attribute_node ("boolean");
+        assert (b2 != null);
+        assert (b2.value == "true");
+        // set to FALSE
+        bn.boolean.set_value (false);
+        var doc3 = new xDocument ();
+        bn.serialize (doc3);
+        Test.message ("XML3:\n"+doc3.to_string ());
+        var element3 = doc3.document_element;
+        var b3 = element3.get_attribute_node ("boolean");
+        assert (b3 != null);
+        assert (b3.value == "false");
+        // set to NULL/IGNORE
+        bn.boolean.set_serializable_property_value (null);
+        var doc4= new xDocument ();
+        bn.serialize (doc4);
+        Test.message ("XML3:\n"+doc4.to_string ());
+        var element4 = doc4.document_element;
+        var b4 = element4.get_attribute_node ("boolean");
+        assert (b4 == null);
       } catch (GLib.Error e) {
         Test.message (@"ERROR: $(e.message)");
         assert_not_reached ();
