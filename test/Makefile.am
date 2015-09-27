@@ -38,6 +38,7 @@ sources = \
 	ValaLibxml2Test.vala \
 	EnumerationTest.vala \
 	SerializableTest.vala \
+	SerializablePropertyBoolTest.vala \
 	SerializationTest.vala \
 	SerializableObjectModelTest.vala \
 	SerializableObjectModel-Tw-Test.vala \

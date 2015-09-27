@@ -76,6 +76,7 @@ class GXmlTest {
 		TwCommentTest.add_tests ();
 		TwDocumentTest.add_tests ();
 		TwProcessingInstructionTest.add_tests ();
+		SerializablePropertyBoolTest.add_tests ();
 
 		Test.run ();
 
