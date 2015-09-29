@@ -142,10 +142,22 @@ namespace GXml {
 			return enumc.values;
 		}
 		/**
-		 * Converts a string to a value in a {@link GLib.EnumValue}
+		 * Transform an enumeration in an array of strings representing enumeration values.
 		 *
-		 * Returns: a value in a {@link GLib.EnumValue}
+		 * Returns: an array of strings representing an enumeration.
+		 *
+		 * @param enumeration: a {@link GLib.Type} of type {@link GLib.Type.ENUM}
 		 */
+		public static string[] to_string_array (Type enumeration) throws GLib.Error
+			requires (enumeration.is_a (Type.ENUM))
+		{
+			var vals = Enumeration.to_array (enumeration);
+			string [] s = {};
+			for (int i = 0; i < vals.length; i++) {
+				s += Enumeration.get_nick_camelcase (enumeration, vals[i].value);
+			}
+			return s;
+		}
 	}
 	public errordomain EnumerationError
 	{

@@ -28,8 +28,6 @@ using Gee;
  * All values are stored in an array to get access to it by its position using
  * {@link SerializableValueList.get_value}.
  */
-using Gee;
-
 public class GXml.SerializableValueList : SerializableObjectModel, SerializableProperty
 {
   private string _val = null;
