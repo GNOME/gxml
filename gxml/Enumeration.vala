@@ -142,6 +142,26 @@ namespace GXml {
 			return enumc.values;
 		}
 		/**
+		 * From a integer valuer calculates a valid {@link GLib.EnumValue} for a
+		 * {@link GLib.Type}. 
+		 *
+		 * Returns: a {@link GLib.EnumValue} or null if fails.
+		 *
+		 * @param enumeration: a {@link GLib.Type} of type {@link GLib.Type.ENUM}
+		 * @param val: an integer in a valid range in the enumeration.
+		 */
+		public static EnumValue? parse_integer (Type enumeration, int val)
+		{
+			if (!enumeration.is_a (Type.ENUM)) return null;
+			var vals = Enumeration.to_array (enumeration);
+			if (vals == null) return null;
+			for (int i = 0; i < vals.length; i++) {
+				var e = vals[i];
+				if (e.value == val) return e;
+			}
+			return null;
+		}
+		/**
 		 * Transform an enumeration in an array of strings representing enumeration values.
 		 *
 		 * Returns: an array of strings representing an enumeration.

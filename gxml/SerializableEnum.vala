@@ -21,6 +21,12 @@
  */
 
 using Gee;
+
+public errordomain GXml.SerializableEnumError {
+  INVALID_VALUE_ERROR,
+  PARSE_ERROR
+}
+
 /**
  * Represent any value as string but a list of enum values by default to select from.
  * property to be added as a {@link GXml.Attr} to a {@link GXml.Element}.
@@ -37,25 +43,37 @@ public class GXml.SerializableEnum : SerializableObjectModel, SerializableProper
   protected string _name = null;
   protected GLib.Type _enumtype;
   public SerializableEnum.with_name (string name) { _name = name; }
+  public SerializableEnum.with_enum (string name, GLib.Type type)
+  {
+    _name = name;
+    _enumtype = type;
+  }
   public void set_enum_type (GLib.Type type)
     requires (type.is_a (Type.ENUM))
   { _enumtype = type; }
   public GLib.Type get_enum_type () { return _enumtype; }
-  public EnumValue? parse (string str)
+  public void parse (string str) throws GLib.Error
   {
-    if (!_enumtype.is_a (Type.ENUM)) return null;
-    return Enumeration.parse (_enumtype, str);
+    if (!_enumtype.is_a (Type.ENUM)) return;
+    var e = Enumeration.parse (_enumtype, str);
+    if (e == null) return;
+    _val = Enumeration.get_nick_camelcase (_enumtype, e.value);
   }
-  public EnumValue? from_value (int val)
+  public void parse_integer (int v) throws GLib.Error
   {
-    if (!_enumtype.is_a (Type.ENUM)) return null;
-    var vals = Enumeration.to_array (_enumtype);
-    if (vals == null) return null;
-    for (int i = 0; i < vals.length; i++) {
-      var e = vals[i];
-      if (e.value == val) return e;
-    }
-    return null;
+    if (!_enumtype.is_a (Type.ENUM)) return;
+    var e = Enumeration.parse_integer (_enumtype, v);
+    if (e == null) return;
+    _val = Enumeration.get_nick_camelcase (_enumtype, e.value);
+  }
+  public int to_integer () throws GLib.Error
+  {
+    if (_val == null)
+      throw new SerializableEnumError.INVALID_VALUE_ERROR (_("Value can't be parsed to a valid enumeration's value. Value is not set"));
+    var e = Enumeration.parse (_enumtype, _val);
+    if (e == null)
+      throw new SerializableEnumError.INVALID_VALUE_ERROR (_("Value can't be parsed to a valid enumeration's value"));
+    return e.value;
   }
   public string get_serializable_property_value () { return _val; }
   public void set_serializable_property_value (string? val) { _val = val; }

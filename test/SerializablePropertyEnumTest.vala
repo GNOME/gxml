@@ -25,9 +25,27 @@
  */
 using GXml;
 class SerializablePropertyEnumTest : GXmlTest {
-  public class Enum : SerializableObjectModel
+  public class Enum : SerializableEnum
   {
-    public SerializableEnum values { get; set; }
+    public Enum (string name)
+    {
+      _name = name;
+      _enumtype = typeof (Enum.Values);
+    }
+    public Enum.Values get_value () throws GLib.Error { return (Enum.Values) to_integer (); }
+    public void set_value (Enum.Values val) throws GLib.Error { parse_integer ((int) val); }
+    public string get_string () throws GLib.Error { return get_serializable_property_value (); }
+    public void set_string (string? str) throws GLib.Error { set_serializable_property_value (str); }
+    public enum Values {
+      SER_ONE,
+      SER_TWO,
+      SER_THREE,
+      SER_EXTENSION
+    }
+  }
+  public class EnumerationValues : SerializableObjectModel
+  {
+    public Enum values { get; set; default = new Enum ("values"); }
     public int  integer { get; set; default = 0; }
     public string name { get; set; }
     public override string node_name () { return "Enum"; }
@@ -37,12 +55,12 @@ class SerializablePropertyEnumTest : GXmlTest {
     Test.add_func ("/gxml/serializable/Enum/basic",
     () => {
       try {
-        var e = new Enum ();
+        var e = new EnumerationValues ();
         var doc = new xDocument ();
         e.serialize (doc);
         Test.message ("XML:\n"+doc.to_string ());
         var element = doc.document_element;
-        var ee1 = element.get_attribute_node ("enumvalue");
+        var ee1 = element.get_attribute_node ("values");
         assert (ee1 == null);
         var s = element.get_attribute_node ("name");
         assert (s == null);
@@ -52,59 +70,61 @@ class SerializablePropertyEnumTest : GXmlTest {
         Test.message (@"ERROR: $(e.message)");
         assert_not_reached ();
       }
-    });/*
-    Test.add_func ("/gxml/serializable/ValueList/changes",
+    });
+    Test.add_func ("/gxml/serializable/Enum/changes",
     () => {
       try {
-        var vl = new ValueList ();
-        vl.values = new SerializableValueList.with_name ("option");
+        var e = new EnumerationValues ();
         var doc1 = new xDocument ();
-        vl.serialize (doc1);
+        e.serialize (doc1);
         Test.message ("XML1:\n"+doc1.to_string ());
         var element1 = doc1.document_element;
-        var evl1 = element1.get_attribute_node ("option");
-        assert (evl1 == null);
+        var ee1 = element1.get_attribute_node ("values");
+        assert (ee1 == null);
         var s1 = element1.get_attribute_node ("name");
         assert (s1 == null);
         var i1 = element1.get_attribute_node ("integer");
         assert (i1.value == "0");
-        // Adding values
-        var v = vl.values.get_value_at (0);
-        assert (v == null);
-        vl.values.add_values ({"Temp1","Temp2"});
-        v = vl.values.get_value_at (0);
-        assert (v == "Temp1");
-        v = vl.values.get_value_at (1);
-        assert (v == "Temp2");
-        var doc2 = new xDocument ();
-        vl.serialize (doc2);
-        Test.message ("XML2:\n"+doc2.to_string ());
-        var element2 = doc2.document_element;
-        var evl2 = element2.get_attribute_node ("option");
-        assert (evl2 == null);
-        // Select a value
-        vl.values.select_value_at (1);
-        v = vl.values.get_serializable_property_value ();
-        assert (v == "Temp2");
-        var doc3 = new xDocument ();
-        vl.serialize (doc3);
-        Test.message ("XML3:\n"+doc3.to_string ());
-        var element3 = doc3.document_element;
-        var evl3 = element3.get_attribute_node ("option");
-        assert (evl3 != null);
-        assert (evl3.value == "Temp2");
-        // Set value to null/ignore
-        vl.values.set_serializable_property_value (null);
-        var doc4 = new xDocument ();
-        vl.serialize (doc4);
-        Test.message ("XML4:\n"+doc4.to_string ());
-        var element4 = doc4.document_element;
-        var evl4 = element4.get_attribute_node ("option");
-        assert (evl4 == null);
+        // Getting value
+        Enum.Values v = Enum.Values.SER_ONE;
+        try { v = e.values.get_value (); }
+        catch (GLib.Error e) {
+          Test.message ("Error cough correctly: "+e.message);
+        }
+        e.values.set_value (Enum.Values.SER_THREE);
+        assert (e.values.get_value () == Enum.Values.SER_THREE);
+        Test.message ("Actual value= "+e.values.to_string ());
+        assert (e.values.to_string () == "SerThree");
+        var d2 = new xDocument ();
+        e.serialize (d2);
+        Test.message ("XML2:\n"+d2.to_string ());
+        var element2 = d2.document_element;
+        var ee2 = element2.get_attribute_node ("values");
+        assert (ee2 != null);
+        assert (ee2.value == "SerThree");
+        e.values.set_value (Enum.Values.SER_TWO);
+        assert (e.values.get_value () == Enum.Values.SER_TWO);
+        Test.message ("Actual value= "+e.values.to_string ());
+        assert (e.values.to_string () == "SerTwo");
+        var d3 = new xDocument ();
+        e.serialize (d3);
+        Test.message ("XML3:\n"+d3.to_string ());
+        var element3 = d3.document_element;
+        var ee3 = element3.get_attribute_node ("values");
+        assert (ee3 != null);
+        assert (ee3.value == "SerTwo");
+        // ignore
+        e.values.set_string (null);
+        var d4 = new xDocument ();
+        e.serialize (d4);
+        Test.message ("XML4:\n"+d4.to_string ());
+        var element4 = d4.document_element;
+        var ee4 = element4.get_attribute_node ("values");
+        assert (ee4 == null);
       } catch (GLib.Error e) {
         Test.message (@"ERROR: $(e.message)");
         assert_not_reached ();
       }
-    });*/
+    });
   }
 }
