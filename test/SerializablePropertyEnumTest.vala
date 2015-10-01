@@ -40,6 +40,7 @@ class SerializablePropertyEnumTest : GXmlTest {
       SER_ONE,
       SER_TWO,
       SER_THREE,
+      AP,
       SER_EXTENSION
     }
   }
@@ -121,6 +122,17 @@ class SerializablePropertyEnumTest : GXmlTest {
         var element4 = d4.document_element;
         var ee4 = element4.get_attribute_node ("values");
         assert (ee4 == null);
+      } catch (GLib.Error e) {
+        Test.message (@"ERROR: $(e.message)");
+        assert_not_reached ();
+      }
+    });
+    Test.add_func ("/gxml/serializable/Enum/string",
+    () => {
+      try {
+        var e = new EnumerationValues ();
+        e.values.set_string ("SERONE");
+        assert (e.values.get_value () == Enum.Values.SER_ONE);
       } catch (GLib.Error e) {
         Test.message (@"ERROR: $(e.message)");
         assert_not_reached ();

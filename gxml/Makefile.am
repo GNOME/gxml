@@ -84,8 +84,8 @@ sources = \
 ### General Compilation flags
 AM_CPPFLAGS = \
 	-include $(CONFIG_HEADER) \
-	-DPACKAGE_DATA_DIR=\""$(datadir)"\" \
-	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
+	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
+	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
 	-DG_LOG_DOMAIN=\"gxml\" \
 	-I$(top_srcdir) \

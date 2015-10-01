@@ -39,6 +39,12 @@ class Options : ObjectModel
 {
   public string test { get; set; }
   public OptionsEnum options { get; set; }
+  public Values vals { get; set; }
+  public enum Values {
+    AP,
+    KP_VALUE,
+    EXTERNAL_VALUE_VISION
+  }
 }
 class SerializableEnumerationTest : GXmlTest
 {
@@ -186,10 +192,7 @@ class SerializableEnumerationTest : GXmlTest
                        var doc6 = new xDocument.from_string ("""<?xml version="1.0"?>
                        <options options="SELECTBEFORE"/>""");
                        options.deserialize (doc6);
-                       if (options.options != OptionsEnum.SelectBefore)  {
-                         stdout.printf (@"ERROR: Bad value to options property: $(options.options)\n$(doc6)");
-                         assert_not_reached ();
-                       }
+                       assert (options.options == OptionsEnum.SelectBefore);
                        var doc7 = new xDocument.from_string ("""<?xml version="1.0"?>
                        <options options="NORMAL_OPERATION"/>""");
                        options.deserialize (doc7);
@@ -211,5 +214,29 @@ class SerializableEnumerationTest : GXmlTest
                        assert_not_reached ();
                      }
                    });
+    Test.add_func ("/gxml/serializable/enumeration/parse", () => {
+      try {
+        var v1 = Enumeration.parse (typeof (Options.Values), "AP");
+        assert (v1.value == (int) Options.Values.AP);
+        var v2 = Enumeration.parse (typeof (Options.Values), "Ap");
+        assert (v2.value == (int) Options.Values.AP);
+        var v3 = Enumeration.parse (typeof (Options.Values), "ap");
+        assert (v3.value == (int) Options.Values.AP);
+        var v4 = Enumeration.parse (typeof (Options.Values), "KPVALUE");
+        assert (v4.value == (int) Options.Values.KP_VALUE);
+        var v5 = Enumeration.parse (typeof (Options.Values), "KpValue");
+        assert (v5.value == (int) Options.Values.KP_VALUE);
+        var v6 = Enumeration.parse (typeof (Options.Values), "kpvalue");
+        assert (v6.value == (int) Options.Values.KP_VALUE);
+        var v7 = Enumeration.parse (typeof (Options.Values), "EXTERNALVALUEVISION");
+        assert (v7.value == (int) Options.Values.EXTERNAL_VALUE_VISION);
+        var v8 = Enumeration.parse (typeof (Options.Values), "ExternalValueVision");
+        assert (v8.value == (int) Options.Values.EXTERNAL_VALUE_VISION);
+        var v9 = Enumeration.parse (typeof (Options.Values), "externalvaluevision");
+        assert (v9.value == (int) Options.Values.EXTERNAL_VALUE_VISION);
+      } catch (GLib.Error e) {
+        Test.message ("Parse error: "+e.message);
+      }
+    });
   }
 }

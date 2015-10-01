@@ -69,10 +69,10 @@ public class GXml.SerializableEnum : SerializableObjectModel, SerializableProper
   public int to_integer () throws GLib.Error
   {
     if (_val == null)
-      throw new SerializableEnumError.INVALID_VALUE_ERROR (_("Value can't be parsed to a valid enumeration's value. Value is not set"));
+      throw new SerializableEnumError.INVALID_VALUE_ERROR ("Value can't be parsed to a valid enumeration's value. Value is not set");
     var e = Enumeration.parse (_enumtype, _val);
     if (e == null)
-      throw new SerializableEnumError.INVALID_VALUE_ERROR (_("Value can't be parsed to a valid enumeration's value"));
+      throw new SerializableEnumError.INVALID_VALUE_ERROR ("Value can't be parsed to a valid enumeration's value");
     return e.value;
   }
   public string get_serializable_property_value () { return _val; }
