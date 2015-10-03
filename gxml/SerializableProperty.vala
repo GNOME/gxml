@@ -84,7 +84,14 @@ public interface GXml.SerializableProperty : Object, Serializable
                                         throws GLib.Error
   {
     if (get_serializable_property_value () == null) return element;
-    ((GXml.Element) element).set_attr (prop.name, get_serializable_property_value ());
+    string name = "";
+    if (property_use_nick () &&
+        prop.get_nick () != null &&
+        prop.get_nick () != "")
+      name = prop.get_nick ();
+    else
+      name = prop.get_name ();
+    ((GXml.Element) element).set_attr (name, get_serializable_property_value ());
     return element;
   }
   /**
@@ -101,7 +108,7 @@ public interface GXml.SerializableProperty : Object, Serializable
     if (node is GXml.Element)
       attr = (GXml.Attribute) ((GXml.Element) node).attrs.get (get_serializable_property_name ());
     if (attr == null) return node;
-    if (attr.name == get_serializable_property_name ())
+    if (attr.name.down () == get_serializable_property_name ().down ())
       set_serializable_property_value (attr.value);
     return node;
   }

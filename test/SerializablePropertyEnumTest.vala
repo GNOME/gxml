@@ -47,6 +47,8 @@ class SerializablePropertyEnumTest : GXmlTest {
   public class EnumerationValues : SerializableObjectModel
   {
     public Enum values { get; set; default = new Enum ("values"); }
+    [Description(nick="OptionalValues", blurb="Optional values")]
+    public Enum optional_values { get; set; default = new Enum ("OptionalValues"); }
     public int  integer { get; set; default = 0; }
     public string name { get; set; }
     public override string node_name () { return "Enum"; }
@@ -133,6 +135,33 @@ class SerializablePropertyEnumTest : GXmlTest {
         var e = new EnumerationValues ();
         e.values.set_string ("SERONE");
         assert (e.values.get_value () == Enum.Values.SER_ONE);
+      } catch (GLib.Error e) {
+        Test.message (@"ERROR: $(e.message)");
+        assert_not_reached ();
+      }
+    });
+    Test.add_func ("/gxml/serializable/Enum/property_name",
+    () => {
+      try {
+        var e = new EnumerationValues ();
+        e.values.set_value (Enum.Values.AP);
+        var d1 = new xDocument ();
+        e.serialize (d1);
+        Test.message ("XML1: "+d1.to_string ());
+        var d2 = new xDocument.from_string ("""<?xml version="1.0"?>
+                       <Enum optionalvalues="SerExtension"/>""");
+        e.deserialize (d2);
+        assert (e.optional_values.get_value () == Enum.Values.SER_EXTENSION);
+        var d3 = new xDocument ();
+        e.serialize (d3);
+        Test.message ("XML2: "+d3.to_string ());
+        var d4 = new xDocument.from_string ("""<?xml version="1.0"?>
+                       <Enum OPTIONALVALUES="SERTHREE"/>""");
+        e.deserialize (d4);
+        assert (e.optional_values.get_value () == Enum.Values.SER_THREE);
+        var d5 = new xDocument ();
+        e.serialize (d5);
+        Test.message ("XML3: "+d5.to_string ());
       } catch (GLib.Error e) {
         Test.message (@"ERROR: $(e.message)");
         assert_not_reached ();
