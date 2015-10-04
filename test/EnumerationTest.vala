@@ -238,5 +238,17 @@ class SerializableEnumerationTest : GXmlTest
         Test.message ("Parse error: "+e.message);
       }
     });
+    Test.add_func ("/gxml/serializable/enumeration/to_string_array", () => {
+      try {
+        string[] options = Enumeration.to_string_array (typeof (Options.Values));
+        assert (options != null);
+        assert (options.length == 3);
+        assert (options[0] == "Ap");
+        assert (options[1] == "KpValue");
+        assert (options[2] == "ExternalValueVision");
+      } catch (GLib.Error e) {
+        Test.message ("Parse error: "+e.message);
+      }
+    });
   }
 }
