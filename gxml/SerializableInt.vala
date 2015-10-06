@@ -27,7 +27,7 @@ using Gee;
  */
 public class GXml.SerializableInt : GXml.SerializableDouble
 {
-  public SerializableInt (string name) { _name = name; }
+  public SerializableInt (string name) { base (name); }
   public new int get_value () { return (int) double.parse (_val); }
   public new void set_value (int val) { _val = val.to_string (); }
   public override string to_string () {

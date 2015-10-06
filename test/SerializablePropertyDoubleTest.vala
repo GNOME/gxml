@@ -28,7 +28,7 @@ class SerializablePropertyDoubleTest : GXmlTest {
   public class DoubleNode : SerializableObjectModel
   {
     [Description (nick="DoubleValue")]
-    public SerializableDouble  double_value { get; set; default = new SerializableDouble.with_name ("DoubleValue"); }
+    public SerializableDouble  double_value { get; set; default = new SerializableDouble ("DoubleValue"); }
     public string name { get; set; }
     public override string node_name () { return "DoubleNode"; }
     public override string to_string () { return get_type ().name (); }

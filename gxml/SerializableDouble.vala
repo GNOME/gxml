@@ -30,7 +30,7 @@ public class GXml.SerializableDouble : SerializableObjectModel, SerializableProp
   protected string _val = null;
   protected string _name = null;
   protected int _fraction = -1;
-  public SerializableDouble.with_name (string name) { _name = name; }
+  public SerializableDouble (string name) { _name = name; }
   public int get_fraction () { return _fraction; }
   public void set_fraction (int fraction) {
     int v = fraction;
