@@ -58,6 +58,7 @@ sources = \
 	SerializableProperty.vala \
 	SerializableBool.vala \
 	SerializableEnum.vala \
+	SerializableInt.vala \
 	SerializableValueList.vala \
 	Enumeration.vala \
 	SerializableObjectModel.vala \
