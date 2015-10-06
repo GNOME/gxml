@@ -27,9 +27,9 @@ using Gee;
  */
 public class GXml.SerializableDouble : SerializableObjectModel, SerializableProperty
 {
-  private string _val = null;
-  private string _name = null;
-  private int _fraction = -1;
+  protected string _val = null;
+  protected string _name = null;
+  protected int _fraction = -1;
   public SerializableDouble.with_name (string name) { _name = name; }
   public int get_fraction () { return _fraction; }
   public void set_fraction (int fraction) {
