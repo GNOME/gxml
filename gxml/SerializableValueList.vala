@@ -33,7 +33,7 @@ public class GXml.SerializableValueList : SerializableObjectModel, SerializableP
   private string _val = null;
   private string _name = null;
   private ArrayList<string> _values = null;
-  public SerializableValueList.with_name (string name) { _name = name; }
+  public SerializableValueList (string name) { _name = name; }
   public void add_values (string[] vals)
   {
     if (_values == null) _values = new ArrayList<string> ();
