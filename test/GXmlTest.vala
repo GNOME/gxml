@@ -78,6 +78,7 @@ class GXmlTest {
 		TwProcessingInstructionTest.add_tests ();
 		SerializablePropertyBoolTest.add_tests ();
 		SerializablePropertyDoubleTest.add_tests ();
+		SerializablePropertyFloatTest.add_tests ();
 		SerializablePropertyIntTest.add_tests ();
 		SerializablePropertyValueListTest.add_tests ();
 		SerializablePropertyEnumTest.add_tests ();
