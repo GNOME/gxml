@@ -57,6 +57,7 @@ sources = \
 	Serializable.vala \
 	SerializableProperty.vala \
 	SerializableBool.vala \
+	SerializableDouble.vala \
 	SerializableEnum.vala \
 	SerializableInt.vala \
 	SerializableValueList.vala \
