@@ -27,7 +27,7 @@ using GXml;
 class SerializablePropertyBoolTest : GXmlTest {
   public class BoolNode : SerializableObjectModel
   {
-    public SerializableBool boolean { get; set; }
+    public SerializableBool boolean { get; set; default = new SerializableBool ("boolean"); }
     public int  integer { get; set; default = 0; }
     public string name { get; set; }
     public override string node_name () { return "BooleanNode"; }
@@ -58,7 +58,6 @@ class SerializablePropertyBoolTest : GXmlTest {
       try {
         var bn = new BoolNode ();
         var doc = new xDocument ();
-        bn.boolean = new SerializableBool.with_name ("boolean");
         bn.serialize (doc);
         Test.message ("XML:\n"+doc.to_string ());
         var element = doc.document_element;
