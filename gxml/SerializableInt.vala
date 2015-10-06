@@ -25,45 +25,13 @@ using Gee;
  * Represent any boolean property to be added as a {@link GXml.Attr} to a {@link GXml.Element}
  *
  */
-public class GXml.SerializableInt : SerializableObjectModel, SerializableProperty
+public class GXml.SerializableInt : GXml.SerializableDouble
 {
-  private string _val = null;
-  private string _name = null;
-  public SerializableInt.with_name (string name) { _name = name; }
-  public int get_value () { return (int) double.parse (_val); }
-  public void set_value (int val) { _val = val.to_string (); }
-  public string get_serializable_property_value () { return _val; }
-  public void set_serializable_property_value (string? val) {
-    if (val == null)
-      _val = val;
-    else
-      _val = ((int) double.parse (val)).to_string ();
-  }
-  public string get_serializable_property_name () { return _name; }
-  public void set_serializable_property_name (string name) { _name = name; }
-  public override GXml.Node? serialize (GXml.Node node) throws GLib.Error
-  {
-    return default_serializable_property_serialize (node);
-  }
-  public override GXml.Node? serialize_property (GXml.Node element,
-                                        GLib.ParamSpec prop)
-                                        throws GLib.Error
-  {
-    return default_serializable_property_serialize_property (element, prop);
-  }
-  public override GXml.Node? deserialize (GXml.Node node)
-                                      throws GLib.Error
-  {
-    return default_serializable_property_deserialize (node);
-  }
-  public override bool deserialize_property (GXml.Node property_node)
-                                              throws GLib.Error
-  {
-    default_serializable_property_deserialize (property_node);
-    return true;
-  }
+  public SerializableInt (string name) { _name = name; }
+  public new int get_value () { return (int) double.parse (_val); }
+  public new void set_value (int val) { _val = val.to_string (); }
   public override string to_string () {
     if (_val != null) return ((int) double.parse (_val)).to_string ();
-    return false.to_string ();
+    return "";
   }
 }
