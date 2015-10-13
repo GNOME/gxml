@@ -105,5 +105,23 @@ class SerializablePropertyValueListTest : GXmlTest {
         assert_not_reached ();
       }
     });
+    Test.add_func ("/gxml/serializable/ValueList/deserialize",
+    () => {
+      try {
+        var doc1 = new xDocument.from_string ("""<?xml version="1.0"?>
+                       <options values="Temp1"/>""");
+        var vl = new ValueList ();
+        vl.deserialize (doc1);
+        assert (vl.values.get_serializable_property_value () == "Temp1");
+        assert (vl.values.get_values () != null);
+        assert (vl.values.get_values ().length == 1);
+        assert (vl.values.is_value () == false);
+        vl.values.add_values ({"Temp1"});
+        assert (vl.values.is_value () == true);
+      } catch (GLib.Error e) {
+        Test.message (@"ERROR: $(e.message)");
+        assert_not_reached ();
+      }
+    });
   }
 }

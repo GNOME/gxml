@@ -98,18 +98,25 @@ public interface GXml.SerializableProperty : Object, Serializable
    * Tryies to deserialize from a {@link GXml.Node} searching a {@link GXml.Attr}
    * with the name returned by {@link GXml.SerializableProperty.get_serializable_property_name}
    */
-  public virtual GXml.Node? default_serializable_property_deserialize (GXml.Node node)
-                                      throws GLib.Error
-    requires (get_serializable_property_name () != null)
+  public virtual bool default_serializable_property_deserialize_property (GXml.Node property_node)
+    throws GLib.Error
   {
     GXml.Attribute attr = null;
-    if (node is GXml.Attribute)
-      attr = (GXml.Attribute) node;
-    if (node is GXml.Element)
-      attr = (GXml.Attribute) ((GXml.Element) node).attrs.get (get_serializable_property_name ());
-    if (attr == null) return node;
+    if (property_node is GXml.Attribute)
+      attr = (GXml.Attribute) property_node;
+    if (property_node is GXml.Element)
+      attr = (GXml.Attribute) ((GXml.Element) property_node).attrs.get (get_serializable_property_name ());
+    if (attr == null) return false;
+    if (get_serializable_property_name () == null) {
+      GLib.warning ("Property name is not set for type: "+this.get_type ().name ());
+      return false;
+    }
+    if (attr.name == null) {
+      GLib.warning ("XML Attribute name is not set, when deserializing to: "+this.get_type ().name ());
+      return false;
+    }
     if (attr.name.down () == get_serializable_property_name ().down ())
       set_serializable_property_value (attr.value);
-    return node;
+    return true;
   }
 }

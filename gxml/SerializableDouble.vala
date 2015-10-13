@@ -61,12 +61,13 @@ public class GXml.SerializableDouble : SerializableObjectModel, SerializableProp
   public override GXml.Node? deserialize (GXml.Node node)
                                       throws GLib.Error
   {
-    return default_serializable_property_deserialize (node);
+    default_serializable_property_deserialize_property (node);
+    return node;
   }
   public override bool deserialize_property (GXml.Node property_node)
                                               throws GLib.Error
   {
-    default_serializable_property_deserialize (property_node);
+    default_serializable_property_deserialize_property (property_node);
     return true;
   }
   public override string to_string () {
