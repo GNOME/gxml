@@ -32,7 +32,9 @@ public class GXml.SerializableValueList : SerializableObjectModel, SerializableP
 {
   private string _val = null;
   private string _name = null;
-  private ArrayList<string> _values = null;
+  public ArrayList<string> _values = null;
+  public virtual Gee.List<string> get_values () { return _values; }
+  public virtual void set_values (Gee.List<string> vals) { _values.add_all (vals); }
   public SerializableValueList (string name) { _name = name; }
   /**
    * Add a list of string values to select from.
@@ -48,7 +50,7 @@ public class GXml.SerializableValueList : SerializableObjectModel, SerializableP
    * Get the string value at a given index. This operation does not change
    * the actual value.
    */
-  public string? get_value_at (int index)
+  public virtual string? get_value_at (int index)
   {
     if (_values == null) return null;
     if (index < 0 || index >= _values.size) return null;
@@ -57,21 +59,21 @@ public class GXml.SerializableValueList : SerializableObjectModel, SerializableP
   /**
    * Sets value to the one at a given position.
    */
-  public void select_value_at (int index)
+  public virtual void select_value_at (int index)
   {
     _val = get_value_at (index);
   }
   /**
    * Get an array of string values in list.
    */
-  public virtual string[] get_values () {
+  public virtual string[] get_values_array () {
     if (_values == null) return {""};
     return _values.to_array ();
   }
   /**
    * Checks if the actual value is in the values list.
    */
-  public bool is_value ()
+  public virtual bool is_value ()
   {
     if (_values == null) return false;
     foreach (string s in _values) {

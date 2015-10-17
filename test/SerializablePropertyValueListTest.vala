@@ -113,8 +113,8 @@ class SerializablePropertyValueListTest : GXmlTest {
         var vl = new ValueList ();
         vl.deserialize (doc1);
         assert (vl.values.get_serializable_property_value () == "Temp1");
-        assert (vl.values.get_values () != null);
-        assert (vl.values.get_values ().length == 1);
+        assert (vl.values.get_values_array () != null);
+        assert (vl.values.get_values_array ().length == 1);
         assert (vl.values.is_value () == false);
         vl.values.add_values ({"Temp1"});
         assert (vl.values.is_value () == true);
