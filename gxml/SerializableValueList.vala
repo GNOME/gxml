@@ -26,25 +26,54 @@ using Gee;
  * property to be added as a {@link GXml.Attr} to a {@link GXml.Element}.
  *
  * All values are stored in an array to get access to it by its position using
- * {@link SerializableValueList.get_value}.
+ * {@link SerializableValueList.get_value_at}.
+ *
+ * Is recommended to initilize your list from a fixed array to avoid to have a list
+ * for each object in memory, do it by initialize the internal variable
+ * {@link GXml.SerializableValueList._vals}, at construct {} clause to point a fixed
+ * array of strings.
  */
 public class GXml.SerializableValueList : SerializableObjectModel, SerializableProperty
 {
+  
   private string _val = null;
   private string _name = null;
-  public ArrayList<string> _values = null;
-  public virtual Gee.List<string> get_values () { return _values; }
-  public virtual void set_values (Gee.List<string> vals) { _values.add_all (vals); }
+  protected string[] _vals = null;
+  protected ArrayList<string> extra = null;
+  /**
+   * Return a {@link Gee.List} with all possible selection strings.
+   *
+   * If no values where defined at construction time and no values
+   * have been added, then this will return an empty list.
+   */
+  public virtual Gee.List<string> get_values () {
+    var l = new ArrayList<string> ();
+    if (extra != null) l.add_all (extra);
+    if (_val == null) return l;
+    for (int i = 0; i < _vals.length; i++) {
+      l.add (_vals[i]);
+    }
+    return l;
+  }
+  /**
+   * Creates a new {@link GXml.SerializableValueList} with the given
+   * property name.
+   *
+   * If no values where defined at construction time and no values
+   * have been added, then this will return an empty list.
+   */
   public SerializableValueList (string name) { _name = name; }
   /**
    * Add a list of string values to select from.
+   * 
+   * This values are added to the ones already defined at construct time.s
    */
   public virtual void add_values (string[] vals)
   {
-    if (_values == null) _values = new ArrayList<string> ();
-    for (int i = 0; i < vals.length; i++) {
-      _values.add (vals[i]);
-    }
+		if (extra == null) extra = new ArrayList<string> ();
+		for (int i = 0; i < vals.length; i++) {
+	    extra.add (vals[i]);
+	  }
   }
   /**
    * Get the string value at a given index. This operation does not change
@@ -52,12 +81,12 @@ public class GXml.SerializableValueList : SerializableObjectModel, SerializableP
    */
   public virtual string? get_value_at (int index)
   {
-    if (_values == null) return null;
-    if (index < 0 || index >= _values.size) return null;
-    return _values.get (index);
+    var v = get_values ();
+    if (index < 0 || index > v.size || !(index < v.size)) return null;
+    return v.get (index);
   }
   /**
-   * Sets value to the one at a given position.
+   * Sets actual value to the one at a given position.
    */
   public virtual void select_value_at (int index)
   {
@@ -65,21 +94,19 @@ public class GXml.SerializableValueList : SerializableObjectModel, SerializableP
   }
   /**
    * Get an array of string values in list.
+   *
+   * If no values were defined at construction time and
+   * no values were added this return {@link null}
    */
   public virtual string[] get_values_array () {
-    if (_values == null) return {""};
-    return _values.to_array ();
+    return get_values ().to_array ();
   }
   /**
    * Checks if the actual value is in the values list.
    */
   public virtual bool is_value ()
   {
-    if (_values == null) return false;
-    foreach (string s in _values) {
-      if (s == _val) return true;
-    }
-    return false;
+    return get_values ().contains (_val);
   }
   public string get_serializable_property_value () { return _val; }
   public void set_serializable_property_value (string? val) { _val = val; }
