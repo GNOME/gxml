@@ -397,7 +397,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     if (prop.value_type.is_a (typeof (Serializable)))
     {
 #if DEBUG
-      GLib.message (@"'$(property_node.name)' Is Serializable: deserializing");
+      GLib.message (@"'$(property_node.name)'- $(prop.value_type.name ()) - Is Serializable: deserializing");
 #endif
       Value vobj = Value (typeof(Object));
       get_property (prop.name, ref vobj);

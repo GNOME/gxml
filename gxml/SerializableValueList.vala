@@ -49,7 +49,7 @@ public class GXml.SerializableValueList : SerializableObjectModel, SerializableP
   public virtual Gee.List<string> get_values () {
     var l = new ArrayList<string> ();
     if (extra != null) l.add_all (extra);
-    if (_val == null) return l;
+    if (_vals == null) return l;
     for (int i = 0; i < _vals.length; i++) {
       l.add (_vals[i]);
     }
