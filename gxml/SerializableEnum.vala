@@ -79,27 +79,5 @@ public class GXml.SerializableEnum : SerializableObjectModel, SerializableProper
   public void set_serializable_property_value (string? val) { _val = val; }
   public string get_serializable_property_name () { return _name; }
   public void set_serializable_property_name (string name) { _name = name; }
-  public override GXml.Node? serialize (GXml.Node node) throws GLib.Error
-  {
-    return default_serializable_property_serialize (node);
-  }
-  public override GXml.Node? serialize_property (GXml.Node element,
-                                        GLib.ParamSpec prop)
-                                        throws GLib.Error
-  {
-    return default_serializable_property_serialize_property (element, prop);
-  }
-  public override GXml.Node? deserialize (GXml.Node node)
-                                      throws GLib.Error
-  {
-    default_serializable_property_deserialize_property (node);
-    return node;
-  }
-  public override bool deserialize_property (GXml.Node property_node)
-                                              throws GLib.Error
-  {
-    default_serializable_property_deserialize_property (property_node);
-    return true;
-  }
   public override string to_string () { return _val; }
 }

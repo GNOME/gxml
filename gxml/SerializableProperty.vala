@@ -52,24 +52,24 @@ public interface GXml.SerializableProperty : Object, Serializable
    */
   public abstract void set_serializable_property_name (string name);
   /**
-   * Default serialization method to add a {@link GXml.Attr} to a {@link GXml.Element}
+   * Tryies to deserialize from a {@link GXml.Node} searching a {@link GXml.Attr}
+   * with the name returned by {@link GXml.SerializableProperty.get_serializable_property_name},
+   * if not set, then {@link GLib.ParamSpec} name should used. If {@param nick} is set to true,
+   * then {@link GLib.ParamSpec} nick is used as name.
+   */
+  public virtual bool deserialize_property (GXml.Node property_node, ParamSpec prop, bool nick)
+    throws GLib.Error
+  { return default_serializable_property_deserialize_property (property_node, prop, nick); }
+  /**
+   * Serialization method to add a {@link GXml.Attr} to a {@link GXml.Element}, using {@link ParamSpec}
+   * name or nick, if {@param nick} is set to true, as the attribute's name.
    *
    * If {@link GXml.SerializableProperty.get_serializable_property_value} returns {@link null}
-   * given {@link GXml.Node} is not modified.
-   *
-   * Implementators should call this method instead of {@link Serializable.default_serialize}.
+   * given {@link GXml.Node} should not be modified.
    */
-  public virtual GXml.Node? default_serializable_property_serialize (GXml.Node node) throws GLib.Error
-    requires (get_serializable_property_name () != null)
-  {
-    if (get_serializable_property_value () == null) return node;
-    if (node is GXml.Attribute && node.name == get_serializable_property_name ()) {
-      ((GXml.Attribute) node).value = get_serializable_property_value ();
-      return node;
-    }
-    ((GXml.Element) node).set_attr (get_serializable_property_name (), get_serializable_property_value ());
-    return node;
-  }
+  public virtual GXml.Node? serialize_property (GXml.Node property_node, ParamSpec prop, bool nick)
+    throws GLib.Error
+  { return default_serializable_property_serialize_property (property_node, prop,nick); }
   /**
    * Default serialization method to add a {@link GXml.Attr} to a {@link GXml.Element}
    *
@@ -79,26 +79,30 @@ public interface GXml.SerializableProperty : Object, Serializable
    * Implementators should override {@link Serializable.serialize_property} to call
    * this method on serialization.
    */
-  public virtual GXml.Node? default_serializable_property_serialize_property (GXml.Node element,
-                                        GLib.ParamSpec prop)
+  public GXml.Node? default_serializable_property_serialize_property (GXml.Node element,
+                                        GLib.ParamSpec prop, bool nick)
                                         throws GLib.Error
   {
     if (get_serializable_property_value () == null) return element;
     string name = "";
-    if (property_use_nick () &&
+    Test.message ("Use nick: "+nick.to_string ());
+    if (nick &&
         prop.get_nick () != null &&
         prop.get_nick () != "")
       name = prop.get_nick ();
     else
       name = prop.get_name ();
+    Test.message ("Property to set:"+name+" - with value: "+get_serializable_property_value ());
     ((GXml.Element) element).set_attr (name, get_serializable_property_value ());
     return element;
   }
   /**
    * Tryies to deserialize from a {@link GXml.Node} searching a {@link GXml.Attr}
-   * with the name returned by {@link GXml.SerializableProperty.get_serializable_property_name}
+   * with the name returned by {@link GXml.SerializableProperty.get_serializable_property_name},
+   * if not set {@link GLib.ParamSpec} name is used.
    */
-  public virtual bool default_serializable_property_deserialize_property (GXml.Node property_node)
+  public bool default_serializable_property_deserialize_property (GXml.Node property_node,
+                                                                  ParamSpec prop, bool nick)
     throws GLib.Error
   {
     GXml.Attribute attr = null;
@@ -112,15 +116,22 @@ public interface GXml.SerializableProperty : Object, Serializable
 #endif
       return false;
     }
-    if (get_serializable_property_name () == null) {
-      GLib.warning ("Property name is not set for type: "+this.get_type ().name ());
-      return false;
+    if (get_serializable_property_name () != null) {
+      if (attr.name.down () == get_serializable_property_name ().down ())
+        set_serializable_property_value (attr.value);
     }
     if (attr.name == null) {
       GLib.warning ("XML Attribute name is not set, when deserializing to: "+this.get_type ().name ());
       return false;
     }
-    if (attr.name.down () == get_serializable_property_name ().down ())
+    string name = "";
+    if (nick &&
+        prop.get_nick () != null &&
+        prop.get_nick () != "")
+      name = prop.get_nick ();
+    else
+      name = prop.get_name ();
+    if (attr.name.down () == name.down ())
       set_serializable_property_value (attr.value);
     return true;
   }

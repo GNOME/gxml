@@ -213,9 +213,13 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     {
       var v = Value (typeof (Object));
       get_property (prop.name, ref v);
-      var obj = (Serializable) v.get_object ();
-      if (obj != null)
-        return obj.serialize (element);
+      var obj = v.get_object ();
+      if (obj != null) {
+        if (obj is SerializableProperty)
+          return ((SerializableProperty) obj).serialize_property (element, prop, property_use_nick ());
+        if (obj is Serializable)
+          return ((Serializable) obj).serialize (element);
+      }
     }
     Value oval;
     if (prop.value_type.is_a (Type.ENUM))
@@ -407,13 +411,22 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 #endif
       Value vobj = Value (typeof(Object));
       get_property (prop.name, ref vobj);
-      if (vobj.get_object () == null) {
+      GLib.Object object = null;
+      object = vobj.get_object ();
+      if (object == null) {
         var obj = Object.new  (prop.value_type);
-        ((Serializable) obj).deserialize (property_node);
+        if (obj is SerializableProperty)
+          ((SerializableProperty) obj).deserialize_property (property_node, prop, property_use_nick ());
+        else
+          ((Serializable) obj).deserialize (property_node);
         set_property (prop.name, obj);
       }
-      else
-        ((Serializable) vobj.get_object ()).deserialize (property_node);
+      else {
+        if (object is SerializableProperty)
+          ((SerializableProperty) object).deserialize_property (property_node, prop, property_use_nick ());
+        else
+          ((Serializable) object).deserialize (property_node);
+      }
       return true;
     }
     else {

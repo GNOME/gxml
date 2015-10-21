@@ -32,6 +32,7 @@ class SerializablePropertyFloatTest : GXmlTest {
     public string name { get; set; }
     public override string node_name () { return "FloatNode"; }
     public override string to_string () { return get_type ().name (); }
+    public override bool property_use_nick () { return true; }
   }
   public static void add_tests () {
     Test.add_func ("/gxml/serializable/Float/basic",
