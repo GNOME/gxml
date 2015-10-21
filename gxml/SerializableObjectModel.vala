@@ -392,8 +392,14 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 #endif
         }
       }
+#if DEBUG
+          GLib.message (@"Finishing deserialize unknown node $(property_node.name) to $(get_type ().name ()): Size=$(unknown_serializable_nodes.size.to_string ())");
+#endif
       return true;
     }
+#if DEBUG
+          GLib.message (@"Checking if $(property_node.name) of type $(prop.value_type.name ()) is Serializable");
+#endif
     if (prop.value_type.is_a (typeof (Serializable)))
     {
 #if DEBUG

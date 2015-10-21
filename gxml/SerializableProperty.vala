@@ -106,7 +106,12 @@ public interface GXml.SerializableProperty : Object, Serializable
       attr = (GXml.Attribute) property_node;
     if (property_node is GXml.Element)
       attr = (GXml.Attribute) ((GXml.Element) property_node).attrs.get (get_serializable_property_name ());
-    if (attr == null) return false;
+    if (attr == null) {
+#if DEBUG
+      GLib.warning ("No attribute found to deserialize from");
+#endif
+      return false;
+    }
     if (get_serializable_property_name () == null) {
       GLib.warning ("Property name is not set for type: "+this.get_type ().name ());
       return false;
