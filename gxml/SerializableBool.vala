@@ -29,7 +29,6 @@ public class GXml.SerializableBool : SerializableObjectModel, SerializableProper
 {
   private string _val = null;
   private string _name = null;
-  public SerializableBool (string name) { _name = name; }
   public bool get_value () { return bool.parse (_val); }
   public void set_value (bool val) { _val = val.to_string (); }
   public string get_serializable_property_value () { return _val; }
