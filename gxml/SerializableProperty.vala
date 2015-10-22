@@ -29,6 +29,11 @@ using Gee;
  * {@link GXml.Serializable.serialize_property} instead of {@link GXml.Serializable.serialize}
  * to fill automatically {@link GXml.SerializableProperty.serializable_property_name} and
  * {@link GXml.SerializableProperty.serializable_property_value}.
+ *
+ * The actual value stored and returned by {@link GXml.SerializableProperty.get_serializable_property_value}
+ * is the actual string in the XML property, this means may the value could differ from the spected value
+ * on some implementations like {@link GXml.SerializableInt}. Take a look in each implementations about
+ * retured values.
  */
 public interface GXml.SerializableProperty : Object, Serializable
 {
@@ -40,7 +45,11 @@ public interface GXml.SerializableProperty : Object, Serializable
   * Set value to be set to a {@link GXml.Attr}, to be added to a {@link GXml.Element}
   *
   * If value is set to @null then the property will be ignored by default and no
-  * property will be set to given {@link GXml.Element}
+  * property will be set to given {@link GXml.Element}.
+  *
+  * Some implementations stores the value without any convertion at all; then if the value,
+  * from XML property, makes no sense for the property type, you should take care
+  * to use the provided API from them to convert it.
   */
   public abstract void set_serializable_property_value (string? val);
   /**

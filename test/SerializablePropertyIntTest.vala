@@ -97,5 +97,55 @@ class SerializablePropertyIntTest : GXmlTest {
         assert_not_reached ();
       }
     });
+    Test.add_func ("/gxml/serializable/Int/deserialize",
+    () => {
+      try {
+        var doc1 = new xDocument.from_string ("""<?xml version="1.0"?>
+                       <IntNode IntegerValue="1416"/>""");
+        var i = new IntNode ();
+        i.deserialize (doc1);
+        Test.message ("Actual value: "+i.integer.get_serializable_property_value ());
+        assert (i.integer.get_serializable_property_value () == "1416");
+        Test.message ("Actual value parse: "+i.integer.get_value ().to_string ());
+        int iv = i.integer.get_value ();
+        Test.message ("Use from int, value:"+iv.to_string ());
+        assert (i.integer.get_value () == 1416);
+      } catch (GLib.Error e) {
+        Test.message (@"ERROR: $(e.message)");
+        assert_not_reached ();
+      }
+    });
+    Test.add_func ("/gxml/serializable/Int/deserialize/bad-value",
+    () => {
+      try {
+        var doc1 = new xDocument.from_string ("""<?xml version="1.0"?>
+                       <IntNode IntegerValue="a"/>""");
+        var i1 = new IntNode ();
+        i1.deserialize (doc1);
+        Test.message ("Actual value: "+i1.integer.get_serializable_property_value ());
+        assert (i1.integer.get_serializable_property_value () == "a");
+        Test.message ("Actual value parse: "+i1.integer.get_value ().to_string ());
+        assert (i1.integer.get_value () == 0);
+        var doc2 = new xDocument.from_string ("""<?xml version="1.0"?>
+                       <IntNode IntegerValue="1.1"/>""");
+        var i2 = new IntNode ();
+        i2.deserialize (doc2);
+        Test.message ("Actual value: "+i2.integer.get_serializable_property_value ());
+        assert (i2.integer.get_serializable_property_value () == "1.1");
+        Test.message ("Actual value parse: "+i2.integer.get_value ().to_string ());
+        assert (i2.integer.get_value () == 1);
+        var doc3 = new xDocument.from_string ("""<?xml version="1.0"?>
+                       <IntNode IntegerValue="1a"/>""");
+        var i3 = new IntNode ();
+        i3.deserialize (doc3);
+        Test.message ("Actual value: "+i3.integer.get_serializable_property_value ());
+        assert (i3.integer.get_serializable_property_value () == "1a");
+        Test.message ("Actual value parse: "+i3.integer.get_value ().to_string ());
+        assert (i3.integer.get_value () == 1);
+      } catch (GLib.Error e) {
+        Test.message (@"ERROR: $(e.message)");
+        assert_not_reached ();
+      }
+    });
   }
 }

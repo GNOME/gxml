@@ -22,15 +22,22 @@
 
 using Gee;
 /**
- * Represent any boolean property to be added as a {@link GXml.Attr} to a {@link GXml.Element}
- *
+ * Represent any boolean property to be added as a {@link GXml.Attr} to a {@link GXml.Element} 
  */
 public class GXml.SerializableInt : GXml.SerializableDouble
 {
+  /**
+   * Parse the stored value, from the XML property, to a {@link int}. This parsing
+   * may is different from the actual stored string.
+   *
+   * The stored value, is parsed using {@lilnk GLib.ascii_strtod} and then
+   * casted to an integer before return, this make flexible on stored values
+   * in XML and parsed without errors, but they could defere from the value
+   * returned by this method.
+   */
   public new int get_value () { return (int) double.parse (_val); }
+  /**
+   * Given integer is parsed to string and then stored.
+   */
   public new void set_value (int val) { _val = val.to_string (); }
-  public override string to_string () {
-    if (_val != null) return ((int) double.parse (_val)).to_string ();
-    return "";
-  }
 }
