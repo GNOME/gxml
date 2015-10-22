@@ -34,6 +34,10 @@ using Gee;
  * is the actual string in the XML property, this means may the value could differ from the spected value
  * on some implementations like {@link GXml.SerializableInt}. Take a look in each implementations about
  * retured values.
+ *
+ * Implementations of {@link GXml.SerializableProperty}, could be used to provide more flexibility
+ * when parsing {@link GXml.Attr} properties values and to exclude to be serialized if they have not
+ * been created in the holding objects.
  */
 public interface GXml.SerializableProperty : Object, Serializable
 {

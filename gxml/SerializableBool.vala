@@ -28,17 +28,25 @@ using Gee;
 public class GXml.SerializableBool : SerializableObjectModel, SerializableProperty
 {
   private string _val = null;
-  public bool get_value () { return bool.parse (_val); }
+  /**
+   * Parse the stored value, from the XML property, to a {@link int}. This parsing
+   * may is different from the actual stored string. If can't be parsed to a valid
+   * boolean, this method will always return {@link false}
+   */
+  public bool get_value () {
+    if (_val.down () == "true") return true;
+    if (_val.down () == "false") return false;
+    return false;
+  }
+  /**
+   * Given boolean value is parsed to string and then stored.
+   */
   public void set_value (bool val) { _val = val.to_string (); }
+  // SerializableProperty implementations
   public string get_serializable_property_value () { return _val; }
-  public void set_serializable_property_value (string? val) {
-    if (val == null)
-      _val = val;
-    else
-      _val = (bool.parse (val)).to_string ();
-  }
-  public override string to_string () {
-    if (_val != null) return (bool.parse (_val)).to_string ();
-    return false.to_string ();
-  }
+  public void set_serializable_property_value (string? val) { _val = val; }
+  /**
+   * Parse actual stored string to a boolean and returns the result. See {@link get_value}
+   */
+  public override string to_string () { return get_value ().to_string (); }
 }
