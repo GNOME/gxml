@@ -119,5 +119,21 @@ class SerializablePropertyDoubleTest : GXmlTest {
         assert_not_reached ();
       }
     });
+    Test.add_func ("/gxml/serializable/Double/deserialize/bad-value",
+    () => {
+      try {
+        var doc1 = new xDocument.from_string ("""<?xml version="1.0"?>
+                       <DoubleNode DoubleValue="a"/>""");
+        var d = new DoubleNode ();
+        d.deserialize (doc1);
+        Test.message ("Actual value: "+d.double_value.get_serializable_property_value ());
+        assert (d.double_value.get_serializable_property_value () == "a");
+        Test.message ("Actual value parse: "+"%2.4f".printf (double.parse (d.double_value.get_serializable_property_value ())));
+        assert ("%2.4f".printf (double.parse (d.double_value.get_serializable_property_value ())) == "0.0000");
+      } catch (GLib.Error e) {
+        Test.message (@"ERROR: $(e.message)");
+        assert_not_reached ();
+      }
+    });
   }
 }
