@@ -22,6 +22,18 @@
 
 public class GXml.SerializableFloat : GXml.SerializableDouble
 {
+  /**
+   * Parse the stored value, from the XML property, to a {@link int}. This parsing
+   * may is different from the actual stored string.
+   *
+   * The stored value, is parsed using {@lilnk GLib.ascii_strtod} and then
+   * casted to an float before return, this make flexible on stored values
+   * in XML and parsed without errors, but they could defere from the value
+   * returned by this method.
+   */
   public new float get_value () { return (float) double.parse (_val); }
+  /**
+   * Given float number is parsed to string and then stored.
+   */
   public new void set_value (float val) { _val = val.to_string (); }
 }

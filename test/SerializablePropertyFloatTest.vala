@@ -103,5 +103,55 @@ class SerializablePropertyFloatTest : GXmlTest {
         assert_not_reached ();
       }
     });
+    Test.add_func ("/gxml/serializable/Float/deserialize",
+    () => {
+      try {
+        var doc1 = new xDocument.from_string ("""<?xml version="1.0"?>
+                       <FloatNode FloatValue="3.1416"/>""");
+        var f = new FloatNode ();
+        f.deserialize (doc1);
+        Test.message ("Actual value: "+f.float_value.get_serializable_property_value ());
+        assert (f.float_value.get_serializable_property_value () == "3.1416");
+        Test.message ("Actual value parse: "+f.float_value.get_value ().to_string ());
+        assert ("%2.4f".printf (f.float_value.get_value ()) == "%2.4f".printf (3.1416));
+      } catch (GLib.Error e) {
+        Test.message (@"ERROR: $(e.message)");
+        assert_not_reached ();
+      }
+    });
+    Test.add_func ("/gxml/serializable/Float/deserialize",
+    () => {
+      try {
+        var doc1 = new xDocument.from_string ("""<?xml version="1.0"?>
+                       <FloatNode FloatValue="3.1416"/>""");
+        var d = new FloatNode ();
+        d.deserialize (doc1);
+        Test.message ("Actual value: "+d.float_value.get_serializable_property_value ());
+        assert (d.float_value.get_serializable_property_value () == "3.1416");
+        Test.message ("Actual value parse: "+"%2.4f".printf (double.parse (d.float_value.get_serializable_property_value ())));
+        assert ("%2.4f".printf (double.parse (d.float_value.get_serializable_property_value ())) == "3.1416");
+        Test.message ("Value comparation: %2.4f".printf (d.float_value.get_value ()));
+        assert ("%2.4f".printf (d.float_value.get_value ()) == "%2.4f".printf (double.parse ("3.1416")));
+      } catch (GLib.Error e) {
+        Test.message (@"ERROR: $(e.message)");
+        assert_not_reached ();
+      }
+    });
+    Test.add_func ("/gxml/serializable/Float/deserialize/bad-value",
+    () => {
+      try {
+        var doc1 = new xDocument.from_string ("""<?xml version="1.0"?>
+                       <FloatNode FloatValue="a"/>""");
+        var d = new FloatNode ();
+        d.deserialize (doc1);
+        Test.message ("Actual value: "+d.float_value.get_serializable_property_value ());
+        assert (d.float_value.get_serializable_property_value () == "a");
+        Test.message ("Actual value parse: "+"%2.4f".printf (double.parse (d.float_value.get_serializable_property_value ())));
+        assert ("%2.4f".printf (double.parse (d.float_value.get_serializable_property_value ())) == "0.0000");
+      } catch (GLib.Error e) {
+        Test.message (@"ERROR: $(e.message)");
+        assert_not_reached ();
+      }
+    });
   }
 }
