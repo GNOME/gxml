@@ -100,5 +100,19 @@ class SerializablePropertyBoolTest : GXmlTest {
         assert_not_reached ();
       }
     });
+    Test.add_func ("/gxml/serializable/Bool/deserialize",
+    () => {
+      try {
+        var doc1 = new xDocument.from_string ("""<?xml version="1.0"?>
+                       <BooleanNode boolean="true"/>""");
+        var b = new BoolNode ();
+        b.deserialize (doc1);
+        assert (b.boolean.get_serializable_property_value () == "true");
+        assert (b.boolean.get_value () == true);
+      } catch (GLib.Error e) {
+        Test.message (@"ERROR: $(e.message)");
+        assert_not_reached ();
+      }
+    });
   }
 }
