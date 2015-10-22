@@ -40,12 +40,9 @@ public errordomain GXml.SerializableEnumError {
 public class GXml.SerializableEnum : SerializableObjectModel, SerializableProperty
 {
   protected string _val = null;
-  protected string _name = null;
   protected GLib.Type _enumtype;
-  public SerializableEnum.with_name (string name) { _name = name; }
-  public SerializableEnum.with_enum (string name, GLib.Type type)
+  public SerializableEnum.with_enum (GLib.Type type)
   {
-    _name = name;
     _enumtype = type;
   }
   public void set_enum_type (GLib.Type type)
@@ -77,7 +74,5 @@ public class GXml.SerializableEnum : SerializableObjectModel, SerializableProper
   }
   public string get_serializable_property_value () { return _val; }
   public void set_serializable_property_value (string? val) { _val = val; }
-  public string get_serializable_property_name () { return _name; }
-  public void set_serializable_property_name (string name) { _name = name; }
   public override string to_string () { return _val; }
 }

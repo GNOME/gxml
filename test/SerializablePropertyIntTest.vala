@@ -28,7 +28,7 @@ class SerializablePropertyIntTest : GXmlTest {
   public class IntNode : SerializableObjectModel
   {
     [Description (nick="IntegerValue")]
-    public SerializableInt  integer { get; set; default = new SerializableInt ("IntegerValue"); }
+    public SerializableInt  integer { get; set; }
     public string name { get; set; }
     public override string node_name () { return "IntNode"; }
     public override string to_string () { return get_type ().name (); }
@@ -65,6 +65,7 @@ class SerializablePropertyIntTest : GXmlTest {
         var s = element.get_attribute_node ("name");
         assert (s == null);
         // Change values
+        bn.integer = new SerializableInt ();
         // set to 233
         bn.integer.set_value (233);
         var doc2 = new xDocument ();

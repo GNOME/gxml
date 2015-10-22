@@ -27,9 +27,7 @@ using GXml;
 class SerializablePropertyEnumTest : GXmlTest {
   public class Enum : SerializableEnum
   {
-    public Enum (string name)
-    {
-      _name = name;
+    construct {
       _enumtype = typeof (Enum.Values);
     }
     public Enum.Values get_value () throws GLib.Error { return (Enum.Values) to_integer (); }
@@ -46,13 +44,14 @@ class SerializablePropertyEnumTest : GXmlTest {
   }
   public class EnumerationValues : SerializableObjectModel
   {
-    public Enum values { get; set; default = new Enum ("values"); }
+    public Enum values { get; set; }
     [Description(nick="OptionalValues", blurb="Optional values")]
-    public Enum optional_values { get; set; default = new Enum ("OptionalValues"); }
+    public Enum optional_values { get; set; }
     public int  integer { get; set; default = 0; }
     public string name { get; set; }
     public override string node_name () { return "Enum"; }
     public override string to_string () { return get_type ().name (); }
+    public override bool property_use_nick () { return true; }
   }
   public static void add_tests () {
     Test.add_func ("/gxml/serializable/Enum/basic",
@@ -90,6 +89,7 @@ class SerializablePropertyEnumTest : GXmlTest {
         assert (i1.value == "0");
         // Getting value
         Enum.Values v = Enum.Values.SER_ONE;
+        e.values = new Enum ();
         try { v = e.values.get_value (); }
         catch (GLib.Error e) {
           Test.message ("Error cough correctly: "+e.message);
@@ -133,6 +133,7 @@ class SerializablePropertyEnumTest : GXmlTest {
     () => {
       try {
         var e = new EnumerationValues ();
+        e.values = new Enum ();
         e.values.set_string ("SERONE");
         assert (e.values.get_value () == Enum.Values.SER_ONE);
       } catch (GLib.Error e) {
@@ -144,6 +145,7 @@ class SerializablePropertyEnumTest : GXmlTest {
     () => {
       try {
         var e = new EnumerationValues ();
+        e.values = new Enum ();
         e.values.set_value (Enum.Values.AP);
         var d1 = new xDocument ();
         e.serialize (d1);

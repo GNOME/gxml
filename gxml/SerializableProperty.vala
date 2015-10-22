@@ -44,14 +44,6 @@ public interface GXml.SerializableProperty : Object, Serializable
   */
   public abstract void set_serializable_property_value (string? val);
   /**
-   * Name to be set to a {@link GXml.Attr}, to be added to a {@link GXml.Element}
-   */
-  public abstract string get_serializable_property_name ();
-  /**
-   * Sets name to be set to a {@link GXml.Attr}, to be added to a {@link GXml.Element}
-   */
-  public abstract void set_serializable_property_name (string name);
-  /**
    * Tryies to deserialize from a {@link GXml.Node} searching a {@link GXml.Attr}
    * with the name returned by {@link GXml.SerializableProperty.get_serializable_property_name},
    * if not set, then {@link GLib.ParamSpec} name should used. If {@param nick} is set to true,
@@ -108,17 +100,11 @@ public interface GXml.SerializableProperty : Object, Serializable
     GXml.Attribute attr = null;
     if (property_node is GXml.Attribute)
       attr = (GXml.Attribute) property_node;
-    if (property_node is GXml.Element)
-      attr = (GXml.Attribute) ((GXml.Element) property_node).attrs.get (get_serializable_property_name ());
     if (attr == null) {
 #if DEBUG
       GLib.warning ("No attribute found to deserialize from");
 #endif
       return false;
-    }
-    if (get_serializable_property_name () != null) {
-      if (attr.name.down () == get_serializable_property_name ().down ())
-        set_serializable_property_value (attr.value);
     }
     if (attr.name == null) {
       GLib.warning ("XML Attribute name is not set, when deserializing to: "+this.get_type ().name ());

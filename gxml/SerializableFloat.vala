@@ -22,7 +22,6 @@
 
 public class GXml.SerializableFloat : GXml.SerializableDouble
 {
-  public SerializableFloat (string name) { base (name); }
   public new float get_value () { return (float) double.parse (_val); }
   public new void set_value (float val) { _val = val.to_string (); }
 }

@@ -28,7 +28,7 @@ class SerializablePropertyDoubleTest : GXmlTest {
   public class DoubleNode : SerializableObjectModel
   {
     [Description (nick="DoubleValue")]
-    public SerializableDouble  double_value { get; set; default = new SerializableDouble ("DoubleValue"); }
+    public SerializableDouble  double_value { get; set; }
     public string name { get; set; }
     public override string node_name () { return "DoubleNode"; }
     public override string to_string () { return get_type ().name (); }
@@ -66,6 +66,7 @@ class SerializablePropertyDoubleTest : GXmlTest {
         assert (s == null);
         // Change values
         // set to 233.014
+        bn.double_value = new SerializableDouble ();
         bn.double_value.set_value (233.014);
         var doc2 = new xDocument ();
         bn.serialize (doc2);
