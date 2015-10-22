@@ -37,7 +37,6 @@ public class GXml.SerializableValueList : SerializableObjectModel, SerializableP
 {
   
   private string _val = null;
-  private string _name = null;
   protected string[] _vals = null;
   protected ArrayList<string> extra = null;
   /**
@@ -55,14 +54,6 @@ public class GXml.SerializableValueList : SerializableObjectModel, SerializableP
     }
     return l;
   }
-  /**
-   * Creates a new {@link GXml.SerializableValueList} with the given
-   * property name.
-   *
-   * If no values where defined at construction time and no values
-   * have been added, then this will return an empty list.
-   */
-  public SerializableValueList.with_name (string name) { _name = name; }
   /**
    * Add a list of string values to select from.
    * 
@@ -110,7 +101,5 @@ public class GXml.SerializableValueList : SerializableObjectModel, SerializableP
   }
   public string get_serializable_property_value () { return _val; }
   public void set_serializable_property_value (string? val) { _val = val; }
-  public string get_serializable_property_name () { return _name; }
-  public void set_serializable_property_name (string name) { _name = name; }
   public override string to_string () { return _val; }
 }

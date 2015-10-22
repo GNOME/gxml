@@ -28,7 +28,6 @@ using Gee;
 public class GXml.SerializableBool : SerializableObjectModel, SerializableProperty
 {
   private string _val = null;
-  private string _name = null;
   public bool get_value () { return bool.parse (_val); }
   public void set_value (bool val) { _val = val.to_string (); }
   public string get_serializable_property_value () { return _val; }
@@ -38,8 +37,6 @@ public class GXml.SerializableBool : SerializableObjectModel, SerializableProper
     else
       _val = (bool.parse (val)).to_string ();
   }
-  public string get_serializable_property_name () { return _name; }
-  public void set_serializable_property_name (string name) { _name = name; }
   public override string to_string () {
     if (_val != null) return (bool.parse (_val)).to_string ();
     return false.to_string ();

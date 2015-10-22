@@ -28,7 +28,6 @@ using Gee;
 public class GXml.SerializableDouble : SerializableObjectModel, SerializableProperty
 {
   protected string _val = null;
-  protected string _name = null;
   protected int _fraction = -1;
   public int get_fraction () { return _fraction; }
   public void set_fraction (int fraction) {
@@ -45,8 +44,6 @@ public class GXml.SerializableDouble : SerializableObjectModel, SerializableProp
     else
       _val = double.parse (val).to_string ();
   }
-  public string get_serializable_property_name () { return _name; }
-  public void set_serializable_property_name (string name) { _name = name; }
   public override string to_string () {
     if (_val != null) return (double.parse (_val)).to_string ();
     return "";
