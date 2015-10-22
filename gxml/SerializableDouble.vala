@@ -38,12 +38,7 @@ public class GXml.SerializableDouble : SerializableObjectModel, SerializableProp
   public double get_value () { return double.parse (_val); }
   public void set_value (double val) { _val = val.to_string (); }
   public string get_serializable_property_value () { return _val; }
-  public void set_serializable_property_value (string? val) {
-    if (val == null)
-      _val = val;
-    else
-      _val = double.parse (val).to_string ();
-  }
+  public void set_serializable_property_value (string? val) { _val = val; }
   public override string to_string () {
     if (_val != null) return (double.parse (_val)).to_string ();
     return "";
