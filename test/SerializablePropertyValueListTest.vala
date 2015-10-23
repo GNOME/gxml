@@ -25,9 +25,26 @@
  */
 using GXml;
 class SerializablePropertyValueListTest : GXmlTest {
+  public class Values : SerializableValueList
+  {
+    construct {
+      _vals = {"Val1","Val2"};
+    }
+    public void select (Enum v)
+    {
+      select_value_at ((int) v);
+    }
+    public string get_string () { return get_serializable_property_value (); }
+    public void set_string (string str) { set_serializable_property_value (str); }
+    public enum Enum
+    {
+      VAL1, VAL2
+    }
+  }
   public class ValueList : SerializableObjectModel
   {
     public SerializableValueList values { get; set; }
+    public Values vals { get; set; }
     public int  integer { get; set; default = 0; }
     public string name { get; set; }
     public override string node_name () { return "ValueList"; }
@@ -42,8 +59,10 @@ class SerializablePropertyValueListTest : GXmlTest {
         vl.serialize (doc);
         Test.message ("XML:\n"+doc.to_string ());
         var element = doc.document_element;
-        var evl1 = element.get_attribute_node ("boolean");
+        var evl1 = element.get_attribute_node ("values");
         assert (evl1 == null);
+        var evl2 = element.get_attribute_node ("vals");
+        assert (evl2 == null);
         var s = element.get_attribute_node ("name");
         assert (s == null);
         var i = element.get_attribute_node ("integer");
@@ -173,6 +192,53 @@ class SerializablePropertyValueListTest : GXmlTest {
         var element4 = doc4.document_element;
         var evl4 = element4.get_attribute_node ("values");
         assert (evl4 == null);
+      } catch (GLib.Error e) {
+        Test.message (@"ERROR: $(e.message)");
+        assert_not_reached ();
+      }
+    });
+    Test.add_func ("/gxml/serializable/ValueList/fixed/basic",
+    () => {
+      var v = new ValueList ();
+      v.vals = new Values ();
+      assert (v.vals != null);
+      assert (v.vals.get_value_at (0) == "Val1");
+      assert (v.vals.get_value_at (1) == "Val2");
+      assert (v.vals.get_serializable_property_value () == null);
+      v.vals.select_value_at (0);
+      assert (v.vals.get_serializable_property_value () == "Val1");
+      v.vals.select_value_at (1);
+      assert (v.vals.get_serializable_property_value () == "Val2");
+      v.vals.select_value_at (Values.Enum.VAL1);
+      assert (v.vals.get_serializable_property_value () == "Val1");
+      v.vals.select_value_at (Values.Enum.VAL2);
+      assert (v.vals.get_serializable_property_value () == "Val2");
+      v.vals.select (Values.Enum.VAL1);
+      assert (v.vals.get_string () == "Val1");
+      assert (v.vals.get_string () == "Val1");
+      assert (v.vals.is_value ());
+      v.vals.set_string ("K1");
+      assert (v.vals.get_string () == "K1");
+      assert (!v.vals.is_value ());
+    });
+    Test.add_func ("/gxml/serializable/ValueList/fixed/serialize",
+    () => {
+      try {
+        var vl = new ValueList ();
+        vl.vals = new Values ();
+        vl.vals.select_value_at (Values.Enum.VAL1);
+        var doc = new xDocument ();
+        vl.serialize (doc);
+        Test.message ("XML:\n"+doc.to_string ());
+        var element = doc.document_element;
+        var s = element.get_attribute_node ("name");
+        assert (s == null);
+        var i = element.attrs.get ("integer");
+        assert (i.value == "0");
+        var evl1 = element.attrs.get ("vals");
+        assert (evl1 != null);
+        assert (evl1.value != null);
+        assert (evl1.value == "Val1");
       } catch (GLib.Error e) {
         Test.message (@"ERROR: $(e.message)");
         assert_not_reached ();

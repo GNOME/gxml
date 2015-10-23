@@ -98,6 +98,10 @@ public interface GXml.SerializableProperty : Object, Serializable
     else
       name = prop.get_name ();
     Test.message ("Property to set:"+name+" - with value: "+get_serializable_property_value ());
+    if (!(element is GXml.Element)) {
+      GLib.warning ("Trying to serialize to a non GXmlElement!");
+      return element;
+    }
     ((GXml.Element) element).set_attr (name, get_serializable_property_value ());
     return element;
   }
