@@ -22,13 +22,7 @@
 
 using Gee;
 /**
- * Represent any property to be added as a {@link GXml.Attr} to a {@link GXml.Element}
- *
- * On implementations of {@link GXml.Serializable}, consider to detect if the object to
- * serialize/deserialize is of kind {@link GXml.SerializableProperty} and call
- * {@link GXml.Serializable.serialize_property} instead of {@link GXml.Serializable.serialize}
- * to fill automatically {@link GXml.SerializableProperty.serializable_property_name} and
- * {@link GXml.SerializableProperty.serializable_property_value}.
+ * Represent any property to be added as a {@link GXml.Attribute} to a {@link GXml.Element}
  *
  * The actual value stored and returned by {@link GXml.SerializableProperty.get_serializable_property_value}
  * is the actual string in the XML property, this means may the value could differ from the spected value
@@ -36,17 +30,17 @@ using Gee;
  * retured values.
  *
  * Implementations of {@link GXml.SerializableProperty}, could be used to provide more flexibility
- * when parsing {@link GXml.Attr} properties values and to exclude to be serialized if they have not
+ * when parsing {@link GXml.Attribute} properties values and to exclude to be serialized if they have not
  * been created in the holding objects.
  */
 public interface GXml.SerializableProperty : Object, Serializable
 {
   /**
-  * Value to be set to a {@link GXml.Attr}, to be added to a {@link GXml.Element}
+  * Value to be set to a {@link GXml.Attribute}, to be added to a {@link GXml.Element}
   */
   public abstract string get_serializable_property_value ();
   /**
-  * Set value to be set to a {@link GXml.Attr}, to be added to a {@link GXml.Element}
+  * Set value to be set to a {@link GXml.Attribute}, to be added to a {@link GXml.Element}
   *
   * If value is set to @null then the property will be ignored by default and no
   * property will be set to given {@link GXml.Element}.
@@ -57,32 +51,29 @@ public interface GXml.SerializableProperty : Object, Serializable
   */
   public abstract void set_serializable_property_value (string? val);
   /**
-   * Tryies to deserialize from a {@link GXml.Node} searching a {@link GXml.Attr}
-   * with the name returned by {@link GXml.SerializableProperty.get_serializable_property_name},
-   * if not set, then {@link GLib.ParamSpec} name should used. If {@param nick} is set to true,
+   * Tryies to deserialize from a {@link GXml.Node} searching a {@link GXml.Attribute}
+   * with the name provided in @param prop or its nick if @nick is true,
+   * if not set, then {@link GLib.ParamSpec} name should used. If @param nick is set to true,
    * then {@link GLib.ParamSpec} nick is used as name.
    */
   public virtual bool deserialize_property (GXml.Node property_node, ParamSpec prop, bool nick)
     throws GLib.Error
   { return default_serializable_property_deserialize_property (property_node, prop, nick); }
   /**
-   * Serialization method to add a {@link GXml.Attr} to a {@link GXml.Element}, using {@link ParamSpec}
-   * name or nick, if {@param nick} is set to true, as the attribute's name.
+   * Serialization method to add a {@link GXml.Attribute} to a {@link GXml.Element}, using {@link GLib.ParamSpec}
+   * name or nick, if @param nick is set to true, as the attribute's name.
    *
-   * If {@link GXml.SerializableProperty.get_serializable_property_value} returns {@link null}
+   * If {@link GXml.SerializableProperty.get_serializable_property_value} returns null
    * given {@link GXml.Node} should not be modified.
    */
   public virtual GXml.Node? serialize_property (GXml.Node property_node, ParamSpec prop, bool nick)
     throws GLib.Error
   { return default_serializable_property_serialize_property (property_node, prop,nick); }
   /**
-   * Default serialization method to add a {@link GXml.Attr} to a {@link GXml.Element}
+   * Default serialization method to add a {@link GXml.Attribute} to a {@link GXml.Element}
    *
-   * If {@link GXml.SerializableProperty.get_serializable_property_value} returns {@link null}
+   * If {@link GXml.SerializableProperty.get_serializable_property_value} returns null
    * given {@link GXml.Node} is not modified.
-   *
-   * Implementators should override {@link Serializable.serialize_property} to call
-   * this method on serialization.
    */
   public GXml.Node? default_serializable_property_serialize_property (GXml.Node element,
                                         GLib.ParamSpec prop, bool nick)
@@ -106,9 +97,8 @@ public interface GXml.SerializableProperty : Object, Serializable
     return element;
   }
   /**
-   * Tryies to deserialize from a {@link GXml.Node} searching a {@link GXml.Attr}
-   * with the name returned by {@link GXml.SerializableProperty.get_serializable_property_name},
-   * if not set {@link GLib.ParamSpec} name is used.
+   * Tryies to deserialize from a {@link GXml.Node} searching a {@link GXml.Attribute}
+   * with the name in @param prop or from its nick if @nick is true.
    */
   public bool default_serializable_property_deserialize_property (GXml.Node property_node,
                                                                   ParamSpec prop, bool nick)

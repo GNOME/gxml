@@ -27,7 +27,7 @@ namespace GXml {
 	/**
 	 * CharacterData defines an interface for manipulating XML character data.
 	 *
-	 * It is used by the {@link GXml.CDATASection},
+	 * It is used by the {@link GXml.xCDATASection},
 	 * {@link GXml.Text}, and {@link GXml.Comment} node types.
 	 *
 	 * Version: DOM Level 1 Core<<BR>>

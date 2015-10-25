@@ -53,7 +53,7 @@ public interface GXml.Element : Object, GXml.Node
    * by calling this method. Is a good practice to call this function, even if
    * current implemention doesn't requires it.
    *
-   * This function is useful when using {@link GXml.TextWriter} implementations.
+   * This function is useful when using {@link Xml.TextWriter} implementations.
    */
   public virtual void finalize_attr () { return; }
     /**

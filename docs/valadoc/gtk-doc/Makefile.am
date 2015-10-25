@@ -36,7 +36,6 @@ gxml-gtk-doc:
 
 all: gxml-gtk-doc
 
-clean-local: clean-local-gtk-doc
-.PHONY: clean-local-gtk-doc
-clean-local-gtk-doc:
-	-rm -rf gtk-doc
+clean-local:
+	rm -rf gtk-doc
+	rm -rf gxml

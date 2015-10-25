@@ -22,7 +22,7 @@
 
 using Gee;
 /**
- * Represent any boolean property to be added as a {@link GXml.Attr} to a {@link GXml.Element}
+ * Represent any boolean property to be added as a {@link GXml.Attribute} to a {@link GXml.Element}
  *
  */
 public class GXml.SerializableDouble : SerializableObjectModel, SerializableProperty

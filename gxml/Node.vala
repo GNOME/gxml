@@ -92,9 +92,9 @@ public interface GXml.Node : Object
    * Just {@link GXml.Element} objects are supported. For attributes, use
    * {@link GXml.Element.set_attr} method, passing source's name and value as arguments.
    *
-   * @param doc: a {@link GXml.Document} owning destiny node
-   * @param node: a {@link GXml.Element} to copy nodes to
-   * @param source: a {@link GXml.Element} to copy nodes from, it could be holded by different {@link GXml.Document}
+   * @param doc a {@link GXml.Document} owning destiny node
+   * @param node a {@link GXml.Element} to copy nodes to
+   * @param source a {@link GXml.Element} to copy nodes from, it could be holded by different {@link GXml.Document}
    */
   public static bool copy (GXml.Document doc, GXml.Node node, GXml.Node source, bool deep)
   {

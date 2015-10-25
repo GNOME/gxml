@@ -22,7 +22,7 @@
 
 using Gee;
 /**
- * Represent any boolean property to be added as a {@link GXml.Attr} to a {@link GXml.Element}
+ * Represent any boolean property to be added as a {@link GXml.Attribute} to a {@link GXml.Element}
  *
  */
 public class GXml.SerializableBool : SerializableObjectModel, SerializableProperty
@@ -31,7 +31,7 @@ public class GXml.SerializableBool : SerializableObjectModel, SerializableProper
   /**
    * Parse the stored value, from the XML property, to a {@link int}. This parsing
    * may is different from the actual stored string. If can't be parsed to a valid
-   * boolean, this method will always return {@link false}
+   * boolean, this method will always return false.
    */
   public bool get_value () {
     if (_val.down () == "true") return true;

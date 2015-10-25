@@ -78,7 +78,7 @@ namespace GXml {
      * method in order to return true, your implementation or the ones in GXml, will
      * store all unknown attributes on deserialization and must serialize
      * again back to the XML file. Even you are allowed to get this unknown objects
-     * by iterating on {@link unknown_serializable_property} collection, if you know
+     * by iterating on {@link unknown_serializable_properties} collection, if you know
      * attribute's name, use it to retrieve it.
      *
      * This property is ignored on serialisation.
@@ -101,7 +101,7 @@ namespace GXml {
      * method in order to return true, your implementation or the ones in GXml, will
      * store all unknown properties and nodes on deserialization and must serialize
      * again back to the XML file. Even you are allowed to get this unknown objects
-     * by iterating on {@link unknown_serializable_property} hash table.
+     * by iterating on {@link Serializable.unknown_serializable_nodes} hash table.
      *
      * This property is ignored on serialisation.
      */
@@ -115,7 +115,7 @@ namespace GXml {
      * true in order to use this property.
      *
      * This property is ignored by default. Implementors must implement
-     * {@link serialize_use_xml_node_value} to return {@link true} and add a
+     * {@link serialize_use_xml_node_value} to return true and add a
      * set and get function to get/set this value, in order to use your own API.
      *
      * This property is ignored on serialisation.
@@ -126,15 +126,7 @@ namespace GXml {
      * Used to set specific namespace for an {@link GXml.Element}.
      *
      * By default no namspace prefix is added to {@link GXml.Element} on serialized. Implementors
-     * must consider {@link Serializable.serialize_set_namespace} proterty value
-     * to discover if this node should have a namespace.
-     *
-     * {@link GXml.Element} namespace should be added before to serialize any
-     * property.
-     *
-     * This property should have a format "prefix|url".
-     *
-     * This property is ignored on serialisation.
+     * must consider override this methodk if this node should have a namespace.
      */
     public abstract bool set_namespace (GXml.Node node);
     //public abstract Namespace @namespace { get; set; default = null; }
@@ -177,7 +169,7 @@ namespace GXml {
      * This method must call serialize_property() recursivally on all properties
      * to serialize.
      *
-     * @param doc an {@link GXml.Document} object to serialize to.
+     * @param node an {@link GXml.Node} object to serialize to.
      */
     public abstract GXml.Node? serialize (GXml.Node node) throws GLib.Error;
 
@@ -278,7 +270,7 @@ namespace GXml {
      *
      * For instance, if an object has private data fields
      * that are not installed public properties, but that
-     * should be serialized, find_property can be defined
+     * should be serialized, {@link GLib.ObjectClass.find_property} can be defined
      * to return a {@link GLib.ParamSpec} for non-installed
      * properties.  Other {@link GXml.Serializable} functions
      * should be consistent with it.
@@ -342,8 +334,6 @@ namespace GXml {
                                              get_class ().find_property("unknown-serializable-nodes"));
         ignored_serializable_properties.set ("serialized-xml-node-value",
                                              get_class ().find_property("serialized-xml-node-value"));
-        ignored_serializable_properties.set ("serialize-set-namespace",
-                                             get_class ().find_property("serialize_set_namespace"));
       }
     }
 
@@ -413,7 +403,7 @@ namespace GXml {
      * handle this case as a virtual property, supported
      * by the other {@link GXml.Serializable} functions.
      *
-     * @param spec is usually obtained from {@link list_properties} or {@link find_property}.
+     * @param spec is usually obtained from {@link list_serializable_properties} or {@link GLib.ObjectClass.find_property}.
      *
      * @param spec The property we're retrieving as a string
      */
@@ -478,7 +468,7 @@ namespace GXml {
      * Call this method before use standard Serializable or implementator ones.
      *
      * @param str a string to get attribute from
-     * @param dest a {@link GObject.Value} describing attribute to deserialize
+     * @param dest a {@link GLib.Value} describing attribute to deserialize
      */
     public abstract bool transform_from_string (string str, ref GLib.Value dest)
                                                 throws GLib.Error;
@@ -593,16 +583,15 @@ namespace GXml {
      * Some specialized classes, like derived from {@link Serializable} class
      * implementator, can provide custome transformations.
      *
-     * Returns: {@link true} if transformation was handled, {@link false} otherwise.
-     *
      * Implementors:
      * To be overrided by derived classes of implementators to provide custome
      * transformations. Declare it as virtual if you want derived classes of 
      * implementators to provide custome transformations.
      * Call this method before use standard Serializable or implementator ones.
      *
-     * @param val: a {@link GLib.Value} to get attribute from
-     * @param str: a string describing attribute to deserialize
+     * @param val a {@link GLib.Value} to get attribute from
+     * @param str a string describing attribute to deserialize
+     * @return true if transformation was handled, false otherwise.
      */
     public abstract bool transform_to_string (GLib.Value val, ref string str)
                                               throws GLib.Error;

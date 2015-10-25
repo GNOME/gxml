@@ -83,7 +83,7 @@ namespace GXml {
 
 		/**
 		 * Contains a {@link GXml.NamedAttrMap} of
-		 * {@link GXml.Attr} attributes associated with this
+		 * {@link GXml.Attribute} attributes associated with this
 		 * {@link GXml.xElement}.
 		 *
 		 * Attributes in the NamedNodeMap are updated live, so
@@ -285,33 +285,6 @@ namespace GXml {
 			return ret;
 		}
 
-
-		/* Visual explanation of get_elements_by_tag_name tree traversal.
-		     a
-		   b    c
-		  d e  f g
-
-		  we want: a b d e c f g
-
-		  start:
-		  add a
-
-		  pop top of stack (a)
-		  a: check for match: yes? add to return list
-		  a: add children from last to first (c,b) to top of stack (so head=b, then c)
-
-		  a
-		  a< [bc]
-		  b< [de]c
-		  d< ec
-		  e< c
-		  c< [fg]
-		  f< g
-		  g<
-
-		  see a, add a, visit a
-		*/
-
 		/* This keeps a list of all descendants with a given tag name, so you can do
 		   elem.get_elements_by_tag_name ("name") and find them quickly; whenever a
 		   node is added to the DOM, all its ancestors have it added to their list */
@@ -358,6 +331,33 @@ namespace GXml {
 		 * This will include the current element if it
 		 * matches. The returned list is updated as necessary
 		 * as the tree changes.
+		 * 
+		 * Visual explanation of get_elements_by_tag_name tree traversal.
+		 * {{{
+		 * a
+		 *  b    c
+		 * d e  f g
+		 *
+		 * we want: a b d e c f g
+		 *
+		 * start:
+		 * add a
+		 *
+		 * pop top of stack (a)
+		 * a: check for match: yes? add to return list
+		 * a: add children from last to first (c,b) to top of stack (so head=b, then c)
+		 *
+		 * a
+		 * a< [bc]
+		 * b< [de]c
+		 * d< ec
+		 * e< c
+		 * c< [fg]
+		 * f< g
+		 * g<
+		 *
+		 * see a, add a, visit a
+		 * }}}
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-1938918D]]
@@ -365,11 +365,10 @@ namespace GXml {
 		 * @param tag_name The tag name to match for
 		 *
 		 * @return A NodeList containing the matching descendants
-		 */
-		/*TODO: make sure we want to include the current
-		 * element, I think probably not.
+		 * 
 		 */
 		public NodeList get_elements_by_tag_name (string tag_name) {
+			//TODO: make sure we want to include the current element, I think probably not.
 			TagNameNodeList tagged = new TagNameNodeList (tag_name, this, this.owner_document);
 			//List<xNode> tagged = new List<xNode> ();
 			Queue<Xml.Node*> tocheck = new Queue<Xml.Node*> ();

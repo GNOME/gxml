@@ -122,7 +122,7 @@ namespace GXml {
 		/**
 		 * Set namespace to this {@link GXml.xNode}
 		 *
-		 * Returns: {@link true} if namespace exists.
+		 * Returns: true if namespace exists.
 		 */
 		public virtual bool set_namespace (string uri, string? namespace_prefix)
 		{
@@ -170,7 +170,7 @@ namespace GXml {
 		/**
 		 * Stores the name of the node. Sometimes this is
 		 * similar to the node type, but sometimes, it is
-		 * arbitrary data, like for {@link GXml.Attr} where
+		 * arbitrary data, like for {@link GXml.Attribute} where
 		 * the node_name is the name of the Attr's name=value
 		 * pair.
 		 *
@@ -208,7 +208,7 @@ namespace GXml {
 		/**
 		 * Stores the type of node. Most XML structures are
 		 * nodes of different types, like {@link GXml.xDocument}
-		 * as a {@link GXml.NodeType.DOCUMENT}, {@link GXml.Attr}
+		 * as a {@link GXml.NodeType.DOCUMENT}, {@link GXml.Attribute}
 		 * as a {@link GXml.NodeType.ATTRIBUTE}, Element as a
 		 * {@link GXml.NodeType.ELEMENT}, etc.
 		 *
@@ -333,7 +333,7 @@ namespace GXml {
 		}
 
 		/**
-		 * A {@link GXml.NamedNodeMap} containing the {@link GXml.Attr}
+		 * A {@link GXml.NamedNodeMap} containing the {@link GXml.Attribute}
 		 * attributes for this node. `attributes`
 		 * actually only apply to {@link GXml.Element}
 		 * nodes. For all other {@link GXml.xNode} subclasses,
@@ -457,7 +457,7 @@ namespace GXml {
 		 *
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-hasChildNodes]]
 		 *
-		 * @return %TRUE if this node has children, %FALSE if not
+		 * @return true if this node has children, false if not
 		 */
 		public virtual bool has_child_nodes () {
 			return false;
@@ -470,7 +470,7 @@ namespace GXml {
 		 *
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-cloneNode]]
 		 *
-		 * @param deep If %TRUE, descendants are cloned as well. If %FALSE, they are not
+		 * @param deep If true, descendants are cloned as well. If false, they are not
 		 *
 		 * @return A parentless clone of this node.  Do not
 		 * free it, its memory will be released when the owning
@@ -491,7 +491,7 @@ namespace GXml {
 		 * libxml2 will not handle that case.  (See libxml2's
 		 * xmlNodeDumpOutput internals to understand more.)
 		 *
-		 * @param format %FALSE: no formatting, %TRUE: formatted, with indentation
+		 * @param format %FALSE: no formatting, true: formatted, with indentation
 		 * @param level Indentation level
 		 *
 		 * @return XML string for node, which must be free

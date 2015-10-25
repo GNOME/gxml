@@ -29,7 +29,7 @@ public errordomain GXml.SerializableEnumError {
 
 /**
  * Represent any value as string but a list of enum values by default to select from.
- * property to be added as a {@link GXml.Attr} to a {@link GXml.Element}.
+ * property to be added as a {@link GXml.Attribute} to a {@link GXml.Element}.
  *
  * This class makes easy to create enumerations with its representation to string,
  * but limited to the actual values of the enumeration, making it flexible for

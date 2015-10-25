@@ -27,7 +27,7 @@ namespace GXml {
 	 * Represents an XML Namespace for a {@link GXml.Node} node.
 	 *
 	 * These represent
-	 * prefix=uri pairs that define namespaces for XML {@link GXml.xElements}
+	 * prefix=uri pairs that define namespaces for XML {@link GXml.xElement}
 	 * and {@link GXml.xAttr}.
 	 */
 	public class NamespaceAttr : xNode, GXml.Namespace {

@@ -23,7 +23,7 @@
 using Gee;
 /**
  * Represent any value as string but a list of options by default to select from.
- * property to be added as a {@link GXml.Attr} to a {@link GXml.Element}.
+ * property to be added as a {@link GXml.Attribute} to a {@link GXml.Element}.
  *
  * All values are stored in an array to get access to it by its position using
  * {@link SerializableValueList.get_value_at}.
@@ -87,7 +87,7 @@ public class GXml.SerializableValueList : SerializableObjectModel, SerializableP
    * Get an array of string values in list.
    *
    * If no values were defined at construction time and
-   * no values were added this return {@link null}
+   * no values were added this return null
    */
   public virtual string[] get_values_array () {
     return get_values ().to_array ();

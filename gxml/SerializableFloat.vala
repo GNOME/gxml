@@ -26,7 +26,7 @@ public class GXml.SerializableFloat : GXml.SerializableDouble
    * Parse the stored value, from the XML property, to a {@link int}. This parsing
    * may is different from the actual stored string.
    *
-   * The stored value, is parsed using {@lilnk GLib.ascii_strtod} and then
+   * The stored value, is parsed using to double value and then
    * casted to an float before return, this make flexible on stored values
    * in XML and parsed without errors, but they could defere from the value
    * returned by this method.

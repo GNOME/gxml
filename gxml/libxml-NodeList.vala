@@ -31,7 +31,7 @@ namespace GXml {
    * A live list used to store {@link GXml.xNode}s.
 	 *
 	 * Usually contains the children of a {@link GXml.xNode}, or
-	 * the results of {@link GXml.Element.get_elements_by_tag_name}.
+	 * the results of {@link GXml.xElement.get_elements_by_tag_name}.
 	 * {@link GXml.NodeList} implements both the DOM Level 1 Core API for
 	 * a NodeList, as well as the {@link GLib.List} API, to make
 	 * it more accessible and familiar to GLib programmers.

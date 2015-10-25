@@ -54,7 +54,7 @@
  * 
  * {@link xElement} have two properties with object type and object id.
  * 
- * It uses a set children {@link xElement} for each Object property with two {@link Attr},
+ * It uses a set children {@link xElement} for each Object property with two {@link GXml.Attribute},
  * one for its type and one for its name; property's value is set as the property
  * {@link xElement}'s content text.
  */

@@ -27,7 +27,7 @@ using Gee;
  * to represent {@link GLib.Object} class objects.
  * 
  * This implementation consider each object as a XML node, represented in GXml 
- * as a {@link GXml.Element} and its properties is represented by {@link GXml.Attr}.
+ * as a {@link GXml.Element} and its properties is represented by {@link GXml.Attribute}.
  * Each property, if it is a {@link Serializable} object, is represented as child
  * {@link Element}.
  * 

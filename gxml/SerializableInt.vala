@@ -22,7 +22,7 @@
 
 using Gee;
 /**
- * Represent any boolean property to be added as a {@link GXml.Attr} to a {@link GXml.Element} 
+ * Represent any boolean property to be added as a {@link GXml.Attribute} to a {@link GXml.Element} 
  */
 public class GXml.SerializableInt : GXml.SerializableDouble
 {
@@ -30,7 +30,7 @@ public class GXml.SerializableInt : GXml.SerializableDouble
    * Parse the stored value, from the XML property, to a {@link int}. This parsing
    * may is different from the actual stored string.
    *
-   * The stored value, is parsed using {@lilnk GLib.ascii_strtod} and then
+   * The stored value, is parsed as double value and then
    * casted to an integer before return, this make flexible on stored values
    * in XML and parsed without errors, but they could defere from the value
    * returned by this method.

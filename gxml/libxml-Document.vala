@@ -480,10 +480,10 @@ namespace GXml {
 		/**
 		 * Creates a xDocument from data found in memory using options.
 		 *
-		 * @param xml: A string representing an XML document
-		 * @param url: the base URL to use for the document
-		 * @param encoding: the document encoding
-		 * @param options: a combination of {@link Xml.ParserOption}
+		 * @param xml A string representing an XML document
+		 * @param url the base URL to use for the document
+		 * @param encoding the document encoding
+		 * @param options a combination of {@link Xml.ParserOption}
 		 *
 		 * @return A new {@link GXml.xDocument} from `memory`; this must be freed with {@link GLib.Object.unref}
 		 */
@@ -702,7 +702,7 @@ namespace GXml {
 		 *
 		 * @param cdata_data The content for the CDATA section
 		 *
-		 * @return A new {@link GXml.CDATASection} with the
+		 * @return A new {@link GXml.xCDATASection} with the
 		 * supplied data; this should not be freed
 		 */
 		public unowned xCDATASection create_cdata_section (string cdata_data) {
@@ -760,7 +760,7 @@ namespace GXml {
 		}
 
 		/**
-		 * Creates an {@link GXml.Attr} attribute with `name`, usually to be associated with an xElement.
+		 * Creates an {@link GXml.Attribute} attribute with `name`, usually to be associated with an xElement.
 		 *
 		 * XML example: {{{<element attributename="attributevalue">content</element>}}}
 		 *
@@ -769,7 +769,7 @@ namespace GXml {
 		 *
 		 * @param name The `name` of the attribute
 		 *
-		 * @return A new {@link GXml.Attr} with the given `name`; this should not be freed
+		 * @return A new {@link GXml.Attribute} with the given `name`; this should not be freed
 		 */
 		public xAttr create_attribute (string name) {
 			/* TODO: figure out memory for this; its a
