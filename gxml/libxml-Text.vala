@@ -31,8 +31,7 @@ namespace GXml {
 	 * To create one, use {@link GXml.xDocument.create_text_node}.
 	 *
 	 * Describes the text found as children of elements throughout
-	 * an XML document, like "He who must not be named" in the
-	 * XML: {{{<name>He who must not be named</name>}}}
+	 * an XML document, like "He who must not be named" betwean two tags
 	 * With libxml2 as a backend, it should be noted that two
 	 * adjacent text nodes are always merged into one Text node,
 	 * so some functionality for Text, like split_text, will not

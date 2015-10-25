@@ -30,15 +30,6 @@
  *
  * To create one, use {@link GXml.xDocument.create_comment}.
  *
- * An XML example looks like:
- *
- * {{{
- *  <someNode>
- *    <!-- this is a comment -->
- *    text in the node
- *  </someNode>
- * }}}
- *
  * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1728279322]]
  */
 public class GXml.xComment : GXml.xCharacterData, GXml.Comment {

@@ -230,8 +230,6 @@ namespace GXml {
 		 * A link to the parent_node of this node. For example,
 		 * with elements, the immediate, outer element is the parent.
 		 *
-		 * XML example: {{{<parent><child></child></parent>}}}
-		 *
 		 * Do not free this.  It's memory will be released
 		 * when the owning {@link GXml.xDocument} is freed.
 		 *

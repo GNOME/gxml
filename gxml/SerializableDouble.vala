@@ -24,6 +24,8 @@ using Gee;
 /**
  * Represent any boolean property to be added as a {@link GXml.Attribute} to a {@link GXml.Element}
  *
+ * This object can be used when the property could be removed from serialization, specially if missing
+ * on XML have some missing and avoidable.
  */
 public class GXml.SerializableDouble : SerializableObjectModel, SerializableProperty
 {

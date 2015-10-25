@@ -720,14 +720,6 @@ namespace GXml {
 		 * Its memory is freed when its owner document is
 		 * freed.
 		 *
-		 * XML example:
-		 * {{{ <?pi_target processing instruction data?>
-		 * <?xml-stylesheet href="style.xsl" type="text/xml"?>}}}
-		 *
-		 * In the above example, the Processing Instruction's
-		 * target is 'xml-stylesheet' and its content data is
-		 * 'href="style.xsl" type="text/xml"'.
-		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-createProcessingInstruction]]
 		 *

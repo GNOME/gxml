@@ -34,10 +34,10 @@ namespace GXml {
 	 * To create one, use {@link GXml.xDocument.create_processing_instruction}.
 	 *
 	 * For an example of a ProcessingInstruction, this one specifies a stylesheet:
-	 * {{{<?xml-stylesheet href="style.xsl" type="text/xml"?>}}}
+	 * {{{stylesheet href="style.xsl" type="text/xml"}}}
 	 *
 	 * The general form is
-	 * {{{<?pi_target processing instruction data?>}}}
+	 * {{{pi_target processing instruction data}}}
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1004215813]]
 	 */
 	public class xProcessingInstruction : xNode, GXml.ProcessingInstruction {

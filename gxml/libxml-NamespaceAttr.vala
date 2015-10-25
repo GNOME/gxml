@@ -46,7 +46,7 @@ namespace GXml {
 
 		/**
 		 * The prefix that this xmlns attribute defines. So,
-		 * if the element was like {{{&lt;Fish xmlns:foods="http://fishies.org/foods" />}}}, the
+		 * if the element was like {{{xmlns:foods="http://fishies.org/foods"}}}, the
 		 * defined prefix would be foods.
 		 */
 		public string defined_prefix {

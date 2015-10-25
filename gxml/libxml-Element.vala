@@ -49,12 +49,7 @@ namespace GXml {
 		// TODO: find out how to do double-spaces in Valadoc, so we can indent <img...
 		/**
 		 * The element's tag_name. Multiple elements can have
-		 * the same tag name in a document. XML example:
-		 * {{{<photos>
-		 *   <img src="..." />
-		 *   <img src="..." />
-		 * </photos>}}}
-		 * In this example, photos and img are tag names.
+		 * the same tag name in a document.
 		 *
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-104682815]]
