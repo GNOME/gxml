@@ -1,4 +1,7 @@
 namespace GXml {
+	/**
+	 * Errors for parse and writer.
+	 */
 	public errordomain Error {
 		NOT_SUPPORTED, /* TODO: GET RID OF THIS */
 		PARSER, WRITER;

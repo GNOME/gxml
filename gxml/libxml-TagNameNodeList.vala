@@ -24,7 +24,8 @@
  * out as new elements are added, and get reconstructed each
  * time, or get reconstructed-on-the-go?
  */
-internal class GXml.TagNameNodeList : GXml.LinkedList { internal string tag_name;
+internal class GXml.TagNameNodeList : GXml.LinkedList {
+  internal string tag_name;
 	internal TagNameNodeList (string tag_name, xNode root, xDocument owner) {
 		base (root);
 		this.tag_name = tag_name;

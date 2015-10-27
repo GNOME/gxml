@@ -28,6 +28,8 @@ using Gee;
 public class GXml.SerializableBool : SerializableObjectModel, SerializableProperty
 {
   private string _val = null;
+
+	construct { Init.init (); }
   /**
    * Parse the stored value, from the XML property, to a {@link int}. This parsing
    * may is different from the actual stored string. If can't be parsed to a valid

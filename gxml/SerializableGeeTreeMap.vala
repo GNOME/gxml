@@ -30,6 +30,9 @@ public class GXml.SerializableTreeMap<K,V> : Gee.TreeMap<K,V>, Serializable, Ser
 {
   Gee.HashMap<string,GXml.Attribute> _unknown_serializable_property = new Gee.HashMap<string,GXml.Attribute> ();
   Gee.ArrayList<GXml.Node> _unknown_serializable_nodes = new Gee.ArrayList<GXml.Node> ();
+
+	construct { Init.init (); }
+
   public Gee.Map<string,GXml.Attribute> unknown_serializable_properties
   {
     get {

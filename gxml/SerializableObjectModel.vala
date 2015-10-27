@@ -37,6 +37,7 @@ using Gee;
  */
 public abstract class GXml.SerializableObjectModel : Object, Serializable
 {
+	construct { Init.init (); }
   // holds all unknown nodes
   protected GXml.TwDocument _doc = null;
   /* Serializable interface properties */

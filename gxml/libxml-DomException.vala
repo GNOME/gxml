@@ -23,6 +23,9 @@
  */
 
 namespace GXml {
+	/**
+	 * Last error exception for DOM.
+	 */
 	public static DomException last_error = DomException.NONE;
 
 	/**

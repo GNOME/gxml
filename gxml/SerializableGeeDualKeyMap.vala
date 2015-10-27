@@ -32,6 +32,8 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable, Serializ
 {
   protected Gee.HashMultiMap<P,HashMap<S,V>> storage;
 
+	construct { Init.init (); }
+
   public Type value_type
   {
     get {

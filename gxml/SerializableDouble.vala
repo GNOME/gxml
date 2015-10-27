@@ -31,6 +31,9 @@ public class GXml.SerializableDouble : SerializableObjectModel, SerializableProp
 {
   protected string _val = null;
   protected int _fraction = -1;
+
+  construct { Init.init (); }
+
   public int get_fraction () { return _fraction; }
   public void set_fraction (int fraction) {
     int v = fraction;

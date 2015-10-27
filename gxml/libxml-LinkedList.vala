@@ -26,7 +26,10 @@
 
 internal class GXml.LinkedList : Gee.LinkedList<GXml.xNode>, NodeList
 {
-	public GXml.xNode root;
+
+	construct { Init.init (); }
+
+  public GXml.xNode root;
 
 	public ulong length {
 	  get { return size; }

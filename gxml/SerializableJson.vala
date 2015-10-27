@@ -62,6 +62,7 @@ public class GXml.SerializableJson : GLib.Object, GXml.Serializable
 {
   Gee.HashMap<string,GXml.Attribute> _unknown_serializable_property = new Gee.HashMap<string,GXml.Attribute> ();
   Gee.ArrayList<GXml.Node> _unknown_serializable_nodes = new Gee.ArrayList<GXml.Node> ();
+	construct { Init.init (); }
   /* Serializable Interface properties */
   protected ParamSpec[] properties { get; set; }
   public HashTable<string,GLib.ParamSpec>  ignored_serializable_properties { get; protected set; }

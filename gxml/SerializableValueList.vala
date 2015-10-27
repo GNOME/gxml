@@ -39,6 +39,7 @@ public class GXml.SerializableValueList : SerializableObjectModel, SerializableP
   private string _val = null;
   protected string[] _vals = null;
   protected ArrayList<string> extra = null;
+	construct { Init.init (); }
   /**
    * Return a {@link Gee.List} with all possible selection strings.
    *

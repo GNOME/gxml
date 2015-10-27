@@ -34,7 +34,8 @@ internal abstract class GXml.ChildNodeList : AbstractBidirList<xNode>, NodeList
 		internal abstract Xml.Node *head { get; set; }
 
 		internal abstract Xml.Node *parent_as_xmlnode { get; }
-
+		
+		construct { Init.init (); }
 		/**
 		 * {@inheritDoc}
 		 */

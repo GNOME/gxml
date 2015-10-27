@@ -37,6 +37,9 @@ namespace GXml {
 	{
 		protected xElement elem;
 
+
+		construct { Init.init (); }
+
 		internal AbstractNamedAttrMap (xElement e) {
 			this.elem = e;
 		}

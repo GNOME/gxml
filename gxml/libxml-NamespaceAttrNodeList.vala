@@ -29,6 +29,8 @@ internal abstract class GXml.AbstractNamespaceAttrNodeList : Object,
   protected unowned BackedNode node;
   protected Xml.Ns*[] name_spaces;
 
+	construct { Init.init (); }
+
   internal AbstractNamespaceAttrNodeList (BackedNode root) {
     this.node = root;
     name_spaces = Xmlx.doc_get_ns_list (node.node->doc, node.node);

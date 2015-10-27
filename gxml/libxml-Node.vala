@@ -42,6 +42,7 @@ namespace GXml {
 		protected NamedAttrMap _attributes = null;
 		internal NamespaceAttrNodeList _namespace_definitions = null;
 		/* Constructors */
+		construct { Init.init (); }
 		internal xNode (NodeType type, xDocument owner) {
 			this.node_type = type;
 			this.owner_document = owner;

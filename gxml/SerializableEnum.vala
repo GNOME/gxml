@@ -41,6 +41,9 @@ public class GXml.SerializableEnum : SerializableObjectModel, SerializableProper
 {
   protected string _val = null;
   protected GLib.Type _enumtype;
+
+	construct { Init.init (); }
+
   public SerializableEnum.with_enum (GLib.Type type)
   {
     _enumtype = type;

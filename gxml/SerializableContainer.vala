@@ -30,6 +30,7 @@
  */
 public abstract class GXml.SerializableContainer : SerializableObjectModel
 {
+	construct { Init.init (); }
   /**
    * Implementors must implement this function and initialize any Serializable container.
    */

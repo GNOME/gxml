@@ -105,6 +105,7 @@ namespace GXml {
 		                                             GXml.xDocument doc)
 						                                         throws GLib.Error
 		{
+			Init.init ();
 			Type type;
 			Value value;
 			GXml.xNode value_node;

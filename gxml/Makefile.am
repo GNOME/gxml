@@ -12,6 +12,7 @@ lib_LTLIBRARIES = libgxml-0.6.la
 
 # Vala source code
 sources = \
+	gxml-init.vala \
 	namespace-info.vala \
 	Attribute.vala \
 	Comment.vala\

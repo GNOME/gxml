@@ -80,6 +80,7 @@ namespace GXml {
 		                                 throws GLib.Error
 		                                 requires (enumeration.is_a (Type.ENUM))
 		{
+			Init.init ();
 			string camel = "";
 			EnumClass enumc = (EnumClass) enumeration.class_ref ();
 			EnumValue? enumv = enumc.get_value (val);
@@ -110,6 +111,7 @@ namespace GXml {
 		                  throws GLib.Error
 		                  requires (enumeration.is_a (Type.ENUM))
 		{
+			Init.init ();
 			EnumClass enumc = (EnumClass) enumeration.class_ref ();
 			EnumValue? enumv = null;
 			foreach (EnumValue ev in enumc.values) {
@@ -137,6 +139,7 @@ namespace GXml {
 		public static unowned EnumValue[] to_array (Type enumeration)
 		                               requires (enumeration.is_a (Type.ENUM))
 		{
+			Init.init ();
 			EnumClass enumc = (EnumClass) enumeration.class_ref ();
 			return enumc.values;
 		}
@@ -151,6 +154,7 @@ namespace GXml {
 		 */
 		public static EnumValue? parse_integer (Type enumeration, int val)
 		{
+			Init.init ();
 			if (!enumeration.is_a (Type.ENUM)) return null;
 			var vals = Enumeration.to_array (enumeration);
 			if (vals == null) return null;
@@ -170,6 +174,7 @@ namespace GXml {
 		public static string[] to_string_array (Type enumeration) throws GLib.Error
 			requires (enumeration.is_a (Type.ENUM))
 		{
+			Init.init ();
 			var vals = Enumeration.to_array (enumeration);
 			string [] s = {};
 			for (int i = 0; i < vals.length; i++) {

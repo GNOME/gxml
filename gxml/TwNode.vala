@@ -34,6 +34,8 @@ public abstract class GXml.TwNode : Object, GXml.Node
   protected GXml.Document _doc;
   internal Xml.TextWriter *tw;
 
+	construct { Init.init (); }
+
   // GXml.Node
   public virtual bool set_namespace (string uri, string? prefix)
   {
