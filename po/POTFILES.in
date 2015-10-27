@@ -1,3 +1,11 @@
 # List of source files containing translatable strings.
-
+gxml/libxml-ChildNodeList.c
 gxml/SerializableEnum.c
+gxml/SerializableEnum.c
+gxml/libxml-Document.c
+gxml/libxml-Entity.c
+gxml/libxml-Node.c
+gxml/SerializableObjectModel.c
+gxml/SerializableProperty.c
+gxml/Node.c
+gxml/Serialization.c

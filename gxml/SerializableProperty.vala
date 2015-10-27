@@ -90,7 +90,7 @@ public interface GXml.SerializableProperty : Object, Serializable
       name = prop.get_name ();
     Test.message ("Property to set:"+name+" - with value: "+get_serializable_property_value ());
     if (!(element is GXml.Element)) {
-      GLib.warning ("Trying to serialize to a non GXmlElement!");
+      GLib.warning (_("Trying to serialize to a non GXmlElement!"));
       return element;
     }
     ((GXml.Element) element).set_attr (name, get_serializable_property_value ());
@@ -109,7 +109,7 @@ public interface GXml.SerializableProperty : Object, Serializable
       attr = (GXml.Attribute) property_node;
     if (attr == null) {
 #if DEBUG
-      GLib.warning ("No attribute found to deserialize from");
+      GLib.warning (_("No attribute found to deserialize from"));
 #endif
       return false;
     }

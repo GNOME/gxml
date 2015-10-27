@@ -131,7 +131,7 @@ public interface GXml.Node : Object
         }
         if (c is Text) {
           if (c.value == null) {
-            GLib.warning ("Text node with NULL string");
+            GLib.warning (_("Text node with NULL string"));
             continue;
           }
           var t = doc.create_text (c.value);

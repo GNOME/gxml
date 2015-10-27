@@ -170,7 +170,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
             element.childs.add (e);
           }
           if (n is Text) {
-            if (n.value == null) GLib.warning ("Text node with NULL or none text");
+            if (n.value == null) GLib.warning (_("Text node with NULL or none text"));
             if (n.value == "") continue;
             var t = doc.create_text (n.value);
             element.childs.add (t);
@@ -294,11 +294,11 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       element = (Element) doc.root;
     return_val_if_fail (element != null, null);
     if (node_name () == null) {
-      GLib.warning (@"WARNING: Object type '$(get_type ().name ())' have no Node Name defined");
+      GLib.warning (_("WARNING: Object type '%s' have no Node Name defined").printf (get_type ().name ()));
       return null;
     }
     if (element.name.down () != node_name ().down ()) {
-      GLib.warning (@"Actual node's name is '$(element.name.down ())' expected '$(node_name ().down ())'");
+      GLib.warning (_("Actual node's name is '%s' expected '%s'").printf (element.name.down (),node_name ().down ()));
     }
 #if DEBUG
     stdout.printf (@"Deserialize Node: $(element.name)\n");

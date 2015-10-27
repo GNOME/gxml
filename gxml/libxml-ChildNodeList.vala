@@ -144,7 +144,7 @@ internal abstract class GXml.ChildNodeList : AbstractBidirList<xNode>, NodeList
 				child = child->next;
 			}
 			if (child == null) {
-				GXml.warning (DomException.NOT_FOUND, "ref_child '%s' not found, was supposed to have '%s' inserted before it.".printf (ref_child.node_name, new_child.node_name));
+				GXml.warning (DomException.NOT_FOUND, _("ref_child '%s' not found, was supposed to have '%s' inserted before it.").printf (ref_child.node_name, new_child.node_name));
 				return null;
 				// TODO: provide a more useful description of ref_child, but there are so many different types
 			} else {

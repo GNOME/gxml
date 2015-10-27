@@ -181,7 +181,7 @@ namespace GXml {
 					// TODO: Make copy_node public to allow others to use it
 					value_node = doc.copy_node (value_doc.document_element);
 			} else if (type.name () == "gpointer") {
-				GLib.warning ("DEBUG: skipping gpointer with name '%s' of object '%s'", prop_spec.name, object.get_type ().name ());
+				GLib.warning (_("DEBUG: skipping gpointer with name '%s' of object '%s'"), prop_spec.name, object.get_type ().name ());
 				value_node = doc.create_text_node (prop_spec.name);
 			} else {
 				throw new SerializationError.UNSUPPORTED_PROPERTY_TYPE ("Can't currently serialize type '%s' for property '%s' of object '%s'", type.name (), prop_spec.name, object.get_type ().name ());
