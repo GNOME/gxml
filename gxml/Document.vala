@@ -147,7 +147,7 @@ public interface GXml.Document : Object, GXml.Node
   {
     var d = new xDocument.from_path (f.get_path ());
     if (!f.query_exists ())
-      throw new DocumentError.INVALID_FILE ("Invalid file");
+      throw new DocumentError.INVALID_FILE (_("Invalid file"));
     d.file = f;
     return d;
   }

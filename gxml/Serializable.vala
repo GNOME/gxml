@@ -570,7 +570,7 @@ namespace GXml {
         dest = dest2;
         return true;
       } else {
-        throw new SerializableError.UNSUPPORTED_TYPE_ERROR ("Transformation Error on '%s' or Unsupported type: '%s'",
+        throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("Transformation Error on '%s' or Unsupported type: '%s'"),
                                                       str, t.name ());
       }
     }
@@ -612,7 +612,7 @@ namespace GXml {
       }
       else
       {
-        throw new SerializableError.UNSUPPORTED_TYPE_ERROR ("Can't transform '%s' to string", val.type ().name ());
+        throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("Can't transform '%s' to string"), val.type ().name ());
       }
     }
   }

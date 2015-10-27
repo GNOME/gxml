@@ -137,7 +137,7 @@ public class GXml.SerializableTreeMap<K,V> : Gee.TreeMap<K,V>, Serializable, Ser
   {
     if (!(value_type.is_a (typeof (GXml.Serializable)) &&
         value_type.is_a (typeof (SerializableMapKey)))) {
-      throw new SerializableError.UNSUPPORTED_TYPE_ERROR ("%s: Value type '%s' is unsupported", 
+      throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"), 
                                                     this.get_type ().name (), value_type.name ());
     }
     if (node is Element) {

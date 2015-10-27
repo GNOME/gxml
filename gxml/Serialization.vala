@@ -184,7 +184,7 @@ namespace GXml {
 				GLib.warning (_("DEBUG: skipping gpointer with name '%s' of object '%s'"), prop_spec.name, object.get_type ().name ());
 				value_node = doc.create_text_node (prop_spec.name);
 			} else {
-				throw new SerializationError.UNSUPPORTED_PROPERTY_TYPE ("Can't currently serialize type '%s' for property '%s' of object '%s'", type.name (), prop_spec.name, object.get_type ().name ());
+				throw new SerializationError.UNSUPPORTED_PROPERTY_TYPE (_("Can't currently serialize type '%s' for property '%s' of object '%s'"), type.name (), prop_spec.name, object.get_type ().name ());
 			}
 
 			return value_node;
@@ -400,7 +400,7 @@ namespace GXml {
 			otype = obj_elem.get_attribute ("otype");
 			type = Type.from_name (otype);
 			if (type == 0) {
-				throw new SerializationError.UNKNOWN_TYPE ("Deserializing unknown GType '%s' objects is unsupported", otype);
+				throw new SerializationError.UNKNOWN_TYPE (_("Deserializing unknown GType '%s' objects is unsupported"), otype);
 			}
 			
 			if (type.is_a (typeof (Serializable))) {
@@ -430,7 +430,7 @@ namespace GXml {
 					spec = obj_class.find_property (pname);
 
 					if (spec == null) {
-						throw new SerializationError.UNKNOWN_PROPERTY ("Unknown property '%s' found, for object type '%s'-->XML: [%s]", pname, otype, obj_elem.stringify ());
+						throw new SerializationError.UNKNOWN_PROPERTY (_("Unknown property '%s' found, for object type '%s'-->XML: [%s]"), pname, otype, obj_elem.stringify ());
 					}
 					Serialization.deserialize_property (spec, prop_elem, out val);
 					obj.set_property (pname, val);

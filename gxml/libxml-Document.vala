@@ -308,7 +308,7 @@ namespace GXml {
 
 			if (doc == null) {
 				e = Xmlx.parser_context_get_last_error (ctxt);
-				GXml.warning (DomException.INVALID_DOC, "Could not load document from path: %s".printf (e->message));
+				GXml.warning (DomException.INVALID_DOC, _("Could not load document from path: %s").printf (e->message));
 				throw new GXml.Error.PARSER (GXml.libxml2_error_to_string (e));
 			}
 

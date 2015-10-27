@@ -85,7 +85,7 @@ namespace GXml {
 			EnumClass enumc = (EnumClass) enumeration.class_ref ();
 			EnumValue? enumv = enumc.get_value (val);
 			if (enumv == null)
-				throw new EnumerationError.INVALID_VALUE ("value is invalid");
+				throw new EnumerationError.INVALID_VALUE (_("value is invalid"));
 			if (use_nick && enumv.value_nick != null)
 				return enumv.value_nick;
 			if (camelcase && enumv.value_nick != null) {
@@ -126,7 +126,7 @@ namespace GXml {
 					enumv = ev;
 			}
 			if (enumv == null)
-				throw new EnumerationError.INVALID_TEXT ("text can not been parsed to enumeration type:"+enumeration.name ());
+				throw new EnumerationError.INVALID_TEXT (_("text can not been parsed to enumeration type:")+enumeration.name ());
 			return enumv;
 		}
 		/**
