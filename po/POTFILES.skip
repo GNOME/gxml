@@ -1,0 +1,19 @@
+# List of source files that should *not* be translated.
+# Please keep this file sorted alphabetically.
+gxml/Document.c
+gxml/Enumeration.c
+gxml/libxml-ChildNodeList.c
+gxml/libxml-Document.c
+gxml/libxml-Entity.c
+gxml/libxml-Error.c
+gxml/libxml-Node.c
+gxml/Node.c
+gxml/Serializable.c
+gxml/SerializableEnum.c
+gxml/SerializableGeeArrayList.c
+gxml/SerializableGeeDualKeyMap.c
+gxml/SerializableGeeHashMap.c
+gxml/SerializableGeeTreeMap.c
+gxml/SerializableObjectModel.c
+gxml/SerializableProperty.c
+gxml/Serialization.c

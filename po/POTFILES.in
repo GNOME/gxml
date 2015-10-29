@@ -1,19 +1,19 @@
 # List of source files containing translatable strings.
-gxml/libxml-ChildNodeList.c
-gxml/SerializableEnum.c
-gxml/SerializableEnum.c
-gxml/libxml-Document.c
-gxml/libxml-Error.c
-gxml/libxml-Entity.c
-gxml/libxml-Node.c
-gxml/Serializable.c
-gxml/SerializableGeeArrayList.c
-gxml/SerializableGeeDualKeyMap.c
-gxml/SerializableGeeHashMap.c
-gxml/SerializableGeeTreeMap.c
-gxml/SerializableObjectModel.c
-gxml/SerializableProperty.c
-gxml/Node.c
-gxml/Serialization.c
-gxml/Document.c
-gxml/Enumeration.c
+# Please keep this file sorted alphabetically.
+gxml/Document.vala
+gxml/Enumeration.vala
+gxml/libxml-ChildNodeList.vala
+gxml/libxml-Document.vala
+gxml/libxml-Entity.vala
+gxml/libxml-Error.vala
+gxml/libxml-Node.vala
+gxml/Node.vala
+gxml/SerializableEnum.vala
+gxml/SerializableGeeArrayList.vala
+gxml/SerializableGeeDualKeyMap.vala
+gxml/SerializableGeeHashMap.vala
+gxml/SerializableGeeTreeMap.vala
+gxml/SerializableObjectModel.vala
+gxml/SerializableProperty.vala
+gxml/Serializable.vala
+gxml/Serialization.vala
