@@ -25,7 +25,7 @@ using Gee;
  * Represent any boolean property to be added as a {@link GXml.Attribute} to a {@link GXml.Element}
  *
  */
-public class GXml.SerializableBool : SerializableObjectModel, SerializableProperty
+public class GXml.SerializableBool : Object, SerializableProperty
 {
   private string _val = null;
 
@@ -50,5 +50,5 @@ public class GXml.SerializableBool : SerializableObjectModel, SerializableProper
   /**
    * Parse actual stored string to a boolean and returns the result. See {@link get_value}
    */
-  public override string to_string () { return get_value ().to_string (); }
+  public string to_string () { return get_value ().to_string (); }
 }
