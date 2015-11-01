@@ -27,7 +27,7 @@ using Gee;
  * This object can be used when the property could be removed from serialization, specially if missing
  * on XML have some missing and avoidable.
  */
-public class GXml.SerializableDouble : SerializableObjectModel, SerializableProperty
+public class GXml.SerializableDouble : Object, SerializableProperty
 {
   protected string _val = null;
   protected int _fraction = -1;
@@ -44,7 +44,7 @@ public class GXml.SerializableDouble : SerializableObjectModel, SerializableProp
   public void set_value (double val) { _val = val.to_string (); }
   public string get_serializable_property_value () { return _val; }
   public void set_serializable_property_value (string? val) { _val = val; }
-  public override string to_string () {
+  public string to_string () {
     if (_val != null) return (double.parse (_val)).to_string ();
     return "";
   }
