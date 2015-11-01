@@ -210,7 +210,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
                                         GLib.ParamSpec prop)
                                         throws GLib.Error
   {
-    if (prop.value_type.is_a (typeof (Serializable))) 
+    if (prop.value_type.is_a (typeof (Serializable)) || prop.value_type.is_a (typeof (SerializableProperty))) 
     {
       var v = Value (typeof (Object));
       get_property (prop.name, ref v);
@@ -405,7 +405,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 #if DEBUG
           GLib.message (@"Checking if $(property_node.name) of type $(prop.value_type.name ()) is Serializable");
 #endif
-    if (prop.value_type.is_a (typeof (Serializable)))
+    if (prop.value_type.is_a (typeof (Serializable)) || prop.value_type.is_a (typeof (SerializableProperty)))
     {
 #if DEBUG
       GLib.message (@"'$(property_node.name)'- $(prop.value_type.name ()) - Is Serializable: deserializing");
@@ -415,12 +415,16 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       GLib.Object object = null;
       object = vobj.get_object ();
       if (object == null) {
-        var obj = Object.new  (prop.value_type);
-        if (obj is SerializableProperty)
+        if (prop.value_type.is_a (typeof (SerializableProperty))) {
+          var obj = Object.new  (prop.value_type);
           ((SerializableProperty) obj).deserialize_property (property_node, prop, property_use_nick ());
-        else
+          set_property (prop.name, obj);
+        }
+        else if (prop.value_type.is_a (typeof (Serializable))) {
+          var obj = Object.new  (prop.value_type);
           ((Serializable) obj).deserialize (property_node);
-        set_property (prop.name, obj);
+          set_property (prop.name, obj);
+        }
       }
       else {
         if (object is SerializableProperty)

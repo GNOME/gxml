@@ -33,7 +33,7 @@ using Gee;
  * {@link GXml.SerializableValueList._vals}, at construct {} clause to point a fixed
  * array of strings.
  */
-public class GXml.SerializableValueList : SerializableObjectModel, SerializableProperty
+public class GXml.SerializableValueList : Object, SerializableProperty
 {
   
   private string _val = null;
@@ -102,5 +102,5 @@ public class GXml.SerializableValueList : SerializableObjectModel, SerializableP
   }
   public string get_serializable_property_value () { return _val; }
   public void set_serializable_property_value (string? val) { _val = val; }
-  public override string to_string () { return _val; }
+  public string to_string () { return _val; }
 }

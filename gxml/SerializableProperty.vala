@@ -33,7 +33,7 @@ using Gee;
  * when parsing {@link GXml.Attribute} properties values and to exclude to be serialized if they have not
  * been created in the holding objects.
  */
-public interface GXml.SerializableProperty : Object, Serializable
+public interface GXml.SerializableProperty : Object
 {
   /**
   * Value to be set to a {@link GXml.Attribute}, to be added to a {@link GXml.Element}
