@@ -37,7 +37,7 @@ public errordomain GXml.SerializableEnumError {
  * an extension element in the enumeration and return it when the supported values
  * are not met with the string representation in the property.
  */
-public class GXml.SerializableEnum : SerializableObjectModel, SerializableProperty
+public class GXml.SerializableEnum : Object, SerializableProperty
 {
   protected string _val = null;
   protected GLib.Type _enumtype;
@@ -77,5 +77,5 @@ public class GXml.SerializableEnum : SerializableObjectModel, SerializableProper
   }
   public string get_serializable_property_value () { return _val; }
   public void set_serializable_property_value (string? val) { _val = val; }
-  public override string to_string () { return _val; }
+  public string to_string () { return _val; }
 }
