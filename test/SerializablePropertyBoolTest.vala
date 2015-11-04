@@ -100,7 +100,7 @@ class SerializablePropertyBoolTest : GXmlTest {
         assert_not_reached ();
       }
     });
-    Test.add_func ("/gxml/serializable/Bool/deserialize",
+    Test.add_func ("/gxml/serializable/Bool/deserialize/basic",
     () => {
       try {
         var doc1 = new xDocument.from_string ("""<?xml version="1.0"?>

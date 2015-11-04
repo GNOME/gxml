@@ -185,7 +185,7 @@ class TwElementTest : GXmlTest {
 			assert ("<dg:child xmlns:dg=\"http://developer.gnome.org/\">" in str);
 			assert ("<nons xmlns=\"http://www.gnome.org/\"/>" in str);
 		});
-		Test.add_func ("/gxml/tw-element/multiple-namespaces/default", () => {
+		Test.add_func ("/gxml/tw-element/multiple-namespaces/default/basic", () => {
 			var d = new TwDocument ();
 			var r = d.create_element ("root");
 			d.childs.add (r);
@@ -264,7 +264,7 @@ class TwElementTest : GXmlTest {
 			assert ("</ns:nons>" in str);
 			assert ("<gxml:nonsd/>" in str);
 		});
-		Test.add_func ("/gxml/tw-element/multiple-namespaces/default", () => {
+		Test.add_func ("/gxml/tw-element/multiple-namespaces/default/1", () => {
 			var d = new TwDocument ();
 			var r = d.create_element ("root");
 			d.childs.add (r);

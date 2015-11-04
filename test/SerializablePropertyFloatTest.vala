@@ -103,7 +103,7 @@ class SerializablePropertyFloatTest : GXmlTest {
         assert_not_reached ();
       }
     });
-    Test.add_func ("/gxml/serializable/Float/deserialize",
+    Test.add_func ("/gxml/serializable/Float/deserialize/basic",
     () => {
       try {
         var doc1 = new xDocument.from_string ("""<?xml version="1.0"?>
@@ -119,7 +119,7 @@ class SerializablePropertyFloatTest : GXmlTest {
         assert_not_reached ();
       }
     });
-    Test.add_func ("/gxml/serializable/Float/deserialize",
+    Test.add_func ("/gxml/serializable/Float/deserialize/aditional",
     () => {
       try {
         var doc1 = new xDocument.from_string ("""<?xml version="1.0"?>

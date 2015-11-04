@@ -27,7 +27,7 @@ using GXml;
 /* TODO: add tests for g_warnings being set; apparently you can trap g_criticals and test error messages with gtester */
 class AttrTest : GXmlTest {
 	public static void add_tests () {
-		Test.add_func ("/gxml/element/namespace_uri", () => {
+		Test.add_func ("/gxml/xattr/namespace_uri", () => {
 				xDocument doc = new xDocument.from_string ("<Wands xmlns:wands=\"http://mom.co.uk/wands\"><Wand price=\"43.56\" wands:core=\"dragon heart cord\" wands:shell=\"oak\"/></Wands>");
 				GXml.xNode root = doc.document_element;
 				xElement node = (xElement)root.child_nodes.item (0);
@@ -40,7 +40,7 @@ class AttrTest : GXmlTest {
 				assert (shell.namespace_uri == "http://mom.co.uk/wands");
 				assert (price.namespace_uri == null);
 			});
-		Test.add_func ("/gxml/element/namespace_prefix", () => {
+		Test.add_func ("/gxml/xattr/namespace_prefix", () => {
 				xDocument doc = new xDocument.from_string ("<Wands xmlns:wands=\"http://mom.co.uk/wands\"><Wand price=\"43.56\" wands:core=\"dragon heart cord\" wands:shell=\"oak\"/></Wands>");
 				GXml.xNode root = doc.document_element;
 				xElement node = (xElement)root.child_nodes.item (0);
@@ -53,7 +53,7 @@ class AttrTest : GXmlTest {
 				assert (shell.namespace_prefix == "wands");
 				assert (price.namespace_prefix == null);
 			});
-		Test.add_func ("/gxml/element/local_name", () => {
+		Test.add_func ("/gxml/xattr/local_name", () => {
 				xDocument doc = new xDocument.from_string ("<Wands xmlns:wands=\"http://mom.co.uk/wands\"><Wand price=\"43.56\" wands:core=\"dragon heart cord\" wands:shell=\"oak\"/></Wands>");
 				GXml.xNode root = doc.document_element;
 				xElement node = (xElement)root.child_nodes.item (0);
@@ -92,7 +92,7 @@ class AttrTest : GXmlTest {
 
 				assert (attr.name == "broomSeries");
 			});
-		Test.add_func ("/gxml/attribute/node_value", () => {
+		Test.add_func ("/gxml/attribute/value", () => {
 				xDocument doc = get_doc ();
 				xAttr attr = doc.create_attribute ("bank");
 

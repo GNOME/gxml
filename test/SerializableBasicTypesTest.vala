@@ -35,7 +35,7 @@ class SerializableBasicTypeTest : GXmlTest {
     public override string to_string () { return get_type ().name (); }
   }
   public static void add_tests () {
-    Test.add_func ("/gxml/serializable/basic_types/boolean",
+    Test.add_func ("/gxml/serializable/basic_types/boolean/serialize",
     () => {
       try {
         var bt = new BasicType ();
@@ -58,7 +58,7 @@ class SerializableBasicTypeTest : GXmlTest {
         assert_not_reached ();
       }
     });
-    Test.add_func ("/gxml/serializable/basic_types/boolean",
+    Test.add_func ("/gxml/serializable/basic_types/boolean/deserialize",
     () => {
       try {
         var bt = new BasicType ();

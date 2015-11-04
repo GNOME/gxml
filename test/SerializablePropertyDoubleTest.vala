@@ -103,7 +103,7 @@ class SerializablePropertyDoubleTest : GXmlTest {
         assert_not_reached ();
       }
     });
-    Test.add_func ("/gxml/serializable/Double/deserialize",
+    Test.add_func ("/gxml/serializable/Double/deserialize/basic",
     () => {
       try {
         var doc1 = new xDocument.from_string ("""<?xml version="1.0"?>
