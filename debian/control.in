@@ -1,0 +1,16 @@
+Source: gxml-@API_VERSION@
+Section: unknown
+Priority: optional
+Maintainer: Daniel Espinosa <daniel.espinosa@pwmc.mx>
+Build-Depends: debhelper (>= 9), autotools-dev
+Standards-Version: 3.9.6
+Homepage: https://wiki.gnome.org/GXml
+#Vcs-Git: git://anonscm.debian.org/collab-maint/gxml-0.6.git
+#Vcs-Browser: https://anonscm.debian.org/gitweb/?p=collab-maint/gxml-0.6.git;a=summary
+
+Package: gxml-@API_VERSION@
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: GObject libxml2 bindings
+ GXml is a wrapper of libxml2 to GObject providing bidings to Vala and any
+ language supporting GObject Introspection.
