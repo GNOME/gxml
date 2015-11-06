@@ -307,6 +307,7 @@ examples/js/Makefile
 examples/python/Makefile
 examples/vala/Makefile
 po/Makefile.in
+debian/Makefile
 debian/control
 debian/copyright
 ])
