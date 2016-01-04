@@ -1,4 +1,24 @@
 =============
+Version 0.8.0
+=============
+
+This new version is API compatible with 0.6 series
+
+* Added SerializableValueList, SerializableBool, SerializableDouble, SerializableFloat,
+  SerializableInt, SerializableEnum, for nullable attributes to avoid them be in
+  XML file. All properties are based on new SerializableProperty interface.
+
+* Improved documentation
+
+* Added support for translations:
+  - Added Serbian    by  Мирослав Николић
+  - Added Spanish    by  Daniel Mustieles
+  - Added Portuguese by  Pedro Albuquerque
+  - Added Czech      by  Marek Černocký
+  - Added Polish     by  Piotr Drąg
+   
+
+=============
 Version 0.6.0
 =============
 

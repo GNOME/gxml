@@ -11,8 +11,8 @@
 
 # Release Version
 m4_define([project_major_version], [0])
-m4_define([project_minor_version], [7])
-m4_define([project_micro_version], [4])
+m4_define([project_minor_version], [8])
+m4_define([project_micro_version], [0])
 m4_define([project_nano_version], [0])
 
 # LT_VERSION
@@ -21,9 +21,9 @@ m4_define([project_nano_version], [0])
 #     increment current and set revision to 0
 #   If public symbols have been added since last release, increment age
 #   If public symbols have been removed since last release, set age to 0
-m4_define([project_lt_current], [6])
+m4_define([project_lt_current], [8])
 m4_define([project_lt_revision], [0])
-m4_define([project_lt_age], [1])
+m4_define([project_lt_age], [0])
 
 # Combine numbers to various version variables (different uses)
 #   Display the nano_version only if it's not '0'
