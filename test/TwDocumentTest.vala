@@ -23,6 +23,12 @@
 using GXml;
 
 class TwDocumentTest : GXmlTest {
+	public class TwTestObject : SerializableObjectModel
+	{
+		public string name { get; set; }
+		public override string node_name () { return "Test"; }
+		public override string to_string () { return "TestNode"; }
+	}
 	public static void add_tests () {
 		Test.add_func ("/gxml/tw-document", () => {
 			try {
@@ -71,13 +77,15 @@ class TwDocumentTest : GXmlTest {
 					assert (d.root != null);
 					assert (d.root.name == "root");
 					assert (d.root.value == "");
-					d.save ();
+					GLib.Test.message ("Saving document to: "+f.get_path ());
+					assert (d.save ());
+					GLib.Test.message ("Reading saved document to: "+f.get_path ());
+					assert (f.query_exists ());
 					var istream = f.read ();
-					uint8[] buffer = new uint8[2048];
-					istream.read_all (buffer, null);
-					istream.close ();
-					assert ("<?xml version=\"1.0\"?>" in ((string)buffer));
-					assert ("<root/>" in ((string)buffer));
+					var ostream = new MemoryOutputStream.resizable ();
+					ostream.splice (istream, 0);
+					assert ("<?xml version=\"1.0\"?>" in ((string)ostream.data));
+					assert ("<root/>" in ((string)ostream.data));
 				}
 				catch (GLib.Error e) {
 #if DEBUG
@@ -326,7 +334,41 @@ class TwDocumentTest : GXmlTest {
 				assert_not_reached ();
 			}
 		});
-		
+		Test.add_func ("/gxml/tw-document/save/backup", () => {
+				try {
+					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
+					if (f.query_exists ()) f.delete ();
+					var ot = new TwTestObject ();
+					ot.name = "test1";
+					var dt = new TwDocument ();
+					ot.serialize (dt);
+					dt.save_to (f);
+					var d = new TwDocument ();
+					var e = d.create_element ("root");
+					d.childs.add (e);
+					assert (d.childs.size == 1);
+					assert (d.root != null);
+					assert (d.root.name == "root");
+					assert (d.root.value == "");
+					d.save_to (f);
+					assert (f.query_exists ());
+					var bf = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml~");
+					assert (bf.query_exists ());
+					var istream = f.read ();
+					var b = new MemoryOutputStream.resizable ();
+					b.splice (istream, 0);
+					assert ("<?xml version=\"1.0\"?>" in ((string)b.data));
+					assert ("<root/>" in ((string)b.data));
+					f.delete ();
+					bf.delete ();
+				}
+				catch (GLib.Error e) {
+#if DEBUG
+					GLib.message (@"ERROR: $(e.message)");
+#endif
+					assert_not_reached ();
+				}
+			});
 		Test.add_func ("/gxml/tw-document/to_string", () => {
 			var doc = new TwDocument ();
 			var r = doc.create_element ("root");
