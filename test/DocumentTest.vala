@@ -143,6 +143,17 @@ class DocumentTest : GXmlTest {
 				assert (root.first_child.node_name == "Apple");
 				assert (root.last_child.node_name == "Orange");
 			});
+		Test.add_func ("/gxml/document/construct_from_string_no_root", () => {
+				string xml;
+				xDocument doc;
+				GXml.xNode root;
+
+				xml = """<?xml version="1.0"?>""";
+				doc = new xDocument.from_string (xml);
+
+				root = doc.document_element;
+				assert (root == null);
+			});
 		Test.add_func ("/gxml/document/save", () => {
 				xDocument doc;
 				int exit_status;
