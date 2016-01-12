@@ -475,6 +475,8 @@ namespace GXml {
 		public xDocument.from_string (string xml) {
 			Xml.Doc *doc;
 			doc = Xml.Parser.parse_memory (xml, (int)xml.length);
+			if (doc == null)
+			  doc = new Xml.Doc ();
 			this.from_libxml2 (doc);
 		}
 		/**
