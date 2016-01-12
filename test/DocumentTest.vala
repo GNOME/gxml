@@ -151,6 +151,19 @@ class DocumentTest : GXmlTest {
 				xml = """<?xml version="1.0"?>""";
 				doc = new xDocument.from_string (xml);
 
+				assert (doc != null);
+				root = doc.document_element;
+				assert (root == null);
+			});
+		Test.add_func ("/gxml/document/construct_from_string_invalid", () => {
+				string xml;
+				xDocument doc;
+				GXml.xNode root;
+
+				xml = "";
+				doc = new xDocument.from_string (xml);
+
+				assert (doc != null);
 				root = doc.document_element;
 				assert (root == null);
 			});
