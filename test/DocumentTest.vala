@@ -65,7 +65,7 @@ class DocumentTest : GXmlTest {
 		Test.add_func ("/gxml/document/construct_from_path_error", () => {
 				xDocument doc;
 				try {
-				GLib.message ("invalid file...");
+				GLib.Test.message ("invalid file...");
 					// file does not exist
 					doc = new xDocument.from_path ("/tmp/asdfjlkansdlfjl");
 					assert_not_reached ();
@@ -73,7 +73,7 @@ class DocumentTest : GXmlTest {
 					assert (e is GXml.Error.PARSER);
 				}
 				test_error (DomException.INVALID_DOC);
-				GLib.message ("invalid is directory...");
+				GLib.Test.message ("invalid is directory...");
 
 				try {
 					// file exists, but is not XML (it's a directory!)
@@ -83,7 +83,7 @@ class DocumentTest : GXmlTest {
 					assert (e is GXml.Error.PARSER);
 				}
 				test_error (DomException.INVALID_DOC);
-				GLib.message ("invalid xml...");
+				GLib.Test.message ("invalid xml...");
 				try {
 					doc = new xDocument.from_path ("test_invalid.xml");
 					assert_not_reached ();
@@ -93,22 +93,37 @@ class DocumentTest : GXmlTest {
 				test_error (DomException.INVALID_DOC);
 			});
 		Test.add_func ("/gxml/document/construct_from_stream", () => {
-				File fin;
-				InputStream instream;
-				xDocument doc;
-
+				var fin = File.new_for_path (GXmlTestConfig.TEST_DIR + "/test.xml");
+				assert (fin.query_exists ());
 				try {
-					fin = File.new_for_path (GXmlTest.get_test_dir () + "/test.xml");
-					instream = fin.read (null);
-					/* TODO: test GCancellable */
-
-					doc = new xDocument.from_stream (instream);
-
+					var instream = fin.read (null);
+					var doc = new xDocument.from_stream (instream);
+					assert (doc != null);
 					check_contents (doc);
 				} catch (GLib.Error e) {
-					Test.message ("%s", e.message);
+					GLib.message ("%s", e.message);
 					assert_not_reached ();
 				}
+			});
+		Test.add_func ("/gxml/document/gfile/local", () => {
+			try {
+				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test-file.xml");
+				if (f.query_exists ()) f.delete ();
+				var s = new GLib.StringBuilder ();
+				s.append ("""<root />""");
+				var d = new xDocument.from_string (s.str);
+				GLib.message ("Saving to file: "+f.get_uri ()+d.to_string ());
+				d.save_as (f);
+				assert (f.query_exists ());
+				var d2 = new xDocument.from_gfile (f);
+				assert (d2 != null);
+				assert (d2.root != null);
+				assert (d2.root.name == "root");
+				f.delete ();
+			} catch (GLib.Error e) {
+				GLib.message ("Error: "+e.message);
+				assert_not_reached ();
+			}
 			});
 		Test.add_func ("/gxml/document/construct_from_stream_error", () => {
 				File fin;
@@ -118,13 +133,13 @@ class DocumentTest : GXmlTest {
 
 				try {
 					fin = File.new_tmp ("gxml.XXXXXX", out iostream);
-					instream = fin.read (null);
-					doc = new xDocument.from_stream (instream);
+					doc = new xDocument.from_stream (iostream.input_stream);
+					GLib.message ("Passed parse error stream");
 					assert_not_reached ();
 				} catch (GXml.Error e) {
 					assert (e is GXml.Error.PARSER);
 				} catch (GLib.Error e) {
-					stderr.printf ("Test encountered unexpected error '%s'\n", e.message);
+					GLib.message ("Test encountered unexpected error '%s'\n", e.message);
 					assert_not_reached ();
 				}
 				test_error (DomException.INVALID_DOC);
@@ -144,6 +159,7 @@ class DocumentTest : GXmlTest {
 				assert (root.last_child.node_name == "Orange");
 			});
 		Test.add_func ("/gxml/document/construct_from_string_no_root", () => {
+			try {
 				string xml;
 				xDocument doc;
 				GXml.xNode root;
@@ -154,6 +170,10 @@ class DocumentTest : GXmlTest {
 				assert (doc != null);
 				root = doc.document_element;
 				assert (root == null);
+			} catch (GLib.Error e) {
+				GLib.message ("Error: "+ e.message);
+				assert_not_reached ();
+			}
 			});
 		Test.add_func ("/gxml/document/construct_from_string_invalid", () => {
 				string xml;

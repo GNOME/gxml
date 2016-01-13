@@ -266,12 +266,12 @@ namespace GXml {
 			Xml.Node *root;
 
 			if (doc == null) // should be impossible
-				GXml.warning (DomException.INVALID_DOC, "Failed to parse document, xmlDoc* was NULL");
+				GXml.exception (DomException.INVALID_DOC, "Failed to parse document, xmlDoc* was NULL");
 
 			if (require_root) {
 				root = doc->get_root_element ();
 				if (root == null) {
-					GXml.warning (DomException.INVALID_ROOT, "Could not obtain a valid root for the document; xmlDoc*'s root was NULL");
+					GXml.exception (DomException.INVALID_ROOT, "Could not obtain a valid root for the document; xmlDoc*'s root was NULL");
 				}
 			}
 
@@ -302,13 +302,13 @@ namespace GXml {
 			Xml.ParserCtxt ctxt;
 			Xml.Doc *doc;
 			Xml.Error *e;
-
 			ctxt = new Xml.ParserCtxt ();
+			Xmlx.context_reset_last_error (ctxt);
 			doc = ctxt.read_file (file_path, null /* encoding */, 0 /* options */);
 
 			if (doc == null) {
-				e = Xmlx.parser_context_get_last_error (ctxt);
-				GXml.warning (DomException.INVALID_DOC, _("Could not load document from path: %s").printf (e->message));
+				e = Xmlx.context_get_last_error (ctxt);
+				GXml.exception (DomException.INVALID_DOC, _("Could not load document from path: %s").printf (e->message));
 				throw new GXml.Error.PARSER (GXml.libxml2_error_to_string (e));
 			}
 
@@ -404,16 +404,16 @@ namespace GXml {
 		 * @throws GLib.Error A {@link GLib.Error} if an error cocurs while reading the {@link GLib.File}
 		 * @throws GXml.Error A {@link GXml.Error} if an error occurs while reading the file as a stream
 		 */
-		public xDocument.from_gfile (File fin, Cancellable? can = null) throws GXml.Error, GLib.Error {
-			// TODO: actually handle cancellable
+		public xDocument.from_gfile (File fin, Cancellable? can = null) throws GXml.Error, GLib.Error
+			requires (fin.query_exists ()) {
 			InputStream instream;
 
 			try {
-				instream = fin.read (null);
+				instream = fin.read (can);
 				this.from_stream (instream, can);
 				instream.close ();
 			} catch (GLib.Error e) {
-				GXml.warning (DomException.INVALID_DOC, "Could not load document from GFile: " + e.message);
+				GXml.exception (DomException.INVALID_DOC, "Could not load document from GFile: " + e.message);
 				throw e;
 			}
 		}
@@ -432,37 +432,28 @@ namespace GXml {
 		 * @throws GXml.Error A {@link GXml.Error} if an error occurs while reading the stream
 		 */
 		public xDocument.from_stream (InputStream instream, Cancellable? can = null) throws GXml.Error {
-			InputStreamBox box = { instream, can };
-			Xml.Doc *doc;
-			/* TODO: provide Cancellable as user data so we can actually
-			   cancel these */
-			Xml.TextReader reader;
-			Xml.Error *e;
+			Xml.Error* e = null;
 			string errmsg = null;
-
-			reader = new Xml.TextReader.for_io ((Xml.InputReadCallback)_ioread,
-							    (Xml.InputCloseCallback)_ioinclose,
-							    &box, "", null, 0);
-			if (-1 == reader.read ()) {
-				errmsg = "Error reading from stream";
-			} else if (null == reader.expand ()) {
-				errmsg = "Error expanding from stream";
-			} else {
-				// yay
-				doc = reader.current_doc ();
-				reader.close ();
-				this.from_libxml2 (doc);
-
-				return;
+			var ostream = new MemoryOutputStream.resizable ();
+			ostream.splice (instream, GLib.OutputStreamSpliceFlags.NONE);
+			if (ostream.data == null) {
+				errmsg = "Document is empty";
+				GXml.exception (DomException.INVALID_DOC, errmsg);
+				throw new GXml.Error.PARSER (errmsg);
 			}
-
-			// uh oh
+			Xmlx.reset_last_error ();
 			e = Xmlx.get_last_error ();
-			if (e != null) {
-				errmsg += ".  " + libxml2_error_to_string (e);
+			var doc = Xml.Parser.parse_memory ((string) ostream.data, ((string) ostream.data).length);
+			if (doc != null) {
+				this.from_libxml2 (doc);
+			} else {
+				e = Xmlx.get_last_error ();
+				if (e != null) {
+					errmsg += ".  " + libxml2_error_to_string (e);
+				}
+				GXml.exception (DomException.INVALID_DOC, errmsg);
+				throw new GXml.Error.PARSER (errmsg);
 			}
-			GXml.warning (DomException.INVALID_DOC, errmsg);
-			throw new GXml.Error.PARSER (errmsg);
 		}
 
 		/**
@@ -474,9 +465,10 @@ namespace GXml {
 		 */
 		public xDocument.from_string (string xml) {
 			Xml.Doc *doc;
+			Xmlx.reset_last_error ();
 			doc = Xml.Parser.parse_memory (xml, (int)xml.length);
 			if (doc == null)
-			  doc = new Xml.Doc ();
+				doc = new Xml.Doc ();
 			this.from_libxml2 (doc);
 		}
 		/**
@@ -494,8 +486,15 @@ namespace GXml {
 		                                          int options = 0)
 		{
 		  Xml.Doc *doc;
+			Xmlx.reset_last_error ();
 		  doc = Xml.Parser.read_memory (xml, (int)xml.length, url, encoding, options);
 		  this.from_libxml2 (doc);
+			var e = Xmlx.get_last_error ();
+			if (e != null) {
+				var errmsg = ".  " + libxml2_error_to_string (e);
+				GXml.exception (DomException.INVALID_DOC, errmsg);
+				throw new GXml.Error.PARSER (errmsg);
+			}
 		}
 
 		/**
@@ -539,7 +538,7 @@ namespace GXml {
 			}
 
 			// TODO: use xmlGetLastError to get the real error message
-			GXml.warning (DomException.X_OTHER, errmsg);
+			GXml.exception (DomException.X_OTHER, errmsg);
 			throw new GXml.Error.WRITER (errmsg);
 		}
 
@@ -556,38 +555,16 @@ namespace GXml {
 		 *
 		 * @throws GXml.Error A {@link GXml.Error} is thrown if saving encounters an error
 		 */
-		public void save_to_stream (OutputStream outstream, Cancellable? can = null) throws GXml.Error {
-			OutputStreamBox box = { outstream, can };
-			string errmsg = null;
-			Xml.Error *e;
-
-			/* TODO: provide Cancellable as user data and let these check it
-			         so we can actually be interruptible */
-			Xml.SaveCtxt *ctxt;
-			ctxt = new Xml.SaveCtxt.to_io ((Xml.OutputWriteCallback)_iowrite,
-						       (Xml.OutputCloseCallback)_iooutclose,
-						       &box, null, 0);
-			if (ctxt == null) {
-				errmsg = "Failed to create serialization context when saving to stream";
-			} else if (-1 == ctxt->save_doc (this.xmldoc)) {
-				errmsg = "Failed to save document";
-			} else if (-1 == ctxt->flush ()) {
-				errmsg = "Failed to flush remainder of document while saving to stream";
-			} else if (-1 == ctxt->close ()) {
-				errmsg = "Failed to close saving context when saving to stream";
-			} else {
-				/* success! */
-				return;
+		public void save_to_stream (OutputStream outstream, Cancellable? can = null) throws GLib.Error {
+			try {
+				var s = new GLib.StringBuilder ();
+				s.append (to_string ());
+				var istream = new GLib.MemoryInputStream.from_data (s.data, null);
+				outstream.splice (istream, GLib.OutputStreamSpliceFlags.NONE);
+			} catch (GLib.Error e) {
+				GXml.exception (DomException.X_OTHER, e.message);
+				throw new GXml.Error.WRITER (e.message);
 			}
-
-			/* uh oh */
-			e = Xmlx.get_last_error ();
-			if (e != null) {
-				errmsg += ".  " + libxml2_error_to_string (e);
-			}
-
-			GXml.warning (DomException.X_OTHER, errmsg);
-			throw new GXml.Error.WRITER (errmsg);
 		}
 
 		/* Public Methods */
@@ -851,7 +828,7 @@ namespace GXml {
 		 */
 		private void check_not_supported_html (string feature) {
 			if (this.doctype != null && (this.doctype.name.casefold () == "html".casefold ())) {
-				GXml.warning (DomException.NOT_SUPPORTED, "HTML documents do not support '%s'".printf (feature)); // TODO: i18n
+				GXml.exception (DomException.NOT_SUPPORTED, "HTML documents do not support '%s'".printf (feature)); // TODO: i18n
 			}
 		}
 
@@ -861,7 +838,7 @@ namespace GXml {
 		internal static bool check_invalid_characters (string name, string subject) {
 			/* TODO: use Xml.validate_name instead  */
 			if (Xmlx.validate_name (name, 0) != 0) { // TODO: define validity
-				GXml.warning (DomException.INVALID_CHARACTER, "Provided name '%s' for '%s' is not a valid XML name".printf (name, subject));
+				GXml.exception (DomException.INVALID_CHARACTER, "Provided name '%s' for '%s' is not a valid XML name".printf (name, subject));
 				return false;
 			}
 
@@ -980,13 +957,13 @@ namespace GXml {
 				if (xmldoc->get_root_element () == null) {
 					xmldoc->set_root_element (((xElement)new_child).node);
 				} else {
-					GXml.warning (DomException.HIERARCHY_REQUEST, "Document already has a root element.  Could not add child element with name '%s'".printf (new_child.node_name));
+					GXml.exception (DomException.HIERARCHY_REQUEST, "Document already has a root element.  Could not add child element with name '%s'".printf (new_child.node_name));
 				}
 			} else if (new_child.node_type == NodeType.DOCUMENT_TYPE) {
 				if (this.doctype == null) {
 					this.doctype = (xDocumentType)new_child;
 				} else {
-					GXml.warning (DomException.HIERARCHY_REQUEST, "Document already has a doctype.  Could not add new doctype with name '%s'.".printf (((xDocumentType)new_child).name));
+					GXml.exception (DomException.HIERARCHY_REQUEST, "Document already has a doctype.  Could not add new doctype with name '%s'.".printf (((xDocumentType)new_child).name));
 				}
 			} else {
 				return this.child_nodes.append_child (new_child);
@@ -1011,6 +988,7 @@ namespace GXml {
 		public bool indent { get; set; default = false; }
 		public bool ns_top { get; set; default = false; }
 		public bool prefix_default_ns { get; set; default = false; }
+		public bool backup { get; set; default = true; }
 		public GLib.File file { get; set; }
 		public virtual GXml.Node root { get { return document_element; } }
 		public GXml.Node create_text (string str) { return (GXml.Node) this.create_text_node (str); }
@@ -1022,7 +1000,13 @@ namespace GXml {
 			requires (file != null)
 			requires (file.query_exists ())
 		{
-			save_to_path (file.get_path ());
+			return save_as (file, cancellable);
+		}
+		public bool save_as (GLib.File f, GLib.Cancellable? cancellable = null) throws GLib.Error
+		{
+			var ostream = f.replace (null, backup, GLib.FileCreateFlags.NONE, cancellable);
+			GLib.message ("Saving...");
+			save_to_stream (ostream);
 			return true;
 		}
 	}

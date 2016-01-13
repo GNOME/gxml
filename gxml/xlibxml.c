@@ -33,14 +33,34 @@ int gxml_validate_name (xmlChar* name, int space)
   return xmlValidateName (name, space);
 }
 
+/**
+ * gxml_parser_context_get_last_error:
+ *
+ * Deprecated: Since 0.8.1
+ */
 xmlErrorPtr gxml_parser_context_get_last_error (void* ctx)
 {
+  return gxml_context_get_last_error (ctx);
+}
+
+xmlErrorPtr gxml_context_get_last_error (void* ctx)
+{
   return xmlCtxtGetLastError (ctx);
+}
+
+void gxml_context_reset_last_error (void* ctx)
+{
+  xmlCtxtResetLastError (ctx);
 }
 
 xmlErrorPtr gxml_get_last_error ()
 {
   return xmlGetLastError ();
+}
+
+void gxml_reset_last_error ()
+{
+  xmlResetLastError ();
 }
 
 xmlNsPtr* gxml_doc_get_ns_list (xmlDoc* doc, xmlNode* node)
@@ -76,3 +96,4 @@ int gxml_text_writer_write_pi (xmlTextWriterPtr tw, const xmlChar* target, const
   g_return_if_fail (data != NULL);
   return xmlTextWriterWritePI (tw, target, data);
 }
+

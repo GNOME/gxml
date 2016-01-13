@@ -55,6 +55,11 @@ public interface GXml.Document : Object, GXml.Node
    */
   public abstract bool prefix_default_ns { get; set; }
   /**
+   * Controls if writting to a {@link GLib.File} creates a backup, by default
+   * is true;
+   */
+  public abstract bool backup { get; set; }
+  /**
    * XML document root node as a {@link GXml.Element}.
    */
   public abstract GXml.Node root { get; }
@@ -105,15 +110,8 @@ public interface GXml.Document : Object, GXml.Node
   public abstract bool save (GLib.Cancellable? cancellable = null) throws GLib.Error;
   /**
    * Save this {@link GXml.Document} to given {@link GLib.File}
-   *
-   * This overrides actual {@link GXml.Document.file}
    */
-  public virtual bool save_as (GLib.File f, GLib.Cancellable? cancellable = null) throws GLib.Error
-  {
-    file = f;
-    save (cancellable);
-    return true;
-  }
+  public abstract bool save_as (GLib.File f, GLib.Cancellable? cancellable = null) throws GLib.Error;
   /**
    * Creates a new {@link GXml.Document} using default implementation class.
    *

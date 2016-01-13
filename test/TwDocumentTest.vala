@@ -317,15 +317,17 @@ class TwDocumentTest : GXmlTest {
 				}
 				assert (d.root.childs.size == 30000);
 				d.save ();
-				var istream = f.read ();
-				uint8[] buffer = new uint8[2048];
-				istream.read (buffer, null);
-				istream.close ();
-				assert ("<?xml version=\"1.0\"?>" in ((string)buffer));
-				assert ("<bookstore name=\"The Great Book\">" in ((string)buffer));
-				assert ("<book>" in ((string)buffer));
-				assert ("<Authors>" in ((string)buffer));
-				assert ("<Author>" in ((string)buffer));
+				GLib.Test.message ("Reading saved file...");
+				var fr = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-large.xml");
+				assert (fr.query_exists ());
+				var ostream = new MemoryOutputStream.resizable ();
+				ostream.splice (fr.read (), GLib.OutputStreamSpliceFlags.NONE);
+				assert ("<?xml version=\"1.0\"?>" in ((string)ostream.data));
+				assert ("<bookstore name=\"The Great Book\">" in ((string)ostream.data));
+				assert ("<book>" in ((string)ostream.data));
+				assert ("<Authors>" in ((string)ostream.data));
+				assert ("<Author>" in ((string)ostream.data));
+				f.delete ();
 			}
 			catch (GLib.Error e) {
 #if DEBUG
@@ -342,7 +344,7 @@ class TwDocumentTest : GXmlTest {
 					ot.name = "test1";
 					var dt = new TwDocument ();
 					ot.serialize (dt);
-					dt.save_to (f);
+					dt.save_as (f);
 					var d = new TwDocument ();
 					var e = d.create_element ("root");
 					d.childs.add (e);
@@ -350,7 +352,7 @@ class TwDocumentTest : GXmlTest {
 					assert (d.root != null);
 					assert (d.root.name == "root");
 					assert (d.root.value == "");
-					d.save_to (f);
+					d.save_as (f);
 					assert (f.query_exists ());
 					var bf = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml~");
 					assert (bf.query_exists ());
