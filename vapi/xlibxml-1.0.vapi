@@ -31,9 +31,16 @@ namespace Xmlx {
   [CCode (cname = "gxml_validate_name", cheader_filename = "gxml//xlibxml.h")]
   public static int validate_name (string name, int space);
   [CCode (cname = "gxml_parser_context_get_last_error", cheader_filename = "gxml/xlibxml.h")]
+  [Deprecated (replacement = "context_get_last_error", since = "0.8.1")]
   public static Xml.Error* parser_context_get_last_error (Xml.ParserCtxt ctx);
+  [CCode (cname = "gxml_context_get_last_error", cheader_filename = "gxml/xlibxml.h")]
+  public static Xml.Error* context_get_last_error (Xml.ParserCtxt ctx);
+  [CCode (cname = "gxml_context_reset_last_error", cheader_filename = "gxml/xlibxml.h")]
+  public static void context_reset_last_error (Xml.ParserCtxt ctx);
   [CCode (cname = "gxml_get_last_error", cheader_filename = "gxml/xlibxml.h")]
   public static Xml.Error* get_last_error ();
+  [CCode (cname = "gxml_reset_last_error", cheader_filename = "gxml/xlibxml.h")]
+  public static void reset_last_error ();
   [CCode (cname = "gxml_doc_get_ns_list", array_null_terminated = true, cheader_filename = "gxml/xlibxml.h")]
   public static Xml.Ns*[] doc_get_ns_list (Xml.Doc* doc, Xml.Node* node);
   [CCode (cname = "gxml_new_text_writer_doc", cheader_filename = "gxml/xlibxml.h")]

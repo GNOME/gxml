@@ -1,4 +1,32 @@
 =============
+Version 0.8.1
+=============
+
+Most changes improves GIO GLib.File use, trying to read/write any file from/to
+local or remote locations.
+
+* GXml.Document gains a backup property, set to true by default to save files
+  with a backup operation
+* GXml.Document.save_as() now is abstract, you should implement it.
+* GXml.Document.save_as() now should not overwrite its file property
+
+* GXml.DomException.warning() now is deprecated use exception(), now message on
+  errors just printed when -D DEBUG is used at compile time
+* Added Xmlx.reset_last_error() and used to cleanup errors before each operation
+* Added Xmlx.context_get_last_error() to deprecate parser_context_get_last_error ()
+* Added Xmlx.context_reset_last_error()
+* Xmlx methods now have sanity checks asserts
+
+* xDocument.from_stream() now use GIO internally to open any GLib.File valid object
+* xDocument.from_string() now don't fails on XML with no root
+* xDocument.save_to_stream()  now use GIO internally to write to any GLib.File valid object
+
+* TwDocument.save_to() deprecated by save_as() from GXml.Document implementation
+
+* New Translations:
+  * Added German translation by Mario Blättermann
+
+=============
 Version 0.8.0
 =============
 
