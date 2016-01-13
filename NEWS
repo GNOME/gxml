@@ -24,7 +24,8 @@ local or remote locations.
 * TwDocument.save_to() deprecated by save_as() from GXml.Document implementation
 
 * New Translations:
-  * Added German translation by Mario Blättermann
+  * Added German translation by                 Mario Blättermann
+  * Added Brazilian Portuguese translation by   Rafael Fontenelle
 
 =============
 Version 0.8.0
