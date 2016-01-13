@@ -31,6 +31,7 @@ using Xml;
 public class GXml.TwDocument : GXml.TwNode, GXml.Document
 {
   GXml.Element _root = null;
+  Xml.Buffer _buffer;
   construct {
     _name = "#document";
   }
@@ -65,6 +66,7 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
   public bool indent { get; set; default = false; }
   public bool ns_top { get; set; default = false; }
   public bool prefix_default_ns { get; set; default = false; }
+  public bool backup { get; set; default = true; }
   public GLib.File file { get; set; }
   public GXml.Node root {
     get {
@@ -111,14 +113,36 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
   }
   public bool save (GLib.Cancellable? cancellable = null)
     throws GLib.Error
+    requires (file != null)
   {
-    if (file == null) return false;
-    return save_to (file, cancellable);
+    return save_as (file, cancellable);
   }
+  [Deprecated (since="0.8.1", replacement="save_as")]
   public bool save_to (GLib.File f, GLib.Cancellable? cancellable = null)
   {
-    var tw = new Xml.TextWriter.filename (f.get_path ());
+    return save_as (f, cancellable);
+  }
+  public bool save_as (GLib.File f, GLib.Cancellable? cancellable = null)
+  {
+    var buf = new Xml.Buffer ();
+    var tw = Xmlx.new_text_writer_memory (buf, 0);
+    GLib.Test.message ("Writing down to buffer");
     write_document (tw);
+    GLib.Test.message ("Writing down to file");
+    GLib.Test.message ("TextWriter buffer:\n"+buf.content ());
+    var s = new GLib.StringBuilder ();
+    s.append (buf.content ());
+    try {
+      GLib.Test.message ("Writing down to file: Creating input stream");
+      var b = new GLib.MemoryInputStream.from_data (s.data, null);
+      GLib.Test.message ("Writing down to file: Replacing with backup");
+      var ostream = f.replace (null, backup, GLib.FileCreateFlags.NONE, cancellable);
+      ostream.splice (b, GLib.OutputStreamSpliceFlags.NONE);
+      ostream.close ();
+    } catch (GLib.Error e) {
+      GLib.warning ("Error on Save to file: "+e.message);
+      return false;
+    }
     return true;
   }
   public virtual void write_document (Xml.TextWriter tw)

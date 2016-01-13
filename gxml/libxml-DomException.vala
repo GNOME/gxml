@@ -34,9 +34,22 @@ namespace GXml {
 	 * @param exception rised
 	 * @param message message to log
 	 */
-	public static void warning (GXml.DomException exception, string message) {
-		GXml.last_error = exception;
+	[Deprecated (since="0.8.1", replacement="exeption")]
+	public static void warning (GXml.DomException ex, string message) {
+		GXml.exception (ex, message);
+	}
+
+	/**
+	 * Log DOM exception warnings.
+	 * 
+	 * @param exception rised
+	 * @param message message to log
+	 */
+	public static void exception (GXml.DomException ex, string message) {
+		GXml.last_error = ex;	
+#if DEBUG
 		GLib.warning ("%s", message);
+#endif
 	}
 
 	/**
