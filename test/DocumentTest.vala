@@ -125,6 +125,35 @@ class DocumentTest : GXmlTest {
 				assert_not_reached ();
 			}
 			});
+		Test.add_func ("/gxml/document/gfile/remote", () => {
+			try {
+				var rf = GLib.File.new_for_uri ("https://git.gnome.org/browse/gxml/plain/gxml.doap");
+				assert (rf.query_exists ());
+				var d = new xDocument.from_gfile (rf);
+				assert (d != null);
+				assert (d.root != null);
+				assert (d.root.name == "Project");
+				bool fname, fshordesc, fdescription, fhomepage;
+				fname = fshordesc = fdescription = fhomepage = false;
+				foreach (GXml.Node n in d.root.childs) {
+					if (n.name == "name") fname = true;
+					if (n.name == "shortdesc") fshordesc = true;
+					if (n.name == "description") fdescription = true;
+					if (n.name == "homepage") fhomepage = true;
+				}
+				assert (fname);
+				assert (fshordesc);
+				assert (fdescription);
+				assert (fhomepage);
+				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/xml.doap");
+				d.save_as (f);
+				assert (f.query_exists ());
+				f.delete ();
+			} catch (GLib.Error e) {
+				GLib.message ("Error: "+e.message);
+				assert_not_reached ();
+			}
+		});
 		Test.add_func ("/gxml/document/construct_from_stream_error", () => {
 				File fin;
 				InputStream instream;

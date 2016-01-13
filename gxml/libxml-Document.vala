@@ -442,14 +442,16 @@ namespace GXml {
 				throw new GXml.Error.PARSER (errmsg);
 			}
 			Xmlx.reset_last_error ();
-			e = Xmlx.get_last_error ();
 			var doc = Xml.Parser.parse_memory ((string) ostream.data, ((string) ostream.data).length);
 			if (doc != null) {
 				this.from_libxml2 (doc);
 			} else {
+				errmsg = "Parser Error";
 				e = Xmlx.get_last_error ();
 				if (e != null) {
-					errmsg += ".  " + libxml2_error_to_string (e);
+					string s = libxml2_error_to_string (e);
+					if (s != null)
+						errmsg += s;
 				}
 				GXml.exception (DomException.INVALID_DOC, errmsg);
 				throw new GXml.Error.PARSER (errmsg);
@@ -491,7 +493,10 @@ namespace GXml {
 		  this.from_libxml2 (doc);
 			var e = Xmlx.get_last_error ();
 			if (e != null) {
-				var errmsg = ".  " + libxml2_error_to_string (e);
+				var errmsg = "Parser Error for string";
+				string s = libxml2_error_to_string (e);
+				if (s != null)
+					errmsg = ".  ";
 				GXml.exception (DomException.INVALID_DOC, errmsg);
 				throw new GXml.Error.PARSER (errmsg);
 			}
@@ -534,7 +539,10 @@ namespace GXml {
 			// uh oh
 			e = Xmlx.get_last_error ();
 			if (e != null) {
-				errmsg += ".  " + libxml2_error_to_string (e);
+				errmsg = "Error to save to path";
+				string s =  libxml2_error_to_string (e);
+				if (s != null)
+					errmsg += ".  ";
 			}
 
 			// TODO: use xmlGetLastError to get the real error message
