@@ -125,8 +125,6 @@ class DocumentTest : GXmlTest {
 				assert_not_reached ();
 			}
 			});
-<<<<<<< HEAD
-=======
 		Test.add_func ("/gxml/document/gfile/remote", () => {
 			try {
 				var rf = GLib.File.new_for_uri ("https://git.gnome.org/browse/gxml/plain/gxml.doap");
@@ -156,7 +154,6 @@ class DocumentTest : GXmlTest {
 				assert_not_reached ();
 			}
 		});
->>>>>>> gxml-0.8
 		Test.add_func ("/gxml/document/construct_from_stream_error", () => {
 				File fin;
 				InputStream instream;
