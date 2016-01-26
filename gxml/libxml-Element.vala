@@ -444,7 +444,7 @@ namespace GXml {
 				_content = "";
 				foreach (xNode n in child_nodes) {
 					if (n is xCharacterData) {
-						_content += n.data;
+						_content += ((xCharacterData) n).data;
 					}
 				}
 				return _content;

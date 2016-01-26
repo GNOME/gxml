@@ -78,9 +78,9 @@ public interface GXml.Node : Object
     foreach (var child in childs) {
       list.add_all (child.get_elements_by_property_value (property, value));
       if (child is GXml.Element) {
-        var cls = (child as GXml.Element).get_attribute (property);
+        var cls = (child as GXml.Element).attrs.get (property);
         if (cls == null) continue;
-        if (value in child.content)
+        if (value in ((GXml.Element) child).content)
             list.add (child);
       }
     }
