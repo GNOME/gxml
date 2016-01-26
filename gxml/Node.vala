@@ -59,6 +59,34 @@ public interface GXml.Node : Object
    */
   public abstract GXml.Document document { get; }
   /**
+   * Get first child with given name, or null. 
+   */
+  public new GXml.Node? get (string key) {
+    foreach (var child in childs)
+      if (child.name == key)
+        return child;
+    return null;
+  }
+  /**
+   * Search all child {@link GXml.Element} with a given property's name and with
+   * value contained in text.
+   */
+  public virtual Gee.List<GXml.Node>
+   get_elements_by_property_value (string property, string value)
+  {
+    var list = new Gee.ArrayList<GXml.Node>();
+    foreach (var child in childs) {
+      list.add_all (child.get_elements_by_property_value (property, value));
+      if (child is GXml.Element) {
+        var cls = (child as GXml.Element).get_attribute (property);
+        if (cls == null) continue;
+        if (value in child.content)
+            list.add (child);
+      }
+    }
+    return list;
+  }
+  /**
    * Node's string representation.
    */
   public abstract string to_string ();

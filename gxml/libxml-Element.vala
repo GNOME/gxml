@@ -443,8 +443,8 @@ namespace GXml {
 			owned get {
 				_content = "";
 				foreach (xNode n in child_nodes) {
-					if (n is xText) {
-						_content += n.value;
+					if (n is xCharacterData) {
+						_content += n.data;
 					}
 				}
 				return _content;

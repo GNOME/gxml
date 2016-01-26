@@ -82,7 +82,8 @@ sources = \
 	TwNamespace.vala \
 	TwNode.vala \
 	TwProcessingInstruction.vala \
-	TwText.vala
+	TwText.vala \
+	GHtml.vala
 
 
 ### General Compilation flags
