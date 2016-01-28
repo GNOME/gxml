@@ -30,26 +30,34 @@ public interface GXml.Node : Object
   /**
    * Collection of Namespaces applied to this {@link GXml.Node}.
    */
-  public abstract Gee.List<GXml.Namespace> namespaces { get; }
+  public abstract Gee.List<GXml.Namespace> namespaces { owned get; }
   /**
    * Collection of {@link GXml.Node} as childs.
    *
    * Depend on {@link GXml.Node} type, this childs could of different, like,
    * elements, element's contents or properties.
    */
-  public abstract Gee.BidirList<GXml.Node> childs { get; }
+  [Deprecated (since="0.10.0", replace="children")]
+  public virtual Gee.BidirList<GXml.Node> childs { owned get { return children; } }
+  /**
+   * Collection of {@link GXml.Node} as childs.
+   *
+   * Depend on {@link GXml.Node} type, this childs could of different, like,
+   * elements, element's contents or properties.
+   */
+  public abstract Gee.BidirList<GXml.Node> children { owned get; }
   /**
    * Attributes in this {@link GXml.Node}.
    */
-  public abstract Gee.Map<string,GXml.Node> attrs { get; }
+  public abstract Gee.Map<string,GXml.Node> attrs { owned get; }
   /**
    * Node's name. The meaning differs, depending on node's type.
    */
-  public abstract string name { get; }
+  public abstract string name { owned get; }
   /**
    * Node's value. The meaning differs, depending on node's type.
    */
-  public abstract string @value { get; set; }
+  public abstract string @value { owned get; set; }
   /**
    * Node's type as a enumeration.
    */

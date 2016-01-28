@@ -40,10 +40,10 @@ public class GXml.TwProcessingInstruction : GXml.TwNode, GXml.ProcessingInstruct
   }
   // GXml.Node
   public override string @value {
-    get { return _data; }
+    owned get { return _data.dup (); }
     set {}
   }
   // GXml.ProcessingInstruction
-  public string target { get { return _target; } }
-  public string data { get { return _data; } }
+  public string target { owned get { return _target.dup (); } }
+  public string data { owned get { return _data.dup (); } }
 }

@@ -53,14 +53,14 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
    */
   public Gee.Map<string,GXml.Attribute> unknown_serializable_properties
   {
-    get {
+    owned get {
       if (_doc == null) init_unknown_doc ();
       return (Gee.Map<string,GXml.Attribute>) _doc.root.attrs;
     }
   }
   public Gee.Collection<GXml.Node> unknown_serializable_nodes
   {
-    get {
+    owned get {
       if (_doc == null) init_unknown_doc ();
       return _doc.root.childs;
     }

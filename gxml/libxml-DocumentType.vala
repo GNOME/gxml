@@ -57,9 +57,9 @@ namespace GXml {
 		 * {{{ <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> }}}
 		 */
 		public override string name {
-			get {
+			owned get {
 				// TODO: is it possible for int_subset and ext_subset to have different names?
-				return this.int_subset->name;
+				return this.int_subset->name.dup ();
 			}
 		}
 

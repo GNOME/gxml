@@ -99,6 +99,6 @@ namespace GXml {
 			return other;
 		}
 		// Interface GXml.Text
-		public string str { get { return this.data; } }
+		public string str { owned get { return this.data; } }
 	}
 }

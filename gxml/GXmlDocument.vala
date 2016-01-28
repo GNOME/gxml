@@ -1,6 +1,6 @@
-/* Element.vala
+/* GHtmlDocument.vala
  *
- * Copyright (C) 2015  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28,38 +28,46 @@ using Xml;
  * This class use {@link Xml.TextWriter} to write down XML documents using
  * its contained {@link GXml.Node} childs or other XML structures.
  */
-public class GXml.TwDocument : GXml.TwNode, GXml.Document
+public class GXml.GDocument : GXml.GNode, GXml.Document
 {
-  GXml.Element _root = null;
-  Xml.Buffer _buffer;
-  construct {
-    _name = "#document";
+  protected Xml.Doc* doc;
+  protected Xml.Buffer _buffer;
+
+  public GDocument () {
+    doc = new Xml.Doc ();
   }
-  public TwDocument () {}
-  public TwDocument.for_path (string file)
-  {
-    var f = File.new_for_path (file);
-    this.file = f;
+  public GDocument.from_path (string path, int options = 0) throws GLib.Error {
+    this.from_file (File.new_for_path (path), options);
   }
+
+  public GDocument.from_uri (string uri, int options = 0) throws GLib.Error {
+    this.from_file (File.new_for_uri (uri), options);
+  }
+
+  public GDocument.from_file (GLib.File file, int options = 0, Cancellable? cancel = null) throws GLib.Error {
+    if (!file.query_exists ())
+      throw new DocumentError.INVALID_DOCUMENT_ERROR (_("File doesn't exists"));
+    var b = new MemoryOutputStream.resizable ();
+    b.splice (file.read (), 0);
+    this.from_string ((string) b.data, options);
+  }
+
+  public GDocument.from_string (string str, int options = 0) {
+    Xmlx.reset_last_error ();
+    doc = Xml.Parser.parse_memory (str, (int) str.length);
+    if (doc == null)
+      doc = new Xml.Doc ();
+  }
+  public GDocument.from_doc (Xml.Doc doc) { this.doc = doc; }
   // GXml.Node
-  /**
-   * {@inheritDoc}
-   *
-   * All namespaces are stored at {@link GXml.Node.namespaces} owned by
-   * this {@link GXml.TwDocument}.
-   *
-   * First namespace at list, is considered default one for the document. If
-   * you haven't declared a namespace for this document or for its root element,
-   * and you define one for a child node, this one is added for the first time
-   * to document's namespaces, then this becomes the default namespace. To avoid
-   * this, you should set a namespace for documento or its root, then childs.
-   *
-   * Default {@link GXml.Namespace} for a document is the first
-   */
   public override bool set_namespace (string uri, string? prefix)
   {
-    _namespaces.add (new TwNamespace (this, uri, prefix));
-    return true;
+    var root = doc->get_root_element ();
+    if (root != null) {
+      var ns = root->new_ns (uri, prefix);
+      return (ns != null);
+    }
+    return false;
   }
   public override GXml.Document document { get { return this; } }
   // GXml.Document
@@ -70,57 +78,54 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
   public GLib.File file { get; set; }
   public GXml.Node root {
     owned get {
-      if (_root == null) {
+      var r = doc->get_root_element ();
+      if (r == null) {
         int found = 0;
         for (int i = 0; i < childs.size; i++) {
           GXml.Node n = childs.get (i);
           if (n is GXml.Element) {
             found++;
             if (found == 1)
-              _root = (GXml.Element) n;
+              return n;
           }
         }
         if (found > 1) {
           GLib.warning ("Document have more than one root GXmlElement. Using first found");
         }
-      }
-      return _root;
+      } 
+      return new GElement (r);
     }
   }
   public GXml.Node create_comment (string text)
   {
-    var c = new TwComment (this, text);
-    return c;
+    var c = doc->new_comment (text);
+    return new GComment (c);
   }
   public GXml.Node create_pi (string target, string data)
   {
-    var pi = new TwProcessingInstruction (this, target, data);
-    return pi;
+    var pi = doc->new_pi (target, data);
+    return new GProcessingInstruction (pi);
   }
   public GXml.Node create_element (string name)
   {
-    return new TwElement (this, name);
+    var e = doc->new_raw_node (null, name, null);
+    return new GElement (e);
   }
   public GXml.Node create_text (string text)
   {
-    var t = new TwText (this, text);
-    return t;
+    var t = doc->new_text (text);
+    return new GText (t);
   }
   public GXml.Node create_cdata (string text)
   {
-    var t = new TwCDATA (this, text);
-    return t;
+    var cd = doc->new_cdata_block (text, text.length);
+    return new GCDATA (cd);
   }
   public bool save (GLib.Cancellable? cancellable = null)
     throws GLib.Error
     requires (file != null)
   {
     return save_as (file, cancellable);
-  }
-  [Deprecated (since="0.8.1", replacement="save_as")]
-  public bool save_to (GLib.File f, GLib.Cancellable? cancellable = null)
-  {
-    return save_as (f, cancellable);
   }
   public bool save_as (GLib.File f, GLib.Cancellable? cancellable = null)
   {
@@ -360,4 +365,43 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
     doc.dump_memory (out str, out size);
     return str;
   }
+  // HTML methods
+		public static int default_options {
+			get {
+				return Html.ParserOption.NONET | Html.ParserOption.NOWARNING | Html.ParserOption.NOERROR | Html.ParserOption.NOBLANKS;
+			}
+		}
+		/**
+		 * Search all {@link GXml.Element} with a property called "class" and with a
+		 * value as a class apply to a node.
+		 */
+		public Gee.List<GXml.Node> get_elements_by_class_name (string klass) {
+			var rl = new Gee.ArrayList<GXml.Node> ();
+			var l = root.get_elements_by_property_value ("class", klass);
+			foreach (GXml.Node n in l) {
+				var p = n.attrs.get ("class");
+				if (p == null) continue;
+				if (" " in p.value) {
+					foreach (string ks in p.value.split (" ")) {
+						if (ks == klass)
+							rl.add (n);
+					}
+				} else if (klass == p.value) {
+					rl.add (n);
+				}
+			}
+			return rl;
+		}
+		/**
+		 * Get first node where 'id' attribute has given value.
+		 */
+		public GXml.Node? get_element_by_id (string id) {
+			var l = root.get_elements_by_property_value ("id", id);
+			foreach (GXml.Node n in l) {
+				var p = n.attrs.get ("id");
+				if (p == null) continue;
+				if (p.value == id) return n;
+			}
+			return null;
+		}
 }

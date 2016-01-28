@@ -39,9 +39,9 @@ public class GXml.TwText : GXml.TwNode, GXml.Text
   }
   // GXml.Node
   public override string @value {
-    get { return _str; }
+    owned get { return _str.dup (); }
     set { _str = value; }
   }
   // GXml.Text
-  public string str { get { return _str; } }
+  public string str { owned get { return _str.dup (); } }
 }

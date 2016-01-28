@@ -59,7 +59,7 @@ public interface GXml.Element : Object, GXml.Node
     /**
      * This should be just a different name for {@link GXml.Node.name}.
      */
-    public abstract string tag_name { get; }
+    public abstract string tag_name { owned get; }
     /**
      * This should be just a different name for {@link GXml.Node.value}.
      */

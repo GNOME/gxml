@@ -1,6 +1,6 @@
-/* TwCDATA.vala
+/* GXmlNamespace.vala
  *
- * Copyright (C) 2015  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,25 +22,24 @@
 using Gee;
 
 /**
- * Class implemeting {@link GXml.CDATA} interface, not tied to libxml-2.0 library.
+ * Class implemeting {@link GXml.Namespace}
  */
-public class GXml.TwCDATA : GXml.TwNode, GXml.CDATA
+public class GXml.GNamespace : GXml.GNode, GXml.Namespace
 {
-  private string _str = null;
-  construct {
-    _name = "#cdata";
+  private Xml.Ns *_ns;
+  public GNamespace (Xml.Ns* ns) { _ns = ns; }
+  public Xml.Ns* get_internal_ns () { return _ns; }
+  // GXml.Namespace
+  public string uri {
+    owned get {
+      if (_ns == null) return null;
+      return _ns->href.dup ();
+    }
   }
-  public TwCDATA (GXml.Document d, string text)
-    requires (d is GXml.TwDocument)
-  {
-    _doc = d;
-    _str = text;
+  public string @prefix {
+    owned get {
+      if (_ns == null) return null;
+      return _ns->prefix.dup ();
+    }
   }
-  // GXml.Node
-  public override string @value {
-    owned get { return _str.dup (); }
-    set {}
-  }
-  // GXml.CDATA
-  public string str { owned get { return _str.dup (); } }
 }

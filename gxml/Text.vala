@@ -29,5 +29,5 @@ public interface GXml.Text : Object, GXml.Node
   /**
    * This should be implemented by returning {@link GXml.Node.value}
    */
-  public abstract string str { get; }
+  public abstract string str { owned get; }
 }

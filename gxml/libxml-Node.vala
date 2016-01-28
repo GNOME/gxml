@@ -501,11 +501,11 @@ namespace GXml {
 		}
 		
 		// GXml.Node interface implementations
-		public virtual Gee.List<GXml.Namespace> namespaces { get { return namespace_definitions; } }
-		public virtual Gee.BidirList<GXml.Node> childs { get { return (BidirList<GXml.Node>) child_nodes; } }
-		public virtual Gee.Map<string,GXml.Node> attrs { get { return (Map<string,GXml.Node>) attributes; } }
-		public virtual string name { get { return node_name; } }
-		public virtual string @value { get { return node_value; } set { node_value = value; } }
+		public virtual Gee.List<GXml.Namespace> namespaces { owned get { return (Gee.List<GXml.Namespace>) namespace_definitions.ref (); } }
+		public virtual Gee.BidirList<GXml.Node> children { owned get { return (BidirList<GXml.Node>) child_nodes.ref (); } }
+		public virtual Gee.Map<string,GXml.Node> attrs { owned get { return (Map<string,GXml.Node>) attributes.ref (); } }
+		public virtual string name { owned get { return node_name.dup (); } }
+		public virtual string @value { owned get { return node_value.dup (); } set { node_value = value; } }
 		public GXml.NodeType type_node { get { return node_type; } }
 		public virtual string to_string () { return stringify (); }
 		public GXml.Document document { get { return this.owner_document; } }

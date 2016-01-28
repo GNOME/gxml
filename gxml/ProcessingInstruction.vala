@@ -30,9 +30,9 @@ public interface GXml.ProcessingInstruction : Object, GXml.Node
   /**
    * The target for the processing instruction, like "xml-stylesheet".
    */
-  public abstract string target  { get; }
+  public abstract string target  { owned get; }
   /**
    * The data used by the target, like {{{href="style.xsl" type="text/xml"}}}
    */
-  public abstract string data { get; }
+  public abstract string data { owned get; }
 }

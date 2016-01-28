@@ -123,13 +123,13 @@ namespace GXml {
 		}
 		// GXml.Namespace interface implementations
 		public string uri {
-			get {
-				return defined_namespace_uri;
+			owned get {
+				return defined_namespace_uri.dup ();
 			}
 		}
 		public string prefix {
-			get {
-				return defined_prefix;
+			owned get {
+				return defined_prefix.dup ();
 			}
 		}
 	}

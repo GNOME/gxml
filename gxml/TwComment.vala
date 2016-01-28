@@ -38,9 +38,9 @@ public class GXml.TwComment : GXml.TwNode, GXml.Comment
   }
   // GXml.Node
   public override string @value {
-    get { return _str; }
+    owned get { return _str.dup (); }
     set {  }
   }
   // GXml.Comment
-  public string str { get { return _str; } }
+  public string str { owned get { return _str.dup (); } }
 }

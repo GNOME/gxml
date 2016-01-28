@@ -2,7 +2,7 @@
 /* Attr.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
- * Copyright (C) 2011,2015  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2011,2015-2016  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -181,9 +181,9 @@ namespace GXml {
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-1112119403]]
 		 */
 		public override string name {
-			get {
+			owned get {
 				// TODO: make sure that this is the right name, and that ownership is correct
-				return this.node_name;
+				return this.node_name.dup ();
 			}
 		}
 
@@ -214,8 +214,8 @@ namespace GXml {
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-221662474]]
 		 */
 		public override string value {
-			get {
-				return this.node_value;
+			owned get {
+				return this.node_value.dup ();
 			}
 			set {
 				this.node_value = value;
@@ -235,6 +235,26 @@ namespace GXml {
 		 */
 		public override string stringify (bool format = false, int level = 0) {
 			return "Attr(%s=\"%s\")".printf (this.name, this.value);
+		}
+		// GXml.Attribute
+		public string prefix {
+			owned get {
+				if (node == null) return "";
+				if (node->ns == null) return "";
+				return node->ns->prefix.dup ();
+			}
+		}
+		public Namespace @namespace {
+			owned get {
+				return new NamespaceAttr (node->ns, this.owner_document);
+			}
+			set {
+				if (node == null) return;
+				if (node->doc == null) return;
+				if (node->parent == null) return;
+				var ns = node->parent->new_ns (value.uri, value.prefix);
+				node->ns = ns;
+			}
 		}
 	}
 

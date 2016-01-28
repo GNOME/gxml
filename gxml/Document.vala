@@ -62,7 +62,7 @@ public interface GXml.Document : Object, GXml.Node
   /**
    * XML document root node as a {@link GXml.Element}.
    */
-  public abstract GXml.Node root { get; }
+  public abstract GXml.Node root { owned get; }
   /**
    * Stores a {@link GLib.File} to save/read XML documents to/from.
    */

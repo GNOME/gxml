@@ -53,15 +53,15 @@ namespace GXml {
 		 * The target for the processing instruction, like "xml-stylesheet".
 		 */
 		public string target {
-			get { return _target; }
+			owned get { return _target.dup (); }
 		}
 
 		/**
 		 * The data used by the target, like {{{href="style.xsl" type="text/xml"}}}
 		 */
 		public string data /* throws DomError (not supported yet) */ {
-			get {
-				return _data;
+			owned get {
+				return _data.dup ();
 			}
 		}
 		/**
@@ -69,7 +69,7 @@ namespace GXml {
 		 */
 		public override string node_name {
 			get {
-				return this.target;
+				return this._target;
 			}
 			private set {
 			}
@@ -79,7 +79,7 @@ namespace GXml {
 		 */
 		public override string? node_value {
 			get {
-				return this.data;
+				return this._data;
 			}
 			private set {
 			}

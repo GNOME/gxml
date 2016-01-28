@@ -30,5 +30,8 @@ using Gee;
  * Attribute's name could be get from {@link GXml.Node.name} property. Its value
  * should be get from {@link GXml.Node.value} property.
  */
-public interface GXml.Attribute : Object, GXml.Node {}
+public interface GXml.Attribute : Object, GXml.Node {
+  public abstract Namespace @namespace { owned get; set; }
+  public abstract string prefix { owned get; }
+}
 

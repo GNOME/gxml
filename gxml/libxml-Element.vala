@@ -55,11 +55,11 @@ namespace GXml {
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-104682815]]
 		 */
 		public string tag_name {
-			get {
+			owned get {
 				// This is the same as node_name from Node:
 				// http://www.w3.org/TR/DOM-Level-1/level-one-core.html
 				// TODO: is this the same as tagname from xDocument's get_elem_by...?
-				return base.node_name;
+				return base.node_name.dup ();
 			}
 		}
 

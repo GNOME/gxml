@@ -431,7 +431,7 @@ namespace GXml {
 		 *
 		 * @throws GXml.Error A {@link GXml.Error} if an error occurs while reading the stream
 		 */
-		public xDocument.from_stream (InputStream instream, Cancellable? can = null) throws GXml.Error {
+		public xDocument.from_stream (InputStream instream, Cancellable? can = null) throws GLib.Error {
 			Xml.Error* e = null;
 			string errmsg = null;
 			var ostream = new MemoryOutputStream.resizable ();
@@ -486,6 +486,7 @@ namespace GXml {
 		public xDocument.from_string_with_options (string xml, string? url = null,
 		                                          string? encoding = null,
 		                                          int options = 0)
+		                                          throws GLib.Error
 		{
 		  Xml.Doc *doc;
 			Xmlx.reset_last_error ();
@@ -998,7 +999,7 @@ namespace GXml {
 		public bool prefix_default_ns { get; set; default = false; }
 		public bool backup { get; set; default = true; }
 		public GLib.File file { get; set; }
-		public virtual GXml.Node root { get { return document_element; } }
+		public virtual GXml.Node root { owned get { return (GXml.Node) document_element.ref (); } }
 		public GXml.Node create_text (string str) { return (GXml.Node) this.create_text_node (str); }
 		public GXml.Node create_comment (string text) { return create_managed_comment (text); }
 		public GXml.Node create_cdata (string text) { return create_cdata_section (text); }

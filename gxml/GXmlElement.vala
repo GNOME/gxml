@@ -1,6 +1,6 @@
-/* TwAttribute.vala
+/* GElement.vala
  *
- * Copyright (C) 2015-2016  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,28 +22,36 @@
 using Gee;
 
 /**
- * Class implemeting {@link GXml.Attribute} interface, not tied to libxml-2.0 library.
+ * Class implemeting {@link GXml.Element} interface, not tied to libxml-2.0 library.
  */
-public class GXml.TwAttribute : GXml.TwNode, GXml.Attribute
+public class GXml.GElement : GXml.GNode, GXml.Element
 {
-  public TwAttribute (GXml.Document d, string name, string value)
-    requires (d is TwDocument)
+  public GElement (Xml.Node *node) { _node = node; }
+  // GXml.Node
+  public override string value
   {
-    _doc = d;
-    _name = name;
-    _value = value;
-  }
-  public Namespace @namespace {
     owned get {
-      return (Namespace) namespaces.get (0).ref ();
+      return content;
+    }
+    set { content = value; }
+  }
+  // GXml.Element
+  public void set_attr (string name, string value)
+  {
+    _node->new_prop (name, value);
+  }
+  public GXml.Node get_attr (string name)
+  {
+    return new GAttribute (_node->get_prop (name));
+  }
+  public void normalize () {}
+  public string content {
+    owned get {
+      return _node->get_content ().dup ();
     }
     set {
-      namespaces.add (value);
+      _node->set_content (value);
     }
   }
-  public string prefix {
-    owned get {
-      return @namespace.prefix;
-    }
-  }
+  public string tag_name { owned get { return _node->name.dup (); } }
 }

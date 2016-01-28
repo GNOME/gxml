@@ -83,7 +83,19 @@ sources = \
 	TwNode.vala \
 	TwProcessingInstruction.vala \
 	TwText.vala \
-	GHtml.vala
+	GHtml.vala \
+	GXmlAttribute.vala \
+	GXmlComment.vala \
+	GXmlCDATA.vala \
+	GXmlDocument.vala \
+	GXmlElement.vala \
+	GXmlNamespace.vala \
+	GXmlNode.vala \
+	GXmlProcessingInstruction.vala \
+	GXmlText.vala \
+	GXmlHashMapAttr.vala \
+	GXmlListChildren.vala \
+	GXmlListNamespaces.vala
 
 
 ### General Compilation flags

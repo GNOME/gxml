@@ -27,7 +27,7 @@ using Gee;
 public abstract class GXml.TwNode : Object, GXml.Node
 {
   protected Gee.HashMap<string,GXml.Node> _attrs = new Gee.HashMap<string,GXml.Node> ();
-  protected Gee.ArrayList<GXml.Node> _childs = new Gee.ArrayList<GXml.Node> ();
+  protected Gee.ArrayList<GXml.Node> _children = new Gee.ArrayList<GXml.Node> ();
   protected Gee.ArrayList<GXml.Node> _namespaces = new Gee.ArrayList<GXml.Node> ();
   protected string _name = null;
   protected string _value = null;
@@ -54,11 +54,11 @@ public abstract class GXml.TwNode : Object, GXml.Node
     return true;
   }
   public virtual string to_string () { return get_type ().name (); }
-  public virtual Gee.Map<string,GXml.Node> attrs { get { return _attrs; } }
-  public virtual Gee.BidirList<GXml.Node> childs { get { return _childs; } }
+  public virtual Gee.Map<string,GXml.Node> attrs { owned get { return (Gee.Map<string,GXml.Node>) _attrs.ref (); } }
+  public virtual Gee.BidirList<GXml.Node> children { owned get { return (Gee.BidirList<GXml.Node>) _children.ref (); } }
   public virtual GXml.Document document { get { return _doc; } }
-  public virtual string name { get { return _name; } }
-  public virtual Gee.List<GXml.Namespace> namespaces { get { return _namespaces; } }
+  public virtual string name { owned get { return _name.dup (); } }
+  public virtual Gee.List<GXml.Namespace> namespaces { owned get { return (Gee.List<GXml.Namespace>) _namespaces.ref (); } }
   public virtual GXml.NodeType type_node { get { return GXml.NodeType.DOCUMENT; } }
-  public virtual string value { get { return _value; } set  { _value = value; } }
+  public virtual string value { owned get { return _value.dup (); } set  { _value = value; } }
 }

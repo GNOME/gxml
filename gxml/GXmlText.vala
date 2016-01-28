@@ -1,6 +1,6 @@
-/* TwCDATA.vala
+/* GXmlText.vala
  *
- * Copyright (C) 2015  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,25 +22,14 @@
 using Gee;
 
 /**
- * Class implemeting {@link GXml.CDATA} interface, not tied to libxml-2.0 library.
+ * Class implemeting {@link GXml.Text} interface, not tied to libxml-2.0 library.
  */
-public class GXml.TwCDATA : GXml.TwNode, GXml.CDATA
+public class GXml.GText : GXml.GNode, GXml.Text
 {
-  private string _str = null;
-  construct {
-    _name = "#cdata";
-  }
-  public TwCDATA (GXml.Document d, string text)
-    requires (d is GXml.TwDocument)
+  public GText (Xml.Node *node)
   {
-    _doc = d;
-    _str = text;
+    _node = node;
   }
-  // GXml.Node
-  public override string @value {
-    owned get { return _str.dup (); }
-    set {}
-  }
-  // GXml.CDATA
-  public string str { owned get { return _str.dup (); } }
+  // GXml.Text
+  public string str { owned get { return base.value; } }
 }

@@ -35,14 +35,14 @@ public class GXml.SerializableTreeMap<K,V> : Gee.TreeMap<K,V>, Serializable, Ser
 
   public Gee.Map<string,GXml.Attribute> unknown_serializable_properties
   {
-    get {
-      return _unknown_serializable_property;
+    owned get {
+      return (Gee.Map<string,GXml.Attribute>) _unknown_serializable_property.ref ();
     }
   }
   public Gee.Collection<GXml.Node> unknown_serializable_nodes
   {
-    get {
-      return _unknown_serializable_nodes;
+    owned get {
+      return (Gee.Collection<GXml.Node>) _unknown_serializable_nodes.ref ();
     }
   }
   protected ParamSpec[] properties { get; set; }

@@ -36,9 +36,9 @@ public class GXml.TwElement : GXml.TwNode, GXml.Element
   // GXml.Node
   public override string value
   {
-    get {
+    owned get {
       calculate_content ();
-      return _content;
+      return _content.dup ();
     }
     set { update_content (value); }
   }
@@ -53,13 +53,13 @@ public class GXml.TwElement : GXml.TwNode, GXml.Element
   public string content {
     owned get {
       calculate_content ();
-      return _content;
+      return _content.dup ();
     }
     set {
       update_content (value);
     }
   }
-  public string tag_name { get { return name; } }
+  public string tag_name { owned get { return name; } }
   private void calculate_content ()
   {
     _content = "";
