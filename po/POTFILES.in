@@ -2,6 +2,7 @@
 # Please keep this file sorted alphabetically.
 gxml/Document.vala
 gxml/Enumeration.vala
+gxml/GXmlDocument.vala
 gxml/libxml-ChildNodeList.vala
 gxml/libxml-Document.vala
 gxml/libxml-Entity.vala
