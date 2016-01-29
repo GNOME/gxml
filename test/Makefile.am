@@ -60,6 +60,7 @@ sources = \
 	TwCDATATest.vala \
 	TwCommentTest.vala \
 	TwProcessingInstructionTest.vala \
+	GDocumentTest.vala \
 	$(NULL)
 
 gxml_test.vala.stamp: $(sources)

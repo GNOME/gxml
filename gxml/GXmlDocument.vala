@@ -58,6 +58,11 @@ public class GXml.GDocument : GXml.GNode, GXml.Document
     if (doc == null)
       doc = new Xml.Doc ();
   }
+  public GDocument.from_stream (GLib.InputStream istream) {
+    var b = new MemoryOutputStream.resizable ();
+    b.splice (istream, 0);
+    this.from_string ((string) b.data);
+  }
   public GDocument.from_doc (Xml.Doc doc) { this.doc = doc; }
   // GXml.Node
   public override bool set_namespace (string uri, string? prefix)
