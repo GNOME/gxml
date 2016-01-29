@@ -810,10 +810,18 @@ class SerializableObjectModelTest : GXmlTest
                    });
     Test.add_func ("/gxml/serializable/object_model/unknown_property",
                    () => {
-                     var doc = new xDocument.from_string ("""<?xml version="1.0"?>
-                     <UnknownAttribute ignore="true" ignore2="test">
-                     <UnknownNode toignore = "true" />TEXT
-                     </UnknownAttribute>""");
+                      var doc = new xDocument.from_string ("""<?xml version="1.0"?>
+<UnknownAttribute ignore="true" ignore2="test"><UnknownNode toignore = "true" />TEXT</UnknownAttribute>""");
+                     assert (doc.root != null);
+                     assert (doc.root.name == "UnknownAttribute");
+#if DEBUG
+                     GLib.message ("Document to use:\n"+doc.root.children.size.to_string ());
+                     foreach (GXml.Node n in doc.root.children) {
+                        GLib.message ("Node in root: "+ n.name+ " Contents: "+n.value);
+                     }
+                     GLib.message ("Document root children:\n"+doc.to_string ());
+#endif
+                     assert (doc.root.children.size == 2);
                      var unknown_property = new UnknownAttribute ();
                      try {
                        unknown_property.deserialize (doc);
@@ -997,9 +1005,7 @@ class SerializableObjectModelTest : GXmlTest
                    () => {
                      try {
                        var doc = new xDocument.from_string ("""<?xml version="1.0"?>
-                     <UnknownAttribute ignore="true" ignore2="test">
-                     <UnknownNode toignore = "true" />TEXT
-                     </UnknownAttribute>""");
+<UnknownAttribute ignore="true" ignore2="test"><UnknownNode toignore = "true" />TEXT</UnknownAttribute>""");
                         var unknown_property = new UnknownAttribute ();
                        unknown_property.deserialize (doc);
                        var ndoc = new xDocument ();
