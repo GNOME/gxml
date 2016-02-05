@@ -18,3 +18,4 @@ gxml/SerializableObjectModel.vala
 gxml/SerializableProperty.vala
 gxml/Serializable.vala
 gxml/Serialization.vala
+gxml/TwDocument.vala
