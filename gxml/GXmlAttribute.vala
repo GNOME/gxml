@@ -30,6 +30,7 @@ public class GXml.GAttribute : GXml.GNode, GXml.Attribute
   public GAttribute (GDocument doc, Xml.Attr *node)
   {
     _attr = node;
+    Test.message ("Attr Name: "+node->name);
     _node = _attr->parent;
     _doc = doc;
   }
@@ -41,6 +42,19 @@ public class GXml.GAttribute : GXml.GNode, GXml.Attribute
     }
     set {
       
+    }
+  }
+  public override string name {
+    owned get {
+      return _attr->name.dup ();
+    }
+  }
+  public override string value {
+    owned get {
+      return _node->get_prop (_attr->name);
+    }
+    set {
+      _node->set_prop (_attr->name, value);
     }
   }
   public string prefix {

@@ -55,7 +55,6 @@ class SerializableGeeTreeMapTest : GXmlTest
   {
     Test.add_func ("/gxml/serializable/serializable_tree_map/api",
     () => {
-      try {
         var c = new SerializableTreeMap<string,Space> ();
         var o1 = new Space.named ("Big");
         var o2 = new Space.named ("Small");
@@ -88,10 +87,6 @@ class SerializableGeeTreeMapTest : GXmlTest
           stdout.printf (@"Small key value is not found\n");
           assert_not_reached ();
         }
-      }
-      catch (GLib.Error e) {
-        stdout.printf (@"ERROR: $(e.message)");
-      }
     });
     Test.add_func ("/gxml/serializable/serializable_tree_map/serialize",
     () => {
@@ -103,12 +98,12 @@ class SerializableGeeTreeMapTest : GXmlTest
         c.set (o2.name, o2);
         var doc = new TwDocument ();
         var root = doc.create_element ("root");
-        doc.childs.add (root);
+        doc.children.add (root);
         c.serialize (root);
-        assert (root.childs.size == 2);
+        assert (root.children.size == 2);
         bool found1 = false;
         bool found2 = false;
-        foreach (GXml.Node n in root.childs) {
+        foreach (GXml.Node n in root.children) {
           if (n is Element && n.name == "space") {
             var name = n.attrs.get ("name");
             if (name != null) {
@@ -221,10 +216,10 @@ class SerializableGeeTreeMapTest : GXmlTest
           assert_not_reached ();
         }
         var root = doc.root;
-        assert (root.childs.size == 2);
+        assert (root.children.size == 2);
         bool found1 = false;
         bool found2 = false;
-        foreach (GXml.Node n in root.childs) {
+        foreach (GXml.Node n in root.children) {
           if (n is Element && n.name == "space") {
             var name = n.attrs.get ("name");
             if (name != null) {

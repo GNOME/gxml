@@ -50,7 +50,6 @@ class SerializableGeeDualKeyMapTest : GXmlTest
   {
     Test.add_func ("/gxml/serializable/serializable_dual_key_map/api",
     () => {
-      try {
         var c = new SerializableDualKeyMap<string,string,Spaces> ();
         var o1 = new Spaces.full ("Floor", "Big");
         var o2 = new Spaces.full ("Wall", "Small");
@@ -125,10 +124,6 @@ class SerializableGeeDualKeyMapTest : GXmlTest
           stdout.printf (@"Not found 'Wall' & 'Smallest':\n");
           assert_not_reached ();
         }
-      }
-      catch (GLib.Error e) {
-        stdout.printf (@"ERROR: $(e.message)");
-      }
     });
     Test.add_func ("/gxml/serializable/serializable_dual_key_map/serialize",
     () => {

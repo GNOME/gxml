@@ -39,13 +39,26 @@ public class GXml.GElement : GXml.GNode, GXml.Element
     set { content = value; }
   }
   // GXml.Element
-  public void set_attr (string name, string value)
+  public void set_attr (string aname, string avalue)
   {
-    _node->new_prop (name, value);
+    if (":" in aname) {
+      string[] cname = aname.split(":");
+      if (cname.length > 2) return;
+      bool found = false;
+      foreach (Namespace ns in namespaces) {
+        if (ns.prefix == cname[0]) found = true;
+      }
+      if (!found) return;
+    }
+    var a = _node->set_prop (aname, avalue);
   }
   public GXml.Node get_attr (string name)
   {
-    return new GAttribute (_doc, _node->get_prop (name));
+    if (_node == null) return null;
+    var a = _node->has_prop (name);
+    if (a == null) return null;
+    Test.message ("Element Prop: "+a->name);
+    return new GAttribute (_doc, a);
   }
   public void normalize () {}
   public string content {

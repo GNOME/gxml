@@ -162,6 +162,14 @@ public class GXml.GDocument : GXml.GNode, GXml.Document
     doc.dump_memory (out str, out size);
     return str;
   }
+  /**
+   * Uses libxml2 internal dump to memory function over owned 
+   */
+  public string libxml_to_string () {
+    string buffer;
+    doc->dump_memory (out buffer);
+    return buffer;
+  }
   public virtual bool save (GLib.Cancellable? cancellable = null)
     throws GLib.Error
   {
