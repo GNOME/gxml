@@ -146,8 +146,13 @@ namespace GXml {
 		public bool contains (string key) { return has_key (key); }
 		public bool contains_all (Gee.Map<string,GXml.Attribute> map) { return has_all (map); }
 		public new Attribute @get (string key)
+			requires (elem != null)
+			requires (elem.node != null)
 		{
+			Test.message ("Getting from libxml2 an attribute node");
 			var at = elem.node->has_prop (key);
+			if (at == null) return null;
+			Test.message ("Creating attribute with libxml2 node");
 			return (Attribute) new xAttr(at, (xDocument) elem.document);
 		}
 		public bool has (string key, Attribute value)

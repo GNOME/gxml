@@ -80,6 +80,7 @@ internal abstract class GXml.ChildNodeList : AbstractBidirList<xNode>, NodeList
 		public override new xNode @get (int n)
             requires (head != null)
         {
+          Test.message ("Searching for node at: "+n.to_string ());
             Xml.Node *cur = head;
             int i = 0;
             while (cur != null) {

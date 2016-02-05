@@ -95,6 +95,7 @@ namespace GXml {
 				if (this._attributes == null) {
 					this._attributes = new NamedAttrMap (this);
 				}
+				Test.message ("Getting Attributes NamedAttrMap");
 				return (NamedAttrMap) this._attributes;
 			}
 			internal set {

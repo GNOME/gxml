@@ -52,6 +52,7 @@ namespace GXml {
 			this.set_xmlnode (node, owner);
 			// TODO: Consider checking whether the Xml.Node* is already recorded.  It shouldn't be.
 			// TODO: BackedNodes' memory are freed when their owner document is freed; let's make sure that when we move a node between documents, that we make sure they'll still be freed
+			Test.message ("Getting NodeChildNodeList for node: "+name);
 			_child_nodes = new NodeChildNodeList (this.node, this.owner_document);
 		}
 
