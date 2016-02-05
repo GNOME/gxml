@@ -65,3 +65,14 @@ public interface GXml.Element : Object, GXml.Node
      */
     public abstract string content { owned get; set; }
 }
+
+
+/**
+ * Convenient class for a list of {@link GXml.Element} objects based on
+ * {@link Gee.ListArray}, with good support for bindings.
+ */
+public class GXml.ElementList : ArrayList<GXml.Element>
+{
+  public new GXml.Element get (int index) { return base.get (index); }
+  public new GXml.Element[] to_array () { return (GXml.Element[]) ((Gee.Collection<GXml.Element>) this).to_array (); }
+}

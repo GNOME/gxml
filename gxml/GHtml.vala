@@ -53,19 +53,20 @@ namespace GXml {
 		 * Search all {@link GXml.Element} with a property called "class" and with a
 		 * value as a class apply to a node.
 		 */
-		public Gee.List<GXml.Node> get_elements_by_class_name (string klass) {
-			var rl = new Gee.ArrayList<GXml.Node> ();
+		public GXml.ElementList get_elements_by_class_name (string klass) {
+			var rl = new GXml.ElementList ();
 			var l = root.get_elements_by_property_value ("class", klass);
 			foreach (GXml.Node n in l) {
+				if (!(n is GXml.Element)) continue;
 				var p = n.attrs.get ("class");
 				if (p == null) continue;
 				if (" " in p.value) {
 					foreach (string ks in p.value.split (" ")) {
 						if (ks == klass)
-							rl.add (n);
+							rl.add ((GXml.Element) n);
 					}
 				} else if (klass == p.value) {
-					rl.add (n);
+					rl.add ((GXml.Element) n);
 				}
 			}
 			return rl;
@@ -73,12 +74,13 @@ namespace GXml {
 		/**
 		 * Get first node where 'id' attribute has given value.
 		 */
-		public GXml.Node? get_element_by_id (string id) {
+		public GXml.Element? get_element_by_id (string id) {
 			var l = root.get_elements_by_property_value ("id", id);
 			foreach (GXml.Node n in l) {
+				if (!(n is Element)) continue;
 				var p = n.attrs.get ("id");
 				if (p == null) continue;
-				if (p.value == id) return n;
+				if (p.value == id) return (GXml.Element?) n;
 			}
 			return null;
 		}

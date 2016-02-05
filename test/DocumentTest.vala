@@ -341,7 +341,7 @@ class DocumentTest : GXmlTest {
 				ginny.append_child (ginny_email);
 				fragment.append_child (ginny);
 
-				NodeList authors_list = doc.get_elements_by_tag_name ("Authors");
+				xNodeList authors_list = doc.get_elements_by_tag_name ("Authors");
 				assert (authors_list.length == 1);
 				xElement authors = (xElement)authors_list.item (0);
 				assert (authors.get_elements_by_tag_name ("Author").length == 2);
@@ -436,7 +436,7 @@ class DocumentTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/document/get_elements_by_tag_name", () => {
 				xDocument doc = get_doc ();
-				NodeList elems = doc.get_elements_by_tag_name ("Email");
+				xNodeList elems = doc.get_elements_by_tag_name ("Email");
 
 				assert (elems.length == 2);
 				assert (((xElement)elems.item (0)).content == "fweasley@hogwarts.co.uk");
@@ -472,7 +472,7 @@ class DocumentTest : GXmlTest {
 		assert (root.node_name == "Sentences");
 		assert (root.has_child_nodes () == true);
 
-		NodeList authors = test_doc.get_elements_by_tag_name ("Author");
+		xNodeList authors = test_doc.get_elements_by_tag_name ("Author");
 		assert (authors.length == 2);
 
 		assert (test_doc.to_string () == "<?xml version=\"1.0\"?>

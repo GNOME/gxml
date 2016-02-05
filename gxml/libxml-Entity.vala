@@ -31,7 +31,7 @@ namespace GXml {
 	 */
 	public class Entity : xNode {
 		private Xml.Entity *entity;
-		private NodeList _entity_list;
+		private xNodeList _entity_list;
 
 		/**
 		 * A public identifier for the entity. %NULL when unspecified.
@@ -99,7 +99,7 @@ namespace GXml {
 
 		// node_value == null
 
-		public override NodeList? child_nodes {
+		public override xNodeList? child_nodes {
 			get {
 				// TODO: always create a new one?
 				//       probably not a good idea; want to create one local one

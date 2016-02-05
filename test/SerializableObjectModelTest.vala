@@ -133,7 +133,7 @@ public class Package : ObjectModel
           var str = tags.index (i);
           node = (Element) element.document.create_element ("tag");
           ((Element) node).content = str;
-          element.childs.add (node);
+          element.children.add (node);
         }
       }
     });
@@ -922,17 +922,17 @@ class SerializableObjectModelTest : GXmlTest
                          stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: Attribute ignore2 bad value $(ignore2.value)");
                          assert_not_reached ();
                        }
-                       if (element.childs.size == 0) {
+                       if (element.children.size == 0) {
                          stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: No child nodes");
                          assert_not_reached ();
                        }
-                       assert (element.childs.size == 2);
-                       var unkn = element.childs.get (0);
+                       assert (element.children.size == 2);
+                       var unkn = element.children.get (0);
                        assert (unkn != null);
                        assert (unkn.name == "UnknownNode");
                        int countechilds = 0;
                        GXml.Node child = unkn;
-                       foreach (GXml.Node n in unkn.childs) {
+                       foreach (GXml.Node n in unkn.children) {
                          if (n is GXml.Element) countechilds++;
                          if (n.name == "UnknownChild") child = n;
                        }
@@ -945,7 +945,7 @@ class SerializableObjectModelTest : GXmlTest
                        assert (ca != null);
                        assert (ca.value == "test");
                        countechilds = 0;
-                       foreach (GXml.Node cn in cunkn.childs) {
+                       foreach (GXml.Node cn in cunkn.children) {
                          if (cn is GXml.Element) countechilds++;
                          if (cn.name == "UnknownChildTwo") child = cn;
                        }
@@ -958,9 +958,9 @@ class SerializableObjectModelTest : GXmlTest
                        assert (sca.value == "test");
                        bool found = false;
 #if DEBUG
-                       GLib.message (@"Second unknown child. Childs nodes = $(scunkn.childs.size)");
+                       GLib.message (@"Second unknown child. Childs nodes = $(scunkn.children.size)");
 #endif
-                       foreach (GXml.Node tn in scunkn.childs) {
+                       foreach (GXml.Node tn in scunkn.children) {
                          assert (tn is GXml.Text);
 #if DEBUG
                        GLib.message (@"Second unknown Text child = $(tn.value)");
@@ -968,11 +968,11 @@ class SerializableObjectModelTest : GXmlTest
                          if (tn.value == "SECOND FAKE TEXT") found = true;
                        }
                        assert (found);
-                       var tscunkn = cunkn.childs.get (0);
+                       var tscunkn = cunkn.children.get (0);
                        assert (tscunkn is GXml.Text);
                        assert (element.content == "FAKE TEXT");
                        found = false;
-                       foreach (GXml.Node n in element.childs) {
+                       foreach (GXml.Node n in element.children) {
                          if (n.name == "UnknownNode") {
                            found = true;
                            var direction = ((Element) n).attrs.get ("direction");
@@ -1011,7 +1011,7 @@ class SerializableObjectModelTest : GXmlTest
                        var ndoc = new xDocument ();
                        unknown_property.serialize (ndoc);
                        if (ndoc.document_element.child_nodes.size != 2) {
-                         stdout.printf (@"ERROR: Root incorrect child node number: found '$(doc.document_element.childs.size)\n");
+                         stdout.printf (@"ERROR: Root incorrect child node number: found '$(doc.document_element.children.size)\n");
                          foreach (GXml.xNode rn in ndoc.document_element.child_nodes) {
                            string nv = "__NULL__";
                            if (rn.node_value != null)

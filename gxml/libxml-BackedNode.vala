@@ -212,7 +212,7 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override NodeList? child_nodes {
+		public override xNodeList? child_nodes {
 			get {
 				return _child_nodes;
 			}

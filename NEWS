@@ -1,3 +1,18 @@
+===============
+Version 0.9.0
+===============
+
+API/ABI break
+
+* GXml.NodeList is now a Gee.ArrayList<GXml.Node> specialiced class for better
+  bindings support. The old class has been renamed to GXml.xNodeList.
+* Most interfaces now return owned properties in order to allow implementations
+  to handle its internals without expose/keep in memory some data, returning
+  objects just on request.
+* New libxml2 implementation called GNode and derivatives, expected to replace
+  old implementation. It is a creating objects on demand.
+* New HtmlDocument for HTML handling
+
 
 ===============
 Version 0.8.2

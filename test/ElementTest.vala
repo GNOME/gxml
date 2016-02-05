@@ -247,7 +247,7 @@ class ElementTest : GXmlTest  {
 				xDocument doc;
 				GXml.xNode root;
 				xElement elem;
-				NodeList emails;
+				xNodeList emails;
 				xElement email;
 				xText text;
 
@@ -318,7 +318,7 @@ class ElementTest : GXmlTest  {
 				GXml.xNode b3 = bs.child_nodes.item (7);
 				GXml.xNode t1, t2;
 
-				NodeList ts = ((xElement)bs).get_elements_by_tag_name ("t");
+				xNodeList ts = ((xElement)bs).get_elements_by_tag_name ("t");
 				assert (ts.length == 5);
 
 				// Test adding direct child

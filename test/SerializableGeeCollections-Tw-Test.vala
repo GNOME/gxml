@@ -234,42 +234,42 @@ class SerializableGeeCollectionsTwTest : GXmlTest
         sb.serialize (ndoc);
         assert (ndoc.root != null);
         assert (ndoc.root.name == "base");
-        assert (ndoc.root.childs.size == 2);
-        var cz = ndoc.root.childs.get (0);
+        assert (ndoc.root.children.size == 2);
+        var cz = ndoc.root.children.get (0);
         assert (cz != null);
         assert (cz.name.down () == "chargezone");
         assert (cz.attrs.get ("name").value == "A1-1");
-        assert (cz.childs.size == 2);
+        assert (cz.children.size == 2);
         bool fmactoy = false;
         bool fmemphis = false;
-        foreach (GXml.Node sh in cz.childs) {
+        foreach (GXml.Node sh in cz.children) {
           if (sh.name == "ship" && sh.attrs.get ("manufacturer").value == "MacToy") {
             fmactoy = true;
             assert (sh.attrs.get ("manufacturer").value == "MacToy");
             assert (sh.attrs.get ("model").value == "A1234");
-            assert (sh.childs.size == 2);
+            assert (sh.children.size == 2);
             bool falphac = false;
             bool fgalax = false;
-            foreach (GXml.Node s in sh.childs){
+            foreach (GXml.Node s in sh.children){
               if (s.name == "space" && s.attrs.get ("name").value == "Alpha Centaury") {
                 falphac = true;
                 assert (s.attrs.get ("name").value == "Alpha Centaury");
-                assert (s.childs.size == 2);
+                assert (s.children.size == 2);
                 bool fearth = false;
                 bool fplaton = false;
-                foreach (GXml.Node p1 in s.childs) {
+                foreach (GXml.Node p1 in s.children) {
                   if (p1.name == "planet" && p1.attrs.get ("name").value == "Earth") {
                     fearth = true;
                     assert (p1.name == "planet");
                     assert (p1.attrs.get ("name").value == "Earth");
-                    assert (p1.childs.size == 2);
-                    var c1 = p1.childs.get (0);
+                    assert (p1.children.size == 2);
+                    var c1 = p1.children.get (0);
                     assert (c1 != null);
                     assert (c1.name == "citizen");
                     assert (c1.attrs.get ("ctype").value == "Human");
                     assert (((Element)c1).content == "1M");
-                    assert (c1.childs.size == 1);
-                    var c2 = p1.childs.get (1);
+                    assert (c1.children.size == 1);
+                    var c2 = p1.children.get (1);
                     assert (c2 != null);
                     assert (c2.name == "citizen");
                     assert (c2.attrs.get ("ctype").value == "Ghost");
@@ -279,7 +279,7 @@ class SerializableGeeCollectionsTwTest : GXmlTest
                     fplaton = true;
                     assert (p1.name == "planet");
                     assert (p1.attrs.get ("name").value == "Platon");
-                    assert (p1.childs.size == 0);
+                    assert (p1.children.size == 0);
                   }
                 }
                 assert (fearth);
@@ -288,22 +288,22 @@ class SerializableGeeCollectionsTwTest : GXmlTest
               if (s.name == "space" && s.attrs.get ("name").value == "Galax") {
                 fgalax = true;
                 assert (s.attrs.get ("name").value == "Galax");
-                assert (s.childs.size == 2);
+                assert (s.children.size == 2);
                 bool fsaminon = false;
-                foreach (GXml.Node p in s.childs) {
+                foreach (GXml.Node p in s.children) {
                   if (p.name == "planet" && p.attrs.get ("name").value == "Saminon") {
                     fsaminon = true;
-                    var h = p.childs.get (0);
+                    var h = p.children.get (0);
                     assert (h != null);
                     assert (h.name == "citizen");
                     assert (h.attrs.get ("ctype").value == "Humanes");
-                    assert (h.childs.size == 1);
+                    assert (h.children.size == 1);
                     assert (((Element) h).content == "100M");
-                    var j = p.childs.get (1);
+                    var j = p.children.get (1);
                     assert (j != null);
                     assert (j.name == "citizen");
                     assert (j.attrs.get ("ctype").value == "Jeties");
-                    assert (j.childs.size == 1);
+                    assert (j.children.size == 1);
                     assert (((Element) j).content == "1000M");
                   }
                 }
@@ -317,26 +317,26 @@ class SerializableGeeCollectionsTwTest : GXmlTest
             assert (sh.name == "ship");
             assert (sh.attrs.get ("manufacturer").value == "Memphis");
             assert (sh.attrs.get ("model").value == "AB1");
-            assert (sh.childs.size == 1);
+            assert (sh.children.size == 1);
             bool fbetac = false;
-            foreach (GXml.Node s in sh.childs){
+            foreach (GXml.Node s in sh.children){
               if (s.name == "space" && s.attrs.get ("name").value == "Beta Centaury") {
                 fbetac = true;
                 assert (s.attrs.get ("name").value == "Beta Centaury");
-                assert (s.childs.size == 2);
+                assert (s.children.size == 2);
                 bool ftronex = false;
                 bool fpalax = false;
-                foreach (GXml.Node p in s.childs) {
+                foreach (GXml.Node p in s.children) {
                   if (p.name == "planet" && p.attrs.get ("name").value == "Tronex") {
                     ftronex = true;
                     assert (p.name == "planet");
                     assert (p.attrs.get ("name").value == "Tronex");
-                    assert (p.childs.size == 2);
-                    var cp = p.childs.get (0);
+                    assert (p.children.size == 2);
+                    var cp = p.children.get (0);
                     assert (cp.name == "citizen");
                     assert (cp.attrs.get ("ctype").value == "Human");
                     assert (((Element)cp).content == "10000M");
-                    var cp2 = p.childs.get (1);
+                    var cp2 = p.children.get (1);
                     assert (cp2.name == "citizen");
                     assert (cp2.attrs.get ("ctype").value == "Cat");
                     assert (((Element)cp2).content == "100000M");
@@ -345,7 +345,7 @@ class SerializableGeeCollectionsTwTest : GXmlTest
                     fpalax = true;
                     assert (p.name == "planet");
                     assert (p.attrs.get ("name").value == "Palax");
-                    assert (p.childs.size == 0);
+                    assert (p.children.size == 0);
                   }
                 }
                 assert (ftronex);
@@ -357,33 +357,33 @@ class SerializableGeeCollectionsTwTest : GXmlTest
         }
         assert (fmactoy);
         assert (fmemphis);
-        var st = ndoc.root.childs.get (1);
+        var st = ndoc.root.children.get (1);
         assert (st != null);
         assert (st.name.down () == "storage");
         assert (st.attrs.get ("name").value == "B4-A4");
-        assert (st.childs.size == 1);
+        assert (st.children.size == 1);
         bool fr = false;
-        foreach (GXml.Node r in st.childs) {
+        foreach (GXml.Node r in st.children) {
           if (r.name == "refaction" && r.attrs.get ("manufacturer").value == "MacToy") {
             fr = true;
             assert (r.name == "refaction");
             assert (r.attrs.get ("manufacturer").value == "MacToy");
             assert (r.attrs.get ("model").value == "Fly045");
-            assert (r.childs.size == 2);
+            assert (r.children.size == 2);
             bool frmactoy = false;
             bool frmega = false;
-            foreach (GXml.Node rsh in r.childs) {
+            foreach (GXml.Node rsh in r.children) {
               if (rsh.name == "ship" && rsh.attrs.get ("manufacturer").value == "MacToy") {
                 frmactoy = true;
                 assert (rsh.attrs.get ("manufacturer").value == "MacToy");
                 assert (rsh.attrs.get ("model").value == "A1234");
-                assert (rsh.childs.size == 0);
+                assert (rsh.children.size == 0);
               }
               if (rsh.name == "ship" && rsh.attrs.get ("manufacturer").value == "MegaTrench") {
                 frmega = true;
                 assert (rsh.attrs.get ("manufacturer").value == "MegaTrench");
                 assert (rsh.attrs.get ("model").value == "G045-1");
-                assert (rsh.childs.size == 0);
+                assert (rsh.children.size == 0);
               }
             }
             assert (frmactoy);
@@ -464,7 +464,7 @@ class SerializableGeeCollectionsTwTest : GXmlTest
         s.serialize (doc);
         assert (doc.root.name == "base");
         //stdout.printf (@"$doc\n");
-        foreach (GXml.Node n in doc.root.childs) {
+        foreach (GXml.Node n in doc.root.children) {
           if (n is Element) {
             if (n.name == "ChargeZone") {
               
@@ -473,10 +473,10 @@ class SerializableGeeCollectionsTwTest : GXmlTest
               bool unkfound = false;
               bool tfound = false;
               bool attrfound = false;
-              foreach (GXml.Node sn in n.childs) {
+              foreach (GXml.Node sn in n.children) {
                 if (sn is Element) {
                   if (sn.name == "refaction") {
-                    foreach (GXml.Node rn in sn.childs) {
+                    foreach (GXml.Node rn in sn.children) {
                       if (rn is Element) {
                         //stdout.printf (@"Refaction current node: '$(rn.node_name)'\n");
                         if (rn.name == "ship") {
@@ -488,7 +488,7 @@ class SerializableGeeCollectionsTwTest : GXmlTest
                               attrfound = true;
                               assert (shanattr.value == "UNKNOWN ATTR");
                             }
-                            foreach (GXml.Node shn in rn.childs) {
+                            foreach (GXml.Node shn in rn.children) {
                               //stdout.printf (@"Refaction: Ship MegaTrench: Node: $(shn.node_name)\n");
                               if (shn is Text) {
                                 tfound = true;

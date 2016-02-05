@@ -70,7 +70,7 @@ public interface GXml.Node : Object
    * Get first child with given name, or null. 
    */
   public new GXml.Node? get (string key) {
-    foreach (var child in childs)
+    foreach (var child in children)
       if (child.name == key)
         return child;
     return null;
@@ -79,15 +79,15 @@ public interface GXml.Node : Object
    * Search all child {@link GXml.Element} with a given property's name and with
    * value contained in text.
    */
-  public virtual Gee.List<GXml.Node>
+  public virtual GXml.ElementList
    get_elements_by_property_value (string property, string value)
   {
-    var list = new Gee.ArrayList<GXml.Node>();
+    var list = new GXml.ElementList ();
     if (!(this is GXml.Element)) return list;
     foreach (var child in children) {
-      Test.message ("At node: "+child.name);
-      list.add_all (child.get_elements_by_property_value (property, value));
       if (child is GXml.Element) {
+        Test.message ("At node: "+child.name);
+        list.add_all (child.get_elements_by_property_value (property, value));
         Test.message ("Node is Element: "+child.name);
         if (child.attrs == null) continue;
         Test.message ("Searching property: "+property+" in node: "+child.name);
@@ -96,8 +96,8 @@ public interface GXml.Node : Object
           Test.message ("No property :"+ property+" found");
           continue;
         }
-        if (value in ((GXml.Element) cls).value)
-            list.add (child);
+        if (value in cls.value)
+            list.add ((GXml.Element) child);
       }
     }
     return list;
@@ -169,9 +169,11 @@ public interface GXml.Node : Object
 #endif
             continue;
           }
-          var e = doc.create_element (c.name); // TODO: Namespace
-          node.childs.add (e);
-          copy (doc, e, c, deep);
+          try {
+            var e = doc.create_element (c.name); // TODO: Namespace
+            node.childs.add (e);
+            copy (doc, e, c, deep);
+          } catch {}
         }
         if (c is Text) {
           if (c.value == null) {
@@ -188,6 +190,17 @@ public interface GXml.Node : Object
       }
     }
     return false;
+  }
+}
+
+/**
+ * Convenient class for a list of {@link GXml.Node} objects based on
+ * {@link Gee.ListArray}, with good support for bindings.
+ */
+public class GXml.NodeList : Gee.ArrayList<GXml.Node> {
+  public new GXml.Node get (int index) { return base.get (index); }
+  public new GXml.Node[] to_array () {
+    return (GXml.Node[])  ((Gee.Collection<GXml.Node>) this).to_array ();
   }
 }
 

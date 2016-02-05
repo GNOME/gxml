@@ -144,16 +144,16 @@ class SerializableGeeDualKeyMapTest : GXmlTest
         c.set (o4.owner, o4.name, o4);
         var doc = new TwDocument ();
         var root = doc.create_element ("root");
-        doc.childs.add (root);
+        doc.children.add (root);
         c.serialize (root);
-        assert (root.childs.size == 4);
+        assert (root.children.size == 4);
         bool found1 = false;
         bool found2 = false;
         bool found3 = false;
         bool found4 = false;
         int nodes = 0;
         int i = 0;
-        foreach (GXml.Node n in root.childs) {
+        foreach (GXml.Node n in root.children) {
           nodes++;
           if (n is Element && n.name == "spaces") {
             i++;

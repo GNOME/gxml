@@ -28,11 +28,11 @@ class TwCDATATest : GXmlTest {
 			try {
 				var d = new TwDocument ();
 				var r = d.create_element ("root");
-				d.childs.add (r);
+				d.children.add (r);
 				var cd = d.create_cdata ("<test/>");
 				assert (cd.value == "<test/>");
-				d.root.childs.add (cd);
-				assert (d.root.childs.size == 1);
+				d.root.children.add (cd);
+				assert (d.root.children.size == 1);
 				string str = d.to_string ();
 				assert ("<root><![CDATA[<test/>]]></root>" in str);
 #if DEBUG

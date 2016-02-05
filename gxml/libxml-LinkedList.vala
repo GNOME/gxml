@@ -24,7 +24,7 @@
  */
 
 
-internal class GXml.LinkedList : Gee.LinkedList<GXml.xNode>, NodeList
+internal class GXml.LinkedList : Gee.LinkedList<GXml.xNode>, xNodeList
 {
 
 	construct { Init.init (); }

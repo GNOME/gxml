@@ -23,7 +23,7 @@
 
 using Gee;
 
-internal abstract class GXml.ChildNodeList : AbstractBidirList<xNode>, NodeList
+internal abstract class GXml.ChildNodeList : AbstractBidirList<xNode>, xNodeList
 {
 		/* TODO: must be live
 		   if this reflects children of a node, then must always be current

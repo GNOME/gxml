@@ -80,7 +80,7 @@ namespace GXml {
 		 * Perhaps I really should implement a NamedNodeMap :|
 		 * TODO: do that
 		 */
-		internal List<xElement> dirty_elements = new List<xElement> ();
+		internal GLib.List<xElement> dirty_elements = new GLib.List<xElement> ();
 
 		/* TODO: for future reference, find out if internals
 		   are only accessible by children when they're
@@ -197,12 +197,12 @@ namespace GXml {
 		}
 
 		/* A list of strong references to all GXml.Nodes that this xDocument has created  */
-		private List<GXml.xNode> nodes_to_free = new List<GXml.xNode> ();
+		private GLib.List<GXml.xNode> nodes_to_free = new GLib.List<GXml.xNode> ();
 		/* A list of references to Xml.Nodes that were created, and may require freeing */
-		private List<Xml.Node*> new_nodes = new List<Xml.Node*> ();
+		private GLib.List<Xml.Node*> new_nodes = new GLib.List<Xml.Node*> ();
 
 		~xDocument () {
-			List<Xml.Node*> to_free = new List<Xml.Node*> ();
+			GLib.List<Xml.Node*> to_free = new GLib.List<Xml.Node*> ();
 
 			/* we use two separate loops, because freeing
 			   a node frees its descendants, and we might
@@ -825,7 +825,7 @@ namespace GXml {
 		 * {@link GXml.xElement}s; this must be freed with
 		 * {@link GLib.Object.unref}.
 		 */
-		public NodeList get_elements_by_tag_name (string tag_name) {
+		public xNodeList get_elements_by_tag_name (string tag_name) {
 			// TODO: verify that it is still live :D
 			// TODO: does this ensure that the root element is also included?
 			// TODO: determine whether the use needs to free these lists
@@ -871,7 +871,7 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override NodeList? child_nodes {
+		public override xNodeList? child_nodes {
 			get {
 				// TODO: always create a new one?
 				// TODO: xmlDoc and xmlNode are very similar, but perhaps we shouldn't do this :D

@@ -284,7 +284,7 @@ namespace GXml {
 		/* This keeps a list of all descendants with a given tag name, so you can do
 		   elem.get_elements_by_tag_name ("name") and find them quickly; whenever a
 		   node is added to the DOM, all its ancestors have it added to their list */
-		private List<TagNameNodeList> tag_name_lists = new List<TagNameNodeList> ();
+		private GLib.List<TagNameNodeList> tag_name_lists = new GLib.List<TagNameNodeList> ();
 
 		/* Adds a new descendant to this elements cached list of child descendants,
 		   used to isolate the subtree of nodes when filtering by tag name */
@@ -363,7 +363,7 @@ namespace GXml {
 		 * @return A NodeList containing the matching descendants
 		 * 
 		 */
-		public NodeList get_elements_by_tag_name (string tag_name) {
+		public xNodeList get_elements_by_tag_name (string tag_name) {
 			//TODO: make sure we want to include the current element, I think probably not.
 			TagNameNodeList tagged = new TagNameNodeList (tag_name, this, this.owner_document);
 			//List<xNode> tagged = new List<xNode> ();

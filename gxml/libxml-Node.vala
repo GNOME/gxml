@@ -38,7 +38,7 @@ namespace GXml {
 	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1950641247]]
 	 */
 	public abstract class xNode : GLib.Object, GXml.Node {
-		protected NodeList _child_nodes;
+		protected xNodeList _child_nodes;
 		protected NamedAttrMap _attributes = null;
 		internal NamespaceAttrNodeList _namespace_definitions = null;
 		/* Constructors */
@@ -264,7 +264,7 @@ namespace GXml {
 		 * Version: DOM Level 1 Core<<BR>>
 		 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-1451460987]]
 		 */
-		public virtual NodeList? child_nodes {
+		public virtual xNodeList? child_nodes {
 			get { return null; }
 			internal set {}
 		}

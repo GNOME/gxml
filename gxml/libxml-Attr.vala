@@ -159,7 +159,7 @@ namespace GXml {
 		/**
 		 * {@inheritDoc}
 		 */
-		public override NodeList? child_nodes {
+		public override xNodeList? child_nodes {
 			get {
 				/* TODO: always create a new one?
 				       no, this is broken, if we keep creating new ones

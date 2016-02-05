@@ -28,12 +28,12 @@ class TwProcessingInstructionTest : GXmlTest {
 			try {
 				var d = new TwDocument ();
 				var r = d.create_element ("root");
-				d.childs.add (r);
+				d.children.add (r);
 				var pi = d.create_pi ("xslt","transform");
 				assert (pi.name == "#processinginstruction");
 				assert (pi.value == "transform");
-				d.root.childs.add (pi);
-				assert (d.root.childs.size == 1);
+				d.root.children.add (pi);
+				assert (d.root.children.size == 1);
 				string str = d.to_string ();
 				assert ("<root><?xslt transform?></root>" in str);
 #if DEBUG

@@ -35,9 +35,9 @@ class TwDocumentTest : GXmlTest {
 				var d = new TwDocument ();
 				assert (d.name == "#document");
 				assert (d.root == null);
-				assert (d.childs != null);
+				assert (d.children != null);
 				assert (d.attrs != null);
-				assert (d.childs.size == 0);
+				assert (d.children.size == 0);
 				assert (d.value == null);
 			}
 			catch (GLib.Error e) {
@@ -53,8 +53,8 @@ class TwDocumentTest : GXmlTest {
 				if (f.query_exists ()) f.delete ();
 				var d = new TwDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 				var e = d.create_element ("root");
-				d.childs.add (e);
-				assert (d.childs.size == 1);
+				d.children.add (e);
+				assert (d.children.size == 1);
 				assert (d.root != null);
 				assert (d.root.name == "root");
 				assert (d.root.value == "");
@@ -72,8 +72,8 @@ class TwDocumentTest : GXmlTest {
 					if (f.query_exists ()) f.delete ();
 					var d = new TwDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 					var e = d.create_element ("root");
-					d.childs.add (e);
-					assert (d.childs.size == 1);
+					d.children.add (e);
+					assert (d.children.size == 1);
 					assert (d.root != null);
 					assert (d.root.name == "root");
 					assert (d.root.value == "");
@@ -100,8 +100,8 @@ class TwDocumentTest : GXmlTest {
 					if (f.query_exists ()) f.delete ();
 					var d = new TwDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 					var e = d.create_element ("root");
-					d.childs.add (e);
-					assert (d.childs.size == 1);
+					d.children.add (e);
+					assert (d.children.size == 1);
 					assert (d.root != null);
 					assert (d.root.name == "root");
 					assert (d.root.value == "");
@@ -137,16 +137,16 @@ class TwDocumentTest : GXmlTest {
 					if (f.query_exists ()) f.delete ();
 					var d = new TwDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 					var e = d.create_element ("root");
-					d.childs.add (e);
-					assert (d.childs.size == 1);
+					d.children.add (e);
+					assert (d.children.size == 1);
 					assert (d.root != null);
 					assert (d.root.name == "root");
 					assert (d.root.value == "");
 					var root = (GXml.Element) d.root;
 					root.content = "GXml TwDocument Test";
-					assert (root.childs.size == 1);
+					assert (root.children.size == 1);
 					assert (root.content == "GXml TwDocument Test");
-					var t = root.childs.get (0);
+					var t = root.children.get (0);
 					assert (t.value == "GXml TwDocument Test");
 					assert (t is GXml.Text);
 					//GLib.message (@"$d");
@@ -172,21 +172,21 @@ class TwDocumentTest : GXmlTest {
 					if (f.query_exists ()) f.delete ();
 					var d = new TwDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 					var e = d.create_element ("root");
-					d.childs.add (e);
-					assert (d.childs.size == 1);
+					d.children.add (e);
+					assert (d.children.size == 1);
 					assert (d.root != null);
 					assert (d.root.name == "root");
 					assert (d.root.value == "");
 					var root = (GXml.Element) d.root;
 					var e1 = (GXml.Element) d.create_element ("child");
 					e1.set_attr ("name","Test1");
-					assert (e1.childs.size == 0);
-					root.childs.add (e1);
+					assert (e1.children.size == 0);
+					root.children.add (e1);
 					var e2 = (GXml.Element) d.create_element ("child");
 					e2.set_attr ("name","Test2");
-					assert (e2.childs.size == 0);
-					root.childs.add (e2);
-					assert (root.childs.size == 2);
+					assert (e2.children.size == 0);
+					root.children.add (e2);
+					assert (root.children.size == 2);
 					d.save ();
 					var istream = f.read ();
 					uint8[] buffer = new uint8[2048];
@@ -220,8 +220,8 @@ class TwDocumentTest : GXmlTest {
 #endif
 				var d = new TwDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-large.xml");
 				var e = d.create_element ("bookstore");
-				d.childs.add (e);
-				assert (d.childs.size == 1);
+				d.children.add (e);
+				assert (d.children.size == 1);
 				assert (d.root != null);
 				assert (d.root.name == "bookstore");
 				assert (d.root.value == "");
@@ -232,33 +232,33 @@ class TwDocumentTest : GXmlTest {
 #endif
 				for (int i = 0; i < 5000; i++){
 					var b = (GXml.Element) d.create_element ("book");
-					r.childs.add (b);
+					r.children.add (b);
 					var aths = (GXml.Element) d.create_element ("Authors");
-					b.childs.add (aths);
+					b.children.add (aths);
 					var ath1 = (GXml.Element) d.create_element ("Author");
-					aths.childs.add (ath1);
+					aths.children.add (ath1);
 					var name1 = (GXml.Element) d.create_element ("Name");
 					name1.content = "Fred";
-					ath1.childs.add (name1);
+					ath1.children.add (name1);
 					var email1 = (GXml.Element) d.create_element ("Email");
 					email1.content = "fweasley@hogwarts.co.uk";
-					ath1.childs.add (email1);
+					ath1.children.add (email1);
 					var ath2 = (GXml.Element) d.create_element ("Author");
-					aths.childs.add (ath2);
+					aths.children.add (ath2);
 					var name2 = (GXml.Element) d.create_element ("Name");
 					name2.content = "Greoge";
-					ath2.childs.add (name2);
+					ath2.children.add (name2);
 					var email2 = (GXml.Element) d.create_element ("Email");
 					email2.content = "gweasley@hogwarts.co.uk";
-					ath2.childs.add (email2);
+					ath2.children.add (email2);
 				}
-				assert (d.root.childs.size == 5000);
-				foreach (GXml.Node n in d.root.childs) {
-					assert (n.childs.size == 1);
-					foreach (GXml.Node cn in n.childs) {
-						assert (cn.childs.size == 2);
-						foreach (GXml.Node ccn in cn.childs) {
-							assert (ccn.childs.size == 2);
+				assert (d.root.children.size == 5000);
+				foreach (GXml.Node n in d.root.children) {
+					assert (n.children.size == 1);
+					foreach (GXml.Node cn in n.children) {
+						assert (cn.children.size == 2);
+						foreach (GXml.Node ccn in cn.children) {
+							assert (ccn.children.size == 2);
 						}
 					}
 				}
@@ -283,8 +283,8 @@ class TwDocumentTest : GXmlTest {
 #endif
 				var d = new TwDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-large.xml");
 				var e = d.create_element ("bookstore");
-				d.childs.add (e);
-				assert (d.childs.size == 1);
+				d.children.add (e);
+				assert (d.children.size == 1);
 				assert (d.root != null);
 				assert (d.root.name == "bookstore");
 				assert (d.root.value == "");
@@ -295,27 +295,27 @@ class TwDocumentTest : GXmlTest {
 #endif
 				for (int i = 0; i < 30000; i++){
 					var b = (GXml.Element) d.create_element ("book");
-					r.childs.add (b);
+					r.children.add (b);
 					var aths = (GXml.Element) d.create_element ("Authors");
-					b.childs.add (aths);
+					b.children.add (aths);
 					var ath1 = (GXml.Element) d.create_element ("Author");
-					aths.childs.add (ath1);
+					aths.children.add (ath1);
 					var name1 = (GXml.Element) d.create_element ("Name");
 					name1.content = "Fred";
-					ath1.childs.add (name1);
+					ath1.children.add (name1);
 					var email1 = (GXml.Element) d.create_element ("Email");
 					email1.content = "fweasley@hogwarts.co.uk";
-					ath1.childs.add (email1);
+					ath1.children.add (email1);
 					var ath2 = (GXml.Element) d.create_element ("Author");
-					aths.childs.add (ath2);
+					aths.children.add (ath2);
 					var name2 = (GXml.Element) d.create_element ("Name");
 					name2.content = "Greoge";
-					ath2.childs.add (name2);
+					ath2.children.add (name2);
 					var email2 = (GXml.Element) d.create_element ("Email");
 					email2.content = "gweasley@hogwarts.co.uk";
-					ath2.childs.add (email2);
+					ath2.children.add (email2);
 				}
-				assert (d.root.childs.size == 30000);
+				assert (d.root.children.size == 30000);
 				d.save ();
 				GLib.Test.message ("Reading saved file...");
 				var fr = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-large.xml");
@@ -347,8 +347,8 @@ class TwDocumentTest : GXmlTest {
 					dt.save_as (f);
 					var d = new TwDocument ();
 					var e = d.create_element ("root");
-					d.childs.add (e);
-					assert (d.childs.size == 1);
+					d.children.add (e);
+					assert (d.children.size == 1);
 					assert (d.root != null);
 					assert (d.root.name == "root");
 					assert (d.root.value == "");
@@ -374,7 +374,7 @@ class TwDocumentTest : GXmlTest {
 		Test.add_func ("/gxml/tw-document/to_string", () => {
 			var doc = new TwDocument ();
 			var r = doc.create_element ("root");
-			doc.childs.add (r);
+			doc.children.add (r);
 #if DEBUG
 			GLib.message (@"$(doc)");
 #endif
