@@ -26,9 +26,15 @@ using Gee;
  */
 public class GXml.GComment : GXml.GNode, GXml.Comment
 {
-  public GComment (Xml.Node *node)
+  public GComment (GDocument doc, Xml.Node *node)
   {
     _node = node;
+    _doc = doc;
+  }
+  public override string name {
+    owned get {
+      return "#comment".dup ();
+    }
   }
   // GXml.Comment
   public string str { owned get { return base.value; } }

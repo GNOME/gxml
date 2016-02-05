@@ -26,9 +26,10 @@ using Gee;
  */
 public class GXml.GProcessingInstruction : GXml.GNode, GXml.ProcessingInstruction
 {
-  public GProcessingInstruction (Xml.Node *node)
+  public GProcessingInstruction (GDocument doc, Xml.Node *node)
   {
     _node = node;
+    _doc = doc;
   }
   // GXml.ProcessingInstruction
   public string target { owned get { return name; } }

@@ -97,8 +97,10 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
     var pi = new TwProcessingInstruction (this, target, data);
     return pi;
   }
-  public GXml.Node create_element (string name)
+  public GXml.Node create_element (string name) throws GLib.Error
   {
+    if (Xmlx.validate_name (name, 1) != 0)
+      throw new GXml.Error.PARSER (_("Invalid element name"));
     return new TwElement (this, name);
   }
   public GXml.Node create_text (string text)
@@ -119,45 +121,49 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
   }
   [Deprecated (since="0.8.1", replacement="save_as")]
   public bool save_to (GLib.File f, GLib.Cancellable? cancellable = null)
+    throws GLib.Error
   {
     return save_as (f, cancellable);
   }
   public bool save_as (GLib.File f, GLib.Cancellable? cancellable = null)
+    throws GLib.Error
+  {
+    return tw_save_as (this, f, cancellable);
+  }
+  public static bool tw_save_as (GXml.Document doc, GLib.File f,
+                                GLib.Cancellable? cancellable = null)
+    throws GLib.Error
   {
     var buf = new Xml.Buffer ();
     var tw = Xmlx.new_text_writer_memory (buf, 0);
     GLib.Test.message ("Writing down to buffer");
-    write_document (tw);
+    write_document (doc, tw);
     GLib.Test.message ("Writing down to file");
     GLib.Test.message ("TextWriter buffer:\n"+buf.content ());
     var s = new GLib.StringBuilder ();
     s.append (buf.content ());
-    try {
-      GLib.Test.message ("Writing down to file: Creating input stream");
-      var b = new GLib.MemoryInputStream.from_data (s.data, null);
-      GLib.Test.message ("Writing down to file: Replacing with backup");
-      var ostream = f.replace (null, backup, GLib.FileCreateFlags.NONE, cancellable);
-      ostream.splice (b, GLib.OutputStreamSpliceFlags.NONE);
-      ostream.close ();
-    } catch (GLib.Error e) {
-      GLib.warning ("Error on Save to file: "+e.message);
-      return false;
-    }
+    GLib.Test.message ("Writing down to file: Creating input stream");
+    var b = new GLib.MemoryInputStream.from_data (s.data, null);
+    GLib.Test.message ("Writing down to file: Replacing with backup");
+    var ostream = f.replace (null, doc.backup, GLib.FileCreateFlags.NONE, cancellable);
+    ostream.splice (b, GLib.OutputStreamSpliceFlags.NONE);
+    ostream.close ();
     return true;
   }
-  public virtual void write_document (Xml.TextWriter tw)
+  public static void write_document (GXml.Document doc, Xml.TextWriter tw)
+    throws GLib.Error
   {
     tw.start_document ();
-    tw.set_indent (indent);
+    tw.set_indent (doc.indent);
     // Root
-    if (root == null) {
+    if (doc.root == null) {
       tw.end_document ();
     }
     var dns = new ArrayList<string> ();
 #if DEBUG
     GLib.message ("Starting writting Document Root node");
 #endif
-    start_node (tw, root, true, ref dns);
+    start_node (doc, tw, doc.root, true, ref dns);
 #if DEBUG
     GLib.message ("Ending writting Document Root node");
 #endif
@@ -168,7 +174,10 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
     tw.end_document ();
     tw.flush ();
   }
-  public virtual void start_node (Xml.TextWriter tw, GXml.Node node, bool root, ref Gee.ArrayList<string> declared_ns)
+  public static void start_node (GXml.Document doc, Xml.TextWriter tw,
+                                GXml.Node node, bool root,
+                                ref Gee.ArrayList<string> declared_ns)
+    throws GLib.Error
   {
     int size = 0;
 #if DEBUG
@@ -184,7 +193,7 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
         if (node.document.namespaces.size > 0) {
           var dns = node.document.namespaces.get (0);
           assert (dns != null);
-          if (prefix_default_ns) {
+          if (doc.prefix_default_ns) {
             tw.start_element_ns (dns.prefix, node.name, dns.uri);
             declared_ns.add (dns.uri);
 #if DEBUG
@@ -309,7 +318,7 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
                 if (n.namespaces.size == 0 && node.ns_prefix == null) // Apply parent ns
                   n.set_namespace (node.ns_uri (), node.ns_prefix ());
           }
-          start_node (tw, n, false, ref declared_ns);
+          start_node (doc, tw, n, false, ref declared_ns);
           size += tw.end_element ();
           if (size > 1500)
             tw.flush ();
@@ -354,7 +363,7 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
 #endif
     Xml.Doc doc = new Xml.Doc ();
     Xml.TextWriter tw = Xmlx.new_text_writer_doc (ref doc);
-    write_document (tw);
+    write_document (this, tw);
     string str;
     int size;
     doc.dump_memory (out str, out size);

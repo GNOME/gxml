@@ -61,6 +61,7 @@ sources = \
 	TwCommentTest.vala \
 	TwProcessingInstructionTest.vala \
 	GDocumentTest.vala \
+	HtmlDocumentTest.vala \
 	$(NULL)
 
 gxml_test.vala.stamp: $(sources)

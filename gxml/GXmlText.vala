@@ -26,9 +26,15 @@ using Gee;
  */
 public class GXml.GText : GXml.GNode, GXml.Text
 {
-  public GText (Xml.Node *node)
+  public GText (GDocument doc, Xml.Node *node)
   {
     _node = node;
+    _doc = doc;
+  }
+  public override string name {
+    owned get {
+      return "#text".dup ();
+    }
   }
   // GXml.Text
   public string str { owned get { return base.value; } }

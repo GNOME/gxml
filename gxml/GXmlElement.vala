@@ -26,7 +26,10 @@ using Gee;
  */
 public class GXml.GElement : GXml.GNode, GXml.Element
 {
-  public GElement (Xml.Node *node) { _node = node; }
+  public GElement (GDocument doc, Xml.Node *node) {
+    _node = node;
+    _doc = doc;
+  }
   // GXml.Node
   public override string value
   {
@@ -42,7 +45,7 @@ public class GXml.GElement : GXml.GNode, GXml.Element
   }
   public GXml.Node get_attr (string name)
   {
-    return new GAttribute (_node->get_prop (name));
+    return new GAttribute (_doc, _node->get_prop (name));
   }
   public void normalize () {}
   public string content {

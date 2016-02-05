@@ -27,7 +27,7 @@ void* gxml_doc_get_intsubset_entities (xmlDoc *doc)
   return doc->intSubset->entities;
 }
 
-int gxml_validate_name (xmlChar* name, int space)
+gint gxml_validate_name (xmlChar* name, int space)
 {
   g_return_if_fail (name != NULL);
   return xmlValidateName (name, space);
@@ -82,14 +82,14 @@ xmlTextWriterPtr gxml_new_text_writer_memory (xmlBufferPtr buffer, gint compress
   return xmlNewTextWriterMemory (buffer, compression);
 }
 
-int gxml_text_writer_write_cdata (xmlTextWriterPtr tw, const xmlChar* text)
+gint gxml_text_writer_write_cdata (xmlTextWriterPtr tw, const xmlChar* text)
 {
   g_return_if_fail (tw != NULL);
   g_return_if_fail (text != NULL);
   return xmlTextWriterWriteCDATA (tw, text);
 }
 
-int gxml_text_writer_write_pi (xmlTextWriterPtr tw, const xmlChar* target, const xmlChar* data)
+gint gxml_text_writer_write_pi (xmlTextWriterPtr tw, const xmlChar* target, const xmlChar* data)
 {
   g_return_if_fail (tw != NULL);
   g_return_if_fail (target != NULL);

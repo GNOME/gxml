@@ -26,9 +26,15 @@ using Gee;
  */
 public class GXml.GCDATA : GXml.GNode, GXml.CDATA
 {
-  public GCDATA (Xml.Node *node)
+  public GCDATA (GDocument doc, Xml.Node *node)
   {
     _node = node;
+    _doc = doc;
+  }
+  public override string name {
+    owned get {
+      return "#cdata-section".dup ();
+    }
   }
   // GXml.CDATA
   public string str { owned get { return base.value; } }

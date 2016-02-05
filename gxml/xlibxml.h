@@ -27,7 +27,7 @@
 #include <glib.h>
 
 void*       gxml_doc_get_intsubset_entities    (xmlDoc *doc);
-int         gxml_validate_name                 (xmlChar* name, int space);
+gint         gxml_validate_name                 (xmlChar* name, int space);
 xmlErrorPtr gxml_parser_context_get_last_error (void* ctx);
 xmlErrorPtr gxml_context_get_last_error        (void* ctx);
 void        gxml_context_reset_last_error      (void* ctx);
@@ -36,7 +36,7 @@ void        gxml_reset_last_error              ();
 xmlNsPtr*   gxml_doc_get_ns_list               (xmlDoc* doc, xmlNode* node);
 xmlTextWriterPtr gxml_new_text_writer_doc      (xmlDoc** doc);
 xmlTextWriterPtr gxml_new_text_writer_memory   (xmlBufferPtr buffer, gint compression);
-int         gxml_text_writer_write_cdata       (xmlTextWriter* tw, const xmlChar* text);
-int         gxml_text_writer_write_pi          (xmlTextWriter* tw, const xmlChar* target, const xmlChar* data);
+gint         gxml_text_writer_write_cdata       (xmlTextWriter* tw, const xmlChar* text);
+gint         gxml_text_writer_write_pi          (xmlTextWriter* tw, const xmlChar* target, const xmlChar* data);
 
 #endif

@@ -73,7 +73,7 @@ public interface GXml.Document : Object, GXml.Node
    * Is a matter of you to add as a child to any other
    * {@link GXml.Node}.
    */
-  public abstract GXml.Node create_element (string name);
+  public abstract GXml.Node create_element (string name) throws GLib.Error;
   /**
    * Creates a new {@link GXml.Text}.
    *

@@ -24,10 +24,12 @@ using Gee;
 
 public class GXml.GListNamespaces : Gee.AbstractList<GXml.Node>
 {
+  private GDocument _doc;
   private Xml.Node *_node;
   private bool _read_only = false;
-  public GListNamespaces (Xml.Node *node) {
+  public GListNamespaces (GDocument doc, Xml.Node *node) {
     _node = node;
+    _doc = doc;
   }
   // List
   public override new GXml.Node @get (int index) {

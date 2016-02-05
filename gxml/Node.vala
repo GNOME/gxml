@@ -83,12 +83,20 @@ public interface GXml.Node : Object
    get_elements_by_property_value (string property, string value)
   {
     var list = new Gee.ArrayList<GXml.Node>();
-    foreach (var child in childs) {
+    if (!(this is GXml.Element)) return list;
+    foreach (var child in children) {
+      Test.message ("At node: "+child.name);
       list.add_all (child.get_elements_by_property_value (property, value));
       if (child is GXml.Element) {
-        var cls = (child as GXml.Element).attrs.get (property);
-        if (cls == null) continue;
-        if (value in ((GXml.Element) child).content)
+        Test.message ("Node is Element: "+child.name);
+        if (child.attrs == null) continue;
+        Test.message ("Searching property: "+property+" in node: "+child.name);
+        var cls = child.attrs.get (property);
+        if (cls == null) {
+          Test.message ("No property :"+ property+" found");
+          continue;
+        }
+        if (value in ((GXml.Element) cls).value)
             list.add (child);
       }
     }

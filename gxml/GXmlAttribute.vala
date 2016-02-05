@@ -27,10 +27,11 @@ using Gee;
 public class GXml.GAttribute : GXml.GNode, GXml.Attribute
 {
   private Xml.Attr* _attr;
-  public GAttribute (Xml.Attr *node)
+  public GAttribute (GDocument doc, Xml.Attr *node)
   {
     _attr = node;
     _node = _attr->parent;
+    _doc = doc;
   }
   public Namespace @namespace {
     owned get {

@@ -31,7 +31,7 @@ public abstract class GXml.GNode : Object, GXml.Node
   protected Xml.Node *_node;
   internal Xml.TextWriter *tw;
 
-	construct { Init.init (); }
+  construct { Init.init (); }
 
   // GXml.Node
   public virtual bool set_namespace (string uri, string? prefix)
@@ -39,9 +39,9 @@ public abstract class GXml.GNode : Object, GXml.Node
     if (_node == null) return false;
     return ((_node->new_ns (uri, prefix)) != null);
   }
-  public virtual Gee.Map<string,GXml.Node> attrs { owned get { return new GHashMapAttr (_node); } }
-  public virtual Gee.BidirList<GXml.Node> children { owned get { return new GListChildren (_node); } }
-  public virtual Gee.List<GXml.Namespace> namespaces { owned get { return new GListNamespaces (_node); } }
+  public virtual Gee.Map<string,GXml.Node> attrs { owned get { return new GHashMapAttr (_doc, _node); } }
+  public virtual Gee.BidirList<GXml.Node> children { owned get { return new GListChildren (_doc, _node); } }
+  public virtual Gee.List<GXml.Namespace> namespaces { owned get { return new GListNamespaces (_doc, _node); } }
   public virtual GXml.Document document { get { return _doc; } }
   public virtual GXml.NodeType type_node {
     get {
@@ -69,20 +69,20 @@ public abstract class GXml.GNode : Object, GXml.Node
   public virtual string to_string () { return get_type ().name (); }
   public Xml.Node* get_internal_node () { return _node; }
   // Static
-  public static GXml.Node to_gnode (Xml.Node *node) {
+  public static GXml.Node to_gnode (GXml.GDocument doc, Xml.Node *node) {
     var t = (GXml.NodeType) node->type;
     switch (t) {
       case GXml.NodeType.ELEMENT:
-        return new GElement (node);
+        return new GElement (doc, node);
         break;
       case GXml.NodeType.ATTRIBUTE:
-        return new GAttribute ((Xml.Attr*) node);
+        return new GAttribute (doc, (Xml.Attr*) node);
         break;
       case GXml.NodeType.TEXT:
-        return new GText (node);
+        return new GText (doc, node);
         break;
       case GXml.NodeType.CDATA_SECTION:
-        return new GCDATA (node);
+        return new GCDATA (doc, node);
         break;
       case GXml.NodeType.ENTITY_REFERENCE:
         return null;
@@ -91,10 +91,10 @@ public abstract class GXml.GNode : Object, GXml.Node
         return null;
         break;
       case GXml.NodeType.PROCESSING_INSTRUCTION:
-        return new GProcessingInstruction (node);
+        return new GProcessingInstruction (doc, node);
         break;
       case GXml.NodeType.COMMENT:
-        return new GComment (node);
+        return new GComment (doc, node);
         break;
       case GXml.NodeType.DOCUMENT:
         return new GDocument.from_doc (node->doc);

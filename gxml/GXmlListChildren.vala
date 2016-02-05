@@ -24,13 +24,15 @@ using Gee;
 
 public class GXml.GListChildren : AbstractBidirList<GXml.Node>
 {
+  private GXml.GDocument _doc;
   private Xml.Node *_node;
   private bool _read_only = false;
-  public GListChildren (Xml.Node* node) {
+  public GListChildren (GDocument doc, Xml.Node* node) {
     _node = node;
+    _doc = doc;
   }
   public new override Gee.BidirListIterator<GXml.Node> bidir_list_iterator () {
-    return new Iterator (_node);
+    return new Iterator (_doc, _node);
   }
   // List
   public override GXml.Node @get (int index) {
@@ -40,7 +42,7 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>
     while (n != null) {
       var t = (GXml.NodeType) n->type;
       if (i == index) {
-        return GNode.to_gnode (n);
+        return GNode.to_gnode (_doc, n);
       }
       i++;
       n = n->next;
@@ -63,7 +65,7 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>
    * This method is ignored by default.
    */
   public override void insert (int index, GXml.Node item) {}
-  public override  Gee.ListIterator<GXml.Node> list_iterator () { return new Iterator (_node); }
+  public override  Gee.ListIterator<GXml.Node> list_iterator () { return new Iterator (_doc, _node); }
   /**
    * This method is ignored by default.
    */
@@ -79,7 +81,7 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>
     int i = 0;
     while (n != null) {
       if (i >= start && i <= stop) {
-        l.add (GNode.to_gnode (n));
+        l.add (GNode.to_gnode (_doc, n));
       }
       n = n->next;
       i++;
@@ -110,7 +112,7 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>
     }
     return false;
   }
-  public override Gee.Iterator<GXml.Node> iterator () { return new Iterator (_node); }
+  public override Gee.Iterator<GXml.Node> iterator () { return new Iterator (_doc, _node); }
   public override bool remove (GXml.Node item) {
     if (_node == null) return false;
     if (!(item is GXml.GNode)) return false;
@@ -144,12 +146,14 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>
                           Gee.BidirIterator<GXml.Node>,
                           Gee.ListIterator<GXml.Node>,
                           BidirListIterator<GXml.Node> {
+    private GDocument _doc;
     private Xml.Node *_node;
     private Xml.Node *_current;
     private int i = 0;
-    public Iterator (Xml.Node *node) {
+    public Iterator (GDocument doc, Xml.Node *node) {
       _node = node;
       _current = _node->children;
+      _doc = doc;
     }
     /**
      * This method is ignored by default.
@@ -166,7 +170,7 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>
      */
     public new void @set (GXml.Node item) {}
     // Iterator
-    public new GXml.Node @get () { return GNode.to_gnode (_node); }
+    public new GXml.Node @get () { return GNode.to_gnode (_doc, _node); }
     public bool has_next () {
       if (_node == null) return false;
       if (_node->children == null) return false;

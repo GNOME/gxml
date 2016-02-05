@@ -24,17 +24,21 @@ using Gee;
 
 public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>
 {
+  private GDocument _doc;
   private Xml.Node *_node;
-  public GHashMapAttr (Xml.Node *node) {
+  public GHashMapAttr (GDocument doc, Xml.Node *node) {
     _node = node;
+    _doc = doc;
   }
   
   public class Entry : Gee.Map.Entry<string,GXml.Node> {
+    private GXml.GDocument _doc;
     private Xml.Attr *_attr;
     private GAttribute oattr;
-    public Entry (Xml.Attr *attr) {
+    public Entry (GDocument doc, Xml.Attr *attr) {
       _attr = attr;
-      oattr = new GAttribute (_attr);
+      _doc = doc;
+      oattr = new GAttribute (_doc, _attr);
     }
     public override string key { get { return _attr->name; } }
     public override bool read_only { get { return true; } }
@@ -55,7 +59,7 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>
   public override GXml.Node @get (string key) {
     if (_node == null) return null;
     var p = _node->get_prop (key);
-    return new GAttribute (p);
+    return new GAttribute (_doc, p);
   }
   public override bool has (string key, GXml.Node value) { return has_key (key); }
   public override bool has_key (string key) {
@@ -66,7 +70,7 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>
     }
     return false;
   }
-  public override Gee.MapIterator<string,GXml.Node> map_iterator () { return new Iterator (_node); }
+  public override Gee.MapIterator<string,GXml.Node> map_iterator () { return new Iterator (_doc, _node); }
   public override void @set (string key, GXml.Node value) {
     if (_node == null) return;
     _node->new_prop (key, value.@value);
@@ -82,7 +86,7 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>
       if (_node == null) return l;
       var p = _node->properties;
       while (p != null) {
-        var e = new Entry (p);
+        var e = new Entry (_doc, p);
         l.add (e);
         p = p->next;
       }
@@ -117,19 +121,21 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>
       var l = new ArrayList<GXml.Node> ();
       var p = _node->properties;
       while (p != null) {
-        l.add (new GAttribute (p));
+        l.add (new GAttribute (_doc, p));
         p = p->next;
       }
       return l;
     }
   }
   public class Iterator : Object, MapIterator<string,GXml.Node> {
+    private GXml.GDocument _doc;
     private Xml.Node *_node;
     private Xml.Attr *_current;
 
-    public Iterator (Xml.Node *node) {
+    public Iterator (GXml.GDocument doc, Xml.Node *node) {
       _node = node;
       _current = null;
+      _doc = doc;
     }
 
     public string get_key () {
@@ -137,7 +143,7 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>
       return null;
     }
     public GXml.Node get_value () {
-      return new GAttribute (_current);
+      return new GAttribute (_doc, _current);
     }
     public bool has_next () {
       if (_node->properties == null) return false;

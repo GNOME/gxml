@@ -82,11 +82,12 @@ internal abstract class GXml.ChildNodeList : AbstractBidirList<xNode>, NodeList
         {
             Xml.Node *cur = head;
             int i = 0;
-            while (cur->next != null && i != n) {
+            while (cur != null) {
+              if (i == n) return this.owner.lookup_node (cur);
                 cur = cur->next;
                 i++;
             }
-			return this.owner.lookup_node (cur);
+			return null;
 		}
 		public override int index_of (xNode item)
       requires (item is BackedNode)
