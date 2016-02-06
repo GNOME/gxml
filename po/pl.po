@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-31 16:37+0100\n"
-"PO-Revision-Date: 2016-01-31 16:38+0100\n"
+"POT-Creation-Date: 2016-02-06 17:53+0100\n"
+"PO-Revision-Date: 2016-02-06 17:54+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -39,7 +39,7 @@ msgstr "tekst nie może zostać przetworzony na typ wyliczenia:"
 msgid "File doesn't exists"
 msgstr "Plik nie istnieje"
 
-#: ../gxml/libxml-ChildNodeList.vala:147
+#: ../gxml/libxml-ChildNodeList.vala:149
 #, c-format
 msgid "ref_child '%s' not found, was supposed to have '%s' inserted before it."
 msgstr ""
@@ -69,7 +69,7 @@ msgstr "%s:%s:%d: %s:%d: %s"
 msgid "Node tried to interact with different document it belongs to"
 msgstr "Węzeł próbował działać z innym dokumentem niż tym, do którego należy"
 
-#: ../gxml/Node.vala:170
+#: ../gxml/Node.vala:180
 msgid "Text node with NULL string"
 msgstr "Węzeł tekstowy z ciągiem NULL"
 
@@ -143,3 +143,7 @@ msgstr "Deszeregowanie obiektów nieznanego Gtype „%s” jest nieobsługiwane"
 #, c-format
 msgid "Unknown property '%s' found, for object type '%s'-->XML: [%s]"
 msgstr "Odnaleziono nieznaną właściwość „%s” dla typu obiektu „%s”-->XML: [%s]"
+
+#: ../gxml/TwDocument.vala:103
+msgid "Invalid element name"
+msgstr "Nieprawidłowa nazwa elementu"
