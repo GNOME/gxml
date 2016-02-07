@@ -2,15 +2,15 @@
 # Copyright (C) 2015 Daniel Espinosa Ortiz
 # This file is distributed under the same license as the GXml package.
 # esodan@gmail.com, 2015.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2015.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2015, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-10-29 01:06+0000\n"
-"PO-Revision-Date: 2015-12-01 16:36+0100\n"
+"POT-Creation-Date: 2016-01-28 20:41+0000\n"
+"PO-Revision-Date: 2016-02-01 15:55+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Gtranslator 2.91.6\n"
 
-#: ../gxml/Document.vala:150
+#: ../gxml/Document.vala:148
 msgid "Invalid file"
 msgstr "Archivo inválido"
 
@@ -31,6 +31,10 @@ msgstr "valor es inválido"
 #: ../gxml/Enumeration.vala:129
 msgid "text can not been parsed to enumeration type:"
 msgstr "el texto no puede ser convertido a un tipo enumeración"
+
+#: ../gxml/GXmlDocument.vala:49
+msgid "File doesn't exists"
+msgstr "El archivo no existe"
 
 #: ../gxml/libxml-ChildNodeList.vala:147
 #, c-format
@@ -63,7 +67,7 @@ msgstr "%s:%s:%d: %s:%d: %s"
 msgid "Node tried to interact with different document it belongs to"
 msgstr "El nodo intentó interactuar con un domento diferente al que pertenece"
 
-#: ../gxml/Node.vala:134
+#: ../gxml/Node.vala:170
 msgid "Text node with NULL string"
 msgstr "El nodo tipo Texto con una cadena de texto NULO"
 
