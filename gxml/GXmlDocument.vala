@@ -168,7 +168,7 @@ public class GXml.GDocument : GXml.GNode, GXml.Document
   public string libxml_to_string () {
     string buffer;
     doc->dump_memory (out buffer);
-    return buffer;
+    return buffer.dup ();
   }
   public virtual bool save (GLib.Cancellable? cancellable = null)
     throws GLib.Error

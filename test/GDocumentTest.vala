@@ -236,27 +236,24 @@ class GDocumentTest : GXmlTest {
 				assert (attr.value == "attrvalue");
 				//
 				//Test.message ("DOC libxml2:"+doc.libxml_to_string ());
-			});/*
+			});
 		Test.add_func ("/gxml/gdocument/to_string", () => {
-				GDocument doc = new GDocument.from_string ("<root />");
-				assert (doc.to_string () == "<?xml version=\"1.0\"?>
-<Sentences>
-  <Sentence lang=\"en\">I like the colour blue.</Sentence>
-  <Sentence lang=\"de\">Ich liebe die T&#xFC;r.</Sentence>
-  <Authors>
-    <Author>
-      <Name>Fred</Name>
-      <Email>fweasley@hogwarts.co.uk</Email>
-    </Author>
-    <Author>
-      <Name>George</Name>
-      <Email>gweasley@hogwarts.co.uk</Email>
-    </Author>
-  </Authors>
-</Sentences>
-");
-				// TODO: want to test with format on and off
-
-			});*/
+				GDocument doc = new GDocument.from_string ("<?xml version=\"1.0\"?>
+<Sentences><Sentence lang=\"en\">I like the colour blue.</Sentence><Sentence lang=\"de\">Ich liebe die T&#xFC;r.</Sentence><Authors><Author><Name>Fred</Name><Email>fweasley@hogwarts.co.uk</Email></Author><Author><Name>George</Name><Email>gweasley@hogwarts.co.uk</Email></Author></Authors></Sentences>");
+				string s1 = doc.to_string ();
+				string[] cs1 = s1.split ("\n");
+				Test.message (s1);
+				assert (cs1[0] == "<?xml version=\"1.0\"?>");
+				assert (cs1[1] == "<Sentences><Sentence lang=\"en\">I like the colour blue.</Sentence><Sentence lang=\"de\">Ich liebe die T&#xFC;r.</Sentence><Authors><Author><Name>Fred</Name><Email>fweasley@hogwarts.co.uk</Email></Author><Author><Name>George</Name><Email>gweasley@hogwarts.co.uk</Email></Author></Authors></Sentences>");
+			});
+		Test.add_func ("/gxml/gdocument/libxml_to_string", () => {
+				GDocument doc = new GDocument.from_string ("<?xml version=\"1.0\"?>
+<Sentences><Sentence lang=\"en\">I like the colour blue.</Sentence><Sentence lang=\"de\">Ich liebe die T&#xFC;r.</Sentence><Authors><Author><Name>Fred</Name><Email>fweasley@hogwarts.co.uk</Email></Author><Author><Name>George</Name><Email>gweasley@hogwarts.co.uk</Email></Author></Authors></Sentences>");
+				string s1 = doc.libxml_to_string ();
+				string[] cs1 = s1.split ("\n");
+				Test.message (s1);
+				assert (cs1[0] == "<?xml version=\"1.0\"?>");
+				assert (cs1[1] == "<Sentences><Sentence lang=\"en\">I like the colour blue.</Sentence><Sentence lang=\"de\">Ich liebe die T&#xFC;r.</Sentence><Authors><Author><Name>Fred</Name><Email>fweasley@hogwarts.co.uk</Email></Author><Author><Name>George</Name><Email>gweasley@hogwarts.co.uk</Email></Author></Authors></Sentences>");
+			});
 	}
 }
