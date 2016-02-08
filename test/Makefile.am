@@ -61,6 +61,7 @@ sources = \
 	TwCommentTest.vala \
 	TwProcessingInstructionTest.vala \
 	GDocumentTest.vala \
+	GElementTest.vala \
 	HtmlDocumentTest.vala \
 	$(NULL)
 

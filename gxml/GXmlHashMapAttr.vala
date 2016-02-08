@@ -58,7 +58,8 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>
   }
   public override GXml.Node @get (string key) {
     if (_node == null) return null;
-    var p = _node->get_prop (key);
+    var p = _node->has_prop (key);
+    if (p == null) return  null;
     return new GAttribute (_doc, p);
   }
   public override bool has (string key, GXml.Node value) { return has_key (key); }
@@ -77,8 +78,11 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>
   }
   public override bool unset (string key, out GXml.Node value = null) {
     if (_node == null) return false;
+    var p = _node->has_prop (key);
+    if (p == null) return false;
+    p->remove ();
     value = null;
-    return (_node->set_prop (key, null)) != null;
+    return true;
   }
   public override Gee.Set<Gee.Map.Entry<string,GXml.Node>> entries {
     owned get {

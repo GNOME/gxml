@@ -83,6 +83,7 @@ class GXmlTest {
 		SerializablePropertyValueListTest.add_tests ();
 		SerializablePropertyEnumTest.add_tests ();
 		GDocumentTest.add_tests ();
+		GElementTest.add_tests ();
 		HtmlDocumentTest.add_tests ();
 
 		Test.run ();

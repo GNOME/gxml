@@ -70,4 +70,9 @@ public class GXml.GElement : GXml.GNode, GXml.Element
     }
   }
   public string tag_name { owned get { return _node->name.dup (); } }
+  public override string to_string () {
+    var buf = new Xml.Buffer ();
+    buf.node_dump (_node->doc, _node, 1, 0);
+    return buf.content ().dup ();
+  }
 }

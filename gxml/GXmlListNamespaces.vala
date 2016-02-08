@@ -40,6 +40,8 @@ public class GXml.GListNamespaces : Gee.AbstractList<GXml.Node>
       if (i == index) {
         return new GNamespace (ns);
       }
+      ns = ns->next;
+      i++;
     }
     return null;
   }
