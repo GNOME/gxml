@@ -12,6 +12,8 @@ API/ABI break
 * New libxml2 implementation called GNode and derivatives, expected to replace
   old implementation. It is a creating objects on demand.
 * New HtmlDocument for HTML handling
+* Element interface removed finalize_attr (), due it is unsed
+* Element added new get_ns_attr() for namespaced attributes
 
 
 ===============

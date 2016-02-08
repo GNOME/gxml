@@ -29,7 +29,6 @@ public abstract class GXml.GNode : Object, GXml.Node
 {
   protected GXml.GDocument _doc;
   protected Xml.Node *_node;
-  internal Xml.TextWriter *tw;
 
   construct { Init.init (); }
 
@@ -74,40 +73,28 @@ public abstract class GXml.GNode : Object, GXml.Node
     switch (t) {
       case GXml.NodeType.ELEMENT:
         return new GElement (doc, node);
-        break;
       case GXml.NodeType.ATTRIBUTE:
         return new GAttribute (doc, (Xml.Attr*) node);
-        break;
       case GXml.NodeType.TEXT:
         return new GText (doc, node);
-        break;
       case GXml.NodeType.CDATA_SECTION:
         return new GCDATA (doc, node);
-        break;
       case GXml.NodeType.ENTITY_REFERENCE:
         return null;
-        break;
       case GXml.NodeType.ENTITY:
         return null;
-        break;
       case GXml.NodeType.PROCESSING_INSTRUCTION:
         return new GProcessingInstruction (doc, node);
-        break;
       case GXml.NodeType.COMMENT:
         return new GComment (doc, node);
-        break;
       case GXml.NodeType.DOCUMENT:
         return new GDocument.from_doc (node->doc);
-        break;
       case GXml.NodeType.DOCUMENT_TYPE:
         return null;
-        break;
       case GXml.NodeType.DOCUMENT_FRAGMENT:
         return null;
-        break;
       case GXml.NodeType.NOTATION:
         return null;
-        break;
     }
     return null;
   }

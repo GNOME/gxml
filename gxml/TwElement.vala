@@ -49,6 +49,14 @@ public class GXml.TwElement : GXml.TwNode, GXml.Element
     attrs.set (name, att);
   }
   public GXml.Node get_attr (string name) { return attrs.get (name); }
+  public GXml.Node get_ns_attr (string name, string uri) {
+    foreach (GXml.Node a in attrs.values) {
+      if (a.name == name)
+        if (((Attribute) a).namespace != null)
+          if (((Attribute) a).namespace.uri == uri) return (GXml.Node) a;
+    }
+    return null;
+  }
   public void normalize () {}
   public string content {
     owned get {

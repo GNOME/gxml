@@ -50,14 +50,39 @@ public class GXml.GElement : GXml.GNode, GXml.Element
       }
       if (!found) return;
     }
-    var a = _node->set_prop (aname, avalue);
+    _node->set_prop (aname, avalue);
   }
   public GXml.Node get_attr (string name)
   {
     if (_node == null) return null;
-    var a = _node->has_prop (name);
+    string prefix = "";
+    string n = name;
+    if (":" in name) {
+      string[] pp = name.split (":");
+      if (pp.length != 2) return null;
+      Test.message ("Checking for namespaced attribute: "+name);
+      prefix = pp[0];
+      n = pp[1];
+    }
+    var ps = _node->properties;
+    Test.message ("Name= "+n+" Prefix= "+prefix);
+    while (ps != null) {
+      Test.message ("At Attribute: "+ps->name);
+      if (ps->name == n) {
+        if (ps->ns == null && prefix == "") return new GAttribute (_doc, ps);
+        if (ps->ns == null) continue;
+        if (ps->ns->prefix == prefix)
+          return new GAttribute (_doc, ps);
+      }
+      ps = ps->next;
+    }
+    return null;
+  }
+  public GXml.Node get_ns_attr (string name, string uri) {
+    if (_node == null) return null;
+    var a = _node->has_ns_prop (name, uri);
     if (a == null) return null;
-    Test.message ("Element Prop: "+a->name);
+    Test.message ("Element NS Prop: "+a->name);
     return new GAttribute (_doc, a);
   }
   public void normalize () {}

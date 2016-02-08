@@ -34,10 +34,19 @@ public class GXml.GAttribute : GXml.GNode, GXml.Attribute
     _node = _attr->parent;
     _doc = doc;
   }
+  public override Gee.List<GXml.Namespace> namespaces {
+    owned get {
+      var l = new Gee.ArrayList<GXml.Namespace> ();
+      if (_attr->ns == null) return l;
+      l.add (new GNamespace (_attr->ns));
+      return l;
+    }
+  }
   public Namespace @namespace {
     owned get {
       if (_attr == null) return null;
       if (_attr->ns == null) return null;
+      Test.message ("Attr Namespace: "+_attr->name+" : "+_attr->ns->prefix);
       return new GNamespace (_attr->ns);
     }
     set {
@@ -51,10 +60,19 @@ public class GXml.GAttribute : GXml.GNode, GXml.Attribute
   }
   public override string value {
     owned get {
-      return _node->get_prop (_attr->name);
+      if (_node == null) return  null;
+      if (_attr->ns == null) {
+        return _node->get_no_ns_prop (_attr->name);
+      }
+      else
+        return _node->get_ns_prop (_attr->name, _attr->ns->href);
     }
     set {
-      _node->set_prop (_attr->name, value);
+      if (_node == null) return;
+      if (_attr->ns == null)
+        _node->set_prop (_attr->name, value);
+      else
+        _node->set_ns_prop (_attr->ns, _attr->name, value);
     }
   }
   public string prefix {

@@ -62,6 +62,7 @@ sources = \
 	TwProcessingInstructionTest.vala \
 	GDocumentTest.vala \
 	GElementTest.vala \
+	GAttributeTest.vala \
 	HtmlDocumentTest.vala \
 	$(NULL)
 

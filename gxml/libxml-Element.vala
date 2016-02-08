@@ -478,5 +478,11 @@ namespace GXml {
 		// GXml.Element interface
     public void set_attr (string name, string value) { set_attribute (name, value); }
     public GXml.Node get_attr (string name) { return (GXml.Node) get_attribute_node (name); }
+    public GXml.Node get_ns_attr (string name, string uri) {
+      var p = get_attr (name) as Attribute;
+      if (p.namespace == null) return null;
+      if (p.namespace.uri == uri) return (GXml.Node) p;
+      return null;
+    }
 	}
 }

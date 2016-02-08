@@ -84,6 +84,7 @@ class GXmlTest {
 		SerializablePropertyEnumTest.add_tests ();
 		GDocumentTest.add_tests ();
 		GElementTest.add_tests ();
+		GAttributeTest.add_tests ();
 		HtmlDocumentTest.add_tests ();
 
 		Test.run ();

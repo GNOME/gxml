@@ -58,8 +58,32 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>
   }
   public override GXml.Node @get (string key) {
     if (_node == null) return null;
+    if (":" in key) {
+      string[] pp = key.split (":");
+      if (pp.length != 2) return null;
+      Test.message ("Checking for namespaced attribute: "+key);
+      var ps = _node->properties;
+      var prefix = pp[0];
+      var n = pp[1];
+      Test.message ("Name= "+n+" Prefix= "+prefix);
+      while (ps != null) {
+        Test.message ("At Attribute: "+ps->name);
+        if (ps->name == n) {
+          if (ps->ns == null) continue;
+          if (ps->ns->prefix == prefix)
+            return new GAttribute (_doc, ps);
+        }
+        ps = ps->next;
+      }
+    }
     var p = _node->has_prop (key);
-    if (p == null) return  null;
+    if (p == null) return null;
+    // Check property found has Ns, then try to find one without it to return instead
+    if (p->ns != null) {
+      var npns = _node->has_ns_prop (key, null);
+      if (npns != null)
+        return new GAttribute (_doc, npns);
+    }
     return new GAttribute (_doc, p);
   }
   public override bool has (string key, GXml.Node value) { return has_key (key); }
