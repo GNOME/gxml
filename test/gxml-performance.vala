@@ -119,10 +119,16 @@ class BookStore : SerializableContainer
 
 public class Performance
 {
+  public static void iterate (Document doc) {
+    foreach (GXml.Node node in doc.root.children) {
+      string n = node.name;
+      string v = node.value;
+    }
+  }
   public static void add_tests ()
   {
 #if ENABLE_PERFORMANCE_TESTS
-    Test.add_func ("/gxml/performance/document", 
+    Test.add_func ("/gxml/performance/read/xdocument", 
     () => {
       try {
         Test.timer_start ();
@@ -131,9 +137,25 @@ public class Performance
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Load large document: %g seconds", time);
         Test.timer_start ();
-        foreach (GXml.xNode n in ((GXml.xNode)d.document_element).child_nodes) {
-          if (n.node_name == "Book1") { /* Fake just to access the node */ }
-        }
+        iterate (d);
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "Itirate over all loaded nodes: %g seconds", time);
+      } catch (GLib.Error e) {
+#if DEBUG
+        GLib.message ("ERROR: "+e.message);
+#endif
+        assert_not_reached ();
+      }
+    });Test.add_func ("/gxml/performance/read/gdocument", 
+    () => {
+      try {
+        Test.timer_start ();
+        double time;
+        var d = new GDocument.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "Load large document: %g seconds", time);
+        Test.timer_start ();
+        iterate (d);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Itirate over all loaded nodes: %g seconds", time);
       } catch (GLib.Error e) {
