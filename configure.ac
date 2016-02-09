@@ -285,7 +285,7 @@ AM_CONDITIONAL(PLATFORM_WIN32, [test x$platform_win32 = xyes])
 AC_CONFIG_FILES([
 Makefile
 gxml/namespace-info.vala
-gxml/gxml-0.6.pc
+gxml/gxml-0.10.pc
 gxml/Makefile
 test/Makefile
 test/test.xml

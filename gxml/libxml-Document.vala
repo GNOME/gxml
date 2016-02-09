@@ -36,16 +36,6 @@
  * GXml provides a DOM Level 1 Core API in a GObject framework.
  */
 namespace GXml {
-	internal struct InputStreamBox {
-		public InputStream str;
-		public Cancellable can;
-	}
-
-	internal struct OutputStreamBox {
-		public OutputStream str;
-		public Cancellable can;
-	}
-
 	/**
 	 * Represents an XML xDocument as a tree of {@link GXml.xNode}s.
 	 *
@@ -314,84 +304,6 @@ namespace GXml {
 			}
 
 			this.from_libxml2 (doc);
-		}
-
-		/* For {@link GXml.xDocument.save_to_stream}, to write the document in chunks. */
-		internal static int _iowrite (void *ctx, char[] buf, int len) {
-			// TODO: can we make this private?
-			OutputStreamBox *box = (OutputStreamBox*)ctx;
-			OutputStream outstream = box->str;
-			int bytes_writ = -1;
-
-			try {
-				// TODO: want to propagate error, get cancellable
-				// TODO: handle char[] -> uint8[] better?
-				bytes_writ = (int)outstream.write ((uint8[])buf, box->can);
-			} catch (GLib.IOError e) {
-				// TODO: process
-				bytes_writ = -1;
-			}
-
-			return bytes_writ;
-		}
-
-		/* For {@link GXml.xDocument.from_stream}, to read the document in chunks. */
-		internal static int _iooutclose (void *ctx) {
-			// TODO: can we make this private?
-			OutputStreamBox *box = (OutputStreamBox*)ctx;
-			OutputStream outstream = box->str;
-			int success = -1;
-
-			try {
-				// TODO: handle, propagate? error
-				// TODO: want ctx to include Cancellable
-				if (outstream.close (box->can)) {
-					success = 0;
-				}
-			} catch (GLib.Error e) {
-				// TODO: process
-				success = -1;
-			}
-
-			return success;
-		}
-
-		// TODO: can we make this private?
-		internal static int _ioread (void *ctx, char[] buf, int len) {
-			InputStreamBox *box = (InputStreamBox*)ctx;
-			InputStream instream = box->str;
-			int bytes_read = -1;
-
-			try {
-				// TODO: want to propagate error, get cancellable
-				// TODO: handle char[] -> uint8[] better?
-				bytes_read = (int)instream.read ((uint8[])buf, box->can);
-			} catch (GLib.IOError e) {
-				// TODO: process
-				bytes_read = -1;
-			}
-
-			return bytes_read;
-		}
-
-		// TODO: can we make this private?
-		internal static int _ioinclose (void *ctx) {
-			InputStreamBox *box = (InputStreamBox*)ctx;
-			InputStream instream = box->str;
-			int success = -1;
-
-			try {
-				// TODO: handle, propagate? error
-				// TODO: want ctx to include Cancellable
-				if (instream.close (box->can)) {
-					success = 0;
-				}
-			} catch (GLib.Error e) {
-				// TODO: process
-				success = -1;
-			}
-
-			return success;
 		}
 
 		/**

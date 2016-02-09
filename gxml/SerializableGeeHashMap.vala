@@ -138,7 +138,7 @@ public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, Ser
                                                     this.get_type ().name (), value_type.name ());
     }
     if (node is Element) {
-      foreach (GXml.Node n in node.childs) {
+      foreach (GXml.Node n in node.children) {
         if (n is Element) {
 #if DEBUG
           stdout.printf (@"Node $(node.name) for type '$(get_type ().name ())'\n");

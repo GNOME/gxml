@@ -74,12 +74,12 @@ class SerializableGeeArrayListTest : GXmlTest
         c.add (o2);
         var doc = new TwDocument ();
         var root = doc.create_element ("root");
-        doc.childs.add (root);
+        doc.children.add (root);
         c.serialize (root);
-        assert (root.childs.size == 2);
+        assert (root.children.size == 2);
         bool found1 = false;
         bool found2 = false;
-        foreach (GXml.Node n in root.childs) {
+        foreach (GXml.Node n in root.children) {
           if (n is Element && n.name == "aelement") {
             var name = n.attrs.get ("name");
             if (name != null) {
@@ -147,7 +147,7 @@ class SerializableGeeArrayListTest : GXmlTest
         ic.deserialize (iroot);
         var doc = new TwDocument ();
         var root = doc.create_element ("root");
-        doc.childs.add (root);
+        doc.children.add (root);
         ic.serialize (root);
         var c = new SerializableArrayList<AElement> ();
         c.deserialize (root);

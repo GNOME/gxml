@@ -31,7 +31,6 @@ using Xml;
 public class GXml.TwDocument : GXml.TwNode, GXml.Document
 {
   GXml.Element _root = null;
-  Xml.Buffer _buffer;
   construct {
     _name = "#document";
   }

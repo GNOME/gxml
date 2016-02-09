@@ -113,20 +113,20 @@ class SerializableGeeHashMapTest : GXmlTest
         c.set (o2.name, o2);
         var doc = new TwDocument ();
         var root = doc.create_element ("root");
-        doc.childs.add (root);
+        doc.children.add (root);
         c.serialize (root);
-        assert (root.childs.size > 0);
+        assert (root.children.size > 0);
         bool found1 = false;
         bool found2 = false;
-        foreach (GXml.Node n in root.childs) {
+        foreach (GXml.Node n in root.children) {
           if (n is Element && n.name == "space") {
             var name = n.attrs.get ("name");
             if (name != null) {
               if (name.value == "Big") found1 = true;
               if (name.value == "Small") found2 = true;
             }
-            if (n.childs.size > 0) {
-              foreach (GXml.Node nd in n.childs) {
+            if (n.children.size > 0) {
+              foreach (GXml.Node nd in n.children) {
                 if (nd is Text) {
                   if (nd.value != "FAKE TEXT") {
                     stdout.printf (@"ERROR: node content don't much. Expected 'FAKE TEXT', got: $(nd.value)\n$(doc)\n");
@@ -231,10 +231,10 @@ class SerializableGeeHashMapTest : GXmlTest
         assert (doc.root != null);
         assert (doc.root.name == "spacecontainer");
         var root = doc.root;
-        assert (root.childs.size > 0);
+        assert (root.children.size > 0);
         bool found1 = false;
         bool found2 = false;
-        foreach (GXml.Node n in root.childs) {
+        foreach (GXml.Node n in root.children) {
           if (n is Element && n.name == "space") {
             var name = n.attrs.get ("name");
             if (name != null) {

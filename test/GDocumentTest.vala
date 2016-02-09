@@ -90,7 +90,7 @@ class GDocumentTest : GXmlTest {
 				assert (d.root.name == "Project");
 				bool fname, fshordesc, fdescription, fhomepage;
 				fname = fshordesc = fdescription = fhomepage = false;
-				foreach (GXml.Node n in d.root.childs) {
+				foreach (GXml.Node n in d.root.children) {
 					if (n.name == "name") fname = true;
 					if (n.name == "shortdesc") fshordesc = true;
 					if (n.name == "description") fdescription = true;
@@ -120,22 +120,24 @@ class GDocumentTest : GXmlTest {
 					doc = new GDocument.from_stream (iostream.input_stream);
 					GLib.message ("Passed parse error stream");
 					assert_not_reached ();
-				} catch  {}
+				} catch  { assert_not_reached (); }
 			});
 		Test.add_func ("/gxml/gdocument/construct_from_string", () => {
+			try {
 				string xml;
 				GDocument doc;
 				GXml.Node root;
 
 				xml = "<Fruits><Apple></Apple><Orange></Orange></Fruits>";
 				doc = new GDocument.from_string (xml);
-
+				assert (doc.root != null);
 				root = doc.root;
 				assert (root.name == "Fruits");
 				assert (root.children.size == 2);
 				var n1 = root.children.get (0);
 				assert (n1 != null);
 				assert (n1.name == "Apple");
+			} catch { assert_not_reached (); }
 			});
 		Test.add_func ("/gxml/gdocument/construct_from_string_no_root", () => {
 			try {
@@ -146,7 +148,7 @@ class GDocumentTest : GXmlTest {
 				xml = """<?xml version="1.0"?>""";
 				doc = new GDocument.from_string (xml);
 				assert_not_reached ();
-			} catch {}
+			} catch { assert_not_reached (); }
 			});
 		Test.add_func ("/gxml/gdocument/construct_from_string_invalid", () => {
 			try {
@@ -156,7 +158,7 @@ class GDocumentTest : GXmlTest {
 
 				xml = "";
 				doc = new GDocument.from_string (xml);
-			} catch {}
+			} catch { assert_not_reached (); }
 			});
 		Test.add_func ("/gxml/gdocument/save", () => {
 				GDocument doc;
@@ -180,10 +182,11 @@ class GDocumentTest : GXmlTest {
 					doc = new GDocument.from_string ("<root />");
 					doc.save_as (GLib.File.new_for_path ("/tmp/a/b/c/d/e/f/g/h/i"));
 					assert_not_reached ();
-				} catch {}
+				} catch { assert_not_reached (); }
 			});
 
 		Test.add_func ("/gxml/gdocument/create_element", () => {
+			try {
 				GDocument doc = new GDocument.from_string ("<root />");
 				GElement elem = null;
 
@@ -192,29 +195,37 @@ class GDocumentTest : GXmlTest {
 				assert (elem.tag_name != "banana");
 
 				elem = (GElement) doc.create_element ("ØÏØÏØ¯ÏØÏ  ²øœ³¤ïØ£");
-			});
+			} catch { assert_not_reached (); }
+		});
 		Test.add_func ("/gxml/gdocument/create_text_node", () => {
+			try {
 				GDocument doc = new GDocument.from_string ("<root />");
 				Text text = (Text) doc.create_text ("Star of my dreams");
 
 				assert (text.name == "#text");
 				assert (text.value == "Star of my dreams");
-			});
+			} catch { assert_not_reached (); }
+		});
 		Test.add_func ("/gxml/gdocument/create_comment", () => {
+			try {
 				GDocument doc = new GDocument.from_string ("<root />");
 				Comment comment = (GXml.Comment) doc.create_comment ("Ever since the day we promised.");
 
 				assert (comment.name == "#comment");
 				assert (comment.str == "Ever since the day we promised.");
-			});
+			} catch { assert_not_reached (); }
+		});
 		Test.add_func ("/gxml/gdocument/create_cdata_section", () => {
+			try {
 				GDocument doc = new GDocument.from_string ("<root />");
 				CDATA cdata = (CDATA) doc.create_cdata ("put in real cdata");
 
 				assert (cdata.name == "#cdata-section");
 				assert (cdata.value == "put in real cdata");
-			});
+			} catch { assert_not_reached (); }
+		});
 		Test.add_func ("/gxml/gdocument/create_processing_instruction", () => {
+			try {
 				GDocument doc = new GDocument.from_string ("<root />");
 				ProcessingInstruction instruction = (ProcessingInstruction) doc.create_pi ("target", "data");
 
@@ -222,9 +233,12 @@ class GDocumentTest : GXmlTest {
 				assert (instruction.target == "target");
 				assert (instruction.data == "data");
 				assert (instruction.value == "data");
-			});
+			} catch { assert_not_reached (); }
+		});
 		Test.add_func ("/gxml/gdocument/create_attribute", () => {
+			try {
 				GDocument doc = new GDocument.from_string ("<root />");
+				assert (doc.root != null);
 				((GElement) doc.root).set_attr ("attrname", "attrvalue");
 				Test.message ("DOC:"+doc.to_string ());
 				var attr = ((GElement) doc.root).get_attr ("attrname");
@@ -236,8 +250,10 @@ class GDocumentTest : GXmlTest {
 				assert (attr.value == "attrvalue");
 				//
 				//Test.message ("DOC libxml2:"+doc.libxml_to_string ());
-			});
+			} catch { assert_not_reached (); }
+		});
 		Test.add_func ("/gxml/gdocument/to_string", () => {
+			try {
 				GDocument doc = new GDocument.from_string ("<?xml version=\"1.0\"?>
 <Sentences><Sentence lang=\"en\">I like the colour blue.</Sentence><Sentence lang=\"de\">Ich liebe die T&#xFC;r.</Sentence><Authors><Author><Name>Fred</Name><Email>fweasley@hogwarts.co.uk</Email></Author><Author><Name>George</Name><Email>gweasley@hogwarts.co.uk</Email></Author></Authors></Sentences>");
 				string s1 = doc.to_string ();
@@ -245,8 +261,10 @@ class GDocumentTest : GXmlTest {
 				Test.message (s1);
 				assert (cs1[0] == "<?xml version=\"1.0\"?>");
 				assert (cs1[1] == "<Sentences><Sentence lang=\"en\">I like the colour blue.</Sentence><Sentence lang=\"de\">Ich liebe die T&#xFC;r.</Sentence><Authors><Author><Name>Fred</Name><Email>fweasley@hogwarts.co.uk</Email></Author><Author><Name>George</Name><Email>gweasley@hogwarts.co.uk</Email></Author></Authors></Sentences>");
-			});
+			} catch { assert_not_reached (); }
+		});
 		Test.add_func ("/gxml/gdocument/libxml_to_string", () => {
+			try {
 				GDocument doc = new GDocument.from_string ("<?xml version=\"1.0\"?>
 <Sentences><Sentence lang=\"en\">I like the colour blue.</Sentence><Sentence lang=\"de\">Ich liebe die T&#xFC;r.</Sentence><Authors><Author><Name>Fred</Name><Email>fweasley@hogwarts.co.uk</Email></Author><Author><Name>George</Name><Email>gweasley@hogwarts.co.uk</Email></Author></Authors></Sentences>");
 				string s1 = doc.libxml_to_string ();
@@ -254,6 +272,7 @@ class GDocumentTest : GXmlTest {
 				Test.message (s1);
 				assert (cs1[0] == "<?xml version=\"1.0\"?>");
 				assert (cs1[1] == "<Sentences><Sentence lang=\"en\">I like the colour blue.</Sentence><Sentence lang=\"de\">Ich liebe die T&#xFC;r.</Sentence><Authors><Author><Name>Fred</Name><Email>fweasley@hogwarts.co.uk</Email></Author><Author><Name>George</Name><Email>gweasley@hogwarts.co.uk</Email></Author></Authors></Sentences>");
-			});
+			} catch { assert_not_reached (); }
+		});
 	}
 }

@@ -117,33 +117,21 @@ class SerializableEnumerationTest : GXmlTest
                      var options = new Options ();
                      options.options = OptionsEnum.NORMAL_OPERATION;
                      try {
+                       Test.message ("Before serialize...");
                        options.serialize (doc);
-                       if (doc.document_element == null)  {
-                         stdout.printf (@"ERROR: No root node found");
-                         assert_not_reached ();
-                       }
-                       if (doc.document_element.node_name != "options") {
-                         stdout.printf (@"ERROR: bad root name:\n$(doc)");
-                         assert_not_reached ();
-                       }
-                       xElement element = doc.document_element;
-                       var op = element.get_attribute_node ("options");
-                       if (op == null) {
-                         stdout.printf (@"ERROR: attribute options not found:\n$(doc)");
-                         assert_not_reached ();
-                       }
-                       if (op.node_value != "NormalOperation") {
-                         stdout.printf (@"ERROR: attribute options value invalid: $(op.node_value)\n$(doc)");
-                         assert_not_reached ();
-                       }
+                       Test.message ("doc: "+doc.to_string ()+" Root?"+(doc.root != null).to_string ());
+                       assert (doc.root != null);
+                       assert (doc.root.name == "options");
+                       Element element = (Element) doc.root;
+                       var op = element.get_attr ("options");
+                       assert (op != null);
+                       assert (op.value == "NormalOperation");
                        options.options = (OptionsEnum) (-1); // invaliding this property. Avoids serialize it.
-                       var doc2 = new xDocument ();
+                       var doc2 = new GDocument ();
+                       assert (doc.root != null);
                        options.serialize (doc2);
-                       var opts = doc2.document_element.get_attribute_node ("options");
-                       if (opts != null) {
-                         stdout.printf (@"ERROR: attribute options must not be present:\n$(doc)");
-                         assert_not_reached ();
-                       }
+                       var opts = (doc2.root as Element).get_attr ("options");
+                       assert (opts == null);
                      }
                      catch (GLib.Error e) {
                        stdout.printf (@"Error: $(e.message)");

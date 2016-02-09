@@ -156,8 +156,29 @@ libgxml_0_10_la_LIBADD = \
 libgxml_0_10_la_LDFLAGS = \
 	-version-info "$(LT_CURRENT)":"$(LT_REVISION)":"$(LT_AGE)"
 
-$(sources:.vala=.c): $(sources)
+vala-stamp: $(sources)
+	@rm -f vala-temp
+	@touch vala-temp
 	$(VALAC) $(AM_VALAFLAGS) $^
+	@mv -f vala-temp $@
+
+$(sources:.vala=.c): vala-stamp
+## Recover from the removal of $@
+	@if test -f $@; then :; else \
+		trap ’rm -rf vala-lock vala-stamp’ 1 2 13 15; \
+		if mkdir vala-lock 2>/dev/null; then \
+## This code is being executed by the first process.
+			rm -f vala-stamp; \
+			$(MAKE) $(AM_MAKEFLAGS) vala-stamp; \
+			rmdir vala-lock; \
+		else \
+## This code is being executed by the follower processes.
+## Wait until the first process is done.
+			while test -d vala-lock; do sleep 1; done; \
+## Succeed if and only if the first process succeeded.
+			test -f vala-stamp; exit $$?; \
+		fi; \
+	fi
 
 libgxml_0_10_la_SOURCES= \
   $(sources:.vala=.c) \
@@ -249,6 +270,7 @@ BUILT_SOURCES += \
 endif
 
 CLEANFILES += \
+	vala-stamp \
 	$(pkgconfig_DATA) \
 	namespace-info.vala \
 	$(sources:.vala=.c) \

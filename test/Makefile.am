@@ -66,10 +66,29 @@ sources = \
 	HtmlDocumentTest.vala \
 	$(NULL)
 
-gxml_test.vala.stamp: $(sources)
+vala-stamp: $(sources)
+	@rm -f vala-temp
+	@touch vala-temp
 	$(VALAC) $(AM_VALAFLAGS) $^
+	@mv -f vala-temp $@
 
-$(sources:.vala=.c): gxml_test.vala.stamp
+$(sources:.vala=.c): vala-stamp
+## Recover from the removal of $@
+	@if test -f $@; then :; else \
+		trap ’rm -rf vala-lock vala-stamp’ 1 2 13 15; \
+		if mkdir vala-lock 2>/dev/null; then \
+## This code is being executed by the first process.
+			rm -f vala-stamp; \
+			$(MAKE) $(AM_MAKEFLAGS) vala-stamp; \
+			rmdir vala-lock; \
+		else \
+## This code is being executed by the follower processes.
+## Wait until the first process is done.
+			while test -d vala-lock; do sleep 1; done; \
+## Succeed if and only if the first process succeeded.
+			test -f vala-stamp; exit $$?; \
+		fi; \
+	fi
 
 gxml_test_SOURCES = $(sources:.vala=.c)
 
@@ -81,7 +100,7 @@ AM_VALAFLAGS = \
 	--pkg gio-2.0 \
 	--pkg gee-0.8 \
 	--pkg posix \
-	--pkg gxml-0.6 \
+	--pkg gxml-0.10 \
 	--pkg libxml-2.0 \
 	-C \
 	-g \
@@ -104,7 +123,7 @@ gxml_test_LDADD = \
 	$(GXML_LIBS) \
 	$(LIBXML_LIBS) \
 	$(GIO_LIBS) \
-	../gxml/libgxml-0.6.la
+	../gxml/libgxml-0.10.la
 	$(NULL)
 
 gxml_test_LDFLAGS = $(AM_LDFLAGS)
@@ -116,8 +135,6 @@ gxml_test_LDFLAGS = $(AM_LDFLAGS)
 # 	$(NULL)
 
 #...
-
-BUILT_SOURCES = gxml_test.vala.stamp
 
 CLEANFILES = $(gxml_test_SOURCES:.vala=.c) $(BUILT_SOURCES) gxml_test
 
