@@ -85,9 +85,9 @@ public class GXml.GDocument : GXml.GNode, GXml.Document
     return false;
   }
   // GXml.Node
-  public override Gee.Map<string,GXml.Node> attrs { owned get { return new GHashMapAttr (this, _node); } }
-  public override Gee.BidirList<GXml.Node> children { owned get { return new GListChildren (this, _node); } }
-  public override Gee.List<GXml.Namespace> namespaces { owned get { return new GListNamespaces (this, _node); } }
+  public override Gee.Map<string,GXml.Node> attrs { owned get { return new GHashMapAttr (this, doc->get_root_element ()); } }
+  public override Gee.BidirList<GXml.Node> children { owned get { return new GListChildren (this, doc->get_root_element ()); } }
+  public override Gee.List<GXml.Namespace> namespaces { owned get { return new GListNamespaces (this, doc->get_root_element ()); } }
   public override GXml.Document document { get { return this; } }
   // GXml.Document
   public bool indent { get; set; default = false; }

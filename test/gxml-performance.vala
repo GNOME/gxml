@@ -119,10 +119,19 @@ class BookStore : SerializableContainer
 
 public class Performance
 {
-  public static void iterate (Document doc) {
-    foreach (GXml.Node node in doc.root.children) {
-      string n = node.name;
-      string v = node.value;
+  /**
+   * Iterate recursively through all node and children nodes in document.
+   */
+  public static void iterate (GXml.Node node) {
+    foreach (GXml.Node n in node.children) {
+      int i = node.children.size;
+      string name = n.name;
+      string val = n.value;
+#if DEBUG
+      GLib.message ("Node: "+name+" Val: "+val+ " Children: "+i.to_string ());
+#endif
+      if (i > 0)
+        Performance.iterate (n);
     }
   }
   public static void add_tests ()

@@ -287,6 +287,7 @@ namespace GXml {
 				this.doctype = new xDocumentType (doc->int_subset, doc->ext_subset, this);
 			}
 			this.implementation = new Implementation ();
+			_node_list = new NodeChildNodeList (this.xmldoc->get_root_element (), this.owner_document);
 		}
 
 		/**
@@ -513,7 +514,7 @@ namespace GXml {
 
 			doc = new Xml.Doc ();
 			this.from_libxml2 (doc, false);
-			_node_list = new NodeChildNodeList ((Xml.Node*)this.xmldoc, this.owner_document);
+			_node_list = new NodeChildNodeList (this.xmldoc->get_root_element (), this.owner_document);
 		}
 
 		/**
