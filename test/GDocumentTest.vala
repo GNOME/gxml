@@ -26,6 +26,18 @@ using GXml;
 
 class GDocumentTest : GXmlTest {
 	public static void add_tests () {
+		Test.add_func ("/gxml/gdocument/construct_api", () => {
+			try {
+				var d = new GDocument ();
+				var root = d.create_element ("root");
+				d.children.add (root);
+				assert (d.root != null);
+				Test.message ("Root name: "+d.root.name);
+				assert (d.root.name == "root");
+				Test.message ("Root string: "+d.root.to_string ());
+				assert (d.root.to_string () == "<root/>");
+			} catch {assert_not_reached ();}
+		});
 		Test.add_func ("/gxml/gdocument/construct_from_path_error", () => {
 				GDocument doc;
 				try {
@@ -120,7 +132,7 @@ class GDocumentTest : GXmlTest {
 					doc = new GDocument.from_stream (iostream.input_stream);
 					GLib.message ("Passed parse error stream");
 					assert_not_reached ();
-				} catch  { assert_not_reached (); }
+				} catch  {}
 			});
 		Test.add_func ("/gxml/gdocument/construct_from_string", () => {
 			try {
@@ -148,7 +160,7 @@ class GDocumentTest : GXmlTest {
 				xml = """<?xml version="1.0"?>""";
 				doc = new GDocument.from_string (xml);
 				assert_not_reached ();
-			} catch { assert_not_reached (); }
+			} catch {}
 			});
 		Test.add_func ("/gxml/gdocument/construct_from_string_invalid", () => {
 			try {
@@ -182,7 +194,7 @@ class GDocumentTest : GXmlTest {
 					doc = new GDocument.from_string ("<root />");
 					doc.save_as (GLib.File.new_for_path ("/tmp/a/b/c/d/e/f/g/h/i"));
 					assert_not_reached ();
-				} catch { assert_not_reached (); }
+				} catch {}
 			});
 
 		Test.add_func ("/gxml/gdocument/create_element", () => {

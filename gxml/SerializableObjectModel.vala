@@ -62,7 +62,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
   {
     owned get {
       if (_doc == null) init_unknown_doc ();
-      return _doc.root.childs;
+      return _doc.root.children;
     }
   }
 
@@ -70,7 +70,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
   {
     _doc = new TwDocument ();
     var r = _doc.create_element ("root");
-    _doc.childs.add (r);
+    _doc.children.add (r);
   }
 
   public virtual bool serialize_use_xml_node_value () { return false; }
@@ -135,7 +135,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
   {
     assert (node.name != null);
 #if DEBUG
-    stdout.printf (@"$(get_type ().name ()): Serializing on node: $(node.name)\n");
+    GLib.message (@"$(get_type ().name ()): Serializing on node: $(node.name) : type: @$(node.get_type ().name ())\n");
 #endif
     Document doc;
     if (node is GXml.Document)
@@ -143,7 +143,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     else
       doc = node.document;
     var element = (Element) doc.create_element (node_name ());
-    node.childs.add (element);
+    node.children.add (element);
     set_namespace (element);
     foreach (ParamSpec spec in list_serializable_properties ()) {
       serialize_property (element, spec);
@@ -167,16 +167,16 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 #if DEBUG
             GLib.message (@"Serialized Unknown Element NODE AS: $(e.to_string ())");
 #endif
-            element.childs.add (e);
+            element.children.add (e);
           }
           if (n is Text) {
             if (n.value == null) GLib.warning (_("Text node with NULL or none text"));
             if (n.value == "") continue;
             var t = doc.create_text (n.value);
-            element.childs.add (t);
+            element.children.add (t);
 #if DEBUG
-            GLib.message (@"Serializing Unknown Text Node: '$(n.value)' to '$(element.name)' : Size $(element.childs.size.to_string ())");
-            GLib.message (@"Added Text: $(element.childs.get (element.childs.size - 1))");
+            GLib.message (@"Serializing Unknown Text Node: '$(n.value)' to '$(element.name)' : Size $(element.children.size.to_string ())");
+            GLib.message (@"Added Text: $(element.children.get (element.children.size - 1))");
 #endif
           }
         }
@@ -309,7 +309,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     {
       deserialize_property (attr);
     }
-    if (element.childs.size > 0)
+    if (element.children.size > 0)
     {
       if (get_type ().is_a (typeof (SerializableContainer)))
       {
@@ -339,7 +339,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 #if DEBUG
     stdout.printf (@"Elements Nodes in Node: $(element.name)\n");
 #endif
-      foreach (Node n in element.childs)
+      foreach (Node n in element.children)
       {
         if (n is Text) {
           if (serialize_use_xml_node_value ()) {
@@ -390,7 +390,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
         }
         else {
           var e = _doc.create_element (property_node.name);
-          _doc.root.childs.add (e);
+          _doc.root.children.add (e);
           GXml.Node.copy (_doc, e, property_node, true);
 #if DEBUG
           GLib.message (@"Adding unknown node $(property_node.name) to $(get_type ().name ()): Size=$(unknown_serializable_nodes.size.to_string ())");

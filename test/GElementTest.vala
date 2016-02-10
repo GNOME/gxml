@@ -115,8 +115,10 @@ class GElementTest : GXmlTest  {
 				doc.children.add (root);
 				var n = (GElement) doc.create_element ("child");
 				root.children.add (n);
-				root.content = "TEXT1";
+				var t = doc.create_text ("TEXT1");
+				root.children.add (t);
 				string s = doc.to_string ().split ("\n")[1];
+				Test.message ("root="+root.to_string ());
 				assert (s == "<root><child/>TEXT1</root>");
 			} catch (GLib.Error e) {
 				Test.message (e.message);
