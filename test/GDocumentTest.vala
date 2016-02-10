@@ -314,6 +314,8 @@ class GDocumentTest : GXmlTest {
 				var pt = c.attrs.get ("prop");
 				assert (pt != null);
 				var pt2 = (c as Element).get_ns_attr ("prop", doc.root.namespaces[0].uri);
+				Test.message ("ROOT: "+doc.root.to_string ());
+				assert (doc.root.to_string () == "<root xmlns:gxml=\"http://www.gnome.org/GXml\"><child xmlns:gxml2=\"http://www.gnome.org/GXml2\" gxml:prop=\"Ten\"/></root>");
 			} catch (GLib.Error e) {
 				GLib.message ("ERROR: "+ e.message);
 				assert_not_reached ();

@@ -383,5 +383,44 @@ class TwDocumentTest : GXmlTest {
 			assert ("<root/>" in str);
 			assert ("<root/>" in doc.to_string ());
 		});
+		Test.add_func ("/gxml/tw-document/namespace", () => {
+				try {
+					var doc = new TwDocument ();
+					doc.children.add (doc.create_element ("root"));
+					doc.set_namespace ("http://www.gnome.org/GXml","gxml");
+					Test.message ("ROOT: "+doc.to_string ());
+					assert (doc.root != null);
+					assert (doc.namespaces != null);
+					assert (doc.namespaces.size == 1);
+					assert (doc.namespaces[0].prefix == "gxml");
+					assert (doc.namespaces[0].uri == "http://www.gnome.org/GXml");
+					doc.root.children.add (doc.create_element ("child"));
+					assert (doc.root.children != null);
+					assert (doc.root.children.size == 1);
+					var c = doc.root.children[0];
+					c.set_namespace ("http://www.gnome.org/GXml2","gxml2");
+					assert (c.namespaces != null);
+					assert (c.namespaces.size == 1);
+					assert (c.namespaces[0].prefix == "gxml2");
+					assert (c.namespaces[0].uri == "http://www.gnome.org/GXml2");
+					(c as Element).set_attr ("gxml:prop","val");
+					var p = (c as Element).get_attr ("gxml:prop");
+					assert (p == null);
+					Test.message ("ROOT: "+doc.to_string ());
+					string[] str = doc.to_string ().split("\n");
+					assert (str[1] == "<root xmlns:gxml=\"http://www.gnome.org/GXml\"><gxml2:child xmlns:gxml2=\"http://www.gnome.org/GXml2\"/></root>");
+					(c as Element).set_ns_attr (doc.namespaces[0], "prop", "Ten");
+					Test.message ("ROOT: "+doc.root.to_string ());
+					assert (c.attrs.size == 1);
+					var pt = c.attrs.get ("prop");
+					assert (pt != null);
+					var pt2 = (c as Element).get_ns_attr ("prop", doc.namespaces[0].uri);
+					str = doc.to_string ().split("\n");
+					assert (str[1] == "<root xmlns:gxml=\"http://www.gnome.org/GXml\"><gxml2:child xmlns:gxml2=\"http://www.gnome.org/GXml2\" gxml:prop=\"Ten\"/></root>");
+				} catch (GLib.Error e) {
+					GLib.message ("ERROR: "+ e.message);
+					assert_not_reached ();
+				}
+			});
 	}
 }

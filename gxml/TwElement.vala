@@ -45,6 +45,7 @@ public class GXml.TwElement : GXml.TwNode, GXml.Element
   // GXml.Element
   public void set_attr (string name, string value)
   {
+    if (":" in name) return;
     var att = new TwAttribute (document, name, value);
     attrs.set (name, att);
   }
