@@ -17,7 +17,6 @@ gxml/SerializableGeeHashMap.c
 gxml/SerializableGeeTreeMap.c
 gxml/SerializableObjectModel.c
 gxml/SerializableProperty.c
-gxml/Serialization.c
 gxml/TwDocument.c
 sub/gxml/Document.c
 sub/gxml/Enumeration.c
@@ -35,5 +34,4 @@ sub/gxml/SerializableGeeHashMap.c
 sub/gxml/SerializableGeeTreeMap.c
 sub/gxml/SerializableObjectModel.c
 sub/gxml/SerializableProperty.c
-sub/gxml/Serialization.c
 sub/gxml/TwDocument.c

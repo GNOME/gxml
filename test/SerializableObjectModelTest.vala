@@ -283,6 +283,7 @@ public class NameSpace : SerializableObjectModel
 {
   public override bool set_namespace (GXml.Node node)
   {
+    Test.message ("Setting default namespace");
     node.set_namespace ("http://www.gnome.org/GXml", "gxml");
     return true;
   }
@@ -970,7 +971,14 @@ class SerializableObjectModelTest : GXmlTest
                        assert (found);
                        var tscunkn = cunkn.children.get (0);
                        assert (tscunkn is GXml.Text);
-                       assert (element.content == "FAKE TEXT");
+                       bool ctf = false;
+                       foreach (GXml.Node pnt in element.children) {
+                        if (pnt is GXml.Text) {
+                          if (pnt.value == "FAKE TEXT")
+                            ctf = true;
+                        }
+                       }
+                       assert (ctf);
                        found = false;
                        foreach (GXml.Node n in element.children) {
                          if (n.name == "UnknownNode") {
@@ -1059,7 +1067,8 @@ class SerializableObjectModelTest : GXmlTest
         var ns = new NameSpace ();
         var doc = new GDocument ();
         ns.serialize (doc);
-        assert (doc.root.to_string () == "<gxml:namespace xmlns:gxml=\"http://www.gnome.org/GXml\"/>");
+        Test.message ("DOC ROOT: "+doc.to_string ());
+        assert (doc.root.to_string () == "<namespace xmlns:gxml=\"http://www.gnome.org/GXml\"/>");
       } catch (GLib.Error e) {
 #if DEBUG
         GLib.message ("ERROR: "+e.message);

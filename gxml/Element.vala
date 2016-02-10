@@ -47,7 +47,11 @@ public interface GXml.Element : Object, GXml.Node
      */
     public abstract GXml.Node get_attr (string name);
     /**
-     * Serach for a {@link GXml.Attribute} with a given name and namespace uri.
+     * Set an {@link GXml.Attribute} with a given name, value and namespace.
+     */
+    public abstract void set_ns_attr (Namespace ns, string name, string value);
+    /**
+     * Search for a {@link GXml.Attribute} with a given name and namespace uri.
      *
      * To get a attibute from {@link GXml.Node.attrs} with a given namespace
      * prefix, use "prefix:name".

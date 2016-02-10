@@ -478,11 +478,18 @@ namespace GXml {
 		// GXml.Element interface
     public void set_attr (string name, string value) { set_attribute (name, value); }
     public GXml.Node get_attr (string name) { return (GXml.Node) get_attribute_node (name); }
-    public GXml.Node get_ns_attr (string name, string uri) {
-      var p = get_attr (name) as Attribute;
-      if (p.namespace == null) return null;
-      if (p.namespace.uri == uri) return (GXml.Node) p;
-      return null;
+		public GXml.Node get_ns_attr (string name, string uri) {
+		  if (node == null) return null;
+		  var a = node->has_ns_prop (name, uri);
+		  if (a == null) return null;
+		  return new xAttr (a, this.owner_document);
+		}
+    public void set_ns_attr (Namespace ns, string name, string uri) {
+		  if (node == null) return;
+			var attr = this.owner_document.create_attribute (name);
+			attr.value = value;
+			this.set_attribute_node (attr);
+			attr.set_namespace (ns.uri, ns.prefix);
     }
 	}
 }

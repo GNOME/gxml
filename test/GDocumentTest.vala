@@ -286,5 +286,38 @@ class GDocumentTest : GXmlTest {
 				assert (cs1[1] == "<Sentences><Sentence lang=\"en\">I like the colour blue.</Sentence><Sentence lang=\"de\">Ich liebe die T&#xFC;r.</Sentence><Authors><Author><Name>Fred</Name><Email>fweasley@hogwarts.co.uk</Email></Author><Author><Name>George</Name><Email>gweasley@hogwarts.co.uk</Email></Author></Authors></Sentences>");
 			} catch { assert_not_reached (); }
 		});
+		Test.add_func ("/gxml/gdocument/namespace", () => {
+			try {
+				GDocument doc = new GDocument.from_string ("<root><child/></root>");
+				doc.set_namespace ("http://www.gnome.org/GXml","gxml");
+				assert (doc.root != null);
+				assert (doc.root.namespaces != null);
+				assert (doc.root.namespaces.size == 1);
+				assert (doc.root.namespaces[0].prefix == "gxml");
+				assert (doc.root.namespaces[0].uri == "http://www.gnome.org/GXml");
+				assert (doc.root.children != null);
+				assert (doc.root.children.size == 1);
+				var c = doc.root.children[0];
+				c.set_namespace ("http://www.gnome.org/GXml2","gxml2");
+				assert (c.namespaces != null);
+				assert (c.namespaces.size == 1);
+				assert (c.namespaces[0].prefix == "gxml2");
+				assert (c.namespaces[0].uri == "http://www.gnome.org/GXml2");
+				(c as Element).set_attr ("gxml:prop","val");
+				var p = (c as Element).get_attr ("gxml:prop");
+				assert (p == null);
+				Test.message ("ROOT: "+doc.root.to_string ());
+				assert (doc.root.to_string () == "<root xmlns:gxml=\"http://www.gnome.org/GXml\"><child xmlns:gxml2=\"http://www.gnome.org/GXml2\"/></root>");
+				(c as Element).set_ns_attr (doc.root.namespaces[0], "prop", "Ten");
+				Test.message ("ROOT: "+doc.root.to_string ());
+				assert (c.attrs.size == 1);
+				var pt = c.attrs.get ("prop");
+				assert (pt != null);
+				var pt2 = (c as Element).get_ns_attr ("prop", doc.root.namespaces[0].uri);
+			} catch (GLib.Error e) {
+				GLib.message ("ERROR: "+ e.message);
+				assert_not_reached ();
+			}
+		});
 	}
 }

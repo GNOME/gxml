@@ -41,15 +41,8 @@ public class GXml.GElement : GXml.GNode, GXml.Element
   // GXml.Element
   public void set_attr (string aname, string avalue)
   {
-    if (":" in aname) {
-      string[] cname = aname.split(":");
-      if (cname.length > 2) return;
-      bool found = false;
-      foreach (Namespace ns in namespaces) {
-        if (ns.prefix == cname[0]) found = true;
-      }
-      if (!found) return;
-    }
+    if (_node == null) return;
+    if (":" in aname) return;
     _node->set_prop (aname, avalue);
   }
   public GXml.Node get_attr (string name)
@@ -78,11 +71,18 @@ public class GXml.GElement : GXml.GNode, GXml.Element
     }
     return null;
   }
+  public void set_ns_attr (Namespace ns, string name, string uri) {
+    if (_node == null) return;
+    var ins = _node->doc->search_ns (_node, ns.prefix);
+    if (ins != null) {
+      _node->set_ns_prop (ins, name, uri);
+      return;
+    }
+  }
   public GXml.Node get_ns_attr (string name, string uri) {
     if (_node == null) return null;
     var a = _node->has_ns_prop (name, uri);
     if (a == null) return null;
-    Test.message ("Element NS Prop: "+a->name);
     return new GAttribute (_doc, a);
   }
   public void normalize () {}

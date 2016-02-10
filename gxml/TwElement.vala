@@ -57,6 +57,11 @@ public class GXml.TwElement : GXml.TwNode, GXml.Element
     }
     return null;
   }
+  public void set_ns_attr (Namespace ns, string name, string value) {
+    var att = new TwAttribute (document, name, value);
+    att.set_namespace (ns.uri, ns.prefix);
+    attrs.set (name, att);
+  }
   public void normalize () {}
   public string content {
     owned get {
