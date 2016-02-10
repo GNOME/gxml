@@ -44,7 +44,6 @@ sources = \
 	SerializablePropertyEnumTest.vala \
 	SerializablePropertyIntTest.vala \
 	SerializablePropertyValueListTest.vala \
-	SerializationTest.vala \
 	SerializableObjectModelTest.vala \
 	SerializableObjectModel-Tw-Test.vala \
 	SerializableGeeTreeMapTest.vala \

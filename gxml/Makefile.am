@@ -65,8 +65,6 @@ sources = \
 	SerializableValueList.vala \
 	Enumeration.vala \
 	SerializableObjectModel.vala \
-	SerializableJson.vala \
-	Serialization.vala \
 	SerializableGeeTreeMap.vala \
 	SerializableGeeHashMap.vala \
 	SerializableMapKey.vala \

@@ -58,7 +58,6 @@ class GXmlTest {
 		TextTest.add_tests ();
 		CharacterDataTest.add_tests ();
 		ValaLibxml2Test.add_tests ();
-		SerializationTest.add_tests ();
 		SerializableTest.add_tests ();
 		SerializableObjectModelTest.add_tests ();
 		SerializableObjectModelTwTest.add_tests ();
