@@ -4,16 +4,39 @@ Version 0.9.0
 
 API/ABI break
 
-* GXml.NodeList is now a Gee.ArrayList<GXml.Node> specialiced class for better
+* API change: Removed GXml.SerializableJson and GXml.Serialization, due to they
+  have been unmaintained for a while now.
+
+* API change: GXml.NodeList is now a Gee.ArrayList<GXml.Node> specialiced class for better
   bindings support. The old class has been renamed to GXml.xNodeList.
-* Most interfaces now return owned properties in order to allow implementations
+
+* API change: Most interfaces now return owned properties in order to allow implementations
   to handle its internals without expose/keep in memory some data, returning
   objects just on request.
+
 * New libxml2 implementation called GNode and derivatives, expected to replace
   old implementation. It is a creating objects on demand.
+
 * New HtmlDocument for HTML handling
+
 * Element interface removed finalize_attr (), due it is unsed
+
 * Element added new get_ns_attr() for namespaced attributes
+
+* Element implements set_ns_attr()
+
+* xNode and derivatives enter to a maintenace status, in order
+  to be deprecated in future, some tests haven't been added
+  due to its internal complexity, like poor namespaces support. Is
+  better to relay on GNode and derivatives. DOM API will be added
+  in future versions to deprecate and remove xNode derivatives.
+
+* Serializable tests now relay on GDocument
+
+* Fixes on Unit Tests
+
+* Added more stressful performance tests, to compare xDocument vs GDocument with
+  equivalent performance
 
 
 ===============

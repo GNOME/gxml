@@ -135,7 +135,11 @@ gxml_test_LDFLAGS = $(AM_LDFLAGS)
 
 #...
 
-CLEANFILES = $(gxml_test_SOURCES:.vala=.c) $(BUILT_SOURCES) gxml_test
+CLEANFILES = \
+	$(gxml_test_SOURCES:.vala=.c) \
+	$(BUILT_SOURCES) \
+	gxml_test \
+	vala-stamp
 
 # TODO: should we add *.c to this list?, or is there a var of generated .c we can put in CLEANFILES?
 
@@ -153,5 +157,6 @@ EXTRA_DIST += \
 	test_out_stream_expected.xml \
 	test.xml \
 	test-collection.xml \
+	index.html \
 	$(NULL)
 
