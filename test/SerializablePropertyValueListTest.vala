@@ -55,17 +55,17 @@ class SerializablePropertyValueListTest : GXmlTest {
     () => {
       try {
         var vl = new ValueList ();
-        var doc = new xDocument ();
+        var doc = new GDocument ();
         vl.serialize (doc);
         Test.message ("XML:\n"+doc.to_string ());
-        var element = doc.document_element;
-        var evl1 = element.get_attribute_node ("values");
+        var element = doc.root as Element;
+        var evl1 = element.get_attr ("values");
         assert (evl1 == null);
-        var evl2 = element.get_attribute_node ("vals");
+        var evl2 = element.get_attr ("vals");
         assert (evl2 == null);
-        var s = element.get_attribute_node ("name");
+        var s = element.get_attr ("name");
         assert (s == null);
-        var i = element.get_attribute_node ("integer");
+        var i = element.get_attr ("integer");
         assert (i.value == "0");
       } catch (GLib.Error e) {
         Test.message (@"ERROR: $(e.message)");
@@ -76,15 +76,15 @@ class SerializablePropertyValueListTest : GXmlTest {
     () => {
       try {
         var vl = new ValueList ();
-        var doc1 = new xDocument ();
+        var doc1 = new GDocument ();
         vl.serialize (doc1);
         Test.message ("XML1:\n"+doc1.to_string ());
-        var element1 = doc1.document_element;
-        var evl1 = element1.get_attribute_node ("values");
+        var element1 = doc1.root as Element;
+        var evl1 = element1.get_attr ("values");
         assert (evl1 == null);
-        var s1 = element1.get_attribute_node ("name");
+        var s1 = element1.get_attr ("name");
         assert (s1 == null);
-        var i1 = element1.get_attribute_node ("integer");
+        var i1 = element1.get_attr ("integer");
         assert (i1.value == "0");
         // Adding values
         vl.values = new SerializableValueList ();
@@ -95,30 +95,30 @@ class SerializablePropertyValueListTest : GXmlTest {
         assert (v == "Temp1");
         v = vl.values.get_value_at (1);
         assert (v == "Temp2");
-        var doc2 = new xDocument ();
+        var doc2 = new GDocument ();
         vl.serialize (doc2);
         Test.message ("XML2:\n"+doc2.to_string ());
-        var element2 = doc2.document_element;
-        var evl2 = element2.get_attribute_node ("values");
+        var element2 = doc2.root as Element;
+        var evl2 = element2.get_attr ("values");
         assert (evl2 == null);
         // Select a value
         vl.values.select_value_at (1);
         v = vl.values.get_serializable_property_value ();
         assert (v == "Temp2");
-        var doc3 = new xDocument ();
+        var doc3 = new GDocument ();
         vl.serialize (doc3);
         Test.message ("XML3:\n"+doc3.to_string ());
-        var element3 = doc3.document_element;
-        var evl3 = element3.get_attribute_node ("values");
+        var element3 = doc3.root as Element;
+        var evl3 = element3.get_attr ("values");
         assert (evl3 != null);
         assert (evl3.value == "Temp2");
         // Set value to null/ignore
         vl.values.set_serializable_property_value (null);
-        var doc4 = new xDocument ();
+        var doc4 = new GDocument ();
         vl.serialize (doc4);
         Test.message ("XML4:\n"+doc4.to_string ());
-        var element4 = doc4.document_element;
-        var evl4 = element4.get_attribute_node ("values");
+        var element4 = doc4.root as Element;
+        var evl4 = element4.get_attr ("values");
         assert (evl4 == null);
       } catch (GLib.Error e) {
         Test.message (@"ERROR: $(e.message)");
@@ -128,7 +128,7 @@ class SerializablePropertyValueListTest : GXmlTest {
     Test.add_func ("/gxml/serializable/ValueList/deserialize",
     () => {
       try {
-        var doc1 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc1 = new GDocument.from_string ("""<?xml version="1.0"?>
                        <options values="Temp1"/>""");
         var vl = new ValueList ();
         vl.deserialize (doc1);
@@ -149,15 +149,15 @@ class SerializablePropertyValueListTest : GXmlTest {
       try {
         var vl = new ValueList ();
         vl.values = new SerializableValueList ();
-        var doc1 = new xDocument ();
+        var doc1 = new GDocument ();
         vl.serialize (doc1);
         Test.message ("XML1:\n"+doc1.to_string ());
-        var element1 = doc1.document_element;
-        var evl1 = element1.get_attribute_node ("values");
+        var element1 = doc1.root as Element;
+        var evl1 = element1.get_attr ("values");
         assert (evl1 == null);
-        var s1 = element1.get_attribute_node ("name");
+        var s1 = element1.get_attr ("name");
         assert (s1 == null);
-        var i1 = element1.get_attribute_node ("integer");
+        var i1 = element1.get_attr ("integer");
         assert (i1.value == "0");
         // Adding values
         var v = vl.values.get_value_at (0);
@@ -167,30 +167,30 @@ class SerializablePropertyValueListTest : GXmlTest {
         assert (v == "Temp1");
         v = vl.values.get_value_at (1);
         assert (v == "Temp2");
-        var doc2 = new xDocument ();
+        var doc2 = new GDocument ();
         vl.serialize (doc2);
         Test.message ("XML2:\n"+doc2.to_string ());
-        var element2 = doc2.document_element;
-        var evl2 = element2.get_attribute_node ("values");
+        var element2 = doc2.root as Element;
+        var evl2 = element2.get_attr ("values");
         assert (evl2 == null);
         // Select a value
         vl.values.select_value_at (1);
         v = vl.values.get_serializable_property_value ();
         assert (v == "Temp2");
-        var doc3 = new xDocument ();
+        var doc3 = new GDocument ();
         vl.serialize (doc3);
         Test.message ("XML3:\n"+doc3.to_string ());
-        var element3 = doc3.document_element;
-        var evl3 = element3.get_attribute_node ("values");
+        var element3 = doc3.root as Element;
+        var evl3 = element3.get_attr ("values");
         assert (evl3 != null);
         assert (evl3.value == "Temp2");
         // Set value to null/ignore
         vl.values.set_serializable_property_value (null);
-        var doc4 = new xDocument ();
+        var doc4 = new GDocument ();
         vl.serialize (doc4);
         Test.message ("XML4:\n"+doc4.to_string ());
-        var element4 = doc4.document_element;
-        var evl4 = element4.get_attribute_node ("values");
+        var element4 = doc4.root as Element;
+        var evl4 = element4.get_attr ("values");
         assert (evl4 == null);
       } catch (GLib.Error e) {
         Test.message (@"ERROR: $(e.message)");
@@ -227,11 +227,11 @@ class SerializablePropertyValueListTest : GXmlTest {
         var vl = new ValueList ();
         vl.vals = new Values ();
         vl.vals.select_value_at (Values.Enum.VAL1);
-        var doc = new xDocument ();
+        var doc = new GDocument ();
         vl.serialize (doc);
         Test.message ("XML:\n"+doc.to_string ());
-        var element = doc.document_element;
-        var s = element.get_attribute_node ("name");
+        var element = doc.root as Element;
+        var s = element.get_attr ("name");
         assert (s == null);
         var i = element.attrs.get ("integer");
         assert (i.value == "0");

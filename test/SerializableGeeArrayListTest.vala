@@ -105,10 +105,10 @@ class SerializableGeeArrayListTest : GXmlTest
     Test.add_func ("/gxml/serializable/serializable_array_list/deserialize",
     () => {
       try {
-        var doc = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc = new GDocument.from_string ("""<?xml version="1.0"?>
   <root><aelement name="Big"/><aelement name="Small"/></root>""");
         var c = new SerializableArrayList<AElement> ();
-        c.deserialize (doc.document_element);
+        c.deserialize (doc.root);
         if (c.size != 2) {
           stdout.printf (@"ERROR: incorrect size must be 2 got: $(c.size)\n");
           assert_not_reached ();
@@ -136,13 +136,13 @@ class SerializableGeeArrayListTest : GXmlTest
     Test.add_func ("/gxml/serializable/serializable_array_list/deserialize-serialize",
     () => {
       try {
-        var idoc = new xDocument.from_string ("""<?xml version="1.0"?>
+        var idoc = new GDocument.from_string ("""<?xml version="1.0"?>
     <root>
       <aelement name="Big"/>
       <aelement name="Small"/>
       <aelement name="Wall">FAKE1</aelement>
     </root>""");
-        var iroot = idoc.document_element;
+        var iroot = idoc.root;
         var ic = new SerializableArrayList<AElement> ();
         ic.deserialize (iroot);
         var doc = new TwDocument ();
@@ -177,7 +177,7 @@ class SerializableGeeArrayListTest : GXmlTest
     Test.add_func ("/gxml/serializable/serializable_array_list/deserialize-node-names",
     () => {
       try {
-        var d = new xDocument.from_path (GXmlTestConfig.TEST_DIR + "/test-collection.xml");
+        var d = new GDocument.from_path (GXmlTestConfig.TEST_DIR + "/test-collection.xml");
         var bs = new BookStore ();
         bs.deserialize (d);
         assert (bs.name == "The Great Book");

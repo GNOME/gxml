@@ -183,7 +183,7 @@ class SerializableGeeCollectionsTwTest : GXmlTest
     Test.add_func ("/gxml/tw/serializable/convined_gee_containers/de-se-deserialize",
     () => {
       try {
-        var doc = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc = new GDocument.from_string ("""<?xml version="1.0"?>
 <base name="AlphaOne" >
   <chargezone name="A1-1">
     <ship manufacturer="MacToy" model="A1234">
@@ -407,7 +407,7 @@ class SerializableGeeCollectionsTwTest : GXmlTest
     () => {
       try {
         // TODO: TwDocument Read XML files
-        var org_doc = new xDocument.from_string ("""<?xml version="1.0"?>
+        var org_doc = new GDocument.from_string ("""<?xml version="1.0"?>
 <base name="AlphaOne" >
   <chargezone name="A1-1">
     <ship manufacturer="MacToy" model="A1234">
@@ -478,7 +478,7 @@ class SerializableGeeCollectionsTwTest : GXmlTest
                   if (sn.name == "refaction") {
                     foreach (GXml.Node rn in sn.children) {
                       if (rn is Element) {
-                        //stdout.printf (@"Refaction current node: '$(rn.node_name)'\n");
+                        //stdout.printf (@"Refaction current node: '$(rn.name)'\n");
                         if (rn.name == "ship") {
                           var atr = rn.attrs.get ("manufacturer");
                           assert (atr != null);
@@ -489,7 +489,7 @@ class SerializableGeeCollectionsTwTest : GXmlTest
                               assert (shanattr.value == "UNKNOWN ATTR");
                             }
                             foreach (GXml.Node shn in rn.children) {
-                              //stdout.printf (@"Refaction: Ship MegaTrench: Node: $(shn.node_name)\n");
+                              //stdout.printf (@"Refaction: Ship MegaTrench: Node: $(shn.name)\n");
                               if (shn is Text) {
                                 tfound = true;
                                 assert (shn.value == "TEST_TEXT");

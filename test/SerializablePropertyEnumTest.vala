@@ -58,15 +58,15 @@ class SerializablePropertyEnumTest : GXmlTest {
     () => {
       try {
         var e = new EnumerationValues ();
-        var doc = new xDocument ();
+        var doc = new GDocument ();
         e.serialize (doc);
         Test.message ("XML:\n"+doc.to_string ());
-        var element = doc.document_element;
-        var ee1 = element.get_attribute_node ("values");
+        var element = doc.root as Element;
+        var ee1 = element.get_attr ("values");
         assert (ee1 == null);
-        var s = element.get_attribute_node ("name");
+        var s = element.get_attr ("name");
         assert (s == null);
-        var i = element.get_attribute_node ("integer");
+        var i = element.get_attr ("integer");
         assert (i.value == "0");
       } catch (GLib.Error e) {
         Test.message (@"ERROR: $(e.message)");
@@ -77,15 +77,15 @@ class SerializablePropertyEnumTest : GXmlTest {
     () => {
       try {
         var e = new EnumerationValues ();
-        var doc1 = new xDocument ();
+        var doc1 = new GDocument ();
         e.serialize (doc1);
         Test.message ("XML1:\n"+doc1.to_string ());
-        var element1 = doc1.document_element;
-        var ee1 = element1.get_attribute_node ("values");
+        var element1 = doc1.root as Element;
+        var ee1 = element1.get_attr ("values");
         assert (ee1 == null);
-        var s1 = element1.get_attribute_node ("name");
+        var s1 = element1.get_attr ("name");
         assert (s1 == null);
-        var i1 = element1.get_attribute_node ("integer");
+        var i1 = element1.get_attr ("integer");
         assert (i1.value == "0");
         // Getting value
         Enum.Values v = Enum.Values.SER_ONE;
@@ -98,31 +98,31 @@ class SerializablePropertyEnumTest : GXmlTest {
         assert (e.values.get_value () == Enum.Values.SER_THREE);
         Test.message ("Actual value= "+e.values.to_string ());
         assert (e.values.to_string () == "SerThree");
-        var d2 = new xDocument ();
+        var d2 = new GDocument ();
         e.serialize (d2);
         Test.message ("XML2:\n"+d2.to_string ());
-        var element2 = d2.document_element;
-        var ee2 = element2.get_attribute_node ("values");
+        var element2 = d2.root as Element;
+        var ee2 = element2.get_attr ("values");
         assert (ee2 != null);
         assert (ee2.value == "SerThree");
         e.values.set_value (Enum.Values.SER_TWO);
         assert (e.values.get_value () == Enum.Values.SER_TWO);
         Test.message ("Actual value= "+e.values.to_string ());
         assert (e.values.to_string () == "SerTwo");
-        var d3 = new xDocument ();
+        var d3 = new GDocument ();
         e.serialize (d3);
         Test.message ("XML3:\n"+d3.to_string ());
-        var element3 = d3.document_element;
-        var ee3 = element3.get_attribute_node ("values");
+        var element3 = d3.root as Element;
+        var ee3 = element3.get_attr ("values");
         assert (ee3 != null);
         assert (ee3.value == "SerTwo");
         // ignore
         e.values.set_string (null);
-        var d4 = new xDocument ();
+        var d4 = new GDocument ();
         e.serialize (d4);
         Test.message ("XML4:\n"+d4.to_string ());
-        var element4 = d4.document_element;
-        var ee4 = element4.get_attribute_node ("values");
+        var element4 = d4.root as Element;
+        var ee4 = element4.get_attr ("values");
         assert (ee4 == null);
       } catch (GLib.Error e) {
         Test.message (@"ERROR: $(e.message)");
@@ -147,21 +147,21 @@ class SerializablePropertyEnumTest : GXmlTest {
         var e = new EnumerationValues ();
         e.values = new Enum ();
         e.values.set_value (Enum.Values.AP);
-        var d1 = new xDocument ();
+        var d1 = new GDocument ();
         e.serialize (d1);
         Test.message ("XML1: "+d1.to_string ());
-        var d2 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var d2 = new GDocument.from_string ("""<?xml version="1.0"?>
                        <Enum optionalvalues="SerExtension"/>""");
         e.deserialize (d2);
         assert (e.optional_values.get_value () == Enum.Values.SER_EXTENSION);
-        var d3 = new xDocument ();
+        var d3 = new GDocument ();
         e.serialize (d3);
         Test.message ("XML2: "+d3.to_string ());
-        var d4 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var d4 = new GDocument.from_string ("""<?xml version="1.0"?>
                        <Enum OPTIONALVALUES="SERTHREE"/>""");
         e.deserialize (d4);
         assert (e.optional_values.get_value () == Enum.Values.SER_THREE);
-        var d5 = new xDocument ();
+        var d5 = new GDocument ();
         e.serialize (d5);
         Test.message ("XML3: "+d5.to_string ());
       } catch (GLib.Error e) {

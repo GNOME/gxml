@@ -75,7 +75,7 @@ class SerializableObjectModelTwTest : GXmlTest
        try {
          package.serialize (doc);
          if (doc.root.name != "package") {
-           stdout.printf (@"ERROR MANUAL:  xElement: $(doc.root.name)\n");
+           stdout.printf (@"ERROR MANUAL:  GElement: $(doc.root.name)\n");
            assert_not_reached ();
          }
          Element element = (Element) doc.root;
@@ -114,9 +114,9 @@ class SerializableObjectModelTwTest : GXmlTest
          bool cus = false;
          bool sal = false;
          foreach (GXml.Node n in element.children) {
-           //stdout.printf (@"Found xElement: $(n.node_name)");
+           //stdout.printf (@"Found GElement: $(n.name)");
            if (n.name == "tag") {
-             //stdout.printf (@"Found: $(n.node_name)");
+             //stdout.printf (@"Found: $(n.name)");
              if (((Element) n).content == "Computer")
                com = true;
              if (((Element) n).content == "Customer")
@@ -159,7 +159,7 @@ class SerializableObjectModelTwTest : GXmlTest
          }
          Element element = (Element) doc.root;
          if (element.name != "monitor") {
-           stdout.printf (@"ERROR MONITOR: root xElement $(element.name)");
+           stdout.printf (@"ERROR MONITOR: root GElement $(element.name)");
            assert_not_reached ();
          }
          var ac = element.attrs.get ("AcPower");
@@ -390,7 +390,7 @@ class SerializableObjectModelTwTest : GXmlTest
      () => {
        var package = new Package ();
        try {
-         var doc = new xDocument.from_string (XML_PACKAGE_FILE);
+         var doc = new GDocument.from_string (XML_PACKAGE_FILE);
          package.deserialize (doc);
          if (package.source != "Mexico/Central") {
            stdout.printf (@"ERROR PACKAGE: source: $(package.source)\n");
@@ -438,7 +438,7 @@ class SerializableObjectModelTwTest : GXmlTest
     () => {
      var computer = new Computer ();
      try {
-       var doc = new xDocument.from_string (XML_COMPUTER_FILE);
+       var doc = new GDocument.from_string (XML_COMPUTER_FILE);
        computer.deserialize (doc);
        if (computer.manufacturer != "ThecnicalGroup") {
          stdout.printf (@"ERROR XML_COMPUTER: manufacturer val: $(computer.manufacturer)\n");
@@ -466,7 +466,7 @@ class SerializableObjectModelTwTest : GXmlTest
    () => {
      var manual = new Manual ();
      try {
-       var doc = new xDocument.from_string ("""<?xml version="1.0"?>
+       var doc = new GDocument.from_string ("""<?xml version="1.0"?>
        <manual document="Specification" pages="3">This is an Specification file</manual>""");
        manual.deserialize (doc);
        if (manual.document != "Specification") {
@@ -478,7 +478,7 @@ class SerializableObjectModelTwTest : GXmlTest
          assert_not_reached ();
        }
        if (manual.get_contents () != "This is an Specification file") {
-         stdout.printf (@"ERROR MANUAL:  Bad xElement content value. Expected 'This is an Specification file', got: $(manual.get_contents ())\n");
+         stdout.printf (@"ERROR MANUAL:  Bad GElement content value. Expected 'This is an Specification file', got: $(manual.get_contents ())\n");
          assert_not_reached ();
        }
      }
@@ -491,7 +491,7 @@ class SerializableObjectModelTwTest : GXmlTest
 
     Test.add_func ("/gxml/tw/serializable/object_model/deserialize_array_property",
      () => {
-       var doc = new xDocument.from_string (XML_PACKAGE_FILE);
+       var doc = new GDocument.from_string (XML_PACKAGE_FILE);
        var package = new Package ();
        try {
          package.deserialize (doc);
@@ -519,7 +519,7 @@ class SerializableObjectModelTwTest : GXmlTest
      });
 Test.add_func ("/gxml/tw/serializable/object_model/override_deserialize",
      () => {
-       var doc = new xDocument.from_string ("""<?xml version="1.0"?>
+       var doc = new GDocument.from_string ("""<?xml version="1.0"?>
        <Configuration xmlns:om="http://www.gnome.org/gxml/0.4" device="Sampler"/>""");
        var configuration = new Configuration ();
        try {
@@ -533,7 +533,7 @@ Test.add_func ("/gxml/tw/serializable/object_model/override_deserialize",
          if (configuration.invalid == true) {
 #if DEBUG
            stdout.printf ("CONFIGURATION: deserialize is INVALID\n");
-           foreach (GXml.Namespace n in doc.document_element.namespace_definitions) {
+           foreach (GXml.Namespace n in doc.root.namespace_definitions) {
              stdout.printf (@"CONFIGURATION: namespace: $(n.uri)\n");
            }
 #endif
@@ -547,7 +547,7 @@ Test.add_func ("/gxml/tw/serializable/object_model/override_deserialize",
      });
     Test.add_func ("/gxml/tw/serializable/object_model/custome_node_name",
      () => {
-       var doc = new xDocument.from_string ("""<?xml version="1.0"?><NodeName />""");
+       var doc = new GDocument.from_string ("""<?xml version="1.0"?><NodeName />""");
        var nodename = new NodeName ();
        try {
          nodename.deserialize (doc);
@@ -560,7 +560,7 @@ Test.add_func ("/gxml/tw/serializable/object_model/override_deserialize",
     Test.add_func ("/gxml/tw/serializable/object_model/deserialize_incorrect_uint",
      () => {
        try {
-         var doc = new xDocument.from_string (
+         var doc = new GDocument.from_string (
               """<?xml version="1.0"?>
               <PACKAGE source="Mexico/North" destiny="Brazil" Hope="2/4.04">
               <manual document="Sales Card" pages="1">Selling Card Specification</manual>

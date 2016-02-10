@@ -39,13 +39,13 @@ class SerializablePropertyDoubleTest : GXmlTest {
     () => {
       try {
         var bn = new DoubleNode ();
-        var doc = new xDocument ();
+        var doc = new GDocument ();
         bn.serialize (doc);
         Test.message ("XML:\n"+doc.to_string ());
-        var element = doc.document_element;
-        var b = element.get_attribute_node ("DoubleValue");
+        var element = doc.root as Element;
+        var b = element.get_attr ("DoubleValue");
         assert (b == null);
-        var s = element.get_attribute_node ("name");
+        var s = element.get_attr ("name");
         assert (s == null);
       } catch (GLib.Error e) {
         Test.message (@"ERROR: $(e.message)");
@@ -56,23 +56,23 @@ class SerializablePropertyDoubleTest : GXmlTest {
     () => {
       try {
         var bn = new DoubleNode ();
-        var doc = new xDocument ();
+        var doc = new GDocument ();
         bn.serialize (doc);
         Test.message ("XML:\n"+doc.to_string ());
-        var element = doc.document_element;
-        var b = element.get_attribute_node ("DoubleValue");
+        var element = doc.root as Element;
+        var b = element.get_attr ("DoubleValue");
         assert (b == null);
-        var s = element.get_attribute_node ("name");
+        var s = element.get_attr ("name");
         assert (s == null);
         // Change values
         // set to 233.014
         bn.double_value = new SerializableDouble ();
         bn.double_value.set_value (233.014);
-        var doc2 = new xDocument ();
+        var doc2 = new GDocument ();
         bn.serialize (doc2);
         Test.message ("XML2:\n"+doc2.to_string ());
-        var element2 = doc2.document_element;
-        var b2 = element2.get_attribute_node ("DoubleValue");
+        var element2 = doc2.root as Element;
+        var b2 = element2.get_attr ("DoubleValue");
         assert (b2 != null);
         assert (bn.double_value.get_value () == 233.014);
         Test.message ("Value in xml: "+b2.value);
@@ -83,20 +83,20 @@ class SerializablePropertyDoubleTest : GXmlTest {
         assert (bn.double_value.format ("%3.3f") == "233.014");
         // set to -1
         bn.double_value.set_value (-1.013);
-        var doc3 = new xDocument ();
+        var doc3 = new GDocument ();
         bn.serialize (doc3);
         Test.message ("XML3:\n"+doc3.to_string ());
-        var element3 = doc3.document_element;
-        var b3 = element3.get_attribute_node ("DoubleValue");
+        var element3 = doc3.root as Element;
+        var b3 = element3.get_attr ("DoubleValue");
         assert (b3 != null);
         assert ("%2.3f".printf (double.parse (b3.value)) == "-1.013");
         // set to NULL/IGNORE
         bn.double_value.set_serializable_property_value (null);
-        var doc4= new xDocument ();
+        var doc4= new GDocument ();
         bn.serialize (doc4);
         Test.message ("XML3:\n"+doc4.to_string ());
-        var element4 = doc4.document_element;
-        var b4 = element4.get_attribute_node ("DoubleValue");
+        var element4 = doc4.root as Element;
+        var b4 = element4.get_attr ("DoubleValue");
         assert (b4 == null);
       } catch (GLib.Error e) {
         Test.message (@"ERROR: $(e.message)");
@@ -106,7 +106,7 @@ class SerializablePropertyDoubleTest : GXmlTest {
     Test.add_func ("/gxml/serializable/Double/deserialize/basic",
     () => {
       try {
-        var doc1 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc1 = new GDocument.from_string ("""<?xml version="1.0"?>
                        <DoubleNode DoubleValue="3.1416"/>""");
         var d = new DoubleNode ();
         d.deserialize (doc1);
@@ -122,7 +122,7 @@ class SerializablePropertyDoubleTest : GXmlTest {
     Test.add_func ("/gxml/serializable/Double/deserialize/bad-value",
     () => {
       try {
-        var doc1 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc1 = new GDocument.from_string ("""<?xml version="1.0"?>
                        <DoubleNode DoubleValue="a"/>""");
         var d = new DoubleNode ();
         d.deserialize (doc1);

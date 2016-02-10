@@ -93,7 +93,7 @@ AC_SUBST([PROJECT_MAJOR_MINOR_VERSION])
 # - If new versions are compatible with the actual one, just leave this untouched
 # - If new version breaks API change it in order to allow paralled installations
 #   with old versions. Change name of pc files to use a new API too.
-API_VERSION=0.6
+API_VERSION=0.10
 AC_SUBST([API_VERSION])
 
 GXML_VERSION=project_base_version

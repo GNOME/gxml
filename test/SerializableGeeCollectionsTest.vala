@@ -33,7 +33,7 @@ class SerializableGeeCollectionsTest : GXmlTest
     public string ctype { get; set; }
     public string get_value () { return serialized_xml_node_value; }
     public void set_value (string val) { serialized_xml_node_value = val; }
-    //Enable set xElement content
+    //Enable set GElement content
     public override bool serialize_use_xml_node_value () { return true; }
     public override string to_string () { return @"Citizen: $ctype"; }
     public override string node_name () { return "citizen"; }
@@ -184,7 +184,7 @@ class SerializableGeeCollectionsTest : GXmlTest
     Test.add_func ("/gxml/serializable/convined_gee_containers/deserialize",
     () => {
       try {
-        var doc = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc = new GDocument.from_string ("""<?xml version="1.0"?>
 <base name="AlphaOne" >
   <chargezone name="A1-1">
     <ship manufacturer="MacToy" model="A1234">
@@ -287,7 +287,7 @@ class SerializableGeeCollectionsTest : GXmlTest
     Test.add_func ("/gxml/serializable/convined_gee_containers/de-se-deserialize",
     () => {
       try {
-        var doc = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc = new GDocument.from_string ("""<?xml version="1.0"?>
 <base name="AlphaOne" >
   <chargezone name="A1-1">
     <ship manufacturer="MacToy" model="A1234">
@@ -351,7 +351,7 @@ class SerializableGeeCollectionsTest : GXmlTest
           assert_not_reached ();
         }
         // Check First serialize
-        var ndoc = new xDocument ();
+        var ndoc = new GDocument ();
         s.serialize (ndoc);
         var ns = new SpaceBase ();
         ns.deserialize (ndoc);
@@ -373,27 +373,24 @@ class SerializableGeeCollectionsTest : GXmlTest
           assert_not_reached ();
         }
         // Check xml structure
-        if (ndoc.document_element == null) {
+        if (ndoc.root == null) {
           stdout.printf ("ERROR: No ROOT element\n");
           assert_not_reached ();
         }
-        if (ndoc.document_element.node_name != "base") {
+        if (ndoc.root.name != "base") {
           stdout.printf ("ERROR: Bad ROOT name\n");
           assert_not_reached ();
         }
-        if (!ndoc.document_element.has_child_nodes ()) {
-          stdout.printf ("ERROR: No ROOT's child nodes\n");
-          assert_not_reached ();
-        }
+        assert (ndoc.root.children.size > 0);
         int i = 0;
-        foreach (GXml.xNode n in ndoc.document_element.child_nodes)
+        foreach (GXml.Node n in ndoc.root.children)
         {
           i++;
-          if (n is Text) { if (n.node_value != "") assert_not_reached (); }
-          if (n.node_name == "ChargeZone") {
-            foreach (GXml.xNode cn in n.child_nodes)
+          if (n is Text) { if (n.value != "") assert_not_reached (); }
+          if (n.name == "ChargeZone") {
+            foreach (GXml.Node cn in n.children)
             {
-              if (n is Text) { if (n.node_value != "") assert_not_reached (); }
+              if (n is Text) { if (n.value != "") assert_not_reached (); }
               
             }
           }
@@ -411,7 +408,7 @@ class SerializableGeeCollectionsTest : GXmlTest
     Test.add_func ("/gxml/serializable/convined_gee_containers/se-deserialize-unknowns",
     () => {
       try {
-        var org_doc = new xDocument.from_string ("""<?xml version="1.0"?>
+        var org_doc = new GDocument.from_string ("""<?xml version="1.0"?>
 <base name="AlphaOne" >
   <chargezone name="A1-1">
     <ship manufacturer="MacToy" model="A1234">
@@ -488,64 +485,64 @@ class SerializableGeeCollectionsTest : GXmlTest
         assert (refaction.unknown_serializable_properties != null);
         assert (refaction.unknown_serializable_properties.size == 0);
         assert (refaction.unknown_serializable_nodes.size == 1);
-        var doc = new xDocument ();
+        var doc = new GDocument ();
         s.serialize (doc);
-        if (doc.document_element.node_name != "base") {
+        if (doc.root.name != "base") {
           stdout.printf (@"ERROR: bad root node name\n");
           assert_not_reached ();
         }
         //stdout.printf (@"$doc\n");
-        foreach (GXml.xNode n in doc.document_element.child_nodes) {
-          if (n is xElement) {
-            if (n.node_name == "ChargeZone") {
+        foreach (GXml.Node n in doc.root.children) {
+          if (n is GElement) {
+            if (n.name == "ChargeZone") {
               
             }
-            if (n.node_name == "storage") {
+            if (n.name == "storage") {
               bool unkfound = false;
               bool tfound = false;
               bool attrfound = false;
-              foreach (GXml.xNode sn in n.child_nodes) {
-                if (sn is xElement) {
-                  if (sn.node_name == "refaction") {
-                    foreach (GXml.xNode rn in sn.child_nodes) {
-                      if (rn is xElement) {
-                        //stdout.printf (@"Refaction current node: '$(rn.node_name)'\n");
-                        if (rn.node_name == "ship") {
-                          var atr = ((xElement) rn).get_attribute_node ("manufacturer");
+              foreach (GXml.Node sn in n.children) {
+                if (sn is GElement) {
+                  if (sn.name == "refaction") {
+                    foreach (GXml.Node rn in sn.children) {
+                      if (rn is GElement) {
+                        //stdout.printf (@"Refaction current node: '$(rn.name)'\n");
+                        if (rn.name == "ship") {
+                          var atr = ((GElement) rn).get_attr ("manufacturer");
                           if (atr == null) {
                             stdout.printf (@"ERROR: No attribute manufacturer for Ship\n");
                             assert_not_reached ();
                           }
-                          if (atr.node_value == "MegaTrench") {
-                            var shanattr = ((xElement) rn).get_attribute_node ("unknown");
+                          if (atr.value == "MegaTrench") {
+                            var shanattr = ((GElement) rn).get_attr ("unknown");
                             if (shanattr != null) {
                               attrfound = true;
-                              if (shanattr.node_value != "UNKNOWN ATTR") {
-                                stdout.printf (@"ERROR: Invalid Text Node Value for ship MegaTrench: $(shanattr.node_value)\n");
+                              if (shanattr.value != "UNKNOWN ATTR") {
+                                stdout.printf (@"ERROR: Invalid Text Node Value for ship MegaTrench: $(shanattr.value)\n");
                                 assert_not_reached ();
                               }
                             }
-                            foreach (GXml.xNode shn in rn.child_nodes) {
-                              //stdout.printf (@"Refaction: Ship MegaTrench: Node: $(shn.node_name)\n");
+                            foreach (GXml.Node shn in rn.children) {
+                              //stdout.printf (@"Refaction: Ship MegaTrench: Node: $(shn.name)\n");
                               if (shn is Text) {
                                 tfound = true;
-                                if (shn.node_value != "TEST_TEXT") {
-                                  stdout.printf (@"ERROR: Invalid Text Node Value for ship MegaTrench: $(shn.node_value)\n");
+                                if (shn.value != "TEST_TEXT") {
+                                  stdout.printf (@"ERROR: Invalid Text Node Value for ship MegaTrench: $(shn.value)\n");
                                   assert_not_reached ();
                                 }
                               }
                             }
                           }
                         }
-                        if (rn.node_name == "UnknownAttribute") {
+                        if (rn.name == "UnknownAttribute") {
                           unkfound = true;
-                          var nattr = ((xElement) rn).get_attribute_node ("name");
+                          var nattr = ((GElement) rn).get_attr ("name");
                           if (nattr == null) {
                             stdout.printf (@"ERROR: No Unknown Attribute Node with attribute name\n");
                             assert_not_reached ();
                           }
-                          if (nattr.node_value != "nothing") {
-                            stdout.printf (@"ERROR: Invalid unknown attribute node's attribute name value: found $(nattr.node_value)\n");
+                          if (nattr.value != "nothing") {
+                            stdout.printf (@"ERROR: Invalid unknown attribute node's attribute name value: found $(nattr.value)\n");
                             assert_not_reached ();
                           }
                         }
@@ -569,7 +566,7 @@ class SerializableGeeCollectionsTest : GXmlTest
             }
           }
           if (n is Text) {
-            stdout.printf (@"ROOT NODE VALUE: '$(n.node_value)'\n");
+            stdout.printf (@"ROOT NODE VALUE: '$(n.value)'\n");
           }
         }
     }

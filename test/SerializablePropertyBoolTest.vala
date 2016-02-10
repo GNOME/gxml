@@ -38,15 +38,15 @@ class SerializablePropertyBoolTest : GXmlTest {
     () => {
       try {
         var bn = new BoolNode ();
-        var doc = new xDocument ();
+        var doc = new GDocument ();
         bn.serialize (doc);
         Test.message ("XML:\n"+doc.to_string ());
-        var element = doc.document_element;
-        var b = element.get_attribute_node ("boolean");
+        var element = doc.root as Element;
+        var b = element.get_attr ("boolean");
         assert (b == null);
-        var s = element.get_attribute_node ("name");
+        var s = element.get_attr ("name");
         assert (s == null);
-        var i = element.get_attribute_node ("integer");
+        var i = element.get_attr ("integer");
         assert (i.value == "0");
       } catch (GLib.Error e) {
         Test.message (@"ERROR: $(e.message)");
@@ -57,43 +57,43 @@ class SerializablePropertyBoolTest : GXmlTest {
     () => {
       try {
         var bn = new BoolNode ();
-        var doc = new xDocument ();
+        var doc = new GDocument ();
         bn.serialize (doc);
         Test.message ("XML:\n"+doc.to_string ());
-        var element = doc.document_element;
-        var b = element.get_attribute_node ("boolean");
+        var element = doc.root as Element;
+        var b = element.get_attr ("boolean");
         assert (b == null);
-        var s = element.get_attribute_node ("name");
+        var s = element.get_attr ("name");
         assert (s == null);
-        var i = element.get_attribute_node ("integer");
+        var i = element.get_attr ("integer");
         assert (i.value == "0");
         // Change values
         bn.boolean = new SerializableBool ();
         // set to TRUE
         bn.boolean.set_value (true);
-        var doc2 = new xDocument ();
+        var doc2 = new GDocument ();
         bn.serialize (doc2);
         Test.message ("XML2:\n"+doc2.to_string ());
-        var element2 = doc2.document_element;
-        var b2 = element2.get_attribute_node ("boolean");
+        var element2 = doc2.root as Element;
+        var b2 = element2.get_attr ("boolean");
         assert (b2 != null);
         assert (b2.value == "true");
         // set to FALSE
         bn.boolean.set_value (false);
-        var doc3 = new xDocument ();
+        var doc3 = new GDocument ();
         bn.serialize (doc3);
         Test.message ("XML3:\n"+doc3.to_string ());
-        var element3 = doc3.document_element;
-        var b3 = element3.get_attribute_node ("boolean");
+        var element3 = doc3.root as Element;
+        var b3 = element3.get_attr ("boolean");
         assert (b3 != null);
         assert (b3.value == "false");
         // set to NULL/IGNORE
         bn.boolean.set_serializable_property_value (null);
-        var doc4= new xDocument ();
+        var doc4= new GDocument ();
         bn.serialize (doc4);
         Test.message ("XML3:\n"+doc4.to_string ());
-        var element4 = doc4.document_element;
-        var b4 = element4.get_attribute_node ("boolean");
+        var element4 = doc4.root as Element;
+        var b4 = element4.get_attr ("boolean");
         assert (b4 == null);
       } catch (GLib.Error e) {
         Test.message (@"ERROR: $(e.message)");
@@ -103,7 +103,7 @@ class SerializablePropertyBoolTest : GXmlTest {
     Test.add_func ("/gxml/serializable/Bool/deserialize/basic",
     () => {
       try {
-        var doc1 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc1 = new GDocument.from_string ("""<?xml version="1.0"?>
                        <BooleanNode boolean="true"/>""");
         var b = new BoolNode ();
         b.deserialize (doc1);
@@ -117,19 +117,19 @@ class SerializablePropertyBoolTest : GXmlTest {
     Test.add_func ("/gxml/serializable/Bool/deserialize/invalid",
     () => {
       try {
-        var doc1 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc1 = new GDocument.from_string ("""<?xml version="1.0"?>
                        <BooleanNode boolean="c"/>""");
         var b1 = new BoolNode ();
         b1.deserialize (doc1);
         assert (b1.boolean.get_serializable_property_value () == "c");
         assert (b1.boolean.get_value () == false);
-        var doc2 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc2 = new GDocument.from_string ("""<?xml version="1.0"?>
                        <BooleanNode boolean="TRUE"/>""");
         var b2 = new BoolNode ();
         b2.deserialize (doc2);
         assert (b2.boolean.get_serializable_property_value () == "TRUE");
         assert (b2.boolean.get_value () == true);
-        var doc3 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc3 = new GDocument.from_string ("""<?xml version="1.0"?>
                        <BooleanNode boolean="FALSE"/>""");
         var b3 = new BoolNode ();
         b3.deserialize (doc3);

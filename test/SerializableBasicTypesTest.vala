@@ -40,16 +40,16 @@ class SerializableBasicTypeTest : GXmlTest {
       try {
         var bt = new BasicType ();
         bt.boolean = true;
-        var doc = new xDocument ();
+        var doc = new GDocument ();
         bt.serialize (doc);
-        var element = doc.document_element;
-        var b = element.get_attribute_node ("boolean");
+        var element = doc.root as Element;
+        var b = element.get_attr ("boolean");
         if (b == null) {
           stdout.printf (@"ERROR: No boolean exists\n");
           assert_not_reached ();
         }
-        if (b.node_value.down () != "true") {
-          stdout.printf (@"ERROR: Wrong boolean value. Expected true got: $(b.node_value.down ()) : $(b.node_value)\n");
+        if (b.value.down () != "true") {
+          stdout.printf (@"ERROR: Wrong boolean value. Expected true got: $(b.value.down ()) : $(b.value)\n");
           assert_not_reached ();
         }
         //stdout.printf (@"\n$doc\n");
@@ -63,7 +63,7 @@ class SerializableBasicTypeTest : GXmlTest {
       try {
         var bt = new BasicType ();
         bt.boolean = true;
-        var doc = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc = new GDocument.from_string ("""<?xml version="1.0"?>
 <basictype boolean="true"/>""");
         bt.deserialize (doc);
         if (bt.boolean != true) {
@@ -81,31 +81,31 @@ class SerializableBasicTypeTest : GXmlTest {
       try {
         var bt = new BasicType ();
         bt.boolean = true;
-        var doc = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc = new GDocument.from_string ("""<?xml version="1.0"?>
 <basictype integer="156"/>""");
         bt.deserialize (doc);
         assert (bt.integer == 156);
-        var doc1 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc1 = new GDocument.from_string ("""<?xml version="1.0"?>
 <basictype integer="a156"/>""");
         bt.deserialize (doc1);
         assert (bt.integer == 0);
-        var doc2 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc2 = new GDocument.from_string ("""<?xml version="1.0"?>
 <basictype integer="156b"/>""");
         bt.deserialize (doc2);
         assert (bt.integer == 156);
-        var doc3 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc3 = new GDocument.from_string ("""<?xml version="1.0"?>
 <basictype integer="156.0"/>""");
         bt.deserialize (doc3);
         assert (bt.integer == 156);
-        var doc4 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc4 = new GDocument.from_string ("""<?xml version="1.0"?>
 <basictype integer="0.156"/>""");
         bt.deserialize (doc4);
         assert (bt.integer == 0);
-        var doc5 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc5 = new GDocument.from_string ("""<?xml version="1.0"?>
 <basictype integer="a156.156"/>""");
         bt.deserialize (doc5);
         assert (bt.integer == 0);
-        var doc6 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc6 = new GDocument.from_string ("""<?xml version="1.0"?>
 <basictype integer="156.156b"/>""");
         bt.deserialize (doc6);
         assert (bt.integer == 156);
@@ -119,35 +119,35 @@ class SerializableBasicTypeTest : GXmlTest {
       try {
         var bt = new BasicType ();
         bt.boolean = true;
-        var doc = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc = new GDocument.from_string ("""<?xml version="1.0"?>
 <basictype floatval="156"/>""");
         bt.deserialize (doc);
         assert (bt.floatval == 156.0);
-        var doc1 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc1 = new GDocument.from_string ("""<?xml version="1.0"?>
 <basictype floatval="a156"/>""");
         bt.deserialize (doc1);
         assert (bt.floatval == 0.0);
-        var doc2 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc2 = new GDocument.from_string ("""<?xml version="1.0"?>
 <basictype floatval="156b"/>""");
         bt.deserialize (doc2);
         assert (bt.floatval == 156.0);
-        var doc3 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc3 = new GDocument.from_string ("""<?xml version="1.0"?>
 <basictype floatval="156.0"/>""");
         bt.deserialize (doc3);
         assert (bt.floatval == 156.0);
-        var doc4 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc4 = new GDocument.from_string ("""<?xml version="1.0"?>
 <basictype floatval="0.156"/>""");
         bt.deserialize (doc4);
         assert (bt.floatval == (float) 0.156);
-        var doc5 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc5 = new GDocument.from_string ("""<?xml version="1.0"?>
 <basictype floatval="a156.156"/>""");
         bt.deserialize (doc5);
         assert (bt.floatval == 0.0);
-        var doc6 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc6 = new GDocument.from_string ("""<?xml version="1.0"?>
 <basictype floatval="156.156b"/>""");
         bt.deserialize (doc6);
         assert (bt.floatval == (float) 156.156);
-        var doc7 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc7 = new GDocument.from_string ("""<?xml version="1.0"?>
 <basictype boolean="true"/>""");
         bt.floatval = (float) 0.0;
         bt.deserialize (doc7);
@@ -162,35 +162,35 @@ class SerializableBasicTypeTest : GXmlTest {
       try {
         var bt = new BasicType ();
         bt.boolean = true;
-        var doc = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc = new GDocument.from_string ("""<?xml version="1.0"?>
 <basictype doubleval="156"/>""");
         bt.deserialize (doc);
         assert (bt.doubleval == 156.0);
-        var doc1 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc1 = new GDocument.from_string ("""<?xml version="1.0"?>
 <basictype doubleval="a156"/>""");
         bt.deserialize (doc1);
         assert (bt.doubleval == 0.0);
-        var doc2 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc2 = new GDocument.from_string ("""<?xml version="1.0"?>
 <basictype doubleval="156b"/>""");
         bt.deserialize (doc2);
         assert (bt.doubleval == 156.0);
-        var doc3 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc3 = new GDocument.from_string ("""<?xml version="1.0"?>
 <basictype doubleval="156.0"/>""");
         bt.deserialize (doc3);
         assert (bt.doubleval == 156.0);
-        var doc4 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc4 = new GDocument.from_string ("""<?xml version="1.0"?>
 <basictype doubleval="0.156"/>""");
         bt.deserialize (doc4);
         assert (bt.doubleval == 0.156);
-        var doc5 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc5 = new GDocument.from_string ("""<?xml version="1.0"?>
 <basictype doubleval="a156.156"/>""");
         bt.deserialize (doc5);
         assert (bt.doubleval == 0.0);
-        var doc6 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc6 = new GDocument.from_string ("""<?xml version="1.0"?>
 <basictype doubleval="156.156b"/>""");
         bt.deserialize (doc6);
         assert (bt.doubleval == 156.156);
-        var doc7 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc7 = new GDocument.from_string ("""<?xml version="1.0"?>
 <basictype boolean="true"/>""");
         bt.doubleval = 0.0;
         bt.deserialize (doc7);

@@ -112,7 +112,7 @@ public class SerializableCapsicum : GXml.SerializableJson {
 		case "ratings":
 			this.ratings = new GLib.List<int> ();
 			foreach (GXml.xNode rating in element.child_nodes) {
-				int64.try_parse (((GXml.xElement)rating).content, out outvalue);
+				int64.try_parse (((GXml.GElement)rating).content, out outvalue);
 				this.ratings.append ((int)outvalue.get_int64 ());
 			}
 			break;
@@ -123,14 +123,14 @@ public class SerializableCapsicum : GXml.SerializableJson {
 	}
 	private void serialize_unknown_property_type (GXml.Node elem, ParamSpec prop, out GXml.Node node)
 	{
-		xElement element = (xElement) elem;
-		xDocument doc = element.owner_document;
+		var element = (GElement) elem;
+		var doc = element.document;
 		switch (prop.name) {
 		case "ratings":
 			foreach (int rating_int in ratings) {
-				xElement n = (xElement) doc.create_element ("rating");
+				GElement n = (GElement) doc.create_element ("rating");
 				n.content = "%d".printf (rating_int);
-				element.append_child (n);
+				element.children.add (n);
 			}
 			break;
 		default:
@@ -232,7 +232,7 @@ class SerializableTest : GXmlTest {
 		Test.add_func ("/gxml/serializable/interface_defaults", () => {
 			try {
 				SerializableTomato tomato = new SerializableTomato (0, 0, 12, "cats");
-				var doc = new xDocument ();
+				var doc = new GDocument ();
 				tomato.serialize (doc);
 				SerializableTomato tomato2 = new SerializableTomato (1,1,4,"dogs");
 				tomato2.deserialize (doc);

@@ -140,7 +140,7 @@ public class Package : ObjectModel
     ((Serializable) this).deserialize_unknown_property.connect ( (element, prop) => {
       //GLib.message (@"Deserializing Unknown Property: $(prop.name) | $(prop.get_nick ())");
       if (element.name == "tag") {
-        tags.append_val (((xElement) element).content);
+        tags.append_val (((GElement) element).content);
       }
     });
   }
@@ -300,33 +300,33 @@ class SerializableObjectModelTest : GXmlTest
                    () => {
                      try {
                        var computer = new Computer ();
-                       var doc = new xDocument ();
+                       var doc = new GDocument ();
                        computer.serialize (doc);
-                       if (doc.document_element.tag_name.down () != "computer") {
+                       if (doc.root.name.down () != "computer") {
                          stdout.printf ("ERROR XML_COMPUTER: computer\n");
                          assert_not_reached ();
                        }
-                       var m = doc.document_element.get_attribute_node ("manufacturer");
+                       var m = (doc.root as Element).get_attr ("manufacturer");
                        if (m == null) assert_not_reached ();
-                       if (m.node_value != "MexicanLaptop, Inc.") {
+                       if (m.value != "MexicanLaptop, Inc.") {
                          stdout.printf ("ERROR XML_COMPUTER: manufacturer\n");
                          assert_not_reached ();
                        }
-                       var mod = doc.document_element.get_attribute_node ("model");
+                       var mod = (doc.root as Element).get_attr ("model");
                        if (mod == null) assert_not_reached ();
-                       if (mod.node_value != "LQ59678") {
+                       if (mod.value != "LQ59678") {
                          stdout.printf ("ERROR XML_COMPUTER: model\n");
                          assert_not_reached ();
                        }
-                       var c = doc.document_element.get_attribute_node ("cores");
+                       var c = (doc.root as Element).get_attr ("cores");
                        if (c == null) assert_not_reached ();
-                       if (c.node_value != "8") {
+                       if (c.value != "8") {
                          stdout.printf ("ERROR XML_COMPUTER: cores val\n");
                          assert_not_reached ();
                        }
-                       var g = doc.document_element.get_attribute_node ("ghz");
+                       var g = (doc.root as Element).get_attr ("ghz");
                        if (g == null) assert_not_reached ();
-                       if (double.parse (g.node_value) != (double) 3.5) {
+                       if (double.parse (g.value) != (double) 3.5) {
                          stdout.printf ("ERROR XML_COMPUTER: ghz val\n");
                          assert_not_reached ();
                        }
@@ -342,7 +342,7 @@ class SerializableObjectModelTest : GXmlTest
                    () => {
                      var computer = new Computer ();
                      try {
-                       var doc = new xDocument.from_string (XML_COMPUTER_FILE);
+                       var doc = new GDocument.from_string (XML_COMPUTER_FILE);
                        computer.deserialize (doc);
                        if (computer.manufacturer != "ThecnicalGroup") {
                          stdout.printf (@"ERROR XML_COMPUTER: manufacturer val: $(computer.manufacturer)\n");
@@ -371,7 +371,7 @@ class SerializableObjectModelTest : GXmlTest
                    () => {
                      var manual = new Manual ();
                      try {
-                       var doc = new xDocument.from_string ("""<?xml version="1.0"?>
+                       var doc = new GDocument.from_string ("""<?xml version="1.0"?>
                        <manual document="Specification" pages="3">This is an Specification file</manual>""");
                        manual.deserialize (doc);
                        if (manual.document != "Specification") {
@@ -383,7 +383,7 @@ class SerializableObjectModelTest : GXmlTest
                          assert_not_reached ();
                        }
                        if (manual.get_contents () != "This is an Specification file") {
-                         stdout.printf (@"ERROR MANUAL:  Bad xElement content value. Expected 'This is an Specification file', got: $(manual.get_contents ())\n");
+                         stdout.printf (@"ERROR MANUAL:  Bad GElement content value. Expected 'This is an Specification file', got: $(manual.get_contents ())\n");
                          assert_not_reached ();
                        }
                      }
@@ -395,15 +395,15 @@ class SerializableObjectModelTest : GXmlTest
                    );
     Test.add_func ("/gxml/serializable/object_model/serialize_object_contents",
                    () => {
-                     var doc = new xDocument ();
+                     var doc = new GDocument ();
                      var manual = new Manual ();
                      try {
                        manual.serialize (doc);
-                       if (doc.document_element.node_name != "manual") {
-                         stdout.printf (@"ERROR MANUAL:  xElement: $(doc.document_element.node_name)\n");
+                       if (doc.root.name != "manual") {
+                         stdout.printf (@"ERROR MANUAL:  GElement: $(doc.root.name)\n");
                          assert_not_reached ();
                        }
-                       xElement element = doc.document_element;
+                       var element = doc.root as GElement;
                        serialize_manual_check (element, manual);
                      } catch (GLib.Error e) {
                        stdout.printf (@"$(e.message)");
@@ -415,7 +415,7 @@ class SerializableObjectModelTest : GXmlTest
                    () => {
                      var package = new Package ();
                      try {
-                       var doc = new xDocument.from_string (XML_PACKAGE_FILE);
+                       var doc = new GDocument.from_string (XML_PACKAGE_FILE);
                        package.deserialize (doc);
                        if (package.source != "Mexico/Central") {
                          stdout.printf (@"ERROR PACKAGE: source: $(package.source)\n");
@@ -466,25 +466,25 @@ class SerializableObjectModelTest : GXmlTest
                    );
     Test.add_func ("/gxml/serializable/object_model/serialize_serializable_properties",
                    () => {
-                     var doc = new xDocument ();
+                     var doc = new GDocument ();
                      var package = new Package ();
                      try {
                        package.serialize (doc);
-                       if (doc.document_element.node_name != "package") {
-                         stdout.printf (@"ERROR MANUAL:  xElement: $(doc.document_element.node_name)\n");
+                       if (doc.root.name != "package") {
+                         stdout.printf (@"ERROR MANUAL:  GElement: $(doc.root.name)\n");
                          assert_not_reached ();
                        }
-                       xElement element = doc.document_element;
-                       var source = element.get_attribute_node ("source");
+                       var element = doc.root as Element;
+                       var source = element.get_attr ("source");
                        if (source == null ) assert_not_reached ();
-                       if (source.node_value != "Mexico") {
-                         stdout.printf (@"ERROR PACKAGE: source: $(source.node_value)\n");
+                       if (source.value != "Mexico") {
+                         stdout.printf (@"ERROR PACKAGE: source: $(source.value)\n");
                          assert_not_reached ();
                        }
-                       var destiny = element.get_attribute_node ("destiny");
+                       var destiny = element.get_attr ("destiny");
                        if (destiny == null ) assert_not_reached ();
-                       if (destiny.node_value != "World") {
-                         stdout.printf (@"ERROR PACKAGE: source: $(destiny.node_value)\n");
+                       if (destiny.value != "World") {
+                         stdout.printf (@"ERROR PACKAGE: source: $(destiny.value)\n");
                          assert_not_reached ();
                        }
                      }
@@ -496,7 +496,7 @@ class SerializableObjectModelTest : GXmlTest
                    );
     Test.add_func ("/gxml/serializable/object_model/deserialize_array_property",
                    () => {
-                     var doc = new xDocument.from_string (XML_PACKAGE_FILE);
+                     var doc = new GDocument.from_string (XML_PACKAGE_FILE);
                      var package = new Package ();
                      try {
                        package.deserialize (doc);
@@ -525,7 +525,7 @@ class SerializableObjectModelTest : GXmlTest
                    );
     Test.add_func ("/gxml/serializable/object_model/serialize_array_property",
                    () => {
-                     var doc = new xDocument ();
+                     var doc = new GDocument ();
                      var package = new Package ();
                      package.tags.append_val ("Computer");
                      package.tags.append_val ("Customer");
@@ -533,21 +533,21 @@ class SerializableObjectModelTest : GXmlTest
                      try {
                        package.serialize (doc);
                        //stdout.printf (@"$(doc)");
-                       if (doc.document_element.node_name != "package")
+                       if (doc.root.name != "package")
                          assert_not_reached ();
-                       xElement element = doc.document_element;
+                       var element = doc.root as Element;
                        bool com = false;
                        bool cus = false;
                        bool sal = false;
-                       foreach (GXml.xNode n in element.child_nodes) {
-                         //stdout.printf (@"Found xElement: $(n.node_name)");
-                         if (n.node_name == "tag") {
-                           //stdout.printf (@"Found: $(n.node_name)");
-                           if (((xElement) n).content == "Computer")
+                       foreach (GXml.Node n in element.children) {
+                         //stdout.printf (@"Found GElement: $(n.name)");
+                         if (n.name == "tag") {
+                           //stdout.printf (@"Found: $(n.name)");
+                           if (((GElement) n).content == "Computer")
                              com = true;
-                           if (((xElement) n).content == "Customer")
+                           if (((GElement) n).content == "Customer")
                              cus = true;
-                           if (((xElement) n).content == "Sale")
+                           if (((GElement) n).content == "Sale")
                              sal = true;
                          }
                        }
@@ -572,7 +572,7 @@ class SerializableObjectModelTest : GXmlTest
                    );
     Test.add_func ("/gxml/serializable/object_model/serialize_property_nick",
                    () => {
-                     var doc = new xDocument ();
+                     var doc = new GDocument ();
                      var monitor = new Monitor ();
                      try {
                        monitor.resolution = "1204x720";
@@ -580,40 +580,40 @@ class SerializableObjectModelTest : GXmlTest
                        monitor.dc_power = 125;
                        monitor.serialize (doc);
                        //stdout.printf (@"DOC: [$(doc)]");
-                       if (doc.document_element == null) {
-                         stdout.printf ("ERROR MONITOR: No root xElement");
+                       if (doc.root == null) {
+                         stdout.printf ("ERROR MONITOR: No root GElement");
                          assert_not_reached ();
                        }
-                       xElement element = doc.document_element;
-                       if (element.node_name != "monitor") {
-                         stdout.printf (@"ERROR MONITOR: root xElement $(element.node_name)");
+                       var element = doc.root as Element;
+                       if (element.name != "monitor") {
+                         stdout.printf (@"ERROR MONITOR: root GElement $(element.name)");
                          assert_not_reached ();
                        }
-                       var ac = element.get_attribute_node ("AcPower");
+                       var ac = element.get_attr ("AcPower");
                        if (ac == null) {
                          stdout.printf (@"ERROR MONITOR: attribute AcPower not found");
                          assert_not_reached ();
                        }
-                       if (ac.node_value != "120") {
-                         stdout.printf (@"ERROR MONITOR: AcPower value $(ac.node_value)");
+                       if (ac.value != "120") {
+                         stdout.printf (@"ERROR MONITOR: AcPower value $(ac.value)");
                          assert_not_reached ();
                        }
-                       var dc = element.get_attribute_node ("DcPower");
+                       var dc = element.get_attr ("DcPower");
                        if (dc == null) {
                          stdout.printf (@"ERROR MONITOR: attribute DcPower not found");
                          assert_not_reached ();
                        }
-                       if (dc.node_value != "125") {
-                         stdout.printf (@"ERROR MONITOR: AcPower value $(dc.node_value)");
+                       if (dc.value != "125") {
+                         stdout.printf (@"ERROR MONITOR: AcPower value $(dc.value)");
                          assert_not_reached ();
                        }
-                       var r = element.get_attribute_node ("resolution");
+                       var r = element.get_attr ("resolution");
                        if (r == null) {
                          stdout.printf (@"ERROR MONITOR: attribute resolution not found");
                          assert_not_reached ();
                        }
-                       if (r.node_value != "1204x720") {
-                         stdout.printf (@"ERROR MONITOR: resolution value $(r.node_value)");
+                       if (r.value != "1204x720") {
+                         stdout.printf (@"ERROR MONITOR: resolution value $(r.value)");
                          assert_not_reached ();
                        }
                      }
@@ -630,34 +630,34 @@ class SerializableObjectModelTest : GXmlTest
                      cpu.piles.add (1);
                      cpu.piles.add (2);
                      cpu.piles.add (3);
-                     var doc = new xDocument ();
+                     var doc = new GDocument ();
                      try {
                        cpu.serialize (doc);
                        //stdout.printf (@"$doc");
-                       if (doc.document_element == null) {
+                       if (doc.root == null) {
                          stdout.printf (@"ERROR CPU: no root element");
                          assert_not_reached ();
                        }
-                       if (doc.document_element.node_name != "cpu") {
-                         stdout.printf (@"ERROR CPU: root element $(doc.document_element.node_name)");
+                       if (doc.root.name != "cpu") {
+                         stdout.printf (@"ERROR CPU: root element $(doc.root.name)");
                          assert_not_reached ();
                        }
-                       var ghz = doc.document_element.get_attribute_node ("ghz");
+                       var ghz = (doc.root as Element).get_attr ("ghz");
                        if (ghz == null) {
                          stdout.printf (@"ERROR CPU: no attribute ghz");
                          assert_not_reached ();
                        }
-                       if (ghz.node_value != "3.85") {
-                         stdout.printf (@"ERROR CPU: ghz '$(ghz.node_value)'");
+                       if (ghz.value != "3.85") {
+                         stdout.printf (@"ERROR CPU: ghz '$(ghz.value)'");
                          assert_not_reached ();
                        }
-                       var p = doc.document_element.get_attribute_node ("piles");
+                       var p = (doc.root as Element).get_attr ("piles");
                        if (p == null) {
                          stdout.printf (@"ERROR CPU: no attribute piles");
                          assert_not_reached ();
                        }
-                       if (p.node_value != "1,2,3") {
-                         stdout.printf (@"ERROR CPU: piles '$(p.node_value)'");
+                       if (p.value != "1,2,3") {
+                         stdout.printf (@"ERROR CPU: piles '$(p.value)'");
                          assert_not_reached ();
                        }
                      }
@@ -669,7 +669,7 @@ class SerializableObjectModelTest : GXmlTest
     Test.add_func ("/gxml/serializable/object_model/override_transform_from_string",
                    () => {
                      var cpu = new Cpu ();
-                     var doc = new xDocument.from_string (XML_CPU_FILE);
+                     var doc = new GDocument.from_string (XML_CPU_FILE);
                      try {
                        cpu.deserialize (doc);
                        //stdout.printf (@"$doc");
@@ -701,13 +701,13 @@ class SerializableObjectModelTest : GXmlTest
                    });
     Test.add_func ("/gxml/serializable/object_model/override_serialize",
                    () => {
-                     var doc = new xDocument ();
+                     var doc = new GDocument ();
                      var configuration = new Configuration ();
                      configuration.device = "Controller";
                      try {
                        configuration.serialize (doc);
                        //stdout.printf (@"DOC: $doc");
-                       if (doc.document_element == null) {
+                       if (doc.root == null) {
 #if DEBUG
                          GLib.message ("DOC: No root element");
 #endif
@@ -743,7 +743,7 @@ class SerializableObjectModelTest : GXmlTest
                    });
     Test.add_func ("/gxml/serializable/object_model/override_deserialize",
                    () => {
-                     var doc = new xDocument.from_string ("""<?xml version="1.0"?>
+                     var doc = new GDocument.from_string ("""<?xml version="1.0"?>
                      <Configuration xmlns:om="http://www.gnome.org/gxml/0.4" device="Sampler"/>""");
                      var configuration = new Configuration ();
                      try {
@@ -757,7 +757,7 @@ class SerializableObjectModelTest : GXmlTest
                        if (configuration.invalid == true) {
 #if DEBUG
                          stdout.printf ("CONFIGURATION: deserialize is INVALID\n");
-                         foreach (GXml.Namespace n in doc.document_element.namespace_definitions) {
+                         foreach (GXml.Namespace n in doc.root.namespaces) {
                            stdout.printf (@"CONFIGURATION: namespace: $(n.uri)\n");
                          }
 #endif
@@ -771,7 +771,7 @@ class SerializableObjectModelTest : GXmlTest
                    });
     Test.add_func ("/gxml/serializable/object_model/custome_node_name",
                    () => {
-                     var doc = new xDocument.from_string ("""<?xml version="1.0"?><NodeName />""");
+                     var doc = new GDocument.from_string ("""<?xml version="1.0"?><NodeName />""");
                      var nodename = new NodeName ();
                      try {
                        nodename.deserialize (doc);
@@ -783,23 +783,23 @@ class SerializableObjectModelTest : GXmlTest
                    });
     Test.add_func ("/gxml/serializable/object_model/no_serialize_null_property",
                    () => {
-                     var doc = new xDocument();
+                     var doc = new GDocument();
                      var unknown_property = new UnknownAttribute (); // name is set to null
                      try {
                        unknown_property.serialize (doc);
                        //stdout.printf (@"DOCUMENT: $doc"); assert_not_reached ();
-                       var name = doc.document_element.get_attribute_node ("name");
+                       var name = (doc.root as GElement).get_attr ("name");
                        if (name != null) {
-                         stdout.printf (@"ERROR: NULL ATTRIBUTE SERIALIZATION: name found $(name.node_name)");
+                         stdout.printf (@"ERROR: NULL ATTRIBUTE SERIALIZATION: name found $(name.name)");
                          assert_not_reached ();
                        }
-                       var array = doc.document_element.get_attribute_node ("array");
+                       var array = (doc.root as Element).get_attr ("array");
                        if (array != null) {
-                         stdout.printf (@"ERROR: NULL ATTRIBUTE SERIALIZATION: array found $(array.node_name)");
+                         stdout.printf (@"ERROR: NULL ATTRIBUTE SERIALIZATION: array found $(array.name)");
                          assert_not_reached ();
                        }
-                       if (doc.document_element.has_child_nodes ()) {
-                         stdout.printf (@"ERROR: NULL ATTRIBUTE SERIALIZATION: Nodes found $(doc.document_element.has_child_nodes ())");
+                       if (doc.root.children.size > 0) {
+                         stdout.printf (@"ERROR: NULL ATTRIBUTE SERIALIZATION: Nodes found $(doc.root.children.size > 0)");
                          assert_not_reached ();
                        }
                      }
@@ -810,7 +810,7 @@ class SerializableObjectModelTest : GXmlTest
                    });
     Test.add_func ("/gxml/serializable/object_model/unknown_property",
                    () => {
-                      var doc = new xDocument.from_string ("""<?xml version="1.0"?>
+                      var doc = new GDocument.from_string ("""<?xml version="1.0"?>
 <UnknownAttribute ignore="true" ignore2="test"><UnknownNode toignore = "true" />TEXT</UnknownAttribute>""");
                      assert (doc.root != null);
                      assert (doc.root.name == "UnknownAttribute");
@@ -876,7 +876,7 @@ class SerializableObjectModelTest : GXmlTest
                    });
     Test.add_func ("/gxml/serializable/object_model/deserialize_unknown_property",
                    () => {
-                     var doc = new xDocument.from_string ("""<?xml version="1.0"?>
+                     var doc = new GDocument.from_string ("""<?xml version="1.0"?>
                      <UnknownAttribute ignore="true" ignore2="test">
                       <UnknownNode direction = "fordward">
                        <UnknownChild t = "test">
@@ -886,7 +886,7 @@ class SerializableObjectModelTest : GXmlTest
                      var unknown_property = new UnknownAttribute ();
                      try {
                        unknown_property.deserialize (doc);
-                       var doc2 = (GXml.Document) new xDocument ();
+                       var doc2 = (GXml.Document) new GDocument ();
 #if DEBUG
                        GLib.message ("Prepare to Serialize...");
 #endif
@@ -896,12 +896,12 @@ class SerializableObjectModelTest : GXmlTest
                        GLib.message ("Serialized back document: \n"+doc2.to_string ());
 #endif
                        if (doc2.root == null) {
-                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: No Root xElement");
+                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: No Root GElement");
                          assert_not_reached ();
                        }
                        GXml.Element element = (GXml.Element) doc2.root;
                        if (element.name.down () != "unknownattribute") {
-                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: Root xElement Bad name $(element.name.down ())");
+                         stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: Root GElement Bad name $(element.name.down ())");
                          assert_not_reached ();
                        }
                        var ignore = element.attrs.get ("ignore");
@@ -990,7 +990,7 @@ class SerializableObjectModelTest : GXmlTest
                          stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: UnknownNode No not found");
                          assert_not_reached ();
                        }
-                       // TODO: serialized_xml_node_value have more text than expected, may be a bug in xDocument.to_string ()
+                       // TODO: serialized_xml_node_value have more text than expected, may be a bug in GDocument.to_string ()
                        if (unknown_property.serialized_xml_node_value == "FAKE TEXT") {
                          stdout.printf (@"ERROR: UNKNOWN_ATTRIBUTE: SERIALIZATION: Bad UnknownAttribute node's content text $(unknown_property.serialized_xml_node_value)");
                          assert_not_reached ();
@@ -1004,27 +1004,27 @@ class SerializableObjectModelTest : GXmlTest
     Test.add_func ("/gxml/serializable/object_model/serialize_unknown_property",
                    () => {
                      try {
-                       var doc = new xDocument.from_string ("""<?xml version="1.0"?>
+                       var doc = new GDocument.from_string ("""<?xml version="1.0"?>
 <UnknownAttribute ignore="true" ignore2="test"><UnknownNode toignore = "true" />TEXT</UnknownAttribute>""");
                         var unknown_property = new UnknownAttribute ();
                        unknown_property.deserialize (doc);
-                       var ndoc = new xDocument ();
+                       var ndoc = new GDocument ();
                        unknown_property.serialize (ndoc);
-                       if (ndoc.document_element.child_nodes.size != 2) {
-                         stdout.printf (@"ERROR: Root incorrect child node number: found '$(doc.document_element.children.size)\n");
-                         foreach (GXml.xNode rn in ndoc.document_element.child_nodes) {
+                       if (ndoc.root.children.size != 2) {
+                         stdout.printf (@"ERROR: Root incorrect child node number: found '$(doc.root.children.size)\n");
+                         foreach (GXml.Node rn in ndoc.root.children) {
                            string nv = "__NULL__";
-                           if (rn.node_value != null)
-                             nv = rn.node_value;
-                           stdout.printf (@"Node: $(rn.node_name) / Value: '$(nv)'\n");
+                           if (rn.value != null)
+                             nv = rn.value;
+                           stdout.printf (@"Node: $(rn.name) / Value: '$(nv)'\n");
                          }
                          stdout.printf (@"$(ndoc)\n");
                          assert_not_reached ();
                        }
-                       foreach (GXml.xNode n in ndoc.document_element.child_nodes) {
+                       foreach (GXml.Node n in ndoc.root.children) {
                          if (n is Text) {
-                           if (n.node_value != "TEXT") {
-                             stdout.printf (@"ERROR: Unknown Text xElement not set: found '$(n.node_value)\n");
+                           if (n.value != "TEXT") {
+                             stdout.printf (@"ERROR: Unknown Text GElement not set: found '$(n.value)\n");
                              assert_not_reached ();
                            }
                          }
@@ -1037,7 +1037,7 @@ class SerializableObjectModelTest : GXmlTest
     Test.add_func ("/gxml/serializable/object_model/deserialize_incorrect_uint",
                    () => {
                      try {
-                       var doc = new xDocument.from_string (
+                       var doc = new GDocument.from_string (
                             """<?xml version="1.0"?>
                             <PACKAGE source="Mexico/North" destiny="Brazil" Hope="2/4.04">
                             <manual document="Sales Card" pages="1">Selling Card Specification</manual>
@@ -1057,9 +1057,9 @@ class SerializableObjectModelTest : GXmlTest
     Test.add_func ("/gxml/serializable/object_model/set_namespace", () => {
       try {
         var ns = new NameSpace ();
-        var doc = new xDocument ();
+        var doc = new GDocument ();
         ns.serialize (doc);
-        assert (doc.document_element.to_string () == "<gxml:namespace xmlns:gxml=\"http://www.gnome.org/GXml\"/>");
+        assert (doc.root.to_string () == "<gxml:namespace xmlns:gxml=\"http://www.gnome.org/GXml\"/>");
       } catch (GLib.Error e) {
 #if DEBUG
         GLib.message ("ERROR: "+e.message);
@@ -1070,7 +1070,7 @@ class SerializableObjectModelTest : GXmlTest
   Test.add_func ("/gxml/serializable/object_model/find-unknown_property", () => {
       try {
         var p = new Package ();
-        var doc = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc = new GDocument.from_string ("""<?xml version="1.0"?>
 <PACKAGE source="Mexico/North" destiny="Brazil" Unknown="2/4.04">
 <manual document="Sales Card" pages="1">Selling Card Specification</manual>
 <Computer manufacturer="BoxingLAN" model="J24-EX9" cores="32" ghz="1.8"/>
@@ -1091,18 +1091,18 @@ UNKNOWN CONTENT
       }
     });
   }
-  static void serialize_manual_check (xElement element, Manual manual)
+  static void serialize_manual_check (GElement element, Manual manual)
   {
-    var document = element.get_attribute_node ("document");
+    var document = element.get_attr ("document");
     if (document == null) assert_not_reached ();
-    if (document.node_value != manual.document) {
-      stdout.printf (@"ERROR MANUAL:  document: $(document.node_value)\n");
+    if (document.value != manual.document) {
+      stdout.printf (@"ERROR MANUAL:  document: $(document.value)\n");
       assert_not_reached ();
     }
-    var pages = element.get_attribute_node ("pages");
+    var pages = element.get_attr ("pages");
     if (pages == null) assert_not_reached ();
-    if (int.parse (pages.node_value) != manual.pages) {
-      stdout.printf (@"ERROR MANUAL: pages: $(pages.node_value)\n");
+    if (int.parse (pages.value) != manual.pages) {
+      stdout.printf (@"ERROR MANUAL: pages: $(pages.value)\n");
       assert_not_reached ();
     }
     if (element.content != manual.get_contents ()) {

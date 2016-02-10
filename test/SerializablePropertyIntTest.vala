@@ -39,13 +39,13 @@ class SerializablePropertyIntTest : GXmlTest {
     () => {
       try {
         var bn = new IntNode ();
-        var doc = new xDocument ();
+        var doc = new GDocument ();
         bn.serialize (doc);
         Test.message ("XML:\n"+doc.to_string ());
-        var element = doc.document_element;
-        var b = element.get_attribute_node ("IntegerValue");
+        var element = doc.root as Element;
+        var b = element.get_attr ("IntegerValue");
         assert (b == null);
-        var s = element.get_attribute_node ("name");
+        var s = element.get_attr ("name");
         assert (s == null);
       } catch (GLib.Error e) {
         Test.message (@"ERROR: $(e.message)");
@@ -56,41 +56,41 @@ class SerializablePropertyIntTest : GXmlTest {
     () => {
       try {
         var bn = new IntNode ();
-        var doc = new xDocument ();
+        var doc = new GDocument ();
         bn.serialize (doc);
         Test.message ("XML:\n"+doc.to_string ());
-        var element = doc.document_element;
-        var b = element.get_attribute_node ("IntegerValue");
+        var element = doc.root as Element;
+        var b = element.get_attr ("IntegerValue");
         assert (b == null);
-        var s = element.get_attribute_node ("name");
+        var s = element.get_attr ("name");
         assert (s == null);
         // Change values
         bn.integer = new SerializableInt ();
         // set to 233
         bn.integer.set_value (233);
-        var doc2 = new xDocument ();
+        var doc2 = new GDocument ();
         bn.serialize (doc2);
         Test.message ("XML2:\n"+doc2.to_string ());
-        var element2 = doc2.document_element;
-        var b2 = element2.get_attribute_node ("IntegerValue");
+        var element2 = doc2.root as Element;
+        var b2 = element2.get_attr ("IntegerValue");
         assert (b2 != null);
         assert (b2.value == "233");
         // set to -1
         bn.integer.set_value (-1);
-        var doc3 = new xDocument ();
+        var doc3 = new GDocument ();
         bn.serialize (doc3);
         Test.message ("XML3:\n"+doc3.to_string ());
-        var element3 = doc3.document_element;
-        var b3 = element3.get_attribute_node ("IntegerValue");
+        var element3 = doc3.root as Element;
+        var b3 = element3.get_attr ("IntegerValue");
         assert (b3 != null);
         assert (b3.value == "-1");
         // set to NULL/IGNORE
         bn.integer.set_serializable_property_value (null);
-        var doc4= new xDocument ();
+        var doc4= new GDocument ();
         bn.serialize (doc4);
         Test.message ("XML3:\n"+doc4.to_string ());
-        var element4 = doc4.document_element;
-        var b4 = element4.get_attribute_node ("IntegerValue");
+        var element4 = doc4.root as Element;
+        var b4 = element4.get_attr ("IntegerValue");
         assert (b4 == null);
       } catch (GLib.Error e) {
         Test.message (@"ERROR: $(e.message)");
@@ -100,7 +100,7 @@ class SerializablePropertyIntTest : GXmlTest {
     Test.add_func ("/gxml/serializable/Int/deserialize/basic",
     () => {
       try {
-        var doc1 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc1 = new GDocument.from_string ("""<?xml version="1.0"?>
                        <IntNode IntegerValue="1416"/>""");
         var i = new IntNode ();
         i.deserialize (doc1);
@@ -118,7 +118,7 @@ class SerializablePropertyIntTest : GXmlTest {
     Test.add_func ("/gxml/serializable/Int/deserialize/bad-value",
     () => {
       try {
-        var doc1 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc1 = new GDocument.from_string ("""<?xml version="1.0"?>
                        <IntNode IntegerValue="a"/>""");
         var i1 = new IntNode ();
         i1.deserialize (doc1);
@@ -126,7 +126,7 @@ class SerializablePropertyIntTest : GXmlTest {
         assert (i1.integer.get_serializable_property_value () == "a");
         Test.message ("Actual value parse: "+i1.integer.get_value ().to_string ());
         assert (i1.integer.get_value () == 0);
-        var doc2 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc2 = new GDocument.from_string ("""<?xml version="1.0"?>
                        <IntNode IntegerValue="1.1"/>""");
         var i2 = new IntNode ();
         i2.deserialize (doc2);
@@ -134,7 +134,7 @@ class SerializablePropertyIntTest : GXmlTest {
         assert (i2.integer.get_serializable_property_value () == "1.1");
         Test.message ("Actual value parse: "+i2.integer.get_value ().to_string ());
         assert (i2.integer.get_value () == 1);
-        var doc3 = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc3 = new GDocument.from_string ("""<?xml version="1.0"?>
                        <IntNode IntegerValue="1a"/>""");
         var i3 = new IntNode ();
         i3.deserialize (doc3);

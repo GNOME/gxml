@@ -196,10 +196,10 @@ class SerializableGeeDualKeyMapTest : GXmlTest
     Test.add_func ("/gxml/serializable/serializable_dual_key_map/deserialize",
     () => {
       try {
-        var doc = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc = new GDocument.from_string ("""<?xml version="1.0"?>
 <root><spaces name="Small" owner="Wall"/><spaces name="Smallest" owner="Wall"/><spaces name="Big" owner="Floor"/><spaces name="Bigger" owner="Floor"/><spark /></root>""");
         var c = new SerializableDualKeyMap<string,string,Spaces> ();
-        c.deserialize (doc.document_element);
+        c.deserialize (doc.root);
         if (c.size != 4) {
           stdout.printf (@"ERROR: incorrect size must be 4 got: $(c.size)\n");
           assert_not_reached ();
@@ -239,19 +239,19 @@ class SerializableGeeDualKeyMapTest : GXmlTest
     Test.add_func ("/gxml/serializable/serializable_dual_key_map/de-se-deserialize",
     () => {
       try {
-        var idoc = new xDocument.from_string ("""<?xml version="1.0"?>
+        var idoc = new GDocument.from_string ("""<?xml version="1.0"?>
 <root><spaces name="Small" owner="Wall"/><spaces name="Smallest" owner="Wall"/><spaces name="Big" owner="Floor"/><spaces name="Bigger" owner="Floor"/><spark /></root>""");
         var ic = new SerializableDualKeyMap<string,string,Spaces> ();
-        ic.deserialize (idoc.document_element);
+        ic.deserialize (idoc.root);
         if (ic.size != 4) {
           stdout.printf (@"ERROR: Incorrect size (1st deserialize). Expected 4, got: $(ic.size)\n$idoc\n");
           assert_not_reached ();
         }
-        var doc = new xDocument.from_string ("""<?xml version="1.0"?>
+        var doc = new GDocument.from_string ("""<?xml version="1.0"?>
 <root />""");
-        ic.serialize (doc.document_element);
+        ic.serialize (doc.root);
         var c =  new SerializableDualKeyMap<string,string,Spaces> ();
-        c.deserialize (doc.document_element);
+        c.deserialize (doc.root);
         if (c.size != 4) {
           stdout.printf (@"ERROR: Incorrect size. Expected 4, got: $(c.size)\n$doc\n");
           assert_not_reached ();
@@ -265,7 +265,7 @@ class SerializableGeeDualKeyMapTest : GXmlTest
     Test.add_func ("/gxml/serializable/serializable_dual_key_map/deserialize-node-names",
     () => {
       try {
-        var d = new xDocument.from_path (GXmlTestConfig.TEST_DIR + "/test-collection.xml");
+        var d = new GDocument.from_path (GXmlTestConfig.TEST_DIR + "/test-collection.xml");
         var bs = new BookStore ();
         bs.deserialize (d);
         assert (bs.name == "The Great Book");
