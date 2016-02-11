@@ -632,7 +632,7 @@ class SerializableObjectModelTest : GXmlTest
                      }
                    }
                    );
-    Test.add_func ("/gxml/serializable/object_model/override_transform_to_string",
+    /*Test.add_func ("/gxml/serializable/object_model/override_transform_to_string",
                    () => {
                      var cpu = new Cpu ();
                      cpu.ghz = (float) 3.85;
@@ -707,7 +707,7 @@ class SerializableObjectModelTest : GXmlTest
                        stdout.printf (@"Error: $(e.message)");
                        assert_not_reached ();
                      }
-                   });
+                   });*/
     Test.add_func ("/gxml/serializable/object_model/override_serialize",
                    () => {
                      var doc = new GDocument ();
