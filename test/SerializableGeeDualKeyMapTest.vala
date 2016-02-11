@@ -37,10 +37,6 @@ class Spaces : SerializableObjectModel, SerializableMapDualKey<string,string>
     this.name = name;
     this.owner = owner;
   }
-  public override void init_properties ()
-  {
-    default_init_properties ();
-  }
   public override string to_string () { return name; }
 }
 

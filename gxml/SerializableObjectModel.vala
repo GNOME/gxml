@@ -69,14 +69,17 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
   private void init_unknown_doc ()
   {
     _doc = new TwDocument ();
-    var r = _doc.create_element ("root");
-    _doc.children.add (r);
+    try {
+      var r = _doc.create_element ("root");
+     _doc.children.add (r);
+    }
+    catch { assert_not_reached (); }
   }
 
   public virtual bool serialize_use_xml_node_value () { return false; }
   public virtual bool property_use_nick () { return false; }
 
-  public virtual bool set_namespace (GXml.Node node) { return true; }
+  public virtual bool set_default_namespace (GXml.Node node) { return true; }
   public virtual string node_name ()
   {
     return default_node_name ();
@@ -91,36 +94,9 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     return default_find_property_spec (property_name);
   }
 
-  public virtual void init_properties ()
-  {
-    default_init_properties ();
-  }
-
   public virtual GLib.ParamSpec[] list_serializable_properties ()
   {
     return default_list_serializable_properties ();
-  }
-
-  public virtual void get_property_value (GLib.ParamSpec spec, ref Value val)
-  {
-    default_get_property_value (spec, ref val);
-  }
-
-  public virtual void set_property_value (GLib.ParamSpec spec, GLib.Value val)
-  {
-    default_set_property_value (spec, val);
-  }
-
-  public virtual bool transform_from_string (string str, ref GLib.Value dest)
-                                            throws GLib.Error
-  {
-    return false;
-  }
-
-  public virtual bool transform_to_string (GLib.Value val, ref string str)
-                                          throws GLib.Error
-  {
-    return false;
   }
 
   public virtual GXml.Node? serialize (GXml.Node node)
@@ -144,7 +120,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       doc = node.document;
     var element = (Element) doc.create_element (node_name ());
     node.children.add (element);
-    set_namespace (element);
+    set_default_namespace (element);
     foreach (ParamSpec spec in list_serializable_properties ()) {
       serialize_property (element, spec);
     }
@@ -236,18 +212,16 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     }
     else
     {
-      if (!transform_to_string (oval, ref val)) {
-        if (Value.type_transformable (prop.value_type, typeof (string)))
-        {
-          Value rval = Value (typeof (string));
-          oval.transform (ref rval);
-          val = rval.dup_string ();
-        }
-        else {
-          Node node = null;
-          this.serialize_unknown_property (element, prop, out node);
-          return node;
-        }
+      if (Value.type_transformable (prop.value_type, typeof (string)))
+      {
+        Value rval = Value (typeof (string));
+        oval.transform (ref rval);
+        val = rval.dup_string ();
+      }
+      else {
+        Node node = null;
+        this.serialize_unknown_property (element, prop, out node);
+        return node;
       }
     }
     string attr_name;
@@ -451,14 +425,12 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
           catch (EnumerationError e) {}
         }
         else {
-          if (!transform_from_string (property_node.value, ref val)) {
-            Value ptmp = Value (typeof (string));
-            ptmp.set_string (property_node.value);
-            if (Value.type_transformable (typeof (string), prop.value_type))
-              ret = ptmp.transform (ref val);
-            else
-              ret = string_to_gvalue (property_node.value, ref val);
-          }
+          Value ptmp = Value (typeof (string));
+          ptmp.set_string (property_node.value);
+          if (Value.type_transformable (typeof (string), prop.value_type))
+            ret = ptmp.transform (ref val);
+          else
+            ret = string_to_gvalue (property_node.value, ref val);
         }
         set_property (prop.name, val);
         return ret;
@@ -469,25 +441,4 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     return true;
   }
   public abstract string to_string ();
-
-  public static bool equals (SerializableObjectModel a, SerializableObjectModel b)
-  {
-    if (b.get_type () == a.get_type ()) {
-      var alp = ((Serializable)a).list_serializable_properties ();
-      bool ret = true;
-      foreach (ParamSpec p in alp) {
-        var bp = ((Serializable)b).find_property_spec (p.name);
-        if (bp != null) {
-          Value apval = Value (p.value_type);
-          ((Serializable)a).get_property_value (p, ref apval);
-          Value bpval = Value (bp.value_type);;
-          ((Serializable)b).get_property_value (bp, ref bpval);
-          if ( apval != bpval)
-            ret = false;
-        }
-      }
-      return ret;
-    }
-    return false;
-  }
 }

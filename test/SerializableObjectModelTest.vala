@@ -59,7 +59,7 @@ public class ObjectModel : SerializableObjectModel
     string ret = this.get_type ().name () +"{Properties:\n";
     foreach (ParamSpec p in lp) {
       Value v = Value (p.value_type);
-      get_property_value (p, ref v);
+      get_property (p.name, ref v);
       string t;
       try { t = gvalue_to_string (v); } catch { t = "[CANT_TRANSFORM]"; }
       ret += @"[$(p.name)]{" + t + "}\n";
@@ -177,7 +177,7 @@ public class Cpu : ObjectModel
   {
     piles = new Gee.ArrayList<int> ();
   }
-
+/*
   public override bool transform_to_string (GLib.Value val, ref string str)
   {
     if (val.type ().is_a (typeof (float))) {
@@ -204,6 +204,7 @@ public class Cpu : ObjectModel
     }
     return false;
   }
+  */
   public string piles_to_string ()
   {
     string str = "";
@@ -231,11 +232,18 @@ class Configuration : ObjectModel
   public override string node_name () { return "Configuration"; }
   public override bool property_use_nick () { return true; }
 
-  public Configuration ()
+  public override GLib.ParamSpec[] list_serializable_properties ()
   {
-    init_properties (); // initializing properties to be ignored by default
-    ignored_serializable_properties.set ("invalid",
-                                         get_class ().find_property("invalid"));
+    ParamSpec[] props = {};
+    var l = new HashTable<string,ParamSpec> (str_hash, str_equal);
+    l.set ("invalid",
+           get_class ().find_property("invalid"));
+    foreach (ParamSpec spec in default_list_serializable_properties ()) {
+      if (!l.contains (spec.name)) {
+        props += spec;
+      }
+    }
+    return props;
   }
   public override GXml.Node? serialize (GXml.Node node) throws GLib.Error
   {
@@ -281,7 +289,7 @@ class UnknownAttribute : ObjectModel
 
 public class NameSpace : SerializableObjectModel
 {
-  public override bool set_namespace (GXml.Node node)
+  public override bool set_default_namespace (GXml.Node node)
   {
     Test.message ("Setting default namespace");
     node.set_namespace ("http://www.gnome.org/GXml", "gxml");

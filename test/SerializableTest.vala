@@ -151,20 +151,18 @@ public class SerializableBanana : GXml.SerializableObjectModel {
 	// This method overrides the one implemented at Serializable
 	public override GLib.ParamSpec[] list_serializable_properties ()
 	{
-		if (properties == null) {
-			properties = new ParamSpec [4];
-			int i = 0;
-			foreach (string name in new string[] { "private-field", "public-field", "private-property", "public-property" }) {
-				// TODO: offer guidance for these fields, esp. ParamFlags
-				properties[i] = (ParamSpec) new ParamSpecInt (name, name, name, int.MIN, int.MAX, 0, ParamFlags.READABLE); 
-				i++;
-			}
+		var properties = new ParamSpec [4];
+		int i = 0;
+		foreach (string name in new string[] { "private-field", "public-field", "private-property", "public-property" }) {
+			// TODO: offer guidance for these fields, esp. ParamFlags
+			properties[i] = (ParamSpec) new ParamSpecInt (name, name, name, int.MIN, int.MAX, 0, ParamFlags.READABLE); 
+			i++;
 		}
 		return properties;
 	}
 
 	// This method overrides the one implemented at Serializable
-	public override void get_property_value (GLib.ParamSpec spec, ref Value val)
+	public void get_property_value (GLib.ParamSpec spec, ref Value val)
 	{
 		val = Value (typeof (int));
 		switch (spec.name) {
@@ -187,7 +185,7 @@ public class SerializableBanana : GXml.SerializableObjectModel {
 	}
 
 	// This method overrides the one implemented at Serializable
-	public override void set_property_value (GLib.ParamSpec spec, GLib.Value val)
+	public void set_property_value (GLib.ParamSpec spec, GLib.Value val)
 	{
 		switch (spec.name) {
 		case "private-field":

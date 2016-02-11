@@ -132,7 +132,7 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable, Serializ
   protected ParamSpec[] properties { get; set; }
   public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; protected set; }
   public string? serialized_xml_node_value { get; protected set; default=null; }
-  public virtual bool set_namespace (GXml.Node node) { return true; }
+  public virtual bool set_default_namespace (GXml.Node node) { return true; }
 
   public virtual bool get_enable_unknown_serializable_property () { return false; }
   public virtual bool serialize_use_xml_node_value () { return false; }
@@ -148,34 +148,9 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable, Serializ
     return default_find_property_spec (property_name);
   }
 
-  public virtual void init_properties ()
-  {
-    default_init_properties ();
-  }
-
   public virtual GLib.ParamSpec[] list_serializable_properties ()
   {
     return default_list_serializable_properties ();
-  }
-
-  public virtual void get_property_value (GLib.ParamSpec spec, ref Value val)
-  {
-    default_get_property_value (spec, ref val);
-  }
-
-  public virtual void set_property_value (GLib.ParamSpec spec, GLib.Value val)
-  {
-    default_set_property_value (spec, val);
-  }
-
-  public virtual bool transform_from_string (string str, ref GLib.Value dest)
-  {
-    return false;
-  }
-
-  public virtual bool transform_to_string (GLib.Value val, ref string str)
-  {
-    return false;
   }
 
   public virtual GXml.Node? serialize (GXml.Node node)
