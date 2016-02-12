@@ -98,7 +98,7 @@ namespace GXml {
      *
      * This property is ignored on serialisation.
      */
-    public abstract string?  serialized_xml_node_value { get; protected set; default = null; }
+    public abstract string?  serialized_xml_node_value { owned get; protected set; }
 
     /**
      * Used to set specific namespace for an {@link GXml.Element}.

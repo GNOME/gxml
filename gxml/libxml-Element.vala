@@ -491,5 +491,8 @@ namespace GXml {
 			this.set_attribute_node (attr);
 			attr.set_namespace (ns.uri, ns.prefix);
     }
+  	public void remove_attr (string name) {
+		  remove_attribute (name);
+		}
 	}
 }

@@ -47,6 +47,10 @@ public interface GXml.Element : Object, GXml.Node
      */
     public abstract GXml.Node get_attr (string name);
     /**
+     * Search for a {@link GXml.Attribute} with given name and removes it.
+     */
+    public abstract void remove_attr (string name);
+    /**
      * Set an {@link GXml.Attribute} with a given name, value and namespace.
      */
     public abstract void set_ns_attr (Namespace ns, string name, string value);

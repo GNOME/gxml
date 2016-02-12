@@ -70,6 +70,8 @@ class GElementTest : GXmlTest  {
 				elem.attrs.unset ("alley");
 				assert (elem.attrs.get ("alley") == null);
 				assert (elem.attrs.size == 2);
+				elem.remove_attr ("owl");
+				assert (elem.attrs.size == 1);
 			} catch (GLib.Error e) {
 				Test.message (e.message);
 				assert_not_reached ();

@@ -63,6 +63,9 @@ public class GXml.TwElement : GXml.TwNode, GXml.Element
     att.set_namespace (ns.uri, ns.prefix);
     attrs.set (name, att);
   }
+  public void remove_attr (string name) {
+    if (attrs.has_key (name)) attrs.unset (name);
+  }
   public void normalize () {}
   public string content {
     owned get {

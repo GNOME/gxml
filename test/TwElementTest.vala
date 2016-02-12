@@ -48,6 +48,9 @@ class TwElementTest : GXmlTest {
 			assert (c.name == "child");
 			assert (c.attrs.get ("cattr1") != null);
 			assert (c.attrs.get ("cattr1").value == "cval1");
+			e.remove_attr ("cattr1");
+			assert (e.attrs.size == 1);
+			assert (e.attrs.get ("cattr1") == null);
 			assert (c.content == "");
 			c.content = "";
 			assert (c.content == "");

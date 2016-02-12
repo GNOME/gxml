@@ -69,7 +69,7 @@ public interface GXml.Node : Object
   /**
    * Get first child with given name, or null. 
    */
-  public new GXml.Node? get (string key) {
+  public new virtual GXml.Node? get (string key) {
     foreach (var child in children)
       if (child.name == key)
         return child;

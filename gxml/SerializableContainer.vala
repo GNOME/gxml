@@ -19,6 +19,9 @@
  * Authors:
  *      Daniel Espinosa <esodan@gmail.com>
  */
+
+using Gee;
+
 /**
  * Any {@link GXml.Serializable} class having a collection managed list of
  * {@link GXml.Node} must implement this abstract class.
@@ -40,7 +43,7 @@ public abstract class GXml.SerializableContainer : SerializableObjectModel
 /**
  * Serializable Framework. interface to be implemented by any collection of {@link Serializable} objects.
  */
-public interface GXml.SerializableCollection : Object, Serializable
+public interface GXml.SerializableCollection : Object, Gee.Traversable<Serializable>, Serializable
 {
   public virtual bool is_collection () { return true; }
 }

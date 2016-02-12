@@ -49,7 +49,7 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
   }
   protected ParamSpec[] properties { get; set; }
   public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; protected set; }
-  public string? serialized_xml_node_value { get; protected set; default=null; }
+  public string? serialized_xml_node_value { owned get; protected set; default=null; }
   public virtual bool set_default_namespace (GXml.Node node) { return true; }
 
   public bool get_enable_unknown_serializable_property () { return false; }

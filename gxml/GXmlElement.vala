@@ -94,6 +94,12 @@ public class GXml.GElement : GXml.GNode, GXml.Element
       _node->set_content (value);
     }
   }
+  public void remove_attr (string name) {
+    if (_node == null) return;
+    var a = _node->has_prop (name);
+    if (a == null) return;
+    a->remove ();
+  }
   public string tag_name { owned get { return _node->name.dup (); } }
   public override string to_string () {
     var buf = new Xml.Buffer ();
