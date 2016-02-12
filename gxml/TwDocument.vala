@@ -31,6 +31,7 @@ using Xml;
 public class GXml.TwDocument : GXml.TwNode, GXml.Document
 {
   protected Gee.ArrayList<GXml.Node> _namespaces;
+  protected Gee.ArrayList<GXml.Node> _children;
   GXml.Element _root = null;
   construct {
     _name = "#document";
@@ -46,6 +47,12 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
     owned get {
       if (_namespaces == null) _namespaces = new Gee.ArrayList<GXml.Node> ();
       return _namespaces.ref () as Gee.List<GXml.Namespace>;
+    }
+  }
+  public override Gee.BidirList<GXml.Node> children {
+    owned get {
+      if (_children == null) _children  = new Gee.ArrayList<GXml.Node> ();
+      return _children.ref () as Gee.BidirList<GXml.Node>;
     }
   }
   /**
@@ -77,10 +84,11 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
   public GLib.File file { get; set; }
   public GXml.Node root {
     owned get {
+      if (_children == null) _children  = new Gee.ArrayList<GXml.Node> ();
       if (_root == null) {
         int found = 0;
-        for (int i = 0; i < childs.size; i++) {
-          GXml.Node n = childs.get (i);
+        for (int i = 0; i < children.size; i++) {
+          GXml.Node n = children.get (i);
           if (n is GXml.Element) {
             found++;
             if (found == 1)

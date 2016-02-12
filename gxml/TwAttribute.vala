@@ -26,6 +26,7 @@ using Gee;
  */
 public class GXml.TwAttribute : GXml.TwNode, GXml.Attribute
 {
+  protected Gee.ArrayList<GXml.Node> _namespaces;
   public TwAttribute (GXml.Document d, string name, string value)
     requires (d is TwDocument)
   {
@@ -33,8 +34,17 @@ public class GXml.TwAttribute : GXml.TwNode, GXml.Attribute
     _name = name;
     _value = value;
   }
+  // Node
+  public override Gee.List<GXml.Namespace> namespaces {
+    owned get {
+      if (_namespaces == null) _namespaces = new Gee.ArrayList<GXml.Node> ();
+      return _namespaces.ref () as Gee.List<GXml.Namespace>;
+    }
+  }
+  // Attribute
   public Namespace @namespace {
     owned get {
+      if (_namespaces == null) _namespaces = new Gee.ArrayList<GXml.Node> ();
       return (Namespace) namespaces.get (0).ref ();
     }
     set {
