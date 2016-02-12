@@ -26,6 +26,9 @@ using Gee;
  */
 public class GXml.TwElement : GXml.TwNode, GXml.Element
 {
+  protected Gee.HashMap<string,GXml.Node> _attrs;
+  protected Gee.ArrayList<GXml.Node> _children;
+  protected Gee.ArrayList<GXml.Node> _namespaces;
   private string _content = null;
   public TwElement (GXml.Document d, string name)
     requires (d is TwDocument)
@@ -41,6 +44,24 @@ public class GXml.TwElement : GXml.TwNode, GXml.Element
       return _content.dup ();
     }
     set { update_content (value); }
+  }
+  public override Gee.Map<string,GXml.Node> attrs {
+    owned get {
+      if (_attrs == null) _attrs = new Gee.HashMap<string,GXml.Node> ();
+      return _attrs.ref () as Gee.Map<string,GXml.Node>;
+    }
+  }
+  public override Gee.BidirList<GXml.Node> children {
+    owned get {
+      if (_children == null) _children  = new Gee.ArrayList<GXml.Node> ();
+      return _children.ref () as Gee.BidirList<GXml.Node>;
+    }
+  }
+  public override Gee.List<GXml.Namespace> namespaces {
+    owned get {
+      if (_namespaces == null) _namespaces = new Gee.ArrayList<GXml.Node> ();
+      return _namespaces.ref () as Gee.List<GXml.Namespace>;
+    }
   }
   // GXml.Element
   public void set_attr (string name, string value)

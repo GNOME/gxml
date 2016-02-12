@@ -28,7 +28,7 @@ using Gee;
  * It implements {@link Serializable} and {@link SerializableCollection} interfaces, it is iterable as
  * other Gee collections.
  */
-public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable, SerializableCollection
+public class GXml.SerializableDualKeyMap<P,S,V> : Object, Gee.Traversable <V>, Serializable, SerializableCollection
 {
   protected Gee.HashMultiMap<P,HashMap<S,V>> storage;
 
@@ -228,6 +228,10 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Serializable, Serializ
                                             throws GLib.Error
   {
     return true;
+  }
+  // Traversable
+  public new bool @foreach (Gee.ForallFunc<V> f) {
+    return values ().@foreach (f);
   }
 }
 

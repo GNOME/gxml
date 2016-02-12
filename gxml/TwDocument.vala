@@ -30,6 +30,7 @@ using Xml;
  */
 public class GXml.TwDocument : GXml.TwNode, GXml.Document
 {
+  protected Gee.ArrayList<GXml.Node> _namespaces;
   GXml.Element _root = null;
   construct {
     _name = "#document";
@@ -41,6 +42,12 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
     this.file = f;
   }
   // GXml.Node
+  public override Gee.List<GXml.Namespace> namespaces {
+    owned get {
+      if (_namespaces == null) _namespaces = new Gee.ArrayList<GXml.Node> ();
+      return _namespaces.ref () as Gee.List<GXml.Namespace>;
+    }
+  }
   /**
    * {@inheritDoc}
    *
@@ -57,6 +64,7 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
    */
   public override bool set_namespace (string uri, string? prefix)
   {
+    if (_namespaces == null) _namespaces = new Gee.ArrayList<GXml.Node> ();
     _namespaces.add (new TwNamespace (this, uri, prefix));
     return true;
   }
