@@ -247,7 +247,7 @@ public abstract class GXml.SerializableXOM : GXml.TwDocument, GXml.Serializable
                                         GLib.ParamSpec prop)
                                         throws GLib.Error
   {
-    return null;
+    return element;
   }
 
   public virtual GXml.Node? deserialize (GXml.Node node)
@@ -304,7 +304,6 @@ public abstract class GXml.SerializableXOM : GXml.TwDocument, GXml.Serializable
     }
     return false;
   }
-  public abstract string to_string ();
 
   public class ChildrenList : ArrayList<GXml.Node> {
     private SerializableXOM serializable;
