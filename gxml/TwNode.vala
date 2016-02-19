@@ -29,6 +29,7 @@ public abstract class GXml.TwNode : Object, GXml.Node
   protected string _name = null;
   protected string _value = null;
   protected GXml.Document _doc;
+  protected GXml.Node _parent;
   internal Xml.TextWriter *tw;
 
 	construct { Init.init (); }
@@ -52,11 +53,23 @@ public abstract class GXml.TwNode : Object, GXml.Node
   }
   public virtual string to_string () { return get_type ().name (); }
   public virtual Gee.Map<string,GXml.Node> attrs { owned get { return new Gee.HashMap<string,GXml.Node> (); } }
-  public virtual Gee.BidirList<GXml.Node> children { owned get { return new Gee.ArrayList<GXml.Node> (); } }
+  public virtual Gee.BidirList<GXml.Node> children { owned get { return new TwChildrenList (this); } }
   public virtual GXml.Document document { get { return _doc; } }
   public virtual string name { owned get { return _name.dup (); } }
   public virtual Gee.List<GXml.Namespace> namespaces { owned get { return new Gee.ArrayList<GXml.Node> (); } }
   public virtual GXml.NodeType type_node { get { return GXml.NodeType.DOCUMENT; } }
   public virtual string value { owned get { return _value.dup (); } set  { _value = value; } }
-  public virtual GXml.Node parent { owned get { return null; } }
+  public virtual GXml.Node parent { owned get { return _parent; } }
+  public virtual void set_parent (GXml.Node node) { _parent = node; }
+  
+  protected class TwChildrenList : Gee.ArrayList<GXml.Node> {
+    GXml.Node _parent;
+    protected TwChildrenList (GXml.Node e) {
+      _parent = e;
+    }
+    protected new bool add (GXml.Node node) {
+      (node as GXml.TwNode).set_parent (_parent);
+      return base.add (node);
+    }
+  }
 }

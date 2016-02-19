@@ -27,7 +27,7 @@ using Gee;
 public class GXml.TwElement : GXml.TwNode, GXml.Element
 {
   protected Gee.HashMap<string,GXml.Node> _attrs;
-  protected Gee.ArrayList<GXml.Node> _children;
+  protected TwNode.TwChildrenList _children;
   protected Gee.ArrayList<GXml.Node> _namespaces;
   private string _content = null;
   public TwElement (GXml.Document d, string name)
@@ -53,7 +53,7 @@ public class GXml.TwElement : GXml.TwNode, GXml.Element
   }
   public override Gee.BidirList<GXml.Node> children {
     owned get {
-      if (_children == null) _children  = new Gee.ArrayList<GXml.Node> ();
+      if (_children == null) _children  = new TwChildrenList (this);
       return _children.ref () as Gee.BidirList<GXml.Node>;
     }
   }
@@ -68,6 +68,7 @@ public class GXml.TwElement : GXml.TwNode, GXml.Element
   {
     if (":" in name) return;
     var att = new TwAttribute (document, name, value);
+    att.set_parent (this);
     attrs.set (name, att);
   }
   public GXml.Node get_attr (string name) { return attrs.get (name); }
@@ -82,6 +83,7 @@ public class GXml.TwElement : GXml.TwNode, GXml.Element
   public void set_ns_attr (Namespace ns, string name, string value) {
     var att = new TwAttribute (document, name, value);
     att.set_namespace (ns.uri, ns.prefix);
+    att.set_parent (this);
     attrs.set (name, att);
   }
   public void remove_attr (string name) {
