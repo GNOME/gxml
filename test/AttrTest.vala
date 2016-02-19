@@ -170,5 +170,11 @@ class AttrTest : GXmlTest {
 				attr.remove_child (attr.child_nodes.last ());
 				assert (attr.value == "");
 			});
+		Test.add_func ("/gxml/attribute/parent", () => {
+			var doc = new xDocument.from_string ("<root attr=\"val\"><child/></root>");
+			assert (doc.root != null);
+			assert (doc.root.attrs["attr"] != null);
+			assert (doc.root.attrs["attr"].parent == null);
+		});
 	}
 }

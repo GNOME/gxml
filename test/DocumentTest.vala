@@ -443,6 +443,10 @@ class DocumentTest : GXmlTest {
 				/* more thorough test exists in xElement, since right now
 				   xDocument uses that one */
 			});
+		Test.add_func ("/gxml/document/parent", () => {
+				var doc = new xDocument ();
+				assert (doc.parent == null);
+			});
 		Test.add_func ("/gxml/document/to_string", () => {
 				xDocument doc = get_doc ();
 				assert (doc.to_string () == "<?xml version=\"1.0\"?>
