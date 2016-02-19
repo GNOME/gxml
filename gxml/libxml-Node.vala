@@ -509,5 +509,6 @@ namespace GXml {
 		public GXml.NodeType type_node { get { return node_type; } }
 		public virtual string to_string () { return stringify (); }
 		public GXml.Document document { get { return this.owner_document; } }
+		public virtual GXml.Node parent { owned get { return parent_node.ref () as GXml.Node; } }
 	}
 }

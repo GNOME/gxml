@@ -58,4 +58,5 @@ public abstract class GXml.TwNode : Object, GXml.Node
   public virtual Gee.List<GXml.Namespace> namespaces { owned get { return new Gee.ArrayList<GXml.Node> (); } }
   public virtual GXml.NodeType type_node { get { return GXml.NodeType.DOCUMENT; } }
   public virtual string value { owned get { return _value.dup (); } set  { _value = value; } }
+  public virtual GXml.Node parent { owned get { return null; } }
 }

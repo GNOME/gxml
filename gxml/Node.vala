@@ -67,6 +67,10 @@ public interface GXml.Node : Object
    */
   public abstract GXml.Document document { get; }
   /**
+   * Node's XML document holding this node.
+   */
+  public abstract GXml.Node parent { owned get; }
+  /**
    * Get first child with given name, or null. 
    */
   public new virtual GXml.Node? get (string key) {
