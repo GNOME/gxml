@@ -1,4 +1,11 @@
 ===============
+Version 0.9.1
+===============
+
+* Added GXml.Node.parent property
+
+
+===============
 Version 0.9.0
 ===============
 

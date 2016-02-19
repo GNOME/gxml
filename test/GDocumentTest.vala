@@ -321,5 +321,9 @@ class GDocumentTest : GXmlTest {
 				assert_not_reached ();
 			}
 		});
+		Test.add_func ("/gxml/gdocument/parent", () => {
+			var doc = new GDocument ();
+			assert (doc.parent == null);
+		});
 	}
 }

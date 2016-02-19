@@ -143,5 +143,14 @@ class GElementTest : GXmlTest  {
 				assert_not_reached ();
 			}
 		});
+		Test.add_func ("/gxml/gelement/parent", () => {
+			var doc = new GDocument.from_string ("<root><child/></root>");
+			assert (doc.root != null);
+			assert (doc.root.parent is GXml.Node);
+			assert (doc.root.parent is GXml.Document);
+			assert (doc.root.children[0] != null);
+			assert (doc.root.children[0].parent != null);
+			assert (doc.root.children[0].parent.name == "root");
+		});
 	}
 }

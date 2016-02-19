@@ -42,7 +42,12 @@ public abstract class GXml.GNode : Object, GXml.Node
   public virtual Gee.BidirList<GXml.Node> children { owned get { return new GListChildren (_doc, _node); } }
   public virtual Gee.List<GXml.Namespace> namespaces { owned get { return new GListNamespaces (_doc, _node); } }
   public virtual GXml.Document document { get { return _doc; } }
-  public virtual GXml.Node parent { owned get { return to_gnode (document as GDocument, _node->parent); } }
+  public virtual GXml.Node parent {
+    owned get {
+      if (_node == null) return null;
+      return to_gnode (document as GDocument, _node->parent);
+    }
+  }
   public virtual GXml.NodeType type_node {
     get {
       if (_node == null) return GXml.NodeType.X_UNKNOWN;
