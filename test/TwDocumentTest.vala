@@ -422,5 +422,9 @@ class TwDocumentTest : GXmlTest {
 					assert_not_reached ();
 				}
 			});
+		Test.add_func ("/gxml/tw-document/parent", () => {
+			var doc = new TwDocument ();
+			assert (doc.parent == null);
+		});
 	}
 }

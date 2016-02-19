@@ -555,5 +555,34 @@ class TwElementTest : GXmlTest {
 			assert ("</root>" in str);
 			} catch { assert_not_reached (); }
 		});
+		Test.add_func ("/gxml/tw-element/parent", () => {
+			var doc = new TwDocument ();
+			var e = doc.create_element ("root");
+			doc.children.add (e);
+			var c = doc.create_element ("child");
+			e.children.add (c);
+			assert (e.children.size == 1);
+			assert (e.children[0] != null);
+			assert (e.children[0].name == "child");
+			assert (c.parent != null);
+			assert (doc.root != null);
+			assert (doc.root.children[0] != null);
+			assert (doc.root.children[0].name == "child");
+			assert (doc.root.children[0].parent != null);
+			assert (doc.root.children[0].parent.name == "root");
+			assert (doc.root.parent == null);
+		});
+		Test.add_func ("/gxml/tw-element/attribute/parent", () => {
+			var doc = new TwDocument ();
+			var e = doc.create_element ("root");
+			doc.children.add (e);
+			var c = doc.create_element ("child");
+			e.children.add (c);
+			(e as GXml.Element).set_attr ("attr", "val");
+			assert (doc.root != null);
+			assert (doc.root.attrs["attr"] != null);
+			assert (doc.root.attrs["attr"].parent != null);
+			assert (doc.root.attrs["attr"].parent.name == "root");
+		});
 	}
 }

@@ -59,17 +59,41 @@ public abstract class GXml.TwNode : Object, GXml.Node
   public virtual Gee.List<GXml.Namespace> namespaces { owned get { return new Gee.ArrayList<GXml.Node> (); } }
   public virtual GXml.NodeType type_node { get { return GXml.NodeType.DOCUMENT; } }
   public virtual string value { owned get { return _value.dup (); } set  { _value = value; } }
-  public virtual GXml.Node parent { owned get { return _parent; } }
+  public virtual GXml.Node parent {
+    owned get {
+      if (_parent == null) return null;
+      return (GXml.Node) _parent.ref ();
+    }
+  }
   public virtual void set_parent (GXml.Node node) { _parent = node; }
   
-  protected class TwChildrenList : Gee.ArrayList<GXml.Node> {
-    GXml.Node _parent;
+  protected class TwChildrenList : AbstractBidirList<GXml.Node> {
+    private GXml.Node _parent;
+    private Gee.ArrayList<GXml.Node> list = new Gee.ArrayList<GXml.Node> ();
+
     protected TwChildrenList (GXml.Node e) {
       _parent = e;
     }
-    protected new bool add (GXml.Node node) {
-      (node as GXml.TwNode).set_parent (_parent);
-      return base.add (node);
+
+    public inline override Gee.BidirListIterator<GXml.Node> bidir_list_iterator () { return list.bidir_list_iterator (); }
+
+    public inline override new GXml.Node @get (int index) { return list.get (index); }
+    public inline override int index_of (GXml.Node item) { return list.index_of (item); }
+    public inline override void insert (int index, GXml.Node item) { list.insert (index, item); }
+    public inline override Gee.ListIterator<GXml.Node> list_iterator () { return list.list_iterator (); }
+    public inline override GXml.Node remove_at (int index) { return list.remove_at (index); }
+    public inline override new void @set (int index, GXml.Node item) { list.set (index, item); }
+    public inline override Gee.List<GXml.Node>? slice (int start, int stop) { return list.slice (start, stop); }
+
+    public override bool add (GXml.Node item) {
+      (item as GXml.TwNode).set_parent (_parent);
+      return list.add (item);
     }
+    public inline override void clear () { list.clear (); }
+    public inline override bool contains (GXml.Node item) { return list.contains (item); }
+    public inline override Gee.Iterator<GXml.Node> iterator () { return list.iterator (); }
+    public inline override bool remove (GXml.Node item) { return list.remove (item); }
+    public inline override bool read_only { get { return list.read_only; } }
+    public inline override int size { get { return list.size; } }
   }
 }
