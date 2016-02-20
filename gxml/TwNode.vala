@@ -86,7 +86,13 @@ public abstract class GXml.TwNode : Object, GXml.Node
     public inline override Gee.List<GXml.Node>? slice (int start, int stop) { return list.slice (start, stop); }
 
     public override bool add (GXml.Node item) {
+#if DEBUG
+      GLib.message ("Setting new parent to TwNode: "+item.name);
+#endif
       (item as GXml.TwNode).set_parent (_parent);
+#if DEBUG
+      GLib.message ("Adding new TwNode: "+item.name);
+#endif
       return list.add (item);
     }
     public inline override void clear () { list.clear (); }

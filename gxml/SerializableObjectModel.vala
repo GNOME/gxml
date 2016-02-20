@@ -54,13 +54,29 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
   public Gee.Map<string,GXml.Attribute> unknown_serializable_properties
   {
     owned get {
+#if DEBUG
+      GLib.message ("Getting unknown_serializable_nodes");
+      if (_doc != null)
+        if (_doc.root != null)
+          GLib.message ("Doc is not NULL and Root Attributes is NULL:"+(_doc.root.attrs == null).to_string ());
+        else
+          GLib.message ("Doc is not NULL but Root IS NULL");
+#endif
       if (_doc == null) init_unknown_doc ();
-      return (Gee.Map<string,GXml.Attribute>) _doc.root.attrs;
+      return _doc.root.attrs as Gee.Map<string,GXml.Attribute>;
     }
   }
   public Gee.Collection<GXml.Node> unknown_serializable_nodes
   {
     owned get {
+#if DEBUG
+      GLib.message ("Getting unknown_serializable_nodes");
+      if (_doc != null)
+        if (_doc.root != null)
+          GLib.message ("Doc is not NULL and Root Children is NULL:"+(_doc.root.children == null).to_string ());
+        else
+          GLib.message ("Doc is not NULL but Root IS NULL");
+#endif
       if (_doc == null) init_unknown_doc ();
       return _doc.root.children;
     }
@@ -319,12 +335,15 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
           if (serialize_use_xml_node_value ()) {
             serialized_xml_node_value = n.value;
 #if DEBUG
-            stdout.printf (@"$(get_type ().name ()): NODE '$(element.name)' CONTENT '$(n.value)'\n");
+            GLib.message (@"$(get_type ().name ()): NODE '$(element.name)' CONTENT '$(n.value)'\n");
 #endif
           } else {
             if (get_enable_unknown_serializable_property ()) {
-              if (n.value._chomp () == n.value && n.value != "")
-                unknown_serializable_nodes.add (n);
+              GLib.message (@"Adding unknown Text node with value: $(n.value)");
+              if (n.value._chomp () == n.value && n.value != "") {
+                var t = _doc.create_text (n.value);
+                _doc.root.children.add (t);
+              }
             }
           }
         }
@@ -358,7 +377,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
         if (_doc == null) init_unknown_doc ();
         if (property_node is GXml.Attribute) {
 #if DEBUG
-          GLib.message (@"Adding unknown attribute $(property_node.name) to $(get_type ().name ())\n");
+          GLib.message (@"Adding unknown attribute $(property_node.name) to $(get_type ().name ()) Size=$(unknown_serializable_properties.size.to_string ())\n");
 #endif
           ((GXml.Element)_doc.root).set_attr (property_node.name, property_node.value);
         }
@@ -372,7 +391,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
         }
       }
 #if DEBUG
-          GLib.message (@"Finishing deserialize unknown node $(property_node.name) to $(get_type ().name ()): Size=$(unknown_serializable_nodes.size.to_string ())");
+          GLib.message (@"Finishing deserialize unknown node/property $(property_node.name) to $(get_type ().name ())");
 #endif
       return true;
     }

@@ -82,4 +82,10 @@ public class GXml.GAttribute : GXml.GNode, GXml.Attribute
       return _attr->ns->prefix.dup ();
     }
   }
+  public override GXml.Node parent {
+    owned get {
+      if (_attr == null) return null;
+      return to_gnode (document as GDocument, _node);
+    }
+  }
 }
