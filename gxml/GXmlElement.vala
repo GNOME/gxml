@@ -53,14 +53,12 @@ public class GXml.GElement : GXml.GNode, GXml.Element
     if (":" in name) {
       string[] pp = name.split (":");
       if (pp.length != 2) return null;
-      Test.message ("Checking for namespaced attribute: "+name);
       prefix = pp[0];
       n = pp[1];
     }
     var ps = _node->properties;
     Test.message ("Name= "+n+" Prefix= "+prefix);
     while (ps != null) {
-      Test.message ("At Attribute: "+ps->name);
       if (ps->name == n) {
         if (ps->ns == null && prefix == "") return new GAttribute (_doc, ps);
         if (ps->ns == null) continue;

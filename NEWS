@@ -3,6 +3,10 @@ Version 0.9.1
 ===============
 
 * Added GXml.Node.parent property
+* Performance measuring: GDocument equivalent to xDocument
+* Memory usage: GDocument 42% less memory
+* Memory for de/serialization using GDocument+TwDocument Vs.
+  xDocument+TwDocument improved using 63% less memory
 
 
 ===============

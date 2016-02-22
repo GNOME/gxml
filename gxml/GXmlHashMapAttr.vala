@@ -61,11 +61,9 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>
     if (":" in key) {
       string[] pp = key.split (":");
       if (pp.length != 2) return null;
-      Test.message ("Checking for namespaced attribute: "+key);
       var ps = _node->properties;
       var prefix = pp[0];
       var n = pp[1];
-      Test.message ("Name= "+n+" Prefix= "+prefix);
       while (ps != null) {
         Test.message ("At Attribute: "+ps->name);
         if (ps->name == n) {

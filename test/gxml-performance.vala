@@ -131,7 +131,7 @@ public class Performance
       GLib.message ("Node: "+name+" Val: "+val+ " Children: "+i.to_string ());
 #endif
       if (i > 0)
-        Performance.iterate (n);
+        Performance.iterate (n);  
     }
   }
   public static void add_tests ()
@@ -174,7 +174,7 @@ public class Performance
         assert_not_reached ();
       }
     });
-    Test.add_func ("/gxml/performance/deserialize", 
+    Test.add_func ("/gxml/performance/deserialize/xdocument", 
     () => {
       try {
         double time;
@@ -195,7 +195,7 @@ public class Performance
       }
     });
 
-    Test.add_func ("/gxml/performance/serialize",
+    Test.add_func ("/gxml/performance/serialize/xdocument",
     () => {
       try {
         double time;
@@ -220,12 +220,58 @@ public class Performance
         assert_not_reached ();
       }
     });
-    Test.add_func ("/gxml/performance/tw-serialize",
+    Test.add_func ("/gxml/performance/deserialize/gdocument", 
     () => {
       try {
         double time;
         Test.timer_start ();
-        var d = new xDocument.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
+        var d = new GDocument.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "open document from path: %g seconds", time);
+        Test.timer_start ();
+        var bs = new BookStore ();
+        bs.deserialize (d);
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "deserialize/performance: %g seconds", time);
+      } catch (GLib.Error e) {
+#if DEBUG
+        GLib.message ("ERROR: "+e.message);
+#endif
+        assert_not_reached ();
+      }
+    });
+
+    Test.add_func ("/gxml/performance/serialize/gdocument",
+    () => {
+      try {
+        double time;
+        Test.timer_start ();
+        var d = new GDocument.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "open document from path: %g seconds", time);
+        Test.timer_start ();
+        var bs = new BookStore ();
+        bs.deserialize (d);
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "deserialize/performance: %g seconds", time);
+        Test.timer_start ();
+        var d2 = new xDocument ();
+        bs.serialize (d2);
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "serialize/performance: %g seconds", time);
+      } catch (GLib.Error e) {
+#if DEBUG
+        GLib.message ("ERROR: "+e.message);
+#endif
+        assert_not_reached ();
+      }
+    });
+    Test.add_func ("/gxml/performance/serialize/tw-document",
+    () => {
+      try {
+        double time;
+        Test.timer_start ();
+        var d = new GDocument.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "open document from path: %g seconds", time);
         Test.timer_start ();
@@ -233,22 +279,6 @@ public class Performance
         bs.deserialize (d);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "standard deserialize/performance: %g seconds", time);
-        assert (bs.name == "The Great Book");
-        assert (bs.books.size > 10);
-        var b = bs.books.first ();
-        assert (b != null);
-        assert (b.name != null);
-        assert (b.name.get_name () == "Book1");
-        assert (b.year == "2015");
-        assert (b.authors != null);
-        assert (b.authors.array != null);
-        assert (b.authors.array.size == 2);
-        var a = b.authors.array.first ();
-        assert (a != null);
-        assert (a.name != null);
-        assert (a.name.get_name () == "Fred");
-        assert (a.email != null);
-        assert (a.email.get_mail () == "fweasley@hogwarts.co.uk");
         Test.timer_start ();
         var d2 = new TwDocument.for_path (GXmlTest.get_test_dir () + "/test-large.xml");
         bs.serialize (d2);

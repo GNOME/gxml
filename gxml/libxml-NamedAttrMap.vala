@@ -149,10 +149,8 @@ namespace GXml {
 			requires (elem != null)
 			requires (elem.node != null)
 		{
-			Test.message ("Getting from libxml2 an attribute node");
 			var at = elem.node->has_prop (key);
 			if (at == null) return null;
-			Test.message ("Creating attribute with libxml2 node");
 			return (Attribute) new xAttr(at, (xDocument) elem.document);
 		}
 		public bool has (string key, Attribute value)

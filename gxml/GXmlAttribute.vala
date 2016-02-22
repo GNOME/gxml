@@ -30,7 +30,6 @@ public class GXml.GAttribute : GXml.GNode, GXml.Attribute
   public GAttribute (GDocument doc, Xml.Attr *node)
   {
     _attr = node;
-    Test.message ("Attr Name: "+node->name);
     _node = _attr->parent;
     _doc = doc;
   }
@@ -46,7 +45,6 @@ public class GXml.GAttribute : GXml.GNode, GXml.Attribute
     owned get {
       if (_attr == null) return null;
       if (_attr->ns == null) return null;
-      Test.message ("Attr Namespace: "+_attr->name+" : "+_attr->ns->prefix);
       return new GNamespace (_attr->ns);
     }
     set {

@@ -81,14 +81,12 @@ public interface GXml.SerializableProperty : Object
   {
     if (get_serializable_property_value () == null) return element;
     string name = "";
-    Test.message ("Use nick: "+nick.to_string ());
     if (nick &&
         prop.get_nick () != null &&
         prop.get_nick () != "")
       name = prop.get_nick ();
     else
       name = prop.get_name ();
-    Test.message ("Property to set:"+name+" - with value: "+get_serializable_property_value ());
     if (!(element is GXml.Element)) {
       GLib.warning (_("Trying to serialize to a non GXmlElement!"));
       return element;

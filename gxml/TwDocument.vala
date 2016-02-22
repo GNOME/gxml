@@ -151,15 +151,10 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
   {
     var buf = new Xml.Buffer ();
     var tw = Xmlx.new_text_writer_memory (buf, 0);
-    GLib.Test.message ("Writing down to buffer");
     write_document (doc, tw);
-    GLib.Test.message ("Writing down to file");
-    GLib.Test.message ("TextWriter buffer:\n"+buf.content ());
     var s = new GLib.StringBuilder ();
     s.append (buf.content ());
-    GLib.Test.message ("Writing down to file: Creating input stream");
     var b = new GLib.MemoryInputStream.from_data (s.data, null);
-    GLib.Test.message ("Writing down to file: Replacing with backup");
     var ostream = f.replace (null, doc.backup, GLib.FileCreateFlags.NONE, cancellable);
     ostream.splice (b, GLib.OutputStreamSpliceFlags.NONE);
     ostream.close ();
