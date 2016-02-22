@@ -898,15 +898,13 @@ class SerializableObjectModelTest : GXmlTest
                      try {
                        unknown_property.deserialize (doc);
                        var doc2 = new GDocument ();
+                       unknown_property.serialize (doc2);
 #if DEBUG
                        GLib.message ("Unknown nodes:");
-                       unknown_property.serialize (doc2);
                        foreach (GXml.Node n in unknown_property.unknown_serializable_nodes) {
                         GLib.message (@"Unknown node: '$(n.name)'");
                        }
                        GLib.message ("Prepare to Serialize...");
-#endif
-#if DEBUG
                        GLib.message ("After Serialize...");
                        GLib.message ("Serialized back document: \n"+doc2.libxml_to_string ());
 #endif
@@ -914,11 +912,11 @@ class SerializableObjectModelTest : GXmlTest
                        assert (doc.root.name == "UnknownAttribute");
                        assert (doc2.root.children.size == 3);
                        assert (doc2.root.children[1].name == "UnknownNode");
-                       assert (doc2.root.children[2].value == "FAKE TEXT");
                        assert (doc2.root.children[1].children.size == 3);
+                       assert (doc2.root.children[2].value == "FAKE TEXT");
                        assert (doc2.root.children[1].children[1].name == "UnknownChild");
-                       assert (doc2.root.children[1].children[1].children.size == 3);
                        assert (doc2.root.children[1].children[1].children[1].name == "UnknownChildTwo");
+                       assert (doc2.root.children[1].children[1].children.size == 3);
                        assert (doc2.root.children[1].children[1].children[1].children.size == 1);
                        assert (doc2.root.children[1].children[1].children[1].children[0] is GXml.Text);
                        assert (doc2.root.children[1].children[1].children[1].children[0].value == "SECOND FAKE TEXT");

@@ -54,7 +54,7 @@ API/ABI break
 Version 0.8.2
 ===============
 
-* Fixed sigfault on xDocumento.from_stream()
+* Fixed sigfault on xDocument.from_stream()
 * Added test for remote file read using GLib.File
 
 =============
