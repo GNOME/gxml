@@ -87,6 +87,7 @@ public abstract class GXml.TwNode : Object, GXml.Node
 
     public override bool add (GXml.Node item) {
 #if DEBUG
+      GLib.message ("Is TwNode: "+(item is TwNode).to_string ());
       GLib.message ("Setting new parent to TwNode: "+item.name);
 #endif
       (item as GXml.TwNode).set_parent (_parent);

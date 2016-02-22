@@ -161,7 +161,7 @@ public interface GXml.Node : Object
 #if DEBUG
       GLib.message ("Copying source's child nodes to destiny node");
 #endif
-      foreach (Node c in source.childs) {
+      foreach (Node c in source.children) {
         if (c is Element) {
           if (c.name == null) continue;
 #if DEBUG
@@ -185,7 +185,7 @@ public interface GXml.Node : Object
             continue;
           }
           var t = doc.create_text (c.value);
-          node.childs.add (t);
+          node.children.add (t);
 #if DEBUG
           GLib.message (@"Copying source's Text node '$(source.name)' to destiny node with text: $(c.value) : Size= $(node.childs.size)");
           GLib.message (@"Added Text: $(node.childs.get (node.childs.size - 1))");

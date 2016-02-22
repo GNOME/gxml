@@ -116,7 +116,7 @@ public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, Ser
       foreach (GXml.Node n in node.children) {
         if (n is Element) {
 #if DEBUG
-          stdout.printf (@"Node $(node.name) for type '$(get_type ().name ())'\n");
+          GLib.message (@"Node $(node.name) for type '$(get_type ().name ())'\n");
 #endif
           var obj = Object.new (value_type);
           if (n.name.down () == ((Serializable) obj).node_name ().down ()) {

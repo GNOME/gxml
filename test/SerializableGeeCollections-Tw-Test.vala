@@ -247,7 +247,7 @@ class SerializableGeeCollectionsTwTest : GXmlTest
             fmactoy = true;
             assert (sh.attrs.get ("manufacturer").value == "MacToy");
             assert (sh.attrs.get ("model").value == "A1234");
-            assert (sh.children.size == 2);
+            assert (sh.children.size == 5); // 2 nodes 3 texts (identation)
             bool falphac = false;
             bool fgalax = false;
             foreach (GXml.Node s in sh.children){
@@ -317,7 +317,7 @@ class SerializableGeeCollectionsTwTest : GXmlTest
             assert (sh.name == "ship");
             assert (sh.attrs.get ("manufacturer").value == "Memphis");
             assert (sh.attrs.get ("model").value == "AB1");
-            assert (sh.children.size == 1);
+            assert (sh.children.size == 3); // 1 node 3 texts (identation)
             bool fbetac = false;
             foreach (GXml.Node s in sh.children){
               if (s.name == "space" && s.attrs.get ("name").value == "Beta Centaury") {
@@ -369,7 +369,7 @@ class SerializableGeeCollectionsTwTest : GXmlTest
             assert (r.name == "refaction");
             assert (r.attrs.get ("manufacturer").value == "MacToy");
             assert (r.attrs.get ("model").value == "Fly045");
-            assert (r.children.size == 2);
+            assert (r.children.size == 5); // 2 nodes 3 texts (identation)
             bool frmactoy = false;
             bool frmega = false;
             foreach (GXml.Node rsh in r.children) {
@@ -459,7 +459,7 @@ class SerializableGeeCollectionsTwTest : GXmlTest
         assert (refaction != null);
         assert (refaction.unknown_serializable_properties != null);
         assert (refaction.unknown_serializable_properties.size == 0);
-        assert (refaction.unknown_serializable_nodes.size == 1);
+        assert (refaction.unknown_serializable_nodes.size == 5); // 1 node 4 texts (identation)
         var doc = new TwDocument ();
         s.serialize (doc);
         assert (doc.root.name == "base");

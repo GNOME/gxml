@@ -76,11 +76,11 @@ class SerializableGeeHashMapTest : GXmlTest
           if (o.name == "Small") found2 = true;
         }
         if (!found1) {
-          stdout.printf (@"Big is not found\n");
+          GLib.message (@"Big is not found\n");
           assert_not_reached ();
         }
         if (!found2) {
-          stdout.printf (@"Small is not found\n");
+          GLib.message (@"Small is not found\n");
           assert_not_reached ();
         }
         found1 = found2 = false;
@@ -89,16 +89,16 @@ class SerializableGeeHashMapTest : GXmlTest
           if ((c.@get (k)).name == "Small") found2 = true;
         }
         if (!found1) {
-          stdout.printf (@"Big key value is not found\n");
+          GLib.message (@"Big key value is not found\n");
           assert_not_reached ();
         }
         if (!found2) {
-          stdout.printf (@"Small key value is not found\n");
+          GLib.message (@"Small key value is not found\n");
           assert_not_reached ();
         }
       }
       catch (GLib.Error e) {
-        stdout.printf (@"ERROR: $(e.message)");
+        GLib.message (@"ERROR: $(e.message)");
       }
     });
     Test.add_func ("/gxml/serializable/serializable_hash_map/serialize",
@@ -129,7 +129,7 @@ class SerializableGeeHashMapTest : GXmlTest
               foreach (GXml.Node nd in n.children) {
                 if (nd is Text) {
                   if (nd.value != "FAKE TEXT") {
-                    stdout.printf (@"ERROR: node content don't much. Expected 'FAKE TEXT', got: $(nd.value)\n$(doc)\n");
+                    GLib.message (@"ERROR: node content don't much. Expected 'FAKE TEXT', got: $(nd.value)\n$(doc)\n");
                     assert_not_reached ();
                   }
                 }
@@ -138,16 +138,16 @@ class SerializableGeeHashMapTest : GXmlTest
           }
         }
         if (!found1) {
-          stdout.printf (@"ERROR: Big space node is not found\n$(doc)\n");
+          GLib.message (@"ERROR: Big space node is not found\n$(doc)\n");
           assert_not_reached ();
         }
         if (!found2) {
-          stdout.printf (@"ERROR: Small space node is not found\n$(doc)\n");
+          GLib.message (@"ERROR: Small space node is not found\n$(doc)\n");
           assert_not_reached ();
         }
       }
       catch (GLib.Error e) {
-        stdout.printf (@"ERROR: $(e.message)");
+        GLib.message (@"ERROR: $(e.message)");
         assert_not_reached ();
       }
     });
@@ -159,7 +159,7 @@ class SerializableGeeHashMapTest : GXmlTest
         var c = new SerializableHashMap<string,Space> ();
         c.deserialize (doc.root);
         if (c.size != 2) {
-          stdout.printf (@"ERROR: incorrect size must be 2 got: $(c.size)\n");
+          GLib.message (@"ERROR: incorrect size must be 2 got: $(c.size)\n");
           assert_not_reached ();
         }
         bool found1 = false;
@@ -169,16 +169,16 @@ class SerializableGeeHashMapTest : GXmlTest
           if ((c.@get (k)).name == "Small") found2 = true;
         }
         if (!found1) {
-          stdout.printf (@"ERROR: Big key value is not found\n");
+          GLib.message (@"ERROR: Big key value is not found\n");
           assert_not_reached ();
         }
         if (!found2) {
-          stdout.printf (@"ERROR: Small key value is not found\n");
+          GLib.message (@"ERROR: Small key value is not found\n");
           assert_not_reached ();
         }
       }
       catch (GLib.Error e) {
-        stdout.printf (@"ERROR: $(e.message)");
+        GLib.message (@"ERROR: $(e.message)");
         assert_not_reached ();
       }
     });
@@ -190,11 +190,11 @@ class SerializableGeeHashMapTest : GXmlTest
         var c = new SpaceContainer ();
         c.deserialize (doc);
         if (c.owner != "Earth") {
-          stdout.printf (@"ERROR: owner must be 'Earth' got: $(c.owner)\n$(doc)\n");
+          GLib.message (@"ERROR: owner must be 'Earth' got: $(c.owner)\n$(doc)\n");
           assert_not_reached ();
         }
         if (c.storage.size != 2) {
-          stdout.printf (@"ERROR: Size must be 2 got: $(c.storage.size)\n$(doc)\n");
+          GLib.message (@"ERROR: Size must be 2 got: $(c.storage.size)\n$(doc)\n");
           assert_not_reached ();
         }
         bool found1 = false;
@@ -204,16 +204,16 @@ class SerializableGeeHashMapTest : GXmlTest
           if ((c.storage.@get (k)).name == "Small") found2 = true;
         }
         if (!found1) {
-          stdout.printf (@"ERROR: Big key value is not found\n");
+          GLib.message (@"ERROR: Big key value is not found\n");
           assert_not_reached ();
         }
         if (!found2) {
-          stdout.printf (@"ERROR: Small key value is not found\n");
+          GLib.message (@"ERROR: Small key value is not found\n");
           assert_not_reached ();
         }
       }
       catch (GLib.Error e) {
-        stdout.printf (@"ERROR: $(e.message)");
+        GLib.message (@"ERROR: $(e.message)");
         assert_not_reached ();
       }
     });
@@ -247,7 +247,7 @@ class SerializableGeeHashMapTest : GXmlTest
         assert (found2);
       }
       catch (GLib.Error e) {
-        stdout.printf (@"ERROR: $(e.message)");
+        GLib.message (@"ERROR: $(e.message)");
         assert_not_reached ();
       }
     });
@@ -292,7 +292,7 @@ class SerializableGeeHashMapTest : GXmlTest
         assert (s5 != null);
         assert (s5.get_value () == "FAKE5");
       } catch (GLib.Error e) {
-        stdout.printf (@"ERROR: $(e.message)");
+        GLib.message (@"ERROR: $(e.message)");
         assert_not_reached ();
       }
     });

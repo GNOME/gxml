@@ -38,12 +38,13 @@ using Gee;
 public abstract class GXml.SerializableObjectModel : Object, Serializable
 {
 	construct { Init.init (); }
-  // holds all unknown nodes
-  protected GXml.TwDocument _doc = null;
+	GXml.Text text_node = null;
+  // To find unknown nodes
+  protected GXml.Node _node = null;
   /* Serializable interface properties */
   protected ParamSpec[] properties { get; set; }
   public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; protected set; }
-  public string? serialized_xml_node_value { owned get; protected set; default=null; }
+  public string? serialized_xml_node_value { owned get ; protected set; default = null; }
   public virtual bool get_enable_unknown_serializable_property () { return false; }
   /**
    * All unknown nodes, will be stored in a per-object {@link GXml.Document}
@@ -54,42 +55,74 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
   public Gee.Map<string,GXml.Attribute> unknown_serializable_properties
   {
     owned get {
+      var m = new HashMap<string,GXml.Attribute> ();
+      if (_node == null) return m;
 #if DEBUG
-      GLib.message ("Getting unknown_serializable_nodes");
-      if (_doc != null)
-        if (_doc.root != null)
-          GLib.message ("Doc is not NULL and Root Attributes is NULL:"+(_doc.root.attrs == null).to_string ());
-        else
-          GLib.message ("Doc is not NULL but Root IS NULL");
+      GLib.message ("Searching unknown attributes");
 #endif
-      if (_doc == null) init_unknown_doc ();
-      return _doc.root.attrs as Gee.Map<string,GXml.Attribute>;
+      var props = list_serializable_properties ();
+      bool found = false;
+      foreach (GXml.Node a in _node.attrs.values) {
+#if DEBUG
+      GLib.message ("Checking Node attribute: "+a.name);
+#endif
+        found = false;
+        for (int i = 0; i < props.length; i++) {
+          var p = props[i];
+#if DEBUG
+      GLib.message ("Comparing Object Property: "+p.get_name ());
+#endif
+          if (a.name.down () == p.get_name ().down ()
+              || a.name.down () == p.get_nick ().down ())
+            found = true;
+        }
+        if (!found) {
+#if DEBUG
+          GLib.message ("Found attribute: "+a.name);
+#endif
+          m.set (a.name, a as GXml.Attribute);
+        }
+      }
+
+      return m;
     }
   }
   public Gee.Collection<GXml.Node> unknown_serializable_nodes
   {
     owned get {
-#if DEBUG
-      GLib.message ("Getting unknown_serializable_nodes");
-      if (_doc != null)
-        if (_doc.root != null)
-          GLib.message ("Doc is not NULL and Root Children is NULL:"+(_doc.root.children == null).to_string ());
+      var l = new ArrayList<GXml.Node> ();
+      if (_node == null) return l;
+      var oprops = list_serializable_properties ();
+      string[] props = {};
+      foreach (GLib.ParamSpec op in oprops) {
+        if (op.value_type.is_a (typeof (SerializableCollection))) {
+          Value v = Value (op.value_type);
+          get_property (op.get_name (), ref v);
+          Object obj = v.get_object ();
+          if (obj != null) {
+            props += (obj as Serializable).node_name ();
+            continue;
+          }
+        }
+        if (property_use_nick ())
+          props += op.get_nick ().down ();
         else
-          GLib.message ("Doc is not NULL but Root IS NULL");
-#endif
-      if (_doc == null) init_unknown_doc ();
-      return _doc.root.children;
+          props += op.get_name ().down ();
+      }
+      bool found = false;
+      foreach (GXml.Node n in _node.children) {
+        if (n is GXml.Text) {
+          if (serialize_use_xml_node_value ()) continue;
+        }
+        found = false;
+        foreach (string p in props) {
+          if (n.name.down () == p)
+            found = true;
+        }
+        if (!found) l.add (n);
+      }
+      return l;
     }
-  }
-
-  private void init_unknown_doc ()
-  {
-    _doc = new TwDocument ();
-    try {
-      var r = _doc.create_element ("root");
-     _doc.children.add (r);
-    }
-    catch { assert_not_reached (); }
   }
 
   public virtual bool serialize_use_xml_node_value () { return false; }
@@ -148,7 +181,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
         // Serializing unknown Nodes
         foreach (GXml.Node n in unknown_serializable_nodes) {
 #if DEBUG
-            GLib.message (@"Serializing Unknown NODE: $(n.name) to $(element.name)");
+            GLib.message (@"Serializing Unknown NODE: $(n.name):'$(n.value)' to $(element.name)");
 #endif
           if (n is GXml.Element) {
 #if DEBUG
@@ -161,30 +194,28 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 #endif
             element.children.add (e);
           }
-          if (n is Text) {
-            if (n.value == null) GLib.warning (_("Text node with NULL or none text"));
+          if (n is Text && !serialize_use_xml_node_value ()) {
             if (n.value == "") continue;
-            var t = doc.create_text (n.value);
+            var t = doc.create_text (n.value._strip ());
             element.children.add (t);
 #if DEBUG
-            GLib.message (@"Serializing Unknown Text Node: '$(n.value)' to '$(element.name)' : Size $(element.children.size.to_string ())");
-            GLib.message (@"Added Text: $(element.children.get (element.children.size - 1))");
+            GLib.message (@"Serialized Unknown Text Node: '$(n.value)' to '$(element.name)' : Size $(element.children.size.to_string ())");
 #endif
           }
         }
     }
     // Setting element content
     if (serialize_use_xml_node_value ()) {
-      // Set un empty string if no value is set for node contents
-      string t = "";
 #if DEBUG
-      stdout.printf (@"SET CONTENT FOR: $(get_type ().name ()): $(element.name)\n");
+      GLib.message (@"SET TEXT NODE FOR: $(get_type ().name ()): $(element.name)\n");
 #endif
+      string txt = "";
       if (serialized_xml_node_value != null)
-        t = serialized_xml_node_value;
-      element.content  = t;
+        txt = serialized_xml_node_value;
+      var t = doc.create_text (txt);
+      element.children.add (t);
 #if DEBUG
-      stdout.printf (@"SET CONTENT FOR: $(get_type ().name ()): $(element.name): content '$t'\n");
+      GLib.message (@"SET TEXT CHILD NODE FOR: $(get_type ().name ()): $(element.name): TEXT NODE '$txt'\n");
 #endif
     }
     return element;
@@ -291,69 +322,61 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       GLib.warning (_("Actual node's name is '%s' expected '%s'").printf (element.name.down (),node_name ().down ()));
     }
 #if DEBUG
-    stdout.printf (@"Deserialize Node: $(element.name)\n");
-    stdout.printf (@"Node is: $(element)\n\n");
-    stdout.printf (@"Attributes in Node: $(element.name)\n");
+    GLib.message (@"Deserialize Node: $(element.name)\n");
+    GLib.message (@"Node is: $(element)\n\n");
+    GLib.message (@"Attributes in Node: $(element.name)\n");
 #endif
     foreach (GXml.Node attr in element.attrs.values)
     {
       deserialize_property (attr);
     }
-    if (element.children.size > 0)
+    if (get_type ().is_a (typeof (SerializableContainer)))
     {
-      if (get_type ().is_a (typeof (SerializableContainer)))
-      {
 #if DEBUG
-        stdout.printf (@"This is a Container: found a: $(get_type ().name ())\n");
+      GLib.message (@"This is a Container: found a: $(get_type ().name ())\n");
 #endif
-        ((SerializableContainer) this).init_containers ();
-      }
-      var cnodes = new Gee.HashMap<string,ParamSpec> ();
-      foreach (ParamSpec spec in list_serializable_properties ())
+      ((SerializableContainer) this).init_containers ();
+    }
+    var cnodes = new Gee.HashMap<string,ParamSpec> ();
+    foreach (ParamSpec spec in list_serializable_properties ())
+    {
+      if (spec.value_type.is_a (typeof (Serializable)))
       {
-        if (spec.value_type.is_a (typeof (Serializable)))
-        {
-            if (spec.value_type.is_a (typeof (SerializableCollection)))
-            {
-              Value vo = Value (spec.value_type);
-              get_property (spec.name, ref vo);
-              var objv = vo.get_object ();
-              if (objv != null) {
-                ((Serializable) objv).deserialize (element);
-                cnodes.@set (((Serializable) objv).node_name (), spec);
-//                stdout.printf (@"Added Key for container node as: $(((Serializable) objv).node_name ())\n");
-              }
-            }
-        }
-      }
-#if DEBUG
-    stdout.printf (@"Elements Nodes in Node: $(element.name)\n");
-#endif
-      foreach (Node n in element.children)
-      {
-        if (n is Text) {
-          if (serialize_use_xml_node_value ()) {
-            serialized_xml_node_value = n.value;
-#if DEBUG
-            GLib.message (@"$(get_type ().name ()): NODE '$(element.name)' CONTENT '$(n.value)'\n");
-#endif
-          } else {
-            if (get_enable_unknown_serializable_property ()) {
-              GLib.message (@"Adding unknown Text node with value: $(n.value)");
-              if (n.value._chomp () == n.value && n.value != "") {
-                var t = _doc.create_text (n.value);
-                _doc.root.children.add (t);
-              }
+          if (spec.value_type.is_a (typeof (SerializableCollection)))
+          {
+            Value vo = Value (spec.value_type);
+            get_property (spec.name, ref vo);
+            var objv = vo.get_object ();
+            if (objv != null) {
+              ((Serializable) objv).deserialize (element);
+              cnodes.@set (((Serializable) objv).node_name (), spec);
+//                GLib.message (@"Added Key for container node as: $(((Serializable) objv).node_name ())\n");
             }
           }
-        }
-        if (n is GXml.Element  && !cnodes.has_key (n.name)) {
-#if DEBUG
-            stdout.printf (@"$(get_type ().name ()): DESERIALIZING ELEMENT '$(n.name)'\n");
-#endif
-          deserialize_property (n);
-        }
       }
+    }
+#if DEBUG
+    GLib.message (@"Elements Nodes in Node: $(element.name)\n");
+#endif
+    foreach (Node n in element.children) {
+#if DEBUG
+      GLib.message ("Node name is NULL?"+(n.name == null).to_string ());
+      if (n.name != null)
+        GLib.message ("Was a Serializable Container node name? "+cnodes.has_key (n.name).to_string ());
+#endif
+      if (n.name == null) {
+        GLib.warning ("Child node name is null");
+        continue;
+      }
+#if DEBUG
+      GLib.message ("Checking for Element type? "+(n is GXml.Element).to_string ());
+#endif
+      if (cnodes.has_key (n.name)) continue;
+#if DEBUG
+      GLib.message ("Before Deserialize Node");
+      GLib.message (@"$(get_type ().name ()): DESERIALIZING Node type: $(n.get_type ().name ()) Name: '$(n.name)':'$(n.value)'");
+#endif
+      deserialize_property (n);
     }
     return null;
   }
@@ -367,36 +390,27 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
                                             throws GLib.Error
   {
 #if DEBUG
-    stdout.printf (@"Deserialize Property Node: $(property_node.name)\n");
+    GLib.message (@"Deserialize Property Node: $(property_node.name)\n");
 #endif
     bool ret = false;
     var prop = find_property_spec (property_node.name);
     if (prop == null) {
-      // FIXME: Event emit
-      if (get_enable_unknown_serializable_property ()) {
-        if (_doc == null) init_unknown_doc ();
-        if (property_node is GXml.Attribute) {
 #if DEBUG
-          GLib.message (@"Adding unknown attribute $(property_node.name) to $(get_type ().name ()) Size=$(unknown_serializable_properties.size.to_string ())\n");
+      GLib.message (@"Is unknown property or Text content...");
 #endif
-          ((GXml.Element)_doc.root).set_attr (property_node.name, property_node.value);
-        }
-        else {
-          var e = _doc.create_element (property_node.name);
-          _doc.root.children.add (e);
-          GXml.Node.copy (_doc, e, property_node, true);
+      if (property_node is GXml.Text && serialize_use_xml_node_value ())
+        serialized_xml_node_value = property_node.value;
+      if (get_enable_unknown_serializable_property ())
+        if (_node == null)
+          _node = property_node.parent;
 #if DEBUG
-          GLib.message (@"Adding unknown node $(property_node.name) to $(get_type ().name ()): Size=$(unknown_serializable_nodes.size.to_string ())");
-#endif
-        }
-      }
-#if DEBUG
-          GLib.message (@"Finishing deserialize unknown node/property $(property_node.name) to $(get_type ().name ())");
+      GLib.message (@"Finishing deserialize unknown/Text node/property $(property_node.name) to $(get_type ().name ())");
 #endif
       return true;
     }
 #if DEBUG
-          GLib.message (@"Checking if $(property_node.name) of type $(prop.value_type.name ()) is Serializable");
+    GLib.message ("Is known property... deserializing");
+    GLib.message (@"Checking if $(property_node.name) of type $(prop.value_type.name ()) is Serializable");
 #endif
     if (prop.value_type.is_a (typeof (Serializable)) || prop.value_type.is_a (typeof (SerializableProperty)))
     {
