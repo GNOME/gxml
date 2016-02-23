@@ -31,6 +31,13 @@ using Gee;
 public class GXml.SerializableDualKeyMap<P,S,V> : Object, Gee.Traversable <V>, Serializable, SerializableCollection
 {
   protected Gee.HashMultiMap<P,HashMap<S,V>> storage;
+  GXml.Node _node;
+
+  // SerializableCollection interface
+  public virtual bool deserialized () { return true; }
+  public virtual bool is_prepared () { return (_node is GXml.Node); }
+  public virtual bool deserialize_node (GXml.Node node) { return deserialize_property (node); }
+  public virtual bool deserialize_children (GXml.Node node) { return deserialize (node); }
 
 	construct { Init.init (); }
 
@@ -181,13 +188,13 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Gee.Traversable <V>, S
   {
     return element;
   }
-  public virtual GXml.Node? deserialize (GXml.Node node)
+  public virtual bool deserialize (GXml.Node node)
                                     throws GLib.Error
                                     requires (node_name () != null)
   {
     return default_deserialize (node);
   }
-  public GXml.Node? default_deserialize (GXml.Node node)
+  public bool default_deserialize (GXml.Node node)
                     throws GLib.Error
                     requires (node is Element)
   {
@@ -217,7 +224,7 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Gee.Traversable <V>, S
         }
       }
     }
-    return node;
+    return true;
   }
   public virtual bool deserialize_property (GXml.Node property_node)
                                             throws GLib.Error

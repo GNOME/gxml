@@ -166,7 +166,7 @@ namespace GXml {
      *
      * @param node {@link GXml.Node} used to deserialize from.
      */
-    public abstract GXml.Node? deserialize (GXml.Node node)
+    public abstract bool deserialize (GXml.Node node)
                                       throws GLib.Error;
     /**
      * Handles deserializing individual properties.

@@ -32,7 +32,14 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
 {
   Gee.HashMap<string,GXml.Attribute> _unknown_serializable_property = new Gee.HashMap<string,GXml.Attribute> ();
   Gee.ArrayList<GXml.Node> _unknown_serializable_nodes = new Gee.ArrayList<GXml.Node> ();
-  
+  GXml.Node _node;
+
+  // SerializableCollection interface
+  public virtual bool deserialized () { return true; }
+  public virtual bool is_prepared () { return (_node is GXml.Node); }
+  public virtual bool deserialize_node (GXml.Node node) { return deserialize_property (node); }
+  public virtual bool deserialize_children (GXml.Node node) { return deserialize (node); }
+
 	construct { Init.init (); }
 
   public Gee.Map<string,GXml.Attribute> unknown_serializable_properties
@@ -101,13 +108,13 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
   {
     return element;
   }
-  public virtual GXml.Node? deserialize (GXml.Node node)
+  public virtual bool deserialize (GXml.Node node)
                                     throws GLib.Error
                                     requires (node_name () != null)
   {
     return default_deserialize (node);
   }
-  public GXml.Node? default_deserialize (GXml.Node node)
+  public bool default_deserialize (GXml.Node node)
                     throws GLib.Error
   {
     if (!element_type.is_a (typeof (GXml.Serializable))) {
@@ -122,7 +129,7 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
         deserialize_property (n);
       }
     }
-    return node;
+    return true;
   }
   public virtual bool deserialize_property (GXml.Node property_node)
                                             throws GLib.Error

@@ -1,4 +1,12 @@
 ===============
+Version 0.9.2
+===============
+
+* API change Serializable.deserialize now return a boolean
+* API change SerializableCollection: added new abstract methods
+
+
+===============
 Version 0.9.1
 ===============
 

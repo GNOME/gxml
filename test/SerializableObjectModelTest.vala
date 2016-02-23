@@ -251,7 +251,7 @@ class Configuration : ObjectModel
     n.set_namespace ("http://www.gnome.org/gxml/0.4", "om");
     return (GXml.Node)n;
   }
-  public override GXml.Node? deserialize (GXml.Node node) throws GLib.Error
+  public override bool deserialize (GXml.Node node) throws GLib.Error
   {
 #if DEBUG
     GLib.message (@"CONFIGURATOR: Deserializing... $(node.to_string ())");

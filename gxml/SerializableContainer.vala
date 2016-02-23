@@ -45,5 +45,34 @@ public abstract class GXml.SerializableContainer : SerializableObjectModel
  */
 public interface GXml.SerializableCollection : Object, Gee.Traversable<Serializable>, Serializable
 {
+  /**
+   * Returns true if the collection was deserialized from a {@link GXml.Node}'s children.
+   */
+  public abstract bool deserialized ();
+  /**
+   * Returns true if the collection is able to deserialize from a {@link GXml.Node}'s children.
+   */
+  public abstract bool is_prepared ();
+  /**
+   * Executes a deserialization from a {@link GXml.Node}. After this operation
+   * {@link GXml.SerializableCollection.deserialized} should return true. This
+   * operation should not be executed if {@link GXml.SerializableCollection.is_prepared}
+   * return false;
+   *
+   * This could override existing objects in collection.
+   */
+  public abstract bool deserialize_node (GXml.Node node);
+  /**
+   * Executes a deserialization from all children nodes in a {@link GXml.Node}. After this operation
+   * {@link GXml.SerializableCollection.deserialized} should return true. This
+   * operation should not be executed if {@link GXml.SerializableCollection.is_prepared}
+   * return false;
+   *
+   * This could override existing objects in collection.
+   */
+  public abstract bool deserialize_children (GXml.Node node);
+  /**
+   * Convenient function to detect Serializable Collections.
+   */
   public virtual bool is_collection () { return true; }
 }

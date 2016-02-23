@@ -292,13 +292,13 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     return attr;
   }
 
-  public virtual GXml.Node? deserialize (GXml.Node node)
+  public virtual bool deserialize (GXml.Node node)
                                     throws GLib.Error
                                     requires (node_name () != null)
   {
     return default_deserialize (node);
   }
-  public GXml.Node? default_deserialize (GXml.Node node)
+  public bool default_deserialize (GXml.Node node)
                                     throws GLib.Error
   {
     Document doc;
@@ -316,7 +316,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     return_val_if_fail (element != null, null);
     if (node_name () == null) {
       GLib.warning (_("WARNING: Object type '%s' have no Node Name defined").printf (get_type ().name ()));
-      return null;
+      return false;
     }
     if (element.name.down () != node_name ().down ()) {
       GLib.warning (_("Actual node's name is '%s' expected '%s'").printf (element.name.down (),node_name ().down ()));
@@ -385,7 +385,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 #endif
       deserialize_property (n);
     }
-    return null;
+    return true;
   }
 
   public virtual bool deserialize_property (GXml.Node property_node)
