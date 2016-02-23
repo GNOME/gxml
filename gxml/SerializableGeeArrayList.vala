@@ -119,22 +119,7 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
             GLib.message (@"Deserializing ArrayList on Element: $(node.name)");
 #endif
       foreach (GXml.Node n in node.childs) {
-        if (n is Element) {
-#if DEBUG
-            GLib.message (@"Checking Node $(n.name) on ArrayList in Element: $(node.name)");
-#endif
-          var obj = (Serializable) Object.new (element_type);
-#if DEBUG
-            GLib.message (@"Creating a new Object to add: '$(obj.node_name ())' from Node: '$(node.name)'");
-#endif
-          if (n.name.down () == ((Serializable) obj).node_name ().down ()) {
-            obj.deserialize (n);
-#if DEBUG
-            GLib.message (@"SerializableArrayList: Adding object: '$(obj.node_name ())' from Node: '$(node.name)'");
-#endif
-            add (obj);
-          }
-        }
+        deserialize_property (n);
       }
     }
     return node;
@@ -147,6 +132,17 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
   public bool default_deserialize_property (GXml.Node property_node)
                                             throws GLib.Error
   {
+    if (!element_type.is_a (typeof (GXml.Serializable))) {
+      throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"), 
+                                                    this.get_type ().name (), element_type.name ());
+    }
+    if (property_node is Element) {
+      var obj = Object.new (element_type) as Serializable;
+      if (property_node.name.down () == obj.node_name ().down ()) {
+        obj.deserialize (property_node);
+        add (obj);
+      }
+    }
     return true;
   }
 }

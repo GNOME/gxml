@@ -338,6 +338,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       ((SerializableContainer) this).init_containers ();
     }
     var cnodes = new Gee.HashMap<string,ParamSpec> ();
+    var cns = new Gee.HashMap<string,SerializableCollection> ();
     foreach (ParamSpec spec in list_serializable_properties ())
     {
       if (spec.value_type.is_a (typeof (Serializable)))
@@ -348,8 +349,10 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
             get_property (spec.name, ref vo);
             var objv = vo.get_object ();
             if (objv != null) {
+              string nname = (objv as Serializable).node_name ();
               ((Serializable) objv).deserialize (element);
-              cnodes.@set (((Serializable) objv).node_name (), spec);
+              cnodes.@set (nname, spec);
+              cns.@set (nname.down (), objv as SerializableCollection);
 //                GLib.message (@"Added Key for container node as: $(((Serializable) objv).node_name ())\n");
             }
           }
@@ -372,6 +375,10 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       GLib.message ("Checking for Element type? "+(n is GXml.Element).to_string ());
 #endif
       if (cnodes.has_key (n.name)) continue;
+      /*var cname = cns.get (n.name.down ());
+      if (cname != null) {
+        (cname as Serializable).deserialize_property (n);
+      }*/
 #if DEBUG
       GLib.message ("Before Deserialize Node");
       GLib.message (@"$(get_type ().name ()): DESERIALIZING Node type: $(n.get_type ().name ()) Name: '$(n.name)':'$(n.value)'");
