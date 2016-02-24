@@ -32,8 +32,8 @@ class AElement : SerializableObjectModel
   public AElement.named (string name) { this.name = name; }
   public override string to_string () { return name; }
   public class Array : SerializableArrayList<AElement> {
-    public bool enable_serialize { get; set; default = false; }
-    public override bool deserialize_proceed () { return enable_serialize; }
+    public bool enable_deserialize { get; set; default = false; }
+    public override bool deserialize_proceed () { return enable_deserialize; }
   }
 }
 
@@ -213,7 +213,7 @@ class SerializableGeeArrayListTest : GXmlTest
         assert_not_reached ();
       }
     });
-    Test.add_func ("/gxml/serializable/serializable_array_list/deserialize-enable",
+    Test.add_func ("/gxml/serializable/serializable_array_list/post-deserialization/disable",
     () => {
       try {
         double time;
@@ -221,7 +221,7 @@ class SerializableGeeArrayListTest : GXmlTest
         Test.timer_start ();
         var d = new TwDocument ();
         var ce = new CElement ();
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < 500000; i++) {
           var e = new AElement ();
           ce.elements.add (e);
         }
@@ -231,7 +231,7 @@ class SerializableGeeArrayListTest : GXmlTest
         Test.message ("Starting deserializing document: Disable collection deserialization...");
         Test.timer_start ();
         var cep = new CElement ();
-        cep.elements.enable_serialize = false;
+        cep.elements.enable_deserialize = false;
         cep.deserialize (d);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Disable Deserialize Collection. Deserialized from doc: %g seconds", time);
@@ -241,14 +241,33 @@ class SerializableGeeArrayListTest : GXmlTest
         cep.elements.deserialize_children ();
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Disable Deserialize Collection. Deserialized from NODE: %g seconds", time);
+      } catch (GLib.Error e) {
+        GLib.message ("ERROR: "+e.message);
+        assert_not_reached ();
+      }
+    });
+    Test.add_func ("/gxml/serializable/serializable_array_list/post-deserialization/enable",
+    () => {
+      try {
+        double time;
+        Test.message ("Starting generating document...");
+        Test.timer_start ();
+        var d = new TwDocument ();
+        var ce = new CElement ();
+        for (int i = 0; i < 500000; i++) {
+          var e = new AElement ();
+          ce.elements.add (e);
+        }
+        ce.serialize (d);
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "Created document: %g seconds", time);
         Test.message ("Starting deserializing document: Enable collection deserialization...");
         Test.timer_start ();
         var cet = new CElement ();
-        cet.elements.enable_serialize = true;
+        cet.elements.enable_deserialize = true;
         cet.deserialize (d);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Enable Deserialize Collection. Deserialized from doc: %g seconds", time);
-        assert (d.root.children.size == 100000);
       } catch (GLib.Error e) {
         GLib.message ("ERROR: "+e.message);
         assert_not_reached ();
