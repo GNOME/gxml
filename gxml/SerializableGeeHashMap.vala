@@ -31,6 +31,7 @@ public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, Ser
   GXml.Node _node;
 
   // SerializableCollection interface
+  public virtual bool deserialize_proceed () { return true; }
   public virtual bool deserialized () { return true; }
   public virtual bool is_prepared () { return (_node is GXml.Node); }
   public virtual bool deserialize_node (GXml.Node node) { return deserialize_property (node); }

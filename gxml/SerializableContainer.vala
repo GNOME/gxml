@@ -51,7 +51,7 @@ public interface GXml.SerializableCollection : Object, Gee.Traversable<Serializa
    * this could impact in performance; return false and use {@link GXml.SerializableCollection.deserialize_children}
    * when you need to deserialize all nodes to access them.
    */
-  //public abstract bool deserialize_proceed ();
+  public abstract bool deserialize_proceed ();
   /**
    * Returns true if the collection was deserialized from a {@link GXml.Node}'s children.
    */

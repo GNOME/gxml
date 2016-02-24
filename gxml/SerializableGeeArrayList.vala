@@ -35,10 +35,38 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
   GXml.Node _node;
 
   // SerializableCollection interface
+  public virtual bool deserialize_proceed () { return true; }
   public virtual bool deserialized () { return true; }
   public virtual bool is_prepared () { return (_node is GXml.Node); }
-  public virtual bool deserialize_node (GXml.Node node) { return deserialize_property (node); }
-  public virtual bool deserialize_children (GXml.Node node) { return deserialize (node); }
+  public virtual bool deserialize_node (GXml.Node node) {
+    if (!element_type.is_a (typeof (GXml.Serializable))) {
+      throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"), 
+                                                    this.get_type ().name (), element_type.name ());
+    }
+    if (node is Element) {
+      var obj = Object.new (element_type) as Serializable;
+      if (node.name.down () == obj.node_name ().down ()) {
+        obj.deserialize (node);
+        add (obj);
+      }
+    }
+    return true;
+  }
+  public virtual bool deserialize_children (GXml.Node node) {
+    if (!element_type.is_a (typeof (GXml.Serializable))) {
+      throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"), 
+                                                    this.get_type ().name (), element_type.name ());
+    }
+    if (node is Element) {
+#if DEBUG
+            GLib.message (@"Deserializing ArrayList on Element: $(node.name)");
+#endif
+      foreach (GXml.Node n in node.childs) {
+        deserialize_property (n);
+      }
+    }
+    return true;
+  }
 
 	construct { Init.init (); }
 
@@ -117,19 +145,9 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
   public bool default_deserialize (GXml.Node node)
                     throws GLib.Error
   {
-    if (!element_type.is_a (typeof (GXml.Serializable))) {
-      throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"), 
-                                                    this.get_type ().name (), element_type.name ());
-    }
-    if (node is Element) {
-#if DEBUG
-            GLib.message (@"Deserializing ArrayList on Element: $(node.name)");
-#endif
-      foreach (GXml.Node n in node.childs) {
-        deserialize_property (n);
-      }
-    }
-    return true;
+    if (deserialize_proceed ())
+      return deserialize_children (node);
+    return false;
   }
   public virtual bool deserialize_property (GXml.Node property_node)
                                             throws GLib.Error
@@ -139,18 +157,7 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
   public bool default_deserialize_property (GXml.Node property_node)
                                             throws GLib.Error
   {
-    if (!element_type.is_a (typeof (GXml.Serializable))) {
-      throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"), 
-                                                    this.get_type ().name (), element_type.name ());
-    }
-    if (property_node is Element) {
-      var obj = Object.new (element_type) as Serializable;
-      if (property_node.name.down () == obj.node_name ().down ()) {
-        obj.deserialize (property_node);
-        add (obj);
-      }
-    }
-    return true;
+    return deserialize_node (property_node);
   }
 }
 
