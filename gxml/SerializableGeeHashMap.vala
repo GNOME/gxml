@@ -34,8 +34,8 @@ public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, Ser
   public virtual bool deserialize_proceed () { return true; }
   public virtual bool deserialized () { return true; }
   public virtual bool is_prepared () { return (_node is GXml.Node); }
-  public virtual bool deserialize_node (GXml.Node node) { return deserialize_property (node); }
-  public virtual bool deserialize_children (GXml.Node node) { return deserialize (node); }
+  public virtual bool deserialize_node (GXml.Node node) { return false; }
+  public virtual bool deserialize_children () { return false; }
 
 	// Construct
 	construct { Init.init (); }

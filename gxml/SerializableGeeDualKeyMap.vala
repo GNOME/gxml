@@ -37,8 +37,8 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Gee.Traversable <V>, S
   public virtual bool deserialize_proceed () { return true; }
   public virtual bool deserialized () { return true; }
   public virtual bool is_prepared () { return (_node is GXml.Node); }
-  public virtual bool deserialize_node (GXml.Node node) { return deserialize_property (node); }
-  public virtual bool deserialize_children (GXml.Node node) { return deserialize (node); }
+  public virtual bool deserialize_node (GXml.Node node) { return false; }
+  public virtual bool deserialize_children () { return false; }
 
 	construct { Init.init (); }
 
@@ -205,7 +205,7 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Gee.Traversable <V>, S
       throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"), 
                                                     this.get_type ().name (), value_type.name ());
     }
-    foreach (GXml.Node n in node.childs) {
+    foreach (GXml.Node n in node.children) {
       if (n is Element) {
         var obj = (SerializableMapDualKey<P,S>) Object.new (value_type);
 #if DEBUG

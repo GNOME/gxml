@@ -77,7 +77,7 @@ public interface GXml.SerializableCollection : Object, Gee.Traversable<Serializa
    *
    * This could override existing objects in collection.
    */
-  public abstract bool deserialize_children (GXml.Node node);
+  public abstract bool deserialize_children ();
   /**
    * Convenient function to detect Serializable Collections.
    */

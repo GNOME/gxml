@@ -30,13 +30,12 @@ using Gee;
  */
 public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, SerializableCollection
 {
-  Gee.HashMap<string,GXml.Attribute> _unknown_serializable_property = new Gee.HashMap<string,GXml.Attribute> ();
-  Gee.ArrayList<GXml.Node> _unknown_serializable_nodes = new Gee.ArrayList<GXml.Node> ();
   GXml.Node _node;
+  bool _deserialized = false;
 
   // SerializableCollection interface
   public virtual bool deserialize_proceed () { return true; }
-  public virtual bool deserialized () { return true; }
+  public virtual bool deserialized () { return _deserialized; }
   public virtual bool is_prepared () { return (_node is GXml.Node); }
   public virtual bool deserialize_node (GXml.Node node) {
     if (!element_type.is_a (typeof (GXml.Serializable))) {
@@ -52,19 +51,21 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
     }
     return true;
   }
-  public virtual bool deserialize_children (GXml.Node node) {
+  public virtual bool deserialize_children () {
+    if (!is_prepared ()) return false;
     if (!element_type.is_a (typeof (GXml.Serializable))) {
       throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"), 
                                                     this.get_type ().name (), element_type.name ());
     }
-    if (node is Element) {
+    if (_node is Element) {
 #if DEBUG
             GLib.message (@"Deserializing ArrayList on Element: $(node.name)");
 #endif
-      foreach (GXml.Node n in node.childs) {
+      foreach (GXml.Node n in _node.children) {
         deserialize_property (n);
       }
     }
+    _deserialized = true;
     return true;
   }
 
@@ -145,8 +146,9 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
   public bool default_deserialize (GXml.Node node)
                     throws GLib.Error
   {
+    _node = node;
     if (deserialize_proceed ())
-      return deserialize_children (node);
+      return deserialize_children ();
     return false;
   }
   public virtual bool deserialize_property (GXml.Node property_node)

@@ -34,8 +34,8 @@ public class GXml.SerializableTreeMap<K,V> : Gee.TreeMap<K,V>, Serializable, Ser
   public virtual bool deserialize_proceed () { return true; }
   public virtual bool deserialized () { return true; }
   public virtual bool is_prepared () { return (_node is GXml.Node); }
-  public virtual bool deserialize_node (GXml.Node node) { return deserialize_property (node); }
-  public virtual bool deserialize_children (GXml.Node node) { return deserialize (node); }
+  public virtual bool deserialize_node (GXml.Node node) { return false; }
+  public virtual bool deserialize_children () { return false; }
 
 	construct { Init.init (); }
 
@@ -122,7 +122,7 @@ public class GXml.SerializableTreeMap<K,V> : Gee.TreeMap<K,V>, Serializable, Ser
                                                     this.get_type ().name (), value_type.name ());
     }
     if (node is Element) {
-      foreach (GXml.Node n in node.childs) {
+      foreach (GXml.Node n in node.children) {
         if (n is Element) {
 #if DEBUG
           stdout.printf (@"Node $(node.name) for type '$(get_type ().name ())'\n");

@@ -217,27 +217,38 @@ class SerializableGeeArrayListTest : GXmlTest
     () => {
       try {
         double time;
+        Test.message ("Starting generating document...");
         Test.timer_start ();
         var d = new TwDocument ();
         var ce = new CElement ();
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 100000; i++) {
           var e = new AElement ();
           ce.elements.add (e);
         }
+        ce.serialize (d);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Created document: %g seconds", time);
-        ce.serialize (d);
+        Test.message ("Starting deserializing document: Disable collection deserialization...");
         Test.timer_start ();
         var cep = new CElement ();
         cep.elements.enable_serialize = false;
         cep.deserialize (d);
         time = Test.timer_elapsed ();
-        Test.minimized_result (time, "Enable Deserialize Collection. Deserialized from doc: %g seconds", time);
+        Test.minimized_result (time, "Disable Deserialize Collection. Deserialized from doc: %g seconds", time);
+        assert (cep.elements.is_prepared ());
+        Test.message ("Calling deserialize_children()...");
+        Test.timer_start ();
+        cep.elements.deserialize_children ();
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "Disable Deserialize Collection. Deserialized from NODE: %g seconds", time);
+        Test.message ("Starting deserializing document: Enable collection deserialization...");
+        Test.timer_start ();
         var cet = new CElement ();
         cet.elements.enable_serialize = true;
         cet.deserialize (d);
         time = Test.timer_elapsed ();
-        Test.minimized_result (time, "Disable Deserialize Collection. Deserialized from doc: %g seconds", time);
+        Test.minimized_result (time, "Enable Deserialize Collection. Deserialized from doc: %g seconds", time);
+        assert (d.root.children.size == 100000);
       } catch (GLib.Error e) {
         GLib.message ("ERROR: "+e.message);
         assert_not_reached ();
