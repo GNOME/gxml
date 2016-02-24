@@ -143,22 +143,30 @@ public class Performance
     public string name { get; set; }
     public string get_map_key () { return name; }
     public override string node_name () { return "HElement"; }
-    public override string to_string () { return "HElement"; }
+    public override string to_string () { return "HElement:"+name; }
     public class HashMap : SerializableHashMap<string,HElement> {
       public bool enable_deserialize { get; set; default = false; }
       public override bool deserialize_proceed () { return enable_deserialize; }
     }
   }
-  class HCElement : SerializableObjectModel {
+  class HcpElement : SerializableObjectModel {
     public HElement.HashMap elements { get; set; default = new HElement.HashMap (); }
-    public override string node_name () { return "HCElement"; }
-    public override string to_string () { return "HCElement"; }
+    public override string node_name () { return "HcpElement"; }
+    public override string to_string () { return "HcpElement"; }
   }
-  class HtcElement : SerializableObjectModel {
-    public HCElement elements1 { get; set; default = new HCElement (); }
-    public HCElement elements2 { get; set; default = new HCElement (); }
-    public override string node_name () { return "HCElement"; }
-    public override string to_string () { return "HCElement"; }
+  class HcsElement : SerializableObjectModel {
+    public HElement.HashMap elements { get; set; default = new HElement.HashMap (); }
+    public override string node_name () { return "HcsElement"; }
+    public override string to_string () { return "HcsElement"; }
+  }
+  class HTopElement : SerializableObjectModel {
+    [Description (nick="HcpElement")]
+    public HcpElement elements1 { get; set; default = new HcpElement (); }
+    [Description (nick="HcsElement")]
+    public HcsElement elements2 { get; set; default = new HcsElement (); }
+    public override string node_name () { return "HTopElement"; }
+    public override string to_string () { return "HToplement"; }
+    public override bool property_use_nick () { return true; }
   }
   // TreeMap
   class HTElement : SerializableObjectModel, SerializableMapKey<string>
@@ -443,36 +451,45 @@ public class Performance
         Test.message ("Starting generating document...");
         Test.timer_start ();
         var d = new TwDocument ();
-        var ce = new HtcElement ();
+        var ce = new HTopElement ();
         for (int i = 0; i < 125000; i++) {
-          var e1 = new HCElement ();
-          e1.elements.name = "1E"+i.to_string ();
+          var e1 = new HElement ();
+          e1.name = "1E"+i.to_string ();
           ce.elements1.elements.set (e1.name, e1);
           var e2 = new HElement ();
           e2.name = "2E"+i.to_string ();
           ce.elements2.elements.set (e2.name, e2);
         }
+        assert (ce.elements1.elements.size == 125000);
+        assert (ce.elements2.elements.size == 125000);
         ce.serialize (d);
+        assert (d.root != null);
+        assert (d.root.children.size == 2);
+        assert (d.root.children[0].children.size == 125000);
+        assert (d.root.children[1].children.size == 125000);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Created document: %g seconds", time);
         Test.message ("Starting deserializing document: Disable collection deserialization...");
         Test.timer_start ();
-        var cep = new HCElement ();
-        cep.elements1.enable_deserialize = false;
-        cep.elements2.enable_deserialize = false;
+        var cep = new HTopElement ();
+        cep.elements1.elements.enable_deserialize = false;
+        cep.elements2.elements.enable_deserialize = false;
         cep.deserialize (d);
+        assert(cep.elements1.elements.size == 0);
+        assert(cep.elements2.elements.size == 0);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Disable Deserialize Collection. Deserialized from doc: %g seconds", time);
         Test.message ("Calling C1 deserialize_children()...");
         Test.timer_start ();
-        cep.elements1.deserialize_children ();
-        assert (!cep.elements1.deserialize_children ());
+        assert (cep.elements1.elements.deserialize_children ());
+        assert (cep.elements1.elements.size == 125000);
+        assert (!cep.elements1.elements.deserialize_children ());
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "C1: Disable Deserialize Collection. Deserialized from NODE: %g seconds", time);
         Test.message ("Calling C2 deserialize_children()...");
         Test.timer_start ();
-        cep.elements2.deserialize_children ();
-        assert (!cep.elements2.deserialize_children ());
+        cep.elements2.elements.deserialize_children ();
+        assert (!cep.elements2.elements.deserialize_children ());
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "C2: Disable Deserialize Collection. Deserialized from NODE: %g seconds", time);
       } catch (GLib.Error e) {
@@ -487,7 +504,7 @@ public class Performance
         Test.message ("Starting generating document...");
         Test.timer_start ();
         var d = new TwDocument ();
-        var ce = new HtcElement ();
+        var ce = new HTopElement ();
         for (int i = 0; i < 125000; i++) {
           var e1 = new HElement ();
           e1.name = "1E"+i.to_string ();
@@ -501,14 +518,14 @@ public class Performance
         Test.minimized_result (time, "Created document: %g seconds", time);
         Test.message ("Starting deserializing document: Enable collection deserialization...");
         Test.timer_start ();
-        var cep = new HCElement ();
-        cep.elements1.enable_deserialize = true;
-        cep.elements2.enable_deserialize = true;
+        var cep = new HTopElement ();
+        cep.elements1.elements.enable_deserialize = true;
+        cep.elements2.elements.enable_deserialize = true;
         cep.deserialize (d);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Disable Deserialize Collection. Deserialized from doc: %g seconds", time);
-        assert (!cep.elements1.deserialize_children ());
-        assert (!cep.elements2.deserialize_children ());
+        assert (!cep.elements1.elements.deserialize_children ());
+        assert (!cep.elements2.elements.deserialize_children ());
       } catch (GLib.Error e) {
         GLib.message ("ERROR: "+e.message);
         assert_not_reached ();

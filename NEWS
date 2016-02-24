@@ -7,7 +7,7 @@ Version 0.9.2
 * API change SerializableCollection: added new abstract methods for post-deserialization
 
 * SerializableCollection: Implementations now support enable/disable deserialization
-  for post operation using SerializableCollection.deserialize_children() for initial
+  for post-deseralization using SerializableCollection.deserialize_children() for initial
   document load time optimization
 
 * More memory optimizations: SerializableCollection implementations don't hold

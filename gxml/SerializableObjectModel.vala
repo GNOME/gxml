@@ -313,7 +313,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       element = (Element) node;
     else
       element = (Element) doc.root;
-    return_val_if_fail (element != null, null);
+    return_val_if_fail (element != null, false);
     if (node_name () == null) {
       GLib.warning (_("WARNING: Object type '%s' have no Node Name defined").printf (get_type ().name ()));
       return false;
