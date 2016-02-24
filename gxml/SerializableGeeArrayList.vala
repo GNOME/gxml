@@ -45,13 +45,13 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
   public Gee.Map<string,GXml.Attribute> unknown_serializable_properties
   {
     owned get {
-      return (Gee.Map<string,GXml.Attribute>) _unknown_serializable_property.ref ();
+      return new HashMap<string,GXml.Attribute> ();
     }
   }
   public Gee.Collection<GXml.Node> unknown_serializable_nodes
   {
     owned get {
-      return (Gee.Collection<GXml.Node>) _unknown_serializable_nodes.ref ();
+      return new ArrayList<GXml.Node> ();
     }
   }
   protected ParamSpec[] properties { get; set; }

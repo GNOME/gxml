@@ -46,6 +46,13 @@ public abstract class GXml.SerializableContainer : SerializableObjectModel
 public interface GXml.SerializableCollection : Object, Gee.Traversable<Serializable>, Serializable
 {
   /**
+   * Returns true if the collection should be deserialized from a {@link GXml.Node}'s children
+   * when {@link GXml.Serializable.deserialize} is called. For large collection of nodes
+   * this could impact in performance; return false and use {@link GXml.SerializableCollection.deserialize_children}
+   * when you need to deserialize all nodes to access them.
+   */
+  //public abstract bool deserialize_proceed ();
+  /**
    * Returns true if the collection was deserialized from a {@link GXml.Node}'s children.
    */
   public abstract bool deserialized ();

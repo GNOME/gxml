@@ -122,18 +122,16 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Gee.Traversable <V>, S
       storage = new Gee.HashMultiMap<P,HashMap<S,V>> ();
   }
   // Serializable Interface
-  Gee.HashMap<string,GXml.Attribute> _unknown_serializable_property = new Gee.HashMap<string,GXml.Attribute> ();
-  Gee.ArrayList<GXml.Node> _unknown_serializable_nodes = new Gee.ArrayList<GXml.Node> ();
   public Gee.Map<string,GXml.Attribute> unknown_serializable_properties
   {
     owned get {
-      return (Gee.Map<string,GXml.Attribute>) _unknown_serializable_property.ref ();
+      return new Gee.HashMap<string,GXml.Attribute> ();
     }
   }
   public Gee.Collection<GXml.Node> unknown_serializable_nodes
   {
     owned get {
-      return (Gee.Collection<GXml.Node>) _unknown_serializable_nodes.ref ();
+      return new Gee.ArrayList<GXml.Node> ();
     }
   }
   protected ParamSpec[] properties { get; set; }

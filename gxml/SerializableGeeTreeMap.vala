@@ -28,8 +28,6 @@ using GXml;
  */
 public class GXml.SerializableTreeMap<K,V> : Gee.TreeMap<K,V>, Serializable, SerializableCollection
 {
-  Gee.HashMap<string,GXml.Attribute> _unknown_serializable_property = new Gee.HashMap<string,GXml.Attribute> ();
-  Gee.ArrayList<GXml.Node> _unknown_serializable_nodes = new Gee.ArrayList<GXml.Node> ();
   GXml.Node _node;
 
   // SerializableCollection interface
@@ -43,13 +41,13 @@ public class GXml.SerializableTreeMap<K,V> : Gee.TreeMap<K,V>, Serializable, Ser
   public Gee.Map<string,GXml.Attribute> unknown_serializable_properties
   {
     owned get {
-      return (Gee.Map<string,GXml.Attribute>) _unknown_serializable_property.ref ();
+      return new Gee.HashMap<string,GXml.Attribute> ();
     }
   }
   public Gee.Collection<GXml.Node> unknown_serializable_nodes
   {
     owned get {
-      return (Gee.Collection<GXml.Node>) _unknown_serializable_nodes.ref ();
+      return new Gee.ArrayList<GXml.Node> ();
     }
   }
   protected ParamSpec[] properties { get; set; }
