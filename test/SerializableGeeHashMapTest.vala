@@ -350,7 +350,7 @@ class SerializableGeeHashMapTest : GXmlTest
         Test.timer_start ();
         var d = new TwDocument ();
         var ce = new HCElement ();
-        for (int i = 0; i < 250000; i++) {
+        for (int i = 0; i < 125000; i++) {
           var e1 = new HElement ();
           e1.name = "1E"+i.to_string ();
           ce.elements1.set (e1.name, e1);
@@ -374,13 +374,51 @@ class SerializableGeeHashMapTest : GXmlTest
         Test.message ("Calling C1 deserialize_children()...");
         Test.timer_start ();
         cep.elements1.deserialize_children ();
+        assert (!cep.elements1.deserialize_children ());
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "C1: Disable Deserialize Collection. Deserialized from NODE: %g seconds", time);
-        Test.message ("Calling C1 deserialize_children()...");
+        Test.message ("Calling C2 deserialize_children()...");
         Test.timer_start ();
         cep.elements2.deserialize_children ();
+        assert (!cep.elements2.deserialize_children ());
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "C2: Disable Deserialize Collection. Deserialized from NODE: %g seconds", time);
+      } catch (GLib.Error e) {
+        GLib.message ("ERROR: "+e.message);
+        assert_not_reached ();
+      }
+    });
+    Test.add_func ("/gxml/performance/hashmap/post-deserialization/enable",
+    () => {
+      try {
+        double time;
+        Test.message ("Starting generating document...");
+        Test.timer_start ();
+        var d = new TwDocument ();
+        var ce = new HCElement ();
+        for (int i = 0; i < 125000; i++) {
+          var e1 = new HElement ();
+          e1.name = "1E"+i.to_string ();
+          ce.elements1.set (e1.name, e1);
+          var e2 = new HElement ();
+          e2.name = "2E"+i.to_string ();
+          ce.elements2.set (e2.name, e2);
+        }
+        ce.serialize (d);
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "Created document: %g seconds", time);
+        Test.message ("Starting deserializing document: Enable collection deserialization...");
+        Test.timer_start ();
+        var cep = new HCElement ();
+        cep.elements1.enable_deserialize = true;
+        cep.elements2.enable_deserialize = true;
+        cep.deserialize (d);
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "Disable Deserialize Collection. Deserialized from doc: %g seconds", time);
+        assert (cep.elements1.is_prepared ());
+        assert (cep.elements2.is_prepared ());
+        assert (!cep.elements1.deserialize_children ());
+        assert (!cep.elements2.deserialize_children ());
       } catch (GLib.Error e) {
         GLib.message ("ERROR: "+e.message);
         assert_not_reached ();

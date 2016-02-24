@@ -52,6 +52,7 @@ public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, Ser
   }
   public virtual bool deserialize_children ()  throws GLib.Error {
     if (_deserialized) return false;
+    if (_node == null) return false;
     if (!(value_type.is_a (typeof (GXml.Serializable)) &&
         value_type.is_a (typeof (SerializableMapKey)))) {
       throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"), 

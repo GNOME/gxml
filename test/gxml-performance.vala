@@ -340,6 +340,7 @@ public class Performance
         Test.message ("Calling deserialize_children()...");
         Test.timer_start ();
         cep.elements.deserialize_children ();
+        assert (!cep.elements.deserialize_children ());
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Disable Deserialize Collection. Deserialized from NODE: %g seconds", time);
       } catch (GLib.Error e) {
