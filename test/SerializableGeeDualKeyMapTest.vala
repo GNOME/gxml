@@ -42,6 +42,26 @@ class Spaces : SerializableObjectModel, SerializableMapDualKey<string,string>
 
 class SerializableGeeDualKeyMapTest : GXmlTest
 {
+
+  class DHElement : SerializableObjectModel, SerializableMapDualKey<string,string>
+  {
+    public string name { get; set; }
+    public string key { get; set; }
+    public string get_map_primary_key  () { return key; }
+    public string get_map_secondary_key () { return name; }
+    public override string node_name () { return "DHElement"; }
+    public override string to_string () { return "DHElement"; }
+    public class DualKeyMap : SerializableDualKeyMap<string,string,DHElement> {
+      public bool enable_deserialize { get; set; default = false; }
+      public override bool deserialize_proceed () { return enable_deserialize; }
+    }
+  }
+  class DHCElement : SerializableObjectModel {
+    public DHElement.DualKeyMap elements1 { get; set; default = new DHElement.DualKeyMap (); }
+    public DHElement.DualKeyMap elements2 { get; set; default = new DHElement.DualKeyMap (); }
+    public override string node_name () { return "DHCElement"; }
+    public override string to_string () { return "DHCElement"; }
+  }
   public static void add_tests ()
   {
     Test.add_func ("/gxml/serializable/serializable_dual_key_map/api",
@@ -285,6 +305,90 @@ class SerializableGeeDualKeyMapTest : GXmlTest
 #if DEBUG
         GLib.message ("ERROR: "+e.message);
 #endif
+        assert_not_reached ();
+      }
+    });
+    Test.add_func ("/gxml/performance/dualkeymap/post-deserialization/disable",
+    () => {
+      try {
+        double time;
+        Test.message ("Starting generating document...");
+        Test.timer_start ();
+        var d = new TwDocument ();
+        var ce = new DHCElement ();
+        for (int i = 0; i < 125000; i++) {
+          var e1 = new DHElement ();
+          e1.key = "E1";
+          e1.name = "1E"+i.to_string ();
+          ce.elements1.set (e1.key, e1.name, e1);
+          var e2 = new DHElement ();
+          e2.key = "E2";
+          e2.name = "2E"+i.to_string ();
+          ce.elements2.set (e2.key, e2.name, e2);
+        }
+        ce.serialize (d);
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "Created document: %g seconds", time);
+        Test.message ("Starting deserializing document: Disable collection deserialization...");
+        Test.timer_start ();
+        var cep = new DHCElement ();
+        cep.elements1.enable_deserialize = false;
+        cep.elements2.enable_deserialize = false;
+        cep.deserialize (d);
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "Disable Deserialize Collection. Deserialized from doc: %g seconds", time);
+        assert (cep.elements1.is_prepared ());
+        assert (cep.elements2.is_prepared ());
+        Test.message ("Calling C1 deserialize_children()...");
+        Test.timer_start ();
+        cep.elements1.deserialize_children ();
+        assert (!cep.elements1.deserialize_children ());
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "C1: Disable Deserialize Collection. Deserialized from NODE: %g seconds", time);
+        Test.message ("Calling C2 deserialize_children()...");
+        Test.timer_start ();
+        cep.elements2.deserialize_children ();
+        assert (!cep.elements2.deserialize_children ());
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "C2: Disable Deserialize Collection. Deserialized from NODE: %g seconds", time);
+      } catch (GLib.Error e) {
+        GLib.message ("ERROR: "+e.message);
+        assert_not_reached ();
+      }
+    });
+    Test.add_func ("/gxml/performance/dualkeymap/post-deserialization/enable",
+    () => {
+      try {
+        double time;
+        Test.message ("Starting generating document...");
+        Test.timer_start ();
+        var d = new TwDocument ();
+        var ce = new DHCElement ();
+        for (int i = 0; i < 125000; i++) {
+          var e1 = new DHElement ();
+          e1.name = "1E"+i.to_string ();
+          ce.elements1.set (e1.key, e1.name, e1);
+          var e2 = new DHElement ();
+          e2.name = "2E"+i.to_string ();
+          ce.elements2.set (e2.key, e2.name, e2);
+        }
+        ce.serialize (d);
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "Created document: %g seconds", time);
+        Test.message ("Starting deserializing document: Enable collection deserialization...");
+        Test.timer_start ();
+        var cep = new DHCElement ();
+        cep.elements1.enable_deserialize = true;
+        cep.elements2.enable_deserialize = true;
+        cep.deserialize (d);
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "Disable Deserialize Collection. Deserialized from doc: %g seconds", time);
+        assert (cep.elements1.is_prepared ());
+        assert (cep.elements2.is_prepared ());
+        assert (!cep.elements1.deserialize_children ());
+        assert (!cep.elements2.deserialize_children ());
+      } catch (GLib.Error e) {
+        GLib.message ("ERROR: "+e.message);
         assert_not_reached ();
       }
     });
