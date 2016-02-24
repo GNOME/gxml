@@ -37,7 +37,7 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
   public virtual bool deserialize_proceed () { return true; }
   public virtual bool deserialized () { return _deserialized; }
   public virtual bool is_prepared () { return (_node is GXml.Node); }
-  public virtual bool deserialize_node (GXml.Node node) {
+  public virtual bool deserialize_node (GXml.Node node)  throws GLib.Error {
     if (!element_type.is_a (typeof (GXml.Serializable))) {
       throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"), 
                                                     this.get_type ().name (), element_type.name ());
@@ -51,7 +51,7 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
     }
     return true;
   }
-  public virtual bool deserialize_children () {
+  public virtual bool deserialize_children ()  throws GLib.Error {
     if (!is_prepared ()) return false;
     if (!element_type.is_a (typeof (GXml.Serializable))) {
       throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"), 

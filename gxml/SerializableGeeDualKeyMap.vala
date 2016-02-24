@@ -37,8 +37,8 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Gee.Traversable <V>, S
   public virtual bool deserialize_proceed () { return true; }
   public virtual bool deserialized () { return true; }
   public virtual bool is_prepared () { return (_node is GXml.Node); }
-  public virtual bool deserialize_node (GXml.Node node) { return false; }
-  public virtual bool deserialize_children () { return false; }
+  public virtual bool deserialize_node (GXml.Node node) throws GLib.Error { return false; }
+  public virtual bool deserialize_children () throws GLib.Error { return false; }
 
 	construct { Init.init (); }
 
