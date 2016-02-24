@@ -4,14 +4,14 @@ Version 0.9.2
 
 * API change Serializable.deserialize now return a boolean
 
-* API change SerializableCollection: added new abstract methods
+* API change SerializableCollection: added new abstract methods for post-deserialization
 
-* SerializableCollection: SerializableArrayList now support enable/disable deserialization
-  for post operation using SerializableCollection.deserialize_children() initial document
-  load time optimization
+* SerializableCollection: Implementations now support enable/disable deserialization
+  for post operation using SerializableCollection.deserialize_children() for initial
+  document load time optimization
 
 * More memory optimizations: SerializableCollection implementations don't hold
-  objects for unknown properties and nodes
+  objects for unknown properties/nodes
 
 
 

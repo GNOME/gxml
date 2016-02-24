@@ -34,7 +34,6 @@ public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, Ser
   // SerializableCollection interface
   public virtual bool deserialize_proceed () { return true; }
   public virtual bool deserialized () { return _deserialized; }
-  public virtual bool is_prepared () { return (_node is GXml.Node); }
   public virtual bool deserialize_node (GXml.Node node) throws GLib.Error {
     if (!(value_type.is_a (typeof (GXml.Serializable)) &&
         value_type.is_a (typeof (SerializableMapKey)))) {
@@ -159,8 +158,6 @@ public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, Ser
   public bool default_deserialize_property (GXml.Node property_node)
                                             throws GLib.Error
   {
-    if (is_prepared ())
-      return deserialize_node (property_node);
-    return false;
+    return deserialize_node (property_node);
   }
 }

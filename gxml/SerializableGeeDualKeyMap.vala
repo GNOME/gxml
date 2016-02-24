@@ -37,7 +37,6 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Gee.Traversable <V>, S
   // SerializableCollection interface
   public virtual bool deserialize_proceed () { return true; }
   public virtual bool deserialized () { return true; }
-  public virtual bool is_prepared () { return (_node is GXml.Node); }
   public virtual bool deserialize_node (GXml.Node node) throws GLib.Error {
     if (!(value_type.is_a (typeof (GXml.Serializable)) &&
         value_type.is_a (typeof (SerializableMapDualKey)))) {

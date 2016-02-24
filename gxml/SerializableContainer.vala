@@ -57,10 +57,6 @@ public interface GXml.SerializableCollection : Object, Gee.Traversable<Serializa
    */
   public abstract bool deserialized ();
   /**
-   * Returns true if the collection is able to deserialize from a {@link GXml.Node}'s children.
-   */
-  public abstract bool is_prepared ();
-  /**
    * Executes a deserialization from a {@link GXml.Node}. After this operation
    * {@link GXml.SerializableCollection.deserialized} should return true. This
    * operation should not be executed if {@link GXml.SerializableCollection.is_prepared}
