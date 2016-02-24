@@ -150,8 +150,13 @@ public class Performance
     }
   }
   class HCElement : SerializableObjectModel {
-    public HElement.HashMap elements1 { get; set; default = new HElement.HashMap (); }
-    public HElement.HashMap elements2 { get; set; default = new HElement.HashMap (); }
+    public HElement.HashMap elements { get; set; default = new HElement.HashMap (); }
+    public override string node_name () { return "HCElement"; }
+    public override string to_string () { return "HCElement"; }
+  }
+  class HtcElement : SerializableObjectModel {
+    public HCElement elements1 { get; set; default = new HCElement (); }
+    public HCElement elements2 { get; set; default = new HCElement (); }
     public override string node_name () { return "HCElement"; }
     public override string to_string () { return "HCElement"; }
   }
@@ -393,7 +398,6 @@ public class Performance
         cep.deserialize (d);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Disable Deserialize Collection. Deserialized from doc: %g seconds", time);
-        assert (cep.elements.is_prepared ());
         Test.message ("Calling deserialize_children()...");
         Test.timer_start ();
         cep.elements.deserialize_children ();
@@ -439,14 +443,14 @@ public class Performance
         Test.message ("Starting generating document...");
         Test.timer_start ();
         var d = new TwDocument ();
-        var ce = new HCElement ();
+        var ce = new HtcElement ();
         for (int i = 0; i < 125000; i++) {
-          var e1 = new HElement ();
-          e1.name = "1E"+i.to_string ();
-          ce.elements1.set (e1.name, e1);
+          var e1 = new HCElement ();
+          e1.elements.name = "1E"+i.to_string ();
+          ce.elements1.elements.set (e1.name, e1);
           var e2 = new HElement ();
           e2.name = "2E"+i.to_string ();
-          ce.elements2.set (e2.name, e2);
+          ce.elements2.elements.set (e2.name, e2);
         }
         ce.serialize (d);
         time = Test.timer_elapsed ();
@@ -459,8 +463,6 @@ public class Performance
         cep.deserialize (d);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Disable Deserialize Collection. Deserialized from doc: %g seconds", time);
-        assert (cep.elements1.is_prepared ());
-        assert (cep.elements2.is_prepared ());
         Test.message ("Calling C1 deserialize_children()...");
         Test.timer_start ();
         cep.elements1.deserialize_children ();
@@ -485,14 +487,14 @@ public class Performance
         Test.message ("Starting generating document...");
         Test.timer_start ();
         var d = new TwDocument ();
-        var ce = new HCElement ();
+        var ce = new HtcElement ();
         for (int i = 0; i < 125000; i++) {
           var e1 = new HElement ();
           e1.name = "1E"+i.to_string ();
-          ce.elements1.set (e1.name, e1);
+          ce.elements1.elements.set (e1.name, e1);
           var e2 = new HElement ();
           e2.name = "2E"+i.to_string ();
-          ce.elements2.set (e2.name, e2);
+          ce.elements2.elements.set (e2.name, e2);
         }
         ce.serialize (d);
         time = Test.timer_elapsed ();
@@ -505,8 +507,6 @@ public class Performance
         cep.deserialize (d);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Disable Deserialize Collection. Deserialized from doc: %g seconds", time);
-        assert (cep.elements1.is_prepared ());
-        assert (cep.elements2.is_prepared ());
         assert (!cep.elements1.deserialize_children ());
         assert (!cep.elements2.deserialize_children ());
       } catch (GLib.Error e) {
@@ -541,8 +541,6 @@ public class Performance
         cep.deserialize (d);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Disable Deserialize Collection. Deserialized from doc: %g seconds", time);
-        assert (cep.elements1.is_prepared ());
-        assert (cep.elements2.is_prepared ());
         Test.message ("Calling C1 deserialize_children()...");
         Test.timer_start ();
         cep.elements1.deserialize_children ();
@@ -587,8 +585,6 @@ public class Performance
         cep.deserialize (d);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Disable Deserialize Collection. Deserialized from doc: %g seconds", time);
-        assert (cep.elements1.is_prepared ());
-        assert (cep.elements2.is_prepared ());
         assert (!cep.elements1.deserialize_children ());
         assert (!cep.elements2.deserialize_children ());
       } catch (GLib.Error e) {
@@ -625,8 +621,6 @@ public class Performance
         cep.deserialize (d);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Disable Deserialize Collection. Deserialized from doc: %g seconds", time);
-        assert (cep.elements1.is_prepared ());
-        assert (cep.elements2.is_prepared ());
         Test.message ("Calling C1 deserialize_children()...");
         Test.timer_start ();
         cep.elements1.deserialize_children ();
@@ -671,8 +665,6 @@ public class Performance
         cep.deserialize (d);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Disable Deserialize Collection. Deserialized from doc: %g seconds", time);
-        assert (cep.elements1.is_prepared ());
-        assert (cep.elements2.is_prepared ());
         assert (!cep.elements1.deserialize_children ());
         assert (!cep.elements2.deserialize_children ());
       } catch (GLib.Error e) {
