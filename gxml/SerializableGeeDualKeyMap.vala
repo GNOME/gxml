@@ -32,13 +32,41 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Gee.Traversable <V>, S
 {
   protected Gee.HashMultiMap<P,HashMap<S,V>> storage;
   GXml.Node _node;
+  bool _deserialized = false;
 
   // SerializableCollection interface
   public virtual bool deserialize_proceed () { return true; }
   public virtual bool deserialized () { return true; }
   public virtual bool is_prepared () { return (_node is GXml.Node); }
-  public virtual bool deserialize_node (GXml.Node node) throws GLib.Error { return false; }
-  public virtual bool deserialize_children () throws GLib.Error { return false; }
+  public virtual bool deserialize_node (GXml.Node node) throws GLib.Error {
+    if (!(value_type.is_a (typeof (GXml.Serializable)) &&
+        value_type.is_a (typeof (SerializableMapDualKey)))) {
+      throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"), 
+                                                    this.get_type ().name (), value_type.name ());
+    }
+    if (node is Element) {
+      var obj = (SerializableMapDualKey<P,S>) Object.new (value_type);
+      if (node.name.down () == ((Serializable) obj).node_name ().down ()) {
+        ((Serializable) obj).deserialize (node);
+        @set (obj.get_map_primary_key (), obj.get_map_secondary_key (), obj);
+      }
+    }
+    return true;
+  }
+  public virtual bool deserialize_children () throws GLib.Error {
+    if (_deserialized) return false;
+    if (_node == null) return false;
+    if (!(value_type.is_a (typeof (GXml.Serializable)) &&
+        value_type.is_a (typeof (SerializableMapDualKey)))) {
+      throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"), 
+                                                    this.get_type ().name (), value_type.name ());
+    }
+    foreach (GXml.Node n in _node.children) {
+      deserialize_node (n);
+    }
+    _deserialized = true;
+    return true;
+  }
 
 	construct { Init.init (); }
 
@@ -197,33 +225,11 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Gee.Traversable <V>, S
                     throws GLib.Error
                     requires (node is Element)
   {
-#if DEBUG
-            GLib.message (@"Deserializing DualKeyMap on Element: $(node.name)");
-#endif
-    if (!(value_type.is_a (typeof (GXml.Serializable)) &&
-        value_type.is_a (typeof (SerializableMapDualKey)))) {
-      throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"), 
-                                                    this.get_type ().name (), value_type.name ());
-    }
-    foreach (GXml.Node n in node.children) {
-      if (n is Element) {
-        var obj = (SerializableMapDualKey<P,S>) Object.new (value_type);
-#if DEBUG
-            GLib.message (@"Creating a new Object to add: '$(((Serializable)obj).node_name ())' from Node: '$(node.name)'");
-#endif
-        if (n.name.down () == ((Serializable) obj).node_name ().down ()) {
-          ((Serializable) obj).deserialize (n);
-#if DEBUG
-            GLib.message (@"SerializableDualKeyMap: Setting object: '$(((Serializable)obj).node_name ())' from Node: '$(node.name)'");
-#endif
-          @set (obj.get_map_primary_key (), obj.get_map_secondary_key (), obj);
-#if DEBUG
-            GLib.message (@"SerializableDualKeyMap: Size = '$(this.size)'");
-#endif
-        }
-      }
-    }
-    return true;
+    _node = node;
+    _deserialized = false;
+    if (deserialize_proceed ())
+      return deserialize_children ();
+    return false;
   }
   public virtual bool deserialize_property (GXml.Node property_node)
                                             throws GLib.Error
