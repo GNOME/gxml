@@ -147,6 +147,7 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
                     throws GLib.Error
   {
     _node = node;
+    _deserialized = false;
     if (deserialize_proceed ())
       return deserialize_children ();
     return false;

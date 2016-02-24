@@ -29,10 +29,11 @@ using GXml;
 public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, SerializableCollection
 {
   GXml.Node _node;
+  bool _deserialized;
 
   // SerializableCollection interface
   public virtual bool deserialize_proceed () { return true; }
-  public virtual bool deserialized () { return true; }
+  public virtual bool deserialized () { return _deserialized; }
   public virtual bool is_prepared () { return (_node is GXml.Node); }
   public virtual bool deserialize_node (GXml.Node node) throws GLib.Error {
     if (!(value_type.is_a (typeof (GXml.Serializable)) &&
@@ -50,6 +51,7 @@ public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, Ser
     return true;
   }
   public virtual bool deserialize_children ()  throws GLib.Error {
+    if (_deserialized) return false;
     if (!(value_type.is_a (typeof (GXml.Serializable)) &&
         value_type.is_a (typeof (SerializableMapKey)))) {
       throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"), 
@@ -60,6 +62,7 @@ public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, Ser
         deserialize_node (n);
       }
     }
+    _deserialized = true;
     return true;
   }
 
@@ -142,6 +145,7 @@ public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, Ser
                     throws GLib.Error
   {
     _node = node;
+    _deserialized = false;
     if (deserialize_proceed ())
       return deserialize_children ();
     return false;
