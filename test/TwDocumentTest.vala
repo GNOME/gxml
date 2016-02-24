@@ -166,7 +166,7 @@ class TwDocumentTest : GXmlTest {
 					assert_not_reached ();
 				}
 			});
-		Test.add_func ("/gxml/tw-document/save/root/childs", () => {
+		Test.add_func ("/gxml/tw-document/save/root/children", () => {
 				try {
 					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 					if (f.query_exists ()) f.delete ();
@@ -205,9 +205,9 @@ class TwDocumentTest : GXmlTest {
 					assert_not_reached ();
 				}
 			});
-		Test.add_func ("/gxml/tw-document/root/childs-childs", () => {
+		Test.add_func ("/gxml/tw-document/root/children-children", () => {
 #if DEBUG
-				GLib.message (@"TwDocument root childs/childs...");
+				GLib.message (@"TwDocument root children/children...");
 #endif
 			try {
 #if DEBUG
@@ -268,9 +268,9 @@ class TwDocumentTest : GXmlTest {
 				assert_not_reached ();
 			}
 		});
-		Test.add_func ("/gxml/tw-document/save/childs-childs", () => {
+		Test.add_func ("/gxml/tw-document/save/children-children", () => {
 #if DEBUG
-				GLib.message (@"TwDocument root childs/childs...");
+				GLib.message (@"TwDocument root children/children...");
 #endif
 			try {
 #if DEBUG
@@ -291,7 +291,7 @@ class TwDocumentTest : GXmlTest {
 				var r = (GXml.Element) d.root;
 				r.set_attr ("name","The Great Book");
 #if DEBUG
-				GLib.message (@"Creating childs...");
+				GLib.message (@"Creating children...");
 #endif
 				for (int i = 0; i < 30000; i++){
 					var b = (GXml.Element) d.create_element ("book");
