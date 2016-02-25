@@ -745,6 +745,7 @@ public class Performance
         assert (!cep.elements2.elements.deserialize_children ());
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "C2: Disable Deserialize Collection. Deserialized from NODE: %g seconds", time);
+				if (f.query_exists ()) f.delete ();
       } catch (GLib.Error e) {
         GLib.message ("ERROR: "+e.message);
         assert_not_reached ();
@@ -805,6 +806,7 @@ public class Performance
         assert (!cep.elements2.elements.deserialize_children ());
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "C2: Disable Deserialize Collection. Deserialized from NODE: %g seconds", time);
+				if (f.query_exists ()) f.delete ();
       } catch (GLib.Error e) {
         GLib.message ("ERROR: "+e.message);
         assert_not_reached ();
@@ -846,6 +848,7 @@ public class Performance
         assert (!cep.elements.deserialize_children ());
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Disable Deserialize Collection. Deserialized from NODE: %g seconds", time);
+				if (f.query_exists ()) f.delete ();
       } catch (GLib.Error e) {
         GLib.message ("ERROR: "+e.message);
         assert_not_reached ();
@@ -887,6 +890,7 @@ public class Performance
         assert (!cep.elements.deserialize_children ());
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Enable Deserialize Collection. Deserialized from NODE: %g seconds", time);
+				if (f.query_exists ()) f.delete ();
       } catch (GLib.Error e) {
         GLib.message ("ERROR: "+e.message);
         assert_not_reached ();
