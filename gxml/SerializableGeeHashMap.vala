@@ -28,7 +28,7 @@ using GXml;
  */
 public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, SerializableCollection
 {
-  GXml.Node _node;
+  protected GXml.Node _node;
   bool _deserialized;
 
   // SerializableCollection interface

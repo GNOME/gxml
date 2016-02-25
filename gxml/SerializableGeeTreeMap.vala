@@ -28,8 +28,8 @@ using GXml;
  */
 public class GXml.SerializableTreeMap<K,V> : Gee.TreeMap<K,V>, Serializable, SerializableCollection
 {
-  GXml.Node _node;
-  bool _deserialized = false;
+  protected GXml.Node _node;
+  protected bool _deserialized = false;
 
   // SerializableCollection interface
   public virtual bool deserialize_proceed () { return true; }

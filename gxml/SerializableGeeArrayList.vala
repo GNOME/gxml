@@ -30,8 +30,8 @@ using Gee;
  */
 public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, SerializableCollection
 {
-  GXml.Node _node;
-  bool _deserialized = false;
+  protected GXml.Node _node;
+  protected bool _deserialized = false;
 
   // SerializableCollection interface
   public virtual bool deserialize_proceed () { return true; }
