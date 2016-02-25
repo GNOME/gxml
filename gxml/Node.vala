@@ -90,14 +90,10 @@ public interface GXml.Node : Object
     if (!(this is GXml.Element)) return list;
     foreach (var child in children) {
       if (child is GXml.Element) {
-        Test.message ("At node: "+child.name);
         list.add_all (child.get_elements_by_property_value (property, value));
-        Test.message ("Node is Element: "+child.name);
         if (child.attrs == null) continue;
-        Test.message ("Searching property: "+property+" in node: "+child.name);
         var cls = child.attrs.get (property);
         if (cls == null) {
-          Test.message ("No property :"+ property+" found");
           continue;
         }
         if (value in cls.value)

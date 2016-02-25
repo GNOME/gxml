@@ -57,7 +57,6 @@ public class GXml.GElement : GXml.GNode, GXml.Element
       n = pp[1];
     }
     var ps = _node->properties;
-    Test.message ("Name= "+n+" Prefix= "+prefix);
     while (ps != null) {
       if (ps->name == n) {
         if (ps->ns == null && prefix == "") return new GAttribute (_doc, ps);

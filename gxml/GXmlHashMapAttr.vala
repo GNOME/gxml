@@ -65,7 +65,6 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>
       var prefix = pp[0];
       var n = pp[1];
       while (ps != null) {
-        Test.message ("At Attribute: "+ps->name);
         if (ps->name == n) {
           if (ps->ns == null) continue;
           if (ps->ns->prefix == prefix)
