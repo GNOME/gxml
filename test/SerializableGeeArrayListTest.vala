@@ -45,9 +45,49 @@ class CElement : SerializableObjectModel {
 
 class SerializableGeeArrayListTest : GXmlTest
 {
+  
+  class BallFill : SerializableObjectModel
+  {
+    public string name { get; set; default = "Fill"; }
+    public void set_text (string txt) { serialized_xml_node_value = txt; }
+    public override string to_string () { return name; }
+    public override string node_name () { return "BallFill"; }
+    public override bool serialize_use_xml_node_value () { return true; }
+  }
+
+  class Ball : SerializableObjectModel
+  {
+    public string name { get; set; default = "Ball"; }
+    public BallFill ballfill { get; set; }
+    public override string to_string () { return name; }
+    public override string node_name () { return "Ball"; }
+    public class Array : SerializableArrayList<Ball> {
+      public override bool deserialize_proceed () { return false; }
+    }
+  }
+
+  class SmallBag : SerializableObjectModel
+  {
+    public string name { get; set; default = "SmallBag"; }
+    public Ball.Array balls { get; set; default = new Ball.Array (); }
+    public override string to_string () { return name; }
+    public override string node_name () { return "SmallBag"; }
+    public class Array : SerializableArrayList<SmallBag> {
+      public override bool deserialize_proceed () { return false; }
+    }
+  }
+
+  class BigBag : SerializableObjectModel
+  {
+    public string name { get; set; default = "ball"; }
+    public SmallBag.Array bags { get; set; default = new SmallBag.Array (); }
+    public override string to_string () { return name; }
+    public override string node_name () { return "BigBag"; }
+  }
+
   public static void add_tests ()
   {
-    Test.add_func ("/gxml/serializable/serializable_array_list/api",
+    Test.add_func ("/gxml/serializable/arraylist/api",
     () => {
       try {
         var c = new SerializableArrayList<AElement> ();
@@ -74,7 +114,7 @@ class SerializableGeeArrayListTest : GXmlTest
         stdout.printf (@"ERROR: $(e.message)");
       }
     });
-    Test.add_func ("/gxml/serializable/serializable_array_list/serialize",
+    Test.add_func ("/gxml/serializable/arraylist/serialize",
     () => {
       try {
         var c = new SerializableArrayList<AElement> ();
@@ -112,7 +152,7 @@ class SerializableGeeArrayListTest : GXmlTest
         assert_not_reached ();
       }
     });
-    Test.add_func ("/gxml/serializable/serializable_array_list/deserialize",
+    Test.add_func ("/gxml/serializable/arraylist/deserialize",
     () => {
       try {
         var doc = new GDocument.from_string ("""<?xml version="1.0"?>
@@ -143,7 +183,7 @@ class SerializableGeeArrayListTest : GXmlTest
         assert_not_reached ();
       }
     });
-    Test.add_func ("/gxml/serializable/serializable_array_list/deserialize-serialize",
+    Test.add_func ("/gxml/serializable/arraylist/deserialize-serialize",
     () => {
       try {
         var idoc = new GDocument.from_string ("""<?xml version="1.0"?>
@@ -184,7 +224,7 @@ class SerializableGeeArrayListTest : GXmlTest
         assert_not_reached ();
       }
     });
-    Test.add_func ("/gxml/serializable/serializable_array_list/deserialize-node-names",
+    Test.add_func ("/gxml/serializable/arraylist/deserialize-node-names",
     () => {
       try {
         var d = new GDocument.from_path (GXmlTestConfig.TEST_DIR + "/test-collection.xml");
@@ -210,6 +250,74 @@ class SerializableGeeArrayListTest : GXmlTest
 #if DEBUG
         GLib.message ("ERROR: "+e.message);
 #endif
+        assert_not_reached ();
+      }
+    });
+    Test.add_func ("/gxml/serializable/arraylist/post-deserialization/serialize/contents",
+    () => {
+      try {
+        // Construct Bag contents
+        var bag = new BigBag ();
+        assert (bag.bags != null);
+        for (int i = 0; i < 2; i++) {
+          var sbag = new SmallBag ();
+          assert (sbag.balls != null);
+          for (int j = 0; j < 2; j++) {
+            var b = new Ball ();
+            b.ballfill = new BallFill ();
+            b.ballfill.set_text ("golden dust");
+            sbag.balls.add (b);
+          }
+          assert (sbag.balls.size == 2);
+          bag.bags.add (sbag);
+        }
+        assert (bag.bags.size == 2);
+        // Construct XML
+        var d = new GDocument ();
+        bag.serialize (d);
+        assert (d.root != null);
+        assert (d.root.name == "BigBag");
+        assert (d.root.children.size == 2);
+        assert (d.root.children[0].name == "SmallBag");
+        assert (d.root.children[0].children.size == 2);
+        assert (d.root.children[0].children[0].name == "Ball");
+        assert (d.root.children[0].children[0].children.size == 1);
+        assert (d.root.children[0].children[0].children[0].name == "BallFill");
+        assert (d.root.children[0].children[0].children[0].children.size == 1);
+        assert (d.root.children[0].children[0].children[0].children[0] is Text);
+        assert (d.root.children[0].children[0].children[0].children[0].value == "golden dust");
+        GLib.message (d.to_string ());
+        // Deserialize
+        var bagt = new BigBag ();
+        bagt.deserialize (d);
+        assert (bagt.bags.deserialize_children ());
+        assert (bagt.bags.size == 2);
+        assert (bagt.bags[0].balls.deserialize_children ());
+        assert (bagt.bags[0].balls.size == 2);
+        assert (bagt.bags[0].balls[0].name == "Ball");
+        assert (bagt.bags[0].balls[0].ballfill !=null);
+        assert (bagt.bags[0].balls[0].ballfill.serialized_xml_node_value !=null);
+        assert (bagt.bags[0].balls[0].ballfill.serialized_xml_node_value =="golden dust");
+        var bag2 = new BigBag ();
+        bag2.deserialize (d);
+        assert (bag2.bags.size == 0);
+        // Serialize
+        var d2 = new GDocument ();
+        bag2.serialize (d2);
+        GLib.message ("SECOND:"+d2.to_string ());
+        assert (d2.root != null);
+        assert (d2.root.name == "BigBag");
+        assert (d2.root.children.size == 2);
+        assert (d2.root.children[0].name == "SmallBag");
+        assert (d2.root.children[0].children.size == 2);
+        assert (d2.root.children[0].children[0].name == "Ball");
+        assert (d2.root.children[0].children[0].children.size == 1);
+        assert (d2.root.children[0].children[0].children[0].name == "BallFill");
+        assert (d2.root.children[0].children[0].children[0].children.size == 1);
+        assert (d2.root.children[0].children[0].children[0].children[0] is GXml.Text);
+        assert (d2.root.children[0].children[0].children[0].children[0].value == "golden dust");
+      } catch (GLib.Error e) {
+        GLib.message ("ERROR: "+e.message);
         assert_not_reached ();
       }
     });
