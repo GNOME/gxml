@@ -29,7 +29,7 @@ using GXml;
 public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, SerializableCollection
 {
   protected GXml.Node _node;
-  bool _deserialized;
+  protected bool _deserialized;
 
   // SerializableCollection interface
   public virtual bool deserialize_proceed () { return true; }
