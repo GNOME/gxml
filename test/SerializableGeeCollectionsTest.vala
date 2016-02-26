@@ -179,6 +179,36 @@ class SerializableGeeCollectionsTest : GXmlTest
     public override string to_string () { return name; }
   }
 
+
+  class Ball : SerializableObjectModel
+  {
+    public string name { get; set; default = "ball"; }
+    public override string to_string () { return name; }
+    public override string node_name () { return "Ball"; }
+    public class Array : SerializableArrayList<Ball> {
+      public override bool deserialize_proceed () { return false; }
+    }
+  }
+
+  class SmallBag : SerializableObjectModel
+  {
+    public string name { get; set; default = "ball"; }
+    public Ball.Array balls { get; set; default = new Ball.Array (); }
+    public override string to_string () { return name; }
+    public override string node_name () { return "SmallBag"; }
+    public class Array : SerializableArrayList<SmallBag> {
+      public override bool deserialize_proceed () { return false; }
+    }
+  }
+
+  class BigBag : SerializableObjectModel
+  {
+    public string name { get; set; default = "ball"; }
+    public SmallBag.Array bags { get; set; default = new SmallBag.Array (); }
+    public override string to_string () { return name; }
+    public override string node_name () { return "BigBag"; }
+  }
+
   public static void add_tests ()
   {
     Test.add_func ("/gxml/serializable/convined_gee_containers/deserialize",
@@ -580,6 +610,50 @@ class SerializableGeeCollectionsTest : GXmlTest
     }
       catch (GLib.Error e) {
         stdout.printf (@"ERROR: $(e.message)");
+        assert_not_reached ();
+      }
+    });
+    Test.add_func ("/gxml/serializable/containers/post-deserialization/serialize",
+    () => {
+      try {
+        // Construct Bag contents
+        var bag = new BigBag ();
+        assert (bag.bags != null);
+        for (int i = 0; i < 2; i++) {
+          var sbag = new SmallBag ();
+          assert (sbag.balls != null);
+          for (int j = 0; j < 2; j++) {
+            var b = new Ball ();
+            sbag.balls.add (b);
+          }
+          assert (sbag.balls.size == 2);
+          bag.bags.add (sbag);
+        }
+        assert (bag.bags.size == 2);
+        // Construct XML
+        var d = new TwDocument ();
+        bag.serialize (d);
+        assert (d.root != null);
+        assert (d.root.name == "BigBag");
+        assert (d.root.children.size == 2);
+        assert (d.root.children[0].name == "SmallBag");
+        assert (d.root.children[0].children.size == 2);
+        assert (d.root.children[0].children[0].name == "Ball");
+        // Deserialize
+        var bag2 = new BigBag ();
+        bag2.deserialize (d);
+        assert (bag2.bags.size == 0);
+        // Serialize
+        var d2 = new TwDocument ();
+        bag2.serialize (d2);
+        assert (d2.root != null);
+        assert (d2.root.name == "BigBag");
+        assert (d2.root.children.size == 2);
+        assert (d2.root.children[0].name == "SmallBag");
+        assert (d2.root.children[0].children.size == 2);
+        assert (d2.root.children[0].children[0].name == "Ball");
+      } catch (GLib.Error e) {
+        GLib.message ("ERROR: "+e.message);
         assert_not_reached ();
       }
     });

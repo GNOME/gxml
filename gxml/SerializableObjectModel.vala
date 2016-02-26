@@ -241,6 +241,10 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       if (obj != null) {
         if (obj is SerializableProperty)
           return ((SerializableProperty) obj).serialize_property (element, prop, property_use_nick ());
+        if (obj is SerializableCollection) {
+          if (!(obj as SerializableCollection).deserialized ())
+            (obj as SerializableCollection).deserialize_children ();
+        }
         if (obj is Serializable)
           return ((Serializable) obj).serialize (element);
       }
