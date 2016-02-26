@@ -44,7 +44,10 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
     if (node is Element) {
       var obj = Object.new (element_type) as Serializable;
       if (node.name.down () == obj.node_name ().down ()) {
-        obj.deserialize (node);
+        if (obj is SerializableCollection)
+          (obj as SerializableCollection).deserialize_children ();
+        else
+          obj.deserialize (node);
         add (obj);
       }
     }
@@ -62,7 +65,7 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
             GLib.message (@"Deserializing ArrayList on Element: $(node.name)");
 #endif
       foreach (GXml.Node n in _node.children) {
-        deserialize_property (n);
+        deserialize_node (n);
       }
     }
     _deserialized = true;
