@@ -45,7 +45,6 @@ class CElement : SerializableObjectModel {
 
 class SerializableGeeArrayListTest : GXmlTest
 {
-  
   class BallFill : SerializableObjectModel
   {
     public string name { get; set; default = "Fill"; }
@@ -286,7 +285,7 @@ class SerializableGeeArrayListTest : GXmlTest
         assert (d.root.children[0].children[0].children[0].children.size == 1);
         assert (d.root.children[0].children[0].children[0].children[0] is Text);
         assert (d.root.children[0].children[0].children[0].children[0].value == "golden dust");
-        GLib.message (d.to_string ());
+        //GLib.message (d.to_string ());
         // Deserialize
         var bagt = new BigBag ();
         bagt.deserialize (d);
@@ -304,7 +303,7 @@ class SerializableGeeArrayListTest : GXmlTest
         // Serialize
         var d2 = new GDocument ();
         bag2.serialize (d2);
-        GLib.message ("SECOND:"+d2.to_string ());
+        //GLib.message ("SECOND:"+d2.to_string ());
         assert (d2.root != null);
         assert (d2.root.name == "BigBag");
         assert (d2.root.children.size == 2);

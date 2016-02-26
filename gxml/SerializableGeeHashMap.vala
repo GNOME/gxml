@@ -43,8 +43,12 @@ public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, Ser
     if (node is Element) {
       var obj = Object.new (value_type);
       if (node.name.down () == ((Serializable) obj).node_name ().down ()) {
-        ((Serializable) obj).deserialize (node);
-        @set (((SerializableMapKey<K>) obj).get_map_key (), obj);
+        if (obj is SerializableCollection)
+          (obj as SerializableCollection).deserialize_children ();
+        else {
+          ((Serializable) obj).deserialize (node);
+          @set (((SerializableMapKey<K>) obj).get_map_key (), obj);
+        }
       }
     }
     return true;
