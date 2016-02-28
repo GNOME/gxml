@@ -335,7 +335,7 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
         }
         if (n is GXml.Text) {
           //GLib.message ("Writting Element's contents");
-          size += tw.write_string (node.value);
+          size += tw.write_string (n.value);
           if (size > 1500)
             tw.flush ();
         }

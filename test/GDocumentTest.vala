@@ -264,7 +264,7 @@ class GDocumentTest : GXmlTest {
 				//Test.message ("DOC libxml2:"+doc.libxml_to_string ());
 			} catch { assert_not_reached (); }
 		});
-		Test.add_func ("/gxml/gdocument/to_string", () => {
+		Test.add_func ("/gxml/gdocument/to_string/basic", () => {
 			try {
 				GDocument doc = new GDocument.from_string ("<?xml version=\"1.0\"?>
 <Sentences><Sentence lang=\"en\">I like the colour blue.</Sentence><Sentence lang=\"de\">Ich liebe die T&#xFC;r.</Sentence><Authors><Author><Name>Fred</Name><Email>fweasley@hogwarts.co.uk</Email></Author><Author><Name>George</Name><Email>gweasley@hogwarts.co.uk</Email></Author></Authors></Sentences>");
@@ -273,6 +273,28 @@ class GDocumentTest : GXmlTest {
 				Test.message (s1);
 				assert (cs1[0] == "<?xml version=\"1.0\"?>");
 				assert (cs1[1] == "<Sentences><Sentence lang=\"en\">I like the colour blue.</Sentence><Sentence lang=\"de\">Ich liebe die T&#xFC;r.</Sentence><Authors><Author><Name>Fred</Name><Email>fweasley@hogwarts.co.uk</Email></Author><Author><Name>George</Name><Email>gweasley@hogwarts.co.uk</Email></Author></Authors></Sentences>");
+			} catch { assert_not_reached (); }
+		});
+		Test.add_func ("/gxml/gdocument/to_string/extended", () => {
+			try {
+				var d = new GDocument.from_path (GXmlTestConfig.TEST_DIR+"/gdocument-read.xml");
+				Test.message (d.to_string ());
+				assert (d.root != null);
+				assert (d.root.name == "DataTypeTemplates");
+				Test.message (d.root.children.size.to_string ());
+				assert (d.root.children[0] is GXml.Text);
+				assert (d.root.children[1] is GXml.Element);
+				assert (d.root.children[2] is GXml.Text);
+				assert (d.root.children[2].value == "\n");
+				assert (d.root.children.size == 3);
+				assert (d.root.children[1].name == "DAType");
+				assert (d.root.children[1].children.size == 3);
+				assert (d.root.children[1].children[1].name == "BDA");
+				assert (d.root.children[1].children[1].children.size == 3);
+				assert (d.root.children[1].children[1].children[1].name == "Val");
+				assert (d.root.children[1].children[1].children[1].children.size == 1);
+				assert (d.root.children[1].children[1].children[1].children[0] is GXml.Text);
+				assert (d.root.children[1].children[1].children[1].children[0].value == "status_only");
 			} catch { assert_not_reached (); }
 		});
 		Test.add_func ("/gxml/gdocument/libxml_to_string", () => {

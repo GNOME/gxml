@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DataTypeTemplates>
+  <DAType id="LLN01ModctlModel" iedType="">
+    <BDA name="ctlModels" bType="Enum" valKind="Set" type="ctlModelsEnum" count="0">
+      <Val>status_only</Val>
+    </BDA>
+  </DAType>
+</DataTypeTemplates>
