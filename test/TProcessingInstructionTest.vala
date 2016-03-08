@@ -24,7 +24,7 @@ using GXml;
 
 class TProcessingInstructionTest : GXmlTest {
 	public static void add_tests () {
-		Test.add_func ("/gxml/tw-processinginstruction", () => {
+		Test.add_func ("/gxml/t-processinginstruction", () => {
 			try {
 				var d = new TDocument ();
 				var r = d.create_element ("root");

@@ -26,7 +26,7 @@ using GXml;
 
 class TElementTest : GXmlTest {
 	public static void add_tests () {
-		Test.add_func ("/gxml/tw-element/api", () => {
+		Test.add_func ("/gxml/t-element/api", () => {
 			try {
 			var d = new TDocument ();
 			var e = (Element) d.create_element ("element");
@@ -60,7 +60,7 @@ class TElementTest : GXmlTest {
 			assert (c.content == "HELLO CONTENT");
 			} catch { assert_not_reached (); }
 		});
-		Test.add_func ("/gxml/tw-element/content", () => {
+		Test.add_func ("/gxml/t-element/content", () => {
 			try {
 			var d = new TDocument ();
 			var e = (Element) d.create_element ("element");
@@ -102,7 +102,7 @@ class TElementTest : GXmlTest {
 			assert (e.children.size == 1);
 			} catch { assert_not_reached (); }
 		});
-		Test.add_func ("/gxml/tw-element/namespaces/default", () => {
+		Test.add_func ("/gxml/t-element/namespaces/default", () => {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
@@ -119,7 +119,7 @@ class TElementTest : GXmlTest {
 			assert ("<root xmlns=\"http://www.gnome.org/gxml\">" in str);
 			} catch { assert_not_reached (); }
 		});
-		Test.add_func ("/gxml/tw-element/namespaces/default-prefix", () => {
+		Test.add_func ("/gxml/t-element/namespaces/default-prefix", () => {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
@@ -136,7 +136,7 @@ class TElementTest : GXmlTest {
 			assert ("<root xmlns:gxml=\"http://www.gnome.org/gxml\">" in str);
 			} catch { assert_not_reached (); }
 		});
-		Test.add_func ("/gxml/tw-element/namespaces/default-prefix-null", () => {
+		Test.add_func ("/gxml/t-element/namespaces/default-prefix-null", () => {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
@@ -153,7 +153,7 @@ class TElementTest : GXmlTest {
 			assert ("<root xmlns=\"http://www.gnome.org/gxml\">" in str);
 			} catch { assert_not_reached (); }
 		});
-		Test.add_func ("/gxml/tw-element/namespaces/default/enable-prefix_default_ns", () => {
+		Test.add_func ("/gxml/t-element/namespaces/default/enable-prefix_default_ns", () => {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
@@ -171,7 +171,7 @@ class TElementTest : GXmlTest {
 			assert ("<gxml:root xmlns:gxml=\"http://www.gnome.org/gxml\">" in str);
 			} catch { assert_not_reached (); }
 		});
-		Test.add_func ("/gxml/tw-element/multiple-namespaces", () => {
+		Test.add_func ("/gxml/t-element/multiple-namespaces", () => {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
@@ -202,7 +202,7 @@ class TElementTest : GXmlTest {
 			assert ("<nons xmlns=\"http://www.gnome.org/\"/>" in str);
 			} catch { assert_not_reached (); }
 		});
-		Test.add_func ("/gxml/tw-element/multiple-namespaces/default/basic", () => {
+		Test.add_func ("/gxml/t-element/multiple-namespaces/default/basic", () => {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
@@ -248,7 +248,7 @@ class TElementTest : GXmlTest {
 			assert ("</dg:child>" in str);
 			} catch { assert_not_reached (); }
 		});
-		Test.add_func ("/gxml/tw-element/multiple-namespaces/enable-prefix_default_ns", () => {
+		Test.add_func ("/gxml/t-element/multiple-namespaces/enable-prefix_default_ns", () => {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
@@ -285,7 +285,7 @@ class TElementTest : GXmlTest {
 			assert ("<gxml:nonsd/>" in str);
 			} catch { assert_not_reached (); }
 		});
-		Test.add_func ("/gxml/tw-element/multiple-namespaces/default/1", () => {
+		Test.add_func ("/gxml/t-element/multiple-namespaces/default/1", () => {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
@@ -331,7 +331,7 @@ class TElementTest : GXmlTest {
 			assert ("</dg:child>" in str);
 			} catch { assert_not_reached (); }
 		});
-		Test.add_func ("/gxml/tw-element/multiple-namespaces/default/enable-ns_top", () => {
+		Test.add_func ("/gxml/t-element/multiple-namespaces/default/enable-ns_top", () => {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
@@ -384,7 +384,7 @@ class TElementTest : GXmlTest {
 			assert ("</dg:child>" in str);
 			} catch { assert_not_reached (); }
 		});
-		Test.add_func ("/gxml/tw-element/multiple-namespaces/child-default", () => {
+		Test.add_func ("/gxml/t-element/multiple-namespaces/child-default", () => {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
@@ -438,7 +438,7 @@ class TElementTest : GXmlTest {
 			assert ("</dg:child>" in str);
 			} catch { assert_not_reached (); }
 		});
-		Test.add_func ("/gxml/tw-element/multiple-namespaces/child-default/enable-prefix_default_ns", () => {
+		Test.add_func ("/gxml/t-element/multiple-namespaces/child-default/enable-prefix_default_ns", () => {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
@@ -492,7 +492,7 @@ class TElementTest : GXmlTest {
 			assert ("</dg:child>" in str);
 			} catch { assert_not_reached (); }
 		});
-		Test.add_func ("/gxml/tw-element/multiple-namespaces/default/enable-prefix_default_ns", () => {
+		Test.add_func ("/gxml/t-element/multiple-namespaces/default/enable-prefix_default_ns", () => {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
@@ -528,7 +528,7 @@ class TElementTest : GXmlTest {
 			assert ("</gxml:child>" in str);
 			} catch { assert_not_reached (); }
 		});
-		Test.add_func ("/gxml/tw-element/attr-namespace", () => {
+		Test.add_func ("/gxml/t-element/attr-namespace", () => {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
@@ -555,7 +555,7 @@ class TElementTest : GXmlTest {
 			assert ("</root>" in str);
 			} catch { assert_not_reached (); }
 		});
-		Test.add_func ("/gxml/tw-element/parent", () => {
+		Test.add_func ("/gxml/t-element/parent", () => {
 			var doc = new TDocument ();
 			var e = doc.create_element ("root");
 			doc.children.add (e);
@@ -572,7 +572,7 @@ class TElementTest : GXmlTest {
 			assert (doc.root.children[0].parent.name == "root");
 			assert (doc.root.parent == null);
 		});
-		Test.add_func ("/gxml/tw-element/attribute/parent", () => {
+		Test.add_func ("/gxml/t-element/attribute/parent", () => {
 			var doc = new TDocument ();
 			var e = doc.create_element ("root");
 			doc.children.add (e);

@@ -17,4 +17,4 @@ gxml/SerializableGeeTreeMap.vala
 gxml/SerializableObjectModel.vala
 gxml/SerializableProperty.vala
 gxml/Serializable.vala
-gxml/TwDocument.vala
+gxml/TDocument.vala

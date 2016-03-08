@@ -30,7 +30,7 @@ class TDocumentTest : GXmlTest {
 		public override string to_string () { return "TestNode"; }
 	}
 	public static void add_tests () {
-		Test.add_func ("/gxml/tw-document", () => {
+		Test.add_func ("/gxml/t-document", () => {
 			try {
 				var d = new TDocument ();
 				assert (d.name == "#document");
@@ -47,11 +47,11 @@ class TDocumentTest : GXmlTest {
 				assert_not_reached ();
 			}
 		});
-		Test.add_func ("/gxml/tw-document/root", () => {
+		Test.add_func ("/gxml/t-document/root", () => {
 			try {
-				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
+				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
 				if (f.query_exists ()) f.delete ();
-				var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
+				var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
 				var e = d.create_element ("root");
 				d.children.add (e);
 				assert (d.children.size == 1);
@@ -66,11 +66,11 @@ class TDocumentTest : GXmlTest {
 				assert_not_reached ();
 			}
 		});
-		Test.add_func ("/gxml/tw-document/save/root", () => {
+		Test.add_func ("/gxml/t-document/save/root", () => {
 				try {
-					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
+					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
 					if (f.query_exists ()) f.delete ();
-					var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
+					var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
 					var e = d.create_element ("root");
 					d.children.add (e);
 					assert (d.children.size == 1);
@@ -94,11 +94,11 @@ class TDocumentTest : GXmlTest {
 					assert_not_reached ();
 				}
 			});
-		Test.add_func ("/gxml/tw-document/save/root/attribute", () => {
+		Test.add_func ("/gxml/t-document/save/root/attribute", () => {
 				try {
-					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
+					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
 					if (f.query_exists ()) f.delete ();
-					var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
+					var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
 					var e = d.create_element ("root");
 					d.children.add (e);
 					assert (d.children.size == 1);
@@ -131,11 +131,11 @@ class TDocumentTest : GXmlTest {
 					assert_not_reached ();
 				}
 			});
-		Test.add_func ("/gxml/tw-document/save/root/content", () => {
+		Test.add_func ("/gxml/t-document/save/root/content", () => {
 				try {
-					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
+					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
 					if (f.query_exists ()) f.delete ();
-					var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
+					var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
 					var e = d.create_element ("root");
 					d.children.add (e);
 					assert (d.children.size == 1);
@@ -166,11 +166,11 @@ class TDocumentTest : GXmlTest {
 					assert_not_reached ();
 				}
 			});
-		Test.add_func ("/gxml/tw-document/save/root/children", () => {
+		Test.add_func ("/gxml/t-document/save/root/children", () => {
 				try {
-					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
+					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
 					if (f.query_exists ()) f.delete ();
-					var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
+					var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
 					var e = d.create_element ("root");
 					d.children.add (e);
 					assert (d.children.size == 1);
@@ -205,7 +205,7 @@ class TDocumentTest : GXmlTest {
 					assert_not_reached ();
 				}
 			});
-		Test.add_func ("/gxml/tw-document/root/children-children", () => {
+		Test.add_func ("/gxml/t-document/root/children-children", () => {
 #if DEBUG
 				GLib.message (@"TDocument root children/children...");
 #endif
@@ -213,12 +213,12 @@ class TDocumentTest : GXmlTest {
 #if DEBUG
 				GLib.message (@"Checking file to save to...");
 #endif
-				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-large.xml");
+				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-large.xml");
 				if (f.query_exists ()) f.delete ();
 #if DEBUG
 				GLib.message (@"Creating Document...");
 #endif
-				var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-large.xml");
+				var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-large.xml");
 				var e = d.create_element ("bookstore");
 				d.children.add (e);
 				assert (d.children.size == 1);
@@ -268,7 +268,7 @@ class TDocumentTest : GXmlTest {
 				assert_not_reached ();
 			}
 		});
-		Test.add_func ("/gxml/tw-document/save/children-children", () => {
+		Test.add_func ("/gxml/t-document/save/children-children", () => {
 #if DEBUG
 				GLib.message (@"TDocument root children/children...");
 #endif
@@ -276,12 +276,12 @@ class TDocumentTest : GXmlTest {
 #if DEBUG
 				GLib.message (@"Checking file to save to...");
 #endif
-				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-large.xml");
+				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-large.xml");
 				if (f.query_exists ()) f.delete ();
 #if DEBUG
 				GLib.message (@"Creating Document...");
 #endif
-				var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-large.xml");
+				var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-large.xml");
 				var e = d.create_element ("bookstore");
 				d.children.add (e);
 				assert (d.children.size == 1);
@@ -318,7 +318,7 @@ class TDocumentTest : GXmlTest {
 				assert (d.root.children.size == 30000);
 				d.save ();
 				GLib.Test.message ("Reading saved file...");
-				var fr = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-large.xml");
+				var fr = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-large.xml");
 				assert (fr.query_exists ());
 				var ostream = new MemoryOutputStream.resizable ();
 				ostream.splice (fr.read (), GLib.OutputStreamSpliceFlags.NONE);
@@ -336,9 +336,9 @@ class TDocumentTest : GXmlTest {
 				assert_not_reached ();
 			}
 		});
-		Test.add_func ("/gxml/tw-document/save/backup", () => {
+		Test.add_func ("/gxml/t-document/save/backup", () => {
 				try {
-					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
+					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
 					if (f.query_exists ()) f.delete ();
 					var ot = new TTestObject ();
 					ot.name = "test1";
@@ -354,7 +354,7 @@ class TDocumentTest : GXmlTest {
 					assert (d.root.value == "");
 					d.save_as (f);
 					assert (f.query_exists ());
-					var bf = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml~");
+					var bf = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml~");
 					assert (bf.query_exists ());
 					var istream = f.read ();
 					var b = new MemoryOutputStream.resizable ();
@@ -371,7 +371,7 @@ class TDocumentTest : GXmlTest {
 					assert_not_reached ();
 				}
 			});
-		Test.add_func ("/gxml/tw-document/to_string", () => {
+		Test.add_func ("/gxml/t-document/to_string", () => {
 			var doc = new TDocument ();
 			var r = doc.create_element ("root");
 			doc.children.add (r);
@@ -383,7 +383,7 @@ class TDocumentTest : GXmlTest {
 			assert ("<root/>" in str);
 			assert ("<root/>" in doc.to_string ());
 		});
-		Test.add_func ("/gxml/tw-document/namespace", () => {
+		Test.add_func ("/gxml/t-document/namespace", () => {
 				try {
 					var doc = new TDocument ();
 					doc.children.add (doc.create_element ("root"));
@@ -422,7 +422,7 @@ class TDocumentTest : GXmlTest {
 					assert_not_reached ();
 				}
 			});
-		Test.add_func ("/gxml/tw-document/parent", () => {
+		Test.add_func ("/gxml/t-document/parent", () => {
 			var doc = new TDocument ();
 			assert (doc.parent == null);
 		});

@@ -24,7 +24,7 @@ using GXml;
 
 class TCommentTest : GXmlTest {
 	public static void add_tests () {
-		Test.add_func ("/gxml/tw-comment", () => {
+		Test.add_func ("/gxml/t-comment", () => {
 			try {
 				var d = new TDocument ();
 				var r = d.create_element ("root");

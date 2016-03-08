@@ -24,7 +24,7 @@ using GXml;
 
 class TCDATATest : GXmlTest {
 	public static void add_tests () {
-		Test.add_func ("/gxml/tw-cdata", () => {
+		Test.add_func ("/gxml/t-cdata", () => {
 			try {
 				var d = new TDocument ();
 				var r = d.create_element ("root");
