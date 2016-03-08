@@ -379,4 +379,111 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
     doc.dump_memory (out str, out size);
     return str;
   }
+  /**
+   * Enum for {@link Xml.TextReader} flag on parsing.
+   */
+  public enum ReadType {
+    NEXT,
+    CONTINUE,
+    STOP
+  }
+  /**
+   * Delegate function to control parsing of XML documents. Return {@link ReadType.NEXT}
+   * to skip all children nodes of current {@link GXml.Node}; {@link ReadType.CONTINUE}
+   * to parse next child or node on reading; and {@link ReadType.STOP} to finish
+   * parsing.
+   */
+  public delegate ReadType ReadTypeFunc (GXml.Node node, TextReader tr);
+  /**
+   * Read a {@link GXml.Document} from a {@link GLib.File}, parsing is controller
+   * using {@link ReadTypeFunc}, if null it parse all nodes.
+   */
+  public static void read_doc (GXml.Document doc, GLib.File file, ReadTypeFunc? rtfunc = null) throws GLib.Error {
+    if (!file.query_exists ())
+      throw new GXml.DocumentError.INVALID_FILE (_("File doesn't exists"));
+    var b = new MemoryOutputStream.resizable ();
+    b.splice (file.read (), 0);
+    var tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), file.get_uri ());
+    GXml.Node current, next;
+    current = next = null;
+    ReadType rt = ReadType.CONTINUE;
+    while (rt == ReadType.CONTINUE) {
+      next = read_node (doc, current, tr);
+      if (rtfunc != null) rt = rtfunc (next, tr);
+      else rt = ReadType.CONTINUE;
+      switch (rt) {
+      case ReadType.NEXT:
+        if (tr.next () == 1) {
+          rt = ReadType.CONTINUE;
+          current = next;
+        }
+        else rt = ReadType.STOP;
+        break;
+      case ReadType.CONTINUE:
+        if (tr.read () == 1) {
+          current = next;
+          rt = ReadType.CONTINUE;
+        } else rt = ReadType.STOP;
+        break;
+      }
+    }
+  }
+  /**
+   * Parse current node in {@link Xml.TextReader}.
+   *
+   * Returns: a {@link GXml.Node} respresenting current parsed one.
+   */
+  public static GXml.Node? read_node (GXml.Document doc, GXml.Node? node, Xml.TextReader tr) throws GLib.Error {
+    GXml.Node n = null;
+    var t = tr.node_type ();
+    switch (t) {
+    case Xml.ReaderType.NONE:
+      return null;
+    case Xml.ReaderType.ELEMENT:
+      n = doc.create_element (tr.const_local_name ()); // FIXME: Ns
+      if (node == null)
+        doc.children.add (n);
+      else
+        node.children.add (n);
+      var c = tr.move_to_first_attribute ();
+      while (c == 1) {
+        (n as GXml.Element).set_attr (tr.const_local_name (), tr.get_attribute (tr.const_local_name ()));
+        c = tr.move_to_next_attribute (); // FIXME: Ns
+      }
+      return n;
+    case Xml.ReaderType.ATTRIBUTE:
+      break;
+    case Xml.ReaderType.TEXT:
+      break;
+    case Xml.ReaderType.CDATA:
+      break;
+    case Xml.ReaderType.ENTITY_REFERENCE:
+      break;
+    case Xml.ReaderType.ENTITY:
+      break;
+    case Xml.ReaderType.PROCESSING_INSTRUCTION:
+      break;
+    case Xml.ReaderType.COMMENT:
+      break;
+    case Xml.ReaderType.DOCUMENT:
+      break;
+    case Xml.ReaderType.DOCUMENT_TYPE:
+      break;
+    case Xml.ReaderType.DOCUMENT_FRAGMENT:
+      break;
+    case Xml.ReaderType.NOTATION:
+      break;
+    case Xml.ReaderType.WHITESPACE:
+      break;
+    case Xml.ReaderType.SIGNIFICANT_WHITESPACE:
+      break;
+    case Xml.ReaderType.END_ELEMENT:
+      break;
+    case Xml.ReaderType.END_ENTITY:
+      break;
+    case Xml.ReaderType.XML_DECLARATION:
+      break;
+    }
+    return null;
+  }
 }
