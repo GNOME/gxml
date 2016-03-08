@@ -1,4 +1,4 @@
-/* Element.vala
+/* TNode.vala
  *
  * Copyright (C) 2015  Daniel Espinosa <esodan@gmail.com>
  *
@@ -24,7 +24,7 @@ using Gee;
 /**
  * Base node abstract class implemeting {@link GXml.Node} interface, not tied to libxml-2.0 library.
  */
-public abstract class GXml.TwNode : Object, GXml.Node
+public abstract class GXml.TNode : Object, GXml.Node
 {
   protected string _name = null;
   protected string _value = null;
@@ -45,7 +45,7 @@ public abstract class GXml.TwNode : Object, GXml.Node
       }
     }
     if (!found) {
-      var nns = new TwNamespace (document, uri, prefix);
+      var nns = new TNamespace (document, uri, prefix);
       document.namespaces.add (nns);
       namespaces.add (nns);
     }
@@ -53,7 +53,7 @@ public abstract class GXml.TwNode : Object, GXml.Node
   }
   public virtual string to_string () { return get_type ().name (); }
   public virtual Gee.Map<string,GXml.Node> attrs { owned get { return new Gee.HashMap<string,GXml.Node> (); } }
-  public virtual Gee.BidirList<GXml.Node> children { owned get { return new TwChildrenList (this); } }
+  public virtual Gee.BidirList<GXml.Node> children { owned get { return new TChildrenList (this); } }
   public virtual GXml.Document document { get { return _doc; } }
   public virtual string name { owned get { return _name.dup (); } }
   public virtual Gee.List<GXml.Namespace> namespaces { owned get { return new Gee.ArrayList<GXml.Node> (); } }
@@ -67,11 +67,11 @@ public abstract class GXml.TwNode : Object, GXml.Node
   }
   public virtual void set_parent (GXml.Node node) { _parent = node; }
   
-  protected class TwChildrenList : AbstractBidirList<GXml.Node> {
+  protected class TChildrenList : AbstractBidirList<GXml.Node> {
     private GXml.Node _parent;
     private Gee.ArrayList<GXml.Node> list = new Gee.ArrayList<GXml.Node> ();
 
-    protected TwChildrenList (GXml.Node e) {
+    protected TChildrenList (GXml.Node e) {
       _parent = e;
     }
 
@@ -87,12 +87,12 @@ public abstract class GXml.TwNode : Object, GXml.Node
 
     public override bool add (GXml.Node item) {
 #if DEBUG
-      GLib.message ("Is TwNode: "+(item is TwNode).to_string ());
-      GLib.message ("Setting new parent to TwNode: "+item.name);
+      GLib.message ("Is TNode: "+(item is TNode).to_string ());
+      GLib.message ("Setting new parent to TNode: "+item.name);
 #endif
-      (item as GXml.TwNode).set_parent (_parent);
+      (item as GXml.TNode).set_parent (_parent);
 #if DEBUG
-      GLib.message ("Adding new TwNode: "+item.name);
+      GLib.message ("Adding new TNode: "+item.name);
 #endif
       return list.add (item);
     }

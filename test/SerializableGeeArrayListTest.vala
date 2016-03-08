@@ -121,7 +121,7 @@ class SerializableGeeArrayListTest : GXmlTest
         var o2 = new AElement.named ("Small");
         c.add (o1);
         c.add (o2);
-        var doc = new TwDocument ();
+        var doc = new TDocument ();
         var root = doc.create_element ("root");
         doc.children.add (root);
         c.serialize (root);
@@ -194,7 +194,7 @@ class SerializableGeeArrayListTest : GXmlTest
         var iroot = idoc.root;
         var ic = new SerializableArrayList<AElement> ();
         ic.deserialize (iroot);
-        var doc = new TwDocument ();
+        var doc = new TDocument ();
         var root = doc.create_element ("root");
         doc.children.add (root);
         ic.serialize (root);

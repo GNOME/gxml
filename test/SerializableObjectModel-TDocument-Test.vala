@@ -25,7 +25,7 @@
  */
 using GXml;
 using Gee;
-class SerializableObjectModelTwTest : GXmlTest
+class SerializableObjectModelTDocumentTest : GXmlTest
 {
   public static void add_tests ()
   {
@@ -33,7 +33,7 @@ class SerializableObjectModelTwTest : GXmlTest
      () => {
        try {
          var computer = new Computer ();
-         var doc = new TwDocument ();
+         var doc = new TDocument ();
          computer.serialize (doc);
          assert (doc.root.name.down () == "computer") ;
          var m = doc.root.attrs.get ("manufacturer");
@@ -54,7 +54,7 @@ class SerializableObjectModelTwTest : GXmlTest
      );
     Test.add_func ("/gxml/tw/serializable/object_model/serialize_object_contents",
       () => {
-       var doc = new TwDocument ();
+       var doc = new TDocument ();
        var manual = new Manual ();
        assert (manual.document == "MANUAL DOCUMENTATION");
        assert (manual.pages == 3);
@@ -70,7 +70,7 @@ class SerializableObjectModelTwTest : GXmlTest
       
     Test.add_func ("/gxml/tw/serializable/object_model/serialize_serializable_properties",
      () => {
-       var doc = new TwDocument ();
+       var doc = new TDocument ();
        var package = new Package ();
        try {
          package.serialize (doc);
@@ -99,7 +99,7 @@ class SerializableObjectModelTwTest : GXmlTest
      });
     Test.add_func ("/gxml/tw/serializable/object_model/serialize_array_property",
      () => {
-       var doc = new TwDocument ();
+       var doc = new TDocument ();
        var package = new Package ();
        package.tags.append_val ("Computer");
        package.tags.append_val ("Customer");
@@ -145,7 +145,7 @@ class SerializableObjectModelTwTest : GXmlTest
      });
     Test.add_func ("/gxml/tw/serializable/object_model/serialize_property_nick",
      () => {
-       var doc = new TwDocument ();
+       var doc = new TDocument ();
        var monitor = new Monitor ();
        try {
          monitor.resolution = "1204x720";
@@ -202,7 +202,7 @@ class SerializableObjectModelTwTest : GXmlTest
        cpu.piles.add (1);
        cpu.piles.add (2);
        cpu.piles.add (3);
-       var doc = new TwDocument ();
+       var doc = new TDocument ();
        try {
          cpu.serialize (doc);
          //stdout.printf (@"$doc");
@@ -240,7 +240,7 @@ class SerializableObjectModelTwTest : GXmlTest
      });*/
     Test.add_func ("/gxml/tw/serializable/object_model/override_serialize",
      () => {
-       var doc = new TwDocument ();
+       var doc = new TDocument ();
        var configuration = new Configuration ();
        configuration.device = "Controller";
        try {
@@ -283,7 +283,7 @@ class SerializableObjectModelTwTest : GXmlTest
     Test.add_func ("/gxml/tw/serializable/object_model/set_namespace", () => {
       try {
         var ns = new NameSpace ();
-        var doc = new TwDocument ();
+        var doc = new TDocument ();
         ns.serialize (doc);
         string str = doc.to_string ();
 #if DEBUG
@@ -300,7 +300,7 @@ class SerializableObjectModelTwTest : GXmlTest
   Test.add_func ("/gxml/tw/serializable/object_model/find-unknown_property", () => {
       try {
         var p = new Package ();
-        var doc = new TwDocument ();
+        var doc = new TDocument ();
         var r = (Element) doc.create_element ("PACKAGE");
         doc.children.add (r);
         r.set_attr ("source", "Mexico/North");
@@ -322,7 +322,7 @@ class SerializableObjectModelTwTest : GXmlTest
     Test.add_func ("/gxml/tw/serializable/object_model/find-unknown_node", () => {
       try {
         var p = new Package ();
-        var doc = new TwDocument ();
+        var doc = new TDocument ();
         var r = (Element) doc.create_element ("PACKAGE");
         doc.children.add (r);
         r.set_attr ("source", "Mexico/North");
@@ -352,11 +352,11 @@ class SerializableObjectModelTwTest : GXmlTest
         assert_not_reached ();
       }
     });/*
-    // TODO: Add deserialize to TwDocument
+    // TODO: Add deserialize to TDocument
     Test.add_func ("/gxml/tw/serializable/object_model/override_transform_from_string",
      () => {
        var cpu = new Cpu ();
-       var doc = new TwDocument.from_string (XML_CPU_FILE);
+       var doc = new TDocument.from_string (XML_CPU_FILE);
        try {
          cpu.deserialize (doc);
          //stdout.printf (@"$doc");

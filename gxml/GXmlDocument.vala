@@ -152,11 +152,11 @@ public class GXml.GDocument : GXml.GNode, GXml.Document
   public override string to_string ()
   {
 #if DEBUG
-    GLib.message ("TwDocument: to_string ()");
+    GLib.message ("TDocument: to_string ()");
 #endif
     Xml.Doc doc = new Xml.Doc ();
     Xml.TextWriter tw = Xmlx.new_text_writer_doc (ref doc);
-    TwDocument.write_document (this, tw);
+    TDocument.write_document (this, tw);
     string str;
     int size;
     doc.dump_memory (out str, out size);
@@ -178,6 +178,6 @@ public class GXml.GDocument : GXml.GNode, GXml.Document
   public virtual bool save_as (GLib.File f, GLib.Cancellable? cancellable = null)
     throws GLib.Error
   {
-    return TwDocument.tw_save_as (this, f, cancellable);
+    return TDocument.tw_save_as (this, f, cancellable);
   }
 }

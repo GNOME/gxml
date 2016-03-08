@@ -22,8 +22,8 @@
 
 using GXml;
 
-class TwDocumentTest : GXmlTest {
-	public class TwTestObject : SerializableObjectModel
+class TDocumentTest : GXmlTest {
+	public class TTestObject : SerializableObjectModel
 	{
 		public string name { get; set; }
 		public override string node_name () { return "Test"; }
@@ -32,7 +32,7 @@ class TwDocumentTest : GXmlTest {
 	public static void add_tests () {
 		Test.add_func ("/gxml/tw-document", () => {
 			try {
-				var d = new TwDocument ();
+				var d = new TDocument ();
 				assert (d.name == "#document");
 				assert (d.root == null);
 				assert (d.children != null);
@@ -51,7 +51,7 @@ class TwDocumentTest : GXmlTest {
 			try {
 				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 				if (f.query_exists ()) f.delete ();
-				var d = new TwDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
+				var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 				var e = d.create_element ("root");
 				d.children.add (e);
 				assert (d.children.size == 1);
@@ -70,7 +70,7 @@ class TwDocumentTest : GXmlTest {
 				try {
 					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 					if (f.query_exists ()) f.delete ();
-					var d = new TwDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
+					var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 					var e = d.create_element ("root");
 					d.children.add (e);
 					assert (d.children.size == 1);
@@ -98,7 +98,7 @@ class TwDocumentTest : GXmlTest {
 				try {
 					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 					if (f.query_exists ()) f.delete ();
-					var d = new TwDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
+					var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 					var e = d.create_element ("root");
 					d.children.add (e);
 					assert (d.children.size == 1);
@@ -135,7 +135,7 @@ class TwDocumentTest : GXmlTest {
 				try {
 					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 					if (f.query_exists ()) f.delete ();
-					var d = new TwDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
+					var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 					var e = d.create_element ("root");
 					d.children.add (e);
 					assert (d.children.size == 1);
@@ -143,11 +143,11 @@ class TwDocumentTest : GXmlTest {
 					assert (d.root.name == "root");
 					assert (d.root.value == "");
 					var root = (GXml.Element) d.root;
-					root.content = "GXml TwDocument Test";
+					root.content = "GXml TDocument Test";
 					assert (root.children.size == 1);
-					assert (root.content == "GXml TwDocument Test");
+					assert (root.content == "GXml TDocument Test");
 					var t = root.children.get (0);
-					assert (t.value == "GXml TwDocument Test");
+					assert (t.value == "GXml TDocument Test");
 					assert (t is GXml.Text);
 					//GLib.message (@"$d");
 					d.save ();
@@ -157,7 +157,7 @@ class TwDocumentTest : GXmlTest {
 					istream.close ();
 					assert ("<?xml version=\"1.0\"?>" in ((string)buffer));
 					assert ("<root" in ((string)buffer));
-					assert (">GXml TwDocument Test<" in ((string)buffer));
+					assert (">GXml TDocument Test<" in ((string)buffer));
 				}
 				catch (GLib.Error e) {
 #if DEBUG
@@ -170,7 +170,7 @@ class TwDocumentTest : GXmlTest {
 				try {
 					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 					if (f.query_exists ()) f.delete ();
-					var d = new TwDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
+					var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 					var e = d.create_element ("root");
 					d.children.add (e);
 					assert (d.children.size == 1);
@@ -207,7 +207,7 @@ class TwDocumentTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/tw-document/root/children-children", () => {
 #if DEBUG
-				GLib.message (@"TwDocument root children/children...");
+				GLib.message (@"TDocument root children/children...");
 #endif
 			try {
 #if DEBUG
@@ -218,7 +218,7 @@ class TwDocumentTest : GXmlTest {
 #if DEBUG
 				GLib.message (@"Creating Document...");
 #endif
-				var d = new TwDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-large.xml");
+				var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-large.xml");
 				var e = d.create_element ("bookstore");
 				d.children.add (e);
 				assert (d.children.size == 1);
@@ -270,7 +270,7 @@ class TwDocumentTest : GXmlTest {
 		});
 		Test.add_func ("/gxml/tw-document/save/children-children", () => {
 #if DEBUG
-				GLib.message (@"TwDocument root children/children...");
+				GLib.message (@"TDocument root children/children...");
 #endif
 			try {
 #if DEBUG
@@ -281,7 +281,7 @@ class TwDocumentTest : GXmlTest {
 #if DEBUG
 				GLib.message (@"Creating Document...");
 #endif
-				var d = new TwDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-large.xml");
+				var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-large.xml");
 				var e = d.create_element ("bookstore");
 				d.children.add (e);
 				assert (d.children.size == 1);
@@ -340,12 +340,12 @@ class TwDocumentTest : GXmlTest {
 				try {
 					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test.xml");
 					if (f.query_exists ()) f.delete ();
-					var ot = new TwTestObject ();
+					var ot = new TTestObject ();
 					ot.name = "test1";
-					var dt = new TwDocument ();
+					var dt = new TDocument ();
 					ot.serialize (dt);
 					dt.save_as (f);
-					var d = new TwDocument ();
+					var d = new TDocument ();
 					var e = d.create_element ("root");
 					d.children.add (e);
 					assert (d.children.size == 1);
@@ -372,7 +372,7 @@ class TwDocumentTest : GXmlTest {
 				}
 			});
 		Test.add_func ("/gxml/tw-document/to_string", () => {
-			var doc = new TwDocument ();
+			var doc = new TDocument ();
 			var r = doc.create_element ("root");
 			doc.children.add (r);
 #if DEBUG
@@ -385,7 +385,7 @@ class TwDocumentTest : GXmlTest {
 		});
 		Test.add_func ("/gxml/tw-document/namespace", () => {
 				try {
-					var doc = new TwDocument ();
+					var doc = new TDocument ();
 					doc.children.add (doc.create_element ("root"));
 					doc.set_namespace ("http://www.gnome.org/GXml","gxml");
 					Test.message ("ROOT: "+doc.to_string ());
@@ -423,7 +423,7 @@ class TwDocumentTest : GXmlTest {
 				}
 			});
 		Test.add_func ("/gxml/tw-document/parent", () => {
-			var doc = new TwDocument ();
+			var doc = new TDocument ();
 			assert (doc.parent == null);
 		});
 	}

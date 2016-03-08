@@ -1,4 +1,4 @@
-/* TwText.vala
+/* TText.vala
  *
  * Copyright (C) 2015  Daniel Espinosa <esodan@gmail.com>
  *
@@ -24,17 +24,17 @@ using Gee;
 /**
  * Class implemeting {@link GXml.Text} interface, not tied to libxml-2.0 library.
  */
-public class GXml.TwText : GXml.TwNode, GXml.Text
+public class GXml.TText : GXml.TNode, GXml.Text
 {
   private string _str = null;
   construct {
     _name = "#text";
   }
-  public TwText (GXml.Document d, string text)
-    requires (d is GXml.TwDocument)
+  public TText (GXml.Document d, string text)
+    requires (d is GXml.TDocument)
   {
     _doc = d;
-    ((TwDocument) document).tw = ((TwDocument) d).tw;
+    ((TDocument) document).tw = ((TDocument) d).tw;
     _str = text;
   }
   // GXml.Node

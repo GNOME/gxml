@@ -26,7 +26,7 @@
 using GXml;
 using Gee;
 
-class SerializableGeeCollectionsTwTest : GXmlTest
+class SerializableGeeCollectionsTDocumentTest : GXmlTest
 {
   class Citizen : SerializableObjectModel
   {
@@ -220,7 +220,7 @@ class SerializableGeeCollectionsTwTest : GXmlTest
   </storage>
 </base>""");
         var sb = new SpaceBase ();
-        // TODO: implement deserialize TwDocument
+        // TODO: implement deserialize TDocument
         sb.deserialize (doc);
         assert (sb.charge_zone != null);
         assert (sb.charge_zone.spaceships != null);
@@ -230,7 +230,7 @@ class SerializableGeeCollectionsTwTest : GXmlTest
         assert (sbsh1.spaces != null);
         assert (sbsh1.spaces.size == 2);
         // Check serialize
-        var ndoc = new TwDocument ();
+        var ndoc = new TDocument ();
         sb.serialize (ndoc);
         assert (ndoc.root != null);
         assert (ndoc.root.name == "base");
@@ -406,7 +406,7 @@ class SerializableGeeCollectionsTwTest : GXmlTest
     Test.add_func ("/gxml/tw/serializable/convined_gee_containers/se-deserialize-unknowns",
     () => {
       try {
-        // TODO: TwDocument Read XML files
+        // TODO: TDocument Read XML files
         var org_doc = new GDocument.from_string ("""<?xml version="1.0"?>
 <base name="AlphaOne" >
   <chargezone name="A1-1">
@@ -460,7 +460,7 @@ class SerializableGeeCollectionsTwTest : GXmlTest
         assert (refaction.unknown_serializable_properties != null);
         assert (refaction.unknown_serializable_properties.size == 0);
         assert (refaction.unknown_serializable_nodes.size == 5); // 1 node 4 texts (identation)
-        var doc = new TwDocument ();
+        var doc = new TDocument ();
         s.serialize (doc);
         assert (doc.root.name == "base");
         //stdout.printf (@"$doc\n");

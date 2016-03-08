@@ -1,4 +1,4 @@
-/* Element.vala
+/* TElement.vala
  *
  * Copyright (C) 2015  Daniel Espinosa <esodan@gmail.com>
  *
@@ -24,14 +24,14 @@ using Gee;
 /**
  * Class implemeting {@link GXml.Element} interface, not tied to libxml-2.0 library.
  */
-public class GXml.TwElement : GXml.TwNode, GXml.Element
+public class GXml.TElement : GXml.TNode, GXml.Element
 {
   protected Gee.HashMap<string,GXml.Node> _attrs;
-  protected TwNode.TwChildrenList _children;
+  protected TNode.TChildrenList _children;
   protected Gee.ArrayList<GXml.Node> _namespaces;
   private string _content = null;
-  public TwElement (GXml.Document d, string name)
-    requires (d is TwDocument)
+  public TElement (GXml.Document d, string name)
+    requires (d is TDocument)
   {
     _doc = d;
     _name = name;
@@ -53,7 +53,7 @@ public class GXml.TwElement : GXml.TwNode, GXml.Element
   }
   public override Gee.BidirList<GXml.Node> children {
     owned get {
-      if (_children == null) _children  = new TwChildrenList (this);
+      if (_children == null) _children  = new TChildrenList (this);
       return _children.ref () as Gee.BidirList<GXml.Node>;
     }
   }
@@ -67,7 +67,7 @@ public class GXml.TwElement : GXml.TwNode, GXml.Element
   public void set_attr (string name, string value)
   {
     if (":" in name) return;
-    var att = new TwAttribute (document, name, value);
+    var att = new TAttribute (document, name, value);
     att.set_parent (this);
     attrs.set (name, att);
   }
@@ -81,7 +81,7 @@ public class GXml.TwElement : GXml.TwNode, GXml.Element
     return null;
   }
   public void set_ns_attr (Namespace ns, string name, string value) {
-    var att = new TwAttribute (document, name, value);
+    var att = new TAttribute (document, name, value);
     att.set_namespace (ns.uri, ns.prefix);
     att.set_parent (this);
     attrs.set (name, att);

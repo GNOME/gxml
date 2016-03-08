@@ -1,4 +1,4 @@
-/* TwCDATA.vala
+/* Element.vala
  *
  * Copyright (C) 2015  Daniel Espinosa <esodan@gmail.com>
  *
@@ -19,28 +19,10 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 
-using Gee;
-
-/**
- * Class implemeting {@link GXml.CDATA} interface, not tied to libxml-2.0 library.
- */
-public class GXml.TwCDATA : GXml.TwNode, GXml.CDATA
-{
-  private string _str = null;
-  construct {
-    _name = "#cdata";
+[Compact]
+public class GXml.TrDocument {
+  public static GXml.Document read_document (InputStream istream) {
+    var b = new MemoryOutputStream.resizable ();
+    
   }
-  public TwCDATA (GXml.Document d, string text)
-    requires (d is GXml.TwDocument)
-  {
-    _doc = d;
-    _str = text;
-  }
-  // GXml.Node
-  public override string @value {
-    owned get { return _str.dup (); }
-    set {}
-  }
-  // GXml.CDATA
-  public string str { owned get { return _str.dup (); } }
 }

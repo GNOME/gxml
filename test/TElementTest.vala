@@ -24,11 +24,11 @@
 
 using GXml;
 
-class TwElementTest : GXmlTest {
+class TElementTest : GXmlTest {
 	public static void add_tests () {
 		Test.add_func ("/gxml/tw-element/api", () => {
 			try {
-			var d = new TwDocument ();
+			var d = new TDocument ();
 			var e = (Element) d.create_element ("element");
 			d.children.add (e);
 			assert (d.children.size == 1);
@@ -62,7 +62,7 @@ class TwElementTest : GXmlTest {
 		});
 		Test.add_func ("/gxml/tw-element/content", () => {
 			try {
-			var d = new TwDocument ();
+			var d = new TDocument ();
 			var e = (Element) d.create_element ("element");
 			d.children.add (e);
 			assert (d.children.size == 1);
@@ -104,7 +104,7 @@ class TwElementTest : GXmlTest {
 		});
 		Test.add_func ("/gxml/tw-element/namespaces/default", () => {
 			try {
-			var d = new TwDocument ();
+			var d = new TDocument ();
 			var r = d.create_element ("root");
 			d.children.add (r);
 			// Set default namespace
@@ -121,7 +121,7 @@ class TwElementTest : GXmlTest {
 		});
 		Test.add_func ("/gxml/tw-element/namespaces/default-prefix", () => {
 			try {
-			var d = new TwDocument ();
+			var d = new TDocument ();
 			var r = d.create_element ("root");
 			d.children.add (r);
 			// Set default namespace
@@ -138,7 +138,7 @@ class TwElementTest : GXmlTest {
 		});
 		Test.add_func ("/gxml/tw-element/namespaces/default-prefix-null", () => {
 			try {
-			var d = new TwDocument ();
+			var d = new TDocument ();
 			var r = d.create_element ("root");
 			d.children.add (r);
 			// Set default namespace
@@ -155,7 +155,7 @@ class TwElementTest : GXmlTest {
 		});
 		Test.add_func ("/gxml/tw-element/namespaces/default/enable-prefix_default_ns", () => {
 			try {
-			var d = new TwDocument ();
+			var d = new TDocument ();
 			var r = d.create_element ("root");
 			d.children.add (r);
 			// Set default namespace
@@ -173,7 +173,7 @@ class TwElementTest : GXmlTest {
 		});
 		Test.add_func ("/gxml/tw-element/multiple-namespaces", () => {
 			try {
-			var d = new TwDocument ();
+			var d = new TDocument ();
 			var r = d.create_element ("root");
 			d.children.add (r);
 			r.set_namespace ("http://git.gnome.org/browse/gxml", "gxml");
@@ -204,7 +204,7 @@ class TwElementTest : GXmlTest {
 		});
 		Test.add_func ("/gxml/tw-element/multiple-namespaces/default/basic", () => {
 			try {
-			var d = new TwDocument ();
+			var d = new TDocument ();
 			var r = d.create_element ("root");
 			d.children.add (r);
 			// Default NS
@@ -250,7 +250,7 @@ class TwElementTest : GXmlTest {
 		});
 		Test.add_func ("/gxml/tw-element/multiple-namespaces/enable-prefix_default_ns", () => {
 			try {
-			var d = new TwDocument ();
+			var d = new TDocument ();
 			var r = d.create_element ("root");
 			d.children.add (r);
 			d.prefix_default_ns = true;
@@ -287,7 +287,7 @@ class TwElementTest : GXmlTest {
 		});
 		Test.add_func ("/gxml/tw-element/multiple-namespaces/default/1", () => {
 			try {
-			var d = new TwDocument ();
+			var d = new TDocument ();
 			var r = d.create_element ("root");
 			d.children.add (r);
 			// Default NS
@@ -333,7 +333,7 @@ class TwElementTest : GXmlTest {
 		});
 		Test.add_func ("/gxml/tw-element/multiple-namespaces/default/enable-ns_top", () => {
 			try {
-			var d = new TwDocument ();
+			var d = new TDocument ();
 			var r = d.create_element ("root");
 			d.children.add (r);
 			// Default NS
@@ -386,7 +386,7 @@ class TwElementTest : GXmlTest {
 		});
 		Test.add_func ("/gxml/tw-element/multiple-namespaces/child-default", () => {
 			try {
-			var d = new TwDocument ();
+			var d = new TDocument ();
 			var r = d.create_element ("root");
 			d.children.add (r);
 			// Default NS
@@ -440,7 +440,7 @@ class TwElementTest : GXmlTest {
 		});
 		Test.add_func ("/gxml/tw-element/multiple-namespaces/child-default/enable-prefix_default_ns", () => {
 			try {
-			var d = new TwDocument ();
+			var d = new TDocument ();
 			var r = d.create_element ("root");
 			d.children.add (r);
 			// Default NS
@@ -494,7 +494,7 @@ class TwElementTest : GXmlTest {
 		});
 		Test.add_func ("/gxml/tw-element/multiple-namespaces/default/enable-prefix_default_ns", () => {
 			try {
-			var d = new TwDocument ();
+			var d = new TDocument ();
 			var r = d.create_element ("root");
 			d.children.add (r);
 			// Default NS
@@ -530,7 +530,7 @@ class TwElementTest : GXmlTest {
 		});
 		Test.add_func ("/gxml/tw-element/attr-namespace", () => {
 			try {
-			var d = new TwDocument ();
+			var d = new TDocument ();
 			var r = d.create_element ("root");
 			d.children.add (r);
 			// Default NS
@@ -556,7 +556,7 @@ class TwElementTest : GXmlTest {
 			} catch { assert_not_reached (); }
 		});
 		Test.add_func ("/gxml/tw-element/parent", () => {
-			var doc = new TwDocument ();
+			var doc = new TDocument ();
 			var e = doc.create_element ("root");
 			doc.children.add (e);
 			var c = doc.create_element ("child");
@@ -573,7 +573,7 @@ class TwElementTest : GXmlTest {
 			assert (doc.root.parent == null);
 		});
 		Test.add_func ("/gxml/tw-element/attribute/parent", () => {
-			var doc = new TwDocument ();
+			var doc = new TDocument ();
 			var e = doc.create_element ("root");
 			doc.children.add (e);
 			var c = doc.create_element ("child");

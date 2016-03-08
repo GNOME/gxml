@@ -1,4 +1,11 @@
 ===============
+Version 0.9.3
+===============
+
+* API change TwNode and derived classes renamed to TNode
+
+
+===============
 Version 0.9.2
 ===============
 

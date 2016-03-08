@@ -1,4 +1,4 @@
-/* TwAttribute.vala
+/* TAttribute.vala
  *
  * Copyright (C) 2015-2016  Daniel Espinosa <esodan@gmail.com>
  *
@@ -24,11 +24,11 @@ using Gee;
 /**
  * Class implemeting {@link GXml.Attribute} interface, not tied to libxml-2.0 library.
  */
-public class GXml.TwAttribute : GXml.TwNode, GXml.Attribute
+public class GXml.TAttribute : GXml.TNode, GXml.Attribute
 {
   protected Gee.ArrayList<GXml.Node> _namespaces;
-  public TwAttribute (GXml.Document d, string name, string value)
-    requires (d is TwDocument)
+  public TAttribute (GXml.Document d, string name, string value)
+    requires (d is TDocument)
   {
     _doc = d;
     _name = name;

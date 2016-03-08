@@ -641,7 +641,7 @@ class SerializableGeeCollectionsTest : GXmlTest
         }
         assert (bag.bags.size == 2);
         // Construct XML
-        var d = new TwDocument ();
+        var d = new TDocument ();
         bag.serialize (d);
         assert (d.root != null);
         assert (d.root.name == "BigBag");
@@ -654,7 +654,7 @@ class SerializableGeeCollectionsTest : GXmlTest
         bag2.deserialize (d);
         assert (bag2.bags.size == 0);
         // Serialize
-        var d2 = new TwDocument ();
+        var d2 = new TDocument ();
         bag2.serialize (d2);
         assert (d2.root != null);
         assert (d2.root.name == "BigBag");

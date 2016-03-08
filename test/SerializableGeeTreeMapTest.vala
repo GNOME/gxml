@@ -139,7 +139,7 @@ class SerializableGeeTreeMapTest : GXmlTest
         var o2 = new Space.named ("Small");
         c.set (o1.name, o1);
         c.set (o2.name, o2);
-        var doc = new TwDocument ();
+        var doc = new TDocument ();
         var root = doc.create_element ("root");
         doc.children.add (root);
         c.serialize (root);
@@ -248,7 +248,7 @@ class SerializableGeeTreeMapTest : GXmlTest
         c.storage = new Space.Collection ();
         c.storage.set (o1.name, o1);
         c.storage.set (o2.name, o2);
-        var doc = new TwDocument ();
+        var doc = new TDocument ();
         c.serialize (doc);
         if (doc.root == null) {
           stdout.printf (@"ERROR: doc have no root node\n$(doc)\n");

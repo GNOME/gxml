@@ -1,4 +1,4 @@
-/* TwAttribute.vala
+/* TCDATA.vala
  *
  * Copyright (C) 2015  Daniel Espinosa <esodan@gmail.com>
  *
@@ -22,21 +22,25 @@
 using Gee;
 
 /**
- * Class implemeting {@link GXml.Namespace}, not tied to libxml-2.0 library.
+ * Class implemeting {@link GXml.CDATA} interface, not tied to libxml-2.0 library.
  */
-public class GXml.TwNamespace : GXml.TwNode, GXml.Namespace
+public class GXml.TCDATA : GXml.TNode, GXml.CDATA
 {
-  private string _uri = null;
-  private string _prefix = null;
-  public TwNamespace (GXml.Document d, string uri, string? prefix)
-    requires (d is TwDocument)
+  private string _str = null;
+  construct {
+    _name = "#cdata";
+  }
+  public TCDATA (GXml.Document d, string text)
+    requires (d is GXml.TDocument)
   {
     _doc = d;
-    ((TwDocument) document).tw = ((TwDocument) d).tw;
-    _uri = uri;
-    _prefix = prefix;
+    _str = text;
   }
-  // GXml.Namespace
-  public string uri { owned get { return _uri.dup (); } }
-  public string @prefix { owned get { return _prefix.dup (); } }
+  // GXml.Node
+  public override string @value {
+    owned get { return _str.dup (); }
+    set {}
+  }
+  // GXml.CDATA
+  public string str { owned get { return _str.dup (); } }
 }

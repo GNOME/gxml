@@ -1,5 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
-/* TwCDATATest.vala
+/* TCDATATest.vala
  *
  * Copyright (C) 2011-2015  Daniel Espinosa <esodan@gmail.com>
  *
@@ -22,11 +22,11 @@
 
 using GXml;
 
-class TwCDATATest : GXmlTest {
+class TCDATATest : GXmlTest {
 	public static void add_tests () {
 		Test.add_func ("/gxml/tw-cdata", () => {
 			try {
-				var d = new TwDocument ();
+				var d = new TDocument ();
 				var r = d.create_element ("root");
 				d.children.add (r);
 				var cd = d.create_cdata ("<test/>");

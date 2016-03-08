@@ -1,4 +1,4 @@
-/* Element.vala
+/* TNamespace.vala
  *
  * Copyright (C) 2015  Daniel Espinosa <esodan@gmail.com>
  *
@@ -22,25 +22,21 @@
 using Gee;
 
 /**
- * Class implemeting {@link GXml.Comment} interface, not tied to libxml-2.0 library.
+ * Class implemeting {@link GXml.Namespace}, not tied to libxml-2.0 library.
  */
-public class GXml.TwComment : GXml.TwNode, GXml.Comment
+public class GXml.TNamespace : GXml.TNode, GXml.Namespace
 {
-  private string _str = "";
-  construct {
-    _name = "#comment";
-  }
-  public TwComment (GXml.Document doc, string text)
-    requires (doc is GXml.TwDocument)
+  private string _uri = null;
+  private string _prefix = null;
+  public TNamespace (GXml.Document d, string uri, string? prefix)
+    requires (d is TDocument)
   {
-    _doc = doc;
-    _str = text;
+    _doc = d;
+    ((TDocument) document).tw = ((TDocument) d).tw;
+    _uri = uri;
+    _prefix = prefix;
   }
-  // GXml.Node
-  public override string @value {
-    owned get { return _str.dup (); }
-    set {  }
-  }
-  // GXml.Comment
-  public string str { owned get { return _str.dup (); } }
+  // GXml.Namespace
+  public string uri { owned get { return _uri.dup (); } }
+  public string @prefix { owned get { return _prefix.dup (); } }
 }

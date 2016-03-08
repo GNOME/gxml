@@ -45,20 +45,20 @@ sources = \
 	SerializablePropertyIntTest.vala \
 	SerializablePropertyValueListTest.vala \
 	SerializableObjectModelTest.vala \
-	SerializableObjectModel-Tw-Test.vala \
+	SerializableObjectModel-TDocument-Test.vala \
 	SerializableGeeTreeMapTest.vala \
 	SerializableGeeDualKeyMapTest.vala \
 	SerializableGeeArrayListTest.vala \
 	SerializableGeeHashMapTest.vala \
 	SerializableGeeCollectionsTest.vala \
-	SerializableGeeCollections-Tw-Test.vala \
+	SerializableGeeCollections-TDocument-Test.vala \
 	SerializableBasicTypesTest.vala \
 	gxml-performance.vala \
-	TwElementTest.vala \
-	TwDocumentTest.vala \
-	TwCDATATest.vala \
-	TwCommentTest.vala \
-	TwProcessingInstructionTest.vala \
+	TElementTest.vala \
+	TDocumentTest.vala \
+	TCDATATest.vala \
+	TCommentTest.vala \
+	TProcessingInstructionTest.vala \
 	GDocumentTest.vala \
 	GElementTest.vala \
 	GAttributeTest.vala \

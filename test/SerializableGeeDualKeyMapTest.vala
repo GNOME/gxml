@@ -179,7 +179,7 @@ class SerializableGeeDualKeyMapTest : GXmlTest
         c.set (o2.owner, o2.name, o2);
         c.set (o3.owner, o3.name, o3);
         c.set (o4.owner, o4.name, o4);
-        var doc = new TwDocument ();
+        var doc = new TDocument ();
         var root = doc.create_element ("root");
         doc.children.add (root);
         c.serialize (root);

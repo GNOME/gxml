@@ -72,15 +72,15 @@ sources = \
 	SerializableMapDualKey.vala \
 	SerializableGeeArrayList.vala \
 	SerializableContainer.vala \
-	TwAttribute.vala \
-	TwComment.vala \
-	TwCDATA.vala \
-	TwDocument.vala \
-	TwElement.vala \
-	TwNamespace.vala \
-	TwNode.vala \
-	TwProcessingInstruction.vala \
-	TwText.vala \
+	TAttribute.vala \
+	TComment.vala \
+	TCDATA.vala \
+	TDocument.vala \
+	TElement.vala \
+	TNamespace.vala \
+	TNode.vala \
+	TProcessingInstruction.vala \
+	TText.vala \
 	GHtml.vala \
 	GXmlAttribute.vala \
 	GXmlComment.vala \

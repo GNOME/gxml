@@ -1,4 +1,4 @@
-/* Element.vala
+/* TDocument.vala
  *
  * Copyright (C) 2015  Daniel Espinosa <esodan@gmail.com>
  *
@@ -28,7 +28,7 @@ using Xml;
  * This class use {@link Xml.TextWriter} to write down XML documents using
  * its contained {@link GXml.Node} childs or other XML structures.
  */
-public class GXml.TwDocument : GXml.TwNode, GXml.Document
+public class GXml.TDocument : GXml.TNode, GXml.Document
 {
   protected Gee.ArrayList<GXml.Node> _namespaces;
   protected Gee.ArrayList<GXml.Node> _children;
@@ -36,8 +36,8 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
   construct {
     _name = "#document";
   }
-  public TwDocument () {}
-  public TwDocument.for_path (string file)
+  public TDocument () {}
+  public TDocument.for_path (string file)
   {
     var f = File.new_for_path (file);
     this.file = f;
@@ -59,7 +59,7 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
    * {@inheritDoc}
    *
    * All namespaces are stored at {@link GXml.Node.namespaces} owned by
-   * this {@link GXml.TwDocument}.
+   * this {@link GXml.TDocument}.
    *
    * First namespace at list, is considered default one for the document. If
    * you haven't declared a namespace for this document or for its root element,
@@ -72,7 +72,7 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
   public override bool set_namespace (string uri, string? prefix)
   {
     if (_namespaces == null) _namespaces = new Gee.ArrayList<GXml.Node> ();
-    _namespaces.add (new TwNamespace (this, uri, prefix));
+    _namespaces.add (new TNamespace (this, uri, prefix));
     return true;
   }
   public override GXml.Document document { get { return this; } }
@@ -104,28 +104,28 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
   }
   public GXml.Node create_comment (string text)
   {
-    var c = new TwComment (this, text);
+    var c = new TComment (this, text);
     return c;
   }
   public GXml.Node create_pi (string target, string data)
   {
-    var pi = new TwProcessingInstruction (this, target, data);
+    var pi = new TProcessingInstruction (this, target, data);
     return pi;
   }
   public GXml.Node create_element (string name) throws GLib.Error
   {
     if (Xmlx.validate_name (name, 1) != 0)
       throw new GXml.Error.PARSER (_("Invalid element name"));
-    return new TwElement (this, name);
+    return new TElement (this, name);
   }
   public GXml.Node create_text (string text)
   {
-    var t = new TwText (this, text);
+    var t = new TText (this, text);
     return t;
   }
   public GXml.Node create_cdata (string text)
   {
-    var t = new TwCDATA (this, text);
+    var t = new TCDATA (this, text);
     return t;
   }
   public bool save (GLib.Cancellable? cancellable = null)
@@ -369,7 +369,7 @@ public class GXml.TwDocument : GXml.TwNode, GXml.Document
   public override string to_string ()
   {
 #if DEBUG
-    GLib.message ("TwDocument: to_string ()");
+    GLib.message ("TDocument: to_string ()");
 #endif
     Xml.Doc doc = new Xml.Doc ();
     Xml.TextWriter tw = Xmlx.new_text_writer_doc (ref doc);

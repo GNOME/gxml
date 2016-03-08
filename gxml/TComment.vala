@@ -1,4 +1,4 @@
-/* Element.vala
+/* TComment.vala
  *
  * Copyright (C) 2015  Daniel Espinosa <esodan@gmail.com>
  *
@@ -22,28 +22,25 @@
 using Gee;
 
 /**
- * Class implemeting {@link GXml.ProcessingInstruction} interface, not tied to libxml-2.0 library.
+ * Class implemeting {@link GXml.Comment} interface, not tied to libxml-2.0 library.
  */
-public class GXml.TwProcessingInstruction : GXml.TwNode, GXml.ProcessingInstruction
+public class GXml.TComment : GXml.TNode, GXml.Comment
 {
-  private string _target = "";
-  private string _data = "";
+  private string _str = "";
   construct {
-    _name = "#processinginstruction";
+    _name = "#comment";
   }
-  public TwProcessingInstruction (GXml.Document doc, string target, string data)
-    requires (doc is GXml.TwDocument)
+  public TComment (GXml.Document doc, string text)
+    requires (doc is GXml.TDocument)
   {
     _doc = doc;
-    _target = target;
-    _data = data;
+    _str = text;
   }
   // GXml.Node
   public override string @value {
-    owned get { return _data.dup (); }
-    set {}
+    owned get { return _str.dup (); }
+    set {  }
   }
-  // GXml.ProcessingInstruction
-  public string target { owned get { return _target.dup (); } }
-  public string data { owned get { return _data.dup (); } }
+  // GXml.Comment
+  public string str { owned get { return _str.dup (); } }
 }

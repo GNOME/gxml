@@ -152,7 +152,7 @@ class SerializableGeeHashMapTest : GXmlTest
         o2.set_value ("FAKE TEXT");
         c.set (o1.name, o1);
         c.set (o2.name, o2);
-        var doc = new TwDocument ();
+        var doc = new TDocument ();
         var root = doc.create_element ("root");
         doc.children.add (root);
         c.serialize (root);
@@ -267,7 +267,7 @@ class SerializableGeeHashMapTest : GXmlTest
         c.storage = new Space.Collection ();
         c.storage.set (o1.name, o1);
         c.storage.set (o2.name, o2);
-        var doc = new TwDocument ();
+        var doc = new TDocument ();
         c.serialize (doc);
         assert (doc.root != null);
         assert (doc.root.name == "spacecontainer");
@@ -307,7 +307,7 @@ class SerializableGeeHashMapTest : GXmlTest
     </spacecontainer>""");
         var isc = new SpaceContainer ();
         isc.deserialize (idoc);
-        var doc = new TwDocument ();
+        var doc = new TDocument ();
         isc.serialize (doc);
         var sc = new SpaceContainer ();
         sc.deserialize (doc);
