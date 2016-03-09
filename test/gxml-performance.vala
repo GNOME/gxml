@@ -342,7 +342,7 @@ public class Performance
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "deserialize/performance: %g seconds", time);
         Test.timer_start ();
-        var d2 = new xDocument ();
+        var d2 = new GDocument ();
         bs.serialize (d2);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "serialize/performance: %g seconds", time);
@@ -353,30 +353,33 @@ public class Performance
         assert_not_reached ();
       }
     });
-    Test.add_func ("/gxml/performance/serialize/tw-document",
+    Test.add_func ("/gxml/performance/serialize/t-document",
     () => {
       try {
         double time;
         Test.timer_start ();
-        var d = new GDocument.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
+        var d = new TDocument.for_path (GXmlTest.get_test_dir () + "/test-large.xml");
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "open document from path: %g seconds", time);
+        for (int i = 0; i < 100000; i++);
         Test.timer_start ();
         var bs = new BookStore ();
         bs.deserialize (d);
         time = Test.timer_elapsed ();
-        Test.minimized_result (time, "standard deserialize/performance: %g seconds", time);
+        Test.minimized_result (time, "TDocument deserialize performance: %g seconds", time);
+        for (int i = 0; i < 100000; i++);
         Test.timer_start ();
-        var d2 = new TwDocument.for_path (GXmlTest.get_test_dir () + "/test-large.xml");
+        var d2 = new TDocument ();
         bs.serialize (d2);
         time = Test.timer_elapsed ();
-        Test.minimized_result (time, "TwDocument serialize/performance: %g seconds", time);
+        Test.minimized_result (time, "TDocument serialize performance: %g seconds", time);
+        for (int i = 0; i < 100000; i++);
         Test.timer_start ();
         var nf = GLib.File.new_for_path (GXmlTest.get_test_dir () + "/test-large-tw.xml");
         d2.indent = true;
         d2.save_as (nf);
         time = Test.timer_elapsed ();
-        Test.minimized_result (time, "TwDocument Write to disk serialize/performance: %g seconds", time);
+        Test.minimized_result (time, "TDocument Write to disk serialize/performance: %g seconds", time);
       } catch (GLib.Error e) {
 #if DEBUG
         GLib.message ("ERROR: "+e.message);
@@ -390,7 +393,7 @@ public class Performance
         double time;
         Test.message ("Starting generating document...");
         Test.timer_start ();
-        var d = new TwDocument ();
+        var d = new TDocument ();
         var ce = new CElement ();
         for (int i = 0; i < 500000; i++) {
           var e = new AElement ();
@@ -423,7 +426,7 @@ public class Performance
         double time;
         Test.message ("Starting generating document...");
         Test.timer_start ();
-        var d = new TwDocument ();
+        var d = new TDocument ();
         var ce = new CElement ();
         for (int i = 0; i < 500000; i++) {
           var e = new AElement ();
@@ -450,7 +453,7 @@ public class Performance
         double time;
         Test.message ("Starting generating document...");
         Test.timer_start ();
-        var d = new TwDocument ();
+        var d = new TDocument ();
         var ce = new HTopElement ();
         for (int i = 0; i < 125000; i++) {
           var e1 = new HElement ();
@@ -503,7 +506,7 @@ public class Performance
         double time;
         Test.message ("Starting generating document...");
         Test.timer_start ();
-        var d = new TwDocument ();
+        var d = new TDocument ();
         var ce = new HTopElement ();
         for (int i = 0; i < 125000; i++) {
           var e1 = new HElement ();
@@ -537,7 +540,7 @@ public class Performance
         double time;
         Test.message ("Starting generating document...");
         Test.timer_start ();
-        var d = new TwDocument ();
+        var d = new TDocument ();
         var ce = new HTCElement ();
         for (int i = 0; i < 125000; i++) {
           var e1 = new HTElement ();
@@ -581,7 +584,7 @@ public class Performance
         double time;
         Test.message ("Starting generating document...");
         Test.timer_start ();
-        var d = new TwDocument ();
+        var d = new TDocument ();
         var ce = new HTCElement ();
         for (int i = 0; i < 125000; i++) {
           var e1 = new HTElement ();
@@ -615,7 +618,7 @@ public class Performance
         double time;
         Test.message ("Starting generating document...");
         Test.timer_start ();
-        var d = new TwDocument ();
+        var d = new TDocument ();
         var ce = new DHCElement ();
         for (int i = 0; i < 125000; i++) {
           var e1 = new DHElement ();
@@ -661,7 +664,7 @@ public class Performance
         double time;
         Test.message ("Starting generating document...");
         Test.timer_start ();
-        var d = new TwDocument ();
+        var d = new TDocument ();
         var ce = new DHCElement ();
         for (int i = 0; i < 125000; i++) {
           var e1 = new DHElement ();
