@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+<!-- Top Level Comment -->
 <Sentences xmlns:gxml="http://wiki.gnome.org/GXml"
           xmlns:b="http://book.org/schema"
           audience="All">
@@ -11,6 +12,7 @@
       <gxml:Email>fweasley@hogwarts.co.uk</gxml:Email>
     </Author>
     <Author>
+      <!-- Inner comment-->
       <Name>George</Name>
       <Email>gweasley@hogwarts.co.uk</Email>
     </Author>

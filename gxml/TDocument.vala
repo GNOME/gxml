@@ -171,11 +171,11 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
     }
     var dns = new ArrayList<string> ();
 #if DEBUG
-    GLib.message ("Starting writting Document Root node");
+    GLib.message ("Starting writting Document child nodes");
 #endif
-    start_node (doc, tw, doc.root, true, ref dns);
+    start_node (doc, tw, doc, false, ref dns);
 #if DEBUG
-    GLib.message ("Ending writting Document Root node");
+    GLib.message ("Ending writting Document child nodes");
 #endif
     tw.end_element ();
 #if DEBUG
@@ -195,9 +195,9 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
 #endif
     if (node is GXml.Element) {
 #if DEBUG
-    GLib.message (@"Starting Element... '$(node.name)'");
-    GLib.message (@"Element Document is Null... '$((node.document == null).to_string ())'");
-    GLib.message (@"Namespaces in Element... '$(node.namespaces.size)'");
+      GLib.message (@"Starting Element... '$(node.name)'");
+      GLib.message (@"Element Document is Null... '$((node.document == null).to_string ())'");
+      GLib.message (@"Namespaces in Element... '$(node.namespaces.size)'");
 #endif
       if (root) {
         if (node.document.namespaces.size > 0) {
@@ -237,139 +237,145 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
         else
           tw.start_element (node.name);
       }
-      else {
-        if (node.namespaces.size > 0) {
+    else {
+      if (node.namespaces.size > 0) {
 #if DEBUG
       GLib.message (@"Starting Element: '$(node.name)' start with NS");
 #endif
-          if (node.document.ns_uri () == node.ns_uri ()) {
+      if (node.document.ns_uri () == node.ns_uri ()) {
 #if DEBUG
       GLib.message (@"Node '$(node.name)' Have Default NS");
 #endif
-            if (node.document.prefix_default_ns)  // Default NS at root element
-              tw.start_element_ns (node.ns_prefix (), node.name, null);
-            else // Don't prefix. Using default namespace and prefix_default_ns = false
-              tw.start_element (node.name);
-          }
-          else {
+        if (node.document.prefix_default_ns)  // Default NS at root element
+          tw.start_element_ns (node.ns_prefix (), node.name, null);
+        else // Don't prefix. Using default namespace and prefix_default_ns = false
+          tw.start_element (node.name);
+      }
+      else {
 #if DEBUG
       GLib.message (@"No default NS in use for Node '$(node.name)'. Ns = '$(node.ns_uri ())'");
 #endif
-            if (node.ns_prefix () == null && !declared_ns.contains (node.ns_uri ())) {// Its a default ns for children
-              tw.start_element_ns (node.ns_prefix (), node.name, node.ns_uri ());
-              declared_ns.add (node.ns_uri ());
+        if (node.ns_prefix () == null && !declared_ns.contains (node.ns_uri ())) {// Its a default ns for children
+          tw.start_element_ns (node.ns_prefix (), node.name, node.ns_uri ());
+          declared_ns.add (node.ns_uri ());
 #if DEBUG
-              GLib.message (@"Declared NS: '$(node.ns_uri ())' Total declared = $(declared_ns.size.to_string ())");
+          GLib.message (@"Declared NS: '$(node.ns_uri ())' Total declared = $(declared_ns.size.to_string ())");
 #endif
-            }
-            else {
-              if (node.document.ns_top || declared_ns.contains (node.ns_uri ()))
-                tw.start_element_ns (node.ns_prefix (), node.name, null);
-              else {
-                tw.start_element_ns (node.ns_prefix (), node.name, node.ns_uri ());
-                declared_ns.add (node.ns_uri ());
+        }
+        else {
+          if (node.document.ns_top || declared_ns.contains (node.ns_uri ()))
+            tw.start_element_ns (node.ns_prefix (), node.name, null);
+          else {
+            tw.start_element_ns (node.ns_prefix (), node.name, node.ns_uri ());
+            declared_ns.add (node.ns_uri ());
 #if DEBUG
-              GLib.message (@"Declared NS: $(node.ns_uri ()) Total declared = $(declared_ns.size.to_string ())");
+            GLib.message (@"Declared NS: $(node.ns_uri ()) Total declared = $(declared_ns.size.to_string ())");
 #endif
-              }
-            }
           }
-        } else {
+        }
+      }
+    } else {
 #if DEBUG
       GLib.message (@"Starting Element: '$(node.name)' : start no NS: Check for default prefix_default_ns enabled");
 #endif
-          if (node.document.prefix_default_ns)
-            tw.start_element_ns (node.document.ns_prefix (), node.name, null);
-          else
-            tw.start_element (node.name);
-        }
+        if (node.document.prefix_default_ns)
+          tw.start_element_ns (node.document.ns_prefix (), node.name, null);
+        else
+          tw.start_element (node.name);
       }
+    }
 #if DEBUG
     GLib.message (@"Starting Element '$(node.name)': writting attributes");
 #endif
-      foreach (Namespace ns in node.namespaces) {
-        // Declare all namespaces in node
-        GLib.message ("Current Ns:"+ns.uri+":: on Node:"+node.name);
-        if (declared_ns.contains (ns.uri)) continue;
-        tw.write_attribute ("xmlns:"+ns.prefix, ns.uri);
-        declared_ns.add (ns.uri);
-      }
-      foreach (GXml.Node attr in node.attrs.values) {
-        if (attr.namespaces.size > 0) {
+    foreach (Namespace ns in node.namespaces) {
+      // Declare all namespaces in node
+      GLib.message ("Current Ns:"+ns.uri+":: on Node:"+node.name);
+      if (declared_ns.contains (ns.uri)) continue;
+      tw.write_attribute ("xmlns:"+ns.prefix, ns.uri);
+      declared_ns.add (ns.uri);
+    }
+    foreach (GXml.Node attr in node.attrs.values) {
+      if (attr.namespaces.size > 0) {
 #if DEBUG
-    GLib.message (@"Starting Element '$(node.name)': write attribute '$(attr.name)' with NS");
+      GLib.message (@"Starting Element '$(node.name)': write attribute '$(attr.name)' with NS");
 #endif
-          if (!declared_ns.contains (attr.ns_uri ())) {
-            size += tw.write_attribute_ns (attr.ns_prefix (), attr.name, attr.ns_uri (), attr.value);
-            declared_ns.add (attr.ns_uri ());
+        if (!declared_ns.contains (attr.ns_uri ())) {
+          size += tw.write_attribute_ns (attr.ns_prefix (), attr.name, attr.ns_uri (), attr.value);
+          declared_ns.add (attr.ns_uri ());
 #if DEBUG
-              GLib.message (@"Declared NS: $(attr.ns_uri ()) Total declared = $(declared_ns.size.to_string ())");
+          GLib.message (@"Declared NS: $(attr.ns_uri ()) Total declared = $(declared_ns.size.to_string ())");
 #endif
-          }
-          else
-            size += tw.write_attribute_ns (attr.ns_prefix (), attr.name, null, attr.value);
         }
-        else {
-#if DEBUG
-    GLib.message (@"Starting Element '$(node.name)': write attribute '$(attr.name)' no NS");
-#endif
-          size += tw.write_attribute (attr.name, attr.value);
-        }
-        if (size > 1500)
-          tw.flush ();
+        else
+          size += tw.write_attribute_ns (attr.ns_prefix (), attr.name, null, attr.value);
       }
+      else {
+#if DEBUG
+        GLib.message (@"Starting Element '$(node.name)': write attribute '$(attr.name)' no NS");
+#endif
+        size += tw.write_attribute (attr.name, attr.value);
+      }
+      if (size > 1500)
+        tw.flush ();
+    }
+  }
+  // Non Elements
 #if DEBUG
     GLib.message (@"Starting Element: writting Node '$(node.name)' childs");
 #endif
-      foreach (GXml.Node n in node.childs) {
+    foreach (GXml.Node n in node.childs) {
 #if DEBUG
-    GLib.message (@"Child Node is: $(n.get_type ().name ())");
+      GLib.message (@"Child Node is: $(n.get_type ().name ())");
 #endif
-        if (n is GXml.Element) {
+      if (n is GXml.Element) {
 #if DEBUG
-    GLib.message (@"Starting Child Element: writting Node '$(n.name)'");
+      GLib.message (@"Starting Child Element: writting Node '$(n.name)'");
 #endif
-          if (node.namespaces.size > 0) {
-            if (node.document.namespaces.size > 0)
-              if (node.ns_uri () != node.document.ns_uri ())
-                if (n.namespaces.size == 0 && node.ns_prefix == null) // Apply parent ns
-                  n.set_namespace (node.ns_uri (), node.ns_prefix ());
-          }
+        if (node.namespaces.size > 0) {
+          if (node.document.namespaces.size > 0)
+            if (node.ns_uri () != node.document.ns_uri ())
+              if (n.namespaces.size == 0 && node.ns_prefix == null) // Apply parent ns
+                n.set_namespace (node.ns_uri (), node.ns_prefix ());
+        }
+        if (node is GXml.Document) {
+          GLib.message ("Found Root Node in Document. Starting Root node");
+          start_node (doc, tw, n, true, ref declared_ns);
+        }
+        else
           start_node (doc, tw, n, false, ref declared_ns);
-          size += tw.end_element ();
-          if (size > 1500)
-            tw.flush ();
-        }
-        if (n is GXml.Text) {
-          //GLib.message ("Writting Element's contents");
-          size += tw.write_string (n.value);
-          if (size > 1500)
-            tw.flush ();
-        }
-        if (n is GXml.Comment) {
+        size += tw.end_element ();
+        if (size > 1500)
+          tw.flush ();
+      }
+      if (n is GXml.Text) {
+      //GLib.message ("Writting Element's contents");
+      size += tw.write_string (n.value);
+      if (size > 1500)
+        tw.flush ();
+      }
+      if (n is GXml.Comment) {
 #if DEBUG
-    GLib.message (@"Starting Child Element: writting Comment '$(n.value)'");
+      GLib.message (@"Starting Child Element: writting Comment '$(n.value)'");
 #endif
-          size += tw.write_comment (n.value);
-          if (size > 1500)
-            tw.flush ();
-        }
-        if (n is GXml.CDATA) {
+        size += tw.write_comment (n.value);
+        if (size > 1500)
+          tw.flush ();
+      }
+      if (n is GXml.CDATA) {
 #if DEBUG
-    GLib.message (@"Starting Child Element: writting CDATA '$(n.value)'");
+      GLib.message (@"Starting Child Element: writting CDATA '$(n.value)'");
 #endif
-          size += Xmlx.text_writer_write_cdata (tw, n.value);
-          if (size > 1500)
-            tw.flush ();
-        }
-        if (n is GXml.ProcessingInstruction) {
-#if DEBUG
-    GLib.message (@"Starting Child Element: writting ProcessingInstruction '$(n.value)'");
-#endif
-          size += Xmlx.text_writer_write_pi (tw, ((ProcessingInstruction) n).target, ((ProcessingInstruction) n).data);
-          if (size > 1500)
-            tw.flush ();
-        }
+        size += Xmlx.text_writer_write_cdata (tw, n.value);
+        if (size > 1500)
+          tw.flush ();
+      }
+      if (n is GXml.ProcessingInstruction) {
+  #if DEBUG
+      GLib.message (@"Starting Child Element: writting ProcessingInstruction '$(n.value)'");
+  #endif
+        size += Xmlx.text_writer_write_pi (tw, ((ProcessingInstruction) n).target, ((ProcessingInstruction) n).data);
+        if (size > 1500)
+          tw.flush ();
       }
     }
   }
@@ -513,6 +519,10 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
       break;
     case Xml.ReaderType.COMMENT:
       GLib.message ("Type COMMENT");
+      var commval = tr.value ();
+      GLib.message ("ReadNode: Comment Node : '"+commval+"'");
+      n = node.document.create_comment (commval);
+      node.children.add (n);
       break;
     case Xml.ReaderType.DOCUMENT:
       GLib.message ("Type DOCUMENT");

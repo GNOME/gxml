@@ -538,5 +538,14 @@ class TDocumentTest : GXmlTest {
 				assert (bp.namespaces[0].uri == "http://wiki.gnome.org/GXml");
 			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
 		});
+		Test.add_func ("/gxml/t-document/read/comment", () => {
+			try {
+				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/t-read-test.xml");
+				assert (f.query_exists ());
+				var d = new TDocument ();
+				TDocument.read_doc (d, f, null);
+				GLib.message ("Doc:"+d.to_string ());
+			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
+		});
 	}
 }
