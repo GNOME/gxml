@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<Sentences>
+<Sentences xmlns:gxml="http://wiki.gnome.org/GXml">
   <Sentence lang="en">I like the colour blue.</Sentence>
   <Sentence lang="es">Español</Sentence>
   <Authors year="2016" collection="Back">

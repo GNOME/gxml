@@ -489,5 +489,17 @@ class TDocumentTest : GXmlTest {
 				assert (a2.children[1].children[0].value == "gweasley@hogwarts.co.uk");
 			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
 		});
+		Test.add_func ("/gxml/t-document/read/namespace", () => {
+			try {
+				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/t-read-test.xml");
+				assert (f.query_exists ());
+				var d = new TDocument ();
+				TDocument.read_doc (d, f, null);
+				GLib.message ("Doc:"+d.to_string ());
+				assert (d.root != null);
+				assert (d.root.name == "Sentences");
+				assert (d.root.namespaces.size == 1);
+			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
+		});
 	}
 }
