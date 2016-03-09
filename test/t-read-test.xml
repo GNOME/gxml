@@ -1,8 +1,10 @@
 <?xml version="1.0"?>
-<Sentences xmlns:gxml="http://wiki.gnome.org/GXml">
+<Sentences xmlns:gxml="http://wiki.gnome.org/GXml"
+          xmlns:b="http://book.org/schema">
   <Sentence lang="en">I like the colour blue.</Sentence>
   <Sentence lang="es">Español</Sentence>
-  <Authors year="2016" collection="Back">
+  <Authors year="2016" collection="Back"
+           xmlns:auth="http://author.org">
     <Author>
       <Name>Fred</Name>
       <Email>fweasley@hogwarts.co.uk</Email>
@@ -12,4 +14,5 @@
       <Email>gweasley@hogwarts.co.uk</Email>
     </Author>
   </Authors>
+  <b:Book gxml:name="Thor"/>
 </Sentences>

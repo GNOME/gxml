@@ -417,7 +417,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
                                       Xml.TextReader tr,
                                       ReadTypeFunc? rntfunc = null) throws GLib.Error {
     GXml.Node n = null;
-    string prefix;
+    string prefix, nsuri;
     ReadType rt = ReadType.CONTINUE;
     if (rntfunc != null) rt = rntfunc (node, tr);
     if (rt == ReadType.CONTINUE)
@@ -437,6 +437,13 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
       node.children.add (n);
       GLib.message ("ReadNode: next node:"+n.to_string ());
       GLib.message ("ReadNode: next node attributes:"+(tr.has_attributes ()).to_string ());
+      prefix = tr.prefix ();
+      if (prefix != null) {
+        nsuri = tr.lookup_namespace (prefix);
+        if (nsuri != null) {
+          n.set_namespace (nsuri, prefix);
+        }
+      }
       var c = tr.move_to_first_attribute ();
       while (c == 1) {
         if (tr.is_namespace_decl () == 1) {
@@ -444,22 +451,29 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
           string nsp = tr.const_local_name ();
           tr.read_attribute_value ();
           if (tr.node_type () == Xml.ReaderType.TEXT) {
-            string nuri = tr.read_string ();
-            n.set_namespace (nuri,nsp);
+            nsuri = tr.read_string ();
+            n.set_namespace (nsuri,nsp);
           }
         } else {
           var attrname = tr.const_local_name ();
+          prefix = tr.prefix ();
           GLib.message ("Attribute: "+tr.const_local_name ());
           tr.read_attribute_value ();
           if (tr.node_type () == Xml.ReaderType.TEXT) {
             var attrval = tr.read_string ();
             GLib.message ("Attribute:"+attrname+" Value: "+attrval);
-            (n as GXml.Element).set_attr (attrname, attrval);
+            if (prefix != null) {
+              nsuri = tr.lookup_namespace (prefix);
+              if (nsuri != null) {
+                GLib.message ("Setting a NS Attribute: "+prefix+":"+attrname);
+                (n as GXml.Element).set_ns_attr (new TNamespace (n.document, nsuri, prefix), attrname, attrval);
+              }
+            } else
+              (n as GXml.Element).set_attr (attrname, attrval);
           }
         }
-        c = tr.move_to_next_attribute (); // FIXME: Ns
+        c = tr.move_to_next_attribute ();
       }
-       // FIXME: Ns
       while (read_node (n, tr, rntfunc) == ReadType.CONTINUE);
       GLib.message ("Current Document: "+node.document.to_string ());
       break;
