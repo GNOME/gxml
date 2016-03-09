@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <Sentences xmlns:gxml="http://wiki.gnome.org/GXml"
-          xmlns:b="http://book.org/schema">
+          xmlns:b="http://book.org/schema"
+          audience="All">
   <Sentence lang="en">I like the colour blue.</Sentence>
   <Sentence lang="es">Español</Sentence>
   <Authors year="2016" collection="Back"

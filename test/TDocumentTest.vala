@@ -435,7 +435,9 @@ class TDocumentTest : GXmlTest {
 				GLib.message ("Doc:"+d.to_string ());
 				assert (d.root != null);
 				assert (d.root.name == "Sentences");
-				assert (d.root.children.size == 3);
+				assert (d.root.attrs["audience"] != null);
+				assert (d.root.attrs["audience"].value == "All");
+				assert (d.root.children.size == 4);
 				var s1 = d.root.children[0];
 				assert (s1 != null);
 				assert (s1.name == "Sentence");
@@ -460,6 +462,9 @@ class TDocumentTest : GXmlTest {
 				var p3 = s3.attrs["year"];
 				assert (p3 != null);
 				assert (p3.value == "2016");
+				var p31 = s3.attrs["collection"];
+				assert (p31 != null);
+				assert (p31.value == "Back");
 				assert (s3.children.size == 2);
 				assert (s3.children[0] is GXml.Element);
 				assert (s3.children[0].name == "Author");
@@ -498,7 +503,7 @@ class TDocumentTest : GXmlTest {
 				GLib.message ("Doc:"+d.to_string ());
 				assert (d.root != null);
 				assert (d.root.name == "Sentences");
-				assert (d.root.namespaces.size == 1);
+				assert (d.root.namespaces.size == 2);
 			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
 		});
 	}

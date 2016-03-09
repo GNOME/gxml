@@ -442,10 +442,15 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
         nsuri = tr.lookup_namespace (prefix);
         if (nsuri != null) {
           n.set_namespace (nsuri, prefix);
+          GLib.message ("Number of NS in node: "+n.namespaces.size.to_string ());
         }
       }
-      var c = tr.move_to_first_attribute ();
-      while (c == 1) {
+      var nattr = tr.attribute_count ();
+      GLib.message ("Number of Attributes:"+nattr.to_string ());
+      for (int i = 0; i < nattr; i++) {
+        GLib.message ("Current Attribute: "+i.to_string ());
+        var c = tr.move_to_attribute_no (i);
+        if (c != 1) GLib.message ("Fail to move to attribute number: "+i.to_string ());
         if (tr.is_namespace_decl () == 1) {
           GLib.message ("Is Namespace Declaration...");
           string nsp = tr.const_local_name ();
@@ -453,6 +458,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
           if (tr.node_type () == Xml.ReaderType.TEXT) {
             nsuri = tr.read_string ();
             n.set_namespace (nsuri,nsp);
+            GLib.message ("Number of NS in node: "+n.namespaces.size.to_string ());
           }
         } else {
           var attrname = tr.const_local_name ();
@@ -472,7 +478,6 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
               (n as GXml.Element).set_attr (attrname, attrval);
           }
         }
-        c = tr.move_to_next_attribute ();
       }
       while (read_node (n, tr, rntfunc) == ReadType.CONTINUE);
       GLib.message ("Current Document: "+node.document.to_string ());
