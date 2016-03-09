@@ -426,5 +426,44 @@ class TDocumentTest : GXmlTest {
 			var doc = new TDocument ();
 			assert (doc.parent == null);
 		});
+		Test.add_func ("/gxml/t-document/read/basic", () => {
+			try {
+				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/t-read-test.xml");
+				assert (f.query_exists ());
+				var d = new TDocument ();
+				TDocument.read_doc (d, f, null);
+				GLib.message ("Doc:"+d.to_string ());
+				assert (d.root != null);
+				assert (d.root.name == "Sentences");
+				assert (d.root.children.size == 3);
+				var s1 = d.root.children[0];
+				assert (s1 != null);
+				assert (s1.name == "Sentence");
+				var p1 = s1.attrs["lang"];
+				assert (p1 != null);
+				assert (p1.value == "en");
+				assert (s1.children.size == 1);
+				assert (s1.children[0] is GXml.Text);
+				assert (s1.children[0].value == "I like the colour blue.");
+				var s2 = d.root.children[1];
+				assert (s2 != null);
+				assert (s2.name == "Sentence");
+				var p2 = s2.attrs["lang"];
+				assert (p2 != null);
+				assert (p2.value == "es");
+				assert (s2.children.size == 1);
+				assert (s2.children[0] is GXml.Text);
+				assert (s2.children[0].value == "Español");
+				var s3  = d.root.children[2];
+				assert (s3 != null);
+				assert (s3.name == "Authors");
+				var p3 = s3.attrs["year"];
+				assert (p3 != null);
+				assert (p3.value == "2016");
+				assert (s3.children.size == 2);
+				assert (s3.children[0] is GXml.Element);
+				assert (s3.children[0].name == "Author");
+			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
+		});
 	}
 }

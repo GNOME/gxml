@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<Sentences>
+  <Sentence lang="en">I like the colour blue.</Sentence>
+  <Sentence lang="es">Español</Sentence>
+  <Authors year="2016" collection="Back">
+    <Author>
+      <Name>Fred</Name>
+      <Email>fweasley@hogwarts.co.uk</Email>
+    </Author>
+    <Author>
+      <Name>George</Name>
+      <Email>gweasley@hogwarts.co.uk</Email>
+    </Author>
+  </Authors>
+</Sentences>

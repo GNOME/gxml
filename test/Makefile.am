@@ -158,5 +158,6 @@ EXTRA_DIST += \
 	test.xml \
 	test-collection.xml \
 	index.html \
+	t-read-test.xml \
 	$(NULL)
 

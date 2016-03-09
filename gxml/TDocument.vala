@@ -404,86 +404,106 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
     var b = new MemoryOutputStream.resizable ();
     b.splice (file.read (), 0);
     var tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), file.get_uri ());
-    GXml.Node current, next;
-    current = next = null;
+    GXml.Node current = null;
     ReadType rt = ReadType.CONTINUE;
-    while (rt == ReadType.CONTINUE) {
-      next = read_node (doc, current, tr);
-      if (rtfunc != null) rt = rtfunc (next, tr);
-      else rt = ReadType.CONTINUE;
-      switch (rt) {
-      case ReadType.NEXT:
-        if (tr.next () == 1) {
-          rt = ReadType.CONTINUE;
-          current = next;
-        }
-        else rt = ReadType.STOP;
-        break;
-      case ReadType.CONTINUE:
-        if (tr.read () == 1) {
-          current = next;
-          rt = ReadType.CONTINUE;
-        } else rt = ReadType.STOP;
-        break;
-      }
-    }
+    while (read_node (doc, tr, rtfunc) == ReadType.CONTINUE);
   }
   /**
    * Parse current node in {@link Xml.TextReader}.
    *
    * Returns: a {@link GXml.Node} respresenting current parsed one.
    */
-  public static GXml.Node? read_node (GXml.Document doc, GXml.Node? node, Xml.TextReader tr) throws GLib.Error {
+  public static ReadType read_node (GXml.Node node,
+                                      Xml.TextReader tr,
+                                      ReadTypeFunc? rntfunc = null) throws GLib.Error {
     GXml.Node n = null;
+    ReadType rt = ReadType.CONTINUE;
+    if (rntfunc != null) rt = rntfunc (node, tr);
+    if (rt == ReadType.CONTINUE)
+      if (tr.read () != 1) return ReadType.STOP;
+    if (rt == ReadType.NEXT)
+      if (tr.next () != 1) return ReadType.STOP;
     var t = tr.node_type ();
+    GLib.message ("ReadNode: Current Node:"+node.name);
     switch (t) {
     case Xml.ReaderType.NONE:
-      return null;
+      GLib.message ("Type NONE");
+      if (tr.read () != 1) return ReadType.STOP;
+      break;
     case Xml.ReaderType.ELEMENT:
-      n = doc.create_element (tr.const_local_name ()); // FIXME: Ns
-      if (node == null)
-        doc.children.add (n);
-      else
-        node.children.add (n);
+      GLib.message ("ReadNode: Element: "+tr.const_local_name ());
+      n = node.document.create_element (tr.const_local_name ()); // FIXME: Ns
+      node.children.add (n);
+      GLib.message ("ReadNode: next node:"+n.to_string ());
+      GLib.message ("ReadNode: next node attributes:"+(tr.has_attributes ()).to_string ());
       var c = tr.move_to_first_attribute ();
       while (c == 1) {
-        (n as GXml.Element).set_attr (tr.const_local_name (), tr.get_attribute (tr.const_local_name ()));
+        var attrname = tr.const_local_name ();
+        GLib.message ("Attribute: "+tr.const_local_name ());
+        tr.read_attribute_value ();
+        if (tr.node_type () == Xml.ReaderType.TEXT) {
+          var attrval = tr.read_string ();
+          GLib.message ("Attribute:"+attrname+" Value: "+attrval);
+          (n as GXml.Element).set_attr (attrname, attrval);
+        }
         c = tr.move_to_next_attribute (); // FIXME: Ns
       }
-      return n;
+      while (read_node (n, tr, rntfunc) == ReadType.CONTINUE);
+      GLib.message ("Current Document: "+node.document.to_string ());
+      break;
     case Xml.ReaderType.ATTRIBUTE:
+      GLib.message ("Type ATTRIBUTE");
       break;
     case Xml.ReaderType.TEXT:
+      GLib.message ("Type TEXT");
+      var txtval = tr.read_string ();
+      GLib.message ("ReadNode: Text Node : '"+txtval+"'");
+      n = node.document.create_text (txtval);
+      node.children.add (n);
       break;
     case Xml.ReaderType.CDATA:
+      GLib.message ("Type CDATA");
       break;
     case Xml.ReaderType.ENTITY_REFERENCE:
+      GLib.message ("Type ENTITY_REFERENCE");
       break;
     case Xml.ReaderType.ENTITY:
+      GLib.message ("Type ENTITY");
       break;
     case Xml.ReaderType.PROCESSING_INSTRUCTION:
+      GLib.message ("Type PROCESSING_INSTRUCTION");
       break;
     case Xml.ReaderType.COMMENT:
+      GLib.message ("Type COMMENT");
       break;
     case Xml.ReaderType.DOCUMENT:
+      GLib.message ("Type DOCUMENT");
       break;
     case Xml.ReaderType.DOCUMENT_TYPE:
+      GLib.message ("Type DOCUMENT_TYPE");
       break;
     case Xml.ReaderType.DOCUMENT_FRAGMENT:
+      GLib.message ("Type DOCUMENT_FRAGMENT");
       break;
     case Xml.ReaderType.NOTATION:
+      GLib.message ("Type NOTATION");
       break;
     case Xml.ReaderType.WHITESPACE:
+      GLib.message ("Type WHITESPACE");
       break;
     case Xml.ReaderType.SIGNIFICANT_WHITESPACE:
+      GLib.message ("Type SIGNIFICANT_WHITESPACE");
       break;
     case Xml.ReaderType.END_ELEMENT:
-      break;
+      GLib.message ("Type END_ELEMENT");
+      return ReadType.STOP;
     case Xml.ReaderType.END_ENTITY:
-      break;
+      GLib.message ("Type END_ENTITY");
+      return ReadType.STOP;
     case Xml.ReaderType.XML_DECLARATION:
+      GLib.message ("Type XML_DECLARATION");
       break;
     }
-    return null;
+    return ReadType.CONTINUE;
   }
 }
