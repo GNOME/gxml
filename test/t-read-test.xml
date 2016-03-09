@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <!-- Top Level Comment -->
+<?target Content in target id="something"?>
 <Sentences xmlns:gxml="http://wiki.gnome.org/GXml"
           xmlns:b="http://book.org/schema"
           audience="All">
@@ -18,4 +19,5 @@
     </Author>
   </Authors>
   <b:Book gxml:name="Thor"/>
+  <?css href="http://www.gnome.org"?>
 </Sentences>

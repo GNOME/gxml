@@ -445,6 +445,8 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
       if (tr.read () != 1) return ReadType.STOP;
       break;
     case Xml.ReaderType.ELEMENT:
+      bool isempty = (tr.is_empty_element () == 1);
+      if (isempty) GLib.message ("Is Empty node:"+node.name);
       GLib.message ("ReadNode: Element: "+tr.const_local_name ());
       n = node.document.create_element (tr.const_local_name ());
       node.children.add (n);
@@ -492,6 +494,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
           }
         }
       }
+      if (isempty) return ReadType.CONTINUE;
       while (read_node (n, tr, rntfunc) == ReadType.CONTINUE);
       GLib.message ("Current Document: "+node.document.to_string ());
       break;
@@ -516,6 +519,11 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
       break;
     case Xml.ReaderType.PROCESSING_INSTRUCTION:
       GLib.message ("Type PROCESSING_INSTRUCTION");
+      var pit = tr.const_local_name ();
+      var pival = tr.value ();
+      GLib.message ("ReadNode: PI Node : '"+pit+"' : '"+pival+"'");
+      n = node.document.create_pi (pit,pival);
+      node.children.add (n);
       break;
     case Xml.ReaderType.COMMENT:
       GLib.message ("Type COMMENT");

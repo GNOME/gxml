@@ -484,14 +484,14 @@ class TDocumentTest : GXmlTest {
 				var a2 = s3.children[1];
 				assert (a2 != null);
 				assert (a2.children.size == 2);
-				assert (a2.children[0].name == "Name");
-				assert (a2.children[0].children.size == 1);
-				assert (a2.children[0].children[0] is GXml.Text);
-				assert (a2.children[0].children[0].value == "George");
-				assert (a2.children[1].name == "Email");
+				assert (a2.children[1].name == "Name");
 				assert (a2.children[1].children.size == 1);
 				assert (a2.children[1].children[0] is GXml.Text);
-				assert (a2.children[1].children[0].value == "gweasley@hogwarts.co.uk");
+				assert (a2.children[1].children[0].value == "George");
+				assert (a2.children[2].name == "Email");
+				assert (a2.children[2].children.size == 1);
+				assert (a2.children[2].children[0] is GXml.Text);
+				assert (a2.children[2].children[0].value == "gweasley@hogwarts.co.uk");
 			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
 		});
 		Test.add_func ("/gxml/t-document/read/namespace", () => {
@@ -544,6 +544,36 @@ class TDocumentTest : GXmlTest {
 				assert (f.query_exists ());
 				var d = new TDocument ();
 				TDocument.read_doc (d, f, null);
+				assert (d.children[0] is GXml.Comment);
+				assert (d.children[0].value == " Top Level Comment ");
+				var a = d.root.children[2];
+				assert (a.name == "Authors");
+				var a1 = a.children[1];
+				assert (a1.name == "Author");
+				assert (a1.children[0] is GXml.Comment);
+				assert (a1.children[0].value == " Inner comment");
+				GLib.message ("Doc:"+d.to_string ());
+			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
+		});
+		Test.add_func ("/gxml/t-document/read/PI", () => {
+			try {
+				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/t-read-test.xml");
+				assert (f.query_exists ());
+				var d = new TDocument ();
+				TDocument.read_doc (d, f, null);
+				assert (d.children[1] is GXml.ProcessingInstruction);
+				assert ((d.children[1] as GXml.ProcessingInstruction).target == "target");
+				assert (d.children[1].value == "Content in target id=\"something\"");
+				GLib.message ("Children:"+d.root.children.size.to_string ());
+				foreach (GXml.Node n in d.root.children) {
+					GLib.message ("Node name:"+n.name);
+				}
+				assert (d.root.children.size == 5);
+				var p = (d.root.children[4]);
+				assert (p != null);
+				assert (p is GXml.ProcessingInstruction);
+				assert ((p as GXml.ProcessingInstruction).target == "css");
+				assert ((p as GXml.ProcessingInstruction).value == "href=\"http://www.gnome.org\"");
 				GLib.message ("Doc:"+d.to_string ());
 			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
 		});
