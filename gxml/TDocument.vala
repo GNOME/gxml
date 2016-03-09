@@ -289,7 +289,9 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
 #endif
     foreach (Namespace ns in node.namespaces) {
       // Declare all namespaces in node
+#if DEBUG
       GLib.message ("Current Ns:"+ns.uri+":: on Node:"+node.name);
+#endif
       if (declared_ns.contains (ns.uri)) continue;
       tw.write_attribute ("xmlns:"+ns.prefix, ns.uri);
       declared_ns.add (ns.uri);
@@ -338,7 +340,9 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
                 n.set_namespace (node.ns_uri (), node.ns_prefix ());
         }
         if (node is GXml.Document) {
+#if DEBUG
           GLib.message ("Found Root Node in Document. Starting Root node");
+#endif
           start_node (doc, tw, n, true, ref declared_ns);
         }
         else
@@ -438,55 +442,79 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
     if (rt == ReadType.NEXT)
       if (tr.next () != 1) return ReadType.STOP;
     var t = tr.node_type ();
+#if DEBUG
     GLib.message ("ReadNode: Current Node:"+node.name);
+#endif
     switch (t) {
     case Xml.ReaderType.NONE:
+#if DEBUG
       GLib.message ("Type NONE");
+#endif
       if (tr.read () != 1) return ReadType.STOP;
       break;
     case Xml.ReaderType.ELEMENT:
       bool isempty = (tr.is_empty_element () == 1);
+#if DEBUG
       if (isempty) GLib.message ("Is Empty node:"+node.name);
       GLib.message ("ReadNode: Element: "+tr.const_local_name ());
+#endif
       n = node.document.create_element (tr.const_local_name ());
       node.children.add (n);
+#if DEBUG
       GLib.message ("ReadNode: next node:"+n.to_string ());
       GLib.message ("ReadNode: next node attributes:"+(tr.has_attributes ()).to_string ());
+#endif
       prefix = tr.prefix ();
       if (prefix != null) {
         nsuri = tr.lookup_namespace (prefix);
         if (nsuri != null) {
           n.set_namespace (nsuri, prefix);
+#if DEBUG
           GLib.message ("Number of NS in node: "+n.namespaces.size.to_string ());
+#endif
         }
       }
       var nattr = tr.attribute_count ();
+#if DEBUG
       GLib.message ("Number of Attributes:"+nattr.to_string ());
+#endif
       for (int i = 0; i < nattr; i++) {
-        GLib.message ("Current Attribute: "+i.to_string ());
         var c = tr.move_to_attribute_no (i);
+#if DEBUG
+        GLib.message ("Current Attribute: "+i.to_string ());
         if (c != 1) GLib.message ("Fail to move to attribute number: "+i.to_string ());
+#endif
         if (tr.is_namespace_decl () == 1) {
+#if DEBUG
           GLib.message ("Is Namespace Declaration...");
+#endif
           string nsp = tr.const_local_name ();
           tr.read_attribute_value ();
           if (tr.node_type () == Xml.ReaderType.TEXT) {
             nsuri = tr.read_string ();
             n.set_namespace (nsuri,nsp);
+#if DEBUG
             GLib.message ("Number of NS in node: "+n.namespaces.size.to_string ());
+#endif
           }
         } else {
           var attrname = tr.const_local_name ();
           prefix = tr.prefix ();
+#if DEBUG
           GLib.message ("Attribute: "+tr.const_local_name ());
+#endif
           tr.read_attribute_value ();
           if (tr.node_type () == Xml.ReaderType.TEXT) {
             var attrval = tr.read_string ();
+#if DEBUG
             GLib.message ("Attribute:"+attrname+" Value: "+attrval);
+#endif
             if (prefix != null) {
               nsuri = tr.lookup_namespace (prefix);
               if (nsuri != null) {
+#if DEBUG
                 GLib.message ("Setting a NS Attribute: "+prefix+":"+attrname);
+#endif
                 (n as GXml.Element).set_ns_attr (new TNamespace (n.document, nsuri, prefix), attrname, attrval);
               }
             } else
@@ -496,72 +524,106 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
       }
       if (isempty) return ReadType.CONTINUE;
       while (read_node (n, tr, rntfunc) == ReadType.CONTINUE);
+#if DEBUG
       GLib.message ("Current Document: "+node.document.to_string ());
+#endif
       break;
     case Xml.ReaderType.ATTRIBUTE:
+#if DEBUG
       GLib.message ("Type ATTRIBUTE");
+#endif
       break;
     case Xml.ReaderType.TEXT:
       var txtval = tr.read_string ();
+#if DEBUG
       GLib.message ("Type TEXT");
       GLib.message ("ReadNode: Text Node : '"+txtval+"'");
+#endif
       n = node.document.create_text (txtval);
       node.children.add (n);
       break;
     case Xml.ReaderType.CDATA:
       var cdval = tr.value ();
+#if DEBUG
       GLib.message ("Type CDATA");
       GLib.message ("ReadNode: CDATA Node : '"+cdval+"'");
+#endif
       n = node.document.create_cdata (cdval);
       node.children.add (n);
       break;
     case Xml.ReaderType.ENTITY_REFERENCE:
+#if DEBUG
       GLib.message ("Type ENTITY_REFERENCE");
+#endif
       break;
     case Xml.ReaderType.ENTITY:
+#if DEBUG
       GLib.message ("Type ENTITY");
+#endif
       break;
     case Xml.ReaderType.PROCESSING_INSTRUCTION:
       var pit = tr.const_local_name ();
       var pival = tr.value ();
+#if DEBUG
       GLib.message ("Type PROCESSING_INSTRUCTION");
       GLib.message ("ReadNode: PI Node : '"+pit+"' : '"+pival+"'");
+#endif
       n = node.document.create_pi (pit,pival);
       node.children.add (n);
       break;
     case Xml.ReaderType.COMMENT:
       var commval = tr.value ();
+#if DEBUG
       GLib.message ("Type COMMENT");
       GLib.message ("ReadNode: Comment Node : '"+commval+"'");
+#endif
       n = node.document.create_comment (commval);
       node.children.add (n);
       break;
     case Xml.ReaderType.DOCUMENT:
+#if DEBUG
       GLib.message ("Type DOCUMENT");
+#endif
       break;
     case Xml.ReaderType.DOCUMENT_TYPE:
+#if DEBUG
       GLib.message ("Type DOCUMENT_TYPE");
+#endif
       break;
     case Xml.ReaderType.DOCUMENT_FRAGMENT:
+#if DEBUG
       GLib.message ("Type DOCUMENT_FRAGMENT");
+#endif
       break;
     case Xml.ReaderType.NOTATION:
+#if DEBUG
       GLib.message ("Type NOTATION");
+#endif
       break;
     case Xml.ReaderType.WHITESPACE:
+#if DEBUG
       GLib.message ("Type WHITESPACE");
+#endif
       break;
     case Xml.ReaderType.SIGNIFICANT_WHITESPACE:
+#if DEBUG
       GLib.message ("Type SIGNIFICANT_WHITESPACE");
+#endif
       break;
     case Xml.ReaderType.END_ELEMENT:
+#if DEBUG
       GLib.message ("Type END_ELEMENT");
+#endif
       return ReadType.STOP;
     case Xml.ReaderType.END_ENTITY:
+#if DEBUG
       GLib.message ("Type END_ENTITY");
+#endif
       return ReadType.STOP;
     case Xml.ReaderType.XML_DECLARATION:
+#if DEBUG
       GLib.message ("Type XML_DECLARATION");
+#endif
       break;
     }
     return ReadType.CONTINUE;

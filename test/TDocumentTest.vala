@@ -432,12 +432,12 @@ class TDocumentTest : GXmlTest {
 				assert (f.query_exists ());
 				var d = new TDocument ();
 				TDocument.read_doc (d, f, null);
-				GLib.message ("Doc:"+d.to_string ());
+				//GLib.message ("Doc:"+d.to_string ());
 				assert (d.root != null);
 				assert (d.root.name == "Sentences");
 				assert (d.root.attrs["audience"] != null);
 				assert (d.root.attrs["audience"].value == "All");
-				assert (d.root.children.size == 4);
+				assert (d.root.children.size == 6);
 				var s1 = d.root.children[0];
 				assert (s1 != null);
 				assert (s1.name == "Sentence");
@@ -483,7 +483,7 @@ class TDocumentTest : GXmlTest {
 				assert (a1.children[1].children[0].value == "fweasley@hogwarts.co.uk");
 				var a2 = s3.children[1];
 				assert (a2 != null);
-				assert (a2.children.size == 2);
+				assert (a2.children.size == 3);
 				assert (a2.children[1].name == "Name");
 				assert (a2.children[1].children.size == 1);
 				assert (a2.children[1].children[0] is GXml.Text);
@@ -500,7 +500,7 @@ class TDocumentTest : GXmlTest {
 				assert (f.query_exists ());
 				var d = new TDocument ();
 				TDocument.read_doc (d, f, null);
-				GLib.message ("Doc:"+d.to_string ());
+				//GLib.message ("Doc:"+d.to_string ());
 				assert (d.root != null);
 				assert (d.root.name == "Sentences");
 				assert (d.root.namespaces.size == 2);
@@ -552,7 +552,7 @@ class TDocumentTest : GXmlTest {
 				assert (a1.name == "Author");
 				assert (a1.children[0] is GXml.Comment);
 				assert (a1.children[0].value == " Inner comment");
-				GLib.message ("Doc:"+d.to_string ());
+				//GLib.message ("Doc:"+d.to_string ());
 			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
 		});
 		Test.add_func ("/gxml/t-document/read/pi", () => {
@@ -565,18 +565,18 @@ class TDocumentTest : GXmlTest {
 				assert ((d.children[1] as GXml.ProcessingInstruction).target == "target");
 				assert (d.children[1].value == "Content in target id=\"something\"");
 #if DEBUG
-				GLib.message ("Children:"+d.root.children.size.to_string ());
+				//GLib.message ("Children:"+d.root.children.size.to_string ());
 				foreach (GXml.Node n in d.root.children) {
 					GLib.message ("Node name:"+n.name);
 				}
 #endif
-				assert (d.root.children.size == 5);
+				assert (d.root.children.size == 6);
 				var p = (d.root.children[4]);
 				assert (p != null);
 				assert (p is GXml.ProcessingInstruction);
 				assert ((p as GXml.ProcessingInstruction).target == "css");
 				assert ((p as GXml.ProcessingInstruction).value == "href=\"http://www.gnome.org\"");
-				GLib.message ("Doc:"+d.to_string ());
+				//GLib.message ("Doc:"+d.to_string ());
 			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
 		});
 		Test.add_func ("/gxml/t-document/read/cdata", () => {
@@ -590,7 +590,7 @@ class TDocumentTest : GXmlTest {
 				assert (p != null);
 				assert (p is GXml.CDATA);
 				assert ((p as GXml.CDATA).str == "<greeting>Hello, world!</greeting>");
-				GLib.message ("Doc:"+d.to_string ());
+				//GLib.message ("Doc:"+d.to_string ());
 			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
 		});
 	}

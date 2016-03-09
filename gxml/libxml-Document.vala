@@ -927,7 +927,9 @@ namespace GXml {
 		public bool save_as (GLib.File f, GLib.Cancellable? cancellable = null) throws GLib.Error
 		{
 			var ostream = f.replace (null, backup, GLib.FileCreateFlags.NONE, cancellable);
+#if DEBUG
 			GLib.message ("Saving...");
+#endif
 			save_to_stream (ostream);
 			return true;
 		}

@@ -112,7 +112,7 @@ class DocumentTest : GXmlTest {
 				var s = new GLib.StringBuilder ();
 				s.append ("""<root />""");
 				var d = new xDocument.from_string (s.str);
-				GLib.message ("Saving to file: "+f.get_uri ()+d.to_string ());
+				Test.message ("Saving to file: "+f.get_uri ()+d.to_string ());
 				d.save_as (f);
 				assert (f.query_exists ());
 				var d2 = new xDocument.from_gfile (f);
