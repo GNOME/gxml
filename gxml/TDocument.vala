@@ -287,6 +287,13 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
 #if DEBUG
     GLib.message (@"Starting Element '$(node.name)': writting attributes");
 #endif
+      foreach (Namespace ns in node.namespaces) {
+        // Declare all namespaces in node
+        GLib.message ("Current Ns:"+ns.uri+":: on Node:"+node.name);
+        if (declared_ns.contains (ns.uri)) continue;
+        tw.write_attribute ("xmlns:"+ns.prefix, ns.uri);
+        declared_ns.add (ns.uri);
+      }
       foreach (GXml.Node attr in node.attrs.values) {
         if (attr.namespaces.size > 0) {
 #if DEBUG
