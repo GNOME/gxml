@@ -555,7 +555,7 @@ class TDocumentTest : GXmlTest {
 				GLib.message ("Doc:"+d.to_string ());
 			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
 		});
-		Test.add_func ("/gxml/t-document/read/PI", () => {
+		Test.add_func ("/gxml/t-document/read/pi", () => {
 			try {
 				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/t-read-test.xml");
 				assert (f.query_exists ());
@@ -564,16 +564,32 @@ class TDocumentTest : GXmlTest {
 				assert (d.children[1] is GXml.ProcessingInstruction);
 				assert ((d.children[1] as GXml.ProcessingInstruction).target == "target");
 				assert (d.children[1].value == "Content in target id=\"something\"");
+#if DEBUG
 				GLib.message ("Children:"+d.root.children.size.to_string ());
 				foreach (GXml.Node n in d.root.children) {
 					GLib.message ("Node name:"+n.name);
 				}
+#endif
 				assert (d.root.children.size == 5);
 				var p = (d.root.children[4]);
 				assert (p != null);
 				assert (p is GXml.ProcessingInstruction);
 				assert ((p as GXml.ProcessingInstruction).target == "css");
 				assert ((p as GXml.ProcessingInstruction).value == "href=\"http://www.gnome.org\"");
+				GLib.message ("Doc:"+d.to_string ());
+			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
+		});
+		Test.add_func ("/gxml/t-document/read/cdata", () => {
+			try {
+				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/t-read-test.xml");
+				assert (f.query_exists ());
+				var d = new TDocument ();
+				TDocument.read_doc (d, f, null);
+				assert (d.root.children.size == 6);
+				var p = (d.root.children[5]);
+				assert (p != null);
+				assert (p is GXml.CDATA);
+				assert ((p as GXml.CDATA).str == "<greeting>Hello, world!</greeting>");
 				GLib.message ("Doc:"+d.to_string ());
 			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
 		});

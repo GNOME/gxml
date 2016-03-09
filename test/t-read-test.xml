@@ -20,4 +20,5 @@
   </Authors>
   <b:Book gxml:name="Thor"/>
   <?css href="http://www.gnome.org"?>
+  <![CDATA[<greeting>Hello, world!</greeting>]]>
 </Sentences>

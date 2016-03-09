@@ -502,14 +502,18 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
       GLib.message ("Type ATTRIBUTE");
       break;
     case Xml.ReaderType.TEXT:
-      GLib.message ("Type TEXT");
       var txtval = tr.read_string ();
+      GLib.message ("Type TEXT");
       GLib.message ("ReadNode: Text Node : '"+txtval+"'");
       n = node.document.create_text (txtval);
       node.children.add (n);
       break;
     case Xml.ReaderType.CDATA:
+      var cdval = tr.value ();
       GLib.message ("Type CDATA");
+      GLib.message ("ReadNode: CDATA Node : '"+cdval+"'");
+      n = node.document.create_cdata (cdval);
+      node.children.add (n);
       break;
     case Xml.ReaderType.ENTITY_REFERENCE:
       GLib.message ("Type ENTITY_REFERENCE");
@@ -518,16 +522,16 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
       GLib.message ("Type ENTITY");
       break;
     case Xml.ReaderType.PROCESSING_INSTRUCTION:
-      GLib.message ("Type PROCESSING_INSTRUCTION");
       var pit = tr.const_local_name ();
       var pival = tr.value ();
+      GLib.message ("Type PROCESSING_INSTRUCTION");
       GLib.message ("ReadNode: PI Node : '"+pit+"' : '"+pival+"'");
       n = node.document.create_pi (pit,pival);
       node.children.add (n);
       break;
     case Xml.ReaderType.COMMENT:
-      GLib.message ("Type COMMENT");
       var commval = tr.value ();
+      GLib.message ("Type COMMENT");
       GLib.message ("ReadNode: Comment Node : '"+commval+"'");
       n = node.document.create_comment (commval);
       node.children.add (n);
