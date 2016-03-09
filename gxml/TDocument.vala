@@ -37,11 +37,23 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
     _name = "#document";
   }
   public TDocument () {}
-  public TDocument.for_path (string file)
-  {
-    var f = File.new_for_path (file);
-    this.file = f;
+  public TDocument.for_path (string path) {
+    this.file = GLib.File.new_for_path (path);
+    if (!file.query_exists ()) return;
+    try { read_doc (this, file, null); } catch {}
+    
   }
+
+  public TDocument.for_file (GLib.File file) {
+    if (!file.query_exists ()) return;
+    try { read_doc (this, file, null); } catch {}
+    this.file = file;
+  }
+
+  public TDocument.for_stream (GLib.InputStream stream) {
+    try { read_doc_stream (this, stream, null); } catch {}
+  }
+
   // GXml.Node
   public override Gee.List<GXml.Namespace> namespaces {
     owned get {
@@ -418,9 +430,15 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
   public static void read_doc (GXml.Document doc, GLib.File file, ReadTypeFunc? rtfunc = null) throws GLib.Error {
     if (!file.query_exists ())
       throw new GXml.DocumentError.INVALID_FILE (_("File doesn't exists"));
+    read_doc_stream (doc, file.read (), rtfunc);
+  }
+  /**
+   * Reads document from {@link GLib.InputStream} objects.
+   */
+  public static void read_doc_stream (GXml.Document doc, GLib.InputStream istream, ReadTypeFunc? rtfunc = null) {
     var b = new MemoryOutputStream.resizable ();
-    b.splice (file.read (), 0);
-    var tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), file.get_uri ());
+    b.splice (istream, 0);
+    var tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), "/memory");
     GXml.Node current = null;
     ReadType rt = ReadType.CONTINUE;
     while (read_node (doc, tr, rtfunc) == ReadType.CONTINUE);
