@@ -504,6 +504,38 @@ class TDocumentTest : GXmlTest {
 				assert (d.root != null);
 				assert (d.root.name == "Sentences");
 				assert (d.root.namespaces.size == 2);
+				assert (d.root.namespaces[0].prefix == "gxml");
+				assert (d.root.namespaces[0].uri == "http://wiki.gnome.org/GXml");
+				assert (d.root.namespaces[1].prefix == "b");
+				assert (d.root.namespaces[1].uri == "http://book.org/schema");
+				var a = d.root.children[2];
+				assert (a != null);
+				assert (a.name == "Authors");
+				assert (a.namespaces.size == 1);
+				assert (a.namespaces[0].uri == "http://author.org");
+				assert (a.namespaces[0].prefix == "auth");
+				assert (a.children[0] != null);
+				var a1 = a.children[0];
+				assert (a1 != null);
+				assert (a1.name == "Author");
+				var e = a1.children[1];
+				assert (e != null);
+				assert (e.name == "Email");
+				assert (e.namespaces.size == 1);
+				assert (e.namespaces[0].prefix == "gxml");
+				assert (e.namespaces[0].uri == "http://wiki.gnome.org/GXml");
+				var b = d.root.children [3];
+				assert (b != null);
+				assert (b.name == "Book");
+				assert (b.namespaces.size == 1);
+				assert (b.namespaces[0].prefix == "b");
+				assert (b.namespaces[0].uri == "http://book.org/schema");
+				var bp = b.attrs["name"];
+				assert (bp != null);
+				assert (bp.name == "name");
+				assert (bp.namespaces.size == 1);
+				assert (bp.namespaces[0].prefix == "gxml");
+				assert (bp.namespaces[0].uri == "http://wiki.gnome.org/GXml");
 			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
 		});
 	}

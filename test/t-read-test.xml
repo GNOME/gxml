@@ -8,7 +8,7 @@
            xmlns:auth="http://author.org">
     <Author>
       <Name>Fred</Name>
-      <Email>fweasley@hogwarts.co.uk</Email>
+      <gxml:Email>fweasley@hogwarts.co.uk</gxml:Email>
     </Author>
     <Author>
       <Name>George</Name>
