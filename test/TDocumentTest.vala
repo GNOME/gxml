@@ -463,6 +463,30 @@ class TDocumentTest : GXmlTest {
 				assert (s3.children.size == 2);
 				assert (s3.children[0] is GXml.Element);
 				assert (s3.children[0].name == "Author");
+				assert (s3.children[1].name == "Author");
+				var a1 = s3.children[0];
+				assert (a1 != null);
+				assert (a1.name == "Author");
+				assert (a1.children.size == 2);
+				assert (a1.children[0].name == "Name");
+				assert (a1.children[0].children.size == 1);
+				assert (a1.children[0].children[0] is GXml.Text);
+				assert (a1.children[0].children[0].value == "Fred");
+				assert (a1.children[1].name == "Email");
+				assert (a1.children[1].children.size == 1);
+				assert (a1.children[1].children[0] is GXml.Text);
+				assert (a1.children[1].children[0].value == "fweasley@hogwarts.co.uk");
+				var a2 = s3.children[1];
+				assert (a2 != null);
+				assert (a2.children.size == 2);
+				assert (a2.children[0].name == "Name");
+				assert (a2.children[0].children.size == 1);
+				assert (a2.children[0].children[0] is GXml.Text);
+				assert (a2.children[0].children[0].value == "George");
+				assert (a2.children[1].name == "Email");
+				assert (a2.children[1].children.size == 1);
+				assert (a2.children[1].children[0] is GXml.Text);
+				assert (a2.children[1].children[0].value == "gweasley@hogwarts.co.uk");
 			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
 		});
 	}
