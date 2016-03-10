@@ -335,17 +335,72 @@ public class Performance
         Test.timer_start ();
         var d = new GDocument.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
         time = Test.timer_elapsed ();
-        Test.minimized_result (time, "open document from path: %g seconds", time);
+        Test.minimized_result (time, "GDocument open document from path: %g seconds", time);
+        Test.message ("Starting Deserializing...");
+        for (int i = 0; i < 1000000; i++);
         Test.timer_start ();
         var bs = new BookStore ();
         bs.deserialize (d);
         time = Test.timer_elapsed ();
-        Test.minimized_result (time, "deserialize/performance: %g seconds", time);
+        Test.minimized_result (time, "GDocument deserialize/performance: %g seconds", time);
+        for (int i = 0; i < 1000000; i++);
         Test.timer_start ();
         var d2 = new GDocument ();
         bs.serialize (d2);
         time = Test.timer_elapsed ();
-        Test.minimized_result (time, "serialize/performance: %g seconds", time);
+        Test.minimized_result (time, "GDocument serialize/performance: %g seconds", time);
+        for (int i = 0; i < 1000000; i++);
+        Test.timer_start ();
+        var nf = GLib.File.new_for_path (GXmlTest.get_test_dir () + "/test-large-tw.xml");
+        d2.indent = true;
+        d2.save_as (nf);
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "GDocument Write to disk serialize/performance: %g seconds", time);
+        for (int i = 0; i < 1000000; i++);
+        assert (nf.query_exists ());
+        nf.delete ();
+      } catch (GLib.Error e) {
+#if DEBUG
+        GLib.message ("ERROR: "+e.message);
+#endif
+        assert_not_reached ();
+      }
+    });
+
+    Test.add_func ("/gxml/performance/serialize/gdocument/read_doc",
+    () => {
+      try {
+        double time;
+        Test.timer_start ();
+        GLib.File f = GLib.File.new_for_path (GXmlTest.get_test_dir () + "/test-large.xml");
+        assert (f.query_exists ());
+        var d = new GDocument ();
+        TDocument.read_doc (d, f, null);
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "GDocument open document from path: %g seconds", time);
+        Test.message ("Starting Deserializing...");
+        for (int i = 0; i < 1000000; i++);
+        Test.timer_start ();
+        var bs = new BookStore ();
+        bs.deserialize (d);
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "GDocument deserialize/performance: %g seconds", time);
+        for (int i = 0; i < 1000000; i++);
+        Test.timer_start ();
+        var d2 = new GDocument ();
+        bs.serialize (d2);
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "GDocument serialize/performance: %g seconds", time);
+        for (int i = 0; i < 1000000; i++);
+        Test.timer_start ();
+        var nf = GLib.File.new_for_path (GXmlTest.get_test_dir () + "/test-large-tw.xml");
+        d2.indent = true;
+        d2.save_as (nf);
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "GDocument Write to disk serialize/performance: %g seconds", time);
+        for (int i = 0; i < 1000000; i++);
+        assert (nf.query_exists ());
+        nf.delete ();
       } catch (GLib.Error e) {
 #if DEBUG
         GLib.message ("ERROR: "+e.message);
@@ -360,26 +415,30 @@ public class Performance
         Test.timer_start ();
         var d = new TDocument.for_path (GXmlTest.get_test_dir () + "/test-large.xml");
         time = Test.timer_elapsed ();
-        Test.minimized_result (time, "open document from path: %g seconds", time);
-        for (int i = 0; i < 100000; i++);
+        Test.minimized_result (time, "TDocument open document from path: %g seconds", time);
+        Test.message ("Starting Deserializing...");
+        for (int i = 0; i < 1000000; i++);
         Test.timer_start ();
         var bs = new BookStore ();
         bs.deserialize (d);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "TDocument deserialize performance: %g seconds", time);
-        for (int i = 0; i < 100000; i++);
+        for (int i = 0; i < 1000000; i++);
         Test.timer_start ();
         var d2 = new TDocument ();
         bs.serialize (d2);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "TDocument serialize performance: %g seconds", time);
-        for (int i = 0; i < 100000; i++);
+        for (int i = 0; i < 1000000; i++);
         Test.timer_start ();
         var nf = GLib.File.new_for_path (GXmlTest.get_test_dir () + "/test-large-tw.xml");
         d2.indent = true;
         d2.save_as (nf);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "TDocument Write to disk serialize/performance: %g seconds", time);
+        for (int i = 0; i < 1000000; i++);
+        assert (nf.query_exists ());
+        nf.delete ();
       } catch (GLib.Error e) {
 #if DEBUG
         GLib.message ("ERROR: "+e.message);
