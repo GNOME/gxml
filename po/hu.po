@@ -1,0 +1,140 @@
+# Hungarian translation for gxml.
+# Copyright (C) 2016 gxml's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gxml package.
+# Balázs Meskó <meskobalazs@gmail.com>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gxml gxml-0.8\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=gxml&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2016-03-11 00:45+0000\n"
+"PO-Revision-Date: 2016-03-11 12:54+0100\n"
+"Language-Team: Hungarian <gnome-hu-list@gnome.org>\n"
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Last-Translator: Meskó Balázs <meskobalazs@gmail.com>\n"
+"X-Generator: Poedit 1.8.5\n"
+
+#: ../gxml/Document.vala:148
+msgid "Invalid file"
+msgstr "Érvénytelen fájl"
+
+#: ../gxml/Enumeration.vala:88
+msgid "value is invalid"
+msgstr "az érték érvénytelen"
+
+#: ../gxml/Enumeration.vala:129
+msgid "text can not been parsed to enumeration type:"
+msgstr "a szöveg nem értelmezhető felsorolás típusként:"
+
+#: ../gxml/libxml-ChildNodeList.vala:147
+#, c-format
+msgid "ref_child '%s' not found, was supposed to have '%s' inserted before it."
+msgstr "a(z) „%s” ref_child nem található, ennek kellene előtte lennie: „%s”."
+
+#: ../gxml/libxml-Document.vala:137
+#, c-format
+msgid "Looking up %s from an xmlNode* is not supported"
+msgstr "A(z) %s kikeresése egy xmlNode*-ból nem támogatott"
+
+#: ../gxml/libxml-Document.vala:311
+#, c-format
+msgid "Could not load document from path: %s"
+msgstr "Nem tölthető be dokumentum az útvonalból: %s"
+
+#: ../gxml/libxml-Entity.vala:129
+msgid "Cloning of Entity not yet supported"
+msgstr "Az entitás klónozása még nem támogatott"
+
+#. TODO: replace usage of this with GXml.get_last_error_msg
+#: ../gxml/libxml-Error.vala:12
+#, c-format
+msgid "%s:%s:%d: %s:%d: %s"
+msgstr "%s:%s:%d: %s:%d: %s"
+
+#: ../gxml/libxml-Node.vala:67
+msgid "Node tried to interact with different document it belongs to"
+msgstr "A csomópont egy a sajátjától különböző dokumentumra próbált hatni"
+
+#: ../gxml/Node.vala:134
+msgid "Text node with NULL string"
+msgstr "Szöveges csomópont NULL karakterlánccal"
+
+#: ../gxml/SerializableEnum.vala:72
+msgid "Value can't be parsed to a valid enumeration's value. Value is not set"
+msgstr ""
+"Az érték nem értelmezhető érvényes felsorolás értékként. Az érték nincs "
+"beállítva"
+
+#: ../gxml/SerializableEnum.vala:75
+msgid "Value can't be parsed to a valid enumeration's value"
+msgstr "Az érték nem értelmezhező érvényes felsorolás értékként"
+
+#: ../gxml/SerializableGeeArrayList.vala:139
+#: ../gxml/SerializableGeeDualKeyMap.vala:224
+#: ../gxml/SerializableGeeHashMap.vala:137
+#: ../gxml/SerializableGeeTreeMap.vala:140
+#, c-format
+msgid "%s: Value type '%s' is unsupported"
+msgstr "%s: A(z) „%s” érték típus nem támogatott"
+
+#: ../gxml/SerializableObjectModel.vala:173
+msgid "Text node with NULL or none text"
+msgstr "Szöveges csomópont NULL vagy üres szöveggel"
+
+#: ../gxml/SerializableObjectModel.vala:297
+#, c-format
+msgid "WARNING: Object type '%s' have no Node Name defined"
+msgstr ""
+"FIGYELMEZTETÉS: A(z) „%s” objektumtípusnak nincs csomópontneve meghatározva"
+
+#: ../gxml/SerializableObjectModel.vala:301
+#, c-format
+msgid "Actual node's name is '%s' expected '%s'"
+msgstr "A jelenlegi csomópont neve: „%s”, az elvárt: „%s”"
+
+#: ../gxml/SerializableProperty.vala:93
+msgid "Trying to serialize to a non GXmlElement!"
+msgstr "Szerializáció kísérlete egy nem GXmlElement-be!"
+
+#: ../gxml/SerializableProperty.vala:112
+msgid "No attribute found to deserialize from"
+msgstr "Nem található attribútum a deszerializációhoz"
+
+#: ../gxml/Serializable.vala:573
+#, c-format
+msgid "Transformation Error on '%s' or Unsupported type: '%s'"
+msgstr "Transzformációs hiba itt: „%s”, vagy nem támogatott típus: „%s”"
+
+#: ../gxml/Serializable.vala:615
+#, c-format
+msgid "Can't transform '%s' to string"
+msgstr "A(z) „%s” nem transzformálható karakterlánccá"
+
+#: ../gxml/Serialization.vala:184
+#, c-format
+msgid "DEBUG: skipping gpointer with name '%s' of object '%s'"
+msgstr "HIBAKÖVETÉS: a(z) „%2$s” objektum, „%1$s” nevű gpointerének kihagyása"
+
+#: ../gxml/Serialization.vala:187
+#, c-format
+msgid "Can't currently serialize type '%s' for property '%s' of object '%s'"
+msgstr ""
+"Jelenleg nem lehet szerializálni a(z) „%1$s” típust a(z) „%3$s” objektum "
+"„%2$s” tulajdonságánál"
+
+#: ../gxml/Serialization.vala:403
+#, c-format
+msgid "Deserializing unknown GType '%s' objects is unsupported"
+msgstr "Az ismeretlen „%s” GType objektumok deszerializációja nem támogatott"
+
+#: ../gxml/Serialization.vala:433
+#, c-format
+msgid "Unknown property '%s' found, for object type '%s'-->XML: [%s]"
+msgstr ""
+"Ismeretlen, „%s” tulajdonság találva, az „%s” objektumtípus --> XML esetén: "
+"[%s]"
