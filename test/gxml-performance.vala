@@ -413,7 +413,7 @@ public class Performance
       try {
         double time;
         Test.timer_start ();
-        var d = new TDocument.for_path (GXmlTest.get_test_dir () + "/test-large.xml");
+        var d = new TDocument.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "TDocument open document from path: %g seconds", time);
         Test.message ("Starting Deserializing...");
@@ -934,12 +934,54 @@ public class Performance
         d.save_as (f);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Created document: %g seconds", time);
-        Test.message ("Starting deserializing document: Disable collection deserialization...");
+        Test.message ("Starting deserializing document: Enable collection deserialization...");
         Test.timer_start ();
         var gd = new GDocument.from_path (GXmlTestConfig.TEST_SAVE_DIR+"/post-des-test-file.xml");
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Opening doc: %g seconds", time);
         Test.message ("Start deseralization of GDocument");
+        Test.timer_start ();
+        var cep = new CElement ();
+        cep.elements.enable_deserialize = true;
+        cep.deserialize (gd);
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "Enable Deserialize Collection. Deserialized from doc: %g seconds", time);
+        Test.message ("Calling deserialize_children()...");
+        Test.timer_start ();
+        cep.elements.deserialize_children ();
+        assert (!cep.elements.deserialize_children ());
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "Enable Deserialize Collection. Deserialized from NODE: %g seconds", time);
+				if (f.query_exists ()) f.delete ();
+      } catch (GLib.Error e) {
+        GLib.message ("ERROR: "+e.message);
+        assert_not_reached ();
+      }
+    });
+    Test.add_func ("/gxml/performance/tdocument/arraylist/post-deserialization/enable",
+    () => {
+      try {
+				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/post-des-test-file.xml");
+				if (f.query_exists ()) f.delete ();
+        double time;
+        Test.message ("Starting generating document...");
+        Test.timer_start ();
+        var d = new TDocument ();
+        var ce = new CElement ();
+        for (int i = 0; i < 30000; i++) {
+          var e = new AElement ();
+          ce.elements.add (e);
+        }
+        ce.serialize (d);
+        d.save_as (f);
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "Created document: %g seconds", time);
+        Test.message ("Starting deserializing document: Enable collection deserialization...");
+        Test.timer_start ();
+        var gd = new TDocument.from_path (GXmlTestConfig.TEST_SAVE_DIR+"/post-des-test-file.xml");
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "Opening doc: %g seconds", time);
+        Test.message ("Start deseralization of TDocument");
         Test.timer_start ();
         var cep = new CElement ();
         cep.elements.enable_deserialize = true;

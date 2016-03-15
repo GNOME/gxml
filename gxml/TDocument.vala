@@ -37,14 +37,19 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
     _name = "#document";
   }
   public TDocument () {}
-  public TDocument.for_path (string path) {
+  public TDocument.from_path (string path) {
     this.file = GLib.File.new_for_path (path);
     if (!file.query_exists ()) return;
     try { read_doc (this, file, null); } catch {}
     
   }
 
-  public TDocument.for_file (GLib.File file) {
+
+  public TDocument.for_uri (string uri) {
+    this.from_file (File.new_for_uri (uri));
+  }
+
+  public TDocument.from_file (GLib.File file) {
     if (!file.query_exists ()) return;
     try { read_doc (this, file, null); } catch {}
     this.file = file;

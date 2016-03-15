@@ -51,7 +51,7 @@ class TDocumentTest : GXmlTest {
 			try {
 				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
 				if (f.query_exists ()) f.delete ();
-				var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
+				var d = new TDocument.from_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
 				var e = d.create_element ("root");
 				d.children.add (e);
 				assert (d.children.size == 1);
@@ -70,7 +70,7 @@ class TDocumentTest : GXmlTest {
 				try {
 					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
 					if (f.query_exists ()) f.delete ();
-					var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
+					var d = new TDocument.from_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
 					var e = d.create_element ("root");
 					d.children.add (e);
 					assert (d.children.size == 1);
@@ -98,7 +98,7 @@ class TDocumentTest : GXmlTest {
 				try {
 					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
 					if (f.query_exists ()) f.delete ();
-					var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
+					var d = new TDocument.from_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
 					var e = d.create_element ("root");
 					d.children.add (e);
 					assert (d.children.size == 1);
@@ -135,7 +135,7 @@ class TDocumentTest : GXmlTest {
 				try {
 					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
 					if (f.query_exists ()) f.delete ();
-					var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
+					var d = new TDocument.from_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
 					var e = d.create_element ("root");
 					d.children.add (e);
 					assert (d.children.size == 1);
@@ -170,7 +170,7 @@ class TDocumentTest : GXmlTest {
 				try {
 					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
 					if (f.query_exists ()) f.delete ();
-					var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
+					var d = new TDocument.from_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
 					var e = d.create_element ("root");
 					d.children.add (e);
 					assert (d.children.size == 1);
@@ -218,7 +218,7 @@ class TDocumentTest : GXmlTest {
 #if DEBUG
 				GLib.message (@"Creating Document...");
 #endif
-				var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-large.xml");
+				var d = new TDocument.from_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-large.xml");
 				var e = d.create_element ("bookstore");
 				d.children.add (e);
 				assert (d.children.size == 1);
@@ -281,7 +281,7 @@ class TDocumentTest : GXmlTest {
 #if DEBUG
 				GLib.message (@"Creating Document...");
 #endif
-				var d = new TDocument.for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-large.xml");
+				var d = new TDocument.from_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-large.xml");
 				var e = d.create_element ("bookstore");
 				d.children.add (e);
 				assert (d.children.size == 1);
@@ -498,7 +498,7 @@ class TDocumentTest : GXmlTest {
 			try {
 				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/t-read-test.xml");
 				assert (f.query_exists ());
-				var d = new TDocument.for_file (f);
+				var d = new TDocument.from_file (f);
 				//GLib.message ("Doc:"+d.to_string ());
 				assert (d.root != null);
 				assert (d.root.name == "Sentences");
@@ -541,7 +541,7 @@ class TDocumentTest : GXmlTest {
 			try {
 				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/t-read-test.xml");
 				assert (f.query_exists ());
-				var d = new TDocument.for_file (f);
+				var d = new TDocument.from_file (f);
 				assert (d.children[0] is GXml.Comment);
 				assert (d.children[0].value == " Top Level Comment ");
 				var a = d.root.children[2];
@@ -557,7 +557,7 @@ class TDocumentTest : GXmlTest {
 			try {
 				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/t-read-test.xml");
 				assert (f.query_exists ());
-				var d = new TDocument.for_file (f);
+				var d = new TDocument.from_file (f);
 				TDocument.read_doc (d, f, null);
 				assert (d.children[1] is GXml.ProcessingInstruction);
 				assert ((d.children[1] as GXml.ProcessingInstruction).target == "target");
@@ -581,7 +581,7 @@ class TDocumentTest : GXmlTest {
 			try {
 				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/t-read-test.xml");
 				assert (f.query_exists ());
-				var d = new TDocument.for_file (f);
+				var d = new TDocument.from_file (f);
 				TDocument.read_doc (d, f, null);
 				assert (d.root.children.size == 6);
 				var p = (d.root.children[5]);
