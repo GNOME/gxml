@@ -591,5 +591,123 @@ class TDocumentTest : GXmlTest {
 				//GLib.message ("Doc:"+d.to_string ());
 			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
 		});
+		Test.add_func ("/gxml/t-document/read/uri", () => {
+			try {
+				var net = GLib.NetworkMonitor.get_default ();
+				if (net.connectivity != GLib.NetworkConnectivity.FULL) return;
+				var rf = GLib.File.new_for_uri ("https://git.gnome.org/browse/gxml/plain/gxml.doap");
+				assert (rf.query_exists ());
+				var d = new TDocument.from_uri (rf.get_uri ());
+				assert (d != null);
+				assert (d.root != null);
+				assert (d.root.name == "Project");
+				bool fname, fshordesc, fdescription, fhomepage;
+				fname = fshordesc = fdescription = fhomepage = false;
+				foreach (GXml.Node n in d.root.children) {
+					if (n.name == "name") fname = true;
+					if (n.name == "shortdesc") fshordesc = true;
+					if (n.name == "description") fdescription = true;
+					if (n.name == "homepage") fhomepage = true;
+				}
+				assert (fname);
+				assert (fshordesc);
+				assert (fdescription);
+				assert (fhomepage);
+				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/xml.doap");
+				d.save_as (f);
+				assert (f.query_exists ());
+				f.delete ();
+			} catch (GLib.Error e) {
+				GLib.message ("Error: "+e.message);
+				assert_not_reached ();
+			}
+		});
+		Test.add_func ("/gxml/t-document/read/stream", () => {
+			try {
+				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/t-read-test.xml");
+				assert (f.query_exists ());
+				var d = new TDocument.from_stream (f.read ());
+				//GLib.message ("Doc:"+d.to_string ());
+				assert (d.root != null);
+				assert (d.root.name == "Sentences");
+				assert (d.root.attrs["audience"] != null);
+				assert (d.root.attrs["audience"].value == "All");
+				assert (d.root.children.size == 6);
+				var s1 = d.root.children[0];
+				assert (s1 != null);
+				assert (s1.name == "Sentence");
+				var p1 = s1.attrs["lang"];
+				assert (p1 != null);
+				assert (p1.value == "en");
+				assert (s1.children.size == 1);
+				assert (s1.children[0] is GXml.Text);
+				assert (s1.children[0].value == "I like the colour blue.");
+				var s2 = d.root.children[1];
+				assert (s2 != null);
+				assert (s2.name == "Sentence");
+				var p2 = s2.attrs["lang"];
+				assert (p2 != null);
+				assert (p2.value == "es");
+				assert (s2.children.size == 1);
+				assert (s2.children[0] is GXml.Text);
+				assert (s2.children[0].value == "Español");
+				var s3  = d.root.children[2];
+				assert (s3 != null);
+				assert (s3.name == "Authors");
+				var p3 = s3.attrs["year"];
+				assert (p3 != null);
+				assert (p3.value == "2016");
+				var p31 = s3.attrs["collection"];
+				assert (p31 != null);
+				assert (p31.value == "Back");
+				assert (s3.children.size == 2);
+				assert (s3.children[0] is GXml.Element);
+				assert (s3.children[0].name == "Author");
+				assert (s3.children[1].name == "Author");
+				var a1 = s3.children[0];
+				assert (a1 != null);
+				assert (a1.name == "Author");
+				assert (a1.children.size == 2);
+				assert (a1.children[0].name == "Name");
+				assert (a1.children[0].children.size == 1);
+				assert (a1.children[0].children[0] is GXml.Text);
+				assert (a1.children[0].children[0].value == "Fred");
+				assert (a1.children[1].name == "Email");
+				assert (a1.children[1].children.size == 1);
+				assert (a1.children[1].children[0] is GXml.Text);
+				assert (a1.children[1].children[0].value == "fweasley@hogwarts.co.uk");
+				var a2 = s3.children[1];
+				assert (a2 != null);
+				assert (a2.children.size == 3);
+				assert (a2.children[1].name == "Name");
+				assert (a2.children[1].children.size == 1);
+				assert (a2.children[1].children[0] is GXml.Text);
+				assert (a2.children[1].children[0].value == "George");
+				assert (a2.children[2].name == "Email");
+				assert (a2.children[2].children.size == 1);
+				assert (a2.children[2].children[0] is GXml.Text);
+				assert (a2.children[2].children[0].value == "gweasley@hogwarts.co.uk");
+			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
+		});
+		Test.add_func ("/gxml/t-document/read/string", () => {
+			try {
+				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/t-read-test.xml");
+				assert (f.query_exists ());
+				var d = new TDocument.from_string ("<root><child v=\"1\">TEXT</child><doc year=\"2016\"><name>COMMUNICATIONS</name></doc></root>");
+				assert (d.root != null);
+				assert (d.root.name == "root");
+				assert (d.root.children[0] != null);
+				assert (d.root.children[0].name == "child");
+				assert (d.root.children[0].children[0] is GXml.Text);
+				assert (d.root.children[0].children[0].value == "TEXT");
+				assert (d.root.children[1] != null);
+				assert (d.root.children[1].name == "doc");
+				assert (d.root.children[1].attrs["year"].value == "2016");
+				assert (d.root.children[1].children[0] != null);
+				assert (d.root.children[1].children[0].name == "name");
+				assert (d.root.children[1].children[0].children[0] is GXml.Text);
+				assert (d.root.children[1].children[0].children[0].value == "COMMUNICATIONS");
+			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
+		});
 	}
 }

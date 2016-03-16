@@ -44,8 +44,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
     
   }
 
-
-  public TDocument.for_uri (string uri) {
+  public TDocument.from_uri (string uri) {
     this.from_file (File.new_for_uri (uri));
   }
 
@@ -55,8 +54,14 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
     this.file = file;
   }
 
-  public TDocument.for_stream (GLib.InputStream stream) {
+  public TDocument.from_stream (GLib.InputStream stream) {
     try { read_doc_stream (this, stream, null); } catch {}
+  }
+
+  public TDocument.from_string (string str) {
+    var minput = new GLib.MemoryInputStream ();
+    minput.add_data ((uint8[]) str.dup (), null);
+    TDocument.from_stream (minput);
   }
 
   // GXml.Node
