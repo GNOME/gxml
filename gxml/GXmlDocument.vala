@@ -70,7 +70,7 @@ public class GXml.GDocument : GXml.GNode, GXml.Document
     var b = new MemoryOutputStream.resizable ();
     b.splice (istream, 0);
     if (b.data == null)
-      throw new DocumentError.INVALID_DOCUMENT_ERROR ("stream doesn't provide data'");
+      throw new DocumentError.INVALID_DOCUMENT_ERROR (_("stream doesn't provide data"));
     this.from_string ((string) b.data);
   }
   public GDocument.from_doc (Xml.Doc doc) { this.doc = doc; }

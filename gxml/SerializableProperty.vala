@@ -112,7 +112,7 @@ public interface GXml.SerializableProperty : Object
       return false;
     }
     if (attr.name == null) {
-      GLib.warning ("XML Attribute name is not set, when deserializing to: "+this.get_type ().name ());
+      GLib.warning (_("XML Attribute name is not set, when deserializing to: %s"), this.get_type ().name ());
       return false;
     }
     string name = "";

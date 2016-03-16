@@ -295,7 +295,7 @@ class GDocumentTest : GXmlTest {
 				assert (d.root.children[1].children[1].children[1].children.size == 1);
 				assert (d.root.children[1].children[1].children[1].children[0] is GXml.Text);
 				assert (d.root.children[1].children[1].children[1].children[0].value == "status_only");
-			} catch { assert_not_reached (); }
+			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
 		});
 		Test.add_func ("/gxml/gdocument/libxml_to_string", () => {
 			try {

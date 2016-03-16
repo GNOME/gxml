@@ -146,7 +146,8 @@ CLEANFILES = \
 DISTCLEANFILES = \
   _serialization_test_*.xml \
   test-large-tw.xml \
-  tw-test.xml
+  tw-test.xml \
+  t-test.xml
 
 EXTRA_DIST += \
 	$(sources) \
@@ -159,5 +160,6 @@ EXTRA_DIST += \
 	test-collection.xml \
 	index.html \
 	t-read-test.xml \
+	gdocument-read.xml \
 	$(NULL)
 
