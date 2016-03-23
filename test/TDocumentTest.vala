@@ -409,10 +409,11 @@ class TDocumentTest : GXmlTest {
 					Test.message ("ROOT: "+doc.to_string ());
 					string[] str = doc.to_string ().split("\n");
 					assert (str[1] == "<root xmlns:gxml=\"http://www.gnome.org/GXml\"><gxml2:child xmlns:gxml2=\"http://www.gnome.org/GXml2\"/></root>");
+					assert (doc.namespaces[0].prefix == "gxml");
 					(c as Element).set_ns_attr (doc.namespaces[0], "prop", "Ten");
 					Test.message ("ROOT: "+doc.root.to_string ());
 					assert (c.attrs.size == 1);
-					var pt = c.attrs.get ("prop");
+					var pt = c.attrs.get ("gxml:prop");
 					assert (pt != null);
 					var pt2 = (c as Element).get_ns_attr ("prop", doc.namespaces[0].uri);
 					str = doc.to_string ().split("\n");
@@ -529,7 +530,7 @@ class TDocumentTest : GXmlTest {
 				assert (b.namespaces.size == 1);
 				assert (b.namespaces[0].prefix == "b");
 				assert (b.namespaces[0].uri == "http://book.org/schema");
-				var bp = b.attrs["name"];
+				var bp = b.attrs["gxml:name"];
 				assert (bp != null);
 				assert (bp.name == "name");
 				assert (bp.namespaces.size == 1);
@@ -698,6 +699,29 @@ class TDocumentTest : GXmlTest {
 				assert (d.root.name == "root");
 				assert (d.root.children[0] != null);
 				assert (d.root.children[0].name == "child");
+				assert (d.root.children[0].children[0] is GXml.Text);
+				assert (d.root.children[0].children[0].value == "TEXT");
+				assert (d.root.children[1] != null);
+				assert (d.root.children[1].name == "doc");
+				assert (d.root.children[1].attrs["year"].value == "2016");
+				assert (d.root.children[1].children[0] != null);
+				assert (d.root.children[1].children[0].name == "name");
+				assert (d.root.children[1].children[0].children[0] is GXml.Text);
+				assert (d.root.children[1].children[0].children[0].value == "COMMUNICATIONS");
+			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
+		});
+		Test.add_func ("/gxml/t-document/read/string/attrs", () => {
+			try {
+				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/t-read-test.xml");
+				assert (f.query_exists ());
+				var d = new TDocument.from_string ("<root xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><child v=\"1\" xsi:v=\"VType\">TEXT</child><doc year=\"2016\"><name>COMMUNICATIONS</name></doc></root>");
+				assert (d.root != null);
+				assert (d.root.name == "root");
+				assert (d.root.children[0] != null);
+				assert (d.root.children[0].name == "child");
+				GLib.message ("child attri: "+(d.root.children[0].attrs.size).to_string ());
+				assert (d.root.children[0].attrs.size == 2);
+				assert (d.root.children[0].attrs["v"] != null);
 				assert (d.root.children[0].children[0] is GXml.Text);
 				assert (d.root.children[0].children[0].value == "TEXT");
 				assert (d.root.children[1] != null);

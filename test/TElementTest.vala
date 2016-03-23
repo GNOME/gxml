@@ -528,7 +528,7 @@ class TElementTest : GXmlTest {
 			assert ("</gxml:child>" in str);
 			} catch { assert_not_reached (); }
 		});
-		Test.add_func ("/gxml/t-element/attr-namespace", () => {
+		Test.add_func ("/gxml/t-element/attr-namespace/default", () => {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
@@ -553,6 +553,35 @@ class TElementTest : GXmlTest {
 			assert ("<root xmlns:gxml=\"http://git.gnome.org/browse/gxml\">" in str);
 			assert ("<child gxml:at=\"val\"/>" in str);
 			assert ("</root>" in str);
+			} catch { assert_not_reached (); }
+		});
+		Test.add_func ("/gxml/t-element/attr-namespace/same-name", () => {
+			try {
+			var d = new TDocument ();
+			var r = d.create_element ("root");
+			d.children.add (r);
+			// Default NS
+			r.set_namespace ("http://git.gnome.org/browse/gxml", "gxml");
+			var ns = new TNamespace (d, "http://books.net", "book");
+			r.set_namespace (ns.uri, ns.prefix);
+			var c = d.create_element ("child") as Element;
+			r.children.add (c);
+			c.set_attr ("source","http://books.net/sources/1");
+			assert (c.attrs.size == 1);
+			c.set_ns_attr (ns, "source", "The History 2");
+			assert (c.attrs.size == 2);
+			var nsa = c.get_ns_attr ("source", "http://books.net");
+			assert (nsa != null);
+			assert (nsa.value == "The History 2");
+			var nsat = c.attrs.get ("book:source");
+			assert (nsat != null);
+			assert (nsat.value == "The History 2");
+			var a = c.attrs.get ("source");
+			assert (a != null);
+			assert (a.value == "http://books.net/sources/1");
+//#if DEBUG
+			GLib.message (@"$d");
+//#endif
 			} catch { assert_not_reached (); }
 		});
 		Test.add_func ("/gxml/t-element/parent", () => {

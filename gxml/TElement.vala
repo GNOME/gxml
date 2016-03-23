@@ -84,7 +84,7 @@ public class GXml.TElement : GXml.TNode, GXml.Element
     var att = new TAttribute (document, name, value);
     att.set_namespace (ns.uri, ns.prefix);
     att.set_parent (this);
-    attrs.set (name, att);
+    attrs.set (ns.prefix+":"+name, att);
   }
   public void remove_attr (string name) {
     if (attrs.has_key (name)) attrs.unset (name);

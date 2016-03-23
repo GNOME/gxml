@@ -1,4 +1,10 @@
 ===============
+Version 0.9.91
+===============
+
+* New TDocument.from_stream(), .from_string and .from_uri() methods
+
+===============
 Version 0.9.90
 ===============
 
