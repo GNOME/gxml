@@ -1,25 +1,21 @@
 ===============
-Version 0.9.91
-===============
-
-* New TDocument.from_stream(), .from_string and .from_uri() methods
-
-===============
 Version 0.9.90
 ===============
 
+* New TDocument.from_stream(), .from_string and .from_uri() methods
 * API change TwNode and derived classes renamed to TNode
 * Added parse capabilities to TDocument
 * Improved performance tests, pointing: GDocument has better memory usage and
-  better performance than xDocument; TDocument has better performance than
-  GDocument but more memory usage than GDocument.
+  better performance than xDocument; TDocument has better performance but more
+  memory usage than GDocument.
 * Bug fixes
 * New and updated translations:
-    Updated Czech      by Marek Černocký <marek@manet.cz>
-    Added Hungarian    by Matej Urbančič <mateju@svn.gnome.org>
-    Added Slovenian    by Matej Urbančič <mateju@svn.gnome.org>
-    Added Greek        by Γιάννης Κουτσούκος <giankoyt@gmail.com>
-    
+    Added Hungarian              by Matej Urbančič <mateju@svn.gnome.org>
+    Added Slovenian              by Matej Urbančič <mateju@svn.gnome.org>
+    Added Greek                  by Γιάννης Κουτσούκος <giankoyt@gmail.com>
+    Added Swedish                by Anders Jonsson <anders.jonsson@norsjovallen.se>
+    Updated Czech                by Marek Černocký <marek@manet.cz>
+    Updated Brazilian Portuguese by Rafael Fontenelle <rafaelff@gnome.org>
 
 
 ===============
