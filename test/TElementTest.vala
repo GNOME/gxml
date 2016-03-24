@@ -613,5 +613,49 @@ class TElementTest : GXmlTest {
 			assert (doc.root.attrs["attr"].parent != null);
 			assert (doc.root.attrs["attr"].parent.name == "root");
 		});
+		Test.add_func ("/gxml/t-element/readtype", () => {
+			try {
+				var file = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/t-read-test.xml");
+				assert (file.query_exists ());
+				var d = new TDocument ();
+				TDocument.read_doc (d, file, null);
+				assert (d.root != null);
+				assert (d.root.children.size == 7);
+				var n = d.root.children[6];
+				assert (n != null);
+				assert (n.name == "ReadTop");
+				assert (n.children.size == 9);
+				var nc = n.children[3];
+				assert (nc != null);
+				assert (nc.name == "Read");
+				assert (nc.children.size == 2);
+				// Remove all
+				GLib.message ("Skiping nodes");
+				TDocument.ReadTypeFunc f1 = (node, tr)=>{
+					GLib.message ("ReadType check node: "+node.name);
+					if (node.name == "NoRead" || node.name == "NoReadChild") {
+						GLib.message ("Skiping node: "+node.name);
+						return TDocument.ReadType.NEXT;
+					}
+					return TDocument.ReadType.CONTINUE;
+				};
+				var d2 = new TDocument ();
+				TDocument.read_doc (d2, file, f1);
+				assert (d2.root != null);
+				assert (d2.root.children.size == 7);
+				var n2 = d2.root.children[6];
+				assert (n2 != null);
+				assert (n2.name == "ReadTop");
+				assert (n2.children.size == 4);
+				GLib.message (@"$d2");
+				var nc2 = n2.children[2];
+				assert (nc2 != null);
+				assert (nc2.name == "Read");
+				assert (nc2.children.size == 1);
+			} catch (GLib.Error e) {
+				GLib.message ("Error: "+e.message);
+				assert_not_reached ();
+			}
+		});
 	}
 }

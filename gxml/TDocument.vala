@@ -450,7 +450,6 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
     b.splice (istream, 0);
     var tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), "/memory");
     GXml.Node current = null;
-    ReadType rt = ReadType.CONTINUE;
     while (read_node (doc, tr, rtfunc) == ReadType.CONTINUE);
   }
   /**
@@ -487,7 +486,12 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
       GLib.message ("ReadNode: Element: "+tr.const_local_name ());
 #endif
       n = node.document.create_element (tr.const_local_name ());
-      node.children.add (n);
+      ReadType nrt = ReadType.CONTINUE;
+      if (rntfunc != null) nrt = rntfunc (n, tr);
+      if (nrt == ReadType.NEXT)
+        tr.next ();
+      if (nrt == ReadType.CONTINUE)
+        node.children.add (n);
 #if DEBUG
       GLib.message ("ReadNode: next node:"+n.to_string ());
       GLib.message ("ReadNode: next node attributes:"+(tr.has_attributes ()).to_string ());

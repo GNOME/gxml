@@ -438,7 +438,7 @@ class TDocumentTest : GXmlTest {
 				assert (d.root.name == "Sentences");
 				assert (d.root.attrs["audience"] != null);
 				assert (d.root.attrs["audience"].value == "All");
-				assert (d.root.children.size == 6);
+				assert (d.root.children.size == 7);
 				var s1 = d.root.children[0];
 				assert (s1 != null);
 				assert (s1.name == "Sentence");
@@ -569,7 +569,7 @@ class TDocumentTest : GXmlTest {
 					GLib.message ("Node name:"+n.name);
 				}
 #endif
-				assert (d.root.children.size == 6);
+				assert (d.root.children.size == 7);
 				var p = (d.root.children[4]);
 				assert (p != null);
 				assert (p is GXml.ProcessingInstruction);
@@ -584,7 +584,7 @@ class TDocumentTest : GXmlTest {
 				assert (f.query_exists ());
 				var d = new TDocument.from_file (f);
 				TDocument.read_doc (d, f, null);
-				assert (d.root.children.size == 6);
+				assert (d.root.children.size == 7);
 				var p = (d.root.children[5]);
 				assert (p != null);
 				assert (p is GXml.CDATA);
@@ -633,7 +633,7 @@ class TDocumentTest : GXmlTest {
 				assert (d.root.name == "Sentences");
 				assert (d.root.attrs["audience"] != null);
 				assert (d.root.attrs["audience"].value == "All");
-				assert (d.root.children.size == 6);
+				assert (d.root.children.size == 7);
 				var s1 = d.root.children[0];
 				assert (s1 != null);
 				assert (s1.name == "Sentence");

@@ -21,4 +21,18 @@
   <b:Book gxml:name="Thor"/>
   <?css href="http://www.gnome.org"?>
   <![CDATA[<greeting>Hello, world!</greeting>]]>
+  <ReadTop>
+    <Read/>
+    <NoRead/>
+    <Read/>
+    <Read>
+      <ReadChild/>
+      <NoReadChild/>
+    </Read>
+    <NoRead/>
+    <NoRead/>
+    <NoRead/>
+    <NoRead/>
+    <Read/>
+  </ReadTop>
 </Sentences>
