@@ -429,8 +429,10 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
   /**
    * Delegate function to control parsing of XML documents. Return {@link ReadType.NEXT}
    * to skip all children nodes of current {@link GXml.Node}; {@link ReadType.CONTINUE}
-   * to parse next child or node on reading; and {@link ReadType.STOP} to finish
-   * parsing.
+   * or {@link ReadType.STOP} to parse next child or node on reading.
+   *
+   * While you get the current {@link Xml.TextReader} used in parsing, you can control
+   * next action to take depending on current node.
    */
   public delegate ReadType ReadTypeFunc (GXml.Node node, TextReader tr);
   /**

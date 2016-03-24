@@ -579,9 +579,7 @@ class TElementTest : GXmlTest {
 			var a = c.attrs.get ("source");
 			assert (a != null);
 			assert (a.value == "http://books.net/sources/1");
-//#if DEBUG
-			GLib.message (@"$d");
-//#endif
+			Test.message (@"$d");
 			} catch { assert_not_reached (); }
 		});
 		Test.add_func ("/gxml/t-element/parent", () => {
@@ -630,11 +628,11 @@ class TElementTest : GXmlTest {
 				assert (nc.name == "Read");
 				assert (nc.children.size == 2);
 				// Remove all
-				GLib.message ("Skiping nodes");
+				Test.message ("Skiping nodes");
 				TDocument.ReadTypeFunc f1 = (node, tr)=>{
-					GLib.message ("ReadType check node: "+node.name);
+					Test.message ("ReadType check node: "+node.name);
 					if (node.name == "NoRead" || node.name == "NoReadChild") {
-						GLib.message ("Skiping node: "+node.name);
+						Test.message ("Skiping node: "+node.name);
 						return TDocument.ReadType.NEXT;
 					}
 					return TDocument.ReadType.CONTINUE;
@@ -647,11 +645,34 @@ class TElementTest : GXmlTest {
 				assert (n2 != null);
 				assert (n2.name == "ReadTop");
 				assert (n2.children.size == 4);
-				GLib.message (@"$d2");
+				Test.message (@"$d2");
 				var nc2 = n2.children[2];
 				assert (nc2 != null);
 				assert (nc2.name == "Read");
 				assert (nc2.children.size == 1);
+				// Checking ReadType.STOP effect
+				Test.message ("Skiping nodes using ReadType.STOP");
+				TDocument.ReadTypeFunc f2 = (node, tr)=>{
+					Test.message ("ReadType check node: "+node.name);
+					if (node.name == "NoRead" || node.name == "NoReadChild") {
+						Test.message ("Skiping node: "+node.name);
+						return TDocument.ReadType.STOP;
+					}
+					return TDocument.ReadType.CONTINUE;
+				};
+				var d3 = new TDocument ();
+				TDocument.read_doc (d3, file, f2);
+				Test.message (@"$d3");
+				assert (d3.root != null);
+				assert (d3.root.children.size == 7);
+				var n3 = d3.root.children[6];
+				assert (n3 != null);
+				assert (n3.name == "ReadTop");
+				assert (n3.children.size == 4);
+				var nc3 = n3.children[2];
+				assert (nc3 != null);
+				assert (nc3.name == "Read");
+				assert (nc3.children.size == 1);
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+e.message);
 				assert_not_reached ();

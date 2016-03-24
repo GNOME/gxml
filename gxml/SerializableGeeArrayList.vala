@@ -62,7 +62,7 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
     }
     if (_node is Element) {
 #if DEBUG
-            GLib.message (@"Deserializing ArrayList on Element: $(node.name)");
+            GLib.message (@"Deserializing ArrayList on Element: $(_node.name)");
 #endif
       foreach (GXml.Node n in _node.children) {
         deserialize_node (n);
