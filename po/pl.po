@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-06 17:53+0100\n"
-"PO-Revision-Date: 2016-02-06 17:54+0100\n"
+"POT-Creation-Date: 2016-03-24 02:32+0100\n"
+"PO-Revision-Date: 2016-03-24 02:33+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -35,22 +35,26 @@ msgstr "wartość jest nieprawidłowa"
 msgid "text can not been parsed to enumeration type:"
 msgstr "tekst nie może zostać przetworzony na typ wyliczenia:"
 
-#: ../gxml/GXmlDocument.vala:49
+#: ../gxml/GXmlDocument.vala:49 ../gxml/TDocument.vala:442
 msgid "File doesn't exists"
 msgstr "Plik nie istnieje"
 
-#: ../gxml/libxml-ChildNodeList.vala:149
+#: ../gxml/GXmlDocument.vala:73
+msgid "stream doesn't provide data"
+msgstr "potok nie dostarcza danych"
+
+#: ../gxml/libxml-ChildNodeList.vala:148
 #, c-format
 msgid "ref_child '%s' not found, was supposed to have '%s' inserted before it."
 msgstr ""
 "nie odnaleziono ref_child „%s”, powinno posiadać wstawione „%s” przed sobą."
 
-#: ../gxml/libxml-Document.vala:137
+#: ../gxml/libxml-Document.vala:127
 #, c-format
 msgid "Looking up %s from an xmlNode* is not supported"
 msgstr "Wyszukiwanie %s z „xmlNode*” nie jest obsługiwane"
 
-#: ../gxml/libxml-Document.vala:311
+#: ../gxml/libxml-Document.vala:302
 #, c-format
 msgid "Could not load document from path: %s"
 msgstr "Nie można wczytać dokumentu ze ścieżki: %s"
@@ -83,67 +87,57 @@ msgstr ""
 msgid "Value can't be parsed to a valid enumeration's value"
 msgstr "Nie można przetworzyć wartości na prawidłową wartość wyliczenia"
 
-#: ../gxml/SerializableGeeArrayList.vala:139
-#: ../gxml/SerializableGeeDualKeyMap.vala:224
-#: ../gxml/SerializableGeeHashMap.vala:137
-#: ../gxml/SerializableGeeTreeMap.vala:140
+#: ../gxml/SerializableGeeArrayList.vala:41
+#: ../gxml/SerializableGeeArrayList.vala:60
+#: ../gxml/SerializableGeeDualKeyMap.vala:43
+#: ../gxml/SerializableGeeDualKeyMap.vala:64
+#: ../gxml/SerializableGeeHashMap.vala:40
+#: ../gxml/SerializableGeeHashMap.vala:61
+#: ../gxml/SerializableGeeTreeMap.vala:40
+#: ../gxml/SerializableGeeTreeMap.vala:61
 #, c-format
 msgid "%s: Value type '%s' is unsupported"
 msgstr "%s: typ wartości „%s” jest nieobsługiwany"
 
-#: ../gxml/SerializableObjectModel.vala:173
-msgid "Text node with NULL or none text"
-msgstr "Węzeł tekstowy z NULL lub brakiem tekstu"
-
-#: ../gxml/SerializableObjectModel.vala:297
+#: ../gxml/SerializableObjectModel.vala:322
 #, c-format
 msgid "WARNING: Object type '%s' have no Node Name defined"
 msgstr "OSTRZEŻENIE: typ obiektu „%s” nie posiada określonej nazwy węzła"
 
-#: ../gxml/SerializableObjectModel.vala:301
+#: ../gxml/SerializableObjectModel.vala:326
 #, c-format
 msgid "Actual node's name is '%s' expected '%s'"
 msgstr "Właściwa nazwa węzła to „%s”, oczekiwano „%s”"
 
-#: ../gxml/SerializableProperty.vala:93
+#: ../gxml/SerializableProperty.vala:91
 msgid "Trying to serialize to a non GXmlElement!"
 msgstr "Próbowanie uszeregowania do elementu niebędącego „GXmlElement”."
 
-#: ../gxml/SerializableProperty.vala:112
+#: ../gxml/SerializableProperty.vala:110
 msgid "No attribute found to deserialize from"
 msgstr "Nie odnaleziono atrybutu, z którego deszeregować"
 
-#: ../gxml/Serializable.vala:573
+#: ../gxml/SerializableProperty.vala:115
+#, c-format
+msgid "XML Attribute name is not set, when deserializing to: %s"
+msgstr "Nie ustawiono nazwy atrybutu XML podczas deszeregowania do: %s"
+
+#: ../gxml/Serializable.vala:439
 #, c-format
 msgid "Transformation Error on '%s' or Unsupported type: '%s'"
 msgstr "Błąd przekształcania na „%s” lub nieobsługiwany typ: „%s”"
 
-#: ../gxml/Serializable.vala:615
+#: ../gxml/Serializable.vala:460
 #, c-format
 msgid "Can't transform '%s' to string"
 msgstr "Nie można przekształcić „%s” na ciąg"
 
-#: ../gxml/Serialization.vala:184
-#, c-format
-msgid "DEBUG: skipping gpointer with name '%s' of object '%s'"
-msgstr "DEBUGOWANIE: pomijanie „gpointer” o nazwie „%s” obiektu „%s”"
-
-#: ../gxml/Serialization.vala:187
-#, c-format
-msgid "Can't currently serialize type '%s' for property '%s' of object '%s'"
+#: ../gxml/TDocument.vala:121
+msgid "Document have more than one root GXmlElement. Using first found"
 msgstr ""
-"Nie można obecnie uszeregować typu „%s” dla właściwości „%s” obiektu „%s”"
+"Dokument posiada więcej niż jeden główny GXmlElement. Używanie odnalezionego "
+"najpierw"
 
-#: ../gxml/Serialization.vala:403
-#, c-format
-msgid "Deserializing unknown GType '%s' objects is unsupported"
-msgstr "Deszeregowanie obiektów nieznanego Gtype „%s” jest nieobsługiwane"
-
-#: ../gxml/Serialization.vala:433
-#, c-format
-msgid "Unknown property '%s' found, for object type '%s'-->XML: [%s]"
-msgstr "Odnaleziono nieznaną właściwość „%s” dla typu obiektu „%s”-->XML: [%s]"
-
-#: ../gxml/TwDocument.vala:103
+#: ../gxml/TDocument.vala:140
 msgid "Invalid element name"
 msgstr "Nieprawidłowa nazwa elementu"
