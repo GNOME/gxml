@@ -6,7 +6,8 @@ Version 0.9.92
 * New contructor methods for TDocument using custome ReadTypeFunc
 * Bug fixes
 * New and updated translations:
-    Updated Polish by Piotr Drąg <piotrdrag@gmail.com>
+    Updated Polish      by Piotr Drąg <piotrdrag@gmail.com>
+    Updated Serbian     by Мирослав Николић <miroslavnikolic@rocketmail.com>
 
 ==========================
 Version 0.9.90 and 0.9.91
