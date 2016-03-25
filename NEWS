@@ -1,6 +1,16 @@
+
 ===============
-Version 0.9.90
+Version 0.9.92
 ===============
+
+* New contructor methods for TDocument using custome ReadTypeFunc
+* Bug fixes
+* New and updated translations:
+    Updated Polish by Piotr Drąg <piotrdrag@gmail.com>
+
+==========================
+Version 0.9.90 and 0.9.91
+==========================
 
 * New TDocument.from_stream(), .from_string and .from_uri() methods
 * API change TwNode and derived classes renamed to TNode

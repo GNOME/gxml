@@ -733,5 +733,107 @@ class TDocumentTest : GXmlTest {
 				assert (d.root.children[1].children[0].children[0].value == "COMMUNICATIONS");
 			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
 		});
+		Test.add_func ("/gxml/t-document/readtype", () => {
+			try {
+				var file = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/t-read-test.xml");
+				assert (file.query_exists ());
+				var d = new TDocument.from_file (file);
+				assert (d.root != null);
+				assert (d.root.children.size == 7);
+				var n = d.root.children[6];
+				assert (n != null);
+				assert (n.name == "ReadTop");
+				assert (n.children.size == 9);
+				var nc = n.children[3];
+				assert (nc != null);
+				assert (nc.name == "Read");
+				assert (nc.children.size == 2);
+				GLib.message ("from file");
+				// Remove all
+				TDocument.ReadTypeFunc f1 = (node, tr)=>{
+					Test.message ("ReadType check node: "+node.name);
+					if (node.name == "NoRead" || node.name == "NoReadChild") {
+						Test.message ("Skiping node: "+node.name);
+						return TDocument.ReadType.NEXT;
+					}
+					return TDocument.ReadType.CONTINUE;
+				};
+				var d2 = new TDocument.from_file_with_readtype_func (file, f1);
+				TDocument.read_doc (d2, file, f1);
+				assert (d2.root != null);
+				assert (d2.root.children.size == 7);
+				var n2 = d2.root.children[6];
+				assert (n2 != null);
+				assert (n2.name == "ReadTop");
+				assert (n2.children.size == 4);
+				Test.message (@"$d2");
+				var nc2 = n2.children[2];
+				assert (nc2 != null);
+				assert (nc2.name == "Read");
+				assert (nc2.children.size == 1);
+				// Checking ReadType.STOP effect
+				GLib.message ("from path");
+				TDocument.ReadTypeFunc f2 = (node, tr)=>{
+					Test.message ("ReadType check node: "+node.name);
+					if (node.name == "NoRead" || node.name == "NoReadChild") {
+						Test.message ("Skiping node: "+node.name);
+						return TDocument.ReadType.STOP;
+					}
+					return TDocument.ReadType.CONTINUE;
+				};
+				var d3 = new TDocument.from_path_with_readtype_func (file.get_path (), f2);
+				Test.message (@"$d3");
+				assert (d3.root != null);
+				assert (d3.root.children.size == 7);
+				var n3 = d3.root.children[6];
+				assert (n3 != null);
+				assert (n3.name == "ReadTop");
+				assert (n3.children.size == 4);
+				var nc3 = n3.children[2];
+				assert (nc3 != null);
+				assert (nc3.name == "Read");
+				assert (nc3.children.size == 1);
+				// From URI
+				GLib.message ("from uri");
+				var d4 = new TDocument.from_uri_with_readtype_func (file.get_uri (), f2);
+				Test.message (@"$d3");
+				assert (d4.root != null);
+				assert (d4.root.children.size == 7);
+				var n4 = d4.root.children[6];
+				assert (n4 != null);
+				assert (n4.name == "ReadTop");
+				assert (n4.children.size == 4);
+				var nc4 = n4.children[2];
+				assert (nc4 != null);
+				assert (nc4.name == "Read");
+				assert (nc4.children.size == 1);
+				// From Stream
+				GLib.message ("from stream");
+				var file2 = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/t-read-test.xml");
+				var d5 = new TDocument.from_stream_with_readtype_func (file2.read (), f1);
+				assert (d5.root != null);
+				assert (d5.root.children.size == 7);
+				var n5 = d5.root.children[6];
+				assert (n5 != null);
+				assert (n5.name == "ReadTop");
+				assert (n5.children.size == 4);
+				Test.message (@"$d2");
+				var nc5 = n5.children[2];
+				assert (nc5 != null);
+				assert (nc5.name == "Read");
+				assert (nc5.children.size == 1);
+				// From string
+				GLib.message ("from string");
+				var d6 = new TDocument.from_string_with_readtype_func ("<root><Read/><NoRead/><NoRead/><Read/><NoRead/></root>", f1);
+				assert (d6.root != null);
+				assert (d6.root.children.size == 2);
+				var n6 = d6.root.children[1];
+				assert (n6 != null);
+				assert (n6.name == "Read");
+			} catch (GLib.Error e) {
+				GLib.message ("Error: "+e.message);
+				assert_not_reached ();
+			}
+		});
 	}
 }

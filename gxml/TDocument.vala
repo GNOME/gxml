@@ -32,10 +32,13 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
 {
   protected Gee.ArrayList<GXml.Node> _namespaces;
   protected Gee.ArrayList<GXml.Node> _children;
-  GXml.Element _root = null;
+  private GXml.Element _root = null;
+  private ReadTypeFunc _readtype_func = null;
+
   construct {
     _name = "#document";
   }
+
   public TDocument () {}
   public TDocument.from_path (string path) {
     this.file = GLib.File.new_for_path (path);
@@ -62,6 +65,34 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
     var minput = new GLib.MemoryInputStream ();
     minput.add_data ((uint8[]) str.dup (), null);
     TDocument.from_stream (minput);
+  }
+
+  
+  public TDocument.from_path_with_readtype_func (string path, ReadTypeFunc func) {
+    this.file = GLib.File.new_for_path (path);
+    if (!file.query_exists ()) return;
+    try { read_doc (this, file, func); } catch {}
+    
+  }
+
+  public TDocument.from_uri_with_readtype_func (string uri, ReadTypeFunc func) {
+    this.from_file_with_readtype_func (File.new_for_uri (uri), func);
+  }
+
+  public TDocument.from_file_with_readtype_func (GLib.File file, ReadTypeFunc func) {
+    if (!file.query_exists ()) return;
+    try { read_doc (this, file, func); } catch {}
+    this.file = file;
+  }
+
+  public TDocument.from_stream_with_readtype_func (GLib.InputStream stream, ReadTypeFunc func) {
+    try { read_doc_stream (this, stream, func); } catch {}
+  }
+
+  public TDocument.from_string_with_readtype_func (string str, ReadTypeFunc func) {
+    var minput = new GLib.MemoryInputStream ();
+    minput.add_data ((uint8[]) str.dup (), null);
+    TDocument.from_stream_with_readtype_func (minput, func);
   }
 
   // GXml.Node
@@ -450,6 +481,9 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
   public static void read_doc_stream (GXml.Document doc, GLib.InputStream istream, ReadTypeFunc? rtfunc = null) {
     var b = new MemoryOutputStream.resizable ();
     b.splice (istream, 0);
+#if DEBUG
+    GLib.message ("FILE:"+(string)b.data);
+#endif
     var tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), "/memory");
     GXml.Node current = null;
     while (read_node (doc, tr, rtfunc) == ReadType.CONTINUE);
