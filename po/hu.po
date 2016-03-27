@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-03-12 12:46+0000\n"
-"PO-Revision-Date: 2016-03-12 15:44+0100\n"
+"POT-Creation-Date: 2016-03-27 01:08+0000\n"
+"PO-Revision-Date: 2016-03-27 12:17+0200\n"
 "Last-Translator: Úr Balázs <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <gnome-hu-list@gnome.org>\n"
 "Language: hu\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 1.8.7\n"
 
 #: ../gxml/Document.vala:148
 msgid "Invalid file"
@@ -32,9 +32,13 @@ msgstr "az érték érvénytelen"
 msgid "text can not been parsed to enumeration type:"
 msgstr "a szöveg nem értelmezhető felsorolás típusként:"
 
-#: ../gxml/GXmlDocument.vala:49 ../gxml/TDocument.vala:420
+#: ../gxml/GXmlDocument.vala:49 ../gxml/TDocument.vala:475
 msgid "File doesn't exists"
 msgstr "A fájl nem létezik"
+
+#: ../gxml/GXmlDocument.vala:73
+msgid "stream doesn't provide data"
+msgstr "az adatfolyam nem szolgáltat adatokat"
 
 #: ../gxml/libxml-ChildNodeList.vala:148
 #, c-format
@@ -110,6 +114,12 @@ msgstr "Szerializáció kísérlete egy nem GXmlElement elembe!"
 msgid "No attribute found to deserialize from"
 msgstr "Nem található attribútum a deszerializációhoz"
 
+#: ../gxml/SerializableProperty.vala:115
+#, c-format
+msgid "XML Attribute name is not set, when deserializing to: %s"
+msgstr ""
+"Az XML attribútum neve nincs beállítva az ide történő deszerializációkor: %s"
+
 #: ../gxml/Serializable.vala:439
 #, c-format
 msgid "Transformation Error on '%s' or Unsupported type: '%s'"
@@ -120,6 +130,11 @@ msgstr "Átalakítási hiba itt: „%s”, vagy nem támogatott típus: „%s”
 msgid "Can't transform '%s' to string"
 msgstr "A(z) „%s” nem alakítható át karakterlánccá"
 
-#: ../gxml/TDocument.vala:118
+#: ../gxml/TDocument.vala:152
+msgid "Document have more than one root GXmlElement. Using first found"
+msgstr ""
+"A dokumentum több gyökér GXmlElementet is tartalmaz. Az első használata"
+
+#: ../gxml/TDocument.vala:171
 msgid "Invalid element name"
 msgstr "Érvénytelen elemnév"
