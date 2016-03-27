@@ -749,7 +749,7 @@ class TDocumentTest : GXmlTest {
 				assert (nc.name == "Read");
 				assert (nc.children.size == 2);
 				GLib.message ("from file");
-				// Remove all
+				// Remove all unwanted
 				TDocument.ReadTypeFunc f1 = (node, tr)=>{
 					Test.message ("ReadType check node: "+node.name);
 					if (node.name == "NoRead" || node.name == "NoReadChild") {
@@ -772,10 +772,10 @@ class TDocumentTest : GXmlTest {
 				assert (nc2.name == "Read");
 				assert (nc2.children.size == 1);
 				// Checking ReadType.STOP effect
-				GLib.message ("from path");
+				Test.message ("from path");
 				TDocument.ReadTypeFunc f2 = (node, tr)=>{
 					Test.message ("ReadType check node: "+node.name);
-					if (node.name == "NoRead" || node.name == "NoReadChild") {
+					if (node.name == "NoReadChild") {
 						Test.message ("Skiping node: "+node.name);
 						return TDocument.ReadType.STOP;
 					}
@@ -789,7 +789,7 @@ class TDocumentTest : GXmlTest {
 				assert (n3 != null);
 				assert (n3.name == "ReadTop");
 				assert (n3.children.size == 4);
-				var nc3 = n3.children[2];
+				var nc3 = n3.children[3];
 				assert (nc3 != null);
 				assert (nc3.name == "Read");
 				assert (nc3.children.size == 1);
@@ -803,7 +803,7 @@ class TDocumentTest : GXmlTest {
 				assert (n4 != null);
 				assert (n4.name == "ReadTop");
 				assert (n4.children.size == 4);
-				var nc4 = n4.children[2];
+				var nc4 = n4.children[3];
 				assert (nc4 != null);
 				assert (nc4.name == "Read");
 				assert (nc4.children.size == 1);

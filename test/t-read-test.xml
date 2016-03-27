@@ -23,7 +23,9 @@
   <![CDATA[<greeting>Hello, world!</greeting>]]>
   <ReadTop>
     <Read/>
-    <NoRead/>
+    <NoRead>
+      <Child />
+    </NoRead>
     <Read/>
     <Read>
       <ReadChild/>

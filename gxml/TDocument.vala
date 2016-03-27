@@ -460,7 +460,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
   /**
    * Delegate function to control parsing of XML documents. Return {@link ReadType.NEXT}
    * to skip all children nodes of current {@link GXml.Node}; {@link ReadType.CONTINUE}
-   * or {@link ReadType.STOP} to parse next child or node on reading.
+   * continue parsing nodes or {@link ReadType.STOP} to stop reading.
    *
    * While you get the current {@link Xml.TextReader} used in parsing, you can control
    * next action to take depending on current node.
@@ -484,7 +484,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
 #if DEBUG
     GLib.message ("FILE:"+(string)b.data);
 #endif
-    var tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), "/memory");
+    var tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), "/gxml_memory");
     GXml.Node current = null;
     while (read_node (doc, tr, rtfunc) == ReadType.CONTINUE);
   }
@@ -524,10 +524,27 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
       n = node.document.create_element (tr.const_local_name ());
       ReadType nrt = ReadType.CONTINUE;
       if (rntfunc != null) nrt = rntfunc (n, tr);
-      if (nrt == ReadType.NEXT)
-        tr.next ();
-      if (nrt == ReadType.CONTINUE)
-        node.children.add (n);
+      if (nrt == ReadType.NEXT) {
+        if (isempty) {
+          return ReadType.CONTINUE;
+        }
+        var cont = true;
+        while (cont) {
+          if (tr.read () != 1) return ReadType.STOP;
+          t = tr.node_type ();
+          if (t == Xml.ReaderType.END_ELEMENT) {
+            if (tr.const_local_name () == n.name) {
+              cont = false;
+            }
+          }
+        }
+        return ReadType.CONTINUE;
+      }
+      if (nrt == ReadType.STOP) {
+        tr.close ();
+        return ReadType.STOP;
+      }
+      node.children.add (n);
 #if DEBUG
       GLib.message ("ReadNode: next node:"+n.to_string ());
       GLib.message ("ReadNode: next node attributes:"+(tr.has_attributes ()).to_string ());

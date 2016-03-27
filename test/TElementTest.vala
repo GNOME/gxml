@@ -639,37 +639,38 @@ class TElementTest : GXmlTest {
 				};
 				var d2 = new TDocument ();
 				TDocument.read_doc (d2, file, f1);
+				GLib.message (@"$d2");
 				assert (d2.root != null);
 				assert (d2.root.children.size == 7);
 				var n2 = d2.root.children[6];
 				assert (n2 != null);
 				assert (n2.name == "ReadTop");
 				assert (n2.children.size == 4);
-				Test.message (@"$d2");
 				var nc2 = n2.children[2];
 				assert (nc2 != null);
 				assert (nc2.name == "Read");
 				assert (nc2.children.size == 1);
 				// Checking ReadType.STOP effect
 				Test.message ("Skiping nodes using ReadType.STOP");
+				//assert_not_reached ();
 				TDocument.ReadTypeFunc f2 = (node, tr)=>{
 					Test.message ("ReadType check node: "+node.name);
-					if (node.name == "NoRead" || node.name == "NoReadChild") {
-						Test.message ("Skiping node: "+node.name);
+					if (node.name == "NoReadChild") {
+						Test.message ("Stoping on node: "+node.name);
 						return TDocument.ReadType.STOP;
 					}
 					return TDocument.ReadType.CONTINUE;
 				};
 				var d3 = new TDocument ();
 				TDocument.read_doc (d3, file, f2);
-				Test.message (@"$d3");
+				Test.message (@"STOPED:$d3");
 				assert (d3.root != null);
 				assert (d3.root.children.size == 7);
 				var n3 = d3.root.children[6];
 				assert (n3 != null);
 				assert (n3.name == "ReadTop");
 				assert (n3.children.size == 4);
-				var nc3 = n3.children[2];
+				var nc3 = n3.children[3];
 				assert (nc3 != null);
 				assert (nc3.name == "Read");
 				assert (nc3.children.size == 1);
