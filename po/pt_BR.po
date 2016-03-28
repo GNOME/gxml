@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: gxml gxml-0.8\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-02-22 19:15+0000\n"
-"PO-Revision-Date: 2016-03-18 03:47-0300\n"
-"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
+"POT-Creation-Date: 2016-03-27 12:04+0000\n"
+"PO-Revision-Date: 2016-03-27 16:47-0300\n"
+"Last-Translator: Laudivan Freire de Almeida <laudivan@riseup.net>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: ../gxml/Document.vala:148
 msgid "Invalid file"
@@ -31,9 +31,13 @@ msgstr "o valor é inválido"
 msgid "text can not been parsed to enumeration type:"
 msgstr "o texto não pode ser analisado como tipo de enumeração:"
 
-#: ../gxml/GXmlDocument.vala:49
+#: ../gxml/GXmlDocument.vala:49 ../gxml/TDocument.vala:475
 msgid "File doesn't exists"
 msgstr "O arquivo não existe"
+
+#: ../gxml/GXmlDocument.vala:73
+msgid "stream doesn't provide data"
+msgstr "fluxo não provê dados"
 
 #: ../gxml/libxml-ChildNodeList.vala:148
 #, c-format
@@ -67,7 +71,7 @@ msgid "Node tried to interact with different document it belongs to"
 msgstr ""
 "O nó tentou interagir com um documento diferente daquele a qual ele pertence"
 
-#: ../gxml/Node.vala:184
+#: ../gxml/Node.vala:180
 msgid "Text node with NULL string"
 msgstr "O nó de texto com string NULA"
 
@@ -81,31 +85,38 @@ msgstr ""
 msgid "Value can't be parsed to a valid enumeration's value"
 msgstr "O valor não pôde ser analisado com um valor válido da enumeração"
 
-#: ../gxml/SerializableGeeArrayList.vala:114
-#: ../gxml/SerializableGeeDualKeyMap.vala:199
-#: ../gxml/SerializableGeeHashMap.vala:112
-#: ../gxml/SerializableGeeTreeMap.vala:115
+#: ../gxml/SerializableGeeArrayList.vala:41
+#: ../gxml/SerializableGeeArrayList.vala:60
+#: ../gxml/SerializableGeeDualKeyMap.vala:43
+#: ../gxml/SerializableGeeDualKeyMap.vala:64
+#: ../gxml/SerializableGeeHashMap.vala:40 ../gxml/SerializableGeeHashMap.vala:61
+#: ../gxml/SerializableGeeTreeMap.vala:40 ../gxml/SerializableGeeTreeMap.vala:61
 #, c-format
 msgid "%s: Value type '%s' is unsupported"
 msgstr "%s: Sem suporte ao tipo de valor \"%s\""
 
-#: ../gxml/SerializableObjectModel.vala:318
+#: ../gxml/SerializableObjectModel.vala:322
 #, c-format
 msgid "WARNING: Object type '%s' have no Node Name defined"
 msgstr "AVISO? Tipo de objeto \"%s\" não está com nome do nó definido"
 
-#: ../gxml/SerializableObjectModel.vala:322
+#: ../gxml/SerializableObjectModel.vala:326
 #, c-format
 msgid "Actual node's name is '%s' expected '%s'"
 msgstr "O nome do nó é \"%s\", esperava-se \"%s\""
 
-#: ../gxml/SerializableProperty.vala:93
+#: ../gxml/SerializableProperty.vala:91
 msgid "Trying to serialize to a non GXmlElement!"
 msgstr "Tentando serializar para um não-GXmlElement!"
 
-#: ../gxml/SerializableProperty.vala:112
+#: ../gxml/SerializableProperty.vala:110
 msgid "No attribute found to deserialize from"
 msgstr "Nenhum atributo encontrado para desserializar de"
+
+#: ../gxml/SerializableProperty.vala:115
+#, c-format
+msgid "XML Attribute name is not set, when deserializing to: %s"
+msgstr "Nome do atributo XML não definido quando foi desserializado para: %s"
 
 #: ../gxml/Serializable.vala:439
 #, c-format
@@ -117,7 +128,11 @@ msgstr "Erro de transformação em \"%s\" ou sem suporte ao tipo: \"%s\""
 msgid "Can't transform '%s' to string"
 msgstr "Não foi possível transformar \"%s\" para string"
 
-#: ../gxml/TwDocument.vala:118
+#: ../gxml/TDocument.vala:152
+msgid "Document have more than one root GXmlElement. Using first found"
+msgstr "Documento tem mais de uma raiz GXmlElement. Usando o primeiro encontrado"
+
+#: ../gxml/TDocument.vala:171
 msgid "Invalid element name"
 msgstr "Nome de elemento inválido"
 
