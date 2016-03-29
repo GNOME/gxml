@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-24 02:32+0100\n"
-"PO-Revision-Date: 2016-03-24 02:33+0100\n"
+"POT-Creation-Date: 2016-03-29 18:53+0200\n"
+"PO-Revision-Date: 2016-03-29 18:54+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -32,11 +32,11 @@ msgid "value is invalid"
 msgstr "wartość jest nieprawidłowa"
 
 #: ../gxml/Enumeration.vala:129
-msgid "text can not been parsed to enumeration type:"
+msgid "text cannot be parsed to enumeration type:"
 msgstr "tekst nie może zostać przetworzony na typ wyliczenia:"
 
-#: ../gxml/GXmlDocument.vala:49 ../gxml/TDocument.vala:442
-msgid "File doesn't exists"
+#: ../gxml/GXmlDocument.vala:49 ../gxml/TDocument.vala:475
+msgid "File doesn't exist"
 msgstr "Plik nie istnieje"
 
 #: ../gxml/GXmlDocument.vala:73
@@ -70,7 +70,8 @@ msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
 
 #: ../gxml/libxml-Node.vala:67
-msgid "Node tried to interact with different document it belongs to"
+msgid ""
+"Node tried to interact with a different document than the one it belongs to"
 msgstr "Węzeł próbował działać z innym dokumentem niż tym, do którego należy"
 
 #: ../gxml/Node.vala:180
@@ -101,7 +102,7 @@ msgstr "%s: typ wartości „%s” jest nieobsługiwany"
 
 #: ../gxml/SerializableObjectModel.vala:322
 #, c-format
-msgid "WARNING: Object type '%s' have no Node Name defined"
+msgid "WARNING: Object type '%s' has no Node Name defined"
 msgstr "OSTRZEŻENIE: typ obiektu „%s” nie posiada określonej nazwy węzła"
 
 #: ../gxml/SerializableObjectModel.vala:326
@@ -132,12 +133,12 @@ msgstr "Błąd przekształcania na „%s” lub nieobsługiwany typ: „%s”"
 msgid "Can't transform '%s' to string"
 msgstr "Nie można przekształcić „%s” na ciąg"
 
-#: ../gxml/TDocument.vala:121
-msgid "Document have more than one root GXmlElement. Using first found"
+#: ../gxml/TDocument.vala:152
+msgid "Document has more than one root GXmlElement. Using first found"
 msgstr ""
 "Dokument posiada więcej niż jeden główny GXmlElement. Używanie odnalezionego "
 "najpierw"
 
-#: ../gxml/TDocument.vala:140
+#: ../gxml/TDocument.vala:171
 msgid "Invalid element name"
 msgstr "Nieprawidłowa nazwa elementu"
