@@ -472,7 +472,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
    */
   public static void read_doc (GXml.Document doc, GLib.File file, ReadTypeFunc? rtfunc = null) throws GLib.Error {
     if (!file.query_exists ())
-      throw new GXml.DocumentError.INVALID_FILE (_("File doesn't exists"));
+      throw new GXml.DocumentError.INVALID_FILE (_("File doesn't exist"));
     read_doc_stream (doc, file.read (), rtfunc);
   }
   /**

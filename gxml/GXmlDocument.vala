@@ -46,7 +46,7 @@ public class GXml.GDocument : GXml.GNode, GXml.Document
 
   public GDocument.from_file (GLib.File file, int options = 0, Cancellable? cancel = null) throws GLib.Error {
     if (!file.query_exists ())
-      throw new DocumentError.INVALID_DOCUMENT_ERROR (_("File doesn't exists"));
+      throw new DocumentError.INVALID_DOCUMENT_ERROR (_("File doesn't exist"));
     var b = new MemoryOutputStream.resizable ();
     b.splice (file.read (), 0);
     this.from_string ((string) b.data, options);

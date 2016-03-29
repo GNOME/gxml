@@ -64,7 +64,7 @@ namespace GXml {
 			}
 
 			if (this_doc != node.owner_document) {
-				GXml.warning (DomException.WRONG_DOCUMENT, _("Node tried to interact with different document it belongs to"));
+				GXml.warning (DomException.WRONG_DOCUMENT, _("Node tried to interact with a different document than the one it belongs to"));
 			}
 		}
 
