@@ -2,23 +2,27 @@
 # Courtesy of Prevod.org team (http://prevod.org/) -- 2016.
 # Copyright (C) 2016 gxml's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gxml package.
+#
+# Translators: 
 # Miroslav Nikolić <miroslavnikolic@rocketmail.com>, 2016.
+# Marko M. Kostić <marko.m.kostic@gmail.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gxml&ke"
-"ywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-03-25 01:03+0000\n"
-"PO-Revision-Date: 2016-03-25 11:25+0200\n"
-"Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=gxml&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2016-03-29 12:09+0000\n"
+"PO-Revision-Date: 2016-03-29 18:33+0200\n"
+"Last-Translator: Marko M. Kostić <marko.m.kostic@gmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : "
-"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : n"
+"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Project-Style: gnome\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: ../gxml/Document.vala:148
 msgid "Invalid file"
@@ -29,11 +33,11 @@ msgid "value is invalid"
 msgstr "vrednost je neispravna"
 
 #: ../gxml/Enumeration.vala:129
-msgid "text can not been parsed to enumeration type:"
+msgid "text cannot be parsed to enumeration type:"
 msgstr "tekst ne može biti obrađen na vrstu nabrajanja:"
 
-#: ../gxml/GXmlDocument.vala:49 ../gxml/TDocument.vala:444
-msgid "File doesn't exists"
+#: ../gxml/GXmlDocument.vala:49 ../gxml/TDocument.vala:475
+msgid "File doesn't exist"
 msgstr "Datoteka ne postoji"
 
 #: ../gxml/GXmlDocument.vala:73
@@ -67,8 +71,11 @@ msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
 
 #: ../gxml/libxml-Node.vala:67
-msgid "Node tried to interact with different document it belongs to"
-msgstr "Čvor je pokušao da deluje sa raznim dokumentima kojima pripada"
+msgid ""
+"Node tried to interact with a different document than the one it belongs to"
+msgstr ""
+"Čvor je pokušao da deluje sa sa drugim dokumentom umesto sa onim kojem "
+"pripada"
 
 #: ../gxml/Node.vala:180
 msgid "Text node with NULL string"
@@ -98,7 +105,7 @@ msgstr "%s: Vrsta vrednosti „%s“ nije podržana"
 
 #: ../gxml/SerializableObjectModel.vala:322
 #, c-format
-msgid "WARNING: Object type '%s' have no Node Name defined"
+msgid "WARNING: Object type '%s' has no Node Name defined"
 msgstr "Upozorenje: Vrsta objekta „%s“ nema određen naziv čvora"
 
 #: ../gxml/SerializableObjectModel.vala:326
@@ -129,12 +136,12 @@ msgstr "Greška preobražaja na „%s“ ili nepodržana vrsta: „%s“"
 msgid "Can't transform '%s' to string"
 msgstr "Ne mogu da preobratim „%s“ u nisku"
 
-#: ../gxml/TDocument.vala:121
-msgid "Document have more than one root GXmlElement. Using first found"
+#: ../gxml/TDocument.vala:152
+msgid "Document has more than one root GXmlElement. Using first found"
 msgstr ""
 "Dokument ima više od jednog korenog GIksml elementa. Koristiću prvi pronađen"
 
-#: ../gxml/TDocument.vala:140
+#: ../gxml/TDocument.vala:171
 msgid "Invalid element name"
 msgstr "Neispravan naziv elementa"
 
