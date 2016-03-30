@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-02-22 19:15+0000\n"
-"PO-Revision-Date: 2016-03-13 08:30+0100\n"
+"POT-Creation-Date: 2016-03-30 00:13+0000\n"
+"PO-Revision-Date: 2016-03-30 08:32+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -28,12 +28,16 @@ msgid "value is invalid"
 msgstr "hodnota je neplatná"
 
 #: ../gxml/Enumeration.vala:129
-msgid "text can not been parsed to enumeration type:"
+msgid "text cannot be parsed to enumeration type:"
 msgstr "text nelze zpracovat na výčtový typ:"
 
-#: ../gxml/GXmlDocument.vala:49
-msgid "File doesn't exists"
+#: ../gxml/GXmlDocument.vala:49 ../gxml/TDocument.vala:475
+msgid "File doesn't exist"
 msgstr "Soubor neexistuje"
+
+#: ../gxml/GXmlDocument.vala:73
+msgid "stream doesn't provide data"
+msgstr "datový proud neposkytuje žádná data"
 
 #: ../gxml/libxml-ChildNodeList.vala:148
 #, c-format
@@ -63,10 +67,11 @@ msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
 
 #: ../gxml/libxml-Node.vala:67
-msgid "Node tried to interact with different document it belongs to"
+msgid ""
+"Node tried to interact with a different document than the one it belongs to"
 msgstr "Uzel se pokouší ovlivnit jiný dokument, než ke kterému patří"
 
-#: ../gxml/Node.vala:184
+#: ../gxml/Node.vala:180
 msgid "Text node with NULL string"
 msgstr "Textový uzel s řetězcovou hodnotu NULL"
 
@@ -79,31 +84,40 @@ msgstr ""
 msgid "Value can't be parsed to a valid enumeration's value"
 msgstr "Hodnotu nelze zpracovat na platnou výčtovou hodnotu"
 
-#: ../gxml/SerializableGeeArrayList.vala:114
-#: ../gxml/SerializableGeeDualKeyMap.vala:199
-#: ../gxml/SerializableGeeHashMap.vala:112
-#: ../gxml/SerializableGeeTreeMap.vala:115
+#: ../gxml/SerializableGeeArrayList.vala:41
+#: ../gxml/SerializableGeeArrayList.vala:60
+#: ../gxml/SerializableGeeDualKeyMap.vala:43
+#: ../gxml/SerializableGeeDualKeyMap.vala:64
+#: ../gxml/SerializableGeeHashMap.vala:40
+#: ../gxml/SerializableGeeHashMap.vala:61
+#: ../gxml/SerializableGeeTreeMap.vala:40
+#: ../gxml/SerializableGeeTreeMap.vala:61
 #, c-format
 msgid "%s: Value type '%s' is unsupported"
 msgstr "%s: Hodnota typu „%s“ není podporována"
 
-#: ../gxml/SerializableObjectModel.vala:318
+#: ../gxml/SerializableObjectModel.vala:322
 #, c-format
-msgid "WARNING: Object type '%s' have no Node Name defined"
+msgid "WARNING: Object type '%s' has no Node Name defined"
 msgstr "VAROVÁNÍ: Objekt typu „%s“ nemá definován žádný název uzlu"
 
-#: ../gxml/SerializableObjectModel.vala:322
+#: ../gxml/SerializableObjectModel.vala:326
 #, c-format
 msgid "Actual node's name is '%s' expected '%s'"
 msgstr "Současný název uzlu je „%s“, očekáván „%s“"
 
-#: ../gxml/SerializableProperty.vala:93
+#: ../gxml/SerializableProperty.vala:91
 msgid "Trying to serialize to a non GXmlElement!"
 msgstr "Pokus o serializaci na něco jiného než GXmlElement!"
 
-#: ../gxml/SerializableProperty.vala:112
+#: ../gxml/SerializableProperty.vala:110
 msgid "No attribute found to deserialize from"
 msgstr "Nenalezen žádný atribut, ze kterého se má deserializovat"
+
+#: ../gxml/SerializableProperty.vala:115
+#, c-format
+msgid "XML Attribute name is not set, when deserializing to: %s"
+msgstr "Při deserializaci neměl atribut XML nastavený název: %s"
 
 #: ../gxml/Serializable.vala:439
 #, c-format
@@ -115,25 +129,11 @@ msgstr "Chyba transformace na „%s“ nebo na nepodporovaném typu: „%s“"
 msgid "Can't transform '%s' to string"
 msgstr "Nelze transformovat „%s“ na řetězec"
 
-#: ../gxml/TwDocument.vala:118
-#| msgid "Invalid file"
+#: ../gxml/TDocument.vala:152
+msgid "Document has more than one root GXmlElement. Using first found"
+msgstr ""
+"Dokument má více než jeden kořenový GXmlElement. Použije se první nalezený"
+
+#: ../gxml/TDocument.vala:171
 msgid "Invalid element name"
 msgstr "Neplatný název prvku"
-
-#~ msgid "Text node with NULL or none text"
-#~ msgstr "Textový uzel s hodnotou NULL nebo bez textu"
-
-#~ msgid "DEBUG: skipping gpointer with name '%s' of object '%s'"
-#~ msgstr "LADĚNÍ: přeskakuje se gpointer s názvem „%s“ v objektu „%s“"
-
-#~ msgid "Can't currently serialize type '%s' for property '%s' of object '%s'"
-#~ msgstr ""
-#~ "V současnosti nelze serializovat typ „%s“ pro vlastnost „%s“ v objektu "
-#~ "„%s“"
-
-#~ msgid "Deserializing unknown GType '%s' objects is unsupported"
-#~ msgstr "Deserializace neznámého objektu GType „%s“ není podporována"
-
-#~ msgid "Unknown property '%s' found, for object type '%s'-->XML: [%s]"
-#~ msgstr ""
-#~ "Byla nalezena neznámá vlastnost „%s“, pro objekt typu „%s“-->XML: [%s]"
