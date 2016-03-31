@@ -2,22 +2,23 @@
 # Copyright (C) 2016 gxml's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gxml package.
 # Rafael Fontenelle <rffontenelle@gmail.com>, 2016.
+# Enrico Nicoletto <liverig@gmail.com>, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml gxml-0.8\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-03-27 12:04+0000\n"
-"PO-Revision-Date: 2016-03-27 16:47-0300\n"
-"Last-Translator: Laudivan Freire de Almeida <laudivan@riseup.net>\n"
+"POT-Creation-Date: 2016-03-31 00:09+0000\n"
+"PO-Revision-Date: 2016-03-31 16:54-0300\n"
+"Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 1.7.3\n"
 
 #: ../gxml/Document.vala:148
 msgid "Invalid file"
@@ -28,11 +29,11 @@ msgid "value is invalid"
 msgstr "o valor é inválido"
 
 #: ../gxml/Enumeration.vala:129
-msgid "text can not been parsed to enumeration type:"
+msgid "text cannot be parsed to enumeration type:"
 msgstr "o texto não pode ser analisado como tipo de enumeração:"
 
 #: ../gxml/GXmlDocument.vala:49 ../gxml/TDocument.vala:475
-msgid "File doesn't exists"
+msgid "File doesn't exist"
 msgstr "O arquivo não existe"
 
 #: ../gxml/GXmlDocument.vala:73
@@ -67,9 +68,10 @@ msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
 
 #: ../gxml/libxml-Node.vala:67
-msgid "Node tried to interact with different document it belongs to"
+msgid ""
+"Node tried to interact with a different document than the one it belongs to"
 msgstr ""
-"O nó tentou interagir com um documento diferente daquele a qual ele pertence"
+"O nó tentou interagir com um documento diferente do qual o mesmo pertence"
 
 #: ../gxml/Node.vala:180
 msgid "Text node with NULL string"
@@ -89,16 +91,18 @@ msgstr "O valor não pôde ser analisado com um valor válido da enumeração"
 #: ../gxml/SerializableGeeArrayList.vala:60
 #: ../gxml/SerializableGeeDualKeyMap.vala:43
 #: ../gxml/SerializableGeeDualKeyMap.vala:64
-#: ../gxml/SerializableGeeHashMap.vala:40 ../gxml/SerializableGeeHashMap.vala:61
-#: ../gxml/SerializableGeeTreeMap.vala:40 ../gxml/SerializableGeeTreeMap.vala:61
+#: ../gxml/SerializableGeeHashMap.vala:40
+#: ../gxml/SerializableGeeHashMap.vala:61
+#: ../gxml/SerializableGeeTreeMap.vala:40
+#: ../gxml/SerializableGeeTreeMap.vala:61
 #, c-format
 msgid "%s: Value type '%s' is unsupported"
 msgstr "%s: Sem suporte ao tipo de valor \"%s\""
 
 #: ../gxml/SerializableObjectModel.vala:322
 #, c-format
-msgid "WARNING: Object type '%s' have no Node Name defined"
-msgstr "AVISO? Tipo de objeto \"%s\" não está com nome do nó definido"
+msgid "WARNING: Object type '%s' has no Node Name defined"
+msgstr "AVISO: Tipo de objeto \"%s\" não possui nome de nó definido"
 
 #: ../gxml/SerializableObjectModel.vala:326
 #, c-format
@@ -129,8 +133,9 @@ msgid "Can't transform '%s' to string"
 msgstr "Não foi possível transformar \"%s\" para string"
 
 #: ../gxml/TDocument.vala:152
-msgid "Document have more than one root GXmlElement. Using first found"
-msgstr "Documento tem mais de uma raiz GXmlElement. Usando o primeiro encontrado"
+msgid "Document has more than one root GXmlElement. Using first found"
+msgstr ""
+"O documento possui mais de um GXmlElement raiz. Usando o primeiro encontrado"
 
 #: ../gxml/TDocument.vala:171
 msgid "Invalid element name"
