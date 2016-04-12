@@ -1,0 +1,134 @@
+# Chinese (China) translation for gxml.
+# Copyright (C) 2016 gxml's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gxml package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gxml master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=gxml&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2016-04-07 00:14+0000\n"
+"PO-Revision-Date: 2016-04-12 20:20+0800\n"
+"Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: \n"
+"X-Generator: Poedit 1.8.7\n"
+
+#: ../gxml/Document.vala:148
+msgid "Invalid file"
+msgstr "无效文件"
+
+#: ../gxml/Enumeration.vala:88
+msgid "value is invalid"
+msgstr "值无效"
+
+#: ../gxml/Enumeration.vala:129
+msgid "text cannot be parsed to enumeration type:"
+msgstr "文本不能被解析为枚举类型："
+
+#: ../gxml/GXmlDocument.vala:49 ../gxml/TDocument.vala:475
+msgid "File doesn't exist"
+msgstr "文件不存在"
+
+#: ../gxml/GXmlDocument.vala:73
+msgid "stream doesn't provide data"
+msgstr "stream 不提供数据"
+
+#: ../gxml/libxml-ChildNodeList.vala:148
+#, c-format
+msgid "ref_child '%s' not found, was supposed to have '%s' inserted before it."
+msgstr "ref_child “%s” 未找到，假设有 “%s” 在它前面插入。"
+
+#: ../gxml/libxml-Document.vala:127
+#, c-format
+msgid "Looking up %s from an xmlNode* is not supported"
+msgstr "从 xmlNode* 查询 %s 未被支持"
+
+#: ../gxml/libxml-Document.vala:302
+#, c-format
+msgid "Could not load document from path: %s"
+msgstr "无法从路径：%s 加载文档"
+
+#: ../gxml/libxml-Entity.vala:129
+msgid "Cloning of Entity not yet supported"
+msgstr "尚不支持 Entity 克隆"
+
+#. TODO: replace usage of this with GXml.get_last_error_msg
+#: ../gxml/libxml-Error.vala:12
+#, c-format
+msgid "%s:%s:%d: %s:%d: %s"
+msgstr "%s:%s:%d: %s:%d: %s"
+
+#: ../gxml/libxml-Node.vala:67
+msgid ""
+"Node tried to interact with a different document than the one it belongs to"
+msgstr "节点尝试与一个不同的文档交互，而不是其所属文档"
+
+#: ../gxml/Node.vala:180
+msgid "Text node with NULL string"
+msgstr "包含空字符串的文本节点"
+
+#: ../gxml/SerializableEnum.vala:72
+msgid "Value can't be parsed to a valid enumeration's value. Value is not set"
+msgstr "值不能被解析为有效枚举值。值未被设置"
+
+#: ../gxml/SerializableEnum.vala:75
+msgid "Value can't be parsed to a valid enumeration's value"
+msgstr "值不能被解析为有效枚举值"
+
+#: ../gxml/SerializableGeeArrayList.vala:41
+#: ../gxml/SerializableGeeArrayList.vala:60
+#: ../gxml/SerializableGeeDualKeyMap.vala:43
+#: ../gxml/SerializableGeeDualKeyMap.vala:64
+#: ../gxml/SerializableGeeHashMap.vala:40
+#: ../gxml/SerializableGeeHashMap.vala:61
+#: ../gxml/SerializableGeeTreeMap.vala:40
+#: ../gxml/SerializableGeeTreeMap.vala:61
+#, c-format
+msgid "%s: Value type '%s' is unsupported"
+msgstr "%s：值类型“%s”不被支持"
+
+#: ../gxml/SerializableObjectModel.vala:322
+#, c-format
+msgid "WARNING: Object type '%s' has no Node Name defined"
+msgstr "警告：对象类型 “%s” 无被定义的节点名称"
+
+#: ../gxml/SerializableObjectModel.vala:326
+#, c-format
+msgid "Actual node's name is '%s' expected '%s'"
+msgstr "实际节点名称为 “%s”，预期名称为 “%s”"
+
+#: ../gxml/SerializableProperty.vala:91
+msgid "Trying to serialize to a non GXmlElement!"
+msgstr "正在尝试序列化至一个非 GXmlElement！"
+
+#: ../gxml/SerializableProperty.vala:110
+msgid "No attribute found to deserialize from"
+msgstr "未发现反序列化的属性"
+
+#: ../gxml/SerializableProperty.vala:115
+#, c-format
+msgid "XML Attribute name is not set, when deserializing to: %s"
+msgstr "反序列化到 %s 时 XML 属性名称未被指定"
+
+#: ../gxml/Serializable.vala:439
+#, c-format
+msgid "Transformation Error on '%s' or Unsupported type: '%s'"
+msgstr "“%s” 转换错误或不支持类型 “%s”"
+
+#: ../gxml/Serializable.vala:460
+#, c-format
+msgid "Can't transform '%s' to string"
+msgstr "不能将 “%s” 转换为字符串"
+
+#: ../gxml/TDocument.vala:152
+msgid "Document has more than one root GXmlElement. Using first found"
+msgstr "文档存在多个根 GXmlElement。使用第一个找到的。"
+
+#: ../gxml/TDocument.vala:171
+msgid "Invalid element name"
+msgstr "无效元素名称"
