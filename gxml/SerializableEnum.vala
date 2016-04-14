@@ -22,6 +22,9 @@
 
 using Gee;
 
+/**
+ * Errors when de/serializing enumerations as a set of string when using {@link GXml.SerializableEnum}
+ */
 public errordomain GXml.SerializableEnumError {
   INVALID_VALUE_ERROR,
   PARSE_ERROR

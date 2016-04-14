@@ -22,6 +22,9 @@
 
 using Gee;
 
+/**
+ * A {@link Gee.AbstractList} implementation to access {@link Xml.Ns} namespaces collection
+ */
 public class GXml.GListNamespaces : Gee.AbstractList<GXml.Node>
 {
   private GDocument _doc;

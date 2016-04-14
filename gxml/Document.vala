@@ -20,6 +20,10 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 
+
+/**
+ * Errors for documents handling reading/writing
+ */
 using Gee;
 
 public errordomain GXml.DocumentError {

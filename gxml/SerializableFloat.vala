@@ -20,6 +20,12 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 
+/**
+ * Represent any float property to be added as a {@link GXml.Attribute} to a {@link GXml.Element}
+ *
+ * This object can be used when the property could be removed from serialization, specially if missing
+ * on XML have some missing and avoidable.
+ */
 public class GXml.SerializableFloat : GXml.SerializableDouble
 {
   /**

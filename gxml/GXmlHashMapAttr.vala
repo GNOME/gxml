@@ -22,6 +22,9 @@
 
 using Gee;
 
+/**
+ * Implementation of {@link Gee.AbstractMap} to handle {@link Xml.Node} attributes
+ */
 public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>
 {
   private GDocument _doc;

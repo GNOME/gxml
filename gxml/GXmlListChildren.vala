@@ -22,6 +22,9 @@
 
 using Gee;
 
+/**
+ * A {@link Gee.AbstractBidirList} implementation to access {@link Xml.Node} collection
+ */
 public class GXml.GListChildren : AbstractBidirList<GXml.Node>
 {
   private GXml.GDocument _doc;

@@ -183,6 +183,9 @@ namespace GXml {
 			return s;
 		}
 	}
+	/**
+	 * Errors when de/serializing enumerations.
+	 */
 	public errordomain EnumerationError
 	{
 		/**
