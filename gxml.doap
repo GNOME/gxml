@@ -15,13 +15,19 @@
   implementations, some of them based on libxml but able to use different backends.
   
   It is written in Vala, but provides C API, while it is available to other high level
-  languages, like Python or JavaScript, using GObject Introspection.</description>
-  <homepage rdf:resource="http://live.gnome.org/XML" />
-  <!--  <mailing-list rdf:resource="http://mail.gnome.org/mailman/listinfo/gnome-shell-list" /> -->
+  languages, like Python or JavaScript, using GObject Introspection.
+  
+  https://live.gnome.org/GXml
+  
+  </description>
+  <homepage rdf:resource="https://live.gnome.org/GXml" />
+  <!--  <mailing-list rdf:resource="https://mail.gnome.org/mailman/listinfo/gxml-list" /> -->
   <download-page rdf:resource="http://download.gnome.org/sources/gxml/" />
   <bug-database rdf:resource="https://bugzilla.gnome.org/browse.cgi?product=gxml" />
 
   <category rdf:resource="http://api.gnome.org/doap-extensions#infrastructure" />
+  <programming-language>Vala</programming-language>
+  <programming-language>C</programming-language>
 
   <maintainer>
     <foaf:Person>
