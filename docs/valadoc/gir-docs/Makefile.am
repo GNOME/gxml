@@ -4,7 +4,7 @@ CLEANFILES=
 VALADOC_FLAGS = \
 	--driver $(VALAC_VERSION) \
 	--force \
-	--package-name=gxml-$(API_VERSION) \
+	--package-name=GXml-$(API_VERSION) \
 	--package-version=$(PACKAGE_VERSION) \
 	--pkg glib-2.0 \
 	--pkg gio-2.0 \
@@ -12,7 +12,8 @@ VALADOC_FLAGS = \
 	--pkg gee-0.8 \
 	--vapidir=$(top_srcdir)/gxml \
 	--vapidir=$(top_srcdir)/vapi \
-	$(top_srcdir)/vapi/xlibxml-1.0.vapi
+	$(top_srcdir)/vapi/xlibxml-1.0.vapi \
+	$(top_srcdir)/vapi/config.vapi
 
 sources= \
 	$(top_srcdir)/gxml/*.vala
