@@ -238,6 +238,14 @@ typelibdir = $(INTROSPECTION_TYPELIBDIR)
 typelib_DATA = GXml-0.10.typelib
 CLEANFILES += $(gir_DATA) $(typelib_DATA)
 
+if ENABLE_DEVHELP_DOCS
+
+AM_VALAFLAGS += \
+	--vapi-comments
+
+endif
+
+
 endif
 
 if PLATFORM_WIN32
