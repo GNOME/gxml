@@ -5,7 +5,7 @@
          xmlns="http://usefulinc.com/ns/doap#">
 
   <name xml:lang="en">GXml</name>
-  <shortdesc xml:lang="en">GObject XML ans Serialization API</shortdesc>
+  <shortdesc xml:lang="en">GObject XML and Serialization API</shortdesc>
   <description>GXml provides a GObject API for manipulating XML and a Serializable
   framework from GObject to XML.
   
@@ -17,10 +17,10 @@
   It is written in Vala, but provides C API, while it is available to other high level
   languages, like Python or JavaScript, using GObject Introspection.
   
-  https://live.gnome.org/GXml
+  https://wiki.gnome.org/GXml
   
   </description>
-  <homepage rdf:resource="https://live.gnome.org/GXml" />
+  <homepage rdf:resource="https://wiki.gnome.org/GXml" />
   <!--  <mailing-list rdf:resource="https://mail.gnome.org/mailman/listinfo/gxml-list" /> -->
   <download-page rdf:resource="http://download.gnome.org/sources/gxml/" />
   <bug-database rdf:resource="https://bugzilla.gnome.org/browse.cgi?product=gxml" />
