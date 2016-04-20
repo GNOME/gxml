@@ -27,9 +27,9 @@ void* gxml_doc_get_intsubset_entities (xmlDoc *doc)
   return doc->intSubset->entities;
 }
 
-int gxml_validate_name (xmlChar* name, int space)
+gint gxml_validate_name (xmlChar* name, int space)
 {
-  g_return_if_fail (name != NULL);
+  g_return_val_if_fail (name != NULL, -1);
   return xmlValidateName (name, space);
 }
 
@@ -65,35 +65,35 @@ void gxml_reset_last_error ()
 
 xmlNsPtr* gxml_doc_get_ns_list (xmlDoc* doc, xmlNode* node)
 {
-  g_return_if_fail (doc != NULL);
-  g_return_if_fail (node != NULL);
+  g_return_val_if_fail (doc != NULL, NULL);
+  g_return_val_if_fail (node != NULL, NULL);
   return xmlGetNsList (doc, node);
 }
 
 xmlTextWriterPtr gxml_new_text_writer_doc (xmlDoc** doc)
 {
-  g_return_if_fail (doc != NULL);
+  g_return_val_if_fail (doc != NULL, NULL);
   return xmlNewTextWriterDoc (doc, 0);
 }
 
 xmlTextWriterPtr gxml_new_text_writer_memory (xmlBufferPtr buffer, gint compression)
 {
-  g_return_if_fail (buffer != NULL);
+  g_return_val_if_fail (buffer != NULL, NULL);
   return xmlNewTextWriterMemory (buffer, compression);
 }
 
-int gxml_text_writer_write_cdata (xmlTextWriterPtr tw, const xmlChar* text)
+gint gxml_text_writer_write_cdata (xmlTextWriterPtr tw, const xmlChar* text)
 {
-  g_return_if_fail (tw != NULL);
-  g_return_if_fail (text != NULL);
+  g_return_val_if_fail (tw != NULL, -1);
+  g_return_val_if_fail (text != NULL, -1);
   return xmlTextWriterWriteCDATA (tw, text);
 }
 
-int gxml_text_writer_write_pi (xmlTextWriterPtr tw, const xmlChar* target, const xmlChar* data)
+gint gxml_text_writer_write_pi (xmlTextWriterPtr tw, const xmlChar* target, const xmlChar* data)
 {
-  g_return_if_fail (tw != NULL);
-  g_return_if_fail (target != NULL);
-  g_return_if_fail (data != NULL);
+  g_return_val_if_fail (tw != NULL, -1);
+  g_return_val_if_fail (target != NULL, -1);
+  g_return_val_if_fail (data != NULL, -1);
   return xmlTextWriterWritePI (tw, target, data);
 }
 
