@@ -25,6 +25,9 @@
 using Gee;
 
 namespace GXml {
+	/**
+   * HML parsing suport. Document handling
+   */
 	public class HtmlDocument : GXml.xDocument {
 		public static int default_options {
 			get {

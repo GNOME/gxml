@@ -1,6 +1,6 @@
 namespace GXml {
 	/**
-	 * Errors for parse and writer.
+	 * libmxl2 bindings for Errors on parse and write.
 	 */
 	public errordomain Error {
 		NOT_SUPPORTED, /* TODO: GET RID OF THIS */

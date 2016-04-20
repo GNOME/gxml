@@ -22,6 +22,9 @@
 
 using Gee;
 
+/**
+ * Errors for documents handling reading/writing
+ */
 public errordomain GXml.DocumentError {
   INVALID_DOCUMENT_ERROR,
   INVALID_FILE

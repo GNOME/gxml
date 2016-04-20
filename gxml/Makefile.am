@@ -115,6 +115,14 @@ AM_CFLAGS = \
 	$(VALA_CFLAGS) \
 	$(NULL)
 
+
+if ENABLE_DEVHELP_DOCS
+
+AM_VALAFLAGS += \
+       --vapi-comments
+
+endif
+
 # -Wall   # TODO: add this back when we can properly handle more libxml2/vala warnings
 
 if DEBUG
