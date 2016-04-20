@@ -160,7 +160,7 @@ gxml_HEADERS = gxml.h xlibxml.h
 
 # .vapi Vala API file
 gxml-0.6.vapi: gxml_0_6_la_vala.stamp
-vapidir = $(datadir)/vala/vapi
+vapidir = $(VAPIDIR)
 dist_vapi_DATA = \
 	gxml-0.6.vapi \
 	gxml-0.6.deps \
