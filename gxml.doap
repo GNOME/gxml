@@ -5,12 +5,23 @@
          xmlns="http://usefulinc.com/ns/doap#">
 
   <name xml:lang="en">GXml</name>
-  <shortdesc xml:lang="en">GObject XML API</shortdesc>
-  <description>GXml provides a GObject API for manipulating XML.
-  Most functionality is provided through libxml2.  Currently, GXml
-  provides the DOM Level 1 Core API.</description>
-  <homepage rdf:resource="http://live.gnome.org/XML" />
-  <!--  <mailing-list rdf:resource="http://mail.gnome.org/mailman/listinfo/gnome-shell-list" /> -->
+  <shortdesc xml:lang="en">GObject XML and Serialization API</shortdesc>
+  <description>GXml provides a GObject API for manipulating XML and a Serializable
+  framework from GObject to XML.
+
+  Currently, GXml provides the DOM Level 1 Core API, Basic HTML support, Serialization.
+
+  Provides a set of interfaces to access XML equivalent files with different
+  implementations, some of them based on libxml but able to use different backends.
+  
+  It is written in Vala, but provides C API, while it is available to other high level
+  languages, like Python or JavaScript, using GObject Introspection.
+  
+  https://wiki.gnome.org/GXml
+  
+  </description>
+  <homepage rdf:resource="https://wiki.gnome.org/GXml" />
+  <!--  <mailing-list rdf:resource="https://mail.gnome.org/mailman/listinfo/gxml-list" /> -->
   <download-page rdf:resource="http://download.gnome.org/sources/gxml/" />
   <bug-database rdf:resource="https://bugzilla.gnome.org/browse.cgi?product=gxml" />
 
