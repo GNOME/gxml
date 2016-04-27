@@ -197,7 +197,7 @@ gxml_HEADERS = gxml.h xlibxml.h
 
 # .vapi Vala API file
 gxml-0.10.vapi: libgxml-0.10.la
-vapidir = $(datadir)/vala/vapi
+vapidir = $(VAPIDIR)
 dist_vapi_DATA = \
 	gxml-0.10.vapi \
 	gxml-0.10.deps \

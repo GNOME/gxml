@@ -1,4 +1,9 @@
 
+===============
+Version 0.11.0
+===============
+
+* Fixed vapi installation, honoring vala pc file
 
 ===============
 Version 0.10.0
