@@ -4,6 +4,7 @@ Version 0.10.1
 ===============
 
 * Documentation improvements and build fixes
+* Fixed vapi installation, honoring vala pc file
 
 ===============
 Version 0.10.0
