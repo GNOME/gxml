@@ -4,6 +4,7 @@ Version 0.11.0
 ===============
 
 * Fixed vapi installation, honoring vala pc file
+* Fixed Bug #760568
 
 ===============
 Version 0.10.0

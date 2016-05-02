@@ -49,9 +49,7 @@ class TDocumentTest : GXmlTest {
 		});
 		Test.add_func ("/gxml/t-document/root", () => {
 			try {
-				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
-				if (f.query_exists ()) f.delete ();
-				var d = new TDocument.from_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");
+				var d = new TDocument ();
 				var e = d.create_element ("root");
 				d.children.add (e);
 				assert (d.children.size == 1);
@@ -595,7 +593,7 @@ class TDocumentTest : GXmlTest {
 		Test.add_func ("/gxml/t-document/read/uri", () => {
 			try {
 				var net = GLib.NetworkMonitor.get_default ();
-				if (net.connectivity != GLib.NetworkConnectivity.FULL) return;
+				if (!net.network_available) return;
 				var rf = GLib.File.new_for_uri ("https://git.gnome.org/browse/gxml/plain/gxml.doap");
 				assert (rf.query_exists ());
 				var d = new TDocument.from_uri (rf.get_uri ());
