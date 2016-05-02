@@ -23,7 +23,7 @@
 
 void* gxml_doc_get_intsubset_entities (xmlDoc *doc)
 {
-  g_return_if_fail (doc != NULL);
+  g_return_val_if_fail (doc != NULL, NULL);
   return doc->intSubset->entities;
 }
 
@@ -40,11 +40,13 @@ gint gxml_validate_name (xmlChar* name, int space)
  */
 xmlErrorPtr gxml_parser_context_get_last_error (void* ctx)
 {
+  g_return_val_if_fail (ctx != NULL, NULL);
   return gxml_context_get_last_error (ctx);
 }
 
 xmlErrorPtr gxml_context_get_last_error (void* ctx)
 {
+  g_return_val_if_fail (ctx != NULL, NULL);
   return xmlCtxtGetLastError (ctx);
 }
 

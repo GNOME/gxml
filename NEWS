@@ -5,8 +5,7 @@ Version 0.8.4
 
 * Fixed OSX build (Bug #760568)
 * Fixed vapi installation
-
-
+* Fixed
 ===============
 Version 0.8.3
 ===============

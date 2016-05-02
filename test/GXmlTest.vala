@@ -92,7 +92,7 @@ class GXmlTest {
 		xDocument doc = null;
 		try {
 			doc = new xDocument.from_path (path != null ? path :
-						      get_test_dir () + "/test.xml");
+						      GXmlTest.get_test_dir () + "/test.xml");
 		} catch (GXml.Error e) {
 			GLib.warning (e.message);
 			assert_not_reached ();
