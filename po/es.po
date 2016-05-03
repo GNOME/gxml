@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-04-28 00:32+0000\n"
+"POT-Creation-Date: 2016-04-29 00:27+0000\n"
 "PO-Revision-Date: 2016-04-28 13:27+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
@@ -22,19 +22,17 @@ msgstr ""
 
 #: ../gxml/Document.vala:151
 msgid "Invalid file"
-msgstr "Archivo inválido"
+msgstr "Archivo no válido"
 
 #: ../gxml/Enumeration.vala:88
 msgid "value is invalid"
 msgstr "valor no válido"
 
 #: ../gxml/Enumeration.vala:129
-#| msgid "text can not been parsed to enumeration type:"
 msgid "text cannot be parsed to enumeration type:"
 msgstr "el texto no se puede convertir a un tipo enumeración:"
 
 #: ../gxml/GXmlDocument.vala:49 ../gxml/TDocument.vala:475
-#| msgid "File doesn't exists"
 msgid "File doesn't exist"
 msgstr "El archivo no existe"
 
@@ -104,7 +102,6 @@ msgstr "%s: el valor de tipo «%s» no está soportado"
 
 #: ../gxml/SerializableObjectModel.vala:322
 #, c-format
-#| msgid "WARNING: Object type '%s' have no Node Name defined"
 msgid "WARNING: Object type '%s' has no Node Name defined"
 msgstr "CUIDADO: el tipo de objeto «%s» no tiene un nombre de nodo definido"
 
@@ -141,7 +138,6 @@ msgid "Document has more than one root GXmlElement. Using first found"
 msgstr ""
 
 #: ../gxml/TDocument.vala:171
-#| msgid "Invalid file"
 msgid "Invalid element name"
 msgstr "Nombre de elemento no válido"
 
