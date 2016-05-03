@@ -93,7 +93,19 @@ sources = \
 	GXmlText.vala \
 	GXmlHashMapAttr.vala \
 	GXmlListChildren.vala \
-	GXmlListNamespaces.vala
+	GXmlListNamespaces.vala \
+	DomAttr.vala \
+	DomCharacter.vala \
+	DomCollections.vala \
+	DomDocument.vala \
+	DomElement.vala \
+	DomEvents.vala \
+	DomMutationObservers.vala \
+	DomNode.vala \
+	DomRange.vala \
+	DomSets.vala \
+	DomTraversal.vala
+
 
 
 ### General Compilation flags
