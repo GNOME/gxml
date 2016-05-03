@@ -29,9 +29,9 @@
 
   <maintainer>
     <foaf:Person>
-      <foaf:name>Richard Schwarting</foaf:name>
-      <foaf:mbox rdf:resource="mailto:rschwart@src.gnome.org" />
-      <gnome:userid>rschwart</gnome:userid>
+      <foaf:name>Daniel Espinosa</foaf:name>
+      <foaf:mbox rdf:resource="mailto:despinosa@src.gnome.org" />
+      <gnome:userid>despinosa</gnome:userid>
     </foaf:Person>
   </maintainer>
 </Project>
