@@ -21,11 +21,11 @@
  */
 
 public interface GXml.DomAttr {
-  public abstract string? namespaceURI { get; }
+  public abstract string? namespace_uri { get; }
   public abstract string? prefix { get; }
-  public abstract string localName { get; }
+  public abstract string local_name { get; }
   public abstract string name { get; }
-  public abstract string value { get; set; }
+  public abstract string @value { get; set; }
 
   public abstract bool specified { get; } // useless; always returns true
 }

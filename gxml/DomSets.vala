@@ -23,21 +23,21 @@
 using Gee;
 
 public interface GXml.DomTokenList : GLib.Object, Gee.BidirList<string> {
-  public abstract ulong length { get; }
-  public abstract string? item(ulong index);
-  public abstract bool contains(string token);
-  public abstract void add(string[] tokens);
-  public abstract void remove(string[] tokens);
+  public abstract ulong   length   { get; }
+  public abstract string? item     (ulong index);
+  public abstract bool    contains (string token);
+  public abstract void    add      (string[] tokens);
+  public abstract void    remove   (string[] tokens);
   /**
    * If @auto is true, adds @token if not present and removing if it, no @force value
    * is taken in account. If @auto is false, then @force is considered; if true adds
    * @token, if false removes it.
    */
-  public abstract bool toggle(string token, bool force = false, bool auto = true);
-  public abstract string to_string ();
+  public abstract bool    toggle   (string token, bool force = false, bool auto = true);
+  public abstract string  to_string ();
 }
 
 public interface GXml.DomSettableTokenList : GXml.DomTokenList {
-  public abstract string value { get; set; }
+  public abstract string @value { get; set; }
 }
 

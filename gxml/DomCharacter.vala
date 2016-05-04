@@ -26,16 +26,16 @@ public interface GXml.DomCharacterData : GLib.Object, GXml.DomNode, GXml.DomNonD
 	 */
   public abstract string data { get; set; }
   public abstract ulong length { get; }
-  public abstract string substringData(ulong offset, ulong count);
-  public abstract void appendData(string data);
-  public abstract void insertData(ulong offset, string data);
-  public abstract void deleteData(ulong offset, ulong count);
-  public abstract void replaceData(ulong offset, ulong count, string data);
+  public abstract string substring_data (ulong offset, ulong count);
+  public abstract void append_data  (string data);
+  public abstract void insert_data  (ulong offset, string data);
+  public abstract void delete_data  (ulong offset, ulong count);
+  public abstract void replace_data (ulong offset, ulong count, string data);
 }
 
 public interface GXml.DomText : GXml.DomCharacterData {
-  public abstract GXml.DomText splitText(ulong offset);
-  public abstract string wholeText { get; }
+  public abstract GXml.DomText split_text(ulong offset);
+  public abstract string whole_text { get; }
 }
 
 public interface GXml.DomProcessingInstruction : GXml.DomCharacterData {

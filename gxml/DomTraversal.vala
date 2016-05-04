@@ -21,31 +21,31 @@
  */
 
 public interface GXml.DomNodeIterator : GLib.Object {
-  public abstract DomNode root { get; }
-  public abstract DomNode referenceNode { get; }
-  public abstract bool pointerBeforeReferenceNode { get; }
-  public abstract ulong whatToShow { get; }
-  public abstract DomNodeFilter? filter { get; }
+  public abstract DomNode         root { get; }
+  public abstract DomNode         reference_node { get; }
+  public abstract bool            pointer_before_reference_node { get; }
+  public abstract ulong           what_to_show   { get; }
+  public abstract DomNodeFilter?  filter         { get; }
 
-  public abstract DomNode? nextNode();
-  public abstract DomNode? previousNode();
+  public abstract DomNode?        next_node     ();
+  public abstract DomNode?        previous_node ();
 
   public abstract void detach();
 }
 
 public interface GXml.DomTreeWalker {
-  public abstract DomNode root { get; }
-  public abstract ulong whatToShow { get; }
-  public abstract DomNodeFilter? filter { get; }
-  public abstract DomNode currentNode { get; set; }
+  public abstract DomNode         root { get; }
+  public abstract ulong           what_to_show { get; }
+  public abstract DomNodeFilter?  filter { get; }
+  public abstract DomNode         current_node { get; set; }
 
-  public abstract DomNode? parentNode();
-  public abstract DomNode? firstChild();
-  public abstract DomNode? lastChild();
-  public abstract DomNode? previousSibling();
-  public abstract DomNode? nextSibling();
-  public abstract DomNode? previousNode();
-  public abstract DomNode? nextNode();
+  public abstract DomNode?        parent_node ();
+  public abstract DomNode?        first_child ();
+  public abstract DomNode?        last_child  ();
+  public abstract DomNode?        previous_sibling();
+  public abstract DomNode?        next_sibling();
+  public abstract DomNode?        previous_node();
+  public abstract DomNode?        next_node();
 }
 
 public interface GXml.DomNodeFilter : GLib.Object {
@@ -69,5 +69,5 @@ public interface GXml.DomNodeFilter : GLib.Object {
   public const ulong SHOW_DOCUMENT_FRAGMENT = 0x400;
   public const ulong SHOW_NOTATION = 0x800; // historical
 
-  public abstract ushort acceptNode(Node node);
+  public abstract ushort accept_node (DomNode node);
 }

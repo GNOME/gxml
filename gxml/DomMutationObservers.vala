@@ -26,31 +26,31 @@ using Gee;
  * to use internally.
  */
 public interface GXml.DomMutationObserver : GLib.Object {
-  public abstract void observe(Node target, DomMutationObserverInit options);
-  public abstract void disconnect();
-  public abstract Gee.List<DomMutationRecord> takeRecords();
+  public abstract void observe (Node target, DomMutationObserverInit options);
+  public abstract void disconnect ();
+  public abstract Gee.List<DomMutationRecord> take_records ();
 }
 
 public delegate void GXml.DomMutationCallback (Gee.List<DomMutationRecord> mutations, DomMutationObserver observer);
 
 public class GXml.DomMutationObserverInit : GLib.Object {
-  public bool childList { get; set; default = false; }
+  public bool child_list { get; set; default = false; }
   public bool attributes { get; set; }
-  public bool characterData { get; set; }
+  public bool character_data { get; set; }
   public bool subtree { get; set; default = false; }
-  public bool attributeOldValue { get; set; }
-  public bool characterDataOldValue { get; set; }
-  public Gee.List<string> attributeFilter { get; set; }
+  public bool attribute_old_value { get; set; }
+  public bool character_data_old_value { get; set; }
+  public Gee.List<string> attribute_filter { get; set; }
 }
 
 public interface GXml.DomMutationRecord : GLib.Object {
   public abstract string mtype { get; }
   public abstract DomNode target { get; }
-  public abstract DomNodeList addedNodes { get; set; }
-  public abstract DomNodeList removedNodes { get; set; }
-  public abstract DomNode? previousSibling { get; }
-  public abstract DomNode? nextSibling { get; }
-  public abstract string? attributeName { get; }
-  public abstract string? attributeNamespace { get; }
-  public abstract string? oldValue { get; }
+  public abstract DomNodeList added_nodes { get; set; }
+  public abstract DomNodeList removed_nodes { get; set; }
+  public abstract DomNode? previous_sibling { get; }
+  public abstract DomNode? next_sibling { get; }
+  public abstract string? attribute_name { get; }
+  public abstract string? attribute_namespace { get; }
+  public abstract string? old_value { get; }
 }

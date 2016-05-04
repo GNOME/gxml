@@ -21,39 +21,40 @@
  */
 
 public interface GXml.DomEventTarget : GLib.Object {
-  public abstract void addEventListener(string type, DomEventListener? callback, bool capture = false);
-  public abstract void removeEventListener(string type, DomEventListener? callback, bool capture = false);
-  public abstract bool dispatchEvent(DomEvent event);
+  public abstract void add_event_listener (string type, DomEventListener? callback, bool capture = false);
+  public abstract void remove_event_listener (string type, DomEventListener? callback, bool capture = false);
+  public abstract bool dispatch_event (DomEvent event);
 }
 
 public interface GXml.DomEventListener : GLib.Object {
-  public abstract void handleEvent(DomEvent event);
+  public abstract void handle_event (DomEvent event);
 }
 
 public interface GXml.DomEvent : GLib.Object {
   public abstract string etype { get; }
   public abstract DomEventTarget? target { get; }
-  public abstract DomEventTarget? currentTarget { get; }
+  public abstract DomEventTarget? current_target { get; }
   public abstract bool bubbles { get; }
   public abstract bool cancelable { get; }
+
+
+  public abstract bool is_trusted { get; }
+  public abstract DomTimeStamp time_stamp { get; }
+
+  public abstract bool default_prevented { get; }
 
   public const ushort NONE = 0;
   public const ushort CAPTURING_PHASE = 1;
   public const ushort AT_TARGET = 2;
   public const ushort BUBBLING_PHASE = 3;
-  public abstract ushort eventPhase { get; }
+  public abstract ushort event_phase { get; }
 
 
-  public abstract void stopPropagation();
-  public abstract void stopImmediatePropagation();
+  public abstract void stop_propagation ();
+  public abstract void stop_immediate_propagation ();
 
-  public abstract void preventDefault();
-  public abstract bool defaultPrevented { get; }
-
-  public abstract bool isTrusted { get; }
-  public abstract DomTimeStamp timeStamp { get; }
-
-  public abstract void initEvent(string type, bool bubbles, bool cancelable);
+  public abstract void prevent_default ();
+  public abstract void init_event (string type, bool bubbles, bool cancelable);
 
   [Flags]
   public enum Flags {
@@ -73,7 +74,7 @@ public class GXml.DomEventInit : GLib.Object {
 public interface GXml.DomCustomEvent : GLib.Object, GXml.DomEvent {
   public abstract GLib.Value? detail { get; }
 
-  public abstract void initCustomEvent (string type, bool bubbles, bool cancelable, GLib.Value? detail);
+  public abstract void init_custom_event (string type, bool bubbles, bool cancelable, GLib.Value? detail);
 }
 
 public class GXml.DomCustomEventInit : GXml.DomEventInit {

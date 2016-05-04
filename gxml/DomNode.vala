@@ -33,28 +33,28 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
   public const ushort DOCUMENT_TYPE_NODE = 10;
   public const ushort DOCUMENT_FRAGMENT_NODE = 11;
   public const ushort NOTATION_NODE = 12; // historical
-  public abstract ushort nodeType { get; }
-  public abstract string nodeName { get; }
+  public abstract ushort node_type { get; }
+  public abstract string node_name { get; }
 
   public abstract string? baseURI { get; }
 
-  public abstract Document? ownerDocument { get; }
-  public abstract DomNode? parentNode { get; }
-  public abstract DomElement? parentElement { get; }
-  public abstract DomNodeList childNodes { get; }
-  public abstract DomNode? firstChild { get; }
-  public abstract DomNode? lastChild { get; }
-  public abstract DomNode? previousSibling { get; }
-  public abstract DomNode? nextSibling { get; }
+  public abstract Document? owner_document { get; }
+  public abstract DomNode? parent_node { get; }
+  public abstract DomElement? parent_element { get; }
+  public abstract DomNodeList child_nodes { get; }
+  public abstract DomNode? first_child { get; }
+  public abstract DomNode? last_child { get; }
+  public abstract DomNode? previous_sibling { get; }
+  public abstract DomNode? next_sibling { get; }
 
-	public abstract string? nodeValue { get; set; }
-	public abstract string? textContent { get; set; }
+	public abstract string? node_value { get; set; }
+	public abstract string? text_content { get; set; }
 
-  public abstract bool hasChildNodes();
-  public abstract void normalize();
+  public abstract bool has_child_nodes ();
+  public abstract void normalize ();
 
-  public abstract DomNode cloneNode(bool deep = false);
-  public abstract bool isEqualNode(DomNode? node);
+  public abstract DomNode clone_node (bool deep = false);
+  public abstract bool is_equal_node (DomNode? node);
 
   public const ushort DOCUMENT_POSITION_DISCONNECTED = 0x01;
   public const ushort DOCUMENT_POSITION_PRECEDING = 0x02;
@@ -62,17 +62,17 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
   public const ushort DOCUMENT_POSITION_CONTAINS = 0x08;
   public const ushort DOCUMENT_POSITION_CONTAINED_BY = 0x10;
   public const ushort DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC = 0x20;
-  public abstract ushort compareDocumentPosition(DomNode other);
-  public abstract bool contains(DomNode? other);
+  public abstract ushort compare_document_position (DomNode other);
+  public abstract bool contains (DomNode? other);
 
-  public abstract string? lookupPrefix(string? namespace);
-  public abstract string? lookupNamespaceURI(string? prefix);
-  public abstract bool isDefaultNamespace(string? namespace);
+  public abstract string? lookup_prefix(string? namespace);
+  public abstract string? lookup_namespace_uri (string? prefix);
+  public abstract bool is_default_namespace(string? namespace);
 
-  public abstract DomNode insertBefore(DomNode node, DomNode? child);
-  public abstract DomNode appendChild(DomNode node);
-  public abstract DomNode replaceChild(DomNode node, DomNode child);
-  public abstract DomNode removeChild(DomNode child);
+  public abstract DomNode insert_before (DomNode node, DomNode? child);
+  public abstract DomNode append_child (DomNode node);
+  public abstract DomNode replace_child (DomNode node, DomNode child);
+  public abstract DomNode remove_child(DomNode child);
 }
 
 public errordomain GXml.DomError {

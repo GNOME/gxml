@@ -21,28 +21,28 @@
  */
 
 public interface GXml.DomElement : GLib.Object, GXml.DomNode, GXml.DomParentNode, GXml.DomNonDocumentTypeChildNode, GXml.DomChildNode {
-  public abstract string? namespaceURI { get; }
+  public abstract string? namespace_uri { get; }
   public abstract string? prefix { get; }
-  public abstract string localName { get; }
-  public abstract string tagName { get; }
+  public abstract string local_name { get; }
+  public abstract string tag_name { get; }
 
   public abstract string id { get; set; }
-  public abstract string className  { get; set; }
-  public abstract DomTokenList classList { get; }
+  public abstract string class_name  { get; set; }
+  public abstract DomTokenList class_list { get; }
 
   public abstract DomNamedNodeMap attributes { get; }
-  public abstract string? getAttribute(string name);
-  public abstract string? getAttributeNS(string? namespace, string localName);
-  public abstract void setAttribute(string name, string value);
-  public abstract void setAttributeNS(string? namespace, string name, string value);
-  public abstract void removeAttribute(string name);
-  public abstract void removeAttributeNS(string? namespace, string localName);
-  public abstract bool hasAttribute(string name);
-  public abstract bool hasAttributeNS(string? namespace, string localName);
+  public abstract string? get_attribute (string name);
+  public abstract string? get_attribute_ns (string? namespace, string local_name);
+  public abstract void set_attribute (string name, string value);
+  public abstract void set_attribute_ns (string? namespace, string name, string value);
+  public abstract void remove_attribute (string name);
+  public abstract void remove_attribute_ns (string? namespace, string local_name);
+  public abstract bool has_attribute (string name);
+  public abstract bool has_attribute_ns (string? namespace, string local_name);
 
 
-  public abstract DomHTMLCollection getElementsByTagName(string localName);
-  public abstract DomHTMLCollection getElementsByTagNameNS(string? namespace, string localName);
-  public abstract DomHTMLCollection getElementsByClassName(string classNames);
+  public abstract DomHTMLCollection get_elementsby_tag_name(string local_name);
+  public abstract DomHTMLCollection get_elements_by_tag_name_ns (string? namespace, string local_name);
+  public abstract DomHTMLCollection get_elements_by_class_name (string class_names);
 }
 

@@ -22,26 +22,26 @@
 
 
 public interface GXml.DomNonElementParentNode : GLib.Object {
-  public abstract DomElement? getElementById(string elementId);
+  public abstract DomElement? get_element_by_id (string elementId);
 }
 
 public interface GXml.DomParentNode : GLib.Object {
   public abstract DomHTMLCollection children { get; }
-  public abstract DomElement? firstElementChild { get; }
-  public abstract DomElement? lastElementChild { get; }
-  public abstract ulong childElementCount { get; }
+  public abstract DomElement? first_element_child { get; }
+  public abstract DomElement? last_element_child { get; }
+  public abstract ulong child_element_count { get; }
 
-  public abstract DomElement? querySelector(string selectors);
-  public abstract DomNodeList querySelectorAll(string selectors);
+  public abstract DomElement? query_selector (string selectors);
+  public abstract DomNodeList query_selector_all (string selectors);
 }
 
 public interface GXml.DomNonDocumentTypeChildNode : GLib.Object {
-  public abstract DomElement? previousElementSibling { get; }
-  public abstract DomElement? nextElementSibling { get; }
+  public abstract DomElement? previous_element_sibling { get; }
+  public abstract DomElement? next_element_sibling { get; }
 }
 
 public interface GXml.DomChildNode : GLib.Object {
-  public abstract void remove();
+  public abstract void remove ();
 }
 
 
@@ -53,21 +53,21 @@ public interface GXml.DomNodeList : GLib.Object, Gee.BidirList<GXml.DomNode>  {
 public interface GXml.DomHTMLCollection : GLib.Object, Gee.BidirList<GXml.DomNode> {
   public abstract ulong length { get; }
   public abstract DomElement? item (ulong index);
-  public abstract DomElement? namedItem (string name);
+  public abstract DomElement? named_item (string name);
 }
 
 public interface GXml.DomNamedNodeMap : GLib.Object {
-  public abstract DomNode getNamedItem(string name);
-  public abstract DomNode setNamedItem(DomNode arg) throws GXml.DomError;
-  public abstract DomNode removeNamedItem(string name) throws GXml.DomError;
+  public abstract DomNode get_named_item (string name);
+  public abstract DomNode set_named_item (DomNode arg) throws GXml.DomError;
+  public abstract DomNode remove_named_item (string name) throws GXml.DomError;
   public abstract DomNode item (ulong index);
   public abstract ulong length { get; }
   // Introduced in DOM Level 2:
-  public abstract DomNode getNamedItemNS(string namespaceURI, string localName) throws GXml.DomError;
+  public abstract DomNode get_named_item_ns (string namespaceURI, string localName) throws GXml.DomError;
   // Introduced in DOM Level 2:
-  public abstract DomNode setNamedItemNS(DomNode arg) throws GXml.DomError;
+  public abstract DomNode set_named_item_ns (DomNode arg) throws GXml.DomError;
   // Introduced in DOM Level 2:
-  public abstract DomNode removeNamedItemNS(string namespaceURI, string localName) throws GXml.DomError;
+  public abstract DomNode remove_named_item_ns (string namespaceURI, string localName) throws GXml.DomError;
 }
 
 

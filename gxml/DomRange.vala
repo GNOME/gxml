@@ -21,42 +21,42 @@
  */
 
 public interface GXml.DomRange {
-  public abstract DomNode startContainer { get; }
-  public abstract ulong startOffset { get; }
-  public abstract DomNode endContainer { get; }
-  public abstract ulong endOffset { get; }
+  public abstract DomNode start_container { get; }
+  public abstract ulong start_offset { get; }
+  public abstract DomNode end_container { get; }
+  public abstract ulong end_offset { get; }
   public abstract bool collapsed { get; }
-  public abstract DomNode commonAncestorContainer { get; }
+  public abstract DomNode common_ancestor_container { get; }
 
-  public abstract void setStart(DomNode node, ulong offset);
-  public abstract void setEnd(DomNode node, ulong offset);
-  public abstract void setStartBefore(DomNode node);
-  public abstract void setStartAfter(DomNode node);
-  public abstract void setEndBefore(DomNode node);
-  public abstract void setEndAfter(DomNode node);
-  public abstract void collapse(bool toStart = false);
-  public abstract void selectNode(DomNode node);
-  public abstract void selectNodeContents(DomNode node);
+  public abstract void set_start        (DomNode node, ulong offset);
+  public abstract void set_end          (DomNode node, ulong offset);
+  public abstract void set_start_before (DomNode node);
+  public abstract void set_start_after  (DomNode node);
+  public abstract void set_end_before   (DomNode node);
+  public abstract void set_end_after    (DomNode node);
+  public abstract void collapse         (bool toStart = false);
+  public abstract void select_node      (DomNode node);
+  public abstract void select_node_contents (DomNode node);
 
   public const ushort START_TO_START = 0;
   public const ushort START_TO_END = 1;
   public const ushort END_TO_END = 2;
   public const ushort END_TO_START = 3;
-  public abstract short compareBoundaryPoints(ushort how, DomRange sourceRange);
+  public abstract ushort compare_boundary_points (ushort how, DomRange sourceRange);
 
-  public abstract void deleteContents();
-  public abstract DomDocumentFragment extractContents();
-  public abstract DomDocumentFragment cloneContents();
+  public abstract void delete_contents ();
+  public abstract DomDocumentFragment extract_contents();
+  public abstract DomDocumentFragment clone_contents();
   public abstract void insertNode(DomNode node);
   public abstract void surroundContents(DomNode newParent);
 
-  public abstract DomRange cloneRange();
-  public abstract void detach();
+  public abstract DomRange clone_range();
+  public abstract void detach ();
 
-  public abstract bool isPointInRange(DomNode node, ulong offset);
-  public abstract short comparePoint(DomNode node, ulong offset);
+  public abstract bool  is_point_in_range (DomNode node, ulong offset);
+  public abstract short compare_point     (DomNode node, ulong offset);
 
-  public abstract bool intersectsNode(DomNode node);
+  public abstract bool  intersects_node   (DomNode node);
 
   public abstract string to_string ();
 }
