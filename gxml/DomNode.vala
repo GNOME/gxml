@@ -33,12 +33,12 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
   public const ushort DOCUMENT_TYPE_NODE = 10;
   public const ushort DOCUMENT_FRAGMENT_NODE = 11;
   public const ushort NOTATION_NODE = 12; // historical
-  public abstract ushort node_type { get; }
+  public abstract GXml.NodeType node_type { get; }
   public abstract string node_name { get; }
 
-  public abstract string? baseURI { get; }
+  public abstract string? base_uri { get; }
 
-  public abstract Document? owner_document { get; }
+  public abstract DomDocument? owner_document { get; }
   public abstract DomNode? parent_node { get; }
   public abstract DomElement? parent_element { get; }
   public abstract DomNodeList child_nodes { get; }
@@ -56,23 +56,26 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
   public abstract DomNode clone_node (bool deep = false);
   public abstract bool is_equal_node (DomNode? node);
 
-  public const ushort DOCUMENT_POSITION_DISCONNECTED = 0x01;
-  public const ushort DOCUMENT_POSITION_PRECEDING = 0x02;
-  public const ushort DOCUMENT_POSITION_FOLLOWING = 0x04;
-  public const ushort DOCUMENT_POSITION_CONTAINS = 0x08;
-  public const ushort DOCUMENT_POSITION_CONTAINED_BY = 0x10;
-  public const ushort DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC = 0x20;
-  public abstract ushort compare_document_position (DomNode other);
+  [Flags]
+  public enum DocumenPosition {
+    DISCONNECTED,
+    PRECEDING,
+    FOLLOWING,
+    CONTAINS,
+    CONTAINED_BY,
+    IMPLEMENTATION_SPECIFIC
+  }
+  public abstract DocumenPosition compare_document_position (DomNode other);
   public abstract bool contains (DomNode? other);
 
-  public abstract string? lookup_prefix(string? namespace);
+  public abstract string? lookup_prefix (string? nspace);
   public abstract string? lookup_namespace_uri (string? prefix);
-  public abstract bool is_default_namespace(string? namespace);
+  public abstract bool is_default_namespace (string? nspace);
 
   public abstract DomNode insert_before (DomNode node, DomNode? child);
   public abstract DomNode append_child (DomNode node);
   public abstract DomNode replace_child (DomNode node, DomNode child);
-  public abstract DomNode remove_child(DomNode child);
+  public abstract DomNode remove_child (DomNode child);
 }
 
 public errordomain GXml.DomError {

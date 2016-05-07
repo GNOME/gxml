@@ -25,7 +25,7 @@ using Gee;
 /**
  * A {@link Gee.AbstractBidirList} implementation to access {@link Xml.Node} collection
  */
-public class GXml.GListChildren : AbstractBidirList<GXml.Node>
+public class GXml.GListChildren : AbstractBidirList<GXml.Node>, DomNodeList
 {
   private GXml.GDocument _doc;
   private Xml.Node *_node;
@@ -65,14 +65,23 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>
     return -1;
   }
   /**
-   * This method is ignored by default.
+   * Insert @item before @index
    */
-  public override void insert (int index, GXml.Node item) {}
+  public override void insert (int index, GXml.Node item) {
+    var n = @get (index);
+    if (n == null) return;
+    n.get_internal_node ()->add_prev_sibling (item.get_internal_node ());
+  }
   public override  Gee.ListIterator<GXml.Node> list_iterator () { return new Iterator (_doc, _node); }
   /**
-   * This method is ignored by default.
+   * Removes a node at @index
    */
-  public override GXml.Node remove_at (int index) { return null; }
+  public override GXml.Node remove_at (int index) {
+    var n = @get (index);
+    if (n == null) return null;
+    n.get_internal_node ()->unlink_node ();
+    return n;
+  }
   /**
    * This method is ignored by default.
    */
@@ -240,5 +249,8 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>
       return true;
     }
   }
+  // DomNodeList implementation
+  public DomNode? item (ulong index) { return (DomNode) @get ((int) index); }
+  public ulong length { get { return (ulong) size; } }
 }
 
