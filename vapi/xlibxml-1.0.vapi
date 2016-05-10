@@ -51,4 +51,6 @@ namespace Xmlx {
   public static int text_writer_write_cdata (Xml.TextWriter tw, string text);
   [CCode (cname = "gxml_text_writer_write_pi", cheader_filename = "gxml/xlibxml.h")]
   public static int text_writer_write_pi (Xml.TextWriter tw, string target, string data);
+  [CCode (cname = "gxml_copy_props", cheader_filename = "gxml/xlibxml.h")]
+  public static int copy_props (Xml.Node src, Xml.Node dst);
 }

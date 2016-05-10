@@ -70,7 +70,7 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>, DomNodeList
   public override void insert (int index, GXml.Node item) {
     var n = @get (index);
     if (n == null) return;
-    n.get_internal_node ()->add_prev_sibling (item.get_internal_node ());
+    (n as GXml.GNode).get_internal_node ()->add_prev_sibling ((item as GXml.GNode).get_internal_node ());
   }
   public override  Gee.ListIterator<GXml.Node> list_iterator () { return new Iterator (_doc, _node); }
   /**
@@ -79,7 +79,7 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>, DomNodeList
   public override GXml.Node remove_at (int index) {
     var n = @get (index);
     if (n == null) return null;
-    n.get_internal_node ()->unlink_node ();
+    (n as GXml.GNode).get_internal_node ()->unlink ();
     return n;
   }
   /**

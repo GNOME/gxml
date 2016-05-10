@@ -34,21 +34,21 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
   public const ushort DOCUMENT_FRAGMENT_NODE = 11;
   public const ushort NOTATION_NODE = 12; // historical
   public abstract GXml.NodeType node_type { get; }
-  public abstract string node_name { get; }
+  public abstract string node_name { owned get; }
 
   public abstract string? base_uri { get; }
 
   public abstract DomDocument? owner_document { get; }
-  public abstract DomNode? parent_node { get; }
-  public abstract DomElement? parent_element { get; }
-  public abstract DomNodeList child_nodes { get; }
-  public abstract DomNode? first_child { get; }
-  public abstract DomNode? last_child { get; }
-  public abstract DomNode? previous_sibling { get; }
-  public abstract DomNode? next_sibling { get; }
+  public abstract DomNode? parent_node { owned get; }
+  public abstract DomElement? parent_element { owned get; }
+  public abstract DomNodeList child_nodes { owned get; }
+  public abstract DomNode? first_child { owned get; }
+  public abstract DomNode? last_child { owned get; }
+  public abstract DomNode? previous_sibling { owned get; }
+  public abstract DomNode? next_sibling { owned get; }
 
-	public abstract string? node_value { get; set; }
-	public abstract string? text_content { get; set; }
+	public abstract string? node_value { owned get; set; }
+	public abstract string? text_content { owned get; set; }
 
   public abstract bool has_child_nodes ();
   public abstract void normalize ();
@@ -57,7 +57,7 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
   public abstract bool is_equal_node (DomNode? node);
 
   [Flags]
-  public enum DocumenPosition {
+  public enum DocumentPosition {
     DISCONNECTED,
     PRECEDING,
     FOLLOWING,
@@ -65,7 +65,7 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
     CONTAINED_BY,
     IMPLEMENTATION_SPECIFIC
   }
-  public abstract DocumenPosition compare_document_position (DomNode other);
+  public abstract DocumentPosition compare_document_position (DomNode other);
   public abstract bool contains (DomNode? other);
 
   public abstract string? lookup_prefix (string? nspace);

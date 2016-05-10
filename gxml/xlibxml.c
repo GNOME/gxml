@@ -99,3 +99,10 @@ gint gxml_text_writer_write_pi (xmlTextWriterPtr tw, const xmlChar* target, cons
   return xmlTextWriterWritePI (tw, target, data);
 }
 
+
+void gxml_copy_props (xmlNodePtr src, xmlNodePtr dst)
+{
+	g_return_if_fail (src != NULL);
+	g_return_if_fail (dst != NULL);
+	xmlCopyProp (dst, src->properties);
+}

@@ -147,6 +147,7 @@ endif
 
 # library flags
 AM_VALAFLAGS += \
+	--vapidir=$(VAPIDIR) \
 	$(ERROR_VALAFLAGS) \
 	--library=gxml-0.10 \
 	$(top_srcdir)/vapi/config.vapi \

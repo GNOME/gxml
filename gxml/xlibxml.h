@@ -38,5 +38,6 @@ xmlTextWriterPtr gxml_new_text_writer_doc      (xmlDoc** doc);
 xmlTextWriterPtr gxml_new_text_writer_memory   (xmlBufferPtr buffer, gint compression);
 gint         gxml_text_writer_write_cdata       (xmlTextWriter* tw, const xmlChar* text);
 gint         gxml_text_writer_write_pi          (xmlTextWriter* tw, const xmlChar* target, const xmlChar* data);
+void         gxml_copy_props                    (xmlNodePtr src, xmlNodePtr dst);
 
 #endif

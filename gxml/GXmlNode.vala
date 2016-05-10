@@ -105,40 +105,40 @@ public abstract class GXml.GNode : Object, GXml.Node
     return null;
   }
   // DomNode Implementation
-  public string node_name { get { return name; } }
+  public string node_name { owned get { return name; } }
 
   protected string _base_uri = null;
   public string? base_uri { get { return _base_uri; } }
 
-  public DomDocument? owner_document { get { return document; } }
-  public DomNode? parent_node { get { return parent; } }
+  public DomDocument? owner_document { get { return (GXml.DomDocument?) document; } }
+  public DomNode? parent_node { owned get { return parent as DomNode?; } }
   public DomElement? parent_element {
-    get {
-      if (parent is DomElement) return parent;
+    owned get {
+      if (parent is DomElement) return parent as DomElement?;
       return null;
     }
   }
-  public DomNodeList child_nodes { get { return children; } }
-  public DomNode? first_child { get { return children.itirator ().first (); } }
-  public DomNode? last_child { get { return children.itirator ().last (); } }
+  public DomNodeList child_nodes { owned get { return children as DomNodeList; } }
+  public DomNode? first_child { owned get { return children.first () as DomNode?; } }
+  public DomNode? last_child { owned get { return children.last () as DomNode?; } }
   public DomNode? previous_sibling {
-    get {
+    owned get {
       if (_node == null) return null;
       if (_node->prev == null) return null;
-      return GNode.to_gnode (_doc, _node->prev);
+      return GNode.to_gnode (_doc, _node->prev) as DomNode?;
     }
   }
   public DomNode? next_sibling {
-    get {
+    owned get {
       if (_node == null) return null;
       if (_node->next == null) return null;
-      return GNode.to_gnode (_doc, _node->next);
+      return GNode.to_gnode (_doc, _node->next) as DomNode?;
     }
   }
 
-	public string? node_value { get { return @value; } set { this.@value = value; } }
+	public string? node_value { owned get { return @value; } set { this.@value = value; } }
 	public string? text_content {
-	  get {
+	  owned get {
 	    string t = null;
 	    if (this is GXml.Text) return this.@value;
 	    if (this is GXml.ProcessingInstruction) return this.@value;
@@ -156,7 +156,7 @@ public abstract class GXml.GNode : Object, GXml.Node
 	  set {
       if (this is GXml.Document || this is GXml.Element) {
         var t = this.document.create_text (value);
-        this.document.add (t);
+        this.document.children.add (t);
       }
       if (!(this is GXml.Text || this is GXml.Comment || this is GXml.ProcessingInstruction)) return;
       this.@value = value;
@@ -165,7 +165,7 @@ public abstract class GXml.GNode : Object, GXml.Node
 
   public bool has_child_nodes () { return (children.size > 0); }
   public void normalize () {
-    GXml.Text t = null;
+    GXml.DomText t = null;
     int[] r = {};
     for (int i = 0; i < children.size; i++) {
       var n = children.get (i);
@@ -175,10 +175,10 @@ public abstract class GXml.GNode : Object, GXml.Node
           continue;
         }
         if (t == null) {
-          t = n;
+          t = (GXml.DomText) n;
           continue;
         } else {
-          t.@value += n.value;
+          t.data += n.value;
         }
       }
     }
@@ -190,40 +190,50 @@ public abstract class GXml.GNode : Object, GXml.Node
   public DomNode clone_node (bool deep = false) {
     Xml.Node *n = null;
     if (deep)
-      n = _node->copy_node (2);
+      n = _node->copy (1);
     else
-      n = _node->copy_prop_list (_node->properties);
+      n = _node->copy (2);
     if (n == null) return null;
-    return Node.to_gnode (_doc, n);
+    return (DomNode) GNode.to_gnode (_doc, n);
   }
   public bool is_equal_node (DomNode? node) {
+    if (!(node is GXml.Node)) return false;
     if (node == null) return false;
-    if (this.children.size != node.children.size) return false;
-    foreach (Attribute a in attrs.values) {
-      if (!node.attrs.has_key (a.name)) return false;
-      if (a.value != node.attrs.get (a.name).value) return false;
+    if (this.children.size != (node as Node).children.size) return false;
+    foreach (GXml.Node a in attrs.values) {
+      if (!(node as GXml.Node?).attrs.has_key (a.name)) return false;
+      if (a.value != (node as GXml.Node).attrs.get (a.name).value) return false;
     }
     for (int i=0; i < children.size; i++) {
-      if (!children[i].is_equal_node (node.children[i])) return false;
+      if (!(children[i] as GXml.DomNode).is_equal_node ((node as GXml.Node?).children[i] as GXml.DomNode?)) return false;
     }
+    return true;
   }
 
-  public DocumenPosition compare_document_position (DomNode other) {
-    if (this == other) return (DocumenPosition) 0;
-    if (this.document != (other as GXml.Node).document)
-      return DocumenPosition.DISCONNECTED & DocumenPosition.IMPLEMENTATION_SPECIFIC
-              & (this > other) ? DocumentPosition.PRECEDING : DocumentPosition.FOLLOWING;
-    if (other.parent == this)
-      return DocumenPosition.CONTAINS & DocumenPosition.PRECEDING;
-    if (this.parent == other)
-      return DocumenPosition.CONTAINED_BY & DocumenPosition.FOLLOWING;
-    if (other < this) return DocumenPosition.PRECEDING;
-    return DocumenPosition.FOLLOWING;
+  public DomNode.DocumentPosition compare_document_position (DomNode other) {
+    if ((&this as GXml.DomNode) == &other) return (DomNode.DocumentPosition) 0;
+    if (this.document != (other as GXml.Node).document) {
+      var p = DomNode.DocumentPosition.DISCONNECTED & DomNode.DocumentPosition.IMPLEMENTATION_SPECIFIC;
+      if ((&this) > (&other))
+        p = p & DomNode.DocumentPosition.PRECEDING;
+      else
+       p = p & DomNode.DocumentPosition.FOLLOWING;
+      return p;
+    }
+    if ((&other as GXml.Node).parent == &this)
+      return DomNode.DocumentPosition.CONTAINS & DomNode.DocumentPosition.PRECEDING;
+    var op = this.parent as DomNode;
+    if (&other == &op)
+      return DomNode.DocumentPosition.CONTAINED_BY & DomNode.DocumentPosition.FOLLOWING;
+    if (&other < &this) return DomNode.DocumentPosition.PRECEDING;
+    return DomNode.DocumentPosition.FOLLOWING;
   }
   public bool contains (DomNode? other) {
     if (other == null) return false;
-    if (other == this) return true;
-    if (other.parent == this) return true;
+    var o = other as GXml.Node;
+    if (&o == &this) return true;
+    var op = o.parent;
+    if (&this == &op) return true;
     return false;
   }
 
@@ -242,7 +252,7 @@ public abstract class GXml.GNode : Object, GXml.Node
         else return null;
       }
     }
-    return this.parent.lookup_prefix (nspace);
+    return (this.parent as GXml.DomNode).lookup_prefix (nspace);
   }
   public string? lookup_namespace_uri (string? prefix) {
     if (prefix == null) return null;
@@ -255,11 +265,11 @@ public abstract class GXml.GNode : Object, GXml.Node
     if (this is GXml.Element) {
       if (namespaces.size > 0) {
         var ns = namespaces[0];
-        if (ns.prefix == nspace) return ns.uri;
+        if (ns.prefix == prefix) return ns.uri;
         else return null;
       }
     }
-    return this.parent.lookup_namespace_uri (prefix);
+    return (this.parent as GXml.DomNode).lookup_namespace_uri (prefix);
   }
   public bool is_default_namespace (string? nspace) {
     if (nspace == null) return false;
@@ -269,22 +279,23 @@ public abstract class GXml.GNode : Object, GXml.Node
   }
 
   public DomNode insert_before (DomNode node, DomNode? child) {
-    int i = children.index_of (child);
-    children.insert (i, node);
+    int i = children.index_of (child as GXml.Node);
+    children.insert (i, (node as GXml.Node));
     return node;
   }
   public DomNode append_child (DomNode node) {
-    children.add (node);
+    children.add ((node as GXml.Node));
     return node;
   }
   public DomNode replace_child (DomNode node, DomNode child) {
-    int i = children.index_of (child);
+    int i = children.index_of ((child as GXml.Node));
     children.remove_at (i);
-    children.insert (node, i);
+    children.insert (i, (node as GXml.Node));
+    return child;
   }
   public DomNode remove_child (DomNode child) {
-    int i = children.index_of (child);
-    return children.remove_at (i);
+    int i = children.index_of ((child as GXml.Node));
+    return (DomNode) children.remove_at (i);
   }
 }
 
