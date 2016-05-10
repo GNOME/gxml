@@ -21,19 +21,21 @@
  */
 
 public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
-  public const ushort ELEMENT_NODE = 1;
-  public const ushort ATTRIBUTE_NODE = 2; // historical
-  public const ushort TEXT_NODE = 3;
-  public const ushort CDATA_SECTION_NODE = 4; // historical
-  public const ushort ENTITY_REFERENCE_NODE = 5; // historical
-  public const ushort ENTITY_NODE = 6; // historical
-  public const ushort PROCESSING_INSTRUCTION_NODE = 7;
-  public const ushort COMMENT_NODE = 8;
-  public const ushort DOCUMENT_NODE = 9;
-  public const ushort DOCUMENT_TYPE_NODE = 10;
-  public const ushort DOCUMENT_FRAGMENT_NODE = 11;
-  public const ushort NOTATION_NODE = 12; // historical
-  public abstract GXml.NodeType node_type { get; }
+	public enum NodeType {
+		ELEMENT_NODE = 1,
+		ATTRIBUTE_NODE, // historical
+		TEXT_NODE,
+		CDATA_SECTION_NODE, // historical
+		ENTITY_REFERENCE_NODE, // historical
+		ENTITY_NODE, // historical
+		PROCESSING_INSTRUCTION_NODE,
+		COMMENT_NODE,
+		DOCUMENT_NODE,
+		DOCUMENT_TYPE_NODE,
+		DOCUMENT_FRAGMENT_NODE,
+		NOTATION_NODE // historical
+	}
+  public abstract NodeType node_type { get; }
   public abstract string node_name { owned get; }
 
   public abstract string? base_uri { get; }

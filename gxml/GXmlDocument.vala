@@ -179,5 +179,39 @@ public class GXml.GDocument : GXml.GNode, GXml.Document
     throws GLib.Error
   {
     return TDocument.tw_save_as (this, f, cancellable);
-  }
+  }/*
+  // DomDocument implementation
+  public abstract DomImplementation implementation { get; }
+  public abstract string url { get; }
+  public abstract string document_uri { get; }
+  public abstract string origin { get; }
+  public abstract string compat_mode { get; }
+  public abstract string character_set { get; }
+  public abstract string content_type { get; }
+
+  public abstract DomDocumentType? doctype { get; }
+  public abstract DomElement? document_element { get; }
+
+  public abstract DomHTMLCollection get_elements_by_tag_name (string local_name);
+  public abstract DomHTMLCollection get_elements_by_tag_name_ns (string? namespace, string local_name);
+  public abstract DomHTMLCollection get_elements_by_class_name(string classNames);
+
+  public abstract DomElement create_element    (string localName);
+  public abstract DomElement create_element_ns (string? namespace, string qualified_name);
+  public abstract DomDocumentFragment create_document_fragment();
+  public abstract DomText create_text_node (string data);
+  public abstract DomComment create_comment (string data);
+  public abstract DomProcessingInstruction create_processing_instruction (string target, string data);
+
+  public abstract DomNode import_node (DomNode node, bool deep = false);
+  public abstract DomNode adopt_node (DomNode node);
+
+  public abstract DomEvent create_event (string interface);
+
+  public abstract DomRange create_range();
+
+  // NodeFilter.SHOW_ALL = 0xFFFFFFFF
+  public abstract DomNodeIterator create_node_iterator (DomNode root, ulong whatToShow = (ulong) 0xFFFFFFFF, DomNodeFilter? filter = null);
+  public abstract DomTreeWalker create_tree_walker (DomNode root, ulong what_to_show = (ulong) 0xFFFFFFFF, DomNodeFilter? filter = null);
+  */
 }
