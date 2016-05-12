@@ -179,9 +179,10 @@ public class GXml.GDocument : GXml.GNode, GXml.Document
     throws GLib.Error
   {
     return TDocument.tw_save_as (this, f, cancellable);
-  }/*
+  }
   // DomDocument implementation
-  public abstract DomImplementation implementation { get; }
+  protected Implementation _implementation = new Implementation ();
+  public abstract DomImplementation implementation { get { return _implementation; } }
   public abstract string url { get; }
   public abstract string document_uri { get; }
   public abstract string origin { get; }
@@ -196,11 +197,11 @@ public class GXml.GDocument : GXml.GNode, GXml.Document
   public abstract DomHTMLCollection get_elements_by_tag_name_ns (string? namespace, string local_name);
   public abstract DomHTMLCollection get_elements_by_class_name(string classNames);
 
-  public abstract DomElement create_element    (string localName);
+  //public abstract DomElement create_element    (string localName);
   public abstract DomElement create_element_ns (string? namespace, string qualified_name);
   public abstract DomDocumentFragment create_document_fragment();
   public abstract DomText create_text_node (string data);
-  public abstract DomComment create_comment (string data);
+  //public abstract DomComment create_comment (string data);
   public abstract DomProcessingInstruction create_processing_instruction (string target, string data);
 
   public abstract DomNode import_node (DomNode node, bool deep = false);
@@ -213,5 +214,44 @@ public class GXml.GDocument : GXml.GNode, GXml.Document
   // NodeFilter.SHOW_ALL = 0xFFFFFFFF
   public abstract DomNodeIterator create_node_iterator (DomNode root, ulong whatToShow = (ulong) 0xFFFFFFFF, DomNodeFilter? filter = null);
   public abstract DomTreeWalker create_tree_walker (DomNode root, ulong what_to_show = (ulong) 0xFFFFFFFF, DomNodeFilter? filter = null);
-  */
+}
+
+
+public class GXml.GImplementation : GLib.Object, GXml.DomImplementation {
+  public abstract DomDocumentType
+    create_document_type (string qualified_name, string public_id, string system_id)
+        throws GLib.Error
+  {
+
+  }
+  public abstract DomXMLDocument create_document (string? namespace, string? qualified_name, DocumentType? doctype = null) throws GLib.Error;
+  public abstract Document create_html_document (string title);
+
+  public virtual bool has_feature() { return true; } // useless; always returns true
+}
+
+
+public class GXml.GDocumentType : GXml.GNode, GXml.DomNode, GXml.DomChildNode, GXml.DomDocumentType {
+  protected string _name = "";
+  protected string _public_id = "";
+  protected string _system_id = "";
+
+  public string name { get { return _name; } }
+  public string public_id { get { return _public_id; } }
+  public string system_id { get { return _system_id; } }
+
+  public GDocumentType.with_name (string name) {
+    _name = name;
+    _public_id = "";
+    _system_id = "";
+  }
+  public GDocumentType.with_ids (string name, string public_id, string system_id) {
+    _name = name;
+    _public_id = public_id;
+    _system_id = system_id;
+  }
+  // DomChildNode implementation
+  public void remove () {
+    get_internal_node ()->unlink ();
+  }
 }
