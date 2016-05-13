@@ -92,6 +92,7 @@ $(sources:.vala=.c): vala-stamp
 gxml_test_SOURCES = $(sources:.vala=.c)
 
 AM_VALAFLAGS = \
+	--vapidir=$(VAPIDIR) \
 	$(top_srcdir)/vapi/config.vapi \
 	$(top_srcdir)/vapi/gxml-test.vapi \
 	--vapidir=$(top_srcdir)/vapi \
