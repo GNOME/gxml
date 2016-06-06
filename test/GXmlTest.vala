@@ -29,14 +29,14 @@ class GXmlTest {
 	}
 
 	internal static void test_error (GXml.DomException expected) {
-		if (expected != GXml.last_error) {
-			stderr.printf ("Expected last error [%s] but found [%s]", expected.to_string (), GXml.last_error.to_string ());
-			Test.message ("Expected last error [%s] but found [%s]", expected.to_string (), GXml.last_error.to_string ());
+		if (expected != GXml.dom_get_last_error ()) {
+			stderr.printf ("Expected last error [%s] but found [%s]", expected.to_string (), GXml.dom_get_last_error ().to_string ());
+			Test.message ("Expected last error [%s] but found [%s]", expected.to_string (), GXml.dom_get_last_error ().to_string ());
 			Test.fail ();
 		}
 
 		// clear it
-		GXml.last_error = DomException.NONE;
+		GXml.dom_set_last_error (DomException.NONE);
 	}
 
 	public static int main (string[] args) {

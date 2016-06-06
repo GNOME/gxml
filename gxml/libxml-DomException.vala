@@ -26,7 +26,10 @@ namespace GXml {
 	/**
 	 * Last error exception for DOM.
 	 */
-	public static DomException last_error = DomException.NONE;
+	private static DomException last_error = DomException.NONE;
+	
+	public static DomException dom_get_last_error () { return last_error; }
+	public static void dom_set_last_error (DomException exc) { last_error = exc; }
 
 	/**
 	 * Log DOM exception warnings.
