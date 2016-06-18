@@ -1,0 +1,136 @@
+# Indonesian translation for gxml.
+# Copyright (C) 2016 gxml's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gxml package.
+# Andika Triwidada <atriwidada@gnome.org>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gxml gxml-0.10\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=gxml&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2016-05-13 02:17+0000\n"
+"PO-Revision-Date: 2016-06-18 16:00+0700\n"
+"Last-Translator: Andika Triwidada <atriwidada@gnome.org>\n"
+"Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
+"Language: id\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#: ../gxml/Document.vala:152
+msgid "Invalid file"
+msgstr "Berkas tak valid"
+
+#: ../gxml/Enumeration.vala:88
+msgid "value is invalid"
+msgstr "nilai tak valid"
+
+#: ../gxml/Enumeration.vala:129
+msgid "text cannot be parsed to enumeration type:"
+msgstr "teks tak bisa diurai ke tipe enumerasi:"
+
+#: ../gxml/GXmlDocument.vala:49 ../gxml/TDocument.vala:475
+msgid "File doesn't exist"
+msgstr "Berkas tak ada"
+
+#: ../gxml/GXmlDocument.vala:73
+msgid "stream doesn't provide data"
+msgstr "stream tidak menyediakan data"
+
+#: ../gxml/libxml-ChildNodeList.vala:148
+#, c-format
+msgid "ref_child '%s' not found, was supposed to have '%s' inserted before it."
+msgstr "ref_child '%s' tak ditemukan, mestinya punya '%s' disisipkan di depan."
+
+#: ../gxml/libxml-Document.vala:127
+#, c-format
+msgid "Looking up %s from an xmlNode* is not supported"
+msgstr "Mencari %s  di daftar dari xmlNode* tidak didukung"
+
+#: ../gxml/libxml-Document.vala:302
+#, c-format
+msgid "Could not load document from path: %s"
+msgstr "Tidak bisa memuat dokumen dari path: %s"
+
+#: ../gxml/libxml-Entity.vala:129
+msgid "Cloning of Entity not yet supported"
+msgstr "Pembuatan klon Entitas belum didukung"
+
+#. TODO: replace usage of this with GXml.get_last_error_msg
+#: ../gxml/libxml-Error.vala:12
+#, c-format
+msgid "%s:%s:%d: %s:%d: %s"
+msgstr "%s:%s:%d: %s:%d: %s"
+
+#: ../gxml/libxml-Node.vala:67
+msgid ""
+"Node tried to interact with a different document than the one it belongs to"
+msgstr "Simpul mencoba berinteraksi dengan dokumen yang berbeda golongan"
+
+#: ../gxml/Node.vala:180
+msgid "Text node with NULL string"
+msgstr "Simpul teks dengan kalimat NULL"
+
+#: ../gxml/SerializableEnum.vala:75
+msgid "Value can't be parsed to a valid enumeration's value. Value is not set"
+msgstr "Nilai tak bisa diurai ke nilai enumerasi yang valid. Nilai tak ditata"
+
+#: ../gxml/SerializableEnum.vala:78
+msgid "Value can't be parsed to a valid enumeration's value"
+msgstr "Nilai tak bisa diurai ke nilai enumerasi yang valid"
+
+#: ../gxml/SerializableGeeArrayList.vala:41
+#: ../gxml/SerializableGeeArrayList.vala:60
+#: ../gxml/SerializableGeeDualKeyMap.vala:43
+#: ../gxml/SerializableGeeDualKeyMap.vala:64
+#: ../gxml/SerializableGeeHashMap.vala:40
+#: ../gxml/SerializableGeeHashMap.vala:61
+#: ../gxml/SerializableGeeTreeMap.vala:40
+#: ../gxml/SerializableGeeTreeMap.vala:61
+#, c-format
+msgid "%s: Value type '%s' is unsupported"
+msgstr "%s: Tipe nilai '%s' tak didukung"
+
+#: ../gxml/SerializableObjectModel.vala:322
+#, c-format
+msgid "WARNING: Object type '%s' has no Node Name defined"
+msgstr "PERINGATAN: Tipe objek '%s' tak punya definisi Nama Simpul"
+
+#: ../gxml/SerializableObjectModel.vala:326
+#, c-format
+msgid "Actual node's name is '%s' expected '%s'"
+msgstr "Nama simpul sebenarnya '%s' diharapkan '%s'"
+
+#: ../gxml/SerializableProperty.vala:91
+msgid "Trying to serialize to a non GXmlElement!"
+msgstr "Mencoba menserialisasi ke suatu yang bukan GXmlElement!"
+
+#: ../gxml/SerializableProperty.vala:110
+msgid "No attribute found to deserialize from"
+msgstr "Tidak ada atribut yang ditemukan sebagai asal deserialisasi"
+
+#: ../gxml/SerializableProperty.vala:115
+#, c-format
+msgid "XML Attribute name is not set, when deserializing to: %s"
+msgstr "Nama Atribut XML tak ditatal, ketika mendeserialisasi ke: %s"
+
+#: ../gxml/Serializable.vala:439
+#, c-format
+msgid "Transformation Error on '%s' or Unsupported type: '%s'"
+msgstr "Kesalahan Transformasi pada '%s' atau Tipe tak didukung: '%s'"
+
+#: ../gxml/Serializable.vala:460
+#, c-format
+msgid "Can't transform '%s' to string"
+msgstr "Tak bisa mentransformasi '%s' ke kalimat"
+
+#: ../gxml/TDocument.vala:152
+msgid "Document has more than one root GXmlElement. Using first found"
+msgstr ""
+"Dokumen punya lebih dari satu GXmlElement akar. Memakai yang pertama "
+"ditemukan"
+
+#: ../gxml/TDocument.vala:171
+msgid "Invalid element name"
+msgstr "Nama elemen tak valid"
