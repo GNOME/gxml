@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-01-28 20:41+0000\n"
-"PO-Revision-Date: 2016-02-01 15:55+0100\n"
+"POT-Creation-Date: 2016-06-18 09:01+0000\n"
+"PO-Revision-Date: 2016-07-01 09:28+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Gtranslator 2.91.6\n"
 
-#: ../gxml/Document.vala:148
+#: ../gxml/Document.vala:152
 msgid "Invalid file"
 msgstr "Archivo inválido"
 
@@ -29,26 +29,32 @@ msgid "value is invalid"
 msgstr "valor es inválido"
 
 #: ../gxml/Enumeration.vala:129
-msgid "text can not been parsed to enumeration type:"
-msgstr "el texto no puede ser convertido a un tipo enumeración"
+#| msgid "text can not been parsed to enumeration type:"
+msgid "text cannot be parsed to enumeration type:"
+msgstr "no se puede convertir el texto a un tipo enumeración"
 
-#: ../gxml/GXmlDocument.vala:49
-msgid "File doesn't exists"
+#: ../gxml/GXmlDocument.vala:49 ../gxml/TDocument.vala:475
+#| msgid "File doesn't exists"
+msgid "File doesn't exist"
 msgstr "El archivo no existe"
 
-#: ../gxml/libxml-ChildNodeList.vala:147
+#: ../gxml/GXmlDocument.vala:73
+msgid "stream doesn't provide data"
+msgstr "el flujo no proporciona datos"
+
+#: ../gxml/libxml-ChildNodeList.vala:148
 #, c-format
 msgid "ref_child '%s' not found, was supposed to have '%s' inserted before it."
 msgstr ""
 "ref_child «%s» no encontrado, se suponía que debería tener «%s» insertado "
 "antes que él."
 
-#: ../gxml/libxml-Document.vala:137
+#: ../gxml/libxml-Document.vala:127
 #, c-format
 msgid "Looking up %s from an xmlNode* is not supported"
 msgstr "Buscando %s desde un xmlNode* no está soportado"
 
-#: ../gxml/libxml-Document.vala:311
+#: ../gxml/libxml-Document.vala:302
 #, c-format
 msgid "Could not load document from path: %s"
 msgstr "No se pudo cargar el documento desde la ruta: %s"
@@ -64,82 +70,96 @@ msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
 
 #: ../gxml/libxml-Node.vala:67
-msgid "Node tried to interact with different document it belongs to"
-msgstr "El nodo intentó interactuar con un domento diferente al que pertenece"
+#| msgid "Node tried to interact with different document it belongs to"
+msgid ""
+"Node tried to interact with a different document than the one it belongs to"
+msgstr ""
+"El nodo intentó interactuar con un documento diferente al que pertenece"
 
-#: ../gxml/Node.vala:170
+#: ../gxml/Node.vala:180
 msgid "Text node with NULL string"
 msgstr "El nodo tipo Texto con una cadena de texto NULO"
 
-#: ../gxml/SerializableEnum.vala:72
+#: ../gxml/SerializableEnum.vala:75
 msgid "Value can't be parsed to a valid enumeration's value. Value is not set"
 msgstr ""
 "El valor no puede ser convertido a un valor de enumeración válido. No hay "
 "valor asignado."
 
-#: ../gxml/SerializableEnum.vala:75
+#: ../gxml/SerializableEnum.vala:78
 msgid "Value can't be parsed to a valid enumeration's value"
 msgstr "El valor no puede ser convertido a un valor de enumeración válido"
 
-#: ../gxml/SerializableGeeArrayList.vala:139
-#: ../gxml/SerializableGeeDualKeyMap.vala:224
-#: ../gxml/SerializableGeeHashMap.vala:137
-#: ../gxml/SerializableGeeTreeMap.vala:140
+#: ../gxml/SerializableGeeArrayList.vala:41
+#: ../gxml/SerializableGeeArrayList.vala:60
+#: ../gxml/SerializableGeeDualKeyMap.vala:43
+#: ../gxml/SerializableGeeDualKeyMap.vala:64
+#: ../gxml/SerializableGeeHashMap.vala:40
+#: ../gxml/SerializableGeeHashMap.vala:61
+#: ../gxml/SerializableGeeTreeMap.vala:40
+#: ../gxml/SerializableGeeTreeMap.vala:61
 #, c-format
 msgid "%s: Value type '%s' is unsupported"
 msgstr "%s: el valor de tipo «%s» no está soportado"
 
-#: ../gxml/SerializableObjectModel.vala:173
-msgid "Text node with NULL or none text"
-msgstr "Nodo tipo Texto con NULO o ningún texto"
-
-#: ../gxml/SerializableObjectModel.vala:297
+#: ../gxml/SerializableObjectModel.vala:322
 #, c-format
-msgid "WARNING: Object type '%s' have no Node Name defined"
-msgstr "CUIDADO: El objecto tipo «%s» no tiene un nombre de nodo definido"
+#| msgid "WARNING: Object type '%s' have no Node Name defined"
+msgid "WARNING: Object type '%s' has no Node Name defined"
+msgstr "ADVERTENCIA: el objecto tipo «%s» no tiene un nombre de nodo definido"
 
-#: ../gxml/SerializableObjectModel.vala:301
+#: ../gxml/SerializableObjectModel.vala:326
 #, c-format
 msgid "Actual node's name is '%s' expected '%s'"
 msgstr "El nombre actual del nodo es «%s», el esperado es «%s»"
 
-#: ../gxml/SerializableProperty.vala:93
+#: ../gxml/SerializableProperty.vala:91
 msgid "Trying to serialize to a non GXmlElement!"
 msgstr "Intentando serializar a un objeto que no es del tipo GXmlElement"
 
-#: ../gxml/SerializableProperty.vala:112
+#: ../gxml/SerializableProperty.vala:110
 msgid "No attribute found to deserialize from"
 msgstr "No se ha encontrado ningún atributo para el formulario deserializado"
 
-#: ../gxml/Serializable.vala:573
+#: ../gxml/SerializableProperty.vala:115
+#, c-format
+msgid "XML Attribute name is not set, when deserializing to: %s"
+msgstr "El nombre del atributo XML no está establecido al deserializar a: %s"
+
+#: ../gxml/Serializable.vala:439
 #, c-format
 msgid "Transformation Error on '%s' or Unsupported type: '%s'"
 msgstr "Error de transformación en «%s» o es un tipo no soportado: «%s»"
 
-#: ../gxml/Serializable.vala:615
+#: ../gxml/Serializable.vala:460
 #, c-format
 msgid "Can't transform '%s' to string"
 msgstr "No se puede transformar «%s» a una cadena de texto"
 
-#: ../gxml/Serialization.vala:184
-#, c-format
-msgid "DEBUG: skipping gpointer with name '%s' of object '%s'"
-msgstr "DEBUG: Saltando gpointer con el nombre «%s» del objeto «%s»"
-
-#: ../gxml/Serialization.vala:187
-#, c-format
-msgid "Can't currently serialize type '%s' for property '%s' of object '%s'"
+#: ../gxml/TDocument.vala:152
+msgid "Document has more than one root GXmlElement. Using first found"
 msgstr ""
-"No se puede serializar el tipo «%s» para la propiedad «%s» del objeto «%s»"
+"El documento tiene más de un GXmlElement raíz. Usando el primero encontrado"
 
-#: ../gxml/Serialization.vala:403
-#, c-format
-msgid "Deserializing unknown GType '%s' objects is unsupported"
-msgstr "Deserializando un tipo GType «%s» desconocido no es soportado"
+#: ../gxml/TDocument.vala:171
+#| msgid "Invalid file"
+msgid "Invalid element name"
+msgstr "Nombre de elemento no válido"
 
-#: ../gxml/Serialization.vala:433
-#, c-format
-msgid "Unknown property '%s' found, for object type '%s'-->XML: [%s]"
-msgstr ""
-"Se encontró la propiedad «%s» desconocida, para el objeto tipo «%s»-->XML:"
-"[%s]"
+#~ msgid "Text node with NULL or none text"
+#~ msgstr "Nodo tipo Texto con NULO o ningún texto"
+
+#~ msgid "DEBUG: skipping gpointer with name '%s' of object '%s'"
+#~ msgstr "DEBUG: Saltando gpointer con el nombre «%s» del objeto «%s»"
+
+#~ msgid "Can't currently serialize type '%s' for property '%s' of object '%s'"
+#~ msgstr ""
+#~ "No se puede serializar el tipo «%s» para la propiedad «%s» del objeto «%s»"
+
+#~ msgid "Deserializing unknown GType '%s' objects is unsupported"
+#~ msgstr "Deserializando un tipo GType «%s» desconocido no es soportado"
+
+#~ msgid "Unknown property '%s' found, for object type '%s'-->XML: [%s]"
+#~ msgstr ""
+#~ "Se encontró la propiedad «%s» desconocida, para el objeto tipo «%s»-->XML:"
+#~ "[%s]"
