@@ -24,7 +24,7 @@ using Gee;
 /**
  * Class implemeting {@link GXml.Attribute} interface, not tied to libxml-2.0 library.
  */
-public class GXml.GAttribute : GXml.GNode, GXml.Attribute
+public class GXml.GAttribute : GXml.GNode, GXml.Attribute, GXml.DomAttr
 {
   private Xml.Attr* _attr;
   public GAttribute (GDocument doc, Xml.Attr *node)
@@ -51,7 +51,7 @@ public class GXml.GAttribute : GXml.GNode, GXml.Attribute
       
     }
   }
-  public override string name {
+  public override string GXml.Node.name {
     owned get {
       return _attr->name.dup ();
     }
@@ -73,7 +73,7 @@ public class GXml.GAttribute : GXml.GNode, GXml.Attribute
         _node->set_ns_prop (_attr->ns, _attr->name, value);
     }
   }
-  public string prefix {
+  public string GXml.Attribute.prefix {
     owned get {
       if (_attr == null) return "";
       if (_attr->ns == null) return "";
@@ -84,6 +84,33 @@ public class GXml.GAttribute : GXml.GNode, GXml.Attribute
     owned get {
       if (_attr == null) return null;
       return to_gnode (document as GDocument, _node);
+    }
+  }
+  // DomAttr implementation
+  public string? namespace_uri {
+    get {
+      if (namespace == null) return null;
+      return namespace.uri;
+    }
+  }
+  public string? GXml.DomAttr.prefix {
+    get {
+      if (namespace == null) return null;
+      return namespace.prefix;
+    }
+  }
+  public string local_name { get { return (this as GXml.Node).name; } }
+  public string GXml.DomAttr.name {
+    get {
+      if (namespace == null) return (this as GXml.Node).name;
+    }
+  }
+  public string @value {
+    get {
+      return (this as GXml.Node).value;
+    }
+    set {
+      (this as GXml.Node).value = value;
     }
   }
 }

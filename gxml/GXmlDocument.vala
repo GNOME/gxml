@@ -29,7 +29,7 @@ using Xml;
  * This class use {@link Xml.TextWriter} to write down XML documents using
  * its contained {@link GXml.Node} childs or other XML structures.
  */
-public class GXml.GDocument : GXml.GNode, GXml.Document
+public class GXml.GDocument : GXml.GNode, GXml.Document, GXml.DomDocument
 {
   protected Xml.Doc* doc;
   protected Xml.Buffer _buffer;

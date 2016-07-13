@@ -25,7 +25,7 @@ using Gee;
 /**
  * Class implemeting {@link GXml.Element} interface, not tied to libxml-2.0 library.
  */
-public class GXml.GElement : GXml.GNode, GXml.Element
+public class GXml.GElement : GXml.GNode, GXml.Element, GXml.DomElement
 {
   public GElement (GDocument doc, Xml.Node *node) {
     _node = node;

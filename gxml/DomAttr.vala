@@ -27,5 +27,5 @@ public interface GXml.DomAttr {
   public abstract string name { get; }
   public abstract string @value { get; set; }
 
-  public abstract bool specified { get; } // useless; always returns true
+  public virtual bool specified { get { return true; } } // useless; always returns true
 }
