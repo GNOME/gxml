@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
+/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /*
  *
  * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
@@ -28,21 +28,17 @@ public interface GXml.DomRange {
   public abstract bool collapsed { get; }
   public abstract DomNode common_ancestor_container { get; }
 
-  public abstract void set_start        (DomNode node, ulong offset);
-  public abstract void set_end          (DomNode node, ulong offset);
-  public abstract void set_start_before (DomNode node);
-  public abstract void set_start_after  (DomNode node);
-  public abstract void set_end_before   (DomNode node);
-  public abstract void set_end_after    (DomNode node);
-  public abstract void collapse         (bool toStart = false);
-  public abstract void select_node      (DomNode node);
-  public abstract void select_node_contents (DomNode node);
+  public abstract void set_start        (DomNode node, ulong offset) throws GLib.Error;
+  public abstract void set_end          (DomNode node, ulong offset) throws GLib.Error;
+  public abstract void set_start_before (DomNode node) throws GLib.Error;
+  public abstract void set_start_after  (DomNode node) throws GLib.Error;
+  public abstract void set_end_before   (DomNode node) throws GLib.Error;
+  public abstract void set_end_after    (DomNode node) throws GLib.Error;
+  public abstract void collapse         (bool to_start = false) throws GLib.Error;
+  public abstract void select_node      (DomNode node) throws GLib.Error;
+  public abstract void select_node_contents (DomNode node) throws GLib.Error;
 
-  public const ushort START_TO_START = 0;
-  public const ushort START_TO_END = 1;
-  public const ushort END_TO_END = 2;
-  public const ushort END_TO_START = 3;
-  public abstract ushort compare_boundary_points (ushort how, DomRange sourceRange);
+  public abstract int compare_boundary_points (ushort how, DomRange sourceRange);
 
   public abstract void delete_contents ();
   public abstract DomDocumentFragment extract_contents();
@@ -59,4 +55,10 @@ public interface GXml.DomRange {
   public abstract bool  intersects_node   (DomNode node);
 
   public abstract string to_string ();
+  public enum BoundaryPoints {
+     START_TO_START = 0,
+     START_TO_END,
+     END_TO_END,
+     END_TO_START
+  }
 }

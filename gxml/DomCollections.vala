@@ -71,3 +71,55 @@ public interface GXml.DomNamedNodeMap : GLib.Object {
 }
 
 
+public interface GXml.DomNodeIterator {
+  public DomNode root { get; }
+  public DomNode reference_node { get; }
+  public bool pointer_before_reference_node { get; };
+  public ulong what_to_show { get; }
+  public DomNodeFilter? filter { get; }
+
+  public DomNode? next_node();
+  public DomNode? previous_node();
+
+  public void detach();
+}
+
+public class GXml.DomNodeFilter : Object {
+  // Constants for acceptNode()
+  public const ushort FILTER_ACCEPT = 1;
+  public const ushort FILTER_REJECT = 2;
+  public const ushort FILTER_SKIP = 3;
+
+  // Constants for whatToShow
+  public const ulong SHOW_ALL = 0xFFFFFFFF;
+  public const ulong SHOW_ELEMENT = 0x1;
+  public const ulong SHOW_ATTRIBUTE = 0x2; // historical
+  public const ulong SHOW_TEXT = 0x4;
+  public const ulong SHOW_CDATA_SECTION = 0x8; // historical
+  public const ulong SHOW_ENTITY_REFERENCE = 0x10; // historical
+  public const ulong SHOW_ENTITY = 0x20; // historical
+  public const ulong SHOW_PROCESSING_INSTRUCTION = 0x40;
+  public const ulong SHOW_COMMENT = 0x80;
+  public const ulong SHOW_DOCUMENT = 0x100;
+  public const ulong SHOW_DOCUMENT_TYPE = 0x200;
+  public const ulong SHOW_DOCUMENT_FRAGMENT = 0x400;
+  public const ulong SHOW_NOTATION = 0x800; // historical
+
+  public ushort acceptNode(Node node); // FIXME:
+}
+
+public interface GXml.DomTreeWalker : Object {
+  public abstract DomNode root { get; }
+  public abstract ulong what_to_show { get; }
+  public abstract DomNodeFilter? filter { get; }
+  public abstract DomNode current_node { get; }
+
+  public abstract DomNode? parentNode();
+  public abstract DomNode? firstChild();
+  public abstract DomNode? lastChild();
+  public abstract DomNode? previousSibling();
+  public abstract DomNode? nextSibling();
+  public abstract DomNode? previousNode();
+  public abstract DomNode? nextNode();
+}
+

@@ -103,6 +103,41 @@ public interface GXml.Node : Object
     return list;
   }
   /**
+   * Search all child {@link GXml.Element} with a given name.
+   */
+  public virtual GXml.ElementList
+   get_elements_by_name (string name)
+  {
+    var list = new GXml.ElementList ();
+    if (!(this is GXml.Element || this is GXml.Document)) return list;
+    foreach (var child in children) {
+      if (child is GXml.Element) {
+        list.add_all (child.get_elements_by_name (name));
+        if (name == child.name)
+          list.add ((GXml.Element) child);
+      }
+    }
+    return list;
+  }
+  /**
+   * Search all child {@link GXml.Element} with a given name and namespace URI.
+   */
+  public virtual GXml.ElementList
+   get_elements_by_name_ns (string name, string? ns)
+  {
+    var list = new GXml.ElementList ();
+    if (!(this is GXml.Element || this is GXml.Document)) return list;
+    foreach (var child in children) {
+      if (child is GXml.Element) {
+        list.add_all (child.get_elements_by_name (name));
+        if (!(child.namespace == null && ns == null)) continue;
+        if (name == child.name && child.namespace.uri == ns)
+          list.add ((GXml.Element) child);
+      }
+    }
+    return list;
+  }
+  /**
    * Node's string representation.
    */
   public abstract string to_string ();

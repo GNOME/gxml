@@ -1,4 +1,4 @@
-/* GHtmlDocument.vala
+/* GDocument.vala
  *
  * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
  *
@@ -115,7 +115,7 @@ public class GXml.GDocument : GXml.GNode, GXml.Document
       return new GElement (this, r);
     }
   }
-  public GXml.Node create_comment (string text)
+  public GXml.Node create_comment_node (string text)
   {
     var c = doc->new_comment (text);
     return new GComment (this, c);
@@ -125,7 +125,7 @@ public class GXml.GDocument : GXml.GNode, GXml.Document
     var pi = doc->new_pi (target, data);
     return new GProcessingInstruction (this, pi);
   }
-  public GXml.Node create_element (string name) throws GLib.Error
+  public GXml.Node create_element_node (string name) throws GLib.Error
   {
     Xmlx.reset_last_error ();
     var el = doc->new_raw_node (null, name, null);
@@ -182,38 +182,103 @@ public class GXml.GDocument : GXml.GNode, GXml.Document
   }
   // DomDocument implementation
   protected Implementation _implementation = new Implementation ();
-  public abstract DomImplementation implementation { get { return _implementation; } }
-  public abstract string url { get; }
-  public abstract string document_uri { get; }
-  public abstract string origin { get; }
-  public abstract string compat_mode { get; }
-  public abstract string character_set { get; }
-  public abstract string content_type { get; }
+  protected string _url = "";
+  protected string _document_uri = "";
+  protected string _origin = "";
+  protected string _compat_mode = "";
+  protected string _character_set = "";
+  protected string _content_type = "";
+  public DomImplementation implementation { get { return _implementation; } }
+  public string url { get { return _url; } }
+  public string document_uri { get { return _document_uri; } }
+  public string origin { get { return _origin; } }
+  public string compat_mode { get { return _compat_mode; } }
+  public string character_set { get { return _character_set; } }
+  public string content_type { get { return _content_type; } }
 
-  public abstract DomDocumentType? doctype { get; }
-  public abstract DomElement? document_element { get; }
+  protected DomDocumentType _doctype = null;
+  public DomDocumentType? doctype { get { return _doctype; } }
+  public DomElement? document_element { get { return root; } }
 
-  public abstract DomHTMLCollection get_elements_by_tag_name (string local_name);
-  public abstract DomHTMLCollection get_elements_by_tag_name_ns (string? namespace, string local_name);
-  public abstract DomHTMLCollection get_elements_by_class_name(string classNames);
+  public DomElement create_element (string local_name) throws GLib.Error {
+      return create_element_node (local_name);
+  }
+  public DomElement create_element_ns (string? ns, string qualified_name) throws GLib.Error
+  {
+      var e = create_element (qualified_name);
+      e.set_namespace (ns, null);
+      return e;
+  }
 
-  //public abstract DomElement create_element    (string localName);
-  public abstract DomElement create_element_ns (string? namespace, string qualified_name);
-  public abstract DomDocumentFragment create_document_fragment();
-  public abstract DomText create_text_node (string data);
-  //public abstract DomComment create_comment (string data);
-  public abstract DomProcessingInstruction create_processing_instruction (string target, string data);
+  public DomHTMLCollection get_elements_by_tag_name (string local_name) {
+      return get_elements_by_name (local_name);
+  }
+  public DomHTMLCollection get_elements_by_tag_name_ns (string? ns, string local_name) {
+      return get_elements_by_name_ns (local_name, ns);
+  }
+  public DomHTMLCollection get_elements_by_class_name(string class_names) {
+      return get_elements_by_property_value ("class", class_names);
+  }
 
-  public abstract DomNode import_node (DomNode node, bool deep = false);
-  public abstract DomNode adopt_node (DomNode node);
+  public DomDocumentFragment create_document_fragment() {
+    return new GDocumentFragment (this);
+  }
+  public DomText create_text_node (string data) {
+      return create_text (data);
+  }
+  public DomComment create_comment (string data) {
+      return create_comment_node (data);
+  }
+  public DomProcessingInstruction create_processing_instruction (string target, string data) {
+      return create_pi (target, data);
+  }
 
-  public abstract DomEvent create_event (string interface);
+  public DomNode import_node (DomNode node, bool deep = false) throws GLib.Error {
+      if (node is DomDocument)
+        throw new GXml.DomError (GXml.DomError.NOT_SUPPORTED_ERROR,_("Can't import a Document"));
+      var dst = this.create_element_node ();
+      GXml.Node.copy (this, dst, node, deep);
+      return dst;
+  }
+  public DomNode adopt_node (DomNode node) throws GLib.Error {
+      if (node is DomDocument)
+        throw new GXml.DomError (GXml.DomError.NOT_SUPPORTED_ERROR,_("Can't adopt a Document"));
+      var dst = this.create_element_node (node.node_name);
+      GXml.Node.copy (this, dst, node, deep);
+      if (node.parent != null)
+        node.parent.children.remove_at (node.parent.children.index_of (node));
+      return dst;
+  }
 
-  public abstract DomRange create_range();
+  protected GLib.Object _constructor;
+  public abstract DomEvent create_event (string iface) {
+      var s = iface.down ();
+      if (s == "customevent") _constructor = new GXml.GDomCustomEvent ();
+      if (s == "event") _constructor = new GXml.GDomCustomEvent ();
+      if (s == "events") _constructor = new GXml.GDomCustomEvent ();
+      if (s == "htmlevents") _constructor = new GXml.GDomCustomEvent ();
+      if (s == "keyboardevent") _constructor = null;
+      if (s == "keyevents") _constructor = null;
+      if (s == "messageevent") _constructor = null;
+      if (s == "mouseevent") _constructor = null;
+      if (s == "mouseevents") _constructor = null;
+      if (s == "touchevent") _constructor = null;
+      if (s == "uievent") _constructor = null;
+      if (s == "uievents") _constructor = null;
+  }
+
+  public DomRange create_range() {
+      return new GDomRange ();
+  }
 
   // NodeFilter.SHOW_ALL = 0xFFFFFFFF
-  public abstract DomNodeIterator create_node_iterator (DomNode root, ulong whatToShow = (ulong) 0xFFFFFFFF, DomNodeFilter? filter = null);
-  public abstract DomTreeWalker create_tree_walker (DomNode root, ulong what_to_show = (ulong) 0xFFFFFFFF, DomNodeFilter? filter = null);
+  public DomNodeIterator create_node_iterator (DomNode root, ulong what_to_show = (ulong) 0xFFFFFFFF, DomNodeFilter? filter = null)
+  {
+    return new GDomNodeIterator (root, what_to_show, filter);
+  }
+  public DomTreeWalker create_tree_walker (DomNode root, ulong what_to_show = (ulong) 0xFFFFFFFF, DomNodeFilter? filter = null) {
+      return new GDomTreeWolker (root, what_to_show, filter);
+  }
 }
 
 
@@ -254,4 +319,55 @@ public class GXml.GDocumentType : GXml.GNode, GXml.DomNode, GXml.DomChildNode, G
   public void remove () {
     get_internal_node ()->unlink ();
   }
+}
+
+public class GXml.GDocumentFragment : GXml.GNode, GXml.DomDocumentFragment {
+    public GDocumentFragment (GXml.GDocument doc)  {
+        document = doc;
+    }
+}
+
+
+public class GXml.GDomNodeIterator : Object, GXml.DomNodeIterator {
+  protected DomNode _root;
+  protected DomNode _reference_node;
+  protected DomNode _pointer_before_reference_node;
+  protected DomNode _what_to_show;
+  protected DomFilter _filter;
+  public GDomNodeIterator (DomNode n, what_to_show, filter) {
+    _root = n;
+    _what_to_show = what_to_show;
+    _filter = filter;
+  }
+  public DomNode root { get { return _root; } }
+  public DomNode reference_node { get { return _reference_node; }} }
+  public bool pointer_before_reference_node { get { return _pointer_before_reference_node; } };
+  public ulong what_to_show { get { return _what_to_show; } }
+  public DomNodeFilter? filter { get { return _filter; } }
+
+  public DomNode? next_node() { return null; // FIXME;}
+  public DomNode? previous_node() { return null; // FIXME;}
+
+  public void detach() { return null; // FIXME;}
+}
+
+
+public class GXml.GDomTreeWalker : Object, GXml.DomTreeWalker {
+  protected DomNode root { get; }
+  protected ulong _what_to_show;
+  protected DomNodeFilter? _filter;
+  protected  DomNode _current_node;
+
+  public DomNode root { get; }
+  public ulong what_to_show { get; }
+  public DomNodeFilter? filter { get; }
+  public DomNode current_node { get; }
+
+  public DomNode? parentNode() { return null; // FIXME: }
+  public DomNode? firstChild() { return null; // FIXME: }
+  public DomNode? lastChild() { return null; // FIXME: }
+  public DomNode? previousSibling() { return null; // FIXME: }
+  public DomNode? nextSibling() { return null; // FIXME: }
+  public DomNode? previousNode() { return null; // FIXME: }
+  public DomNode? nextNode() { return null; // FIXME: }
 }

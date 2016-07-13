@@ -76,8 +76,16 @@ public interface GXml.Element : Object, GXml.Node
  * Convenient class for a list of {@link GXml.Element} objects based on
  * {@link Gee.ListArray}, with good support for bindings.
  */
-public class GXml.ElementList : ArrayList<GXml.Element>
+public class GXml.ElementList : ArrayList<GXml.Element>, GXml.DomHTMLCollection
 {
   public new GXml.Element get (int index) { return base.get (index); }
   public new GXml.Element[] to_array () { return (GXml.Element[]) ((Gee.Collection<GXml.Element>) this).to_array (); }
+  public ulong length { get { return (ulong) size; } }
+  public DomElement? item (ulong index) { get ((int) index); }
+  public DomElement? named_item (string name) {
+      foreach (GXml.Element e in this) {
+          if (e.name == name) return e;
+      }
+  }
+}
 }

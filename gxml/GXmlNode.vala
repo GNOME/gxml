@@ -25,7 +25,7 @@ using Gee;
 /**
  * Base interface providing basic functionalities to all GXml interfaces.
  */
-public abstract class GXml.GNode : Object, GXml.Node
+public abstract class GXml.GNode : Object, GXml.Node, GXml.DomNode
 {
   protected GXml.GDocument _doc;
   protected Xml.Node *_node;

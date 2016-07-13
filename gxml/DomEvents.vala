@@ -43,11 +43,7 @@ public interface GXml.DomEvent : GLib.Object {
 
   public abstract bool default_prevented { get; }
 
-  public const ushort NONE = 0;
-  public const ushort CAPTURING_PHASE = 1;
-  public const ushort AT_TARGET = 2;
-  public const ushort BUBBLING_PHASE = 3;
-  public abstract ushort event_phase { get; }
+  public abstract EventPhase event_phase { get; }
 
 
   public abstract void stop_propagation ();
@@ -55,6 +51,13 @@ public interface GXml.DomEvent : GLib.Object {
 
   public abstract void prevent_default ();
   public abstract void init_event (string type, bool bubbles, bool cancelable);
+
+	public enum EventPhase {
+		NONE = 0,
+		CAPTURING_PHASE,
+		AT_TARGET,
+		BUBBLING_PHASE
+	}
 
   [Flags]
   public enum Flags {

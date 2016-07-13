@@ -36,15 +36,15 @@ public interface GXml.DomDocument : GLib.Object, GXml.DomNode, GXml.DomParentNod
   public abstract DomHTMLCollection get_elements_by_tag_name_ns (string? namespace, string local_name);
   public abstract DomHTMLCollection get_elements_by_class_name(string classNames);
 
-  public abstract DomElement create_element    (string localName);
+  public abstract DomElement create_element    (string local_name) throws GLib.Error;
   public abstract DomElement create_element_ns (string? namespace, string qualified_name);
   public abstract DomDocumentFragment create_document_fragment();
   public abstract DomText create_text_node (string data);
   public abstract DomComment create_comment (string data);
   public abstract DomProcessingInstruction create_processing_instruction (string target, string data);
 
-  public abstract DomNode import_node (DomNode node, bool deep = false);
-  public abstract DomNode adopt_node (DomNode node);
+  public abstract DomNode import_node (DomNode node, bool deep = false) throws GLib.Error;
+  public abstract DomNode adopt_node (DomNode node) throws GLib.Error;
 
   public abstract DomEvent create_event (string interface);
 

@@ -86,6 +86,7 @@ sources = \
 	GXmlComment.vala \
 	GXmlCDATA.vala \
 	GXmlDocument.vala \
+	GXmlDomEvents.vala \
 	GXmlElement.vala \
 	GXmlNamespace.vala \
 	GXmlNode.vala \
@@ -94,6 +95,7 @@ sources = \
 	GXmlHashMapAttr.vala \
 	GXmlListChildren.vala \
 	GXmlListNamespaces.vala \
+	GXmlDomRange.val \
 	DomAttr.vala \
 	DomCharacter.vala \
 	DomCollections.vala \
