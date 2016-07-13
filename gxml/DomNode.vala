@@ -80,59 +80,70 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
   public abstract DomNode remove_child (DomNode child);
 }
 
+// Introduced in DOM Level 3:
+const unsigned short      VALIDATION_ERR                 = 16;
+// Introduced in DOM Level 3:
+const unsigned short      TYPE_MISMATCH_ERR              = 17;
+
 public errordomain GXml.DomError {
-	INDEX_SIZE_ERROR,
-	HIERARCHY_REQUEST_ERROR,
-	WRONG_DOCUMENT_ERROR,
-	INVALID_CHARACTER_ERROR,
-	NO_MODIFICATION_ALLOWED_ERROR,
-	NOT_FOUND_ERROR,
-	NOT_SUPPORTED_ERROR,
-	INVALID_STATE_ERROR,
-	SYNTAX_ERROR,
-	INVALID_MODIFICATION_ERROR,
-	NAMESPACE_ERROR,
-	INVALID_ACCESS_ERROR,
-	SECURITY_ERROR,
-	NETWORK_ERROR,
-	ABORT_ERROR,
-	URL_MISMATCH_ERROR,
-	QUOTA_EXCEEDED_ERROR,
-	TIMEOUT_ERROR,
-	INVALID_NODE_TYPE_ERROR,
-	DATA_CLONE_ERROR,
-	ENCODING_ERROR,
-	NOT_READABLE_ERROR
+	INDEX_SIZE_ERROR = 1,
+	DOMSTRING_SIZE_ERROR,//
+	HIERARCHY_REQUEST_ERROR,//
+	WRONG_DOCUMENT_ERROR,//
+	INVALID_CHARACTER_ERROR,//
+	NO_DATA_ALLOWED_ERROR,//
+	NO_MODIFICATION_ALLOWED_ERROR,//
+	NOT_FOUND_ERROR,//
+	NOT_SUPPORTED_ERROR,//
+	INUSE_ATTRIBUTE_ERROR,//
+	// Introduced in DOM Level 2:
+	INVALID_STATE_ERROR,//
+	// Introduced in DOM Level 2:
+	SYNTAX_ERROR,//
+	// Introduced in DOM Level 2:
+	INVALID_MODIFICATION_ERROR,//
+	// Introduced in DOM Level 2:
+	NAMESPACE_ERROR,//
+	// Introduced in DOM Level 2:
+	INVALID_ACCESS_ERROR,//
+	VALIDATION_ERROR,//
+	TYPE_MISMATCH_ERROR//
 }
 
 public class GXml.DomErrorName : GLib.Object {
-	private string[] names = new string [30];
+	private Gee.HashMap names = new Gee.HashMap <string,int> ();
 	construct {
-		names += "IndexSizeError";
-		names += "HierarchyRequestError";
-		names += "WrongDocumentError";
-		names += "InvalidCharacterError";
-		names += "NoModificationAllowedError";
-		names += "NotFoundError";
-		names += "NotSupportedError";
-		names += "InvalidStateError";
-		names += "SyntaxError";
-		names += "InvalidModificationError";
-		names += "NamespaceError";
-		names += "InvalidAccessError";
-		names += "SecurityError";
-		names += "NetworkError";
-		names += "AbortError";
-		names += "URLMismatchError";
-		names += "QuotaExceededError";
-		names += "TimeoutError";
-		names += "InvalidNodeTypeError";
-		names += "DataCloneError";
-		names += "EncodingError";
-		names += "NotReadableError";
+		names.set ("IndexSizeError", 1);
+		names.set ("HierarchyRequestError", 3);
+		names.set ("WrongDocumentError", 4);
+		names.set ("InvalidCharacterError", 5);
+		names.set ("NoModificationAllowedError", 7);
+		names.set ("NotFoundError", 8);
+		names.set ("NotSupportedError", 9);
+		names.set ("InvalidStateError", 11);
+		names.set ("SyntaxError", 12);
+		names.set ("InvalidModificationError", 13);
+		names.set ("NamespaceError", 14);
+		names.set ("InvalidAccessError", 15);
+		names.set ("SecurityError", 18);
+		names.set ("NetworkError", 19);
+		names.set ("AbortError", 20);
+		names.set ("URLMismatchError", 21);
+		names.set ("QuotaExceededError", 22);
+		names.set ("TimeoutError", 23);
+		names.set ("InvalidNodeTypeError", 24);
+		names.set ("DataCloneError", 25);
+		names.set ("EncodingError", -1);
+		names.set ("NotReadableError", -2);
 	}
 	public string get_name (int error_code) {
-		return names[error_code];
+		foreach (string k in names.keys) {
+			if (names.get (k) == error_code) return k;
+		}
+	}
+	public int get_code (string error_name) {
+		if (!names.has (error_name)) return 0;
+		return names.get (error_name);
 	}
 }
 

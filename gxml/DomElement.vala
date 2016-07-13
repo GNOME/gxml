@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
+/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /*
  *
  * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
@@ -28,7 +28,7 @@ public interface GXml.DomElement : GLib.Object, GXml.DomNode, GXml.DomParentNode
 
   public abstract string id { get; set; }
   public abstract string class_name  { get; set; }
-  public abstract DomTokenList class_list { get; }
+  public abstract DomTokenList class_list { owned get; }
 
   public abstract DomNamedNodeMap attributes { get; }
   public abstract string? get_attribute (string name);
@@ -41,7 +41,7 @@ public interface GXml.DomElement : GLib.Object, GXml.DomNode, GXml.DomParentNode
   public abstract bool has_attribute_ns (string? namespace, string local_name);
 
 
-  public abstract DomHTMLCollection get_elementsby_tag_name(string local_name);
+  public abstract DomHTMLCollection get_elements_by_tag_name(string local_name);
   public abstract DomHTMLCollection get_elements_by_tag_name_ns (string? namespace, string local_name);
   public abstract DomHTMLCollection get_elements_by_class_name (string class_names);
 }

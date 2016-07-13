@@ -1,3 +1,4 @@
+/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /* GElement.vala
  *
  * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
@@ -68,11 +69,11 @@ public class GXml.GElement : GXml.GNode, GXml.Element
     }
     return null;
   }
-  public void set_ns_attr (Namespace ns, string name, string uri) {
+  public void set_ns_attr (Namespace ns, string name, string value) {
     if (_node == null) return;
     var ins = _node->doc->search_ns (_node, ns.prefix);
     if (ins != null) {
-      _node->set_ns_prop (ins, name, uri);
+      _node->set_ns_prop (ins, name, value);
       return;
     }
   }
@@ -97,10 +98,152 @@ public class GXml.GElement : GXml.GNode, GXml.Element
     if (a == null) return;
     a->remove ();
   }
-  public string tag_name { owned get { return _node->name.dup (); } }
+  public void remove_ns_attr (string name, string uri) {
+    if (_node == null) return;
+    var a = _node->has_ns_prop (name, uri);
+    if (a == null) return;
+    a->remove ();
+  }
+  public string GXml.Element.tag_name { owned get { return _node->name.dup (); } } // FIXME: Tag = prefix:local_name
   public override string to_string () {
     var buf = new Xml.Buffer ();
     buf.node_dump (_node->doc, _node, 1, 0);
     return buf.content ().dup ();
+  }
+  // GXml.DomElement
+  public string? namespace_uri {
+    get {
+      if (namespace != null)
+        return namespace.uri;
+      return null;
+    }
+  }
+  public string? prefix {
+    get {
+      if (namespace != null)
+        return namespace.prefix;
+      return null;
+    }
+  }
+  public string local_name { get { return name; } }
+  public string GXml.DomElement.tag_name {
+    get {
+      if (namespace != null)
+        return namespace.prefix+":"+name;
+      return name;
+    }
+  }
+
+  public abstract string id {
+    get {
+        var p = attrs.get ("id");
+        if (p == null) return null;
+        return p.value;
+    }
+    set {
+        var p = attrs.get ("id");
+        if (p == null)
+            set_attr ("id",value);
+        else
+            p.value = value;
+    }
+  }
+  public abstract string class_name {
+    get {
+        var p = attrs.get ("class");
+        if (p == null) return null;
+        return p.value;
+    }
+    set {
+        var p = attrs.get ("class");
+        if (p == null)
+            set_attr ("class",value);
+        else
+            p.value = value;
+    }
+  }
+  public DomTokenList class_list {
+    owned get {
+      return new GDomTokenList (this, "class");
+    }
+  }
+
+  public DomNamedNodeMap attributes { get { return new GDomNamedNodeMap (this,(Map<string,DomNode>) attrs); } }
+  public string? get_attribute (string name) { return attrs.get (name); }
+  public string? get_attribute_ns (string? namespace, string local_name) {
+    return get_ns_attr (local_name, namespace);
+  }
+  public void set_attribute (string name, string value) { set_attr (name, value); }
+  public void set_attribute_ns (string? namespace, string name, string value) {
+    GNamespace ns = null;
+    if (namespace != null)
+      ns = new GNamespace ();
+    string prefix = null;
+    string local_name = null;
+    if (":" in name) {
+      string[] s = namespace.split (":");
+      prefix = s[0];
+      local_name = s[1];
+    } else {
+      local_name = name;
+    }
+    if (ns != null) {
+      ns.prefix = prefix;
+      ns.uri = namespace;
+    }
+    // FIXME: Validate name as in Name and QName https://www.w3.org/TR/domcore/#dom-element-setattributens
+    set_ns_attr (ns, local_name, value);
+  }
+  public void remove_attribute (string name) {
+    remove_attr (name);
+  }
+  public void remove_attribute_ns (string? namespace, string local_name) {
+    remove_ns_attr (local_name, namespace);
+  }
+  public bool has_attribute (string name) { return attrs.has (name); }
+  public bool has_attribute_ns (string? namespace, string local_name) {
+    var attr = _node->has_ns_prop (name, namespace);
+    if (attr == null) return false;
+    return true;
+  }
+
+
+  public DomHTMLCollection get_elements_by_tag_name (string local_name) {
+    var l = new GDomHTMLCollection ();
+    foreach (GXml.Node n in children) {
+      if (!(n is GXml.DomElement)) continue;
+      if ((n as GXml.DomElement).node_name == local_name)
+        l.add (n);
+    }
+    return l;
+  }
+  public DomHTMLCollection get_elements_by_tag_name_ns (string? namespace, string local_name) {
+    var l = new GDomHTMLCollection ();
+    foreach (GXml.Node n in children) {
+      if (!(n is GXml.DomElement)) continue;
+      if ((n as GXml.DomElement).node_name == local_name
+          && (n as GXml.DomNode).lookup_namespace_uri == namespace)
+        l.add (n);
+    }
+    return l;
+  }
+  public DomHTMLCollection get_elements_by_class_name (string class_names) {
+    var l = new GDomHTMLCollection ();
+    foreach (GXml.Node n in children) {
+      if (!(n is GXml.DomElement)) continue;
+      if (!n.attrs.has ("class")) continue;
+      if (" " in class_names) {
+        string[] cs = class_names.split (" ");
+        bool cl = true;
+        foreach (string s in cs) {
+          if (!(s in n.attrs.get ("class").value)) cl = false;
+        }
+        if (cl)
+          l.add (n);
+      } else
+        if (n.attrs.get ("class") == class_names)
+          l.add (n);
+    }
+    return l;
   }
 }

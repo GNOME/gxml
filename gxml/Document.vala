@@ -76,7 +76,7 @@ public interface GXml.Document : Object, GXml.Node
    * Is a matter of you to add as a child to any other
    * {@link GXml.Node}.
    */
-  public abstract GXml.Node create_element_node (string name) throws GLib.Error;
+  public abstract GXml.Node create_element (string name) throws GLib.Error;
   /**
    * Creates a new {@link GXml.Text}.
    *
@@ -90,7 +90,7 @@ public interface GXml.Document : Object, GXml.Node
    * Is a matter of you to add as a child to any other
    * {@link GXml.Node}, like a {@link GXml.Element} node.
    */
-  public abstract GXml.Node create_comment_node (string text);
+  public abstract GXml.Node create_comment (string text);
   /**
    * Creates a new {@link GXml.CDATA}.
    *

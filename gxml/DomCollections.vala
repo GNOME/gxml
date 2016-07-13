@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
+/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /*
  *
  * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
@@ -105,7 +105,7 @@ public class GXml.DomNodeFilter : Object {
   public const ulong SHOW_DOCUMENT_FRAGMENT = 0x400;
   public const ulong SHOW_NOTATION = 0x800; // historical
 
-  public ushort acceptNode(Node node); // FIXME:
+  public ushort acceptNode(Node node); // FIXME: Should be a User defined method
 }
 
 public interface GXml.DomTreeWalker : Object {
@@ -123,3 +123,30 @@ public interface GXml.DomTreeWalker : Object {
   public abstract DomNode? nextNode();
 }
 
+public interface GXml.DomTokenList : Object, Gee.BidirList<string> {
+  public abstract ulong length { get; }
+  public abstract string? item (ulong index);
+  public abstract bool contains (string token) throw GLib.Error ;
+  public abstract void add (string[] tokens) throw GLib.Error ;
+  public abstract void remove (string[] tokens) throw GLib.Error ;
+  public abstract bool toggle (string token, bool force = false) throws GLib.Error;
+  public abstract string to_string ();
+}
+
+public interface GXml.DomSettableTokenList : Object, DOMTokenList {
+  public abstract string value { get; set; }
+}
+
+public interface GXml.DomNamedNodeMap : Object {
+  public ulong length { get; }
+  public DomNode? item (ulong index);
+  public DomNode? get_named_item (string name);
+  public DomNode? set_named_item (DomNode node) throws GLib.Error;
+  public DomNode? remove_named_item (string name) throws GLib.Error;
+  // Introduced in DOM Level 2:
+  public DomNode? remove_named_item_ns (string namespace_uri, string localName) throws GLib.Error;
+  // Introduced in DOM Level 2:
+  public DomNode? get_named_item_ns (string namespace_uri, string local_name) throws GLib.Error;
+  // Introduced in DOM Level 2:
+  public DomNode? set_named_item_ns (DomNode node) throws GLib.Error;
+}

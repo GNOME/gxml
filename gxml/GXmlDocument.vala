@@ -1,3 +1,4 @@
+/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /* GDocument.vala
  *
  * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
@@ -115,7 +116,7 @@ public class GXml.GDocument : GXml.GNode, GXml.Document
       return new GElement (this, r);
     }
   }
-  public GXml.Node create_comment_node (string text)
+  public GXml.Node GXml.Document.create_comment (string text)
   {
     var c = doc->new_comment (text);
     return new GComment (this, c);
@@ -125,7 +126,7 @@ public class GXml.GDocument : GXml.GNode, GXml.Document
     var pi = doc->new_pi (target, data);
     return new GProcessingInstruction (this, pi);
   }
-  public GXml.Node create_element_node (string name) throws GLib.Error
+  public GXml.Node GXml.Document.create_element (string name) throws GLib.Error
   {
     Xmlx.reset_last_error ();
     var el = doc->new_raw_node (null, name, null);
@@ -200,7 +201,7 @@ public class GXml.GDocument : GXml.GNode, GXml.Document
   public DomDocumentType? doctype { get { return _doctype; } }
   public DomElement? document_element { get { return root; } }
 
-  public DomElement create_element (string local_name) throws GLib.Error {
+  public DomElement GXml.Document.create_element (string local_name) throws GLib.Error {
       return create_element_node (local_name);
   }
   public DomElement create_element_ns (string? ns, string qualified_name) throws GLib.Error
@@ -226,7 +227,7 @@ public class GXml.GDocument : GXml.GNode, GXml.Document
   public DomText create_text_node (string data) {
       return create_text (data);
   }
-  public DomComment create_comment (string data) {
+  public DomComment GXml.DomDocument.create_comment (string data) {
       return create_comment_node (data);
   }
   public DomProcessingInstruction create_processing_instruction (string target, string data) {

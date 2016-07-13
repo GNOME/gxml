@@ -86,6 +86,7 @@ sources = \
 	GXmlComment.vala \
 	GXmlCDATA.vala \
 	GXmlDocument.vala \
+	GXmlDomCollections.vala \
 	GXmlDomEvents.vala \
 	GXmlElement.vala \
 	GXmlNamespace.vala \
