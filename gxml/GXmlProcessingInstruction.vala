@@ -24,7 +24,9 @@ using Gee;
 /**
  * Class implemeting {@link GXml.ProcessingInstruction} interface, not tied to libxml-2.0 library.
  */
-public class GXml.GProcessingInstruction : GXml.GNode, GXml.ProcessingInstruction
+public class GXml.GProcessingInstruction : GXml.GNode,
+              GXml.ProcessingInstruction, GXml.DomCharacterData,
+              GXml.DomProcessingInstruction
 {
   public GProcessingInstruction (GDocument doc, Xml.Node *node)
   {
@@ -32,6 +34,19 @@ public class GXml.GProcessingInstruction : GXml.GNode, GXml.ProcessingInstructio
     _doc = doc;
   }
   // GXml.ProcessingInstruction
-  public string target { owned get { return name; } }
-  public string data { owned get { return base.value; } }
+  public string GXml.ProcessingInstruction.target { owned get { return name; } }
+  public string GXml.ProcessingInstruction.data { owned get { return base.value; } }
+  // GXml.DomCharacterData
+  public string GXml.DomCharacterData.data {
+    get {
+      return (this as GXml.ProcessingInstruction).value;
+    }
+    set {
+      (this as GXml.ProcessingInstruction).value = value;
+    }
+  }
+  // GXml.DomProcessingInstruction
+  public string GXml.DomProcessingInstruction.target {
+    owned get { return (this as GXml.ProcessingInstruction).name; }
+  }
 }

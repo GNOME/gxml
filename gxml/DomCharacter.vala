@@ -25,12 +25,35 @@ public interface GXml.DomCharacterData : GLib.Object, GXml.DomNode, GXml.DomNonD
 	 * Null is an empty string.
 	 */
   public abstract string data { get; set; }
-  public abstract ulong length { get; }
-  public abstract string substring_data (ulong offset, ulong count) throws GLib.Error;
-  public abstract void append_data  (string data);
-  public abstract void insert_data  (ulong offset, string data) throws GLib.Error;
-  public abstract void delete_data  (ulong offset, ulong count) throws GLib.Error;
-  public abstract void replace_data (ulong offset, ulong count, string data) throws GLib.Error;
+
+  public virtual ulong length { get { return this.data.length; } }
+  public virtual string substring_data (ulong offset, ulong count) throws GLib.Error {
+    if (((int)offset) > this.data.length)
+      throw new DomError.INDEX_SIZE_ERROR (_("Invalid offset for substring"));
+    int c = (int) count;
+    if (c > this.data.length) c = this.data.length;
+    return this.data[(int)offset:(int)c];
+  }
+  public virtual void append_data  (string data) {
+    this.data += data;
+  }
+  public virtual void insert_data  (ulong offset, string data) throws GLib.Error {
+    replace_data (offset, 0, data);
+  }
+  public virtual void delete_data  (ulong offset, ulong count) throws GLib.Error {
+    replace_data (offset, count, "");
+  }
+  public virtual void replace_data (ulong offset, ulong count, string data) throws GLib.Error {
+    if (((int)offset) > this.data.length)
+      throw new DomError.INDEX_SIZE_ERROR (_("Invalid offset for replace data"));
+    int c = (int) count;
+    if (((int)offset + c) > str.length) c = str.length - (int)offset;
+
+    string s = this.data[0:(int)offset];
+    string s2 = this.data[0:(s.length - (int)offset - c)];
+    string sr = data[0:(int)count];
+    str = s+sr+s2;
+  }
 }
 
 public interface GXml.DomText : GXml.DomCharacterData {

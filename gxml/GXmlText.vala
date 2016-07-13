@@ -24,7 +24,7 @@ using Gee;
 /**
  * Class implemeting {@link GXml.Text} interface, not tied to libxml-2.0 library.
  */
-public class GXml.GText : GXml.GNode, GXml.Text
+public class GXml.GText : GXml.GNode, GXml.Text, GXml.DomCharacterData, GXml.DomText
 {
   public GText (GDocument doc, Xml.Node *node)
   {
@@ -38,4 +38,13 @@ public class GXml.GText : GXml.GNode, GXml.Text
   }
   // GXml.Text
   public string str { owned get { return base.value; } }
+  // GXml.DomCharacterData
+  public string data {
+    get {
+      return str;
+    }
+    set {
+      str = value;
+    }
+  }
 }
