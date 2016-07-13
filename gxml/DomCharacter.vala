@@ -26,11 +26,11 @@ public interface GXml.DomCharacterData : GLib.Object, GXml.DomNode, GXml.DomNonD
 	 */
   public abstract string data { get; set; }
   public abstract ulong length { get; }
-  public abstract string substring_data (ulong offset, ulong count);
+  public abstract string substring_data (ulong offset, ulong count) throws GLib.Error;
   public abstract void append_data  (string data);
-  public abstract void insert_data  (ulong offset, string data);
-  public abstract void delete_data  (ulong offset, ulong count);
-  public abstract void replace_data (ulong offset, ulong count, string data);
+  public abstract void insert_data  (ulong offset, string data) throws GLib.Error;
+  public abstract void delete_data  (ulong offset, ulong count) throws GLib.Error;
+  public abstract void replace_data (ulong offset, ulong count, string data) throws GLib.Error;
 }
 
 public interface GXml.DomText : GXml.DomCharacterData {

@@ -103,6 +103,8 @@ public class GXml.GAttribute : GXml.GNode, GXml.Attribute, GXml.DomAttr
   public string GXml.DomAttr.name {
     get {
       if (namespace == null) return (this as GXml.Node).name;
+      string s = namespace.prefix+":"+(this as GXml.Node).name;
+      return s;
     }
   }
   public string @value {
