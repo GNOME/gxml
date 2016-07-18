@@ -127,10 +127,11 @@ class DocumentTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/document/gfile/remote", () => {
 			try {
-				var net = GLib.NetworkMonitor.get_default ();
-				if (!net.network_available) return;
 				var rf = GLib.File.new_for_uri ("https://git.gnome.org/browse/gxml/plain/gxml.doap");
-				assert (rf.query_exists ());
+				if (!rf.query_exists ()) {
+					GLib.message ("No remote file available. Skiping...");
+					return;
+				}
 				var d = new xDocument.from_gfile (rf);
 				assert (d != null);
 				assert (d.root != null);
