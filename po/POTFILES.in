@@ -1,8 +1,14 @@
 # List of source files containing translatable strings.
 # Please keep this file sorted alphabetically.
 gxml/Document.vala
+gxml/DomCharacter.vala
 gxml/Enumeration.vala
 gxml/GXmlDocument.vala
+gxml/GXmlDomCollections.vala
+gxml/GXmlDomRange.vala
+gxml/GXmlElement.vala
+gxml/GXmlHashMapAttr.vala
+gxml/GXmlText.vala
 gxml/libxml-ChildNodeList.vala
 gxml/libxml-Document.vala
 gxml/libxml-Entity.vala
