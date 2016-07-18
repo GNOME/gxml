@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-29 18:53+0200\n"
-"PO-Revision-Date: 2016-03-29 18:54+0200\n"
+"POT-Creation-Date: 2016-07-18 18:15+0200\n"
+"PO-Revision-Date: 2016-07-18 18:18+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -20,12 +20,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Poedit-Language: Polish\n"
-"X-Poedit-Country: Poland\n"
 
-#: ../gxml/Document.vala:148
+#: ../gxml/Document.vala:151
 msgid "Invalid file"
 msgstr "Nieprawidłowy plik"
+
+#: ../gxml/DomCharacter.vala:36
+msgid "Invalid offset for substring"
+msgstr "Nieprawidłowe wyrównanie dla fragmentu ciągu"
+
+#: ../gxml/DomCharacter.vala:52
+msgid "Invalid offset for replace data"
+msgstr "Nieprawidłowe wyrównanie dla danych zastępowania"
 
 #: ../gxml/Enumeration.vala:88
 msgid "value is invalid"
@@ -35,13 +41,108 @@ msgstr "wartość jest nieprawidłowa"
 msgid "text cannot be parsed to enumeration type:"
 msgstr "tekst nie może zostać przetworzony na typ wyliczenia:"
 
-#: ../gxml/GXmlDocument.vala:49 ../gxml/TDocument.vala:475
+#: ../gxml/GXmlDocument.vala:55 ../gxml/TDocument.vala:475
 msgid "File doesn't exist"
 msgstr "Plik nie istnieje"
 
-#: ../gxml/GXmlDocument.vala:73
+#: ../gxml/GXmlDocument.vala:79
 msgid "stream doesn't provide data"
 msgstr "potok nie dostarcza danych"
+
+#: ../gxml/GXmlDocument.vala:244
+msgid "Can't import a Document"
+msgstr "Nie można zaimportować dokumentu"
+
+#: ../gxml/GXmlDocument.vala:251
+msgid "Can't adopt a Document"
+msgstr "Nie można przyjąć dokumentu"
+
+#: ../gxml/GXmlDomCollections.vala:50 ../gxml/GXmlDomCollections.vala:77
+msgid "DOM: No empty string could be toggle"
+msgstr "DOM: nie można przełączyć pustego ciągu"
+
+#: ../gxml/GXmlDomCollections.vala:52 ../gxml/GXmlDomCollections.vala:79
+msgid "DOM: No white spaces should be included to toggle"
+msgstr "DOM: spacje nie mogą być zawarte do przełączenia"
+
+#: ../gxml/GXmlDomCollections.vala:59
+msgid "DOM: No empty string could be a token"
+msgstr "DOM: pusty ciąg nie może być tokenem"
+
+#: ../gxml/GXmlDomCollections.vala:61
+msgid "DOM: No white spaces should be included in token"
+msgstr "DOM: spacje nie mogą być zawarte w tokenie"
+
+#: ../gxml/GXmlDomRange.vala:50 ../gxml/GXmlDomRange.vala:78
+#: ../gxml/GXmlDomRange.vala:151
+msgid "Invalid node type to start"
+msgstr "Nieprawidłowy typ węzła do rozpoczęcia"
+
+#: ../gxml/GXmlDomRange.vala:53 ../gxml/GXmlDomRange.vala:81
+msgid "Invalid offset for node to start: for document type"
+msgstr "Nieprawidłowe wyrównanie dla węzła do rozpoczęcia: dla typu dokumentu"
+
+#: ../gxml/GXmlDomRange.vala:57 ../gxml/GXmlDomRange.vala:85
+msgid "Invalid offset for node to start: for character data"
+msgstr ""
+"Nieprawidłowe wyrównanie dla węzła do rozpoczęcia: dla danych znakowych"
+
+#: ../gxml/GXmlDomRange.vala:60 ../gxml/GXmlDomRange.vala:88
+msgid "Invalid offset for node to start: for children number"
+msgstr ""
+"Nieprawidłowe wyrównanie dla węzła do rozpoczęcia: dla numeru potomnego"
+
+#: ../gxml/GXmlDomRange.vala:104 ../gxml/GXmlDomRange.vala:118
+msgid "Invalid node type to start before"
+msgstr "Nieprawidłowy typ węzła do rozpoczęcia przed"
+
+#: ../gxml/GXmlDomRange.vala:109 ../gxml/GXmlDomRange.vala:123
+#: ../gxml/GXmlDomRange.vala:141
+msgid "Invalid node type to start after"
+msgstr "Nieprawidłowy typ węzła do rozpoczęcia po"
+
+#: ../gxml/GXmlDomRange.vala:166
+msgid "Invalid root's in range"
+msgstr "Nieprawidłowy główny element w zakresie"
+
+#. FIXME:
+#: ../gxml/GXmlElement.vala:271
+msgid "DomElement query_selector is not implemented"
+msgstr "„query_selector” z DomElement nie jest zaimplementowane"
+
+#. FIXME:
+#: ../gxml/GXmlElement.vala:275
+msgid "DomElement query_selector_all is not implemented"
+msgstr "„query_selector_all” z DomElement nie jest zaimplementowane"
+
+#: ../gxml/GXmlHashMapAttr.vala:237 ../gxml/GXmlHashMapAttr.vala:291
+msgid "Invalid document when addin item to collection"
+msgstr "Nieprawidłowy dokument podczas dodawania elementu do kolekcji"
+
+#: ../gxml/GXmlHashMapAttr.vala:239 ../gxml/GXmlHashMapAttr.vala:293
+msgid "This node collection is read only"
+msgstr "Ta kolekcja węzłów jest tylko do odczytu"
+
+#: ../gxml/GXmlHashMapAttr.vala:241 ../gxml/GXmlHashMapAttr.vala:295
+msgid "This node attribute is already in use by other Element"
+msgstr "Ten atrybut węzła jest już używany przez inny element"
+
+#: ../gxml/GXmlHashMapAttr.vala:243 ../gxml/GXmlHashMapAttr.vala:297
+msgid "Trying to add an object to an Element, but it is not an attribute"
+msgstr "Próbowanie dodania obiektu do elementu, ale nie jest atrybutem"
+
+#: ../gxml/GXmlHashMapAttr.vala:256 ../gxml/GXmlHashMapAttr.vala:314
+#, c-format
+msgid "No node with name %s was found"
+msgstr "Nie odnaleziono węzłów o nazwie %s"
+
+#: ../gxml/GXmlHashMapAttr.vala:258 ../gxml/GXmlHashMapAttr.vala:316
+msgid "Node collection is read only"
+msgstr "Kolekcja węzłów jest tylko do odczytu"
+
+#: ../gxml/GXmlText.vala:42
+msgid "Invalid offset to split text"
+msgstr "Nieprawidłowe wyrównanie do rozdzielenia tekstu"
 
 #: ../gxml/libxml-ChildNodeList.vala:148
 #, c-format
@@ -74,17 +175,17 @@ msgid ""
 "Node tried to interact with a different document than the one it belongs to"
 msgstr "Węzeł próbował działać z innym dokumentem niż tym, do którego należy"
 
-#: ../gxml/Node.vala:180
+#: ../gxml/Node.vala:208
 msgid "Text node with NULL string"
 msgstr "Węzeł tekstowy z ciągiem NULL"
 
-#: ../gxml/SerializableEnum.vala:72
+#: ../gxml/SerializableEnum.vala:75
 msgid "Value can't be parsed to a valid enumeration's value. Value is not set"
 msgstr ""
 "Nie można przetworzyć wartości na prawidłową wartość wyliczenia. Wartość nie "
 "jest ustawiona"
 
-#: ../gxml/SerializableEnum.vala:75
+#: ../gxml/SerializableEnum.vala:78
 msgid "Value can't be parsed to a valid enumeration's value"
 msgstr "Nie można przetworzyć wartości na prawidłową wartość wyliczenia"
 
@@ -136,8 +237,8 @@ msgstr "Nie można przekształcić „%s” na ciąg"
 #: ../gxml/TDocument.vala:152
 msgid "Document has more than one root GXmlElement. Using first found"
 msgstr ""
-"Dokument posiada więcej niż jeden główny GXmlElement. Używanie odnalezionego "
-"najpierw"
+"Dokument posiada więcej niż jeden główny „GXmlElement”. Używanie "
+"odnalezionego najpierw"
 
 #: ../gxml/TDocument.vala:171
 msgid "Invalid element name"
