@@ -31,7 +31,7 @@ using Gee;
  * should be get from {@link GXml.Node.value} property.
  */
 public interface GXml.Attribute : Object, GXml.Node {
-  public abstract Namespace @namespace { owned get; set; }
+  public abstract GXml.Namespace? @namespace { owned get; set; }
   public abstract string? prefix { owned get; }
 }
 

@@ -244,8 +244,10 @@ namespace GXml {
 				return node->ns->prefix.dup ();
 			}
 		}
-		public Namespace @namespace {
+		public Namespace? @namespace {
 			owned get {
+				if (node == null) return null;
+				if (node->ns == null) return null;
 				return new NamespaceAttr (node->ns, this.owner_document);
 			}
 			set {

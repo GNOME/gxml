@@ -25,12 +25,17 @@ using Gee;
 /**
  * Base interface providing basic functionalities to all GXml interfaces.
  */
-public abstract class GXml.GNode : Object, GXml.Node, GXml.DomNode, GXml.DomEventTarget
+public abstract class GXml.GNode : Object,
+                      GXml.DomEventTarget,
+                      GXml.DomNode,
+                      GXml.Node
 {
   protected GXml.GDocument _doc;
   protected Xml.Node *_node;
 
-  construct { Init.init (); }
+  construct {
+    Init.init ();
+  }
 
   // GXml.Node
   public virtual bool set_namespace (string uri, string? prefix)
@@ -105,7 +110,38 @@ public abstract class GXml.GNode : Object, GXml.Node, GXml.DomNode, GXml.DomEven
     return null;
   }
   // DomNode Implementation
-  public DomNode.NodeType node_type { get { return (DomNode.NodeType) type_node; } } // FIXME:
+  public DomNode.NodeType node_type {
+    get {
+      if (_node == null) return DomNode.NodeType.INVALID;
+      switch (_node->type) {
+        case Xml.ElementType.ELEMENT_NODE:
+          return DomNode.NodeType.ELEMENT_NODE;
+        case Xml.ElementType.ATTRIBUTE_NODE:
+          return DomNode.NodeType.ATTRIBUTE_NODE; // historica
+        case Xml.ElementType.TEXT_NODE:
+          return DomNode.NodeType.TEXT_NODE;
+        case Xml.ElementType.CDATA_SECTION_NODE:
+          return DomNode.NodeType.CDATA_SECTION_NODE; // historical
+        case Xml.ElementType.ENTITY_REF_NODE:
+          return DomNode.NodeType.ENTITY_REFERENCE_NODE; // historical
+        case Xml.ElementType.ENTITY_NODE:
+          return DomNode.NodeType.ENTITY_NODE; // historical
+        case Xml.ElementType.PI_NODE:
+          return DomNode.NodeType.PROCESSING_INSTRUCTION_NODE;
+        case Xml.ElementType.COMMENT_NODE:
+          return DomNode.NodeType.COMMENT_NODE;
+        case Xml.ElementType.DOCUMENT_NODE:
+          return DomNode.NodeType.DOCUMENT_NODE;
+        case Xml.ElementType.DOCUMENT_TYPE_NODE:
+          return DomNode.NodeType.DOCUMENT_TYPE_NODE;
+        case Xml.ElementType.DOCUMENT_FRAG_NODE:
+          return DomNode.NodeType.DOCUMENT_FRAGMENT_NODE;
+        case Xml.ElementType.NOTATION_NODE:
+          return DomNode.NodeType.NOTATION_NODE;
+      }
+      return DomNode.NodeType.INVALID;
+    }
+  }
   public string node_name { owned get { return name; } }
 
   protected string _base_uri = null;

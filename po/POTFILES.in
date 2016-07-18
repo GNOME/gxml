@@ -24,3 +24,9 @@ gxml/SerializableObjectModel.vala
 gxml/SerializableProperty.vala
 gxml/Serializable.vala
 gxml/TDocument.vala
+gxml/DomCharacter.vala
+gxml/GXmlDomCollections.vala
+gxml/GXmlDomRange.vala
+gxml/GXmlElement.vala
+gxml/GXmlHashMapAttr.vala
+gxml/GXmlText.vala

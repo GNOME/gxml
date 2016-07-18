@@ -561,15 +561,23 @@ class TElementTest : GXmlTest {
 			var r = d.create_element ("root");
 			d.children_nodes.add (r);
 			// Default NS
+			Test.message ("Setting namespace gxml");
 			r.set_namespace ("http://git.gnome.org/browse/gxml", "gxml");
-			var ns = new TNamespace (d, "http://books.net", "book");
-			r.set_namespace (ns.uri, ns.prefix);
+			Test.message ("Setting namespace gxml");
+			r.set_namespace ("http://books.net", "book");
 			var c = d.create_element ("child") as Element;
 			r.children_nodes.add (c);
 			c.set_attr ("source","http://books.net/sources/1");
 			assert (c.attrs.size == 1);
+			Test.message ("Setting attr namespace book");
 			c.set_ns_attr ("book:http://books.net", "source", "The History 2");
 			assert (c.attrs.size == 2);
+			assert (c.attrs.get ("book:source") != null);
+			assert ((c.attrs.get ("book:source") as Attribute).namespace != null);
+			assert ((c.attrs.get ("book:source") as Attribute).namespace.prefix == "book");
+			Test.message ((c.attrs.get ("book:source") as Attribute).namespace.uri);
+			assert ((c.attrs.get ("book:source") as Attribute).namespace.uri == "http://books.net");
+			Test.message ("Searching attr source with namespace book");
 			var nsa = c.get_ns_attr ("source", "http://books.net");
 			assert (nsa != null);
 			assert (nsa.value == "The History 2");

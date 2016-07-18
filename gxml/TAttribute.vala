@@ -42,9 +42,13 @@ public class GXml.TAttribute : GXml.TNode, GXml.Attribute
     }
   }
   // Attribute
-  public Namespace @namespace {
+  public Namespace? @namespace {
     owned get {
-      if (_namespaces == null) _namespaces = new Gee.ArrayList<GXml.Node> ();
+      if (_namespaces == null) {
+        _namespaces = new Gee.ArrayList<GXml.Node> ();
+        return null;
+      }
+      if (_namespaces.size == 0) return null;
       return (Namespace) namespaces.get (0).ref ();
     }
     set {

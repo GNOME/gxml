@@ -79,7 +79,6 @@ public interface GXml.Node : Object
    get_elements_by_property_value (string property, string value)
   {
     var list = new GXml.ElementList ();
-    if (!(this is GXml.Element)) return list;
     foreach (var child in children_nodes) {
       if (child is GXml.Element) {
         list.add_all (child.get_elements_by_property_value (property, value));

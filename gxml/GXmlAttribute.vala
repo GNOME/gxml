@@ -41,14 +41,27 @@ public class GXml.GAttribute : GXml.GNode, GXml.Attribute, GXml.DomAttr
       return l;
     }
   }
-  public Namespace @namespace {
+  public Namespace? @namespace {
     owned get {
       if (_attr == null) return null;
       if (_attr->ns == null) return null;
       return new GNamespace (_attr->ns);
     }
     set {
-      
+      if (_attr == null) return;
+      string n = _attr->name;
+      string v = null;
+      if (_attr->ns == null) {
+        v = _node->get_prop (_attr->name);
+        _node->set_prop (_attr->name, null);
+      } else {
+        v = _node->get_ns_prop (_attr->name, _attr->ns->href);
+      }
+      var ns = _node->doc->search_ns (_node, value.prefix);
+      if (ns == null) {
+        ns = _node->new_ns (value.uri, value.prefix);
+      }
+      _attr = _node->set_ns_prop (ns, n, v);
     }
   }
   public override string name {

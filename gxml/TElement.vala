@@ -73,10 +73,12 @@ public class GXml.TElement : GXml.TNode, GXml.Element
   }
   public GXml.Node get_attr (string name) { return attrs.get (name); }
   public GXml.Node get_ns_attr (string name, string uri) {
-    foreach (GXml.Node a in attrs.values) {
-      if (a.name == name)
-        if (((Attribute) a).namespace != null)
-          if (((Attribute) a).namespace.uri == uri) return (GXml.Node) a;
+    foreach (string k in attrs.keys) {
+      if (!(":" in k)) continue;
+      var a = attrs.get (k);
+      if (a.name != name) continue;
+      if (((Attribute) a).namespace == null) continue;
+      if (((Attribute) a).namespace.uri == uri) return (GXml.Node) a;
     }
     return null;
   }
@@ -87,7 +89,8 @@ public class GXml.TElement : GXml.TNode, GXml.Element
     if (":" in ns) {
       string[] s = ns.split (":");
       prefix = s[0];
-      uri = s[1];
+      if (s.length != 3) return;
+      uri = s[1]+":"+s[2];
     } else
       uri = ns;
     att.set_namespace (uri, prefix);

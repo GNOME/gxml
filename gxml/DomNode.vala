@@ -22,6 +22,7 @@
 
 public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
 	public enum NodeType {
+		INVALID = 0,
 		ELEMENT_NODE = 1,
 		ATTRIBUTE_NODE, // historical
 		TEXT_NODE,

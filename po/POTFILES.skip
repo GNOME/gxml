@@ -24,6 +24,12 @@ gxml/SerializableGeeTreeMap.c
 gxml/SerializableObjectModel.c
 gxml/SerializableProperty.c
 gxml/TDocument.c
+gxml/DomCharacter.c
+gxml/GXmlDomCollections.c
+gxml/GXmlDomRange.c
+gxml/GXmlElement.c
+gxml/GXmlHashMapAttr.c
+gxml/GXmlText.c
 sub/gxml/Document.c
 sub/gxml/DomCharacter.c
 sub/gxml/Enumeration.c
@@ -48,3 +54,9 @@ sub/gxml/SerializableGeeTreeMap.c
 sub/gxml/SerializableObjectModel.c
 sub/gxml/SerializableProperty.c
 sub/gxml/TDocument.c
+sub/gxml/DomCharacter.c
+sub/gxml/GXmlDomCollections.c
+sub/gxml/GXmlDomRange.c
+sub/gxml/GXmlElement.c
+sub/gxml/GXmlHashMapAttr.c
+sub/gxml/GXmlText.c

@@ -304,10 +304,8 @@ public class GXml.GDocument : GXml.GNode,
   }
   // DomNonElementParentNode
   public DomElement? get_element_by_id (string element_id) throws GLib.Error {
-    foreach (DomElement n in children) {
-      if (!(n is DomElement)) continue;
-      if ((n as DomElement).get_attribute ("id") == element_id) return (DomElement) n;
-    }
+    var l = this.get_elements_by_property_value ("id", element_id);
+    if (l.size > 0) return (DomElement) l[0];
     return null;
   }
 }
