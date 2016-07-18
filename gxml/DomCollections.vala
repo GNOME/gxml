@@ -51,7 +51,7 @@ public interface GXml.DomNodeList : GLib.Object, Gee.BidirList<GXml.DomNode>  {
 }
 
 public interface GXml.DomHTMLCollection : GLib.Object, Gee.BidirList<GXml.DomElement> {
-  public abstract new GXml.DomElement get (int index);
+  public abstract new GXml.DomElement get_element (int index); // FIXME: See bug #768913
   public virtual new GXml.DomElement[] to_array () {
     return (GXml.DomElement[]) ((Gee.Collection<GXml.Element>) this).to_array ();
   }

@@ -52,4 +52,9 @@ public interface GXml.DomElement : GLib.Object,
   public abstract DomHTMLCollection get_elements_by_class_name (string class_names);
 }
 
-public class GXml.DomElementList : Gee.ArrayList<DomElement>, GXml.DomHTMLCollection {}
+public class GXml.DomElementList : Gee.ArrayList<DomElement>, GXml.DomHTMLCollection {
+  // DomHTMLCollection
+  public new GXml.DomElement get_element (int index) {
+    return (GXml.DomElement) this.get (index);
+  }
+}

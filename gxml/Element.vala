@@ -80,4 +80,9 @@ public interface GXml.Element : Object, GXml.Node
  * Convenient class for a list of {@link GXml.Element} objects based on
  * {@link Gee.ListArray}, with good support for bindings.
  */
-public class GXml.ElementList : ArrayList<Element>, GXml.DomHTMLCollection {}
+public class GXml.ElementList : ArrayList<Element>, GXml.DomHTMLCollection {
+  // DomHTMLCollection
+  public new GXml.DomElement get_element (int index) {
+    return (GXml.DomElement) this.get (index);
+  }
+}

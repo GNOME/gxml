@@ -127,4 +127,8 @@ public class GXml.GDomHTMLCollection : Gee.ArrayList<GXml.DomElement>,
     }
     return null;
   }
+  // DomHTMLCollection
+  public new GXml.DomElement get_element (int index) {
+    return (GXml.DomElement) this.get (index);
+  }
 }
