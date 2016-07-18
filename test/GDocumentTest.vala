@@ -30,7 +30,7 @@ class GDocumentTest : GXmlTest {
 			try {
 				var d = new GDocument ();
 				var root = d.create_element ("root");
-				d.children.add (root);
+				d.children_nodes.add (root);
 				assert (d.root != null);
 				Test.message ("Root name: "+d.root.name);
 				assert (d.root.name == "root");
@@ -102,7 +102,7 @@ class GDocumentTest : GXmlTest {
 				assert (d.root.name == "Project");
 				bool fname, fshordesc, fdescription, fhomepage;
 				fname = fshordesc = fdescription = fhomepage = false;
-				foreach (GXml.Node n in d.root.children) {
+				foreach (GXml.Node n in d.root.children_nodes) {
 					if (n.name == "name") fname = true;
 					if (n.name == "shortdesc") fshordesc = true;
 					if (n.name == "description") fdescription = true;
@@ -145,8 +145,8 @@ class GDocumentTest : GXmlTest {
 				assert (doc.root != null);
 				root = doc.root;
 				assert (root.name == "Fruits");
-				assert (root.children.size == 2);
-				var n1 = root.children.get (0);
+				assert (root.children_nodes.size == 2);
+				var n1 = root.children_nodes.get (0);
 				assert (n1 != null);
 				assert (n1.name == "Apple");
 			} catch { assert_not_reached (); }
@@ -281,20 +281,20 @@ class GDocumentTest : GXmlTest {
 				Test.message (d.to_string ());
 				assert (d.root != null);
 				assert (d.root.name == "DataTypeTemplates");
-				Test.message (d.root.children.size.to_string ());
-				assert (d.root.children[0] is GXml.Text);
-				assert (d.root.children[1] is GXml.Element);
-				assert (d.root.children[2] is GXml.Text);
-				assert (d.root.children[2].value == "\n");
-				assert (d.root.children.size == 3);
-				assert (d.root.children[1].name == "DAType");
-				assert (d.root.children[1].children.size == 3);
-				assert (d.root.children[1].children[1].name == "BDA");
-				assert (d.root.children[1].children[1].children.size == 3);
-				assert (d.root.children[1].children[1].children[1].name == "Val");
-				assert (d.root.children[1].children[1].children[1].children.size == 1);
-				assert (d.root.children[1].children[1].children[1].children[0] is GXml.Text);
-				assert (d.root.children[1].children[1].children[1].children[0].value == "status_only");
+				Test.message (d.root.children_nodes.size.to_string ());
+				assert (d.root.children_nodes[0] is GXml.Text);
+				assert (d.root.children_nodes[1] is GXml.Element);
+				assert (d.root.children_nodes[2] is GXml.Text);
+				assert (d.root.children_nodes[2].value == "\n");
+				assert (d.root.children_nodes.size == 3);
+				assert (d.root.children_nodes[1].name == "DAType");
+				assert (d.root.children_nodes[1].children_nodes.size == 3);
+				assert (d.root.children_nodes[1].children_nodes[1].name == "BDA");
+				assert (d.root.children_nodes[1].children_nodes[1].children_nodes.size == 3);
+				assert (d.root.children_nodes[1].children_nodes[1].children_nodes[1].name == "Val");
+				assert (d.root.children_nodes[1].children_nodes[1].children_nodes[1].children_nodes.size == 1);
+				assert (d.root.children_nodes[1].children_nodes[1].children_nodes[1].children_nodes[0] is GXml.Text);
+				assert (d.root.children_nodes[1].children_nodes[1].children_nodes[1].children_nodes[0].value == "status_only");
 			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
 		});
 		Test.add_func ("/gxml/gdocument/libxml_to_string", () => {
@@ -317,9 +317,9 @@ class GDocumentTest : GXmlTest {
 				assert (doc.root.namespaces.size == 1);
 				assert (doc.root.namespaces[0].prefix == "gxml");
 				assert (doc.root.namespaces[0].uri == "http://www.gnome.org/GXml");
-				assert (doc.root.children != null);
-				assert (doc.root.children.size == 1);
-				var c = doc.root.children[0];
+				assert (doc.root.children_nodes != null);
+				assert (doc.root.children_nodes.size == 1);
+				var c = doc.root.children_nodes[0];
 				c.set_namespace ("http://www.gnome.org/GXml2","gxml2");
 				assert (c.namespaces != null);
 				assert (c.namespaces.size == 1);
@@ -330,7 +330,7 @@ class GDocumentTest : GXmlTest {
 				assert (p == null);
 				Test.message ("ROOT: "+doc.root.to_string ());
 				assert (doc.root.to_string () == "<root xmlns:gxml=\"http://www.gnome.org/GXml\"><child xmlns:gxml2=\"http://www.gnome.org/GXml2\"/></root>");
-				(c as Element).set_ns_attr (doc.root.namespaces[0], "prop", "Ten");
+				(c as Element).set_ns_attr (doc.root.namespaces[0].prefix+":"+doc.root.namespaces[0].uri, "prop", "Ten");
 				Test.message ("ROOT: "+doc.root.to_string ());
 				assert (c.attrs.size == 1);
 				var pt = c.attrs.get ("prop");

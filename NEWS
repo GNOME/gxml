@@ -5,6 +5,17 @@ Version 0.11.0
 
 * Fixed vapi installation, honoring vala pc file
 * Fixed Bug #760568
+* Removed Node.childs
+* DOM4 implementation:
+    API Changes:
+        * Node.children now is Node.children_nodes
+        * Element.set_ns_attr now use string for namespace, considering if prefix is included in URI.
+    API Addintions:
+        * DOM4 interfaces
+        * DOM4 collection implementations
+        * Node: get_elements_by_name (), get_elements_by_name_ns ()
+    Implementations:
+        * GNode series implement DOM4 interfaces
 
 ===============
 Version 0.10.0

@@ -20,7 +20,7 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 
-public interface GXml.DomRange {
+public interface GXml.DomRange : GLib.Object {
   public abstract DomNode start_container { get; }
   public abstract ulong start_offset { get; }
   public abstract DomNode end_container { get; }
@@ -38,13 +38,13 @@ public interface GXml.DomRange {
   public abstract void select_node      (DomNode node) throws GLib.Error;
   public abstract void select_node_contents (DomNode node) throws GLib.Error;
 
-  public abstract int compare_boundary_points (ushort how, DomRange sourceRange);
+  public abstract int compare_boundary_points (BoundaryPoints how, DomRange sourceRange) throws GLib.Error;
 
-  public abstract void delete_contents ();
-  public abstract DomDocumentFragment extract_contents();
-  public abstract DomDocumentFragment clone_contents();
-  public abstract void insertNode(DomNode node);
-  public abstract void surroundContents(DomNode newParent);
+  public abstract void delete_contents () throws GLib.Error;
+  public abstract DomDocumentFragment? extract_contents() throws GLib.Error;
+  public abstract DomDocumentFragment? clone_contents() throws GLib.Error;
+  public abstract void insert_node(DomNode node);
+  public abstract void surround_contents(DomNode newParent);
 
   public abstract DomRange clone_range();
   public abstract void detach ();

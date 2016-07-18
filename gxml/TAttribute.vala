@@ -51,7 +51,7 @@ public class GXml.TAttribute : GXml.TNode, GXml.Attribute
       namespaces.add (value);
     }
   }
-  public string prefix {
+  public string? prefix {
     owned get {
       return @namespace.prefix;
     }

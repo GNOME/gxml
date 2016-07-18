@@ -53,7 +53,7 @@ public abstract class GXml.TNode : Object, GXml.Node
   }
   public virtual string to_string () { return get_type ().name (); }
   public virtual Gee.Map<string,GXml.Node> attrs { owned get { return new Gee.HashMap<string,GXml.Node> (); } }
-  public virtual Gee.BidirList<GXml.Node> children { owned get { return new TChildrenList (this); } }
+  public virtual Gee.BidirList<GXml.Node> children_nodes { owned get { return new TChildrenList (this); } }
   public virtual GXml.Document document { get { return _doc; } }
   public virtual string name { owned get { return _name.dup (); } }
   public virtual Gee.List<GXml.Namespace> namespaces { owned get { return new Gee.ArrayList<GXml.Node> (); } }

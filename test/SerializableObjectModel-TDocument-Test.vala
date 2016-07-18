@@ -113,7 +113,7 @@ class SerializableObjectModelTDocumentTest : GXmlTest
          bool com = false;
          bool cus = false;
          bool sal = false;
-         foreach (GXml.Node n in element.children) {
+         foreach (GXml.Node n in element.children_nodes) {
            //stdout.printf (@"Found GElement: $(n.name)");
            if (n.name == "tag") {
              //stdout.printf (@"Found: $(n.name)");
@@ -302,7 +302,7 @@ class SerializableObjectModelTDocumentTest : GXmlTest
         var p = new Package ();
         var doc = new TDocument ();
         var r = (Element) doc.create_element ("PACKAGE");
-        doc.children.add (r);
+        doc.children_nodes.add (r);
         r.set_attr ("source", "Mexico/North");
         r.set_attr ("destiny", "Brazil");
         r.set_attr ("Unknown", "2/4.04");
@@ -324,11 +324,11 @@ class SerializableObjectModelTDocumentTest : GXmlTest
         var p = new Package ();
         var doc = new TDocument ();
         var r = (Element) doc.create_element ("PACKAGE");
-        doc.children.add (r);
+        doc.children_nodes.add (r);
         r.set_attr ("source", "Mexico/North");
         r.set_attr ("destiny", "Brazil");
         var c = (Element) doc.create_element ("Unknown");
-        r.children.add (c);
+        r.children_nodes.add (c);
         c.set_attr ("prop","value");
         p.deserialize (doc);
         assert (p.unknown_serializable_nodes != null);

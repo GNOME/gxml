@@ -30,20 +30,20 @@ class TElementTest : GXmlTest {
 			try {
 			var d = new TDocument ();
 			var e = (Element) d.create_element ("element");
-			d.children.add (e);
-			assert (d.children.size == 1);
+			d.children_nodes.add (e);
+			assert (d.children_nodes.size == 1);
 			assert (d.root.name == "element");
 			e.set_attr ("attr1","val1");
 			assert (d.root.attrs.get ("attr1") != null);
 			assert (d.root.attrs.get ("attr1").value == "val1");
 			assert (e.attrs.size == 1);
-			assert (e.children.size == 0);
+			assert (e.children_nodes.size == 0);
 			var child = (Element) d.create_element ("child");
 			assert (child != null);
-			e.children.add (child);
-			assert (e.children.size == 1);
+			e.children_nodes.add (child);
+			assert (e.children_nodes.size == 1);
 			child.set_attr ("cattr1", "cval1");
-			var c = (Element) e.children.get (0);
+			var c = (Element) e.children_nodes.get (0);
 			assert (c != null);
 			assert (c.name == "child");
 			assert (c.attrs.get ("cattr1") != null);
@@ -54,9 +54,9 @@ class TElementTest : GXmlTest {
 			assert (c.content == "");
 			c.content = "";
 			assert (c.content == "");
-			assert (c.children.size == 1);
+			assert (c.children_nodes.size == 1);
 			c.content = "HELLO CONTENT";
-			assert (c.children.size == 1);
+			assert (c.children_nodes.size == 1);
 			assert (c.content == "HELLO CONTENT");
 			} catch { assert_not_reached (); }
 		});
@@ -64,53 +64,53 @@ class TElementTest : GXmlTest {
 			try {
 			var d = new TDocument ();
 			var e = (Element) d.create_element ("element");
-			d.children.add (e);
-			assert (d.children.size == 1);
+			d.children_nodes.add (e);
+			assert (d.children_nodes.size == 1);
 			assert (d.root.name == "element");
 			e.content = "HELLO";
 			assert (e.content == "HELLO");
-			assert (d.root.children.size == 1);
+			assert (d.root.children_nodes.size == 1);
 			e.content = "TIME";
-			assert (d.root.children.size == 1);
+			assert (d.root.children_nodes.size == 1);
 			assert (e.content == "TIME");
 			var t = d.create_text (" OTHER");
-			e.children.add (t);
-			assert (e.children.size == 2);
-			assert (d.root.children.size == 2);
+			e.children_nodes.add (t);
+			assert (e.children_nodes.size == 2);
+			assert (d.root.children_nodes.size == 2);
 			assert (e.content == "TIME OTHER");
-			e.children.clear ();
-			assert (e.children.size == 0);
+			e.children_nodes.clear ();
+			assert (e.children_nodes.size == 0);
 			assert (e.content == "");
 			var c = d.create_element ("child");
-			e.children.add (c);
+			e.children_nodes.add (c);
 			e.content = "KNOW";
-			assert (e.children.size == 2);
+			assert (e.children_nodes.size == 2);
 			assert (e.content == "KNOW");
 			e.content = "";
-			assert (e.children.size == 2);
-			e.children.clear ();
+			assert (e.children_nodes.size == 2);
+			e.children_nodes.clear ();
 			assert (e.content == "");
 			var t1 = d.create_text ("TEXT1");
 			var c1 = d.create_element ("child2");
 			var t2 = d.create_text ("TEXT2");
-			e.children.add (t1);
-			e.children.add (c1);
-			e.children.add (t2);
-			assert (e.children.size == 3);
+			e.children_nodes.add (t1);
+			e.children_nodes.add (c1);
+			e.children_nodes.add (t2);
+			assert (e.children_nodes.size == 3);
 			assert (e.content == "TEXT1TEXT2");
 			e.content = null;
-			assert (e.children.size == 1);
+			assert (e.children_nodes.size == 1);
 			} catch { assert_not_reached (); }
 		});
 		Test.add_func ("/gxml/t-element/namespaces/default", () => {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
-			d.children.add (r);
+			d.children_nodes.add (r);
 			// Set default namespace
 			d.set_namespace ("http://www.gnome.org/gxml", null);
 			var e = d.create_element ("child");
-			r.children.add (e);
+			r.children_nodes.add (e);
 			assert (d.namespaces.size == 1);
 			string str = d.to_string ();
 #if DEBUG
@@ -123,11 +123,11 @@ class TElementTest : GXmlTest {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
-			d.children.add (r);
+			d.children_nodes.add (r);
 			// Set default namespace
 			d.set_namespace ("http://www.gnome.org/gxml", "gxml");
 			var e = d.create_element ("child");
-			r.children.add (e);
+			r.children_nodes.add (e);
 			assert (d.namespaces.size == 1);
 			string str = d.to_string ();
 #if DEBUG
@@ -140,11 +140,11 @@ class TElementTest : GXmlTest {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
-			d.children.add (r);
+			d.children_nodes.add (r);
 			// Set default namespace
 			d.set_namespace ("http://www.gnome.org/gxml", null);
 			var e = d.create_element ("child");
-			r.children.add (e);
+			r.children_nodes.add (e);
 			assert (d.namespaces.size == 1);
 			string str = d.to_string ();
 #if DEBUG
@@ -157,12 +157,12 @@ class TElementTest : GXmlTest {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
-			d.children.add (r);
+			d.children_nodes.add (r);
 			// Set default namespace
 			d.set_namespace ("http://www.gnome.org/gxml", "gxml");
 			d.prefix_default_ns = true;
 			var e = d.create_element ("child");
-			r.children.add (e);
+			r.children_nodes.add (e);
 			assert (d.namespaces.size == 1);
 			string str = d.to_string ();
 #if DEBUG
@@ -175,10 +175,10 @@ class TElementTest : GXmlTest {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
-			d.children.add (r);
+			d.children_nodes.add (r);
 			r.set_namespace ("http://git.gnome.org/browse/gxml", "gxml");
 			var e = d.create_element ("child");
-			r.children.add (e);
+			r.children_nodes.add (e);
 			assert (r.namespaces.size == 1);
 			assert (d.namespaces.size == 1);
 			e.set_namespace ("http://developer.gnome.org/", "dg");
@@ -186,7 +186,7 @@ class TElementTest : GXmlTest {
 			assert (r.namespaces.size == 1);
 			assert (d.namespaces.size == 2);
 			var e2 = d.create_element ("nons");
-			e.children.add (e2);
+			e.children_nodes.add (e2);
 			e2.set_namespace ("http://www.gnome.org/", null);
 			assert (e.namespaces.size == 1);
 			assert (r.namespaces.size == 1);
@@ -206,29 +206,29 @@ class TElementTest : GXmlTest {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
-			d.children.add (r);
+			d.children_nodes.add (r);
 			// Default NS
 			d.set_namespace ("http://git.gnome.org/browse/gxml", null);
 			var e = d.create_element ("child");
-			r.children.add (e);
+			r.children_nodes.add (e);
 			assert (d.namespaces.size == 1);
 			e.set_namespace ("http://developer.gnome.org/", "dg");
 			assert (e.namespaces.size == 1);
 			assert (d.namespaces.size == 2);
 			var e2 = d.create_element ("children");
-			e.children.add (e2);
+			e.children_nodes.add (e2);
 			assert (e.namespaces.size == 1);
 			assert (e2.namespaces.size == 0);
 			assert (d.namespaces.size == 2);
 			var e3 = d.create_element ("nons");
-			e.children.add (e3);
+			e.children_nodes.add (e3);
 			e3.set_namespace ("http://www.gnome.org/", "ns");
 			assert (e.namespaces.size == 1);
 			assert (e2.namespaces.size == 0);
 			assert (e3.namespaces.size == 1);
 			assert (d.namespaces.size == 3);
 			var e4 = d.create_element ("childrenons");
-			e3.children.add (e4);
+			e3.children_nodes.add (e4);
 			assert (e.namespaces.size == 1);
 			assert (e2.namespaces.size == 0);
 			assert (e3.namespaces.size == 1);
@@ -252,12 +252,12 @@ class TElementTest : GXmlTest {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
-			d.children.add (r);
+			d.children_nodes.add (r);
 			d.prefix_default_ns = true;
 			d.set_namespace ("http://git.gnome.org/browse/gxml", "gxml");
 			r.set_namespace ("http://git.gnome.org/browse/gxml", "gxml");
 			var e = d.create_element ("child");
-			r.children.add (e);
+			r.children_nodes.add (e);
 			assert (r.namespaces.size == 1);
 			assert (d.namespaces.size == 1);
 			e.set_namespace ("http://developer.gnome.org/", "dg");
@@ -265,14 +265,14 @@ class TElementTest : GXmlTest {
 			assert (r.namespaces.size == 1);
 			assert (d.namespaces.size == 2);
 			var e2 = d.create_element ("nons");
-			e.children.add (e2);
+			e.children_nodes.add (e2);
 			e2.set_namespace ("http://www.gnome.org/", "ns");
 			assert (e.namespaces.size == 1);
 			assert (r.namespaces.size == 1);
 			assert (e2.namespaces.size == 1);
 			assert (d.namespaces.size == 3);
 			var e22 = d.create_element ("nonsd");
-			e2.children.add (e22);
+			e2.children_nodes.add (e22);
 			string str = d.to_string ();
 #if DEBUG
 			GLib.message (@"$d");
@@ -289,29 +289,29 @@ class TElementTest : GXmlTest {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
-			d.children.add (r);
+			d.children_nodes.add (r);
 			// Default NS
 			d.set_namespace ("http://git.gnome.org/browse/gxml", null);
 			var e = d.create_element ("child");
-			r.children.add (e);
+			r.children_nodes.add (e);
 			assert (d.namespaces.size == 1);
 			e.set_namespace ("http://developer.gnome.org/", "dg");
 			assert (e.namespaces.size == 1);
 			assert (d.namespaces.size == 2);
 			var e2 = d.create_element ("children");
-			e.children.add (e2);
+			e.children_nodes.add (e2);
 			assert (e.namespaces.size == 1);
 			assert (e2.namespaces.size == 0);
 			assert (d.namespaces.size == 2);
 			var e3 = d.create_element ("nons");
-			e.children.add (e3);
+			e.children_nodes.add (e3);
 			e3.set_namespace ("http://www.gnome.org/", "ns");
 			assert (e.namespaces.size == 1);
 			assert (e2.namespaces.size == 0);
 			assert (e3.namespaces.size == 1);
 			assert (d.namespaces.size == 3);
 			var e4 = d.create_element ("childrenons");
-			e3.children.add (e4);
+			e3.children_nodes.add (e4);
 			assert (e.namespaces.size == 1);
 			assert (e2.namespaces.size == 0);
 			assert (e3.namespaces.size == 1);
@@ -335,38 +335,38 @@ class TElementTest : GXmlTest {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
-			d.children.add (r);
+			d.children_nodes.add (r);
 			// Default NS
 			d.set_namespace ("http://git.gnome.org/browse/gxml", null);
 			// All namespaces declaration should be on root node
 			d.ns_top = true;
 			var e = d.create_element ("child");
-			r.children.add (e);
+			r.children_nodes.add (e);
 			assert (d.namespaces.size == 1);
 			e.set_namespace ("http://developer.gnome.org/", "dg");
 			assert (e.namespaces.size == 1);
 			assert (d.namespaces.size == 2);
 			var e2 = d.create_element ("children");
-			e.children.add (e2);
+			e.children_nodes.add (e2);
 			assert (e.namespaces.size == 1);
 			assert (e2.namespaces.size == 0);
 			assert (d.namespaces.size == 2);
 			var e3 = d.create_element ("nons");
-			e.children.add (e3);
+			e.children_nodes.add (e3);
 			e3.set_namespace ("http://www.gnome.org/", "ns");
 			assert (e.namespaces.size == 1);
 			assert (e2.namespaces.size == 0);
 			assert (e3.namespaces.size == 1);
 			assert (d.namespaces.size == 3);
 			var e4 = d.create_element ("childrenons");
-			e3.children.add (e4);
+			e3.children_nodes.add (e4);
 			assert (e.namespaces.size == 1);
 			assert (e2.namespaces.size == 0);
 			assert (e3.namespaces.size == 1);
 			assert (e4.namespaces.size == 0);
 			assert (d.namespaces.size == 3);
 			var c2 = d.create_element ("soup");
-			d.root.children.add (c2);
+			d.root.children_nodes.add (c2);
 			// apply default namespace, should avoid prefix
 			c2.set_namespace ("http://git.gnome.org/browse/gxml", null);
 			string str = d.to_string ();
@@ -388,24 +388,24 @@ class TElementTest : GXmlTest {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
-			d.children.add (r);
+			d.children_nodes.add (r);
 			// Default NS
 			d.set_namespace ("http://git.gnome.org/browse/gxml", null);
 			// All namespaces declaration should be on root node
 			d.ns_top = true;
 			var e = d.create_element ("child");
-			r.children.add (e);
+			r.children_nodes.add (e);
 			assert (d.namespaces.size == 1);
 			e.set_namespace ("http://developer.gnome.org/", "dg");
 			assert (e.namespaces.size == 1);
 			assert (d.namespaces.size == 2);
 			var e2 = d.create_element ("children");
-			e.children.add (e2);
+			e.children_nodes.add (e2);
 			assert (e.namespaces.size == 1);
 			assert (e2.namespaces.size == 0);
 			assert (d.namespaces.size == 2);
 			var e3 = d.create_element ("nons");
-			e.children.add (e3);
+			e.children_nodes.add (e3);
 			e3.set_namespace ("http://www.gnome.org/", null);
 			assert (e.namespaces.size == 1);
 			assert (e2.namespaces.size == 0);
@@ -413,14 +413,14 @@ class TElementTest : GXmlTest {
 			assert (d.namespaces.size == 3);
 			// This child should use http://www.gnome.org/ namespace by default, no prefix
 			var e4 = d.create_element ("childrenons");
-			e3.children.add (e4);
+			e3.children_nodes.add (e4);
 			assert (e.namespaces.size == 1);
 			assert (e2.namespaces.size == 0);
 			assert (e3.namespaces.size == 1);
 			assert (e4.namespaces.size == 0);
 			assert (d.namespaces.size == 3);
 			var c2 = d.create_element ("soup");
-			d.root.children.add (c2);
+			d.root.children_nodes.add (c2);
 			// apply default namespace, should avoid prefix
 			c2.set_namespace ("http://git.gnome.org/browse/gxml", null);
 			string str = d.to_string ();
@@ -442,23 +442,23 @@ class TElementTest : GXmlTest {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
-			d.children.add (r);
+			d.children_nodes.add (r);
 			// Default NS
 			d.set_namespace ("http://git.gnome.org/browse/gxml", null);
 			d.prefix_default_ns = true;
 			var e = d.create_element ("child");
-			r.children.add (e);
+			r.children_nodes.add (e);
 			assert (d.namespaces.size == 1);
 			e.set_namespace ("http://developer.gnome.org/", "dg");
 			assert (e.namespaces.size == 1);
 			assert (d.namespaces.size == 2);
 			var e2 = d.create_element ("children");
-			e.children.add (e2);
+			e.children_nodes.add (e2);
 			assert (e.namespaces.size == 1);
 			assert (e2.namespaces.size == 0);
 			assert (d.namespaces.size == 2);
 			var e3 = d.create_element ("nons");
-			e.children.add (e3);
+			e.children_nodes.add (e3);
 			e3.set_namespace ("http://www.gnome.org/", "ns");
 			assert (e.namespaces.size == 1);
 			assert (e2.namespaces.size == 0);
@@ -466,7 +466,7 @@ class TElementTest : GXmlTest {
 			assert (d.namespaces.size == 3);
 			// This child should use http://www.gnome.org/ namespace by default, no prefix
 			var e4 = d.create_element ("childrenons");
-			e3.children.add (e4);
+			e3.children_nodes.add (e4);
 			e4.set_namespace ("http://www.gnome.org/", "ns");
 			assert (e.namespaces.size == 1);
 			assert (e2.namespaces.size == 0);
@@ -474,7 +474,7 @@ class TElementTest : GXmlTest {
 			assert (e4.namespaces.size == 1);
 			assert (d.namespaces.size == 3);
 			var c2 = d.create_element ("soup");
-			d.root.children.add (c2);
+			d.root.children_nodes.add (c2);
 			// apply default namespace, should avoid prefix
 			c2.set_namespace ("http://git.gnome.org/browse/gxml", null);
 			string str = d.to_string ();
@@ -496,22 +496,22 @@ class TElementTest : GXmlTest {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
-			d.children.add (r);
+			d.children_nodes.add (r);
 			// Default NS
 			d.set_namespace ("http://git.gnome.org/browse/gxml", "gxml");
 			// All namespaces declaration should be on root node
 			d.prefix_default_ns = true;
 			var e = d.create_element ("child");
-			r.children.add (e);
+			r.children_nodes.add (e);
 			assert (d.namespaces.size == 1);
 			var e2 = d.create_element ("children");
-			e.children.add (e2);
+			e.children_nodes.add (e2);
 			var e3 = d.create_element ("nons");
-			e.children.add (e3);
+			e.children_nodes.add (e3);
 			var e4 = d.create_element ("childrenons");
-			e3.children.add (e4);
+			e3.children_nodes.add (e4);
 			var c2 = d.create_element ("soup");
-			d.root.children.add (c2);
+			d.root.children_nodes.add (c2);
 			c2.set_namespace ("http://git.gnome.org/browse/gxml", "gxml");
 			string str = d.to_string ();
 #if DEBUG
@@ -532,11 +532,11 @@ class TElementTest : GXmlTest {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
-			d.children.add (r);
+			d.children_nodes.add (r);
 			// Default NS
 			d.set_namespace ("http://git.gnome.org/browse/gxml", "gxml");
 			var c = (Element) d.create_element ("child");
-			r.children.add (c);
+			r.children_nodes.add (c);
 			c.set_attr ("at","val");
 			var a = c.get_attr ("at");
 			assert (a != null);
@@ -559,16 +559,16 @@ class TElementTest : GXmlTest {
 			try {
 			var d = new TDocument ();
 			var r = d.create_element ("root");
-			d.children.add (r);
+			d.children_nodes.add (r);
 			// Default NS
 			r.set_namespace ("http://git.gnome.org/browse/gxml", "gxml");
 			var ns = new TNamespace (d, "http://books.net", "book");
 			r.set_namespace (ns.uri, ns.prefix);
 			var c = d.create_element ("child") as Element;
-			r.children.add (c);
+			r.children_nodes.add (c);
 			c.set_attr ("source","http://books.net/sources/1");
 			assert (c.attrs.size == 1);
-			c.set_ns_attr (ns, "source", "The History 2");
+			c.set_ns_attr ("book:http://books.net", "source", "The History 2");
 			assert (c.attrs.size == 2);
 			var nsa = c.get_ns_attr ("source", "http://books.net");
 			assert (nsa != null);
@@ -585,26 +585,26 @@ class TElementTest : GXmlTest {
 		Test.add_func ("/gxml/t-element/parent", () => {
 			var doc = new TDocument ();
 			var e = doc.create_element ("root");
-			doc.children.add (e);
+			doc.children_nodes.add (e);
 			var c = doc.create_element ("child");
-			e.children.add (c);
-			assert (e.children.size == 1);
-			assert (e.children[0] != null);
-			assert (e.children[0].name == "child");
+			e.children_nodes.add (c);
+			assert (e.children_nodes.size == 1);
+			assert (e.children_nodes[0] != null);
+			assert (e.children_nodes[0].name == "child");
 			assert (c.parent != null);
 			assert (doc.root != null);
-			assert (doc.root.children[0] != null);
-			assert (doc.root.children[0].name == "child");
-			assert (doc.root.children[0].parent != null);
-			assert (doc.root.children[0].parent.name == "root");
+			assert (doc.root.children_nodes[0] != null);
+			assert (doc.root.children_nodes[0].name == "child");
+			assert (doc.root.children_nodes[0].parent != null);
+			assert (doc.root.children_nodes[0].parent.name == "root");
 			assert (doc.root.parent == null);
 		});
 		Test.add_func ("/gxml/t-element/attribute/parent", () => {
 			var doc = new TDocument ();
 			var e = doc.create_element ("root");
-			doc.children.add (e);
+			doc.children_nodes.add (e);
 			var c = doc.create_element ("child");
-			e.children.add (c);
+			e.children_nodes.add (c);
 			(e as GXml.Element).set_attr ("attr", "val");
 			assert (doc.root != null);
 			assert (doc.root.attrs["attr"] != null);
@@ -618,15 +618,15 @@ class TElementTest : GXmlTest {
 				var d = new TDocument ();
 				TDocument.read_doc (d, file, null);
 				assert (d.root != null);
-				assert (d.root.children.size == 7);
-				var n = d.root.children[6];
+				assert (d.root.children_nodes.size == 7);
+				var n = d.root.children_nodes[6];
 				assert (n != null);
 				assert (n.name == "ReadTop");
-				assert (n.children.size == 9);
-				var nc = n.children[3];
+				assert (n.children_nodes.size == 9);
+				var nc = n.children_nodes[3];
 				assert (nc != null);
 				assert (nc.name == "Read");
-				assert (nc.children.size == 2);
+				assert (nc.children_nodes.size == 2);
 				// Remove all
 				Test.message ("Skiping nodes");
 				TDocument.ReadTypeFunc f1 = (node, tr)=>{
@@ -641,15 +641,15 @@ class TElementTest : GXmlTest {
 				TDocument.read_doc (d2, file, f1);
 				GLib.message (@"$d2");
 				assert (d2.root != null);
-				assert (d2.root.children.size == 7);
-				var n2 = d2.root.children[6];
+				assert (d2.root.children_nodes.size == 7);
+				var n2 = d2.root.children_nodes[6];
 				assert (n2 != null);
 				assert (n2.name == "ReadTop");
-				assert (n2.children.size == 4);
-				var nc2 = n2.children[2];
+				assert (n2.children_nodes.size == 4);
+				var nc2 = n2.children_nodes[2];
 				assert (nc2 != null);
 				assert (nc2.name == "Read");
-				assert (nc2.children.size == 1);
+				assert (nc2.children_nodes.size == 1);
 				// Checking ReadType.STOP effect
 				Test.message ("Skiping nodes using ReadType.STOP");
 				//assert_not_reached ();
@@ -665,15 +665,15 @@ class TElementTest : GXmlTest {
 				TDocument.read_doc (d3, file, f2);
 				Test.message (@"STOPED:$d3");
 				assert (d3.root != null);
-				assert (d3.root.children.size == 7);
-				var n3 = d3.root.children[6];
+				assert (d3.root.children_nodes.size == 7);
+				var n3 = d3.root.children_nodes[6];
 				assert (n3 != null);
 				assert (n3.name == "ReadTop");
-				assert (n3.children.size == 4);
-				var nc3 = n3.children[3];
+				assert (n3.children_nodes.size == 4);
+				var nc3 = n3.children_nodes[3];
 				assert (nc3 != null);
 				assert (nc3.name == "Read");
-				assert (nc3.children.size == 1);
+				assert (nc3.children_nodes.size == 1);
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+e.message);
 				assert_not_reached ();

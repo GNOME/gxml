@@ -133,7 +133,7 @@ public class Package : ObjectModel
           var str = tags.index (i);
           node = (Element) element.document.create_element ("tag");
           ((Element) node).content = str;
-          element.children.add (node);
+          element.children_nodes.add (node);
         }
       }
     });
@@ -546,7 +546,7 @@ class SerializableObjectModelTest : GXmlTest
                        bool com = false;
                        bool cus = false;
                        bool sal = false;
-                       foreach (GXml.Node n in element.children) {
+                       foreach (GXml.Node n in element.children_nodes) {
                          //stdout.printf (@"Found GElement: $(n.name)");
                          if (n.name == "tag") {
                            //stdout.printf (@"Found: $(n.name)");
@@ -805,8 +805,8 @@ class SerializableObjectModelTest : GXmlTest
                          stdout.printf (@"ERROR: NULL ATTRIBUTE SERIALIZATION: array found $(array.name)");
                          assert_not_reached ();
                        }
-                       if (doc.root.children.size > 0) {
-                         stdout.printf (@"ERROR: NULL ATTRIBUTE SERIALIZATION: Nodes found $(doc.root.children.size > 0)");
+                       if (doc.root.children_nodes.size > 0) {
+                         stdout.printf (@"ERROR: NULL ATTRIBUTE SERIALIZATION: Nodes found $(doc.root.children_nodes.size > 0)");
                          assert_not_reached ();
                        }
                      }
@@ -822,13 +822,13 @@ class SerializableObjectModelTest : GXmlTest
                      assert (doc.root != null);
                      assert (doc.root.name == "UnknownAttribute");
 #if DEBUG
-                     GLib.message ("Document to use:\n"+doc.root.children.size.to_string ());
-                     foreach (GXml.Node n in doc.root.children) {
+                     GLib.message ("Document to use:\n"+doc.root.children_nodes.size.to_string ());
+                     foreach (GXml.Node n in doc.root.children_nodes) {
                         GLib.message ("Node in root: "+ n.name+ " Contents: "+n.value);
                      }
                      GLib.message ("Document root children:\n"+doc.to_string ());
 #endif
-                     assert (doc.root.children.size == 2);
+                     assert (doc.root.children_nodes.size == 2);
                      var unknown_property = new UnknownAttribute ();
                      try {
                        unknown_property.deserialize (doc);
@@ -884,16 +884,16 @@ class SerializableObjectModelTest : GXmlTest
                        </UnknownChild>
                      </UnknownNode>FAKE TEXT</UnknownAttribute>""");
                      assert (doc.root.name == "UnknownAttribute");
-                     assert (doc.root.children.size == 3);
-                     assert (doc.root.children[1].name == "UnknownNode");
-                     assert (doc.root.children[2].value == "FAKE TEXT");
-                     assert (doc.root.children[1].children.size == 3);
-                     assert (doc.root.children[1].children[1].name == "UnknownChild");
-                     assert (doc.root.children[1].children[1].children.size == 3);
-                     assert (doc.root.children[1].children[1].children[1].name == "UnknownChildTwo");
-                     assert (doc.root.children[1].children[1].children[1].children.size == 1);
-                     assert (doc.root.children[1].children[1].children[1].children[0] is GXml.Text);
-                     assert (doc.root.children[1].children[1].children[1].children[0].value == "SECOND FAKE TEXT");
+                     assert (doc.root.children_nodes.size == 3);
+                     assert (doc.root.children_nodes[1].name == "UnknownNode");
+                     assert (doc.root.children_nodes[2].value == "FAKE TEXT");
+                     assert (doc.root.children_nodes[1].children_nodes.size == 3);
+                     assert (doc.root.children_nodes[1].children_nodes[1].name == "UnknownChild");
+                     assert (doc.root.children_nodes[1].children_nodes[1].children_nodes.size == 3);
+                     assert (doc.root.children_nodes[1].children_nodes[1].children_nodes[1].name == "UnknownChildTwo");
+                     assert (doc.root.children_nodes[1].children_nodes[1].children_nodes[1].children_nodes.size == 1);
+                     assert (doc.root.children_nodes[1].children_nodes[1].children_nodes[1].children_nodes[0] is GXml.Text);
+                     assert (doc.root.children_nodes[1].children_nodes[1].children_nodes[1].children_nodes[0].value == "SECOND FAKE TEXT");
                      var unknown_property = new UnknownAttribute ();
                      try {
                        unknown_property.deserialize (doc);
@@ -910,16 +910,16 @@ class SerializableObjectModelTest : GXmlTest
 #endif
                        assert (doc2.root != null);
                        assert (doc.root.name == "UnknownAttribute");
-                       assert (doc2.root.children.size == 3);
-                       assert (doc2.root.children[1].name == "UnknownNode");
-                       assert (doc2.root.children[1].children.size == 3);
-                       assert (doc2.root.children[2].value == "FAKE TEXT");
-                       assert (doc2.root.children[1].children[1].name == "UnknownChild");
-                       assert (doc2.root.children[1].children[1].children[1].name == "UnknownChildTwo");
-                       assert (doc2.root.children[1].children[1].children.size == 3);
-                       assert (doc2.root.children[1].children[1].children[1].children.size == 1);
-                       assert (doc2.root.children[1].children[1].children[1].children[0] is GXml.Text);
-                       assert (doc2.root.children[1].children[1].children[1].children[0].value == "SECOND FAKE TEXT");
+                       assert (doc2.root.children_nodes.size == 3);
+                       assert (doc2.root.children_nodes[1].name == "UnknownNode");
+                       assert (doc2.root.children_nodes[1].children_nodes.size == 3);
+                       assert (doc2.root.children_nodes[2].value == "FAKE TEXT");
+                       assert (doc2.root.children_nodes[1].children_nodes[1].name == "UnknownChild");
+                       assert (doc2.root.children_nodes[1].children_nodes[1].children_nodes[1].name == "UnknownChildTwo");
+                       assert (doc2.root.children_nodes[1].children_nodes[1].children_nodes.size == 3);
+                       assert (doc2.root.children_nodes[1].children_nodes[1].children_nodes[1].children_nodes.size == 1);
+                       assert (doc2.root.children_nodes[1].children_nodes[1].children_nodes[1].children_nodes[0] is GXml.Text);
+                       assert (doc2.root.children_nodes[1].children_nodes[1].children_nodes[1].children_nodes[0].value == "SECOND FAKE TEXT");
                      }
                      catch (GLib.Error e) {
                        stdout.printf (@"Error: $(e.message)");
@@ -935,9 +935,9 @@ class SerializableObjectModelTest : GXmlTest
                        unknown_property.deserialize (doc);
                        var ndoc = new GDocument ();
                        unknown_property.serialize (ndoc);
-                       if (ndoc.root.children.size != 2) {
-                         stdout.printf (@"ERROR: Root incorrect child node number: found '$(doc.root.children.size)\n");
-                         foreach (GXml.Node rn in ndoc.root.children) {
+                       if (ndoc.root.children_nodes.size != 2) {
+                         stdout.printf (@"ERROR: Root incorrect child node number: found '$(doc.root.children_nodes.size)\n");
+                         foreach (GXml.Node rn in ndoc.root.children_nodes) {
                            string nv = "__NULL__";
                            if (rn.value != null)
                              nv = rn.value;
@@ -946,7 +946,7 @@ class SerializableObjectModelTest : GXmlTest
                          stdout.printf (@"$(ndoc)\n");
                          assert_not_reached ();
                        }
-                       foreach (GXml.Node n in ndoc.root.children) {
+                       foreach (GXml.Node n in ndoc.root.children_nodes) {
                          if (n is Text) {
                            if (n.value != "TEXT") {
                              stdout.printf (@"ERROR: Unknown Text GElement not set: found '$(n.value)\n");
@@ -1025,7 +1025,7 @@ UNKNOWN CONTENT
     assert (pages != null);
     assert (int.parse (pages.value) == manual.pages);
     bool found = false;
-    foreach (GXml.Node n in element.children) {
+    foreach (GXml.Node n in element.children_nodes) {
       if (n is GXml.Text)
         if (n.value == manual.get_contents ()) found = true;
     }

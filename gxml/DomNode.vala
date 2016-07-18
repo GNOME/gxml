@@ -80,11 +80,6 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
   public abstract DomNode remove_child (DomNode child);
 }
 
-// Introduced in DOM Level 3:
-const unsigned short      VALIDATION_ERR                 = 16;
-// Introduced in DOM Level 3:
-const unsigned short      TYPE_MISMATCH_ERR              = 17;
-
 public errordomain GXml.DomError {
 	INDEX_SIZE_ERROR = 1,
 	DOMSTRING_SIZE_ERROR,//
@@ -105,13 +100,21 @@ public errordomain GXml.DomError {
 	// Introduced in DOM Level 2:
 	NAMESPACE_ERROR,//
 	// Introduced in DOM Level 2:
-	INVALID_ACCESS_ERROR,//
+	INVALID_ACCESS_ERROR,// 15
 	VALIDATION_ERROR,//
-	TYPE_MISMATCH_ERROR//
+	TYPE_MISMATCH_ERROR,// 17
+	SECURITY_ERROR,// 18
+	NETWORK_ERROR, //19
+	ABORT_ERROR,//20
+	URL_MISMATCH_ERROR,//21
+	QUOTA_EXCEEDED_ERROR,//22
+	TIME_OUT_ERROR,//23
+	INVALID_NODE_TYPE_ERROR,//24
+	DATA_CLONE_ERROR//25
 }
 
 public class GXml.DomErrorName : GLib.Object {
-	private Gee.HashMap names = new Gee.HashMap <string,int> ();
+	private Gee.HashMap<string,int> names = new Gee.HashMap <string,int> ();
 	construct {
 		names.set ("IndexSizeError", 1);
 		names.set ("HierarchyRequestError", 3);
@@ -140,9 +143,10 @@ public class GXml.DomErrorName : GLib.Object {
 		foreach (string k in names.keys) {
 			if (names.get (k) == error_code) return k;
 		}
+		return "";
 	}
 	public int get_code (string error_name) {
-		if (!names.has (error_name)) return 0;
+		if (!names.has_key (error_name)) return 0;
 		return names.get (error_name);
 	}
 }

@@ -32,6 +32,6 @@ using Gee;
  */
 public interface GXml.Attribute : Object, GXml.Node {
   public abstract Namespace @namespace { owned get; set; }
-  public abstract string prefix { owned get; }
+  public abstract string? prefix { owned get; }
 }
 

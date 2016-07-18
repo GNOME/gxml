@@ -35,7 +35,7 @@ class HtmlDocumentTest : GXmlTest {
 				Test.message ("Searching for elemento with id 'user'...");
 				var n = doc.get_element_by_id ("user");
 				assert (n != null);
-				assert (n.name == "p");
+				assert (n.node_name == "p");
 				assert (n is GXml.Element);
 				assert (((GXml.Element) n).content == "");
 			} catch (GLib.Error e){
@@ -59,9 +59,9 @@ class HtmlDocumentTest : GXmlTest {
 				assert (l.size == 2);
 				bool fdiv, fp;
 				fdiv = fp = false;
-				foreach (GXml.Element e in l) {
-					if (e.name == "div") fdiv = true;
-					if (e.name == "p") fp = true;
+				foreach (GXml.DomElement e in l) {
+					if (e.node_name == "div") fdiv = true;
+					if (e.node_name == "p") fp = true;
 				}
 				assert (fdiv);
 				assert (fp);

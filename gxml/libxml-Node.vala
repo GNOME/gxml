@@ -502,7 +502,7 @@ namespace GXml {
 		
 		// GXml.Node interface implementations
 		public virtual Gee.List<GXml.Namespace> namespaces { owned get { return (Gee.List<GXml.Namespace>) namespace_definitions.ref (); } }
-		public virtual Gee.BidirList<GXml.Node> children { owned get { return (BidirList<GXml.Node>) child_nodes.ref (); } }
+		public virtual Gee.BidirList<GXml.Node> children_nodes { owned get { return (BidirList<GXml.Node>) child_nodes.ref (); } }
 		public virtual Gee.Map<string,GXml.Node> attrs { owned get { return (Map<string,GXml.Node>) attributes.ref (); } }
 		public virtual string name { owned get { return node_name.dup (); } }
 		public virtual string @value { owned get { return node_value.dup (); } set { node_value = value; } }

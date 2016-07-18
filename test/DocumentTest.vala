@@ -137,7 +137,7 @@ class DocumentTest : GXmlTest {
 				assert (d.root.name == "Project");
 				bool fname, fshordesc, fdescription, fhomepage;
 				fname = fshordesc = fdescription = fhomepage = false;
-				foreach (GXml.Node n in d.root.childs) {
+				foreach (GXml.Node n in d.root.children_nodes) {
 					if (n.name == "name") fname = true;
 					if (n.name == "shortdesc") fshordesc = true;
 					if (n.name == "description") fdescription = true;

@@ -32,20 +32,12 @@ public interface GXml.Node : Object
    */
   public abstract Gee.List<GXml.Namespace> namespaces { owned get; }
   /**
-   * Collection of {@link GXml.Node} as childs.
+   * Collection of {@link GXml.Node} as children.
    *
-   * Depend on {@link GXml.Node} type, this childs could of different, like,
+   * Depends on {@link GXml.Node} type, this children could be different, like,
    * elements, element's contents or properties.
    */
-  [Deprecated (since="0.10.0", replace="children")]
-  public virtual Gee.BidirList<GXml.Node> childs { owned get { return children; } }
-  /**
-   * Collection of {@link GXml.Node} as childs.
-   *
-   * Depend on {@link GXml.Node} type, this childs could of different, like,
-   * elements, element's contents or properties.
-   */
-  public abstract Gee.BidirList<GXml.Node> children { owned get; }
+  public abstract Gee.BidirList<GXml.Node> children_nodes { owned get; }
   /**
    * Attributes in this {@link GXml.Node}.
    */
@@ -74,7 +66,7 @@ public interface GXml.Node : Object
    * Get first child with given name, or null. 
    */
   public new virtual GXml.Node? get (string key) {
-    foreach (var child in children)
+    foreach (var child in children_nodes)
       if (child.name == key)
         return child;
     return null;
@@ -88,7 +80,7 @@ public interface GXml.Node : Object
   {
     var list = new GXml.ElementList ();
     if (!(this is GXml.Element)) return list;
-    foreach (var child in children) {
+    foreach (var child in children_nodes) {
       if (child is GXml.Element) {
         list.add_all (child.get_elements_by_property_value (property, value));
         if (child.attrs == null) continue;
@@ -110,7 +102,7 @@ public interface GXml.Node : Object
   {
     var list = new GXml.ElementList ();
     if (!(this is GXml.Element || this is GXml.Document)) return list;
-    foreach (var child in children) {
+    foreach (var child in children_nodes) {
       if (child is GXml.Element) {
         list.add_all (child.get_elements_by_name (name));
         if (name == child.name)
@@ -127,11 +119,12 @@ public interface GXml.Node : Object
   {
     var list = new GXml.ElementList ();
     if (!(this is GXml.Element || this is GXml.Document)) return list;
-    foreach (var child in children) {
+    foreach (var child in children_nodes) {
       if (child is GXml.Element) {
         list.add_all (child.get_elements_by_name (name));
-        if (!(child.namespace == null && ns == null)) continue;
-        if (name == child.name && child.namespace.uri == ns)
+        if (!(child.namespaces == null && child.namespaces.size != 0
+              && ns == null)) continue;
+        if (name == child.name && child.namespaces.get(0).uri == ns)
           list.add ((GXml.Element) child);
       }
     }
@@ -192,7 +185,7 @@ public interface GXml.Node : Object
 #if DEBUG
       GLib.message ("Copying source's child nodes to destiny node");
 #endif
-      foreach (Node c in source.children) {
+      foreach (Node c in source.children_nodes) {
         if (c is Element) {
           if (c.name == null) continue;
 #if DEBUG
@@ -206,7 +199,7 @@ public interface GXml.Node : Object
           }
           try {
             var e = doc.create_element (c.name); // TODO: Namespace
-            node.childs.add (e);
+            node.children_nodes.add (e);
             copy (doc, e, c, deep);
           } catch {}
         }
@@ -216,7 +209,7 @@ public interface GXml.Node : Object
             continue;
           }
           var t = doc.create_text (c.value);
-          node.children.add (t);
+          node.children_nodes.add (t);
 #if DEBUG
           GLib.message (@"Copying source's Text node '$(source.name)' to destiny node with text: $(c.value) : Size= $(node.childs.size)");
           GLib.message (@"Added Text: $(node.childs.get (node.childs.size - 1))");

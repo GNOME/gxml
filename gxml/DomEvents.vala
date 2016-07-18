@@ -23,7 +23,7 @@
 public interface GXml.DomEventTarget : GLib.Object {
   public abstract void add_event_listener (string type, DomEventListener? callback, bool capture = false);
   public abstract void remove_event_listener (string type, DomEventListener? callback, bool capture = false);
-  public abstract bool dispatch_event (DomEvent event);
+  public abstract bool dispatch_event (DomEvent event) throws GLib.Error;
 }
 
 public interface GXml.DomEventListener : GLib.Object {
@@ -43,7 +43,7 @@ public interface GXml.DomEvent : GLib.Object {
 
   public abstract bool default_prevented { get; }
 
-  public abstract EventPhase event_phase { get; }
+  public abstract Phase event_phase { get; }
 
 
   public abstract void stop_propagation ();
@@ -52,7 +52,7 @@ public interface GXml.DomEvent : GLib.Object {
   public abstract void prevent_default ();
   public abstract void init_event (string type, bool bubbles, bool cancelable);
 
-	public enum EventPhase {
+	public enum Phase {
 		NONE = 0,
 		CAPTURING_PHASE,
 		AT_TARGET,

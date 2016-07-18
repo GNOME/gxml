@@ -62,7 +62,7 @@ public class GXml.SerializableTreeMap<K,V> : Gee.TreeMap<K,V>, Serializable, Ser
                                                     this.get_type ().name (), value_type.name ());
     }
     if (_node is Element) {
-      foreach (GXml.Node n in _node.children) {
+      foreach (GXml.Node n in _node.children_nodes) {
         deserialize_node (n);
       }
     }

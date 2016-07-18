@@ -25,7 +25,8 @@ using Gee;
 /**
  * A {@link Gee.AbstractBidirList} implementation to access {@link Xml.Node} collection
  */
-public class GXml.GListChildren : AbstractBidirList<GXml.Node>, DomNodeList
+public class GXml.GListChildren : AbstractBidirList<GXml.Node>,
+            DomNodeList, DomHTMLCollection
 {
   private GXml.GDocument _doc;
   private Xml.Node *_node;
@@ -252,5 +253,9 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>, DomNodeList
   // DomNodeList implementation
   public DomNode? item (ulong index) { return (DomNode) @get ((int) index); }
   public ulong length { get { return (ulong) size; } }
+  // DomHTMLCollection
+  public new GXml.DomElement GXml.DomHTMLCollection.get (int index) {
+    return (GXml.DomElement) this.get (index);
+  }
 }
 

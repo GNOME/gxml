@@ -51,7 +51,7 @@ public class GXml.TElement : GXml.TNode, GXml.Element
       return _attrs.ref () as Gee.Map<string,GXml.Node>;
     }
   }
-  public override Gee.BidirList<GXml.Node> children {
+  public override Gee.BidirList<GXml.Node> children_nodes {
     owned get {
       if (_children == null) _children  = new TChildrenList (this);
       return _children.ref () as Gee.BidirList<GXml.Node>;
@@ -80,14 +80,40 @@ public class GXml.TElement : GXml.TNode, GXml.Element
     }
     return null;
   }
-  public void set_ns_attr (Namespace ns, string name, string value) {
+  public void set_ns_attr (string ns, string name, string value) {
     var att = new TAttribute (document, name, value);
-    att.set_namespace (ns.uri, ns.prefix);
+    string prefix = null;
+    string uri = "";
+    if (":" in ns) {
+      string[] s = ns.split (":");
+      prefix = s[0];
+      uri = s[1];
+    } else
+      uri = ns;
+    att.set_namespace (uri, prefix);
     att.set_parent (this);
-    attrs.set (ns.prefix+":"+name, att);
+    string p = "";
+    if (prefix != null) p = prefix;
+    attrs.set (p+":"+name, att);
   }
   public void remove_attr (string name) {
     if (attrs.has_key (name)) attrs.unset (name);
+  }
+  public void remove_ns_attr (string name, string uri) { // TODO: Test me!
+    string prefix = "";
+    string nuri = "";
+    if (":" in uri) {
+      string[] s = uri.split(":");
+      prefix = s[0];
+      nuri = uri;
+    } else
+      nuri = uri;
+    foreach (GXml.Node a in attrs.values) {
+      if (a.name == name)
+        if (((Attribute) a).namespace != null)
+          if (((Attribute) a).namespace.uri == nuri)
+            attrs.unset (prefix+":"+a.name);
+    }
   }
   public void normalize () {}
   public string content {
@@ -103,7 +129,7 @@ public class GXml.TElement : GXml.TNode, GXml.Element
   private void calculate_content ()
   {
     _content = "";
-    foreach (GXml.Node n in childs) {
+    foreach (GXml.Node n in children_nodes) {
       if (n is Text) {
         _content += n.value;
       }
@@ -112,16 +138,16 @@ public class GXml.TElement : GXml.TNode, GXml.Element
   private void update_content (string? val)
   {
     // Remove all GXml.Text elements
-    for (int i = 0; i < childs.size; i++) {
-      var n = childs.get (i);
+    for (int i = 0; i < children_nodes.size; i++) {
+      var n = children_nodes.get (i);
       if (n is Text) {
         //GLib.message (@"Removing Text at: $i");
-        childs.remove_at (i);
+        children_nodes.remove_at (i);
       }
     }
     if (val != null) {
       var t = document.create_text (val);
-      this.childs.add (t);
+      this.children_nodes.add (t);
     }
   }
 }

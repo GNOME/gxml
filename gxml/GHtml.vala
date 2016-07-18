@@ -28,7 +28,7 @@ namespace GXml {
 	/**
    * HML parsing suport. Document handling
    */
-	public class HtmlDocument : GXml.xDocument {
+	public class HtmlDocument : GXml.GDocument {
 		public static int default_options {
 			get {
 				return Html.ParserOption.NONET | Html.ParserOption.NOWARNING | Html.ParserOption.NOERROR | Html.ParserOption.NOBLANKS;
@@ -50,42 +50,40 @@ namespace GXml {
 		}
 		
 		public HtmlDocument.from_string (string html, int options = 0) {
-			base.from_libxml2 (Html.Doc.read_memory (html.to_utf8(), html.length, "", null, options));
+			base.from_doc (Html.Doc.read_memory (html.to_utf8(), html.length, "", null, options));
 		}
 		/**
 		 * Search all {@link GXml.Element} with a property called "class" and with a
 		 * value as a class apply to a node.
-		 */
-		public GXml.ElementList get_elements_by_class_name (string klass) {
-			var rl = new GXml.ElementList ();
+		 *//*
+		public GXml.DomElementList get_elements_by_class_name (string klass) {
+			var rl = new GXml.DomElementList ();
 			var l = root.get_elements_by_property_value ("class", klass);
-			foreach (GXml.Node n in l) {
-				if (!(n is GXml.Element)) continue;
-				var p = n.attrs.get ("class");
+			foreach (GXml.DomElement n in l) {
+				var p = n.attributes.get ("class");
 				if (p == null) continue;
-				if (" " in p.value) {
-					foreach (string ks in p.value.split (" ")) {
+				if (" " in p.node_value) {
+					foreach (string ks in p.node_value.split (" ")) {
 						if (ks == klass)
-							rl.add ((GXml.Element) n);
+							rl.add (n);
 					}
-				} else if (klass == p.value) {
-					rl.add ((GXml.Element) n);
+				} else if (klass == p.node_value) {
+					rl.add (n);
 				}
 			}
 			return rl;
-		}
+		}*/
 		/**
 		 * Get first node where 'id' attribute has given value.
-		 */
-		public GXml.Element? get_element_by_id (string id) {
+		 *//*
+		public GXml.DomElement? get_element_by_id (string id) {
 			var l = root.get_elements_by_property_value ("id", id);
-			foreach (GXml.Node n in l) {
-				if (!(n is Element)) continue;
-				var p = n.attrs.get ("id");
+			foreach (GXml.DomElement n in l) {
+				var p = n.attributes.get ("id");
 				if (p == null) continue;
-				if (p.value == id) return (GXml.Element?) n;
+				if (p.node_value == id) return (GXml.DomElement?) n;
 			}
 			return null;
-		}
+		}*/
 	}
 }

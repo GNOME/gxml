@@ -27,9 +27,14 @@ using Xml;
  * Class implemeting {@link GXml.Document} interface, not tied to libxml-2.0 library.
  *
  * This class use {@link Xml.TextWriter} to write down XML documents using
- * its contained {@link GXml.Node} childs or other XML structures.
+ * its contained {@link GXml.Node} children or other XML structures.
  */
-public class GXml.GDocument : GXml.GNode, GXml.Document, GXml.DomDocument
+public class GXml.GDocument : GXml.GNode,
+                              GXml.Document,
+                              GXml.DomParentNode,
+                              GXml.DomNonElementParentNode,
+                              GXml.DomDocument,
+                              GXml.DomXMLDocument
 {
   protected Xml.Doc* doc;
   protected Xml.Buffer _buffer;
@@ -87,7 +92,7 @@ public class GXml.GDocument : GXml.GNode, GXml.Document, GXml.DomDocument
   }
   // GXml.Node
   public override Gee.Map<string,GXml.Node> attrs { owned get { return new GHashMapAttr (this, (Xml.Node*) doc); } }
-  public override Gee.BidirList<GXml.Node> children { owned get { return new GListChildren (this, (Xml.Node*) doc); } }
+  public override Gee.BidirList<GXml.Node> children_nodes { owned get { return new GListChildren (this, (Xml.Node*) doc); } }
   public override Gee.List<GXml.Namespace> namespaces { owned get { return new GListNamespaces (this, (Xml.Node*) doc); } }
   public override GXml.Document document { get { return this; } }
   // GXml.Document
@@ -101,8 +106,8 @@ public class GXml.GDocument : GXml.GNode, GXml.Document, GXml.DomDocument
       var r = doc->get_root_element ();
       if (r == null) {
         int found = 0;
-        for (int i = 0; i < childs.size; i++) {
-          GXml.Node n = childs.get (i);
+        for (int i = 0; i < children_nodes.size; i++) {
+          GXml.Node n = children_nodes.get (i);
           if (n is GXml.Element) {
             found++;
             if (found == 1)
@@ -157,7 +162,7 @@ public class GXml.GDocument : GXml.GNode, GXml.Document, GXml.DomDocument
 #endif
     Xml.Doc doc = new Xml.Doc ();
     Xml.TextWriter tw = Xmlx.new_text_writer_doc (ref doc);
-    TDocument.write_document (this, tw);
+    try { TDocument.write_document (this, tw); } catch { return "<?xml version=\"0\"?>"; }
     string str;
     int size;
     doc.dump_memory (out str, out size);
@@ -189,7 +194,7 @@ public class GXml.GDocument : GXml.GNode, GXml.Document, GXml.DomDocument
   protected string _compat_mode = "";
   protected string _character_set = "";
   protected string _content_type = "";
-  public DomImplementation implementation { get { return _implementation; } }
+  public DomImplementation implementation { get { return (DomImplementation) _implementation; } }
   public string url { get { return _url; } }
   public string document_uri { get { return _document_uri; } }
   public string origin { get { return _origin; } }
@@ -198,17 +203,17 @@ public class GXml.GDocument : GXml.GNode, GXml.Document, GXml.DomDocument
   public string content_type { get { return _content_type; } }
 
   protected DomDocumentType _doctype = null;
-  public DomDocumentType? doctype { get { return _doctype; } }
-  public DomElement? document_element { get { return root; } }
+  public DomDocumentType? doctype { owned get { return _doctype; } }
+  public DomElement? document_element { owned get { return (DomElement) root; } }
 
-  public DomElement GXml.Document.create_element (string local_name) throws GLib.Error {
-      return create_element_node (local_name);
+  public DomElement GXml.DomDocument.create_element (string local_name) throws GLib.Error {
+      return (DomElement) (this as Document).create_element (local_name);
   }
-  public DomElement create_element_ns (string? ns, string qualified_name) throws GLib.Error
+  public DomElement GXml.DomDocument.create_element_ns (string? ns, string qualified_name) throws GLib.Error
   {
-      var e = create_element (qualified_name);
+      var e = (this as GXml.Document).create_element (qualified_name);
       e.set_namespace (ns, null);
-      return e;
+      return e as DomElement;
   }
 
   public DomHTMLCollection get_elements_by_tag_name (string local_name) {
@@ -224,35 +229,35 @@ public class GXml.GDocument : GXml.GNode, GXml.Document, GXml.DomDocument
   public DomDocumentFragment create_document_fragment() {
     return new GDocumentFragment (this);
   }
-  public DomText create_text_node (string data) {
-      return create_text (data);
+  public DomText create_text_node (string data) throws GLib.Error {
+      return (DomText) create_text (data);
   }
-  public DomComment GXml.DomDocument.create_comment (string data) {
-      return create_comment_node (data);
+  public DomComment GXml.DomDocument.create_comment (string data) throws GLib.Error {
+      return (DomComment) create_comment (data);
   }
-  public DomProcessingInstruction create_processing_instruction (string target, string data) {
-      return create_pi (target, data);
+  public DomProcessingInstruction create_processing_instruction (string target, string data) throws GLib.Error {
+      return (DomProcessingInstruction) create_pi (target, data);
   }
 
   public DomNode import_node (DomNode node, bool deep = false) throws GLib.Error {
       if (node is DomDocument)
-        throw new GXml.DomError (GXml.DomError.NOT_SUPPORTED_ERROR,_("Can't import a Document"));
-      var dst = this.create_element_node ();
-      GXml.Node.copy (this, dst, node, deep);
-      return dst;
+        throw new GXml.DomError.NOT_SUPPORTED_ERROR (_("Can't import a Document"));
+      var dst = this.create_element (node.node_name);
+      GXml.Node.copy (this, dst, (GXml.Node) node, true);
+      return (DomNode) dst;
   }
   public DomNode adopt_node (DomNode node) throws GLib.Error {
       if (node is DomDocument)
-        throw new GXml.DomError (GXml.DomError.NOT_SUPPORTED_ERROR,_("Can't adopt a Document"));
-      var dst = this.create_element_node (node.node_name);
-      GXml.Node.copy (this, dst, node, deep);
-      if (node.parent != null)
-        node.parent.children.remove_at (node.parent.children.index_of (node));
-      return dst;
+        throw new GXml.DomError.NOT_SUPPORTED_ERROR (_("Can't adopt a Document"));
+      var dst = this.create_element (node.node_name);
+      GXml.Node.copy (this, dst, (GXml.Node) node, true);
+      if (node.parent_node != null)
+        node.parent_node.child_nodes.remove_at (node.parent_node.child_nodes.index_of (node));
+      return (DomNode) dst;
   }
 
-  protected GLib.Object _constructor;
-  public abstract DomEvent create_event (string iface) {
+  protected GXml.DomEvent _constructor;
+  public DomEvent create_event (string iface) {
       var s = iface.down ();
       if (s == "customevent") _constructor = new GXml.GDomCustomEvent ();
       if (s == "event") _constructor = new GXml.GDomCustomEvent ();
@@ -266,10 +271,11 @@ public class GXml.GDocument : GXml.GNode, GXml.Document, GXml.DomDocument
       if (s == "touchevent") _constructor = null;
       if (s == "uievent") _constructor = null;
       if (s == "uievents") _constructor = null;
+      return _constructor;
   }
 
   public DomRange create_range() {
-      return new GDomRange ();
+      return new GDomRange (this);
   }
 
   // NodeFilter.SHOW_ALL = 0xFFFFFFFF
@@ -278,26 +284,58 @@ public class GXml.GDocument : GXml.GNode, GXml.Document, GXml.DomDocument
     return new GDomNodeIterator (root, what_to_show, filter);
   }
   public DomTreeWalker create_tree_walker (DomNode root, ulong what_to_show = (ulong) 0xFFFFFFFF, DomNodeFilter? filter = null) {
-      return new GDomTreeWolker (root, what_to_show, filter);
+      return new GDomTreeWalker (root, what_to_show, filter);
+  }
+  // DomParentNode
+  public DomHTMLCollection children { owned get { return (DomHTMLCollection) children_nodes; } }
+  public DomElement? first_element_child {
+    owned get { return (DomElement) (this as Document).children_nodes.first (); }
+  }
+  public DomElement? last_element_child {
+    owned get { return (DomElement) (this as Document).children_nodes.last (); }
+  }
+  public ulong child_element_count { get { return (ulong) children_nodes.size; } }
+
+  public DomElement? query_selector (string selectors) throws GLib.Error {
+    return null; // FIXME
+  }
+  public DomNodeList query_selector_all (string selectors) throws GLib.Error  {
+    return null; // FIXME
+  }
+  // DomNonElementParentNode
+  public DomElement? get_element_by_id (string element_id) throws GLib.Error {
+    foreach (DomElement n in children) {
+      if (!(n is DomElement)) continue;
+      if ((n as DomElement).get_attribute ("id") == element_id) return (DomElement) n;
+    }
+    return null;
   }
 }
 
 
 public class GXml.GImplementation : GLib.Object, GXml.DomImplementation {
-  public abstract DomDocumentType
+  public DomDocumentType
     create_document_type (string qualified_name, string public_id, string system_id)
         throws GLib.Error
   {
-
+    return new GDocumentType.with_ids (qualified_name, public_id, system_id); // FIXME
   }
-  public abstract DomXMLDocument create_document (string? namespace, string? qualified_name, DocumentType? doctype = null) throws GLib.Error;
-  public abstract Document create_html_document (string title);
-
-  public virtual bool has_feature() { return true; } // useless; always returns true
+  public DomXMLDocument create_document (string? namespace,
+                                         string? qualified_name,
+                                         DocumentType? doctype = null)
+                                         throws GLib.Error
+  { return new GDocument (); } // FIXME
+  public Document create_html_document (string title) {
+    return new HtmlDocument (); // FIXME:
+  }
 }
 
 
-public class GXml.GDocumentType : GXml.GNode, GXml.DomNode, GXml.DomChildNode, GXml.DomDocumentType {
+public class GXml.GDocumentType : GXml.GChildNode,
+                                  GXml.DomNode,
+                                  GXml.DomChildNode,
+                                  GXml.DomDocumentType
+{
   protected string _name = "";
   protected string _public_id = "";
   protected string _system_id = "";
@@ -322,53 +360,61 @@ public class GXml.GDocumentType : GXml.GNode, GXml.DomNode, GXml.DomChildNode, G
   }
 }
 
-public class GXml.GDocumentFragment : GXml.GNode, GXml.DomDocumentFragment {
-    public GDocumentFragment (GXml.GDocument doc)  {
-        document = doc;
-    }
+public class GXml.GDocumentFragment : GXml.GDocument,
+              GXml.DomDocumentFragment
+{
+  public GDocumentFragment (GXml.GDocument d)  {
+      _doc = d._doc; // FIXME: https://www.w3.org/TR/dom/#dom-document-createdocumentfragment
+  }
 }
 
 
 public class GXml.GDomNodeIterator : Object, GXml.DomNodeIterator {
   protected DomNode _root;
   protected DomNode _reference_node;
-  protected DomNode _pointer_before_reference_node;
-  protected DomNode _what_to_show;
-  protected DomFilter _filter;
-  public GDomNodeIterator (DomNode n, what_to_show, filter) {
+  protected bool _pointer_before_reference_node;
+  protected ulong _what_to_show;
+  protected DomNodeFilter _filter;
+  public GDomNodeIterator (DomNode n, ulong what_to_show, DomNodeFilter filter) {
     _root = n;
     _what_to_show = what_to_show;
     _filter = filter;
   }
   public DomNode root { get { return _root; } }
-  public DomNode reference_node { get { return _reference_node; }} }
-  public bool pointer_before_reference_node { get { return _pointer_before_reference_node; } };
+  public DomNode reference_node { get { return _reference_node; } }
+  public bool pointer_before_reference_node { get { return _pointer_before_reference_node; } }
   public ulong what_to_show { get { return _what_to_show; } }
   public DomNodeFilter? filter { get { return _filter; } }
 
-  public DomNode? next_node() { return null; // FIXME;}
-  public DomNode? previous_node() { return null; // FIXME;}
+  public DomNode? next_node() { return null; } // FIXME
+  public DomNode? previous_node() { return null; } // FIXME
 
-  public void detach() { return null; // FIXME;}
+  public void detach() { return; } // FIXME
 }
 
 
 public class GXml.GDomTreeWalker : Object, GXml.DomTreeWalker {
-  protected DomNode root { get; }
+  protected DomNode _root;
   protected ulong _what_to_show;
   protected DomNodeFilter? _filter;
   protected  DomNode _current_node;
 
-  public DomNode root { get; }
-  public ulong what_to_show { get; }
-  public DomNodeFilter? filter { get; }
-  public DomNode current_node { get; }
+  public DomNode root { get { return root; } }
+  public ulong what_to_show { get { return _what_to_show; } }
+  public DomNodeFilter? filter { get { return _filter; } }
+  public DomNode current_node { get { return _current_node; } }
 
-  public DomNode? parentNode() { return null; // FIXME: }
-  public DomNode? firstChild() { return null; // FIXME: }
-  public DomNode? lastChild() { return null; // FIXME: }
-  public DomNode? previousSibling() { return null; // FIXME: }
-  public DomNode? nextSibling() { return null; // FIXME: }
-  public DomNode? previousNode() { return null; // FIXME: }
-  public DomNode? nextNode() { return null; // FIXME: }
+  public GDomTreeWalker (DomNode r, ulong w, DomNodeFilter f) {
+    _root = r;
+    _what_to_show = w;
+    _filter = f;
+  }
+
+  public DomNode? parentNode() { return null; }// FIXME
+  public DomNode? firstChild() { return null; } // FIXME
+  public DomNode? lastChild() { return null; }// FIXME
+  public DomNode? previousSibling() { return null; }// FIXME
+  public DomNode? nextSibling() { return null; }// FIXME
+  public DomNode? previousNode() { return null; }// FIXME
+  public DomNode? nextNode() { return null; }// FIXME
 }

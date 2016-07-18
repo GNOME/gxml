@@ -25,7 +25,8 @@ using Gee;
 /**
  * Implementation of {@link Gee.AbstractMap} to handle {@link Xml.Node} attributes
  */
-public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>
+public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
+                                  GXml.DomNamedNodeMap
 {
   private GDocument _doc;
   private Xml.Node *_node;
@@ -205,5 +206,119 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>
     public bool mutable { get { return false; } }
     public bool read_only { get { return false; } }
     public bool valid { get { return _current != null; } }
+  }
+  // DomNamedNodeMap
+  public ulong length { get { return size; } }
+
+  public DomNode? get_named_item (string name) {
+    return (DomNode?) this.get (name);
+  }
+  /**
+   * Search items in this collection and return the object found at
+   * @index, but not order is warrantied
+   *
+   * If @index is greather than collection size, then last element found
+   * is returned. This function falls back to first element found on any
+   * issue.
+   */
+  public DomNode? item (ulong index) {
+    int i = 0;
+    if (index > size) return null;
+    foreach (GXml.Node node in values) {
+      if (i == index) return (DomNode?) node;
+    }
+    return null;
+  }
+  public DomNode? set_named_item (DomNode node) throws GLib.Error {
+    var i = values.iterator ();
+    iterator ().next ();
+    var _parent = iterator ().get ().value.parent_node as DomElement;
+    if (size > 0 && node.owner_document != _parent.owner_document)
+      throw new GXml.DomError.WRONG_DOCUMENT_ERROR (_("Invalid document when addin item to collection"));
+    if (read_only)
+      throw new GXml.DomError.NO_MODIFICATION_ALLOWED_ERROR (_("This node collection is read only"));
+    if (node is GXml.DomAttr && _parent != node.parent_node)
+      throw new GXml.DomError.INUSE_ATTRIBUTE_ERROR (_("This node attribute is already in use by other Element"));
+    if (_parent is GXml.DomElement && !(node is GXml.DomAttr))
+      throw new GXml.DomError.HIERARCHY_REQUEST_ERROR (_("Trying to add an object to an Element, but it is not an attribute"));
+    if (_parent is DomElement) {
+      (_parent as DomElement).set_attribute (node.node_name, node.node_value);
+      return node;
+    }
+    return null;
+  }
+  public DomNode? remove_named_item (string name) throws GLib.Error {
+    var i = values.iterator ();
+    iterator ().next ();
+    var _parent = iterator ().get ().value.parent_node as DomElement;
+    var n = base.get (name);
+    if (n == null)
+      throw new GXml.DomError.NOT_FOUND_ERROR (_("No node with name %s was found".printf (name)));
+    if (read_only)
+      throw new GXml.DomError.NO_MODIFICATION_ALLOWED_ERROR (_("Node collection is read only"));
+    if (_parent is DomElement) {
+      var a = _parent.attributes.get_named_item (name);
+      (_parent as DomElement).set_attribute (name, null);
+      return a;
+    }
+    return null;
+  }
+  // Introduced in DOM Level 2:
+  public DomNode? get_named_item_ns (string namespace_uri, string local_name) throws GLib.Error {
+    foreach (GXml.Node n in values) {
+      string uri = "";
+      if (!(n is DomElement || n is DomAttr)) continue;
+      if (n is DomElement) {
+        if ((n as DomElement).namespace_uri == null) continue;
+        uri = (n as DomElement).namespace_uri;
+      }
+      if (n is DomAttr) {
+        if ((n as DomAttr).namespace_uri == null) continue;
+        uri = (n as DomAttr).namespace_uri;
+      }
+      if (uri == namespace_uri && n.name == local_name)
+        return (GXml.DomNode?) n;
+    }
+    // FIXME: Detects if no namespace is supported to rise exception NOT_SUPPORTED_ERROR
+    return null;
+  }
+  // Introduced in DOM Level 2:
+  public DomNode? set_named_item_ns (DomNode node) throws GLib.Error {
+    var i = values.iterator ();
+    iterator ().next ();
+    var _parent = iterator ().get ().value.parent_node as DomElement;
+    if (size > 0 && node.owner_document != _parent.owner_document)
+      throw new GXml.DomError.WRONG_DOCUMENT_ERROR (_("Invalid document when addin item to collection"));
+    if (read_only)
+      throw new GXml.DomError.NO_MODIFICATION_ALLOWED_ERROR (_("This node collection is read only"));
+    if (node is GXml.DomAttr && _parent != node.parent_node)
+      throw new GXml.DomError.INUSE_ATTRIBUTE_ERROR (_("This node attribute is already in use by other Element"));
+    if (_parent is GXml.DomElement && !(node is GXml.DomAttr))
+      throw new GXml.DomError.HIERARCHY_REQUEST_ERROR (_("Trying to add an object to an Element, but it is not an attribute"));
+    // FIXME: Detects if no namespace is supported to rise exception  NOT_SUPPORTED_ERROR
+    if (_parent is DomElement && node is DomAttr) {
+      (_parent as DomElement).set_attribute_ns ((node as DomAttr).prefix+":"+(node as DomAttr).namespace_uri,
+                                               node.node_name, node.node_value);
+      return _parent.attributes.get_named_item_ns ((node as DomAttr).prefix+":"+(node as DomAttr).namespace_uri, node.node_name);
+    }
+    return null;
+  }
+  // Introduced in DOM Level 2:
+  public DomNode? remove_named_item_ns (string namespace_uri, string local_name) throws GLib.Error {
+    var i = values.iterator ();
+    iterator ().next ();
+    var _parent = iterator ().get ().value.parent_node as DomElement;
+    if (!(_parent is DomElement)) return null;
+    var n = _parent.attributes.get_named_item_ns (namespace_uri, local_name);
+    if (n == null)
+      throw new GXml.DomError.NOT_FOUND_ERROR (_("No node with name %s was found".printf (local_name)));
+    if (read_only)
+      throw new GXml.DomError.NO_MODIFICATION_ALLOWED_ERROR (_("Node collection is read only"));
+    // FIXME: Detects if no namespace is supported to rise exception  NOT_SUPPORTED_ERROR
+    if (_parent is DomElement) {
+      (_parent as DomElement).set_attribute_ns (namespace_uri, local_name, null);
+      return n;
+    }
+    return null;
   }
 }

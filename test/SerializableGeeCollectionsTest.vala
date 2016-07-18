@@ -421,14 +421,14 @@ class SerializableGeeCollectionsTest : GXmlTest
           stdout.printf ("ERROR: Bad ROOT name\n");
           assert_not_reached ();
         }
-        assert (ndoc.root.children.size > 0);
+        assert (ndoc.root.children_nodes.size > 0);
         int i = 0;
-        foreach (GXml.Node n in ndoc.root.children)
+        foreach (GXml.Node n in ndoc.root.children_nodes)
         {
           i++;
           if (n is Text) { if (n.value != "") assert_not_reached (); }
           if (n.name == "ChargeZone") {
-            foreach (GXml.Node cn in n.children)
+            foreach (GXml.Node cn in n.children_nodes)
             {
               if (n is Text) { if (n.value != "") assert_not_reached (); }
               
@@ -540,7 +540,7 @@ class SerializableGeeCollectionsTest : GXmlTest
           assert_not_reached ();
         }
         //stdout.printf (@"$doc\n");
-        foreach (GXml.Node n in doc.root.children) {
+        foreach (GXml.Node n in doc.root.children_nodes) {
           if (n is GElement) {
             if (n.name == "ChargeZone") {
               
@@ -549,10 +549,10 @@ class SerializableGeeCollectionsTest : GXmlTest
               bool unkfound = false;
               bool tfound = false;
               bool attrfound = false;
-              foreach (GXml.Node sn in n.children) {
+              foreach (GXml.Node sn in n.children_nodes) {
                 if (sn is GElement) {
                   if (sn.name == "refaction") {
-                    foreach (GXml.Node rn in sn.children) {
+                    foreach (GXml.Node rn in sn.children_nodes) {
                       if (rn is GElement) {
                         //stdout.printf (@"Refaction current node: '$(rn.name)'\n");
                         if (rn.name == "ship") {
@@ -570,7 +570,7 @@ class SerializableGeeCollectionsTest : GXmlTest
                                 assert_not_reached ();
                               }
                             }
-                            foreach (GXml.Node shn in rn.children) {
+                            foreach (GXml.Node shn in rn.children_nodes) {
                               //stdout.printf (@"Refaction: Ship MegaTrench: Node: $(shn.name)\n");
                               if (shn is Text) {
                                 tfound = true;
@@ -645,10 +645,10 @@ class SerializableGeeCollectionsTest : GXmlTest
         bag.serialize (d);
         assert (d.root != null);
         assert (d.root.name == "BigBag");
-        assert (d.root.children.size == 2);
-        assert (d.root.children[0].name == "SmallBag");
-        assert (d.root.children[0].children.size == 2);
-        assert (d.root.children[0].children[0].name == "Ball");
+        assert (d.root.children_nodes.size == 2);
+        assert (d.root.children_nodes[0].name == "SmallBag");
+        assert (d.root.children_nodes[0].children_nodes.size == 2);
+        assert (d.root.children_nodes[0].children_nodes[0].name == "Ball");
         // Deserialize
         var bag2 = new BigBag ();
         bag2.deserialize (d);
@@ -658,10 +658,10 @@ class SerializableGeeCollectionsTest : GXmlTest
         bag2.serialize (d2);
         assert (d2.root != null);
         assert (d2.root.name == "BigBag");
-        assert (d2.root.children.size == 2);
-        assert (d2.root.children[0].name == "SmallBag");
-        assert (d2.root.children[0].children.size == 2);
-        assert (d2.root.children[0].children[0].name == "Ball");
+        assert (d2.root.children_nodes.size == 2);
+        assert (d2.root.children_nodes[0].name == "SmallBag");
+        assert (d2.root.children_nodes[0].children_nodes.size == 2);
+        assert (d2.root.children_nodes[0].children_nodes[0].name == "Ball");
       } catch (GLib.Error e) {
         GLib.message ("ERROR: "+e.message);
         assert_not_reached ();

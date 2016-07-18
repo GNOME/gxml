@@ -25,7 +25,7 @@ using Gee;
 /**
  * A {@link Gee.AbstractList} implementation to access {@link Xml.Ns} namespaces collection
  */
-public class GXml.GListNamespaces : Gee.AbstractList<GXml.Node>
+public class GXml.GListNamespaces : Gee.AbstractList<GXml.Namespace>
 {
   private GDocument _doc;
   private Xml.Node *_node;
@@ -35,7 +35,7 @@ public class GXml.GListNamespaces : Gee.AbstractList<GXml.Node>
     _doc = doc;
   }
   // List
-  public override new GXml.Node @get (int index) {
+  public override new GXml.Namespace @get (int index) {
     if (_node == null) return null;
     var ns = _node->ns_def;
     int i = 0;
@@ -48,7 +48,7 @@ public class GXml.GListNamespaces : Gee.AbstractList<GXml.Node>
     }
     return null;
   }
-  public override int index_of (GXml.Node item) {
+  public override int index_of (GXml.Namespace item) {
     if (_node == null) return -1;
     if (!(item is GNamespace)) return -1;
     var ns = _node->ns_def;
@@ -60,12 +60,12 @@ public class GXml.GListNamespaces : Gee.AbstractList<GXml.Node>
     }
     return -1;
   }
-  public override void insert (int index, GXml.Node item) {}
-  public override Gee.ListIterator<GXml.Node> list_iterator () { return new Iterator (_node); }
-  public override GXml.Node remove_at (int index) { return null; }
-  public override new void @set (int index, GXml.Node item) {}
-  public override Gee.List<GXml.Node>? slice (int start, int stop) {
-    var l = new ArrayList<GXml.Node> ();
+  public override void insert (int index, GXml.Namespace item) {}
+  public override Gee.ListIterator<GXml.Namespace> list_iterator () { return new Iterator (_node); }
+  public override GXml.Namespace remove_at (int index) { return null; }
+  public override new void @set (int index, GXml.Namespace item) {}
+  public override Gee.List<GXml.Namespace>? slice (int start, int stop) {
+    var l = new ArrayList<GXml.Namespace> ();
     if (_node == null) return l;
     var ns = _node->ns_def;
     int i = 0;
@@ -79,13 +79,13 @@ public class GXml.GListNamespaces : Gee.AbstractList<GXml.Node>
     return l;
   }
   // Collection
-  public override bool add (GXml.Node item) {
+  public override bool add (GXml.Namespace item) {
     if (!(item is Namespace)) return false;
     if (_node == null) return false;
     return (_node->new_ns (((Namespace) item).uri, ((Namespace) item).prefix)) != null;
   }
   public override void clear () {}
-  public override bool contains (GXml.Node item) {
+  public override bool contains (GXml.Namespace item) {
     if (!(item is GNamespace)) return false;
     if (_node == null) return false;
     var ns = _node->ns_def;
@@ -94,8 +94,8 @@ public class GXml.GListNamespaces : Gee.AbstractList<GXml.Node>
     }
     return false;
   }
-  public override Gee.Iterator<GXml.Node> iterator () { return new Iterator (_node); }
-  public override bool remove (GXml.Node item) { return false; }
+  public override Gee.Iterator<GXml.Namespace> iterator () { return new Iterator (_node); }
+  public override bool remove (GXml.Namespace item) { return false; }
   public override bool read_only { get { return false; } }
   public override int size {
     get {
@@ -109,8 +109,8 @@ public class GXml.GListNamespaces : Gee.AbstractList<GXml.Node>
       return i;
     }
   }
-  public class Iterator : Object, Gee.Traversable<GXml.Node>, Gee.Iterator<GXml.Node>,
-                          Gee.ListIterator<GXml.Node> {
+  public class Iterator : Object, Gee.Traversable<GXml.Namespace>, Gee.Iterator<GXml.Namespace>,
+                          Gee.ListIterator<GXml.Namespace> {
     private Xml.Node *_node;
     private Xml.Ns *_current;
     private int i = -1;
@@ -118,16 +118,16 @@ public class GXml.GListNamespaces : Gee.AbstractList<GXml.Node>
       _node = node;
     }
     // ListIterator
-    public void add (GXml.Node item) {
+    public void add (GXml.Namespace item) {
       if (_node == null) return;
       if (!(item is GXml.Namespace)) return;
       var ns = (GXml.Namespace) item;
       _node->new_ns (ns.uri, ns.prefix);
     }
     public int index () { return i; }
-    public new void @set (GXml.Node item) {}
+    public new void @set (GXml.Namespace item) {}
     // Iterator
-    public new GXml.Node @get () { return new GNamespace (_current); }
+    public new GXml.Namespace @get () { return new GNamespace (_current); }
     public bool has_next ()  {
       if (_node->ns_def == null) return false;
       if (_current != null)
@@ -146,7 +146,7 @@ public class GXml.GListNamespaces : Gee.AbstractList<GXml.Node>
     public bool read_only { get { return false; } }
     public bool valid { get { return (_current != null); } }
     // Traversable
-    public new bool @foreach (Gee.ForallFunc<GXml.Node> f) {
+    public new bool @foreach (Gee.ForallFunc<GXml.Namespace> f) {
       while (has_next ()) {
         next ();
         if (!f(@get())) return false;

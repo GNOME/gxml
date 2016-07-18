@@ -24,7 +24,7 @@ using Gee;
 /**
  * Class implemeting {@link GXml.Comment} interface, not tied to libxml-2.0 library.
  */
-public class GXml.GComment : GXml.GNode, GXml.Comment, GXml.DomCharacterData, GXml.DomComment
+public class GXml.GComment : GXml.GCharacterData, GXml.Comment, GXml.DomComment
 {
   public GComment (GDocument doc, Xml.Node *node)
   {
@@ -34,17 +34,6 @@ public class GXml.GComment : GXml.GNode, GXml.Comment, GXml.DomCharacterData, GX
   public override string name {
     owned get {
       return "#comment".dup ();
-    }
-  }
-  // GXml.Comment
-  public string str { owned get { return base.value; } }
-  // GXml.DomCharacterData
-  public string data {
-    get {
-      return str;
-    }
-    set {
-      str = value;
     }
   }
 }

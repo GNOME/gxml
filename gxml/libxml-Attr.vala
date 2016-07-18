@@ -237,7 +237,7 @@ namespace GXml {
 			return "Attr(%s=\"%s\")".printf (this.name, this.value);
 		}
 		// GXml.Attribute
-		public string prefix {
+		public string? prefix {
 			owned get {
 				if (node == null) return "";
 				if (node->ns == null) return "";

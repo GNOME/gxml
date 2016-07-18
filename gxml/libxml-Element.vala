@@ -436,7 +436,7 @@ namespace GXml {
 		 *
 		 * This property search and contatenade all children {@link GXml.Text}
 		 * in the {@link GXml.Node} and returns them, no mutter were they
-		 * are in the tree of childs. When setting, this property creates a new
+		 * are in the tree of children. When setting, this property creates a new
 		 * {@link GXml.Text} and add it to this {@link GXml.Element}.
 		 */
 		public string content {
@@ -452,10 +452,10 @@ namespace GXml {
 			set {
 				if (value != null) {
 					// Remove all GXml.Text elements by just one with given content
-					for (int i = 0; i < childs.size; i++) {
-						var n = childs.get (i);
+					for (int i = 0; i < children_nodes.size; i++) {
+						var n = children_nodes.get (i);
 						if (n is Text) {
-							childs.remove_at (i);
+							children_nodes.remove_at (i);
 						}
 					}
 					var t = owner_document.create_text_node (value);
@@ -483,15 +483,24 @@ namespace GXml {
 		  if (a == null) return null;
 		  return new xAttr (a, this.owner_document);
 		}
-    public void set_ns_attr (Namespace ns, string name, string uri) {
+    public void set_ns_attr (string ns, string name, string value) {
 		  if (node == null) return;
 			var attr = this.owner_document.create_attribute (name);
 			attr.value = value;
 			this.set_attribute_node (attr);
-			attr.set_namespace (ns.uri, ns.prefix);
+			string prefix = null;
+			string uri = "";
+			if (":" in ns) {
+				string[] s = ns.split (":");
+				prefix = s[0];
+				uri = s[1];
+			} else
+				prefix = ns;
+			attr.set_namespace (uri, prefix);
     }
   	public void remove_attr (string name) {
 		  remove_attribute (name);
 		}
+		public void remove_ns_attr (string name, string uri) { return; }
 	}
 }

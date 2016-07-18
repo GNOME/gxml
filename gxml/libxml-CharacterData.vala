@@ -169,7 +169,7 @@ namespace GXml {
 		 * @param count The length in characters of the range that will be replaced
 		 * @param new_segment The text that will be added
 		 */
-		public void replace_data (ulong offset, ulong count, string new_segment) {
+		public new void replace_data (ulong offset, ulong count, string new_segment) {
 			if (! check_index_size ("replace_data", this.data.length, offset, count)) {
 				return;
 			}

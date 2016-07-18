@@ -210,8 +210,8 @@ public class Performance
    * Iterate recursively through all node and children nodes in document.
    */
   public static void iterate (GXml.Node node) {
-    foreach (GXml.Node n in node.children) {
-      int i = node.children.size;
+    foreach (GXml.Node n in node.children_nodes) {
+      int i = node.children_nodes.size;
       string name = n.name;
       string val = n.value;
 #if DEBUG
@@ -526,9 +526,9 @@ public class Performance
         assert (ce.elements2.elements.size == 125000);
         ce.serialize (d);
         assert (d.root != null);
-        assert (d.root.children.size == 2);
-        assert (d.root.children[0].children.size == 125000);
-        assert (d.root.children[1].children.size == 125000);
+        assert (d.root.children_nodes.size == 2);
+        assert (d.root.children_nodes[0].children_nodes.size == 125000);
+        assert (d.root.children_nodes[1].children_nodes.size == 125000);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Created document: %g seconds", time);
         Test.message ("Starting deserializing document: Disable collection deserialization...");
@@ -774,9 +774,9 @@ public class Performance
         ce.serialize (d);
         d.save_as (f);
         assert (d.root != null);
-        assert (d.root.children.size == 2);
-        assert (d.root.children[0].children.size == 30000);
-        assert (d.root.children[1].children.size == 30000);
+        assert (d.root.children_nodes.size == 2);
+        assert (d.root.children_nodes[0].children_nodes.size == 30000);
+        assert (d.root.children_nodes[1].children_nodes.size == 30000);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Created document: %g seconds", time);
         Test.message ("Starting deserializing document: Disable collection deserialization...");
@@ -836,9 +836,9 @@ public class Performance
         ce.serialize (d);
         d.save_as (f);
         assert (d.root != null);
-        assert (d.root.children.size == 2);
-        assert (d.root.children[0].children.size == 30000);
-        assert (d.root.children[1].children.size == 30000);
+        assert (d.root.children_nodes.size == 2);
+        assert (d.root.children_nodes[0].children_nodes.size == 30000);
+        assert (d.root.children_nodes[1].children_nodes.size == 30000);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Created document: %g seconds", time);
         Test.message ("Starting deserializing document: Enable collection deserialization...");

@@ -45,6 +45,6 @@ public class GXml.xComment : GXml.xCharacterData, GXml.Comment {
 		}
 	}
 	// GXml.Comment interface
-	public string str { owned get { return this.data; } }
+	public string str { owned get { return this.data; } set { this.data = value; } }
 
 }

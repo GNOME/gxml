@@ -45,5 +45,5 @@ public class GXml.TProcessingInstruction : GXml.TNode, GXml.ProcessingInstructio
   }
   // GXml.ProcessingInstruction
   public string target { owned get { return _target.dup (); } }
-  public string data { owned get { return _data.dup (); } }
+  public string data { owned get { return _data.dup (); } set { _data = value; }}
 }

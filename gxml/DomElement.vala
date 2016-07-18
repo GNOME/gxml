@@ -20,21 +20,27 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 
-public interface GXml.DomElement : GLib.Object, GXml.DomNode, GXml.DomParentNode, GXml.DomNonDocumentTypeChildNode, GXml.DomChildNode {
-  public abstract string? namespace_uri { get; }
-  public abstract string? prefix { get; }
-  public abstract string local_name { get; }
-  public abstract string tag_name { get; }
+public interface GXml.DomElement : GLib.Object,
+                  GXml.DomNode,
+                  GXml.DomParentNode,
+                  GXml.DomNonDocumentTypeChildNode,
+                  GXml.DomChildNode
+{
+  public abstract string? namespace_uri { owned get; }
+  public abstract string? prefix { owned get; }
+  public abstract string local_name { owned get; }
+  public abstract string tag_name { owned get; }
 
-  public abstract string id { get; set; }
-  public abstract string class_name  { get; set; }
+  public abstract string? id { owned get; set; }
+  public abstract string? class_name  { owned get; set; }
   public abstract DomTokenList class_list { owned get; }
 
-  public abstract DomNamedNodeMap attributes { get; }
+  public abstract DomNamedNodeMap attributes { owned get; }
+
   public abstract string? get_attribute (string name);
   public abstract string? get_attribute_ns (string? namespace, string local_name);
-  public abstract void set_attribute (string name, string value);
-  public abstract void set_attribute_ns (string? namespace, string name, string value);
+  public abstract void set_attribute (string name, string? value);
+  public abstract void set_attribute_ns (string? namespace, string name, string? value);
   public abstract void remove_attribute (string name);
   public abstract void remove_attribute_ns (string? namespace, string local_name);
   public abstract bool has_attribute (string name);
@@ -46,3 +52,4 @@ public interface GXml.DomElement : GLib.Object, GXml.DomNode, GXml.DomParentNode
   public abstract DomHTMLCollection get_elements_by_class_name (string class_names);
 }
 
+public class GXml.DomElementList : Gee.ArrayList<DomElement>, GXml.DomHTMLCollection {}

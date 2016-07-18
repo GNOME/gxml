@@ -110,7 +110,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
           props += op.get_name ().down ();
       }
       bool found = false;
-      foreach (GXml.Node n in _node.children) {
+      foreach (GXml.Node n in _node.children_nodes) {
         if (n is GXml.Text) {
           if (serialize_use_xml_node_value ()) continue;
         }
@@ -168,7 +168,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     else
       doc = node.document;
     var element = (Element) doc.create_element (node_name ());
-    node.children.add (element);
+    node.children_nodes.add (element);
     set_default_namespace (element);
     foreach (ParamSpec spec in list_serializable_properties ()) {
       serialize_property (element, spec);
@@ -192,14 +192,14 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 #if DEBUG
             GLib.message (@"Serialized Unknown Element NODE AS: $(e.to_string ())");
 #endif
-            element.children.add (e);
+            element.children_nodes.add (e);
           }
           if (n is Text && !serialize_use_xml_node_value ()) {
             if (n.value == "") continue;
             var t = doc.create_text (n.value._strip ());
-            element.children.add (t);
+            element.children_nodes.add (t);
 #if DEBUG
-            GLib.message (@"Serialized Unknown Text Node: '$(n.value)' to '$(element.name)' : Size $(element.children.size.to_string ())");
+            GLib.message (@"Serialized Unknown Text Node: '$(n.value)' to '$(element.name)' : Size $(element.children_nodes.size.to_string ())");
 #endif
           }
         }
@@ -213,7 +213,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
       if (serialized_xml_node_value != null)
         txt = serialized_xml_node_value;
       var t = doc.create_text (txt);
-      element.children.add (t);
+      element.children_nodes.add (t);
 #if DEBUG
       GLib.message (@"SET TEXT CHILD NODE FOR: $(get_type ().name ()): $(element.name): TEXT NODE '$txt'\n");
 #endif
@@ -365,7 +365,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
 #if DEBUG
     GLib.message (@"Elements Nodes in Node: $(element.name)\n");
 #endif
-    foreach (Node n in element.children) {
+    foreach (Node n in element.children_nodes) {
 #if DEBUG
       GLib.message ("Node name is NULL?"+(n.name == null).to_string ());
       if (n.name != null)

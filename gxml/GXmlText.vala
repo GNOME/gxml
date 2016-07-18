@@ -24,7 +24,7 @@ using Gee;
 /**
  * Class implemeting {@link GXml.Text} interface, not tied to libxml-2.0 library.
  */
-public class GXml.GText : GXml.GNode, GXml.Text, GXml.DomCharacterData, GXml.DomText
+public class GXml.GText : GXml.GCharacterData, GXml.Text, GXml.DomText
 {
   public GText (GDocument doc, Xml.Node *node)
   {
@@ -36,15 +36,26 @@ public class GXml.GText : GXml.GNode, GXml.Text, GXml.DomCharacterData, GXml.Dom
       return "#text".dup ();
     }
   }
-  // GXml.Text
-  public string str { owned get { return base.value; } }
-  // GXml.DomCharacterData
-  public string data {
-    get {
-      return str;
-    }
-    set {
-      str = value;
+  // GXml.DomText
+  public GXml.DomText split_text(ulong offset) throws GLib.Error {
+    if (offset >= data.length)
+      throw new DomError.INDEX_SIZE_ERROR (_("Invalid offset to split text"));
+    long l = (long) offset;
+    string ns = data[0:l];
+    string nd = data[data.length - l: data.length];
+    var nt = this.owner_document.create_text_node (ns);
+    (this.parent_node.child_nodes as Gee.List<DomNode>).insert (this.parent_node.child_nodes.index_of (this), nt);
+    return nt;
+  }
+  public string whole_text {
+    owned get {
+      string s = "";
+      if (this.previous_sibling is DomText)
+        s += (this.previous_sibling as DomText).whole_text;
+      s += data;
+      if (this.next_sibling is DomText)
+        s += (this.next_sibling as DomText).whole_text;
+      return s;
     }
   }
 }

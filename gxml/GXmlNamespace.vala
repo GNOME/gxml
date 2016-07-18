@@ -24,7 +24,7 @@ using Gee;
 /**
  * Class implemeting {@link GXml.Namespace}
  */
-public class GXml.GNamespace : GXml.GNode, GXml.Namespace
+public class GXml.GNamespace : Object, GXml.Namespace
 {
   private Xml.Ns *_ns;
   public GNamespace (Xml.Ns* ns) { _ns = ns; }

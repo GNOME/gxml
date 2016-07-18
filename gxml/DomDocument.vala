@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
+/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /*
  *
  * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
@@ -20,7 +20,11 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 
-public interface GXml.DomDocument : GLib.Object, GXml.DomNode, GXml.DomParentNode, GXml.DomNonElementParentNode {
+public interface GXml.DomDocument : GLib.Object,
+									GXml.DomNode,
+									GXml.DomParentNode,
+									GXml.DomNonElementParentNode
+{
   public abstract DomImplementation implementation { get; }
   public abstract string url { get; }
   public abstract string document_uri { get; }
@@ -29,24 +33,24 @@ public interface GXml.DomDocument : GLib.Object, GXml.DomNode, GXml.DomParentNod
   public abstract string character_set { get; }
   public abstract string content_type { get; }
 
-  public abstract DomDocumentType? doctype { get; }
-  public abstract DomElement? document_element { get; }
+  public abstract DomDocumentType? doctype { owned get; }
+  public abstract DomElement? document_element { owned get; }
 
   public abstract DomHTMLCollection get_elements_by_tag_name (string local_name);
   public abstract DomHTMLCollection get_elements_by_tag_name_ns (string? namespace, string local_name);
   public abstract DomHTMLCollection get_elements_by_class_name(string classNames);
 
   public abstract DomElement create_element    (string local_name) throws GLib.Error;
-  public abstract DomElement create_element_ns (string? namespace, string qualified_name);
+  public abstract DomElement create_element_ns (string? namespace, string qualified_name) throws GLib.Error;
   public abstract DomDocumentFragment create_document_fragment();
-  public abstract DomText create_text_node (string data);
-  public abstract DomComment create_comment (string data);
-  public abstract DomProcessingInstruction create_processing_instruction (string target, string data);
+  public abstract DomText create_text_node (string data) throws GLib.Error;
+  public abstract DomComment create_comment (string data) throws GLib.Error;
+  public abstract DomProcessingInstruction create_processing_instruction (string target, string data) throws GLib.Error;
 
   public abstract DomNode import_node (DomNode node, bool deep = false) throws GLib.Error;
   public abstract DomNode adopt_node (DomNode node) throws GLib.Error;
 
-  public abstract DomEvent create_event (string interface);
+  public abstract DomEvent create_event (string interface) throws GLib.Error;
 
   public abstract DomRange create_range();
 
@@ -65,7 +69,11 @@ public interface GXml.DomImplementation : GLib.Object {
   public virtual bool has_feature() { return true; } // useless; always returns true
 }
 
-public interface GXml.DomDocumentFragment : GLib.Object, GXml.DomNode, GXml.DomParentNode, GXml.DomNonElementParentNode {}
+public interface GXml.DomDocumentFragment : GLib.Object,
+                                            GXml.DomNode,
+                                            GXml.DomParentNode,
+                                            GXml.DomNonElementParentNode
+{}
 
 public interface GXml.DomDocumentType : GLib.Object, GXml.DomNode, GXml.DomChildNode {
   public abstract string name { get; }

@@ -28,12 +28,12 @@ class TCommentTest : GXmlTest {
 			try {
 				var d = new TDocument ();
 				var r = d.create_element ("root");
-				d.children.add (r);
+				d.children_nodes.add (r);
 				var c = d.create_comment ("This is a comment");
 				assert (c.name == "#comment");
 				assert (c.value == "This is a comment");
-				d.root.children.add (c);
-				assert (d.root.children.size == 1);
+				d.root.children_nodes.add (c);
+				assert (d.root.children_nodes.size == 1);
 				string str = d.to_string ();
 				assert ("<root><!--This is a comment--></root>" in str);
 #if DEBUG

@@ -21,7 +21,7 @@ m4_define([project_nano_version], [0])
 #     increment current and set revision to 0
 #   If public symbols have been added since last release, increment age
 #   If public symbols have been removed since last release, set age to 0
-m4_define([project_lt_current], [10])
+m4_define([project_lt_current], [11])
 m4_define([project_lt_revision], [0])
 m4_define([project_lt_age], [0])
 
@@ -35,7 +35,7 @@ m4_define([project_full_version],
 
 # You should set project_released to one in order to mark this as a released version
 # and to avoid date on version number
-m4_define(project_released, [1])
+m4_define(project_released, [0])
 m4_define([project_maybe_datestamp],
           m4_if(project_released, [1],
                 [], [m4_esyscmd([date +.%Y%m%d | tr -d '\n\r'])]))
@@ -93,7 +93,7 @@ AC_SUBST([PROJECT_MAJOR_MINOR_VERSION])
 # - If new versions are compatible with the actual one, just leave this untouched
 # - If new version breaks API change it in order to allow paralled installations
 #   with old versions. Change name of pc files to use a new API too.
-API_VERSION=0.10
+API_VERSION=0.12
 AC_SUBST([API_VERSION])
 
 GXML_VERSION=project_base_version
@@ -285,7 +285,7 @@ AM_CONDITIONAL(PLATFORM_WIN32, [test x$platform_win32 = xyes])
 AC_CONFIG_FILES([
 Makefile
 gxml/namespace-info.vala
-gxml/gxml-0.10.pc
+gxml/gxml-0.12.pc
 gxml/Makefile
 test/Makefile
 test/test.xml

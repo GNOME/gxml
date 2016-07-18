@@ -28,12 +28,12 @@ class TProcessingInstructionTest : GXmlTest {
 			try {
 				var d = new TDocument ();
 				var r = d.create_element ("root");
-				d.children.add (r);
+				d.children_nodes.add (r);
 				var pi = d.create_pi ("xslt","transform");
 				assert (pi.name == "#processinginstruction");
 				assert (pi.value == "transform");
-				d.root.children.add (pi);
-				assert (d.root.children.size == 1);
+				d.root.children_nodes.add (pi);
+				assert (d.root.children_nodes.size == 1);
 				string str = d.to_string ();
 				assert ("<root><?xslt transform?></root>" in str);
 #if DEBUG

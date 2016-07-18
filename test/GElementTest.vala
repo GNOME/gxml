@@ -30,7 +30,7 @@ class GElementTest : GXmlTest  {
 				GXml.GNode root = (GXml.GNode) doc.root;
 				assert (root != null);
 				assert (root.name == "Potions");
-				GXml.GNode node = (GXml.GNode) root.children[0];
+				GXml.GNode node = (GXml.GNode) root.children_nodes[0];
 				assert (node != null);
 				assert (node.name == "Potion");
 				assert (node.namespaces != null);
@@ -49,7 +49,7 @@ class GElementTest : GXmlTest  {
 				GDocument doc = new GDocument.from_string ("<root />");
 				assert (doc.root != null);
 				GElement elem = (GElement) doc.create_element ("alphanumeric");
-				doc.root.children.add (elem);
+				doc.root.children_nodes.add (elem);
 				assert (elem.attrs != null);
 				assert (elem.attrs.size == 0);
 				elem.set_attr ("alley", "Diagon");
@@ -83,12 +83,12 @@ class GElementTest : GXmlTest  {
 				var elem = doc.create_element ("country");
 				var t = doc.create_text ("New Zealand");
 				assert (t != null);
-				elem.children.add (t);
+				elem.children_nodes.add (t);
 				Test.message ("Elem1:"+elem.to_string ());
 				assert (elem.to_string () == "<country>New Zealand</country>");
 				var elem2 = doc.create_element ("messy");
 				var t2 = doc.create_text ("&lt;<>&gt;");
-				elem2.children.add (t2);
+				elem2.children_nodes.add (t2);
 				Test.message ("Elem2:"+elem2.to_string ());
 				assert (elem2.to_string () == "<messy>&amp;lt;&lt;&gt;&amp;gt;</messy>");
 			} catch (GLib.Error e) {
@@ -100,7 +100,7 @@ class GElementTest : GXmlTest  {
 			try {
 				var doc = new GDocument ();
 				var root = (GElement) doc.create_element ("root");
-				doc.children.add ((GNode) root);
+				doc.children_nodes.add ((GNode) root);
 				root.content = "TEXT1";
 				assert (root.to_string () == "<root>TEXT1</root>");
 				string s = doc.to_string ().split ("\n")[1];
@@ -114,11 +114,11 @@ class GElementTest : GXmlTest  {
 			try {
 				var doc = new GDocument ();
 				var root = (GElement) doc.create_element ("root");
-				doc.children.add (root);
+				doc.children_nodes.add (root);
 				var n = (GElement) doc.create_element ("child");
-				root.children.add (n);
+				root.children_nodes.add (n);
 				var t = doc.create_text ("TEXT1");
-				root.children.add (t);
+				root.children_nodes.add (t);
 				string s = doc.to_string ().split ("\n")[1];
 				Test.message ("root="+root.to_string ());
 				assert (s == "<root><child/>TEXT1</root>");
@@ -131,11 +131,11 @@ class GElementTest : GXmlTest  {
 			try {
 				var doc = new GDocument ();
 				var root = (GElement) doc.create_element ("root");
-				doc.children.add (root);
+				doc.children_nodes.add (root);
 				var n = (GElement) doc.create_element ("child");
-				root.children.add (n);
+				root.children_nodes.add (n);
 				var t = (Text) doc.create_text ("TEXT1");
-				root.children.add (t);
+				root.children_nodes.add (t);
 				string s = doc.to_string ().split ("\n")[1];
 				assert (s == "<root><child/>TEXT1</root>");
 			} catch (GLib.Error e) {
@@ -148,9 +148,9 @@ class GElementTest : GXmlTest  {
 			assert (doc.root != null);
 			assert (doc.root.parent is GXml.Node);
 			assert (doc.root.parent is GXml.Document);
-			assert (doc.root.children[0] != null);
-			assert (doc.root.children[0].parent != null);
-			assert (doc.root.children[0].parent.name == "root");
+			assert (doc.root.children_nodes[0] != null);
+			assert (doc.root.children_nodes[0].parent != null);
+			assert (doc.root.children_nodes[0].parent.name == "root");
 		});
 	}
 }

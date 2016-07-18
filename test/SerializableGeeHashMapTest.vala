@@ -154,20 +154,20 @@ class SerializableGeeHashMapTest : GXmlTest
         c.set (o2.name, o2);
         var doc = new TDocument ();
         var root = doc.create_element ("root");
-        doc.children.add (root);
+        doc.children_nodes.add (root);
         c.serialize (root);
-        assert (root.children.size > 0);
+        assert (root.children_nodes.size > 0);
         bool found1 = false;
         bool found2 = false;
-        foreach (GXml.Node n in root.children) {
+        foreach (GXml.Node n in root.children_nodes) {
           if (n is Element && n.name == "space") {
             var name = n.attrs.get ("name");
             if (name != null) {
               if (name.value == "Big") found1 = true;
               if (name.value == "Small") found2 = true;
             }
-            if (n.children.size > 0) {
-              foreach (GXml.Node nd in n.children) {
+            if (n.children_nodes.size > 0) {
+              foreach (GXml.Node nd in n.children_nodes) {
                 if (nd is Text) {
                   if (nd.value != "FAKE TEXT") {
                     GLib.message (@"ERROR: node content don't much. Expected 'FAKE TEXT', got: $(nd.value)\n$(doc)\n");
@@ -272,10 +272,10 @@ class SerializableGeeHashMapTest : GXmlTest
         assert (doc.root != null);
         assert (doc.root.name == "spacecontainer");
         var root = doc.root;
-        assert (root.children.size > 0);
+        assert (root.children_nodes.size > 0);
         bool found1 = false;
         bool found2 = false;
-        foreach (GXml.Node n in root.children) {
+        foreach (GXml.Node n in root.children_nodes) {
           if (n is Element && n.name == "space") {
             var name = n.attrs.get ("name");
             if (name != null) {
@@ -391,15 +391,15 @@ class SerializableGeeHashMapTest : GXmlTest
         bag.serialize (d);
         assert (d.root != null);
         assert (d.root.name == "BigBag");
-        assert (d.root.children.size == 2);
-        assert (d.root.children[0].name == "SmallBag");
-        assert (d.root.children[0].children.size == 2);
-        assert (d.root.children[0].children[0].name == "Ball");
-        assert (d.root.children[0].children[0].children.size == 1);
-        assert (d.root.children[0].children[0].children[0].name == "BallFill");
-        assert (d.root.children[0].children[0].children[0].children.size == 1);
-        assert (d.root.children[0].children[0].children[0].children[0] is Text);
-        assert (d.root.children[0].children[0].children[0].children[0].value == "golden dust");
+        assert (d.root.children_nodes.size == 2);
+        assert (d.root.children_nodes[0].name == "SmallBag");
+        assert (d.root.children_nodes[0].children_nodes.size == 2);
+        assert (d.root.children_nodes[0].children_nodes[0].name == "Ball");
+        assert (d.root.children_nodes[0].children_nodes[0].children_nodes.size == 1);
+        assert (d.root.children_nodes[0].children_nodes[0].children_nodes[0].name == "BallFill");
+        assert (d.root.children_nodes[0].children_nodes[0].children_nodes[0].children_nodes.size == 1);
+        assert (d.root.children_nodes[0].children_nodes[0].children_nodes[0].children_nodes[0] is Text);
+        assert (d.root.children_nodes[0].children_nodes[0].children_nodes[0].children_nodes[0].value == "golden dust");
         //GLib.message (d.to_string ());
         // Deserialize
         var bagt = new BigBag ();
@@ -421,15 +421,15 @@ class SerializableGeeHashMapTest : GXmlTest
         //GLib.message ("SECOND:"+d2.to_string ());
         assert (d2.root != null);
         assert (d2.root.name == "BigBag");
-        assert (d2.root.children.size == 2);
-        assert (d2.root.children[0].name == "SmallBag");
-        assert (d2.root.children[0].children.size == 2);
-        assert (d2.root.children[0].children[0].name == "Ball");
-        assert (d2.root.children[0].children[0].children.size == 1);
-        assert (d2.root.children[0].children[0].children[0].name == "BallFill");
-        assert (d2.root.children[0].children[0].children[0].children.size == 1);
-        assert (d2.root.children[0].children[0].children[0].children[0] is GXml.Text);
-        assert (d2.root.children[0].children[0].children[0].children[0].value == "golden dust");
+        assert (d2.root.children_nodes.size == 2);
+        assert (d2.root.children_nodes[0].name == "SmallBag");
+        assert (d2.root.children_nodes[0].children_nodes.size == 2);
+        assert (d2.root.children_nodes[0].children_nodes[0].name == "Ball");
+        assert (d2.root.children_nodes[0].children_nodes[0].children_nodes.size == 1);
+        assert (d2.root.children_nodes[0].children_nodes[0].children_nodes[0].name == "BallFill");
+        assert (d2.root.children_nodes[0].children_nodes[0].children_nodes[0].children_nodes.size == 1);
+        assert (d2.root.children_nodes[0].children_nodes[0].children_nodes[0].children_nodes[0] is GXml.Text);
+        assert (d2.root.children_nodes[0].children_nodes[0].children_nodes[0].children_nodes[0].value == "golden dust");
       } catch (GLib.Error e) {
         GLib.message ("ERROR: "+e.message);
         assert_not_reached ();

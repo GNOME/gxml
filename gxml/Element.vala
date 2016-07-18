@@ -57,7 +57,7 @@ public interface GXml.Element : Object, GXml.Node
     /**
      * Set an {@link GXml.Attribute} with a given name, value and namespace.
      */
-    public abstract void set_ns_attr (Namespace ns, string name, string value);
+    public abstract void set_ns_attr (string ns, string name, string value);
     /**
      * Search for a {@link GXml.Attribute} with a given name and namespace uri.
      *
@@ -80,16 +80,4 @@ public interface GXml.Element : Object, GXml.Node
  * Convenient class for a list of {@link GXml.Element} objects based on
  * {@link Gee.ListArray}, with good support for bindings.
  */
-public class GXml.ElementList : ArrayList<GXml.Element>, GXml.DomHTMLCollection
-{
-  public new GXml.Element get (int index) { return base.get (index); }
-  public new GXml.Element[] to_array () { return (GXml.Element[]) ((Gee.Collection<GXml.Element>) this).to_array (); }
-  public ulong length { get { return (ulong) size; } }
-  public DomElement? item (ulong index) { get ((int) index); }
-  public DomElement? named_item (string name) {
-      foreach (GXml.Element e in this) {
-          if (e.name == name) return e;
-      }
-  }
-}
-}
+public class GXml.ElementList : ArrayList<Element>, GXml.DomHTMLCollection {}

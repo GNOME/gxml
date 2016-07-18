@@ -42,5 +42,5 @@ public class GXml.TComment : GXml.TNode, GXml.Comment
     set {  }
   }
   // GXml.Comment
-  public string str { owned get { return _str.dup (); } }
+  public string str { owned get { return _str.dup (); } set { _str = value; }}
 }

@@ -40,20 +40,20 @@ public class GXml.GDomEvent : Object, GXml.DomEvent {
 	protected bool _default_prevented;
 	public bool default_prevented { get { return _default_prevented; } }
 
-	protected  EventPhase _event_phase;
-	public EventPhase event_phase { get { return _event_phase; } }
+	protected  DomEvent.Phase _event_phase;
+	public DomEvent.Phase event_phase { get { return _event_phase; } }
 
 	protected GXml.DomEvent.Flags _flags;
-	public abstract void stop_propagation () {
-		_flags = _flags && GXml.DomEvent.Flags.STOP_PROPAGATION_FLAG;
+	public void stop_propagation () {
+		_flags = _flags & GXml.DomEvent.Flags.STOP_PROPAGATION_FLAG;
 	}
-	public abstract void stop_immediate_propagation () {
-		_flags = _flags && GXml.DomEvent.Flags.STOP_IMMEDIATE_PROPAGATION_FLAG;
+	public void stop_immediate_propagation () {
+		_flags = _flags & GXml.DomEvent.Flags.STOP_IMMEDIATE_PROPAGATION_FLAG;
 	}
 
-	public abstract void prevent_default () {
+	public void prevent_default () {
 		if (cancelable)
-			_flags = _flags && GXml.DomEvent.Flags.CANCELED_FLAG;
+			_flags = _flags & GXml.DomEvent.Flags.CANCELED_FLAG;
 	}
 	public void init_event (string type, bool bubbles, bool cancelable) {
 		_etype = type;

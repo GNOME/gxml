@@ -63,6 +63,7 @@ namespace GXml {
 			owned get {
 				return _data.dup ();
 			}
+			set { _data = value; }
 		}
 		/**
 		 * The target name.

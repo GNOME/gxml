@@ -1,13 +1,13 @@
-/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 0; tab-width: 2 -*- */
-/* ObjectModel.vala
+/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
+/*
  *
- * Copyright (C) 2015  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- *
+
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
@@ -20,19 +20,22 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 
-using Gee;
-
-/**
- * Interface for XML Processing Instruction sections.
- */
-public interface GXml.ProcessingInstruction : Object, GXml.Node
+public class GXml.GCharacterData : GXml.GNonDocumentChildNode, GXml.Character,
+              GXml.DomCharacterData
 {
-  /**
-   * The target for the processing instruction, like "xml-stylesheet".
-   */
-  public abstract string target  { owned get; }
-  /**
-   * The data used by the target, like {{{href="style.xsl" type="text/xml"}}}
-   */
-  public abstract string data { owned get; set; }
+  // GXml.Character
+  public string str {
+    owned get { return base.value; }
+    set { base.value = value; }
+  }
+  // GXml.DomCharacterData
+  public string data {
+    owned get {
+      return str;
+    }
+    set {
+      str = value;
+    }
+  }
+
 }

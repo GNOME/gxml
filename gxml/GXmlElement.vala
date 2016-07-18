@@ -25,7 +25,10 @@ using Gee;
 /**
  * Class implemeting {@link GXml.Element} interface, not tied to libxml-2.0 library.
  */
-public class GXml.GElement : GXml.GNode, GXml.Element, GXml.DomElement
+public class GXml.GElement : GXml.GNonDocumentChildNode,
+                            GXml.Element, GXml.DomParentNode,
+                            GXml.DomEventTarget,
+                            GXml.DomElement
 {
   public GElement (GDocument doc, Xml.Node *node) {
     _node = node;
@@ -69,12 +72,24 @@ public class GXml.GElement : GXml.GNode, GXml.Element, GXml.DomElement
     }
     return null;
   }
-  public void set_ns_attr (Namespace ns, string name, string value) {
+  public void set_ns_attr (string ns, string name, string value) {
     if (_node == null) return;
-    var ins = _node->doc->search_ns (_node, ns.prefix);
+    string prefix = null;
+    string uri = "";
+    if (":" in ns) {
+      string[] s = ns.split(":");
+      prefix = s[0];
+      uri = s[1];
+    } else
+      uri = ns;
+    var ins = _node->doc->search_ns (_node, prefix);
     if (ins != null) {
       _node->set_ns_prop (ins, name, value);
       return;
+    }
+    var nns = _node->new_ns (uri, prefix);
+    if (nns != null) {
+      _node->set_ns_prop (nns, name, value);
     }
   }
   public GXml.Node get_ns_attr (string name, string uri) {
@@ -104,7 +119,14 @@ public class GXml.GElement : GXml.GNode, GXml.Element, GXml.DomElement
     if (a == null) return;
     a->remove ();
   }
-  public string GXml.Element.tag_name { owned get { return _node->name.dup (); } } // FIXME: Tag = prefix:local_name
+  public string tag_name {
+    owned get {
+      if (_node == null) return name;
+      if (_node->ns != null)
+          return _node->ns->prefix+":"+name;
+      return name;
+    }
+  }
   public override string to_string () {
     var buf = new Xml.Buffer ();
     buf.node_dump (_node->doc, _node, 1, 0);
@@ -112,30 +134,32 @@ public class GXml.GElement : GXml.GNode, GXml.Element, GXml.DomElement
   }
   // GXml.DomElement
   public string? namespace_uri {
-    get {
-      if (namespace != null)
-        return namespace.uri;
+    owned get {
+      if (_node == null) return null;
+      if (_node->ns != null)
+          return _node->ns->href.dup ();
       return null;
     }
   }
   public string? prefix {
-    get {
-      if (namespace != null)
-        return namespace.prefix;
+    owned get {
+      if (_node == null) return null;
+      if (_node->ns != null)
+          return _node->ns->prefix.dup ();
       return null;
     }
   }
-  public string local_name { get { return name; } }
-  public string GXml.DomElement.tag_name {
+  public string local_name { owned get { return name; } }
+  /*public string GXml.DomElement.tag_name {
     get {
       if (namespace != null)
         return namespace.prefix+":"+name;
       return name;
     }
-  }
+  }*/
 
-  public abstract string id {
-    get {
+  public string? id {
+    owned get {
         var p = attrs.get ("id");
         if (p == null) return null;
         return p.value;
@@ -148,8 +172,8 @@ public class GXml.GElement : GXml.GNode, GXml.Element, GXml.DomElement
             p.value = value;
     }
   }
-  public abstract string class_name {
-    get {
+  public string? class_name {
+    owned get {
         var p = attrs.get ("class");
         if (p == null) return null;
         return p.value;
@@ -168,31 +192,14 @@ public class GXml.GElement : GXml.GNode, GXml.Element, GXml.DomElement
     }
   }
 
-  public DomNamedNodeMap attributes { get { return new GDomNamedNodeMap (this,(Map<string,DomNode>) attrs); } }
-  public string? get_attribute (string name) { return attrs.get (name); }
+  public DomNamedNodeMap attributes { owned get { return (DomNamedNodeMap) attrs; } }
+  public string? get_attribute (string name) { return attrs.get (name).value; }
   public string? get_attribute_ns (string? namespace, string local_name) {
-    return get_ns_attr (local_name, namespace);
+    return get_ns_attr (local_name, namespace).value;
   }
-  public void set_attribute (string name, string value) { set_attr (name, value); }
-  public void set_attribute_ns (string? namespace, string name, string value) {
-    GNamespace ns = null;
-    if (namespace != null)
-      ns = new GNamespace ();
-    string prefix = null;
-    string local_name = null;
-    if (":" in name) {
-      string[] s = namespace.split (":");
-      prefix = s[0];
-      local_name = s[1];
-    } else {
-      local_name = name;
-    }
-    if (ns != null) {
-      ns.prefix = prefix;
-      ns.uri = namespace;
-    }
-    // FIXME: Validate name as in Name and QName https://www.w3.org/TR/domcore/#dom-element-setattributens
-    set_ns_attr (ns, local_name, value);
+  public void set_attribute (string name, string? value) { set_attr (name, value); }
+  public void set_attribute_ns (string? namespace, string name, string? value) {
+    set_ns_attr (namespace, local_name, value);
   }
   public void remove_attribute (string name) {
     remove_attr (name);
@@ -200,7 +207,7 @@ public class GXml.GElement : GXml.GNode, GXml.Element, GXml.DomElement
   public void remove_attribute_ns (string? namespace, string local_name) {
     remove_ns_attr (local_name, namespace);
   }
-  public bool has_attribute (string name) { return attrs.has (name); }
+  public bool has_attribute (string name) { return attrs.has_key (name); }
   public bool has_attribute_ns (string? namespace, string local_name) {
     var attr = _node->has_ns_prop (name, namespace);
     if (attr == null) return false;
@@ -210,40 +217,61 @@ public class GXml.GElement : GXml.GNode, GXml.Element, GXml.DomElement
 
   public DomHTMLCollection get_elements_by_tag_name (string local_name) {
     var l = new GDomHTMLCollection ();
-    foreach (GXml.Node n in children) {
+    foreach (GXml.DomNode n in child_nodes) {
       if (!(n is GXml.DomElement)) continue;
-      if ((n as GXml.DomElement).node_name == local_name)
-        l.add (n);
+      if (n.node_name == local_name)
+        l.add ((DomElement) n);
     }
     return l;
   }
   public DomHTMLCollection get_elements_by_tag_name_ns (string? namespace, string local_name) {
     var l = new GDomHTMLCollection ();
-    foreach (GXml.Node n in children) {
+    string prefix = null;
+    string uri = namespace;
+    if (":" in namespace) {
+      string[] s = namespace.split (":");
+      prefix = s[0];
+      uri = s[1];
+    }
+    foreach (GXml.DomNode n in child_nodes) {
       if (!(n is GXml.DomElement)) continue;
       if ((n as GXml.DomElement).node_name == local_name
-          && (n as GXml.DomNode).lookup_namespace_uri == namespace)
-        l.add (n);
+          && n.lookup_namespace_uri (prefix) == uri)
+        l.add ((DomElement) n);
     }
     return l;
   }
   public DomHTMLCollection get_elements_by_class_name (string class_names) {
     var l = new GDomHTMLCollection ();
-    foreach (GXml.Node n in children) {
+    foreach (GXml.DomElement n in children) {
       if (!(n is GXml.DomElement)) continue;
-      if (!n.attrs.has ("class")) continue;
+      if (!n.attributes.has_key ("class")) continue;
       if (" " in class_names) {
         string[] cs = class_names.split (" ");
         bool cl = true;
         foreach (string s in cs) {
-          if (!(s in n.attrs.get ("class").value)) cl = false;
+          if (!(s in n.attributes.get ("class").node_value)) cl = false;
         }
         if (cl)
-          l.add (n);
+          l.add ((DomElement) n);
       } else
-        if (n.attrs.get ("class") == class_names)
-          l.add (n);
+        if (n.attributes.get ("class").node_value == class_names)
+          l.add ((DomElement) n);
     }
     return l;
+  }
+  // DomParentNode
+  public new DomHTMLCollection children { owned get { return children; } }
+  public DomElement? first_element_child { owned get { return children.first (); } }
+  public DomElement? last_element_child { owned get { return children.last (); } }
+  public ulong child_element_count { get { return (ulong) children.size; } }
+
+  public DomElement? query_selector (string selectors) throws GLib.Error {
+  // FIXME:
+    throw new DomError.SYNTAX_ERROR (_("DomElement query_selector is not implemented"));
+  }
+  public DomNodeList query_selector_all (string selectors) throws GLib.Error {
+  // FIXME:
+    throw new DomError.SYNTAX_ERROR (_("DomElement query_selector_all is not implemented"));
   }
 }

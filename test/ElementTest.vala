@@ -457,9 +457,9 @@ class ElementTest : GXmlTest  {
 		Test.add_func ("/gxml/element/parent", () => {
 			var doc = new xDocument.from_string ("<root><child/></root>");
 			assert (doc.root != null);
-			assert (doc.root.children[0] != null);
-			assert (doc.root.children[0].parent != null);
-			assert (doc.root.children[0].parent.name == "root");
+			assert (doc.root.children_nodes[0] != null);
+			assert (doc.root.children_nodes[0].parent != null);
+			assert (doc.root.children_nodes[0].parent.name == "root");
 			assert (doc.root.parent == null);
 		});
 	}

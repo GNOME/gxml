@@ -26,7 +26,7 @@ using Xml;
  * Class implemeting {@link GXml.Document} interface, not tied to libxml-2.0 library.
  *
  * This class use {@link Xml.TextWriter} to write down XML documents using
- * its contained {@link GXml.Node} childs or other XML structures.
+ * its contained {@link GXml.Node} children or other XML structures.
  */
 public class GXml.TDocument : GXml.TNode, GXml.Document
 {
@@ -102,7 +102,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
       return _namespaces.ref () as Gee.List<GXml.Namespace>;
     }
   }
-  public override Gee.BidirList<GXml.Node> children {
+  public override Gee.BidirList<GXml.Node> children_nodes {
     owned get {
       if (_children == null) _children  = new Gee.ArrayList<GXml.Node> ();
       return _children.ref () as Gee.BidirList<GXml.Node>;
@@ -118,7 +118,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
    * you haven't declared a namespace for this document or for its root element,
    * and you define one for a child node, this one is added for the first time
    * to document's namespaces, then this becomes the default namespace. To avoid
-   * this, you should set a namespace for documento or its root, then childs.
+   * this, you should set a namespace for documento or its root, then children.
    *
    * Default {@link GXml.Namespace} for a document is the first
    */
@@ -140,8 +140,8 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
       if (_children == null) _children  = new Gee.ArrayList<GXml.Node> ();
       if (_root == null) {
         int found = 0;
-        for (int i = 0; i < children.size; i++) {
-          GXml.Node n = children.get (i);
+        for (int i = 0; i < children_nodes.size; i++) {
+          GXml.Node n = children_nodes.get (i);
           if (n is GXml.Element) {
             found++;
             if (found == 1)
@@ -376,9 +376,9 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
   }
   // Non Elements
 #if DEBUG
-    GLib.message (@"Starting Element: writting Node '$(node.name)' childs");
+    GLib.message (@"Starting Element: writting Node '$(node.name)' children");
 #endif
-    foreach (GXml.Node n in node.childs) {
+    foreach (GXml.Node n in node.children_nodes) {
 #if DEBUG
       GLib.message (@"Child Node is: $(n.get_type ().name ())");
 #endif
@@ -544,7 +544,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
         tr.close ();
         return ReadType.STOP;
       }
-      node.children.add (n);
+      node.children_nodes.add (n);
 #if DEBUG
       GLib.message ("ReadNode: next node:"+n.to_string ());
       GLib.message ("ReadNode: next node attributes:"+(tr.has_attributes ()).to_string ());
@@ -600,7 +600,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
 #if DEBUG
                 GLib.message ("Setting a NS Attribute: "+prefix+":"+attrname);
 #endif
-                (n as GXml.Element).set_ns_attr (new TNamespace (n.document, nsuri, prefix), attrname, attrval);
+                (n as GXml.Element).set_ns_attr (prefix+":"+nsuri, attrname, attrval);
               }
             } else
               (n as GXml.Element).set_attr (attrname, attrval);
@@ -625,7 +625,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
       GLib.message ("ReadNode: Text Node : '"+txtval+"'");
 #endif
       n = node.document.create_text (txtval);
-      node.children.add (n);
+      node.children_nodes.add (n);
       break;
     case Xml.ReaderType.CDATA:
       var cdval = tr.value ();
@@ -634,7 +634,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
       GLib.message ("ReadNode: CDATA Node : '"+cdval+"'");
 #endif
       n = node.document.create_cdata (cdval);
-      node.children.add (n);
+      node.children_nodes.add (n);
       break;
     case Xml.ReaderType.ENTITY_REFERENCE:
 #if DEBUG
@@ -654,7 +654,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
       GLib.message ("ReadNode: PI Node : '"+pit+"' : '"+pival+"'");
 #endif
       n = node.document.create_pi (pit,pival);
-      node.children.add (n);
+      node.children_nodes.add (n);
       break;
     case Xml.ReaderType.COMMENT:
       var commval = tr.value ();
@@ -663,7 +663,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
       GLib.message ("ReadNode: Comment Node : '"+commval+"'");
 #endif
       n = node.document.create_comment (commval);
-      node.children.add (n);
+      node.children_nodes.add (n);
       break;
     case Xml.ReaderType.DOCUMENT:
 #if DEBUG

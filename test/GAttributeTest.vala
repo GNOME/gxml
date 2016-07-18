@@ -28,20 +28,20 @@ class GAttributeTest : GXmlTest {
 		Test.add_func ("/gxml/gattribute/value", () => {
 			try {
 				GDocument doc = new GDocument.from_string ("<Wands xmlns:wands=\"http://mom.co.uk/wands\"><Wand price=\"43.56\" wands:core=\"dragon heart cord\" wands:shell=\"oak\"/></Wands>");
-				GAttribute attr = (GAttribute) doc.root.children[0].attrs.get ("price");
+				GAttribute attr = (GAttribute) doc.root.children_nodes[0].attrs.get ("price");
 				assert (attr != null);
 				assert (attr.name == "price");
 				assert (attr.value == "43.56");
 				attr.value = "56.1";
-				assert (doc.root.children[0].to_string () == "<Wand price=\"56.1\" wands:core=\"dragon heart cord\" wands:shell=\"oak\"/>");
+				assert (doc.root.children_nodes[0].to_string () == "<Wand price=\"56.1\" wands:core=\"dragon heart cord\" wands:shell=\"oak\"/>");
 				// shell property is Namespaced, but no other property exists with same name then this should work
-				GAttribute shell = (GAttribute) doc.root.children[0].attrs.get ("shell");
+				GAttribute shell = (GAttribute) doc.root.children_nodes[0].attrs.get ("shell");
 				assert (shell != null);
 				assert (shell.name == "shell");
 				assert (shell.value == "oak");
 				shell.value = "Bad!?";
-				Test.message (doc.root.children[0].to_string ());
-				assert (doc.root.children[0].to_string () == "<Wand price=\"56.1\" wands:core=\"dragon heart cord\" wands:shell=\"Bad!?\"/>");
+				Test.message (doc.root.children_nodes[0].to_string ());
+				assert (doc.root.children_nodes[0].to_string () == "<Wand price=\"56.1\" wands:core=\"dragon heart cord\" wands:shell=\"Bad!?\"/>");
 			} catch (GLib.Error e) {
 				Test.message ("ERROR: "+e.message);
 				assert_not_reached ();
@@ -52,7 +52,7 @@ class GAttributeTest : GXmlTest {
 				GDocument doc = new GDocument.from_string ("<Wands xmlns:wands=\"http://mom.co.uk/wands\"><Wand price=\"43.56\" wands:core=\"dragon heart cord\" wands:shell=\"oak\"/></Wands>");
 				assert (doc.root != null);
 				GXml.GNode root = (GXml.GNode) doc.root;
-				GElement node = (GElement)root.children[0];
+				GElement node = (GElement)root.children_nodes[0];
 
 				GAttribute core = (GAttribute) node.attrs.get ("core");
 				assert (core != null);
@@ -84,7 +84,7 @@ class GAttributeTest : GXmlTest {
 			try {
 				GDocument doc = new GDocument.from_string ("<Wands xmlns:wands=\"http://mom.co.uk/wands\"><Wand price=\"43.56\" wands:core=\"dragon heart cord\" wands:shell=\"oak\" shell=\"NoNs\"/></Wands>");
 				// User namespace prefix to find namespaced attribute
-				var nspshell = ((GElement) doc.root.children[0]).get_attr ("wands:shell") as GAttribute;
+				var nspshell = ((GElement) doc.root.children_nodes[0]).get_attr ("wands:shell") as GAttribute;
 				assert (nspshell != null);
 				assert (nspshell.name == "shell");
 				assert (nspshell.namespace != null);
@@ -92,7 +92,7 @@ class GAttributeTest : GXmlTest {
 				assert (nspshell.namespace.uri == "http://mom.co.uk/wands");
 				assert (nspshell.value == "oak");
 				// User namespace prefix to find namespaced attribute from Node.attrs
-				var nspshell2 = doc.root.children[0].attrs.get ("wands:shell") as GAttribute;
+				var nspshell2 = doc.root.children_nodes[0].attrs.get ("wands:shell") as GAttribute;
 				assert (nspshell2 != null);
 				assert (nspshell2.name == "shell");
 				assert (nspshell2.namespace != null);
@@ -100,13 +100,13 @@ class GAttributeTest : GXmlTest {
 				assert (nspshell2.namespace.uri == "http://mom.co.uk/wands");
 				assert (nspshell2.value == "oak");
 				// User no namespaced attribute
-				var shell = ((GElement) doc.root.children[0]).get_attr ("shell") as GAttribute;
+				var shell = ((GElement) doc.root.children_nodes[0]).get_attr ("shell") as GAttribute;
 				assert (shell != null);
 				assert (shell.name == "shell");
 				assert (shell.namespace == null);
 				assert (shell.value == "NoNs");
 				// User no namespaced from Node.attrs
-				var shell2 = doc.root.children[0].attrs.get ("shell") as GAttribute;
+				var shell2 = doc.root.children_nodes[0].attrs.get ("shell") as GAttribute;
 				assert (shell2 != null);
 				assert (shell2.name == "shell");
 				assert (shell2.namespace == null);
@@ -119,9 +119,9 @@ class GAttributeTest : GXmlTest {
 		Test.add_func ("/gxml/tw-attribute/parent", () => {
 			var doc = new GDocument ();
 			var e = doc.create_element ("root");
-			doc.children.add (e);
+			doc.children_nodes.add (e);
 			var c = doc.create_element ("child");
-			e.children.add (c);
+			e.children_nodes.add (c);
 			(e as GXml.Element).set_attr ("attr", "val");
 			assert (doc.root != null);
 			assert (doc.root.attrs["attr"] != null);

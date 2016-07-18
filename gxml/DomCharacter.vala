@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
+/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /*
  *
  * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
@@ -20,11 +20,15 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 
-public interface GXml.DomCharacterData : GLib.Object, GXml.DomNode, GXml.DomNonDocumentTypeChildNode, GXml.DomChildNode {
+public interface GXml.DomCharacterData : GLib.Object,
+                  GXml.DomNode,
+                  GXml.DomNonDocumentTypeChildNode,
+                  GXml.DomChildNode
+{
 	/**
 	 * Null is an empty string.
 	 */
-  public abstract string data { get; set; }
+  public abstract string data { owned get; set; }
 
   public virtual ulong length { get { return this.data.length; } }
   public virtual string substring_data (ulong offset, ulong count) throws GLib.Error {
@@ -43,26 +47,26 @@ public interface GXml.DomCharacterData : GLib.Object, GXml.DomNode, GXml.DomNonD
   public virtual void delete_data  (ulong offset, ulong count) throws GLib.Error {
     replace_data (offset, count, "");
   }
-  public virtual void replace_data (ulong offset, ulong count, string data) throws GLib.Error {
+  public new virtual void replace_data (ulong offset, ulong count, string data) throws GLib.Error {
     if (((int)offset) > this.data.length)
       throw new DomError.INDEX_SIZE_ERROR (_("Invalid offset for replace data"));
     int c = (int) count;
-    if (((int)offset + c) > str.length) c = str.length - (int)offset;
+    if (((int)offset + c) > data.length) c = data.length - (int)offset;
 
     string s = this.data[0:(int)offset];
     string s2 = this.data[0:(s.length - (int)offset - c)];
     string sr = data[0:(int)count];
-    str = s+sr+s2;
+    this.data = (s+sr+s2).dup ();
   }
 }
 
 public interface GXml.DomText : GXml.DomCharacterData {
-  public abstract GXml.DomText split_text(ulong offset);
-  public abstract string whole_text { get; }
+  public abstract GXml.DomText split_text(ulong offset) throws GLib.Error;
+  public abstract string whole_text { owned get; }
 }
 
 public interface GXml.DomProcessingInstruction : GXml.DomCharacterData {
-  public abstract string target { get; }
+  public abstract string target { owned get; }
 }
 
 public interface GXml.DomComment : GXml.DomCharacterData {}

@@ -25,7 +25,7 @@ using Gee;
 /**
  * Base interface providing basic functionalities to all GXml interfaces.
  */
-public abstract class GXml.GNode : Object, GXml.Node, GXml.DomNode
+public abstract class GXml.GNode : Object, GXml.Node, GXml.DomNode, GXml.DomEventTarget
 {
   protected GXml.GDocument _doc;
   protected Xml.Node *_node;
@@ -39,7 +39,7 @@ public abstract class GXml.GNode : Object, GXml.Node, GXml.DomNode
     return ((_node->new_ns (uri, prefix)) != null);
   }
   public virtual Gee.Map<string,GXml.Node> attrs { owned get { return new GHashMapAttr (_doc, _node); } }
-  public virtual Gee.BidirList<GXml.Node> children { owned get { return new GListChildren (_doc, _node); } }
+  public virtual Gee.BidirList<GXml.Node> children_nodes { owned get { return new GListChildren (_doc, _node); } }
   public virtual Gee.List<GXml.Namespace> namespaces { owned get { return new GListNamespaces (_doc, _node); } }
   public virtual GXml.Document document { get { return _doc; } }
   public virtual GXml.Node parent {
@@ -105,6 +105,7 @@ public abstract class GXml.GNode : Object, GXml.Node, GXml.DomNode
     return null;
   }
   // DomNode Implementation
+  public DomNode.NodeType node_type { get { return (DomNode.NodeType) type_node; } } // FIXME:
   public string node_name { owned get { return name; } }
 
   protected string _base_uri = null;
@@ -118,9 +119,9 @@ public abstract class GXml.GNode : Object, GXml.Node, GXml.DomNode
       return null;
     }
   }
-  public DomNodeList child_nodes { owned get { return children as DomNodeList; } }
-  public DomNode? first_child { owned get { return children.first () as DomNode?; } }
-  public DomNode? last_child { owned get { return children.last () as DomNode?; } }
+  public DomNodeList child_nodes { owned get { return children_nodes as DomNodeList; } }
+  public DomNode? first_child { owned get { return children_nodes.first () as DomNode?; } }
+  public DomNode? last_child { owned get { return children_nodes.last () as DomNode?; } }
   public DomNode? previous_sibling {
     owned get {
       if (_node == null) return null;
@@ -144,7 +145,7 @@ public abstract class GXml.GNode : Object, GXml.Node, GXml.DomNode
 	    if (this is GXml.ProcessingInstruction) return this.@value;
 	    if (this is GXml.Comment) return this.@value;
 	    if (this is GXml.Document || this is GXml.Element) {
-	      foreach (GXml.Node n in children) {
+	      foreach (GXml.Node n in children_nodes) {
           if (n is GXml.Text) {
             if (t == null) t = n.value;
             else t += n.value;
@@ -156,19 +157,19 @@ public abstract class GXml.GNode : Object, GXml.Node, GXml.DomNode
 	  set {
       if (this is GXml.Document || this is GXml.Element) {
         var t = this.document.create_text (value);
-        this.document.children.add (t);
+        this.document.children_nodes.add (t);
       }
       if (!(this is GXml.Text || this is GXml.Comment || this is GXml.ProcessingInstruction)) return;
       this.@value = value;
 	  }
 	}
 
-  public bool has_child_nodes () { return (children.size > 0); }
+  public bool has_child_nodes () { return (children_nodes.size > 0); }
   public void normalize () {
     GXml.DomText t = null;
     int[] r = {};
-    for (int i = 0; i < children.size; i++) {
-      var n = children.get (i);
+    for (int i = 0; i < children_nodes.size; i++) {
+      var n = children_nodes.get (i);
       if (n is GXml.DomText) {
         if ((t as GXml.DomText).length == 0) {
           r += i;
@@ -183,7 +184,7 @@ public abstract class GXml.GNode : Object, GXml.Node, GXml.DomNode
       }
     }
     foreach (int j in r) {
-      children.remove_at (j);
+      children_nodes.remove_at (j);
     }
   }
 
@@ -199,13 +200,13 @@ public abstract class GXml.GNode : Object, GXml.Node, GXml.DomNode
   public bool is_equal_node (DomNode? node) {
     if (!(node is GXml.Node)) return false;
     if (node == null) return false;
-    if (this.children.size != (node as Node).children.size) return false;
+    if (this.children_nodes.size != (node as Node).children_nodes.size) return false;
     foreach (GXml.Node a in attrs.values) {
       if (!(node as GXml.Node?).attrs.has_key (a.name)) return false;
       if (a.value != (node as GXml.Node).attrs.get (a.name).value) return false;
     }
-    for (int i=0; i < children.size; i++) {
-      if (!(children[i] as GXml.DomNode).is_equal_node ((node as GXml.Node?).children[i] as GXml.DomNode?)) return false;
+    for (int i=0; i < children_nodes.size; i++) {
+      if (!(children_nodes[i] as GXml.DomNode).is_equal_node ((node as GXml.Node?).children_nodes[i] as GXml.DomNode?)) return false;
     }
     return true;
   }
@@ -279,23 +280,30 @@ public abstract class GXml.GNode : Object, GXml.Node, GXml.DomNode
   }
 
   public DomNode insert_before (DomNode node, DomNode? child) {
-    int i = children.index_of (child as GXml.Node);
-    children.insert (i, (node as GXml.Node));
+    int i = children_nodes.index_of (child as GXml.Node);
+    children_nodes.insert (i, (node as GXml.Node));
     return node;
   }
   public DomNode append_child (DomNode node) {
-    children.add ((node as GXml.Node));
+    children_nodes.add ((node as GXml.Node));
     return node;
   }
   public DomNode replace_child (DomNode node, DomNode child) {
-    int i = children.index_of ((child as GXml.Node));
-    children.remove_at (i);
-    children.insert (i, (node as GXml.Node));
+    int i = children_nodes.index_of ((child as GXml.Node));
+    children_nodes.remove_at (i);
+    children_nodes.insert (i, (node as GXml.Node));
     return child;
   }
   public DomNode remove_child (DomNode child) {
-    int i = children.index_of ((child as GXml.Node));
-    return (DomNode) children.remove_at (i);
+    int i = children_nodes.index_of ((child as GXml.Node));
+    return (DomNode) children_nodes.remove_at (i);
   }
+  // DomEventTarget implementation
+  public void add_event_listener (string type, DomEventListener? callback, bool capture = false)
+  { return; } // FIXME:
+  public void remove_event_listener (string type, DomEventListener? callback, bool capture = false)
+  { return; } // FIXME:
+  public bool dispatch_event (DomEvent event)
+  { return false; } // FIXME:
 }
 

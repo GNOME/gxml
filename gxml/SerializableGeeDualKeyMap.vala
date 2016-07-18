@@ -64,7 +64,7 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Gee.Traversable <V>, S
       throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"), 
                                                     this.get_type ().name (), value_type.name ());
     }
-    foreach (GXml.Node n in _node.children) {
+    foreach (GXml.Node n in _node.children_nodes) {
       deserialize_node (n);
     }
     _deserialized = true;
