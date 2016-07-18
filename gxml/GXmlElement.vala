@@ -193,9 +193,15 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
   }
 
   public DomNamedNodeMap attributes { owned get { return (DomNamedNodeMap) attrs; } }
-  public string? get_attribute (string name) { return attrs.get (name).value; }
+  public string? get_attribute (string name) {
+    var p = attrs.get (name);
+    if (p == null) return null;
+    return p.value;
+  }
   public string? get_attribute_ns (string? namespace, string local_name) {
-    return get_ns_attr (local_name, namespace).value;
+    var p = get_ns_attr (local_name, namespace);
+    if (p == null) return null;
+    return p.value;
   }
   public void set_attribute (string name, string? value) { set_attr (name, value); }
   public void set_attribute_ns (string? namespace, string name, string? value) {
@@ -221,6 +227,7 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
       if (!(n is GXml.DomElement)) continue;
       if (n.node_name == local_name)
         l.add ((DomElement) n);
+      l.add_all ((n as DomElement).get_elements_by_tag_name (local_name));
     }
     return l;
   }
@@ -243,27 +250,41 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
   }
   public DomHTMLCollection get_elements_by_class_name (string class_names) {
     var l = new GDomHTMLCollection ();
+    if (class_names == "") return l;
+    string[] cs = {};
+    if (" " in class_names) {
+      cs = class_names.split (" ");
+    } else
+      cs += class_names;
     foreach (GXml.DomElement n in children) {
-      if (!(n is GXml.DomElement)) continue;
-      if (!n.attributes.has_key ("class")) continue;
-      if (" " in class_names) {
-        string[] cs = class_names.split (" ");
-        bool cl = true;
-        foreach (string s in cs) {
-          if (!(s in n.attributes.get ("class").node_value)) cl = false;
+      l.add_all (n.get_elements_by_class_name (class_names));
+      string cls = n.get_attribute ("class");
+      if (cls == null) continue;
+      foreach (string s in cs) {
+        if (" " in cls) {
+          string[] ncls = cls.split (" ");
+          foreach (string snc in ncls) {
+            if (snc == s) l.add (n);
+          }
         }
-        if (cl)
-          l.add ((DomElement) n);
-      } else
-        if (n.attributes.get ("class").node_value == class_names)
-          l.add ((DomElement) n);
+        else
+          if (s == cls) l.add (n);
+      }
     }
     return l;
   }
   // DomParentNode
-  public new DomHTMLCollection children { owned get { return children; } }
-  public DomElement? first_element_child { owned get { return children.first (); } }
-  public DomElement? last_element_child { owned get { return children.last (); } }
+  public new DomHTMLCollection children {
+    owned get {
+      var l = new DomElementList ();
+      foreach (GXml.DomNode n in child_nodes) {
+        if (n is DomElement) l.add ((DomElement) n);
+      }
+      return l;
+    }
+  }
+  public DomElement? first_element_child { owned get { return (DomElement) children.first (); } }
+  public DomElement? last_element_child { owned get { return (DomElement) children.last (); } }
   public ulong child_element_count { get { return (ulong) children.size; } }
 
   public DomElement? query_selector (string selectors) throws GLib.Error {

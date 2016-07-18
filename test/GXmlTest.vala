@@ -85,6 +85,7 @@ class GXmlTest {
 		GElementTest.add_tests ();
 		GAttributeTest.add_tests ();
 		HtmlDocumentTest.add_tests ();
+		DomGDocumentTest.add_tests ();
 
 		Test.run ();
 
