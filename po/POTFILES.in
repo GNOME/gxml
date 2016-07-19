@@ -8,6 +8,7 @@ gxml/GXmlDomCollections.vala
 gxml/GXmlDomRange.vala
 gxml/GXmlElement.vala
 gxml/GXmlHashMapAttr.vala
+gxml/GXmlNode.vala
 gxml/GXmlText.vala
 gxml/libxml-ChildNodeList.vala
 gxml/libxml-Document.vala
@@ -24,9 +25,3 @@ gxml/SerializableObjectModel.vala
 gxml/SerializableProperty.vala
 gxml/Serializable.vala
 gxml/TDocument.vala
-gxml/DomCharacter.vala
-gxml/GXmlDomCollections.vala
-gxml/GXmlDomRange.vala
-gxml/GXmlElement.vala
-gxml/GXmlHashMapAttr.vala
-gxml/GXmlText.vala
