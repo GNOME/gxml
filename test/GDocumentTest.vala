@@ -331,13 +331,13 @@ class GDocumentTest : GXmlTest {
 				assert (p == null);
 				Test.message ("ROOT: "+doc.root.to_string ());
 				assert (doc.root.to_string () == "<root xmlns:gxml=\"http://www.gnome.org/GXml\"><child xmlns:gxml2=\"http://www.gnome.org/GXml2\"/></root>");
-				(c as Element).set_ns_attr (doc.root.namespaces[0].prefix+":"+doc.root.namespaces[0].uri, "prop", "Ten");
+				(c as Element).set_ns_attr (doc.root.namespaces[0].uri, "prop", "Ten");
 				Test.message ("ROOT: "+doc.root.to_string ());
 				assert (c.attrs.size == 1);
 				var pt = c.attrs.get ("prop");
 				assert (pt != null);
 				var pt2 = (c as Element).get_ns_attr ("prop", doc.root.namespaces[0].uri);
-				Test.message ("ROOT: "+doc.root.to_string ());
+				GLib.message ("ROOT: "+doc.root.to_string ());
 				assert (doc.root.to_string () == "<root xmlns:gxml=\"http://www.gnome.org/GXml\"><child xmlns:gxml2=\"http://www.gnome.org/GXml2\" gxml:prop=\"Ten\"/></root>");
 			} catch (GLib.Error e) {
 				GLib.message ("ERROR: "+ e.message);

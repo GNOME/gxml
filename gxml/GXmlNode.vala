@@ -264,38 +264,18 @@ public abstract class GXml.GNode : Object,
   }
 
   public string? lookup_prefix (string? nspace) {
+    if (_node == null) return null;
     if (parent == null) return null;
     if (this is GXml.DocumentType || this is GXml.DocumentFragment) return null;
-    if (this is GXml.Document)
-      if ((this as GXml.Document).root != null)
-        return (document.root as DomNode).lookup_prefix (nspace);
-      else
-        return null;
-    if (this is GXml.Element) {
-      if (namespaces.size > 0) {
-        var ns = namespaces[0];
-        if (ns.prefix == nspace) return ns.uri;
-        else return null;
-      }
-    }
-    return (this.parent as GXml.DomNode).lookup_prefix (nspace);
+    var ns = _node->doc->search_ns_by_href (_node, nspace);
+    if (ns == null) return null;
+    return ns->prefix;
   }
   public string? lookup_namespace_uri (string? prefix) {
-    if (prefix == null) return null;
     if (this is GXml.DocumentType || this is GXml.DocumentFragment) return null;
-    if (this is GXml.Document)
-      if ((this as GXml.Document).root != null)
-        return (document.root as DomNode).lookup_namespace_uri (prefix);
-      else
-        return null;
-    if (this is GXml.Element) {
-      if (namespaces.size > 0) {
-        var ns = namespaces[0];
-        if (ns.prefix == prefix) return ns.uri;
-        else return null;
-      }
-    }
-    return (this.parent as GXml.DomNode).lookup_namespace_uri (prefix);
+    var ns = _node->doc->search_ns (_node, prefix);
+    if (ns == null) return null;
+    return ns->href;
   }
   public bool is_default_namespace (string? nspace) {
     if (nspace == null) return false;

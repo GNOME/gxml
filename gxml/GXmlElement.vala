@@ -49,10 +49,10 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
     if (":" in aname) return;
     _node->set_prop (aname, avalue);
   }
-  public GXml.Node get_attr (string name)
+  public GXml.Node? get_attr (string name)
   {
     if (_node == null) return null;
-    string prefix = "";
+    string prefix = null;
     string n = name;
     if (":" in name) {
       string[] pp = name.split (":");
@@ -60,39 +60,38 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
       prefix = pp[0];
       n = pp[1];
     }
-    var ps = _node->properties;
-    while (ps != null) {
-      if (ps->name == n) {
-        if (ps->ns == null && prefix == "") return new GAttribute (_doc, ps);
-        if (ps->ns == null) continue;
-        if (ps->ns->prefix == prefix)
-          return new GAttribute (_doc, ps);
-      }
-      ps = ps->next;
+    if (prefix != null) {
+      var ns = _node->doc->search_ns (_node, prefix);
+      if (ns == null) return null;
+      var nsa = _node->has_ns_prop (n,ns->href);
+      if (nsa == null) return null;
+      return new GAttribute (_doc, nsa);
     }
-    return null;
+    var p = _node->has_prop (n);
+    if (p == null) return null;
+    return new GAttribute (_doc, p);
   }
   public void set_ns_attr (string ns, string name, string value) {
     if (_node == null) return;
     string prefix = null;
-    string uri = "";
-    if (":" in ns) {
+    string qname = name;
+    if (":" in name) {
       string[] s = ns.split(":");
+      if (s.length != 2) return;
       prefix = s[0];
-      uri = s[1];
-    } else
-      uri = ns;
-    var ins = _node->doc->search_ns (_node, prefix);
+      qname = s[1];
+    }
+    var ins = _node->doc->search_ns_by_href (_node, ns);
     if (ins != null) {
-      _node->set_ns_prop (ins, name, value);
+      _node->set_ns_prop (ins, qname, value);
       return;
     }
-    var nns = _node->new_ns (uri, prefix);
+    var nns = _node->new_ns (ns, prefix);
     if (nns != null) {
-      _node->set_ns_prop (nns, name, value);
+      _node->set_ns_prop (nns, qname, value);
     }
   }
-  public GXml.Node get_ns_attr (string name, string uri) {
+  public GXml.Node? get_ns_attr (string name, string uri) {
     if (_node == null) return null;
     var a = _node->has_ns_prop (name, uri);
     if (a == null) return null;

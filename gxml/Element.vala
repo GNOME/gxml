@@ -45,7 +45,7 @@ public interface GXml.Element : Object, GXml.Node
      *
      * All attributes could be get using {@link GXml.Node.attrs} property.
      */
-    public abstract GXml.Node get_attr (string name);
+    public abstract GXml.Node? get_attr (string name);
     /**
      * Search for a {@link GXml.Attribute} with given name and removes it.
      */
@@ -64,7 +64,7 @@ public interface GXml.Element : Object, GXml.Node
      * To get a attibute from {@link GXml.Node.attrs} with a given namespace
      * prefix, use "prefix:name".
      */
-    public abstract GXml.Node get_ns_attr (string name, string uri);
+    public abstract GXml.Node? get_ns_attr (string name, string uri);
     /**
      * This should be just a different name for {@link GXml.Node.name}.
      */

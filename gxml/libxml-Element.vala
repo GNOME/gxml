@@ -476,8 +476,8 @@ namespace GXml {
 		}
 		// GXml.Element interface
     public void set_attr (string name, string value) { set_attribute (name, value); }
-    public GXml.Node get_attr (string name) { return (GXml.Node) get_attribute_node (name); }
-		public GXml.Node get_ns_attr (string name, string uri) {
+    public GXml.Node? get_attr (string name) { return (GXml.Node) get_attribute_node (name); }
+		public GXml.Node? get_ns_attr (string name, string uri) {
 		  if (node == null) return null;
 		  var a = node->has_ns_prop (name, uri);
 		  if (a == null) return null;

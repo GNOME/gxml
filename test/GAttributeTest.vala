@@ -82,7 +82,7 @@ class GAttributeTest : GXmlTest {
 		});
 		Test.add_func ("/gxml/gattribute/namespace_value", () => {
 			try {
-				GDocument doc = new GDocument.from_string ("<Wands xmlns:wands=\"http://mom.co.uk/wands\"><Wand price=\"43.56\" wands:core=\"dragon heart cord\" wands:shell=\"oak\" shell=\"NoNs\"/></Wands>");
+				GDocument doc = new GDocument.from_string ("<Wands xmlns=\"http://gxml.org/\" xmlns:wands=\"http://mom.co.uk/wands\"><Wand price=\"43.56\" wands:core=\"dragon heart cord\" wands:shell=\"oak\" cshell=\"NoNs\"/></Wands>");
 				// User namespace prefix to find namespaced attribute
 				var nspshell = ((GElement) doc.root.children_nodes[0]).get_attr ("wands:shell") as GAttribute;
 				assert (nspshell != null);
@@ -100,15 +100,16 @@ class GAttributeTest : GXmlTest {
 				assert (nspshell2.namespace.uri == "http://mom.co.uk/wands");
 				assert (nspshell2.value == "oak");
 				// User no namespaced attribute
-				var shell = ((GElement) doc.root.children_nodes[0]).get_attr ("shell") as GAttribute;
+				var shell = ((GElement) doc.root.children_nodes[0]).get_attr ("cshell") as GAttribute;
 				assert (shell != null);
-				assert (shell.name == "shell");
+				assert (shell is Attribute);
+				assert (shell.name == "cshell");
 				assert (shell.namespace == null);
 				assert (shell.value == "NoNs");
 				// User no namespaced from Node.attrs
-				var shell2 = doc.root.children_nodes[0].attrs.get ("shell") as GAttribute;
+				var shell2 = doc.root.children_nodes[0].attrs.get ("cshell") as GAttribute;
 				assert (shell2 != null);
-				assert (shell2.name == "shell");
+				assert (shell2.name == "cshell");
 				assert (shell2.namespace == null);
 				assert (shell2.value == "NoNs");
 			} catch (GLib.Error e) {

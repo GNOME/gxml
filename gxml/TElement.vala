@@ -71,8 +71,8 @@ public class GXml.TElement : GXml.TNode, GXml.Element
     att.set_parent (this);
     attrs.set (name, att);
   }
-  public GXml.Node get_attr (string name) { return attrs.get (name); }
-  public GXml.Node get_ns_attr (string name, string uri) {
+  public GXml.Node? get_attr (string name) { return attrs.get (name); }
+  public GXml.Node? get_ns_attr (string name, string uri) {
     foreach (string k in attrs.keys) {
       if (!(":" in k)) continue;
       var a = attrs.get (k);

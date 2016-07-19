@@ -182,6 +182,19 @@ static const string HTMLDOC ="
 			assert (e1.compare_document_position (e1.parent_node) == (DomNode.DocumentPosition.CONTAINS & DomNode.DocumentPosition.FOLLOWING));
 			assert (e1.contains (e1.child_nodes[0]));
 			assert (e1.compare_document_position (e1.child_nodes[0]) == (DomNode.DocumentPosition.CONTAINED_BY & DomNode.DocumentPosition.PRECEDING));
+			var b = doc.document_element.children[0];
+			assert (b.node_name == "body");
+			var ng = doc.create_element_ns ("http://git.gnome.org/browse/gxml","gxml:MyNode");
+			b.child_nodes.add (ng);
+			assert (ng.lookup_prefix ("http://git.gnome.org/browse/gxml") == "gxml");
+			assert (ng.lookup_namespace_uri ("gxml") == "http://git.gnome.org/browse/gxml");
+			assert (!ng.is_default_namespace ("gxml:http://git.gnome.org/browse/gxml"));
+			var ng2 = doc.create_element_ns ("http://live.gnome.org/GXml", "OtherNode");
+			b.child_nodes.add (ng2);
+			GLib.message ("BODY:"+(b as GXml.Node).to_string ());
+			assert (ng2.lookup_prefix ("http://live.gnome.org/GXml") == null);
+			assert (ng2.lookup_namespace_uri (null) == "http://live.gnome.org/GXml");
+			assert (ng2.is_default_namespace ("http://live.gnome.org/GXml"));
 		});
 	}
 }

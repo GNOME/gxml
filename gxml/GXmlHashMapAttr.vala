@@ -129,6 +129,7 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
       var p = _node->properties;
       while (p != null) {
         l.add (p->name.dup ());
+        p = p->next;
       }
       return l;
     }

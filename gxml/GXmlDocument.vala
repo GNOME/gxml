@@ -211,8 +211,18 @@ public class GXml.GDocument : GXml.GNode,
   }
   public DomElement GXml.DomDocument.create_element_ns (string? ns, string qualified_name) throws GLib.Error
   {
-      var e = (this as GXml.Document).create_element (qualified_name);
-      e.set_namespace (ns, null);
+      string prefix = null;
+      string qname = qualified_name;
+      if (":" in qualified_name) {
+        string[] s = qualified_name.split (":");
+        if (s.length != 2) {
+          throw new DomError.INVALID_CHARACTER_ERROR (_("Invalid element qualified name: multiple namespace prefixes"));
+        }
+        prefix = s[0];
+        qname = s[1];
+      }
+      var e = (this as GXml.Document).create_element (qname);
+      e.set_namespace (ns, prefix);
       return e as DomElement;
   }
 
