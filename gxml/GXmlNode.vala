@@ -235,8 +235,8 @@ public abstract class GXml.GNode : Object,
   }
 
   public DomNode.DocumentPosition compare_document_position (DomNode other) {
-    if ((&this as GXml.DomNode) == &other) return (DomNode.DocumentPosition) 0;
-    if (this.document != (other as GXml.Node).document) {
+    if ((this as GXml.DomNode) == other) return DomNode.DocumentPosition.NONE;
+    if (this.document != (other as GXml.Node).document || other.parent_node == null) {
       var p = DomNode.DocumentPosition.DISCONNECTED & DomNode.DocumentPosition.IMPLEMENTATION_SPECIFIC;
       if ((&this) > (&other))
         p = p & DomNode.DocumentPosition.PRECEDING;
@@ -244,21 +244,23 @@ public abstract class GXml.GNode : Object,
        p = p & DomNode.DocumentPosition.FOLLOWING;
       return p;
     }
-    if ((&other as GXml.Node).parent == &this)
-      return DomNode.DocumentPosition.CONTAINS & DomNode.DocumentPosition.PRECEDING;
-    var op = this.parent as DomNode;
-    if (&other == &op)
+    if ((this as DomNode).contains (other))
       return DomNode.DocumentPosition.CONTAINED_BY & DomNode.DocumentPosition.FOLLOWING;
-    if (&other < &this) return DomNode.DocumentPosition.PRECEDING;
-    return DomNode.DocumentPosition.FOLLOWING;
+    if (this.parent_node.contains (other)) {
+      var par = this.parent_node;
+      if (par.child_nodes.index_of (this) > par.child_nodes.index_of (other))
+        return DomNode.DocumentPosition.PRECEDING;
+      else
+        return DomNode.DocumentPosition.FOLLOWING;
+    }
+    if (other.contains (this))
+      return DomNode.DocumentPosition.CONTAINS & DomNode.DocumentPosition.PRECEDING;
+    GLib.warning (_("Can't find node position"));
+    return DomNode.DocumentPosition.NONE;
   }
   public bool contains (DomNode? other) {
     if (other == null) return false;
-    var o = other as GXml.Node;
-    if (&o == &this) return true;
-    var op = o.parent;
-    if (&this == &op) return true;
-    return false;
+    return this.child_nodes.contains (other);
   }
 
   public string? lookup_prefix (string? nspace) {

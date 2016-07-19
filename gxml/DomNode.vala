@@ -61,6 +61,7 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
 
   [Flags]
   public enum DocumentPosition {
+    NONE,
     DISCONNECTED,
     PRECEDING,
     FOLLOWING,
