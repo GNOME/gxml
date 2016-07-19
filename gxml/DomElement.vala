@@ -54,7 +54,7 @@ public interface GXml.DomElement : GLib.Object,
 
 public class GXml.DomElementList : Gee.ArrayList<DomElement>, GXml.DomHTMLCollection {
   // DomHTMLCollection
-  public new GXml.DomElement get_element (int index) {
-    return (GXml.DomElement) this.get (index);
+  public new GXml.DomElement? get_element (int index) {
+    return (GXml.DomElement?) this.get (index);
   }
 }

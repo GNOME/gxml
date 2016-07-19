@@ -30,7 +30,12 @@ public interface GXml.DomCharacterData : GLib.Object,
 	 */
   public abstract string data { owned get; set; }
 
-  public virtual ulong length { get { return this.data.length; } }
+  public virtual ulong length {
+    get {
+      if (this.data == null) return 0;
+      return this.data.length;
+    }
+  }
   public virtual string substring_data (ulong offset, ulong count) throws GLib.Error {
     if (((int)offset) > this.data.length)
       throw new DomError.INDEX_SIZE_ERROR (_("Invalid offset for substring"));

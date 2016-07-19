@@ -118,5 +118,37 @@ static const string HTMLDOC ="
 			assert (lc[1].node_name == "p");
 			assert (lc[1].get_attribute ("class") == "black block");
 		});
+		Test.add_func ("/gxml/dom/node", () => {
+			GLib.message ("Doc: "+HTMLDOC);
+			GDocument doc = new GDocument.from_string (HTMLDOC);
+			assert (doc is DomDocument);
+			assert (doc.document_element.children.size == 1);
+			assert (doc.document_element.children[0] != null);
+			assert (doc.document_element.children[0].children[1] != null);
+			var e = doc.document_element.children[0].children[1];
+			assert (e.owner_document == (DomDocument) doc);
+			assert (e.parent_node != null);
+			assert (e.parent_node.node_name == "body");
+			assert (e.parent_element != null);
+			assert (e.parent_element.node_name == "body");
+			assert (e.child_nodes != null);
+			assert (e.child_nodes.size == 1);
+			assert (e.child_nodes.item (0) != null);
+			assert (e.child_nodes.item (0) is DomText);
+			assert (e.previous_sibling != null);
+			assert (e.previous_sibling is DomText);
+			assert (e.next_sibling != null);
+			assert (e.next_sibling is DomText);
+			var t = e.child_nodes.item (0);
+			assert (t.previous_sibling == null);
+			assert (t.next_sibling == null);
+			assert (t.text_content != null);
+			assert (t.text_content == "p01 p id");
+			assert (e.parent_node.text_content == "\n\n\n\n");
+			assert (e.parent_node.has_child_nodes ());
+			e.parent_node.normalize ();
+			GLib.message ("Normalized: '"+e.parent_node.text_content+"' -> Node: "+(e.parent_element as GXml.Node).to_string ());
+			assert (e.parent_node.text_content == null);
+		});
 	}
 }

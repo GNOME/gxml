@@ -202,25 +202,12 @@ public abstract class GXml.GNode : Object,
 
   public bool has_child_nodes () { return (children_nodes.size > 0); }
   public void normalize () {
-    GXml.DomText t = null;
-    int[] r = {};
+    GXml.DomText t = owner_document.create_text_node (text_content);
     for (int i = 0; i < children_nodes.size; i++) {
       var n = children_nodes.get (i);
-      if (n is GXml.DomText) {
-        if ((t as GXml.DomText).length == 0) {
-          r += i;
-          continue;
-        }
-        if (t == null) {
-          t = (GXml.DomText) n;
-          continue;
-        } else {
-          t.data += n.value;
-        }
+      if (n is DomText) {
+        child_nodes.remove_at (i);
       }
-    }
-    foreach (int j in r) {
-      children_nodes.remove_at (j);
     }
   }
 

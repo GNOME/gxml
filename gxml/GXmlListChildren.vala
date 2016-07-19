@@ -75,13 +75,16 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>,
   }
   public override  Gee.ListIterator<GXml.Node> list_iterator () { return new Iterator (_doc, _node); }
   /**
-   * Removes a node at @index
+   * Removes a node at @index. This method never returns a valid pointer.
    */
   public override GXml.Node remove_at (int index) {
+    if (index > size || index < 0) return null;
     var n = @get (index);
     if (n == null) return null;
-    (n as GXml.GNode).get_internal_node ()->unlink ();
-    return n;
+    var np = (n as GXml.GNode).get_internal_node ();
+    np->unlink ();
+    delete np;
+    return null;
   }
   /**
    * This method is ignored by default.
@@ -254,8 +257,11 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>,
   public DomNode? item (ulong index) { return (DomNode) @get ((int) index); }
   public ulong length { get { return (ulong) size; } }
   // DomHTMLCollection
-  public new GXml.DomElement get_element (int index) {
-    return (GXml.DomElement) this.get (index);
+  public new GXml.DomElement? get_element (int index) {
+    if (index > this.size || index < 0) return null;
+    var e = this.get (index);
+    if (!(e is DomNode)) return null;
+    return (GXml.DomElement) e;
   }
 }
 
