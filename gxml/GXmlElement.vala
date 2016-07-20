@@ -135,16 +135,29 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
   public string? namespace_uri {
     owned get {
       if (_node == null) return null;
-      if (_node->ns != null)
-          return _node->ns->href.dup ();
+      var ns = _node->ns_def;
+      var dns = ns;
+      while (ns != null) {
+        if (ns->prefix == null) dns = ns;
+        ns = ns->next;
+      }
+      if (dns != null)
+        return dns->href.dup ();
       return null;
     }
   }
   public string? prefix {
     owned get {
       if (_node == null) return null;
-      if (_node->ns != null)
-          return _node->ns->prefix.dup ();
+      var ns = _node->ns_def;
+      var dns = ns;
+      while (ns != null) {
+        if (ns->prefix == null) dns = ns;
+        ns = ns->next;
+      }
+      if (dns != null)
+        if (dns->prefix != null)
+          return dns->prefix.dup ();
       return null;
     }
   }

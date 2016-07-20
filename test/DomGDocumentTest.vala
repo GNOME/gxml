@@ -246,5 +246,36 @@ static const string HTMLDOC ="
 				assert_not_reached ();
 			}
 		});
+		Test.add_func ("/gxml/dom/element/api", () => {
+			GLib.message ("Doc: "+HTMLDOC);
+			GDocument doc = new GDocument.from_string (HTMLDOC);
+			assert (doc is DomDocument);
+			assert (doc.document_element.children.size == 1);
+			var n1 = doc.create_element_ns ("http://live.gnome.org/GXml","gxml:code");
+			doc.document_element.append_child (n1);
+			GLib.message ("DOC:"+(doc.document_element as GXml.Node).to_string ());
+			var n = doc.document_element.children[1] as DomElement;
+			assert (n.node_name == "code");
+			n.set_attribute ("id","0y1");
+			n.set_attribute ("class","login black");
+			assert ((n as GXml.Node).namespaces.size == 1);
+			assert ((n as GXml.Node).namespaces[0].uri == "http://live.gnome.org/GXml");
+			assert ((n as GXml.Node).namespaces[0].prefix == "gxml");
+			GLib.message ("NODE: "+(n as GXml.Node).to_string ());
+			assert (n.namespace_uri == "http://live.gnome.org/GXml");
+			assert (n.prefix == "gxml");
+			assert (n.local_name == "code");
+			assert (n.node_name == "code");
+			assert (n.id == "0y1");
+			assert (n.class_list != null);
+			assert (n.class_list.length == 2);
+			assert (n.class_list.item (0) == "login");
+			assert (n.class_list.item (1) == "black");
+			assert (n.attributes != null);
+			assert (n.attributes.length == 2);
+			assert (n.attributes.get_named_item ("id") is DomNode);
+			assert (n.attributes.get_named_item ("id").node_name == "id");
+			assert (n.attributes.get_named_item ("id").node_value == "0y1");
+		});
 	}
 }

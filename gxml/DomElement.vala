@@ -26,7 +26,13 @@ public interface GXml.DomElement : GLib.Object,
                   GXml.DomNonDocumentTypeChildNode,
                   GXml.DomChildNode
 {
+  /**
+   * Returns default namespace's uri defined in node or first found.
+   */
   public abstract string? namespace_uri { owned get; }
+  /**
+   * Returns default namespace's prefix defined in node or first found.
+   */
   public abstract string? prefix { owned get; }
   public abstract string local_name { owned get; }
   public abstract string tag_name { owned get; }
