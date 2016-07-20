@@ -188,22 +188,27 @@ public class GXml.GDocument : GXml.GNode,
   }
   // DomDocument implementation
   protected Implementation _implementation = new Implementation ();
-  protected string _url = "";
-  protected string _document_uri = "";
+  protected string _url = "about:blank";
   protected string _origin = "";
   protected string _compat_mode = "";
-  protected string _character_set = "";
-  protected string _content_type = "";
+  protected string _character_set = "utf-8";
+  protected string _content_type = "application/xml";
   public DomImplementation implementation { get { return (DomImplementation) _implementation; } }
   public string url { get { return _url; } }
-  public string document_uri { get { return _document_uri; } }
+  public string document_uri { get { return _url; } }
   public string origin { get { return _origin; } }
   public string compat_mode { get { return _compat_mode; } }
   public string character_set { get { return _character_set; } }
   public string content_type { get { return _content_type; } }
 
-  protected DomDocumentType _doctype = null;
-  public DomDocumentType? doctype { owned get { return _doctype; } }
+  public DomDocumentType? doctype {
+    owned get {
+      foreach (DomNode n in child_nodes) {
+        if (n is DomDocumentType) return (DomDocumentType) n;
+      }
+      return null;
+    }
+  }
   public DomElement? document_element { owned get { return (DomElement) root; } }
 
   public DomElement GXml.DomDocument.create_element (string local_name) throws GLib.Error {
@@ -227,13 +232,22 @@ public class GXml.GDocument : GXml.GNode,
   }
 
   public DomHTMLCollection get_elements_by_tag_name (string local_name) {
-      return get_elements_by_name (local_name);
+      var l = new GDomHTMLCollection ();
+      if (document_element == null) return l;
+      l.add_all (document_element.get_elements_by_tag_name (local_name));
+      return l;
   }
   public DomHTMLCollection get_elements_by_tag_name_ns (string? ns, string local_name) {
-      return get_elements_by_name_ns (local_name, ns);
+      var l = new GDomHTMLCollection ();
+      if (document_element == null) return l;
+      l.add_all (document_element.get_elements_by_tag_name_ns (ns, local_name));
+      return l;
   }
   public DomHTMLCollection get_elements_by_class_name(string class_names) {
-      return get_elements_by_property_value ("class", class_names);
+      var l = new GDomHTMLCollection ();
+      if (document_element == null) return l;
+      l.add_all (document_element.get_elements_by_class_name (class_names));
+      return l;
   }
 
   public DomDocumentFragment create_document_fragment() {

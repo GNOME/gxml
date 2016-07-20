@@ -52,6 +52,18 @@ static const string HTMLDOC ="
 </html>
 ";
 
+static const string XMLDOC ="<?xml version=\"1.0\"?>
+<root>
+<project xmlns:gxml=\"http://live.gnome.org/GXml\">
+<code class=\"parent\"/>
+<code class=\"node parent\"/>
+<page class=\"node\"/>
+<page class=\"node parent\"/>
+</project>
+<Author name=\"You\" />
+</root>
+";
+
 	public static void add_tests () {
 		Test.add_func ("/gxml/dom/document/children", () => {
 			GLib.message ("Doc: "+STRDOC);
@@ -334,6 +346,56 @@ static const string HTMLDOC ="
 			GLib.message ("NODE:"+(n2 as GXml.Node).to_string ());
 			assert (n2.get_attribute_ns ("http://devel.org/","nice") == "good");
 			assert (n2.get_attribute_ns ("http://devel.org/","dev:nice") == null);
+			} catch (GLib.Error e) {
+				GLib.message ("Error: "+ e.message);
+				assert_not_reached ();
+			}
+		});
+		Test.add_func ("/gxml/dom/document/api", () => {
+			try {
+				GLib.message ("Doc: "+XMLDOC);
+				var doc = new GDocument.from_string (XMLDOC) as DomDocument;
+				assert (doc.url == "about:blank");
+				assert (doc.document_uri == "about:blank");
+				assert (doc.origin == "");
+				assert (doc.compat_mode == "");
+				assert (doc.character_set == "utf-8");
+				assert (doc.content_type == "application/xml");
+				assert (doc.doctype == null);
+				assert (doc.document_element != null);
+				assert (doc.document_element is DomElement);
+				assert (doc.document_element.node_name == "root");
+				var le = doc.get_elements_by_tag_name ("code");
+				assert (le.length == 2);
+				assert (le.item (0) is DomElement);
+				assert (le.item (0).node_name == "code");
+				var n = doc.create_element_ns ("http://git.gnome.org/browse/gxml","git:MyNode");
+				var n2 = doc.document_element.append_child (n) as DomElement;
+				n2.set_attribute ("class","node");
+				var lens = doc.get_elements_by_tag_name_ns ("http://git.gnome.org/browse/gxml","MyNode");
+				assert (lens.length == 1);
+				assert (lens.item (0) is DomElement);
+				assert (lens.item (0).node_name == "MyNode");
+				GLib.message ("DOC: "+(doc.document_element as GXml.Node).to_string ());
+				var lec = doc.get_elements_by_class_name ("node");
+				GLib.message ("Class node found"+lec.length.to_string ());
+				assert (lec.length == 4);
+				assert (lec.item (0) is DomElement);
+				assert (lec.item (0).node_name == "code");
+				n.set_attribute ("class","node parent");
+				GLib.message ("DOC: "+(doc.document_element as GXml.Node).to_string ());
+				var lec2 = doc.get_elements_by_class_name ("parent");
+				assert (lec2.length == 4);
+				assert (lec2.item (0) is DomElement);
+				assert (lec2.item (0).node_name == "code");
+				var lec3 = doc.get_elements_by_class_name ("parent code");
+				assert (lec3.length == 4);
+				assert (lec3.item (0) is DomElement);
+				assert (lec3.item (0).node_name == "code");
+				var lec4 = doc.get_elements_by_class_name ("code parent");
+				assert (lec4.length == 4);
+				assert (lec4.item (0) is DomElement);
+				assert (lec4.item (0).node_name == "code");
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+ e.message);
 				assert_not_reached ();
