@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-05-05 12:35+0000\n"
-"PO-Revision-Date: 2016-05-26 13:02+0200\n"
+"POT-Creation-Date: 2016-07-20 00:13+0000\n"
+"PO-Revision-Date: 2016-07-20 09:26+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -24,6 +24,14 @@ msgstr ""
 msgid "Invalid file"
 msgstr "Archivo no válido"
 
+#: ../gxml/DomCharacter.vala:41
+msgid "Invalid offset for substring"
+msgstr "Desplazamiento para subcadena no válido"
+
+#: ../gxml/DomCharacter.vala:57
+msgid "Invalid offset for replace data"
+msgstr "Desplazamiento para reemplazar datos no válido"
+
 #: ../gxml/Enumeration.vala:88
 msgid "value is invalid"
 msgstr "valor no válido"
@@ -32,13 +40,157 @@ msgstr "valor no válido"
 msgid "text cannot be parsed to enumeration type:"
 msgstr "el texto no se puede convertir a un tipo enumeración:"
 
-#: ../gxml/GXmlDocument.vala:49 ../gxml/TDocument.vala:475
+#: ../gxml/GXmlDocument.vala:55 ../gxml/TDocument.vala:475
 msgid "File doesn't exist"
 msgstr "El archivo no existe"
 
-#: ../gxml/GXmlDocument.vala:73
+#: ../gxml/GXmlDocument.vala:79
 msgid "stream doesn't provide data"
 msgstr "el flujo no proporciona datos"
+
+#: ../gxml/GXmlDocument.vala:219
+msgid "Invalid element qualified name: multiple namespace prefixes"
+msgstr ""
+"Nombre cualificado del elemento no válido: hay varios prefijos de espacios "
+"de nombres"
+
+#: ../gxml/GXmlDocument.vala:254
+msgid "Can't import a Document"
+msgstr "No se puede importar un documento"
+
+#: ../gxml/GXmlDocument.vala:261
+msgid "Can't adopt a Document"
+msgstr "No se puede adoptar un documento"
+
+#: ../gxml/GXmlDomCollections.vala:50 ../gxml/GXmlDomCollections.vala:77
+msgid "DOM: No empty string could be toggle"
+msgstr "DOM: no se puede conmutar una cadena vacía"
+
+#: ../gxml/GXmlDomCollections.vala:52 ../gxml/GXmlDomCollections.vala:79
+msgid "DOM: No white spaces should be included to toggle"
+msgstr "DOM: no se deben incluir espacios para conmutar"
+
+#: ../gxml/GXmlDomCollections.vala:59
+msgid "DOM: No empty string could be a token"
+msgstr "DOM: una cadena vacía no puede ser un testigo"
+
+#: ../gxml/GXmlDomCollections.vala:61
+msgid "DOM: No white spaces should be included in token"
+msgstr "DOM: no se deben incluir espacios en el testigo"
+
+#: ../gxml/GXmlDomRange.vala:50 ../gxml/GXmlDomRange.vala:78
+#: ../gxml/GXmlDomRange.vala:151
+msgid "Invalid node type to start"
+msgstr "Tipo de nodo que iniciar no válido"
+
+#: ../gxml/GXmlDomRange.vala:53 ../gxml/GXmlDomRange.vala:81
+msgid "Invalid offset for node to start: for document type"
+msgstr ""
+"Desplazamiento no válido para el nodo que iniciar: para el tipo de documento"
+
+#: ../gxml/GXmlDomRange.vala:57 ../gxml/GXmlDomRange.vala:85
+msgid "Invalid offset for node to start: for character data"
+msgstr ""
+"Desplazamiento no válido para el nodo que iniciar: para los datos de "
+"caracteres"
+
+#: ../gxml/GXmlDomRange.vala:60 ../gxml/GXmlDomRange.vala:88
+msgid "Invalid offset for node to start: for children number"
+msgstr ""
+"Desplazamiento no válido para el nodo que iniciar: para el número de hijo"
+
+#: ../gxml/GXmlDomRange.vala:104 ../gxml/GXmlDomRange.vala:118
+msgid "Invalid node type to start before"
+msgstr "Tipo de nodo que iniciar antes no válido"
+
+#: ../gxml/GXmlDomRange.vala:109 ../gxml/GXmlDomRange.vala:123
+#: ../gxml/GXmlDomRange.vala:141
+msgid "Invalid node type to start after"
+msgstr "Tipo de nodo que iniciar después no válido"
+
+#: ../gxml/GXmlDomRange.vala:166
+#| msgid "Invalid element name"
+msgid "Invalid root's in range"
+msgstr "Raíz no válida en el rango"
+
+#. FIXME:
+#: ../gxml/GXmlElement.vala:291
+msgid "DomElement query_selector is not implemented"
+msgstr "Elemento del DOM query_selector is no implementado"
+
+#. FIXME:
+#: ../gxml/GXmlElement.vala:295
+msgid "DomElement query_selector_all is not implemented"
+msgstr "Elemento del DOM query_selector_all is no implementado"
+
+#: ../gxml/GXmlHashMapAttr.vala:238 ../gxml/GXmlHashMapAttr.vala:292
+msgid "Invalid document when addin item to collection"
+msgstr "Documento no válido al añadir el elemento a la colección"
+
+#: ../gxml/GXmlHashMapAttr.vala:240 ../gxml/GXmlHashMapAttr.vala:294
+msgid "This node collection is read only"
+msgstr "Esta colección de nodos es de solo lectura"
+
+#: ../gxml/GXmlHashMapAttr.vala:242 ../gxml/GXmlHashMapAttr.vala:296
+msgid "This node attribute is already in use by other Element"
+msgstr "El atributo de este nodo ya lo está usando otro elemento"
+
+#: ../gxml/GXmlHashMapAttr.vala:244 ../gxml/GXmlHashMapAttr.vala:298
+msgid "Trying to add an object to an Element, but it is not an attribute"
+msgstr "Intentando añadir un objeto a un elemento, pero esto no es un atributo"
+
+#: ../gxml/GXmlHashMapAttr.vala:257 ../gxml/GXmlHashMapAttr.vala:315
+#, c-format
+msgid "No node with name %s was found"
+msgstr "No se ha encontrado ningún nodo con nombre %s"
+
+#: ../gxml/GXmlHashMapAttr.vala:259 ../gxml/GXmlHashMapAttr.vala:317
+msgid "Node collection is read only"
+msgstr "Colección de nodos de solo lectura"
+
+#: ../gxml/GXmlNode.vala:258
+msgid "Can't find node position"
+msgstr "No se puede encontrar la posición del nodo"
+
+#: ../gxml/GXmlNode.vala:289 ../gxml/GXmlNode.vala:320
+msgid "Invalid atemp to add invalid node type"
+msgstr "Intento fallido de añadir un tipo de nodo no válido"
+
+#: ../gxml/GXmlNode.vala:291
+msgid "Can't find child to insert node before"
+msgstr "No se puede encontrar un hijo antes del que insertar un nodo"
+
+#: ../gxml/GXmlNode.vala:295 ../gxml/GXmlNode.vala:326
+#| msgid "Invalid element name"
+msgid "Invalid atemp to insert a node"
+msgstr "Intento fallido de insertar un nodo"
+
+#: ../gxml/GXmlNode.vala:302 ../gxml/GXmlNode.vala:333
+msgid "Invalid atemp to insert an invalid node type"
+msgstr "Intento fallido de insertar un tipo de nodo no válido"
+
+#: ../gxml/GXmlNode.vala:305 ../gxml/GXmlNode.vala:336
+msgid ""
+"Invalid atemp to insert a document's type or text node to a invalid parent"
+msgstr ""
+"Intento fallido de insertar un tipo de documento o nodo de texto en un padre "
+"no válido"
+
+#: ../gxml/GXmlNode.vala:322
+msgid "Can't find child node to replace or child have a different parent"
+msgstr ""
+"No se puede encontrar el nodo hijo que reemplazar o el hijo tiene un padre "
+"diferente"
+
+#: ../gxml/GXmlNode.vala:348
+msgid "Can't find child node to remove or child have a different parent"
+msgstr ""
+"No se puede encontrar el nodo hijo que eliminar o el hijo tiene un padre "
+"diferente"
+
+#: ../gxml/GXmlText.vala:42
+msgid "Invalid offset to split text"
+msgstr "Desplazamiento no válido para dividir texto"
 
 #: ../gxml/libxml-ChildNodeList.vala:148
 #, c-format
@@ -68,13 +220,12 @@ msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
 
 #: ../gxml/libxml-Node.vala:67
-#| msgid "Node tried to interact with different document it belongs to"
 msgid ""
 "Node tried to interact with a different document than the one it belongs to"
 msgstr ""
 "El nodo intentó interactuar con un documento diferente al que pertenece"
 
-#: ../gxml/Node.vala:180
+#: ../gxml/Node.vala:207
 msgid "Text node with NULL string"
 msgstr "El nodo tipo Texto con una cadena de texto NULO"
 
