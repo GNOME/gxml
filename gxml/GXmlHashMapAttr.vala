@@ -93,6 +93,7 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
     var p = _node->properties;
     while (p != null) {
       if (p->name == key) return true;
+      p = p->next;
     }
     return false;
   }

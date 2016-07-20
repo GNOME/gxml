@@ -70,12 +70,12 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
     if (p == null) return null;
     return new GAttribute (_doc, p);
   }
-  public void set_ns_attr (string ns, string name, string value) {
+  public void set_ns_attr (string ns, string aname, string value) {
     if (_node == null) return;
     string prefix = null;
-    string qname = name;
-    if (":" in name) {
-      string[] s = ns.split(":");
+    string qname = aname;
+    if (":" in aname) {
+      string[] s = aname.split(":");
       if (s.length != 2) return;
       prefix = s[0];
       qname = s[1];
@@ -92,6 +92,7 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
   }
   public GXml.Node? get_ns_attr (string name, string uri) {
     if (_node == null) return null;
+    var ns = _node->doc->search_ns_by_href (_node, uri);
     var a = _node->has_ns_prop (name, uri);
     if (a == null) return null;
     return new GAttribute (_doc, a);
@@ -221,7 +222,7 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
   }
   public void set_attribute (string name, string? value) { set_attr (name, value); }
   public void set_attribute_ns (string? namespace, string name, string? value) {
-    set_ns_attr (namespace, local_name, value);
+    set_ns_attr (namespace, name, value);
   }
   public void remove_attribute (string name) {
     remove_attr (name);
@@ -231,7 +232,8 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
   }
   public bool has_attribute (string name) { return attrs.has_key (name); }
   public bool has_attribute_ns (string? namespace, string local_name) {
-    var attr = _node->has_ns_prop (name, namespace);
+    if (_node == null) return false;
+    var attr = _node->has_ns_prop (local_name, namespace);
     if (attr == null) return false;
     return true;
   }

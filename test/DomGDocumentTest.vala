@@ -55,7 +55,7 @@ static const string HTMLDOC ="
 	public static void add_tests () {
 		Test.add_func ("/gxml/dom/document/children", () => {
 			GLib.message ("Doc: "+STRDOC);
-			GDocument doc = new GDocument.from_string (STRDOC);
+			var doc = new GDocument.from_string (STRDOC) as DomDocument;
 			DomElement root = doc.document_element;
 			assert (root != null);
 			assert (root is DomElement);
@@ -68,7 +68,7 @@ static const string HTMLDOC ="
 		});
 		Test.add_func ("/gxml/dom/document/child_nodes", () => {
 			GLib.message ("Doc: "+STRDOC);
-			GDocument doc = new GDocument.from_string (STRDOC);
+			var doc = new GDocument.from_string (STRDOC) as DomDocument;
 			assert (doc is DomDocument);
 			assert (doc.child_nodes != null);
 			assert (doc.child_nodes.size == 2);
@@ -84,7 +84,7 @@ static const string HTMLDOC ="
 		});
 		Test.add_func ("/gxml/dom/document/element_collections", () => {
 			GLib.message ("Doc: "+STRDOC);
-			GDocument doc = new GDocument.from_string (HTMLDOC);
+			var doc = new GDocument.from_string (HTMLDOC) as DomDocument;
 			assert (doc is DomDocument);
 			var le = doc.get_elements_by_tag_name ("p");
 			assert (le.size == 3);
@@ -103,7 +103,7 @@ static const string HTMLDOC ="
 		});
 		Test.add_func ("/gxml/dom/element/element_collections", () => {
 			GLib.message ("Doc: "+HTMLDOC);
-			GDocument doc = new GDocument.from_string (HTMLDOC);
+			var doc = new GDocument.from_string (HTMLDOC) as DomDocument;
 			assert (doc is DomDocument);
 			assert (doc.document_element.children.size == 1);
 			var le = doc.document_element.get_elements_by_tag_name ("p");
@@ -121,7 +121,7 @@ static const string HTMLDOC ="
 		Test.add_func ("/gxml/dom/node", () => {
 			try {
 			Test.message ("Doc: "+HTMLDOC);
-			GDocument doc = new GDocument.from_string (HTMLDOC);
+			var doc = new GDocument.from_string (HTMLDOC) as DomDocument;
 			assert (doc is DomDocument);
 			assert (doc.document_element.children.size == 1);
 			assert (doc.document_element.children[0] != null);
@@ -253,13 +253,13 @@ static const string HTMLDOC ="
 			}
 		});
 		Test.add_func ("/gxml/dom/element/api", () => {
+			try {
 			GLib.message ("Doc: "+HTMLDOC);
-			GDocument doc = new GDocument.from_string (HTMLDOC);
+			var doc = new GDocument.from_string (HTMLDOC) as DomDocument;
 			assert (doc is DomDocument);
 			assert (doc.document_element.children.size == 1);
 			var n1 = doc.create_element_ns ("http://live.gnome.org/GXml","gxml:code");
 			doc.document_element.append_child (n1);
-			GLib.message ("DOC:"+(doc.document_element as GXml.Node).to_string ());
 			var n = doc.document_element.children[1] as DomElement;
 			assert (n.node_name == "code");
 			n.set_attribute ("id","0y1");
@@ -267,7 +267,6 @@ static const string HTMLDOC ="
 			assert ((n as GXml.Node).namespaces.size == 1);
 			assert ((n as GXml.Node).namespaces[0].uri == "http://live.gnome.org/GXml");
 			assert ((n as GXml.Node).namespaces[0].prefix == "gxml");
-			GLib.message ("NODE: "+(n as GXml.Node).to_string ());
 			assert (n.namespace_uri == "http://live.gnome.org/GXml");
 			assert (n.prefix == "gxml");
 			assert (n.local_name == "code");
@@ -286,6 +285,26 @@ static const string HTMLDOC ="
 			assert ((n as DomNode).lookup_namespace_uri ("gxml") == "http://live.gnome.org/GXml");
 			assert ((n as DomNode).lookup_prefix ("http://live.gnome.org/GXml") == "gxml");
 			assert (n.tag_name == "gxml:code");
+			n.remove_attribute ("id");
+			assert (n.get_attribute ("id") == null);
+			assert (!n.has_attribute ("id"));
+			var n2 = doc.create_element ("p");
+			doc.document_element.append_child (n2);
+			assert (doc.document_element.children.length == 3);
+			GLib.message ("DOC:"+(doc.document_element as GXml.Node).to_string ());
+			assert (n2.attributes.length == 0);
+			GLib.message ("Setting nice NS");
+			n2.set_attribute_ns ("http://devel.org/","dev:nice","good");
+			assert (n2.attributes.length == 1);
+			assert (n2.has_attribute_ns ("http://devel.org/","nice"));
+			assert (!n2.has_attribute_ns ("http://devel.org/","dev:nice"));
+			GLib.message ("NODE:"+(n2 as GXml.Node).to_string ());
+			assert (n2.get_attribute_ns ("http://devel.org/","nice") == "good");
+			assert (n2.get_attribute_ns ("http://devel.org/","dev:nice") == null);
+			} catch (GLib.Error e) {
+				GLib.message ("Error: "+ e.message);
+				assert_not_reached ();
+			}
 		});
 	}
 }
