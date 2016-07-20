@@ -181,6 +181,7 @@ public interface GXml.Node : Object
       foreach (GXml.Node p in source.attrs.values) {
         ((GXml.Element) node).set_attr (p.name, p.value); // TODO: Namespace
       }
+      if (!deep) return true;
 #if DEBUG
       GLib.message ("Copying source's child nodes to destiny node");
 #endif
@@ -190,12 +191,6 @@ public interface GXml.Node : Object
 #if DEBUG
             GLib.message (@"Copying child Element node: $(c.name)");
 #endif
-          if (!deep){
-#if DEBUG
-            GLib.message (@"No deep copy was requested, skeeping node $(c.name)");
-#endif
-            continue;
-          }
           try {
             var e = doc.create_element (c.name); // TODO: Namespace
             node.children_nodes.add (e);

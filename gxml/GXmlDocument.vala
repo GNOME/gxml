@@ -267,7 +267,11 @@ public class GXml.GDocument : GXml.GNode,
       if (node is DomDocument)
         throw new GXml.DomError.NOT_SUPPORTED_ERROR (_("Can't import a Document"));
       var dst = this.create_element (node.node_name);
-      GXml.Node.copy (this, dst, (GXml.Node) node, true);
+      if (document_element == null)
+        this.append_child (dst as DomNode);
+      else
+        document_element.append_child (dst as DomNode);
+      GXml.Node.copy (this, dst, (GXml.Node) node, deep);
       return (DomNode) dst;
   }
   public DomNode adopt_node (DomNode node) throws GLib.Error {

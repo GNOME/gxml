@@ -383,7 +383,6 @@ static const string XMLDOC ="<?xml version=\"1.0\"?>
 				assert (lec.item (0) is DomElement);
 				assert (lec.item (0).node_name == "code");
 				n.set_attribute ("class","node parent");
-				GLib.message ("DOC: "+(doc.document_element as GXml.Node).to_string ());
 				var lec2 = doc.get_elements_by_class_name ("parent");
 				assert (lec2.length == 4);
 				assert (lec2.item (0) is DomElement);
@@ -396,6 +395,33 @@ static const string XMLDOC ="<?xml version=\"1.0\"?>
 				assert (lec4.length == 4);
 				assert (lec4.item (0) is DomElement);
 				assert (lec4.item (0).node_name == "code");
+				var t = doc.create_text_node ("TEXT");
+				n.append_child (t);
+				assert (n.child_nodes[0] is DomText);
+				assert (n.child_nodes[0].node_value == "TEXT");
+				var comment = doc.create_comment ("COMMENT");
+				doc.document_element.append_child (comment);
+				assert (doc.document_element.last_child is DomComment);
+				assert (doc.document_element.last_child.node_value == "COMMENT");
+				var pi = doc.create_processing_instruction ("git","commit");
+				doc.document_element.append_child (pi);
+				GLib.message ("DOC: "+(doc.document_element as GXml.Node).to_string ());
+				assert (doc.document_element.last_child is DomProcessingInstruction);
+			} catch (GLib.Error e) {
+				GLib.message ("Error: "+ e.message);
+				assert_not_reached ();
+			}
+		});
+		Test.add_func ("/gxml/dom/document/import", () => {
+			try {
+				GLib.message ("Doc: "+XMLDOC);
+				var doc = new GDocument.from_string (XMLDOC) as DomDocument;
+				var doc2 = new GDocument.from_string (STRDOC) as DomDocument;
+				doc.import_node (doc2.document_element, false);
+				GLib.message ("DOC: "+(doc.document_element as GXml.Node).to_string ());
+				assert (doc.document_element.last_child is DomElement);
+				assert (doc.document_element.last_child.node_name == "Sentences");
+				assert (doc.document_element.last_child.child_nodes.length == 0);
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+ e.message);
 				assert_not_reached ();
