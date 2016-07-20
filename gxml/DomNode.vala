@@ -76,10 +76,10 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
   public abstract string? lookup_namespace_uri (string? prefix);
   public abstract bool is_default_namespace (string? nspace);
 
-  public abstract DomNode insert_before (DomNode node, DomNode? child);
-  public abstract DomNode append_child (DomNode node);
-  public abstract DomNode replace_child (DomNode node, DomNode child);
-  public abstract DomNode remove_child (DomNode child);
+  public abstract DomNode insert_before (DomNode node, DomNode? child) throws GLib.Error;
+  public abstract DomNode append_child (DomNode node) throws GLib.Error;
+  public abstract DomNode replace_child (DomNode node, DomNode child) throws GLib.Error;
+  public abstract DomNode remove_child (DomNode child) throws GLib.Error;
 }
 
 public errordomain GXml.DomError {

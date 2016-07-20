@@ -284,22 +284,68 @@ public abstract class GXml.GNode : Object,
     return false;
   }
 
-  public DomNode insert_before (DomNode node, DomNode? child) {
-    int i = children_nodes.index_of (child as GXml.Node);
-    children_nodes.insert (i, (node as GXml.Node));
-    return node;
-  }
-  public DomNode append_child (DomNode node) {
+  public DomNode insert_before (DomNode node, DomNode? child) throws GLib.Error {
+    if (!(node is GXml.GNode))
+      throw new DomError.INVALID_NODE_TYPE_ERROR (_("Invalid atemp to add invalid node type"));
+    if (child != null && !this.contains (child))
+      throw new DomError.NOT_FOUND_ERROR (_("Can't find child to insert node before"));
+    if (!(this is DomDocument
+          || this is DomElement
+          || this is DomDocumentFragment))
+      throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid atemp to insert a node"));
+    if (!(node is DomDocumentFragment
+          || node is DomDocumentType
+          || node is DomElement
+          || node is DomText
+          || node is DomProcessingInstruction
+          || node is DomComment))
+      throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid atemp to insert an invalid node type"));
+    if ((node is DomText && this is DomDocument)
+          || (node is DomDocumentType && !(this is DomDocument)))
+      throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid atemp to insert a document's type or text node to a invalid parent"));
+    //FIXME: We should follow steps for DOM4 observers in https://www.w3.org/TR/dom/#concept-node-pre-insert
+    if (child != null) {
+      int i = this.children_nodes.index_of (child as GXml.Node);
+      children_nodes.insert (i, (node as GXml.Node));
+      return node;
+    }
     children_nodes.add ((node as GXml.Node));
     return node;
   }
-  public DomNode replace_child (DomNode node, DomNode child) {
+  public DomNode append_child (DomNode node) throws GLib.Error {
+    return insert_before (node, null);
+  }
+  public DomNode replace_child (DomNode node, DomNode child) throws GLib.Error {
+    if (!(node is GXml.GNode))
+      throw new DomError.INVALID_NODE_TYPE_ERROR (_("Invalid atemp to add invalid node type"));
+    if (child == null || !this.contains (child))
+      throw new DomError.NOT_FOUND_ERROR (_("Can't find child node to replace or child have a different parent"));
+    if (!(this is DomDocument
+          || this is DomElement
+          || this is DomDocumentFragment))
+      throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid atemp to insert a node"));
+    if (!(node is DomDocumentFragment
+          || node is DomDocumentType
+          || node is DomElement
+          || node is DomText
+          || node is DomProcessingInstruction
+          || node is DomComment))
+      throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid atemp to insert an invalid node type"));
+    if ((node is DomText && this is DomDocument)
+          || (node is DomDocumentType && !(this is DomDocument)))
+      throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid atemp to insert a document's type or text node to a invalid parent"));
+    //FIXME: Checks for HierarchyRequestError for https://www.w3.org/TR/dom/#concept-node-replace
     int i = children_nodes.index_of ((child as GXml.Node));
     children_nodes.remove_at (i);
-    children_nodes.insert (i, (node as GXml.Node));
+    if (i < children_nodes.size)
+      children_nodes.insert (i, (node as GXml.Node));
+    if (i >= children_nodes.size)
+      child_nodes.add (node);
     return child;
   }
-  public DomNode remove_child (DomNode child) {
+  public DomNode remove_child (DomNode child) throws GLib.Error {
+    if (!this.contains (child))
+      throw new DomError.NOT_FOUND_ERROR (_("Can't find child node to remove or child have a different parent"));
     int i = children_nodes.index_of ((child as GXml.Node));
     return (DomNode) children_nodes.remove_at (i);
   }

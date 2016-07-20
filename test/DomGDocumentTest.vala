@@ -119,7 +119,8 @@ static const string HTMLDOC ="
 			assert (lc[1].get_attribute ("class") == "black block");
 		});
 		Test.add_func ("/gxml/dom/node", () => {
-			GLib.message ("Doc: "+HTMLDOC);
+			try {
+			Test.message ("Doc: "+HTMLDOC);
 			GDocument doc = new GDocument.from_string (HTMLDOC);
 			assert (doc is DomDocument);
 			assert (doc.document_element.children.size == 1);
@@ -191,10 +192,59 @@ static const string HTMLDOC ="
 			assert (!ng.is_default_namespace ("gxml:http://git.gnome.org/browse/gxml"));
 			var ng2 = doc.create_element_ns ("http://live.gnome.org/GXml", "OtherNode");
 			b.child_nodes.add (ng2);
-			GLib.message ("BODY:"+(b as GXml.Node).to_string ());
 			assert (ng2.lookup_prefix ("http://live.gnome.org/GXml") == null);
 			assert (ng2.lookup_namespace_uri (null) == "http://live.gnome.org/GXml");
 			assert (ng2.is_default_namespace ("http://live.gnome.org/GXml"));
+			var pn = doc.create_element ("p") as DomElement;
+			pn.set_attribute ("id", "insertedp01");
+			var p = doc.document_element.children[0];
+			assert (p.node_name == "body");
+			var cp0 = p.children[0];
+			assert (cp0.node_name == "p");
+			assert (cp0.get_attribute ("class") == "black");
+			assert (p.contains (cp0));
+			assert (cp0.parent_node.contains (cp0));
+			p.insert_before (pn, cp0);
+			var ppn = p.children[0];
+			assert (ppn.node_name == "p");
+			assert (ppn.has_attribute ("id"));
+			assert (ppn.get_attribute ("id") == "insertedp01");
+			var pn2 = doc.create_element ("p") as DomElement;
+			pn2.set_attribute ("id", "newp");
+			p.append_child (pn2);
+			assert (p.children.length == 7);
+			assert (p.children[6] is DomElement);
+			assert (p.children[6].node_name == "p");
+			assert (p.children[6].get_attribute ("id") == "newp");
+			var pn3 = doc.create_element ("p") as DomElement;
+			pn3.set_attribute ("id", "newp1");
+			pn3.set_attribute ("class", "black");
+			p.replace_child (pn3, pn2);
+			assert (p.children.length == 7);
+			assert (p.children[6] is DomElement);
+			assert (p.children[6].node_name == "p");
+			assert (p.children[6].get_attribute ("id") == "newp1");
+			assert (p.children[6].get_attribute ("class") == "black");
+			var pn4 = doc.create_element ("p") as DomElement;
+			pn4.set_attribute ("id", "newp2");
+			pn4.set_attribute ("class", "black");
+			p.replace_child (pn4, p.child_nodes[0]);
+			GLib.message ("BODY:"+(p as GXml.Node).to_string ());
+			assert (p.children.length == 7);
+			assert (p.children[0] is DomElement);
+			assert (p.children[0].node_name == "p");
+			assert (p.children[0].get_attribute ("id") == "newp2");
+			assert (p.children[0].get_attribute ("class") == "black");
+			p.remove_child (p.children[0]);
+			assert (p.children.length == 6);
+			assert (p.children[0] is DomElement);
+			assert (p.children[0].node_name == "p");
+			assert (!p.has_attribute ("id"));
+			assert (p.children[0].get_attribute ("class") == "black");
+			} catch (GLib.Error e) {
+				GLib.message ("Error: "+e.message);
+				assert_not_reached ();
+			}
 		});
 	}
 }
