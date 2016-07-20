@@ -26,9 +26,8 @@ using Gee;
  * Class implemeting {@link GXml.Element} interface, not tied to libxml-2.0 library.
  */
 public class GXml.GElement : GXml.GNonDocumentChildNode,
-                            GXml.Element, GXml.DomParentNode,
-                            GXml.DomEventTarget,
-                            GXml.DomElement
+                            GXml.DomParentNode,
+                            GXml.DomElement, GXml.Element
 {
   public GElement (GDocument doc, Xml.Node *node) {
     _node = node;
@@ -120,10 +119,22 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
   }
   public string tag_name {
     owned get {
-      if (_node == null) return name;
-      if (_node->ns != null)
-          return _node->ns->prefix+":"+name;
-      return name;
+      if (_node == null) return "".dup ();
+      var ns = _node->ns_def;
+      var dns = ns;
+      while (ns != null) {
+        if (ns->prefix == null) dns = ns;
+        ns = ns->next;
+      }
+      if (dns != null) {
+        if (dns->href == "http://www.w3.org/1999/xhtml")
+          return _node->name.up ().dup ();
+        if (dns->prefix == null)
+          return _node->name;
+        string qname = dns->prefix+":"+_node->name;
+        return qname.dup ();
+      }
+      return _node->name.dup ();
     }
   }
   public override string to_string () {
@@ -162,13 +173,6 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
     }
   }
   public string local_name { owned get { return name; } }
-  /*public string GXml.DomElement.tag_name {
-    get {
-      if (namespace != null)
-        return namespace.prefix+":"+name;
-      return name;
-    }
-  }*/
 
   public string? id {
     owned get {

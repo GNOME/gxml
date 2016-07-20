@@ -22,9 +22,9 @@
 
 public interface GXml.DomElement : GLib.Object,
                   GXml.DomNode,
-                  GXml.DomParentNode,
+                  GXml.DomChildNode,
                   GXml.DomNonDocumentTypeChildNode,
-                  GXml.DomChildNode
+                  GXml.DomParentNode
 {
   /**
    * Returns default namespace's uri defined in node or first found.

@@ -241,6 +241,12 @@ static const string HTMLDOC ="
 			assert (p.children[0].node_name == "p");
 			assert (!p.has_attribute ("id"));
 			assert (p.children[0].get_attribute ("class") == "black");
+			// Checking for DomElement NS
+			assert (ng2 is DomElement);
+			assert (ng2.node_name == "OtherNode");
+			assert (ng2.lookup_namespace_uri (null) == "http://live.gnome.org/GXml");
+			assert (ng2.lookup_prefix ("http://live.gnome.org/GXml") == null);
+			assert (ng2.tag_name == "OtherNode");
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+e.message);
 				assert_not_reached ();
@@ -276,6 +282,10 @@ static const string HTMLDOC ="
 			assert (n.attributes.get_named_item ("id") is DomNode);
 			assert (n.attributes.get_named_item ("id").node_name == "id");
 			assert (n.attributes.get_named_item ("id").node_value == "0y1");
+			assert (n.node_name == "code");
+			assert ((n as DomNode).lookup_namespace_uri ("gxml") == "http://live.gnome.org/GXml");
+			assert ((n as DomNode).lookup_prefix ("http://live.gnome.org/GXml") == "gxml");
+			assert (n.tag_name == "gxml:code");
 		});
 	}
 }
