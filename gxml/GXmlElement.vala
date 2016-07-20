@@ -241,28 +241,20 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
 
   public DomHTMLCollection get_elements_by_tag_name (string local_name) {
     var l = new GDomHTMLCollection ();
-    foreach (GXml.DomNode n in child_nodes) {
-      if (!(n is GXml.DomElement)) continue;
+    foreach (GXml.DomElement n in children) {
+      l.add_all (n.get_elements_by_tag_name (local_name));
       if (n.node_name == local_name)
         l.add ((DomElement) n);
-      l.add_all ((n as DomElement).get_elements_by_tag_name (local_name));
     }
     return l;
   }
   public DomHTMLCollection get_elements_by_tag_name_ns (string? namespace, string local_name) {
     var l = new GDomHTMLCollection ();
-    string prefix = null;
-    string uri = namespace;
-    if (":" in namespace) {
-      string[] s = namespace.split (":");
-      prefix = s[0];
-      uri = s[1];
-    }
-    foreach (GXml.DomNode n in child_nodes) {
-      if (!(n is GXml.DomElement)) continue;
-      if ((n as GXml.DomElement).node_name == local_name
-          && n.lookup_namespace_uri (prefix) == uri)
-        l.add ((DomElement) n);
+    foreach (GXml.DomElement n in children) {
+      l.add_all (n.get_elements_by_tag_name_ns (namespace, local_name));
+      if (n.node_name == local_name
+          && n.namespace_uri == namespace)
+        l.add (n);
     }
     return l;
   }
@@ -278,15 +270,18 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
       l.add_all (n.get_elements_by_class_name (class_names));
       string cls = n.get_attribute ("class");
       if (cls == null) continue;
-      foreach (string s in cs) {
-        if (" " in cls) {
-          string[] ncls = cls.split (" ");
-          foreach (string snc in ncls) {
-            if (snc == s) l.add (n);
+      string[] ncls = {};
+      if (" " in cls)
+        ncls = cls.split (" ");
+      else
+        ncls += cls;
+      foreach (string cl in cs) {
+        foreach (string ncl in ncls) {
+          if (cl == ncl) {
+            l.add (n);
+            break;
           }
         }
-        else
-          if (s == cls) l.add (n);
       }
     }
     return l;

@@ -229,7 +229,6 @@ static const string HTMLDOC ="
 			pn4.set_attribute ("id", "newp2");
 			pn4.set_attribute ("class", "black");
 			p.replace_child (pn4, p.child_nodes[0]);
-			GLib.message ("BODY:"+(p as GXml.Node).to_string ());
 			assert (p.children.length == 7);
 			assert (p.children[0] is DomElement);
 			assert (p.children[0].node_name == "p");
@@ -247,6 +246,40 @@ static const string HTMLDOC ="
 			assert (ng2.lookup_namespace_uri (null) == "http://live.gnome.org/GXml");
 			assert (ng2.lookup_prefix ("http://live.gnome.org/GXml") == null);
 			assert (ng2.tag_name == "OtherNode");
+
+			GLib.message ("BODY:"+(doc.document_element as GXml.Node).to_string ());
+			var l = doc.document_element.get_elements_by_tag_name ("p");
+			assert (l != null);
+			assert (l is DomHTMLCollection);
+			assert (l.length == 4);
+			assert (l[0] is DomElement);
+			assert (l[1] is DomElement);
+			assert (l[1] is DomElement);
+			assert (l[0].node_name == "p");
+			assert (l[1].node_name == "p");
+			assert (l[2].node_name == "p");
+			assert (doc.document_element.children.length == 1);
+			var lnst = doc.document_element.get_elements_by_tag_name ("OtherNode");
+			assert (lnst.length == 1);
+			var nnst = lnst.item (0);
+			assert (nnst.namespace_uri == "http://live.gnome.org/GXml");
+			var lns = doc.document_element.get_elements_by_tag_name_ns ("http://live.gnome.org/GXml", "OtherNode");
+			assert (lns != null);
+			assert (lns is DomHTMLCollection);
+			GLib.message ("Node with default ns: "+lns.length.to_string ());
+			assert (lns.length == 1);
+			assert (lns.item (0) is DomElement);
+			assert (lns.item (0).node_name == "OtherNode");
+			var lcl = doc.document_element.get_elements_by_class_name ("black");
+			assert (lcl != null);
+			assert (lcl is DomHTMLCollection);
+			assert (lcl.length == 3);
+			assert (lcl.item (0) is DomElement);
+			assert (lcl.item (1) is DomElement);
+			assert (lcl.item (2) is DomElement);
+			assert (lcl.item (0).node_name == "p");
+			assert (lcl.item (1).node_name == "p");
+			assert (lcl.item (2).node_name == "p");
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+e.message);
 				assert_not_reached ();
