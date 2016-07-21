@@ -25,4 +25,3 @@ gxml/SerializableObjectModel.vala
 gxml/SerializableProperty.vala
 gxml/Serializable.vala
 gxml/TDocument.vala
-gxml/GXmlNode.vala
