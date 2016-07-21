@@ -422,6 +422,24 @@ static const string XMLDOC ="<?xml version=\"1.0\"?>
 				assert (doc.document_element.last_child is DomElement);
 				assert (doc.document_element.last_child.node_name == "Sentences");
 				assert (doc.document_element.last_child.child_nodes.length == 0);
+				//TODO: import text, comment and pi
+			} catch (GLib.Error e) {
+				GLib.message ("Error: "+ e.message);
+				assert_not_reached ();
+			}
+		});
+		Test.add_func ("/gxml/dom/document/adopt", () => {
+			try {
+				GLib.message ("Doc: "+XMLDOC);
+				var doc = new GDocument.from_string (XMLDOC) as DomDocument;
+				var doc2 = new GDocument.from_string (STRDOC) as DomDocument;
+				doc2.adopt_node (doc.document_element.children.last ());
+				GLib.message ("DOC: "+(doc.document_element as GXml.Node).to_string ());
+				GLib.message ("DOC: "+(doc2.document_element as GXml.Node).to_string ());
+				assert (doc.document_element.children.last ().node_name == "project");
+				assert (doc2.document_element.last_child is DomElement);
+				assert (doc2.document_element.last_child.node_name == "Author");
+				//TODO: adopt text, comment and pi
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+ e.message);
 				assert_not_reached ();

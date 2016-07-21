@@ -266,21 +266,41 @@ public class GXml.GDocument : GXml.GNode,
   public DomNode import_node (DomNode node, bool deep = false) throws GLib.Error {
       if (node is DomDocument)
         throw new GXml.DomError.NOT_SUPPORTED_ERROR (_("Can't import a Document"));
-      var dst = this.create_element (node.node_name);
-      if (document_element == null)
-        this.append_child (dst as DomNode);
-      else
+      if (!(node is DomElement) && this.document_element == null)
+        throw new GXml.DomError.HIERARCHY_REQUEST_ERROR (_("Can't import a non Element type node to a Document"));
+      GXml.DomNode dst = null;
+      if (node is DomElement) {
+        dst = (this as DomDocument).create_element (node.node_name);
+        GXml.Node.copy (this, (GXml.Node) dst, (GXml.Node) node, deep);
+        if (document_element == null) {
+          this.append_child (dst);
+          return dst;
+        }
+      }
+      if (node is DomText)
+        dst = this.create_text_node ((node as DomText).data);
+      if (node is DomComment)
+        dst = (this as DomDocument).create_comment ((node as DomComment).data);
+      if (node is DomProcessingInstruction)
+        dst = this.create_processing_instruction ((node as DomProcessingInstruction).target, (node as DomProcessingInstruction).data);
+      if (dst != null) {
         document_element.append_child (dst as DomNode);
-      GXml.Node.copy (this, dst, (GXml.Node) node, deep);
-      return (DomNode) dst;
+        return dst;
+      }
+      return node;
   }
   public DomNode adopt_node (DomNode node) throws GLib.Error {
       if (node is DomDocument)
         throw new GXml.DomError.NOT_SUPPORTED_ERROR (_("Can't adopt a Document"));
+      if (this == node.owner_document) return node;
       var dst = this.create_element (node.node_name);
       GXml.Node.copy (this, dst, (GXml.Node) node, true);
       if (node.parent_node != null)
         node.parent_node.child_nodes.remove_at (node.parent_node.child_nodes.index_of (node));
+      if (this.document_element == null)
+        this.append_child (dst as DomNode);
+      else
+        document_element.append_child (dst as DomNode);
       return (DomNode) dst;
   }
 

@@ -155,9 +155,9 @@ public interface GXml.Node : Object
    */
   public virtual string ns_uri () { return namespaces.first ().uri; }
   /**
-   * Copy a {@link GXml.Node} relaing on {@link GXml.Document} to other {@link GXml.Node}.
+   * Copy a {@link GXml.Node} relaying on {@link GXml.Document} to other {@link GXml.Node}.
    *
-   * node could belongs from different {@link GXml.Document}, while source is a node
+   * @node could belongs from different {@link GXml.Document}, while source is a node
    * belonging to given document.
    *
    * Just {@link GXml.Element} objects are supported. For attributes, use
