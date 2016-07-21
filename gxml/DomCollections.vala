@@ -65,6 +65,10 @@ public interface GXml.DomHTMLCollection : GLib.Object, Gee.BidirList<GXml.DomEle
   }
 }
 
+
+/**
+ * No implemented jet. This can lead to API changes in future versions.
+ */
 public interface GXml.DomNodeIterator {
   public abstract DomNode root { get; }
   public abstract DomNode reference_node { get; }
@@ -78,6 +82,9 @@ public interface GXml.DomNodeIterator {
   public abstract void detach();
 }
 
+/**
+ * No implemented jet. This can lead to API changes in future versions.
+ */
 public class GXml.DomNodeFilter : Object {
   // Constants for acceptNode()
   public const ushort FILTER_ACCEPT = 1;
@@ -102,6 +109,10 @@ public class GXml.DomNodeFilter : Object {
   public delegate ushort AcceptNode(Node node); // FIXME: Should be a User defined method
 }
 
+
+/**
+ * No implemented jet. This can lead to API changes in future versions.
+ */
 public interface GXml.DomTreeWalker : Object {
   public abstract DomNode root { get; }
   public abstract ulong what_to_show { get; }
@@ -146,6 +157,10 @@ public interface GXml.DomTokenList : GLib.Object, Gee.BidirList<string> {
   public abstract string  to_string ();
 }
 
+
+/**
+ * No implemented jet. This can lead to API changes in future versions.
+ */
 public interface GXml.DomSettableTokenList : GXml.DomTokenList {
   public abstract string @value { owned get; set; }
 }

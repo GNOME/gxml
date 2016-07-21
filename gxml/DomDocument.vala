@@ -50,17 +50,33 @@ public interface GXml.DomDocument : GLib.Object,
   public abstract DomNode import_node (DomNode node, bool deep = false) throws GLib.Error;
   public abstract DomNode adopt_node (DomNode node) throws GLib.Error;
 
+  /**
+   * No implemented jet. This can lead to API changes in future versions.
+   */
   public abstract DomEvent create_event (string interface) throws GLib.Error;
 
+  /**
+   * No implemented jet. This can lead to API changes in future versions.
+   */
   public abstract DomRange create_range();
 
   // NodeFilter.SHOW_ALL = 0xFFFFFFFF
+  /**
+   * No implemented jet. This can lead to API changes in future versions.
+   */
   public abstract DomNodeIterator create_node_iterator (DomNode root, ulong whatToShow = (ulong) 0xFFFFFFFF, DomNodeFilter? filter = null);
+
+  /**
+   * No implemented jet. This can lead to API changes in future versions.
+   */
   public abstract DomTreeWalker create_tree_walker (DomNode root, ulong what_to_show = (ulong) 0xFFFFFFFF, DomNodeFilter? filter = null);
 }
 
 public interface GXml.DomXMLDocument : GLib.Object, GXml.DomDocument {}
 
+/**
+ * No implemented jet. This can lead to API changes in future versions.
+ */
 public interface GXml.DomImplementation : GLib.Object {
   public abstract DomDocumentType create_document_type (string qualified_name, string public_id, string system_id) throws GLib.Error;
   public abstract DomXMLDocument create_document (string? nspace, string? qualified_name, DocumentType? doctype = null) throws GLib.Error;
@@ -69,12 +85,18 @@ public interface GXml.DomImplementation : GLib.Object {
   public virtual bool has_feature() { return true; } // useless; always returns true
 }
 
+/**
+ * No implemented jet. This can lead to API changes in future versions.
+ */
 public interface GXml.DomDocumentFragment : GLib.Object,
                                             GXml.DomNode,
                                             GXml.DomParentNode,
                                             GXml.DomNonElementParentNode
 {}
 
+/**
+ * No implemented jet. This can lead to API changes in future versions.
+ */
 public interface GXml.DomDocumentType : GLib.Object, GXml.DomNode, GXml.DomChildNode {
   public abstract string name { get; }
   public abstract string public_id { get; }

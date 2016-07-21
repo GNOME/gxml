@@ -445,5 +445,63 @@ static const string XMLDOC ="<?xml version=\"1.0\"?>
 				assert_not_reached ();
 			}
 		});
+		Test.add_func ("/gxml/dom/document/event", () => {
+			try {
+				GLib.message ("No implemented...Skiping");
+				//TODO: implement
+			} catch (GLib.Error e) {
+				GLib.message ("Error: "+ e.message);
+				assert_not_reached ();
+			}
+		});
+		Test.add_func ("/gxml/dom/document/range", () => {
+			try {
+				GLib.message ("No implemented...Skiping");
+				//TODO: implement
+			} catch (GLib.Error e) {
+				GLib.message ("Error: "+ e.message);
+				assert_not_reached ();
+			}
+		});
+		Test.add_func ("/gxml/dom/document/iterator", () => {
+			try {
+				GLib.message ("No implemented...Skiping");
+				//TODO: implement
+			} catch (GLib.Error e) {
+				GLib.message ("Error: "+ e.message);
+				assert_not_reached ();
+			}
+		});
+		Test.add_func ("/gxml/dom/document/walker", () => {
+			try {
+				GLib.message ("No implemented...Skiping");
+				//TODO: implement
+			} catch (GLib.Error e) {
+				GLib.message ("Error: "+ e.message);
+				assert_not_reached ();
+			}
+		});
+		Test.add_func ("/gxml/dom/character", () => {
+			try {
+				var d = new GDocument () as DomDocument;
+				var t = d.create_text_node ("TEXT") as DomCharacterData;
+				assert (t.data == "TEXT");
+				assert (t.length == "TEXT".length);
+				assert (t.substring_data (0,2) == "TE");
+				assert (t.substring_data (0,3) == "TEX");
+				assert (t.substring_data (1,3) == "EXT");
+				assert (t.substring_data (1,4) == "EXT");
+				assert (t.substring_data (1,5) == "EXT");
+				assert (t.substring_data (2,0) == "");
+				try {
+					t.substring_data (5,1);
+					assert_not_reached ();
+				}
+				catch {}
+			} catch (GLib.Error e) {
+				GLib.message ("Error: "+ e.message);
+				assert_not_reached ();
+			}
+		});
 	}
 }
