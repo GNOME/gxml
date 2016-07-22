@@ -510,6 +510,28 @@ static const string XMLDOC ="<?xml version=\"1.0\"?>
 				assert (t.data == "TEXT HI");
 				t.replace_data (0, 4, "text");
 				assert (t.data == "text HI");
+				var n = d.create_element ("node");
+				d.append_child (n);
+				n.append_child (t);
+				assert (t.parent_node.child_nodes.length == 1);
+				var t2 = (t as DomText).split_text (4);
+				assert (t.parent_node.child_nodes.length == 1);
+				var ntst = d.create_element ("child");
+				n.append_child (ntst);
+				var ct1 = d.create_text_node ("TEXT1");
+				ntst.append_child (ct1);
+				assert (ntst.child_nodes.length == 1);
+				var ct2 = d.create_text_node ("TEXT2");
+				ntst.append_child (ct2);
+				//assert (ntst.child_nodes.length == 2);
+				// BUG: libxml2 doesn't support continuos DomText nodes
+				// when it is added, its data is concatecated in just text
+				// node
+				GLib.message ("NTST: "+(ntst as GXml.Node).to_string ());
+				assert (ntst.child_nodes.item (0) is DomText);
+				assert ((ntst.child_nodes.item (0) as DomText).data == "TEXT1TEXT2");
+				// BUG: DomText.whole_text
+				assert ((ntst.child_nodes.item(0) as DomText).whole_text == "TEXT1TEXT2");
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+ e.message);
 				assert_not_reached ();
