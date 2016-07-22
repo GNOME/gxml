@@ -500,10 +500,16 @@ static const string XMLDOC ="<?xml version=\"1.0\"?>
 				catch {}
 				t.append_data (" HI");
 				assert (t.data == "TEXT HI");
-				GLib.message ("t = "+t.substring_data (0, 4));
 				t.replace_data (0, 4, "");
-				GLib.message ("Text:'"+t.data+"'");
 				assert (t.data == " HI");
+				t.insert_data (0, "TEXT");
+				assert (t.data == "TEXT HI");
+				t.delete_data (0, 4);
+				assert (t.data == " HI");
+				t.insert_data (0, "TEXT");
+				assert (t.data == "TEXT HI");
+				t.replace_data (0, 4, "text");
+				assert (t.data == "text HI");
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+ e.message);
 				assert_not_reached ();
