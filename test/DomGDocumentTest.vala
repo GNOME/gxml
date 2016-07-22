@@ -498,6 +498,12 @@ static const string XMLDOC ="<?xml version=\"1.0\"?>
 					assert_not_reached ();
 				}
 				catch {}
+				t.append_data (" HI");
+				assert (t.data == "TEXT HI");
+				GLib.message ("t = "+t.substring_data (0, 4));
+				t.replace_data (0, 4, "");
+				GLib.message ("Text:'"+t.data+"'");
+				assert (t.data == " HI");
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+ e.message);
 				assert_not_reached ();

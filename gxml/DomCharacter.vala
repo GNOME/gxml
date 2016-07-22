@@ -55,13 +55,9 @@ public interface GXml.DomCharacterData : GLib.Object,
   public new virtual void replace_data (ulong offset, ulong count, string data) throws GLib.Error {
     if (((int)offset) > this.data.length)
       throw new DomError.INDEX_SIZE_ERROR (_("Invalid offset for replace data"));
-    int c = (int) count;
-    if (((int)offset + c) > data.length) c = data.length - (int)offset;
-
-    string s = this.data[0:(int)offset];
-    string s2 = this.data[0:(s.length - (int)offset - c)];
-    string sr = data[0:(int)count];
-    this.data = (s+sr+s2).dup ();
+    int end = (int) (offset + count);
+    if (!(end < this.data.length)) end = this.data.length;
+    this.data = this.data.splice ((int) offset, end, data);
   }
 }
 
