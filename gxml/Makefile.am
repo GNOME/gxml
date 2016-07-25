@@ -6,7 +6,6 @@ lib_LTLIBRARIES = libgxml-0.12.la
 # Empty variable to be added elements later
 CLEANFILES=
 BUILT_SOURCES=
-AM_VALAFLAGS=
 
 ### Library
 
@@ -114,8 +113,7 @@ sources = \
 	$(NULL)
 
 
-# library flags
-libgxml_0_12_la_VALAFLAGS = \
+VALAFLAGS= \
 	--vapidir=$(VAPIDIR) \
 	$(ERROR_VALAFLAGS) \
 	--library=gxml-0.10 \
@@ -129,8 +127,10 @@ libgxml_0_12_la_VALAFLAGS = \
 	--pkg gio-2.0 \
 	--includedir gxml \
 	--vapi gxml-0.12.vapi \
-	-H gxml.h \
-	$(NULL)
+	-H gxml.h
+
+# library flags
+#libgxml_0_12_la_VALAFLAGS=
 
 
 
@@ -158,18 +158,18 @@ libgxml_0_12_la_CFLAGS = \
 
 if ENABLE_DEVHELP_DOCS
 
-libgxml_0_12_la_VALAFLAGS += \
-       --vapi-comments
+VALAFLAGS += \
+	--vapi-comments
 
 endif
 
 # -Wall   # TODO: add this back when we can properly handle more libxml2/vala warnings
 
 if DEBUG
-  libgxml_0_12_la_VALAFLAGS += \
-    -D DEBUG \
-    --enable-mem-profiler \
-    -g
+VALAFLAGS += \
+	-D DEBUG \
+	--enable-mem-profiler \
+	-g
 endif
 
 libgxml_0_12_la_LIBADD = \
@@ -226,7 +226,7 @@ libgxml_dlname=\
 #libgxml_dlname=\
 #	`$(GREP) -e dlname libgxml-0.12.la | $(SED) s/dlname=\'// | $(SED) s/\'//`
 
-AM_VALAFLAGS += \
+VALAFLAGS += \
 	--gir=GXml-$(API_VERSION).gir
 
 INTROSPECTION_GIRS = GXml-$(API_VERSION).gir
@@ -246,7 +246,7 @@ CLEANFILES += $(gir_DATA) $(typelib_DATA)
 endif
 
 if PLATFORM_WIN32
-AM_VALAFLAGS += \
+VALAFLAGS += \
 	--symbols=gxml.symbols
 
 libgxml_0_12_la_LDFLAGS += -shared -o libgxml-0.12.dll -no-undefined \
