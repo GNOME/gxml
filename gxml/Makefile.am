@@ -100,7 +100,6 @@ sources = \
 	GXmlHashMapAttr.vala \
 	GXmlListChildren.vala \
 	GXmlListNamespaces.vala \
-	GXmlDomRange.val \
 	DomAttr.vala \
 	DomCharacter.vala \
 	DomCollections.vala \

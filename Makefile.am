@@ -41,7 +41,8 @@ EXTRA_DIST = $(gxmldoc_DATA) \
 	config.rpath \
 	$(INTLTOOL_FILES)
 
-
+config.rpath:
+	@touch config.rpath
 
 
 # Lists of generated files you want to be able to clean
