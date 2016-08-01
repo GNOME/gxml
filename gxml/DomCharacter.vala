@@ -32,11 +32,13 @@ public interface GXml.DomCharacterData : GLib.Object,
 
   public virtual ulong length {
     get {
+      Init.init ();
       if (this.data == null) return 0;
       return this.data.length;
     }
   }
   public virtual string substring_data (ulong offset, ulong count) throws GLib.Error {
+    Init.init ();
     if (((int)offset) > this.data.length)
       throw new DomError.INDEX_SIZE_ERROR (_("Invalid offset for substring"));
     int end = (int) (offset + count);
@@ -44,15 +46,19 @@ public interface GXml.DomCharacterData : GLib.Object,
     return data.slice ((int) offset, end);
   }
   public virtual void append_data  (string data) {
+    Init.init ();
     this.data += data;
   }
   public virtual void insert_data  (ulong offset, string data) throws GLib.Error {
+    Init.init ();
     replace_data (offset, 0, data);
   }
   public virtual void delete_data  (ulong offset, ulong count) throws GLib.Error {
+    Init.init ();
     replace_data (offset, count, "");
   }
   public new virtual void replace_data (ulong offset, ulong count, string data) throws GLib.Error {
+    Init.init ();
     if (((int)offset) > this.data.length)
       throw new DomError.INDEX_SIZE_ERROR (_("Invalid offset for replace data"));
     int end = (int) (offset + count);
@@ -63,6 +69,7 @@ public interface GXml.DomCharacterData : GLib.Object,
 
 public interface GXml.DomText : GXml.DomCharacterData {
   public virtual GXml.DomText split_text (ulong offset) throws GLib.Error {
+    Init.init ();
     if (offset >= data.length)
       throw new DomError.INDEX_SIZE_ERROR (_("Invalid offset to split text"));
     var nt = this.owner_document.create_text_node (this.data.slice ((int)offset, this.data.length));
@@ -75,6 +82,7 @@ public interface GXml.DomText : GXml.DomCharacterData {
   }
   public virtual string whole_text {
     owned get {
+      Init.init ();
       string s = "";
       if (this.previous_sibling is DomText)
         s += (this.previous_sibling as DomText).whole_text;

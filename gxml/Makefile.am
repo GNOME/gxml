@@ -112,10 +112,10 @@ sources = \
 	$(NULL)
 
 
-VALAFLAGS= \
+AM_VALAFLAGS= \
 	--vapidir=$(VAPIDIR) \
-	$(ERROR_VALAFLAGS) \
-	--library=gxml-0.10 \
+	$(ERROR_AM_VALAFLAGS) \
+	--library=gxml-0.12 \
 	$(top_srcdir)/vapi/config.vapi \
 	$(top_srcdir)/vapi/xlibxml-1.0.vapi \
 	--vapidir=. \
@@ -125,17 +125,17 @@ VALAFLAGS= \
 	--pkg gobject-2.0 \
 	--pkg gio-2.0 \
 	--includedir gxml \
-	--vapi gxml-0.12.vapi \
-	-H gxml.h
+	-H gxml.h -C \
+	$(NULL)
 
 # library flags
-#libgxml_0_12_la_VALAFLAGS=
+#libgxml_0_12_la_AM_VALAFLAGS=
 
 
 
 
 ### General Compilation flags
-libgxml_0_12_la_CPPFLAGS = \
+AM_CPPFLAGS = \
 	-include $(CONFIG_HEADER) \
 	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
 	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
@@ -144,7 +144,7 @@ libgxml_0_12_la_CPPFLAGS = \
 	-I$(top_srcdir) \
 	$(NULL)
 
-libgxml_0_12_la_CFLAGS = \
+AM_CFLAGS = \
 	-g \
 	$(GLIB_CFLAGS) \
 	$(LIBXML_CFLAGS) \
@@ -157,7 +157,7 @@ libgxml_0_12_la_CFLAGS = \
 
 if ENABLE_DEVHELP_DOCS
 
-VALAFLAGS += \
+AM_VALAFLAGS += \
 	--vapi-comments
 
 endif
@@ -165,7 +165,7 @@ endif
 # -Wall   # TODO: add this back when we can properly handle more libxml2/vala warnings
 
 if DEBUG
-VALAFLAGS += \
+AM_VALAFLAGS += \
 	-D DEBUG \
 	--enable-mem-profiler \
 	-g
@@ -182,9 +182,34 @@ libgxml_0_12_la_LIBADD = \
 libgxml_0_12_la_LDFLAGS = \
 	-version-info "$(LT_CURRENT)":"$(LT_REVISION)":"$(LT_AGE)"
 
+vala-stamp: $(sources)
+	@rm -f vala-temp
+	@touch vala-temp
+	$(VALAC) $(AM_VALAFLAGS) $^
+	@mv -f vala-temp $@
+
+$(sources:.vala=.c): vala-stamp
+## Recover from the removal of $@
+	@if test -f $@; then :; else \
+		trap ’rm -rf vala-lock vala-stamp’ 1 2 13 15; \
+		if mkdir vala-lock 2>/dev/null; then \
+## This code is being executed by the first process.
+			rm -f vala-stamp; \
+			$(MAKE) $(AM_MAKEFLAGS) vala-stamp; \
+			rmdir vala-lock; \
+		else \
+## This code is being executed by the follower processes.
+## Wait until the first process is done.
+			while test -d vala-lock; do sleep 1; done; \
+## Succeed if and only if the first process succeeded.
+			test -f vala-stamp; exit $$?; \
+		fi; \
+		fi
+
 libgxml_0_12_la_SOURCES= \
-  $(sources) \
-  xlibxml.c
+	$(sources:.vala=.c) \
+	xlibxml.c \
+	$(NULL)
 
 # .h header file
 gxml.h: libgxml-0.12.la
@@ -193,7 +218,7 @@ gxml_HEADERS = gxml.h xlibxml.h
 
 # .vapi Vala API file
 gxml-0.12.vapi: libgxml-0.12.la
-vapidir = $(VAPIDIR)
+vapidir = $(datadir)/vala/vapi
 dist_vapi_DATA = \
 	gxml-0.12.vapi \
 	gxml-0.12.deps \
@@ -209,9 +234,9 @@ EXTRA_DIST = \
 	$(pkgconfig_in) \
 	$(NULL)
 
-GITIGNOREFILES = \
-	$(sources:.vala=.c) \
-	$(NULL)
+#GITIGNOREFILES = \
+#	$(sources:.vala=.c) \
+#	$(NULL)
 
 # This makes GObject Introspection optional and requires to use --enable-instrospection switch on configure
 if HAVE_INTROSPECTION
@@ -225,7 +250,7 @@ libgxml_dlname=\
 #libgxml_dlname=\
 #	`$(GREP) -e dlname libgxml-0.12.la | $(SED) s/dlname=\'// | $(SED) s/\'//`
 
-VALAFLAGS += \
+AM_VALAFLAGS += \
 	--gir=GXml-$(API_VERSION).gir
 
 INTROSPECTION_GIRS = GXml-$(API_VERSION).gir
@@ -245,7 +270,7 @@ CLEANFILES += $(gir_DATA) $(typelib_DATA)
 endif
 
 if PLATFORM_WIN32
-VALAFLAGS += \
+AM_VALAFLAGS += \
 	--symbols=gxml.symbols
 
 libgxml_0_12_la_LDFLAGS += -shared -o libgxml-0.12.dll -no-undefined \
@@ -272,10 +297,12 @@ BUILT_SOURCES += \
 endif
 
 CLEANFILES += \
+	$(sources:.vala=.c) \
+	vala-stamp \
 	$(pkgconfig_DATA) \
 	namespace-info.vala \
 	gxml-0.12.vapi \
 	gxml.h
 
-
 -include $(top_srcdir)/git.mk
+
