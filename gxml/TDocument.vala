@@ -23,25 +23,6 @@ using Gee;
 using Xml;
 
 /**
- * Delegate function to control parsing of XML documents. Return {@link TDocumentReadType.NEXT}
- * to skip all children nodes of current {@link GXml.Node}; {@link TDocumentReadType.CONTINUE}
- * continue parsing nodes or {@link TDocumentReadType.STOP} to stop reading.
- *
- * While you get the current {@link Xml.TextReader} used in parsing, you can control
- * next action to take depending on current node.
- */
-public delegate GXml.TDocumentReadType GXml.TDocumentReadTypeFunc (GXml.Node node, TextReader tr);
-
-
-  /**
-   * Enum for {@link Xml.TextReader} flag on parsing.
-   */
-  public enum GXml.TDocumentReadType {
-    NEXT,
-    CONTINUE,
-    STOP
-  }
-/**
  * Class implemeting {@link GXml.Document} interface, not tied to libxml-2.0 library.
  *
  * This class use {@link Xml.TextWriter} to write down XML documents using
@@ -52,8 +33,27 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
   protected Gee.ArrayList<GXml.Node> _namespaces;
   protected Gee.ArrayList<GXml.Node> _children;
   private GXml.Element _root = null;
-  private TDocumentReadTypeFunc _readtype_func = null;
+  private ReadTypeFunc _readtype_func = null;
 
+  /**
+   * Delegate function to control parsing of XML documents. Return {@link TDocument.ReadType.NEXT}
+   * to skip all children nodes of current {@link GXml.Node}; {@link TDocument.ReadType.CONTINUE}
+   * continue parsing nodes or {@link TDocument.ReadType.STOP} to stop reading.
+   *
+   * While you get the current {@link Xml.TextReader} used in parsing, you can control
+   * next action to take depending on current node.
+   */
+  public delegate ReadType ReadTypeFunc (GXml.Node node, TextReader tr);
+
+
+  /**
+   * Enum for {@link Xml.TextReader} flag on parsing.
+   */
+  public enum ReadType {
+    NEXT,
+    CONTINUE,
+    STOP
+  }
   construct {
     _name = "#document";
   }
@@ -87,28 +87,28 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
   }
 
   
-  public TDocument.from_path_with_readtype_func (string path, TDocumentReadTypeFunc func) {
+  public TDocument.from_path_with_readtype_func (string path, ReadTypeFunc func) {
     this.file = GLib.File.new_for_path (path);
     if (!file.query_exists ()) return;
     try { read_doc (this, file, func); } catch {}
     
   }
 
-  public TDocument.from_uri_with_readtype_func (string uri, TDocumentReadTypeFunc func) {
+  public TDocument.from_uri_with_readtype_func (string uri, ReadTypeFunc func) {
     this.from_file_with_readtype_func (File.new_for_uri (uri), func);
   }
 
-  public TDocument.from_file_with_readtype_func (GLib.File file, TDocumentReadTypeFunc func) {
+  public TDocument.from_file_with_readtype_func (GLib.File file, ReadTypeFunc func) {
     if (!file.query_exists ()) return;
     try { read_doc (this, file, func); } catch {}
     this.file = file;
   }
 
-  public TDocument.from_stream_with_readtype_func (GLib.InputStream stream, TDocumentReadTypeFunc func) {
+  public TDocument.from_stream_with_readtype_func (GLib.InputStream stream, ReadTypeFunc func) {
     try { read_doc_stream (this, stream, func); } catch {}
   }
 
-  public TDocument.from_string_with_readtype_func (string str, TDocumentReadTypeFunc func) {
+  public TDocument.from_string_with_readtype_func (string str, ReadTypeFunc func) {
     var minput = new GLib.MemoryInputStream ();
     minput.add_data ((uint8[]) str.dup (), null);
     TDocument.from_stream_with_readtype_func (minput, func);
@@ -470,9 +470,9 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
   }
   /**
    * Read a {@link GXml.Document} from a {@link GLib.File}, parsing is controller
-   * using {@link TDocumentReadTypeFunc}, if null it parse all nodes.
+   * using {@link ReadTypeFunc}, if null it parse all nodes.
    */
-  public static void read_doc (GXml.Document doc, GLib.File file, TDocumentReadTypeFunc? rtfunc = null) throws GLib.Error {
+  public static void read_doc (GXml.Document doc, GLib.File file, ReadTypeFunc? rtfunc = null) throws GLib.Error {
     if (!file.query_exists ())
       throw new GXml.DocumentError.INVALID_FILE (_("File doesn't exist"));
     read_doc_stream (doc, file.read (), rtfunc);
@@ -480,7 +480,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
   /**
    * Reads document from {@link GLib.InputStream} objects.
    */
-  public static void read_doc_stream (GXml.Document doc, GLib.InputStream istream, TDocumentReadTypeFunc? rtfunc = null) {
+  public static void read_doc_stream (GXml.Document doc, GLib.InputStream istream, ReadTypeFunc? rtfunc = null) {
     var b = new MemoryOutputStream.resizable ();
     b.splice (istream, 0);
 #if DEBUG
@@ -488,24 +488,24 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
 #endif
     var tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), "/gxml_memory");
     GXml.Node current = null;
-    while (read_node (doc, tr, rtfunc) == TDocumentReadType.CONTINUE);
+    while (read_node (doc, tr, rtfunc) == ReadType.CONTINUE);
   }
   /**
    * Parse current node in {@link Xml.TextReader}.
    *
    * Returns: a {@link GXml.Node} respresenting current parsed one.
    */
-  public static TDocumentReadType read_node (GXml.Node node,
+  public static ReadType read_node (GXml.Node node,
                                       Xml.TextReader tr,
-                                      TDocumentReadTypeFunc? rntfunc = null) throws GLib.Error {
+                                      ReadTypeFunc? rntfunc = null) throws GLib.Error {
     GXml.Node n = null;
     string prefix, nsuri;
-    TDocumentReadType rt = TDocumentReadType.CONTINUE;
+    ReadType rt = ReadType.CONTINUE;
     if (rntfunc != null) rt = rntfunc (node, tr);
-    if (rt == TDocumentReadType.CONTINUE)
-      if (tr.read () != 1) return TDocumentReadType.STOP;
-    if (rt == TDocumentReadType.NEXT)
-      if (tr.next () != 1) return TDocumentReadType.STOP;
+    if (rt == ReadType.CONTINUE)
+      if (tr.read () != 1) return ReadType.STOP;
+    if (rt == ReadType.NEXT)
+      if (tr.next () != 1) return ReadType.STOP;
     var t = tr.node_type ();
 #if DEBUG
     GLib.message ("ReadNode: Current Node:"+node.name);
@@ -515,7 +515,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
 #if DEBUG
       GLib.message ("Type NONE");
 #endif
-      if (tr.read () != 1) return TDocumentReadType.STOP;
+      if (tr.read () != 1) return ReadType.STOP;
       break;
     case Xml.ReaderType.ELEMENT:
       bool isempty = (tr.is_empty_element () == 1);
@@ -524,15 +524,15 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
       GLib.message ("ReadNode: Element: "+tr.const_local_name ());
 #endif
       n = node.document.create_element (tr.const_local_name ());
-      TDocumentReadType nrt = TDocumentReadType.CONTINUE;
+      ReadType nrt = ReadType.CONTINUE;
       if (rntfunc != null) nrt = rntfunc (n, tr);
-      if (nrt == TDocumentReadType.NEXT) {
+      if (nrt == ReadType.NEXT) {
         if (isempty) {
-          return TDocumentReadType.CONTINUE;
+          return ReadType.CONTINUE;
         }
         var cont = true;
         while (cont) {
-          if (tr.read () != 1) return TDocumentReadType.STOP;
+          if (tr.read () != 1) return ReadType.STOP;
           t = tr.node_type ();
           if (t == Xml.ReaderType.END_ELEMENT) {
             if (tr.const_local_name () == n.name) {
@@ -540,11 +540,11 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
             }
           }
         }
-        return TDocumentReadType.CONTINUE;
+        return ReadType.CONTINUE;
       }
-      if (nrt == TDocumentReadType.STOP) {
+      if (nrt == ReadType.STOP) {
         tr.close ();
-        return TDocumentReadType.STOP;
+        return ReadType.STOP;
       }
       node.children.add (n);
 #if DEBUG
@@ -609,8 +609,8 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
           }
         }
       }
-      if (isempty) return TDocumentReadType.CONTINUE;
-      while (read_node (n, tr, rntfunc) == TDocumentReadType.CONTINUE);
+      if (isempty) return ReadType.CONTINUE;
+      while (read_node (n, tr, rntfunc) == ReadType.CONTINUE);
 #if DEBUG
       GLib.message ("Current Document: "+node.document.to_string ());
 #endif
@@ -701,18 +701,18 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
 #if DEBUG
       GLib.message ("Type END_ELEMENT");
 #endif
-      return TDocumentReadType.STOP;
+      return ReadType.STOP;
     case Xml.ReaderType.END_ENTITY:
 #if DEBUG
       GLib.message ("Type END_ENTITY");
 #endif
-      return TDocumentReadType.STOP;
+      return ReadType.STOP;
     case Xml.ReaderType.XML_DECLARATION:
 #if DEBUG
       GLib.message ("Type XML_DECLARATION");
 #endif
       break;
     }
-    return TDocumentReadType.CONTINUE;
+    return ReadType.CONTINUE;
   }
 }
