@@ -1,17 +1,15 @@
-# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-# Aviary.pl
-# Jeśli masz jakiekolwiek uwagi odnoszące się do tłumaczenia lub chcesz
-# pomóc w jego rozwijaniu i pielęgnowaniu, napisz do nas:
-# gnomepl@aviary.pl
-# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+# Polish translation for gxml.
+# Copyright © 2015-2016 the gxml authors.
+# This file is distributed under the same license as the gxml package.
 # Piotr Drąg <piotrdrag@gmail.com>, 2015-2016.
 # Aviary.pl <gnomepl@aviary.pl>, 2015-2016.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-22 01:38+0200\n"
-"PO-Revision-Date: 2016-07-22 01:39+0200\n"
+"POT-Creation-Date: 2016-08-21 15:14+0200\n"
+"PO-Revision-Date: 2016-08-21 15:15+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -25,13 +23,17 @@ msgstr ""
 msgid "Invalid file"
 msgstr "Nieprawidłowy plik"
 
-#: ../gxml/DomCharacter.vala:41
+#: ../gxml/DomCharacter.vala:43
 msgid "Invalid offset for substring"
 msgstr "Nieprawidłowe wyrównanie dla fragmentu ciągu"
 
-#: ../gxml/DomCharacter.vala:57
+#: ../gxml/DomCharacter.vala:63
 msgid "Invalid offset for replace data"
 msgstr "Nieprawidłowe wyrównanie dla danych zastępowania"
+
+#: ../gxml/DomCharacter.vala:74
+msgid "Invalid offset to split text"
+msgstr "Nieprawidłowe wyrównanie do rozdzielenia tekstu"
 
 #: ../gxml/Enumeration.vala:88
 msgid "value is invalid"
@@ -61,7 +63,7 @@ msgstr "Nie można zaimportować dokumentu"
 
 #: ../gxml/GXmlDocument.vala:270
 msgid "Can't import a non Element type node to a Document"
-msgstr "Nie można zaimportować węzła o typie niebędącym elementem do dokumentu"
+msgstr "Nie można zaimportować węzła o typie niebędącym elementem do dokumentu"
 
 #: ../gxml/GXmlDocument.vala:294
 msgid "Can't adopt a Document"
@@ -81,7 +83,7 @@ msgstr "DOM: pusty ciąg nie może być tokenem"
 
 #: ../gxml/GXmlDomCollections.vala:61
 msgid "DOM: No white spaces should be included in token"
-msgstr "DOM: spacje nie mogą być zawarte w tokenie"
+msgstr "DOM: spacje nie mogą być zawarte w tokenie"
 
 #: ../gxml/GXmlDomRange.vala:50 ../gxml/GXmlDomRange.vala:78
 #: ../gxml/GXmlDomRange.vala:151
@@ -113,17 +115,17 @@ msgstr "Nieprawidłowy typ węzła do rozpoczęcia po"
 
 #: ../gxml/GXmlDomRange.vala:166
 msgid "Invalid root's in range"
-msgstr "Nieprawidłowy główny element w zakresie"
+msgstr "Nieprawidłowy główny element w zakresie"
 
 #. FIXME:
 #: ../gxml/GXmlElement.vala:305
 msgid "DomElement query_selector is not implemented"
-msgstr "„query_selector” z DomElement nie jest zaimplementowane"
+msgstr "„query_selector” z DomElement nie jest zaimplementowane"
 
 #. FIXME:
 #: ../gxml/GXmlElement.vala:309
 msgid "DomElement query_selector_all is not implemented"
-msgstr "„query_selector_all” z DomElement nie jest zaimplementowane"
+msgstr "„query_selector_all” z DomElement nie jest zaimplementowane"
 
 #: ../gxml/GXmlHashMapAttr.vala:239 ../gxml/GXmlHashMapAttr.vala:293
 msgid "Invalid document when addin item to collection"
@@ -144,7 +146,7 @@ msgstr "Próbowanie dodania obiektu do elementu, ale nie jest atrybutem"
 #: ../gxml/GXmlHashMapAttr.vala:258 ../gxml/GXmlHashMapAttr.vala:316
 #, c-format
 msgid "No node with name %s was found"
-msgstr "Nie odnaleziono węzłów o nazwie %s"
+msgstr "Nie odnaleziono węzłów o nazwie %s"
 
 #: ../gxml/GXmlHashMapAttr.vala:260 ../gxml/GXmlHashMapAttr.vala:318
 msgid "Node collection is read only"
@@ -189,10 +191,6 @@ msgstr ""
 "Nie można odnaleźć elementu potomnego do usunięcia lub element potomny ma "
 "inny element nadrzędny"
 
-#: ../gxml/GXmlText.vala:42
-msgid "Invalid offset to split text"
-msgstr "Nieprawidłowe wyrównanie do rozdzielenia tekstu"
-
 #: ../gxml/libxml-ChildNodeList.vala:148
 #, c-format
 msgid "ref_child '%s' not found, was supposed to have '%s' inserted before it."
@@ -202,7 +200,7 @@ msgstr ""
 #: ../gxml/libxml-Document.vala:127
 #, c-format
 msgid "Looking up %s from an xmlNode* is not supported"
-msgstr "Wyszukiwanie %s z „xmlNode*” nie jest obsługiwane"
+msgstr "Wyszukiwanie %s z „xmlNode*” nie jest obsługiwane"
 
 #: ../gxml/libxml-Document.vala:302
 #, c-format
@@ -222,11 +220,11 @@ msgstr "%s:%s:%d: %s:%d: %s"
 #: ../gxml/libxml-Node.vala:67
 msgid ""
 "Node tried to interact with a different document than the one it belongs to"
-msgstr "Węzeł próbował działać z innym dokumentem niż tym, do którego należy"
+msgstr "Węzeł próbował działać z innym dokumentem niż tym, do którego należy"
 
 #: ../gxml/Node.vala:202
 msgid "Text node with NULL string"
-msgstr "Węzeł tekstowy z ciągiem NULL"
+msgstr "Węzeł tekstowy z ciągiem NULL"
 
 #: ../gxml/SerializableEnum.vala:75
 msgid "Value can't be parsed to a valid enumeration's value. Value is not set"
@@ -266,7 +264,7 @@ msgstr "Próbowanie uszeregowania do elementu niebędącego „GXmlElement”."
 
 #: ../gxml/SerializableProperty.vala:110
 msgid "No attribute found to deserialize from"
-msgstr "Nie odnaleziono atrybutu, z którego deszeregować"
+msgstr "Nie odnaleziono atrybutu, z którego deszeregować"
 
 #: ../gxml/SerializableProperty.vala:115
 #, c-format
