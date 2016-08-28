@@ -232,7 +232,9 @@ namespace GXml {
 			this.implementation = impl;
 
 			xNode root;
-			root = (xNode) this.create_element (qualified_name); // TODO: we do not currently support namespaces, but when we do, this new node will want one
+			try {
+				root = (xNode) this.create_element (qualified_name); // TODO: we do not currently support namespaces, but when we do, this new node will want one
+			} catch { return; }
 			this.append_child (root);
 
 			this.namespace_uri = namespace_uri;

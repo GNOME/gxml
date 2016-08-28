@@ -157,9 +157,7 @@ if test x$enable_docs = xyes; then
   then
       AC_MSG_RESULT([valadoc documentation not build because not found])
   else
-      VAPIDIR=`$PKG_CONFIG --variable=vapidir libvala-$LIBVALA_REQUIRED`
       have_valadoc="yes"
-      AC_SUBST(VALADOC)
   fi
 fi
 AM_CONDITIONAL([HAVE_VALADOC], [test x$have_valadoc = xyes])
@@ -189,8 +187,8 @@ fi
 
 
 if test x$enable_devhelp_docs = xyes; then
-  if test x$have_valadoc = xno -o x$have_gtkdoc = xno; then
-    AC_MSG_ERROR([valadoc and gtk-doc is required, to generate devhelp documentation. Use --enable-valadoc and --enable-gtk-docs])
+  if test x$have_valadoc = xno; then
+    AC_MSG_ERROR([valadoc is required, to generate devhelp documentation. Use --enable-docs])
   fi
 fi
 
