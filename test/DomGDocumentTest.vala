@@ -58,7 +58,7 @@ static const string XMLDOC ="<?xml version=\"1.0\"?>
 <code class=\"parent\"/>
 <code class=\"node parent\"/>
 <page class=\"node\"/>
-<page class=\"node parent\"/>
+<page class=\"parent node\"/>
 </project>
 <Author name=\"You\" />
 </root>
@@ -103,11 +103,10 @@ static const string XMLDOC ="<?xml version=\"1.0\"?>
 			assert (le[0].get_attribute ("class") == "black");
 			assert (le[1].get_attribute ("id") == "p01");
 			var lc = doc.get_elements_by_class_name ("black");
-			assert (lc.size == 2);
+			GLib.message ("DOC\n"+(doc as GDocument).to_string ());
+			assert (lc.size == 1);
 			assert (lc[0].node_name == "p");
 			assert (lc[0].get_attribute ("class") == "black");
-			assert (lc[1].node_name == "p");
-			assert (lc[1].get_attribute ("class") == "black block");
 			var nid = doc.get_element_by_id ("p01");
 			assert (nid != null);
 			assert (nid.node_name == "p");
@@ -124,11 +123,9 @@ static const string XMLDOC ="<?xml version=\"1.0\"?>
 			assert (le[1].get_attribute ("id") == "p01");
 			var lc = doc.document_element.get_elements_by_class_name ("black");
 			GLib.message("size"+lc.size.to_string ());
-			assert (lc.size == 2);
+			assert (lc.size == 1);
 			assert (lc[0].node_name == "p");
 			assert (lc[0].get_attribute ("class") == "black");
-			assert (lc[1].node_name == "p");
-			assert (lc[1].get_attribute ("class") == "black block");
 		});
 		Test.add_func ("/gxml/dom/node", () => {
 			try {
@@ -285,13 +282,11 @@ static const string XMLDOC ="<?xml version=\"1.0\"?>
 			var lcl = doc.document_element.get_elements_by_class_name ("black");
 			assert (lcl != null);
 			assert (lcl is DomHTMLCollection);
-			assert (lcl.length == 3);
+			assert (lcl.length == 2);
 			assert (lcl.item (0) is DomElement);
 			assert (lcl.item (1) is DomElement);
-			assert (lcl.item (2) is DomElement);
 			assert (lcl.item (0).node_name == "p");
 			assert (lcl.item (1).node_name == "p");
-			assert (lcl.item (2).node_name == "p");
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+e.message);
 				assert_not_reached ();
@@ -378,23 +373,30 @@ static const string XMLDOC ="<?xml version=\"1.0\"?>
 				assert (lens.item (0).node_name == "MyNode");
 				GLib.message ("DOC: "+(doc.document_element as GXml.Node).to_string ());
 				var lec = doc.get_elements_by_class_name ("node");
-				GLib.message ("Class node found"+lec.length.to_string ());
-				assert (lec.length == 4);
+				assert (lec.length == 2);
 				assert (lec.item (0) is DomElement);
-				assert (lec.item (0).node_name == "code");
+				assert (lec.item (0).node_name == "MyNode");
+				assert (lec.item (1) is DomElement);
+				assert (lec.item (1).node_name == "page");
 				n.set_attribute ("class","node parent");
 				var lec2 = doc.get_elements_by_class_name ("parent");
-				assert (lec2.length == 4);
+				assert (lec2.length == 1);
 				assert (lec2.item (0) is DomElement);
 				assert (lec2.item (0).node_name == "code");
 				var lec3 = doc.get_elements_by_class_name ("parent code");
-				assert (lec3.length == 4);
-				assert (lec3.item (0) is DomElement);
-				assert (lec3.item (0).node_name == "code");
+				assert (lec3.length == 0);
 				var lec4 = doc.get_elements_by_class_name ("code parent");
-				assert (lec4.length == 4);
-				assert (lec4.item (0) is DomElement);
-				assert (lec4.item (0).node_name == "code");
+				assert (lec4.length == 0);
+				var lec5 = doc.get_elements_by_class_name ("node parent");
+				GLib.message ("Doc in use:\n"+(doc as GDocument).libxml_to_string ());
+				GLib.message ("Class node found: "+lec5.length.to_string ());
+				assert (lec5.length == 3);
+				assert (lec5.item (0) is DomElement);
+				assert (lec5.item (0).node_name == "MyNode");
+				assert (lec5.item (1) is DomElement);
+				assert (lec5.item (1).node_name == "page");
+				assert (lec5.item (2) is DomElement);
+				assert (lec5.item (2).node_name == "code");
 				var t = doc.create_text_node ("TEXT");
 				n.append_child (t);
 				assert (n.child_nodes[0] is DomText);

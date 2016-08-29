@@ -275,13 +275,20 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
         ncls = cls.split (" ");
       else
         ncls += cls;
+      if (ncls.length != cs.length) continue;
+      int found = 0;
       foreach (string cl in cs) {
         foreach (string ncl in ncls) {
           if (cl == ncl) {
-            l.add (n);
-            break;
+            found++;
           }
         }
+      }
+      if (found == cs.length && found == ncls.length) {
+        if (l.size == 0)
+          l.add (n);
+        else
+          l.insert (0, n);
       }
     }
     return l;
