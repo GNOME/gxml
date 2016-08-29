@@ -32,8 +32,8 @@ namespace GXml {
 	 * {@link Gee.Iterable} interfaces.
 	 */
 	public abstract class AbstractNamedAttrMap : Object,
-		Traversable<Entry<string,GXml.Attribute>>,
-		Iterable<Entry<string,GXml.Attribute>>
+		Traversable<Entry>,
+		Iterable<Entry>
 	{
 		protected xElement elem;
 
