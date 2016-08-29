@@ -242,9 +242,9 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
   public DomHTMLCollection get_elements_by_tag_name (string local_name) {
     var l = new GDomHTMLCollection ();
     foreach (GXml.DomElement n in children) {
-      l.add_all (n.get_elements_by_tag_name (local_name));
       if (n.node_name == local_name)
         l.add ((DomElement) n);
+      l.add_all (n.get_elements_by_tag_name (local_name));
     }
     return l;
   }
