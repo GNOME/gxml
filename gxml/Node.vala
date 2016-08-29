@@ -157,10 +157,10 @@ public interface GXml.Node : Object
   /**
    * Copy a {@link GXml.Node} relaying on {@link GXml.Document} to other {@link GXml.Node}.
    *
-   * @node could belongs from different {@link GXml.Document}, while source is a node
+   * {@link node} could belongs from different {@link GXml.Document}, while source is a node
    * belonging to given document.
    *
-   * Just {@link GXml.Element} objects are supported. For attributes, use
+   * Only {@link GXml.Element} objects are supported. For attributes, use
    * {@link GXml.Element.set_attr} method, passing source's name and value as arguments.
    *
    * @param doc a {@link GXml.Document} owning destiny node

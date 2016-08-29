@@ -155,7 +155,7 @@ AM_CFLAGS = \
 	$(NULL)
 
 
-if ENABLE_DEVHELP_DOCS
+if BUILD_DEVHELP_DOCS
 
 AM_VALAFLAGS += \
 	--vapi-comments

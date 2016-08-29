@@ -149,9 +149,9 @@ public interface GXml.DomTokenList : GLib.Object, Gee.BidirList<string> {
   public abstract void    add      (string[] tokens) throws GLib.Error;
   public abstract void    remove   (string[] tokens);
   /**
-   * If @auto is true, adds @token if not present and removing if it is, @force value
-   * is taken in account. If @auto is false, then @force is considered; if true adds
-   * @token, if false removes it.
+   * If @auto is true, adds @param token if not present and removing if it is, @force value
+   * is taken in account. If @param auto is false, then @force is considered; if true adds
+   * @param token, if false removes it.
    */
   public abstract bool    toggle   (string token, bool force = false, bool auto = true) throws GLib.Error;
   public abstract string  to_string ();

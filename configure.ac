@@ -144,95 +144,57 @@ PKG_CHECK_MODULES(GIO, $GIO_MODULES)
 GOBJECT_INTROSPECTION_CHECK([1.32.0])
 
 # Documentation with Valadoc
+AC_PATH_PROG(YELP_BUILD, [yelp-build], [no])
+AC_PATH_PROG([VALADOC], [valadoc], [no])
+
 AC_ARG_ENABLE([docs],
               AS_HELP_STRING([--enable-docs],[Enable documentation generation]),
         [enable_docs=$enableval], [enable_docs=no])
 AM_CONDITIONAL([ENABLE_DOCS], [test x$enable_docs = xyes])
 
 have_valadoc=no
-if test x$enable_docs = xyes; then
-  # make sure the library is new enough and the program exists
-  AC_PATH_PROG([VALADOC], [valadoc], [no])
-  if test "x$VALADOC" = "xno";
-  then
-      AC_MSG_RESULT([valadoc documentation not build because not found])
-  else
-      VAPIDIR=`$PKG_CONFIG --variable=vapidir libvala-$LIBVALA_REQUIRED`
-      have_valadoc="yes"
-      AC_SUBST(VALADOC)
-  fi
+if test x$enable_docs = xyes -a "x$VALADOC" = "xno"; then
+		AC_MSG_RESULT([Required documentation but no valadoc found])
+	else
+	have_valadoc="yes"
 fi
 AM_CONDITIONAL([HAVE_VALADOC], [test x$have_valadoc = xyes])
 
-
-AC_ARG_ENABLE([devhelp-docs],
-              AS_HELP_STRING([--enable-devhelp-docs],[Enable DevHelp documentation generation]),
-        [enable_devhelp_docs=$enableval], [enable_devhelp_docs=no])
-
-AC_ARG_ENABLE([gtk-docs],
-              AS_HELP_STRING([--enable-gtk-docs],[Enable gtk-doc documentation generation]),
-        [enable_gtk_docs=$enableval], [enable_gtk_docs=no])
-
-AC_ARG_ENABLE([gir-docs],
-              AS_HELP_STRING([--enable-gir-docs],[Enable documented GIR generation]),
-        [enable_gir_docs=$enableval], [enable_gir_docs=no])
-
-have_gtkdoc=no
-if test x$enable_gtk_docs = xyes; then
-  if test x$have_valadoc = xyes; then
-    PKG_CHECK_MODULES([GTKDOC], gtk-doc)
-    have_gtkdoc=yes
-  else
-    AC_MSG_ERROR([valadoc is required, to generate gtk-doc documentation. Use --enable-valadoc])
-  fi
-fi
-
-
-if test x$enable_devhelp_docs = xyes; then
-  if test x$have_valadoc = xno -o x$have_gtkdoc = xno; then
-    AC_MSG_ERROR([valadoc and gtk-doc is required, to generate devhelp documentation. Use --enable-valadoc and --enable-gtk-docs])
-  fi
-fi
-
-if test x$enable_gir_docs = xyes; then
-  if test x$have_valadoc = xno; then
-    AC_MSG_ERROR([valadoc is required, to generate GIR documentation. Use --enable-valadoc and --enable-gtk-docs])
-  fi
-fi
-
-dnl Find yelp-build program
-enable_mallard_doc="no"
-girdocs=no
-devhelpdocs=no
-gtkdocs=no
+build_gtkdoc=no
+PKG_CHECK_MODULES([GTKDOC], gtk-doc,[
+    found_gtk_docs=yes
+    ],[
+    found_gtk_docs=no
+    ])
 if test x$enable_docs = xyes; then
-  AC_PATH_PROG(YELP_BUILD, [yelp-build], [no])
-  if test "x$YELP_BUILD" = "xno";
-  then
-      AC_MSG_RESULT([Mallard documentation not build because yelp-build has not been found])
-  else
-      YELP_HELP_INIT
-      AC_SUBST(YELP_BUILD)
-      enable_mallard_doc="yes"
-  fi
-  if test x$enable_devhelp_docs = xyes; then
-    devhelpdocs=yes
-  fi
-  if test x$enable_gtk_docs = xyes; then
-    gtkdocs=yes
-  fi
-  if test x$enable_gir_docs = xyes; then
-    if test x$found_introspection = xyes; then
-      girdocs=yes
+  if test x$have_valadoc = xyes; then
+    if test $found_gtk_docs=xyes; then
+      build_gtkdoc=yes
     else
-      girdocs="no, use --enable-introspection"
+      build_gtkdoc=no
     fi
   fi
 fi
-AM_CONDITIONAL(ENABLE_MALLARD_DOC, [test "$enable_mallard_doc" = "yes"])
-AM_CONDITIONAL([ENABLE_GIR_DOCS], [test "x$girdocs" = "xyes"])
-AM_CONDITIONAL([ENABLE_DEVHELP_DOCS], [test "x$devhelpdocs" = "xyes"])
-AM_CONDITIONAL([ENABLE_GTK_DOCS], [test "x$gtkdocs" = "xyes"])
+AM_CONDITIONAL([BUILD_GTK_DOCS], [test "x$build_gtkdoc" = "xyes"])
+
+build_devhelp=no
+build_mallard_doc=no
+build_gir_doc=no
+if test x$enable_docs = xyes; then
+  if test x$have_valadoc = "xyes"; then
+    if test x$YELP_BUILD != "xno"; then
+      build_devhelp=yes
+      YELP_HELP_INIT
+      build_mallard_doc=yes;
+    else
+      build_devhelp=no;
+    fi
+  fi
+fi
+AM_CONDITIONAL([BUILD_DEVHELP_DOCS], [test "x$build_devhelp" = "xyes"])
+AM_CONDITIONAL(BUILD_MALLARD_DOCS, [test "$build_mallard_doc" = "yes"])
+# This conditional is not set, because a bug to create documented GIR
+AM_CONDITIONAL(BUILD_GIR_DOCS, [test "$build_gir_doc" = "yes"])
 
 debug=no
 AC_ARG_ENABLE(debug,
@@ -321,9 +283,9 @@ echo " Configuration summary for GXml-$GXML_VERSION"
 echo "   Installation prefix:     $prefix"
 echo "   GObject Introspection:   $found_introspection"
 echo "   Documentation:           ${enable_docs}"
-echo "       DevHelp Doc:         `if test x${devhelpdocs} = xyes; then echo yes; else echo no; fi`"
-echo "       Gtk-Doc:             `if test x${gtkdocs} = xyes; then echo yes; else echo no; fi`"
-echo "       GIR Documented:      $girdocs"
+echo "       DevHelp Docs:        ${build_devhelp}"
+echo "       Gtk-Docs:            ${build_gtkdoc}"
+echo "       Mallard Docs:        ${build_mallard_doc}"
 echo "   Enable Performance Test: $performance"
 echo "   Debug:                   $debug"
 echo "   Platform:                $host"

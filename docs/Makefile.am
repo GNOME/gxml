@@ -1,5 +1,5 @@
 SUBDIRS=
-if ENABLE_MALLARD_DOC
+if BUILD_MALLARD_DOCS
   SUBDIRS += mallard
 endif
 
