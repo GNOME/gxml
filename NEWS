@@ -5,6 +5,7 @@ Version 0.11.0
 
 * Fixed vapi installation, honoring vala pc file
 * Fixed Bug #760568
+* Fixed Bug #769363
 * Removed Node.childs
 * DOM4 implementation:
     API Changes:
@@ -16,6 +17,14 @@ Version 0.11.0
         * Node: get_elements_by_name (), get_elements_by_name_ns ()
     Implementations:
         * GNode series implement DOM4 interfaces
+* New and updated translations:
+    Updated Serbian     by Мирослав Николић <miroslavnikolic@rocketmail.com>
+    Updated Czech       by Marek Černocký <marek@manet.cz>
+    Updated Polish      by Piotr Drąg <piotrdrag@gmail.com>
+    Updated Hungarian   by Balázs Meskó <meskobalazs@gmail.com>
+    Updated Spanish     by Daniel Mustieles <daniel.mustieles@gmail.com>
+    Added Indonesian    by Andika Triwidada <atriwidada@gnome.org>
+
 
 ===============
 Version 0.10.0
@@ -30,8 +39,8 @@ Version 0.10.0
     Updated Serbian     by Марко М. Костић <marko.m.kostic@gmail.com>
     Updated Hungarian   by Balázs Meskó <meskobalazs@gmail.com>
     Updated Polish      by Piotr Drąg <piotrdrag@gmail.com>
-    
-    
+
+
 ===============
 Version 0.9.92
 ===============
