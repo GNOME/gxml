@@ -48,6 +48,7 @@ static const string HTMLDOC ="
 <p class=\"black\">Text content</p>
 <p id=\"p01\">p01 p id</p>
 <p class=\"black block\">Two classes</p>
+<p class=\"time request hole\">Three classes</p>
 </body>
 </html>
 ";
@@ -58,7 +59,7 @@ static const string XMLDOC ="<?xml version=\"1.0\"?>
 <code class=\"parent\"/>
 <code class=\"node parent\"/>
 <page class=\"node\"/>
-<page class=\"parent node\"/>
+<page class=\"parent node hole\"/>
 </project>
 <Author name=\"You\" />
 </root>
@@ -99,14 +100,14 @@ static const string XMLDOC ="<?xml version=\"1.0\"?>
 			var doc = new GDocument.from_string (HTMLDOC) as DomDocument;
 			assert (doc is DomDocument);
 			var le = doc.get_elements_by_tag_name ("p");
-			assert (le.size == 3);
+			assert (le.size == 4);
 			assert (le[0].get_attribute ("class") == "black");
 			assert (le[1].get_attribute ("id") == "p01");
 			var lc = doc.get_elements_by_class_name ("black");
 			GLib.message ("DOC\n"+(doc as GDocument).to_string ());
-			assert (lc.size == 1);
+			assert (lc.size == 2);
 			assert (lc[0].node_name == "p");
-			assert (lc[0].get_attribute ("class") == "black");
+			assert (lc[0].get_attribute ("class") == "black block");
 			var nid = doc.get_element_by_id ("p01");
 			assert (nid != null);
 			assert (nid.node_name == "p");
@@ -118,14 +119,20 @@ static const string XMLDOC ="<?xml version=\"1.0\"?>
 			assert (doc is DomDocument);
 			assert (doc.document_element.children.size == 1);
 			var le = doc.document_element.get_elements_by_tag_name ("p");
-			assert (le.size == 3);
+			assert (le.size == 4);
 			assert (le[0].get_attribute ("class") == "black");
 			assert (le[1].get_attribute ("id") == "p01");
 			var lc = doc.document_element.get_elements_by_class_name ("black");
 			GLib.message("size"+lc.size.to_string ());
-			assert (lc.size == 1);
+			assert (lc.size == 2);
 			assert (lc[0].node_name == "p");
-			assert (lc[0].get_attribute ("class") == "black");
+			assert ("black" in lc[0].get_attribute ("class"));
+			var lc2 = doc.document_element.get_elements_by_class_name ("time");
+			assert (lc2.size == 1);
+			var lc3 = doc.document_element.get_elements_by_class_name ("time request");
+			assert (lc3.size == 1);
+			var lc4 = doc.document_element.get_elements_by_class_name ("time request hole");
+			assert (lc4.size == 1);
 		});
 		Test.add_func ("/gxml/dom/node", () => {
 			try {
@@ -154,7 +161,7 @@ static const string XMLDOC ="<?xml version=\"1.0\"?>
 			assert (t.next_sibling == null);
 			assert (t.text_content != null);
 			assert (t.text_content == "p01 p id");
-			assert (e.parent_node.text_content == "\n\n\n\n");
+			assert (e.parent_node.text_content == "\n\n\n\n\n");
 			assert (e.parent_node.has_child_nodes ());
 			e.parent_node.normalize ();
 			assert (e.parent_node.text_content == null);
@@ -221,30 +228,30 @@ static const string XMLDOC ="<?xml version=\"1.0\"?>
 			var pn2 = doc.create_element ("p") as DomElement;
 			pn2.set_attribute ("id", "newp");
 			p.append_child (pn2);
-			assert (p.children.length == 7);
-			assert (p.children[6] is DomElement);
-			assert (p.children[6].node_name == "p");
-			assert (p.children[6].get_attribute ("id") == "newp");
+			assert (p.children.length == 8);
+			assert (p.children[7] is DomElement);
+			assert (p.children[7].node_name == "p");
+			assert (p.children[7].get_attribute ("id") == "newp");
 			var pn3 = doc.create_element ("p") as DomElement;
 			pn3.set_attribute ("id", "newp1");
 			pn3.set_attribute ("class", "black");
 			p.replace_child (pn3, pn2);
-			assert (p.children.length == 7);
-			assert (p.children[6] is DomElement);
-			assert (p.children[6].node_name == "p");
-			assert (p.children[6].get_attribute ("id") == "newp1");
-			assert (p.children[6].get_attribute ("class") == "black");
+			assert (p.children.length == 8);
+			assert (p.children[7] is DomElement);
+			assert (p.children[7].node_name == "p");
+			assert (p.children[7].get_attribute ("id") == "newp1");
+			assert (p.children[7].get_attribute ("class") == "black");
 			var pn4 = doc.create_element ("p") as DomElement;
 			pn4.set_attribute ("id", "newp2");
 			pn4.set_attribute ("class", "black");
 			p.replace_child (pn4, p.child_nodes[0]);
-			assert (p.children.length == 7);
+			assert (p.children.length == 8);
 			assert (p.children[0] is DomElement);
 			assert (p.children[0].node_name == "p");
 			assert (p.children[0].get_attribute ("id") == "newp2");
 			assert (p.children[0].get_attribute ("class") == "black");
 			p.remove_child (p.children[0]);
-			assert (p.children.length == 6);
+			assert (p.children.length == 7);
 			assert (p.children[0] is DomElement);
 			assert (p.children[0].node_name == "p");
 			assert (!p.has_attribute ("id"));
@@ -260,7 +267,7 @@ static const string XMLDOC ="<?xml version=\"1.0\"?>
 			var l = doc.document_element.get_elements_by_tag_name ("p");
 			assert (l != null);
 			assert (l is DomHTMLCollection);
-			assert (l.length == 4);
+			assert (l.length == 5);
 			assert (l[0] is DomElement);
 			assert (l[1] is DomElement);
 			assert (l[1] is DomElement);
@@ -282,7 +289,7 @@ static const string XMLDOC ="<?xml version=\"1.0\"?>
 			var lcl = doc.document_element.get_elements_by_class_name ("black");
 			assert (lcl != null);
 			assert (lcl is DomHTMLCollection);
-			assert (lcl.length == 2);
+			assert (lcl.length == 3);
 			assert (lcl.item (0) is DomElement);
 			assert (lcl.item (1) is DomElement);
 			assert (lcl.item (0).node_name == "p");
@@ -373,16 +380,15 @@ static const string XMLDOC ="<?xml version=\"1.0\"?>
 				assert (lens.item (0).node_name == "MyNode");
 				GLib.message ("DOC: "+(doc.document_element as GXml.Node).to_string ());
 				var lec = doc.get_elements_by_class_name ("node");
-				assert (lec.length == 2);
+				assert (lec.length == 4);
 				assert (lec.item (0) is DomElement);
 				assert (lec.item (0).node_name == "MyNode");
 				assert (lec.item (1) is DomElement);
 				assert (lec.item (1).node_name == "page");
 				n.set_attribute ("class","node parent");
 				var lec2 = doc.get_elements_by_class_name ("parent");
-				assert (lec2.length == 1);
+				assert (lec2.length == 4);
 				assert (lec2.item (0) is DomElement);
-				assert (lec2.item (0).node_name == "code");
 				var lec3 = doc.get_elements_by_class_name ("parent code");
 				assert (lec3.length == 0);
 				var lec4 = doc.get_elements_by_class_name ("code parent");

@@ -275,7 +275,6 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
         ncls = cls.split (" ");
       else
         ncls += cls;
-      if (ncls.length != cs.length) continue;
       int found = 0;
       foreach (string cl in cs) {
         foreach (string ncl in ncls) {
@@ -284,7 +283,7 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
           }
         }
       }
-      if (found == cs.length && found == ncls.length) {
+      if (found == cs.length) {
         if (l.size == 0)
           l.add (n);
         else
