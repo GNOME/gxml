@@ -48,7 +48,7 @@ static const string HTMLDOC ="
 <p class=\"black\">Text content</p>
 <p id=\"p01\">p01 p id</p>
 <p class=\"black block\">Two classes</p>
-<p class=\"time request hole\">Three classes</p>
+<p class=\"   time request hole   \">Three classes</p>
 </body>
 </html>
 ";
