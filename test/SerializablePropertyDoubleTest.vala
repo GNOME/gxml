@@ -135,5 +135,27 @@ class SerializablePropertyDoubleTest : GXmlTest {
         assert_not_reached ();
       }
     });
+    Test.add_func ("/gxml/serializable/Double/deserialize/fraction",
+    () => {
+      try {
+        var doc1 = new GDocument.from_string ("""<?xml version="1.0"?>
+                       <DoubleNode DoubleValue="3.02"/>""");
+        var d = new DoubleNode ();
+        d.deserialize (doc1);
+        assert (d.double_value != null);
+        d.double_value.set_fraction (2);
+        Test.message ("Actual value: "+d.double_value.get_serializable_property_value ());
+        assert (d.double_value.get_serializable_property_value () == "3.02");
+        Test.message ("Actual value parse: "+"%2.4f".printf (double.parse (d.double_value.get_serializable_property_value ())));
+        assert ("%2.2f".printf (double.parse (d.double_value.get_serializable_property_value ())) == "3.02");
+        GLib.message ("Value to string: "+d.double_value.to_string ());
+        assert ("3.02" == d.double_value.to_string ());
+        d.double_value.set_fraction (4);
+        assert ("3.0200" == d.double_value.to_string ());
+      } catch (GLib.Error e) {
+        Test.message (@"ERROR: $(e.message)");
+        assert_not_reached ();
+      }
+    });
   }
 }

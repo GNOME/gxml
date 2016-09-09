@@ -22,10 +22,12 @@
 
 using Gee;
 /**
- * Represent any boolean property to be added as a {@link GXml.Attribute} to a {@link GXml.Element}
+ * Represent any real double value property to be added as a
+ * {@link GXml.Attribute} to a {@link GXml.Element}
  *
- * This object can be used when the property could be removed from serialization, specially if missing
- * on XML have some missing and avoidable.
+ * This object can be used when the property could be removed from
+ * serialization, specially if missing on XML have some
+ * missing and avoidable.
  */
 public class GXml.SerializableDouble : Object, SerializableProperty
 {
@@ -45,7 +47,8 @@ public class GXml.SerializableDouble : Object, SerializableProperty
   public string get_serializable_property_value () { return _val; }
   public void set_serializable_property_value (string? val) { _val = val; }
   public string to_string () {
-    if (_val != null) return (double.parse (_val)).to_string ();
+    string f = "%."+_fraction.to_string ()+"f";
+    if (_val != null) return (f.printf(double.parse (_val)).to_string ());
     return "";
   }
   public string format (string f)
