@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-21 15:14+0200\n"
-"PO-Revision-Date: 2016-08-21 15:15+0200\n"
+"POT-Creation-Date: 2016-09-09 18:14+0200\n"
+"PO-Revision-Date: 2016-09-09 18:15+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -43,7 +43,7 @@ msgstr "wartość jest nieprawidłowa"
 msgid "text cannot be parsed to enumeration type:"
 msgstr "tekst nie może zostać przetworzony na typ wyliczenia:"
 
-#: ../gxml/GXmlDocument.vala:55 ../gxml/TDocument.vala:475
+#: ../gxml/GXmlDocument.vala:55 ../gxml/TDocument.vala:476
 msgid "File doesn't exist"
 msgstr "Plik nie istnieje"
 
@@ -118,74 +118,74 @@ msgid "Invalid root's in range"
 msgstr "Nieprawidłowy główny element w zakresie"
 
 #. FIXME:
-#: ../gxml/GXmlElement.vala:305
+#: ../gxml/GXmlElement.vala:310
 msgid "DomElement query_selector is not implemented"
 msgstr "„query_selector” z DomElement nie jest zaimplementowane"
 
 #. FIXME:
-#: ../gxml/GXmlElement.vala:309
+#: ../gxml/GXmlElement.vala:314
 msgid "DomElement query_selector_all is not implemented"
 msgstr "„query_selector_all” z DomElement nie jest zaimplementowane"
 
-#: ../gxml/GXmlHashMapAttr.vala:239 ../gxml/GXmlHashMapAttr.vala:293
+#: ../gxml/GXmlHashMapAttr.vala:240 ../gxml/GXmlHashMapAttr.vala:292
 msgid "Invalid document when addin item to collection"
 msgstr "Nieprawidłowy dokument podczas dodawania elementu do kolekcji"
 
-#: ../gxml/GXmlHashMapAttr.vala:241 ../gxml/GXmlHashMapAttr.vala:295
+#: ../gxml/GXmlHashMapAttr.vala:242 ../gxml/GXmlHashMapAttr.vala:294
 msgid "This node collection is read only"
 msgstr "Ta kolekcja węzłów jest tylko do odczytu"
 
-#: ../gxml/GXmlHashMapAttr.vala:243 ../gxml/GXmlHashMapAttr.vala:297
+#: ../gxml/GXmlHashMapAttr.vala:244 ../gxml/GXmlHashMapAttr.vala:296
 msgid "This node attribute is already in use by other Element"
 msgstr "Ten atrybut węzła jest już używany przez inny element"
 
-#: ../gxml/GXmlHashMapAttr.vala:245 ../gxml/GXmlHashMapAttr.vala:299
+#: ../gxml/GXmlHashMapAttr.vala:246 ../gxml/GXmlHashMapAttr.vala:298
 msgid "Trying to add an object to an Element, but it is not an attribute"
 msgstr "Próbowanie dodania obiektu do elementu, ale nie jest atrybutem"
 
-#: ../gxml/GXmlHashMapAttr.vala:258 ../gxml/GXmlHashMapAttr.vala:316
+#: ../gxml/GXmlHashMapAttr.vala:258 ../gxml/GXmlHashMapAttr.vala:314
 #, c-format
 msgid "No node with name %s was found"
 msgstr "Nie odnaleziono węzłów o nazwie %s"
 
-#: ../gxml/GXmlHashMapAttr.vala:260 ../gxml/GXmlHashMapAttr.vala:318
+#: ../gxml/GXmlHashMapAttr.vala:260 ../gxml/GXmlHashMapAttr.vala:316
 msgid "Node collection is read only"
 msgstr "Kolekcja węzłów jest tylko do odczytu"
 
-#: ../gxml/GXmlNode.vala:258
+#: ../gxml/GXmlNode.vala:259
 msgid "Can't find node position"
 msgstr "Nie można odnaleźć położenia węzła"
 
-#: ../gxml/GXmlNode.vala:289 ../gxml/GXmlNode.vala:320
+#: ../gxml/GXmlNode.vala:290 ../gxml/GXmlNode.vala:321
 msgid "Invalid atemp to add invalid node type"
 msgstr "Nieprawidłowa próba dodania nieprawidłowego typu węzła"
 
-#: ../gxml/GXmlNode.vala:291
+#: ../gxml/GXmlNode.vala:292
 msgid "Can't find child to insert node before"
 msgstr "Nie można odnaleźć elementu potomnego do wstawienia węzła przed"
 
-#: ../gxml/GXmlNode.vala:295 ../gxml/GXmlNode.vala:326
+#: ../gxml/GXmlNode.vala:296 ../gxml/GXmlNode.vala:327
 msgid "Invalid atemp to insert a node"
 msgstr "Nieprawidłowa próba wstawienia węzła"
 
-#: ../gxml/GXmlNode.vala:302 ../gxml/GXmlNode.vala:333
+#: ../gxml/GXmlNode.vala:303 ../gxml/GXmlNode.vala:334
 msgid "Invalid atemp to insert an invalid node type"
 msgstr "Nieprawidłowa próba wstawienia nieprawidłowego typu węzła"
 
-#: ../gxml/GXmlNode.vala:305 ../gxml/GXmlNode.vala:336
+#: ../gxml/GXmlNode.vala:306 ../gxml/GXmlNode.vala:337
 msgid ""
 "Invalid atemp to insert a document's type or text node to a invalid parent"
 msgstr ""
 "Nieprawidłowa próba wstawienia typu dokumentu lub węzła tekstowego do "
 "nieprawidłowego elementu potomnego"
 
-#: ../gxml/GXmlNode.vala:322
+#: ../gxml/GXmlNode.vala:323
 msgid "Can't find child node to replace or child have a different parent"
 msgstr ""
 "Nie można odnaleźć elementu potomnego do zastąpienia lub element potomny ma "
 "inny element nadrzędny"
 
-#: ../gxml/GXmlNode.vala:348
+#: ../gxml/GXmlNode.vala:349
 msgid "Can't find child node to remove or child have a different parent"
 msgstr ""
 "Nie można odnaleźć elementu potomnego do usunięcia lub element potomny ma "
@@ -248,12 +248,12 @@ msgstr "Nie można przetworzyć wartości na prawidłową wartość wyliczenia"
 msgid "%s: Value type '%s' is unsupported"
 msgstr "%s: typ wartości „%s” jest nieobsługiwany"
 
-#: ../gxml/SerializableObjectModel.vala:322
+#: ../gxml/SerializableObjectModel.vala:321
 #, c-format
 msgid "WARNING: Object type '%s' has no Node Name defined"
 msgstr "OSTRZEŻENIE: typ obiektu „%s” nie posiada określonej nazwy węzła"
 
-#: ../gxml/SerializableObjectModel.vala:326
+#: ../gxml/SerializableObjectModel.vala:325
 #, c-format
 msgid "Actual node's name is '%s' expected '%s'"
 msgstr "Właściwa nazwa węzła to „%s”, oczekiwano „%s”"
@@ -271,22 +271,28 @@ msgstr "Nie odnaleziono atrybutu, z którego deszeregować"
 msgid "XML Attribute name is not set, when deserializing to: %s"
 msgstr "Nie ustawiono nazwy atrybutu XML podczas deszeregowania do: %s"
 
-#: ../gxml/Serializable.vala:439
+#: ../gxml/Serializable.vala:434
 #, c-format
 msgid "Transformation Error on '%s' or Unsupported type: '%s'"
 msgstr "Błąd przekształcania na „%s” lub nieobsługiwany typ: „%s”"
 
-#: ../gxml/Serializable.vala:460
+#: ../gxml/Serializable.vala:455
 #, c-format
 msgid "Can't transform '%s' to string"
 msgstr "Nie można przekształcić „%s” na ciąg"
 
-#: ../gxml/TDocument.vala:152
+#: ../gxml/TDocument.vala:151
 msgid "Document has more than one root GXmlElement. Using first found"
 msgstr ""
 "Dokument posiada więcej niż jeden główny „GXmlElement”. Używanie "
 "odnalezionego najpierw"
 
-#: ../gxml/TDocument.vala:171
+#: ../gxml/TDocument.vala:170
 msgid "Invalid element name"
 msgstr "Nieprawidłowa nazwa elementu"
+
+#: ../gxml/TDocument.vala:575
+#, c-format
+msgid "Parsing ERROR: Fail to move to attribute number: %i"
+msgstr ""
+"BŁĄD podczas przetwarzania: przejście do numeru atrybutu się nie powiodło: %i"
