@@ -30,7 +30,6 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>,
 {
   private GXml.GDocument _doc;
   private Xml.Node *_node;
-  private bool _read_only = false;
   public GListChildren (GDocument doc, Xml.Node* node) {
     _node = node;
     _doc = doc;
@@ -44,7 +43,6 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>,
     var n = _node->children;
     int i = 0;
     while (n != null) {
-      var t = (GXml.NodeType) n->type;
       if (i == index) {
         return GNode.to_gnode (_doc, n);
       }
@@ -108,11 +106,8 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>,
     if (_node == null) return false;
     if (!(item is GNamespace))
       return (_node->add_child (((GNode) item).get_internal_node ())) != null;
-    else {
-      var ns = (GXml.Namespace) item;
-      return (_node->new_ns (ns.uri, ns.prefix)) != null;
-    }
-    return false;
+    var ns = (GXml.Namespace) item;
+    return (_node->new_ns (ns.uri, ns.prefix)) != null;
   }
   public override void clear () {
     if (_node == null) return;

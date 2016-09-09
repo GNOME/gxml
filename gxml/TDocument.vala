@@ -33,7 +33,6 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
   protected Gee.ArrayList<GXml.Node> _namespaces;
   protected Gee.ArrayList<GXml.Node> _children;
   private GXml.Element _root = null;
-  private ReadTypeFunc _readtype_func = null;
 
   construct {
     _name = "#document";
@@ -187,7 +186,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
   {
     return save_as (file, cancellable);
   }
-  [Deprecated (since="0.8.1", replacement="save_as")]
+  [Version (deprecated=true, deprecated_since="0.8.1", replacement="save_as")]
   public bool save_to (GLib.File f, GLib.Cancellable? cancellable = null)
     throws GLib.Error
   {
@@ -438,6 +437,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
   }
   public override string to_string ()
   {
+    try {
 #if DEBUG
     GLib.message ("TDocument: to_string ()");
 #endif
@@ -448,6 +448,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
     int size;
     doc.dump_memory (out str, out size);
     return str;
+    } catch (GLib.Error e) { return "ERROR: "+e.message; }
   }
   /**
    * Enum for {@link Xml.TextReader} flag on parsing.
@@ -478,14 +479,16 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
   /**
    * Reads document from {@link GLib.InputStream} objects.
    */
-  public static void read_doc_stream (GXml.Document doc, GLib.InputStream istream, ReadTypeFunc? rtfunc = null) {
+  public static void read_doc_stream (GXml.Document doc,
+                                      GLib.InputStream istream,
+                                      ReadTypeFunc? rtfunc = null) throws GLib.Error
+  {
     var b = new MemoryOutputStream.resizable ();
     b.splice (istream, 0);
 #if DEBUG
     GLib.message ("FILE:"+(string)b.data);
 #endif
     var tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), "/gxml_memory");
-    GXml.Node current = null;
     while (read_node (doc, tr, rtfunc) == ReadType.CONTINUE);
   }
   /**
@@ -567,8 +570,10 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
         var c = tr.move_to_attribute_no (i);
 #if DEBUG
         GLib.message ("Current Attribute: "+i.to_string ());
-        if (c != 1) GLib.message ("Fail to move to attribute number: "+i.to_string ());
 #endif
+        if (c != 1) {
+          throw new DocumentError.INVALID_DOCUMENT_ERROR (_("Parsing ERROR: Fail to move to attribute number: %i").printf (i));
+        }
         if (tr.is_namespace_decl () == 1) {
 #if DEBUG
           GLib.message ("Is Namespace Declaration...");

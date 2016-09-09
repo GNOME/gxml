@@ -31,7 +31,7 @@ namespace Xmlx {
   [CCode (cname = "gxml_validate_name", cheader_filename = "gxml//xlibxml.h")]
   public static int validate_name (string name, int space);
   [CCode (cname = "gxml_parser_context_get_last_error", cheader_filename = "gxml/xlibxml.h")]
-  [Deprecated (replacement = "context_get_last_error", since = "0.8.1")]
+  [Version (deprecated=true, replacement = "context_get_last_error", deprecated_since = "0.8.1")]
   public static Xml.Error* parser_context_get_last_error (Xml.ParserCtxt ctx);
   [CCode (cname = "gxml_context_get_last_error", cheader_filename = "gxml/xlibxml.h")]
   public static Xml.Error* context_get_last_error (Xml.ParserCtxt ctx);

@@ -169,22 +169,18 @@ public class GXml.GDomRange : Object, GXml.DomRange {
 				set_start (_start_container, 0);
 				set_end (source_range.start_container, 0);
 				return 0;
-				break;
 			case BoundaryPoints.START_TO_END:
 				set_start (_start_container, _start_container.child_nodes.size);
 				set_end (source_range.end_container, 0);
 				return -1;
-				break;
 			case BoundaryPoints.END_TO_END:
 				set_start (_end_container, 0);
 				set_end (source_range.end_container, 0);
 				return 0;
-				break;
 			case BoundaryPoints.END_TO_START:
 				set_start (_start_container, 0);
 				set_end (source_range.end_container, 0);
 				return 1;
-				break;
 		}
 		return 0;
 	}

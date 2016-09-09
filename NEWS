@@ -24,7 +24,10 @@ Version 0.11.0
     Updated Hungarian   by Balázs Meskó <meskobalazs@gmail.com>
     Updated Spanish     by Daniel Mustieles <daniel.mustieles@gmail.com>
     Added Indonesian    by Andika Triwidada <atriwidada@gnome.org>
-
+* TNode based classes API changes:
+    * TDocument.read_doc_stream() now throws GLib.Error
+* Reducing number of warnings at valac compilation time
+* Bump version of required VALAC to 0.32, due to use of [Version] annotation
 
 ===============
 Version 0.10.0

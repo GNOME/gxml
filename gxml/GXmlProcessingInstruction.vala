@@ -35,5 +35,5 @@ public class GXml.GProcessingInstruction : GXml.GCharacterData,
   }
   // GXml.ProcessingInstruction
   public string target { owned get { return name; } }
-  public string data { owned get { return base.value; } set { base.value = value; } }
+  public new string data { owned get { return base.value; } set { base.value = value; } }
 }

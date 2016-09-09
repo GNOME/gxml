@@ -38,7 +38,6 @@ using Gee;
 public abstract class GXml.SerializableObjectModel : Object, Serializable
 {
 	construct { Init.init (); }
-	GXml.Text text_node = null;
   // To find unknown nodes
   protected GXml.Node _node = null;
   /* Serializable interface properties */

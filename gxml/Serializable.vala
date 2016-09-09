@@ -410,11 +410,6 @@ namespace GXml {
       } else if (t == typeof (string)) {
         dest2.set_string (str);
         ret = true;
-      } else if (t == typeof (char)) {
-        char val;
-        val = (char) double.parse (str);
-        dest2.set_char (val);
-        ret = true;
       } else if (t == typeof (uchar)) {
         uchar val;
         val = (uchar) double.parse (str);
@@ -436,7 +431,7 @@ namespace GXml {
         dest = dest2;
         return true;
       } else {
-        throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("Transformation Error on '%s' or Unsupported type: '%s'"),
+        throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("Transformation Error on \'%s\' or Unsupported type: \'%s\'"),
                                                       str, t.name ());
       }
     }
@@ -457,7 +452,7 @@ namespace GXml {
       }
       else
       {
-        throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("Can't transform '%s' to string"), val.type ().name ());
+        throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("Can't transform \'%s\' to string"), val.type ().name ());
       }
     }
   }

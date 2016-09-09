@@ -34,7 +34,7 @@ namespace GXml {
 	 * @param exception rised
 	 * @param message message to log
 	 */
-	[Deprecated (since="0.8.1", replacement="exeption")]
+	[Version (deprecated=true, deprecated_since="0.8.1", replacement="exeption")]
 	public static void warning (GXml.DomException ex, string message) {
 		GXml.exception (ex, message);
 	}

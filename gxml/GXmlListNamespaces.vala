@@ -29,7 +29,6 @@ public class GXml.GListNamespaces : Gee.AbstractList<GXml.Namespace>
 {
   private GDocument _doc;
   private Xml.Node *_node;
-  private bool _read_only = false;
   public GListNamespaces (GDocument doc, Xml.Node *node) {
     _node = node;
     _doc = doc;

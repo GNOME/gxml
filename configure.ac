@@ -128,7 +128,7 @@ PKG_CHECK_MODULES([GLIB],
                    gobject-2.0 >= $GLIB_REQUIRED])
 
 # Check for vala
-VALAC_CHECK
+VALAC_CHECK(0.32)
 
 # Check for libgee
 PKG_CHECK_MODULES(GEE, gee-0.8 >= $GEE_REQUIRED)

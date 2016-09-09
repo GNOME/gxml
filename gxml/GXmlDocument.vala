@@ -386,7 +386,7 @@ public class GXml.GDocumentType : GXml.GChildNode,
   protected string _public_id = "";
   protected string _system_id = "";
 
-  public string name { get { return _name; } }
+  public  new string name { get { return _name; } }
   public string public_id { get { return _public_id; } }
   public string system_id { get { return _system_id; } }
 
@@ -401,7 +401,7 @@ public class GXml.GDocumentType : GXml.GChildNode,
     _system_id = system_id;
   }
   // DomChildNode implementation
-  public void remove () {
+  public new void remove () {
     get_internal_node ()->unlink ();
   }
 }

@@ -92,12 +92,11 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
   }
   public GXml.Node? get_ns_attr (string name, string uri) {
     if (_node == null) return null;
-    var ns = _node->doc->search_ns_by_href (_node, uri);
     var a = _node->has_ns_prop (name, uri);
     if (a == null) return null;
     return new GAttribute (_doc, a);
   }
-  public void normalize () {}
+  public new void normalize () {}
   public string content {
     owned get {
       return _node->get_content ().dup ();

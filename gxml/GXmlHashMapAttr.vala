@@ -234,7 +234,6 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
     return null;
   }
   public DomNode? set_named_item (DomNode node) throws GLib.Error {
-    var i = values.iterator ();
     iterator ().next ();
     var _parent = iterator ().get ().value.parent_node as DomElement;
     if (size > 0 && node.owner_document != _parent.owner_document)
@@ -252,7 +251,6 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
     return null;
   }
   public DomNode? remove_named_item (string name) throws GLib.Error {
-    var i = values.iterator ();
     iterator ().next ();
     var _parent = iterator ().get ().value.parent_node as DomElement;
     var n = base.get (name);
@@ -288,7 +286,6 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
   }
   // Introduced in DOM Level 2:
   public DomNode? set_named_item_ns (DomNode node) throws GLib.Error {
-    var i = values.iterator ();
     iterator ().next ();
     var _parent = iterator ().get ().value.parent_node as DomElement;
     if (size > 0 && node.owner_document != _parent.owner_document)
@@ -309,7 +306,6 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
   }
   // Introduced in DOM Level 2:
   public DomNode? remove_named_item_ns (string namespace_uri, string local_name) throws GLib.Error {
-    var i = values.iterator ();
     iterator ().next ();
     var _parent = iterator ().get ().value.parent_node as DomElement;
     if (!(_parent is DomElement)) return null;
