@@ -35,6 +35,7 @@ namespace GXml {
 	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-102161490]]
 	 */
+	[Version (deprecated=true, deprecated_since="0.12", replacement="GImplementation")]
 	public class Implementation : GLib.Object { // TODO: Add DomImplementation interface
 
 		construct { Init.init (); }

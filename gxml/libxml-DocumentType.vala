@@ -31,6 +31,7 @@ namespace GXml {
 	 * 
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-412266927]]
 	 */
+	[Version (deprecated=true, deprecated_since="0.12", replacement="GDocumentType")]
 	public class xDocumentType : xNode, GXml.DocumentType {
 		private Xml.Doc* doc;
 		private Xml.Dtd *int_subset;

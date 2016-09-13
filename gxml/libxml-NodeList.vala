@@ -42,6 +42,7 @@ namespace GXml {
 	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-536297177]]
 	 */
+	[Version (deprecated=true, deprecated_since="0.12", replacement="DomNodeList")]
 	public interface xNodeList : GLib.Object, Gee.Iterable<xNode>, Gee.Collection<xNode>
 	{
 		/* NOTE:

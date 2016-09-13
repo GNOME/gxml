@@ -35,6 +35,7 @@ namespace GXml {
 	 * This would normally be hidden, but Vala wants base classes
 	 * to be at least as public as subclasses.
 	 */
+	[Version (deprecated=true, deprecated_since="0.12", replacement="GNode")]
 	public class BackedNode : xNode {
 		/** Private properties */
 		internal Xml.Node *node;

@@ -45,6 +45,7 @@ namespace GXml {
 	 * @param exception rised
 	 * @param message message to log
 	 */
+	[Version (deprecated=true, deprecated_since="0.12", replacement="GLib.Error per methods")]
 	public static void exception (GXml.DomException ex, string message) {
 		GXml.last_error = ex;	
 #if DEBUG

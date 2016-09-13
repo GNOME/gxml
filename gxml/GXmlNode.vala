@@ -84,8 +84,6 @@ public abstract class GXml.GNode : Object,
     switch (t) {
       case GXml.NodeType.ELEMENT:
         return new GElement (doc, node);
-      case GXml.NodeType.ATTRIBUTE:
-        return new GAttribute (doc, (Xml.Attr*) node);
       case GXml.NodeType.TEXT:
         return new GText (doc, node);
       case GXml.NodeType.CDATA_SECTION:

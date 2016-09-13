@@ -32,6 +32,7 @@
  *
  * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1728279322]]
  */
+[Version (deprecated=true, deprecated_since="0.12", replacement="GComment")]
 public class GXml.xComment : GXml.xCharacterData, GXml.Comment {
 	// TODO: Can I make this only accessible from within the GXml.Dom namespace (e.g. from GXml.Dom.xDocument?)
 	internal xComment (Xml.Node *comment_node, xDocument doc) {

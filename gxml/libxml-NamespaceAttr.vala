@@ -30,6 +30,7 @@ namespace GXml {
 	 * prefix=uri pairs that define namespaces for XML {@link GXml.xElement}
 	 * and {@link GXml.xAttr}.
 	 */
+	[Version (deprecated=true, deprecated_since="0.12", replacement="GNamespace")]
 	public class NamespaceAttr : xNode, GXml.Namespace {
 		/** Private properties */
 		private Xml.Ns *ns; // XPATH:TODO: do they extend us?

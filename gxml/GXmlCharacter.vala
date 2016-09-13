@@ -20,6 +20,9 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 
+/**
+ * Base class for character data
+ */
 public class GXml.GCharacterData : GXml.GNonDocumentChildNode, GXml.Character,
               GXml.DomCharacterData
 {

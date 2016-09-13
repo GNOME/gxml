@@ -33,6 +33,7 @@ namespace GXml {
 	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-FF21A306]]
 	 */
+	[Version (deprecated=true, deprecated_since="0.12", replacement="GCharacterData")]
 	public class xCharacterData : BackedNode {
 		/**
 		 * The character data in string form for the node.

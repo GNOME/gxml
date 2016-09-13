@@ -28,6 +28,7 @@ namespace GXml {
 	/**
 	 * DOM API. A collection of elements with a named objects.
 	 */
+	[Version (deprecated=true, deprecated_since="0.12", replacement="DomNamedNodeMap")]
 	public interface NamedNodeMap<T> : GLib.Object {
 		// TODO: consider adding lookup, remove, etc from GLib.HashTable as convenience API
 		// TODO: figure out how to let people do attributes["pie"] for attributes.get_named_item ("pie"); GLib HashTables can do it

@@ -29,6 +29,7 @@ namespace GXml {
 	 *
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-527DCFF2]]
 	 */
+	[Version (deprecated=true, deprecated_since="0.12", replacement="")]
 	public class Entity : xNode {
 		private Xml.Entity *entity;
 		private xNodeList _entity_list;

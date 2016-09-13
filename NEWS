@@ -6,6 +6,7 @@ Version 0.11.0
 * Fixed vapi installation, honoring vala pc file
 * Fixed Bug #760568
 * Fixed Bug #769363
+* Simplified documentation generation using just --enable-docs
 * Removed Node.childs
 * DOM4 implementation:
     API Changes:
@@ -17,6 +18,8 @@ Version 0.11.0
         * Node: get_elements_by_name (), get_elements_by_name_ns ()
     Implementations:
         * GNode series implement DOM4 interfaces
+    Deprecations:
+        * xNode/xDocument type classes now are deprecated, they use an old DOM1 API
 * New and updated translations:
     Updated Serbian     by Мирослав Николић <miroslavnikolic@rocketmail.com>
     Updated Czech       by Marek Černocký <marek@manet.cz>
@@ -24,6 +27,7 @@ Version 0.11.0
     Updated Hungarian   by Balázs Meskó <meskobalazs@gmail.com>
     Updated Spanish     by Daniel Mustieles <daniel.mustieles@gmail.com>
     Added Indonesian    by Andika Triwidada <atriwidada@gnome.org>
+    Updated Brazilian Portuguese by Enrico Nicoletto <liverig@gmail.com>
 * TNode based classes API changes:
     * TDocument.read_doc_stream() now throws GLib.Error
 * Reducing number of warnings at valac compilation time

@@ -37,6 +37,7 @@ namespace GXml {
 	 * The entity name, e.g. "apos", is stored as the EntityReference's `node_name`.
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-11C98490]]
 	 */
+	[Version (deprecated=true, deprecated_since="0.12", replacement="")]
 	public class EntityReference : xNode {
 		internal EntityReference (string refname, xDocument doc) {
 			// TODO: may want to handle refname differently

@@ -37,6 +37,7 @@ namespace GXml {
 	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1950641247]]
 	 */
+	[Version (deprecated=true, deprecated_since="0.12", replacement="GNode")]
 	public abstract class xNode : GLib.Object, GXml.Node {
 		protected xNodeList _child_nodes;
 		protected NamedAttrMap _attributes = null;

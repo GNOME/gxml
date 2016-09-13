@@ -31,6 +31,7 @@ namespace GXml {
 	 * This is just an auxiliary class to implement {@link Gee.Traversable}
 	 * {@link Gee.Iterable} interfaces.
 	 */
+	[Version (deprecated=true, deprecated_since="0.12", replacement="GHashMapAttr")]
 	public abstract class AbstractNamedAttrMap : Object,
 		Traversable<Entry>,
 		Iterable<Entry>

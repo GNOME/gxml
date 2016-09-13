@@ -46,6 +46,7 @@ namespace GXml {
 	 * Version: DOM Level 1 Core<<BR>>
 	 * URL: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#i-xDocument]]
 	 */
+	[Version (deprecated=true, deprecated_since="0.12", replacement="GDocument")]
 	public class xDocument : xNode, GXml.Document {
 		/* *** Private properties *** */
 

@@ -55,6 +55,7 @@ namespace GXml {
 	 *
 	 * @see GXml.Node
 	 */
+	[Version (deprecated=true, deprecated_since="0.12", replacement="GAttribute")]
 	public class xAttr : BackedNode, GXml.Attribute {
 		/** Private properties */
 		/* this displaces BackedNode's xmlNode node */

@@ -40,6 +40,7 @@ namespace GXml {
 	 * {{{pi_target processing instruction data}}}
 	 * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1004215813]]
 	 */
+	[Version (deprecated=true, deprecated_since="0.12", replacement="GProcessingInstruction")]
 	public class xProcessingInstruction : xNode, GXml.ProcessingInstruction {
 		string _target;
 		string _data;
