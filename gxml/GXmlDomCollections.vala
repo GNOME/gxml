@@ -22,7 +22,9 @@
 
 using Gee;
 
-
+/**
+ * List of string tokens.
+ */
 public class GXml.GDomTokenList : Gee.ArrayList<string>, GXml.DomTokenList {
   protected DomElement _element;
   protected string _attr = null;
@@ -47,18 +49,18 @@ public class GXml.GDomTokenList : Gee.ArrayList<string>, GXml.DomTokenList {
 
   public new bool contains (string token) throws GLib.Error {
     if (token == "")
-      throw new GXml.DomError.SYNTAX_ERROR (_("DOM: No empty string could be toggle"));
+      throw new GXml.DomError.SYNTAX_ERROR (_("DOM: Invalid token. No empty string can could be used as token to check if it is contained in token list"));
     if (" " in token)
-      throw new GXml.DomError.INVALID_CHARACTER_ERROR (_("DOM: No white spaces should be included to toggle"));
+      throw new GXml.DomError.INVALID_CHARACTER_ERROR (_("DOM: Invalid token. No white spaces could be included as token to check if it is contained in token list"));
     return base.contains (token);
   }
 
   public new void add (string[] tokens) throws GLib.Error {
     foreach (string s in tokens) {
         if (s == "")
-          throw new GXml.DomError.SYNTAX_ERROR (_("DOM: No empty string could be a token"));
+          throw new GXml.DomError.SYNTAX_ERROR (_("DOM: Invalid token. Empty string can't be as token"));
         if (" " in s)
-          throw new GXml.DomError.INVALID_CHARACTER_ERROR (_("DOM: No white spaces should be included in token"));
+          throw new GXml.DomError.INVALID_CHARACTER_ERROR (_("DOM:  Invalid token. White spaces can't be used as token"));
         base.add (s);
     }
     update ();
@@ -72,14 +74,21 @@ public class GXml.GDomTokenList : Gee.ArrayList<string>, GXml.DomTokenList {
     }
     update ();
   }
+  /**
+   * A convenient method to remove or add tokens. If force is true, this method
+   * will add it to the list of tokens, same as {@link add}. If force is false
+   * will remove a token from the list {@link remove}
+   */
   public bool toggle (string token, bool force = false, bool auto = true) throws GLib.Error {
     if (token == "")
-      throw new GXml.DomError.SYNTAX_ERROR (_("DOM: No empty string could be toggle"));
+      throw new GXml.DomError.SYNTAX_ERROR (_("DOM: Invalid token. Empty string can't be used as token"));
     if (" " in token)
-      throw new GXml.DomError.INVALID_CHARACTER_ERROR (_("DOM: No white spaces should be included to toggle"));
+      throw new GXml.DomError.INVALID_CHARACTER_ERROR (_("DOM: Invalid token. White spaces can't be used as token"));
     if (contains (token) && auto) { // FIXME: missing force use
       remove_at (index_of (token));
       return false;
+    } else {
+      if (!force) return false;
     }
     update ();
     return true;

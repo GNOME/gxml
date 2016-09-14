@@ -289,7 +289,7 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
     iterator ().next ();
     var _parent = iterator ().get ().value.parent_node as DomElement;
     if (size > 0 && node.owner_document != _parent.owner_document)
-      throw new GXml.DomError.WRONG_DOCUMENT_ERROR (_("Invalid document when addin item to collection"));
+      throw new GXml.DomError.WRONG_DOCUMENT_ERROR (_("Invalid document when adding item to named node map collection"));
     if (read_only)
       throw new GXml.DomError.NO_MODIFICATION_ALLOWED_ERROR (_("This node collection is read only"));
     if (node is GXml.DomAttr && _parent != node.parent_node)

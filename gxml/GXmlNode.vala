@@ -84,6 +84,8 @@ public abstract class GXml.GNode : Object,
     switch (t) {
       case GXml.NodeType.ELEMENT:
         return new GElement (doc, node);
+      case GXml.NodeType.ATTRIBUTE:
+        return new GAttribute (doc, (Xml.Attr*) node);
       case GXml.NodeType.TEXT:
         return new GText (doc, node);
       case GXml.NodeType.CDATA_SECTION:
@@ -285,23 +287,23 @@ public abstract class GXml.GNode : Object,
 
   public DomNode insert_before (DomNode node, DomNode? child) throws GLib.Error {
     if (!(node is GXml.GNode))
-      throw new DomError.INVALID_NODE_TYPE_ERROR (_("Invalid atemp to add invalid node type"));
+      throw new DomError.INVALID_NODE_TYPE_ERROR (_("Invalid attemp to add invalid node type"));
     if (child != null && !this.contains (child))
       throw new DomError.NOT_FOUND_ERROR (_("Can't find child to insert node before"));
     if (!(this is DomDocument
           || this is DomElement
           || this is DomDocumentFragment))
-      throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid atemp to insert a node"));
+      throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid attemp to insert a node"));
     if (!(node is DomDocumentFragment
           || node is DomDocumentType
           || node is DomElement
           || node is DomText
           || node is DomProcessingInstruction
           || node is DomComment))
-      throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid atemp to insert an invalid node type"));
+      throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid attemp to insert an invalid node type"));
     if ((node is DomText && this is DomDocument)
           || (node is DomDocumentType && !(this is DomDocument)))
-      throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid atemp to insert a document's type or text node to a invalid parent"));
+      throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid attemp to insert a document's type or text node to a invalid parent"));
     //FIXME: We should follow steps for DOM4 observers in https://www.w3.org/TR/dom/#concept-node-pre-insert
     if (child != null) {
       int i = this.children_nodes.index_of (child as GXml.Node);
