@@ -240,20 +240,22 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
 
   public DomHTMLCollection get_elements_by_tag_name (string local_name) {
     var l = new GDomHTMLCollection ();
+    //FIXME: quircks mode not considered
     foreach (GXml.DomElement n in children) {
       if (n.node_name == local_name)
-        l.add ((DomElement) n);
+        l.add (n);
       l.add_all (n.get_elements_by_tag_name (local_name));
     }
     return l;
   }
   public DomHTMLCollection get_elements_by_tag_name_ns (string? namespace, string local_name) {
     var l = new GDomHTMLCollection ();
+    //FIXME: quircks mode not considered
     foreach (GXml.DomElement n in children) {
-      l.add_all (n.get_elements_by_tag_name_ns (namespace, local_name));
       if (n.node_name == local_name
           && n.namespace_uri == namespace)
         l.add (n);
+      l.add_all (n.get_elements_by_tag_name_ns (namespace, local_name));
     }
     return l;
   }
@@ -266,28 +268,29 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
     } else
       cs += class_names;
     foreach (GXml.DomElement n in children) {
-      l.add_all (n.get_elements_by_class_name (class_names));
       string cls = n.get_attribute ("class");
-      if (cls == null) continue;
-      string[] ncls = {};
-      if (" " in cls)
-        ncls = cls.split (" ");
-      else
-        ncls += cls;
-      int found = 0;
-      foreach (string cl in cs) {
-        foreach (string ncl in ncls) {
-          if (cl == ncl) {
-            found++;
+      if (cls != null) {
+        string[] ncls = {};
+        if (" " in cls)
+          ncls = cls.split (" ");
+        else
+          ncls += cls;
+        int found = 0;
+        foreach (string cl in cs) {
+          foreach (string ncl in ncls) {
+            if (cl == ncl) {
+              found++;
+            }
           }
         }
+        if (found == cs.length) {
+          if (l.size == 0)
+            l.add (n);
+          else
+            l.insert (0, n);
+        }
       }
-      if (found == cs.length) {
-        if (l.size == 0)
-          l.add (n);
-        else
-          l.insert (0, n);
-      }
+      l.add_all (n.get_elements_by_class_name (class_names));
     }
     return l;
   }
