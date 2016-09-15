@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-09-09 15:32+0000\n"
-"PO-Revision-Date: 2016-09-10 11:11+0200\n"
+"POT-Creation-Date: 2016-09-14 16:01+0000\n"
+"PO-Revision-Date: 2016-09-15 11:25+0200\n"
 "Last-Translator: Meskó Balázs <meskobalazs@gmail.com>\n"
 "Language-Team: Hungarian <gnome-hu-list@gnome.org>\n"
 "Language: hu\n"
@@ -68,21 +68,38 @@ msgstr "Nem importálható nem elem típusú csomópont a dokumentumba"
 msgid "Can't adopt a Document"
 msgstr "Dokumentum nem fogadható örökbe"
 
-#: ../gxml/GXmlDomCollections.vala:50 ../gxml/GXmlDomCollections.vala:77
-msgid "DOM: No empty string could be toggle"
-msgstr "DOM: Üres karakterlánc nem lehet kapcsolóban"
+#: ../gxml/GXmlDomCollections.vala:52
+msgid ""
+"DOM: Invalid token. No empty string can could be used as token to check if "
+"it is contained in token list"
+msgstr ""
+"DOM: Érvénytelen token. Üres karakterlánc nem használható tokenként a "
+"tokenlistában szereplés ellenőrzéséhez"
 
-#: ../gxml/GXmlDomCollections.vala:52 ../gxml/GXmlDomCollections.vala:79
-msgid "DOM: No white spaces should be included to toggle"
-msgstr "DOM: Üres karaktereket nem lehet kapcsolóban használni"
-
-#: ../gxml/GXmlDomCollections.vala:59
-msgid "DOM: No empty string could be a token"
-msgstr "DOM: Üres karakterlánc nem lehet token"
+#: ../gxml/GXmlDomCollections.vala:54
+msgid ""
+"DOM: Invalid token. No white spaces could be included as token to check if "
+"it is contained in token list"
+msgstr ""
+"DOM: Érvénytelen token. Üres karakterek nem használhatóak tokenként a "
+"tokenlistában szereplés ellenőrzéséhez"
 
 #: ../gxml/GXmlDomCollections.vala:61
-msgid "DOM: No white spaces should be included in token"
-msgstr "DOM: Üres karakterek nem lehetnek egy tokenben"
+msgid "DOM: Invalid token. Empty string can't be as token"
+msgstr "DOM: Érvénytelen token. Üres karakterlánc nem lehet token"
+
+#: ../gxml/GXmlDomCollections.vala:63
+msgid "DOM:  Invalid token. White spaces can't be used as token"
+msgstr "DOM: Érvénytelen token. Üres karakterek nem használhatóak tokenként"
+
+#: ../gxml/GXmlDomCollections.vala:84
+msgid "DOM: Invalid token. Empty string can't be used as token"
+msgstr ""
+"DOM: Érvénytelen token. Üres karakterláncok nem használhatóak tokenként"
+
+#: ../gxml/GXmlDomCollections.vala:86
+msgid "DOM: Invalid token. White spaces can't be used as token"
+msgstr "DOM: Érvénytelen token. Üres karakterek nem használhatóak tokenként"
 
 #: ../gxml/GXmlDomRange.vala:50 ../gxml/GXmlDomRange.vala:78
 #: ../gxml/GXmlDomRange.vala:151
@@ -124,7 +141,7 @@ msgstr "A DomElement query_selector nincs megvalósítva"
 msgid "DomElement query_selector_all is not implemented"
 msgstr "A DomElement query_selector_all nincs megvalósítva"
 
-#: ../gxml/GXmlHashMapAttr.vala:240 ../gxml/GXmlHashMapAttr.vala:292
+#: ../gxml/GXmlHashMapAttr.vala:240
 msgid "Invalid document when addin item to collection"
 msgstr "Érvénytelen dokumentum az elem gyűjteményhez adásakor"
 
@@ -149,38 +166,63 @@ msgstr "Nem található %s nevű csomópont"
 msgid "Node collection is read only"
 msgstr "A csomópontgyűjtemény csak olvasható"
 
+#: ../gxml/GXmlHashMapAttr.vala:292
+msgid "Invalid document when adding item to named node map collection"
+msgstr ""
+"Érvénytelen dokumentum az elem nevesített csomópont-leképezés gyűjteményhez "
+"történő hozzáadásakor"
+
 #: ../gxml/GXmlNode.vala:259
 msgid "Can't find node position"
 msgstr "A csomópont pozíciója nem található"
 
-#: ../gxml/GXmlNode.vala:290 ../gxml/GXmlNode.vala:321
-msgid "Invalid atemp to add invalid node type"
-msgstr "Érvénytelen hozzáadási kísérlet érvénytelen csomóponttípushoz"
+#: ../gxml/GXmlNode.vala:290
+msgid "Invalid attemp to add invalid node type"
+msgstr "Érvénytelen kísérlet egy érvénytelen csomóponttípus hozzáadására"
 
 #: ../gxml/GXmlNode.vala:292
 msgid "Can't find child to insert node before"
 msgstr "Nem található a gyermek, amely elé a csomópontot be kellene szúrni"
 
-#: ../gxml/GXmlNode.vala:296 ../gxml/GXmlNode.vala:327
-msgid "Invalid atemp to insert a node"
-msgstr "Érvénytelen csomópont beszúrási kísérlet"
+#: ../gxml/GXmlNode.vala:296
+msgid "Invalid attemp to insert a node"
+msgstr "Érvénytelen kísérlet egy csomópont beszúrására"
 
-#: ../gxml/GXmlNode.vala:303 ../gxml/GXmlNode.vala:334
-msgid "Invalid atemp to insert an invalid node type"
-msgstr "Érvénytelen kísérlet egy érvénytelen csomóponttípus beszúrására."
+#: ../gxml/GXmlNode.vala:303
+msgid "Invalid attemp to insert an invalid node type"
+msgstr "Érvénytelen kísérlet egy érvénytelen csomóponttípus beszúrására"
 
-#: ../gxml/GXmlNode.vala:306 ../gxml/GXmlNode.vala:337
+#: ../gxml/GXmlNode.vala:306
 msgid ""
-"Invalid atemp to insert a document's type or text node to a invalid parent"
+"Invalid attemp to insert a document's type or text node to a invalid parent"
 msgstr ""
 "Érvénytelen kísérlet egy dokumentumtípus vagy egy szöveges csomópont "
-"beszúrására egy érvénytelen szülőnél."
+"beszúrására egy érvénytelen szülőnél"
+
+#: ../gxml/GXmlNode.vala:321
+msgid "Invalid atemp to add invalid node type"
+msgstr "Érvénytelen kísérlet egy érvénytelen csomóponttípus hozzáadására"
 
 #: ../gxml/GXmlNode.vala:323
 msgid "Can't find child node to replace or child have a different parent"
 msgstr ""
 "A lecserélendő gyermekcsomópont nem található, vagy a gyermeknek más szülője "
 "van"
+
+#: ../gxml/GXmlNode.vala:327
+msgid "Invalid atemp to insert a node"
+msgstr "Érvénytelen kísérlet egy csomópont beszúrására"
+
+#: ../gxml/GXmlNode.vala:334
+msgid "Invalid atemp to insert an invalid node type"
+msgstr "Érvénytelen kísérlet egy érvénytelen csomóponttípus beszúrására."
+
+#: ../gxml/GXmlNode.vala:337
+msgid ""
+"Invalid atemp to insert a document's type or text node to a invalid parent"
+msgstr ""
+"Érvénytelen kísérlet egy dokumentumtípus vagy egy szöveges csomópont "
+"beszúrására egy érvénytelen szülőnél."
 
 #: ../gxml/GXmlNode.vala:349
 msgid "Can't find child node to remove or child have a different parent"
@@ -192,27 +234,27 @@ msgstr ""
 msgid "ref_child '%s' not found, was supposed to have '%s' inserted before it."
 msgstr "a(z) „%s” ref_child nem található, ennek kellene előtte lennie: „%s”."
 
-#: ../gxml/libxml-Document.vala:127
+#: ../gxml/libxml-Document.vala:128
 #, c-format
 msgid "Looking up %s from an xmlNode* is not supported"
 msgstr "A(z) %s kikeresése egy xmlNode*-ból nem támogatott"
 
-#: ../gxml/libxml-Document.vala:302
+#: ../gxml/libxml-Document.vala:303
 #, c-format
 msgid "Could not load document from path: %s"
 msgstr "Nem tölthető be dokumentum az útvonalról: %s"
 
-#: ../gxml/libxml-Entity.vala:129
+#: ../gxml/libxml-Entity.vala:130
 msgid "Cloning of Entity not yet supported"
 msgstr "Az entitás klónozása még nem támogatott"
 
 #. TODO: replace usage of this with GXml.get_last_error_msg
-#: ../gxml/libxml-Error.vala:12
+#: ../gxml/libxml-Error.vala:13
 #, c-format
 msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
 
-#: ../gxml/libxml-Node.vala:67
+#: ../gxml/libxml-Node.vala:68
 msgid ""
 "Node tried to interact with a different document than the one it belongs to"
 msgstr "A csomópont a sajátjától eltérő dokumentumra próbált hatni"
@@ -291,3 +333,9 @@ msgstr "Érvénytelen elemnév"
 #, c-format
 msgid "Parsing ERROR: Fail to move to attribute number: %i"
 msgstr "Feldolgozási HIBA: Nem mozgatható a(z) %i számú attribútumhoz"
+
+#~ msgid "DOM: No empty string could be toggle"
+#~ msgstr "DOM: Üres karakterlánc nem lehet kapcsolóban"
+
+#~ msgid "DOM: No white spaces should be included to toggle"
+#~ msgstr "DOM: Üres karaktereket nem lehet kapcsolóban használni"
