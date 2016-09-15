@@ -58,9 +58,9 @@ public class GXml.GDomTokenList : Gee.ArrayList<string>, GXml.DomTokenList {
   public new void add (string[] tokens) throws GLib.Error {
     foreach (string s in tokens) {
         if (s == "")
-          throw new GXml.DomError.SYNTAX_ERROR (_("DOM: Invalid token. Empty string can't be as token"));
+          throw new GXml.DomError.SYNTAX_ERROR (_("DOM: Invalid token. Empty string can't be used as token"));
         if (" " in s)
-          throw new GXml.DomError.INVALID_CHARACTER_ERROR (_("DOM:  Invalid token. White spaces can't be used as token"));
+          throw new GXml.DomError.INVALID_CHARACTER_ERROR (_("DOM: Invalid token. White spaces can't be used as token"));
         base.add (s);
     }
     update ();
