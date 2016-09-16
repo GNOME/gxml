@@ -133,7 +133,6 @@ msgid "DomElement query_selector_all is not implemented"
 msgstr "DomElement query_selector_all není implementován"
 
 #: ../gxml/GXmlHashMapAttr.vala:240
-#, fuzzy
 msgid "Invalid document when adding item to collection"
 msgstr "Neplatný dokument při přidávání položky do sady"
 
