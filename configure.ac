@@ -272,6 +272,10 @@ po/Makefile.in
 debian/Makefile
 debian/control
 debian/copyright
+debian/changelog
+debian/gir1.2-gxml.install
+debian/libgxml-0.install
+debian/libgxml-dev.install
 ])
 AC_OUTPUT
 
