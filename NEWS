@@ -1,6 +1,6 @@
 
 ===============
-Version 0.11.0
+Version 0.12.0
 ===============
 
 * Fixed vapi installation, honoring vala pc file
@@ -32,6 +32,7 @@ Version 0.11.0
     * TDocument.read_doc_stream() now throws GLib.Error
 * Reducing number of warnings at valac compilation time
 * Bump version of required VALAC to 0.32, due to use of [Version] annotation
+* Updated Debian packaging by Yannick Inizan <inizan.yannick@gmail.com>
 
 ===============
 Version 0.10.0
