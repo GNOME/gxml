@@ -11,7 +11,7 @@
 
 # Release Version
 m4_define([project_major_version], [0])
-m4_define([project_minor_version], [11])
+m4_define([project_minor_version], [12])
 m4_define([project_micro_version], [0])
 m4_define([project_nano_version], [0])
 
@@ -21,7 +21,7 @@ m4_define([project_nano_version], [0])
 #     increment current and set revision to 0
 #   If public symbols have been added since last release, increment age
 #   If public symbols have been removed since last release, set age to 0
-m4_define([project_lt_current], [11])
+m4_define([project_lt_current], [12])
 m4_define([project_lt_revision], [0])
 m4_define([project_lt_age], [0])
 
@@ -35,7 +35,7 @@ m4_define([project_full_version],
 
 # You should set project_released to one in order to mark this as a released version
 # and to avoid date on version number
-m4_define(project_released, [0])
+m4_define(project_released, [1])
 m4_define([project_maybe_datestamp],
           m4_if(project_released, [1],
                 [], [m4_esyscmd([date +.%Y%m%d | tr -d '\n\r'])]))
