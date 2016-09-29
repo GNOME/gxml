@@ -109,6 +109,7 @@ sources = \
 	DomMutationObservers.vala \
 	DomNode.vala \
 	DomRange.vala \
+	XPath.vala \
 	$(NULL)
 
 

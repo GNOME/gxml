@@ -316,4 +316,27 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
   // FIXME:
     throw new DomError.SYNTAX_ERROR (_("DomElement query_selector_all is not implemented"));
   }
+  
+  /**
+   * {@inheritDoc} 
+   */
+  public GXml.XPath.Object evaluate (string expression, Gee.List<GXml.Namespace>? resolver = null) throws GXml.XPath.Error {
+    if (!(this is GXml.Node))
+      return null;
+    string data = (this as GXml.Node).to_string();
+    var ndoc = Xml.Parser.read_memory (data, data.length);
+    var gdoc = new GXml.GDocument.from_doc (ndoc);
+    var context = new Xml.XPath.Context (ndoc);
+    if (resolver != null)
+	  resolver.foreach (ns => {
+		int res = context.register_ns (ns.prefix, ns.uri);
+		if (res != 0) {
+		  var err = new GXml.XPath.Error.EXPRESSION_OK ("invalid namespace.");
+		  err.code = res;
+		  throw err;
+        }
+        return true; 
+      });
+    return new GXml.XPath.Object (gdoc, context.eval (expression));
+  }
 }
