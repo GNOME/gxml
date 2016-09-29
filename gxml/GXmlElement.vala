@@ -19,6 +19,7 @@
  *
  * Authors:
  *      Daniel Espinosa <esodan@gmail.com>
+ *      Yannick Inizan <inizan.yannick@gmail.com>
  */
 
 using Gee;

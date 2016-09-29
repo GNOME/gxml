@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
+/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /*
  *
  * Copyright (C) 2016  Yannick Inizan <inizan.yannick@gmail.com>
@@ -18,7 +18,8 @@
  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
  *
  * Authors:
- *      Daniel Espinosa <esodan@gmail.com>
+ *     Yannick Inizan <inizan.yannick@gmail.com>
+ *     Daniel Espinosa <esodan@gmail.com>
  */
 
 public class GXml.GXPathObject : GLib.Object, GXml.XPathObject {

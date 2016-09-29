@@ -64,6 +64,7 @@ sources = \
 	GAttributeTest.vala \
 	HtmlDocumentTest.vala \
 	DomGDocumentTest.vala \
+	GElementXPathTest.vala \
 	$(NULL)
 
 vala-stamp: $(sources)
