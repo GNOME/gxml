@@ -56,15 +56,6 @@ public interface GXml.DomElement : GLib.Object,
   public abstract DomHTMLCollection get_elements_by_tag_name(string local_name);
   public abstract DomHTMLCollection get_elements_by_tag_name_ns (string? namespace, string local_name);
   public abstract DomHTMLCollection get_elements_by_class_name (string class_names);
-
-  /**
-   * Evaluate XPath expression.
-   * 
-   * This method evaluates provided expression, registers provided namespaces in resolver and returns an {@link GXml.XPath.Object}.
-   * 
-   * Throw {@link GXml.XPath.Error} if one of provided namespaces is invalid.
-   */
-  public abstract GXml.XPath.Object evaluate (string expression, Gee.List<GXml.Namespace>? resolver = null) throws GXml.XPath.Error;
 }
 
 public class GXml.DomElementList : Gee.ArrayList<DomElement>, GXml.DomHTMLCollection {

@@ -2,6 +2,7 @@
 /* GElement.vala
  *
  * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2016  Yannick Inizan <inizan.yannick@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,7 +28,9 @@ using Gee;
  */
 public class GXml.GElement : GXml.GNonDocumentChildNode,
                             GXml.DomParentNode,
-                            GXml.DomElement, GXml.Element
+                            GXml.DomElement,
+                            GXml.Element,
+                            GXml.XPathContext
 {
   public GElement (GDocument doc, Xml.Node *node) {
     _node = node;
@@ -316,11 +319,14 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
   // FIXME:
     throw new DomError.SYNTAX_ERROR (_("DomElement query_selector_all is not implemented"));
   }
-  
+  // XPathContext implementation
   /**
-   * {@inheritDoc} 
+   * {@inheritDoc}
    */
-  public GXml.XPath.Object evaluate (string expression, Gee.List<GXml.Namespace>? resolver = null) throws GXml.XPath.Error {
+  public GXml.XPathObject evaluate (string expression,
+                                    Gee.List<GXml.Namespace>? resolver = null)
+                                    throws GXml.XPathError
+  {
     if (!(this is GXml.Node))
       return null;
     string data = (this as GXml.Node).to_string();
@@ -331,12 +337,12 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
 	  resolver.foreach (ns => {
 		int res = context.register_ns (ns.prefix, ns.uri);
 		if (res != 0) {
-		  var err = new GXml.XPath.Error.EXPRESSION_OK ("invalid namespace.");
+		  var err = new GXml.XPathError.EXPRESSION_OK ("invalid namespace.");
 		  err.code = res;
 		  throw err;
         }
         return true; 
       });
-    return new GXml.XPath.Object (gdoc, context.eval (expression));
+    return new GXml.GXPathObject (gdoc, context.eval (expression));
   }
 }

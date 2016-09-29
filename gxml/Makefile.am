@@ -110,6 +110,7 @@ sources = \
 	DomNode.vala \
 	DomRange.vala \
 	XPath.vala \
+	GXPathObject.vala \
 	$(NULL)
 
 
