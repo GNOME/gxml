@@ -25,10 +25,19 @@
 using GXml;
 
 class GElementXPathTest : GXmlTest  {
+  // Taken from:
+  const string BOOKS = """<bookstore><book category="COOKING"><title lang="en">Everyday Italian</title><author>Giada De Laurentiis</author><year>2005</year><price>30.00</price></book><book category="CHILDREN"><title lang="en">Harry Potter</title><author>J K. Rowling</author><year>2005</year><price>29.99</price></book><book category="WEB"><title lang="en">XQuery Kick Start</title><author>James McGovern</author><author>Per Bothner</author><author>Kurt Cagle</author><author>James Linn</author><author>Vaidyanathan Nagarajan</author><year>2003</year><price>49.99</price></book><book category="WEB"><title lang="en">Learning XML</title><author>Erik T. Ray</author><year>2003</year><price>39.95</price></book></bookstore>""";
   public static void add_tests () {
     Test.add_func ("/gxml/gelement/xpath", () => {
-      var document = new GDocument.from_uri ("http://www.w3schools.com/xsl/books.xml");
-      var object = document.evaluate ("/bookstore/book/title");
+      try {
+      Document document = null;
+      var rf = GLib.File.new_for_uri ("http://www.w3schools.com/xsl/books.xml");
+      if (rf.query_exists ()) {
+        document = new GDocument.from_uri ("http://www.w3schools.com/xsl/books.xml");
+      } else
+        document = new GDocument.from_string (BOOKS);
+      assert (document != null);
+      var object = (document as XPathContext).evaluate ("/bookstore/book/title");
       assert (object.object_type == XPathObjectType.NODESET);
       var array = object.nodeset.to_array();
       assert (array.length == 4);
@@ -36,12 +45,12 @@ class GElementXPathTest : GXmlTest  {
       assert (array[1].node_value == "Harry Potter");
       assert (array[2].node_value == "XQuery Kick Start");
       assert (array[3].node_value == "Learning XML");
-      object = document.evaluate ("/bookstore/book[1]/title");
+      object = (document as XPathContext).evaluate ("/bookstore/book[1]/title");
       assert (object.object_type == XPathObjectType.NODESET);
       array = object.nodeset.to_array();
       assert (array.length == 1);
       assert (array[0].node_value == "Everyday Italian");
-      object = document.evaluate ("/bookstore/book/price[text()]");
+      object = (document as XPathContext).evaluate ("/bookstore/book/price[text()]");
       assert (object.object_type == XPathObjectType.NODESET);
       array = object.nodeset.to_array();
       assert (array.length == 4);
@@ -49,12 +58,16 @@ class GElementXPathTest : GXmlTest  {
       assert (array[1].node_value == "29.99");
       assert (array[2].node_value == "49.99");
       assert (array[3].node_value == "39.95");
-      object = document.evaluate ("/bookstore/book[price>35]/price");
+      object = (document as XPathContext).evaluate ("/bookstore/book[price>35]/price");
       assert (object.object_type == XPathObjectType.NODESET);
       array = object.nodeset.to_array();
       assert (array.length == 2);
       assert (array[0].node_value == "49.99");
       assert (array[1].node_value == "39.95");
+      } catch (GLib.Error e) {
+        GLib.message ("ERROR: "+e.message);
+        assert_not_reached ();
+      }
 		});
 	}
 }
