@@ -69,7 +69,7 @@ public interface GXml.XPathContext : GLib.Object {
    * Throw {@link GXml.XPath.Error} if one of provided namespaces is invalid.
    */
   public abstract GXml.XPathObject evaluate (string expression,
-                                            Gee.List<GXml.Namespace>? resolver)
+                                            Gee.List<GXml.Namespace>? resolver = null)
                                             throws GXml.XPathError;
 
 }

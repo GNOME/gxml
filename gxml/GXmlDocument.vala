@@ -34,7 +34,8 @@ public class GXml.GDocument : GXml.GNode,
                               GXml.DomParentNode,
                               GXml.DomNonElementParentNode,
                               GXml.DomDocument,
-                              GXml.DomXMLDocument
+                              GXml.DomXMLDocument,
+                              GXml.XPathContext
 {
   protected Xml.Doc* doc;
   protected Xml.Buffer _buffer;
@@ -355,6 +356,17 @@ public class GXml.GDocument : GXml.GNode,
     var l = this.get_elements_by_property_value ("id", element_id);
     if (l.size > 0) return (DomElement) l[0];
     return null;
+  }
+  /**
+   * {@link XPathContext} implementation.
+   */
+  public GXml.XPathObject evaluate (string expression,
+                                    Gee.List<GXml.Namespace>? resolver = null)
+                                    throws GXml.XPathError
+  {
+    if (document_element == null)
+      return null;
+    return (document_element as XPathContext).evaluate (expression, resolver);
   }
 }
 
