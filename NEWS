@@ -1,5 +1,11 @@
 
 ===============
+Version 0.13.0
+===============
+
+* Added XPath interfaces and implementation based on libxml2
+
+===============
 Version 0.12.0
 ===============
 
