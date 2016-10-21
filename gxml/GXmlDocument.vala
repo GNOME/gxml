@@ -188,7 +188,7 @@ public class GXml.GDocument : GXml.GNode,
     return TDocument.tw_save_as (this, f, cancellable);
   }
   // DomDocument implementation
-  protected Implementation _implementation = new Implementation ();
+  protected GImplementation _implementation = new GImplementation ();
   protected string _url = "about:blank";
   protected string _origin = "";
   protected string _compat_mode = "";

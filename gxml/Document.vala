@@ -123,7 +123,7 @@ public interface GXml.Document : Object, GXml.Node
    */
   public static GXml.Document new_default ()
   {
-   return new xDocument ();
+   return new GDocument ();
   }
   /**
    * Creates a new {@link GXml.Document} from a file path using default implementation class.
@@ -146,7 +146,7 @@ public interface GXml.Document : Object, GXml.Node
   public static GXml.Document new_default_for_file (GLib.File f)
    throws GLib.Error
   {
-    var d = new xDocument.from_path (f.get_path ());
+    var d = new GDocument.from_path (f.get_path ());
     if (!f.query_exists ())
       throw new DocumentError.INVALID_FILE (_("Invalid file"));
     d.file = f;

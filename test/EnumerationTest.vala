@@ -113,7 +113,7 @@ class SerializableEnumerationTest : GXmlTest
                    });
     Test.add_func ("/gxml/serializable/enumeration-serialize",
                    () => {
-                     var doc = new xDocument ();
+                     var doc = new GDocument ();
                      var options = new Options ();
                      options.options = OptionsEnum.NORMAL_OPERATION;
                      try {
@@ -142,46 +142,46 @@ class SerializableEnumerationTest : GXmlTest
                    () => {
                      var options = new Options ();
                      try {
-                       var doc = new xDocument.from_string ("""<?xml version="1.0"?>
+                       var doc = new GDocument.from_string ("""<?xml version="1.0"?>
                        <options options="NormalOperation"/>""");
                        options.deserialize (doc);
                        if (options.options != OptionsEnum.NORMAL_OPERATION)  {
                          stdout.printf (@"ERROR: Bad value to options property: $(options.options)\n$(doc)");
                          assert_not_reached ();
                        }
-                       var doc2 = new xDocument.from_string ("""<?xml version="1.0"?>
+                       var doc2 = new GDocument.from_string ("""<?xml version="1.0"?>
                        <options options="normal-operation"/>""");
                        options.deserialize (doc2);
                        if (options.options != OptionsEnum.NORMAL_OPERATION)  {
                          stdout.printf (@"ERROR: Bad value to options property: $(options.options)\n$(doc2)");
                          assert_not_reached ();
                        }
-                       var doc3 = new xDocument.from_string ("""<?xml version="1.0"?>
+                       var doc3 = new GDocument.from_string ("""<?xml version="1.0"?>
                        <options options="selectbefore"/>""");
                        options.deserialize (doc3);
                        if (options.options != OptionsEnum.SelectBefore)  {
                          stdout.printf (@"ERROR: Bad value to options property: $(options.options)\n$(doc3)");
                          assert_not_reached ();
                        }
-                       var doc4 = new xDocument.from_string ("""<?xml version="1.0"?>
+                       var doc4 = new GDocument.from_string ("""<?xml version="1.0"?>
                        <options options="OPTIONS_ENUM_SelectBefore"/>""");
                        options.deserialize (doc4);
                        if (options.options != OptionsEnum.SelectBefore)  {
                          stdout.printf (@"ERROR: Bad value to options property: $(options.options)\n$(doc4)");
                          assert_not_reached ();
                        }
-                       var doc5 = new xDocument.from_string ("""<?xml version="1.0"?>
+                       var doc5 = new GDocument.from_string ("""<?xml version="1.0"?>
                        <options options="SelectBefore"/>""");
                        options.deserialize (doc5);
                        if (options.options != OptionsEnum.SelectBefore)  {
                          stdout.printf (@"ERROR: Bad value to options property: $(options.options)\n$(doc5)");
                          assert_not_reached ();
                        }
-                       var doc6 = new xDocument.from_string ("""<?xml version="1.0"?>
+                       var doc6 = new GDocument.from_string ("""<?xml version="1.0"?>
                        <options options="SELECTBEFORE"/>""");
                        options.deserialize (doc6);
                        assert (options.options == OptionsEnum.SelectBefore);
-                       var doc7 = new xDocument.from_string ("""<?xml version="1.0"?>
+                       var doc7 = new GDocument.from_string ("""<?xml version="1.0"?>
                        <options options="NORMAL_OPERATION"/>""");
                        options.deserialize (doc7);
                        if (options.options != OptionsEnum.SelectBefore)  {
@@ -189,7 +189,7 @@ class SerializableEnumerationTest : GXmlTest
                          assert_not_reached ();
                        }
                        var op2 = new Options ();
-                       var doc8 = new xDocument.from_string ("""<?xml version="1.0"?>
+                       var doc8 = new GDocument.from_string ("""<?xml version="1.0"?>
                        <options options="INVALID"/>""");
                        op2.deserialize (doc8);
                        if (op2.options != OptionsEnum.SelectBefore)  {

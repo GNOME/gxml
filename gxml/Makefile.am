@@ -27,35 +27,6 @@ sources = \
 	ProcessingInstruction.vala \
 	Text.vala \
 	NodeType.vala \
-	libxml-Attr.vala \
-	libxml-AttrChildNodeList.vala \
-	libxml-BackedNode.vala \
-	libxml-ChildNodeList.vala \
-	libxml-CDATASection.vala \
-	libxml-CharacterData.vala \
-	libxml-Comment.vala \
-	libxml-DocumentFragment.vala \
-	libxml-DocumentType.vala \
-	libxml-Document.vala \
-	libxml-DomException.vala \
-	libxml-Element.vala \
-	libxml-Entity.vala \
-	libxml-EntityChildNodeList.vala\
-	libxml-EntityReference.vala \
-	libxml-Error.vala \
-	libxml-Implementation.vala \
-	libxml-LinkedList.vala \
-	libxml-NamedNodeMap.vala \
-	libxml-NamedAttrMap.vala \
-	libxml-NamespaceAttr.vala \
-	libxml-NodeChildNodeList.vala \
-	libxml-NodeList.vala \
-	libxml-Node.vala \
-	libxml-Notation.vala \
-	libxml-ProcessingInstruction.vala \
-	libxml-TagNameNodeList.vala \
-	libxml-NamespaceAttrNodeList.vala \
-	libxml-Text.vala \
 	Serializable.vala \
 	SerializableProperty.vala \
 	SerializableBool.vala \

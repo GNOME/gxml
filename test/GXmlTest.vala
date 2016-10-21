@@ -24,39 +24,13 @@
 using GXml;
 
 class GXmlTest {
-	internal static void GXmlLogFunc (string? log_domain, LogLevelFlags log_levels, string message) {
-		// Hush, we don't want to actually show errors; we'll be testing for those
-	}
-
-	internal static void test_error (GXml.DomException expected) {
-		if (expected != GXml.last_error) {
-			stderr.printf ("Expected last error [%s] but found [%s]", expected.to_string (), GXml.last_error.to_string ());
-			Test.message ("Expected last error [%s] but found [%s]", expected.to_string (), GXml.last_error.to_string ());
-			Test.fail ();
-		}
-
-		// clear it
-		GXml.last_error = DomException.NONE;
-	}
-
 	public static int main (string[] args) {
 
 
 		// Sets 29 as fatal flags, 16 + 8 + 4 + 1; bits 0,2,3,4, recursion,error,critical,warning; we'll want to undo that warning one so we can catch it
 		Test.init (ref args);
 
-		// silence warnings we'll be testing for
-		GLib.Log.set_handler ("gxml", GLib.LogLevelFlags.LEVEL_WARNING, GXmlTest.GXmlLogFunc);
-		GLib.Log.set_always_fatal (GLib.LogLevelFlags.FLAG_RECURSION | GLib.LogLevelFlags.LEVEL_ERROR | GLib.LogLevelFlags.LEVEL_CRITICAL);
-
-		DocumentTest.add_tests ();
-		NodeTest.add_tests ();
-		ElementTest.add_tests ();
-		AttrTest.add_tests ();
-		NamespaceTest.add_tests ();
 		NodeListTest.add_tests ();
-		TextTest.add_tests ();
-		CharacterDataTest.add_tests ();
 		ValaLibxml2Test.add_tests ();
 		SerializableTest.add_tests ();
 		SerializableObjectModelTest.add_tests ();
@@ -91,57 +65,5 @@ class GXmlTest {
 		Test.run ();
 
 		return 0;
-	}
-
-	internal static xDocument get_doc (string? path = null) {
-		xDocument doc = null;
-		try {
-			doc = new xDocument.from_path (path != null ? path :
-						      GXmlTest.get_test_dir () + "/test.xml");
-		} catch (GXml.Error e) {
-			GLib.warning (e.message);
-			assert_not_reached ();
-		}
-		return doc;
-	}
-
-	internal static xDocument get_doc_with_ns () {
-		return get_doc (get_test_dir () + "/test_with_ns.xml");
-	}
-
-	internal static string get_test_dir () {
-		if (TEST_DIR == null || TEST_DIR == "") {
-			return ".";
-		} else {
-			return TEST_DIR;
-		}
-	}
-
-	// internal static Attr get_attr_new_doc (string name, string value) {
-	// 	return get_attr (name, value, get_doc ());
-	// }
-
-	internal static xAttr get_attr (string name, string value, xDocument doc) {
-		xAttr attr = doc.create_attribute (name);
-		attr.value = value;
-		return attr;
-	}
-
-	internal static xElement get_elem_new_doc (string name, out xDocument doc) {
-		return get_elem (name, doc = get_doc ());
-	}
-
-	internal static xElement get_elem (string name, xDocument doc) {
-		xElement elem = (xElement) doc.create_element (name);
-		return elem;
-	}
-
-	internal static xText get_text_new_doc (string data, out xDocument doc) {
-		return get_text (data, doc = get_doc ());
-	}
-
-	internal static xText get_text (string data, xDocument doc) {
-		xText txt = doc.create_text_node (data);
-		return txt;
 	}
 }

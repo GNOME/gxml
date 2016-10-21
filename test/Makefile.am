@@ -26,15 +26,8 @@ TEST_PROGS += gxml_test
 
 sources = \
 	tests-config.vala \
-	AttrTest.vala \
-	CharacterDataTest.vala \
-	DocumentTest.vala \
-	NodeTest.vala \
-	ElementTest.vala \
 	GXmlTest.vala \
-	NamespaceTest.vala \
 	NodeListTest.vala \
-	TextTest.vala \
 	ValaLibxml2Test.vala \
 	EnumerationTest.vala \
 	SerializableTest.vala \

@@ -22,6 +22,11 @@
 
 using Gee;
 
+public errordomain GXml.Error {
+		NOT_SUPPORTED, /* TODO: GET RID OF THIS */
+		PARSER, WRITER;
+	}
+
 /**
  * Base interface providing basic functionalities to all GXml interfaces.
  */
@@ -32,6 +37,13 @@ public abstract class GXml.GNode : Object,
 {
   protected GXml.GDocument _doc;
   protected Xml.Node *_node;
+
+  internal static string libxml2_error_to_string (Xml.Error *e) {
+    return _("%s:%s:%d: %s:%d: %s").printf (
+            e->level.to_string ().replace ("XML_ERR_",""),
+            e->domain.to_string ().replace ("XML_FROM_",""),
+            e->code, e->file == null ? "<io>" : e->file, e->line, e->message);
+  }
 
   construct {
     Init.init ();
@@ -267,13 +279,13 @@ public abstract class GXml.GNode : Object,
   public string? lookup_prefix (string? nspace) {
     if (_node == null) return null;
     if (parent == null) return null;
-    if (this is GXml.DocumentType || this is GXml.DocumentFragment) return null;
+    if (this is GXml.DocumentType || this is GXml.DomDocumentFragment) return null;
     var ns = _node->doc->search_ns_by_href (_node, nspace);
     if (ns == null) return null;
     return ns->prefix;
   }
   public string? lookup_namespace_uri (string? prefix) {
-    if (this is GXml.DocumentType || this is GXml.DocumentFragment) return null;
+    if (this is GXml.DocumentType || this is GXml.DomDocumentFragment) return null;
     var ns = _node->doc->search_ns (_node, prefix);
     if (ns == null) return null;
     return ns->href;

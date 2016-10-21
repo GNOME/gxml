@@ -84,12 +84,12 @@ public class SerializableCapsicum : GXml.SerializableObjectModel {
 	   Can't have static methods in an interface :(, right? */
 	public void deserialize_unknown_property_type (GXml.Node elem, ParamSpec prop)
 	{
-		xNode element = (xNode) elem;
+		GXml.Node element = (GXml.Node) elem;
 		GLib.Value outvalue = GLib.Value (typeof (int));
 		switch (prop.name) {
 		case "ratings":
 			this.ratings = new GLib.List<int> ();
-			foreach (GXml.xNode rating in element.child_nodes) {
+			foreach (GXml.Node rating in element.children_nodes) {
 				int64.try_parse (((GXml.GElement)rating).content, out outvalue);
 				this.ratings.append ((int)outvalue.get_int64 ());
 			}
