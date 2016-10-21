@@ -26,6 +26,7 @@ sources = \
 	Notation.vala \
 	ProcessingInstruction.vala \
 	Text.vala \
+	NodeType.vala \
 	libxml-Attr.vala \
 	libxml-AttrChildNodeList.vala \
 	libxml-BackedNode.vala \
@@ -49,7 +50,6 @@ sources = \
 	libxml-NamespaceAttr.vala \
 	libxml-NodeChildNodeList.vala \
 	libxml-NodeList.vala \
-	libxml-NodeType.vala \
 	libxml-Node.vala \
 	libxml-Notation.vala \
 	libxml-ProcessingInstruction.vala \
