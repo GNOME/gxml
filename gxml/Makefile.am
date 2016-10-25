@@ -1,6 +1,6 @@
 
 # Library to create
-lib_LTLIBRARIES = libgxml-0.12.la
+lib_LTLIBRARIES = libgxml-0.14.la
 
 
 # Empty variable to be added elements later
@@ -88,7 +88,7 @@ sources = \
 AM_VALAFLAGS= \
 	--vapidir=$(VAPIDIR) \
 	$(ERROR_AM_VALAFLAGS) \
-	--library=gxml-0.12 \
+	--library=gxml-0.14 \
 	$(top_srcdir)/vapi/config.vapi \
 	$(top_srcdir)/vapi/xlibxml-1.0.vapi \
 	--vapidir=. \
@@ -102,7 +102,7 @@ AM_VALAFLAGS= \
 	$(NULL)
 
 # library flags
-#libgxml_0_12_la_AM_VALAFLAGS=
+#libgxml_0_14_la_AM_VALAFLAGS=
 
 
 
@@ -144,7 +144,7 @@ AM_VALAFLAGS += \
 	-g
 endif
 
-libgxml_0_12_la_LIBADD = \
+libgxml_0_14_la_LIBADD = \
 	$(GEE_LIBS) \
 	$(GIO_LIBS) \
 	$(GLIB_LIBS) \
@@ -152,7 +152,7 @@ libgxml_0_12_la_LIBADD = \
 	$(VALA_LIBS) \
 	$(NULL)
 
-libgxml_0_12_la_LDFLAGS = \
+libgxml_0_14_la_LDFLAGS = \
 	-version-info "$(LT_CURRENT)":"$(LT_REVISION)":"$(LT_AGE)"
 
 vala-stamp: $(sources)
@@ -179,26 +179,26 @@ $(sources:.vala=.c): vala-stamp
 		fi; \
 		fi
 
-libgxml_0_12_la_SOURCES= \
+libgxml_0_14_la_SOURCES= \
 	$(sources:.vala=.c) \
 	xlibxml.c \
 	$(NULL)
 
 # .h header file
-gxml.h: libgxml-0.12.la
+gxml.h: libgxml-0.14.la
 gxmldir= $(includedir)/gxml-$(API_VERSION)/gxml
 gxml_HEADERS = gxml.h xlibxml.h
 
 # .vapi Vala API file
-gxml-0.12.vapi: libgxml-0.12.la
+gxml-0.14.vapi: libgxml-0.14.la
 vapidir = $(datadir)/vala/vapi
 dist_vapi_DATA = \
-	gxml-0.12.vapi \
-	gxml-0.12.deps \
+	gxml-0.14.vapi \
+	gxml-0.14.deps \
 	$(NULL)
 
 # .pc pkg-config file
-pkgconfig_in = gxml-0.12.pc.in
+pkgconfig_in = gxml-0.14.pc.in
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = $(pkgconfig_in:.in=)
 
@@ -219,9 +219,9 @@ if HAVE_INTROSPECTION
 #   Extract our dlname like libfolks does, see bgo#658002 and bgo#585116
 #   This is what g-ir-scanner does.
 libgxml_dlname=\
-	`$(SED) -nE "s/^dlname='([A-Za-z0-9.+-]+)'/\1/p" libgxml-0.12.la`
+	`$(SED) -nE "s/^dlname='([A-Za-z0-9.+-]+)'/\1/p" libgxml-0.14.la`
 #libgxml_dlname=\
-#	`$(GREP) -e dlname libgxml-0.12.la | $(SED) s/dlname=\'// | $(SED) s/\'//`
+#	`$(GREP) -e dlname libgxml-0.14.la | $(SED) s/dlname=\'// | $(SED) s/\'//`
 
 AM_VALAFLAGS += \
 	--gir=GXml-$(API_VERSION).gir
@@ -229,15 +229,15 @@ AM_VALAFLAGS += \
 INTROSPECTION_GIRS = GXml-$(API_VERSION).gir
 INTROSPECTION_COMPILER_ARGS = --includedir=. -l $(libgxml_dlname)
 
-GXml-0.12.gir: libgxml-0.12.la
+GXml-0.14.gir: libgxml-0.14.la
 
-GXml-0.12.typelib: $(INTROSPECTION_GIRS)
+GXml-0.14.typelib: $(INTROSPECTION_GIRS)
 	$(INTROSPECTION_COMPILER) $(INTROSPECTION_COMPILER_ARGS)  $< -o $@
 
 girdir = $(INTROSPECTION_GIRDIR)
 gir_DATA = $(INTROSPECTION_GIRS)
 typelibdir = $(INTROSPECTION_TYPELIBDIR)
-typelib_DATA = GXml-0.12.typelib
+typelib_DATA = GXml-0.14.typelib
 CLEANFILES += $(gir_DATA) $(typelib_DATA)
 
 endif
@@ -246,26 +246,26 @@ if PLATFORM_WIN32
 AM_VALAFLAGS += \
 	--symbols=gxml.symbols
 
-libgxml_0_12_la_LDFLAGS += -shared -o libgxml-0.12.dll -no-undefined \
+libgxml_0_14_la_LDFLAGS += -shared -o libgxml-0.14.dll -no-undefined \
 	-out-imlib -export-all-symbols -output-def
 
-gxml.symbols: libgxml-0.12.la
+gxml.symbols: libgxml-0.14.la
 
-libgxml-0.12.def: gxml.symbols
+libgxml-0.14.def: gxml.symbols
 	(echo -e EXPRTS; $(CPP) -P $(DEF_FLAGS) \
 	- <$^ | sed -e '/^$$/d' -e 's/^/ /' -e 's/G_GNUC_[^ ]*//g' \
-	| sort) > gxml.def.tmp && mv gxml.def.tmp libgxml-0.12.def
+	| sort) > gxml.def.tmp && mv gxml.def.tmp libgxml-0.14.def
 
-libgxml-0.12.def: libgxml-0.12.la
+libgxml-0.14.def: libgxml-0.14.la
 libgxmldefdir=$(libdir)
-libgxmldef_DATA=libgxml-0.12.def
+libgxmldef_DATA=libgxml-0.14.def
 
 CLEANFILES += \
 	gxml.symbols \
-	libgxml-0.12.def
+	libgxml-0.14.def
 
 BUILT_SOURCES += \
-	libgxml-0.12.def
+	libgxml-0.14.def
 
 endif
 
@@ -274,7 +274,7 @@ CLEANFILES += \
 	vala-stamp \
 	$(pkgconfig_DATA) \
 	namespace-info.vala \
-	gxml-0.12.vapi \
+	gxml-0.14.vapi \
 	gxml.h
 
 -include $(top_srcdir)/git.mk

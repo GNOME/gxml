@@ -95,7 +95,7 @@ AM_VALAFLAGS = \
 	--pkg gio-2.0 \
 	--pkg gee-0.8 \
 	--pkg posix \
-	--pkg gxml-0.12 \
+	--pkg gxml-0.14 \
 	--pkg libxml-2.0 \
 	-C \
 	-g \
@@ -118,7 +118,7 @@ gxml_test_LDADD = \
 	$(GXML_LIBS) \
 	$(LIBXML_LIBS) \
 	$(GIO_LIBS) \
-	../gxml/libgxml-0.12.la
+	../gxml/libgxml-0.14.la
 	$(NULL)
 
 gxml_test_LDFLAGS = $(AM_LDFLAGS)

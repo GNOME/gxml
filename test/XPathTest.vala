@@ -37,7 +37,7 @@ class XPathTest : GXmlTest  {
       } else
         document = new GDocument.from_string (BOOKS);
       assert (document != null);
-      var object = (document as XPathContext).evaluate ("/bookstore/book/title");
+      var object = (document as GXml.XPathContext).evaluate ("/bookstore/book/title");
       assert (object.object_type == XPathObjectType.NODESET);
       var array = object.nodeset.to_array();
       assert (array.length == 4);

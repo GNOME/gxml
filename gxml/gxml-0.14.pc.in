@@ -6,8 +6,8 @@ datadir=@datadir@
 includedir=@includedir@
 
 Name: libgxml
-Description: GObject API for XML manipulation library
-URL: http://live.gnome.org/XML
+Description: GObject API for XML manipulation and serialization library
+URL: http://live.gnome.org/GXml
 Version: @VERSION@
 Requires: glib-2.0 gobject-2.0 gee-0.8 gio-2.0 libxml-2.0
 Libs: -L${libdir} -lgxml-@API_VERSION@

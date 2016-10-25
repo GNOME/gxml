@@ -3,7 +3,8 @@
 Version 0.13.0
 ===============
 
-* Added XPath interfaces and implementation based on libxml2
+* Added XPath interfaces and initial implementation based on libxml2
+* Removed old DOM1 implementation on xNode/xDocument
 
 ===============
 Version 0.12.0
