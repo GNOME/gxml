@@ -2,7 +2,11 @@
 # Please keep this file sorted alphabetically.
 gxml/Document.vala
 gxml/DomCharacter.vala
+gxml/DomNode.vala
 gxml/Enumeration.vala
+gxml/GomDocument.vala
+gxml/GomNode.vala
+gxml/GomObject.vala
 gxml/GXmlDocument.vala
 gxml/GXmlDomCollections.vala
 gxml/GXmlDomRange.vala

@@ -2,7 +2,11 @@
 # Please keep this file sorted alphabetically.
 gxml/Document.c
 gxml/DomCharacter.c
+gxml/DomNode.c
 gxml/Enumeration.c
+gxml/GomDocument.c
+gxml/GomNode.c
+gxml/GomObject.c
 gxml/GXmlDocument.c
 gxml/GXmlDomCollections.c
 gxml/GXmlDomRange.c
@@ -27,7 +31,11 @@ gxml/SerializableProperty.c
 gxml/TDocument.c
 sub/gxml/Document.c
 sub/gxml/DomCharacter.c
+sub/gxml/DomNode.c
 sub/gxml/Enumeration.c
+sub/gxml/GomDocument.c
+sub/gxml/GomNode.c
+sub/gxml/GomObject.c
 sub/gxml/GXmlDocument.c
 sub/gxml/GXmlDomCollections.c
 sub/gxml/GXmlDomRange.c
