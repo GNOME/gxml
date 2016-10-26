@@ -79,7 +79,7 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
   public abstract DomNode append_child (DomNode node) throws GLib.Error;
   public abstract DomNode replace_child (DomNode node, DomNode child) throws GLib.Error;
   public abstract DomNode remove_child (DomNode child) throws GLib.Error;
-  public abstract DomNode clone_node (bool deep = false) {
+  public abstract DomNode clone_node (bool deep = false);
     /**
    * Copy a {@link GXml.DomNode} relaying on {@link GXml.DomDocument} to other {@link GXml.DomNode}.
    *
@@ -104,7 +104,7 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
     GLib.message ("Copying source and destiny nodes are GXml.Elements... copying...");
     GLib.message ("Copying source's attributes to destiny node");
 #endif
-      foreach (GXml.DomNode p in source._attributes.values) {
+      foreach (GXml.DomNode p in (source as DomElement).attributes.values) {
         ((GXml.DomElement) node).set_attribute (p.node_name, p.node_value); // TODO: Namespace
       }
       if (!deep) return true;
@@ -128,7 +128,7 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
             GLib.warning (_("Text node with NULL string"));
             continue;
           }
-          var t = doc.create_text ((c as DomText).data);
+          var t = doc.create_text_node ((c as DomText).data);
           node.child_nodes.add (t);
 #if DEBUG
           GLib.message (@"Copying source's Text node '$(source.node_name)' to destiny node with text: $(c.node_value) : Size= $(node.child_nodes.size)");
@@ -138,7 +138,6 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
       }
     }
     return false;
-  }
   }
 }
 
