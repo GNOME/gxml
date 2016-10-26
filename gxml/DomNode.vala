@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
+/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /*
  *
  * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
@@ -56,7 +56,6 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
   public abstract bool has_child_nodes ();
   public abstract void normalize ();
 
-  public abstract DomNode clone_node (bool deep = false);
   public abstract bool is_equal_node (DomNode? node);
 
   [Flags]
@@ -80,6 +79,67 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
   public abstract DomNode append_child (DomNode node) throws GLib.Error;
   public abstract DomNode replace_child (DomNode node, DomNode child) throws GLib.Error;
   public abstract DomNode remove_child (DomNode child) throws GLib.Error;
+  public abstract DomNode clone_node (bool deep = false) {
+    /**
+   * Copy a {@link GXml.DomNode} relaying on {@link GXml.DomDocument} to other {@link GXml.DomNode}.
+   *
+   * {@link node} could belongs from different {@link GXml.DomDocument}, while source is a node
+   * belonging to given document.
+   *
+   * Only {@link GXml.DomElement} objects are supported. For attributes, use
+   * {@link GXml.DomElement.set_attr} method, passing source's name and value as arguments.
+   *
+   * @param doc a {@link GXml.DomDocument} owning destiny node
+   * @param node a {@link GXml.DomElement} to copy nodes to
+   * @param source a {@link GXml.DomElement} to copy nodes from, it could be holded by different {@link GXml.DomDocument}
+   */
+  public static bool copy (GXml.DomDocument doc, GXml.DomNode node, GXml.DomNode source, bool deep)
+  {
+#if DEBUG
+    GLib.message ("Copying GXml.Node");
+#endif
+    if (node is GXml.DomDocument) return false;
+    if (source is GXml.DomElement && node is GXml.DomElement) {
+#if DEBUG
+    GLib.message ("Copying source and destiny nodes are GXml.Elements... copying...");
+    GLib.message ("Copying source's attributes to destiny node");
+#endif
+      foreach (GXml.DomNode p in source._attributes.values) {
+        ((GXml.DomElement) node).set_attribute (p.node_name, p.node_value); // TODO: Namespace
+      }
+      if (!deep) return true;
+#if DEBUG
+      GLib.message ("Copying source's child nodes to destiny node");
+#endif
+      foreach (DomNode c in source.child_nodes) {
+        if (c is DomElement) {
+          if (c.node_name == null) continue;
+#if DEBUG
+            GLib.message (@"Copying child Element node: $(c.node_name)");
+#endif
+          try {
+            var e = doc.create_element (c.node_name); // TODO: Namespace
+            node.child_nodes.add (e);
+            copy (doc, e, c, deep);
+          } catch {}
+        }
+        if (c is DomText) {
+          if ((c as DomText).data == null) {
+            GLib.warning (_("Text node with NULL string"));
+            continue;
+          }
+          var t = doc.create_text ((c as DomText).data);
+          node.child_nodes.add (t);
+#if DEBUG
+          GLib.message (@"Copying source's Text node '$(source.node_name)' to destiny node with text: $(c.node_value) : Size= $(node.child_nodes.size)");
+          GLib.message (@"Added Text: $(node.child_nodes.get (node.child_nodes.size - 1))");
+#endif
+        }
+      }
+    }
+    return false;
+  }
+  }
 }
 
 public errordomain GXml.DomError {
