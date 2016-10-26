@@ -29,7 +29,6 @@
  *
  * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1950641247]]
  */
-[Version (deprecated=true, deprecated_since="0.12", replacement="DomNode.NodeType")]
 public enum GXml.NodeType { // TODO: Rename to DomNodeType
 	/* NOTE: bug in vala?  if I don't have == 0, I fail when creating
 	   this class because I can't set default values for NodeType properties
