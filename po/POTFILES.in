@@ -5,6 +5,7 @@ gxml/DomCharacter.vala
 gxml/DomNode.vala
 gxml/Enumeration.vala
 gxml/GomDocument.vala
+gxml/GomElement.vala
 gxml/GomNode.vala
 gxml/GomObject.vala
 gxml/GXmlDocument.vala
@@ -14,11 +15,6 @@ gxml/GXmlElement.vala
 gxml/GXmlHashMapAttr.vala
 gxml/GXmlNode.vala
 gxml/GXmlText.vala
-gxml/libxml-ChildNodeList.vala
-gxml/libxml-Document.vala
-gxml/libxml-Entity.vala
-gxml/libxml-Error.vala
-gxml/libxml-Node.vala
 gxml/Node.vala
 gxml/SerializableEnum.vala
 gxml/SerializableGeeArrayList.vala

@@ -5,6 +5,7 @@ gxml/DomCharacter.c
 gxml/DomNode.c
 gxml/Enumeration.c
 gxml/GomDocument.c
+gxml/GomElement.c
 gxml/GomNode.c
 gxml/GomObject.c
 gxml/GXmlDocument.c
@@ -14,11 +15,6 @@ gxml/GXmlElement.c
 gxml/GXmlHashMapAttr.c
 gxml/GXmlNode.c
 gxml/GXmlText.c
-gxml/libxml-ChildNodeList.c
-gxml/libxml-Document.c
-gxml/libxml-Entity.c
-gxml/libxml-Error.c
-gxml/libxml-Node.c
 gxml/Node.c
 gxml/Serializable.c
 gxml/SerializableEnum.c
@@ -43,11 +39,6 @@ sub/gxml/GXmlElement.c
 sub/gxml/GXmlHashMapAttr.c
 sub/gxml/GXmlNode.c
 sub/gxml/GXmlText.c
-sub/gxml/libxml-ChildNodeList.c
-sub/gxml/libxml-Document.c
-sub/gxml/libxml-Entity.c
-sub/gxml/libxml-Error.c
-sub/gxml/libxml-Node.c
 sub/gxml/Node.c
 sub/gxml/Serializable.c
 sub/gxml/SerializableEnum.c
