@@ -5,11 +5,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gxml master\n"
+"Project-Id-Version: gxml gxml-0.12\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-09-15 14:25+0000\n"
-"PO-Revision-Date: 2016-09-16 11:50+0200\n"
+"POT-Creation-Date: 2016-10-26 23:39+0000\n"
+"PO-Revision-Date: 2016-10-27 08:44+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -35,6 +35,10 @@ msgstr "Neplatné místo pro nahrazení dat"
 msgid "Invalid offset to split text"
 msgstr "Neplatné místo pro rozdělení textu"
 
+#: ../gxml/DomNode.vala:128 ../gxml/Node.vala:202
+msgid "Text node with NULL string"
+msgstr "Textový uzel s řetězcovou hodnotu NULL"
+
 #: ../gxml/Enumeration.vala:88
 msgid "value is invalid"
 msgstr "hodnota je neplatná"
@@ -42,6 +46,83 @@ msgstr "hodnota je neplatná"
 #: ../gxml/Enumeration.vala:129
 msgid "text cannot be parsed to enumeration type:"
 msgstr "text nelze zpracovat na výčtový typ:"
+
+#: ../gxml/GomDocument.vala:72
+msgid "Invalid node name"
+msgstr "Neplatný název uzlu"
+
+#: ../gxml/GomDocument.vala:78
+msgid "Invalid namespace"
+msgstr "Neplatný jmenný prostor"
+
+#: ../gxml/GomDocument.vala:127 ../gxml/GXmlDocument.vala:268
+msgid "Can't import a Document"
+msgstr "Nelze importovat Dokument"
+
+#: ../gxml/GomDocument.vala:129 ../gxml/GXmlDocument.vala:270
+msgid "Can't import a non Element type node to a Document"
+msgstr "Do dokumentu nezlez importovat uzel který není typu prvek"
+
+#: ../gxml/GomDocument.vala:153 ../gxml/GXmlDocument.vala:294
+msgid "Can't adopt a Document"
+msgstr "Nelze převzít dokument"
+
+#: ../gxml/GomNode.vala:167 ../gxml/GXmlNode.vala:259
+msgid "Can't find node position"
+msgstr "Nelze najít pozici uzlu"
+
+#: ../gxml/GomNode.vala:194 ../gxml/GomNode.vala:225 ../gxml/GXmlNode.vala:290
+#: ../gxml/GXmlNode.vala:321
+msgid "Invalid attempt to add invalid node type"
+msgstr "Neplatný pokus o přidání neplatného typu uzlu"
+
+#: ../gxml/GomNode.vala:196 ../gxml/GXmlNode.vala:292
+msgid "Can't find child to insert node before"
+msgstr "Nelze najít potomka, před kterého se má vložit"
+
+#: ../gxml/GomNode.vala:200 ../gxml/GomNode.vala:231 ../gxml/GXmlNode.vala:296
+#: ../gxml/GXmlNode.vala:327
+msgid "Invalid attempt to insert a node"
+msgstr "Neplatný pokus o vložení uzlu"
+
+#: ../gxml/GomNode.vala:207 ../gxml/GomNode.vala:238 ../gxml/GXmlNode.vala:303
+#: ../gxml/GXmlNode.vala:334
+msgid "Invalid attempt to insert an invalid node type"
+msgstr "Neplatný pokus o vložení neplatného typu uzlu"
+
+#: ../gxml/GomNode.vala:210 ../gxml/GomNode.vala:241 ../gxml/GXmlNode.vala:306
+#: ../gxml/GXmlNode.vala:337
+msgid ""
+"Invalid attempt to insert a document's type or text node to a invalid parent"
+msgstr ""
+"Neplatný pokus o vložení typu dokumentu nebo textového uzlu do neplatného "
+"rodiče"
+
+#: ../gxml/GomNode.vala:227 ../gxml/GXmlNode.vala:323
+msgid "Can't find child node to replace or child have a different parent"
+msgstr ""
+"Nelze najít synovský uzel, který se má nahradit, nebo má potomek jiného "
+"rodiče"
+
+#: ../gxml/GomNode.vala:253 ../gxml/GXmlNode.vala:349
+msgid "Can't find child node to remove or child have a different parent"
+msgstr ""
+"Nelze najít synovský uzel, který se má odstranit, nebo má potomek jiného "
+"rodiče"
+
+#. FIXME:
+#: ../gxml/GomObject.vala:92 ../gxml/GXmlElement.vala:313
+msgid "DomElement query_selector is not implemented"
+msgstr "DomElement query_selector není implementován"
+
+#. FIXME:
+#: ../gxml/GomObject.vala:96 ../gxml/GXmlElement.vala:317
+msgid "DomElement query_selector_all is not implemented"
+msgstr "DomElement query_selector_all není implementován"
+
+#: ../gxml/GomObject.vala:209
+msgid "Invalid local name"
+msgstr "Neplatný lokální název"
 
 #: ../gxml/GXmlDocument.vala:55 ../gxml/TDocument.vala:476
 msgid "File doesn't exist"
@@ -55,18 +136,6 @@ msgstr "datový proud neposkytuje žádná data"
 msgid "Invalid element qualified name: multiple namespace prefixes"
 msgstr ""
 "Neplatný kvalifikovaný název prvku: vícenásobný prefix jmenných prostorů"
-
-#: ../gxml/GXmlDocument.vala:268
-msgid "Can't import a Document"
-msgstr "Nelze importovat Dokument"
-
-#: ../gxml/GXmlDocument.vala:270
-msgid "Can't import a non Element type node to a Document"
-msgstr "Do dokumentu nezlez importovat uzel který není typu prvek"
-
-#: ../gxml/GXmlDocument.vala:294
-msgid "Can't adopt a Document"
-msgstr "Nelze převzít dokument"
 
 #: ../gxml/GXmlDomCollections.vala:52
 msgid ""
@@ -122,16 +191,6 @@ msgstr "Neplatný typ uzlu pro začátek za"
 msgid "Invalid root's in range"
 msgstr "Neplatný rozsah v kořeni"
 
-#. FIXME:
-#: ../gxml/GXmlElement.vala:313
-msgid "DomElement query_selector is not implemented"
-msgstr "DomElement query_selector není implementován"
-
-#. FIXME:
-#: ../gxml/GXmlElement.vala:317
-msgid "DomElement query_selector_all is not implemented"
-msgstr "DomElement query_selector_all není implementován"
-
 #: ../gxml/GXmlHashMapAttr.vala:240
 msgid "Invalid document when adding item to collection"
 msgstr "Neplatný dokument při přidávání položky do sady"
@@ -160,45 +219,6 @@ msgstr "Sada uzlů je jen ke čtení"
 #: ../gxml/GXmlHashMapAttr.vala:292
 msgid "Invalid document when adding item to named node map collection"
 msgstr "Neplatný dokument při přidávání položky do sady map pojmenovaných uzlů"
-
-#: ../gxml/GXmlNode.vala:259
-msgid "Can't find node position"
-msgstr "Nelze najít pozici uzlu"
-
-#: ../gxml/GXmlNode.vala:290 ../gxml/GXmlNode.vala:321
-msgid "Invalid attempt to add invalid node type"
-msgstr "Neplatný pokus o přidání neplatného typu uzlu"
-
-#: ../gxml/GXmlNode.vala:292
-msgid "Can't find child to insert node before"
-msgstr "Nelze najít potomka, před kterého se má vložit"
-
-#: ../gxml/GXmlNode.vala:296 ../gxml/GXmlNode.vala:327
-msgid "Invalid attempt to insert a node"
-msgstr "Neplatný pokus o vložení uzlu"
-
-#: ../gxml/GXmlNode.vala:303 ../gxml/GXmlNode.vala:334
-msgid "Invalid attempt to insert an invalid node type"
-msgstr "Neplatný pokus o vložení neplatného typu uzlu"
-
-#: ../gxml/GXmlNode.vala:306 ../gxml/GXmlNode.vala:337
-msgid ""
-"Invalid attempt to insert a document's type or text node to a invalid parent"
-msgstr ""
-"Neplatný pokus o vložení typu dokumentu nebo textového uzlu do neplatného "
-"rodiče"
-
-#: ../gxml/GXmlNode.vala:323
-msgid "Can't find child node to replace or child have a different parent"
-msgstr ""
-"Nelze najít synovský uzel, který se má nahradit, nebo má potomek jiného "
-"rodiče"
-
-#: ../gxml/GXmlNode.vala:349
-msgid "Can't find child node to remove or child have a different parent"
-msgstr ""
-"Nelze najít synovský uzel, který se má odstranit, nebo má potomek jiného "
-"rodiče"
 
 #: ../gxml/libxml-ChildNodeList.vala:148
 #, c-format
@@ -231,10 +251,6 @@ msgstr "%s:%s:%d: %s:%d: %s"
 msgid ""
 "Node tried to interact with a different document than the one it belongs to"
 msgstr "Uzel se pokouší ovlivnit jiný dokument, než ke kterému patří"
-
-#: ../gxml/Node.vala:202
-msgid "Text node with NULL string"
-msgstr "Textový uzel s řetězcovou hodnotu NULL"
 
 #: ../gxml/SerializableEnum.vala:75
 msgid "Value can't be parsed to a valid enumeration's value. Value is not set"
