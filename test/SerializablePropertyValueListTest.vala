@@ -47,7 +47,7 @@ class SerializablePropertyValueListTest : GXmlTest {
     public Values vals { get; set; }
     public int  integer { get; set; default = 0; }
     public string name { get; set; }
-    public override string node_name () { return "ValueList"; }
+    public override string node_name () { return "options"; }
     public override string to_string () { return get_type ().name (); }
   }
   public static void add_tests () {

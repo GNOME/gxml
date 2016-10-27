@@ -253,7 +253,7 @@ class SerializableTest : GXmlTest {
 
 				try {
 					regex = new Regex (expectation);
-					if (! regex.match (doc.to_string ())) {
+					if (! regex.match ((doc as GDocument).to_string ())) {
 						Test.message ("Did not serialize as expected.  Got [%s] but expected [%s]", doc.to_string (), expectation);
 						assert_not_reached ();
 					}
