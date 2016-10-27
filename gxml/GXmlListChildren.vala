@@ -250,7 +250,7 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>,
   }
   // DomNodeList implementation
   public DomNode? item (ulong index) { return (DomNode) @get ((int) index); }
-  public ulong length { get { return (ulong) size; } }
+  public int length { get { return size; } }
   // DomHTMLCollection
   public new GXml.DomElement? get_element (int index) {
     if (index > this.size || index < 0) return null;

@@ -73,7 +73,10 @@ public class GXml.GomText : GomCharacterData,
     _local_name = "#TEXT";
   }
 
-  public GomText (DomDocument doc, string data);
+  public GomText (DomDocument doc, string data) {
+    _document = doc;
+    _data = data;
+  }
 }
 public class GXml.GomProcessingInstruction : GomCharacterData,
                                             DomProcessingInstruction

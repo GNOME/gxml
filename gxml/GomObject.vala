@@ -115,7 +115,15 @@ public interface GXml.GomObject : GLib.Object,
   public virtual void remove_attribute (string name) {
     var prop = get_class ().find_property (name);
     if (prop != null) {
-      set_attribute (name, null);
+      if (prop.value_type.is_a (typeof (SerializableProperty))) {
+        (this as SerializableProperty).set_serializable_property_value (null);
+        return;
+      }
+      if (prop.value_type.is_a (typeof (SerializableCollection))) {
+        return;
+      }
+      Value v = Value (typeof (Object));
+      (this as Object).set_property (name, v);
       return;
     }
     (this as DomElement).remove_attribute (name);

@@ -69,7 +69,7 @@ public interface GXml.DomChildNode : GLib.Object {
 
 public interface GXml.DomNodeList : GLib.Object, Gee.BidirList<GXml.DomNode>  {
   public abstract DomNode? item (ulong index);
-  public abstract ulong length { get; }
+  public abstract int length { get; }
 }
 
 public interface GXml.DomHTMLCollection : GLib.Object, Gee.BidirList<GXml.DomElement> {

@@ -52,12 +52,7 @@ public class GXml.GomNode : Object,
       return null;
     }
   }
-  // TODO: Move to GomElement
-  protected class NodeList : Gee.ArrayList<DomNode>, DomNodeList {
-    public DomNode? item (ulong index) { return base.get ((int) index); }
-    public ulong length { get { return (ulong) base.size; } }
-  }
-  protected NodeList _child_nodes = new NodeList ();
+  protected GomNodeList _child_nodes = new GomNodeList ();
   public DomNodeList child_nodes { owned get { return _child_nodes as DomNodeList; } }
   public DomNode? first_child {
     owned get {
@@ -269,4 +264,12 @@ public class GXml.GomNode : Object,
   { return; } // FIXME:
   public bool dispatch_event (DomEvent event)
   { return false; } // FIXME:
+}
+
+/**
+ * List of {@link DomNode} implementing {@link DomNodeList}
+ */
+public class GXml.GomNodeList : Gee.ArrayList<DomNode>, DomNodeList {
+  public DomNode? item (ulong index) { return base.get ((int) index); }
+  public int length { get { return size; } }
 }

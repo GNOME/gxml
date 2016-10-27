@@ -34,7 +34,7 @@ public class GXml.GomElement : GomNode,
                               DomElement,
                               GomObject {
   // DomNode overrides
-  public string? lookup_prefix (string? nspace) {
+  public new string? lookup_prefix (string? nspace) {
     if (namespace_uri == nspace && this.prefix != null)
       return this.prefix;
     foreach (DomNode a in attributes.values) {
@@ -45,7 +45,7 @@ public class GXml.GomElement : GomNode,
     if (parent_node == null) return null;
     return parent_node.lookup_prefix (nspace);
   }
-  public string? DomNode.lookup_namespace_uri (string? prefix) {
+  public new string? lookup_namespace_uri (string? prefix) {
     if (namespace_uri != null && this.prefix == prefix)
       return namespace_uri;
     string s = "";
@@ -130,12 +130,10 @@ public class GXml.GomElement : GomNode,
   // GXml.DomElement
   protected string _namespace_uri = null;
   public string? namespace_uri { owned get { return _namespace_uri.dup (); } }
-  protected string _prefix = null;
   public string? prefix { owned get { return _prefix; } }
   /**
    * Derived classes should define this value at construction time.
    */
-  protected string _local_name = "";
   public string local_name {
     owned get {
       return _local_name;
@@ -216,7 +214,7 @@ public class GXml.GomElement : GomNode,
       var v = get (name);
       if (v == null) return null;
       var n = new GomAttr (_element, name, v);
-      set (name, null);
+      unset (name);
       return n;
     }
     // Introduced in DOM Level 2:
@@ -316,7 +314,10 @@ public class GXml.GomElement : GomNode,
         _namespace_uri = namespace_uri;
       }
     var a = new GomAttr.namespace (this, namespace_uri, p, n, value);
-    _attributes.set_named_item_ns (a);
+    try { _attributes.set_named_item_ns (a); }
+    catch (GLib.Error e) {
+      GLib.message (_("Setting namespaced property error: ")+e.message);
+    }
   }
   public void remove_attribute (string name) {
     (this as GomElement).remove_attribute (name);
