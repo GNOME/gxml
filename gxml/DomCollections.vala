@@ -33,6 +33,28 @@ public interface GXml.DomParentNode : GLib.Object {
 
   public abstract DomElement? query_selector (string selectors) throws GLib.Error;
   public abstract DomNodeList query_selector_all (string selectors) throws GLib.Error;
+  /**
+   * Search all child {@link GXml.Element} with a given property's name and with
+   * value contained in text.
+   */
+  public virtual GXml.DomElementList
+   get_elements_by_property_value (string property, string value)
+  {
+    var list = new GXml.DomElementList ();
+    foreach (var child in children) {
+      if (child is GXml.Element) {
+        list.add_all (child.get_elements_by_property_value (property, value));
+        if (child.attributes == null) continue;
+        var cls = child.attributes.get (property);
+        if (cls == null) {
+          continue;
+        }
+        if (value in cls.node_value)
+            list.add ((GXml.DomElement) child);
+      }
+    }
+    return list;
+  }
 }
 
 public interface GXml.DomNonDocumentTypeChildNode : GLib.Object {

@@ -380,7 +380,7 @@ public class GXml.GImplementation : GLib.Object, GXml.DomImplementation {
   }
   public DomXMLDocument create_document (string? namespace,
                                          string? qualified_name,
-                                         DocumentType? doctype = null)
+                                         DomDocumentType? doctype = null)
                                          throws GLib.Error
   { return new GDocument (); } // FIXME
   public Document create_html_document (string title) {

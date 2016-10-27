@@ -79,7 +79,9 @@ public interface GXml.DomXMLDocument : GLib.Object, GXml.DomDocument {}
  */
 public interface GXml.DomImplementation : GLib.Object {
   public abstract DomDocumentType create_document_type (string qualified_name, string public_id, string system_id) throws GLib.Error;
-  public abstract DomXMLDocument create_document (string? nspace, string? qualified_name, DocumentType? doctype = null) throws GLib.Error;
+  public abstract DomXMLDocument create_document (string? nspace,
+                                                  string? qualified_name,
+                                                  DomDocumentType? doctype = null) throws GLib.Error;
   public abstract Document create_html_document (string title);
 
   public virtual bool has_feature() { return true; } // useless; always returns true

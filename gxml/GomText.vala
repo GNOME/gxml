@@ -22,20 +22,14 @@
 
 using GXml;
 
-public class GXml.GomText : GomNode,
-                          DomCharacterData,
-                          DomNode,
+public class GXml.GomCharacterData : GomNode,
                           DomNonDocumentTypeChildNode,
                           DomChildNode,
-                          DomText
-
+                          DomCharacterData
 {
-  construct {
-    _node_type = DomNode.NodeType.TEXT_NODE;
-    _local_name = "#TEXT";
-  }
+  protected string _data;
   // DomCharacterData
-  public string data { owned get; set; }
+  public string data { owned get { return _data; } set { _data = value; } }
   // DomNonDocumentTypeChildNode
   public DomElement? previous_element_sibling {
     get {
@@ -70,28 +64,43 @@ public class GXml.GomText : GomNode,
   }
 }
 
-public class GXml.GomProcessingInstruction : GomNode,
-              DomCharacterData,
-              DomProcessingInstruction
+public class GXml.GomText : GomCharacterData,
+                          DomText
+
+{
+  construct {
+    _node_type = DomNode.NodeType.TEXT_NODE;
+    _local_name = "#TEXT";
+  }
+
+  public GomText (DomDocument doc, string data);
+}
+public class GXml.GomProcessingInstruction : GomCharacterData,
+                                            DomProcessingInstruction
 {
   protected string _target = null;
-  // DomCharacterData
-  public string data { owned get { return _node_value; } set { _node_value = value; } }
-
+  // DomProcessingInstruction
+  public string target { owned get { return _target; } }
   construct {
     _node_type = DomNode.NodeType.PROCESSING_INSTRUCTION_NODE;
     _local_name = "#PROCESSING_INSTRUCTION";
   }
+  public GomProcessingInstruction (DomDocument doc, string target, string data) {
+    _document = doc;
+    _target = target;
+    _data = data;
+  }
 }
 
-public class GXml.GomComment : GomNode,
-                                  DomCharacterData,
-                                  DomComment
+public class GXml.GomComment : GomCharacterData,
+                              DomComment
 {
-  // DomCharacterData
-  public string data { owned get; set; }
   construct {
     _node_type = DomNode.NodeType.COMMENT_NODE;
     _local_name = "#COMMENT";
+  }
+  public GomComment (DomDocument doc, string data) {
+    _document = doc;
+    _data = data;
   }
 }

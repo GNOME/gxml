@@ -79,7 +79,23 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
   public abstract DomNode append_child (DomNode node) throws GLib.Error;
   public abstract DomNode replace_child (DomNode node, DomNode child) throws GLib.Error;
   public abstract DomNode remove_child (DomNode child) throws GLib.Error;
-  public abstract DomNode clone_node (bool deep = false);
+  public virtual DomNode clone_node (bool deep = false) {
+    DomNode n = new GomNode ();
+    if (_document == null) return new GomNode ();
+    switch (node_type) {
+      case NodeType.ELEMENT_NODE:
+        n = _document.create_element (node_name);
+        copy (_document, n, this, true);
+        break;
+      case NodeType.COMMENT_NODE:
+        n = _document.create_comment ((this as DomComment).data);
+        break;
+      case NodeType.TEXT_NODE:
+        n = _document.create_text_node ((this as DomText).data);
+        break;// FIXME: more nodes
+    }
+    return n;
+  }
     /**
    * Copy a {@link GXml.DomNode} relaying on {@link GXml.DomDocument} to other {@link GXml.DomNode}.
    *
@@ -101,8 +117,8 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
     if (node is GXml.DomDocument) return false;
     if (source is GXml.DomElement && node is GXml.DomElement) {
 #if DEBUG
-    GLib.message ("Copying source and destiny nodes are GXml.Elements... copying...");
-    GLib.message ("Copying source's attributes to destiny node");
+      GLib.message ("Copying source and destiny nodes are GXml.Elements... copying...");
+      GLib.message ("Copying source's attributes to destiny node");
 #endif
       foreach (GXml.DomNode p in (source as DomElement).attributes.values) {
         ((GXml.DomElement) node).set_attribute (p.node_name, p.node_value); // TODO: Namespace

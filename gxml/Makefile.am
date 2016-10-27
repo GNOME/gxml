@@ -82,6 +82,11 @@ sources = \
 	DomRange.vala \
 	XPath.vala \
 	GXPathObject.vala \
+	GomDocument.vala \
+	GomElement.vala \
+	GomNode.vala \
+	GomText.vala \
+	GomObject.vala \
 	$(NULL)
 
 
