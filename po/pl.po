@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-15 16:23+0200\n"
-"PO-Revision-Date: 2016-09-15 16:24+0200\n"
+"POT-Creation-Date: 2016-10-27 17:05+0200\n"
+"PO-Revision-Date: 2016-10-27 17:07+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -35,6 +35,10 @@ msgstr "Nieprawidłowe wyrównanie dla danych zastępowania"
 msgid "Invalid offset to split text"
 msgstr "Nieprawidłowe wyrównanie do rozdzielenia tekstu"
 
+#: ../gxml/DomNode.vala:128 ../gxml/Node.vala:202
+msgid "Text node with NULL string"
+msgstr "Węzeł tekstowy z ciągiem NULL"
+
 #: ../gxml/Enumeration.vala:88
 msgid "value is invalid"
 msgstr "wartość jest nieprawidłowa"
@@ -42,6 +46,83 @@ msgstr "wartość jest nieprawidłowa"
 #: ../gxml/Enumeration.vala:129
 msgid "text cannot be parsed to enumeration type:"
 msgstr "tekst nie może zostać przetworzony na typ wyliczenia:"
+
+#: ../gxml/GomDocument.vala:72
+msgid "Invalid node name"
+msgstr "Nieprawidłowa nazwa węzła"
+
+#: ../gxml/GomDocument.vala:78
+msgid "Invalid namespace"
+msgstr "Nieprawidłowa przestrzeń nazw"
+
+#: ../gxml/GomDocument.vala:127 ../gxml/GXmlDocument.vala:268
+msgid "Can't import a Document"
+msgstr "Nie można zaimportować dokumentu"
+
+#: ../gxml/GomDocument.vala:129 ../gxml/GXmlDocument.vala:270
+msgid "Can't import a non Element type node to a Document"
+msgstr "Nie można zaimportować węzła o typie niebędącym elementem do dokumentu"
+
+#: ../gxml/GomDocument.vala:153 ../gxml/GXmlDocument.vala:294
+msgid "Can't adopt a Document"
+msgstr "Nie można przyjąć dokumentu"
+
+#: ../gxml/GomNode.vala:167 ../gxml/GXmlNode.vala:259
+msgid "Can't find node position"
+msgstr "Nie można odnaleźć położenia węzła"
+
+#: ../gxml/GomNode.vala:194 ../gxml/GomNode.vala:225 ../gxml/GXmlNode.vala:290
+#: ../gxml/GXmlNode.vala:321
+msgid "Invalid attempt to add invalid node type"
+msgstr "Nieprawidłowa próba dodania nieprawidłowego typu węzła"
+
+#: ../gxml/GomNode.vala:196 ../gxml/GXmlNode.vala:292
+msgid "Can't find child to insert node before"
+msgstr "Nie można odnaleźć elementu potomnego do wstawienia węzła przed"
+
+#: ../gxml/GomNode.vala:200 ../gxml/GomNode.vala:231 ../gxml/GXmlNode.vala:296
+#: ../gxml/GXmlNode.vala:327
+msgid "Invalid attempt to insert a node"
+msgstr "Nieprawidłowa próba wstawienia węzła"
+
+#: ../gxml/GomNode.vala:207 ../gxml/GomNode.vala:238 ../gxml/GXmlNode.vala:303
+#: ../gxml/GXmlNode.vala:334
+msgid "Invalid attempt to insert an invalid node type"
+msgstr "Nieprawidłowa próba wstawienia nieprawidłowego typu węzła"
+
+#: ../gxml/GomNode.vala:210 ../gxml/GomNode.vala:241 ../gxml/GXmlNode.vala:306
+#: ../gxml/GXmlNode.vala:337
+msgid ""
+"Invalid attempt to insert a document's type or text node to a invalid parent"
+msgstr ""
+"Nieprawidłowa próba wstawienia typu dokumentu lub węzła tekstowego do "
+"nieprawidłowego elementu nadrzędnego"
+
+#: ../gxml/GomNode.vala:227 ../gxml/GXmlNode.vala:323
+msgid "Can't find child node to replace or child have a different parent"
+msgstr ""
+"Nie można odnaleźć elementu potomnego do zastąpienia lub element potomny ma "
+"inny element nadrzędny"
+
+#: ../gxml/GomNode.vala:253 ../gxml/GXmlNode.vala:349
+msgid "Can't find child node to remove or child have a different parent"
+msgstr ""
+"Nie można odnaleźć elementu potomnego do usunięcia lub element potomny ma "
+"inny element nadrzędny"
+
+#. FIXME:
+#: ../gxml/GomObject.vala:92 ../gxml/GXmlElement.vala:313
+msgid "DomElement query_selector is not implemented"
+msgstr "„query_selector” z DomElement nie jest zaimplementowane"
+
+#. FIXME:
+#: ../gxml/GomObject.vala:96 ../gxml/GXmlElement.vala:317
+msgid "DomElement query_selector_all is not implemented"
+msgstr "„query_selector_all” z DomElement nie jest zaimplementowane"
+
+#: ../gxml/GomObject.vala:209
+msgid "Invalid local name"
+msgstr "Nieprawidłowa lokalna nazwa"
 
 #: ../gxml/GXmlDocument.vala:55 ../gxml/TDocument.vala:476
 msgid "File doesn't exist"
@@ -56,18 +137,6 @@ msgid "Invalid element qualified name: multiple namespace prefixes"
 msgstr ""
 "Nieprawidłowa nazwa kwalifikowana elementu: wiele przedrostków przestrzeni "
 "nazw"
-
-#: ../gxml/GXmlDocument.vala:268
-msgid "Can't import a Document"
-msgstr "Nie można zaimportować dokumentu"
-
-#: ../gxml/GXmlDocument.vala:270
-msgid "Can't import a non Element type node to a Document"
-msgstr "Nie można zaimportować węzła o typie niebędącym elementem do dokumentu"
-
-#: ../gxml/GXmlDocument.vala:294
-msgid "Can't adopt a Document"
-msgstr "Nie można przyjąć dokumentu"
 
 #: ../gxml/GXmlDomCollections.vala:52
 msgid ""
@@ -125,16 +194,6 @@ msgstr "Nieprawidłowy typ węzła do rozpoczęcia po"
 msgid "Invalid root's in range"
 msgstr "Nieprawidłowy główny element w zakresie"
 
-#. FIXME:
-#: ../gxml/GXmlElement.vala:313
-msgid "DomElement query_selector is not implemented"
-msgstr "„query_selector” z DomElement nie jest zaimplementowane"
-
-#. FIXME:
-#: ../gxml/GXmlElement.vala:317
-msgid "DomElement query_selector_all is not implemented"
-msgstr "„query_selector_all” z DomElement nie jest zaimplementowane"
-
 #: ../gxml/GXmlHashMapAttr.vala:240
 msgid "Invalid document when adding item to collection"
 msgstr "Nieprawidłowy dokument podczas dodawania elementu do kolekcji"
@@ -166,45 +225,6 @@ msgstr ""
 "Nieprawidłowy dokument podczas dodawania elementu do nazwanej kolekcji mapy "
 "węzłów"
 
-#: ../gxml/GXmlNode.vala:259
-msgid "Can't find node position"
-msgstr "Nie można odnaleźć położenia węzła"
-
-#: ../gxml/GXmlNode.vala:290 ../gxml/GXmlNode.vala:321
-msgid "Invalid attempt to add invalid node type"
-msgstr "Nieprawidłowa próba dodania nieprawidłowego typu węzła"
-
-#: ../gxml/GXmlNode.vala:292
-msgid "Can't find child to insert node before"
-msgstr "Nie można odnaleźć elementu potomnego do wstawienia węzła przed"
-
-#: ../gxml/GXmlNode.vala:296 ../gxml/GXmlNode.vala:327
-msgid "Invalid attempt to insert a node"
-msgstr "Nieprawidłowa próba wstawienia węzła"
-
-#: ../gxml/GXmlNode.vala:303 ../gxml/GXmlNode.vala:334
-msgid "Invalid attempt to insert an invalid node type"
-msgstr "Nieprawidłowa próba wstawienia nieprawidłowego typu węzła"
-
-#: ../gxml/GXmlNode.vala:306 ../gxml/GXmlNode.vala:337
-msgid ""
-"Invalid attempt to insert a document's type or text node to a invalid parent"
-msgstr ""
-"Nieprawidłowa próba wstawienia typu dokumentu lub węzła tekstowego do "
-"nieprawidłowego elementu nadrzędnego"
-
-#: ../gxml/GXmlNode.vala:323
-msgid "Can't find child node to replace or child have a different parent"
-msgstr ""
-"Nie można odnaleźć elementu potomnego do zastąpienia lub element potomny ma "
-"inny element nadrzędny"
-
-#: ../gxml/GXmlNode.vala:349
-msgid "Can't find child node to remove or child have a different parent"
-msgstr ""
-"Nie można odnaleźć elementu potomnego do usunięcia lub element potomny ma "
-"inny element nadrzędny"
-
 #: ../gxml/libxml-ChildNodeList.vala:148
 #, c-format
 msgid "ref_child '%s' not found, was supposed to have '%s' inserted before it."
@@ -235,10 +255,6 @@ msgstr "%s:%s:%d: %s:%d: %s"
 msgid ""
 "Node tried to interact with a different document than the one it belongs to"
 msgstr "Węzeł próbował działać z innym dokumentem niż tym, do którego należy"
-
-#: ../gxml/Node.vala:202
-msgid "Text node with NULL string"
-msgstr "Węzeł tekstowy z ciągiem NULL"
 
 #: ../gxml/SerializableEnum.vala:75
 msgid "Value can't be parsed to a valid enumeration's value. Value is not set"
