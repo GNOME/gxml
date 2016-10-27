@@ -67,7 +67,7 @@ public abstract class GXml.GNode : Object,
   }
   public virtual GXml.NodeType type_node {
     get {
-      if (_node == null) return GXml.NodeType.X_UNKNOWN;
+      if (_node == null) return GXml.NodeType.INVALID;
       return (GXml.NodeType) _node->type;
     }
   }

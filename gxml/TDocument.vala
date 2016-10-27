@@ -36,6 +36,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
 
   construct {
     _name = "#document";
+    _node_type = GXml.NodeType.DOCUMENT;
   }
 
   public TDocument () {}

@@ -29,6 +29,7 @@ public class GXml.TComment : GXml.TNode, GXml.Comment
   private string _str = "";
   construct {
     _name = "#comment";
+    _node_type = GXml.NodeType.COMMENT;
   }
   public TComment (GXml.Document doc, string text)
     requires (doc is GXml.TDocument)

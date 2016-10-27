@@ -27,6 +27,9 @@ using Gee;
 public class GXml.TAttribute : GXml.TNode, GXml.Attribute
 {
   protected Gee.ArrayList<GXml.Node> _namespaces;
+  construct {
+    _node_type = GXml.NodeType.ATTRIBUTE;
+  }
   public TAttribute (GXml.Document d, string name, string value)
     requires (d is TDocument)
   {

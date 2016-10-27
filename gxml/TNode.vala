@@ -30,6 +30,7 @@ public abstract class GXml.TNode : Object, GXml.Node
   protected string _value = null;
   protected GXml.Document _doc;
   protected GXml.Node _parent;
+  protected GXml.NodeType _node_type = GXml.NodeType.INVALID;
   internal Xml.TextWriter *tw;
 
 	construct { Init.init (); }
@@ -57,7 +58,7 @@ public abstract class GXml.TNode : Object, GXml.Node
   public virtual GXml.Document document { get { return _doc; } }
   public virtual string name { owned get { return _name.dup (); } }
   public virtual Gee.List<GXml.Namespace> namespaces { owned get { return new Gee.ArrayList<GXml.Node> (); } }
-  public virtual GXml.NodeType type_node { get { return GXml.NodeType.DOCUMENT; } }
+  public virtual GXml.NodeType type_node { get { return _node_type; } }
   public virtual string value { owned get { return _value.dup (); } set  { _value = value; } }
   public virtual GXml.Node parent {
     owned get {

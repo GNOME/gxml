@@ -30,6 +30,7 @@ public class GXml.TProcessingInstruction : GXml.TNode, GXml.ProcessingInstructio
   private string _data = "";
   construct {
     _name = "#processinginstruction";
+    _node_type = GXml.NodeType.PROCESSING_INSTRUCTION;
   }
   public TProcessingInstruction (GXml.Document doc, string target, string data)
     requires (doc is GXml.TDocument)

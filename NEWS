@@ -8,6 +8,7 @@ Version 0.13.0
 * API change on DomImplementation.with_ids () for DocumentType to DomDocumentType
 * API change changed long/ulong to int
 * Added new DOM4 implementation called GOM
+* API change GXml.NodeType changed X_UNKNOWN to INVALID
 
 ===============
 Version 0.12.0

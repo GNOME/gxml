@@ -29,6 +29,7 @@ public class GXml.TText : GXml.TNode, GXml.Text
   private string _str = null;
   construct {
     _name = "#text";
+    _node_type = GXml.NodeType.TEXT;
   }
   public TText (GXml.Document d, string text)
     requires (d is GXml.TDocument)

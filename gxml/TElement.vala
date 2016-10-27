@@ -30,6 +30,9 @@ public class GXml.TElement : GXml.TNode, GXml.Element
   protected TNode.TChildrenList _children;
   protected Gee.ArrayList<GXml.Node> _namespaces;
   private string _content = null;
+  construct {
+    _node_type = GXml.NodeType.ELEMENT;
+  }
   public TElement (GXml.Document d, string name)
     requires (d is TDocument)
   {

@@ -29,6 +29,7 @@ public class GXml.TCDATA : GXml.TNode, GXml.CDATA
   private string _str = null;
   construct {
     _name = "#cdata";
+    _node_type = GXml.NodeType.CDATA_SECTION;
   }
   public TCDATA (GXml.Document d, string text)
     requires (d is GXml.TDocument)
