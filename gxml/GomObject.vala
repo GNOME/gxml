@@ -53,15 +53,15 @@ public interface GXml.GomObject : GLib.Object,
   public virtual string? get_attribute (string name) {
     var prop = get_class ().find_property (name);
     if (prop != null) {
-      if (prop.value_type is SerializableProperty) {
+      if (prop.value_type == typeof(SerializableProperty)) {
         var ov = Value(prop.value_type);
         get_property (name, ref ov);
-        SerializableProperty so = (Object) ov;
+        SerializableProperty so = (Object) ov as SerializableProperty;
         if (so == null) return null;
         return so.get_serializable_property_value ();
       }
     }
-    return (this as DomElement).get_attribute ();
+    return (this as DomElement).get_attribute (name);
   }
   /**
    * Search for a {@link GLib.Object} property with
@@ -75,14 +75,16 @@ public interface GXml.GomObject : GLib.Object,
   public virtual void set_attribute (string name, string val) {
     var prop = get_class ().find_property (name);
     if (prop != null) {
-      if (prop.value_type is SerializableProperty) {
-        var ov = get_property (name, ref ov);
-        SerializableProperty so = (Object) ov;
+      if (prop.value_type == typeof(SerializableProperty)) {
+        var ov = Value (prop.value_type);
+        get_property (name, ref ov);
+        SerializableProperty so = (Object) ov as SerializableProperty;
         if (so == null) return;
         so.set_serializable_property_value (val);
+        return;
       }
     }
-    return (this as DomElement).set_attribute (name, val);
+    (this as DomElement).set_property (name, val);
   }
   /**
    * Search a {@link GLib.Object} property with given name
@@ -94,17 +96,28 @@ public interface GXml.GomObject : GLib.Object,
    * first {@link DomNode} with that name in child nodes.
    *
    */
-  public virtual DomElement get_child (string name) {
+  public virtual DomElement? get_child (string name) {
     var prop = get_class ().find_property (name);
     if (prop != null) {
-      if (prop.value_type is DomElement) {
+      if (prop.value_type == typeof(DomElement)) {
         var vo = Value(prop.value_type);
         get_property (name, ref vo);
         return (DomElement) ((Object) vo);
       }
     }
     if ((this as DomNode).has_child_nodes ()) {
-      return (this as DomElement).child_nodes.named_item (name);
+      var els = (this as DomElement).get_elements_by_tag_name (name);
+      if (els.size != 0)
+        return els.item (0);
     }
+    return null;
+  }
+  public virtual void remove_attribute (string name) {
+    var prop = get_class ().find_property (name);
+    if (prop != null) {
+      set_attribute (name, null);
+      return;
+    }
+    (this as DomElement).remove_attribute (name);
   }
 }

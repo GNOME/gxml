@@ -27,31 +27,49 @@ using Gee;
  * transparently as {@link DomElement} in a XML tree.
  */
 public class GXml.GomElement : GomNode,
-                                  DomChildNode,
-                                  DomNonDocumentTypeChildNode,
-                                  DomParentNode,
-                                  DomElement,
-                                  GomObject {
-  /**
-   * Holds namespaces in current node, using URI as key and prefix as value
-   */
-  protected Gee.HashMap<string?,string> _namespaces = new Gee.HashMap<string?,string> ();
-
-
+                              DomNode,
+                              DomChildNode,
+                              DomNonDocumentTypeChildNode,
+                              DomParentNode,
+                              DomElement,
+                              GomObject {
   // DomNode overrides
   public string? lookup_prefix (string? nspace) {
-    if (nspace == null) return null;
-    var nsp = _namespaces.get (nspace);
-    if (nsp == "") return null;
-    return nsp;
+    if (namespace_uri == nspace && this.prefix != null)
+      return this.prefix;
+    foreach (DomNode a in attributes.values) {
+      if ((a as DomAttr).prefix == null) continue;
+      if ((a as DomAttr).prefix.down () == "xmlns" && a.node_value == nspace)
+        return (a as DomAttr).local_name;
+    }
+    if (parent_node == null) return null;
+    return parent_node.lookup_prefix (nspace);
   }
-  public string? lookup_namespace_uri (string? prefix) {
+  public string? DomNode.lookup_namespace_uri (string? prefix) {
+    if (namespace_uri != null && this.prefix == prefix)
+      return namespace_uri;
     string s = "";
     if (prefix != null) s = prefix;
-    foreach (string k in _namespaces.keys) {
-      if (_namespaces.get (k) == prefix) return k;
+    foreach (DomNode a in attributes.values) {
+      if ((a as DomAttr).namespace_uri == "http://www.w3.org/2000/xmlns/")
+        if ((a as DomAttr).prefix != null)
+          if ((a as DomAttr).prefix.down () == "xmlns"
+              && (a as DomAttr).local_name == s)
+            if (a.node_value == "")
+              return null;
+            else
+              return a.node_value;
+      if ((a as DomAttr).prefix == null
+          && s == ""
+          && (a as DomAttr).local_name == "xmlns"
+          && (a as DomAttr).namespace_uri == "http://www.w3.org/2000/xmlns/")
+          if (a.node_value == "")
+            return null;
+          else
+            return a.node_value;
     }
-    return null;
+    if (parent_node == null) return null;
+    return parent_node.lookup_namespace_uri (prefix);
   }
 
   // DomChildNode
@@ -143,6 +161,7 @@ public class GXml.GomElement : GomNode,
 
   construct {
     _node_type = DomNode.NodeType.ELEMENT_NODE;
+    _attributes = new Attributes (this);
   }
 
   public GomElement (DomDocument doc, string local_name) {
@@ -153,98 +172,105 @@ public class GXml.GomElement : GomNode,
     _document = doc;
     _local_name = local_name;
     _namespace_uri = namespace;
-    string nsp = prefix;
-    if (nsp == null) nsp = "";
-    _prefix = nsp;
-    if (!_namespaces.has_key (namespace))
-      _namespaces.set (namespace, nsp);
+    _prefix = prefix;
   }
   /**
    * Holds attributes in current node, using attribute's name as key
    * and it's value as value. Appends namespace prefix to attribute's name as
    * key if a namespaced attribute.
    */
-  protected class Attributes : HashMap<string,string>, DomNamedNodeMap  {
+  public class Attributes : HashMap<string,string>, DomNamedNodeMap  {
+    protected GomElement _element;
     public ulong length { get { return (ulong) size; } }
     public DomNode? item (ulong index) { return null; }
+
+    public Attributes (GomElement element) {
+      _element = element;
+    }
+
     public DomNode? get_named_item (string name) {
+      // TODO: Validate name throw INVALID_CHARACTER_ERROR
+      if (name == "") return null;
       if (":" in name) return null;
       var v = get (name);
       if (v == null) return null;
-      var n = new GomAttr (this, name, v);
+      var n = new GomAttr (_element, name, v);
       return n;
     }
+    /**
+     * Takes given {@link DomNode} as a {@link DomAttr} and use its name and
+     * value to set a property in {@link DomElement} ignoring node's prefix and
+     * namespace
+     */
     public DomNode? set_named_item (DomNode node) throws GLib.Error {
-      if (":" in node.node_name) return null;
+      if ((":" in node.node_name)
+          || node.node_name == "")
+        throw new DomError.INVALID_CHARACTER_ERROR (_("Invalid attribute name"));
+      if (!(node is DomAttr))
+        throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid node type. DomAttr was expected"));
       set (node.node_name, node.node_value);
-      var n = new GomAttr (this, node.node_name, node.node_value);
+      return new GomAttr (_element, node.node_name, node.node_value);
     }
     public DomNode? remove_named_item (string name) throws GLib.Error {
       if (":" in name) return null;
       var v = get (name);
       if (v == null) return null;
-      var n = new GomAttr (this, name, v);
+      var n = new GomAttr (_element, name, v);
       set (name, null);
       return n;
     }
     // Introduced in DOM Level 2:
     public DomNode? remove_named_item_ns (string namespace_uri, string local_name) throws GLib.Error {
       if (":" in local_name) return null;
-      var nsp = _name_spaces.get (namespace_uri);
-      if (nsp == null) return null;
+      var nsp = _element.lookup_prefix (namespace_uri);
+      if (nsp == null || nsp == "") return null;
       var v = get (nsp+":"+local_name);
       if (v == null) return null;
-      var n = new GomAttr (this, namespace_uri, nsp, local_name, v);
-      set (name, null);
+      var n = new GomAttr.namespace (_element, namespace_uri, nsp, local_name, v);
+      unset (nsp+":"+local_name);
       return n;
     }
     // Introduced in DOM Level 2:
     public DomNode? get_named_item_ns (string namespace_uri, string local_name) throws GLib.Error {
       if (":" in local_name) return null;
-      var nsp = _name_spaces.get (namespace_uri);
+      var nsp = _element.lookup_prefix (namespace_uri);
       if (nsp == null) return null;
       var v = get (nsp+":"+local_name);
       if (v == null) return null;
-      var n = new GomNode ();
-      n._node_value = v;
-      n._local_name = local_name;
+      var n = new GomAttr.namespace (_element, namespace_uri, nsp, local_name, v);
       return n;
     }
     // Introduced in DOM Level 2:
     public DomNode? set_named_item_ns (DomNode node) throws GLib.Error {
-      /* TODO:Ç
-      WRONG_DOCUMENT_ERR: Raised if arg was created from a different document than the one that created this map.
-
-NO_MODIFICATION_ALLOWED_ERR: Raised if this map is readonly.
-
-INUSE_ATTRIBUTE_ERR: Raised if arg is an Attr that is already an attribute of another Element object. The DOM user must explicitly clone Attr nodes to re-use them in other elements.
-
-HIERARCHY_REQUEST_ERR: Raised if an attempt is made to add a node doesn't belong in this NamedNodeMap. Examples would include trying to insert something other than an Attr node into an Element's map of attributes, or a non-Entity node into the DocumentType's map of Entities.
-
-NOT_SUPPORTED_ERR: May be raised if the implementation does not support the feature "XML" and the language exposed through the Document does not support XML Namespaces (such as [HTML 4.01]).
-      */
-      string ns, ln, nsp;
-      if (node is DomElement) {
-        ns = (node as DomElement).namespace_uri;
-        ln = (node as DomElement).local_name;
-        nsp = (node as DomElement).prefix;
-      } else
-        return null;
-      if (":" in ln)
-        throw new DomError.NOT_SUPPORTED_ERROR (_("Invalid local name"));
-      var nsp = _name_spaces.get (ns);
-      if (nsp == null && _namespaces.size == 0) {
-        _namespaces.set (ns, "");
+      if (node.node_name == "")
+        throw new DomError.INVALID_CHARACTER_ERROR (_("Invalid attribute name"));
+      if (!(node is DomAttr))
+        throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid node type. DomAttr was expected"));
+      string n = (node as DomAttr).local_name;
+      string ns = (node as DomAttr).namespace_uri;
+      string v = node.node_value;
+      if ((node as DomAttr).prefix == null
+          && (node as DomAttr).local_name.down () != "xmlns") {
+        set ("xmlns","http://www.w3.org/2000/xmlns/");
+        return new GomAttr (_element, "xmlns", "http://www.w3.org/2000/xmlns/");
       }
-      if (nsp == null) nsp = "";
-      set (nsp+":"+local_name, node.node_value);
-      var n = new GomNode ();
-      n.node_value = v;
-      n._local_name = name;
-      return n;
+      if ((node as DomAttr).prefix == null
+          || (node as DomAttr).prefix == "") {
+        set ((node as DomAttr).local_name, node.node_value);
+        return new GomAttr (_element, node.node_name, node.node_value);
+      }
+      string p = null;
+      if ((node as DomAttr).prefix != ""
+          && (node as DomAttr).prefix != null) p = (node as DomAttr).prefix;
+      set (p+":"+(node as DomAttr).local_name, node.node_value);
+      if ((node as DomAttr).prefix.down () == "xmlns"
+          || (node as DomAttr).local_name == "xmlns")
+        ns = node.node_value;
+      return new GomAttr.namespace (_element,
+                                    ns, p, n, node.node_value);
     }
   }
-  protected Attributes _attributes = new Attributes ();
+  protected Attributes _attributes;
   public DomNamedNodeMap attributes { owned get { return (DomNamedNodeMap) _attributes; } }
   public string? get_attribute (string name) { return (this as GomObject).get_attribute (name); }
   public string? get_attribute_ns (string? namespace, string local_name) {
@@ -258,8 +284,11 @@ NOT_SUPPORTED_ERR: May be raised if the implementation does not support the feat
     if (p == null) return null;
     return p.node_value;
   }
-  public void set_attribute (string name, string? value) { (this as GomObject).set_attribute (name, value); }
-  public void set_attribute_ns (string? namespace, string name, string? value) {
+  public void set_attribute (string name, string? value) {
+    var a = new GomAttr (this, name, value);
+    attributes.set_named_item (a);
+  }
+  public void set_attribute_ns (string? namespace_uri, string name, string? value) {
     string p = "";
     string n = name;
     if (":" in name) {
@@ -269,32 +298,39 @@ NOT_SUPPORTED_ERR: May be raised if the implementation does not support the feat
       n = s[1];
     } else
       n = name;
-      //TODO: Throw errors on xmlns and no MXLNS https://www.w3.org/TR/dom/#dom-element-setattributens
-    var nsp = _namespaces.get (namespace);
-    if (nsp != p) {
-      _namespaces.set (namespace, p); // Set Default
+    if (p == "xml" && namespace_uri != "http://www.w3.org/2000/xmlns/") {
+      GLib.warning (_("Invalid namespace. If prefix is xml name space uri shoud be http://www.w3.org/2000/xmlns/"));
+      return;
     }
-    _attributes.set (p+":"+n, value);
+    if (p == "xmlns" && namespace_uri != "http://www.w3.org/2000/xmlns/") {
+      GLib.warning (_("Invalid namespace. If attribute's name is xmlns name space uri shoud be http://www.w3.org/2000/xmlns/"));
+      return;
+    }
+    // Check a namespace is set
+    if (_prefix == null && _namespace_uri == null)
+      if (p.down () == "xmlns"
+          || n == "xmlns")
+      {
+        if (p != "")
+          _prefix = p;
+        _namespace_uri = namespace_uri;
+      }
+    var a = new GomAttr.namespace (this, namespace_uri, p, n, value);
+    _attributes.set_named_item_ns (a);
   }
   public void remove_attribute (string name) {
     (this as GomElement).remove_attribute (name);
   }
-  public void remove_attribute_ns (string? namespace, string local_name) {
-    if (":" in local_name) return;
-    var nsp = _namespaces.get (namespace);
-    if (nsp == null) return;
-    var a = _attributes.get (nsp+local_name);
-    if (a == null) return;
-    _namespaces.set (nsp+local_name, null);
+  public void remove_attribute_ns (string? namespace_uri, string local_name) {
+    attributes.remove_named_item_ns (namespace_uri, local_name);
   }
   public bool has_attribute (string name) {
     return _attributes.has_key (name);
   }
-  public bool has_attribute_ns (string? namespace, string local_name) {
-    var nsp = _namespaces.get (namespace);
-    if (nsp == null) return false;
-    var a = _namespaces.get (nsp+local_name);
-    if (a != null) return true;
+  public bool has_attribute_ns (string? namespace_uri, string local_name) {
+    var p = lookup_prefix (namespace_uri);
+    if (p == null) return false;
+    return attributes.has_key (p+":"+local_name);
   }
 
 

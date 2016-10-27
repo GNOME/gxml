@@ -84,6 +84,7 @@ sources = \
 	GXPathObject.vala \
 	GomDocument.vala \
 	GomElement.vala \
+	GomAttr.vala \
 	GomNode.vala \
 	GomText.vala \
 	GomObject.vala \

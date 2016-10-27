@@ -52,7 +52,7 @@ public class GXml.GomNode : Object,
       return null;
     }
   }
-
+  // TODO: Move to GomElement
   protected class NodeList : Gee.ArrayList<DomNode>, DomNodeList {
     public DomNode? item (ulong index) { return base.get ((int) index); }
     public ulong length { get { return (ulong) base.size; } }
@@ -73,24 +73,26 @@ public class GXml.GomNode : Object,
   }
   public DomNode? previous_sibling {
     owned get {
-     if (_parent == null) return null;
-     if (_parent.child_nodes == null) return null;
-     if (_parent.child_nodes.length == 0) return null;
-     var pos = (_parent.child_nodes as ArrayList<DomNode>).index_of (this);
-     if (pos == 0) return null;
-     if ((pos - 1) > 0 && (pos - 1) < _parent.child_nodes.size)
-      return _parent.child_nodes[pos - 1];
+      if (_parent == null) return null;
+      if (_parent.child_nodes == null) return null;
+      if (_parent.child_nodes.length == 0) return null;
+      var pos = (_parent.child_nodes as ArrayList<DomNode>).index_of (this);
+      if (pos == 0) return null;
+      if ((pos - 1) > 0 && (pos - 1) < _parent.child_nodes.size)
+        return _parent.child_nodes[pos - 1];
+      return null;
     }
   }
   public DomNode? next_sibling {
     owned get {
-     if (_parent == null) return null;
-     if (_parent.child_nodes == null) return null;
-     if (_parent.child_nodes.length == 0) return null;
-     var pos = (_parent.child_nodes as ArrayList<DomNode>).index_of (this);
-     if (pos == 0) return null;
-     if ((pos + 1) > 0 && (pos + 1) < _parent.child_nodes.size)
-      return _parent.child_nodes[pos + 1];
+      if (_parent == null) return null;
+      if (_parent.child_nodes == null) return null;
+      if (_parent.child_nodes.length == 0) return null;
+      var pos = (_parent.child_nodes as ArrayList<DomNode>).index_of (this);
+      if (pos == 0) return null;
+      if ((pos + 1) > 0 && (pos + 1) < _parent.child_nodes.size)
+        return _parent.child_nodes[pos + 1];
+      return null;
     }
   }
 
@@ -108,8 +110,12 @@ public class GXml.GomNode : Object,
       return t;
     }
     set {
-      var t = owner_document.create_text_node (text_content);
-      child_nodes.add (t);
+      try {
+        var t = owner_document.create_text_node (text_content);
+        child_nodes.add (t);
+      } catch (GLib.Error e) {
+        GLib.warning (_("Text content in element can't be created"));
+      }
     }
   }
 
@@ -125,27 +131,16 @@ public class GXml.GomNode : Object,
     } catch {}
   }
 
-  public bool is_equal_node (DomNode? node) { // FIXME:
+  public bool is_equal_node (DomNode? node) { // FIXME: This is not going to work
     if (node == null) return false;
     if (this is DomCharacterData)
       return (this as DomComment).data == (node as DomComment).data;
-    if ((this is DomElement) && (node is DomElement)) {
-      if ((this as DomElement).child_nodes.size != (node as DomElement).child_nodes.size) return false;
-      foreach (GXml.DomNode a in attributes.values) {
-        if (!(node as GXml.Node?).attributes.has_key (a.name)) return false;
-        if (a.value != (node as GXml.Node).attributes.get (a.name).value) return false;
-      }
-      for (int i=0; i < child_nodes.size; i++) {
-        if (!((this as DomElement).child_nodes[i] as GXml.DomNode).is_equal_node ((node as GXml.Node?).child_nodes[i] as GXml.DomNode?)) return false;
-      }
-      return true;
-    }
     return false;
   }
 
   public DomNode.DocumentPosition compare_document_position (DomNode other) {
     if ((this as GXml.DomNode) == other) return DomNode.DocumentPosition.NONE;
-    if (this.document != (other as GXml.Node).document || other.parent_node == null) {
+    if (this.owner_document != other.owner_document || other.parent_node == null) {
       var p = DomNode.DocumentPosition.DISCONNECTED & DomNode.DocumentPosition.IMPLEMENTATION_SPECIFIC;
       if ((&this) > (&other))
         p = p & DomNode.DocumentPosition.PRECEDING;
@@ -180,7 +175,7 @@ public class GXml.GomNode : Object,
     }
     if (this is DomAttr) {
       if (this.parent_node == null) return  null;
-      return this.parent_node.lookup_prefix (nspace);
+      return parent_node.lookup_prefix (nspace);
     }
     return null;
   }
@@ -189,6 +184,10 @@ public class GXml.GomNode : Object,
         this is GXml.DomDocumentFragment) return null;
     if (this is DomElement) {
         return (this as DomElement).lookup_namespace_uri (prefix);
+    }
+    if (this is DomAttr) {
+      if (this.parent_node == null) return  null;
+      return this.parent_node.lookup_namespace_uri (prefix);
     }
     return null;
   }
@@ -270,43 +269,4 @@ public class GXml.GomNode : Object,
   { return; } // FIXME:
   public bool dispatch_event (DomEvent event)
   { return false; } // FIXME:
-}
-
-public class GXml.GomAttr : GXml.GomNode {
-  protected string _namespace_uri;
-  protected string _prefix;
-  public string local_name { owned get { return _local_name; } }
-  public string name {
-    owned get {
-      string s = "";
-      if (_prefix != null) s = _prefix+":";
-      return s+_local_name;
-    }
-  }
-  public string? namespace_uri { owned get { return _namespace_uri; } }
-  public string? prefix {
-    owned get {
-      if (_prefix == "") return null;
-      return _prefix;
-    }
-  }
-  public string value { owned get { return _node_value; } set { _node_value = value; } }
-
-  public GomAttr (DomElement element, string name, string value) {
-    _document = element.owner_document;
-    _parent = element;
-    _local_name = name;
-    _node_value = value;
-  }
-  public GomAttr.namespace (DomElement element, string namespace, string? prefix, string name, string value) {
-    _document = element.owner_document;
-    _parent = element;
-    _local_name = name;
-    _node_value = value;
-    if (element.lookup_prefix (namespace) == prefix
-        || (prefix == null && element.lookup_prefix (namespace) == "")) {
-      _namespace_uri = namespace;
-      _prefix = prefix;
-    }
-  }
 }

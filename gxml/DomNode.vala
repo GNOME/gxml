@@ -81,17 +81,17 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
   public abstract DomNode remove_child (DomNode child) throws GLib.Error;
   public virtual DomNode clone_node (bool deep = false) {
     DomNode n = new GomNode ();
-    if (_document == null) return new GomNode ();
+    if (owner_document == null) return new GomNode ();
     switch (node_type) {
       case NodeType.ELEMENT_NODE:
-        n = _document.create_element (node_name);
-        copy (_document, n, this, true);
+        n = owner_document.create_element (node_name);
+        copy (owner_document, n, this, true);
         break;
       case NodeType.COMMENT_NODE:
-        n = _document.create_comment ((this as DomComment).data);
+        n = owner_document.create_comment ((this as DomComment).data);
         break;
       case NodeType.TEXT_NODE:
-        n = _document.create_text_node ((this as DomText).data);
+        n = owner_document.create_text_node ((this as DomText).data);
         break;// FIXME: more nodes
     }
     return n;
@@ -144,8 +144,12 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
             GLib.warning (_("Text node with NULL string"));
             continue;
           }
-          var t = doc.create_text_node ((c as DomText).data);
-          node.child_nodes.add (t);
+          try {
+            var t = doc.create_text_node ((c as DomText).data);
+            node.child_nodes.add (t);
+          } catch (GLib.Error e) {
+            GLib.warning (_("Can't copy child text node"));
+          }
 #if DEBUG
           GLib.message (@"Copying source's Text node '$(source.node_name)' to destiny node with text: $(c.node_value) : Size= $(node.child_nodes.size)");
           GLib.message (@"Added Text: $(node.child_nodes.get (node.child_nodes.size - 1))");
