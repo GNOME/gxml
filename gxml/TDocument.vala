@@ -148,9 +148,6 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
               _root = (GXml.Element) n;
           }
         }
-        if (found > 1) {
-          GLib.warning (_("Document has more than one root GXmlElement. Using first found"));
-        }
       }
       return _root;
     }

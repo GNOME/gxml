@@ -737,6 +737,11 @@ class TDocumentTest : GXmlTest {
 				var file = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/t-read-test.xml");
 				assert (file.query_exists ());
 				var d = new TDocument.from_file (file);
+				assert (d.children_nodes != null);
+				assert (d.children_nodes.size == 3);
+				assert (d.children_nodes[0] is GXml.Comment);
+				assert (d.children_nodes[1] is GXml.ProcessingInstruction);
+				assert (d.children_nodes[2] is GXml.Element);
 				assert (d.root != null);
 				assert (d.root.children_nodes.size == 7);
 				var n = d.root.children_nodes[6];
