@@ -109,9 +109,9 @@ public interface GXml.DomNodeIterator {
  */
 public class GXml.DomNodeFilter : Object {
   // Constants for acceptNode()
-  public const ushort FILTER_ACCEPT = 1;
-  public const ushort FILTER_REJECT = 2;
-  public const ushort FILTER_SKIP = 3;
+  public const int FILTER_ACCEPT = 1;
+  public const int FILTER_REJECT = 2;
+  public const int FILTER_SKIP = 3;
 
   // Constants for whatToShow
   public const int SHOW_ALL = (int) 0xFFFFFFFF;
@@ -128,7 +128,7 @@ public class GXml.DomNodeFilter : Object {
   public const int SHOW_DOCUMENT_FRAGMENT = (int) 0x400;
   public const int SHOW_NOTATION = (int) 0x800; // historical
 
-  public delegate ushort AcceptNode(Node node); // FIXME: Should be a User defined method
+  public delegate int AcceptNode(Node node); // FIXME: Should be a User defined method
 }
 
 

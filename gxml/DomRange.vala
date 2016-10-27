@@ -22,14 +22,14 @@
 
 public interface GXml.DomRange : GLib.Object {
   public abstract DomNode start_container { get; }
-  public abstract ulong start_offset { get; }
+  public abstract int start_offset { get; }
   public abstract DomNode end_container { get; }
-  public abstract ulong end_offset { get; }
+  public abstract int end_offset { get; }
   public abstract bool collapsed { get; }
   public abstract DomNode common_ancestor_container { get; }
 
-  public abstract void set_start        (DomNode node, ulong offset) throws GLib.Error;
-  public abstract void set_end          (DomNode node, ulong offset) throws GLib.Error;
+  public abstract void set_start        (DomNode node, int offset) throws GLib.Error;
+  public abstract void set_end          (DomNode node, int offset) throws GLib.Error;
   public abstract void set_start_before (DomNode node) throws GLib.Error;
   public abstract void set_start_after  (DomNode node) throws GLib.Error;
   public abstract void set_end_before   (DomNode node) throws GLib.Error;
@@ -49,8 +49,8 @@ public interface GXml.DomRange : GLib.Object {
   public abstract DomRange clone_range();
   public abstract void detach ();
 
-  public abstract bool  is_point_in_range (DomNode node, ulong offset);
-  public abstract short compare_point     (DomNode node, ulong offset);
+  public abstract bool  is_point_in_range (DomNode node, int offset);
+  public abstract short compare_point     (DomNode node, int offset);
 
   public abstract bool  intersects_node   (DomNode node);
 

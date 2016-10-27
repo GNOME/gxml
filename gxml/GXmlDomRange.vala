@@ -24,15 +24,15 @@
 public class GXml.GDomRange : Object, GXml.DomRange {
 	protected DomDocument _document;
 	protected DomNode _start_container;
-	protected ulong _start_offset;
+	protected int _start_offset;
 	protected DomNode _end_container;
-	protected ulong _end_offset;
+	protected int _end_offset;
 	protected bool _collapse;
 	protected DomNode _common_ancestor_container;
 	public DomNode start_container { get { return _start_container; } }
-	public ulong start_offset { get { return _start_offset; } }
+	public int start_offset { get { return _start_offset; } }
 	public DomNode end_container { get { return _end_container; } }
-	public ulong end_offset { get { return _end_offset; } }
+	public int end_offset { get { return _end_offset; } }
 	public bool collapsed { get { return _collapse; } }
 	public DomNode common_ancestor_container { get { return _common_ancestor_container; } }
 
@@ -45,7 +45,7 @@ public class GXml.GDomRange : Object, GXml.DomRange {
 		_common_ancestor_container = doc; //FIXME: Check spec
 	}
 
-	public void set_start (DomNode node, ulong offset) throws GLib.Error {
+	public void set_start (DomNode node, int offset) throws GLib.Error {
 		if (node is DomDocumentType)
 			throw new DomError.INVALID_NODE_TYPE_ERROR (_("Invalid node type to start"));
 		if (node is DocumentType)
@@ -73,7 +73,7 @@ public class GXml.GDomRange : Object, GXml.DomRange {
 		_start_container = node;
 		_start_offset = offset;
 	}
-	public void set_end (DomNode node, ulong offset) throws GLib.Error {
+	public void set_end (DomNode node, int offset) throws GLib.Error {
 		if (node is DomDocumentType)
 			throw new DomError.INVALID_NODE_TYPE_ERROR (_("Invalid node type to start"));
 		if (node is DocumentType)
@@ -150,7 +150,7 @@ public class GXml.GDomRange : Object, GXml.DomRange {
 		if (node is DomDocumentType)
 			throw new DomError.INVALID_NODE_TYPE_ERROR (_("Invalid node type to start"));
 		set_start (node, 0);
-		ulong length = 0;
+		int length = 0;
 		if (node is DocumentType) length = 0;
 		else
 			if (node is DomCharacterData) length = (node as DomCharacterData).length;
@@ -194,8 +194,8 @@ public class GXml.GDomRange : Object, GXml.DomRange {
 	public DomRange clone_range() { return (DomRange) this.ref (); }// FIXME:
 	public void detach () { return; }// FIXME:
 
-	public bool  is_point_in_range (DomNode node, ulong offset) { return false; }// FIXME:
-	public short compare_point     (DomNode node, ulong offset) { return 0; }// FIXME:
+	public bool  is_point_in_range (DomNode node, int offset) { return false; }// FIXME:
+	public short compare_point     (DomNode node, int offset) { return 0; }// FIXME:
 
 	public bool  intersects_node   (DomNode node) { return false; }// FIXME:
 
