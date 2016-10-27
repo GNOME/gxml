@@ -210,7 +210,7 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
     public bool valid { get { return _current != null; } }
   }
   // DomNamedNodeMap
-  public ulong length { get { return size; } }
+  public int length { get { return size; } }
 
   public DomNode? get_named_item (string name) {
     return (DomNode?) this.get (name);
@@ -225,7 +225,7 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
    *
    * @param index of required {@link DomNode}
    */
-  public DomNode? item (ulong index) {
+  public DomNode? item (int index) {
     int i = 0;
     if (index > size) return null;
     foreach (GXml.Node node in values) {

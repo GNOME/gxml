@@ -270,6 +270,6 @@ public class GXml.GomNode : Object,
  * List of {@link DomNode} implementing {@link DomNodeList}
  */
 public class GXml.GomNodeList : Gee.ArrayList<DomNode>, DomNodeList {
-  public DomNode? item (ulong index) { return base.get ((int) index); }
+  public DomNode? item (int index) { return base.get (index); }
   public int length { get { return size; } }
 }

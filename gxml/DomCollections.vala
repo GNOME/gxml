@@ -29,7 +29,7 @@ public interface GXml.DomParentNode : GLib.Object {
   public abstract DomHTMLCollection children { owned get; }
   public abstract DomElement? first_element_child { owned get; }
   public abstract DomElement? last_element_child { owned get; }
-  public abstract ulong child_element_count { get; }
+  public abstract int child_element_count { get; }
 
   public abstract DomElement? query_selector (string selectors) throws GLib.Error;
   public abstract DomNodeList query_selector_all (string selectors) throws GLib.Error;
@@ -68,7 +68,7 @@ public interface GXml.DomChildNode : GLib.Object {
 
 
 public interface GXml.DomNodeList : GLib.Object, Gee.BidirList<GXml.DomNode>  {
-  public abstract DomNode? item (ulong index);
+  public abstract DomNode? item (int index);
   public abstract int length { get; }
 }
 
@@ -77,8 +77,8 @@ public interface GXml.DomHTMLCollection : GLib.Object, Gee.BidirList<GXml.DomEle
   public virtual new GXml.DomElement[] to_array () {
     return (GXml.DomElement[]) ((Gee.Collection<GXml.Element>) this).to_array ();
   }
-  public virtual ulong length { get { return (ulong) size; } }
-  public virtual DomElement? item (ulong index) { return this.get ((int) index); }
+  public virtual int length { get { return (int) size; } }
+  public virtual DomElement? item (int index) { return this.get ((int) index); }
   public virtual DomElement? named_item (string name) {
       foreach (GXml.DomElement e in this) {
           if (e.node_name == name) return e;
@@ -95,7 +95,7 @@ public interface GXml.DomNodeIterator {
   public abstract DomNode root { get; }
   public abstract DomNode reference_node { get; }
   public abstract bool pointer_before_reference_node { get; }
-  public abstract ulong what_to_show { get; }
+  public abstract int what_to_show { get; }
   public abstract DomNodeFilter? filter { get; }
 
   public abstract DomNode? next_node();
@@ -114,19 +114,19 @@ public class GXml.DomNodeFilter : Object {
   public const ushort FILTER_SKIP = 3;
 
   // Constants for whatToShow
-  public const ulong SHOW_ALL = (ulong) 0xFFFFFFFF;
-  public const ulong SHOW_ELEMENT = (ulong) 0x1;
-  public const ulong SHOW_ATTRIBUTE = (ulong) 0x2; // historical
-  public const ulong SHOW_TEXT = (ulong) 0x4;
-  public const ulong SHOW_CDATA_SECTION = (ulong) 0x8; // historical
-  public const ulong SHOW_ENTITY_REFERENCE = (ulong) 0x10; // historical
-  public const ulong SHOW_ENTITY = (ulong) 0x20; // historical
-  public const ulong SHOW_PROCESSING_INSTRUCTION = (ulong) 0x40;
-  public const ulong SHOW_COMMENT = (ulong) 0x80;
-  public const ulong SHOW_DOCUMENT = (ulong) 0x100;
-  public const ulong SHOW_DOCUMENT_TYPE = (ulong) 0x200;
-  public const ulong SHOW_DOCUMENT_FRAGMENT = (ulong) 0x400;
-  public const ulong SHOW_NOTATION = (ulong) 0x800; // historical
+  public const int SHOW_ALL = (int) 0xFFFFFFFF;
+  public const int SHOW_ELEMENT = (int) 0x1;
+  public const int SHOW_ATTRIBUTE = (int) 0x2; // historical
+  public const int SHOW_TEXT = (int) 0x4;
+  public const int SHOW_CDATA_SECTION = (int) 0x8; // historical
+  public const int SHOW_ENTITY_REFERENCE = (int) 0x10; // historical
+  public const int SHOW_ENTITY = (int) 0x20; // historical
+  public const int SHOW_PROCESSING_INSTRUCTION = (int) 0x40;
+  public const int SHOW_COMMENT = (int) 0x80;
+  public const int SHOW_DOCUMENT = (int) 0x100;
+  public const int SHOW_DOCUMENT_TYPE = (int) 0x200;
+  public const int SHOW_DOCUMENT_FRAGMENT = (int) 0x400;
+  public const int SHOW_NOTATION = (int) 0x800; // historical
 
   public delegate ushort AcceptNode(Node node); // FIXME: Should be a User defined method
 }
@@ -137,7 +137,7 @@ public class GXml.DomNodeFilter : Object {
  */
 public interface GXml.DomTreeWalker : Object {
   public abstract DomNode root { get; }
-  public abstract ulong what_to_show { get; }
+  public abstract int what_to_show { get; }
   public abstract DomNodeFilter? filter { get; }
   public abstract DomNode current_node { get; }
 
@@ -151,8 +151,8 @@ public interface GXml.DomTreeWalker : Object {
 }
 
 public interface GXml.DomNamedNodeMap : Object, Gee.Map<string,DomNode> {
-  public abstract ulong length { get; }
-  public abstract DomNode? item (ulong index);
+  public abstract int length { get; }
+  public abstract DomNode? item (int index);
   public abstract DomNode? get_named_item (string name);
   public abstract DomNode? set_named_item (DomNode node) throws GLib.Error;
   public abstract DomNode? remove_named_item (string name) throws GLib.Error;
@@ -165,8 +165,8 @@ public interface GXml.DomNamedNodeMap : Object, Gee.Map<string,DomNode> {
 }
 
 public interface GXml.DomTokenList : GLib.Object, Gee.BidirList<string> {
-  public abstract ulong   length   { get; }
-  public abstract string? item     (ulong index);
+  public abstract int   length   { get; }
+  public abstract string? item     (int index);
   public abstract bool    contains (string token) throws GLib.Error;
   public abstract void    add      (string[] tokens) throws GLib.Error;
   public abstract void    remove   (string[] tokens);

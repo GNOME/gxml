@@ -64,12 +64,12 @@ public interface GXml.DomDocument : GLib.Object,
   /**
    * No implemented jet. This can lead to API changes in future versions.
    */
-  public abstract DomNodeIterator create_node_iterator (DomNode root, ulong whatToShow = (ulong) 0xFFFFFFFF, DomNodeFilter? filter = null);
+  public abstract DomNodeIterator create_node_iterator (DomNode root, int whatToShow = (int) 0xFFFFFFFF, DomNodeFilter? filter = null);
 
   /**
    * No implemented jet. This can lead to API changes in future versions.
    */
-  public abstract DomTreeWalker create_tree_walker (DomNode root, ulong what_to_show = (ulong) 0xFFFFFFFF, DomNodeFilter? filter = null);
+  public abstract DomTreeWalker create_tree_walker (DomNode root, int what_to_show = (int) 0xFFFFFFFF, DomNodeFilter? filter = null);
 }
 
 public interface GXml.DomXMLDocument : GLib.Object, GXml.DomDocument {}

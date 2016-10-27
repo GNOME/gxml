@@ -29,8 +29,8 @@ public class GXml.GDomTokenList : Gee.ArrayList<string>, GXml.DomTokenList {
   protected DomElement _element;
   protected string _attr = null;
 
-  public ulong length { get { return size; } }
-  public string? item (ulong index) { return base.get ((int) index); }
+  public int length { get { return size; } }
+  public string? item (int index) { return base.get (index); }
 
   public GDomTokenList (DomElement e, string? attr) {
     _element = e;
@@ -128,8 +128,8 @@ public class GXml.GDomSettableTokenList : GXml.GDomTokenList, GXml.DomSettableTo
 public class GXml.GDomHTMLCollection : Gee.ArrayList<GXml.DomElement>,
               GXml.DomHTMLCollection
 {
-  public ulong length { get { return size; } }
-  public DomElement? item (ulong index) { return base.get ((int) index); }
+  public int length { get { return size; } }
+  public DomElement? item (int index) { return base.get (index); }
   public DomElement? named_item (string name) {
     foreach (DomElement e in this) {
       if (e.node_name == name) return e;

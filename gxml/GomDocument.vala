@@ -175,11 +175,11 @@ public class GXml.GomDocument : GomNode,
   }
 
   // NodeFilter.SHOW_ALL = 0xFFFFFFFF
-  public DomNodeIterator create_node_iterator (DomNode root, ulong what_to_show = (ulong) 0xFFFFFFFF, DomNodeFilter? filter = null)
+  public DomNodeIterator create_node_iterator (DomNode root, int what_to_show = (int) 0xFFFFFFFF, DomNodeFilter? filter = null)
   {
     return new GDomNodeIterator (root, what_to_show, filter);
   }
-  public DomTreeWalker create_tree_walker (DomNode root, ulong what_to_show = (ulong) 0xFFFFFFFF, DomNodeFilter? filter = null) {
+  public DomTreeWalker create_tree_walker (DomNode root, int what_to_show = (int) 0xFFFFFFFF, DomNodeFilter? filter = null) {
       return new GDomTreeWalker (root, what_to_show, filter);
   }
   // DomParentNode
@@ -190,7 +190,7 @@ public class GXml.GomDocument : GomNode,
   public DomElement? last_element_child {
     owned get { return (DomElement) child_nodes.last (); }
   }
-  public ulong child_element_count { get { return (ulong) child_nodes.size; } }
+  public int child_element_count { get { return child_nodes.size; } }
 
   public DomElement? query_selector (string selectors) throws GLib.Error {
     return null; // FIXME
@@ -289,7 +289,7 @@ public class GXml.GomDocumentFragment : GXml.GomNode,
   }
   public DomElement? first_element_child { owned get { return (DomElement) children.first (); } }
   public DomElement? last_element_child { owned get { return (DomElement) children.last (); } }
-  public ulong child_element_count { get { return (ulong) children.size; } }
+  public int child_element_count { get { return (int) children.size; } }
 
   public DomElement? query_selector (string selectors) throws GLib.Error {
   // FIXME:

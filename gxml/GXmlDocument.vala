@@ -328,11 +328,11 @@ public class GXml.GDocument : GXml.GNode,
   }
 
   // NodeFilter.SHOW_ALL = 0xFFFFFFFF
-  public DomNodeIterator create_node_iterator (DomNode root, ulong what_to_show = (ulong) 0xFFFFFFFF, DomNodeFilter? filter = null)
+  public DomNodeIterator create_node_iterator (DomNode root, int what_to_show = (int) 0xFFFFFFFF, DomNodeFilter? filter = null)
   {
     return new GDomNodeIterator (root, what_to_show, filter);
   }
-  public DomTreeWalker create_tree_walker (DomNode root, ulong what_to_show = (ulong) 0xFFFFFFFF, DomNodeFilter? filter = null) {
+  public DomTreeWalker create_tree_walker (DomNode root, int what_to_show = (int) 0xFFFFFFFF, DomNodeFilter? filter = null) {
       return new GDomTreeWalker (root, what_to_show, filter);
   }
   // DomParentNode
@@ -343,7 +343,7 @@ public class GXml.GDocument : GXml.GNode,
   public DomElement? last_element_child {
     owned get { return (DomElement) (this as Document).children_nodes.last (); }
   }
-  public ulong child_element_count { get { return (ulong) children_nodes.size; } }
+  public int child_element_count { get { return children_nodes.size; } }
 
   public DomElement? query_selector (string selectors) throws GLib.Error {
     return null; // FIXME
@@ -431,9 +431,9 @@ public class GXml.GDomNodeIterator : Object, GXml.DomNodeIterator {
   protected DomNode _root;
   protected DomNode _reference_node;
   protected bool _pointer_before_reference_node;
-  protected ulong _what_to_show;
+  protected int _what_to_show;
   protected DomNodeFilter _filter;
-  public GDomNodeIterator (DomNode n, ulong what_to_show, DomNodeFilter filter) {
+  public GDomNodeIterator (DomNode n, int what_to_show, DomNodeFilter filter) {
     _root = n;
     _what_to_show = what_to_show;
     _filter = filter;
@@ -441,7 +441,7 @@ public class GXml.GDomNodeIterator : Object, GXml.DomNodeIterator {
   public DomNode root { get { return _root; } }
   public DomNode reference_node { get { return _reference_node; } }
   public bool pointer_before_reference_node { get { return _pointer_before_reference_node; } }
-  public ulong what_to_show { get { return _what_to_show; } }
+  public int what_to_show { get { return _what_to_show; } }
   public DomNodeFilter? filter { get { return _filter; } }
 
   public DomNode? next_node() { return null; } // FIXME
@@ -453,16 +453,16 @@ public class GXml.GDomNodeIterator : Object, GXml.DomNodeIterator {
 
 public class GXml.GDomTreeWalker : Object, GXml.DomTreeWalker {
   protected DomNode _root;
-  protected ulong _what_to_show;
+  protected int _what_to_show;
   protected DomNodeFilter? _filter;
   protected  DomNode _current_node;
 
   public DomNode root { get { return root; } }
-  public ulong what_to_show { get { return _what_to_show; } }
+  public int what_to_show { get { return _what_to_show; } }
   public DomNodeFilter? filter { get { return _filter; } }
   public DomNode current_node { get { return _current_node; } }
 
-  public GDomTreeWalker (DomNode r, ulong w, DomNodeFilter f) {
+  public GDomTreeWalker (DomNode r, int w, DomNodeFilter f) {
     _root = r;
     _what_to_show = w;
     _filter = f;

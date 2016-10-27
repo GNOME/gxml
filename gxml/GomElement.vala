@@ -117,7 +117,7 @@ public class GXml.GomElement : GomNode,
   }
   public DomElement? first_element_child { owned get { return (DomElement) children.first (); } }
   public DomElement? last_element_child { owned get { return (DomElement) children.last (); } }
-  public ulong child_element_count { get { return (ulong) children.size; } }
+  public int child_element_count { get { return children.size; } }
 
   public DomElement? query_selector (string selectors) throws GLib.Error {
   // FIXME:
@@ -179,8 +179,8 @@ public class GXml.GomElement : GomNode,
    */
   public class Attributes : HashMap<string,string>, DomNamedNodeMap  {
     protected GomElement _element;
-    public ulong length { get { return (ulong) size; } }
-    public DomNode? item (ulong index) { return null; }
+    public int length { get { return size; } }
+    public DomNode? item (int index) { return null; }
 
     public Attributes (GomElement element) {
       _element = element;

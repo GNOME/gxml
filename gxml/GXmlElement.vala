@@ -310,7 +310,7 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
   }
   public DomElement? first_element_child { owned get { return (DomElement) children.first (); } }
   public DomElement? last_element_child { owned get { return (DomElement) children.last (); } }
-  public ulong child_element_count { get { return (ulong) children.size; } }
+  public int child_element_count { get { return children.size; } }
 
   public DomElement? query_selector (string selectors) throws GLib.Error {
   // FIXME:
