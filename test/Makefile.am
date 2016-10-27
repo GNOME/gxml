@@ -58,6 +58,7 @@ sources = \
 	HtmlDocumentTest.vala \
 	DomGDocumentTest.vala \
 	XPathTest.vala \
+	GomDocumentTest.vala \
 	$(NULL)
 
 vala-stamp: $(sources)

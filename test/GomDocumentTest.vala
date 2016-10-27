@@ -27,31 +27,31 @@ class GomDocumentTest : GXmlTest {
 		Test.add_func ("/gxml/gom-document/construct_api", () => {
 			try {
 				var d = new GomDocument ();
-				var root = d.create_element ("root");
-				d.children_nodes.add (root);
-				assert (d.root != null);
-				Test.message ("Root name: "+d.root.name);
-				assert (d.root.name == "root");
-				Test.message ("Root string: "+d.root.to_string ());
-				assert (d.root.to_string () == "<root/>");
+				var document_element = d.create_element ("document_element");
+				d.child_nodes.add (document_element);
+				assert (d.document_element != null);
+				Test.message ("document_element name: "+d.document_element.node_name);
+				assert (d.document_element.node_name == "document_element");
+				Test.message ("document_element string: "+d.document_element.to_string ());
+				assert (d.document_element.to_string () == "<document_element/>");
 			} catch {assert_not_reached ();}
 		});
 		Test.add_func ("/gxml/gom-document/construct_from_path_error", () => {
-				GomDocument doc;
+				DomDocument doc;
 				try {
 				GLib.Test.message ("invalid file...");
 					// file does not exist
-					doc = new GomDocument.from_path ("/tmp/asdfjlkansdlfjl");
+					doc = new GDocument.from_path ("/tmp/asdfjlkansdlfjl");
 					assert_not_reached ();
 				} catch {}
 
 				try {
 					// file exists, but is not XML (it's a directory!)
-					doc = new GomDocument.from_path ("/tmp/");
+					doc = new GDocument.from_path ("/tmp/");
 					assert_not_reached ();
 				} catch  {}
 				try {
-					doc = new GomDocument.from_path ("test_invalid.xml");
+					doc = new GDocument.from_path ("test_invalid.xml");
 					assert_not_reached ();
 				} catch {}
 			});
@@ -60,7 +60,7 @@ class GomDocumentTest : GXmlTest {
 				assert (fin.query_exists ());
 				try {
 					var instream = fin.read (null);
-					var doc = new GomDocument.from_stream (instream);
+					var doc = new GDocument.from_stream (instream);
 					assert (doc != null);
 					// TODO: CHECKS
 				} catch (GLib.Error e) {
@@ -73,15 +73,15 @@ class GomDocumentTest : GXmlTest {
 				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test-file.xml");
 				if (f.query_exists ()) f.delete ();
 				var s = new GLib.StringBuilder ();
-				s.append ("""<root />""");
-				var d = new GomDocument.from_string (s.str);
+				s.append ("""<document_element />""");
+				var d = new GDocument.from_string (s.str);
 				Test.message ("Saving to file: "+f.get_uri ()+d.to_string ());
 				d.save_as (f);
 				assert (f.query_exists ());
-				var d2 = new GomDocument.from_file (f);
+				var d2 = new GDocument.from_file (f);
 				assert (d2 != null);
-				assert (d2.root != null);
-				assert (d2.root.name == "root");
+				assert (d2.document_element != null);
+				assert (d2.document_element.node_name == "document_element");
 				f.delete ();
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+e.message);
@@ -95,17 +95,17 @@ class GomDocumentTest : GXmlTest {
 					GLib.message ("No remote file available. Skiping...");
 					return;
 				}
-				var d = new GomDocument.from_file (rf);
+				var d = new GDocument.from_file (rf);
 				assert (d != null);
-				assert (d.root != null);
-				assert (d.root.name == "Project");
+				assert (d.document_element != null);
+				assert (d.document_element.node_name == "Project");
 				bool fname, fshordesc, fdescription, fhomepage;
 				fname = fshordesc = fdescription = fhomepage = false;
-				foreach (GXml.Node n in d.root.children_nodes) {
-					if (n.name == "name") fname = true;
-					if (n.name == "shortdesc") fshordesc = true;
-					if (n.name == "description") fdescription = true;
-					if (n.name == "homepage") fhomepage = true;
+				foreach (DomNode n in d.document_element.child_nodes) {
+					if (n.node_name == "name") fname = true;
+					if (n.node_name == "shortdesc") fshordesc = true;
+					if (n.node_name == "description") fdescription = true;
+					if (n.node_name == "homepage") fhomepage = true;
 				}
 				assert (fname);
 				assert (fshordesc);
@@ -124,11 +124,11 @@ class GomDocumentTest : GXmlTest {
 				File fin;
 				InputStream instream;
 				FileIOStream iostream;
-				GomDocument doc;
+				DomDocument doc;
 
 				try {
 					fin = File.new_tmp ("gxml.XXXXXX", out iostream);
-					doc = new GomDocument.from_stream (iostream.input_stream);
+					doc = new GDocument.from_stream (iostream.input_stream);
 					GLib.message ("Passed parse error stream");
 					assert_not_reached ();
 				} catch  {}
@@ -136,49 +136,49 @@ class GomDocumentTest : GXmlTest {
 		Test.add_func ("/gxml/gom-document/construct_from_string", () => {
 			try {
 				string xml;
-				GomDocument doc;
-				GXml.Node root;
+				DomDocument doc;
+				GXml.DomNode document_element;
 
 				xml = "<Fruits><Apple></Apple><Orange></Orange></Fruits>";
-				doc = new GomDocument.from_string (xml);
-				assert (doc.root != null);
-				root = doc.root;
-				assert (root.name == "Fruits");
-				assert (root.children_nodes.size == 2);
-				var n1 = root.children_nodes.get (0);
+				doc = new GDocument.from_string (xml);
+				assert (doc.document_element != null);
+				document_element = doc.document_element;
+				assert (document_element.node_name == "Fruits");
+				assert (document_element.child_nodes.size == 2);
+				var n1 = document_element.child_nodes.get (0);
 				assert (n1 != null);
-				assert (n1.name == "Apple");
+				assert (n1.node_name == "Apple");
 			} catch { assert_not_reached (); }
 			});
-		Test.add_func ("/gxml/gom-document/construct_from_string_no_root", () => {
+		Test.add_func ("/gxml/gom-document/construct_from_string_no_document_element", () => {
 			try {
 				string xml;
-				GomDocument doc;
-				GXml.Node root;
+				DomDocument doc;
+				GXml.DomNode document_element;
 
 				xml = """<?xml version="1.0"?>""";
-				doc = new GomDocument.from_string (xml);
+				doc = new GDocument.from_string (xml);
 				assert_not_reached ();
 			} catch {}
 			});
 		Test.add_func ("/gxml/gom-document/construct_from_string_invalid", () => {
 			try {
 				string xml;
-				GomDocument doc;
-				GXml.Node root;
+				DomDocument doc;
+				GXml.DomNode document_element;
 
 				xml = "";
-				doc = new GomDocument.from_string (xml);
+				doc = new GDocument.from_string (xml);
 			} catch { assert_not_reached (); }
 			});
 		Test.add_func ("/gxml/gom-document/save", () => {
-				GomDocument doc;
+				DomDocument doc;
 				int exit_status;
 
 				try {
-					doc = new GomDocument.from_string ("<root />");
+					doc = new GDocument.from_string ("<document_element />");
 					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/test_out_path.xml");
-					doc.save_as (f);
+					(doc as GDocument).save_as (f);
 					assert (f.query_exists ());
 					f.delete ();
 				} catch (GLib.Error e) {
@@ -187,18 +187,18 @@ class GomDocumentTest : GXmlTest {
 				}
 			});
 		Test.add_func ("/gxml/gom-document/save_error", () => {
-				GomDocument doc;
+				DomDocument doc;
 
 				try {
-					doc = new GomDocument.from_string ("<root />");
-					doc.save_as (GLib.File.new_for_path ("/tmp/a/b/c/d/e/f/g/h/i"));
+					doc = new GDocument.from_string ("<document_element />");
+					(doc as GDocument).save_as (GLib.File.new_for_path ("/tmp/a/b/c/d/e/f/g/h/i"));
 					assert_not_reached ();
 				} catch {}
 			});
 
 		Test.add_func ("/gxml/gom-document/create_element", () => {
 			try {
-				GomDocument doc = new GomDocument.from_string ("<root />");
+				DomDocument doc = new GDocument.from_string ("<document_element />");
 				GElement elem = null;
 
 				elem = (GElement) doc.create_element ("Banana");
@@ -210,62 +210,50 @@ class GomDocumentTest : GXmlTest {
 		});
 		Test.add_func ("/gxml/gom-document/create_text_node", () => {
 			try {
-				GomDocument doc = new GomDocument.from_string ("<root />");
-				Text text = (Text) doc.create_text ("Star of my dreams");
+				DomDocument doc = new GDocument.from_string ("<document_element />");
+				DomText text = (DomText) doc.create_text_node ("Star of my dreams");
 
-				assert (text.name == "#text");
-				assert (text.value == "Star of my dreams");
+				assert (text.node_name == "#text");
+				assert (text.node_value == "Star of my dreams");
 			} catch { assert_not_reached (); }
 		});
 		Test.add_func ("/gxml/gom-document/create_comment", () => {
 			try {
-				GomDocument doc = new GomDocument.from_string ("<root />");
-				Comment comment = (GXml.Comment) doc.create_comment ("Ever since the day we promised.");
+				DomDocument doc = new GDocument.from_string ("<document_element />");
+				DomComment comment = (GXml.DomComment) doc.create_comment ("Ever since the day we promised.");
 
-				assert (comment.name == "#comment");
-				assert (comment.str == "Ever since the day we promised.");
-			} catch { assert_not_reached (); }
-		});
-		Test.add_func ("/gxml/gom-document/create_cdata_section", () => {
-			try {
-				GomDocument doc = new GomDocument.from_string ("<root />");
-				CDATA cdata = (CDATA) doc.create_cdata ("put in real cdata");
-
-				assert (cdata.name == "#cdata-section");
-				assert (cdata.value == "put in real cdata");
+				assert (comment.node_name == "#comment");
+				assert (comment.data == "Ever since the day we promised.");
 			} catch { assert_not_reached (); }
 		});
 		Test.add_func ("/gxml/gom-document/create_processing_instruction", () => {
 			try {
-				GomDocument doc = new GomDocument.from_string ("<root />");
-				ProcessingInstruction instruction = (ProcessingInstruction) doc.create_pi ("target", "data");
+				DomDocument doc = new GDocument.from_string ("<document_element />");
+				DomProcessingInstruction instruction = (DomProcessingInstruction) doc.create_processing_instruction ("target", "data");
 
-				assert (instruction.name == "target");
+				assert (instruction.node_name == "target");
 				assert (instruction.target == "target");
 				assert (instruction.data == "data");
-				assert (instruction.value == "data");
+				assert (instruction.node_value == "data");
 			} catch { assert_not_reached (); }
 		});
 		Test.add_func ("/gxml/gom-document/create_attribute", () => {
 			try {
-				GomDocument doc = new GomDocument.from_string ("<root />");
-				assert (doc.root != null);
-				((GElement) doc.root).set_attr ("attrname", "attrvalue");
+				DomDocument doc = new GDocument.from_string ("<document_element />");
+				assert (doc.document_element != null);
+				((DomElement) doc.document_element).set_attribute ("attrname", "attrvalue");
 				Test.message ("DOC:"+doc.to_string ());
-				var attr = ((GElement) doc.root).get_attr ("attrname");
-				Test.message ("Attr name: "+attr.name);
-				Test.message ("Attr value: "+attr.value);
+				var attr = ((DomElement) doc.document_element).get_attribute ("attrname");
+				Test.message ("Attr value: "+attr);
 				assert (attr != null);
-				assert (attr is GAttribute);
-				assert (attr.name == "attrname");
-				assert (attr.value == "attrvalue");
+				assert (attr == "attrvalue");
 				//
 				//Test.message ("DOC libxml2:"+doc.libxml_to_string ());
 			} catch { assert_not_reached (); }
 		});
 		Test.add_func ("/gxml/gom-document/to_string/basic", () => {
 			try {
-				GomDocument doc = new GomDocument.from_string ("<?xml version=\"1.0\"?>
+				DomDocument doc = new GDocument.from_string ("<?xml version=\"1.0\"?>
 <Sentences><Sentence lang=\"en\">I like the colour blue.</Sentence><Sentence lang=\"de\">Ich liebe die T&#xFC;r.</Sentence><Authors><Author><Name>Fred</Name><Email>fweasley@hogwarts.co.uk</Email></Author><Author><Name>George</Name><Email>gweasley@hogwarts.co.uk</Email></Author></Authors></Sentences>");
 				string s1 = doc.to_string ();
 				string[] cs1 = s1.split ("\n");
@@ -276,67 +264,46 @@ class GomDocumentTest : GXmlTest {
 		});
 		Test.add_func ("/gxml/gom-document/to_string/extended", () => {
 			try {
-				var d = new GomDocument.from_path (GXmlTestConfig.TEST_DIR+"/gom-document-read.xml");
+				var d = new GDocument.from_path (GXmlTestConfig.TEST_DIR+"/gom-document-read.xml");
 				Test.message (d.to_string ());
-				assert (d.root != null);
-				assert (d.root.name == "DataTypeTemplates");
-				Test.message (d.root.children_nodes.size.to_string ());
-				assert (d.root.children_nodes[0] is GXml.Text);
-				assert (d.root.children_nodes[1] is GXml.Element);
-				assert (d.root.children_nodes[2] is GXml.Text);
-				assert (d.root.children_nodes[2].value == "\n");
-				assert (d.root.children_nodes.size == 3);
-				assert (d.root.children_nodes[1].name == "DAType");
-				assert (d.root.children_nodes[1].children_nodes.size == 3);
-				assert (d.root.children_nodes[1].children_nodes[1].name == "BDA");
-				assert (d.root.children_nodes[1].children_nodes[1].children_nodes.size == 3);
-				assert (d.root.children_nodes[1].children_nodes[1].children_nodes[1].name == "Val");
-				assert (d.root.children_nodes[1].children_nodes[1].children_nodes[1].children_nodes.size == 1);
-				assert (d.root.children_nodes[1].children_nodes[1].children_nodes[1].children_nodes[0] is GXml.Text);
-				assert (d.root.children_nodes[1].children_nodes[1].children_nodes[1].children_nodes[0].value == "status_only");
+				assert (d.document_element != null);
+				assert (d.document_element.node_name == "DataTypeTemplates");
+				Test.message (d.document_element.child_nodes.size.to_string ());
+				assert (d.document_element.child_nodes[0] is GXml.Text);
+				assert (d.document_element.child_nodes[1] is GXml.Element);
+				assert (d.document_element.child_nodes[2] is GXml.Text);
+				assert (d.document_element.child_nodes[2].node_value == "\n");
+				assert (d.document_element.child_nodes.size == 3);
+				assert (d.document_element.child_nodes[1].node_name == "DAType");
+				assert (d.document_element.child_nodes[1].child_nodes.size == 3);
+				assert (d.document_element.child_nodes[1].child_nodes[1].node_name == "BDA");
+				assert (d.document_element.child_nodes[1].child_nodes[1].child_nodes.size == 3);
+				assert (d.document_element.child_nodes[1].child_nodes[1].child_nodes[1].node_name == "Val");
+				assert (d.document_element.child_nodes[1].child_nodes[1].child_nodes[1].child_nodes.size == 1);
+				assert (d.document_element.child_nodes[1].child_nodes[1].child_nodes[1].child_nodes[0] is GXml.Text);
+				assert (d.document_element.child_nodes[1].child_nodes[1].child_nodes[1].child_nodes[0].node_value == "status_only");
 			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
-		});
-		Test.add_func ("/gxml/gom-document/libxml_to_string", () => {
-			try {
-				GomDocument doc = new GomDocument.from_string ("<?xml version=\"1.0\"?>
-<Sentences><Sentence lang=\"en\">I like the colour blue.</Sentence><Sentence lang=\"de\">Ich liebe die T&#xFC;r.</Sentence><Authors><Author><Name>Fred</Name><Email>fweasley@hogwarts.co.uk</Email></Author><Author><Name>George</Name><Email>gweasley@hogwarts.co.uk</Email></Author></Authors></Sentences>");
-				string s1 = doc.libxml_to_string ();
-				string[] cs1 = s1.split ("\n");
-				Test.message (s1);
-				assert (cs1[0] == "<?xml version=\"1.0\"?>");
-				assert (cs1[1] == "<Sentences><Sentence lang=\"en\">I like the colour blue.</Sentence><Sentence lang=\"de\">Ich liebe die T&#xFC;r.</Sentence><Authors><Author><Name>Fred</Name><Email>fweasley@hogwarts.co.uk</Email></Author><Author><Name>George</Name><Email>gweasley@hogwarts.co.uk</Email></Author></Authors></Sentences>");
-			} catch { assert_not_reached (); }
 		});
 		Test.add_func ("/gxml/gom-document/namespace", () => {
 			try {
-				GomDocument doc = new GomDocument.from_string ("<root><child/></root>");
-				doc.set_namespace ("http://www.gnome.org/GXml","gxml");
-				assert (doc.root != null);
-				assert (doc.root.namespaces != null);
-				assert (doc.root.namespaces.size == 1);
-				assert (doc.root.namespaces[0].prefix == "gxml");
-				assert (doc.root.namespaces[0].uri == "http://www.gnome.org/GXml");
-				assert (doc.root.children_nodes != null);
-				assert (doc.root.children_nodes.size == 1);
-				var c = doc.root.children_nodes[0];
-				c.set_namespace ("http://www.gnome.org/GXml2","gxml2");
-				assert (c.namespaces != null);
-				assert (c.namespaces.size == 1);
-				assert (c.namespaces[0].prefix == "gxml2");
-				assert (c.namespaces[0].uri == "http://www.gnome.org/GXml2");
-				(c as Element).set_attr ("gxml:prop","val");
-				var p = (c as Element).get_attr ("gxml:prop");
+				DomDocument doc = new GDocument.from_string ("<document_element><child/></document_element>");
+				doc.document_element.set_attribute_ns ("http://www.gnome.org/GXml","xmlns:gxml","http://www.gnome.org/GXml");
+				assert (doc.document_element != null);
+				assert (doc.document_element.namespace_uri != null);
+				assert (doc.document_element.namespace_uri == "http://www.gnome.org/GXml");
+				assert (doc.document_element.prefix != null);
+				assert (doc.document_element.prefix == "gxml");
+				assert (doc.document_element.child_nodes != null);
+				assert (doc.document_element.child_nodes.size == 1);
+				var c = doc.document_element.child_nodes[0] as DomElement;
+				assert (c is DomElement);
+				c.set_attribute_ns ("http://www.gnome.org/GXml2","gxml2", "http://www.gnome.org/GXml2");
+				assert (c.prefix == "gxml2");
+				assert (c.namespace_uri == "http://www.gnome.org/GXml2");
+				c.set_attribute_ns ("http://www.gnome.org/GXml2","gxml:prop","val");
+				var p = (c as DomElement).get_attribute_ns ("http://www.gnome.org/GXml2", "prop");
 				assert (p == null);
-				Test.message ("ROOT: "+doc.root.to_string ());
-				assert (doc.root.to_string () == "<root xmlns:gxml=\"http://www.gnome.org/GXml\"><child xmlns:gxml2=\"http://www.gnome.org/GXml2\"/></root>");
-				(c as Element).set_ns_attr (doc.root.namespaces[0].uri, "prop", "Ten");
-				Test.message ("ROOT: "+doc.root.to_string ());
-				assert (c.attrs.size == 1);
-				var pt = c.attrs.get ("prop");
-				assert (pt != null);
-				var pt2 = (c as Element).get_ns_attr ("prop", doc.root.namespaces[0].uri);
-				GLib.message ("ROOT: "+doc.root.to_string ());
-				assert (doc.root.to_string () == "<root xmlns:gxml=\"http://www.gnome.org/GXml\"><child xmlns:gxml2=\"http://www.gnome.org/GXml2\" gxml:prop=\"Ten\"/></root>");
+				assert (p == "val");
 			} catch (GLib.Error e) {
 				GLib.message ("ERROR: "+ e.message);
 				assert_not_reached ();
@@ -344,7 +311,7 @@ class GomDocumentTest : GXmlTest {
 		});
 		Test.add_func ("/gxml/gom-document/parent", () => {
 			var doc = new GomDocument ();
-			assert (doc.parent == null);
+			assert (doc.parent_node == null);
 		});
 	}
 }

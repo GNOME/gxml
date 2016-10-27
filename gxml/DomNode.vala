@@ -159,6 +159,7 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
     }
     return false;
   }
+  public virtual string to_string () { return node_name; }
 }
 
 public errordomain GXml.DomError {
