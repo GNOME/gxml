@@ -20,6 +20,7 @@
  */
 
 using Gee;
+using Xml;
 
 /**
  * {@link Parser} implementation using libxml2 engine
@@ -27,6 +28,7 @@ using Gee;
 public class GXml.XParser : Object, GXml.Parser {
   private DomDocument _document;
   private TextReader tr;
+  private Xml.TextWriter tw;
 
   public DomDocument document { get { return _document; } }
 
@@ -35,21 +37,13 @@ public class GXml.XParser : Object, GXml.Parser {
   public XParser (DomDocument doc) { _document = doc; }
 
   public void write (GLib.File f, GLib.Cancellable? cancellable) throws GLib.Error {}
-  public string write_string () throws GLib.Error  { return ""; }
-  public void write_stream (OutputStream stream) throws GLib.Error {}
+  public void write_stream (OutputStream stream, GLib.Cancellable? cancellable) throws GLib.Error {}
+  public string write_string () throws GLib.Error  {
+    return dump ();
+  }
   public void read_string (string str) {
-    try {
-#if DEBUG
-    GLib.message ("TDocument: to_string ()");
-#endif
-    Xml.Doc doc = new Xml.Doc ();
-    Xml.TextWriter tw = Xmlx.new_text_writer_doc (ref doc);
-    write_document (this, tw);
-    string str;
-    int size;
-    doc.dump_memory (out str, out size);
-    return str;
-    } catch (GLib.Error e) { return "ERROR: "+e.message; }
+    StringBuilder s = new StringBuilder (str);
+    tr = new TextReader.for_memory ((char[]) s.data, (int) s.len, "/gxml_memory");
   }
 
 
@@ -66,9 +60,8 @@ public class GXml.XParser : Object, GXml.Parser {
 #if DEBUG
     GLib.message ("FILE:"+(string)b.data);
 #endif
-    var tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), "/gxml_memory");
-    _current = _document;
-    while (read_node ());
+    tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), "/gxml_memory");
+    while (read_node (_document));
   }
 
 
@@ -120,7 +113,7 @@ public class GXml.XParser : Object, GXml.Parser {
       prefix = tr.prefix ();
       if (prefix != null) {
         nsuri = tr.lookup_namespace (prefix);
-        n = _document.create_element_ns (nsuri, tr.prefix + tr.const_local_name ());
+        n = _document.create_element_ns (nsuri, tr.prefix () + tr.const_local_name ());
       } else
         n = _document.create_element (tr.const_local_name ());
       node.append_child (n);
@@ -206,7 +199,7 @@ public class GXml.XParser : Object, GXml.Parser {
       GLib.message ("Type PROCESSING_INSTRUCTION");
       GLib.message ("ReadNode: PI Node : '"+pit+"' : '"+pival+"'");
 #endif
-      n = node.document.create_processing_instruction (pit,pival);
+      n = node.owner_document.create_processing_instruction (pit,pival);
       node.append_child (n);
       break;
     case Xml.ReaderType.COMMENT:
@@ -215,7 +208,7 @@ public class GXml.XParser : Object, GXml.Parser {
       GLib.message ("Type COMMENT");
       GLib.message ("ReadNode: Comment Node : '"+commval+"'");
 #endif
-      n = node.document.create_comment (commval);
+      n = node.owner_document.create_comment (commval);
       node.append_child (n);
       break;
     case Xml.ReaderType.DOCUMENT:
@@ -267,7 +260,10 @@ public class GXml.XParser : Object, GXml.Parser {
     return true;
   }
 
-  private string dump_memory (TextWriter tw) {
+  private string dump () throws GLib.Error {
+    int size;
+    Xml.Doc doc = new Xml.Doc ();
+    tw = Xmlx.new_text_writer_doc (ref doc);
     tw.start_document ();
     tw.set_indent (indent);
     // Root
@@ -278,7 +274,7 @@ public class GXml.XParser : Object, GXml.Parser {
 #if DEBUG
     GLib.message ("Starting writting Document child nodes");
 #endif
-    start_node (tw, _document);
+    start_node (_document);
 #if DEBUG
     GLib.message ("Ending writting Document child nodes");
 #endif
@@ -288,9 +284,11 @@ public class GXml.XParser : Object, GXml.Parser {
 #endif
     tw.end_document ();
     tw.flush ();
+    string str;
+    doc.dump_memory (out str, out size);
+    return str;
   }
-  private void start_node (Xml.TextWriter tw,
-                          GXml.Node node)
+  private void start_node (GXml.DomNode node)
     throws GLib.Error
   {
     int size = 0;
@@ -304,17 +302,20 @@ public class GXml.XParser : Object, GXml.Parser {
       GLib.message (@"Namespaces in Element... '$(node.namespaces.size)'");
 #endif
       if ((node as DomElement).prefix != null || (node as DomElement).namespace_uri != null)
-        tw.start_element_ns ((node as DomElement).prefix, node.local_name, (node as DomElement).node_name);
+        tw.start_element_ns ((node as DomElement).prefix, (node as DomElement).local_name, (node as DomElement).node_name);
       else // Don't prefix. Using default namespace and prefix_default_ns = false
-        tw.start_element (node.name);
-    foreach (GXml.DomNode attr in node.attributes.values) {
+        tw.start_element (node.node_name);
+    foreach (GXml.DomNode attr in (node as DomElement).attributes.values) {
 #if DEBUG
         GLib.message (@"Starting Element '$(node.node_name)': write attribute '$(attr.loca_name)'");
 #endif
-      if (attr.prefix != null)
-        size += tw.write_attribute_ns (attr.prefix, attr.local_name, attr.namespace_uri, attr.node_value);
+      if ((attr as DomAttr).prefix != null)
+        size += tw.write_attribute_ns ((attr as DomAttr).prefix,
+                                        (attr as DomAttr).local_name,
+                                        (attr as DomAttr).namespace_uri,
+                                        attr.node_value);
       else
-        size += tw.write_attribute (attr.name, attr.value);
+        size += tw.write_attribute (attr.node_name, attr.node_value);
       if (size > 1500)
         tw.flush ();
     }
@@ -331,7 +332,7 @@ public class GXml.XParser : Object, GXml.Parser {
 #if DEBUG
       GLib.message (@"Starting Child Element: writting Node '$(n.name)'");
 #endif
-        start_node (tw, n);
+        start_node (n);
         size += tw.end_element ();
         if (size > 1500)
           tw.flush ();
@@ -354,7 +355,7 @@ public class GXml.XParser : Object, GXml.Parser {
   #if DEBUG
       GLib.message (@"Starting Child Element: writting ProcessingInstruction '$(n.value)'");
   #endif
-        size += Xmlx.text_writer_write_pi (tw, ((n as DomProcessingInstruction).target,
+        size += Xmlx.text_writer_write_pi (tw, (n as DomProcessingInstruction).target,
                                           (n as DomProcessingInstruction).data);
         if (size > 1500)
           tw.flush ();

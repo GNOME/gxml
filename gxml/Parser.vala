@@ -30,10 +30,6 @@ public interface GXml.Parser : Object {
    */
   public abstract DomDocument document { get; }
   /**
-   * A {@link GXml.DomNode.NodeType} of the current node read
-   */
-  public abstract DomNode.NodeType current_type { get; }
-  /**
    * Writes a {@link GXml.DomDocument} to a {@link GLib.File}
    */
   public abstract void write (GLib.File f,
@@ -45,7 +41,7 @@ public interface GXml.Parser : Object {
   /**
    * Writes a {@link GXml.DomDocument} to a {@link GLib.OutputStream}
    */
-  public abstract void write_stream (OutputStream stream
+  public abstract void write_stream (OutputStream stream,
                                     GLib.Cancellable? cancellable) throws GLib.Error;
 
   /**
@@ -56,7 +52,7 @@ public interface GXml.Parser : Object {
   /**
    * Read a {@link GXml.DomDocument} from a {@link GLib.InputStream}
    */
-  public abstract void read_stream (InputStream stream
+  public abstract void read_stream (InputStream stream,
                                    GLib.Cancellable? cancellable) throws GLib.Error;
   /**
    * Read a {@link GXml.DomDocument} from a {@link GLib.File}
@@ -66,5 +62,5 @@ public interface GXml.Parser : Object {
    * From data stream read until a node is found. You should check its type
    * using {@link current_type}
    */
-  public abstract bool read_node ();
+  public abstract bool read_node (DomNode node) throws GLib.Error;
 }
