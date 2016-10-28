@@ -25,13 +25,46 @@ using Gee;
  * XML parser engine for {@link DomDocument} implementations.
  */
 public interface GXml.Parser : Object {
+  /**
+   * A {@link GXml.DomDocument} to read to or write from
+   */
   public abstract DomDocument document { get; }
-  public abstract void save (GLib.File f,
+  /**
+   * A {@link GXml.DomNode.NodeType} of the current node read
+   */
+  public abstract DomNode.NodeType current_type { get; }
+  /**
+   * Writes a {@link GXml.DomDocument} to a {@link GLib.File}
+   */
+  public abstract void write (GLib.File f,
                             GLib.Cancellable? cancellable) throws GLib.Error;
+  /**
+   * Writes a {@link GXml.DomDocument} to a string
+   */
+  public abstract string write_string () throws GLib.Error;
+  /**
+   * Writes a {@link GXml.DomDocument} to a {@link GLib.OutputStream}
+   */
+  public abstract void write_stream (OutputStream stream
+                                    GLib.Cancellable? cancellable) throws GLib.Error;
+
+  /**
+   * Read a {@link GXml.DomDocument} from a {@link GLib.File}
+   */
   public abstract void read (GLib.File f,
                             GLib.Cancellable? cancellable) throws GLib.Error;
-  public abstract string to_string () throws GLib.Error;
-  public abstract void to_stream (OutputStream stream) throws GLib.Error;
-  public abstract void from_stream (InputStream stream) throws GLib.Error;
-  public abstract void from_string (string str);
+  /**
+   * Read a {@link GXml.DomDocument} from a {@link GLib.InputStream}
+   */
+  public abstract void read_stream (InputStream stream
+                                   GLib.Cancellable? cancellable) throws GLib.Error;
+  /**
+   * Read a {@link GXml.DomDocument} from a {@link GLib.File}
+   */
+  public abstract void read_string (string str);
+  /**
+   * From data stream read until a node is found. You should check its type
+   * using {@link current_type}
+   */
+  public abstract bool read_node ();
 }
