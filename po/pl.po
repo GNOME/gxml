@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-27 17:05+0200\n"
-"PO-Revision-Date: 2016-10-27 17:07+0200\n"
+"POT-Creation-Date: 2016-10-30 04:15+0100\n"
+"PO-Revision-Date: 2016-10-30 04:17+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -35,9 +35,13 @@ msgstr "Nieprawidłowe wyrównanie dla danych zastępowania"
 msgid "Invalid offset to split text"
 msgstr "Nieprawidłowe wyrównanie do rozdzielenia tekstu"
 
-#: ../gxml/DomNode.vala:128 ../gxml/Node.vala:202
+#: ../gxml/DomNode.vala:144 ../gxml/Node.vala:202
 msgid "Text node with NULL string"
 msgstr "Węzeł tekstowy z ciągiem NULL"
+
+#: ../gxml/DomNode.vala:151
+msgid "Can't copy child text node"
+msgstr "Nie można skopiować potomnego węzła tekstowego"
 
 #: ../gxml/Enumeration.vala:88
 msgid "value is invalid"
@@ -47,92 +51,126 @@ msgstr "wartość jest nieprawidłowa"
 msgid "text cannot be parsed to enumeration type:"
 msgstr "tekst nie może zostać przetworzony na typ wyliczenia:"
 
-#: ../gxml/GomDocument.vala:72
+#: ../gxml/GomDocument.vala:71
 msgid "Invalid node name"
 msgstr "Nieprawidłowa nazwa węzła"
 
-#: ../gxml/GomDocument.vala:78
+#: ../gxml/GomDocument.vala:77
 msgid "Invalid namespace"
 msgstr "Nieprawidłowa przestrzeń nazw"
 
-#: ../gxml/GomDocument.vala:127 ../gxml/GXmlDocument.vala:268
+#: ../gxml/GomDocument.vala:116 ../gxml/GXmlDocument.vala:269
 msgid "Can't import a Document"
 msgstr "Nie można zaimportować dokumentu"
 
-#: ../gxml/GomDocument.vala:129 ../gxml/GXmlDocument.vala:270
+#: ../gxml/GomDocument.vala:118 ../gxml/GXmlDocument.vala:271
 msgid "Can't import a non Element type node to a Document"
 msgstr "Nie można zaimportować węzła o typie niebędącym elementem do dokumentu"
 
-#: ../gxml/GomDocument.vala:153 ../gxml/GXmlDocument.vala:294
+#: ../gxml/GomDocument.vala:142 ../gxml/GXmlDocument.vala:295
 msgid "Can't adopt a Document"
 msgstr "Nie można przyjąć dokumentu"
 
-#: ../gxml/GomNode.vala:167 ../gxml/GXmlNode.vala:259
+#. FIXME:
+#: ../gxml/GomDocument.vala:296 ../gxml/GomElement.vala:124
+#: ../gxml/GXmlElement.vala:317
+msgid "DomElement query_selector is not implemented"
+msgstr "„query_selector” z DomElement nie jest zaimplementowane"
+
+#. FIXME:
+#: ../gxml/GomDocument.vala:300 ../gxml/GomElement.vala:128
+#: ../gxml/GXmlElement.vala:321
+msgid "DomElement query_selector_all is not implemented"
+msgstr "„query_selector_all” z DomElement nie jest zaimplementowane"
+
+#: ../gxml/GomElement.vala:206 ../gxml/GomElement.vala:244
+msgid "Invalid attribute name"
+msgstr "Nieprawidłowa nazwa atrybutu"
+
+#: ../gxml/GomElement.vala:208 ../gxml/GomElement.vala:246
+msgid "Invalid node type. DomAttr was expected"
+msgstr "Nieprawidłowy typ węzła. Oczekiwano „DomAttr”"
+
+#: ../gxml/GomElement.vala:278
+msgid "Error:"
+msgstr "Błąd:"
+
+#: ../gxml/GomElement.vala:300
+msgid ""
+"Invalid namespace. If prefix is xml name space uri shoud be http://www.w3."
+"org/2000/xmlns/"
+msgstr ""
+"Nieprawidłowa przestrzeń nazw. Jeśli przedrostek to XML, adres URI "
+"przestrzeni nazw powinien być http://www.w3.org/2000/xmlns/"
+
+#: ../gxml/GomElement.vala:304
+msgid ""
+"Invalid namespace. If attribute's name is xmlns name space uri shoud be "
+"http://www.w3.org/2000/xmlns/"
+msgstr ""
+"Nieprawidłowa przestrzeń nazw. Jeśli nazwa atrybutu to xmlns, adres URI "
+"przestrzeni nazw powinien być http://www.w3.org/2000/xmlns/"
+
+#: ../gxml/GomElement.vala:319
+msgid "Setting namespaced property error: "
+msgstr "Błąd podczas ustawiania właściwości w przestrzeni nazw: "
+
+#: ../gxml/GomNode.vala:112
+msgid "Text content in element can't be created"
+msgstr "Nie można utworzyć treści tekstu w elemencie"
+
+#: ../gxml/GomNode.vala:157 ../gxml/GXmlNode.vala:271
 msgid "Can't find node position"
 msgstr "Nie można odnaleźć położenia węzła"
 
-#: ../gxml/GomNode.vala:194 ../gxml/GomNode.vala:225 ../gxml/GXmlNode.vala:290
-#: ../gxml/GXmlNode.vala:321
+#: ../gxml/GomNode.vala:197 ../gxml/GomNode.vala:228 ../gxml/GXmlNode.vala:302
+#: ../gxml/GXmlNode.vala:333
 msgid "Invalid attempt to add invalid node type"
 msgstr "Nieprawidłowa próba dodania nieprawidłowego typu węzła"
 
-#: ../gxml/GomNode.vala:196 ../gxml/GXmlNode.vala:292
+#: ../gxml/GomNode.vala:199 ../gxml/GXmlNode.vala:304
 msgid "Can't find child to insert node before"
 msgstr "Nie można odnaleźć elementu potomnego do wstawienia węzła przed"
 
-#: ../gxml/GomNode.vala:200 ../gxml/GomNode.vala:231 ../gxml/GXmlNode.vala:296
-#: ../gxml/GXmlNode.vala:327
+#: ../gxml/GomNode.vala:203 ../gxml/GomNode.vala:234 ../gxml/GXmlNode.vala:308
+#: ../gxml/GXmlNode.vala:339
 msgid "Invalid attempt to insert a node"
 msgstr "Nieprawidłowa próba wstawienia węzła"
 
-#: ../gxml/GomNode.vala:207 ../gxml/GomNode.vala:238 ../gxml/GXmlNode.vala:303
-#: ../gxml/GXmlNode.vala:334
+#: ../gxml/GomNode.vala:210 ../gxml/GomNode.vala:241 ../gxml/GXmlNode.vala:315
+#: ../gxml/GXmlNode.vala:346
 msgid "Invalid attempt to insert an invalid node type"
 msgstr "Nieprawidłowa próba wstawienia nieprawidłowego typu węzła"
 
-#: ../gxml/GomNode.vala:210 ../gxml/GomNode.vala:241 ../gxml/GXmlNode.vala:306
-#: ../gxml/GXmlNode.vala:337
+#: ../gxml/GomNode.vala:213 ../gxml/GomNode.vala:244 ../gxml/GXmlNode.vala:318
+#: ../gxml/GXmlNode.vala:349
 msgid ""
 "Invalid attempt to insert a document's type or text node to a invalid parent"
 msgstr ""
 "Nieprawidłowa próba wstawienia typu dokumentu lub węzła tekstowego do "
 "nieprawidłowego elementu nadrzędnego"
 
-#: ../gxml/GomNode.vala:227 ../gxml/GXmlNode.vala:323
+#: ../gxml/GomNode.vala:230 ../gxml/GXmlNode.vala:335
 msgid "Can't find child node to replace or child have a different parent"
 msgstr ""
 "Nie można odnaleźć elementu potomnego do zastąpienia lub element potomny ma "
 "inny element nadrzędny"
 
-#: ../gxml/GomNode.vala:253 ../gxml/GXmlNode.vala:349
+#: ../gxml/GomNode.vala:256 ../gxml/GXmlNode.vala:361
 msgid "Can't find child node to remove or child have a different parent"
 msgstr ""
 "Nie można odnaleźć elementu potomnego do usunięcia lub element potomny ma "
 "inny element nadrzędny"
 
-#. FIXME:
-#: ../gxml/GomObject.vala:92 ../gxml/GXmlElement.vala:313
-msgid "DomElement query_selector is not implemented"
-msgstr "„query_selector” z DomElement nie jest zaimplementowane"
-
-#. FIXME:
-#: ../gxml/GomObject.vala:96 ../gxml/GXmlElement.vala:317
-msgid "DomElement query_selector_all is not implemented"
-msgstr "„query_selector_all” z DomElement nie jest zaimplementowane"
-
-#: ../gxml/GomObject.vala:209
-msgid "Invalid local name"
-msgstr "Nieprawidłowa lokalna nazwa"
-
-#: ../gxml/GXmlDocument.vala:55 ../gxml/TDocument.vala:476
+#: ../gxml/GXmlDocument.vala:56 ../gxml/TDocument.vala:474
 msgid "File doesn't exist"
 msgstr "Plik nie istnieje"
 
-#: ../gxml/GXmlDocument.vala:79
+#: ../gxml/GXmlDocument.vala:80
 msgid "stream doesn't provide data"
 msgstr "potok nie dostarcza danych"
 
-#: ../gxml/GXmlDocument.vala:224
+#: ../gxml/GXmlDocument.vala:225
 msgid "Invalid element qualified name: multiple namespace prefixes"
 msgstr ""
 "Nieprawidłowa nazwa kwalifikowana elementu: wiele przedrostków przestrzeni "
@@ -225,36 +263,10 @@ msgstr ""
 "Nieprawidłowy dokument podczas dodawania elementu do nazwanej kolekcji mapy "
 "węzłów"
 
-#: ../gxml/libxml-ChildNodeList.vala:148
-#, c-format
-msgid "ref_child '%s' not found, was supposed to have '%s' inserted before it."
-msgstr ""
-"nie odnaleziono ref_child „%s”, powinno posiadać wstawione „%s” przed sobą."
-
-#: ../gxml/libxml-Document.vala:128
-#, c-format
-msgid "Looking up %s from an xmlNode* is not supported"
-msgstr "Wyszukiwanie %s z „xmlNode*” nie jest obsługiwane"
-
-#: ../gxml/libxml-Document.vala:303
-#, c-format
-msgid "Could not load document from path: %s"
-msgstr "Nie można wczytać dokumentu ze ścieżki: %s"
-
-#: ../gxml/libxml-Entity.vala:130
-msgid "Cloning of Entity not yet supported"
-msgstr "Klonowanie „Entity” nie jest jeszcze obsługiwane"
-
-#. TODO: replace usage of this with GXml.get_last_error_msg
-#: ../gxml/libxml-Error.vala:13
+#: ../gxml/GXmlNode.vala:42
 #, c-format
 msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
-
-#: ../gxml/libxml-Node.vala:68
-msgid ""
-"Node tried to interact with a different document than the one it belongs to"
-msgstr "Węzeł próbował działać z innym dokumentem niż tym, do którego należy"
 
 #: ../gxml/SerializableEnum.vala:75
 msgid "Value can't be parsed to a valid enumeration's value. Value is not set"
@@ -311,17 +323,11 @@ msgstr "Błąd przekształcania na „%s” lub nieobsługiwany typ: „%s”"
 msgid "Can't transform '%s' to string"
 msgstr "Nie można przekształcić „%s” na ciąg"
 
-#: ../gxml/TDocument.vala:151
-msgid "Document has more than one root GXmlElement. Using first found"
-msgstr ""
-"Dokument posiada więcej niż jeden główny „GXmlElement”. Używanie "
-"odnalezionego najpierw"
-
-#: ../gxml/TDocument.vala:170
+#: ../gxml/TDocument.vala:168
 msgid "Invalid element name"
 msgstr "Nieprawidłowa nazwa elementu"
 
-#: ../gxml/TDocument.vala:575
+#: ../gxml/TDocument.vala:573
 #, c-format
 msgid "Parsing ERROR: Fail to move to attribute number: %i"
 msgstr ""
