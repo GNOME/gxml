@@ -61,6 +61,7 @@ class GXmlTest {
 		HtmlDocumentTest.add_tests ();
 		DomGDocumentTest.add_tests ();
 		XPathTest.add_tests ();
+		GomDocumentTest.add_tests ();
 
 		Test.run ();
 

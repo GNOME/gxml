@@ -27,7 +27,6 @@ using Gee;
  * transparently as {@link DomElement} in a XML tree.
  */
 public class GXml.GomElement : GomNode,
-                              DomNode,
                               DomChildNode,
                               DomNonDocumentTypeChildNode,
                               DomParentNode,

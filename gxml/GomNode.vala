@@ -27,18 +27,21 @@ public class GXml.GomNode : Object,
                             DomEventTarget,
                             DomNode {
 // DomNode
-  protected string _local_name = "";
-  protected string _prefix = null;
-  protected DomNode.NodeType _node_type = DomNode.NodeType.INVALID;
+  protected string _local_name;
+  protected string _prefix;
+  protected string _base_uri;
+  protected string _node_value;
+  protected DomNode.NodeType _node_type;
   public DomNode.NodeType node_type { get { return _node_type; } }
   public string node_name {
     owned get {
+      if (_local_name == null) return "NO NAME";
+      GLib.message ("GomNode: node_name");
       if (_prefix == null) return _local_name;
       return _prefix+":"+_local_name;
     }
   }
 
-  protected string _base_uri = null;
   public string? base_uri { get { return _base_uri; } }
 
   protected GXml.DomDocument _document;
@@ -91,11 +94,11 @@ public class GXml.GomNode : Object,
     }
   }
 
-  protected string _node_value = null;
-	public string? node_value { owned get { return _node_value; } set { _node_value = value; } }
-	public string? text_content {
-	  owned get {
-	    string t = null;
+  public string? node_value { owned get { return _node_value; } set { _node_value = value; } }
+
+  public string? text_content {
+    owned get {
+      string t = null;
       foreach (GXml.DomNode n in child_nodes) {
         if (n is GXml.DomText) {
           if (t == null) t = n.node_value;
@@ -112,6 +115,14 @@ public class GXml.GomNode : Object,
         GLib.warning (_("Text content in element can't be created"));
       }
     }
+  }
+
+  construct {
+    _local_name = "";
+    _prefix = null;
+    _node_type = DomNode.NodeType.INVALID;
+    _base_uri = null;
+    _node_value = null;
   }
 
   public bool has_child_nodes () { return (_child_nodes.size > 0); }

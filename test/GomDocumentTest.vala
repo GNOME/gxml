@@ -26,14 +26,18 @@ class GomDocumentTest : GXmlTest {
 	public static void add_tests () {
 		Test.add_func ("/gxml/gom-document/construct_api", () => {
 			try {
-				var d = new GomDocument ();
-				var document_element = d.create_element ("document_element");
-				d.child_nodes.add (document_element);
+				DomDocument d = new GomDocument ();
+				DomElement r = d.create_element ("root");
+				assert (r is DomElement);
+				assert (r.local_name == "root");
+				assert (r.tag_name == "root");
+				assert (r.node_type == DomNode.NodeType.ELEMENT_NODE);
+				assert (r.node_name == "root");
+				d.child_nodes.add (r);
 				assert (d.document_element != null);
-				Test.message ("document_element name: "+d.document_element.node_name);
-				assert (d.document_element.node_name == "document_element");
-				//Test.message ("document_element string: "+d.document_element.to_string ());
-				//assert (d.document_element.to_string () == "<document_element/>");
+				assert (d.document_element.node_name == "root");
+				//Test.message ("r string: "+d.document_element.to_string ());
+				//assert (d.document_element.to_string () == "<root/>");
 			} catch {assert_not_reached ();}
 		});
 		Test.add_func ("/gxml/gom-document/construct_from_path_error", () => {
