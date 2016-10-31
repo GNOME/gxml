@@ -144,7 +144,7 @@ class GomDocumentTest : GXmlTest {
 				GXml.DomNode document_element;
 
 				xml = "<Fruits><Apple></Apple><Orange></Orange></Fruits>";
-				doc = new GDocument.from_string (xml);
+				doc = new GomDocument.from_string (xml);
 				assert (doc.document_element != null);
 				document_element = doc.document_element;
 				assert (document_element.node_name == "Fruits");

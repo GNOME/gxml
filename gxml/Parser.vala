@@ -21,6 +21,10 @@
 
 using Gee;
 
+public errordomain GXml.ParserError {
+  INVALID_DATA
+}
+
 /**
  * XML parser engine for {@link DomDocument} implementations.
  */

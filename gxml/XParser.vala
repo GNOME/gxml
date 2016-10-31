@@ -43,7 +43,8 @@ public class GXml.XParser : Object, GXml.Parser {
   }
   public void read_string (string str, GLib.Cancellable? cancellable) throws GLib.Error {
     StringBuilder s = new StringBuilder (str);
-    tr = new TextReader.for_memory ((char[]) s.data, (int) s.len, "/gxml_memory");
+    var stream = new GLib.MemoryInputStream.from_data (str.data);
+    read_stream (stream, cancellable);
   }
 
 
@@ -58,7 +59,7 @@ public class GXml.XParser : Object, GXml.Parser {
     var b = new MemoryOutputStream.resizable ();
     b.splice (istream, 0);
 #if DEBUG
-    GLib.message ("FILE:"+(string)b.data);
+    GLib.message ("DATA:"+(string)b.data);
 #endif
     tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), "/gxml_memory");
     while (read_node (_document));
@@ -72,43 +73,33 @@ public class GXml.XParser : Object, GXml.Parser {
    */
   public bool read_node (DomNode node) throws GLib.Error {
     GXml.DomNode n = null;
-    string prefix, nsuri;
-    if (tr.read () != 1) return false;
-    if (tr.next () != 1) return false;
-    var t = tr.node_type (); // FIXME: Convert to NodeType and store
+    string prefix = null, nsuri = null;
 #if DEBUG
     GLib.message ("ReadNode: Current Node:"+node.node_name);
 #endif
+    int res = tr.read ();
+    if (res == -1)
+      throw new ParserError.INVALID_DATA (_("Can't read node data"));
+#if DEBUG
+    if (res == 0)
+      GLib.message ("ReadNode: No more nodes");
+#endif
+    if (res == 0) return false;
+    var t = tr.node_type ();
     switch (t) {
     case Xml.ReaderType.NONE:
 #if DEBUG
       GLib.message ("Type NONE");
 #endif
-      if (tr.read () != 1) return false;
+      res = tr.read ();
+      if (res == -1)
+        throw new ParserError.INVALID_DATA (_("Can't read node data"));
       break;
     case Xml.ReaderType.ELEMENT:
       bool isempty = (tr.is_empty_element () == 1);
 #if DEBUG
       if (isempty) GLib.message ("Is Empty node:"+node.node_name);
       GLib.message ("ReadNode: Element: "+tr.const_local_name ());
-#endif
-      if (isempty) {
-        return true;;
-      }
-      var cont = true;
-      while (cont) {
-        if (tr.read () != 1) return false;
-        t = tr.node_type ();
-        if (t == Xml.ReaderType.END_ELEMENT) {
-          if (tr.const_local_name () == n.node_name) {
-            cont = false;
-          }
-        }
-      }
-      return true;
-#if DEBUG
-      //GLib.message ("ReadNode: next node:"+n.to_string ());
-      //GLib.message ("ReadNode: next node attributes:"+(tr.has_attributes ()).to_string ());
 #endif
       prefix = tr.prefix ();
       if (prefix != null) {

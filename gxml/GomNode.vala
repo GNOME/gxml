@@ -37,7 +37,6 @@ public class GXml.GomNode : Object,
   public string node_name {
     owned get {
       if (_local_name == null) return "NO NAME";
-      GLib.message ("GomNode: node_name");
       if (_prefix == null) return _local_name;
       return _prefix+":"+_local_name;
     }
@@ -124,7 +123,6 @@ public class GXml.GomNode : Object,
     _base_uri = null;
     _node_value = null;
     _child_nodes = new GomNodeList ();
-    GLib.message ("PI");
   }
 
   public bool has_child_nodes () { return (_child_nodes.size > 0); }
@@ -206,7 +204,7 @@ public class GXml.GomNode : Object,
   }
 
   public DomNode insert_before (DomNode node, DomNode? child) throws GLib.Error {
-    if (!(node is GXml.GNode))
+    if (!(node is GXml.GomNode))
       throw new DomError.INVALID_NODE_TYPE_ERROR (_("Invalid attempt to add invalid node type"));
     if (child != null && !this.contains (child))
       throw new DomError.NOT_FOUND_ERROR (_("Can't find child to insert node before"));

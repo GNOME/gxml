@@ -61,6 +61,8 @@ public class GXml.GomDocument : GomNode,
   }
 
   construct {
+    _local_name = "#document";
+    _node_type = DomNode.NodeType.DOCUMENT_NODE;
     _url = "about:blank";
     _origin = "";
     _compat_mode = "";

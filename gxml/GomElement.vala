@@ -159,6 +159,7 @@ public class GXml.GomElement : GomNode,
   construct {
     _node_type = DomNode.NodeType.ELEMENT_NODE;
     _attributes = new Attributes (this);
+    _local_name = "";
   }
 
   public GomElement (DomDocument doc, string local_name) {
