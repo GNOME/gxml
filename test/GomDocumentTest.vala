@@ -216,6 +216,8 @@ class GomDocumentTest : GXmlTest {
 			try {
 				DomDocument doc = new GDocument.from_string ("<document_element />");
 				DomText text = (DomText) doc.create_text_node ("Star of my dreams");
+				assert (text is GomText);
+				assert (text is DomText);
 
 				assert (text.node_name == "#text");
 				assert (text.node_value == "Star of my dreams");
@@ -232,8 +234,9 @@ class GomDocumentTest : GXmlTest {
 		});
 		Test.add_func ("/gxml/gom-document/create_processing_instruction", () => {
 			try {
-				DomDocument doc = new GDocument.from_string ("<document_element />");
+				DomDocument doc = new GomDocument.from_string ("<document_element />");
 				DomProcessingInstruction instruction = doc.create_processing_instruction ("target", "data");
+				assert (instruction is GomProcessingInstruction);
 				assert (instruction is DomProcessingInstruction);
 				assert (instruction.node_name == "target");
 				assert (instruction.node_value == "data");
@@ -241,8 +244,8 @@ class GomDocumentTest : GXmlTest {
 				GLib.message ("Dat:"+instruction.node_value);
 				assert (instruction.data == "data");
 				assert (instruction.target != null);
-				assert (instruction.target == "target");
 				assert_not_reached ();
+				assert (instruction.target == "target");
 			} catch { assert_not_reached (); }
 		});
 		Test.add_func ("/gxml/gom-document/create_attribute", () => {

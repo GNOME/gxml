@@ -30,11 +30,13 @@ public class GXml.GomDocument : GomNode,
 {
   // DomDocument implementation
   protected DomImplementation _implementation = new GomImplementation ();
-  protected string _url = "about:blank";
-  protected string _origin = "";
-  protected string _compat_mode = "";
-  protected string _character_set = "utf-8";
-  protected string _content_type = "application/xml";
+  protected string _url;
+  protected string _origin;
+  protected string _compat_mode;
+  protected string _character_set;
+  protected string _content_type;
+  protected Parser parser;
+  protected GXml.DomEvent _constructor;
   public DomImplementation implementation { get { return _implementation; } }
   public string url { get { return _url; } }
   public string document_uri { get { return _url; } }
@@ -57,6 +59,52 @@ public class GXml.GomDocument : GomNode,
       return child_nodes[0] as DomElement;
     }
   }
+
+  construct {
+    _url = "about:blank";
+    _origin = "";
+    _compat_mode = "";
+    _character_set = "utf-8";
+    _content_type = "application/xml";
+    parser = new XParser (this);
+  }
+  public GomDocument () {}
+  public GomDocument.from_path (string path) {
+    var file = GLib.File.new_for_path (path);
+    if (!file.query_exists ()) return;
+    try { parser.read (file, null); }
+    catch (GLib.Error e) {
+      GLib.warning (_("Can't read document from path: ")+e.message);
+    }
+
+  }
+
+  public GomDocument.from_uri (string uri) {
+    this.from_file (File.new_for_uri (uri));
+  }
+
+  public GomDocument.from_file (GLib.File file) {
+    if (!file.query_exists ()) return;
+    try { parser.read (file, null); }
+    catch (GLib.Error e) {
+      GLib.warning (_("Can't read document from file: ")+e.message);
+    }
+  }
+
+  public GomDocument.from_stream (GLib.InputStream stream) {
+    try { parser.read_stream (stream, null); }
+    catch (GLib.Error e) {
+      GLib.warning (_("Can't read document from stream: ")+e.message);
+    }
+  }
+
+  public GomDocument.from_string (string str) {
+    try { parser.read_string (str, null); }
+    catch (GLib.Error e) {
+      GLib.warning (_("Can't read document from string: ")+e.message);
+    }
+  }
+
 
   public DomElement create_element (string local_name) throws GLib.Error {
       return new GomElement (this, local_name);
@@ -152,7 +200,6 @@ public class GXml.GomDocument : GomNode,
       return (DomNode) dst;
   }
 
-  protected GXml.DomEvent _constructor;
   public DomEvent create_event (string iface) {
       var s = iface.down ();
       if (s == "customevent") _constructor = new GXml.GDomCustomEvent ();

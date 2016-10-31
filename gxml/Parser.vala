@@ -57,7 +57,8 @@ public interface GXml.Parser : Object {
   /**
    * Read a {@link GXml.DomDocument} from a {@link GLib.File}
    */
-  public abstract void read_string (string str);
+  public abstract void read_string (string str,
+                                   GLib.Cancellable? cancellable) throws GLib.Error;
   /**
    * From data stream read until a node is found. You should check its type
    * using {@link current_type}

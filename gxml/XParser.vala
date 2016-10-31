@@ -41,7 +41,7 @@ public class GXml.XParser : Object, GXml.Parser {
   public string write_string () throws GLib.Error  {
     return dump ();
   }
-  public void read_string (string str) {
+  public void read_string (string str, GLib.Cancellable? cancellable) throws GLib.Error {
     StringBuilder s = new StringBuilder (str);
     tr = new TextReader.for_memory ((char[]) s.data, (int) s.len, "/gxml_memory");
   }
