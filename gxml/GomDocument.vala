@@ -71,45 +71,30 @@ public class GXml.GomDocument : GomNode,
     parser = new XParser (this);
   }
   public GomDocument () {}
-  public GomDocument.from_path (string path) {
+  public GomDocument.from_path (string path) throws GLib.Error {
     var file = GLib.File.new_for_path (path);
-    if (!file.query_exists ()) return;
-    try { parser.read (file, null); }
-    catch (GLib.Error e) {
-      GLib.warning (_("Can't read document from path: ")+e.message);
-    }
-
+    from_file (file);
   }
 
-  public GomDocument.from_uri (string uri) {
+  public GomDocument.from_uri (string uri) throws GLib.Error {
     this.from_file (File.new_for_uri (uri));
   }
 
-  public GomDocument.from_file (GLib.File file) {
-    if (!file.query_exists ()) return;
-    try { parser.read (file, null); }
-    catch (GLib.Error e) {
-      GLib.warning (_("Can't read document from file: ")+e.message);
-    }
+  public GomDocument.from_file (GLib.File file) throws GLib.Error {
+    parser.read (file, null);
   }
 
-  public GomDocument.from_stream (GLib.InputStream stream) {
-    try { parser.read_stream (stream, null); }
-    catch (GLib.Error e) {
-      GLib.warning (_("Can't read document from stream: ")+e.message);
-    }
+  public GomDocument.from_stream (GLib.InputStream stream) throws GLib.Error {
+    parser.read_stream (stream, null);
   }
 
-  public GomDocument.from_string (string str) {
-    try { parser.read_string (str, null); }
-    catch (GLib.Error e) {
-      GLib.warning (_("Can't read document from string: ")+e.message);
-    }
+  public GomDocument.from_string (string str) throws GLib.Error {
+    parser.read_string (str, null);
   }
 
 
   public DomElement create_element (string local_name) throws GLib.Error {
-      return new GomElement (this, local_name);
+    return new GomElement (this, local_name);
   }
   public DomElement create_element_ns (string? ns, string qualified_name) throws GLib.Error
   {

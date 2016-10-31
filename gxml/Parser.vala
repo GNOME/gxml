@@ -22,7 +22,9 @@
 using Gee;
 
 public errordomain GXml.ParserError {
-  INVALID_DATA
+  INVALID_DATA_ERROR,
+  INVALID_FILE_ERROR,
+  INVALID_STREAM_ERROR
 }
 
 /**

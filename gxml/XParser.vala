@@ -42,6 +42,8 @@ public class GXml.XParser : Object, GXml.Parser {
     return dump ();
   }
   public void read_string (string str, GLib.Cancellable? cancellable) throws GLib.Error {
+    if (str == "")
+      throw new ParserError.INVALID_DATA_ERROR (_("Invalid document string, is empty is not allowed"));
     StringBuilder s = new StringBuilder (str);
     var stream = new GLib.MemoryInputStream.from_data (str.data);
     read_stream (stream, cancellable);
@@ -50,7 +52,7 @@ public class GXml.XParser : Object, GXml.Parser {
 
   public void read (GLib.File file,  GLib.Cancellable? cancellable) throws GLib.Error {
     if (!file.query_exists ())
-      throw new GXml.DocumentError.INVALID_FILE (_("File doesn't exist"));
+      throw new GXml.ParserError.INVALID_FILE_ERROR (_("File doesn't exist"));
     read_stream (file.read (), cancellable);
   }
 
@@ -79,7 +81,7 @@ public class GXml.XParser : Object, GXml.Parser {
 #endif
     int res = tr.read ();
     if (res == -1)
-      throw new ParserError.INVALID_DATA (_("Can't read node data"));
+      throw new ParserError.INVALID_DATA_ERROR (_("Can't read node data"));
 #if DEBUG
     if (res == 0)
       GLib.message ("ReadNode: No more nodes");
@@ -93,7 +95,7 @@ public class GXml.XParser : Object, GXml.Parser {
 #endif
       res = tr.read ();
       if (res == -1)
-        throw new ParserError.INVALID_DATA (_("Can't read node data"));
+        throw new ParserError.INVALID_DATA_ERROR (_("Can't read node data"));
       break;
     case Xml.ReaderType.ELEMENT:
       bool isempty = (tr.is_empty_element () == 1);
