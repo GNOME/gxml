@@ -32,7 +32,7 @@ public interface GXml.DomEventListener : GLib.Object {
 
 public interface GXml.DomEvent : GLib.Object {
   public abstract string etype { get; }
-  public abstract DomEventTarget? target { get; }
+  public abstract DomEventTarget? event_target { get; }
   public abstract DomEventTarget? current_target { get; }
   public abstract bool bubbles { get; }
   public abstract bool cancelable { get; }

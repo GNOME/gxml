@@ -152,7 +152,7 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
           }
 #if DEBUG
           GLib.message (@"Copying source's Text node '$(source.node_name)' to destiny node with text: $(c.node_value) : Size= $(node.child_nodes.size)");
-          GLib.message (@"Added Text: $(node.child_nodes.get (node.child_nodes.size - 1))");
+          GLib.message (@"Added Text: $(node.child_nodes.get (node.child_nodes.size - 1).node_value)");
 #endif
         }
       }

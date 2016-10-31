@@ -205,8 +205,8 @@ public interface GXml.Node : Object
           var t = doc.create_text (c.value);
           node.children_nodes.add (t);
 #if DEBUG
-          GLib.message (@"Copying source's Text node '$(source.name)' to destiny node with text: $(c.value) : Size= $(node.childs.size)");
-          GLib.message (@"Added Text: $(node.childs.get (node.childs.size - 1))");
+          GLib.message (@"Copying source's Text node '$(source.name)' to destiny node with text: $(c.value) : Size= $(node.children_nodes.size)");
+          GLib.message (@"Added Text: $(node.children_nodes.get (node.children_nodes.size - 1))");
 #endif
         }
       }

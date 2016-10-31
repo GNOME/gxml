@@ -276,6 +276,8 @@ public class GXml.GomDocumentFragment : GXml.GomNode,
 {
   public GomDocumentFragment (DomDocument doc) {
     _document = doc;
+    _node_type = DomNode.NodeType.DOCUMENT_FRAGMENT_NODE;
+    _local_name = "#document-fragment";
   }
   // DomParentNode
   public new DomHTMLCollection children {

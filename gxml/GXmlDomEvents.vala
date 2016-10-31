@@ -22,12 +22,12 @@
 
 public class GXml.GDomEvent : Object, GXml.DomEvent {
 	protected string _etype;
-	protected DomEventTarget _target;
+	protected DomEventTarget _event_target;
 	protected DomEventTarget _current_target;
 	protected bool _bubbles;
 	protected bool _cancelable;
 	public string etype { get { return _etype; } }
-	public DomEventTarget? target { get { return _target; } }
+	public DomEventTarget? event_target { get { return _event_target; } }
 	public DomEventTarget? current_target { get { return _current_target; } }
 	public bool bubbles { get { return _bubbles; } }
 	public bool cancelable { get { return _cancelable; } }

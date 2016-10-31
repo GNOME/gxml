@@ -233,12 +233,16 @@ class GomDocumentTest : GXmlTest {
 		Test.add_func ("/gxml/gom-document/create_processing_instruction", () => {
 			try {
 				DomDocument doc = new GDocument.from_string ("<document_element />");
-				DomProcessingInstruction instruction = (DomProcessingInstruction) doc.create_processing_instruction ("target", "data");
-
+				DomProcessingInstruction instruction = doc.create_processing_instruction ("target", "data");
+				assert (instruction is DomProcessingInstruction);
 				assert (instruction.node_name == "target");
-				assert (instruction.target == "target");
-				assert (instruction.data == "data");
 				assert (instruction.node_value == "data");
+				GLib.message ("Target:"+instruction.node_name);
+				GLib.message ("Dat:"+instruction.node_value);
+				assert (instruction.data == "data");
+				assert (instruction.target != null);
+				assert (instruction.target == "target");
+				assert_not_reached ();
 			} catch { assert_not_reached (); }
 		});
 		Test.add_func ("/gxml/gom-document/create_attribute", () => {

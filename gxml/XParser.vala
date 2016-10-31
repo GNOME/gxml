@@ -89,7 +89,7 @@ public class GXml.XParser : Object, GXml.Parser {
     case Xml.ReaderType.ELEMENT:
       bool isempty = (tr.is_empty_element () == 1);
 #if DEBUG
-      if (isempty) GLib.message ("Is Empty node:"+node.name);
+      if (isempty) GLib.message ("Is Empty node:"+node.node_name);
       GLib.message ("ReadNode: Element: "+tr.const_local_name ());
 #endif
       if (isempty) {
@@ -293,13 +293,12 @@ public class GXml.XParser : Object, GXml.Parser {
   {
     int size = 0;
 #if DEBUG
-    GLib.message (@"Starting Node: start Node: '$(node.name)'");
+    GLib.message (@"Starting Node: start Node: '$(node.node_name)'");
 #endif
     if (node is GXml.DomElement) {
 #if DEBUG
-      GLib.message (@"Starting Element... '$(node.name)'");
-      GLib.message (@"Element Document is Null... '$((node.document == null).to_string ())'");
-      GLib.message (@"Namespaces in Element... '$(node.namespaces.size)'");
+      GLib.message (@"Starting Element... '$(node.node_name)'");
+      GLib.message (@"Element Document is Null... '$((node.owner_document == null).to_string ())'");
 #endif
       if ((node as DomElement).prefix != null || (node as DomElement).namespace_uri != null)
         tw.start_element_ns ((node as DomElement).prefix, (node as DomElement).local_name, (node as DomElement).node_name);
@@ -307,7 +306,7 @@ public class GXml.XParser : Object, GXml.Parser {
         tw.start_element (node.node_name);
     foreach (GXml.DomNode attr in (node as DomElement).attributes.values) {
 #if DEBUG
-        GLib.message (@"Starting Element '$(node.node_name)': write attribute '$(attr.loca_name)'");
+        GLib.message (@"Starting Element '$(node.node_name)': write attribute '$((attr as DomAttr).local_name)'");
 #endif
       if ((attr as DomAttr).prefix != null)
         size += tw.write_attribute_ns ((attr as DomAttr).prefix,
@@ -330,7 +329,7 @@ public class GXml.XParser : Object, GXml.Parser {
 #endif
       if (n is GXml.DomElement) {
 #if DEBUG
-      GLib.message (@"Starting Child Element: writting Node '$(n.name)'");
+      GLib.message (@"Starting Child Element: writting Node '$(n.node_name)'");
 #endif
         start_node (n);
         size += tw.end_element ();
@@ -353,7 +352,7 @@ public class GXml.XParser : Object, GXml.Parser {
       }
       if (n is GXml.DomProcessingInstruction) {
   #if DEBUG
-      GLib.message (@"Starting Child Element: writting ProcessingInstruction '$(n.value)'");
+      GLib.message (@"Starting Child Element: writting ProcessingInstruction '$(n.node_value)'");
   #endif
         size += Xmlx.text_writer_write_pi (tw, (n as DomProcessingInstruction).target,
                                           (n as DomProcessingInstruction).data);

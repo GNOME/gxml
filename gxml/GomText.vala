@@ -27,9 +27,13 @@ public class GXml.GomCharacterData : GomNode,
                           DomChildNode,
                           DomCharacterData
 {
-  protected string _data;
   // DomCharacterData
-  public string data { owned get { return _data; } set { _data = value; } }
+  public string data { owned get { return _node_value; } set { _node_value = value; } }
+
+  construct {
+    _node_value = "";
+    GLib.message ("PI: construct");
+  }
   // DomNonDocumentTypeChildNode
   public DomElement? previous_element_sibling {
     get {
@@ -70,28 +74,27 @@ public class GXml.GomText : GomCharacterData,
 {
   construct {
     _node_type = DomNode.NodeType.TEXT_NODE;
-    _local_name = "#TEXT";
+    _local_name = "#text";
   }
 
   public GomText (DomDocument doc, string data) {
     _document = doc;
-    _data = data;
+    _node_value = data;
   }
 }
 public class GXml.GomProcessingInstruction : GomCharacterData,
                                             DomProcessingInstruction
 {
-  protected string _target = null;
   // DomProcessingInstruction
-  public string target { owned get { return _target; } }
+  public string target { owned get { return _local_name; } }
   construct {
     _node_type = DomNode.NodeType.PROCESSING_INSTRUCTION_NODE;
-    _local_name = "#PROCESSING_INSTRUCTION";
   }
   public GomProcessingInstruction (DomDocument doc, string target, string data) {
     _document = doc;
-    _target = target;
-    _data = data;
+    _node_value = data;
+    GLib.message ("PI: Initialized");
+    _local_name = target;
   }
 }
 
@@ -100,10 +103,10 @@ public class GXml.GomComment : GomCharacterData,
 {
   construct {
     _node_type = DomNode.NodeType.COMMENT_NODE;
-    _local_name = "#COMMENT";
+    _local_name = "#comment";
   }
   public GomComment (DomDocument doc, string data) {
     _document = doc;
-    _data = data;
+    _node_value = data;
   }
 }

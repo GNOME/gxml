@@ -32,6 +32,7 @@ public class GXml.GomNode : Object,
   protected string _base_uri;
   protected string _node_value;
   protected DomNode.NodeType _node_type;
+  protected GomNodeList _child_nodes;
   public DomNode.NodeType node_type { get { return _node_type; } }
   public string node_name {
     owned get {
@@ -55,7 +56,6 @@ public class GXml.GomNode : Object,
       return null;
     }
   }
-  protected GomNodeList _child_nodes = new GomNodeList ();
   public DomNodeList child_nodes { owned get { return _child_nodes as DomNodeList; } }
   public DomNode? first_child {
     owned get {
@@ -123,6 +123,8 @@ public class GXml.GomNode : Object,
     _node_type = DomNode.NodeType.INVALID;
     _base_uri = null;
     _node_value = null;
+    _child_nodes = new GomNodeList ();
+    GLib.message ("PI");
   }
 
   public bool has_child_nodes () { return (_child_nodes.size > 0); }
