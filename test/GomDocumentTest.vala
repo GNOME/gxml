@@ -254,7 +254,7 @@ class GomDocumentTest : GXmlTest {
 				DomDocument doc = new GomDocument.from_string ("<document_element />");
 				assert (doc.document_element != null);
 				((DomElement) doc.document_element).set_attribute ("attrname", "attrvalue");
-				assert_not_reached ();
+				assert (doc.document_element.attributes.size == 1);
 				//Test.message ("DOC:"+doc.to_string ());
 				var attr = ((DomElement) doc.document_element).get_attribute ("attrname");
 				Test.message ("Attr value: "+attr);

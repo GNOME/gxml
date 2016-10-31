@@ -51,7 +51,8 @@ public interface GXml.GomObject : GLib.Object,
    * this object, see {@link get_child}
    */
   public virtual string? get_attribute (string name) {
-    var prop = get_class ().find_property (name);
+    GLib.message ("GomObject: attribute: "+name);
+    var prop = get_class ().find_property (name); // FIXME: Find by nick and lower case
     if (prop != null) {
       if (prop.value_type == typeof(SerializableProperty)) {
         var ov = Value(prop.value_type);
@@ -61,7 +62,7 @@ public interface GXml.GomObject : GLib.Object,
         return so.get_serializable_property_value ();
       }
     }
-    return (this as DomElement).get_attribute (name);
+    return null;
   }
   /**
    * Search for a {@link GLib.Object} property with
@@ -72,19 +73,19 @@ public interface GXml.GomObject : GLib.Object,
    * By default all {@link GLib.Object} are children of
    * this object, see {@link set_child}
    */
-  public virtual void set_attribute (string name, string val) {
+  public virtual bool set_attribute (string name, string val) {
     var prop = get_class ().find_property (name);
     if (prop != null) {
       if (prop.value_type == typeof(SerializableProperty)) {
         var ov = Value (prop.value_type);
         get_property (name, ref ov);
         SerializableProperty so = (Object) ov as SerializableProperty;
-        if (so == null) return;
+        if (so == null) return false;
         so.set_serializable_property_value (val);
-        return;
+        return true;
       }
     }
-    (this as DomElement).set_property (name, val);
+    return false;
   }
   /**
    * Search a {@link GLib.Object} property with given name
@@ -112,20 +113,20 @@ public interface GXml.GomObject : GLib.Object,
     }
     return null;
   }
-  public virtual void remove_attribute (string name) {
+  public virtual bool remove_attribute (string name) {
     var prop = get_class ().find_property (name);
     if (prop != null) {
       if (prop.value_type.is_a (typeof (SerializableProperty))) {
         (this as SerializableProperty).set_serializable_property_value (null);
-        return;
+        return true;
       }
       if (prop.value_type.is_a (typeof (SerializableCollection))) {
-        return;
+        return true;
       }
       Value v = Value (typeof (Object));
       (this as Object).set_property (name, v);
-      return;
+      return true;
     }
-    (this as DomElement).remove_attribute (name);
+    return false;
   }
 }

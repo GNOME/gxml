@@ -32,6 +32,7 @@ public class GXml.GomElement : GomNode,
                               DomParentNode,
                               DomElement,
                               GomObject {
+  protected Attributes _attributes;
   // DomNode overrides
   public new string? lookup_prefix (string? nspace) {
     if (namespace_uri == nspace && this.prefix != null)
@@ -268,9 +269,14 @@ public class GXml.GomElement : GomNode,
                                     ns, p, n, node.node_value);
     }
   }
-  protected Attributes _attributes;
   public DomNamedNodeMap attributes { owned get { return (DomNamedNodeMap) _attributes; } }
-  public string? get_attribute (string name) { return (this as GomObject).get_attribute (name); }
+  public string? get_attribute (string name) {
+    string s = (this as GomObject).get_attribute (name);
+    if (s != null) return s;
+    var a = _attributes.get_named_item (name);
+    if (a == null) return null;
+    return a.node_value;
+  }
   public string? get_attribute_ns (string? namespace, string local_name) {
     DomNode p = null;
     try { p = _attributes.get_named_item_ns (namespace, local_name); }
@@ -283,6 +289,8 @@ public class GXml.GomElement : GomNode,
     return p.node_value;
   }
   public void set_attribute (string name, string? value) {
+    bool res = (this as GomObject).set_attribute (name, value);
+    if (res) return;
     var a = new GomAttr (this, name, value);
     attributes.set_named_item (a);
   }
