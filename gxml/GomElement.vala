@@ -189,13 +189,28 @@ public class GXml.GomElement : GomNode,
     }
 
     public DomNode? get_named_item (string name) {
-      // TODO: Validate name throw INVALID_CHARACTER_ERROR
       if (name == "") return null;
-      if (":" in name) return null;
-      var v = get (name);
-      if (v == null) return null;
-      var n = new GomAttr (_element, name, v);
-      return n;
+      string p = "";
+      string ns = null;
+      string n = "";
+      if (":" in name) {
+        string[] s = name.split (":");
+        if (s.length > 2) return null;
+        p = s[0];
+        n = s[1];
+        if (p == "xmlns")
+          ns = _element.lookup_namespace_uri (n);
+        else
+          ns =  _element.lookup_namespace_uri (p);
+      }
+      string val = get (name);
+      if (val == null) return null;
+      DomNode attr = null;
+      if (p == null || p == "")
+        attr = new GomAttr (_element, name, val);
+      else
+        attr = new GomAttr.namespace (_element, ns, p, n, val);
+      return attr;
     }
     /**
      * Takes given {@link DomNode} as a {@link DomAttr} and use its name and

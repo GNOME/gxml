@@ -268,7 +268,10 @@ class GomDocumentTest : GXmlTest {
 			try {
 				DomDocument doc = new GomDocument.from_string ("<?xml version=\"1.0\"?>
 <Sentences><Sentence lang=\"en\">I like the colour blue.</Sentence><Sentence lang=\"de\">Ich liebe die T&#xFC;r.</Sentence><Authors><Author><Name>Fred</Name><Email>fweasley@hogwarts.co.uk</Email></Author><Author><Name>George</Name><Email>gweasley@hogwarts.co.uk</Email></Author></Authors></Sentences>");
-				string s1 = "";//doc.to_string ();
+
+				string s1 = (doc as GomDocument).to_string ();
+				assert (s1 != null);
+				GLib.message ("Document Read:"+s1);
 				string[] cs1 = s1.split ("\n");
 				Test.message (s1);
 				assert (cs1[0] == "<?xml version=\"1.0\"?>");
@@ -277,8 +280,8 @@ class GomDocumentTest : GXmlTest {
 		});
 		Test.add_func ("/gxml/gom-document/to_string/extended", () => {
 			try {
-				var d = new GDocument.from_path (GXmlTestConfig.TEST_DIR+"/gom-document-read.xml");
-				Test.message (d.to_string ());
+				var d = new GomDocument.from_path (GXmlTestConfig.TEST_DIR+"/gom-document-read.xml");
+				GLib.message ("Document Read:"+d.to_string ());
 				assert (d.document_element != null);
 				assert (d.document_element.node_name == "DataTypeTemplates");
 				Test.message (d.document_element.child_nodes.size.to_string ());

@@ -32,7 +32,6 @@ public class GXml.GomCharacterData : GomNode,
 
   construct {
     _node_value = "";
-    GLib.message ("PI: construct");
   }
   // DomNonDocumentTypeChildNode
   public DomElement? previous_element_sibling {

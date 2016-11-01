@@ -93,6 +93,10 @@ public class GXml.GomDocument : GomNode,
   }
 
 
+  public string to_string () {
+    return parser.write_string ();
+  }
+
   public DomElement create_element (string local_name) throws GLib.Error {
     return new GomElement (this, local_name);
   }

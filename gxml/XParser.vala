@@ -279,11 +279,14 @@ public class GXml.XParser : Object, GXml.Parser {
     tw.flush ();
     string str;
     doc.dump_memory (out str, out size);
+    if (str != null)
+      GLib.message ("STR: "+str);
     return str;
   }
   private void start_node (GXml.DomNode node)
     throws GLib.Error
   {
+    GLib.message ("Starting node...");
     int size = 0;
 #if DEBUG
     GLib.message (@"Starting Node: start Node: '$(node.node_name)'");
@@ -297,7 +300,14 @@ public class GXml.XParser : Object, GXml.Parser {
         tw.start_element_ns ((node as DomElement).prefix, (node as DomElement).local_name, (node as DomElement).node_name);
       else // Don't prefix. Using default namespace and prefix_default_ns = false
         tw.start_element (node.node_name);
-    foreach (GXml.DomNode attr in (node as DomElement).attributes.values) {
+    GLib.message ("Write down properties: size:"+(node as DomElement).attributes.size.to_string ());
+    foreach (string ak in (node as DomElement).attributes.keys) {
+      var attr = (node as DomElement).attributes.get_named_item (ak);
+      if (attr == null) {
+        GLib.warning ("Attr key: "+ak+ "not found");
+        continue;
+      }
+      if (attr.node_name != null) GLib.message ("Attribute name: "+attr.node_name);
 #if DEBUG
         GLib.message (@"Starting Element '$(node.node_name)': write attribute '$((attr as DomAttr).local_name)'");
 #endif
