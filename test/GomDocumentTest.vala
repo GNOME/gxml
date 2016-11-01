@@ -320,6 +320,14 @@ class GomDocumentTest : GXmlTest {
 				var p = (c as DomElement).get_attribute_ns ("http://www.gnome.org/GXml2", "prop");
 				assert (p != null);
 				assert (p == "val");
+				assert (doc.document_element.lookup_namespace_uri (null) != null);
+				GLib.message ("NS default: "+doc.document_element.lookup_namespace_uri (null));
+				assert (c.prefix == "gxml2");
+				assert (c.namespace_uri == "http://www.gnome.org/GXml2");
+				assert (c.lookup_namespace_uri (null) == "http://www.gnome.org/GXml");
+				assert (c.lookup_namespace_uri ("gxml2") == "http://www.gnome.org/GXml2");
+				assert (c.lookup_prefix ("http://www.gnome.org/GXml3") == null);
+				assert (c.lookup_prefix ("http://www.gnome.org/GXml2") == "gxml2");
 			} catch (GLib.Error e) {
 				GLib.message ("ERROR: "+ e.message);
 				assert_not_reached ();
@@ -350,7 +358,7 @@ class GomDocumentTest : GXmlTest {
 			assert (c.prefix == "gxml2");
 			assert (c.namespace_uri == "http://www.gnome.org/GXml2");
 			try {
-				GLib.message ("Setting duplicated ns");
+				Test.message ("Setting duplicated ns");
 				c.set_attribute_ns ("http://www.w3.org/2000/xmlns/","xmlns:gxml2", "http://www.gnome.org/GXml3");
 				assert_not_reached ();
 			} catch {}
@@ -362,8 +370,6 @@ class GomDocumentTest : GXmlTest {
 			} catch {}
 				var p = (c as DomElement).get_attribute_ns ("http://www.gnome.org/GXml2", "prop");
 				assert (p == null);
-				assert (c.prefix == "gxml2");
-				assert (c.namespace_uri == "http://www.gnome.org/GXml2");
 		});
 		Test.add_func ("/gxml/gom-document/parent", () => {
 			var doc = new GomDocument ();

@@ -31,6 +31,7 @@ public class GXml.GomNode : Object,
   protected string _prefix;
   protected string _base_uri;
   protected string _node_value;
+  protected GXml.DomNode _parent;
   protected DomNode.NodeType _node_type;
   protected GomNodeList _child_nodes;
   public DomNode.NodeType node_type { get { return _node_type; } }
@@ -47,7 +48,6 @@ public class GXml.GomNode : Object,
   protected GXml.DomDocument _document;
   public DomDocument? owner_document { get { return (GXml.DomDocument?) _document; } }
 
-  protected GXml.DomNode _parent;
   public DomNode? parent_node { owned get { return _parent as DomNode?; } }
   public DomElement? parent_element {
     owned get {
@@ -123,6 +123,7 @@ public class GXml.GomNode : Object,
     _base_uri = null;
     _node_value = null;
     _child_nodes = new GomNodeList ();
+    _parent = null;
   }
 
   public bool has_child_nodes () { return (_child_nodes.size > 0); }
@@ -177,7 +178,7 @@ public class GXml.GomNode : Object,
     if (this is GXml.DomDocumentType ||
         this is GXml.DomDocumentFragment) return null;
     if (this is DomElement) {
-      return (this as DomElement).lookup_prefix (nspace);
+      return (this as GomElement).lookup_prefix (nspace);
     }
     if (this is DomAttr) {
       if (this.parent_node == null) return  null;
@@ -189,7 +190,7 @@ public class GXml.GomNode : Object,
     if (this is GXml.DomDocumentType ||
         this is GXml.DomDocumentFragment) return null;
     if (this is DomElement) {
-        return (this as DomElement).lookup_namespace_uri (prefix);
+        return (this as GomElement).lookup_namespace_uri (prefix);
     }
     if (this is DomAttr) {
       if (this.parent_node == null) return  null;
@@ -201,6 +202,10 @@ public class GXml.GomNode : Object,
     var ns = lookup_namespace_uri (null);
     if (ns == nspace) return true;
     return false;
+  }
+
+  internal void set_parent (DomNode node) {
+    _parent = node;
   }
 
   public DomNode insert_before (DomNode node, DomNode? child) throws GLib.Error {
@@ -232,6 +237,9 @@ public class GXml.GomNode : Object,
     return node;
   }
   public DomNode append_child (DomNode node) throws GLib.Error {
+    if (!(node is GomNode))
+      throw new DomError.HIERARCHY_REQUEST_ERROR (_("Node type is invalid. Can't append as child"));
+    (node as GomNode).set_parent (this);
     return insert_before (node, null);
   }
   public DomNode replace_child (DomNode node, DomNode child) throws GLib.Error {
