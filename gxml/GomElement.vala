@@ -35,9 +35,14 @@ public class GXml.GomElement : GomNode,
   protected Attributes _attributes;
   // DomNode overrides
   public new string? lookup_prefix (string? nspace) {
-    if (namespace_uri == nspace && this.prefix != null)
-      return this.prefix;
-    foreach (DomNode a in attributes.values) {
+    if (_namespace_uri == nspace && _prefix != null)
+      return _prefix;
+    foreach (string k in _attributes.keys) {
+      var a = _attributes.get_named_item (k);
+      if (a == null) {
+        GLib.warning (("Attribute: %s not found").printf (k));
+        continue;
+      }
       if ((a as DomAttr).prefix == null) continue;
       if ((a as DomAttr).prefix.down () == "xmlns" && a.node_value == nspace)
         return (a as DomAttr).local_name;
@@ -272,18 +277,25 @@ public class GXml.GomElement : GomNode,
           || (node as DomAttr).prefix == null
           && node.node_name != "xmlns")
         throw new DomError.NAMESPACE_ERROR (_("Namespaced attributes should provide a valid prefix and namespace"));
-      string nsp = null;
+      string nsp = "";
+    GLib.message ("Searching for duplicated ns..."+node.node_value);
       if ((node as DomAttr).prefix == "xmlns")
         nsp = _element.lookup_prefix (node.node_value);
+    GLib.message ("Searching for duplicated ns...");
       if ((node as DomAttr).prefix != "xmlns")
         nsp = _element.lookup_prefix ((node as DomAttr).namespace_uri);
+    GLib.message ("Searching for duplicated ns...");
       if (nsp != null)
-        GLib.message ("Found PREFIX: "+nsp+" Node prefix: "+(node as DomAttr).prefix+"Node Value: "+node.node_value);
+        GLib.message ("Found PREFIX: "+nsp+" Node prefix: "+(node as DomAttr).prefix+
+                      " Node name: "+node.node_name+"Node Value: "+node.node_value);
+    GLib.message ("Searching for duplicated ns...");
       if ((node as DomAttr).prefix == "xmlns" && node.node_name != nsp
-          || ((node as DomAttr).prefix != "xmlns")
-              && (node as DomAttr).prefix != nsp) {
+          || (((node as DomAttr).prefix != "xmlns")
+              && (node as DomAttr).prefix != nsp)) {
         string snsp = "";
         if (nsp != null) snsp = ": "+nsp;
+    GLib.message ("Duplicated ns");
+    GLib.message ("Found Duplicated ns"+snsp);
         throw new DomError.NAMESPACE_ERROR (_("Attribute's prefix and namespace URI conflics with already defined namespace%s").printf (snsp));
       }
       string p = "";
@@ -349,6 +361,8 @@ public class GXml.GomElement : GomNode,
     if (p == "xml" && namespace_uri != "http://www.w3.org/2000/xmlns/")
        throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If prefix is xml name space uri shoud be http://www.w3.org/2000/xmlns/"));
     if (p == "xmlns" && namespace_uri != "http://www.w3.org/2000/xmlns/")
+       throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If attribute's prefix is xmlns name space uri shoud be http://www.w3.org/2000/xmlns/"));
+    if (p == "" && n == "xmlns" && namespace_uri != "http://www.w3.org/2000/xmlns/")
        throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If attribute's name is xmlns name space uri shoud be http://www.w3.org/2000/xmlns/"));
     if (p == "" && n != "xmlns")
       throw new DomError.NAMESPACE_ERROR (_("Invalid attribute name. No prefixed attributes should use xmlns name"));
