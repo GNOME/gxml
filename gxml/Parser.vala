@@ -49,6 +49,10 @@ public interface GXml.Parser : Object {
    */
   public abstract void write_stream (OutputStream stream,
                                     GLib.Cancellable? cancellable) throws GLib.Error;
+  /**
+   * Writes a {@link GXml.DomNode} to a string
+   */
+  public abstract string write_node (DomNode node) throws GLib.Error;
 
   /**
    * Read a {@link GXml.DomDocument} from a {@link GLib.File}

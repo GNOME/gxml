@@ -59,6 +59,7 @@ sources = \
 	DomGDocumentTest.vala \
 	XPathTest.vala \
 	GomDocumentTest.vala \
+	GomElementTest.vala \
 	$(NULL)
 
 vala-stamp: $(sources)
