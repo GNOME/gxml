@@ -223,8 +223,8 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
     if (p == null) return null;
     return p.value;
   }
-  public void set_attribute (string name, string? value) { set_attr (name, value); }
-  public void set_attribute_ns (string? namespace, string name, string? value) {
+  public void set_attribute (string name, string value) throws GLib.Error { set_attr (name, value); }
+  public void set_attribute_ns (string? namespace, string name, string value) throws GLib.Error {
     set_ns_attr (namespace, name, value);
   }
   public void remove_attribute (string name) {

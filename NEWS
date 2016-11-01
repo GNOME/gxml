@@ -9,6 +9,7 @@ Version 0.13.0
 * API change changed long/ulong to int
 * Added new DOM4 implementation called GOM
 * API change GXml.NodeType changed X_UNKNOWN to INVALID
+* API change fixed DomElement.set_attribute/_ns now requires not null values
 
 ===============
 Version 0.12.0

@@ -45,8 +45,8 @@ public interface GXml.DomElement : GLib.Object,
 
   public abstract string? get_attribute (string name);
   public abstract string? get_attribute_ns (string? namespace, string local_name);
-  public abstract void set_attribute (string name, string? value);
-  public abstract void set_attribute_ns (string? namespace, string name, string? value);
+  public abstract void set_attribute (string name, string value) throws GLib.Error;
+  public abstract void set_attribute_ns (string? namespace, string name, string value) throws GLib.Error;
   public abstract void remove_attribute (string name);
   public abstract void remove_attribute_ns (string? namespace, string local_name);
   public abstract bool has_attribute (string name);

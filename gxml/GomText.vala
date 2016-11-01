@@ -93,7 +93,6 @@ public class GXml.GomProcessingInstruction : GomCharacterData,
   public GomProcessingInstruction (DomDocument doc, string target, string data) {
     _document = doc;
     _node_value = data;
-    GLib.message ("PI: Initialized");
     _local_name = target;
   }
 }

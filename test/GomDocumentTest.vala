@@ -300,22 +300,22 @@ class GomDocumentTest : GXmlTest {
 		Test.add_func ("/gxml/gom-document/namespace", () => {
 			try {
 				DomDocument doc = new GomDocument.from_string ("<document_element><child/></document_element>");
-				doc.document_element.set_attribute_ns ("http://www.gnome.org/GXml","xmlns:gxml","http://www.gnome.org/GXml");
+				doc.document_element.set_attribute_ns ("http://www.w3.org/2000/xmlns/",
+																							"xmlns","http://www.gnome.org/GXml");
 				assert (doc.document_element != null);
 				assert (doc.document_element.namespace_uri != null);
 				assert (doc.document_element.namespace_uri == "http://www.gnome.org/GXml");
-				assert (doc.document_element.prefix != null);
-				assert (doc.document_element.prefix == "gxml");
+				assert (doc.document_element.prefix == null);
 				assert (doc.document_element.child_nodes != null);
 				assert (doc.document_element.child_nodes.size == 1);
 				var c = doc.document_element.child_nodes[0] as DomElement;
 				assert (c is DomElement);
-				c.set_attribute_ns ("http://www.gnome.org/GXml2","gxml2", "http://www.gnome.org/GXml2");
+				c.set_attribute_ns ("http://www.w3.org/2000/xmlns/","xmlns:gxml2", "http://www.gnome.org/GXml2");
 				assert (c.prefix == "gxml2");
 				assert (c.namespace_uri == "http://www.gnome.org/GXml2");
-				c.set_attribute_ns ("http://www.gnome.org/GXml2","gxml:prop","val");
+				c.set_attribute_ns ("http://www.gnome.org/GXml2","gxml2:prop","val");
 				var p = (c as DomElement).get_attribute_ns ("http://www.gnome.org/GXml2", "prop");
-				assert (p == null);
+				assert (p != null);
 				assert (p == "val");
 			} catch (GLib.Error e) {
 				GLib.message ("ERROR: "+ e.message);
