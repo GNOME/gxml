@@ -230,9 +230,13 @@ public class GXml.XParser : Object, GXml.Parser {
 #endif
       break;
     case Xml.ReaderType.SIGNIFICANT_WHITESPACE:
+      var stxtval = tr.read_string ();
 #if DEBUG
+      GLib.message ("ReadNode: Text Node : '"+stxtval+"'");
       GLib.message ("Type SIGNIFICANT_WHITESPACE");
 #endif
+      n = _document.create_text_node (stxtval);
+      node.append_child (n);
       break;
     case Xml.ReaderType.END_ELEMENT:
 #if DEBUG

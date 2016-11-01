@@ -280,14 +280,14 @@ class GomDocumentTest : GXmlTest {
 		});
 		Test.add_func ("/gxml/gom-document/to_string/extended", () => {
 			try {
-				var d = new GomDocument.from_path (GXmlTestConfig.TEST_DIR+"/gom-document-read.xml");
+				var d = new GomDocument.from_path (GXmlTestConfig.TEST_DIR+"/gdocument-read.xml");
 				GLib.message ("Document Read:"+d.to_string ());
 				assert (d.document_element != null);
 				assert (d.document_element.node_name == "DataTypeTemplates");
 				Test.message (d.document_element.child_nodes.size.to_string ());
-				assert (d.document_element.child_nodes[0] is GXml.Text);
-				assert (d.document_element.child_nodes[1] is GXml.Element);
-				assert (d.document_element.child_nodes[2] is GXml.Text);
+				assert (d.document_element.child_nodes[0] is GXml.DomText);
+				assert (d.document_element.child_nodes[1] is GXml.DomElement);
+				assert (d.document_element.child_nodes[2] is GXml.DomText);
 				assert (d.document_element.child_nodes[2].node_value == "\n");
 				assert (d.document_element.child_nodes.size == 3);
 				assert (d.document_element.child_nodes[1].node_name == "DAType");
@@ -296,7 +296,7 @@ class GomDocumentTest : GXmlTest {
 				assert (d.document_element.child_nodes[1].child_nodes[1].child_nodes.size == 3);
 				assert (d.document_element.child_nodes[1].child_nodes[1].child_nodes[1].node_name == "Val");
 				assert (d.document_element.child_nodes[1].child_nodes[1].child_nodes[1].child_nodes.size == 1);
-				assert (d.document_element.child_nodes[1].child_nodes[1].child_nodes[1].child_nodes[0] is GXml.Text);
+				assert (d.document_element.child_nodes[1].child_nodes[1].child_nodes[1].child_nodes[0] is GXml.DomText);
 				assert (d.document_element.child_nodes[1].child_nodes[1].child_nodes[1].child_nodes[0].node_value == "status_only");
 			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
 		});
