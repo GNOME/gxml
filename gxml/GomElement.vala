@@ -420,7 +420,8 @@ public class GXml.GomElement : GomNode,
     }
   }
   public void remove_attribute (string name) {
-    (this as GomElement).remove_attribute (name);
+    if ((this as GomObject).remove_attribute (name)) return;
+    attributes.remove_named_item (name);
   }
   public void remove_attribute_ns (string? namespace_uri, string local_name) {
     attributes.remove_named_item_ns (namespace_uri, local_name);

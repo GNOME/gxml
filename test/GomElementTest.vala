@@ -107,16 +107,17 @@ class GomElementTest : GXmlTest  {
 				assert (elem.attributes.get_named_item ("alley").node_value == "Diagon");
 				assert (elem.attributes.get_named_item ("train").node_value == "Hogwarts Express");
 
-				elem.set_attribute ("owl", "");
+				elem.set_attribute ("owl", "Hedwig");
 				GomAttr attr = elem.attributes.get_named_item ("owl") as GomAttr;
 				assert (attr != null);
-				attr.node_value = "Hedwig";
+				assert (attr.node_value == "Hedwig");
 
 				assert (elem.attributes.size == 3);
-				assert (elem.attributes.get_named_item ("owl").node_value == "Hedwig");
+				assert (elem.get_attribute ("owl") == "Hedwig");
 
 				elem.attributes.remove_named_item ("alley");
-				assert (elem.attributes.get_named_item ("alley") == null);
+
+				assert (elem.get_attribute ("alley") == null);
 				assert (elem.attributes.size == 2);
 				elem.remove_attribute ("owl");
 				assert (elem.attributes.size == 1);
