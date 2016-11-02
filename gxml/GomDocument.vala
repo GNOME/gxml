@@ -109,7 +109,7 @@ public class GXml.GomDocument : GomNode,
     if (":" in qualified_name) {
       var s = qualified_name.split (":");
       if (s.length != 2)
-        throw new DomError.NOT_SUPPORTED_ERROR (_("Invalid node name"));
+        throw new DomError.NAMESPACE_ERROR (_("Invalid node name"));
       nsp = s[0];
       n = s[1];
     } else

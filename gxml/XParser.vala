@@ -107,8 +107,9 @@ public class GXml.XParser : Object, GXml.Parser {
 #endif
       prefix = tr.prefix ();
       if (prefix != null) {
+        GLib.message ("Is namespaced element");
         nsuri = tr.lookup_namespace (prefix);
-        n = _document.create_element_ns (nsuri, tr.prefix () + tr.const_local_name ());
+        n = _document.create_element_ns (nsuri, tr.prefix () +":"+ tr.const_local_name ());
       } else
         n = _document.create_element (tr.const_local_name ());
       node.append_child (n);
@@ -125,15 +126,20 @@ public class GXml.XParser : Object, GXml.Parser {
           throw new DomError.HIERARCHY_REQUEST_ERROR (_("Parsing ERROR: Fail to move to attribute number: %i").printf (i));
         }
         if (tr.is_namespace_decl () == 1) {
-#if DEBUG
+//#if DEBUG
           GLib.message ("Is Namespace Declaration...");
-#endif
+//#endif
           string nsp = tr.const_local_name ();
-          prefix = tr.prefix ();
+          string aprefix = tr.prefix ();
           tr.read_attribute_value ();
           if (tr.node_type () == Xml.ReaderType.TEXT) {
-            nsuri = tr.read_string ();
-            (n as DomElement).set_attribute_ns (nsuri, prefix+":"+nsp, nsuri);
+            string ansuri = tr.read_string ();
+            GLib.message ("Read: "+aprefix+":"+nsp+"="+ansuri);
+            string ansp = "";
+            if (nsp != "xmlns")
+              ansp = aprefix+":"+nsp;
+            (n as DomElement).set_attribute_ns ("http://www.w3.org/2000/xmlns/",
+                                                 ansp, ansuri);
           }
         } else {
           var attrname = tr.const_local_name ();
