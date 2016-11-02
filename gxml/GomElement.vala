@@ -313,7 +313,7 @@ public class GXml.GomElement : GomNode,
           string nsprefix = _element.lookup_prefix (node.node_value);
           string nsuri = _element.lookup_namespace_uri (nsprefix);
           if (nsprefix != (node as DomAttr).prefix
-              && nsuri != node.node_value) {
+              && nsuri != null && nsuri != node.node_value) {
             GLib.message ("Prefix: "+nsprefix+" Prefix Attr:"+(node as DomAttr).local_name);
             throw new DomError.NAMESPACE_ERROR
                       (_("Redefinition of namespace's prefix for %s")

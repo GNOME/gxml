@@ -24,6 +24,43 @@ using GXml;
 
 class GomElementTest : GXmlTest  {
 	public static void add_tests () {
+	Test.add_func ("/gxml/gom-element/read/namespace_uri", () => {
+			DomDocument doc = null;
+			try {
+				doc = new GomDocument.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
+			} catch (GLib.Error e) {
+				GLib.message (e.message);
+				assert_not_reached ();
+			}
+			try {
+				GXml.GomNode root = (GXml.GomNode) doc.document_element;
+				assert (root != null);
+				assert (root.node_name == "Potions");
+				GXml.GomNode node = (GXml.GomNode) root.child_nodes[0];
+				assert (node != null);
+				assert (node is DomElement);
+				assert ((node as DomElement).local_name == "Potion");
+				assert (node.node_name == "magic:Potion");
+				assert ((node as DomElement).namespace_uri == "http://hogwarts.co.uk/magic");
+				assert ((node as DomElement).prefix == "magic");
+				assert ((node as DomElement).attributes.size == 2);
+				GLib.message ("Attributes: "+(node as DomElement).attributes.size.to_string ());
+				/*foreach (string k in (node as DomElement).attributes.keys) {
+					string v = (node as DomElement).get_attribute (k);
+					if (v == null) v = "NULL";
+					GLib.message ("Attribute: "+k+"="+v);
+				}*/
+				assert ((node as DomElement).get_attribute ("xmlns:magic") == "http://hogwarts.co.uk/magic");
+				assert ((node as DomElement).get_attribute_ns ("http://www.w3.org/2000/xmlns/", "magic") == "http://hogwarts.co.uk/magic");
+				assert ((node as DomElement).get_attribute ("xmlns:products") == "http://diagonalley.co.uk/products");
+				assert ((node as DomElement).get_attribute_ns ("http://www.w3.org/2000/xmlns/","products") == "http://diagonalley.co.uk/products");
+				assert (node.lookup_prefix ("http://diagonalley.co.uk/products") == "products");
+				assert (node.lookup_namespace_uri ("products") == "http://diagonalley.co.uk/products");
+			} catch (GLib.Error e) {
+				GLib.message (e.message);
+				assert_not_reached ();
+			}
+		});
 		Test.add_func ("/gxml/gom-element/namespace_uri", () => {
 			try {
 				GomDocument doc = new GomDocument.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
