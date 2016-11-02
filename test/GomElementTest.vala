@@ -131,8 +131,13 @@ class GomElementTest : GXmlTest  {
 				elem.remove_attribute_ns ("http://www.gnome.org/GXml", "xola");
 				assert (elem.get_attribute_ns ("http://www.gnome.org/GXml", "xola") == null);
 				assert (elem.attributes.size == 2);
+				try {
+					elem.set_attribute_ns ("http://www.gnome.org/GXml", "gxml2:xola","Mexico");
+					assert_not_reached ();
+				} catch {}
+				assert (elem.attributes.size == 2);
 			} catch (GLib.Error e) {
-				Test.message (e.message);
+				GLib.message (e.message);
 				assert_not_reached ();
 			}
 		});
