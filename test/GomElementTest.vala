@@ -121,6 +121,16 @@ class GomElementTest : GXmlTest  {
 				assert (elem.attributes.size == 2);
 				elem.remove_attribute ("owl");
 				assert (elem.attributes.size == 1);
+
+				elem.set_attribute_ns ("http://www.w3.org/2000/xmlns/", "xmlns:gxml",
+															"http://www.gnome.org/GXml");
+				assert (elem.attributes.size == 2);
+				elem.set_attribute_ns ("http://www.gnome.org/GXml", "gxml:xola","Mexico");
+				assert (elem.attributes.size == 3);
+				assert (elem.get_attribute_ns ("http://www.gnome.org/GXml", "xola") == "Mexico");
+				elem.remove_attribute_ns ("http://www.gnome.org/GXml", "xola");
+				assert (elem.get_attribute_ns ("http://www.gnome.org/GXml", "xola") == null);
+				assert (elem.attributes.size == 2);
 			} catch (GLib.Error e) {
 				Test.message (e.message);
 				assert_not_reached ();
