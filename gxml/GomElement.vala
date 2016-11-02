@@ -334,7 +334,7 @@ public class GXml.GomElement : GomNode,
         nspn = _element.lookup_prefix ((node as DomAttr).namespace_uri);
         nsn = _element.lookup_namespace_uri (nspn);
         if (nspn != (node as DomAttr).prefix
-            && nsn != null && nsn != (node as DomAttr).namespace_uri)
+            && nsn != (node as DomAttr).namespace_uri)
           throw new DomError.NAMESPACE_ERROR
                   (_("Trying to add an attribute with a non found namespace URI"));
       }

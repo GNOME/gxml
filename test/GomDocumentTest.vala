@@ -368,6 +368,10 @@ class GomDocumentTest : GXmlTest {
 				c.set_attribute_ns ("http://www.gnome.org/GXml2","gxml3:prop","val");
 				assert_not_reached ();
 			} catch {}
+			try {
+				c.set_attribute_ns ("http://www.gnome.org/GXml3","gxml2:prop","val");
+				assert_not_reached ();
+			} catch {}
 				var p = (c as DomElement).get_attribute_ns ("http://www.gnome.org/GXml2", "prop");
 				assert (p == null);
 		});
