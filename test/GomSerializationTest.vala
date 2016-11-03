@@ -40,6 +40,14 @@ class GomSerializationTest : GXmlTest  {
     }
     public string to_string () { return (_document as GomDocument).to_string (); }
   }
+  public class Taxes : GomElement {
+    [Description (nick="::monthRate")]
+    public double month_rate { get; set; }
+    construct {
+      _local_name = "Taxes";
+    }
+    public string to_string () { return (_document as GomDocument).to_string (); }
+  }
   public static void add_tests () {
     Test.add_func ("/gxml/gom-serialization/write/properties", () => {
       var b = new Book ();
@@ -63,6 +71,17 @@ class GomSerializationTest : GXmlTest  {
       assert (c.ignore == "Nothing");
       assert (c.get_attribute ("ignore") == "Nothing");
       s = c.to_string ();
+      GLib.message ("DOC:"+s);
+    });
+    Test.add_func ("/gxml/gom-serialization/write/property-long-name", () => {
+      var t = new Taxes ();
+      string s = t.to_string ();
+      assert (s != null);
+      assert ("<Taxes monthRate=\"0\"/>" in s);
+      t.month_rate = 16.5;
+      assert ("16.5" in "%.2f".printf (t.month_rate));
+      assert ("16.5" in t.get_attribute ("month-rate"));
+      s = t.to_string ();
       GLib.message ("DOC:"+s);
     });
   }

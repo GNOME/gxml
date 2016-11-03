@@ -86,6 +86,9 @@ public interface GXml.GomObject : GLib.Object,
       if (prop.value_type.is_a (typeof (uint))) {
         return ((uint) v).to_string ();
       }
+      if (prop.value_type.is_a (typeof (double))) {
+        return ((double) v).to_string ();
+      }
     }
     return null;
   }
