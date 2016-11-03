@@ -346,6 +346,13 @@ public class GXml.XParser : Object, GXml.Parser {
         string name = (node as DomElement).prefix
                       + ":" + (node as DomElement).local_name;
         tw.start_element (name);
+      }
+      if ((node as DomElement).prefix == null
+            && (node as DomElement).namespace_uri != null) {
+            GLib.message ("Writting namespace definition for node");
+          tw.start_element_ns (null,
+                               (node as DomElement).local_name,
+                               (node as DomElement).namespace_uri);
       } else
         tw.start_element (node.node_name);
     GLib.message ("Write down properties: size:"+(node as DomElement).attributes.size.to_string ());

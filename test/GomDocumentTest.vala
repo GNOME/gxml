@@ -149,6 +149,21 @@ class GomDocumentTest : GXmlTest {
 				assert_not_reached ();
 			}
 		});
+		Test.add_func ("/gxml/gom-document/namespace/write", () => {
+			try {
+				var doc = new GomDocument ();
+				var r = doc.create_element_ns ("http://live.gnome.org/GXml","root");
+				doc.append_child (r);
+				assert (r.prefix == null);
+				assert (r.namespace_uri == "http://live.gnome.org/GXml");
+				string s = doc.to_string ();
+				GLib.message (@"DOC: "+s);
+				assert ("<root xmlns=\"http://live.gnome.org/GXml\"/>" in s);
+			} catch (GLib.Error e) {
+				GLib.message ("Error: "+e.message);
+				assert_not_reached ();
+			}
+		});
 		Test.add_func ("/gxml/gom-document/construct_from_stream_error", () => {
 				File fin;
 				InputStream instream;

@@ -113,7 +113,7 @@ public class GXml.GomDocument : GomNode,
   public DomElement create_element_ns (string? namespace_uri, string qualified_name) throws GLib.Error
   {
     string n = "";
-    string nsp = "";
+    string nsp = null;
     if (":" in qualified_name) {
       var s = qualified_name.split (":");
       if (s.length != 2)
