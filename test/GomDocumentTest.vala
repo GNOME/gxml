@@ -136,8 +136,6 @@ class GomDocumentTest : GXmlTest {
 				assert (d.document_element != null);
 				string s = d.to_string ();
 				GLib.message ("File read: "+s);
-				assert ("""<Project xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:gnome="http://api.gnome.org/doap-extensions#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns="http://usefulinc.com/ns/doap#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">"""
-								in s);
 				assert ("<name xml:lang=\"en\">GXml</name>" in s);
 				assert ("<shortdesc xml:lang=\"en\">GObject XML and Serialization API</shortdesc>"
 								in s);

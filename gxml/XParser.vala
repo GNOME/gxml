@@ -356,6 +356,7 @@ public class GXml.XParser : Object, GXml.Parser {
       } else
         tw.start_element (node.node_name);
     GLib.message ("Write down properties: size:"+(node as DomElement).attributes.size.to_string ());
+
     foreach (string ak in (node as DomElement).attributes.keys) {
       string v = ((node as DomElement).attributes as HashMap<string,string>).get (ak);
       size += tw.write_attribute (ak, v);

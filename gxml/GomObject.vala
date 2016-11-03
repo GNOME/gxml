@@ -35,6 +35,11 @@ public interface GXml.GomObject : GLib.Object,
                                   DomNode,
                                   DomElement {
   /**
+   * Controls if property name to be used when serialize to XML node
+   * attribute use property's nick name as declared in {@link GLib.ParamSpec}
+   */
+  public virtual bool use_nick_name () { return true; }
+  /**
    * Search for properties in objects, it should be
    * an {@link GLib.Object}'s property. If found a
    * property with given name its value is returned
@@ -64,6 +69,12 @@ public interface GXml.GomObject : GLib.Object,
       }
       if (prop.value_type.is_a (typeof (string))) {
         return (string) v;
+      }
+      if (prop.value_type.is_a (typeof (int))) {
+        return ((int) v).to_string ();
+      }
+      if (prop.value_type.is_a (typeof (uint))) {
+        return ((uint) v).to_string ();
       }
     }
     return null;

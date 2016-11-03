@@ -167,12 +167,14 @@ public class GXml.GomElement : GomNode,
   }
 
   construct {
+    _document = new GomDocument ();
     _node_type = DomNode.NodeType.ELEMENT_NODE;
     _attributes = new Attributes (this);
     _local_name = "";
+    _document.append_child (this);
   }
 
-  public GomElement (DomDocument doc, string local_name) {
+  public GomElement.initialize (DomDocument doc, string local_name) {
     _document = doc;
     _local_name = local_name;
   }
@@ -183,8 +185,6 @@ public class GXml.GomElement : GomNode,
     _namespace_uri = namespace_uri;
     _prefix = prefix;
   }
-
-  public virtual bool use_nick_name () { return true; }
 
   /**
    * Holds attributes in current node, using attribute's name as key
@@ -198,18 +198,6 @@ public class GXml.GomElement : GomNode,
 
     public Attributes (GomElement element) {
       _element = element;
-    }
-
-    public GLib.List<string> get_attribute_list () {
-      GLib.List<string> l = new GLib.List<string> ();
-      foreach (string k in _element.attributes.keys) {
-        l.prepend (k);
-      }
-      foreach (ParamSpec spec in this.get_class ().list_properties ()) {
-        if (_element.use_nick_name ())
-          l.prepend (spec.name);
-      }
-      return l;
     }
 
     public DomNode? get_named_item (string name) {

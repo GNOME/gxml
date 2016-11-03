@@ -108,7 +108,7 @@ public class GXml.GomDocument : GomNode,
   }
 
   public DomElement create_element (string local_name) throws GLib.Error {
-    return new GomElement (this, local_name);
+    return new GomElement.initialize (this, local_name);
   }
   public DomElement create_element_ns (string? namespace_uri, string qualified_name) throws GLib.Error
   {

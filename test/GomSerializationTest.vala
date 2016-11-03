@@ -26,9 +26,7 @@ class GomSerializationTest : GXmlTest  {
   public class Book : GomElement {
     public string name { get; set; }
     public Book () {
-      var d = new GomDocument ();
-      base (d, "Book");
-      d.append_child (this);
+      _local_name = "Book";
     }
     public string to_string () { return (_document as GomDocument).to_string (); }
   }
@@ -36,6 +34,7 @@ class GomSerializationTest : GXmlTest  {
     Test.add_func ("/gxml/gom-serialization/write", () => {
       var b = new Book ();
       string s = b.to_string ();
+      assert (s != null);
       assert ("<Book/>" in s);
       b.name = "My Book";
       assert (b.get_attribute ("name") == "My Book");
