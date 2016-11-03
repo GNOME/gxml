@@ -110,7 +110,7 @@ public class GXml.GomDocument : GomNode,
   public DomElement create_element (string local_name) throws GLib.Error {
     return new GomElement (this, local_name);
   }
-  public DomElement create_element_ns (string? ns, string qualified_name) throws GLib.Error
+  public DomElement create_element_ns (string? namespace_uri, string qualified_name) throws GLib.Error
   {
     string n = "";
     string nsp = "";
@@ -123,11 +123,18 @@ public class GXml.GomDocument : GomNode,
       n = s[1];
     } else
       n = qualified_name;
-    if (nsp == "" && ns == null)
+    if (nsp == "" && namespace_uri == null)
       throw new DomError.NAMESPACE_ERROR
         (_("Creating an namespaced element with invalid namespace"));
-      // TODO: check for xmlns https://www.w3.org/TR/dom/#dom-document-createelementns
-    return new GomElement.namespace (this, ns, nsp, n);
+    if ((n == "xmlns" || nsp == "xmlns")
+        && namespace_uri != "http://www.w3.org/2000/xmlns/")
+      throw new DomError.NAMESPACE_ERROR
+        (_("Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"));
+    if ((n != "xmlns" || nsp != "xmlns")
+        && namespace_uri == "http://www.w3.org/2000/xmlns/")
+      throw new DomError.NAMESPACE_ERROR
+        (_("Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"));
+    return new GomElement.namespace (this, namespace_uri, nsp, n);
   }
 
   public DomHTMLCollection get_elements_by_tag_name (string local_name) {

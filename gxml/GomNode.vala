@@ -210,15 +210,6 @@ public class GXml.GomNode : Object,
       if (e.namespace_uri != null || e.prefix != null) {
         string nsprefix = node.lookup_prefix (e.namespace_uri);
         string nsuri = node.lookup_namespace_uri (e.prefix);
-        if (nsprefix == null && nsuri == null
-            && e.namespace_uri != null) {
-          string name = "xmlns";
-          if (e.prefix != null)
-            name = name + e.prefix;
-          if (e.get_attribute_ns (e.namespace_uri, e.prefix) == null)
-            e.set_attribute_ns ("http://www.w3.org/2000/xmlns/",
-                              name, e.namespace_uri);
-        }
         if (nsprefix != null && nsprefix != e.prefix) {
           throw new DomError.NAMESPACE_ERROR
             (_("Trying to add a namespaced element to a parent with invalid prefix for namesapce %s ")
