@@ -24,8 +24,9 @@ using GXml;
 
 class GomSerializationTest : GXmlTest  {
   public class Book : GomElement {
+    [Description (nick="::Name")]
     public string name { get; set; }
-    public Book () {
+    construct {
       _local_name = "Book";
     }
     public string to_string () { return (_document as GomDocument).to_string (); }
@@ -40,6 +41,10 @@ class GomSerializationTest : GXmlTest  {
       assert (b.get_attribute ("name") == "My Book");
       s = b.to_string ();
       GLib.message ("DOC:"+s);
+      foreach (ParamSpec spec in b.get_class ().list_properties ()) {
+        if ("::" in spec.get_nick ())
+          GLib.message ("Name: "+spec.name+ " Nick: "+spec.get_nick ());
+      }
     });
   }
 }

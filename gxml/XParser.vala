@@ -364,6 +364,17 @@ public class GXml.XParser : Object, GXml.Parser {
       if (size > 1500)
         tw.flush ();
     }
+    // GomObject serialisation
+    var opm = (node as GomObject).get_properties_map ();
+    foreach (string pk in opm.get_keys ()) {
+      string v = (node as GomObject).get_attribute (pk);
+      if (v == null) continue;
+      string pn = opm.lookup (pk);
+      size += tw.write_attribute (pn.replace ("::",""), v);
+      size += tw.end_attribute ();
+      if (size > 1500)
+        tw.flush ();
+    }
   }
   // Non Elements
 #if DEBUG

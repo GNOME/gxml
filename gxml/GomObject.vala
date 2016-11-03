@@ -39,6 +39,16 @@ public interface GXml.GomObject : GLib.Object,
    * attribute use property's nick name as declared in {@link GLib.ParamSpec}
    */
   public virtual bool use_nick_name () { return true; }
+  public virtual HashTable<string,string> get_properties_map () {
+    var l = new HashTable<string,string> (str_hash, str_equal);
+    foreach (ParamSpec spec in this.get_class ().list_properties ()) {
+      if ("::" in spec.get_nick ()) {
+        GLib.message ("Name: "+spec.name+ " Nick: "+spec.get_nick ());
+        l.insert (spec.name, spec.get_nick ());
+      }
+    }
+    return l;
+  }
   /**
    * Search for properties in objects, it should be
    * an {@link GLib.Object}'s property. If found a
