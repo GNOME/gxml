@@ -60,6 +60,7 @@ sources = \
 	XPathTest.vala \
 	GomDocumentTest.vala \
 	GomElementTest.vala \
+	GomSerializationTest.vala \
 	$(NULL)
 
 vala-stamp: $(sources)

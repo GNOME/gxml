@@ -63,6 +63,7 @@ class GXmlTest {
 		XPathTest.add_tests ();
 		GomDocumentTest.add_tests ();
 		GomElementTest.add_tests ();
+		GomSerializationTest.add_tests ();
 
 		Test.run ();
 
