@@ -16,6 +16,7 @@ gxml/GXmlHashMapAttr.vala
 gxml/GXmlNode.vala
 gxml/GXmlText.vala
 gxml/Node.vala
+gxml/Parser.vala
 gxml/SerializableEnum.vala
 gxml/SerializableGeeArrayList.vala
 gxml/SerializableGeeDualKeyMap.vala

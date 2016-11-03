@@ -16,6 +16,7 @@ gxml/GXmlHashMapAttr.c
 gxml/GXmlNode.c
 gxml/GXmlText.c
 gxml/Node.c
+gxml/Parser.c
 gxml/Serializable.c
 gxml/SerializableEnum.c
 gxml/SerializableGeeArrayList.c
@@ -41,6 +42,7 @@ sub/gxml/GXmlHashMapAttr.c
 sub/gxml/GXmlNode.c
 sub/gxml/GXmlText.c
 sub/gxml/Node.c
+sub/gxml/Parser.c
 sub/gxml/Serializable.c
 sub/gxml/SerializableEnum.c
 sub/gxml/SerializableGeeArrayList.c
