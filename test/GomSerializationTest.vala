@@ -31,8 +31,17 @@ class GomSerializationTest : GXmlTest  {
     }
     public string to_string () { return (_document as GomDocument).to_string (); }
   }
+  public class Computer : GomElement {
+    [Description (nick="::Model")]
+    public string model { get; set; }
+    public string ignore { get; set; } // ignored property
+    construct {
+      _local_name = "Computer";
+    }
+    public string to_string () { return (_document as GomDocument).to_string (); }
+  }
   public static void add_tests () {
-    Test.add_func ("/gxml/gom-serialization/write", () => {
+    Test.add_func ("/gxml/gom-serialization/write/properties", () => {
       var b = new Book ();
       string s = b.to_string ();
       assert (s != null);
@@ -41,10 +50,20 @@ class GomSerializationTest : GXmlTest  {
       assert (b.get_attribute ("name") == "My Book");
       s = b.to_string ();
       GLib.message ("DOC:"+s);
-      foreach (ParamSpec spec in b.get_class ().list_properties ()) {
-        if ("::" in spec.get_nick ())
-          GLib.message ("Name: "+spec.name+ " Nick: "+spec.get_nick ());
-      }
+    });
+    Test.add_func ("/gxml/gom-serialization/write/property-ignore", () => {
+      var c = new Computer ();
+      string s = c.to_string ();
+      assert (s != null);
+      assert ("<Computer/>" in s);
+      c.model = "T3456-E";
+      c.ignore = "Nothing";
+      assert (c.model == "T3456-E");
+      assert (c.get_attribute ("model") == "T3456-E");
+      assert (c.ignore == "Nothing");
+      assert (c.get_attribute ("ignore") == "Nothing");
+      s = c.to_string ();
+      GLib.message ("DOC:"+s);
     });
   }
 }
