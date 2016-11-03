@@ -284,10 +284,6 @@ public class GXml.GomNode : Object,
   public bool dispatch_event (DomEvent event)
   { return false; } // FIXME:
 
-  // To String
-  public string to_string () {
-    return (_document as GomDocument).parser.write_node (this);
-  }
 }
 
 /**

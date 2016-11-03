@@ -41,8 +41,6 @@ public class GXml.XParser : Object, GXml.Parser {
   public string write_string () throws GLib.Error  {
     return dump ();
   }
-  public string write_node (DomNode node) throws GLib.Error { return ""; }
-
   public void read_string (string str, GLib.Cancellable? cancellable) throws GLib.Error {
     if (str == "")
       throw new ParserError.INVALID_DATA_ERROR (_("Invalid document string, is empty is not allowed"));

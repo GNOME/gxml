@@ -141,25 +141,6 @@ class GomElementTest : GXmlTest  {
 				assert_not_reached ();
 			}
 		});
-		Test.add_func ("/gxml/gom-element/to_string", () =>{
-			try {
-				GomDocument doc = new GomDocument.from_string ("<root />");
-				var elem = doc.create_element ("country");
-				var t = doc.create_text_node ("New Zealand");
-				assert (t != null);
-				elem.child_nodes.add (t);
-				Test.message ("Elem1:"+(elem as GomNode).to_string ());
-				assert ((elem as GomElement).to_string () == "<country>New Zealand</country>");
-				var elem2 = doc.create_element ("messy");
-				var t2 = doc.create_text_node ("&lt;<>&gt;");
-				elem2.child_nodes.add (t2);
-				Test.message ("Elem2:"+(elem2 as GomNode).to_string ());
-				assert ((elem2 as GomNode).to_string () == "<messy>&amp;lt;&lt;&gt;&amp;gt;</messy>");
-			} catch (GLib.Error e) {
-				Test.message (e.message);
-				assert_not_reached ();
-			}
-		});
 		Test.add_func ("/gxml/gom-element/content/add_aside_child_nodes", () =>{
 			try {
 				var doc = new GomDocument ();
@@ -170,7 +151,6 @@ class GomElementTest : GXmlTest  {
 				var t = doc.create_text_node ("TEXT1");
 				root.child_nodes.add (t);
 				string s = doc.to_string ().split ("\n")[1];
-				Test.message ("root="+root.to_string ());
 				assert (s == "<root><child/>TEXT1</root>");
 			} catch (GLib.Error e) {
 				Test.message (e.message);
