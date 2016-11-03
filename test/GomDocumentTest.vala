@@ -102,6 +102,7 @@ class GomDocumentTest : GXmlTest {
 				var d = new GomDocument.from_file (rf);
 				assert (d != null);
 				assert (d.document_element != null);
+				GLib.message ("File read: "+d.to_string ());
 				assert (d.document_element.node_name == "Project");
 				bool fname, fshordesc, fdescription, fhomepage;
 				fname = fshordesc = fdescription = fhomepage = false;
@@ -306,24 +307,23 @@ class GomDocumentTest : GXmlTest {
 				doc.document_element.set_attribute_ns ("http://www.w3.org/2000/xmlns/",
 																							"xmlns","http://www.gnome.org/GXml");
 				assert (doc.document_element != null);
-				assert (doc.document_element.namespace_uri != null);
-				assert (doc.document_element.namespace_uri == "http://www.gnome.org/GXml");
+				assert (doc.document_element.namespace_uri == null);
 				assert (doc.document_element.prefix == null);
 				assert (doc.document_element.child_nodes != null);
 				assert (doc.document_element.child_nodes.size == 1);
 				var c = doc.document_element.child_nodes[0] as DomElement;
 				assert (c is DomElement);
 				c.set_attribute_ns ("http://www.w3.org/2000/xmlns/","xmlns:gxml2", "http://www.gnome.org/GXml2");
-				assert (c.prefix == "gxml2");
-				assert (c.namespace_uri == "http://www.gnome.org/GXml2");
+				assert (c.prefix == null);
+				assert (c.namespace_uri == null);
 				c.set_attribute_ns ("http://www.gnome.org/GXml2","gxml2:prop","val");
 				var p = (c as DomElement).get_attribute_ns ("http://www.gnome.org/GXml2", "prop");
 				assert (p != null);
 				assert (p == "val");
 				assert (doc.document_element.lookup_namespace_uri (null) != null);
 				GLib.message ("NS default: "+doc.document_element.lookup_namespace_uri (null));
-				assert (c.prefix == "gxml2");
-				assert (c.namespace_uri == "http://www.gnome.org/GXml2");
+				assert (c.prefix == null);
+				assert (c.namespace_uri == null);
 				assert (c.lookup_namespace_uri (null) == "http://www.gnome.org/GXml");
 				assert (c.lookup_namespace_uri ("gxml2") == "http://www.gnome.org/GXml2");
 				assert (c.lookup_prefix ("http://www.gnome.org/GXml3") == null);
@@ -357,18 +357,21 @@ class GomDocumentTest : GXmlTest {
 			c.set_attribute_ns ("http://www.w3.org/2000/xmlns/","xmlns:gxml2",
 													 "http://www.gnome.org/GXml2");
 			assert (c.attributes.size == 1);
-			assert (c.prefix == "gxml2");
-			assert (c.namespace_uri == "http://www.gnome.org/GXml2");
-			c.set_attribute_ns ("http://www.w3.org/2000/xmlns/","xmlns:gxml2",
+			assert (c.prefix == null);
+			assert (c.namespace_uri == null);
+			try { c.set_attribute_ns ("http://www.w3.org/2000/xmlns/","xmlns:gxml2",
 													"http://www.gnome.org/GXml3");
+			} catch {}
 			assert (c.attributes.size == 1);
-			assert (c.prefix == "gxml2");
-			//assert (c.namespace_uri == "http://www.gnome.org/GXml3");
+			assert (c.prefix == null);
+			assert (c.namespace_uri == null);
 			try {
 				c.set_attribute_ns ("http://www.gnome.org/GXml2","gxml3:prop","val");
 				assert_not_reached ();
 			} catch {}
+			try {
 				c.set_attribute_ns ("http://www.gnome.org/GXml3","gxml2:prop","val");
+			} catch {}
 				var p = (c as DomElement).get_attribute_ns ("http://www.gnome.org/GXml4", "prop");
 				assert (p == null);
 		});
