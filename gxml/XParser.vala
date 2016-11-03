@@ -341,9 +341,12 @@ public class GXml.XParser : Object, GXml.Parser {
       GLib.message (@"Starting Element... '$(node.node_name)'");
       GLib.message (@"Element Document is Null... '$((node.owner_document == null).to_string ())'");
 #endif
-      if ((node as DomElement).prefix != null || (node as DomElement).namespace_uri != null)
-        tw.start_element_ns ((node as DomElement).prefix, (node as DomElement).local_name, (node as DomElement).node_name);
-      else
+      if ((node as DomElement).prefix != null
+          || (node as DomElement).namespace_uri != null) {
+        string name = (node as DomElement).prefix
+                      + ":" + (node as DomElement).local_name;
+        tw.start_element (name);
+      } else
         tw.start_element (node.node_name);
     GLib.message ("Write down properties: size:"+(node as DomElement).attributes.size.to_string ());
     foreach (string ak in (node as DomElement).attributes.keys) {
