@@ -35,7 +35,12 @@ class GomSerializationTest : GXmlTest  {
   public static void add_tests () {
     Test.add_func ("/gxml/gom-serialization/write", () => {
       var b = new Book ();
-      GLib.message ("DOC:"+b.to_string ());
+      string s = b.to_string ();
+      assert ("<Book/>" in s);
+      b.name = "My Book";
+      assert (b.get_attribute ("name") == "My Book");
+      s = b.to_string ();
+      GLib.message ("DOC:"+s);
     });
   }
 }

@@ -183,6 +183,9 @@ public class GXml.GomElement : GomNode,
     _namespace_uri = namespace_uri;
     _prefix = prefix;
   }
+
+  public virtual bool use_nick_name () { return true; }
+
   /**
    * Holds attributes in current node, using attribute's name as key
    * and it's value as value. Appends namespace prefix to attribute's name as
@@ -197,8 +200,24 @@ public class GXml.GomElement : GomNode,
       _element = element;
     }
 
+    public GLib.List<string> get_attribute_list () {
+      GLib.List<string> l = new GLib.List<string> ();
+      foreach (string k in _element.attributes.keys) {
+        l.prepend (k);
+      }
+      foreach (ParamSpec spec in this.get_class ().list_properties ()) {
+        if (_element.use_nick_name ())
+          l.prepend (spec.name);
+      }
+      return l;
+    }
+
     public DomNode? get_named_item (string name) {
       if (name == "") return null;
+      var ov = (_element as GomObject).get_attribute (name);
+      if (ov != null) {
+        return new GomAttr (_element, name, ov);
+      }
       string p = "";
       string ns = null;
       string n = name;

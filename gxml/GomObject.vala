@@ -54,12 +54,16 @@ public interface GXml.GomObject : GLib.Object,
     GLib.message ("GomObject: attribute: "+name);
     var prop = get_class ().find_property (name); // FIXME: Find by nick and lower case
     if (prop != null) {
+      GLib.message ("Found attribute");
+      var v = Value(prop.value_type);
+      get_property (name, ref v);
       if (prop.value_type == typeof(SerializableProperty)) {
-        var ov = Value(prop.value_type);
-        get_property (name, ref ov);
-        SerializableProperty so = (Object) ov as SerializableProperty;
+        SerializableProperty so = (Object) v as SerializableProperty;
         if (so == null) return null;
         return so.get_serializable_property_value ();
+      }
+      if (prop.value_type.is_a (typeof (string))) {
+        return (string) v;
       }
     }
     return null;
