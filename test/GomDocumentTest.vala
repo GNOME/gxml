@@ -159,6 +159,9 @@ class GomDocumentTest : GXmlTest {
 				string s = doc.to_string ();
 				GLib.message (@"DOC: "+s);
 				assert ("<root xmlns=\"http://live.gnome.org/GXml\"/>" in s);
+				doc.document_element.set_attribute_ns ("http://www.w3.org/2000/xmlns/",
+																							"xmlns",
+																							"http://live.gnome.org/GXml");
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+e.message);
 				assert_not_reached ();
