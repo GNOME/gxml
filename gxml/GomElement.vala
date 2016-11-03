@@ -182,9 +182,6 @@ public class GXml.GomElement : GomNode,
     _local_name = local_name;
     _namespace_uri = namespace_uri;
     _prefix = prefix;
-    var a = new GomAttr.namespace (this, "http://www.w3.org/2000/xmlns/",
-                                  "xmlns", prefix, namespace_uri);
-    _attributes.set_named_item_ns (a);
   }
   /**
    * Holds attributes in current node, using attribute's name as key

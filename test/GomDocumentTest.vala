@@ -92,7 +92,39 @@ class GomDocumentTest : GXmlTest {
 				assert_not_reached ();
 			}
 			});
-		Test.add_func ("/gxml/gom-document/gfile/remote", () => {
+		Test.add_func ("/gxml/gom-document/gfile/remote/read", () => {
+			try {
+				var rf = GLib.File.new_for_uri ("https://git.gnome.org/browse/gxml/plain/gxml.doap");
+				if (!rf.query_exists ()) {
+					GLib.message ("No remote file available. Skiping...");
+					return;
+				}
+				var d = new GomDocument.from_file (rf);
+				assert (d != null);
+				assert (d.document_element != null);
+				assert (d.document_element.node_name == "Project");
+				bool fname, fshordesc, fdescription, fhomepage;
+				fname = fshordesc = fdescription = fhomepage = false;
+				foreach (DomNode n in d.document_element.child_nodes) {
+					if (n.node_name == "name") fname = true;
+					if (n.node_name == "shortdesc") fshordesc = true;
+					if (n.node_name == "description") fdescription = true;
+					if (n.node_name == "homepage") fhomepage = true;
+				}
+				assert (fname);
+				assert (fshordesc);
+				assert (fdescription);
+				assert (fhomepage);
+				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/xml.doap");
+				d.write_file (f);
+				assert (f.query_exists ());
+				f.delete ();
+			} catch (GLib.Error e) {
+				GLib.message ("Error: "+e.message);
+				assert_not_reached ();
+			}
+		});
+		Test.add_func ("/gxml/gom-document/gfile/remote/write", () => {
 			try {
 				var rf = GLib.File.new_for_uri ("https://git.gnome.org/browse/gxml/plain/gxml.doap");
 				if (!rf.query_exists ()) {

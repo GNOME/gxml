@@ -117,13 +117,15 @@ public class GXml.GomDocument : GomNode,
     if (":" in qualified_name) {
       var s = qualified_name.split (":");
       if (s.length != 2)
-        throw new DomError.NAMESPACE_ERROR (_("Invalid node name"));
+        throw new DomError.NAMESPACE_ERROR
+          (_("Creating an namespaced element with invalid node name"));
       nsp = s[0];
       n = s[1];
     } else
       n = qualified_name;
     if (nsp == "" && ns == null)
-      throw new DomError.NAMESPACE_ERROR (_("Invalid namespace"));
+      throw new DomError.NAMESPACE_ERROR
+        (_("Creating an namespaced element with invalid namespace"));
       // TODO: check for xmlns https://www.w3.org/TR/dom/#dom-document-createelementns
     return new GomElement.namespace (this, ns, nsp, n);
   }
