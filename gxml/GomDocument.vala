@@ -83,7 +83,7 @@ public class GXml.GomDocument : GomNode,
   }
 
   public GomDocument.from_file (GLib.File file) throws GLib.Error {
-    _parser.read (file, null);
+    _parser.read_file (file, null);
   }
 
   public GomDocument.from_stream (GLib.InputStream stream) throws GLib.Error {
@@ -97,6 +97,14 @@ public class GXml.GomDocument : GomNode,
 
   public string to_string () {
     return _parser.write_string ();
+  }
+
+  public void write_file (GLib.File file) throws GLib.Error {
+    _parser.write_file (file, null);
+  }
+
+  public void write_stream (GLib.OutputStream stream) throws GLib.Error {
+    _parser.write_stream (stream, null);
   }
 
   public DomElement create_element (string local_name) throws GLib.Error {

@@ -30,14 +30,50 @@ public class GXml.XParser : Object, GXml.Parser {
   private TextReader tr;
   private Xml.TextWriter tw;
 
+  public bool backup { get; set; }
+  public bool indent { get; set; }
+
   public DomDocument document { get { return _document; } }
 
-  public bool indent { get; set; }
 
   public XParser (DomDocument doc) { _document = doc; }
 
-  public void write (GLib.File f, GLib.Cancellable? cancellable) throws GLib.Error {}
-  public void write_stream (OutputStream stream, GLib.Cancellable? cancellable) throws GLib.Error {}
+  construct {
+    backup = true;
+    indent = false;
+  }
+
+  public void write_stream (OutputStream stream,
+                            GLib.Cancellable? cancellable) throws GLib.Error {
+    var buf = new Xml.Buffer ();
+    tw = Xmlx.new_text_writer_memory (buf, 0);
+    tw.start_document ();
+    tw.set_indent (indent);
+    // Root
+    if (_document.document_element == null) {
+      tw.end_document ();
+    }
+    var dns = new ArrayList<string> ();
+#if DEBUG
+    GLib.message ("Starting writting Document child nodes");
+#endif
+    start_node (_document);
+#if DEBUG
+    GLib.message ("Ending writting Document child nodes");
+#endif
+    tw.end_element ();
+#if DEBUG
+    GLib.message ("Ending Document");
+#endif
+    tw.end_document ();
+    tw.flush ();
+    var s = new GLib.StringBuilder ();
+    s.append (buf.content ());
+    var b = new GLib.MemoryInputStream.from_data (s.data, null);
+    stream.splice (b, GLib.OutputStreamSpliceFlags.NONE);
+    stream.close ();
+  }
+
   public string write_string () throws GLib.Error  {
     return dump ();
   }
@@ -49,12 +85,6 @@ public class GXml.XParser : Object, GXml.Parser {
     read_stream (stream, cancellable);
   }
 
-
-  public void read (GLib.File file,  GLib.Cancellable? cancellable) throws GLib.Error {
-    if (!file.query_exists ())
-      throw new GXml.ParserError.INVALID_FILE_ERROR (_("File doesn't exist"));
-    read_stream (file.read (), cancellable);
-  }
 
   public void read_stream (GLib.InputStream istream,
                           GLib.Cancellable? cancellable) throws GLib.Error {

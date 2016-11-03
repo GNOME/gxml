@@ -78,9 +78,9 @@ class GomDocumentTest : GXmlTest {
 				if (f.query_exists ()) f.delete ();
 				var s = new GLib.StringBuilder ();
 				s.append ("""<document_element />""");
-				var d = new GDocument.from_string (s.str);
+				var d = new GomDocument.from_string (s.str);
 				Test.message ("Saving to file: "+f.get_uri ()+d.to_string ());
-				d.save_as (f);
+				d.write_file (f);
 				assert (f.query_exists ());
 				var d2 = new GomDocument.from_file (f);
 				assert (d2 != null);
@@ -99,7 +99,7 @@ class GomDocumentTest : GXmlTest {
 					GLib.message ("No remote file available. Skiping...");
 					return;
 				}
-				var d = new GDocument.from_file (rf);
+				var d = new GomDocument.from_file (rf);
 				assert (d != null);
 				assert (d.document_element != null);
 				assert (d.document_element.node_name == "Project");
@@ -116,7 +116,7 @@ class GomDocumentTest : GXmlTest {
 				assert (fdescription);
 				assert (fhomepage);
 				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/xml.doap");
-				d.save_as (f);
+				d.write_file (f);
 				assert (f.query_exists ());
 				f.delete ();
 			} catch (GLib.Error e) {
@@ -181,9 +181,9 @@ class GomDocumentTest : GXmlTest {
 				int exit_status;
 
 				try {
-					doc = new GDocument.from_string ("<document_element />");
+					doc = new GomDocument.from_string ("<document_element />");
 					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/test_out_path.xml");
-					(doc as GDocument).save_as (f);
+					(doc as GomDocument).write_file (f);
 					assert (f.query_exists ());
 					f.delete ();
 				} catch (GLib.Error e) {
@@ -195,8 +195,8 @@ class GomDocumentTest : GXmlTest {
 				DomDocument doc;
 
 				try {
-					doc = new GDocument.from_string ("<document_element />");
-					(doc as GDocument).save_as (GLib.File.new_for_path ("/tmp/a/b/c/d/e/f/g/h/i"));
+					doc = new GomDocument.from_string ("<document_element />");
+					(doc as GomDocument).write_file (GLib.File.new_for_path ("/tmp/a/b/c/d/e/f/g/h/i"));
 					assert_not_reached ();
 				} catch {}
 			});

@@ -32,14 +32,30 @@ public errordomain GXml.ParserError {
  */
 public interface GXml.Parser : Object {
   /**
+   * Controls if, when writing to a file, a backup should
+   * be created.
+   */
+  public abstract bool backup { get; set; }
+  /**
+   * Controls if, when writing, identation should be used.
+   */
+  public abstract bool indent { get; set; }
+  /**
    * A {@link GXml.DomDocument} to read to or write from
    */
   public abstract DomDocument document { get; }
   /**
    * Writes a {@link GXml.DomDocument} to a {@link GLib.File}
    */
-  public abstract void write (GLib.File f,
-                            GLib.Cancellable? cancellable) throws GLib.Error;
+  public virtual void write_file (GLib.File file,
+                            GLib.Cancellable? cancellable)
+                            throws GLib.Error {
+    if (!file.query_exists ())
+      throw new GXml.ParserError.INVALID_FILE_ERROR (_("File doesn't exist"));
+    var ostream = file.replace (null, backup,
+                            GLib.FileCreateFlags.NONE, cancellable);
+    write_stream (ostream, cancellable);
+  }
   /**
    * Writes a {@link GXml.DomDocument} to a string
    */
@@ -49,12 +65,17 @@ public interface GXml.Parser : Object {
    */
   public abstract void write_stream (OutputStream stream,
                                     GLib.Cancellable? cancellable) throws GLib.Error;
-
   /**
-   * Read a {@link GXml.DomDocument} from a {@link GLib.File}
+   * Writes a {@link GXml.DomDocument} to a {@link GLib.OutputStream}
    */
-  public abstract void read (GLib.File f,
-                            GLib.Cancellable? cancellable) throws GLib.Error;
+  public virtual void read_file (GLib.File file,
+                                    GLib.Cancellable? cancellable)
+                                    throws GLib.Error {
+    if (!file.query_exists ())
+      throw new GXml.ParserError.INVALID_FILE_ERROR (_("File doesn't exist"));
+    read_stream (file.read (), cancellable);
+  }
+
   /**
    * Read a {@link GXml.DomDocument} from a {@link GLib.InputStream}
    */
