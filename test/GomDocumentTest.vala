@@ -187,7 +187,7 @@ class GomDocumentTest : GXmlTest {
 					assert (f.query_exists ());
 					f.delete ();
 				} catch (GLib.Error e) {
-					Test.message ("%s", e.message);
+					GLib.message ("%s", e.message);
 					assert_not_reached ();
 				}
 			});

@@ -163,9 +163,10 @@ public class GXml.XParser : Object, GXml.Parser {
           if (tr.node_type () == Xml.ReaderType.TEXT) {
             string ansuri = tr.read_string ();
             GLib.message ("Read: "+aprefix+":"+nsp+"="+ansuri);
-            string ansp = "";
+            string ansp = nsp;
             if (nsp != "xmlns")
               ansp = aprefix+":"+nsp;
+            GLib.message ("To append: "+ansp+"="+ansuri);
             (n as DomElement).set_attribute_ns ("http://www.w3.org/2000/xmlns/",
                                                  ansp, ansuri);
           }
@@ -182,7 +183,11 @@ public class GXml.XParser : Object, GXml.Parser {
             GLib.message ("Attribute:"+attrname+" Value: "+attrval);
 #endif
             if (prefix != null) {
-              nsuri = tr.lookup_namespace (prefix);
+              GLib.message ("Prefix found: "+prefix);
+              if (prefix == "xml")
+                nsuri = "http://www.w3.org/2000/xmlns/";
+              else
+                nsuri = tr.lookup_namespace (prefix);
               (n as DomElement).set_attribute_ns (nsuri, prefix+":"+attrname, attrval);
             } else
               (n as DomElement).set_attribute (attrname, attrval);

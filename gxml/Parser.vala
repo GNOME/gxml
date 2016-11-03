@@ -50,8 +50,6 @@ public interface GXml.Parser : Object {
   public virtual void write_file (GLib.File file,
                             GLib.Cancellable? cancellable)
                             throws GLib.Error {
-    if (!file.query_exists ())
-      throw new GXml.ParserError.INVALID_FILE_ERROR (_("File doesn't exist"));
     var ostream = file.replace (null, backup,
                             GLib.FileCreateFlags.NONE, cancellable);
     write_stream (ostream, cancellable);

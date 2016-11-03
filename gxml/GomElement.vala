@@ -399,7 +399,7 @@ public class GXml.GomElement : GomNode,
        throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If attribute's prefix is xmlns name space uri shoud be http://www.w3.org/2000/xmlns/"));
     if (p == "" && n == "xmlns" && namespace_uri != "http://www.w3.org/2000/xmlns/")
        throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If attribute's name is xmlns name space uri shoud be http://www.w3.org/2000/xmlns/"));
-    if (p == "" && n != "xmlns")
+    if (p == "" && n != "xmlns" && n != "xml")
       throw new DomError.NAMESPACE_ERROR (_("Invalid attribute name. No prefixed attributes should use xmlns name"));
     // Check if a namespace is set
     if (_prefix == null && _namespace_uri == null) {
