@@ -134,24 +134,16 @@ class GomDocumentTest : GXmlTest {
 				var d = new GomDocument.from_file (rf);
 				assert (d != null);
 				assert (d.document_element != null);
-				GLib.message ("File read: "+d.to_string ());
-				assert (d.document_element.node_name == "Project");
-				bool fname, fshordesc, fdescription, fhomepage;
-				fname = fshordesc = fdescription = fhomepage = false;
-				foreach (DomNode n in d.document_element.child_nodes) {
-					if (n.node_name == "name") fname = true;
-					if (n.node_name == "shortdesc") fshordesc = true;
-					if (n.node_name == "description") fdescription = true;
-					if (n.node_name == "homepage") fhomepage = true;
-				}
-				assert (fname);
-				assert (fshordesc);
-				assert (fdescription);
-				assert (fhomepage);
-				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/xml.doap");
-				d.write_file (f);
-				assert (f.query_exists ());
-				f.delete ();
+				string s = d.to_string ();
+				GLib.message ("File read: "+s);
+				assert ("""<Project xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:gnome="http://api.gnome.org/doap-extensions#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns="http://usefulinc.com/ns/doap#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">"""
+								in s);
+				assert ("<name xml:lang=\"en\">GXml</name>" in s);
+				assert ("<shortdesc xml:lang=\"en\">GObject XML and Serialization API</shortdesc>"
+								in s);
+				assert ("<homepage rdf:resource=\"https://wiki.gnome.org/GXml\"/>" in s);
+				assert ("<foaf:Person>" in s);
+				assert ("<foaf:name>Daniel Espinosa</foaf:name>" in s);
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+e.message);
 				assert_not_reached ();

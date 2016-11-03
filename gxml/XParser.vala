@@ -343,26 +343,13 @@ public class GXml.XParser : Object, GXml.Parser {
 #endif
       if ((node as DomElement).prefix != null || (node as DomElement).namespace_uri != null)
         tw.start_element_ns ((node as DomElement).prefix, (node as DomElement).local_name, (node as DomElement).node_name);
-      else // Don't prefix. Using default namespace and prefix_default_ns = false
+      else
         tw.start_element (node.node_name);
     GLib.message ("Write down properties: size:"+(node as DomElement).attributes.size.to_string ());
     foreach (string ak in (node as DomElement).attributes.keys) {
-      var attr = (node as DomElement).attributes.get_named_item (ak);
-      if (attr == null) {
-        GLib.warning ("Attr key: "+ak+ "not found");
-        continue;
-      }
-      if (attr.node_name != null) GLib.message ("Attribute name: "+attr.node_name);
-#if DEBUG
-        GLib.message (@"Starting Element '$(node.node_name)': write attribute '$((attr as DomAttr).local_name)'");
-#endif
-      if ((attr as DomAttr).prefix != null)
-        size += tw.write_attribute_ns ((attr as DomAttr).prefix,
-                                        (attr as DomAttr).local_name,
-                                        (attr as DomAttr).namespace_uri,
-                                        attr.node_value);
-      else
-        size += tw.write_attribute (attr.node_name, attr.node_value);
+      string v = ((node as DomElement).attributes as HashMap<string,string>).get (ak);
+      size += tw.write_attribute (ak, v);
+      size += tw.end_attribute ();
       if (size > 1500)
         tw.flush ();
     }
