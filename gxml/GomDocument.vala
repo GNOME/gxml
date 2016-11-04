@@ -35,7 +35,6 @@ public class GXml.GomDocument : GomNode,
   protected string _compat_mode;
   protected string _character_set;
   protected string _content_type;
-  protected Parser _parser;
   protected GXml.DomEvent _constructor;
   public DomImplementation implementation { get { return _implementation; } }
   public string url { get { return _url; } }
@@ -60,8 +59,6 @@ public class GXml.GomDocument : GomNode,
     }
   }
 
-  public GXml.Parser parser { get { return _parser; } set { _parser = value; } }
-
   construct {
     _local_name = "#document";
     _node_type = DomNode.NodeType.DOCUMENT_NODE;
@@ -70,7 +67,6 @@ public class GXml.GomDocument : GomNode,
     _compat_mode = "";
     _character_set = "utf-8";
     _content_type = "application/xml";
-    _parser = new XParser (this);
   }
   public GomDocument () {}
   public GomDocument.from_path (string path) throws GLib.Error {
@@ -83,28 +79,28 @@ public class GXml.GomDocument : GomNode,
   }
 
   public GomDocument.from_file (GLib.File file) throws GLib.Error {
-    _parser.read_file (file, null);
+    var parser = new XParser (this);
+    parser.read_file (file, null);
   }
 
   public GomDocument.from_stream (GLib.InputStream stream) throws GLib.Error {
-    _parser.read_stream (stream, null);
+    var parser = new XParser (this);
+    parser.read_stream (stream, null);
   }
 
   public GomDocument.from_string (string str) throws GLib.Error {
-    _parser.read_string (str, null);
-  }
-
-
-  public string to_string () {
-    return _parser.write_string ();
+    var parser = new XParser (this);
+    parser.read_string (str, null);
   }
 
   public void write_file (GLib.File file) throws GLib.Error {
-    _parser.write_file (file, null);
+    var parser = new XParser (this);
+    parser.write_file (file, null);
   }
 
   public void write_stream (GLib.OutputStream stream) throws GLib.Error {
-    _parser.write_stream (stream, null);
+    var parser = new XParser (this);
+    parser.write_stream (stream, null);
   }
 
   public DomElement create_element (string local_name) throws GLib.Error {

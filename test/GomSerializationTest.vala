@@ -29,7 +29,10 @@ class GomSerializationTest : GXmlTest  {
     construct {
       _local_name = "Book";
     }
-    public string to_string () { return (_document as GomDocument).to_string (); }
+    public string to_string () {
+      var parser = new XParser (this);
+      return parser.write_string ();
+    }
   }
   public class Computer : GomElement {
     [Description (nick="::Model")]
@@ -38,7 +41,10 @@ class GomSerializationTest : GXmlTest  {
     construct {
       _local_name = "Computer";
     }
-    public string to_string () { return (_document as GomDocument).to_string (); }
+    public string to_string () {
+      var parser = new XParser (this);
+      return parser.write_string ();
+    }
   }
   public class Taxes : GomElement {
     [Description (nick="::monthRate")]
@@ -50,7 +56,10 @@ class GomSerializationTest : GXmlTest  {
     construct {
       _local_name = "Taxes";
     }
-    public string to_string () { return (_document as GomDocument).to_string (); }
+    public string to_string () {
+      var parser = new XParser (this);
+      return parser.write_string ();
+    }
     public enum Month {
       JANUARY,
       FEBRUARY
@@ -59,7 +68,8 @@ class GomSerializationTest : GXmlTest  {
   public static void add_tests () {
     Test.add_func ("/gxml/gom-serialization/write/properties", () => {
       var b = new Book ();
-      string s = b.to_string ();
+      var parser = new XParser (b);
+      string s = parser.write_string ();
       assert (s != null);
       assert ("<Book/>" in s);
       b.name = "My Book";
@@ -105,6 +115,7 @@ class GomSerializationTest : GXmlTest  {
       string s = (b.owner_document as GomDocument).to_string ();
       assert (s != null);
       assert ("<Book Name=\"Loco\"/>" in s);
+      GLib.message ("Doc:"+s);
       b.name = "My Book";
       assert (b.get_attribute ("name") == "My Book");
       s = b.to_string ();

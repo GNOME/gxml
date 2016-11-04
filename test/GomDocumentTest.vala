@@ -79,7 +79,8 @@ class GomDocumentTest : GXmlTest {
 				var s = new GLib.StringBuilder ();
 				s.append ("""<document_element />""");
 				var d = new GomDocument.from_string (s.str);
-				Test.message ("Saving to file: "+f.get_uri ()+d.to_string ());
+				var parser = new XParser (d);
+				Test.message ("Saving to file: "+f.get_uri ()+parser.write_string ());
 				d.write_file (f);
 				assert (f.query_exists ());
 				var d2 = new GomDocument.from_file (f);
@@ -134,7 +135,8 @@ class GomDocumentTest : GXmlTest {
 				var d = new GomDocument.from_file (rf);
 				assert (d != null);
 				assert (d.document_element != null);
-				string s = d.to_string ();
+				var parser = new XParser (d);
+				string s = parser.write_string ();
 				GLib.message ("File read: "+s);
 				assert ("<name xml:lang=\"en\">GXml</name>" in s);
 				assert ("<shortdesc xml:lang=\"en\">GObject XML and Serialization API</shortdesc>"
@@ -154,7 +156,8 @@ class GomDocumentTest : GXmlTest {
 				doc.append_child (r);
 				assert (r.prefix == null);
 				assert (r.namespace_uri == "http://live.gnome.org/GXml");
-				string s = doc.to_string ();
+				var parser = new XParser (doc);
+				string s = parser.write_string ();
 				GLib.message (@"DOC: "+s);
 				assert ("<root xmlns=\"http://live.gnome.org/GXml\"/>" in s);
 				doc.document_element.set_attribute_ns ("http://www.w3.org/2000/xmlns/",
@@ -296,7 +299,8 @@ class GomDocumentTest : GXmlTest {
 				assert (doc.document_element != null);
 				((DomElement) doc.document_element).set_attribute ("attrname", "attrvalue");
 				assert (doc.document_element.attributes.size == 1);
-				//Test.message ("DOC:"+doc.to_string ());
+				var parser = new XParser (doc);
+				//Test.message ("DOC:"+parser.write_string ());
 				var attr = ((DomElement) doc.document_element).get_attribute ("attrname");
 				Test.message ("Attr value: "+attr);
 				assert (attr != null);
@@ -310,7 +314,8 @@ class GomDocumentTest : GXmlTest {
 				DomDocument doc = new GomDocument.from_string ("<?xml version=\"1.0\"?>
 <Sentences><Sentence lang=\"en\">I like the colour blue.</Sentence><Sentence lang=\"de\">Ich liebe die T&#xFC;r.</Sentence><Authors><Author><Name>Fred</Name><Email>fweasley@hogwarts.co.uk</Email></Author><Author><Name>George</Name><Email>gweasley@hogwarts.co.uk</Email></Author></Authors></Sentences>");
 
-				string s1 = (doc as GomDocument).to_string ();
+				var parser = new XParser (doc);
+				string s1 = parser.write_string ();
 				assert (s1 != null);
 				GLib.message ("Document Read:"+s1);
 				string[] cs1 = s1.split ("\n");
@@ -322,7 +327,8 @@ class GomDocumentTest : GXmlTest {
 		Test.add_func ("/gxml/gom-document/to_string/extended", () => {
 			try {
 				var d = new GomDocument.from_path (GXmlTestConfig.TEST_DIR+"/gdocument-read.xml");
-				GLib.message ("Document Read:"+d.to_string ());
+				var parser = new XParser (d);
+				GLib.message ("Document Read:"+parser.write_string ());
 				assert (d.document_element != null);
 				assert (d.document_element.node_name == "DataTypeTemplates");
 				Test.message (d.document_element.child_nodes.size.to_string ());

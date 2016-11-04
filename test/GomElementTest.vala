@@ -103,7 +103,8 @@ class GomElementTest : GXmlTest  {
 				elem.set_attribute ("alley", "Diagon");
 				elem.set_attribute ("train", "Hogwarts Express");
 				assert (elem.attributes.size == 2);
-				Test.message ("Getting attributes value alley... Node: "+doc.to_string ());
+				var parser = new XParser (doc);
+				Test.message ("Getting attributes value alley... Node: "+parser.write_string ());
 				assert (elem.attributes.get_named_item ("alley").node_value == "Diagon");
 				assert (elem.attributes.get_named_item ("train").node_value == "Hogwarts Express");
 
@@ -150,7 +151,8 @@ class GomElementTest : GXmlTest  {
 				root.child_nodes.add (n);
 				var t = doc.create_text_node ("TEXT1");
 				root.child_nodes.add (t);
-				string s = doc.to_string ().split ("\n")[1];
+				var parser = new XParser (doc);
+				string s = parser.write_string ().split ("\n")[1];
 				assert (s == "<root><child/>TEXT1</root>");
 			} catch (GLib.Error e) {
 				Test.message (e.message);
@@ -166,7 +168,8 @@ class GomElementTest : GXmlTest  {
 				root.child_nodes.add (n);
 				var t = doc.create_text_node ("TEXT1") as DomText;
 				root.child_nodes.add (t);
-				string s = doc.to_string ().split ("\n")[1];
+				var parser = new XParser (doc);
+				string s = parser.write_string ().split ("\n")[1];
 				assert (s == "<root><child/>TEXT1</root>");
 			} catch (GLib.Error e) {
 				Test.message (e.message);
