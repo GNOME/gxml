@@ -122,7 +122,7 @@ public interface GXml.GomObject : GLib.Object,
         } catch {
           GLib.warning (_("Enumeration is out of range"));
         }
-        return "";
+        return null;
       }
     }
     return null;
@@ -152,22 +152,27 @@ public interface GXml.GomObject : GLib.Object,
       if (prop.value_type.is_a (typeof (string))) {
         v.set_string (val);
         set_property (prop.name, v);
+        return true;
       }
       if (prop.value_type.is_a (typeof (int))) {
         v.set_string (val);
         set_property (prop.name, v);
+        return true;
       }
       if (prop.value_type.is_a (typeof (uint))) {
         v.set_string (val);
         set_property (prop.name, v);
+        return true;
       }
       if (prop.value_type.is_a (typeof (double))) {
         v.set_string (val);
         set_property (prop.name, v);
+        return true;
       }
       if (prop.value_type.is_a (typeof (bool))) {
         v.set_string (val);
         set_property (prop.name, v);
+        return true;
       }
       if (prop.value_type.is_a (Type.ENUM)) {
         try {
@@ -175,7 +180,9 @@ public interface GXml.GomObject : GLib.Object,
           v.set_enum (n);
         } catch {
           GLib.warning (_("Enumeration can't be parsed from string"));
+          return false;
         }
+        return true;
       }
     }
     return false;
