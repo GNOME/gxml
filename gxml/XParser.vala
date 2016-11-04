@@ -186,14 +186,15 @@ public class GXml.XParser : Object, GXml.Parser {
 #if DEBUG
             GLib.message ("Attribute:"+attrname+" Value: "+attrval);
 #endif
-            if (prefix != null) {
+            bool processed = (n as GomObject).set_attribute (attrname, attrval);
+            if (prefix != null && !processed) {
               GLib.message ("Prefix found: "+prefix);
               if (prefix == "xml")
                 nsuri = "http://www.w3.org/2000/xmlns/";
               else
                 nsuri = tr.lookup_namespace (prefix);
               (n as DomElement).set_attribute_ns (nsuri, prefix+":"+attrname, attrval);
-            } else
+            } else if (!processed)
               (n as DomElement).set_attribute (attrname, attrval);
           }
         }

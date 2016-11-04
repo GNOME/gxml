@@ -39,6 +39,12 @@ public interface GXml.GomObject : GLib.Object,
    * attribute use property's nick name as declared in {@link GLib.ParamSpec}
    */
   public virtual bool use_nick_name () { return true; }
+
+  /**
+   * Returns a hash table with key as property's name and value as property's
+   * nick, of all with a prefix "::" which will be used when getting
+   * and setting properties' values.
+   */
   public virtual HashTable<string,string> get_properties_map () {
     var l = new HashTable<string,string> (str_hash, str_equal);
     foreach (ParamSpec spec in this.get_class ().list_properties ()) {
@@ -48,6 +54,23 @@ public interface GXml.GomObject : GLib.Object,
       }
     }
     return l;
+  }
+  /**
+   * Returns a hash table with key as property's name and value as property's
+   * nick, of all with a prefix "::" which will be used when getting
+   * and setting properties' values.
+   */
+  public virtual string? find_property_name (string nick) {
+    foreach (ParamSpec spec in this.get_class ().list_properties ()) {
+      if ("::" in spec.get_nick ()) {
+        string name = nick.replace ("::","");
+        if (name == nick) {
+          GLib.message ("Name: "+spec.name+ " Nick: "+spec.get_nick ());
+          return name;
+        }
+      }
+    }
+    return null;
   }
   /**
    * Search for properties in objects, it should be
@@ -114,15 +137,45 @@ public interface GXml.GomObject : GLib.Object,
    * this object, see {@link set_child}
    */
   public virtual bool set_attribute (string name, string val) {
-    var prop = get_class ().find_property (name);
+    string pname = find_property_name (name);
+    if (pname == null) return false;
+    var prop = get_class ().find_property (pname);
     if (prop != null) {
+      var v = Value (prop.value_type);
       if (prop.value_type == typeof(SerializableProperty)) {
-        var ov = Value (prop.value_type);
-        get_property (name, ref ov);
-        SerializableProperty so = (Object) ov as SerializableProperty;
+        get_property (name, ref v);
+        SerializableProperty so = (Object) v as SerializableProperty;
         if (so == null) return false;
         so.set_serializable_property_value (val);
         return true;
+      }
+      if (prop.value_type.is_a (typeof (string))) {
+        v.set_string (val);
+        set_property (prop.name, v);
+      }
+      if (prop.value_type.is_a (typeof (int))) {
+        v.set_string (val);
+        set_property (prop.name, v);
+      }
+      if (prop.value_type.is_a (typeof (uint))) {
+        v.set_string (val);
+        set_property (prop.name, v);
+      }
+      if (prop.value_type.is_a (typeof (double))) {
+        v.set_string (val);
+        set_property (prop.name, v);
+      }
+      if (prop.value_type.is_a (typeof (bool))) {
+        v.set_string (val);
+        set_property (prop.name, v);
+      }
+      if (prop.value_type.is_a (Type.ENUM)) {
+        try {
+          var n = (int) Enumeration.parse (prop.value_type, val).value;
+          v.set_enum (n);
+        } catch {
+          GLib.warning (_("Enumeration can't be parsed from string"));
+        }
       }
     }
     return false;
