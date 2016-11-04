@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
+/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /* Notation.vala
  *
  * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
@@ -43,10 +43,18 @@ class GomSerializationTest : GXmlTest  {
   public class Taxes : GomElement {
     [Description (nick="::monthRate")]
     public double month_rate { get; set; }
+    [Description (nick="::TaxFree")]
+    public bool tax_free { get; set; }
+    [Description (nick="::Month")]
+    public Month month { get; set; }
     construct {
       _local_name = "Taxes";
     }
     public string to_string () { return (_document as GomDocument).to_string (); }
+    public enum Month {
+      JANUARY,
+      FEBRUARY
+    }
   }
   public static void add_tests () {
     Test.add_func ("/gxml/gom-serialization/write/properties", () => {
@@ -77,10 +85,16 @@ class GomSerializationTest : GXmlTest  {
       var t = new Taxes ();
       string s = t.to_string ();
       assert (s != null);
-      assert ("<Taxes monthRate=\"0\"/>" in s);
+      assert ("<Taxes monthRate=\"0\" Month=\"january\" TaxFree=\"false\"/>" in s);
       t.month_rate = 16.5;
       assert ("16.5" in "%.2f".printf (t.month_rate));
       assert ("16.5" in t.get_attribute ("month-rate"));
+      t.month = Taxes.Month.FEBRUARY;
+      assert (t.month == Taxes.Month.FEBRUARY);
+      assert (t.get_attribute ("month") == "february");
+      t.tax_free = true;
+      assert (t.tax_free == true);
+      assert (t.get_attribute ("tax-free") == "true");
       s = t.to_string ();
       GLib.message ("DOC:"+s);
     });

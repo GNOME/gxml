@@ -89,6 +89,18 @@ public interface GXml.GomObject : GLib.Object,
       if (prop.value_type.is_a (typeof (double))) {
         return ((double) v).to_string ();
       }
+      if (prop.value_type.is_a (typeof (bool))) {
+        return ((bool) v).to_string ();
+      }
+      if (prop.value_type.is_a (Type.ENUM)) {
+        var n = v.get_enum ();
+        try {
+          return Enumeration.get_string (prop.value_type, n, true, true);
+        } catch {
+          GLib.warning (_("Enumeration is out of range"));
+        }
+        return "";
+      }
     }
     return null;
   }
