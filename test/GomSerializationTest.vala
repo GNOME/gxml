@@ -98,5 +98,17 @@ class GomSerializationTest : GXmlTest  {
       s = t.to_string ();
       GLib.message ("DOC:"+s);
     });
+    Test.add_func ("/gxml/gom-serialization/read/properties", () => {
+      /*var b = new Book ();
+      (b.owner_document as GomDocument)
+        .parser.read_string ("<book name=\"Loco\"/>", null);
+      string s = (b.owner_document as GomDocument).to_string ();
+      assert (s != null);
+      assert ("<Book Name=\"Loco\"/>" in s);
+      b.name = "My Book";
+      assert (b.get_attribute ("name") == "My Book");
+      s = b.to_string ();
+      assert ("<Book Name=\"My Book\"/>" in s);*/
+    });
   }
 }

@@ -27,16 +27,23 @@ using Xml;
  */
 public class GXml.XParser : Object, GXml.Parser {
   private DomDocument _document;
+  private DomNode _node;
   private TextReader tr;
   private Xml.TextWriter tw;
 
   public bool backup { get; set; }
   public bool indent { get; set; }
 
-  public DomDocument document { get { return _document; } }
+  public DomNode node { get { return _node; } }
 
 
-  public XParser (DomDocument doc) { _document = doc; }
+  public XParser (DomNode node) {
+    _node = node;
+    if (_node is DomDocument)
+      _document = _node as DomDocument;
+    else
+      _document = _node.owner_document;
+  }
 
   construct {
     backup = true;
@@ -47,17 +54,17 @@ public class GXml.XParser : Object, GXml.Parser {
                             GLib.Cancellable? cancellable) throws GLib.Error {
     var buf = new Xml.Buffer ();
     tw = Xmlx.new_text_writer_memory (buf, 0);
-    tw.start_document ();
+    if (_node is DomDocument) tw.start_document ();
     tw.set_indent (indent);
     // Root
-    if (_document.document_element == null) {
-      tw.end_document ();
+    if (_node is DomDocument) {
+      if ((_node as DomDocument).document_element == null)
+        tw.end_document ();
     }
-    var dns = new ArrayList<string> ();
 #if DEBUG
     GLib.message ("Starting writting Document child nodes");
 #endif
-    start_node (_document);
+    start_node (_node);
 #if DEBUG
     GLib.message ("Ending writting Document child nodes");
 #endif
@@ -94,17 +101,12 @@ public class GXml.XParser : Object, GXml.Parser {
     GLib.message ("DATA:"+(string)b.data);
 #endif
     tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), "/gxml_memory");
-    while (read_node (_document));
+    while (read_current_node (_node, true));
   }
 
-
-  /**
-   * Parse current node in {@link Xml.TextReader}.
-   *
-   * Returns: a {@link GXml.Node} respresenting current parsed one.
-   */
-  public bool read_node (DomNode node) throws GLib.Error {
-    GXml.DomNode n = null;
+  public bool read_current_node (DomNode node, bool read_current = false)
+                                throws GLib.Error {
+    GXml.DomNode n = node;
     string prefix = null, nsuri = null;
 #if DEBUG
     GLib.message ("ReadNode: Current Node:"+node.node_name);
@@ -129,18 +131,20 @@ public class GXml.XParser : Object, GXml.Parser {
       break;
     case Xml.ReaderType.ELEMENT:
       bool isempty = (tr.is_empty_element () == 1);
+      if (node is DomDocument || !read_current) {
 #if DEBUG
-      if (isempty) GLib.message ("Is Empty node:"+node.node_name);
-      GLib.message ("ReadNode: Element: "+tr.const_local_name ());
+        if (isempty) GLib.message ("Is Empty node:"+node.node_name);
+        GLib.message ("ReadNode: Element: "+tr.const_local_name ());
 #endif
-      prefix = tr.prefix ();
-      if (prefix != null) {
-        GLib.message ("Is namespaced element");
-        nsuri = tr.lookup_namespace (prefix);
-        n = _document.create_element_ns (nsuri, tr.prefix () +":"+ tr.const_local_name ());
-      } else
-        n = _document.create_element (tr.const_local_name ());
-      node.append_child (n);
+        prefix = tr.prefix ();
+        if (prefix != null) {
+          GLib.message ("Is namespaced element");
+          nsuri = tr.lookup_namespace (prefix);
+          n = _document.create_element_ns (nsuri, tr.prefix () +":"+ tr.const_local_name ());
+        } else
+          n = _document.create_element (tr.const_local_name ());
+        node.append_child (n);
+      }
       var nattr = tr.attribute_count ();
 #if DEBUG
       GLib.message ("Number of Attributes:"+nattr.to_string ());
@@ -195,7 +199,7 @@ public class GXml.XParser : Object, GXml.Parser {
         }
       }
       if (isempty) return true;
-      while (read_node (n) == true);
+      while (read_current_node (n) == true);
 #if DEBUG
       //GLib.message ("Current Document: "+node.document.to_string ());
 #endif
@@ -302,17 +306,18 @@ public class GXml.XParser : Object, GXml.Parser {
     int size;
     Xml.Doc doc = new Xml.Doc ();
     tw = Xmlx.new_text_writer_doc (ref doc);
-    tw.start_document ();
+    if (_node is DomDocument) tw.start_document ();
     tw.set_indent (indent);
     // Root
-    if (_document.document_element == null) {
-      tw.end_document ();
+    if (_node is DomDocument) {
+      if ((node as DomDocument).document_element == null) {
+        tw.end_document ();
+      }
     }
-    var dns = new ArrayList<string> ();
 #if DEBUG
     GLib.message ("Starting writting Document child nodes");
 #endif
-    start_node (_document);
+    start_node (_node);
 #if DEBUG
     GLib.message ("Ending writting Document child nodes");
 #endif
@@ -331,7 +336,7 @@ public class GXml.XParser : Object, GXml.Parser {
   private void start_node (GXml.DomNode node)
     throws GLib.Error
   {
-    GLib.message ("Starting node...");
+    GLib.message ("Starting node..."+node.node_name);
     int size = 0;
 #if DEBUG
     GLib.message (@"Starting Node: start Node: '$(node.node_name)'");

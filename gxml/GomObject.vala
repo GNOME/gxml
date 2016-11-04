@@ -153,6 +153,10 @@ public interface GXml.GomObject : GLib.Object,
     }
     return null;
   }
+  /**
+   * Search for a property and set it to null if possible, if value can't
+   * be removed, returns without change.
+   */
   public virtual bool remove_attribute (string name) {
     var prop = get_class ().find_property (name);
     if (prop != null) {

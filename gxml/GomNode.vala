@@ -227,23 +227,28 @@ public class GXml.GomNode : Object,
 
   public DomNode insert_before (DomNode node, DomNode? child) throws GLib.Error {
     if (!(node is GXml.GomNode))
-      throw new DomError.INVALID_NODE_TYPE_ERROR (_("Invalid attempt to add invalid node type"));
+      throw new DomError.INVALID_NODE_TYPE_ERROR
+                  (_("Invalid attempt to add invalid node type"));
     if (child != null && !this.contains (child))
-      throw new DomError.NOT_FOUND_ERROR (_("Can't find child to insert node before"));
+      throw new DomError.NOT_FOUND_ERROR
+                  (_("Can't find child to insert node before"));
     if (!(this is DomDocument
           || this is DomElement
           || this is DomDocumentFragment))
-      throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid attempt to insert a node"));
+      throw new DomError.HIERARCHY_REQUEST_ERROR
+                  (_("Invalid attempt to insert a node"));
     if (!(node is DomDocumentFragment
           || node is DomDocumentType
           || node is DomElement
           || node is DomText
           || node is DomProcessingInstruction
           || node is DomComment))
-      throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid attempt to insert an invalid node type"));
+      throw new DomError.HIERARCHY_REQUEST_ERROR
+                  (_("Invalid attempt to insert an invalid node type"));
     if ((node is DomText && this is DomDocument)
           || (node is DomDocumentType && !(this is DomDocument)))
-      throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid attempt to insert a document's type or text node to a invalid parent"));
+      throw new DomError.HIERARCHY_REQUEST_ERROR
+                  (_("Invalid attempt to insert a document's type or text node to a invalid parent"));
     //FIXME: We should follow steps for DOM4 observers in https://www.w3.org/TR/dom/#concept-node-pre-insert
     if (child != null) {
       int i = this.child_nodes.index_of (child as GXml.DomNode);

@@ -43,7 +43,7 @@ public interface GXml.Parser : Object {
   /**
    * A {@link GXml.DomDocument} to read to or write from
    */
-  public abstract DomDocument document { get; }
+  public abstract DomNode node { get; }
   /**
    * Writes a {@link GXml.DomDocument} to a {@link GLib.File}
    */
@@ -84,9 +84,4 @@ public interface GXml.Parser : Object {
    */
   public abstract void read_string (string str,
                                    GLib.Cancellable? cancellable) throws GLib.Error;
-  /**
-   * From data stream read until a node is found. You should check its type
-   * using {@link current_type}
-   */
-  public abstract bool read_node (DomNode node) throws GLib.Error;
 }
