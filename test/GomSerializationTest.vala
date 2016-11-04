@@ -95,17 +95,25 @@ class GomSerializationTest : GXmlTest  {
       var t = new Taxes ();
       string s = t.to_string ();
       assert (s != null);
-      assert ("<Taxes monthRate=\"0\" Month=\"january\" TaxFree=\"false\"/>" in s);
+      GLib.message ("DOC:"+s);
+      assert ("<Taxes " in s);
+      assert ("monthRate=\"0\"" in s);
+      assert ("Month=\"january\"" in s);
+      assert ("TaxFree=\"false\"" in s);
       t.month_rate = 16.5;
       assert ("16.5" in "%.2f".printf (t.month_rate));
-      assert ("16.5" in t.get_attribute ("month-rate"));
+      assert ("16.5" in t.get_attribute ("monthrate"));
       t.month = Taxes.Month.FEBRUARY;
       assert (t.month == Taxes.Month.FEBRUARY);
       assert (t.get_attribute ("month") == "february");
       t.tax_free = true;
       assert (t.tax_free == true);
-      assert (t.get_attribute ("tax-free") == "true");
+      assert (t.get_attribute ("taxfree") == "true");
       s = t.to_string ();
+      assert ("<Taxes " in s);
+      assert ("monthRate=\"16.5\"" in s);
+      assert ("Month=\"february\"" in s);
+      assert ("TaxFree=\"true\"" in s);
       GLib.message ("DOC:"+s);
     });
     Test.add_func ("/gxml/gom-serialization/read/properties", () => {

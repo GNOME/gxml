@@ -41,32 +41,31 @@ public interface GXml.GomObject : GLib.Object,
   public virtual bool use_nick_name () { return true; }
 
   /**
-   * Returns a hash table with key as property's name and value as property's
-   * nick, of all with a prefix "::" which will be used when getting
-   * and setting properties' values.
+   * Returns a hash table with key as property's nick with out "::" if have it
+   * and value as property's name, for all nicks with a prefix "::". Nick name,
+   * without "::" will be used on serialization to an attribute's name.
    */
-  public virtual HashTable<string,string> get_properties_map () {
-    var l = new HashTable<string,string> (str_hash, str_equal);
+  public virtual List<string> get_properties_list () {
+    var l = new List<string> ();
     foreach (ParamSpec spec in this.get_class ().list_properties ()) {
       if ("::" in spec.get_nick ()) {
         GLib.message ("Name: "+spec.name+ " Nick: "+spec.get_nick ());
-        l.insert (spec.name, spec.get_nick ());
+        l.append (spec.get_nick ().replace ("::",""));
       }
     }
     return l;
   }
   /**
-   * Returns a hash table with key as property's name and value as property's
-   * nick, of all with a prefix "::" which will be used when getting
-   * and setting properties' values.
+   * Returns property's name based on given nick. This function is no
+   * case sensitive.
    */
   public virtual string? find_property_name (string nick) {
     foreach (ParamSpec spec in this.get_class ().list_properties ()) {
       if ("::" in spec.get_nick ()) {
-        string name = nick.replace ("::","");
-        if (name == nick) {
+        string name = spec.get_nick ().replace ("::","");
+        if (name.down () == nick.down ()) {
           GLib.message ("Name: "+spec.name+ " Nick: "+spec.get_nick ());
-          return name;
+          return spec.name;
         }
       }
     }
@@ -90,11 +89,14 @@ public interface GXml.GomObject : GLib.Object,
    */
   public virtual string? get_attribute (string name) {
     GLib.message ("GomObject: attribute: "+name);
-    var prop = get_class ().find_property (name); // FIXME: Find by nick and lower case
+    string pname = find_property_name (name);
+    if (pname == null) return null;
+    GLib.message ("GomObject: found attribute: "+pname);
+    var prop = get_class ().find_property (pname);
     if (prop != null) {
-      GLib.message ("Found attribute");
+      GLib.message ("Found attribute: "+prop.name);
       var v = Value(prop.value_type);
-      get_property (name, ref v);
+      get_property (prop.name, ref v);
       if (prop.value_type == typeof(SerializableProperty)) {
         SerializableProperty so = (Object) v as SerializableProperty;
         if (so == null) return null;
@@ -137,13 +139,15 @@ public interface GXml.GomObject : GLib.Object,
    * this object, see {@link set_child}
    */
   public virtual bool set_attribute (string name, string val) {
+    GLib.message ("GomObject: searching attribute to set: "+name);
     string pname = find_property_name (name);
     if (pname == null) return false;
+    GLib.message ("GomObject: setting attribute: "+name);
     var prop = get_class ().find_property (pname);
     if (prop != null) {
       var v = Value (prop.value_type);
       if (prop.value_type == typeof(SerializableProperty)) {
-        get_property (name, ref v);
+        get_property (prop.name, ref v);
         SerializableProperty so = (Object) v as SerializableProperty;
         if (so == null) return false;
         so.set_serializable_property_value (val);
@@ -202,7 +206,7 @@ public interface GXml.GomObject : GLib.Object,
     if (prop != null) {
       if (prop.value_type == typeof(DomElement)) {
         var vo = Value(prop.value_type);
-        get_property (name, ref vo);
+        get_property (prop.name, ref vo);
         return (DomElement) ((Object) vo);
       }
     }
