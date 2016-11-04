@@ -87,7 +87,7 @@ class GomSerializationTest : GXmlTest  {
       assert (c.model == "T3456-E");
       assert (c.get_attribute ("model") == "T3456-E");
       assert (c.ignore == "Nothing");
-      assert (c.get_attribute ("ignore") == "Nothing");
+      assert (c.get_attribute ("ignore") == null);
       s = c.to_string ();
       GLib.message ("DOC:"+s);
     });
