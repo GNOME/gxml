@@ -135,5 +135,13 @@ class GomSerializationTest : GXmlTest  {
       s = b.to_string ();
       assert ("<Book Name=\"My Book\"/>" in s);
     });
+    Test.add_func ("/gxml/gom-serialization/read/bad-node-name", () => {
+      var b = new Book ();
+      var parser = new XParser (b);
+      try {
+        parser.read_string ("<Chair name=\"Tall\"/>", null);
+        assert_not_reached ();
+      } catch {}
+    });
   }
 }

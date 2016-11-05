@@ -131,6 +131,14 @@ public class GXml.XParser : Object, GXml.Parser {
       break;
     case Xml.ReaderType.ELEMENT:
       bool isempty = (tr.is_empty_element () == 1);
+      if (node is DomElement) {
+        if (read_current
+            && tr.const_local_name ().down ()
+                != (node as DomElement).local_name.down ())
+          throw new DomError.VALIDATION_ERROR
+                    (_("Invalid element node name. Expected %s")
+                        .printf ((node as DomElement).local_name));
+      }
       if (node is DomDocument || !read_current) {
 #if DEBUG
         if (isempty) GLib.message ("Is Empty node:"+node.node_name);
