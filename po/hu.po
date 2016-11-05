@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-09-15 14:25+0000\n"
-"PO-Revision-Date: 2016-09-15 18:59+0200\n"
+"POT-Creation-Date: 2016-10-26 23:39+0000\n"
+"PO-Revision-Date: 2016-11-04 14:25+0100\n"
 "Last-Translator: Meskó Balázs <meskobalazs@gmail.com>\n"
 "Language-Team: Hungarian <gnome-hu-list@gnome.org>\n"
 "Language: hu\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.9\n"
+"X-Generator: Poedit 1.8.11\n"
 
 #: ../gxml/Document.vala:151
 msgid "Invalid file"
@@ -36,6 +36,10 @@ msgstr "Érvénytelen eltolás a csereadatokhoz"
 msgid "Invalid offset to split text"
 msgstr "Érvénytelen eltolás a szöveg felosztásához"
 
+#: ../gxml/DomNode.vala:128 ../gxml/Node.vala:202
+msgid "Text node with NULL string"
+msgstr "Szöveges csomópont NULL karakterlánccal"
+
 #: ../gxml/Enumeration.vala:88
 msgid "value is invalid"
 msgstr "az érték érvénytelen"
@@ -43,6 +47,82 @@ msgstr "az érték érvénytelen"
 #: ../gxml/Enumeration.vala:129
 msgid "text cannot be parsed to enumeration type:"
 msgstr "a szöveg nem értelmezhető felsorolás típusként:"
+
+#: ../gxml/GomDocument.vala:72
+msgid "Invalid node name"
+msgstr "Érvénytelen csomópontnév"
+
+#: ../gxml/GomDocument.vala:78
+msgid "Invalid namespace"
+msgstr "Érvénytelen névtér"
+
+#: ../gxml/GomDocument.vala:127 ../gxml/GXmlDocument.vala:268
+msgid "Can't import a Document"
+msgstr "A dokumentum nem importálható"
+
+#: ../gxml/GomDocument.vala:129 ../gxml/GXmlDocument.vala:270
+msgid "Can't import a non Element type node to a Document"
+msgstr "Nem importálható nem elem típusú csomópont a dokumentumba"
+
+#: ../gxml/GomDocument.vala:153 ../gxml/GXmlDocument.vala:294
+msgid "Can't adopt a Document"
+msgstr "Dokumentum nem fogadható örökbe"
+
+#: ../gxml/GomNode.vala:167 ../gxml/GXmlNode.vala:259
+msgid "Can't find node position"
+msgstr "A csomópont pozíciója nem található"
+
+#: ../gxml/GomNode.vala:194 ../gxml/GomNode.vala:225 ../gxml/GXmlNode.vala:290
+#: ../gxml/GXmlNode.vala:321
+msgid "Invalid attempt to add invalid node type"
+msgstr "Érvénytelen kísérlet egy érvénytelen csomóponttípus hozzáadására"
+
+#: ../gxml/GomNode.vala:196 ../gxml/GXmlNode.vala:292
+msgid "Can't find child to insert node before"
+msgstr "Nem található a gyermek, amely elé a csomópontot be kellene szúrni"
+
+#: ../gxml/GomNode.vala:200 ../gxml/GomNode.vala:231 ../gxml/GXmlNode.vala:296
+#: ../gxml/GXmlNode.vala:327
+msgid "Invalid attempt to insert a node"
+msgstr "Érvénytelen kísérlet egy csomópont beszúrására"
+
+#: ../gxml/GomNode.vala:207 ../gxml/GomNode.vala:238 ../gxml/GXmlNode.vala:303
+#: ../gxml/GXmlNode.vala:334
+msgid "Invalid attempt to insert an invalid node type"
+msgstr "Érvénytelen kísérlet egy érvénytelen csomóponttípus beszúrására"
+
+#: ../gxml/GomNode.vala:210 ../gxml/GomNode.vala:241 ../gxml/GXmlNode.vala:306
+#: ../gxml/GXmlNode.vala:337
+msgid ""
+"Invalid attempt to insert a document's type or text node to a invalid parent"
+msgstr ""
+"Érvénytelen kísérlet egy dokumentumtípus vagy egy szöveges csomópont "
+"beszúrására egy érvénytelen szülőnél"
+
+#: ../gxml/GomNode.vala:227 ../gxml/GXmlNode.vala:323
+msgid "Can't find child node to replace or child have a different parent"
+msgstr ""
+"A lecserélendő gyermekcsomópont nem található, vagy a gyermeknek más szülője "
+"van"
+
+#: ../gxml/GomNode.vala:253 ../gxml/GXmlNode.vala:349
+msgid "Can't find child node to remove or child have a different parent"
+msgstr ""
+"A törlendő gyermekcsomópont nem található, vagy a gyermeknek más szülője van"
+
+#. FIXME:
+#: ../gxml/GomObject.vala:92 ../gxml/GXmlElement.vala:313
+msgid "DomElement query_selector is not implemented"
+msgstr "A DomElement query_selector nincs megvalósítva"
+
+#. FIXME:
+#: ../gxml/GomObject.vala:96 ../gxml/GXmlElement.vala:317
+msgid "DomElement query_selector_all is not implemented"
+msgstr "A DomElement query_selector_all nincs megvalósítva"
+
+#: ../gxml/GomObject.vala:209
+msgid "Invalid local name"
+msgstr "Érvénytelen helyi név"
 
 #: ../gxml/GXmlDocument.vala:55 ../gxml/TDocument.vala:476
 msgid "File doesn't exist"
@@ -55,18 +135,6 @@ msgstr "az adatfolyam nem szolgáltat adatokat"
 #: ../gxml/GXmlDocument.vala:224
 msgid "Invalid element qualified name: multiple namespace prefixes"
 msgstr "Érvénytelen minősített név az elemnél: több névtér előtag"
-
-#: ../gxml/GXmlDocument.vala:268
-msgid "Can't import a Document"
-msgstr "A dokumentum nem importálható"
-
-#: ../gxml/GXmlDocument.vala:270
-msgid "Can't import a non Element type node to a Document"
-msgstr "Nem importálható nem elem típusú csomópont a dokumentumba"
-
-#: ../gxml/GXmlDocument.vala:294
-msgid "Can't adopt a Document"
-msgstr "Dokumentum nem fogadható örökbe"
 
 #: ../gxml/GXmlDomCollections.vala:52
 msgid ""
@@ -123,16 +191,6 @@ msgstr "Érvénytelen csomóponttípus az utána kezdéshez"
 msgid "Invalid root's in range"
 msgstr "Érvénytelen gyökér a tartományban"
 
-#. FIXME:
-#: ../gxml/GXmlElement.vala:313
-msgid "DomElement query_selector is not implemented"
-msgstr "A DomElement query_selector nincs megvalósítva"
-
-#. FIXME:
-#: ../gxml/GXmlElement.vala:317
-msgid "DomElement query_selector_all is not implemented"
-msgstr "A DomElement query_selector_all nincs megvalósítva"
-
 #: ../gxml/GXmlHashMapAttr.vala:240
 msgid "Invalid document when adding item to collection"
 msgstr "Érvénytelen dokumentum az elem gyűjteményhez adásakor"
@@ -164,44 +222,6 @@ msgstr ""
 "Érvénytelen dokumentum az elem nevesített csomópont-leképezés gyűjteményhez "
 "történő hozzáadásakor"
 
-#: ../gxml/GXmlNode.vala:259
-msgid "Can't find node position"
-msgstr "A csomópont pozíciója nem található"
-
-#: ../gxml/GXmlNode.vala:290 ../gxml/GXmlNode.vala:321
-msgid "Invalid attempt to add invalid node type"
-msgstr "Érvénytelen kísérlet egy érvénytelen csomóponttípus hozzáadására"
-
-#: ../gxml/GXmlNode.vala:292
-msgid "Can't find child to insert node before"
-msgstr "Nem található a gyermek, amely elé a csomópontot be kellene szúrni"
-
-#: ../gxml/GXmlNode.vala:296 ../gxml/GXmlNode.vala:327
-msgid "Invalid attempt to insert a node"
-msgstr "Érvénytelen kísérlet egy csomópont beszúrására"
-
-#: ../gxml/GXmlNode.vala:303 ../gxml/GXmlNode.vala:334
-msgid "Invalid attempt to insert an invalid node type"
-msgstr "Érvénytelen kísérlet egy érvénytelen csomóponttípus beszúrására"
-
-#: ../gxml/GXmlNode.vala:306 ../gxml/GXmlNode.vala:337
-msgid ""
-"Invalid attempt to insert a document's type or text node to a invalid parent"
-msgstr ""
-"Érvénytelen kísérlet egy dokumentumtípus vagy egy szöveges csomópont "
-"beszúrására egy érvénytelen szülőnél"
-
-#: ../gxml/GXmlNode.vala:323
-msgid "Can't find child node to replace or child have a different parent"
-msgstr ""
-"A lecserélendő gyermekcsomópont nem található, vagy a gyermeknek más szülője "
-"van"
-
-#: ../gxml/GXmlNode.vala:349
-msgid "Can't find child node to remove or child have a different parent"
-msgstr ""
-"A törlendő gyermekcsomópont nem található, vagy a gyermeknek más szülője van"
-
 #: ../gxml/libxml-ChildNodeList.vala:148
 #, c-format
 msgid "ref_child '%s' not found, was supposed to have '%s' inserted before it."
@@ -231,10 +251,6 @@ msgstr "%s:%s:%d: %s:%d: %s"
 msgid ""
 "Node tried to interact with a different document than the one it belongs to"
 msgstr "A csomópont a sajátjától eltérő dokumentumra próbált hatni"
-
-#: ../gxml/Node.vala:202
-msgid "Text node with NULL string"
-msgstr "Szöveges csomópont NULL karakterlánccal"
 
 #: ../gxml/SerializableEnum.vala:75
 msgid "Value can't be parsed to a valid enumeration's value. Value is not set"
