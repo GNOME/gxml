@@ -119,3 +119,80 @@ public class GXml.GomArrayList : Object, GomCollection {
     }
   }
 }
+
+
+public class GXml.GomHashMap : Object, GomCollection {
+  protected List<int> _nodes_index = new List<int> ();
+  protected HashTable<string,int> _hashtable = new HashTable<string,int> (str_hash,str_equal);
+  protected GomElement _element;
+  protected string _items_name;
+  protected string _attribute_key;
+  public List<int> nodes_index { get { return _nodes_index; } }
+  public DomElement element {
+    get { return _element; }
+    construct set {
+      if (value != null) {
+        if (value is GomElement)
+          _element = value as GomElement;
+        else
+          GLib.warning (_("Invalid element type only GXmlGomElement is supported"));
+      }
+    }
+  }
+  public string items_name {
+    get { return _items_name; } construct set { _items_name = value; }
+  }
+  public string attribute_key {
+    get { return _attribute_key; } construct set { _attribute_key = value; }
+  }
+
+  public GomHashMap.initialize (GomElement element,
+                                  string items_name,
+                                  string attribute_key) {
+    _element = element;
+    _items_name = items_name;
+    _attribute_key = attribute_key;
+  }
+  /**
+   * Adds an {@link DomElement} of type {@link GomObject} as a child of
+   * {@link element}
+   */
+  public new void set (DomElement node) throws GLib.Error {
+    if (!(node is GomElement))
+      throw new DomError.INVALID_NODE_TYPE_ERROR
+                (_("Invalid atempt to set unsupported type. Only GXmlGomElement is supported"));
+    if (node.owner_document != _element.owner_document)
+      throw new DomError.HIERARCHY_REQUEST_ERROR
+                (_("Invalid atempt to set a node with a different parent document"));
+    var key = node.get_attribute (attribute_key);
+    if (key == null)
+      throw new DomError.HIERARCHY_REQUEST_ERROR
+                (_("Invalid atempt to set a node without key attribute"));
+    _element.append_child (node);
+    if (_element.child_nodes.size == 0)
+      throw new DomError.QUOTA_EXCEEDED_ERROR
+                (_("Invalid atempt to add a node with a different parent document"));
+    var index = _element.child_nodes.size - 1;
+    _nodes_index.append (index);
+    GLib.message ("Key:"+key+" Index: "+index.to_string ());
+    _hashtable.insert (key, index);
+  }
+  public new DomElement? get (string key) {
+    if (!_hashtable.contains (key)) return null;
+    var i = _hashtable.get (key);
+    GLib.message ("Key:"+key+" item:"+i.to_string ());
+    return _element.child_nodes.get (i) as DomElement;
+  }
+  public void search () throws GLib.Error {
+    for (int i = 0; i < _element.child_nodes.size; i++) {
+      var n = _element.child_nodes.get (i);
+      if (n is GomObject) {
+        if ((n as DomElement).local_name.down () == items_name.down ()) {
+          if ((n as DomElement).get_attribute (attribute_key) != null) {
+            this.set (n as DomElement);
+          }
+        }
+      }
+    }
+  }
+}

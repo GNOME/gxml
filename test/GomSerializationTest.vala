@@ -95,6 +95,16 @@ class GomSerializationTest : GXmlTest  {
       return parser.write_string ();
     }
   }
+  public class BookStore : GomElement {
+    public GomHashMap books { get; set; }
+    construct {
+      _local_name = "BookStore";
+    }
+    public string to_string () {
+      var parser = new XParser (this);
+      return parser.write_string ();
+    }
+  }
   public static void add_tests () {
     Test.add_func ("/gxml/gom-serialization/write/properties", () => {
       var b = new Book ();
@@ -159,7 +169,10 @@ class GomSerializationTest : GXmlTest  {
       assert (s != null);
       GLib.message ("DOC:"+s);
       assert ("<BookStand Classification=\"Science\"/>" in s);
-      try { bs.registers.add (br); } catch {}
+      try {
+        bs.registers.add (br);
+        assert_not_reached ();
+      } catch {}
       br = new BookRegister.document (bs.owner_document);
       br.year = 2016;
       bs.registers.add (br);
@@ -181,6 +194,52 @@ class GomSerializationTest : GXmlTest  {
       assert ((bs.registers.get_item (0) as BookRegister).year == 2016);
       assert ((bs.registers.get_item (1) as BookRegister).year == 2010);
       assert ((bs.registers.get_item (2) as BookRegister).year == 2000);
+    });
+    Test.add_func ("/gxml/gom-serialization/write/property-hashmap", () => {
+      var bs = new BookStore ();
+      string s = bs.to_string ();
+      assert (s != null);
+      GLib.message ("DOC:"+s);
+      assert ("<BookStore/>" in s);
+      assert (bs.books == null);
+      var b = new Book ();
+      bs.books = new GomHashMap.initialize (bs,b.local_name,"name");
+      s = bs.to_string ();
+      assert (s != null);
+      GLib.message ("DOC:"+s);
+      assert ("<BookStore/>" in s);
+      try {
+        bs.books.set (b);
+        assert_not_reached ();
+      } catch {}
+      b = new Book.document (bs.owner_document);
+      try {
+        bs.books.set (b);
+        assert_not_reached ();
+      } catch {}
+      b.name = "Title1";
+      bs.books.set (b);
+      s = bs.to_string ();
+      assert (s != null);
+      GLib.message ("DOC:"+s);
+      assert ("<BookStore><Book Name=\"Title1\"/></BookStore>" in s);
+      var b2 = new Book.document (bs.owner_document);
+      b2.name = "Title2";
+      bs.books.set (b2);
+      bs.append_child (bs.owner_document.create_element ("Test"));
+      var b3 = new Book.document (bs.owner_document);
+      b3.name = "Title3";
+      bs.books.set (b3);
+      s = bs.to_string ();
+      assert (s != null);
+      GLib.message ("DOC:"+s);
+      assert ("<BookStore><Book Name=\"Title1\"/><Book Name=\"Title2\"/><Test/><Book Name=\"Title3\"/></BookStore>" in s);
+      assert (bs.books.get("Title1") != null);
+      assert (bs.books.get("Title2") != null);
+      assert (bs.books.get("Title3") != null);
+      assert ((bs.books.get("Title1") as Book).name == "Title1");
+      assert ((bs.books.get("Title2") as Book).name == "Title2");
+      assert ((bs.books.get("Title3") as Book).name == "Title3");
     });
     Test.add_func ("/gxml/gom-serialization/read/properties", () => {
       var b = new Book ();
