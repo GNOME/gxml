@@ -156,12 +156,15 @@ class GomSerializationTest : GXmlTest  {
       } catch {}
     });
     Test.add_func ("/gxml/gom-serialization/read/object-property", () => {
-      /*var b = new BookRegister ();
-      var parser = new XParser (b);
-      parser.read_string ("<BookRegister><Book/></BookRegister>", null);
+      var b = new BookRegister ();
       string s = b.to_string ();
       GLib.message ("doc:"+s);
-      assert ("<BookRegister><Book/></BookRegister>" in s);*/
+      assert ("<BookRegister Year=\"0\"/>" in s);
+      var parser = new XParser (b);
+      parser.read_string ("<BookRegister><Book/></BookRegister>", null);
+      s = b.to_string ();
+      GLib.message ("doc:"+s);
+      assert ("<BookRegister Year=\"0\"><Book/></BookRegister>" in s);
     });
   }
 }

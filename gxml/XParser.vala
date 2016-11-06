@@ -145,7 +145,7 @@ public class GXml.XParser : Object, GXml.Parser {
         foreach (ParamSpec pspec in
                   (node as GomObject).get_property_element_list ()) {
           var obj = Object.new (pspec.value_type,
-                                "document", node.owner_document);
+                                "owner-document", node.owner_document);
           if ((obj as DomElement).local_name.down ()
                  == tr.const_local_name ().down ()) {
             Value v = Value (pspec.value_type);
