@@ -42,6 +42,11 @@ public interface GXml.GomCollection : Object
    */
   public abstract string element_name { get; construct set; }
   /**
+   * Search and add references to all {@link GomObject} nodes as child of
+   * {@link element} with same, case insensitive, name of {@link element_name}
+   */
+  public abstract void search () throws GLib.Error;
+  /**
    * Gets a child {@link DomElement} of {@link element} referenced in
    * {@link nodes_index}.
    */
@@ -93,5 +98,15 @@ public class GXml.GomArrayList : Object, GomCollection {
       throw new DomError.QUOTA_EXCEEDED_ERROR
                 (_("Invalid atempt to add a node with a different parent document"));
     _nodes_index.append (_element.child_nodes.size - 1);
+  }
+  public void search () throws GLib.Error {
+    for (int i = 0; i < _element.child_nodes.size; i++) {
+      var n = _element.child_nodes.get (i);
+      if (n is GomObject) {
+        if ((n as DomElement).local_name.down () == element_name.down ()) {
+          _nodes_index.append (i);
+        }
+      }
+    }
   }
 }
