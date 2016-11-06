@@ -248,7 +248,7 @@ public class GXml.GomNode : Object,
     if ((node is DomText && this is DomDocument)
           || (node is DomDocumentType && !(this is DomDocument)))
       throw new DomError.HIERARCHY_REQUEST_ERROR
-                  (_("Invalid attempt to insert a document's type or text node to a invalid parent"));
+                  (_("Invalid attempt to insert a document or text type to a invalid parent node"));
     //FIXME: We should follow steps for DOM4 observers in https://www.w3.org/TR/dom/#concept-node-pre-insert
     if (child != null) {
       int i = this.child_nodes.index_of (child as GXml.DomNode);

@@ -65,6 +65,18 @@ class GomSerializationTest : GXmlTest  {
       FEBRUARY
     }
   }
+  public class BookRegister : GomElement {
+    [Description (nick="::Year")]
+    public int year { get; set; }
+    public Book book { get; set; }
+    construct {
+      _local_name = "BookRegister";
+    }
+    public string to_string () {
+      var parser = new XParser (this);
+      return parser.write_string ();
+    }
+  }
   public static void add_tests () {
     Test.add_func ("/gxml/gom-serialization/write/properties", () => {
       var b = new Book ();
@@ -115,6 +127,11 @@ class GomSerializationTest : GXmlTest  {
       assert ("Month=\"february\"" in s);
       assert ("TaxFree=\"true\"" in s);
       GLib.message ("DOC:"+s);
+    });
+    Test.add_func ("/gxml/gom-serialization/write/object-property", () => {
+      /*var b = new BookRegister ();
+      string s = b.to_string ();
+      assert ("<BookRegister><Book/></BookRegister>" in s);*/
     });
     Test.add_func ("/gxml/gom-serialization/read/properties", () => {
       var b = new Book ();

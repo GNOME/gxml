@@ -41,8 +41,7 @@ public interface GXml.GomObject : GLib.Object,
   public virtual bool use_nick_name () { return true; }
 
   /**
-   * Returns a hash table with key as property's nick with out "::" if have it
-   * and value as property's name, for all nicks with a prefix "::". Nick name,
+   * Returns a list with all properties nick with "::" prefix. Nick name,
    * without "::" will be used on serialization to an attribute's name.
    */
   public virtual List<string> get_properties_list () {
@@ -56,8 +55,8 @@ public interface GXml.GomObject : GLib.Object,
     return l;
   }
   /**
-   * Returns property's name based on given nick. This function is no
-   * case sensitive.
+   * Returns property's name based on given nick. This function is
+   * case insensitive.
    */
   public virtual string? find_property_name (string nick) {
     foreach (ParamSpec spec in this.get_class ().list_properties ()) {
@@ -70,6 +69,20 @@ public interface GXml.GomObject : GLib.Object,
       }
     }
     return null;
+  }
+  /**
+   * Returns a list of names for all {@link DomElement}
+   * present as object's properties.
+   */
+  public virtual List<ParamSpec> get_property_element_list () {
+    var l = new List<ParamSpec> ();
+    foreach (ParamSpec spec in this.get_class ().list_properties ()) {
+      if (spec.value_type.is_a (typeof (GomObject))) {
+        GLib.message ("Object Name: "+spec.name+ " Nick: "+spec.get_nick ());
+        l.append (spec);
+      }
+    }
+    return l;
   }
   /**
    * Search for properties in objects, it should be

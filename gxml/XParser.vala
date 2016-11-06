@@ -104,21 +104,26 @@ public class GXml.XParser : Object, GXml.Parser {
     while (read_current_node (_node, true));
   }
 
-  public bool read_current_node (DomNode node, bool read_current = false)
+  public bool read_current_node (DomNode node,
+                                bool read_current = false,
+                                bool read_property = false)
                                 throws GLib.Error {
     GXml.DomNode n = node;
     string prefix = null, nsuri = null;
+    int res = 1;
 #if DEBUG
     GLib.message ("ReadNode: Current Node:"+node.node_name);
 #endif
-    int res = tr.read ();
-    if (res == -1)
-      throw new ParserError.INVALID_DATA_ERROR (_("Can't read node data"));
+    if (!read_property) {
+      res = tr.read ();
+      if (res == -1)
+        throw new ParserError.INVALID_DATA_ERROR (_("Can't read node data"));
 #if DEBUG
-    if (res == 0)
-      GLib.message ("ReadNode: No more nodes");
+      if (res == 0)
+        GLib.message ("ReadNode: No more nodes");
 #endif
-    if (res == 0) return false;
+      if (res == 0) return false;
+    }
     var t = tr.node_type ();
     switch (t) {
     case Xml.ReaderType.NONE:
@@ -130,7 +135,29 @@ public class GXml.XParser : Object, GXml.Parser {
         throw new ParserError.INVALID_DATA_ERROR (_("Can't read node data"));
       break;
     case Xml.ReaderType.ELEMENT:
+      bool isproperty = false;
       bool isempty = (tr.is_empty_element () == 1);
+      if (!read_current && !read_property
+          && node is DomElement
+          && tr.const_local_name () != (node as DomElement).local_name) {
+        GLib.message ("Searching for Properties Nodes for:"+
+                      tr.const_local_name ());
+        foreach (ParamSpec pspec in
+                  (node as GomObject).get_property_element_list ()) {
+          var obj = Object.new (pspec.value_type,
+                                "document", node.owner_document);
+          if ((obj as DomElement).local_name.down ()
+                 == tr.const_local_name ().down ()) {
+            Value v = Value (pspec.value_type);
+            read_current_node (obj as DomNode, true, true);
+            node.append_child (obj as DomNode);
+            v.set_object (obj);
+            node.set_property (pspec.name, v);
+            isproperty = true;
+            break;
+          }
+        }
+      }
       if (node is DomElement) {
         if (read_current
             && tr.const_local_name ().down ()
@@ -139,71 +166,77 @@ public class GXml.XParser : Object, GXml.Parser {
                     (_("Invalid element node name. Expected %s")
                         .printf ((node as DomElement).local_name));
       }
-      if (node is DomDocument || !read_current) {
+      if (!isproperty) {
+        GLib.message ("Not property is set");
+        if (node is DomDocument || !read_current) {
+          GLib.message ("No deserializing current node");
 #if DEBUG
-        if (isempty) GLib.message ("Is Empty node:"+node.node_name);
-        GLib.message ("ReadNode: Element: "+tr.const_local_name ());
+          if (isempty) GLib.message ("Is Empty node:"+node.node_name);
+          GLib.message ("ReadNode: Element: "+tr.const_local_name ());
 #endif
-        prefix = tr.prefix ();
-        if (prefix != null) {
-          GLib.message ("Is namespaced element");
-          nsuri = tr.lookup_namespace (prefix);
-          n = _document.create_element_ns (nsuri, tr.prefix () +":"+ tr.const_local_name ());
-        } else
-          n = _document.create_element (tr.const_local_name ());
-        node.append_child (n);
-      }
-      var nattr = tr.attribute_count ();
-#if DEBUG
-      GLib.message ("Number of Attributes:"+nattr.to_string ());
-#endif
-      for (int i = 0; i < nattr; i++) {
-        var c = tr.move_to_attribute_no (i);
-#if DEBUG
-        GLib.message ("Current Attribute: "+i.to_string ());
-#endif
-        if (c != 1) {
-          throw new DomError.HIERARCHY_REQUEST_ERROR (_("Parsing ERROR: Fail to move to attribute number: %i").printf (i));
-        }
-        if (tr.is_namespace_decl () == 1) {
-//#if DEBUG
-          GLib.message ("Is Namespace Declaration...");
-//#endif
-          string nsp = tr.const_local_name ();
-          string aprefix = tr.prefix ();
-          tr.read_attribute_value ();
-          if (tr.node_type () == Xml.ReaderType.TEXT) {
-            string ansuri = tr.read_string ();
-            GLib.message ("Read: "+aprefix+":"+nsp+"="+ansuri);
-            string ansp = nsp;
-            if (nsp != "xmlns")
-              ansp = aprefix+":"+nsp;
-            GLib.message ("To append: "+ansp+"="+ansuri);
-            (n as DomElement).set_attribute_ns ("http://www.w3.org/2000/xmlns/",
-                                                 ansp, ansuri);
+          if (!isproperty) {
+            prefix = tr.prefix ();
+            if (prefix != null) {
+              GLib.message ("Is namespaced element");
+              nsuri = tr.lookup_namespace (prefix);
+              n = _document.create_element_ns (nsuri, tr.prefix () +":"+ tr.const_local_name ());
+            } else
+              n = _document.create_element (tr.const_local_name ());
+            node.append_child (n);
           }
-        } else {
-          var attrname = tr.const_local_name ();
-          prefix = tr.prefix ();
+        }
+        var nattr = tr.attribute_count ();
 #if DEBUG
-          GLib.message ("Attribute: "+tr.const_local_name ());
+        GLib.message ("Number of Attributes:"+nattr.to_string ());
 #endif
-          tr.read_attribute_value ();
-          if (tr.node_type () == Xml.ReaderType.TEXT) {
-            var attrval = tr.read_string ();
+        for (int i = 0; i < nattr; i++) {
+          var c = tr.move_to_attribute_no (i);
 #if DEBUG
-            GLib.message ("Attribute:"+attrname+" Value: "+attrval);
+          GLib.message ("Current Attribute: "+i.to_string ());
 #endif
-            bool processed = (n as GomObject).set_attribute (attrname, attrval);
-            if (prefix != null && !processed) {
-              GLib.message ("Prefix found: "+prefix);
-              if (prefix == "xml")
-                nsuri = "http://www.w3.org/2000/xmlns/";
-              else
-                nsuri = tr.lookup_namespace (prefix);
-              (n as DomElement).set_attribute_ns (nsuri, prefix+":"+attrname, attrval);
-            } else if (!processed)
-              (n as DomElement).set_attribute (attrname, attrval);
+          if (c != 1) {
+            throw new DomError.HIERARCHY_REQUEST_ERROR (_("Parsing ERROR: Fail to move to attribute number: %i").printf (i));
+          }
+          if (tr.is_namespace_decl () == 1) {
+  //#if DEBUG
+            GLib.message ("Is Namespace Declaration...");
+  //#endif
+            string nsp = tr.const_local_name ();
+            string aprefix = tr.prefix ();
+            tr.read_attribute_value ();
+            if (tr.node_type () == Xml.ReaderType.TEXT) {
+              string ansuri = tr.read_string ();
+              GLib.message ("Read: "+aprefix+":"+nsp+"="+ansuri);
+              string ansp = nsp;
+              if (nsp != "xmlns")
+                ansp = aprefix+":"+nsp;
+              GLib.message ("To append: "+ansp+"="+ansuri);
+              (n as DomElement).set_attribute_ns ("http://www.w3.org/2000/xmlns/",
+                                                   ansp, ansuri);
+            }
+          } else {
+            var attrname = tr.const_local_name ();
+            prefix = tr.prefix ();
+#if DEBUG
+            GLib.message ("Attribute: "+tr.const_local_name ());
+#endif
+            tr.read_attribute_value ();
+            if (tr.node_type () == Xml.ReaderType.TEXT) {
+              var attrval = tr.read_string ();
+#if DEBUG
+              GLib.message ("Attribute:"+attrname+" Value: "+attrval);
+#endif
+              bool processed = (n as GomObject).set_attribute (attrname, attrval);
+              if (prefix != null && !processed) {
+                GLib.message ("Prefix found: "+prefix);
+                if (prefix == "xml")
+                  nsuri = "http://www.w3.org/2000/xmlns/";
+                else
+                  nsuri = tr.lookup_namespace (prefix);
+                (n as DomElement).set_attribute_ns (nsuri, prefix+":"+attrname, attrval);
+              } else if (!processed)
+                (n as DomElement).set_attribute (attrname, attrval);
+            }
           }
         }
       }
