@@ -88,6 +88,7 @@ sources = \
 	GomNode.vala \
 	GomText.vala \
 	GomObject.vala \
+	GomCollections.vala \
 	Parser.vala \
 	XParser.vala \
 	$(NULL)
