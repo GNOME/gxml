@@ -52,7 +52,9 @@ public interface GXml.GomCollection : Object
    * {@link nodes_index}.
    */
   public virtual DomElement? get_item (int index) throws GLib.Error {
-    var e = element.child_nodes.get (index);
+    unowned List<int> i = nodes_index.nth (index);
+    if (i == null) return null;
+    var e = element.child_nodes.get (i.data);
     if (e != null)
       if (!(e is GomElement))
         throw new DomError.INVALID_NODE_TYPE_ERROR

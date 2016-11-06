@@ -154,7 +154,6 @@ class GomSerializationTest : GXmlTest  {
       assert ("<BookStand Classification=\"Science\"/>" in s);
       assert (bs.registers == null);
       var br = new BookRegister ();
-      br.year = 2016;
       bs.registers = new GomArrayList.initialize (bs,br.local_name);
       s = bs.to_string ();
       assert (s != null);
@@ -162,19 +161,26 @@ class GomSerializationTest : GXmlTest  {
       assert ("<BookStand Classification=\"Science\"/>" in s);
       try { bs.registers.add (br); } catch {}
       br = new BookRegister.document (bs.owner_document);
+      br.year = 2016;
       bs.registers.add (br);
       s = bs.to_string ();
       assert (s != null);
       GLib.message ("DOC:"+s);
-      assert ("<BookStand Classification=\"Science\"><BookRegister Year=\"0\"/></BookStand>" in s);
+      assert ("<BookStand Classification=\"Science\"><BookRegister Year=\"2016\"/></BookStand>" in s);
       var br2 = new BookRegister.document (bs.owner_document);
       bs.registers.add (br2);
+      br2.year = 2010;
+      bs.append_child (bs.owner_document.create_element ("Test"));
       var br3 = new BookRegister.document (bs.owner_document);
       bs.registers.add (br3);
+      br3.year = 2000;
       s = bs.to_string ();
       assert (s != null);
       GLib.message ("DOC:"+s);
-      assert ("<BookStand Classification=\"Science\"><BookRegister Year=\"0\"/><BookRegister Year=\"0\"/><BookRegister Year=\"0\"/></BookStand>" in s);
+      assert ("<BookStand Classification=\"Science\"><BookRegister Year=\"2016\"/><BookRegister Year=\"2010\"/><Test/><BookRegister Year=\"2000\"/></BookStand>" in s);
+      assert ((bs.registers.get_item (0) as BookRegister).year == 2016);
+      assert ((bs.registers.get_item (1) as BookRegister).year == 2010);
+      assert ((bs.registers.get_item (2) as BookRegister).year == 2000);
     });
     Test.add_func ("/gxml/gom-serialization/read/properties", () => {
       var b = new Book ();
