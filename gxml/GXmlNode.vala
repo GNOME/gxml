@@ -159,7 +159,10 @@ public abstract class GXml.GNode : Object,
   protected string _base_uri = null;
   public string? base_uri { get { return _base_uri; } }
 
-  public DomDocument? owner_document { get { return (GXml.DomDocument?) document; } }
+  public DomDocument? owner_document {
+    get { return _doc; }
+    construct set { _doc = value as GDocument; }
+  }
   public DomNode? parent_node { owned get { return parent as DomNode?; } }
   public DomElement? parent_element {
     owned get {

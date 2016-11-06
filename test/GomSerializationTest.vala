@@ -128,11 +128,6 @@ class GomSerializationTest : GXmlTest  {
       assert ("TaxFree=\"true\"" in s);
       GLib.message ("DOC:"+s);
     });
-    Test.add_func ("/gxml/gom-serialization/write/object-property", () => {
-      /*var b = new BookRegister ();
-      string s = b.to_string ();
-      assert ("<BookRegister><Book/></BookRegister>" in s);*/
-    });
     Test.add_func ("/gxml/gom-serialization/read/properties", () => {
       var b = new Book ();
       var parser = new XParser (b);
@@ -159,6 +154,14 @@ class GomSerializationTest : GXmlTest  {
         parser.read_string ("<Chair name=\"Tall\"/>", null);
         assert_not_reached ();
       } catch {}
+    });
+    Test.add_func ("/gxml/gom-serialization/read/object-property", () => {
+      /*var b = new BookRegister ();
+      var parser = new XParser (b);
+      parser.read_string ("<BookRegister><Book/></BookRegister>", null);
+      string s = b.to_string ();
+      GLib.message ("doc:"+s);
+      assert ("<BookRegister><Book/></BookRegister>" in s);*/
     });
   }
 }

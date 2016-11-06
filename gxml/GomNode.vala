@@ -46,7 +46,10 @@ public class GXml.GomNode : Object,
   public string? base_uri { get { return _base_uri; } }
 
   protected GXml.DomDocument _document;
-  public DomDocument? owner_document { get { return (GXml.DomDocument?) _document; } }
+  public DomDocument? owner_document {
+    get { return _document; }
+    construct set { _document = value; }
+  }
 
   public DomNode? parent_node { owned get { return _parent as DomNode?; } }
   public DomElement? parent_element {
@@ -108,7 +111,7 @@ public class GXml.GomNode : Object,
     }
     set {
       try {
-        var t = owner_document.create_text_node (text_content);
+        var t = _document.create_text_node (text_content);
         child_nodes.add (t);
       } catch (GLib.Error e) {
         GLib.warning (_("Text content in element can't be created"));

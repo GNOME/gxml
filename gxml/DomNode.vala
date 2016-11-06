@@ -41,7 +41,7 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
 
   public abstract string? base_uri { get; }
 
-  public abstract DomDocument? owner_document { get; }
+  public abstract DomDocument? owner_document { get; construct set; }
   public abstract DomNode? parent_node { owned get; }
   public abstract DomElement? parent_element { owned get; }
   public abstract DomNodeList child_nodes { owned get; }
