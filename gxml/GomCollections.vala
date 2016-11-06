@@ -67,6 +67,10 @@ public interface GXml.GomCollection : Object
   public virtual int length { get { return (int) nodes_index.length; } }
 }
 
+/**
+ * A class impementing {@link GomCollection} to store references to
+ * child {@link DomElement} of {@link element}, using an index.
+ */
 public class GXml.GomArrayList : Object, GomCollection {
   protected List<int> _nodes_index = new List<int> ();
   protected GomElement _element;
@@ -120,7 +124,11 @@ public class GXml.GomArrayList : Object, GomCollection {
   }
 }
 
-
+/**
+ * A class impementing {@link GomCollection} to store references to
+ * child {@link DomElement} of {@link element}, using an attribute in
+ * items as key.
+ */
 public class GXml.GomHashMap : Object, GomCollection {
   protected List<int> _nodes_index = new List<int> ();
   protected HashTable<string,int> _hashtable = new HashTable<string,int> (str_hash,str_equal);
@@ -142,6 +150,10 @@ public class GXml.GomHashMap : Object, GomCollection {
   public string items_name {
     get { return _items_name; } construct set { _items_name = value; }
   }
+  /**
+   * An attribute's name in items to be added and used to retrieve a key to
+   * used in collection.
+   */
   public string attribute_key {
     get { return _attribute_key; } construct set { _attribute_key = value; }
   }
@@ -154,8 +166,9 @@ public class GXml.GomHashMap : Object, GomCollection {
     _attribute_key = attribute_key;
   }
   /**
-   * Adds an {@link DomElement} of type {@link GomObject} as a child of
-   * {@link element}
+   * Sets an {@link DomElement} of type {@link GomObject} as a child of
+   * {@link element}, requires new item to have defined an string attribute
+   * to be used as key. Attribute should have the name: {@link attribute_key}
    */
   public new void set (DomElement node) throws GLib.Error {
     if (!(node is GomElement))
@@ -177,6 +190,9 @@ public class GXml.GomHashMap : Object, GomCollection {
     GLib.message ("Key:"+key+" Index: "+index.to_string ());
     _hashtable.insert (key, index);
   }
+  /**
+   * Returns an {@link DomElement} in the collection using a string key.
+   */
   public new DomElement? get (string key) {
     if (!_hashtable.contains (key)) return null;
     var i = _hashtable.get (key);
