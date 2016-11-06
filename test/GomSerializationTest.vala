@@ -77,6 +77,18 @@ class GomSerializationTest : GXmlTest  {
       return parser.write_string ();
     }
   }
+  public class BookStand : GomElement {
+    [Description (nick="::Classification")]
+    public string classification { get; set; default = "Science"; }
+    public GomArrayList registers { get; set; }
+    construct {
+      _local_name = "BookStand";
+    }
+    public string to_string () {
+      var parser = new XParser (this);
+      return parser.write_string ();
+    }
+  }
   public static void add_tests () {
     Test.add_func ("/gxml/gom-serialization/write/properties", () => {
       var b = new Book ();
@@ -126,6 +138,21 @@ class GomSerializationTest : GXmlTest  {
       assert ("monthRate=\"16.5\"" in s);
       assert ("Month=\"february\"" in s);
       assert ("TaxFree=\"true\"" in s);
+      GLib.message ("DOC:"+s);
+    });
+    Test.add_func ("/gxml/gom-serialization/write/property-arraylist", () => {
+      var bs = new BookStand ();
+      string s = bs.to_string ();
+      assert (s != null);
+      assert ("<BookStand Classification=\"Science\"/>" in s);
+      GLib.message ("DOC:"+s);
+      var br = new BookRegister ();
+      br.year = 2016;
+      assert (bs.registers == null);
+      bs.registers = new GomArrayList.initialize (bs,br.local_name);
+      s = bs.to_string ();
+      assert (s != null);
+      assert ("<BookStand Classification=\"Science\"/>" in s);
       GLib.message ("DOC:"+s);
     });
     Test.add_func ("/gxml/gom-serialization/read/properties", () => {

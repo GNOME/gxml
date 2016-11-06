@@ -33,14 +33,15 @@ public interface GXml.GomCollection : Object
    */
   public abstract List<int> nodes_index { get; }
   /**
-   * A {@link DomElement} with all child elements.
+   * A {@link DomElement} with all child elements in collection. Only
+   *{@link GomElement} objects are supported.
    */
   public abstract DomElement element { get; construct set; }
   /**
    * Local name of {@link DomElement} objects of {@link element}, which could be
    * contained in this collection.
    */
-  public abstract string element_name { get; construct set; }
+  public abstract string items_name { get; construct set; }
   /**
    * Search and add references to all {@link GomObject} nodes as child of
    * {@link element} with same, case insensitive, name of {@link element_name}
@@ -67,21 +68,27 @@ public interface GXml.GomCollection : Object
 public class GXml.GomArrayList : Object, GomCollection {
   protected List<int> _nodes_index = new List<int> ();
   protected GomElement _element;
-  protected string _element_name;
+  protected string _items_name;
   public List<int> nodes_index { get { return _nodes_index; } }
   public DomElement element {
     get { return _element; }
     construct set {
-      if (value is GomElement)
-        _element = value as GomElement;
-      else
-        GLib.warning (_("Invalid element type only GXmlGomElement is supported"));
+      if (value != null) {
+        if (value is GomElement)
+          _element = value as GomElement;
+        else
+          GLib.warning (_("Invalid element type only GXmlGomElement is supported"));
+      }
     }
   }
-  public string element_name {
-    get { return _element_name; } construct set { _element_name = value; }
+  public string items_name {
+    get { return _items_name; } construct set { _items_name = value; }
   }
 
+  public GomArrayList.initialize (GomElement element, string items_name) {
+    _element = element;
+    _items_name = items_name;
+  }
   /**
    * Adds an {@link DomElement} of type {@link GomObject} as a child of
    * {@link element}
@@ -103,7 +110,7 @@ public class GXml.GomArrayList : Object, GomCollection {
     for (int i = 0; i < _element.child_nodes.size; i++) {
       var n = _element.child_nodes.get (i);
       if (n is GomObject) {
-        if ((n as DomElement).local_name.down () == element_name.down ()) {
+        if ((n as DomElement).local_name.down () == items_name.down ()) {
           _nodes_index.append (i);
         }
       }
