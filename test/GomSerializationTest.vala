@@ -29,6 +29,9 @@ class GomSerializationTest : GXmlTest  {
     construct {
       _local_name = "Book";
     }
+    public Book.document (DomDocument doc) {
+      _document = doc;
+    }
     public string to_string () {
       var parser = new XParser (this);
       return parser.write_string ();
@@ -71,6 +74,9 @@ class GomSerializationTest : GXmlTest  {
     public Book book { get; set; }
     construct {
       _local_name = "BookRegister";
+    }
+    public BookRegister.document (DomDocument doc) {
+      _document = doc;
     }
     public string to_string () {
       var parser = new XParser (this);
@@ -144,16 +150,31 @@ class GomSerializationTest : GXmlTest  {
       var bs = new BookStand ();
       string s = bs.to_string ();
       assert (s != null);
-      assert ("<BookStand Classification=\"Science\"/>" in s);
       GLib.message ("DOC:"+s);
+      assert ("<BookStand Classification=\"Science\"/>" in s);
+      assert (bs.registers == null);
       var br = new BookRegister ();
       br.year = 2016;
-      assert (bs.registers == null);
       bs.registers = new GomArrayList.initialize (bs,br.local_name);
       s = bs.to_string ();
       assert (s != null);
-      assert ("<BookStand Classification=\"Science\"/>" in s);
       GLib.message ("DOC:"+s);
+      assert ("<BookStand Classification=\"Science\"/>" in s);
+      try { bs.registers.add (br); } catch {}
+      br = new BookRegister.document (bs.owner_document);
+      bs.registers.add (br);
+      s = bs.to_string ();
+      assert (s != null);
+      GLib.message ("DOC:"+s);
+      assert ("<BookStand Classification=\"Science\"><BookRegister Year=\"0\"/></BookStand>" in s);
+      var br2 = new BookRegister.document (bs.owner_document);
+      bs.registers.add (br2);
+      var br3 = new BookRegister.document (bs.owner_document);
+      bs.registers.add (br3);
+      s = bs.to_string ();
+      assert (s != null);
+      GLib.message ("DOC:"+s);
+      assert ("<BookStand Classification=\"Science\"><BookRegister Year=\"0\"/><BookRegister Year=\"0\"/><BookRegister Year=\"0\"/></BookStand>" in s);
     });
     Test.add_func ("/gxml/gom-serialization/read/properties", () => {
       var b = new Book ();
