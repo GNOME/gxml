@@ -31,7 +31,7 @@ public interface GXml.GomCollection : Object
   /**
    * A list of child {@link DomElement} objects of {@link element}
    */
-  public abstract List<int> nodes_index { get; }
+  public abstract Queue<int> nodes_index { get; }
   /**
    * A {@link DomElement} with all child elements in collection. Only
    *{@link GomElement} objects are supported.
@@ -52,9 +52,16 @@ public interface GXml.GomCollection : Object
    * {@link nodes_index}.
    */
   public virtual DomElement? get_item (int index) throws GLib.Error {
-    unowned List<int> i = nodes_index.nth (index);
-    if (i == null) return null;
-    var e = element.child_nodes.get (i.data);
+    if (nodes_index.length == 0)
+      return null;
+    if (index < 0 || index >= nodes_index.length)
+      throw new DomError.INDEX_SIZE_ERROR
+                  (_("Invalid index for elements in array list"));
+    int i = nodes_index.peek_nth (index);
+    if (i < 0 || i >= element.child_nodes.size)
+      throw new DomError.INDEX_SIZE_ERROR
+                  (_("Invalid index reference for child elements in array list"));
+    var e = element.child_nodes.get (i);
     if (e != null)
       if (!(e is GomElement))
         throw new DomError.INVALID_NODE_TYPE_ERROR
@@ -64,7 +71,7 @@ public interface GXml.GomCollection : Object
   /**
    * Number of items referenced in {@link nodes_index}
    */
-  public virtual int length { get { return (int) nodes_index.length; } }
+  public virtual int length { get { return (int) nodes_index.get_length (); } }
 }
 
 /**
@@ -72,10 +79,10 @@ public interface GXml.GomCollection : Object
  * child {@link DomElement} of {@link element}, using an index.
  */
 public class GXml.GomArrayList : Object, GomCollection {
-  protected List<int> _nodes_index = new List<int> ();
+  protected Queue<int> _nodes_index = new Queue<int> ();
   protected GomElement _element;
   protected string _items_name;
-  public List<int> nodes_index { get { return _nodes_index; } }
+  public Queue<int> nodes_index { get { return _nodes_index; } }
   public DomElement element {
     get { return _element; }
     construct set {
@@ -94,6 +101,7 @@ public class GXml.GomArrayList : Object, GomCollection {
   public GomArrayList.initialize (GomElement element, string items_name) {
     _element = element;
     _items_name = items_name;
+    search ();
   }
   /**
    * Adds an {@link DomElement} of type {@link GomObject} as a child of
@@ -110,14 +118,15 @@ public class GXml.GomArrayList : Object, GomCollection {
     if (_element.child_nodes.size == 0)
       throw new DomError.QUOTA_EXCEEDED_ERROR
                 (_("Invalid atempt to add a node with a different parent document"));
-    _nodes_index.append (_element.child_nodes.size - 1);
+    _nodes_index.push_tail (_element.child_nodes.size - 1);
   }
   public void search () throws GLib.Error {
     for (int i = 0; i < _element.child_nodes.size; i++) {
       var n = _element.child_nodes.get (i);
       if (n is GomObject) {
         if ((n as DomElement).local_name.down () == items_name.down ()) {
-          _nodes_index.append (i);
+          GLib.message ("Adding node:"+n.node_name);
+          _nodes_index.push_tail (i);
         }
       }
     }
@@ -130,12 +139,12 @@ public class GXml.GomArrayList : Object, GomCollection {
  * items as key.
  */
 public class GXml.GomHashMap : Object, GomCollection {
-  protected List<int> _nodes_index = new List<int> ();
+  protected Queue<int> _nodes_index = new Queue<int> ();
   protected HashTable<string,int> _hashtable = new HashTable<string,int> (str_hash,str_equal);
   protected GomElement _element;
   protected string _items_name;
   protected string _attribute_key;
-  public List<int> nodes_index { get { return _nodes_index; } }
+  public Queue<int> nodes_index { get { return _nodes_index; } }
   public DomElement element {
     get { return _element; }
     construct set {
@@ -186,7 +195,7 @@ public class GXml.GomHashMap : Object, GomCollection {
       throw new DomError.QUOTA_EXCEEDED_ERROR
                 (_("Invalid atempt to add a node with a different parent document"));
     var index = _element.child_nodes.size - 1;
-    _nodes_index.append (index);
+    _nodes_index.push_tail (index);
     GLib.message ("Key:"+key+" Index: "+index.to_string ());
     _hashtable.insert (key, index);
   }
@@ -199,13 +208,19 @@ public class GXml.GomHashMap : Object, GomCollection {
     GLib.message ("Key:"+key+" item:"+i.to_string ());
     return _element.child_nodes.get (i) as DomElement;
   }
+  /**
+   * Search for all child nodes in {@link element} of type {@link GomElement}
+   * with an attribute {@link attribute_name} set, to add it to collection.
+   */
   public void search () throws GLib.Error {
     for (int i = 0; i < _element.child_nodes.size; i++) {
       var n = _element.child_nodes.get (i);
       if (n is GomObject) {
         if ((n as DomElement).local_name.down () == items_name.down ()) {
-          if ((n as DomElement).get_attribute (attribute_key) != null) {
-            this.set (n as DomElement);
+          string key = (n as DomElement).get_attribute (attribute_key);
+          if (key != null) {
+            _nodes_index.push_tail (i);
+            _hashtable.insert (key, i);
           }
         }
       }
