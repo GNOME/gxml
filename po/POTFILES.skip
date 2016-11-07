@@ -9,6 +9,7 @@ gxml/GomDocument.c
 gxml/GomElement.c
 gxml/GomNode.c
 gxml/GomObject.c
+gxml/GomProperty.c
 gxml/GXmlDocument.c
 gxml/GXmlDomCollections.c
 gxml/GXmlDomRange.c
@@ -36,6 +37,7 @@ sub/gxml/GomCollections.c
 sub/gxml/GomDocument.c
 sub/gxml/GomNode.c
 sub/gxml/GomObject.c
+sub/gxml/GomProperty.c
 sub/gxml/GXmlDocument.c
 sub/gxml/GXmlDomCollections.c
 sub/gxml/GXmlDomRange.c

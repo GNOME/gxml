@@ -9,6 +9,7 @@ gxml/GomDocument.vala
 gxml/GomElement.vala
 gxml/GomNode.vala
 gxml/GomObject.vala
+gxml/GomProperty.vala
 gxml/GXmlDocument.vala
 gxml/GXmlDomCollections.vala
 gxml/GXmlDomRange.vala
