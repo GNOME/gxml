@@ -208,7 +208,7 @@ class GomSerializationTest : GXmlTest  {
       assert ("<BookStand Classification=\"Science\"/>" in s);
       assert (bs.registers == null);
       var br = new BookRegister ();
-      bs.registers = new GomArrayList.initialize (bs,br.local_name);
+      bs.registers = new GomArrayList.initialize (bs,typeof (BookRegister));
       s = bs.to_string ();
       assert (s != null);
       GLib.message ("DOC:"+s);
@@ -247,7 +247,7 @@ class GomSerializationTest : GXmlTest  {
       assert ("<BookStore/>" in s);
       assert (bs.books == null);
       var b = new Book ();
-      bs.books = new GomHashMap.initialize (bs,b.local_name,"name");
+      bs.books = new GomHashMap.initialize (bs,typeof (Book),"name");
       s = bs.to_string ();
       assert (s != null);
       GLib.message ("DOC:"+s);
@@ -390,8 +390,7 @@ class GomSerializationTest : GXmlTest  {
       parser.read_string ("<BookStand Classification=\"Science\"><BookRegister Year=\"2016\"/><BookRegister Year=\"2010\"/><Test/><BookRegister Year=\"2000\"/></BookStand>", null);
       s = bs.to_string ();
       GLib.message ("doc:"+s);
-      var tmp = new BookRegister ();
-      bs.registers = new GomArrayList.initialize (bs, tmp.local_name);
+      bs.registers = new GomArrayList.initialize (bs, typeof (BookRegister));
       GLib.message ("Registers: "+bs.registers.length.to_string ());
       assert (bs.registers.length == 3);
       assert (bs.registers.nodes_index.peek_nth (0) == 0);

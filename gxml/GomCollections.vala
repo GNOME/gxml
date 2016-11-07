@@ -41,7 +41,14 @@ public interface GXml.GomCollection : Object
    * Local name of {@link DomElement} objects of {@link element}, which could be
    * contained in this collection.
    */
-  public abstract string items_name { get; construct set; }
+  public abstract string items_name { get; }
+  /**
+   * A {@link Type} of {@link DomElement} child objects of {@link element},
+   * which could be contained in this collection.
+   *
+   * Type should be an {@link GomObject}.
+   */
+  public abstract Type items_type { get; construct set; }
   /**
    * Search and add references to all {@link GomObject} nodes as child of
    * {@link element} with same, case insensitive, name of {@link element_name}
@@ -81,7 +88,8 @@ public interface GXml.GomCollection : Object
 public class GXml.GomArrayList : Object, GomCollection {
   protected Queue<int> _nodes_index = new Queue<int> ();
   protected GomElement _element;
-  protected string _items_name;
+  protected string _items_name = "";
+  protected GLib.Type _items_type = GLib.Type.INVALID;
   public Queue<int> nodes_index { get { return _nodes_index; } }
   public DomElement element {
     get { return _element; }
@@ -94,14 +102,21 @@ public class GXml.GomArrayList : Object, GomCollection {
       }
     }
   }
-  public string items_name {
-    get { return _items_name; } construct set { _items_name = value; }
+  public string items_name { get { return _items_name; } }
+  public Type items_type {
+    get { return _items_type; } construct set { _items_type = value; }
   }
 
-  public GomArrayList.initialize (GomElement element, string items_name) {
+  public GomArrayList.initialize (GomElement element, GLib.Type items_type) {
     _element = element;
-    _items_name = items_name;
-    search ();
+    _items_name = "";
+    if (!(items_type.is_a (typeof (GomObject)))) {
+      warning (_("Invalid object item type to initialize ArrayList"));
+    } else {
+      var tmp = Object.new (items_type) as GomElement;
+      _items_name = tmp.local_name;
+      search ();
+    }
   }
   /**
    * Adds an {@link DomElement} of type {@link GomObject} as a child of
@@ -142,7 +157,8 @@ public class GXml.GomHashMap : Object, GomCollection {
   protected Queue<int> _nodes_index = new Queue<int> ();
   protected HashTable<string,int> _hashtable = new HashTable<string,int> (str_hash,str_equal);
   protected GomElement _element;
-  protected string _items_name;
+  protected string _items_name = "";
+  protected GLib.Type _items_type = GLib.Type.INVALID;
   protected string _attribute_key;
   public Queue<int> nodes_index { get { return _nodes_index; } }
   public DomElement element {
@@ -156,8 +172,9 @@ public class GXml.GomHashMap : Object, GomCollection {
       }
     }
   }
-  public string items_name {
-    get { return _items_name; } construct set { _items_name = value; }
+  public string items_name { get { return _items_name; } }
+  public GLib.Type items_type {
+    get { return _items_type; } construct set { _items_type = value; }
   }
   /**
    * An attribute's name in items to be added and used to retrieve a key to
@@ -168,11 +185,18 @@ public class GXml.GomHashMap : Object, GomCollection {
   }
 
   public GomHashMap.initialize (GomElement element,
-                                  string items_name,
+                                  GLib.Type items_type,
                                   string attribute_key) {
     _element = element;
-    _items_name = items_name;
+    _items_name = "";
     _attribute_key = attribute_key;
+    if (!(items_type.is_a (typeof (GomObject)))) {
+      warning (_("Invalid object item type to initialize HashMap"));
+    } else {
+      var tmp = Object.new (items_type) as GomElement;
+      _items_name = tmp.local_name;
+      search ();
+    }
   }
   /**
    * Sets an {@link DomElement} of type {@link GomObject} as a child of
