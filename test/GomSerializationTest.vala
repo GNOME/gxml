@@ -118,7 +118,7 @@ class GomSerializationTest : GXmlTest  {
       var parser = new XParser (this);
       return parser.write_string ();
     }
-    public enum Enum {
+    public enum TensionTypeEnum {
       AC,
       DC
     }
@@ -139,7 +139,7 @@ class GomSerializationTest : GXmlTest  {
     }
     public class TensionType : GomEnum {
       construct {
-        _enum_type = typeof (Enum);
+        _enum_type = typeof (TensionTypeEnum);
         _attribute_name = "TensionType";
       }
     }
@@ -316,6 +316,15 @@ class GomSerializationTest : GXmlTest  {
       assert (s != null);
       GLib.message ("DOC:"+s);
       assert ("<Motor On=\"false\" Torque=\"0.0000\" Speed=\"0.0000\" TensionType=\"ac\" Tension=\"0\"/>" in s);
+      m.is_on.set_boolean (true);
+      m.torque.set_double (3.1416);
+      m.speed.set_float ((float) 3600.1011);
+      m.tension_type.set_enum ((int) Motor.TensionTypeEnum.DC);
+      m.tension.set_integer (125);
+      s = m.to_string ();
+      assert (s != null);
+      GLib.message ("DOC:"+s);
+      assert ("<Motor On=\"true\" Torque=\"3.1416\" Speed=\"3600.1011\" TensionType=\"dc\" Tension=\"125\"/>" in s);
     });
     Test.add_func ("/gxml/gom-serialization/read/properties", () => {
       var b = new Book ();

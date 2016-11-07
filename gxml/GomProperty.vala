@@ -55,10 +55,12 @@ public class GXml.GomDouble : Object, GomProperty {
   }
   public uint decimals { get; set; default = 4; }
   public double get_double () { return _value; }
+  public void set_double (double value) { _value = value; }
 }
 
 public class GXml.GomFloat : GomDouble {
   public float get_float () { return (float) _value; }
+  public void set_float (float value) { _value = value; }
 }
 
 
@@ -78,6 +80,7 @@ public class GXml.GomInt : Object, GomProperty {
     }
   }
   public int get_integer () { return _value; }
+  public void set_integer (int value) { _value = value; }
 }
 
 public class GXml.GomBoolean : Object, GomProperty {
@@ -96,6 +99,7 @@ public class GXml.GomBoolean : Object, GomProperty {
     }
   }
   public bool get_boolean () { return _value; }
+  public void set_boolean (bool value) { _value = value; }
 }
 
 public class GXml.GomEnum : Object, GomProperty {
@@ -129,4 +133,5 @@ public class GXml.GomEnum : Object, GomProperty {
     construct set { _enum_type = value; }
   }
   public int get_enum () { return (int) _value; }
+  public void set_enum (int value) { _value = value; }
 }
