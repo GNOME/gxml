@@ -105,6 +105,50 @@ class GomSerializationTest : GXmlTest  {
       return parser.write_string ();
     }
   }
+  public class Motor : GomElement {
+    public On is_on { get; set; }
+    public Torque torque { get; set; }
+    public Speed speed { get; set; }
+    public Type tension_type { get; set; }
+    public Tension tension { get; set; }
+    construct {
+      _local_name = "Motor";
+    }
+    public string to_string () {
+      var parser = new XParser (this);
+      return parser.write_string ();
+    }
+    public enum Enum {
+      AC,
+      DC
+    }
+    public class On : GomBoolean {
+      construct {
+        _attribute_name = "On";
+      }
+    }
+    public class Torque : GomDouble {
+      construct {
+        _attribute_name = "Torque";
+      }
+    }
+    public class Speed : GomFloat {
+      construct {
+        _attribute_name = "Speed";
+      }
+    }
+    public class Type : GomEnum {
+      construct {
+        _enum_type = typeof (Enum);
+        _attribute_name = "Type";
+      }
+    }
+    public class Tension : GomInt {
+      construct {
+        _attribute_name = "Tension";
+      }
+    }
+  }
   public static void add_tests () {
     Test.add_func ("/gxml/gom-serialization/write/properties", () => {
       var b = new Book ();
@@ -240,6 +284,13 @@ class GomSerializationTest : GXmlTest  {
       assert ((bs.books.get("Title1") as Book).name == "Title1");
       assert ((bs.books.get("Title2") as Book).name == "Title2");
       assert ((bs.books.get("Title3") as Book).name == "Title3");
+    });
+    Test.add_func ("/gxml/gom-serialization/write/gom-property", () => {
+      var c = new Motor ();
+      string s = c.to_string ();
+      assert (s != null);
+      GLib.message ("DOC:"+s);
+      assert ("<Motor/>" in s);
     });
     Test.add_func ("/gxml/gom-serialization/read/properties", () => {
       var b = new Book ();
