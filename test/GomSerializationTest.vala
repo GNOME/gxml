@@ -364,5 +364,22 @@ class GomSerializationTest : GXmlTest  {
       GLib.message ("doc:"+s);
       assert ("<BookRegister Year=\"0\"><Book/></BookRegister>" in s);
     });
+    Test.add_func ("/gxml/gom-serialization/read/gom-property", () => {
+      var m = new Motor ();
+      string s = m.to_string ();
+      GLib.message ("doc:"+s);
+      assert ("<Motor/>" in s);
+      var parser = new XParser (m);
+      parser.read_string ("<Motor On=\"true\" Torque=\"3.1416\" Speed=\"3600.1011\" TensionType=\"dc\" Tension=\"125\"/>", null);
+      s = m.to_string ();
+      GLib.message ("doc:"+s);
+      assert ("<Motor " in s);
+      assert ("On=\"true\"" in s);
+      assert ("Torque=\"3.1416\"" in s);
+      assert ("Speed=\"3600.1011\"" in s);
+      assert ("TensionType=\"dc\"" in s);
+      assert ("Tension=\"125\"" in s);
+      assert ("/>" in s);
+    });
   }
 }
