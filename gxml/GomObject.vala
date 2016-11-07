@@ -94,7 +94,8 @@ public interface GXml.GomObject : GLib.Object,
   public virtual List<ParamSpec> get_property_element_list () {
     var l = new List<ParamSpec> ();
     foreach (ParamSpec spec in this.get_class ().list_properties ()) {
-      if (spec.value_type.is_a (typeof (GomObject))) {
+      if (spec.value_type.is_a (typeof (GomObject))
+          || spec.value_type.is_a (typeof (GomCollection))) {
         GLib.message ("Object Name: "+spec.name+ " Nick: "+spec.get_nick ());
         l.append (spec);
       }

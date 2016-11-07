@@ -144,17 +144,42 @@ public class GXml.XParser : Object, GXml.Parser {
                       tr.const_local_name ());
         foreach (ParamSpec pspec in
                   (node as GomObject).get_property_element_list ()) {
-          var obj = Object.new (pspec.value_type,
-                                "owner-document", node.owner_document);
-          if ((obj as DomElement).local_name.down ()
-                 == tr.const_local_name ().down ()) {
-            Value v = Value (pspec.value_type);
+          if (pspec.value_type.is_a (typeof (GomCollection))) {
+            GomCollection col;
+            Value vc = Value (pspec.value_type);
+            get_property (pspec.name, ref vc);
+            col = vc.get_object () as GomCollection;
+            if (col == null) {
+              col = Object.new (pspec.value_type) as GomCollection;
+              vc.set_object (col);
+              node.set_property (pspec.name, vc);
+            }
+            if (col.items_type == GLib.Type.INVALID
+                || col.items_type.is_a (typeof (GomObject))) {
+              GLib.warning (_("Invalid object type set to Collection"));
+              continue;
+            }
+            if (col.items_name == "" || col.items_name == null) {
+              GLib.warning (_("Invalid DomElement name for objects in Collection"));
+              continue;
+            }
+            var obj = Object.new (col.items_type,
+                                  "owner-document", node.owner_document);
             read_current_node (obj as DomNode, true, true);
-            node.append_child (obj as DomNode);
-            v.set_object (obj);
-            node.set_property (pspec.name, v);
-            isproperty = true;
-            break;
+            col.append (obj as DomElement);
+          } else {
+            var obj = Object.new (pspec.value_type,
+                                  "owner-document", node.owner_document);
+            if ((obj as DomElement).local_name.down ()
+                   == tr.const_local_name ().down ()) {
+              Value v = Value (pspec.value_type);
+              read_current_node (obj as DomNode, true, true);
+              node.append_child (obj as DomNode);
+              v.set_object (obj);
+              node.set_property (pspec.name, v);
+              isproperty = true;
+              break;
+            }
           }
         }
       }

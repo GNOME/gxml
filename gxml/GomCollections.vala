@@ -76,6 +76,12 @@ public interface GXml.GomCollection : Object
     return (DomElement?) e;
   }
   /**
+   * Adds a {@link DomElement} node to this collection. Depending on type of
+   * collection, this method will take information from node to initialize
+   * how to find it.
+   */
+  public abstract void append (DomElement node) throws GLib.Error;
+  /**
    * Number of items referenced in {@link nodes_index}
    */
   public virtual int length { get { return (int) nodes_index.get_length (); } }
@@ -122,7 +128,7 @@ public class GXml.GomArrayList : Object, GomCollection {
    * Adds an {@link DomElement} of type {@link GomObject} as a child of
    * {@link element}
    */
-  public void add (DomElement node) throws GLib.Error {
+  public void append (DomElement node) throws GLib.Error {
     if (!(node is GomElement))
       throw new DomError.INVALID_NODE_TYPE_ERROR
                 (_("Invalid atempt to add unsupported type. Only GXmlGomElement is supported"));
@@ -203,7 +209,7 @@ public class GXml.GomHashMap : Object, GomCollection {
    * {@link element}, requires new item to have defined an string attribute
    * to be used as key. Attribute should have the name: {@link attribute_key}
    */
-  public new void set (DomElement node) throws GLib.Error {
+  public void append (DomElement node) throws GLib.Error {
     if (!(node is GomElement))
       throw new DomError.INVALID_NODE_TYPE_ERROR
                 (_("Invalid atempt to set unsupported type. Only GXmlGomElement is supported"));
