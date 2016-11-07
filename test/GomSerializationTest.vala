@@ -109,7 +109,7 @@ class GomSerializationTest : GXmlTest  {
     public On is_on { get; set; }
     public Torque torque { get; set; }
     public Speed speed { get; set; }
-    public Type tension_type { get; set; }
+    public TensionType tension_type { get; set; }
     public Tension tension { get; set; }
     construct {
       _local_name = "Motor";
@@ -137,10 +137,10 @@ class GomSerializationTest : GXmlTest  {
         _attribute_name = "Speed";
       }
     }
-    public class Type : GomEnum {
+    public class TensionType : GomEnum {
       construct {
         _enum_type = typeof (Enum);
-        _attribute_name = "Type";
+        _attribute_name = "TensionType";
       }
     }
     public class Tension : GomInt {
@@ -296,7 +296,26 @@ class GomSerializationTest : GXmlTest  {
       assert (s != null);
       GLib.message ("DOC:"+s);
       assert ("<Motor On=\"false\"/>" in s);
-
+      m.torque = new Motor.Torque ();
+      s = m.to_string ();
+      assert (s != null);
+      GLib.message ("DOC:"+s);
+      assert ("<Motor On=\"false\" Torque=\"0.0000\"/>" in s);
+      m.speed = new Motor.Speed ();
+      s = m.to_string ();
+      assert (s != null);
+      GLib.message ("DOC:"+s);
+      assert ("<Motor On=\"false\" Torque=\"0.0000\" Speed=\"0.0000\"/>" in s);
+      m.tension_type = new Motor.TensionType ();
+      s = m.to_string ();
+      assert (s != null);
+      GLib.message ("DOC:"+s);
+      assert ("<Motor On=\"false\" Torque=\"0.0000\" Speed=\"0.0000\" TensionType=\"ac\"/>" in s);
+      m.tension = new Motor.Tension ();
+      s = m.to_string ();
+      assert (s != null);
+      GLib.message ("DOC:"+s);
+      assert ("<Motor On=\"false\" Torque=\"0.0000\" Speed=\"0.0000\" TensionType=\"ac\" Tension=\"0\"/>" in s);
     });
     Test.add_func ("/gxml/gom-serialization/read/properties", () => {
       var b = new Book ();
