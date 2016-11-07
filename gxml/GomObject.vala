@@ -55,16 +55,33 @@ public interface GXml.GomObject : GLib.Object,
     return l;
   }
   /**
+   * Returns a list with all object's {@link GomProperty} property names.
+   */
+  public virtual List<ParamSpec> get_object_properties_list () {
+    var l = new List<ParamSpec> ();
+    foreach (ParamSpec spec in this.get_class ().list_properties ()) {
+      if (spec.value_type.is_a (typeof (GomProperty))) {
+          GLib.message ("GomProperty Name: "+spec.name);
+        l.append (spec);
+      }
+    }
+    return l;
+  }
+  /**
    * Returns property's name based on given nick. This function is
    * case insensitive.
    */
   public virtual string? find_property_name (string nick) {
     foreach (ParamSpec spec in this.get_class ().list_properties ()) {
-      if ("::" in spec.get_nick ()) {
-        string name = spec.get_nick ().replace ("::","");
-        if (name.down () == nick.down ()) {
-          GLib.message ("Name: "+spec.name+ " Nick: "+spec.get_nick ());
-          return spec.name;
+      if (spec.value_type.is_a (typeof (GomProperty))) {
+        return spec.name;
+      } else {
+        if ("::" in spec.get_nick ()) {
+          string name = spec.get_nick ().replace ("::","");
+          if (name.down () == nick.down ()) {
+            GLib.message ("Name: "+spec.name+ " Nick: "+spec.get_nick ());
+            return spec.name;
+          }
         }
       }
     }
@@ -110,10 +127,10 @@ public interface GXml.GomObject : GLib.Object,
       GLib.message ("Found attribute: "+prop.name);
       var v = Value(prop.value_type);
       get_property (prop.name, ref v);
-      if (prop.value_type == typeof(SerializableProperty)) {
-        SerializableProperty so = (Object) v as SerializableProperty;
+      if (prop.value_type == typeof(GomProperty)) {
+        GomProperty so = (Object) v as GomProperty;
         if (so == null) return null;
-        return so.get_serializable_property_value ();
+        return so.value;
       }
       if (prop.value_type.is_a (typeof (string))) {
         return (string) v;
@@ -159,11 +176,11 @@ public interface GXml.GomObject : GLib.Object,
     var prop = get_class ().find_property (pname);
     if (prop != null) {
       var v = Value (prop.value_type);
-      if (prop.value_type == typeof(SerializableProperty)) {
+      if (prop.value_type == typeof(GomProperty)) {
         get_property (prop.name, ref v);
-        SerializableProperty so = (Object) v as SerializableProperty;
+        GomProperty so = (Object) v as GomProperty;
         if (so == null) return false;
-        so.set_serializable_property_value (val);
+        so.value = val;
         return true;
       }
       if (prop.value_type.is_a (typeof (string))) {

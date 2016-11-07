@@ -404,19 +404,32 @@ public class GXml.XParser : Object, GXml.Parser {
         tw.start_element (node.node_name);
     GLib.message ("Write down properties: size:"+(node as DomElement).attributes.size.to_string ());
 
-    foreach (string ak in (node as DomElement).attributes.keys) {
-      string v = ((node as DomElement).attributes as HashMap<string,string>).get (ak);
-      size += tw.write_attribute (ak, v);
-      size += tw.end_attribute ();
-      if (size > 1500)
-        tw.flush ();
-    }
-    // GomObject serialisation
+    // GomObject serialization
     var lp = (node as GomObject).get_properties_list ();
     foreach (string pk in lp) {
       string v = (node as GomObject).get_attribute (pk);
       if (v == null) continue;
       size += tw.write_attribute (pk, v);
+      size += tw.end_attribute ();
+      if (size > 1500)
+        tw.flush ();
+    }
+    // GomProperty serialization
+    var lps = (node as GomObject).get_object_properties_list ();
+    foreach (ParamSpec pspec in lps) {
+      Value v = Value (pspec.value_type);
+      node.get_property (pspec.name, ref v);
+      GomProperty gp = v.get_object () as GomProperty;
+      if (gp == null) continue;
+      size += tw.write_attribute (gp.attribute_name, gp.value);
+      size += tw.end_attribute ();
+      if (size > 1500)
+        tw.flush ();
+    }
+    // DomElement attributes
+    foreach (string ak in (node as DomElement).attributes.keys) {
+      string v = ((node as DomElement).attributes as HashMap<string,string>).get (ak);
+      size += tw.write_attribute (ak, v);
       size += tw.end_attribute ();
       if (size > 1500)
         tw.flush ();

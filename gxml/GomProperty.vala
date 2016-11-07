@@ -58,7 +58,7 @@ public class GXml.GomDouble : Object, GomProperty {
 }
 
 public class GXml.GomFloat : GomDouble {
-  public float get_double () { return (float) _value; }
+  public float get_float () { return (float) _value; }
 }
 
 

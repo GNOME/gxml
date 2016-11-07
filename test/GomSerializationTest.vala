@@ -286,11 +286,17 @@ class GomSerializationTest : GXmlTest  {
       assert ((bs.books.get("Title3") as Book).name == "Title3");
     });
     Test.add_func ("/gxml/gom-serialization/write/gom-property", () => {
-      var c = new Motor ();
-      string s = c.to_string ();
+      var m = new Motor ();
+      string s = m.to_string ();
       assert (s != null);
       GLib.message ("DOC:"+s);
       assert ("<Motor/>" in s);
+      m.is_on = new Motor.On ();
+      s = m.to_string ();
+      assert (s != null);
+      GLib.message ("DOC:"+s);
+      assert ("<Motor On=\"false\"/>" in s);
+
     });
     Test.add_func ("/gxml/gom-serialization/read/properties", () => {
       var b = new Book ();
