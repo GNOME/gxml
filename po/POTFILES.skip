@@ -34,6 +34,7 @@ sub/gxml/DomCharacter.c
 sub/gxml/DomNode.c
 sub/gxml/Enumeration.c
 sub/gxml/GomCollections.c
+sub/gxml/GomElement.c
 sub/gxml/GomDocument.c
 sub/gxml/GomNode.c
 sub/gxml/GomObject.c
