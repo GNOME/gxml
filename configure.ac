@@ -252,8 +252,6 @@ docs/valadoc/Makefile
 docs/valadoc/devhelp/Makefile
 docs/valadoc/gtk-doc/Makefile
 docs/valadoc/gir-docs/Makefile
-docs/mallard/Makefile
-docs/mallard/C/Makefile
 examples/Makefile
 examples/c/Makefile
 examples/js/Makefile
@@ -280,7 +278,6 @@ echo "   GObject Introspection:   $found_introspection"
 echo "   Documentation:           ${enable_docs}"
 echo "       DevHelp Docs:        ${build_devhelp}"
 echo "       Gtk-Docs:            ${build_gtkdoc}"
-echo "       Mallard Docs:        ${build_mallard_doc}"
 echo "   Enable Performance Test: $performance"
 echo "   Debug:                   $debug"
 echo "   Platform:                $host"
