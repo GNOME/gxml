@@ -87,6 +87,7 @@ class GomSerializationTest : GXmlTest  {
     [Description (nick="::Classification")]
     public string classification { get; set; default = "Science"; }
     public Registers registers { get; set; }
+    public Books books { get; set; }
     construct {
       _local_name = "BookStand";
     }
@@ -102,6 +103,17 @@ class GomSerializationTest : GXmlTest  {
         var t = new BookRegister ();
         _items_type = typeof (BookRegister);
         _items_name = t.local_name;
+      }
+    }
+    public class Books : GomHashMap {
+      public Books.initialize (BookStand stand) {
+        _element = stand;
+      }
+      construct {
+        var t = new Book ();
+        _items_type = typeof (Book);
+        _items_name = t.local_name;
+        _attribute_key = "name";
       }
     }
   }
@@ -418,6 +430,35 @@ class GomSerializationTest : GXmlTest  {
       assert ((bs.registers.get_item (0) as BookRegister).year == 2016);
       assert ((bs.registers.get_item (1) as BookRegister).year == 2010);
       assert ((bs.registers.get_item (2) as BookRegister).year == 2000);
+    });
+    Test.add_func ("/gxml/gom-serialization/read/property-hashmap", () => {
+      var bs = new BookStand ();
+      string s = bs.to_string ();
+      GLib.message ("doc:"+s);
+      assert ("<BookStand Classification=\"Science\"/>" in s);
+      var parser = new XParser (bs);
+      parser.read_string ("<BookStand Classification=\"Science\"><Book name=\"Title1\"/><Book name=\"Title2\"/><Test/><Book name=\"Title3\"/></BookStand>", null);
+      //assert (bs.registers == null);
+      assert (bs.books != null);
+      s = bs.to_string ();
+      GLib.message ("doc:"+s);
+      GLib.message ("Books: "+bs.books.length.to_string ());
+      assert (bs.books.length == 3);
+      assert (bs.books.nodes_index.peek_nth (0) == 0);
+      assert (bs.books.nodes_index.peek_nth (1) == 1);
+      assert (bs.books.nodes_index.peek_nth (2) == 3);
+      assert (bs.books.get_item (0) != null);
+      assert (bs.books.get_item (0) is DomElement);
+      assert (bs.books.get_item (0) is Book);
+      assert (bs.books.get_item (1) != null);
+      assert (bs.books.get_item (1) is DomElement);
+      assert (bs.books.get_item (1) is Book);
+      assert (bs.books.get_item (2) != null);
+      assert (bs.books.get_item (2) is DomElement);
+      assert (bs.books.get_item (2) is Book);
+      assert ((bs.books.get_item (0) as Book).name == "Title1");
+      assert ((bs.books.get_item (1) as Book).name == "Title2");
+      assert ((bs.books.get_item (2) as Book).name == "Title3");
     });
   }
 }
