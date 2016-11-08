@@ -34,7 +34,7 @@ public interface GXml.GomCollection : Object
   public abstract Queue<int> nodes_index { get; }
   /**
    * A {@link DomElement} with all child elements in collection. Only
-   *{@link GomElement} objects are supported.
+   * {@link GomElement} objects are supported.
    */
   public abstract DomElement element { get; construct set; }
   /**

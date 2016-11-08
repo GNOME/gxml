@@ -147,14 +147,9 @@ GOBJECT_INTROSPECTION_CHECK([1.32.0])
 AC_PATH_PROG(YELP_BUILD, [yelp-build], [no])
 AC_PATH_PROG([VALADOC], [valadoc], [no])
 
-AC_ARG_ENABLE([docs],
-              AS_HELP_STRING([--enable-docs],[Enable documentation generation]),
-        [enable_docs=$enableval], [enable_docs=no])
-AM_CONDITIONAL([ENABLE_DOCS], [test x$enable_docs = xyes])
-
 have_valadoc=no
-if test x$enable_docs = xyes -a "x$VALADOC" = "xno"; then
-		AC_MSG_RESULT([Required documentation but no valadoc found])
+if test "x$VALADOC" = "xno"; then
+	have_valadoc="no"
 	else
 	have_valadoc="yes"
 fi
@@ -166,29 +161,25 @@ PKG_CHECK_MODULES([GTKDOC], gtk-doc,[
     ],[
     found_gtk_docs=no
     ])
-if test x$enable_docs = xyes; then
-  if test x$have_valadoc = xyes; then
-    if test $found_gtk_docs=xyes; then
-      build_gtkdoc=yes
-    else
-      build_gtkdoc=no
-    fi
-  fi
+if test x$have_valadoc = xyes; then
+  if test $found_gtk_docs=xyes; then
+    build_gtkdoc=yes
+  else
+    build_gtkdoc=no
+fi
 fi
 AM_CONDITIONAL([BUILD_GTK_DOCS], [test "x$build_gtkdoc" = "xyes"])
 
 build_devhelp=no
 build_mallard_doc=no
 build_gir_doc=no
-if test x$enable_docs = xyes; then
-  if test x$have_valadoc = "xyes"; then
-    if test x$YELP_BUILD != "xno"; then
-      build_devhelp=yes
-      YELP_HELP_INIT
-      build_mallard_doc=yes;
-    else
-      build_devhelp=no;
-    fi
+if test x$have_valadoc = "xyes"; then
+  if test x$YELP_BUILD != "xno"; then
+    build_devhelp=yes
+    YELP_HELP_INIT
+    build_mallard_doc=yes;
+  else
+    build_devhelp=no;
   fi
 fi
 AM_CONDITIONAL([BUILD_DEVHELP_DOCS], [test "x$build_devhelp" = "xyes"])
