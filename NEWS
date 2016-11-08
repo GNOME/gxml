@@ -10,6 +10,13 @@ Version 0.13.0
 * Added new DOM4 implementation called GOM
 * API change GXml.NodeType changed X_UNKNOWN to INVALID
 * API change fixed DomElement.set_attribute/_ns now requires not null values
+* New Serialization framework using GOM for GObject classes
+* New and updated translations:
+    Updated Polish      by Piotr Drąg <piotrdrag@gmail.com>
+    Updated Hungarian   by Balázs Meskó <meskobalazs@gmail.com>
+    Updated German      by Christian Kirbach <Christian.Kirbach@gmail.com>
+    Updated Czech       by Marek Černocký <marek@manet.cz>
+
 
 ===============
 Version 0.12.0
