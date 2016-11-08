@@ -300,7 +300,7 @@ public class GXml.XParser : Object, GXml.Parser {
           }
         }
         GLib.message ("No more element attributes for: "
-                        +(node as DomElement).local_name);
+                        +node.node_name);
       }
       if (isempty) {
         GLib.message ("No child nodes returning...");

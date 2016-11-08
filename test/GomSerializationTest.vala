@@ -230,7 +230,7 @@ class GomSerializationTest : GXmlTest  {
       assert ("<BookStand Classification=\"Science\"/>" in s);
       assert (bs.registers == null);
       var br = new BookRegister ();
-      bs.registers = new BookStand.Registers ();
+      bs.registers = new BookStand.Registers.initialize (bs);
       s = bs.to_string ();
       assert (s != null);
       GLib.message ("DOC:"+s);
