@@ -459,6 +459,16 @@ class GomSerializationTest : GXmlTest  {
       assert ((bs.books.get_item (0) as Book).name == "Title1");
       assert ((bs.books.get_item (1) as Book).name == "Title2");
       assert ((bs.books.get_item (2) as Book).name == "Title3");
+      assert (bs.books.get ("Title1") != null);
+      assert (bs.books.get ("Title1") is DomElement);
+      assert (bs.books.get ("Title1") is Book);
+      assert (bs.books.get ("Title2") != null);
+      assert (bs.books.get ("Title2") is DomElement);
+      assert (bs.books.get ("Title2") is Book);
+      assert (bs.books.get ("Title3") != null);
+      assert (bs.books.get ("Title3") is DomElement);
+      assert (bs.books.get ("Title3") is Book);
+      assert (bs.books.get ("Title4") == null);
     });
   }
 }
