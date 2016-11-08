@@ -190,22 +190,26 @@ public interface GXml.GomObject : GLib.Object,
         return true;
       }
       if (prop.value_type.is_a (typeof (int))) {
-        v.set_string (val);
+        int iv = (int) double.parse (val);
+        v.set_int (iv);
         set_property (prop.name, v);
         return true;
       }
       if (prop.value_type.is_a (typeof (uint))) {
-        v.set_string (val);
+        uint iv = (uint) double.parse (val);
+        v.set_int ((int) iv);
         set_property (prop.name, v);
         return true;
       }
       if (prop.value_type.is_a (typeof (double))) {
-        v.set_string (val);
+        double dv = double.parse (val);
+        v.set_double (dv);
         set_property (prop.name, v);
         return true;
       }
       if (prop.value_type.is_a (typeof (bool))) {
-        v.set_string (val);
+        bool bv = bool.parse (val);
+        v.set_boolean (bv);
         set_property (prop.name, v);
         return true;
       }

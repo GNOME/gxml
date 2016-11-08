@@ -167,11 +167,9 @@ public class GXml.GomElement : GomNode,
   }
 
   construct {
-    _document = new GomDocument ();
     _node_type = DomNode.NodeType.ELEMENT_NODE;
     _attributes = new Attributes (this);
     _local_name = "";
-    _document.append_child (this);
   }
 
   public GomElement.initialize (DomDocument doc, string local_name) {

@@ -47,7 +47,15 @@ public class GXml.GomNode : Object,
 
   protected GXml.DomDocument _document;
   public DomDocument? owner_document {
-    get { return _document; }
+    get {
+      if (this is DomDocument) return (DomDocument) this;
+      if (_document == null) {
+        _document = new GomDocument ();
+        if (this is DomElement)
+          _document.append_child (this);
+      }
+      return _document;
+    }
     construct set { _document = value; }
   }
 
@@ -263,7 +271,11 @@ public class GXml.GomNode : Object,
   }
   public DomNode append_child (DomNode node) throws GLib.Error {
     if (!(node is GomNode))
-      throw new DomError.HIERARCHY_REQUEST_ERROR (_("Node type is invalid. Can't append as child"));
+      throw new DomError.HIERARCHY_REQUEST_ERROR
+              (_("Node type is invalid. Can't append as child"));
+    if (owner_document != node.owner_document)
+      throw new DomError.HIERARCHY_REQUEST_ERROR
+              (_("Invalid attempt to append a child with different parent document"));
     (node as GomNode).set_parent (this);
     return insert_before (node, null);
   }

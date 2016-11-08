@@ -86,13 +86,23 @@ class GomSerializationTest : GXmlTest  {
   public class BookStand : GomElement {
     [Description (nick="::Classification")]
     public string classification { get; set; default = "Science"; }
-    public GomArrayList registers { get; set; }
+    public Registers registers { get; set; }
     construct {
       _local_name = "BookStand";
     }
     public string to_string () {
       var parser = new XParser (this);
       return parser.write_string ();
+    }
+    public class Registers : GomArrayList {
+      public Registers.initialize (BookStand stand) {
+        _element = stand;
+      }
+      construct {
+        var t = new BookRegister ();
+        _items_type = typeof (BookRegister);
+        _items_name = t.local_name;
+      }
     }
   }
   public class BookStore : GomElement {
@@ -208,7 +218,7 @@ class GomSerializationTest : GXmlTest  {
       assert ("<BookStand Classification=\"Science\"/>" in s);
       assert (bs.registers == null);
       var br = new BookRegister ();
-      bs.registers = new GomArrayList.initialize (bs,typeof (BookRegister));
+      bs.registers = new BookStand.Registers ();
       s = bs.to_string ();
       assert (s != null);
       GLib.message ("DOC:"+s);
@@ -382,7 +392,7 @@ class GomSerializationTest : GXmlTest  {
       assert ("/>" in s);
     });
     Test.add_func ("/gxml/gom-serialization/read/property-arraylist", () => {
-      /*var bs = new BookStand ();
+      var bs = new BookStand ();
       string s = bs.to_string ();
       GLib.message ("doc:"+s);
       assert ("<BookStand Classification=\"Science\"/>" in s);
@@ -390,7 +400,7 @@ class GomSerializationTest : GXmlTest  {
       parser.read_string ("<BookStand Classification=\"Science\"><BookRegister Year=\"2016\"/><BookRegister Year=\"2010\"/><Test/><BookRegister Year=\"2000\"/></BookStand>", null);
       s = bs.to_string ();
       GLib.message ("doc:"+s);
-      bs.registers = new GomArrayList.initialize (bs, typeof (BookRegister));
+      /*bs.registers = new GomArrayList.initialize (bs, typeof (BookRegister));
       GLib.message ("Registers: "+bs.registers.length.to_string ());
       assert (bs.registers.length == 3);
       assert (bs.registers.nodes_index.peek_nth (0) == 0);
