@@ -400,24 +400,24 @@ class GomSerializationTest : GXmlTest  {
       parser.read_string ("<BookStand Classification=\"Science\"><BookRegister Year=\"2016\"/><BookRegister Year=\"2010\"/><Test/><BookRegister Year=\"2000\"/></BookStand>", null);
       s = bs.to_string ();
       GLib.message ("doc:"+s);
-      /*bs.registers = new GomArrayList.initialize (bs, typeof (BookRegister));
       GLib.message ("Registers: "+bs.registers.length.to_string ());
+      assert (bs.registers != null);
       assert (bs.registers.length == 3);
       assert (bs.registers.nodes_index.peek_nth (0) == 0);
       assert (bs.registers.nodes_index.peek_nth (1) == 1);
       assert (bs.registers.nodes_index.peek_nth (2) == 3);
       assert (bs.registers.get_item (0) != null);
       assert (bs.registers.get_item (0) is DomElement);
-      //assert (bs.registers.get_item (0) is BookRegister);
+      assert (bs.registers.get_item (0) is BookRegister);
       assert (bs.registers.get_item (1) != null);
       assert (bs.registers.get_item (1) is DomElement);
-      //assert (bs.registers.get_item (1) is BookRegister);
+      assert (bs.registers.get_item (1) is BookRegister);
       assert (bs.registers.get_item (2) != null);
       assert (bs.registers.get_item (2) is DomElement);
-      //assert (bs.registers.get_item (2) is BookRegister);
-      //assert ((bs.registers.get_item (0) as BookRegister).year == 2016);
-      //assert ((bs.registers.get_item (1) as BookRegister).year == 2010);
-      //assert ((bs.registers.get_item (2) as BookRegister).year == 2000);*/
+      assert (bs.registers.get_item (2) is BookRegister);
+      assert ((bs.registers.get_item (0) as BookRegister).year == 2016);
+      assert ((bs.registers.get_item (1) as BookRegister).year == 2010);
+      assert ((bs.registers.get_item (2) as BookRegister).year == 2000);
     });
   }
 }
