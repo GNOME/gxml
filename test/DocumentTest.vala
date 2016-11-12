@@ -127,6 +127,7 @@ class DocumentTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/document/gfile/remote", () => {
 			try {
+#if GLIB_2_40
 				var net = GLib.NetworkMonitor.get_default ();
 				if (net.connectivity != GLib.NetworkConnectivity.FULL) return;
 				var rf = GLib.File.new_for_uri ("https://git.gnome.org/browse/gxml/plain/gxml.doap");
@@ -151,6 +152,7 @@ class DocumentTest : GXmlTest {
 				d.save_as (f);
 				assert (f.query_exists ());
 				f.delete ();
+#endif
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+e.message);
 				assert_not_reached ();
