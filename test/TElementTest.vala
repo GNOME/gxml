@@ -54,8 +54,8 @@ class TElementTest : GXmlTest {
 			assert (c.content == "");
 			c.content = "";
 			assert (c.content == "");
-			assert (c.children_nodes.size == 1);
 			c.content = "HELLO CONTENT";
+			assert (c.children_nodes.size == 1);
 			assert (c.children_nodes.size == 1);
 			assert (c.content == "HELLO CONTENT");
 			} catch { assert_not_reached (); }

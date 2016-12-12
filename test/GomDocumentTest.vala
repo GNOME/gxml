@@ -93,6 +93,28 @@ class GomDocumentTest : GXmlTest {
 				assert_not_reached ();
 			}
 			});
+		Test.add_func ("/gxml/gom-document/read-gfile/local", () => {
+			try {
+				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/tw-test-file.xml");
+				if (f.query_exists ()) f.delete ();
+				var s = new GLib.StringBuilder ();
+				s.append ("""<document_element />""");
+				var d = new GomDocument.from_string (s.str);
+				var parser = new XParser (d);
+				Test.message ("Saving to file: "+f.get_uri ()+parser.write_string ());
+				d.write_file (f);
+				assert (f.query_exists ());
+				var d2 = new GomDocument ();
+				assert (d2 != null);
+				d2.read_from_file (f);
+				assert (d2.document_element != null);
+				assert (d2.document_element.node_name == "document_element");
+				f.delete ();
+			} catch (GLib.Error e) {
+				GLib.message ("Error: "+e.message);
+				assert_not_reached ();
+			}
+			});
 		Test.add_func ("/gxml/gom-document/gfile/remote/read", () => {
 			try {
 				var rf = GLib.File.new_for_uri ("https://git.gnome.org/browse/gxml/plain/gxml.doap");

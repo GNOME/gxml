@@ -102,6 +102,13 @@ public class GXml.GomDocument : GomNode,
     var parser = new XParser (this);
     parser.write_stream (stream, null);
   }
+  /**
+   * Read file contents and parse it to document.
+   */
+  public void read_from_file (GLib.File file) throws GLib.Error {
+    var parser = new XParser (this);
+    parser.read_file (file, null);
+  }
 
   public DomElement create_element (string local_name) throws GLib.Error {
     return new GomElement.initialize (this, local_name);
