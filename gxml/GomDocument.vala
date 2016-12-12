@@ -71,7 +71,7 @@ public class GXml.GomDocument : GomNode,
   public GomDocument () {}
   public GomDocument.from_path (string path) throws GLib.Error {
     var file = GLib.File.new_for_path (path);
-    from_file (file);
+    this.from_file (file);
   }
 
   public GomDocument.from_uri (string uri) throws GLib.Error {

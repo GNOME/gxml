@@ -55,9 +55,9 @@ public abstract class GXml.GNode : Object,
     if (_node == null) return false;
     return ((_node->new_ns (uri, prefix)) != null);
   }
-  public virtual Gee.Map<string,GXml.Node> attrs { owned get { return new GHashMapAttr (_doc, _node); } }
-  public virtual Gee.BidirList<GXml.Node> children_nodes { owned get { return new GListChildren (_doc, _node); } }
-  public virtual Gee.List<GXml.Namespace> namespaces { owned get { return new GListNamespaces (_doc, _node); } }
+  public virtual Gee.Map<string,GXml.Node> attrs { owned get { return new GHashMapAttr (_doc, _node) as Gee.Map<string,GXml.Node>; } }
+  public virtual Gee.BidirList<GXml.Node> children_nodes { owned get { return new GListChildren (_doc, _node) as Gee.BidirList<GXml.Node>; } }
+  public virtual Gee.List<GXml.Namespace> namespaces { owned get { return new GListNamespaces (_doc, _node) as Gee.List<GXml.Namespace>; } }
   public virtual GXml.Document document { get { return _doc; } }
   public virtual GXml.Node parent {
     owned get {

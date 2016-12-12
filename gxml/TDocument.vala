@@ -64,7 +64,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
   public TDocument.from_string (string str) {
     var minput = new GLib.MemoryInputStream ();
     minput.add_data ((uint8[]) str.dup (), null);
-    TDocument.from_stream (minput);
+    this.from_stream (minput);
   }
 
   
@@ -92,7 +92,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
   public TDocument.from_string_with_readtype_func (string str, ReadTypeFunc func) {
     var minput = new GLib.MemoryInputStream ();
     minput.add_data ((uint8[]) str.dup (), null);
-    TDocument.from_stream_with_readtype_func (minput, func);
+    this.from_stream_with_readtype_func (minput, func);
   }
 
   // GXml.Node

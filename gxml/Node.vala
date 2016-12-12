@@ -81,7 +81,7 @@ public interface GXml.Node : Object
     var list = new GXml.ElementList ();
     foreach (var child in children_nodes) {
       if (child is GXml.Element) {
-        list.add_all (child.get_elements_by_property_value (property, value));
+        (list as Collection<Element>).add_all (child.get_elements_by_property_value (property, value) as Collection<Element>);
         if (child.attrs == null) continue;
         var cls = child.attrs.get (property);
         if (cls == null) {
@@ -103,7 +103,7 @@ public interface GXml.Node : Object
     if (!(this is GXml.Element || this is GXml.Document)) return list;
     foreach (var child in children_nodes) {
       if (child is GXml.Element) {
-        list.add_all (child.get_elements_by_name (name));
+        (list as Collection<Element>).add_all (child.get_elements_by_name (name) as Collection<Element>);
         if (name == child.name)
           list.add ((GXml.Element) child);
       }
@@ -120,7 +120,7 @@ public interface GXml.Node : Object
     if (!(this is GXml.Element || this is GXml.Document)) return list;
     foreach (var child in children_nodes) {
       if (child is GXml.Element) {
-        list.add_all (child.get_elements_by_name (name));
+        (list as Collection<Element>).add_all (child.get_elements_by_name (name) as Collection<Element>);
         if (!(child.namespaces == null && child.namespaces.size != 0
               && ns == null)) continue;
         if (name == child.name && child.namespaces.get(0).uri == ns)

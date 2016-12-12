@@ -53,11 +53,11 @@ public abstract class GXml.TNode : Object, GXml.Node
     return true;
   }
   public virtual string to_string () { return get_type ().name (); }
-  public virtual Gee.Map<string,GXml.Node> attrs { owned get { return new Gee.HashMap<string,GXml.Node> (); } }
-  public virtual Gee.BidirList<GXml.Node> children_nodes { owned get { return new TChildrenList (this); } }
+  public virtual Gee.Map<string,GXml.Node> attrs { owned get { return new Gee.HashMap<string,GXml.Node> () as Gee.Map<string,GXml.Node>; } }
+  public virtual Gee.BidirList<GXml.Node> children_nodes { owned get { return new TChildrenList (this) as Gee.BidirList<GXml.Node>; } }
   public virtual GXml.Document document { get { return _doc; } }
   public virtual string name { owned get { return _name.dup (); } }
-  public virtual Gee.List<GXml.Namespace> namespaces { owned get { return new Gee.ArrayList<GXml.Node> (); } }
+  public virtual Gee.List<GXml.Namespace> namespaces { owned get { return new Gee.ArrayList<GXml.Node> () as Gee.List<GXml.Namespace>; } }
   public virtual GXml.NodeType type_node { get { return _node_type; } }
   public virtual string value { owned get { return _value.dup (); } set  { _value = value; } }
   public virtual GXml.Node parent {
@@ -72,7 +72,7 @@ public abstract class GXml.TNode : Object, GXml.Node
     private GXml.Node _parent;
     private Gee.ArrayList<GXml.Node> list = new Gee.ArrayList<GXml.Node> ();
 
-    protected TChildrenList (GXml.Node e) {
+    public TChildrenList (GXml.Node e) {
       _parent = e;
     }
 
