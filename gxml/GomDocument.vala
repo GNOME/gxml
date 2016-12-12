@@ -74,40 +74,64 @@ public class GXml.GomDocument : GomNode,
     this.from_file (file);
   }
 
+  /**
+   * Creates a document parsing a URI file.
+   */
   public GomDocument.from_uri (string uri) throws GLib.Error {
     this.from_file (File.new_for_uri (uri));
   }
 
+  /**
+   * Creates a document parsing a file.
+   */
   public GomDocument.from_file (GLib.File file) throws GLib.Error {
     var parser = new XParser (this);
     parser.read_file (file, null);
   }
 
+  /**
+   * Creates a document parsing a stream.
+   */
   public GomDocument.from_stream (GLib.InputStream stream) throws GLib.Error {
     var parser = new XParser (this);
     parser.read_stream (stream, null);
   }
 
+  /**
+   * Creates a document parsing a string.
+   */
   public GomDocument.from_string (string str) throws GLib.Error {
     var parser = new XParser (this);
     parser.read_string (str, null);
   }
 
+  /**
+   * Writes a dump XML representation of document to a file.
+   */
   public void write_file (GLib.File file) throws GLib.Error {
     var parser = new XParser (this);
     parser.write_file (file, null);
   }
-
+  /**
+   * Writes a dump XML representation of document to a stream.
+   */
   public void write_stream (GLib.OutputStream stream) throws GLib.Error {
     var parser = new XParser (this);
     parser.write_stream (stream, null);
   }
   /**
-   * Read file contents and parse it to document.
+   * Reads a file contents and parse it to document.
    */
   public void read_from_file (GLib.File file) throws GLib.Error {
     var parser = new XParser (this);
     parser.read_file (file, null);
+  }
+  /**
+   * Reads a string and parse it to document.
+   */
+  public void read_from_string (string str) throws GLib.Error {
+    var parser = new XParser (this);
+    parser.read_string (str, null);
   }
 
   public DomElement create_element (string local_name) throws GLib.Error {
