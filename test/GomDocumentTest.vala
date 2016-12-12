@@ -220,6 +220,24 @@ class GomDocumentTest : GXmlTest {
 				assert (n1.node_name == "Apple");
 			} catch { assert_not_reached (); }
 			});
+		Test.add_func ("/gxml/gom-document/read_from_string", () => {
+			try {
+				string xml;
+				GomDocument doc;
+				GXml.DomNode document_element;
+
+				xml = "<Fruits><Apple></Apple><Orange></Orange></Fruits>";
+				doc = new GomDocument ();
+				doc.read_from_string (xml);
+				assert (doc.document_element != null);
+				document_element = doc.document_element;
+				assert (document_element.node_name == "Fruits");
+				assert (document_element.child_nodes.size == 2);
+				var n1 = document_element.child_nodes.get (0);
+				assert (n1 != null);
+				assert (n1.node_name == "Apple");
+			} catch { assert_not_reached (); }
+			});
 		Test.add_func ("/gxml/gom-document/construct_from_string_no_document_element", () => {
 			try {
 				string xml;
