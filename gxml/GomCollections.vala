@@ -40,6 +40,8 @@ public interface GXml.GomCollection : Object
   /**
    * Local name of {@link DomElement} objects of {@link element}, which could be
    * contained in this collection.
+   *
+   * Used when reading to add elements to collection.
    */
   public abstract string items_name { get; }
   /**
@@ -92,9 +94,31 @@ public interface GXml.GomCollection : Object
  * child {@link DomElement} of {@link element}, using an index.
  */
 public class GXml.GomArrayList : Object, GomCollection {
+  /**
+   * A collection of node's index refered. Don't modify it manually.
+   */
   protected Queue<int> _nodes_index = new Queue<int> ();
+  /**
+   * Element used to refer of containier element. You should define it at construction time
+   * our set it as a construction property.
+   */
   protected GomElement _element;
+  /**
+   * Local name of {@link DomElement} objects of {@link element}, which could be
+   * contained in this collection.
+   *
+   * Used when reading to add elements to collection. You can set it at construction time,
+   * by, for example, instantaiting a object of the type {@link GomCollection.items_type}
+   * then use {@link GomElement.local_name}'s value.
+   */
   protected string _items_name = "";
+  /**
+   * Objects' type to be referenced by this collection and to deserialize objects.
+   * Derived classes, can initilize this value at constructor or as construct property.
+   *
+   * Used when reading and at initialization time, to know {@link GomElement.local_name}
+   * at runtime.
+   */
   protected GLib.Type _items_type = GLib.Type.INVALID;
   public Queue<int> nodes_index { get { return _nodes_index; } }
   public DomElement element {
@@ -108,11 +132,20 @@ public class GXml.GomArrayList : Object, GomCollection {
       }
     }
   }
+  /**
+   * {@link DomElement.local_name} used to identify nodes at runtime on readding
+   * XML documents. You can set it at construction time see {@link GomCollection.items_name}
+   */
   public string items_name { get { return _items_name; } }
   public Type items_type {
     get { return _items_type; } construct set { _items_type = value; }
   }
 
+  /**
+   * Initialize an {@link GomArrayList} to use an element as child parent
+   * and items of given type. Derived classes are encourage to provide its
+   * own definition, chaining up, to correctly initialize a collection.
+   */
   public GomArrayList.initialize (GomElement element, GLib.Type items_type) {
     _element = element;
     _items_name = "";
@@ -141,6 +174,11 @@ public class GXml.GomArrayList : Object, GomCollection {
                 (_("Invalid atempt to add a node with a different parent document"));
     _nodes_index.push_tail (_element.child_nodes.size - 1);
   }
+  /**
+   * Search for all child nodes in {@link element} of type {@link GomElement}
+   * with a {@link GomElement.local_name} equal to {@link GomCollection.items_name},ç
+   * to add it to collection.
+   */
   public void search () throws GLib.Error {
     for (int i = 0; i < _element.child_nodes.size; i++) {
       var n = _element.child_nodes.get (i);
@@ -160,10 +198,31 @@ public class GXml.GomArrayList : Object, GomCollection {
  * items as key.
  */
 public class GXml.GomHashMap : Object, GomCollection {
+  /**
+   * A collection of node's index refered. Don't modify it manually.
+   */
   protected Queue<int> _nodes_index = new Queue<int> ();
+  /**
+   * A hashtable with all keys as string to node's index refered. Don't modify it manually.
+   */
   protected HashTable<string,int> _hashtable = new HashTable<string,int> (str_hash,str_equal);
+  /**
+   * Element used to refer of containier element. You should define it at construction time
+   * our set it as a construction property.
+   */
   protected GomElement _element;
+  /**
+   * {@link DomElement.local_name} used to identify nodes at runtime on readding
+   * XML documents. You can set it at construction time see {@link GomCollection.items_name}
+   */
   protected string _items_name = "";
+  /**
+   * Objects' type to be referenced by this collection and to deserialize objects.
+   * Derived classes, can initilize this value at constructor or as construct property.
+   *
+   * Used when reading and at initialization time, to know {@link GomElement.local_name}
+   * at runtime.
+   */
   protected GLib.Type _items_type = GLib.Type.INVALID;
   protected string _attribute_key;
   public Queue<int> nodes_index { get { return _nodes_index; } }

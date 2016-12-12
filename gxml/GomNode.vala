@@ -27,12 +27,35 @@ public class GXml.GomNode : Object,
                             DomEventTarget,
                             DomNode {
 // DomNode
+  /**
+   * Use this field to set node's local name. Can be set at construction time.
+   */
   protected string _local_name;
+  /**
+   * Use this field to set node's prefix. Can be set at construction time.
+   */
   protected string _prefix;
+  /**
+   * Use this field to set node's base URI. Can be set at construction time.
+   *
+   * See [[https://www.w3.org/TR/dom/#concept-node-base-url]]
+   */
   protected string _base_uri;
+  /**
+   * Use this field to hold node's value. Can be set at construction time.
+   */
   protected string _node_value;
+  /**
+   * Use this field to holding node's parent node. Derived classes should avoid to modify it.
+   */
   protected GXml.DomNode _parent;
+  /**
+   * Use this field to set node's Type. Derived classes should avoid to modify it.
+   */
   protected DomNode.NodeType _node_type;
+  /**
+   * Use this field to set node's child nodes. Derived classes should avoid to modify it.
+   */
   protected GomNodeList _child_nodes;
   public DomNode.NodeType node_type { get { return _node_type; } }
   public string node_name {

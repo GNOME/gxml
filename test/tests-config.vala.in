@@ -1,4 +1,4 @@
 namespace GXmlTestConfig {
-  public static const string TEST_DIR = "@top_srcdir@/test";
-  public static const string TEST_SAVE_DIR = "@top_builddir@/test";
+  public const string TEST_DIR = "@top_srcdir@/test";
+  public const string TEST_SAVE_DIR = "@top_builddir@/test";
 }

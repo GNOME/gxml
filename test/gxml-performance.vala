@@ -117,6 +117,125 @@ class BookStore : SerializableContainer
   public override string to_string () { return name; }
 }
 
+// GOM Definitions
+class GomName : GomElement
+{
+  construct {
+    _local_name = "Name";
+  }
+  public string get_name () { return this.text_content; }
+  public void   set_name (string name) { this.text_content = name; }
+}
+
+class GomEmail : GomElement
+{
+  construct {
+    _local_name = "Email";
+  }
+  public string get_mail () { return this.text_content; }
+  public void   set_mail (string email) { text_content = email; }
+}
+
+class GomAuthor : GomElement
+{
+  construct {
+    _local_name = "Author";
+  }
+  public Name name { get; set; }
+  public Email email { get; set; }
+  public class Array : GomArrayList {
+    construct {
+      var t = new GomAuthor ();
+      _items_type = typeof (GomAuthor);
+      _items_name = t.local_name;
+    }
+  }
+}
+
+class GomAuthors : GomElement
+{
+  construct {
+    _local_name = "Authors";
+  }
+  public string number { get; set; }
+  public Author.Array array { get; set; default = new Author.Array (); }
+}
+
+class GomInventory : GomElement
+{
+  [Description (nick="##Number")]
+  public int number { get; set; }
+  [Description (nick="##Row")]
+  public int row { get; set; }
+  public string inventory { get; set; }
+  // FIXME: Add DualKeyMap implementation to GOM
+  public class DualKeyMap : GomHashMap {
+    construct {
+      var t = new GomInventory ();
+      _items_type = typeof (GomInventory);
+      _items_name = t.local_name;
+      _attribute_key = "number";
+    }
+  }
+}
+
+class GomCategory : GomElement
+{
+  public string name { get; set; }
+  public class Map : GomHashMap {
+    construct {
+      var t = new GomCategory ();
+      _items_type = typeof (GomCategory);
+      _items_name = t.local_name;
+      _attribute_key = "number";
+    }
+  }
+}
+
+
+class GomResume : GomElement
+{
+  [Description (nick="##Chapter")]
+  public string chapter { get; set; }
+  [Description (nick="##Text")]
+  public string text { get; set; }
+  public class Map : GomHashMap {
+    construct {
+      var t = new GomResume ();
+      _items_type = typeof (GomResume);
+      _items_name = t.local_name;
+      _attribute_key = "chapter";
+    }
+  }
+}
+
+class GomBook : GomElement
+{
+  [Description(nick="##Year")]
+  public string year { get; set; }
+  [Description(isbn="##ISBN")]
+  public string isbn { get; set; }
+  public GomName   name { get; set; }
+  public GomAuthors authors { get; set; }
+  public GomInventory.DualKeyMap inventory_registers { get; set; default = new GomInventory.DualKeyMap (); }
+  public GomCategory.Map categories { get; set; default = new GomCategory.Map (); }
+  public GomResume.Map resumes { get; set; default = new GomResume.Map (); }
+  public class Array : GomArrayList {
+    construct {
+      var t = new GomBook ();
+      _items_type = typeof (GomBook);
+      _items_name = t.local_name;
+    }
+  }
+}
+
+class GomBookStore : GomElement
+{
+  [Description (nick="##name")]
+  public string name { get; set; }
+  public GomBook.Array books { get; set; default = new GomBook.Array (); }
+}
+
 public class Performance
 {
   // ArrayList
@@ -218,22 +337,34 @@ public class Performance
       GLib.message ("Node: "+name+" Val: "+val+ " Children: "+i.to_string ());
 #endif
       if (i > 0)
-        Performance.iterate (n);  
+        Performance.iterate (n);
+    }
+  }
+  public static void iterate_dom (GXml.DomNode node) {
+    foreach (GXml.DomNode n in node.child_nodes) {
+      int i = n.child_nodes.size;
+      string name = n.node_name;
+      string val = n.node_value;
+#if DEBUG
+      GLib.message ("Node: "+name+" Val: "+val+ " Children: "+i.to_string ());
+#endif
+      if (i > 0)
+        Performance.iterate_dom (n);
     }
   }
   public static void add_tests ()
   {
 #if ENABLE_PERFORMANCE_TESTS
-    Test.add_func ("/gxml/performance/read/xdocument", 
+    Test.add_func ("/gxml/performance/read/gomdocument",
     () => {
       try {
         Test.timer_start ();
         double time;
-        var d = new xDocument.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
+        var d = new GomDocument.from_path (GXmlTestConfig.TEST_DIR + "/test-large.xml");
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Load large document: %g seconds", time);
         Test.timer_start ();
-        iterate (d);
+        iterate_dom (d);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Itirate over all loaded nodes: %g seconds", time);
       } catch (GLib.Error e) {
@@ -242,12 +373,12 @@ public class Performance
 #endif
         assert_not_reached ();
       }
-    });Test.add_func ("/gxml/performance/read/gdocument", 
+    });Test.add_func ("/gxml/performance/read/gdocument",
     () => {
       try {
         Test.timer_start ();
         double time;
-        var d = new GDocument.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
+        var d = new GDocument.from_path (GXmlTestConfig.TEST_DIR + "/test-large.xml");
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Load large document: %g seconds", time);
         Test.timer_start ();
@@ -261,17 +392,16 @@ public class Performance
         assert_not_reached ();
       }
     });
-    Test.add_func ("/gxml/performance/deserialize/xdocument", 
+    Test.add_func ("/gxml/performance/deserialize/gomdocument",
     () => {
       try {
         double time;
         Test.timer_start ();
-        var d = new xDocument.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
+        var d = new GomDocument.from_path (GXmlTestConfig.TEST_DIR + "/test-large.xml");
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "open document from path: %g seconds", time);
         Test.timer_start ();
-        var bs = new BookStore ();
-        bs.deserialize (d);
+        var bs = new GomBookStore (); // FIXME: Requires to read file to document
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "deserialize/performance: %g seconds", time);
       } catch (GLib.Error e) {
@@ -282,22 +412,20 @@ public class Performance
       }
     });
 
-    Test.add_func ("/gxml/performance/serialize/xdocument",
+    Test.add_func ("/gxml/performance/serialize/gomdocument",
     () => {
       try {
         double time;
         Test.timer_start ();
-        var d = new xDocument.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
+        var d = new GomDocument.from_path (GXmlTestConfig.TEST_DIR + "/test-large.xml");
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "open document from path: %g seconds", time);
         Test.timer_start ();
-        var bs = new BookStore ();
-        bs.deserialize (d);
+        var bs = new BookStore (); // FIXME: Requires to read document
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "deserialize/performance: %g seconds", time);
         Test.timer_start ();
-        var d2 = new xDocument ();
-        bs.serialize (d2);
+        // FIXME: Test serialization no sense, there is not this concept on GOM
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "serialize/performance: %g seconds", time);
       } catch (GLib.Error e) {
@@ -307,12 +435,12 @@ public class Performance
         assert_not_reached ();
       }
     });
-    Test.add_func ("/gxml/performance/deserialize/gdocument", 
+    Test.add_func ("/gxml/performance/deserialize/gdocument",
     () => {
       try {
         double time;
         Test.timer_start ();
-        var d = new GDocument.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
+        var d = new GDocument.from_path (GXmlTestConfig.TEST_DIR + "/test-large.xml");
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "open document from path: %g seconds", time);
         Test.timer_start ();
@@ -333,7 +461,7 @@ public class Performance
       try {
         double time;
         Test.timer_start ();
-        var d = new GDocument.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
+        var d = new GDocument.from_path (GXmlTestConfig.TEST_DIR + "/test-large.xml");
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "GDocument open document from path: %g seconds", time);
         Test.message ("Starting Deserializing...");
@@ -351,7 +479,7 @@ public class Performance
         Test.minimized_result (time, "GDocument serialize/performance: %g seconds", time);
         for (int i = 0; i < 1000000; i++);
         Test.timer_start ();
-        var nf = GLib.File.new_for_path (GXmlTest.get_test_dir () + "/test-large-tw.xml");
+        var nf = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR + "/test-large-tw.xml");
         d2.indent = true;
         d2.save_as (nf);
         time = Test.timer_elapsed ();
@@ -372,7 +500,7 @@ public class Performance
       try {
         double time;
         Test.timer_start ();
-        GLib.File f = GLib.File.new_for_path (GXmlTest.get_test_dir () + "/test-large.xml");
+        GLib.File f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR + "/test-large.xml");
         assert (f.query_exists ());
         var d = new GDocument ();
         TDocument.read_doc (d, f, null);
@@ -393,7 +521,7 @@ public class Performance
         Test.minimized_result (time, "GDocument serialize/performance: %g seconds", time);
         for (int i = 0; i < 1000000; i++);
         Test.timer_start ();
-        var nf = GLib.File.new_for_path (GXmlTest.get_test_dir () + "/test-large-tw.xml");
+        var nf = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR + "/test-large-tw.xml");
         d2.indent = true;
         d2.save_as (nf);
         time = Test.timer_elapsed ();
@@ -413,7 +541,7 @@ public class Performance
       try {
         double time;
         Test.timer_start ();
-        var d = new TDocument.from_path (GXmlTest.get_test_dir () + "/test-large.xml");
+        var d = new TDocument.from_path (GXmlTestConfig.TEST_DIR + "/test-large.xml");
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "TDocument open document from path: %g seconds", time);
         Test.message ("Starting Deserializing...");
@@ -431,7 +559,7 @@ public class Performance
         Test.minimized_result (time, "TDocument serialize performance: %g seconds", time);
         for (int i = 0; i < 1000000; i++);
         Test.timer_start ();
-        var nf = GLib.File.new_for_path (GXmlTest.get_test_dir () + "/test-large-tw.xml");
+        var nf = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR + "/test-large-tw.xml");
         d2.indent = true;
         d2.save_as (nf);
         time = Test.timer_elapsed ();

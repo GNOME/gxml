@@ -32,6 +32,10 @@ public class GXml.GomElement : GomNode,
                               DomParentNode,
                               DomElement,
                               GomObject {
+  /**
+   * Reference to {@link Attributes} for element's attributes.
+   * Derived classes should avoid to modify it.
+   */
   protected Attributes _attributes;
   // DomNode overrides
   public new string? lookup_prefix (string? nspace) {
@@ -138,11 +142,15 @@ public class GXml.GomElement : GomNode,
     throw new DomError.SYNTAX_ERROR (_("DomElement query_selector_all is not implemented"));
   }
   // GXml.DomElement
+  /**
+   * Use this field to set node's namespace URI. Can used to set it at construction time.
+   */
   protected string _namespace_uri = null;
   public string? namespace_uri { owned get { return _namespace_uri.dup (); } }
   public string? prefix { owned get { return _prefix; } }
   /**
-   * Derived classes should define this value at construction time.
+   * Derived classes should define it at construction time, using
+   * {@link GomNode._local_name} field. This is the node's name.
    */
   public string local_name {
     owned get {
@@ -152,14 +160,23 @@ public class GXml.GomElement : GomNode,
 
   public string tag_name { owned get { return _local_name; } }
 
+  /**
+   * An attribute called 'id'.
+   */
   public string? id {
     owned get { return (this as GomElement).get_attribute ("id"); }
     set { (this as GomObject).set_attribute ("id", value); }
   }
+  /**
+   * An attribute called 'class'.
+   */
   public string? class_name {
     owned get { return (this as GomElement).get_attribute ("class"); }
     set { (this as GomObject).set_attribute ("class", value); }
   }
+  /**
+   * A list of values of all attributes called 'class'.
+   */
   public DomTokenList class_list {
     owned get {
       return new GDomTokenList (this, "class");
@@ -190,6 +207,10 @@ public class GXml.GomElement : GomNode,
    * key if a namespaced attribute.
    */
   public class Attributes : HashMap<string,string>, DomNamedNodeMap  {
+    /**
+     * Holds {@link GomElement} refrence to attributes' parent element.
+     * Derived classes should not modify, but set at construction time.
+     */
     protected GomElement _element;
     public int length { get { return size; } }
     public DomNode? item (int index) { return null; }
