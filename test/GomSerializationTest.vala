@@ -116,6 +116,9 @@ class GomResume : GomElement
 
 class GomBook : GomElement
 {
+  construct {
+    _local_name = "Book";
+  }
   [Description(nick="##Year")]
   public string year { get; set; }
   [Description(isbn="##ISBN")]
