@@ -231,6 +231,9 @@ class GomBook : GomElement
 
 class GomBookStore : GomElement
 {
+  construct {
+    _local_name = "BookStore";
+  }
   [Description (nick="##name")]
   public string name { get; set; }
   public GomBook.Array books { get; set; default = new GomBook.Array (); }
@@ -411,6 +414,17 @@ public class Performance
         Test.minimized_result (time, "Serialize/performance: %g seconds", time);
         assert (of.query_exists ());
         try { of.delete (); } catch { assert_not_reached (); }
+        // Check read structure
+        GLib.message ("Document Root: "+bs.owner_document.document_element.node_name);
+        assert (bs.owner_document.document_element.node_name.down () == "bookstore");
+        assert (bs.child_nodes.length > 0);
+        var ns = bs.get_elements_by_tag_name ("book");
+        assert (ns.length > 0);
+        GLib.message ("Books: "+bs.books.length.to_string ());
+        /*assert (bs.books.length > 0);
+        var b = bs.books.get_item (0) as GomBook;
+        assert (b != null);
+        assert (b.year == "2015");*/
       } catch (GLib.Error e) {
 #if DEBUG
         GLib.message ("ERROR: "+e.message);
