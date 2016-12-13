@@ -24,7 +24,7 @@ using GXml;
 
 class DomGDocumentTest : GXmlTest {
 
-static const string STRDOC = "<?xml version=\"1.0\"?>
+const string STRDOC = "<?xml version=\"1.0\"?>
 <!-- Comment -->
 <Sentences>
   <Sentence lang=\"en\">I like the colour blue.</Sentence>
@@ -42,7 +42,7 @@ static const string STRDOC = "<?xml version=\"1.0\"?>
 </Sentences>
 ";
 
-static const string HTMLDOC ="
+const string HTMLDOC ="
 <html>
 <body>
 <p class=\"black\">Text content</p>
@@ -53,7 +53,7 @@ static const string HTMLDOC ="
 </html>
 ";
 
-static const string XMLDOC ="<?xml version=\"1.0\"?>
+const string XMLDOC ="<?xml version=\"1.0\"?>
 <root>
 <project xmlns:gxml=\"http://live.gnome.org/GXml\">
 <code class=\"parent\"/>

@@ -392,42 +392,25 @@ public class Performance
         assert_not_reached ();
       }
     });
-    Test.add_func ("/gxml/performance/deserialize/gomdocument",
+    Test.add_func ("/gxml/performance/se-deserialize/gomdocument",
     () => {
       try {
         double time;
+        GomDocument doc;
+        var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR + "/test-large.xml");
+        assert (f.query_exists ());
         Test.timer_start ();
-        var d = new GomDocument.from_path (GXmlTestConfig.TEST_DIR + "/test-large.xml");
-        time = Test.timer_elapsed ();
-        Test.minimized_result (time, "open document from path: %g seconds", time);
-        Test.timer_start ();
-        var bs = new GomBookStore (); // FIXME: Requires to read file to document
-        time = Test.timer_elapsed ();
-        Test.minimized_result (time, "deserialize/performance: %g seconds", time);
-      } catch (GLib.Error e) {
-#if DEBUG
-        GLib.message ("ERROR: "+e.message);
-#endif
-        assert_not_reached ();
-      }
-    });
-
-    Test.add_func ("/gxml/performance/serialize/gomdocument",
-    () => {
-      try {
-        double time;
-        Test.timer_start ();
-        var d = new GomDocument.from_path (GXmlTestConfig.TEST_DIR + "/test-large.xml");
-        time = Test.timer_elapsed ();
-        Test.minimized_result (time, "open document from path: %g seconds", time);
-        Test.timer_start ();
-        var bs = new BookStore (); // FIXME: Requires to read document
+        var bs = new GomBookStore ();
+        bs.read_from_file (f);
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "deserialize/performance: %g seconds", time);
+        var of = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR + "/test-large-new.xml");
         Test.timer_start ();
-        // FIXME: Test serialization no sense, there is not this concept on GOM
+        bs.write_file (of);
         time = Test.timer_elapsed ();
-        Test.minimized_result (time, "serialize/performance: %g seconds", time);
+        Test.minimized_result (time, "Serialize/performance: %g seconds", time);
+        assert (of.query_exists ());
+        try { of.delete (); } catch { assert_not_reached (); }
       } catch (GLib.Error e) {
 #if DEBUG
         GLib.message ("ERROR: "+e.message);

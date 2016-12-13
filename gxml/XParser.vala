@@ -113,11 +113,11 @@ public class GXml.XParser : Object, GXml.Parser {
     GXml.DomNode n = node;
     string prefix = null, nsuri = null;
     int res = 1;
-//#if DEBUG
+#if DEBUG
     GLib.message ("ReadNode: Current Node: "+node.node_name
                   +" Current: "+read_current.to_string ()+
                   " Property: "+read_property.to_string ());
-//#endif
+#endif
     if (!read_property) {
       res = tr.read ();
       if (res == -1)
@@ -144,19 +144,25 @@ public class GXml.XParser : Object, GXml.Parser {
       if (!read_current && !read_property
           && node is DomElement
           && tr.const_local_name () != (node as DomElement).local_name) {
+#if DEBUG
         GLib.message ("Searching for Properties Nodes for:"+
                       (node as DomElement).local_name+
                       " Current node name: "+ tr.const_local_name ());
+#endif
         foreach (ParamSpec pspec in
                   (node as GomObject).get_property_element_list ()) {
           if (pspec.value_type.is_a (typeof (GomCollection))) {
+#if DEBUG
             GLib.message (" Is Collection in: "+(node as DomElement).local_name);
+#endif
             GomCollection col;
             Value vc = Value (pspec.value_type);
             node.get_property (pspec.name, ref vc);
             col = vc.get_object () as GomCollection;
             if (col == null) {
+#if DEBUG
               GLib.message ("Initializing Collection property...");
+#endif
               col = Object.new (pspec.value_type,
                                 "element", node) as GomCollection;
               vc.set_object (col);
@@ -179,12 +185,15 @@ public class GXml.XParser : Object, GXml.Parser {
               continue;
             }
             if (col.items_name.down () == tr.const_local_name ().down ()) {
+#if DEBUG
               GLib.message ("Is a Node to append in collection");
+#endif
               if (node.owner_document == null)
                 throw new DomError.HIERARCHY_REQUEST_ERROR
                             (_("No document is set to node"));
               var obj = Object.new (col.items_type,
                                     "owner-document", _document);
+#if DEBUG
               GLib.message ("Equal Documents:"+
                   ((obj as DomNode).owner_document == node.owner_document).to_string ());
               GLib.message ("Object Element to add in Collection: "
@@ -195,8 +204,11 @@ public class GXml.XParser : Object, GXml.Parser {
                             +(node as DomNode).owner_document.document_element.node_name);
               GLib.message ("Root Document Element: "
                             +(obj as DomNode).owner_document.document_element.node_name);
+#endif
               read_current_node (obj as DomNode, true, true);
+#if DEBUG
               GLib.message ("Adding element to collection...");
+#endif
               col.append (obj as DomElement);
               isproperty = true;
               break;
@@ -226,18 +238,22 @@ public class GXml.XParser : Object, GXml.Parser {
                         .printf ((node as DomElement).local_name));
       }
       if (!isproperty) {
+#if DEBUG
         GLib.message ("No object Property is set. Creating a standard element: "
                         +tr.const_local_name ());
+#endif
         if (node is DomDocument || !read_current) {
-          GLib.message ("No deserializing current node");
 #if DEBUG
+          GLib.message ("No deserializing current node");
           if (isempty) GLib.message ("Is Empty node:"+node.node_name);
           GLib.message ("ReadNode: Element: "+tr.const_local_name ());
 #endif
           if (!isproperty) {
             prefix = tr.prefix ();
             if (prefix != null) {
+#if DEBUG
               GLib.message ("Is namespaced element");
+#endif
               nsuri = tr.lookup_namespace (prefix);
               n = _document.create_element_ns (nsuri, tr.prefix () +":"+ tr.const_local_name ());
             } else
@@ -258,19 +274,23 @@ public class GXml.XParser : Object, GXml.Parser {
             throw new DomError.HIERARCHY_REQUEST_ERROR (_("Parsing ERROR: Fail to move to attribute number: %i").printf (i));
           }
           if (tr.is_namespace_decl () == 1) {
-  //#if DEBUG
+#if DEBUG
             GLib.message ("Is Namespace Declaration...");
-  //#endif
+#endif
             string nsp = tr.const_local_name ();
             string aprefix = tr.prefix ();
             tr.read_attribute_value ();
             if (tr.node_type () == Xml.ReaderType.TEXT) {
               string ansuri = tr.read_string ();
+#if DEBUG
               GLib.message ("Read: "+aprefix+":"+nsp+"="+ansuri);
+#endif
               string ansp = nsp;
               if (nsp != "xmlns")
                 ansp = aprefix+":"+nsp;
+#if DEBUG
               GLib.message ("To append: "+ansp+"="+ansuri);
+#endif
               (n as DomElement).set_attribute_ns ("http://www.w3.org/2000/xmlns/",
                                                    ansp, ansuri);
             }
@@ -288,7 +308,9 @@ public class GXml.XParser : Object, GXml.Parser {
 #endif
               bool processed = (n as GomObject).set_attribute (attrname, attrval);
               if (prefix != null && !processed) {
+#if DEBUG
                 GLib.message ("Prefix found: "+prefix);
+#endif
                 if (prefix == "xml")
                   nsuri = "http://www.w3.org/2000/xmlns/";
                 else
@@ -299,17 +321,23 @@ public class GXml.XParser : Object, GXml.Parser {
             }
           }
         }
+#if DEBUG
         GLib.message ("No more element attributes for: "
                         +node.node_name);
+#endif
       }
       if (isempty) {
+#if DEBUG
         GLib.message ("No child nodes returning...");
+#endif
         return true;
       }
+#if DEBUG
       GLib.message ("Getting child nodes in element");
+#endif
       while (read_current_node (n) == true);
 #if DEBUG
-      //GLib.message ("Current Document: "+node.document.to_string ());
+      GLib.message ("Current Document: "+node.document.to_string ());
 #endif
       break;
     case Xml.ReaderType.ATTRIBUTE:
@@ -437,14 +465,18 @@ public class GXml.XParser : Object, GXml.Parser {
     tw.flush ();
     string str;
     doc.dump_memory (out str, out size);
+#if DEBUG
     if (str != null)
       GLib.message ("STR: "+str);
+#endif
     return str;
   }
   private void start_node (GXml.DomNode node)
     throws GLib.Error
   {
+#if DEBUG
     GLib.message ("Starting node..."+node.node_name);
+#endif
     int size = 0;
 #if DEBUG
     GLib.message (@"Starting Node: start Node: '$(node.node_name)'");
@@ -462,13 +494,17 @@ public class GXml.XParser : Object, GXml.Parser {
       }
       if ((node as DomElement).prefix == null
             && (node as DomElement).namespace_uri != null) {
+#if DEBUG
             GLib.message ("Writting namespace definition for node");
+#endif
           tw.start_element_ns (null,
                                (node as DomElement).local_name,
                                (node as DomElement).namespace_uri);
       } else
         tw.start_element (node.node_name);
+#if DEBUG
     GLib.message ("Write down properties: size:"+(node as DomElement).attributes.size.to_string ());
+#endif
 
     // GomObject serialization
     var lp = (node as GomObject).get_properties_list ();
@@ -519,7 +555,9 @@ public class GXml.XParser : Object, GXml.Parser {
           tw.flush ();
       }
       if (n is GXml.DomText) {
-      //GLib.message ("Writting Element's contents");
+#if DEBUG
+      GLib.message ("Writting Element's contents");
+#endif
       size += tw.write_string (n.node_value);
       if (size > 1500)
         tw.flush ();

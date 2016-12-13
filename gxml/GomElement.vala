@@ -37,6 +37,31 @@ public class GXml.GomElement : GomNode,
    * Derived classes should avoid to modify it.
    */
   protected Attributes _attributes;
+  // Convenient Serialization methods
+  /**
+   * Uses element's {@link GomDocument} to parse an XML file, deserializing it.
+   */
+  public void read_from_file (GLib.File f) throws GLib.Error {
+    (this.owner_document as GomDocument).read_from_file (f);
+  }
+  /**
+   * Uses element's {@link GomDocument} to parse an XML string, deserializing it.
+   */
+  public void read_from_string (string str) throws GLib.Error {
+    (this.owner_document as GomDocument).read_from_string (str);
+  }
+  /**
+   * Uses element's {@link GomDocument} to write an XML to a file, serializing it.
+   */
+  public void write_file (GLib.File f) throws GLib.Error {
+    (this.owner_document as GomDocument).write_file (f);
+  }
+  /**
+   * Uses element's {@link GomDocument} to write an XML to a stream, serializing it.
+   */
+  public void write_stream (GLib.OutputStream stream) throws GLib.Error {
+    (this.owner_document as GomDocument).write_stream (stream);
+  }
   // DomNode overrides
   public new string? lookup_prefix (string? nspace) {
     if (_namespace_uri == nspace)
