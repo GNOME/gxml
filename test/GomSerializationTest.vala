@@ -22,6 +22,128 @@
 
 using GXml;
 
+// GOM Collection Definitions
+class GomName : GomElement
+{
+  construct {
+    _local_name = "Name";
+  }
+  public string get_name () { return this.text_content; }
+  public void   set_name (string name) { this.text_content = name; }
+}
+
+class GomEmail : GomElement
+{
+  construct {
+    _local_name = "Email";
+  }
+  public string get_mail () { return this.text_content; }
+  public void   set_mail (string email) { text_content = email; }
+}
+
+class GomAuthor : GomElement
+{
+  construct {
+    _local_name = "Author";
+  }
+  public Name name { get; set; }
+  public Email email { get; set; }
+  public class Array : GomArrayList {
+    construct {
+      var t = new GomAuthor ();
+      _items_type = typeof (GomAuthor);
+      _items_name = t.local_name;
+    }
+  }
+}
+
+class GomAuthors : GomElement
+{
+  construct {
+    _local_name = "Authors";
+  }
+  public string number { get; set; }
+  public Author.Array array { get; set; default = new Author.Array (); }
+}
+
+class GomInventory : GomElement
+{
+  [Description (nick="##Number")]
+  public int number { get; set; }
+  [Description (nick="##Row")]
+  public int row { get; set; }
+  public string inventory { get; set; }
+  // FIXME: Add DualKeyMap implementation to GOM
+  public class DualKeyMap : GomHashMap {
+    construct {
+      var t = new GomInventory ();
+      _items_type = typeof (GomInventory);
+      _items_name = t.local_name;
+      _attribute_key = "number";
+    }
+  }
+}
+
+class GomCategory : GomElement
+{
+  public string name { get; set; }
+  public class Map : GomHashMap {
+    construct {
+      var t = new GomCategory ();
+      _items_type = typeof (GomCategory);
+      _items_name = t.local_name;
+      _attribute_key = "number";
+    }
+  }
+}
+
+
+class GomResume : GomElement
+{
+  [Description (nick="##Chapter")]
+  public string chapter { get; set; }
+  [Description (nick="##Text")]
+  public string text { get; set; }
+  public class Map : GomHashMap {
+    construct {
+      var t = new GomResume ();
+      _items_type = typeof (GomResume);
+      _items_name = t.local_name;
+      _attribute_key = "chapter";
+    }
+  }
+}
+
+class GomBook : GomElement
+{
+  [Description(nick="##Year")]
+  public string year { get; set; }
+  [Description(isbn="##ISBN")]
+  public string isbn { get; set; }
+  public GomName   name { get; set; }
+  public GomAuthors authors { get; set; }
+  public GomInventory.DualKeyMap inventory_registers { get; set; default = new GomInventory.DualKeyMap (); }
+  public GomCategory.Map categories { get; set; default = new GomCategory.Map (); }
+  public GomResume.Map resumes { get; set; default = new GomResume.Map (); }
+  public class Array : GomArrayList {
+    construct {
+      var t = new GomBook ();
+      _items_type = typeof (GomBook);
+      _items_name = t.local_name;
+    }
+  }
+}
+
+class GomBookStore : GomElement
+{
+  construct {
+    _local_name = "BookStore";
+  }
+  [Description (nick="##name")]
+  public string name { get; set; }
+  public GomBook.Array books { get; set; default = new GomBook.Array (); }
+}
+
 class GomSerializationTest : GXmlTest  {
   public class Book : GomElement {
     [Description (nick="::Name")]
@@ -469,6 +591,17 @@ class GomSerializationTest : GXmlTest  {
       assert (bs.books.get ("Title3") is DomElement);
       assert (bs.books.get ("Title3") is Book);
       assert (bs.books.get ("Title4") == null);
+    });
+    Test.add_func ("/gxml/gom-serialization/multiple-child-collections", () => {
+    try {
+      var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR + "/test-large.xml");
+      assert (f.query_exists ());
+      var bs = new GomBookStore ();
+      bs.read_from_file (f);
+    } catch (GLib.Error e) {
+      GLib.message ("ERROR: "+e.message);
+      assert_not_reached ();
+    }
     });
   }
 }
