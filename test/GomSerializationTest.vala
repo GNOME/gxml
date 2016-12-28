@@ -480,8 +480,12 @@ class GomSerializationTest : GXmlTest  {
       string s = parser.write_string ();
       assert (s != null);
       GLib.message ("Doc:"+s);
+      assert (b != null);
+      assert (b.child_nodes != null);
       assert (b.child_nodes.size == 0);
+      assert (b.attributes != null);
       assert (b.attributes.size == 0);
+      assert (b.name != null);
       assert (b.name == "Loco");
       s = parser.write_string ();
       assert (s != null);
