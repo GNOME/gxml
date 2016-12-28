@@ -443,13 +443,13 @@ public class GXml.GomElement : GomNode,
     } else
       n = name;
     if (namespace_uri == null && p == "")
-       throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If prefix is null, name space uri shoud not be null"));
+       throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If prefix is null, namespace URI should not be null"));
     if (p == "xml" && namespace_uri != "http://www.w3.org/2000/xmlns/")
-       throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If prefix is xml name space uri shoud be http://www.w3.org/2000/xmlns/"));
+       throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If prefix is xml, namespace URI should be http://www.w3.org/2000/xmlns/"));
     if (p == "xmlns" && namespace_uri != "http://www.w3.org/2000/xmlns/")
-       throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If attribute's prefix is xmlns name space uri shoud be http://www.w3.org/2000/xmlns/"));
+       throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If attribute's prefix is xmlns, namespace URI should be http://www.w3.org/2000/xmlns/"));
     if (p == "" && n == "xmlns" && namespace_uri != "http://www.w3.org/2000/xmlns/")
-       throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If attribute's name is xmlns name space uri shoud be http://www.w3.org/2000/xmlns/"));
+       throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If attribute's name is xmlns, namespace URI should be http://www.w3.org/2000/xmlns/"));
     if (p == "" && n != "xmlns" && n != "xml")
       throw new DomError.NAMESPACE_ERROR (_("Invalid attribute name. No prefixed attributes should use xmlns name"));
     var a = new GomAttr.namespace (this, namespace_uri, p, n, value);

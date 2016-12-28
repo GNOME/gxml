@@ -163,7 +163,7 @@ public class GXml.GDomRange : Object, GXml.DomRange {
                                       DomRange source_range) throws GLib.Error
 	{
 		if (_start_container.parent_node != source_range.start_container.parent_node)
-			throw new DomError.WRONG_DOCUMENT_ERROR (_("Invalid root's in range"));
+			throw new DomError.WRONG_DOCUMENT_ERROR (_("Invalid root is in the range"));
 		switch (how) {
 			case BoundaryPoints.START_TO_START:
 				set_start (_start_container, 0);

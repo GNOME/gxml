@@ -246,12 +246,12 @@ public class GXml.GomNode : Object,
         string nsuri = node.lookup_namespace_uri (e.prefix);
         if (nsprefix != null && nsprefix != e.prefix) {
           throw new DomError.NAMESPACE_ERROR
-            (_("Trying to add a namespaced element to a parent with invalid prefix for namesapce %s ")
+            (_("Trying to add a namespaced element to a parent with invalid prefix for namespace %s")
               .printf (e.namespace_uri));
         }
         if (nsuri != null && nsuri != e.namespace_uri) {
           throw new DomError.NAMESPACE_ERROR
-            (_("Trying to add a namespaced element to a parent with invalid uri for prefix %s ")
+            (_("Trying to add a namespaced element to a parent with invalid URI for prefix %s")
               .printf (e.prefix));
         }
       }

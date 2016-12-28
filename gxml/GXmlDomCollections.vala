@@ -49,7 +49,7 @@ public class GXml.GDomTokenList : Gee.ArrayList<string>, GXml.DomTokenList {
 
   public new bool contains (string token) throws GLib.Error {
     if (token == "")
-      throw new GXml.DomError.SYNTAX_ERROR (_("DOM: Invalid token. No empty string can could be used as token to check if it is contained in token list"));
+      throw new GXml.DomError.SYNTAX_ERROR (_("DOM: Invalid token. No empty string could be used as token to check if it is contained in token list"));
     if (" " in token)
       throw new GXml.DomError.INVALID_CHARACTER_ERROR (_("DOM: Invalid token. No white spaces could be included as token to check if it is contained in token list"));
     return base.contains (token);
