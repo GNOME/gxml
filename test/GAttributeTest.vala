@@ -118,16 +118,18 @@ class GAttributeTest : GXmlTest {
 			}
 		});
 		Test.add_func ("/gxml/tw-attribute/parent", () => {
-			var doc = new GDocument ();
-			var e = doc.create_element ("root");
-			doc.children_nodes.add (e);
-			var c = doc.create_element ("child");
-			e.children_nodes.add (c);
-			(e as GXml.Element).set_attr ("attr", "val");
-			assert (doc.root != null);
-			assert (doc.root.attrs["attr"] != null);
-			assert (doc.root.attrs["attr"].parent != null);
-			assert (doc.root.attrs["attr"].parent.name == "root");
+			try {
+				var doc = new GDocument ();
+				var e = doc.create_element ("root");
+				doc.children_nodes.add (e);
+				var c = doc.create_element ("child");
+				e.children_nodes.add (c);
+				(e as GXml.Element).set_attr ("attr", "val");
+				assert (doc.root != null);
+				assert (doc.root.attrs["attr"] != null);
+				assert (doc.root.attrs["attr"].parent != null);
+				assert (doc.root.attrs["attr"].parent.name == "root"); }
+			catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); }
 		});
 	}
 }

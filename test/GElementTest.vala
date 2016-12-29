@@ -144,13 +144,18 @@ class GElementTest : GXmlTest  {
 			}
 		});
 		Test.add_func ("/gxml/gelement/parent", () => {
-			var doc = new GDocument.from_string ("<root><child/></root>");
-			assert (doc.root != null);
-			assert (doc.root.parent is GXml.Node);
-			assert (doc.root.parent is GXml.Document);
-			assert (doc.root.children_nodes[0] != null);
-			assert (doc.root.children_nodes[0].parent != null);
-			assert (doc.root.children_nodes[0].parent.name == "root");
+			try {
+				var doc = new GDocument.from_string ("<root><child/></root>");
+				assert (doc.root != null);
+				assert (doc.root.parent is GXml.Node);
+				assert (doc.root.parent is GXml.Document);
+				assert (doc.root.children_nodes[0] != null);
+				assert (doc.root.children_nodes[0].parent != null);
+				assert (doc.root.children_nodes[0].parent.name == "root");
+				} catch (GLib.Error e) {
+					Test.message (e.message);
+					assert_not_reached ();
+				}
 		});
 	}
 }

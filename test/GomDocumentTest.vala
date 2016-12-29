@@ -452,8 +452,13 @@ class GomDocumentTest : GXmlTest {
 			assert (doc.document_element.child_nodes.size == 1);
 			var c = doc.document_element.child_nodes[0] as DomElement;
 			assert (c is DomElement);
+			try {
 			c.set_attribute_ns ("http://www.w3.org/2000/xmlns/","xmlns:gxml2",
-													 "http://www.gnome.org/GXml2");
+													 "http://www.gnome.org/GXml2"); }
+			catch (GLib.Error e) {
+				GLib.message ("ERROR: "+e.message);
+				assert_not_reached ();
+			}
 			assert (c.attributes.size == 1);
 			assert (c.prefix == null);
 			assert (c.namespace_uri == null);

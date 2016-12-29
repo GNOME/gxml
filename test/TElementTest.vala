@@ -591,23 +591,29 @@ class TElementTest : GXmlTest {
 			} catch { assert_not_reached (); }
 		});
 		Test.add_func ("/gxml/t-element/parent", () => {
-			var doc = new TDocument ();
-			var e = doc.create_element ("root");
-			doc.children_nodes.add (e);
-			var c = doc.create_element ("child");
-			e.children_nodes.add (c);
-			assert (e.children_nodes.size == 1);
-			assert (e.children_nodes[0] != null);
-			assert (e.children_nodes[0].name == "child");
-			assert (c.parent != null);
-			assert (doc.root != null);
-			assert (doc.root.children_nodes[0] != null);
-			assert (doc.root.children_nodes[0].name == "child");
-			assert (doc.root.children_nodes[0].parent != null);
-			assert (doc.root.children_nodes[0].parent.name == "root");
-			assert (doc.root.parent == null);
+			try {
+				var doc = new TDocument ();
+				var e = doc.create_element ("root");
+				doc.children_nodes.add (e);
+				var c = doc.create_element ("child");
+				e.children_nodes.add (c);
+				assert (e.children_nodes.size == 1);
+				assert (e.children_nodes[0] != null);
+				assert (e.children_nodes[0].name == "child");
+				assert (c.parent != null);
+				assert (doc.root != null);
+				assert (doc.root.children_nodes[0] != null);
+				assert (doc.root.children_nodes[0].name == "child");
+				assert (doc.root.children_nodes[0].parent != null);
+				assert (doc.root.children_nodes[0].parent.name == "root");
+				assert (doc.root.parent == null);
+			} catch (GLib.Error e) {
+				GLib.message ("Error: "+e.message);
+				assert_not_reached ();
+			}
 		});
 		Test.add_func ("/gxml/t-element/attribute/parent", () => {
+			try {
 			var doc = new TDocument ();
 			var e = doc.create_element ("root");
 			doc.children_nodes.add (e);
@@ -618,6 +624,10 @@ class TElementTest : GXmlTest {
 			assert (doc.root.attrs["attr"] != null);
 			assert (doc.root.attrs["attr"].parent != null);
 			assert (doc.root.attrs["attr"].parent.name == "root");
+			} catch (GLib.Error e) {
+				GLib.message ("Error: "+e.message);
+				assert_not_reached ();
+			}
 		});
 		Test.add_func ("/gxml/t-element/readtype", () => {
 			try {

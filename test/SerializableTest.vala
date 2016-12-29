@@ -101,18 +101,23 @@ public class SerializableCapsicum : GXml.SerializableObjectModel {
 	}
 	private void serialize_unknown_property_type (GXml.Node elem, ParamSpec prop, out GXml.Node node)
 	{
-		var element = (GElement) elem;
-		var doc = element.document;
-		switch (prop.name) {
-		case "ratings":
-			foreach (int rating_int in ratings) {
-				GElement n = (GElement) doc.create_element ("rating");
-				n.content = "%d".printf (rating_int);
-				element.children.add (n);
+		try {
+			var element = (GElement) elem;
+			var doc = element.document;
+			switch (prop.name) {
+			case "ratings":
+				foreach (int rating_int in ratings) {
+					GElement n = (GElement) doc.create_element ("rating");
+					n.content = "%d".printf (rating_int);
+					element.children.add (n);
+				}
+				break;
+			default:
+				Test.message ("Wasn't expecting the SerializableCapsicum property '%s'", prop.name);
+				assert_not_reached ();
 			}
-			break;
-		default:
-			Test.message ("Wasn't expecting the SerializableCapsicum property '%s'", prop.name);
+		} catch (GLib.Error e) {
+			GLib.message ("Error: "+e.message);
 			assert_not_reached ();
 		}
 	}

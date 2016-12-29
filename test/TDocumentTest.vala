@@ -371,15 +371,20 @@ class TDocumentTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/t-document/to_string", () => {
 			var doc = new TDocument ();
-			var r = doc.create_element ("root");
-			doc.children_nodes.add (r);
+			try {
+				var r = doc.create_element ("root");
+				doc.children_nodes.add (r);
 #if DEBUG
-			GLib.message (@"$(doc)");
+				GLib.message (@"$(doc)");
 #endif
-			string str = doc.to_string ();
-			assert ("<?xml version=\"1.0\"?>" in str);
-			assert ("<root/>" in str);
-			assert ("<root/>" in doc.to_string ());
+				string str = doc.to_string ();
+				assert ("<?xml version=\"1.0\"?>" in str);
+				assert ("<root/>" in str);
+				assert ("<root/>" in doc.to_string ());
+			} catch (GLib.Error e) {
+				Test.message (e.message);
+				assert_not_reached ();
+			}
 		});
 		Test.add_func ("/gxml/t-document/namespace", () => {
 				try {

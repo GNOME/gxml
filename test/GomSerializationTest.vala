@@ -159,7 +159,14 @@ class GomSerializationTest : GXmlTest  {
     }
     public string to_string () {
       var parser = new XParser (this);
-      return parser.write_string ();
+      string s = "";
+      try {
+        s = parser.write_string ();
+      } catch (GLib.Error e) {
+        GLib.message ("Error: "+e.message);
+        assert_not_reached ();
+      }
+      return s;
     }
   }
   public class Computer : GomElement {
@@ -171,7 +178,14 @@ class GomSerializationTest : GXmlTest  {
     }
     public string to_string () {
       var parser = new XParser (this);
-      return parser.write_string ();
+      string s = "";
+      try {
+        s = parser.write_string ();
+      } catch (GLib.Error e) {
+        GLib.message ("Error: "+e.message);
+        assert_not_reached ();
+      }
+      return s;
     }
   }
   public class Taxes : GomElement {
@@ -186,7 +200,14 @@ class GomSerializationTest : GXmlTest  {
     }
     public string to_string () {
       var parser = new XParser (this);
-      return parser.write_string ();
+      string s = "";
+      try {
+        s = parser.write_string ();
+      } catch (GLib.Error e) {
+        GLib.message ("Error: "+e.message);
+        assert_not_reached ();
+      }
+      return s;
     }
     public enum Month {
       JANUARY,
@@ -205,7 +226,14 @@ class GomSerializationTest : GXmlTest  {
     }
     public string to_string () {
       var parser = new XParser (this);
-      return parser.write_string ();
+      string s = "";
+      try {
+        s = parser.write_string ();
+      } catch (GLib.Error e) {
+        GLib.message ("Error: "+e.message);
+        assert_not_reached ();
+      }
+      return s;
     }
   }
   public class BookStand : GomElement {
@@ -218,7 +246,14 @@ class GomSerializationTest : GXmlTest  {
     }
     public string to_string () {
       var parser = new XParser (this);
-      return parser.write_string ();
+      string s = "";
+      try {
+        s = parser.write_string ();
+      } catch (GLib.Error e) {
+        GLib.message ("Error: "+e.message);
+        assert_not_reached ();
+      }
+      return s;
     }
     public class Registers : GomArrayList {
       public Registers.initialize (BookStand stand) {
@@ -249,7 +284,14 @@ class GomSerializationTest : GXmlTest  {
     }
     public string to_string () {
       var parser = new XParser (this);
-      return parser.write_string ();
+      string s = "";
+      try {
+        s = parser.write_string ();
+      } catch (GLib.Error e) {
+        GLib.message ("Error: "+e.message);
+        assert_not_reached ();
+      }
+      return s;
     }
   }
   public class Motor : GomElement {
@@ -263,7 +305,14 @@ class GomSerializationTest : GXmlTest  {
     }
     public string to_string () {
       var parser = new XParser (this);
-      return parser.write_string ();
+      string s = "";
+      try {
+        s = parser.write_string ();
+      } catch (GLib.Error e) {
+        GLib.message ("Error: "+e.message);
+        assert_not_reached ();
+      }
+      return s;
     }
     public enum TensionTypeEnum {
       AC,
@@ -298,6 +347,7 @@ class GomSerializationTest : GXmlTest  {
   }
   public static void add_tests () {
     Test.add_func ("/gxml/gom-serialization/write/properties", () => {
+    try {
       var b = new Book ();
       var parser = new XParser (b);
       string s = parser.write_string ();
@@ -307,6 +357,10 @@ class GomSerializationTest : GXmlTest  {
       assert (b.get_attribute ("name") == "My Book");
       s = b.to_string ();
       GLib.message ("DOC:"+s);
+    } catch (GLib.Error e) {
+      GLib.message ("Error: "+e.message);
+      assert_not_reached ();
+    }
     });
     Test.add_func ("/gxml/gom-serialization/write/property-ignore", () => {
       var c = new Computer ();
@@ -323,6 +377,7 @@ class GomSerializationTest : GXmlTest  {
       GLib.message ("DOC:"+s);
     });
     Test.add_func ("/gxml/gom-serialization/write/property-long-name", () => {
+    try {
       var t = new Taxes ();
       string s = t.to_string ();
       assert (s != null);
@@ -346,8 +401,13 @@ class GomSerializationTest : GXmlTest  {
       assert ("Month=\"february\"" in s);
       assert ("TaxFree=\"true\"" in s);
       GLib.message ("DOC:"+s);
+    } catch (GLib.Error e) {
+      GLib.message ("Error: "+e.message);
+      assert_not_reached ();
+    }
     });
     Test.add_func ("/gxml/gom-serialization/write/property-arraylist", () => {
+    try {
       var bs = new BookStand ();
       string s = bs.to_string ();
       assert (s != null);
@@ -385,8 +445,13 @@ class GomSerializationTest : GXmlTest  {
       assert ((bs.registers.get_item (0) as BookRegister).year == 2016);
       assert ((bs.registers.get_item (1) as BookRegister).year == 2010);
       assert ((bs.registers.get_item (2) as BookRegister).year == 2000);
+    } catch (GLib.Error e) {
+      GLib.message ("Error: "+e.message);
+      assert_not_reached ();
+    }
     });
     Test.add_func ("/gxml/gom-serialization/write/property-hashmap", () => {
+    try {
       var bs = new BookStore ();
       string s = bs.to_string ();
       assert (s != null);
@@ -431,8 +496,13 @@ class GomSerializationTest : GXmlTest  {
       assert ((bs.books.get("Title1") as Book).name == "Title1");
       assert ((bs.books.get("Title2") as Book).name == "Title2");
       assert ((bs.books.get("Title3") as Book).name == "Title3");
+    } catch (GLib.Error e) {
+      GLib.message ("Error: "+e.message);
+      assert_not_reached ();
+    }
     });
     Test.add_func ("/gxml/gom-serialization/write/gom-property", () => {
+    try {
       var m = new Motor ();
       string s = m.to_string ();
       assert (s != null);
@@ -472,8 +542,13 @@ class GomSerializationTest : GXmlTest  {
       assert (s != null);
       GLib.message ("DOC:"+s);
       assert ("<Motor On=\"true\" Torque=\"3.1416\" Speed=\"3600.1011\" TensionType=\"dc\" Tension=\"125\"/>" in s);
+    } catch (GLib.Error e) {
+      GLib.message ("Error: "+e.message);
+      assert_not_reached ();
+    }
     });
     Test.add_func ("/gxml/gom-serialization/read/properties", () => {
+    try {
       var b = new Book ();
       var parser = new XParser (b);
       parser.read_string ("<book name=\"Loco\"/>", null);
@@ -495,6 +570,10 @@ class GomSerializationTest : GXmlTest  {
       assert (b.get_attribute ("name") == "My Book");
       s = b.to_string ();
       assert ("<Book Name=\"My Book\"/>" in s);
+    } catch (GLib.Error e) {
+      GLib.message ("Error: "+e.message);
+      assert_not_reached ();
+    }
     });
     Test.add_func ("/gxml/gom-serialization/read/bad-node-name", () => {
       var b = new Book ();
@@ -505,6 +584,7 @@ class GomSerializationTest : GXmlTest  {
       } catch {}
     });
     Test.add_func ("/gxml/gom-serialization/read/object-property", () => {
+    try {
       var b = new BookRegister ();
       string s = b.to_string ();
       GLib.message ("doc:"+s);
@@ -514,8 +594,13 @@ class GomSerializationTest : GXmlTest  {
       s = b.to_string ();
       GLib.message ("doc:"+s);
       assert ("<BookRegister Year=\"0\"><Book/></BookRegister>" in s);
+    } catch (GLib.Error e) {
+      GLib.message ("Error: "+e.message);
+      assert_not_reached ();
+    }
     });
     Test.add_func ("/gxml/gom-serialization/read/gom-property", () => {
+    try {
       var m = new Motor ();
       string s = m.to_string ();
       GLib.message ("doc:"+s);
@@ -531,8 +616,13 @@ class GomSerializationTest : GXmlTest  {
       assert ("TensionType=\"dc\"" in s);
       assert ("Tension=\"125\"" in s);
       assert ("/>" in s);
+    } catch (GLib.Error e) {
+      GLib.message ("Error: "+e.message);
+      assert_not_reached ();
+    }
     });
     Test.add_func ("/gxml/gom-serialization/read/property-arraylist", () => {
+    try {
       var bs = new BookStand ();
       string s = bs.to_string ();
       GLib.message ("doc:"+s);
@@ -559,8 +649,13 @@ class GomSerializationTest : GXmlTest  {
       assert ((bs.registers.get_item (0) as BookRegister).year == 2016);
       assert ((bs.registers.get_item (1) as BookRegister).year == 2010);
       assert ((bs.registers.get_item (2) as BookRegister).year == 2000);
+    } catch (GLib.Error e) {
+      GLib.message ("Error: "+e.message);
+      assert_not_reached ();
+    }
     });
     Test.add_func ("/gxml/gom-serialization/read/property-hashmap", () => {
+    try {
       var bs = new BookStand ();
       string s = bs.to_string ();
       GLib.message ("doc:"+s);
@@ -598,6 +693,10 @@ class GomSerializationTest : GXmlTest  {
       assert (bs.books.get ("Title3") is DomElement);
       assert (bs.books.get ("Title3") is Book);
       assert (bs.books.get ("Title4") == null);
+    } catch (GLib.Error e) {
+      GLib.message ("Error: "+e.message);
+      assert_not_reached ();
+    }
     });
     Test.add_func ("/gxml/gom-serialization/multiple-child-collections", () => {
     try {

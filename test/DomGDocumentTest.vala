@@ -67,72 +67,92 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 
 	public static void add_tests () {
 		Test.add_func ("/gxml/dom/document/children", () => {
-			GLib.message ("Doc: "+STRDOC);
-			var doc = new GDocument.from_string (STRDOC) as DomDocument;
-			DomElement root = doc.document_element;
-			assert (root != null);
-			assert (root is DomElement);
-			assert (root.node_name == "Sentences");
-			assert (root.has_child_nodes ());
-			assert (root.children.size == 3);
-			assert (root.children[0].node_name == "Sentence");
-			assert (root.children[0].get_attribute ("lang") == "en");
-			assert (root.children[0].node_value == "I like the colour blue.");
+			try {
+				GLib.message ("Doc: "+STRDOC);
+				var doc = new GDocument.from_string (STRDOC) as DomDocument;
+				DomElement root = doc.document_element;
+				assert (root != null);
+				assert (root is DomElement);
+				assert (root.node_name == "Sentences");
+				assert (root.has_child_nodes ());
+				assert (root.children.size == 3);
+				assert (root.children[0].node_name == "Sentence");
+				assert (root.children[0].get_attribute ("lang") == "en");
+				assert (root.children[0].node_value == "I like the colour blue.");
+		  } catch (GLib.Error e) {
+		    GLib.message ("Error: "+e.message);
+		    assert_not_reached ();
+		  }
 		});
 		Test.add_func ("/gxml/dom/document/child_nodes", () => {
-			GLib.message ("Doc: "+STRDOC);
-			var doc = new GDocument.from_string (STRDOC) as DomDocument;
-			assert (doc is DomDocument);
-			assert (doc.child_nodes != null);
-			assert (doc.child_nodes.size == 2);
-			assert (doc.child_nodes[0] is DomComment);
-			assert (doc.child_nodes[1] is DomElement);
-			assert (doc.child_nodes[1].node_name == "Sentences");
-			assert (doc.document_element != null);
-			assert (doc.document_element is DomElement);
-			var auths = doc.document_element.children[2];
-			assert (auths.node_name == "Authors");
-			assert (auths.child_nodes.size == 5);
-			assert (auths.child_nodes[4] is DomText);
+			try {
+				GLib.message ("Doc: "+STRDOC);
+				var doc = new GDocument.from_string (STRDOC) as DomDocument;
+				assert (doc is DomDocument);
+				assert (doc.child_nodes != null);
+				assert (doc.child_nodes.size == 2);
+				assert (doc.child_nodes[0] is DomComment);
+				assert (doc.child_nodes[1] is DomElement);
+				assert (doc.child_nodes[1].node_name == "Sentences");
+				assert (doc.document_element != null);
+				assert (doc.document_element is DomElement);
+				var auths = doc.document_element.children[2];
+				assert (auths.node_name == "Authors");
+				assert (auths.child_nodes.size == 5);
+				assert (auths.child_nodes[4] is DomText);
+		  } catch (GLib.Error e) {
+		    GLib.message ("Error: "+e.message);
+		    assert_not_reached ();
+		  }
 		});
 		Test.add_func ("/gxml/dom/document/element_collections", () => {
-			GLib.message ("Doc: "+STRDOC);
-			var doc = new GDocument.from_string (HTMLDOC) as DomDocument;
-			assert (doc is DomDocument);
-			var le = doc.get_elements_by_tag_name ("p");
-			assert (le.size == 4);
-			assert (le[0].get_attribute ("class") == "black");
-			assert (le[1].get_attribute ("id") == "p01");
-			var lc = doc.get_elements_by_class_name ("black");
-			GLib.message ("DOC\n"+(doc as GDocument).to_string ());
-			assert (lc.size == 2);
-			assert (lc[0].node_name == "p");
-			assert (lc[0].get_attribute ("class") == "black block");
-			var nid = doc.get_element_by_id ("p01");
-			assert (nid != null);
-			assert (nid.node_name == "p");
-			assert (nid.get_attribute ("id") == "p01");
+			try {
+				GLib.message ("Doc: "+STRDOC);
+				var doc = new GDocument.from_string (HTMLDOC) as DomDocument;
+				assert (doc is DomDocument);
+				var le = doc.get_elements_by_tag_name ("p");
+				assert (le.size == 4);
+				assert (le[0].get_attribute ("class") == "black");
+				assert (le[1].get_attribute ("id") == "p01");
+				var lc = doc.get_elements_by_class_name ("black");
+				GLib.message ("DOC\n"+(doc as GDocument).to_string ());
+				assert (lc.size == 2);
+				assert (lc[0].node_name == "p");
+				assert (lc[0].get_attribute ("class") == "black block");
+				var nid = doc.get_element_by_id ("p01");
+				assert (nid != null);
+				assert (nid.node_name == "p");
+				assert (nid.get_attribute ("id") == "p01");
+		  } catch (GLib.Error e) {
+		    GLib.message ("Error: "+e.message);
+		    assert_not_reached ();
+		  }
 		});
 		Test.add_func ("/gxml/dom/element/element_collections", () => {
-			GLib.message ("Doc: "+HTMLDOC);
-			var doc = new GDocument.from_string (HTMLDOC) as DomDocument;
-			assert (doc is DomDocument);
-			assert (doc.document_element.children.size == 1);
-			var le = doc.document_element.get_elements_by_tag_name ("p");
-			assert (le.size == 4);
-			assert (le[0].get_attribute ("class") == "black");
-			assert (le[1].get_attribute ("id") == "p01");
-			var lc = doc.document_element.get_elements_by_class_name ("black");
-			GLib.message("size"+lc.size.to_string ());
-			assert (lc.size == 2);
-			assert (lc[0].node_name == "p");
-			assert ("black" in lc[0].get_attribute ("class"));
-			var lc2 = doc.document_element.get_elements_by_class_name ("time");
-			assert (lc2.size == 1);
-			var lc3 = doc.document_element.get_elements_by_class_name ("time request");
-			assert (lc3.size == 1);
-			var lc4 = doc.document_element.get_elements_by_class_name ("time request hole");
-			assert (lc4.size == 1);
+			try {
+				GLib.message ("Doc: "+HTMLDOC);
+				var doc = new GDocument.from_string (HTMLDOC) as DomDocument;
+				assert (doc is DomDocument);
+				assert (doc.document_element.children.size == 1);
+				var le = doc.document_element.get_elements_by_tag_name ("p");
+				assert (le.size == 4);
+				assert (le[0].get_attribute ("class") == "black");
+				assert (le[1].get_attribute ("id") == "p01");
+				var lc = doc.document_element.get_elements_by_class_name ("black");
+				GLib.message("size"+lc.size.to_string ());
+				assert (lc.size == 2);
+				assert (lc[0].node_name == "p");
+				assert ("black" in lc[0].get_attribute ("class"));
+				var lc2 = doc.document_element.get_elements_by_class_name ("time");
+				assert (lc2.size == 1);
+				var lc3 = doc.document_element.get_elements_by_class_name ("time request");
+				assert (lc3.size == 1);
+				var lc4 = doc.document_element.get_elements_by_class_name ("time request hole");
+				assert (lc4.size == 1);
+		  } catch (GLib.Error e) {
+		    GLib.message ("Error: "+e.message);
+		    assert_not_reached ();
+		  }
 		});
 		Test.add_func ("/gxml/dom/node", () => {
 			try {

@@ -131,8 +131,10 @@ class GomElementTest : GXmlTest  {
 				assert (elem.get_attribute_ns ("http://www.gnome.org/GXml", "xola") == "Mexico");
 				elem.remove_attribute_ns ("http://www.gnome.org/GXml", "xola");
 				assert (elem.get_attribute_ns ("http://www.gnome.org/GXml", "xola") == null);
+				assert (elem.get_attribute ("xola") == null);
 				assert (elem.attributes.size == 2);
 				try {
+					Test.message ("Documento:"+parser.write_string ());
 					elem.set_attribute_ns ("http://www.gnome.org/GXml", "gxml2:xola","Mexico");
 					assert_not_reached ();
 				} catch {}
@@ -177,13 +179,18 @@ class GomElementTest : GXmlTest  {
 			}
 		});
 		Test.add_func ("/gxml/gom-element/parent", () => {
-			var doc = new GomDocument.from_string ("<root><child/></root>");
-			assert (doc.document_element != null);
-			assert (doc.document_element.parent_node is GXml.DomNode);
-			assert (doc.document_element.parent_node is GXml.DomDocument);
-			assert (doc.document_element.child_nodes[0] != null);
-			assert (doc.document_element.child_nodes[0].parent_node != null);
-			assert (doc.document_element.child_nodes[0].parent_node.node_name == "root");
+			try {
+				var doc = new GomDocument.from_string ("<root><child/></root>");
+				assert (doc.document_element != null);
+				assert (doc.document_element.parent_node is GXml.DomNode);
+				assert (doc.document_element.parent_node is GXml.DomDocument);
+				assert (doc.document_element.child_nodes[0] != null);
+				assert (doc.document_element.child_nodes[0].parent_node != null);
+				assert (doc.document_element.child_nodes[0].parent_node.node_name == "root");
+		  } catch (GLib.Error e) {
+		    GLib.message ("Error: "+e.message);
+		    assert_not_reached ();
+		  }
 		});
 	}
 }
