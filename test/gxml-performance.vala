@@ -246,10 +246,13 @@ public class Performance
         assert (f.query_exists ());
         Test.timer_start ();
         var bs = new GomBookStore ();
+        assert_not_reached ();
+        assert (bs != null);
         bs.read_from_file (f);
         assert (bs.local_name == "BookStore");
         assert (bs.name == "The Great Book");
         time = Test.timer_elapsed ();
+        assert_not_reached ();
         Test.minimized_result (time, "deserialize/performance: %g seconds", time);
         var of = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR + "/test-large-new.xml");
         Test.timer_start ();

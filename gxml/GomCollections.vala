@@ -33,10 +33,9 @@ public interface GXml.GomCollection : Object
    */
   public abstract Queue<int> nodes_index { get; }
   /**
-   * A {@link DomElement} with all child elements in collection. Only
-   * {@link GomElement} objects are supported.
+   * A {@link GomElement} with all child elements in collection.
    */
-  public abstract DomElement element { get; construct set; }
+  public abstract GomElement element { get; construct set; }
   /**
    * Local name of {@link DomElement} objects of {@link element}, which could be
    * contained in this collection.
@@ -109,11 +108,25 @@ public interface GXml.GomCollection : Object
     return Object.new (items_type,
                       "owner_document", element.owner_document) as GomElement;
   }
+  /**
+   * Validate if given node and index, should be added to collection.
+   *
+   * Implementations should use this method to perform any action before
+   * element is added to collection, like setup internal pointers to given
+   * index, in order to get access to referenced node.
+   *
+   * Return: true if node and index should be added to collection.
+   */
+  public abstract bool validate_add (int index, DomElement element) throws GLib.Error;
 }
 
 /**
  * Base class for collections implemeting {@link GomCollection}, priving basic
  * infrastructure.
+ *
+ * Collections properties should be initialized with current container element
+ * in order to be able to add new references to elements. Use {@link initialize_element}
+ * to set parent element and {@link search} to find elements for collection.
  */
 public abstract class GXml.BaseCollection : Object {
   /**
@@ -159,15 +172,12 @@ public abstract class GXml.BaseCollection : Object {
   /**
    * {@inheritDoc}
    */
-  public DomElement element {
+  public GomElement element {
     get { return _element; }
     construct set {
-      if (value != null) {
-        if (value is GomElement)
-          _element = value as GomElement;
-        else
-          GLib.warning (_("Invalid element type only GXmlGomElement is supported"));
-      }
+      if (value != null)
+        _element = value;
+      assert (_element != null);
     }
   }
   /**
@@ -195,11 +205,32 @@ public abstract class GXml.BaseCollection : Object {
     _element = element;
     search ();
   }
+
   /**
    * Adds an {@link DomElement} of type {@link GomObject} as a child of
-   * {@link element}
+   * {@link element}.
+   *
+   * Object is always added as a child of {@link element}
+   * but just added to collection if {@link validate_add} returns true;
    */
-  public abstract void append (DomElement node) throws GLib.Error;
+  public void append (DomElement node) throws GLib.Error {
+    if (_element == null)
+      throw new DomError.INVALID_NODE_TYPE_ERROR
+                (_("Parent Element is invalid"));
+    if (!(node is GomElement))
+      throw new DomError.INVALID_NODE_TYPE_ERROR
+                (_("Invalid atempt to set unsupported type. Only GXmlGomElement is supported"));
+    if (node.owner_document != _element.owner_document)
+      throw new DomError.HIERARCHY_REQUEST_ERROR
+                (_("Invalid atempt to set a node with a different parent document"));
+    _element.append_child (node);
+    if (_element.child_nodes.size == 0)
+      throw new DomError.QUOTA_EXCEEDED_ERROR
+                (_("Invalid atempt to add a node with a different parent document"));
+    var index = _element.child_nodes.size - 1;
+    if (!validate_add (index, node)) return;
+    _nodes_index.push_tail (index);
+  }
   /**
    * Search for all child nodes in {@link element} of type {@link GomElement}
    * with a {@link GomElement.local_name} equal to {@link GomCollection.items_name},
@@ -207,7 +238,25 @@ public abstract class GXml.BaseCollection : Object {
    *
    * Implementations could add additional restrictions to add element to collection.
    */
-  public abstract void search () throws GLib.Error;
+  public void search () throws GLib.Error {
+    _nodes_index.clear ();
+    if (_element == null)
+      throw new DomError.INVALID_NODE_TYPE_ERROR
+                (_("Parent Element is invalid"));
+    for (int i = 0; i < _element.child_nodes.size; i++) {
+      var n = _element.child_nodes.get (i);
+      if (n is GomObject) {
+        if ((n as DomElement).local_name.down () == items_name.down ()) {
+          if (validate_add (i, n as DomElement))
+            _nodes_index.push_tail (i);
+        }
+      }
+    }
+  }
+  /**
+   * {@inheritDoc}
+   */
+  public abstract bool validate_add (int index, DomElement element) throws GLib.Error;
 }
 
 /**
@@ -215,37 +264,11 @@ public abstract class GXml.BaseCollection : Object {
  * child {@link DomElement} of {@link element}, using an index.
  */
 public class GXml.GomArrayList : GXml.BaseCollection, GomCollection {
-  /**
-   * {@inheritDoc}
-   */
-  public override void append (DomElement node) throws GLib.Error {
-    if (!(node is GomElement))
-      throw new DomError.INVALID_NODE_TYPE_ERROR
-                (_("Invalid atempt to add unsupported type. Only GXmlGomElement is supported"));
-    if (node.owner_document != _element.owner_document)
-      throw new DomError.HIERARCHY_REQUEST_ERROR
-                (_("Invalid atempt to add a node with a different parent document"));
-    _element.append_child (node);
-    if (_element.child_nodes.size == 0)
-      throw new DomError.QUOTA_EXCEEDED_ERROR
-                (_("Invalid atempt to add a node with a different parent document"));
-    _nodes_index.push_tail (_element.child_nodes.size - 1);
-  }
-  /**
-   * Search for all child nodes in {@link element} of type {@link GomElement}
-   * with a {@link GomElement.local_name} equal to {@link GomCollection.items_name},ç
-   * to add it to collection.
-   */
-  public override void search () throws GLib.Error {
-    for (int i = 0; i < _element.child_nodes.size; i++) {
-      var n = _element.child_nodes.get (i);
-      if (n is GomObject) {
-        if ((n as DomElement).local_name.down () == items_name.down ()) {
-          GLib.message ("Adding node:"+n.node_name);
-          _nodes_index.push_tail (i);
-        }
-      }
-    }
+  public override bool validate_add (int index, DomElement element) throws GLib.Error {
+#if DEBUG
+    GLib.message ("Adding node:"+n.node_name);
+#endif
+    return true;
   }
 }
 
@@ -299,55 +322,32 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.GomCollection {
     search ();
   }
   /**
-   * Sets an {@link DomElement} of type {@link GomObject} as a child of
-   * {@link element}, requires new item to have defined an string attribute
-   * to be used as key. Attribute should have the name: {@link attribute_key}
-   */
-  public override void append (DomElement node) throws GLib.Error {
-    if (!(node is GomElement))
-      throw new DomError.INVALID_NODE_TYPE_ERROR
-                (_("Invalid atempt to set unsupported type. Only GXmlGomElement is supported"));
-    if (node.owner_document != _element.owner_document)
-      throw new DomError.HIERARCHY_REQUEST_ERROR
-                (_("Invalid atempt to set a node with a different parent document"));
-    var key = node.get_attribute (attribute_key);
-    if (key == null)
-      throw new DomError.HIERARCHY_REQUEST_ERROR
-                (_("Invalid atempt to set a node without key attribute"));
-    _element.append_child (node);
-    if (_element.child_nodes.size == 0)
-      throw new DomError.QUOTA_EXCEEDED_ERROR
-                (_("Invalid atempt to add a node with a different parent document"));
-    var index = _element.child_nodes.size - 1;
-    _nodes_index.push_tail (index);
-    GLib.message ("Key:"+key+" Index: "+index.to_string ());
-    _hashtable.insert (key, index);
-  }
-  /**
    * Returns an {@link DomElement} in the collection using a string key.
    */
   public new DomElement? get (string key) {
     if (!_hashtable.contains (key)) return null;
     var i = _hashtable.get (key);
+#if DEBUG
     GLib.message ("Key:"+key+" item:"+i.to_string ());
+#endif
     return _element.child_nodes.get (i) as DomElement;
   }
   /**
-   * Search for all child nodes in {@link element} of type {@link GomElement}
-   * with an attribute {@link attribute_name} set, to add it to collection.
+   * Validates if given element has a key property set, if so
+   * adds a new key pointing to given index and returns true.
+   *
+   * Return: false if element should not be added to collection.
    */
-  public override void search () throws GLib.Error {
-    for (int i = 0; i < _element.child_nodes.size; i++) {
-      var n = _element.child_nodes.get (i);
-      if (n is GomObject) {
-        if ((n as DomElement).local_name.down () == items_name.down ()) {
-          string key = (n as DomElement).get_attribute (attribute_key);
-          if (key != null) {
-            _nodes_index.push_tail (i);
-            _hashtable.insert (key, i);
-          }
-        }
-      }
+  public override bool validate_add (int index, DomElement element) throws GLib.Error {
+    if (!(element is GomElement)) return false;
+    var key = element.get_attribute (attribute_key);
+    if (key == null)
+      throw new DomError.HIERARCHY_REQUEST_ERROR
+                (_("Invalid atempt to set a node without key attribute"));
+    if (key != null) {
+      _hashtable.insert (key, index);
+      return true;
     }
+    return false;
   }
 }

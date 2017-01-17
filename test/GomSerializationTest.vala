@@ -100,10 +100,21 @@ class GomBook : GomElement
   public string isbn { get; set; }
   public GomName   name { get; set; }
   public GomAuthors authors { get; set; }
-  public GomInventory.DualKeyMap inventory_registers { get; set; default = new GomInventory.DualKeyMap (); }
-  public GomCategory.Map categories { get; set; default = new GomCategory.Map (); }
-  public GomResume.Map resumes { get; set; default = new GomResume.Map (); }
-  construct { initialize ("Book"); }
+  public GomInventory.DualKeyMap inventory_registers { get; set; }
+  public GomCategory.Map categories { get; set; }
+  public GomResume.Map resumes { get; set; }
+  construct {
+    initialize ("Book");
+    inventory_registers = Object.new (typeof (GomInventory.DualKeyMap),
+                                      "element", this)
+                                      as GomInventory.DualKeyMap;
+    categories = Object.new (typeof (GomCategory.Map),
+                                      "element", this)
+                                    as GomCategory.Map;
+    resumes = Object.new (typeof (GomResume.Map),
+                                      "element", this)
+                                    as GomResume.Map;
+  }
   public class Array : GomArrayList {
     construct { initialize (typeof (GomBook)); }
   }
@@ -113,8 +124,13 @@ class GomBookStore : GomElement
 {
   [Description (nick="::name")]
   public string name { get; set; }
-  construct { initialize ("BookStore"); }
-  public GomBook.Array books { get; set; default = new GomBook.Array (); }
+  construct {
+    initialize ("BookStore");
+    assert (this != null);
+    books = Object.new (typeof(GomBook.Array),"element", this) as GomBook.Array;
+    assert_not_reached ();
+  }
+  public GomBook.Array books { get; set; }
 }
 
 class GomSerializationTest : GXmlTest  {
