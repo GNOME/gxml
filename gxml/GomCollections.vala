@@ -87,13 +87,35 @@ public interface GXml.GomCollection : Object
    * Number of items referenced in {@link nodes_index}
    */
   public virtual int length { get { return (int) nodes_index.get_length (); } }
+  /**
+   * Initialize collection to use a given {@link GomElement} derived type.
+   * Internally, this method create an instance of given type to initialize
+   * {@link items_type} and {@link items_name}.
+   *
+   * This method can be used at construction time of classes implementing
+   * {@link GomCollection} to initialize object type to refer in collection.
+   */
+  public abstract void initialize (GLib.Type t) throws GLib.Error;
+  /**
+   * Creates a new instance of {@link items_type}, with same
+   * {@link DomNode.owner_document} than {@link element}
+   *
+   * Returns: a new instance object or null if type is not a {@link GomElement} or no parent has been set
+   */
+  public virtual GomElement? create_item () {
+    if (items_type.is_a (GLib.Type.INVALID)) return null;
+    if (!items_type.is_a (typeof (GomElement))) return null;
+    if (element == null) return null;
+    return Object.new (items_type,
+                      "owner_document", element.owner_document) as GomElement;
+  }
 }
 
 /**
- * A class impementing {@link GomCollection} to store references to
- * child {@link DomElement} of {@link element}, using an index.
+ * Base class for collections implemeting {@link GomCollection}, priving basic
+ * infrastructure.
  */
-public class GXml.GomArrayList : Object, GomCollection {
+public abstract class GXml.BaseCollection : Object {
   /**
    * A collection of node's index refered. Don't modify it manually.
    */
@@ -120,7 +142,23 @@ public class GXml.GomArrayList : Object, GomCollection {
    * at runtime.
    */
   protected GLib.Type _items_type = GLib.Type.INVALID;
+  /**
+   * {@inheritDoc}
+   */
+  public string items_name { get { return _items_name; } }
+  /**
+   * {@inheritDoc}
+   */
+  public Type items_type {
+    get { return _items_type; } construct set { _items_type = value; }
+  }
+  /**
+   * {@inheritDoc}
+   */
   public Queue<int> nodes_index { get { return _nodes_index; } }
+  /**
+   * {@inheritDoc}
+   */
   public DomElement element {
     get { return _element; }
     construct set {
@@ -133,35 +171,54 @@ public class GXml.GomArrayList : Object, GomCollection {
     }
   }
   /**
-   * {@link DomElement.local_name} used to identify nodes at runtime on readding
-   * XML documents. You can set it at construction time see {@link GomCollection.items_name}
+   * {@inheritDoc}
    */
-  public string items_name { get { return _items_name; } }
-  public Type items_type {
-    get { return _items_type; } construct set { _items_type = value; }
-  }
-
-  /**
-   * Initialize an {@link GomArrayList} to use an element as child parent
-   * and items of given type. Derived classes are encourage to provide its
-   * own definition, chaining up, to correctly initialize a collection.
-   */
-  public GomArrayList.initialize (GomElement element, GLib.Type items_type) {
-    _element = element;
-    _items_name = "";
-    if (!(items_type.is_a (typeof (GomObject)))) {
-      warning (_("Invalid object item type to initialize ArrayList"));
-    } else {
-      var tmp = Object.new (items_type) as GomElement;
-      _items_name = tmp.local_name;
-      search ();
+  public void initialize (GLib.Type items_type) throws GLib.Error {
+    if (!items_type.is_a (typeof (GomElement))) {
+      throw new DomError.INVALID_NODE_TYPE_ERROR
+                (_("Invalid atempt to initialize a collection using an unsupported type. Only GXmlGomElement is supported"));
     }
+    var o = Object.new (items_type) as GomElement;
+    _items_name = o.local_name;
+    _items_type = items_type;
+  }
+  /**
+   * Initialize an {@link GomArrayList} to use an element as children's parent.
+   * Searchs for all nodes, calling {@link GomCollection.search}
+   * with {@link GomCollection.items_type}, using its
+   * {@link DomElement.local_name} to find it.
+   *
+   * Implemenation classes, should initialize collection to hold a {@link GomElement}
+   * derived type using {@link GomCollection.initialize}.
+   */
+  public void initialize_element (GomElement element) throws GLib.Error {
+    _element = element;
+    search ();
   }
   /**
    * Adds an {@link DomElement} of type {@link GomObject} as a child of
    * {@link element}
    */
-  public void append (DomElement node) throws GLib.Error {
+  public abstract void append (DomElement node) throws GLib.Error;
+  /**
+   * Search for all child nodes in {@link element} of type {@link GomElement}
+   * with a {@link GomElement.local_name} equal to {@link GomCollection.items_name},
+   * to add it to collection.
+   *
+   * Implementations could add additional restrictions to add element to collection.
+   */
+  public abstract void search () throws GLib.Error;
+}
+
+/**
+ * A class impementing {@link GomCollection} to store references to
+ * child {@link DomElement} of {@link element}, using an index.
+ */
+public class GXml.GomArrayList : GXml.BaseCollection, GomCollection {
+  /**
+   * {@inheritDoc}
+   */
+  public override void append (DomElement node) throws GLib.Error {
     if (!(node is GomElement))
       throw new DomError.INVALID_NODE_TYPE_ERROR
                 (_("Invalid atempt to add unsupported type. Only GXmlGomElement is supported"));
@@ -179,7 +236,7 @@ public class GXml.GomArrayList : Object, GomCollection {
    * with a {@link GomElement.local_name} equal to {@link GomCollection.items_name},ç
    * to add it to collection.
    */
-  public void search () throws GLib.Error {
+  public override void search () throws GLib.Error {
     for (int i = 0; i < _element.child_nodes.size; i++) {
       var n = _element.child_nodes.get (i);
       if (n is GomObject) {
@@ -197,11 +254,7 @@ public class GXml.GomArrayList : Object, GomCollection {
  * child {@link DomElement} of {@link element}, using an attribute in
  * items as key.
  */
-public class GXml.GomHashMap : Object, GomCollection {
-  /**
-   * A collection of node's index refered. Don't modify it manually.
-   */
-  protected Queue<int> _nodes_index = new Queue<int> ();
+public class GXml.GomHashMap : GXml.BaseCollection, GXml.GomCollection {
   /**
    * A hashtable with all keys as string to node's index refered. Don't modify it manually.
    */
@@ -210,37 +263,7 @@ public class GXml.GomHashMap : Object, GomCollection {
    * Element used to refer of containier element. You should define it at construction time
    * our set it as a construction property.
    */
-  protected GomElement _element;
-  /**
-   * {@link DomElement.local_name} used to identify nodes at runtime on readding
-   * XML documents. You can set it at construction time see {@link GomCollection.items_name}
-   */
-  protected string _items_name = "";
-  /**
-   * Objects' type to be referenced by this collection and to deserialize objects.
-   * Derived classes, can initilize this value at constructor or as construct property.
-   *
-   * Used when reading and at initialization time, to know {@link GomElement.local_name}
-   * at runtime.
-   */
-  protected GLib.Type _items_type = GLib.Type.INVALID;
   protected string _attribute_key;
-  public Queue<int> nodes_index { get { return _nodes_index; } }
-  public DomElement element {
-    get { return _element; }
-    construct set {
-      if (value != null) {
-        if (value is GomElement)
-          _element = value as GomElement;
-        else
-          GLib.warning (_("Invalid element type only GXmlGomElement is supported"));
-      }
-    }
-  }
-  public string items_name { get { return _items_name; } }
-  public GLib.Type items_type {
-    get { return _items_type; } construct set { _items_type = value; }
-  }
   /**
    * An attribute's name in items to be added and used to retrieve a key to
    * used in collection.
@@ -248,27 +271,39 @@ public class GXml.GomHashMap : Object, GomCollection {
   public string attribute_key {
     get { return _attribute_key; } construct set { _attribute_key = value; }
   }
-
-  public GomHashMap.initialize (GomElement element,
+  /**
+   * Convenient function to initialize a {@link GomHashMap} collection, using
+   * given element, items' type and name.
+   */
+  public void initialize_element_with_key (GomElement element,
                                   GLib.Type items_type,
-                                  string attribute_key) {
-    _element = element;
-    _items_name = "";
+                                  string attribute_key) throws GLib.Error
+  {
+    initialize (items_type);
+    initialize_element (element);
     _attribute_key = attribute_key;
-    if (!(items_type.is_a (typeof (GomObject)))) {
-      warning (_("Invalid object item type to initialize HashMap"));
-    } else {
-      var tmp = Object.new (items_type) as GomElement;
-      _items_name = tmp.local_name;
-      search ();
-    }
+    search ();
+  }
+
+  /**
+   * Convenient function to initialize a {@link GomHashMap} collection, using
+   * given element, items' type and name.
+   *
+   * Using this method at construction time of derived classes.
+   */
+  public void initialize_with_key (GLib.Type items_type,
+                                  string attribute_key) throws GLib.Error
+  {
+    initialize (items_type);
+    _attribute_key = attribute_key;
+    search ();
   }
   /**
    * Sets an {@link DomElement} of type {@link GomObject} as a child of
    * {@link element}, requires new item to have defined an string attribute
    * to be used as key. Attribute should have the name: {@link attribute_key}
    */
-  public void append (DomElement node) throws GLib.Error {
+  public override void append (DomElement node) throws GLib.Error {
     if (!(node is GomElement))
       throw new DomError.INVALID_NODE_TYPE_ERROR
                 (_("Invalid atempt to set unsupported type. Only GXmlGomElement is supported"));
@@ -301,7 +336,7 @@ public class GXml.GomHashMap : Object, GomCollection {
    * Search for all child nodes in {@link element} of type {@link GomElement}
    * with an attribute {@link attribute_name} set, to add it to collection.
    */
-  public void search () throws GLib.Error {
+  public override void search () throws GLib.Error {
     for (int i = 0; i < _element.child_nodes.size; i++) {
       var n = _element.child_nodes.get (i);
       if (n is GomObject) {

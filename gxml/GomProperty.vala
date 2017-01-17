@@ -23,7 +23,8 @@
 
 /**
  * An interface for {@link GomObject}'s properties translated to
- * {@link DomElement} attributes.
+ * {@link DomElement} attributes. If object is instantiated it is
+ * written, if not is just ingnored.
  */
 public interface GXml.GomProperty : Object
 {
@@ -32,19 +33,89 @@ public interface GXml.GomProperty : Object
    */
   public abstract string attribute_name { get; construct set; }
   /**
-   * Attribute's value in the parent {@link DomElement}.
+   * Validation rule.
+   *
+   * Is a regular expression, used to validate if values are valid.
+   */
+  public abstract string validation_rule { get; construct set; }
+  /**
+   * Attribute's value in the parent {@link DomElement} using a string.
+   *
+   * Implementation should take care to validate value before to set or
+   * parse from XML document.
    */
   public abstract string value { owned get; set; }
+  /**
+   * Convenient function to initialize property's name.
+   */
+  public abstract void initialize (string attribute_name);
+  /**
+   * Takes a string and check if it can be validated using
+   */
+  public abstract bool validate_value (string val);
 }
 
-public class GXml.GomDouble : Object, GomProperty {
-  protected double _value = 0.0;
+/**
+ * Base class for properties implementing {@link GomProperty} interface.
+ */
+public abstract class GXml.GomBaseProperty : Object, GXml.GomProperty {
   protected string _attribute_name;
+  protected string _validation_rule = "";
+  /**
+   * {@inheritDoc}
+   */
   public string attribute_name {
     get { return _attribute_name; }
     construct set { _attribute_name = value;}
   }
-  public string value {
+  /**
+   * {@inheritDoc}
+   */
+  public string validation_rule {
+    get { return _validation_rule; }
+    construct set { _validation_rule = value; } // TODO: Validate RegEx
+  }
+  /**
+   * {@inheritDoc}
+   */
+  public abstract string value { owned get; set; }
+  /**
+   * {@inheritDoc}
+   */
+  public void initialize (string attribute_name) { _attribute_name =  attribute_name; }
+  /**
+   * Takes a string and check if it can be validated using
+   * {@link validation_rule}.
+   */
+  public bool validate_value (string val) { return true; } // FIXME: Validate value
+}
+
+/**
+ * Convenient class to handle {@link GomElement}'s attributes
+ * using validated string using Regular Expressions.
+ */
+public class GXml.GomString : GomBaseProperty {
+  protected string _value = "";
+  public override string value {
+    owned get {
+      return _value;
+    }
+    set {
+      if (validate_value (value))
+        _value = value;
+    }
+  }
+}
+
+/**
+ * Convenient class to handle {@link GomElement}'s attributes
+ * using double pressition floats as sources of values.
+ *
+ * Property is represented as a string.
+ */
+public class GXml.GomDouble : GomBaseProperty {
+  protected double _value = 0.0;
+  public override string value {
     owned get {
       string s = "%."+decimals.to_string ()+"f";
       return s.printf (_value);
@@ -53,25 +124,48 @@ public class GXml.GomDouble : Object, GomProperty {
       _value = double.parse (value);
     }
   }
+  /**
+   * Set number of decimals to write out as {@link GomElement}'s property.
+   * Default is 4.
+   */
   public uint decimals { get; set; default = 4; }
+  /**
+   * Retrive current value.
+   */
   public double get_double () { return _value; }
+  /**
+   * Sets current value.
+   */
   public void set_double (double value) { _value = value; }
 }
 
+/**
+ * Convenient class to handle {@link GomElement}'s attributes
+ * using floats as sources of values.
+ *
+ * Property is represented as a string.
+ */
 public class GXml.GomFloat : GomDouble {
+  /**
+   * Retrive current value.
+   */
   public float get_float () { return (float) _value; }
+  /**
+   * Sets current value.
+   */
   public void set_float (float value) { _value = value; }
 }
 
 
-public class GXml.GomInt : Object, GomProperty {
+/**
+ * Convenient class to handle {@link GomElement}'s attributes
+ * using a integers as sources of values.
+ *
+ * Property is represented as a string.
+ */
+public class GXml.GomInt : GomBaseProperty {
   protected int _value = 0;
-  protected string _attribute_name;
-  public string attribute_name {
-    get { return _attribute_name; }
-    construct set { _attribute_name = value;}
-  }
-  public string value {
+  public override string value {
     owned get {
       return _value.to_string ();
     }
@@ -79,18 +173,25 @@ public class GXml.GomInt : Object, GomProperty {
       _value = (int) double.parse (value);
     }
   }
+  /**
+   * Retrive current value.
+   */
   public int get_integer () { return _value; }
+  /**
+   * Sets current value.
+   */
   public void set_integer (int value) { _value = value; }
 }
 
-public class GXml.GomBoolean : Object, GomProperty {
+/**
+ * Convenient class to handle {@link GomElement}'s attributes
+ * using a boolean ('true' and 'false') as sources of values.
+ *
+ * Property is represented as a string, using 'true' or 'false'.
+ */
+public class GXml.GomBoolean : GomBaseProperty {
   protected bool _value = false;
-  protected string _attribute_name;
-  public string attribute_name {
-    get { return _attribute_name; }
-    construct set { _attribute_name = value;}
-  }
-  public string value {
+  public override string value {
     owned get {
       return _value.to_string ();
     }
@@ -98,19 +199,27 @@ public class GXml.GomBoolean : Object, GomProperty {
       _value = bool.parse (value);
     }
   }
+  /**
+   * Retrive current value.
+   */
   public bool get_boolean () { return _value; }
+  /**
+   * Sets current value.
+   */
   public void set_boolean (bool value) { _value = value; }
 }
 
-public class GXml.GomEnum : Object, GomProperty {
+/**
+ * Convenient class to handle {@link GomElement}'s attributes
+ * using a {@link GLib.Type.ENUM} as a source of values.
+ *
+ * Enumeration is represented as a string, using its name, independent of
+ * value possition in enumeration.
+ */
+public class GXml.GomEnum : GomBaseProperty, GomProperty {
   protected int _value = 0;
-  protected string _attribute_name;
   protected Type _enum_type;
-  public string attribute_name {
-    get { return _attribute_name; }
-    construct set { _attribute_name = value;}
-  }
-  public string value {
+  public override string value {
     owned get {
       string s = "";
       try {
@@ -128,10 +237,26 @@ public class GXml.GomEnum : Object, GomProperty {
       }
     }
   }
+  /**
+   * Enum type used by property.
+   */
   public Type enum_type {
     get { return _enum_type; }
     construct set { _enum_type = value; }
   }
+  /**
+   * Convenient method to initialize internal enum type.
+   */
+  public void initialize_enum (string attribute_name, GLib.Type enum_type) {
+    initialize (attribute_name);
+    _enum_type = enum_type;
+  }
+  /**
+   * Retrive current value.
+   */
   public int get_enum () { return (int) _value; }
+  /**
+   * Sets current value.
+   */
   public void set_enum (int value) { _value = value; }
 }

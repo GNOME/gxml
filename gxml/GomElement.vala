@@ -213,12 +213,26 @@ public class GXml.GomElement : GomNode,
     _attributes = new Attributes (this);
     _local_name = "";
   }
-
-  public GomElement.initialize (DomDocument doc, string local_name) {
+  /**
+   * Convenient function to initialize, at construction time, a {@link GomElement}
+   * using given local name.
+   */
+  public void initialize (string local_name) {
+    _local_name = local_name;
+  }
+  /**
+   * Convenient function to initialize, at construction time, a {@link GomElement}
+   * using given local name and document.
+   */
+  public void initialize_document (DomDocument doc, string local_name) {
     _document = doc;
     _local_name = local_name;
   }
-  public GomElement.namespace (DomDocument doc, string? namespace_uri,
+  /**
+   * Convenient function to initialize, at construction time, a {@link GomElement}
+   * using given local name, document and namespace.
+   */
+  public void initialize_with_namespace (DomDocument doc, string? namespace_uri,
                               string? prefix, string local_name) {
     _document = doc;
     _local_name = local_name;

@@ -25,125 +25,95 @@ using GXml;
 // GOM Collection Definitions
 class GomName : GomElement
 {
-  construct {
-    _local_name = "Name";
-  }
+  construct { initialize ("Name");}
   public string get_name () { return this.text_content; }
   public void   set_name (string name) { this.text_content = name; }
 }
 
 class GomEmail : GomElement
 {
-  construct {
-    _local_name = "Email";
-  }
+  construct {  initialize ("Email"); }
   public string get_mail () { return this.text_content; }
   public void   set_mail (string email) { text_content = email; }
 }
 
 class GomAuthor : GomElement
 {
-  construct {
-    _local_name = "Author";
-  }
   public Name name { get; set; }
   public Email email { get; set; }
+  construct { initialize ("Author");}
   public class Array : GomArrayList {
-    construct {
-      var t = new GomAuthor ();
-      _items_type = typeof (GomAuthor);
-      _items_name = t.local_name;
-    }
+    construct { initialize (typeof (GomAuthor)); }
   }
 }
 
 class GomAuthors : GomElement
 {
-  construct {
-    _local_name = "Authors";
-  }
   public string number { get; set; }
+  construct { initialize ("Authors"); }
   public Author.Array array { get; set; default = new Author.Array (); }
 }
 
 class GomInventory : GomElement
 {
-  [Description (nick="##Number")]
+  [Description (nick="::Number")]
   public int number { get; set; }
-  [Description (nick="##Row")]
+  [Description (nick="::Row")]
   public int row { get; set; }
+  [Description (nick="::Inventory")]
   public string inventory { get; set; }
+  construct { initialize ("Inventory"); }
   // FIXME: Add DualKeyMap implementation to GOM
   public class DualKeyMap : GomHashMap {
-    construct {
-      var t = new GomInventory ();
-      _items_type = typeof (GomInventory);
-      _items_name = t.local_name;
-      _attribute_key = "number";
-    }
+    construct { initialize_with_key (typeof (GomInventory), "number"); }
   }
 }
 
 class GomCategory : GomElement
 {
+  [Description (nick="::Name")]
   public string name { get; set; }
+  construct { initialize ("Category"); }
   public class Map : GomHashMap {
-    construct {
-      var t = new GomCategory ();
-      _items_type = typeof (GomCategory);
-      _items_name = t.local_name;
-      _attribute_key = "number";
-    }
+    construct { initialize_with_key (typeof (GomInventory), "name"); }
   }
 }
 
 
 class GomResume : GomElement
 {
-  [Description (nick="##Chapter")]
+  [Description (nick="::Chapter")]
   public string chapter { get; set; }
-  [Description (nick="##Text")]
+  [Description (nick="::Text")]
   public string text { get; set; }
+  construct { initialize ("Resume"); }
   public class Map : GomHashMap {
-    construct {
-      var t = new GomResume ();
-      _items_type = typeof (GomResume);
-      _items_name = t.local_name;
-      _attribute_key = "chapter";
-    }
+    construct { initialize_with_key (typeof (GomInventory), "chapter"); }
   }
 }
 
 class GomBook : GomElement
 {
-  construct {
-    _local_name = "Book";
-  }
-  [Description(nick="##Year")]
+  [Description(nick="::Year")]
   public string year { get; set; }
-  [Description(isbn="##ISBN")]
+  [Description(isbn="::ISBN")]
   public string isbn { get; set; }
   public GomName   name { get; set; }
   public GomAuthors authors { get; set; }
   public GomInventory.DualKeyMap inventory_registers { get; set; default = new GomInventory.DualKeyMap (); }
   public GomCategory.Map categories { get; set; default = new GomCategory.Map (); }
   public GomResume.Map resumes { get; set; default = new GomResume.Map (); }
+  construct { initialize ("Book"); }
   public class Array : GomArrayList {
-    construct {
-      var t = new GomBook ();
-      _items_type = typeof (GomBook);
-      _items_name = t.local_name;
-    }
+    construct { initialize (typeof (GomBook)); }
   }
 }
 
 class GomBookStore : GomElement
 {
-  construct {
-    _local_name = "BookStore";
-  }
-  [Description (nick="##name")]
+  [Description (nick="::name")]
   public string name { get; set; }
+  construct { initialize ("BookStore"); }
   public GomBook.Array books { get; set; default = new GomBook.Array (); }
 }
 
@@ -151,9 +121,7 @@ class GomSerializationTest : GXmlTest  {
   public class Book : GomElement {
     [Description (nick="::Name")]
     public string name { get; set; }
-    construct {
-      _local_name = "Book";
-    }
+    construct { initialize ("Book"); }
     public Book.document (DomDocument doc) {
       _document = doc;
     }
@@ -173,9 +141,7 @@ class GomSerializationTest : GXmlTest  {
     [Description (nick="::Model")]
     public string model { get; set; }
     public string ignore { get; set; } // ignored property
-    construct {
-      _local_name = "Computer";
-    }
+    construct { initialize ("Computer"); }
     public string to_string () {
       var parser = new XParser (this);
       string s = "";
@@ -195,9 +161,7 @@ class GomSerializationTest : GXmlTest  {
     public bool tax_free { get; set; }
     [Description (nick="::Month")]
     public Month month { get; set; }
-    construct {
-      _local_name = "Taxes";
-    }
+    construct { initialize ("Taxes"); }
     public string to_string () {
       var parser = new XParser (this);
       string s = "";
@@ -218,9 +182,7 @@ class GomSerializationTest : GXmlTest  {
     [Description (nick="::Year")]
     public int year { get; set; }
     public Book book { get; set; }
-    construct {
-      _local_name = "BookRegister";
-    }
+    construct { initialize ("BookRegister"); }
     public BookRegister.document (DomDocument doc) {
       _document = doc;
     }
@@ -242,7 +204,8 @@ class GomSerializationTest : GXmlTest  {
     public Registers registers { get; set; }
     public Books books { get; set; }
     construct {
-      _local_name = "BookStand";
+      initialize ("BookStand");
+      registers = Object.new (typeof(Registers), "element", this) as Registers;
     }
     public string to_string () {
       var parser = new XParser (this);
@@ -255,32 +218,19 @@ class GomSerializationTest : GXmlTest  {
       }
       return s;
     }
-    public class Registers : GomArrayList {
-      public Registers.initialize (BookStand stand) {
-        _element = stand;
-      }
-      construct {
-        var t = new BookRegister ();
-        _items_type = typeof (BookRegister);
-        _items_name = t.local_name;
-      }
-    }
-    public class Books : GomHashMap {
-      public Books.initialize (BookStand stand) {
-        _element = stand;
-      }
-      construct {
-        var t = new Book ();
-        _items_type = typeof (Book);
-        _items_name = t.local_name;
-        _attribute_key = "name";
-      }
-    }
+  }
+
+  public class Registers : GomArrayList {
+    construct { initialize (typeof (BookRegister)); }
+  }
+  public class Books : GomHashMap {
+    construct { initialize_with_key (typeof (Book), "name"); }
   }
   public class BookStore : GomElement {
-    public GomHashMap books { get; set; }
+    public Books books { get; set; }
     construct {
-      _local_name = "BookStore";
+      initialize ("BookStore");
+      books = Object.new (typeof (Books), "element", this) as Books;
     }
     public string to_string () {
       var parser = new XParser (this);
@@ -300,9 +250,7 @@ class GomSerializationTest : GXmlTest  {
     public Speed speed { get; set; }
     public TensionType tension_type { get; set; }
     public Tension tension { get; set; }
-    construct {
-      _local_name = "Motor";
-    }
+    construct { initialize ("Motor"); }
     public string to_string () {
       var parser = new XParser (this);
       string s = "";
@@ -319,30 +267,21 @@ class GomSerializationTest : GXmlTest  {
       DC
     }
     public class On : GomBoolean {
-      construct {
-        _attribute_name = "On";
-      }
+      construct { initialize ("On"); }
     }
     public class Torque : GomDouble {
-      construct {
-        _attribute_name = "Torque";
-      }
+      construct { initialize ("Torque"); }
     }
     public class Speed : GomFloat {
-      construct {
-        _attribute_name = "Speed";
-      }
+      construct { initialize ("Speed"); }
     }
     public class TensionType : GomEnum {
       construct {
-        _enum_type = typeof (TensionTypeEnum);
-        _attribute_name = "TensionType";
+        initialize_enum ("Tension", typeof (TensionTypeEnum));
       }
     }
     public class Tension : GomInt {
-      construct {
-        _attribute_name = "Tension";
-      }
+      construct { initialize ("Tension"); }
     }
   }
   public static void add_tests () {
@@ -413,31 +352,30 @@ class GomSerializationTest : GXmlTest  {
       assert (s != null);
       GLib.message ("DOC:"+s);
       assert ("<BookStand Classification=\"Science\"/>" in s);
-      assert (bs.registers == null);
-      var br = new BookRegister ();
-      bs.registers = new BookStand.Registers.initialize (bs);
+      assert (bs.registers != null);
       s = bs.to_string ();
       assert (s != null);
       GLib.message ("DOC:"+s);
       assert ("<BookStand Classification=\"Science\"/>" in s);
       try {
+        var br = bs.registers.create_item () as BookRegister;
         bs.registers.append (br);
         assert_not_reached ();
       } catch {}
-      br = new BookRegister.document (bs.owner_document);
-      br.year = 2016;
-      bs.registers.append (br);
+      var br2 = bs.registers.create_item () as BookRegister;
+      br2.year = 2016;
+      bs.registers.append (br2);
       s = bs.to_string ();
       assert (s != null);
       GLib.message ("DOC:"+s);
       assert ("<BookStand Classification=\"Science\"><BookRegister Year=\"2016\"/></BookStand>" in s);
-      var br2 = new BookRegister.document (bs.owner_document);
-      bs.registers.append (br2);
-      br2.year = 2010;
-      bs.append_child (bs.owner_document.create_element ("Test"));
-      var br3 = new BookRegister.document (bs.owner_document);
+      var br3 = bs.registers.create_item () as BookRegister;
       bs.registers.append (br3);
-      br3.year = 2000;
+      br3.year = 2010;
+      bs.append_child (bs.owner_document.create_element ("Test"));
+      var br4 = bs.registers.create_item () as BookRegister;
+      bs.registers.append (br4);
+      br4.year = 2000;
       s = bs.to_string ();
       assert (s != null);
       GLib.message ("DOC:"+s);
@@ -459,7 +397,6 @@ class GomSerializationTest : GXmlTest  {
       assert ("<BookStore/>" in s);
       assert (bs.books == null);
       var b = new Book ();
-      bs.books = new GomHashMap.initialize (bs,typeof (Book),"name");
       s = bs.to_string ();
       assert (s != null);
       GLib.message ("DOC:"+s);

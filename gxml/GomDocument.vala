@@ -135,7 +135,9 @@ public class GXml.GomDocument : GomNode,
   }
 
   public DomElement create_element (string local_name) throws GLib.Error {
-    return new GomElement.initialize (this, local_name);
+    var e = new GomElement ();
+    e.initialize_document (this, local_name);
+    return e;
   }
   public DomElement create_element_ns (string? namespace_uri, string qualified_name) throws GLib.Error
   {
@@ -161,7 +163,9 @@ public class GXml.GomDocument : GomNode,
         && namespace_uri == "http://www.w3.org/2000/xmlns/")
       throw new DomError.NAMESPACE_ERROR
         (_("Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"));
-    return new GomElement.namespace (this, namespace_uri, nsp, n);
+    var e = new GomElement ();
+    e.initialize_with_namespace (this, namespace_uri, nsp, n);
+    return e;
   }
 
   public DomHTMLCollection get_elements_by_tag_name (string local_name) {
