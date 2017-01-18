@@ -107,21 +107,34 @@ public class GXml.XParser : Object, GXml.Parser {
    * Reads a node using current parser.
    */
   public void read_node (DomNode node) throws GLib.Error {
+    move_next_node ();
     if (node is DomElement) {
       while (true) {
+#if DEBUG
+        GLib.message ("Node's name: "+(node as DomElement).local_name.down ());
+        GLib.message ("Current Node's name: "+current_node_name ().down ());
+        GLib.message ("Current Node is Element: "+current_is_element ().to_string ());
+#endif
+        break;
         if (current_is_element ()
             &&
-            current_node_name ().down () == (node as DomElement).local_name)
+            (current_node_name ().down () == (node as DomElement).local_name.down ())) {
           break;
+        }
         if (!current_is_document ()) {
           read_child_node (_document);
         }
         if (!move_next_node ()) break;
       }
+#if DEBUG
+        GLib.message ("Found Element node: "+current_node_name ());
+#endif
       read_element (node as DomElement);
     }
-    else
-      read_child_nodes (node);
+#if DEBUG
+        GLib.message ("Parsing child nodes of: "+node.node_name);
+#endif
+    read_child_nodes (node);
   }
   /**
    * Use parser to go to next parsed node.
@@ -142,7 +155,7 @@ public class GXml.XParser : Object, GXml.Parser {
    * Check if current node has childs.
    */
   public bool current_has_childs () {
-    return tr.is_empty_element () == 1;
+    return tr.is_empty_element () != 1;
   }
   /**
    * Check if current node found by parser, is a {@link DomElement}
@@ -190,7 +203,7 @@ public class GXml.XParser : Object, GXml.Parser {
   public void read_element (DomElement element) throws GLib.Error {
     var nattr = tr.attribute_count ();
 #if DEBUG
-    GLib.message ("Current reading node:"+element.local_name);
+    GLib.message ("Current reading Element:"+element.local_name);
     GLib.message ("Number of Attributes:"+nattr.to_string ());
 #endif
     for (int i = 0; i < nattr; i++) {
@@ -259,17 +272,21 @@ public class GXml.XParser : Object, GXml.Parser {
   /**
    * Iterates in all child nodes and append them to node.
    */
-  public void read_child_nodes (DomNode node) throws GLib.Error {
+  public void read_child_nodes (DomNode parent) throws GLib.Error {
+#if DEBUG
+      GLib.message ("Node "+parent.node_name+" has childs? "+current_has_childs ().to_string ());
+#endif
     if (!current_has_childs ()) return;
     bool cont = true;
     while (cont) {
-      move_next_node ();
-      if (!read_child_node (node)) {
-        if (current_is_element ())
-          read_child_element (node);
-        else
-          break;
-      }
+      if (!move_next_node ()) return;
+#if DEBUG
+      GLib.message ("Current child node: "+current_node_name ());
+#endif
+      if (current_is_element ())
+        cont = read_child_element (parent);
+      else
+        cont = read_child_node (parent);
     }
   }
   /**
@@ -303,7 +320,7 @@ public class GXml.XParser : Object, GXml.Parser {
       GLib.message ("ReadNode: Text Node : '"+txtval+"'");
 #endif
       n = _document.create_text_node (txtval);
-      node.append_child (n);
+      parent.append_child (n);
       break;
     case Xml.ReaderType.CDATA:
       break;
@@ -324,8 +341,8 @@ public class GXml.XParser : Object, GXml.Parser {
       GLib.message ("Type PROCESSING_INSTRUCTION");
       GLib.message ("ReadNode: PI Node : '"+pit+"' : '"+pival+"'");
 #endif
-      n = node.owner_document.create_processing_instruction (pit,pival);
-      node.append_child (n);
+      n = _document.create_processing_instruction (pit,pival);
+      parent.append_child (n);
       break;
     case Xml.ReaderType.COMMENT:
       var commval = tr.value ();
@@ -333,23 +350,26 @@ public class GXml.XParser : Object, GXml.Parser {
       GLib.message ("Type COMMENT");
       GLib.message ("ReadNode: Comment Node : '"+commval+"'");
 #endif
-      n = node.owner_document.create_comment (commval);
-      node.append_child (n);
+      n = _document.create_comment (commval);
+      parent.append_child (n);
       break;
     case Xml.ReaderType.DOCUMENT:
 #if DEBUG
       GLib.message ("Type DOCUMENT");
 #endif
+      return false;
       break;
     case Xml.ReaderType.DOCUMENT_TYPE:
 #if DEBUG
       GLib.message ("Type DOCUMENT_TYPE");
 #endif
+      return false;
       break;
     case Xml.ReaderType.DOCUMENT_FRAGMENT:
 #if DEBUG
       GLib.message ("Type DOCUMENT_FRAGMENT");
 #endif
+      return false;
       break;
     case Xml.ReaderType.NOTATION:
 #if DEBUG
@@ -368,7 +388,7 @@ public class GXml.XParser : Object, GXml.Parser {
       GLib.message ("Type SIGNIFICANT_WHITESPACE");
 #endif
       n = _document.create_text_node (stxtval);
-      node.append_child (n);
+      parent.append_child (n);
       break;
     case Xml.ReaderType.END_ELEMENT:
 #if DEBUG
@@ -384,6 +404,7 @@ public class GXml.XParser : Object, GXml.Parser {
 #if DEBUG
       GLib.message ("Type XML_DECLARATION");
 #endif
+      return false;
       break;
     case Xml.ReaderType.ELEMENT:
       return false;
@@ -392,24 +413,28 @@ public class GXml.XParser : Object, GXml.Parser {
     return true;
   }
   /**
-   * Parse
+   * Reads current found element
    */
-  public void read_child_element (DomNode parent) throws GLib.Error {
+  public bool read_child_element (DomNode parent) throws GLib.Error {
     if (!current_is_element ())
       throw new DomError.INVALID_NODE_TYPE_ERROR
         (_("Invalid attempt to parse an element node, when current found node is not"));
 #if DEBUG
-    GLib.debug ("Parsing ELEMENT NODE to: "+parent.node_name);
+    GLib.message ("Parsing Child ELEMENT: "+current_node_name ()+" NODE to parent: "+parent.node_name);
 #endif
     DomNode n = null;
-    if (!read_element_property (node, out n))
-      n = create_element (node);
-    if (n == null) return;
+    if (!read_element_property (parent, out n))
+      n = create_element (parent);
+    if (n == null) return false;
+#if DEBUG
+    GLib.message ("Reading New Node: "+n.node_name);
+#endif
     read_element (n as DomElement);
     read_child_nodes (n);
+    return true;
   }
   /**
-   * Creates a new {@link DomElement} as a child of parent: for current
+   * Creates a new {@link DomElement} and append it as a child of parent: for current
    * read node, only if :
    *
    * # parent: have a property as {@link DomElement} type and current
@@ -423,30 +448,29 @@ public class GXml.XParser : Object, GXml.Parser {
   public bool read_element_property (DomNode parent,
                   out DomNode element) throws GLib.Error {
     if (!(parent is GomObject)) return false;
-    GomElement node = parent as GomElement;
 #if DEBUG
     GLib.message ("Searching for Properties Nodes for:"+
-                  (node as DomElement).local_name+
+                  (parent as DomElement).local_name+
                   " Current node name: "+ tr.const_local_name ());
 #endif
     foreach (ParamSpec pspec in
-              (node as GomObject).get_property_element_list ()) {
+              (parent as GomObject).get_property_element_list ()) {
       if (pspec.value_type.is_a (typeof (GomCollection))) {
 #if DEBUG
-        GLib.message (" Is Collection in: "+(node as DomElement).local_name);
+        GLib.message (" Is Collection in: "+(parent as DomElement).local_name);
 #endif
         GomCollection col;
         Value vc = Value (pspec.value_type);
-        node.get_property (pspec.name, ref vc);
+        parent.get_property (pspec.name, ref vc);
         col = vc.get_object () as GomCollection;
         if (col == null) {
 #if DEBUG
           GLib.message ("Initializing Collection property...");
 #endif
           col = Object.new (pspec.value_type,
-                            "element", node) as GomCollection;
+                            "element", parent) as GomCollection;
           vc.set_object (col);
-          node.set_property (pspec.name, vc);
+          parent.set_property (pspec.name, vc);
         }
         if (col.items_type == GLib.Type.INVALID
             || !(col.items_type.is_a (typeof (GomObject)))) {
@@ -465,7 +489,7 @@ public class GXml.XParser : Object, GXml.Parser {
 #if DEBUG
           GLib.message ("Is a Node to append in collection");
 #endif
-          if (node.owner_document == null)
+          if (parent.owner_document == null)
             throw new DomError.HIERARCHY_REQUEST_ERROR
                         (_("No document is set to node"));
           var obj = Object.new (col.items_type,
@@ -485,9 +509,9 @@ public class GXml.XParser : Object, GXml.Parser {
                == tr.const_local_name ().down ()) {
           Value v = Value (pspec.value_type);
           read_current_node (obj as DomNode, true, true);
-          node.append_child (obj as DomNode);
+          parent.append_child (obj as DomNode);
           v.set_object (obj);
-          node.set_property (pspec.name, v);
+          parent.set_property (pspec.name, v);
           element = obj as DomNode;
           return true;
         }

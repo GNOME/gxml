@@ -251,9 +251,9 @@ public class Performance
         assert (bs.books.element != null);
         assert (bs.books.items_type.is_a (typeof(GomBook)));
         assert (bs.books.items_name == "Book");
-        GLib.message ("Empty XML:"+bs.to_string ());
+        GLib.message (">>>>>>>>Empty XML:"+bs.to_string ());
         bs.read_from_file (f);
-        GLib.message ("XML:"+bs.to_string ());
+        GLib.message (">>>>>>>>XML:"+bs.to_string ());
         assert_not_reached ();
         assert (bs.local_name == "BookStore");
         assert (bs.get_attribute ("name") != null);
