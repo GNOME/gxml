@@ -114,6 +114,7 @@ class GomBook : GomElement
     resumes = Object.new (typeof (GomResume.Map),
                                       "element", this)
                                     as GomResume.Map;
+    assert (this.local_name == "Book");
   }
   public class Array : GomArrayList {
     construct { initialize (typeof (GomBook)); }
@@ -124,13 +125,23 @@ class GomBookStore : GomElement
 {
   [Description (nick="::name")]
   public string name { get; set; }
-  construct {
-    initialize ("BookStore");
-    assert (this != null);
-    books = Object.new (typeof(GomBook.Array),"element", this) as GomBook.Array;
-    assert_not_reached ();
-  }
   public GomBook.Array books { get; set; }
+  construct {
+    message ("Initialization of GomBookStore");
+    initialize ("BookStore");
+    books = Object.new (typeof(GomBook.Array),"element", this) as GomBook.Array;
+  }
+  public string to_string () {
+    var parser = new XParser (this);
+    string s = "";
+    try {
+      s = parser.write_string ();
+    } catch (GLib.Error e) {
+      GLib.message ("Error: "+e.message);
+      assert_not_reached ();
+    }
+    return s;
+  }
 }
 
 class GomSerializationTest : GXmlTest  {
@@ -243,6 +254,8 @@ class GomSerializationTest : GXmlTest  {
     construct { initialize_with_key (typeof (Book), "name"); }
   }
   public class BookStore : GomElement {
+    [Description (nick="::Name")]
+    public string name { get; set; }
     public Books books { get; set; }
     construct {
       initialize ("BookStore");

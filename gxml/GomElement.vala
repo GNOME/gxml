@@ -39,16 +39,24 @@ public class GXml.GomElement : GomNode,
   protected Attributes _attributes;
   // Convenient Serialization methods
   /**
-   * Uses element's {@link GomDocument} to parse an XML file, deserializing it.
+   * Parsing a URI file.
    */
-  public void read_from_file (GLib.File f) throws GLib.Error {
-    (this.owner_document as GomDocument).read_from_file (f);
+  public void read_from_uri (string uri) throws GLib.Error {
+    this.read_from_file (File.new_for_uri (uri));
   }
   /**
-   * Uses element's {@link GomDocument} to parse an XML string, deserializing it.
+   * Parses an XML file, deserializing it over {@link GomElemen}.
+   */
+  public void read_from_file (GLib.File f) throws GLib.Error {
+    var parser = new XParser (this);
+    parser.read_file (f, null);
+  }
+  /**
+   * Parses an XML string, deserializing it over {@link GomElemen}.
    */
   public void read_from_string (string str) throws GLib.Error {
-    (this.owner_document as GomDocument).read_from_string (str);
+    var parser = new XParser (this);
+    parser.read_string (str, null);
   }
   /**
    * Uses element's {@link GomDocument} to write an XML to a file, serializing it.

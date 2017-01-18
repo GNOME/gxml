@@ -26,7 +26,6 @@ using Gee;
 
 public class GXml.GomAttr : GXml.GomNode, GXml.DomAttr {
   protected string _namespace_uri;
-  protected string _prefix;
   public string local_name { owned get { return _local_name; } }
   public string name {
     owned get {

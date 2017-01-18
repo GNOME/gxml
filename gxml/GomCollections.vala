@@ -266,7 +266,7 @@ public abstract class GXml.BaseCollection : Object {
 public class GXml.GomArrayList : GXml.BaseCollection, GomCollection {
   public override bool validate_add (int index, DomElement element) throws GLib.Error {
 #if DEBUG
-    GLib.message ("Adding node:"+n.node_name);
+    GLib.message ("Adding node:"+element.node_name);
 #endif
     return true;
   }
