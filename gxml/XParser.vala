@@ -101,14 +101,66 @@ public class GXml.XParser : Object, GXml.Parser {
     GLib.message ("DATA:"+(string)b.data);
 #endif
     tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), "/gxml_memory");
-    while (read_current_node (_node, true));
+    read_node (_node);
   }
   /**
    * Reads a node using current parser.
    */
-  public void read_node (DomNode node) {
-    if (node is DomElement) read_element (node as DomElement);
-    read_child_nodes (node);
+  public void read_node (DomNode node) throws GLib.Error {
+    if (node is DomElement) {
+      while (true) {
+        if (current_is_element ()
+            &&
+            current_node_name ().down () == (node as DomElement).local_name)
+          break;
+        if (!current_is_document ()) {
+          read_child_node (_document);
+        }
+        if (!move_next_node ()) break;
+      }
+      read_element (node as DomElement);
+    }
+    else
+      read_child_nodes (node);
+  }
+  /**
+   * Use parser to go to next parsed node.
+   */
+  public bool move_next_node () throws GLib.Error {
+    int res = tr.read ();
+    if (res == -1)
+      throw new ParserError.INVALID_DATA_ERROR (_("Can't read node data"));
+    if (res == 0) {
+#if DEBUG
+      GLib.message ("ReadNode: No more nodes");
+#endif
+      return false;
+    }
+    return true;
+  }
+  /**
+   * Check if current node has childs.
+   */
+  public bool current_has_childs () {
+    return tr.is_empty_element () == 1;
+  }
+  /**
+   * Check if current node found by parser, is a {@link DomElement}
+   */
+  public bool current_is_element () {
+    return (tr.node_type () == Xml.ReaderType.ELEMENT);
+  }
+  /**
+   * Check if current node found by parser, is a {@link DomDocument}
+   */
+  public bool current_is_document() {
+    return (tr.node_type () == Xml.ReaderType.DOCUMENT);
+  }
+  /**
+   * Returns current node's local name, found by parser.
+   */
+  public string current_node_name () {
+    return tr.const_local_name ();
   }
   /**
    * Creates a new {@link DomElement} and append it as a child of parent.
@@ -138,6 +190,7 @@ public class GXml.XParser : Object, GXml.Parser {
   public void read_element (DomElement element) throws GLib.Error {
     var nattr = tr.attribute_count ();
 #if DEBUG
+    GLib.message ("Current reading node:"+element.local_name);
     GLib.message ("Number of Attributes:"+nattr.to_string ());
 #endif
     for (int i = 0; i < nattr; i++) {
@@ -206,136 +259,154 @@ public class GXml.XParser : Object, GXml.Parser {
   /**
    * Iterates in all child nodes and append them to node.
    */
-  private void read_child_nodes (DomNode node) throws GLib.Error {
-    if (tr.is_empty_element () == 1) return;
-    DomNode n = null;
+  public void read_child_nodes (DomNode node) throws GLib.Error {
+    if (!current_has_childs ()) return;
     bool cont = true;
     while (cont) {
-      int res = tr.read ();
-      if (res == -1)
-        throw new ParserError.INVALID_DATA_ERROR (_("Can't read node data"));
-      if (res == 0) {
-#if DEBUG
-        GLib.message ("ReadNode: No more nodes");
-#endif
-        return;
-      }
-      var t = tr.node_type ();
-      switch (t) {
-      case Xml.ReaderType.NONE:
-#if DEBUG
-        GLib.message ("Type NONE");
-#endif
-        res = tr.read ();
-        if (res == -1)
-          throw new ParserError.INVALID_DATA_ERROR (_("Can't read node data"));
-        break;
-      case Xml.ReaderType.ATTRIBUTE:
-#if DEBUG
-        GLib.message ("Type ATTRIBUTE");
-#endif
-        break;
-      case Xml.ReaderType.TEXT:
-        var txtval = tr.read_string ();
-#if DEBUG
-        GLib.message ("Type TEXT");
-        GLib.message ("ReadNode: Text Node : '"+txtval+"'");
-#endif
-        n = _document.create_text_node (txtval);
-        node.append_child (n);
-        break;
-      case Xml.ReaderType.CDATA:
-        break;
-      case Xml.ReaderType.ENTITY_REFERENCE:
-#if DEBUG
-        GLib.message ("Type ENTITY_REFERENCE");
-#endif
-        break;
-      case Xml.ReaderType.ENTITY:
-#if DEBUG
-        GLib.message ("Type ENTITY");
-#endif
-        break;
-      case Xml.ReaderType.PROCESSING_INSTRUCTION:
-        var pit = tr.const_local_name ();
-        var pival = tr.value ();
-#if DEBUG
-        GLib.message ("Type PROCESSING_INSTRUCTION");
-        GLib.message ("ReadNode: PI Node : '"+pit+"' : '"+pival+"'");
-#endif
-        n = node.owner_document.create_processing_instruction (pit,pival);
-        node.append_child (n);
-        break;
-      case Xml.ReaderType.COMMENT:
-        var commval = tr.value ();
-#if DEBUG
-        GLib.message ("Type COMMENT");
-        GLib.message ("ReadNode: Comment Node : '"+commval+"'");
-#endif
-        n = node.owner_document.create_comment (commval);
-        node.append_child (n);
-        break;
-      case Xml.ReaderType.DOCUMENT:
-#if DEBUG
-        GLib.message ("Type DOCUMENT");
-#endif
-        break;
-      case Xml.ReaderType.DOCUMENT_TYPE:
-#if DEBUG
-        GLib.message ("Type DOCUMENT_TYPE");
-#endif
-        break;
-      case Xml.ReaderType.DOCUMENT_FRAGMENT:
-#if DEBUG
-        GLib.message ("Type DOCUMENT_FRAGMENT");
-#endif
-        break;
-      case Xml.ReaderType.NOTATION:
-#if DEBUG
-        GLib.message ("Type NOTATION");
-#endif
-        break;
-      case Xml.ReaderType.WHITESPACE:
-#if DEBUG
-        GLib.message ("Type WHITESPACE");
-#endif
-        break;
-      case Xml.ReaderType.SIGNIFICANT_WHITESPACE:
-        var stxtval = tr.read_string ();
-#if DEBUG
-        GLib.message ("ReadNode: Text Node : '"+stxtval+"'");
-        GLib.message ("Type SIGNIFICANT_WHITESPACE");
-#endif
-        n = _document.create_text_node (stxtval);
-        node.append_child (n);
-        break;
-      case Xml.ReaderType.END_ELEMENT:
-#if DEBUG
-        GLib.message ("Type END_ELEMENT");
-#endif
-        return;
-      case Xml.ReaderType.END_ENTITY:
-#if DEBUG
-        GLib.message ("Type END_ENTITY");
-#endif
-        return;
-      case Xml.ReaderType.XML_DECLARATION:
-#if DEBUG
-        GLib.message ("Type XML_DECLARATION");
-#endif
-        break;
-      case Xml.ReaderType.ELEMENT:
-#if DEBUG
-        GLib.debug ("Type ELEMENT_NODE");
-#endif
-        if (!read_element_property (node, out n))
-          n = create_element (node);
-        if (n == null) return;
-        read_element (n as DomElement);
-        read_child_nodes (n);
-        break;
+      move_next_node ();
+      if (!read_child_node (node)) {
+        if (current_is_element ())
+          read_child_element (node);
+        else
+          break;
       }
     }
+  }
+  /**
+   * Creates a new {@link DomNode} and append it to
+   * parent: depending on current node's type found by parser.
+   *
+   * If current found node is a {@link DomElement}, it is not parsed.
+   * If you want to parse it use {@link parse_element} method.
+   *
+   * Returns: true if node has been created and appended to parent.
+   */
+  public bool read_child_node (DomNode parent) {
+    DomNode n = null;
+    var t = tr.node_type ();
+    switch (t) {
+    case Xml.ReaderType.NONE:
+#if DEBUG
+      GLib.message ("Type NONE");
+#endif
+      move_next_node ();
+      break;
+    case Xml.ReaderType.ATTRIBUTE:
+#if DEBUG
+      GLib.message ("Type ATTRIBUTE");
+#endif
+      break;
+    case Xml.ReaderType.TEXT:
+      var txtval = tr.read_string ();
+#if DEBUG
+      GLib.message ("Type TEXT");
+      GLib.message ("ReadNode: Text Node : '"+txtval+"'");
+#endif
+      n = _document.create_text_node (txtval);
+      node.append_child (n);
+      break;
+    case Xml.ReaderType.CDATA:
+      break;
+    case Xml.ReaderType.ENTITY_REFERENCE:
+#if DEBUG
+      GLib.message ("Type ENTITY_REFERENCE");
+#endif
+      break;
+    case Xml.ReaderType.ENTITY:
+#if DEBUG
+      GLib.message ("Type ENTITY");
+#endif
+      break;
+    case Xml.ReaderType.PROCESSING_INSTRUCTION:
+      var pit = tr.const_local_name ();
+      var pival = tr.value ();
+#if DEBUG
+      GLib.message ("Type PROCESSING_INSTRUCTION");
+      GLib.message ("ReadNode: PI Node : '"+pit+"' : '"+pival+"'");
+#endif
+      n = node.owner_document.create_processing_instruction (pit,pival);
+      node.append_child (n);
+      break;
+    case Xml.ReaderType.COMMENT:
+      var commval = tr.value ();
+#if DEBUG
+      GLib.message ("Type COMMENT");
+      GLib.message ("ReadNode: Comment Node : '"+commval+"'");
+#endif
+      n = node.owner_document.create_comment (commval);
+      node.append_child (n);
+      break;
+    case Xml.ReaderType.DOCUMENT:
+#if DEBUG
+      GLib.message ("Type DOCUMENT");
+#endif
+      break;
+    case Xml.ReaderType.DOCUMENT_TYPE:
+#if DEBUG
+      GLib.message ("Type DOCUMENT_TYPE");
+#endif
+      break;
+    case Xml.ReaderType.DOCUMENT_FRAGMENT:
+#if DEBUG
+      GLib.message ("Type DOCUMENT_FRAGMENT");
+#endif
+      break;
+    case Xml.ReaderType.NOTATION:
+#if DEBUG
+      GLib.message ("Type NOTATION");
+#endif
+      break;
+    case Xml.ReaderType.WHITESPACE:
+#if DEBUG
+      GLib.message ("Type WHITESPACE");
+#endif
+      break;
+    case Xml.ReaderType.SIGNIFICANT_WHITESPACE:
+      var stxtval = tr.read_string ();
+#if DEBUG
+      GLib.message ("ReadNode: Text Node : '"+stxtval+"'");
+      GLib.message ("Type SIGNIFICANT_WHITESPACE");
+#endif
+      n = _document.create_text_node (stxtval);
+      node.append_child (n);
+      break;
+    case Xml.ReaderType.END_ELEMENT:
+#if DEBUG
+      GLib.message ("Type END_ELEMENT");
+#endif
+      return false;
+    case Xml.ReaderType.END_ENTITY:
+#if DEBUG
+      GLib.message ("Type END_ENTITY");
+#endif
+      return false;
+    case Xml.ReaderType.XML_DECLARATION:
+#if DEBUG
+      GLib.message ("Type XML_DECLARATION");
+#endif
+      break;
+    case Xml.ReaderType.ELEMENT:
+      return false;
+      break;
+    }
+    return true;
+  }
+  /**
+   * Parse
+   */
+  public void read_child_element (DomNode parent) throws GLib.Error {
+    if (!current_is_element ())
+      throw new DomError.INVALID_NODE_TYPE_ERROR
+        (_("Invalid attempt to parse an element node, when current found node is not"));
+#if DEBUG
+    GLib.debug ("Parsing ELEMENT NODE to: "+parent.node_name);
+#endif
+    DomNode n = null;
+    if (!read_element_property (node, out n))
+      n = create_element (node);
+    if (n == null) return;
+    read_element (n as DomElement);
+    read_child_nodes (n);
   }
   /**
    * Creates a new {@link DomElement} as a child of parent: for current
