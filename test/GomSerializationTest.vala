@@ -51,7 +51,7 @@ class GomAuthors : GomElement
 {
   public string number { get; set; }
   construct { initialize ("Authors"); }
-  public Author.Array array { get; set; default = new Author.Array (); }
+  public GomAuthor.Array array { get; set; }
 }
 
 class GomInventory : GomElement
@@ -96,7 +96,7 @@ class GomBook : GomElement
 {
   [Description(nick="::Year")]
   public string year { get; set; }
-  [Description(isbn="::ISBN")]
+  [Description(nick="::ISBN")]
   public string isbn { get; set; }
   public GomName   name { get; set; }
   public GomAuthors authors { get; set; }
@@ -129,7 +129,6 @@ class GomBookStore : GomElement
   construct {
     message ("Initialization of GomBookStore");
     initialize ("BookStore");
-    books = Object.new (typeof(GomBook.Array),"element", this) as GomBook.Array;
   }
   public string to_string () {
     var parser = new XParser (this);
@@ -664,16 +663,56 @@ class GomSerializationTest : GXmlTest  {
       assert_not_reached ();
     }
     });
-    Test.add_func ("/gxml/gom-serialization/multiple-child-collections", () => {
-    try {
-      var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR + "/test-large.xml");
-      assert (f.query_exists ());
-      var bs = new GomBookStore ();
-      bs.read_from_file (f);
-    } catch (GLib.Error e) {
-      GLib.message ("ERROR: "+e.message);
-      assert_not_reached ();
-    }
+    Test.add_func ("/gxml/gom-serialization/multiple-child-collections",
+    () => {
+      try {
+        double time;
+        GomDocument doc;
+        var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR + "/test-collection.xml");
+        assert (f.query_exists ());
+        Test.timer_start ();
+        var bs = new GomBookStore ();
+        assert (bs != null);
+        GLib.message (">>>>>>>>Empty XML:"+bs.to_string ());
+        bs.read_from_file (f);
+        assert (bs.books != null);
+        assert (bs.books.element != null);
+        assert (bs.books.items_type.is_a (typeof(GomBook)));
+        assert (bs.books.items_name == "Book");
+        assert (bs.local_name == "BookStore");
+        assert (bs.get_attribute ("name") != null);
+        assert (bs.name != null);
+        assert (bs.name == "The Great Book");
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "deserialize/performance: %g seconds", time);
+        GLib.message (">>>>>>>>XML:"+bs.to_string ());
+        var of = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR + "/test-large-new.xml");
+        Test.timer_start ();
+        // Check read structure
+        GLib.message ("Document Root: "+bs.owner_document.document_element.node_name);
+        assert (bs.owner_document.document_element.node_name.down () == "bookstore");
+        GLib.message ("Root Child nodes: "+bs.child_nodes.length.to_string ());
+        assert (bs.child_nodes.length == 7);
+        var ns = bs.get_elements_by_tag_name ("Book");
+        GLib.message ("Query Books: "+ns.length.to_string ());
+        GLib.message ("Books: "+bs.books.length.to_string ());
+        assert (ns.length == 3);
+        /*assert (bs.books.length > 0);
+        var b = bs.books.get_item (0) as GomBook;
+        assert (b != null);
+        assert (b.year == "2015");*/
+        bs.write_file (of);
+        time = Test.timer_elapsed ();
+        Test.minimized_result (time, "Serialize/performance: %g seconds", time);
+        assert (of.query_exists ());
+        try { of.delete (); } catch { assert_not_reached (); }
+
+      } catch (GLib.Error e) {
+#if DEBUG
+        GLib.message ("ERROR: "+e.message);
+#endif
+        assert_not_reached ();
+      }
     });
   }
 }

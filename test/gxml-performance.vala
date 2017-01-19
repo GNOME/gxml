@@ -237,56 +237,6 @@ public class Performance
   }
   public static void add_tests ()
   {
-    Test.add_func ("/gxml/performance/check/document",
-    () => {
-      try {
-        double time;
-        GomDocument doc;
-        var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR + "/test-collection.xml");
-        assert (f.query_exists ());
-        Test.timer_start ();
-        var bs = new GomBookStore ();
-        assert (bs != null);
-        assert (bs.books != null);
-        assert (bs.books.element != null);
-        assert (bs.books.items_type.is_a (typeof(GomBook)));
-        assert (bs.books.items_name == "Book");
-        GLib.message (">>>>>>>>Empty XML:"+bs.to_string ());
-        bs.read_from_file (f);
-        GLib.message (">>>>>>>>XML:"+bs.to_string ());
-        assert_not_reached ();
-        assert (bs.local_name == "BookStore");
-        assert (bs.get_attribute ("name") != null);
-        assert (bs.name != null);
-        assert (bs.name == "The Great Book");
-        time = Test.timer_elapsed ();
-        Test.minimized_result (time, "deserialize/performance: %g seconds", time);
-        var of = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR + "/test-large-new.xml");
-        Test.timer_start ();
-        bs.write_file (of);
-        time = Test.timer_elapsed ();
-        Test.minimized_result (time, "Serialize/performance: %g seconds", time);
-        assert (of.query_exists ());
-        try { of.delete (); } catch { assert_not_reached (); }
-        // Check read structure
-        GLib.message ("Document Root: "+bs.owner_document.document_element.node_name);
-        assert (bs.owner_document.document_element.node_name.down () == "bookstore");
-        assert (bs.child_nodes.length > 0);
-        var ns = bs.get_elements_by_tag_name ("book");
-        GLib.message ("Query Books: "+ns.length.to_string ());
-        assert (ns.length > 0);
-        GLib.message ("Books: "+bs.books.length.to_string ());
-        /*assert (bs.books.length > 0);
-        var b = bs.books.get_item (0) as GomBook;
-        assert (b != null);
-        assert (b.year == "2015");*/
-      } catch (GLib.Error e) {
-#if DEBUG
-        GLib.message ("ERROR: "+e.message);
-#endif
-        assert_not_reached ();
-      }
-    });
 #if ENABLE_PERFORMANCE_TESTS
     Test.add_func ("/gxml/performance/read/gomdocument",
     () => {

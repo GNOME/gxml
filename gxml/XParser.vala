@@ -154,8 +154,8 @@ public class GXml.XParser : Object, GXml.Parser {
   /**
    * Check if current node has childs.
    */
-  public bool current_has_childs () {
-    return tr.is_empty_element () != 1;
+  public bool current_is_empty_element () {
+    return tr.is_empty_element () == 1;
   }
   /**
    * Check if current node found by parser, is a {@link DomElement}
@@ -273,15 +273,11 @@ public class GXml.XParser : Object, GXml.Parser {
    * Iterates in all child nodes and append them to node.
    */
   public void read_child_nodes (DomNode parent) throws GLib.Error {
-#if DEBUG
-      GLib.message ("Node "+parent.node_name+" has childs? "+current_has_childs ().to_string ());
-#endif
-    if (!current_has_childs ()) return;
     bool cont = true;
     while (cont) {
       if (!move_next_node ()) return;
 #if DEBUG
-      GLib.message ("Current child node: "+current_node_name ());
+      GLib.message ("Parent: "+parent.node_name+" Current child node: "+current_node_name ());
 #endif
       if (current_is_element ())
         cont = read_child_element (parent);
@@ -421,7 +417,9 @@ public class GXml.XParser : Object, GXml.Parser {
         (_("Invalid attempt to parse an element node, when current found node is not"));
 #if DEBUG
     GLib.message ("Parsing Child ELEMENT: "+current_node_name ()+" NODE to parent: "+parent.node_name);
+    GLib.message ("Node "+current_node_name()+" Is Empty? "+current_is_empty_element ().to_string ());
 #endif
+    bool isempty = current_is_empty_element ();
     DomNode n = null;
     if (!read_element_property (parent, out n))
       n = create_element (parent);
@@ -430,7 +428,8 @@ public class GXml.XParser : Object, GXml.Parser {
     GLib.message ("Reading New Node: "+n.node_name);
 #endif
     read_element (n as DomElement);
-    read_child_nodes (n);
+    if (!isempty)
+      read_child_nodes (n);
     return true;
   }
   /**
@@ -457,7 +456,7 @@ public class GXml.XParser : Object, GXml.Parser {
               (parent as GomObject).get_property_element_list ()) {
       if (pspec.value_type.is_a (typeof (GomCollection))) {
 #if DEBUG
-        GLib.message (" Is Collection in: "+(parent as DomElement).local_name);
+        GLib.message (pspec.name+" Is Collection in: "+(parent as DomElement).local_name);
 #endif
         GomCollection col;
         Value vc = Value (pspec.value_type);
@@ -485,30 +484,29 @@ public class GXml.XParser : Object, GXml.Parser {
           throw new DomError.INVALID_NODE_TYPE_ERROR
                       (_("Invalid Element set to Collection"));
         }
-        if (col.items_name.down () == tr.const_local_name ().down ()) {
+        if (col.items_name.down () == current_node_name ().down ()) {
 #if DEBUG
-          GLib.message ("Is a Node to append in collection");
+          GLib.message (current_node_name ()+" Is a Node to append in collection: "+pspec.name);
 #endif
           if (parent.owner_document == null)
             throw new DomError.HIERARCHY_REQUEST_ERROR
                         (_("No document is set to node"));
           var obj = Object.new (col.items_type,
-                                "owner-document", _document);
+                                "owner-document", _document) as DomElement;
 #if DEBUG
           GLib.message ("Object Element to add in Collection: "
-                          +(_node as DomNode).node_name);
+                          +obj.local_name);
 #endif
-          col.append (obj as DomElement);
-          element = obj as DomNode;
+          col.append (obj);
+          element = obj;
           return true;
         }
       } else {
         var obj = Object.new (pspec.value_type,
-                              "owner-document", _document);
-        if ((obj as DomElement).local_name.down ()
+                              "owner-document", _document) as DomElement;
+        if (obj.local_name.down ()
                == tr.const_local_name ().down ()) {
           Value v = Value (pspec.value_type);
-          read_current_node (obj as DomNode, true, true);
           parent.append_child (obj as DomNode);
           v.set_object (obj);
           parent.set_property (pspec.name, v);
@@ -518,332 +516,6 @@ public class GXml.XParser : Object, GXml.Parser {
       }
     }
     return false;
-  }
-  public bool read_current_node (DomNode node,
-                                bool read_current = false,
-                                bool read_property = false)
-                                throws GLib.Error {
-    GXml.DomNode n = node;
-    string prefix = null, nsuri = null;
-    int res = 1;
-#if DEBUG
-    GLib.message ("ReadNode: Current Node: "+node.node_name
-                  +" Current: "+read_current.to_string ()+
-                  " Property: "+read_property.to_string ());
-#endif
-    if (!read_property) {
-      res = tr.read ();
-      if (res == -1)
-        throw new ParserError.INVALID_DATA_ERROR (_("Can't read node data"));
-#if DEBUG
-      if (res == 0)
-        GLib.message ("ReadNode: No more nodes");
-#endif
-      if (res == 0) return false;
-    }
-    var t = tr.node_type ();
-    switch (t) {
-    case Xml.ReaderType.NONE:
-#if DEBUG
-      GLib.message ("Type NONE");
-#endif
-      res = tr.read ();
-      if (res == -1)
-        throw new ParserError.INVALID_DATA_ERROR (_("Can't read node data"));
-      break;
-    case Xml.ReaderType.ELEMENT:
-      bool isproperty = false;
-      bool isempty = (tr.is_empty_element () == 1);
-      if (!read_current && !read_property
-          && node is DomElement
-          && tr.const_local_name () != (node as DomElement).local_name) {
-#if DEBUG
-        GLib.message ("Searching for Properties Nodes for:"+
-                      (node as DomElement).local_name+
-                      " Current node name: "+ tr.const_local_name ());
-#endif
-        foreach (ParamSpec pspec in
-                  (node as GomObject).get_property_element_list ()) {
-          if (pspec.value_type.is_a (typeof (GomCollection))) {
-#if DEBUG
-            GLib.message (" Is Collection in: "+(node as DomElement).local_name);
-#endif
-            GomCollection col;
-            Value vc = Value (pspec.value_type);
-            node.get_property (pspec.name, ref vc);
-            col = vc.get_object () as GomCollection;
-            if (col == null) {
-#if DEBUG
-              GLib.message ("Initializing Collection property...");
-#endif
-              col = Object.new (pspec.value_type,
-                                "element", node) as GomCollection;
-              vc.set_object (col);
-              node.set_property (pspec.name, vc);
-            }
-            if (col.items_type == GLib.Type.INVALID
-                || !(col.items_type.is_a (typeof (GomObject)))) {
-              throw new DomError.INVALID_NODE_TYPE_ERROR
-                          (_("Invalid object type set to Collection"));
-              continue;
-            }
-            if (col.items_name == "" || col.items_name == null) {
-              throw new DomError.INVALID_NODE_TYPE_ERROR
-                          (_("Invalid DomElement name for objects in Collection"));
-              continue;
-            }
-            if (col.element == null || !(col.element is GomElement)) {
-              throw new DomError.INVALID_NODE_TYPE_ERROR
-                          (_("Invalid Element set to Collection"));
-              continue;
-            }
-            if (col.items_name.down () == tr.const_local_name ().down ()) {
-#if DEBUG
-              GLib.message ("Is a Node to append in collection");
-#endif
-              if (node.owner_document == null)
-                throw new DomError.HIERARCHY_REQUEST_ERROR
-                            (_("No document is set to node"));
-              var obj = Object.new (col.items_type,
-                                    "owner-document", _document);
-#if DEBUG
-              GLib.message ("Equal Documents:"+
-                  ((obj as DomNode).owner_document == node.owner_document).to_string ());
-              GLib.message ("Object Element to add in Collection: "
-                              +(_node as DomNode).node_name);
-              GLib.message ("Root Document Element Root: "
-                            +(_node as DomNode).owner_document.document_element.node_name);
-              GLib.message ("Root Document Element Node: "
-                            +(node as DomNode).owner_document.document_element.node_name);
-              GLib.message ("Root Document Element: "
-                            +(obj as DomNode).owner_document.document_element.node_name);
-#endif
-              read_current_node (obj as DomNode, true, true);
-#if DEBUG
-              GLib.message ("Adding element to collection...");
-#endif
-              col.append (obj as DomElement);
-              isproperty = true;
-              break;
-            }
-          } else {
-            var obj = Object.new (pspec.value_type,
-                                  "owner-document", _document);
-            if ((obj as DomElement).local_name.down ()
-                   == tr.const_local_name ().down ()) {
-              Value v = Value (pspec.value_type);
-              read_current_node (obj as DomNode, true, true);
-              node.append_child (obj as DomNode);
-              v.set_object (obj);
-              node.set_property (pspec.name, v);
-              isproperty = true;
-              break;
-            }
-          }
-        }
-      }
-      if (node is DomElement) {
-        if (read_current
-            && tr.const_local_name ().down ()
-                != (node as DomElement).local_name.down ())
-          throw new DomError.VALIDATION_ERROR
-                    (_("Invalid element node name. Expected %s")
-                        .printf ((node as DomElement).local_name));
-      }
-      if (!isproperty) {
-        if (node is DomDocument || !read_current) {
-#if DEBUG
-          GLib.message ("No object Property is set. Creating a standard element: "
-                        +tr.const_local_name ());
-          GLib.message ("No deserializing current node");
-          if (isempty) GLib.message ("Is Empty node:"+node.node_name);
-          GLib.message ("ReadNode: Element: "+tr.const_local_name ());
-#endif
-          if (!isproperty) {
-            prefix = tr.prefix ();
-            if (prefix != null) {
-#if DEBUG
-              GLib.message ("Is namespaced element");
-#endif
-              nsuri = tr.lookup_namespace (prefix);
-              n = _document.create_element_ns (nsuri, tr.prefix () +":"+ tr.const_local_name ());
-            } else
-              n = _document.create_element (tr.const_local_name ());
-            node.append_child (n);
-          }
-        }
-        var nattr = tr.attribute_count ();
-#if DEBUG
-        GLib.message ("Number of Attributes:"+nattr.to_string ());
-#endif
-        for (int i = 0; i < nattr; i++) {
-          var c = tr.move_to_attribute_no (i);
-#if DEBUG
-          GLib.message ("Current Attribute: "+i.to_string ());
-#endif
-          if (c != 1) {
-            throw new DomError.HIERARCHY_REQUEST_ERROR (_("Parsing ERROR: Fail to move to attribute number: %i").printf (i));
-          }
-          if (tr.is_namespace_decl () == 1) {
-#if DEBUG
-            GLib.message ("Is Namespace Declaration...");
-#endif
-            string nsp = tr.const_local_name ();
-            string aprefix = tr.prefix ();
-            tr.read_attribute_value ();
-            if (tr.node_type () == Xml.ReaderType.TEXT) {
-              string ansuri = tr.read_string ();
-#if DEBUG
-              GLib.message ("Read: "+aprefix+":"+nsp+"="+ansuri);
-#endif
-              string ansp = nsp;
-              if (nsp != "xmlns")
-                ansp = aprefix+":"+nsp;
-#if DEBUG
-              GLib.message ("To append: "+ansp+"="+ansuri);
-#endif
-              (n as DomElement).set_attribute_ns ("http://www.w3.org/2000/xmlns/",
-                                                   ansp, ansuri);
-            }
-          } else {
-            var attrname = tr.const_local_name ();
-            prefix = tr.prefix ();
-#if DEBUG
-            GLib.message ("Attribute: "+tr.const_local_name ());
-#endif
-            tr.read_attribute_value ();
-            if (tr.node_type () == Xml.ReaderType.TEXT) {
-              var attrval = tr.read_string ();
-#if DEBUG
-              GLib.message ("Attribute:"+attrname+" Value: "+attrval);
-#endif
-              bool processed = (n as GomObject).set_attribute (attrname, attrval);
-              if (prefix != null && !processed) {
-#if DEBUG
-                GLib.message ("Prefix found: "+prefix);
-#endif
-                if (prefix == "xml")
-                  nsuri = "http://www.w3.org/2000/xmlns/";
-                else
-                  nsuri = tr.lookup_namespace (prefix);
-                (n as DomElement).set_attribute_ns (nsuri, prefix+":"+attrname, attrval);
-              } else if (!processed)
-                (n as DomElement).set_attribute (attrname, attrval);
-            }
-          }
-        }
-#if DEBUG
-        GLib.message ("No more element attributes for: "
-                        +node.node_name);
-#endif
-      }
-      if (isempty) {
-#if DEBUG
-        GLib.message ("No child nodes returning...");
-#endif
-        return true;
-      }
-#if DEBUG
-      GLib.message ("Getting child nodes in element");
-#endif
-      while (read_current_node (n) == true);
-      break;
-    case Xml.ReaderType.ATTRIBUTE:
-#if DEBUG
-      GLib.message ("Type ATTRIBUTE");
-#endif
-      break;
-    case Xml.ReaderType.TEXT:
-      var txtval = tr.read_string ();
-#if DEBUG
-      GLib.message ("Type TEXT");
-      GLib.message ("ReadNode: Text Node : '"+txtval+"'");
-#endif
-      n = _document.create_text_node (txtval);
-      node.append_child (n);
-      break;
-    case Xml.ReaderType.CDATA:
-      break;
-    case Xml.ReaderType.ENTITY_REFERENCE:
-#if DEBUG
-      GLib.message ("Type ENTITY_REFERENCE");
-#endif
-      break;
-    case Xml.ReaderType.ENTITY:
-#if DEBUG
-      GLib.message ("Type ENTITY");
-#endif
-      break;
-    case Xml.ReaderType.PROCESSING_INSTRUCTION:
-      var pit = tr.const_local_name ();
-      var pival = tr.value ();
-#if DEBUG
-      GLib.message ("Type PROCESSING_INSTRUCTION");
-      GLib.message ("ReadNode: PI Node : '"+pit+"' : '"+pival+"'");
-#endif
-      n = node.owner_document.create_processing_instruction (pit,pival);
-      node.append_child (n);
-      break;
-    case Xml.ReaderType.COMMENT:
-      var commval = tr.value ();
-#if DEBUG
-      GLib.message ("Type COMMENT");
-      GLib.message ("ReadNode: Comment Node : '"+commval+"'");
-#endif
-      n = node.owner_document.create_comment (commval);
-      node.append_child (n);
-      break;
-    case Xml.ReaderType.DOCUMENT:
-#if DEBUG
-      GLib.message ("Type DOCUMENT");
-#endif
-      break;
-    case Xml.ReaderType.DOCUMENT_TYPE:
-#if DEBUG
-      GLib.message ("Type DOCUMENT_TYPE");
-#endif
-      break;
-    case Xml.ReaderType.DOCUMENT_FRAGMENT:
-#if DEBUG
-      GLib.message ("Type DOCUMENT_FRAGMENT");
-#endif
-      break;
-    case Xml.ReaderType.NOTATION:
-#if DEBUG
-      GLib.message ("Type NOTATION");
-#endif
-      break;
-    case Xml.ReaderType.WHITESPACE:
-#if DEBUG
-      GLib.message ("Type WHITESPACE");
-#endif
-      break;
-    case Xml.ReaderType.SIGNIFICANT_WHITESPACE:
-      var stxtval = tr.read_string ();
-#if DEBUG
-      GLib.message ("ReadNode: Text Node : '"+stxtval+"'");
-      GLib.message ("Type SIGNIFICANT_WHITESPACE");
-#endif
-      n = _document.create_text_node (stxtval);
-      node.append_child (n);
-      break;
-    case Xml.ReaderType.END_ELEMENT:
-#if DEBUG
-      GLib.message ("Type END_ELEMENT");
-#endif
-      return false;
-    case Xml.ReaderType.END_ENTITY:
-#if DEBUG
-      GLib.message ("Type END_ENTITY");
-#endif
-      return false;
-    case Xml.ReaderType.XML_DECLARATION:
-#if DEBUG
-      GLib.message ("Type XML_DECLARATION");
-#endif
-      break;
-    }
-    return true;
   }
 
   private string dump () throws GLib.Error {
