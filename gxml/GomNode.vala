@@ -61,7 +61,7 @@ public class GXml.GomNode : Object,
   public string node_name {
     owned get {
       if (_local_name == null) return "NO NAME";
-      if (_prefix == null) return _local_name;
+      if (_prefix == null || _prefix == "") return _local_name;
       return _prefix+":"+_local_name;
     }
   }

@@ -303,13 +303,13 @@ public class GXml.GomElement : GomNode,
      * namespace
      */
     public DomNode? set_named_item (DomNode node) throws GLib.Error {
-      if ((":" in node.node_name)
-          || node.node_name == "")
-        throw new DomError.INVALID_CHARACTER_ERROR (_("Invalid attribute name"));
+      if ((":" in (node as DomAttr).local_name)
+          || (node as DomAttr).local_name == "")
+        throw new DomError.INVALID_CHARACTER_ERROR (_("Invalid attribute name: %s"), (node as DomAttr).local_name);
       if (!(node is DomAttr))
         throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid node type. DomAttr was expected"));
-      set (node.node_name, node.node_value);
-      return new GomAttr (_element, node.node_name, node.node_value);
+      set ((node as DomAttr).local_name, node.node_value);
+      return new GomAttr (_element, (node as DomAttr).local_name, node.node_value);
     }
     public DomNode? remove_named_item (string name) throws GLib.Error {
       if (":" in name) return null;
@@ -342,23 +342,25 @@ public class GXml.GomElement : GomNode,
     }
     // Introduced in DOM Level 2:
     public DomNode? set_named_item_ns (DomNode node) throws GLib.Error {
-      if (node.node_name == "")
-        throw new DomError.INVALID_CHARACTER_ERROR (_("Invalid attribute name"));
+      if ((node as DomAttr).local_name == "" || ":" in (node as DomAttr).local_name)
+        throw new DomError.INVALID_CHARACTER_ERROR (_("Invalid attribute name: %s"),(node as DomAttr).local_name);
       if (!(node is DomAttr))
         throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid node type. DomAttr was expected"));
-      if (((node as DomAttr).prefix == null || (node as DomAttr).prefix == "")
-          && node.node_name != "xmlns")
-        throw new DomError.NAMESPACE_ERROR (_("Invalid namespaced attribute's name and prefix"));
+
       if ((node as DomAttr).prefix == "xmlns"
           && (node as DomAttr).namespace_uri != "http://www.w3.org/2000/xmlns/"
               && (node as DomAttr).namespace_uri != "http://www.w3.org/2000/xmlns")
         throw new DomError.NAMESPACE_ERROR (_("Namespace attributes prefixed with xmlns should use a namespace uri http://www.w3.org/2000/xmlns"));
       if ((node as DomAttr).prefix == ""
           || (node as DomAttr).prefix == null
-          && node.node_name != "xmlns")
-        throw new DomError.NAMESPACE_ERROR (_("Namespaced attributes should provide a valid prefix and namespace"));
+          && (node as DomAttr).local_name != "xmlns") {
+        string s = (node as DomAttr).local_name;
+        if ((node as DomAttr).namespace_uri != null)
+          s += "=<"+(node as DomAttr).namespace_uri+">";
+        throw new DomError.NAMESPACE_ERROR (_("Namespaced attributes should provide a non-null, non-empty prefix: %s"),s);
+      }
       if ((node as DomAttr).prefix == "xmlns"
-          && node.node_name == "xmlns")
+          && (node as DomAttr).local_name == "xmlns")
         throw new DomError.NAMESPACE_ERROR (_("Invalid namespace attribute's name."));
       if ((node as DomAttr).prefix == "xmlns"
           || (node as DomAttr).local_name == "xmlns") {
@@ -368,26 +370,34 @@ public class GXml.GomElement : GomNode,
       }
       if ((node as DomAttr).namespace_uri == "http://www.w3.org/2000/xmlns/"
           || (node as DomAttr).namespace_uri == "http://www.w3.org/2000/xmlns") {
+#if DEBUG
         GLib.message ("Searching for duplicated ns..."+node.node_value
                   +" NS: "+(node as DomAttr).namespace_uri);
-        if (node.node_name == "xmlns") {
+#endif
+        if ((node as DomAttr).local_name == "xmlns") {
           string ns_uri = _element.lookup_namespace_uri (null);
           if (ns_uri != null && ns_uri != node.node_value) {
+#if DEBUG
             GLib.message ("NSURI: "+ns_uri+" NSURI Attr:"+node.node_value);
+#endif
             throw new DomError.NAMESPACE_ERROR
                       (_("Redefinition of default namespace for %s")
                         .printf (node.node_value));
           }
         }
         if ((node as DomAttr).prefix == "xmlns") {
+#if DEBUG
           GLib.message ("Attr Prefix = "+(node as DomAttr).prefix
                       + "Attr Name: "+(node as DomAttr).local_name);
+#endif
           string nsprefix = _element.lookup_prefix (node.node_value);
-          string nsuri = _element.lookup_namespace_uri (node.node_name);
+          string nsuri = _element.lookup_namespace_uri ((node as DomAttr).local_name);
           if ((nsprefix != null || nsuri != null)
               && (nsprefix != (node as DomAttr).local_name
                   || nsuri != node.node_value)) {
+#if DEBUG
             GLib.message ("Prefix: "+nsprefix+" Prefix Attr:"+(node as DomAttr).local_name);
+#endif
             throw new DomError.NAMESPACE_ERROR
                       (_("Redefinition of namespace's prefix for %s")
                         .printf (node.node_value));
@@ -396,8 +406,10 @@ public class GXml.GomElement : GomNode,
       }
       if ((node as DomAttr).namespace_uri != "http://www.w3.org/2000/xmlns/"
           && (node as DomAttr).namespace_uri != "http://www.w3.org/2000/xmlns"){
+#if DEBUG
         GLib.message ("No namespace attribute: "+(node as DomAttr).namespace_uri
                     + ":"+(node as DomAttr).prefix);
+#endif
         string nsn = _element.lookup_namespace_uri ((node as DomAttr).prefix);
         string nspn = _element.lookup_prefix (nsn);
         if (nspn != (node as DomAttr).prefix
@@ -416,15 +428,18 @@ public class GXml.GomElement : GomNode,
       if ((node as DomAttr).prefix != null
           && (node as DomAttr).prefix != "")
         p = (node as DomAttr).prefix + ":";
+#if DEBUG
       GLib.message ("Attribute to set: "+p+(node as DomAttr).local_name
                     +"="+node.node_value);
+#endif
       set (p+(node as DomAttr).local_name,
           node.node_value);
 
       var attr = new GomAttr.namespace (_element,
                                     (node as DomAttr).namespace_uri,
                                     (node as DomAttr).prefix,
-                                    node.node_name, node.node_value);
+                                    (node as DomAttr).local_name,
+                                    node.node_value);
       return attr;
     }
   }
@@ -462,6 +477,8 @@ public class GXml.GomElement : GomNode,
         throw new DomError.NAMESPACE_ERROR (_("Invalid attribute name. Just one prefix is allowed"));
       p = s[0];
       n = s[1];
+      if (":" in n)
+        throw new DomError.NAMESPACE_ERROR (_("Invalid attribute name. Invalid use of colon: %s"), n);
     } else
       n = name;
     if (namespace_uri == null && p == "")

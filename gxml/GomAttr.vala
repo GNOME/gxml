@@ -30,7 +30,7 @@ public class GXml.GomAttr : GXml.GomNode, GXml.DomAttr {
   public string name {
     owned get {
       string s = "";
-      if (_prefix != null) s = _prefix+":";
+      if (_prefix != null && _prefix != "") s = _prefix+":";
       return s+_local_name;
     }
   }

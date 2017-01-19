@@ -134,7 +134,10 @@ public class GXml.XParser : Object, GXml.Parser {
 #if DEBUG
         GLib.message ("Parsing child nodes of: "+node.node_name);
 #endif
-    read_child_nodes (node);
+    if (current_is_element ())
+      read_child_element (node);
+    else
+      read_child_nodes (node);
   }
   /**
    * Use parser to go to next parsed node.
@@ -275,9 +278,12 @@ public class GXml.XParser : Object, GXml.Parser {
   public void read_child_nodes (DomNode parent) throws GLib.Error {
     bool cont = true;
     while (cont) {
+#if DEBUG
+      GLib.message ("Parent: "+parent.node_name+" Current node: "+current_node_name ());
+#endif
       if (!move_next_node ()) return;
 #if DEBUG
-      GLib.message ("Parent: "+parent.node_name+" Current child node: "+current_node_name ());
+      GLib.message ("Parent: "+parent.node_name+" Next Current child node: "+current_node_name ());
 #endif
       if (current_is_element ())
         cont = read_child_element (parent);
@@ -294,7 +300,7 @@ public class GXml.XParser : Object, GXml.Parser {
    *
    * Returns: true if node has been created and appended to parent.
    */
-  public bool read_child_node (DomNode parent) {
+  public bool read_child_node (DomNode parent) throws GLib.Error {
     DomNode n = null;
     var t = tr.node_type ();
     switch (t) {
@@ -315,8 +321,10 @@ public class GXml.XParser : Object, GXml.Parser {
       GLib.message ("Type TEXT");
       GLib.message ("ReadNode: Text Node : '"+txtval+"'");
 #endif
-      n = _document.create_text_node (txtval);
-      parent.append_child (n);
+      if (!(parent is DomDocument)) {
+        n = _document.create_text_node (txtval);
+        parent.append_child (n);
+      }
       break;
     case Xml.ReaderType.CDATA:
       break;
@@ -383,8 +391,10 @@ public class GXml.XParser : Object, GXml.Parser {
       GLib.message ("ReadNode: Text Node : '"+stxtval+"'");
       GLib.message ("Type SIGNIFICANT_WHITESPACE");
 #endif
-      n = _document.create_text_node (stxtval);
-      parent.append_child (n);
+      if (!(parent is DomDocument)) {
+        n = _document.create_text_node (stxtval);
+        parent.append_child (n);
+      }
       break;
     case Xml.ReaderType.END_ELEMENT:
 #if DEBUG
