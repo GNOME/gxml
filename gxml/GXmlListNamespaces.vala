@@ -35,7 +35,8 @@ public class GXml.GListNamespaces : Gee.AbstractList<GXml.Namespace>
   }
   // List
   public override new GXml.Namespace @get (int index) {
-    if (_node == null) return null;
+    GXml.Namespace nullns = null;
+    if (_node == null) return nullns;
     var ns = _node->ns_def;
     int i = 0;
     while (ns != null) {
@@ -45,7 +46,7 @@ public class GXml.GListNamespaces : Gee.AbstractList<GXml.Namespace>
       ns = ns->next;
       i++;
     }
-    return null;
+    return nullns;
   }
   public override int index_of (GXml.Namespace item) {
     if (_node == null) return -1;
@@ -61,7 +62,10 @@ public class GXml.GListNamespaces : Gee.AbstractList<GXml.Namespace>
   }
   public override void insert (int index, GXml.Namespace item) {}
   public override Gee.ListIterator<GXml.Namespace> list_iterator () { return new Iterator (_node); }
-  public override GXml.Namespace remove_at (int index) { return null; }
+  public override GXml.Namespace remove_at (int index) {
+    GXml.Namespace nullns = null;
+    return nullns;
+  }
   public override new void @set (int index, GXml.Namespace item) {}
   public override Gee.List<GXml.Namespace>? slice (int start, int stop) {
     var l = new ArrayList<GXml.Namespace> ();

@@ -32,7 +32,7 @@ class SerializablePropertyEnumTest : GXmlTest {
     }
     public Enum.Values get_value () throws GLib.Error { return (Enum.Values) to_integer (); }
     public void set_value (Enum.Values val) throws GLib.Error { parse_integer ((int) val); }
-    public string get_string () throws GLib.Error { return get_serializable_property_value (); }
+    //public string get_string () throws GLib.Error { return get_serializable_property_value (); }
     public void set_string (string? str) throws GLib.Error { set_serializable_property_value (str); }
     public enum Values {
       SER_ONE,

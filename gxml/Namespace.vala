@@ -36,13 +36,13 @@ public interface GXml.Namespace : Object
   /**
    * Read-only property to get namespace's URI.
    */
-  public abstract string uri { owned get; }
+  public abstract string? uri { owned get; }
   /**
    * Read-only property to get namespace's prefix.
    *
    * Prefix should be added to {@link GXml.Element} or {@link GXml.Attribute}
    * name in order to apply a given namespace, unless it is the default.
    */
-  public abstract string prefix { owned get; }
+  public abstract string? prefix { owned get; }
 }
 

@@ -87,7 +87,6 @@ public class GXml.XParser : Object, GXml.Parser {
   public void read_string (string str, GLib.Cancellable? cancellable) throws GLib.Error {
     if (str == "")
       throw new ParserError.INVALID_DATA_ERROR (_("Invalid document string, it is empty or is not allowed"));
-    StringBuilder s = new StringBuilder (str);
     var stream = new GLib.MemoryInputStream.from_data (str.data);
     read_stream (stream, cancellable);
   }
@@ -181,7 +180,7 @@ public class GXml.XParser : Object, GXml.Parser {
   /**
    * Creates a new {@link DomElement} and append it as a child of parent.
    */
-  public DomElement? create_element (DomNode parent) {
+  public DomElement? create_element (DomNode parent) throws GLib.Error {
     DomElement n = null;
 #if DEBUG
     GLib.message ("Creating a standard element: "

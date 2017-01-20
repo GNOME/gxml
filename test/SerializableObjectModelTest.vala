@@ -857,7 +857,6 @@ class SerializableObjectModelTest : GXmlTest
        assert (unknown_property.unknown_serializable_nodes.size == 2);
        bool foundn = false;
        bool foundt = false;
-       GXml.Node unkn;
        foreach (GXml.Node n in unknown_property.unknown_serializable_nodes) {
          if (n.name == "UnknownNode") {
            foundn = true;

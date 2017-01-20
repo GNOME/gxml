@@ -62,7 +62,8 @@ public abstract class GXml.TNode : Object, GXml.Node
   public virtual string value { owned get { return _value.dup (); } set  { _value = value; } }
   public virtual GXml.Node parent {
     owned get {
-      if (_parent == null) return null;
+      GXml.Node nullnode = null;
+      if (_parent == null) return nullnode;
       return (GXml.Node) _parent.ref ();
     }
   }

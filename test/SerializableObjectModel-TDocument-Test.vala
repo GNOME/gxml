@@ -61,7 +61,7 @@ class SerializableObjectModelTDocumentTest : GXmlTest
        assert (manual.get_contents () == "TEXT INTO THE MANUAL DOCUMENT");
        try {
          manual.serialize (doc);
-         Element element = (Element) doc.root;
+         //Element element = (Element) doc.root;
        } catch (GLib.Error e) {
          stdout.printf (@"$(e.message)");
          assert_not_reached ();
@@ -577,7 +577,7 @@ Test.add_func ("/gxml/tw/serializable/object_model/override_deserialize",
        }
      });*/
   }
-  static void serialize_manual_check (Element element, Manual manual)
+  /*static void serialize_manual_check (Element element, Manual manual)
   {
     var document = element.attrs.get ("document");
     assert (document != null);
@@ -586,5 +586,5 @@ Test.add_func ("/gxml/tw/serializable/object_model/override_deserialize",
     assert (pages != null);
     assert (int.parse (pages.value) == manual.pages);
     assert (element.content == manual.get_contents ());
-  }
+  }*/
 }

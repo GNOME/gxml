@@ -79,7 +79,7 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
   public abstract DomNode append_child (DomNode node) throws GLib.Error;
   public abstract DomNode replace_child (DomNode node, DomNode child) throws GLib.Error;
   public abstract DomNode remove_child (DomNode child) throws GLib.Error;
-  public virtual DomNode clone_node (bool deep = false) {
+  public virtual DomNode clone_node (bool deep = false) throws GLib.Error {
     DomNode n = new GomNode ();
     if (owner_document == null) return new GomNode ();
     switch (node_type) {
@@ -109,7 +109,10 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
    * @param node a {@link GXml.DomElement} to copy nodes to
    * @param source a {@link GXml.DomElement} to copy nodes from, it could be holded by different {@link GXml.DomDocument}
    */
-  public static bool copy (GXml.DomDocument doc, GXml.DomNode node, GXml.DomNode source, bool deep)
+  public static bool copy (GXml.DomDocument doc,
+                          GXml.DomNode node,
+                          GXml.DomNode source,
+                          bool deep) throws GLib.Error
   {
 #if DEBUG
     GLib.message ("Copying GXml.Node");

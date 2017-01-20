@@ -30,13 +30,13 @@ public class GXml.GNamespace : Object, GXml.Namespace
   public GNamespace (Xml.Ns* ns) { _ns = ns; }
   public Xml.Ns* get_internal_ns () { return _ns; }
   // GXml.Namespace
-  public string uri {
+  public string? uri {
     owned get {
       if (_ns == null) return null;
       return _ns->href.dup ();
     }
   }
-  public string @prefix {
+  public string? @prefix {
     owned get {
       if (_ns == null) return null;
       return _ns->prefix.dup ();

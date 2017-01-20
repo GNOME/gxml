@@ -61,10 +61,11 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
     }
   }
   public override GXml.Node @get (string key) {
-    if (_node == null) return null;
+    GXml.Node nullnode = null;
+    if (_node == null) return nullnode;
     if (":" in key) {
       string[] pp = key.split (":");
-      if (pp.length != 2) return null;
+      if (pp.length != 2) return nullnode;
       var ps = _node->properties;
       var prefix = pp[0];
       var n = pp[1];
@@ -78,7 +79,7 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
       }
     }
     var p = _node->has_prop (key);
-    if (p == null) return null;
+    if (p == null) return nullnode;
     // Check property found has Ns, then try to find one without it to return instead
     if (p->ns != null) {
       var npns = _node->has_ns_prop (key, null);
@@ -170,8 +171,9 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
     }
 
     public string get_key () {
+      string nullstr = null;
       if (_current != null) _current->name.dup ();
-      return null;
+      return nullstr;
     }
     public GXml.Node get_value () {
       return new GAttribute (_doc, _current);

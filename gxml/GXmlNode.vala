@@ -168,8 +168,9 @@ public abstract class GXml.GNode : Object,
   public DomNode? parent_node { owned get { return parent as DomNode?; } }
   public DomElement? parent_element {
     owned get {
+      DomElement nullnode = null;
       if (parent is DomElement) return parent as DomElement?;
-      return null;
+      return nullnode;
     }
   }
   public DomNodeList child_nodes { owned get { return children_nodes as DomNodeList; } }
@@ -219,23 +220,22 @@ public abstract class GXml.GNode : Object,
 
   public bool has_child_nodes () { return (children_nodes.size > 0); }
   public void normalize () {
-    try {
     for (int i = 0; i < children_nodes.size; i++) {
       var n = children_nodes.get (i);
       if (n is DomText) {
         child_nodes.remove_at (i);
       }
     }
-    } catch {}
   }
 
   public DomNode clone_node (bool deep = false) {
+    DomNode nullnode = null;
     Xml.Node *n = null;
     if (deep)
       n = _node->copy (1);
     else
       n = _node->copy (2);
-    if (n == null) return null;
+    if (n == null) return nullnode;
     return (DomNode) GNode.to_gnode (_doc, n);
   }
   public bool is_equal_node (DomNode? node) {

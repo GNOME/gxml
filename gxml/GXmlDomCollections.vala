@@ -96,7 +96,8 @@ public class GXml.GDomTokenList : Gee.ArrayList<string>, GXml.DomTokenList {
   public void update () {
     if (_element == null) return;
     if (_attr == null) return;
-    _element.set_attribute (_attr, this.to_string ());;
+    try  { _element.set_attribute (_attr, this.to_string ()); }
+    catch (GLib.Error e) { warning (_("Update Error: ")+e.message); }
   }
   public string to_string () {
     string s = "";

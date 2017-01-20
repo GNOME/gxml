@@ -284,7 +284,8 @@ public class GXml.GomDocument : GomNode,
     return null; // FIXME
   }
   public DomNodeList query_selector_all (string selectors) throws GLib.Error  {
-    return null; // FIXME
+    DomNodeList nulllist = null;
+    return nulllist; // FIXME
   }
   // DomNonElementParentNode
   public DomElement? get_element_by_id (string element_id) throws GLib.Error {

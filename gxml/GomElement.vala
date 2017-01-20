@@ -499,10 +499,14 @@ public class GXml.GomElement : GomNode,
   }
   public void remove_attribute (string name) {
     if ((this as GomObject).remove_attribute (name)) return;
-    attributes.remove_named_item (name);
+    try { attributes.remove_named_item (name); }
+    catch (GLib.Error e)
+      { warning (_("Removing attribute Error: ")+e.message); }
   }
   public void remove_attribute_ns (string? namespace_uri, string local_name) {
-    attributes.remove_named_item_ns (namespace_uri, local_name);
+    try { attributes.remove_named_item_ns (namespace_uri, local_name); }
+    catch (GLib.Error e)
+      { warning (_("Removing namespaced attribute Error: ")+e.message); }
   }
   public bool has_attribute (string name) {
     return _attributes.has_key (name);

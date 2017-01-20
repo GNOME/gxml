@@ -71,7 +71,8 @@ public class GXml.GAttribute : GXml.GNode, GXml.Attribute, GXml.DomAttr
   }
   public override string value {
     owned get {
-      if (_node == null) return  null;
+      string nullstr = null;
+      if (_node == null) return  nullstr;
       if (_attr->ns == null) {
         return _node->get_no_ns_prop (_attr->name);
       }
@@ -95,7 +96,8 @@ public class GXml.GAttribute : GXml.GNode, GXml.Attribute, GXml.DomAttr
   }
   public override GXml.Node parent {
     owned get {
-      if (_attr == null) return null;
+      GXml.Node nullnode = null;
+      if (_attr == null) return nullnode;
       return to_gnode (document as GDocument, _node);
     }
   }

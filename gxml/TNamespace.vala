@@ -37,6 +37,6 @@ public class GXml.TNamespace : GXml.TNode, GXml.Namespace
     _prefix = prefix;
   }
   // GXml.Namespace
-  public string uri { owned get { return _uri.dup (); } }
-  public string @prefix { owned get { return _prefix.dup (); } }
+  public string? uri { owned get { return _uri.dup (); } }
+  public string? @prefix { owned get { return _prefix.dup (); } }
 }

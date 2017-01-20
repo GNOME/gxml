@@ -328,22 +328,21 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
                                     Gee.List<GXml.Namespace>? resolver = null)
                                     throws GXml.XPathError
   {
+    GXml.XPathObject nullobj = null;
     if (!(this is GXml.Node))
-      return null;
+      return nullobj;
     string data = (this as GXml.Node).to_string();
     var ndoc = Xml.Parser.read_memory (data, data.length);
     var gdoc = new GXml.GDocument.from_doc (ndoc);
     var context = new Xml.XPath.Context (ndoc);
     if (resolver != null)
-	  resolver.foreach (ns => {
-		int res = context.register_ns (ns.prefix, ns.uri);
-		if (res != 0) {
-		  var err = new GXml.XPathError.EXPRESSION_OK ("invalid namespace.");
-		  err.code = res;
-		  throw err;
-        }
-        return true; 
-      });
+    resolver.foreach (ns => {
+      int res = context.register_ns (ns.prefix, ns.uri);
+      if (res != 0) {
+        GLib.warning (_("invalid namespace. Code: ")+res.to_string ());
+      }
+      return true;
+    });
     return new GXml.GXPathObject (gdoc, context.eval (expression));
   }
 }

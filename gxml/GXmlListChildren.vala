@@ -39,7 +39,8 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>,
   }
   // List
   public override GXml.Node @get (int index) {
-    if (_node == null) return null;
+    GXml.Node nullnode = null;
+    if (_node == null) return nullnode;
     var n = _node->children;
     int i = 0;
     while (n != null) {
@@ -49,7 +50,7 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>,
       i++;
       n = n->next;
     }
-    return null;
+    return nullnode;
   }
   public override int index_of (GXml.Node item) {
     if (_node == null) return -1;
@@ -76,13 +77,14 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>,
    * Removes a node at @index. This method never returns a valid pointer.
    */
   public override GXml.Node remove_at (int index) {
-    if (index > size || index < 0) return null;
+    GXml.Node nullnode = null;
+    if (index > size || index < 0) return nullnode;
     var n = @get (index);
-    if (n == null) return null;
+    if (n == null) return nullnode;
     var np = (n as GXml.GNode).get_internal_node ();
     np->unlink ();
     delete np;
-    return null;
+    return nullnode;
   }
   /**
    * This method is ignored by default.

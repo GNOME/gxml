@@ -74,8 +74,10 @@ public class GXml.GomNode : Object,
       if (this is DomDocument) return (DomDocument) this;
       if (_document == null) {
         _document = new GomDocument ();
-        if (this is DomElement)
-          _document.append_child (this);
+        if (this is DomElement) {
+          try { _document.append_child (this); }
+          catch (GLib.Error e) { warning (e.message); }
+        }
       }
       return _document;
     }
@@ -162,14 +164,12 @@ public class GXml.GomNode : Object,
 
   public bool has_child_nodes () { return (_child_nodes.size > 0); }
   public void normalize () {
-    try {
     for (int i = 0; i < child_nodes.size; i++) {
       var n = child_nodes.get (i);
       if (n is DomText) {
         child_nodes.remove_at (i);
       }
     }
-    } catch {}
   }
 
   public bool is_equal_node (DomNode? node) { // FIXME: This is not going to work
