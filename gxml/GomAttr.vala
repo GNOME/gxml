@@ -43,6 +43,8 @@ public class GXml.GomAttr : GXml.GomNode, GXml.DomAttr {
   }
   public string value { owned get { return _node_value; } set { _node_value = value; } }
 
+  construct { _child_nodes = null; }
+
   public GomAttr (DomElement element, string name, string value) {
     _document = element.owner_document;
     _parent = element;

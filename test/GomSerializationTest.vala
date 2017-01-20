@@ -267,7 +267,7 @@ class GomSerializationTest : GXmlTest  {
     public string name { get; set; }
     public Books books { get; set; }
     construct {
-      try { assert_not_reached ();  initialize ("BookStore"); } catch { assert_not_reached (); }
+      try { initialize ("BookStore"); } catch { assert_not_reached (); }
     }
     public string to_string () {
       var parser = new XParser (this);
@@ -561,11 +561,13 @@ class GomSerializationTest : GXmlTest  {
     });
     Test.add_func ("/gxml/gom-serialization/read/bad-node-name", () => {
       var b = new Book ();
-      var parser = new XParser (b);
-      try {
-        parser.read_string ("<Chair name=\"Tall\"/>", null);
-        assert_not_reached ();
-      } catch {}
+      b.read_from_string ("<chair name=\"Tall\"/>");
+      GLib.message ("Book name ="+b.name);
+      assert (b.name == null);
+      assert (b.child_nodes.size == 1);
+      var n = b.child_nodes.item (0);
+      assert (n != null);
+      assert (n.node_name == "chair");
     });
     Test.add_func ("/gxml/gom-serialization/read/object-property", () => {
     try {

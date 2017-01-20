@@ -149,7 +149,6 @@ class GomElementTest : GXmlTest  {
 				GLib.message (e.message);
 				assert_not_reached ();
 			}
-				assert_not_reached ();
 		});
 		Test.add_func ("/gxml/gom-element/content/add_aside_child_nodes", () =>{
 			try {

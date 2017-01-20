@@ -301,6 +301,7 @@ public class GXml.XParser : Object, GXml.Parser {
    */
   public bool read_child_node (DomNode parent) throws GLib.Error {
     DomNode n = null;
+    bool ret = true;
     var t = tr.node_type ();
     switch (t) {
     case Xml.ReaderType.NONE:
@@ -360,19 +361,19 @@ public class GXml.XParser : Object, GXml.Parser {
 #if DEBUG
       GLib.message ("Type DOCUMENT");
 #endif
-      return false;
+      ret = false;
       break;
     case Xml.ReaderType.DOCUMENT_TYPE:
 #if DEBUG
       GLib.message ("Type DOCUMENT_TYPE");
 #endif
-      return false;
+      ret = false;
       break;
     case Xml.ReaderType.DOCUMENT_FRAGMENT:
 #if DEBUG
       GLib.message ("Type DOCUMENT_FRAGMENT");
 #endif
-      return false;
+      ret = false;
       break;
     case Xml.ReaderType.NOTATION:
 #if DEBUG
@@ -399,23 +400,25 @@ public class GXml.XParser : Object, GXml.Parser {
 #if DEBUG
       GLib.message ("Type END_ELEMENT");
 #endif
-      return false;
+      ret = false;
+      break;
     case Xml.ReaderType.END_ENTITY:
 #if DEBUG
       GLib.message ("Type END_ENTITY");
 #endif
-      return false;
+      ret = false;
+      break;
     case Xml.ReaderType.XML_DECLARATION:
 #if DEBUG
       GLib.message ("Type XML_DECLARATION");
 #endif
-      return false;
+      ret = false;
       break;
     case Xml.ReaderType.ELEMENT:
-      return false;
+      ret = false;
       break;
     }
-    return true;
+    return ret;
   }
   /**
    * Reads current found element
