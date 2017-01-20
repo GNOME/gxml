@@ -128,12 +128,11 @@ public class GXml.XParser : Object, GXml.Parser {
         if (!move_next_node ()) break;
       }
       read_element (node as DomElement);
-      if (!move_next_node ()) return;
     }
 #if DEBUG
         GLib.message ("Parsing child nodes of: "+node.node_name);
 #endif
-    if (current_is_element ())
+    if (current_is_element () && (node is DomDocument))
       read_child_element (node);
     else
       read_child_nodes (node);
