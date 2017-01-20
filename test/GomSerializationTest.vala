@@ -562,12 +562,14 @@ class GomSerializationTest : GXmlTest  {
     Test.add_func ("/gxml/gom-serialization/read/bad-node-name", () => {
       var b = new Book ();
       b.read_from_string ("<chair name=\"Tall\"/>");
-      GLib.message ("Book name ="+b.name);
+#if DEBUG
+      var parser = new XParser (b);
+      GLib.message ("Read: "+parser.write_string ());
+#endif
       assert (b.name == null);
-      assert (b.child_nodes.size == 1);
-      var n = b.child_nodes.item (0);
-      assert (n != null);
-      assert (n.node_name == "chair");
+      assert (b.child_nodes.size == 0);
+      assert (b.owner_document.document_element != null);
+      assert (b.owner_document.document_element.node_name == "Book");
     });
     Test.add_func ("/gxml/gom-serialization/read/object-property", () => {
     try {
@@ -575,8 +577,7 @@ class GomSerializationTest : GXmlTest  {
       string s = b.to_string ();
       GLib.message ("doc:"+s);
       assert ("<BookRegister Year=\"0\"/>" in s);
-      var parser = new XParser (b);
-      parser.read_string ("<BookRegister><Book/></BookRegister>", null);
+      b.read_from_string ("<bookRegister><Book/></bookRegister>");
       s = b.to_string ();
       GLib.message ("doc:"+s);
       assert ("<BookRegister Year=\"0\"><Book/></BookRegister>" in s);

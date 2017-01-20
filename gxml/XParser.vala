@@ -114,10 +114,12 @@ public class GXml.XParser : Object, GXml.Parser {
         GLib.message ("Current Node's name: "+current_node_name ().down ());
         GLib.message ("Current Node is Element: "+current_is_element ().to_string ());
 #endif
-        break;
         if (current_is_element ()
             &&
             (current_node_name ().down () == (node as DomElement).local_name.down ())) {
+#if DEBUG
+          GLib.message ("Found Element node: "+current_node_name ());
+#endif
           break;
         }
         if (!current_is_document ()) {
@@ -125,10 +127,8 @@ public class GXml.XParser : Object, GXml.Parser {
         }
         if (!move_next_node ()) break;
       }
-#if DEBUG
-        GLib.message ("Found Element node: "+current_node_name ());
-#endif
       read_element (node as DomElement);
+      if (!move_next_node ()) return;
     }
 #if DEBUG
         GLib.message ("Parsing child nodes of: "+node.node_name);
