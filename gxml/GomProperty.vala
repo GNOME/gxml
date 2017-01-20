@@ -82,7 +82,7 @@ public abstract class GXml.GomBaseProperty : Object, GXml.GomProperty {
   /**
    * {@inheritDoc}
    */
-  public void initialize (string attribute_name) { _attribute_name =  attribute_name; }
+  public void initialize (string attribute_name) { message ("Type: "+this.get_type ().name());_attribute_name =  attribute_name; }
   /**
    * Takes a string and check if it can be validated using
    * {@link validation_rule}.
@@ -216,7 +216,7 @@ public class GXml.GomBoolean : GomBaseProperty {
  * Enumeration is represented as a string, using its name, independent of
  * value possition in enumeration.
  */
-public class GXml.GomEnum : GomBaseProperty, GomProperty {
+public class GXml.GomEnum : GomBaseProperty {
   protected int _value = 0;
   protected Type _enum_type;
   public override string value {

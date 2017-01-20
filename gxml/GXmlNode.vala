@@ -61,7 +61,8 @@ public abstract class GXml.GNode : Object,
   public virtual GXml.Document document { get { return _doc; } }
   public virtual GXml.Node parent {
     owned get {
-      if (_node == null) return null;
+      GXml.Node nullnode = null;
+      if (_node == null) return nullnode;
       return to_gnode (document as GDocument, _node->parent);
     }
   }
@@ -92,6 +93,7 @@ public abstract class GXml.GNode : Object,
   public Xml.Node* get_internal_node () { return _node; }
   // Static
   public static GXml.Node to_gnode (GXml.GDocument doc, Xml.Node *node) {
+    GXml.Node nullnode = null;
     var t = (GXml.NodeType) node->type;
     switch (t) {
       case GXml.NodeType.ELEMENT:
@@ -103,9 +105,9 @@ public abstract class GXml.GNode : Object,
       case GXml.NodeType.CDATA_SECTION:
         return new GCDATA (doc, node);
       case GXml.NodeType.ENTITY_REFERENCE:
-        return null;
+        return nullnode;
       case GXml.NodeType.ENTITY:
-        return null;
+        return nullnode;
       case GXml.NodeType.PROCESSING_INSTRUCTION:
         return new GProcessingInstruction (doc, node);
       case GXml.NodeType.COMMENT:
@@ -113,13 +115,13 @@ public abstract class GXml.GNode : Object,
       case GXml.NodeType.DOCUMENT:
         return new GDocument.from_doc (node->doc);
       case GXml.NodeType.DOCUMENT_TYPE:
-        return null;
+        return nullnode;
       case GXml.NodeType.DOCUMENT_FRAGMENT:
-        return null;
+        return nullnode;
       case GXml.NodeType.NOTATION:
-        return null;
+        return nullnode;
     }
-    return null;
+    return nullnode;
   }
   // DomNode Implementation
   public DomNode.NodeType node_type {

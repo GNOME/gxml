@@ -134,15 +134,22 @@ class GomElementTest : GXmlTest  {
 				assert (elem.get_attribute ("xola") == null);
 				assert (elem.attributes.size == 2);
 				try {
-					Test.message ("Documento:"+parser.write_string ());
+#if DEBUG
+					message ("Documento:"+parser.write_string ());
+#endif
 					elem.set_attribute_ns ("http://www.gnome.org/GXml", "gxml2:xola","Mexico");
 					assert_not_reached ();
-				} catch {}
+				} catch (GLib.Error e) {
+					GLib.message ("Correctly Cough Error:"+e.message);
+				}
+				assert (elem != null);
+				assert (elem.attributes != null);
 				assert (elem.attributes.size == 2);
 			} catch (GLib.Error e) {
 				GLib.message (e.message);
 				assert_not_reached ();
 			}
+				assert_not_reached ();
 		});
 		Test.add_func ("/gxml/gom-element/content/add_aside_child_nodes", () =>{
 			try {

@@ -97,7 +97,9 @@ public interface GXml.GomCollection : Object
   public abstract void initialize (GLib.Type t) throws GLib.Error;
   /**
    * Creates a new instance of {@link items_type}, with same
-   * {@link DomNode.owner_document} than {@link element}
+   * {@link DomNode.owner_document} than {@link element}. New instance
+   * is not set as a child of collection's {@link element}; to do so,
+   * use {@link append}
    *
    * Returns: a new instance object or null if type is not a {@link GomElement} or no parent has been set
    */
@@ -177,7 +179,6 @@ public abstract class GXml.BaseCollection : Object {
     construct set {
       if (value != null)
         _element = value;
-      assert (_element != null);
     }
   }
   /**
@@ -201,8 +202,8 @@ public abstract class GXml.BaseCollection : Object {
    * Implemenation classes, should initialize collection to hold a {@link GomElement}
    * derived type using {@link GomCollection.initialize}.
    */
-  public void initialize_element (GomElement element) throws GLib.Error {
-    _element = element;
+  public void initialize_element (GomElement e) throws GLib.Error {
+    _element = e;
     search ();
   }
 
@@ -226,7 +227,7 @@ public abstract class GXml.BaseCollection : Object {
     _element.append_child (node);
     if (_element.child_nodes.size == 0)
       throw new DomError.QUOTA_EXCEEDED_ERROR
-                (_("Invalid atempt to add a node with a different parent document"));
+                (_("Node element not appended as child of parent. No node added to collection"));
     var index = _element.child_nodes.size - 1;
     if (!validate_add (index, node)) return;
     _nodes_index.push_tail (index);
@@ -319,7 +320,6 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.GomCollection {
   {
     initialize (items_type);
     _attribute_key = attribute_key;
-    search ();
   }
   /**
    * Returns an {@link DomElement} in the collection using a string key.

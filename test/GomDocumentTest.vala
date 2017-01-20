@@ -80,7 +80,10 @@ class GomDocumentTest : GXmlTest {
 				s.append ("""<document_element />""");
 				var d = new GomDocument.from_string (s.str);
 				var parser = new XParser (d);
-				Test.message ("Saving to file: "+f.get_uri ()+parser.write_string ());
+#if DEBUG
+				message ("Saving to file: "+f.get_uri ());
+				message ("XML:\n"+parser.write_string ());
+#endif
 				d.write_file (f);
 				assert (f.query_exists ());
 				var d2 = new GomDocument.from_file (f);
