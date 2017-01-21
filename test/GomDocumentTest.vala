@@ -390,7 +390,7 @@ class GomDocumentTest : GXmlTest {
 				assert (d.document_element.child_nodes[1].child_nodes[1].child_nodes[1].child_nodes[0].node_value == "status_only");
 			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
 		});
-		Test.add_func ("/gxml/gom-document/namespace", () => {
+		Test.add_func ("/gxml/gom-document/namespace/create", () => {
 			try {
 				DomDocument doc = new GomDocument.from_string ("<document_element><child/></document_element>");
 				doc.document_element.set_attribute_ns ("http://www.w3.org/2000/xmlns/",
@@ -429,6 +429,23 @@ class GomDocumentTest : GXmlTest {
 				assert (c2.namespace_uri == "http://www.gnome.org/GXml/testing");
 				assert (c2.get_attribute_ns ("http://www.w3.org/2000/xmlns/",
 																		 "t") == null);
+			} catch (GLib.Error e) {
+				GLib.message ("ERROR: "+ e.message);
+				assert_not_reached ();
+			}
+		});
+		Test.add_func ("/gxml/gom-document/namespace/read", () => {
+			try {
+				DomDocument doc = new GomDocument.from_string ("""
+				<Project xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:foaf="http://xmlns.com/foaf/0.1/"
+         xmlns:gnome="http://api.gnome.org/doap-extensions#"
+         xmlns="http://usefulinc.com/ns/doap#"><child/></Project>""");
+				assert (doc.document_element.prefix == null);
+				var parser = new XParser (doc);
+				string str = parser.write_string ();
+				message ("Read: "+str);
 			} catch (GLib.Error e) {
 				GLib.message ("ERROR: "+ e.message);
 				assert_not_reached ();

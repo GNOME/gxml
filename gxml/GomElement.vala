@@ -59,6 +59,13 @@ public class GXml.GomElement : GomNode,
     parser.read_string (str, null);
   }
   /**
+   * Serialize {@link GomElement} to a string.
+   */
+  public string write_string () throws GLib.Error {
+    var parser = new XParser (this);
+    return parser.write_string ();
+  }
+  /**
    * Uses element's {@link GomDocument} to write an XML to a file, serializing it.
    */
   public void write_file (GLib.File f) throws GLib.Error {

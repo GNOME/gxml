@@ -258,7 +258,7 @@ class GomSerializationTest : GXmlTest  {
   }
   public class Books : GomHashMap {
     construct {
-      try { initialize_with_key (typeof (Book), "name"); }
+      try { initialize_with_key (typeof (Book), "Name"); }
       catch { assert_not_reached (); }
     }
   }
@@ -647,8 +647,7 @@ class GomSerializationTest : GXmlTest  {
       string s = bs.to_string ();
       GLib.message ("doc:"+s);
       assert ("<BookStand Classification=\"Science\"/>" in s);
-      var parser = new XParser (bs);
-      parser.read_string ("<BookStand Classification=\"Science\"><Book name=\"Title1\"/><Book name=\"Title2\"/><Test/><Book name=\"Title3\"/></BookStand>", null);
+      bs.read_from_string ("<bookStand Classification=\"Science\"><book name=\"Title1\"/><book name=\"Title2\"/><Test/><book name=\"Title3\"/></bookStand>");
       //assert (bs.registers == null);
       assert (bs.books != null);
       s = bs.to_string ();

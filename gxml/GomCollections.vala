@@ -187,7 +187,7 @@ public abstract class GXml.BaseCollection : Object {
   public void initialize (GLib.Type items_type) throws GLib.Error {
     if (!items_type.is_a (typeof (GomElement))) {
       throw new DomError.INVALID_NODE_TYPE_ERROR
-                (_("Invalid atempt to initialize a collection using an unsupported type. Only GXmlGomElement is supported"));
+                (_("Invalid attempt to initialize a collection using an unsupported type. Only GXmlGomElement is supported"));
     }
     var o = Object.new (items_type) as GomElement;
     _items_name = o.local_name;
@@ -220,10 +220,10 @@ public abstract class GXml.BaseCollection : Object {
                 (_("Parent Element is invalid"));
     if (!(node is GomElement))
       throw new DomError.INVALID_NODE_TYPE_ERROR
-                (_("Invalid atempt to set unsupported type. Only GXmlGomElement is supported"));
+                (_("Invalid attempt to set unsupported type. Only GXmlGomElement is supported"));
     if (node.owner_document != _element.owner_document)
       throw new DomError.HIERARCHY_REQUEST_ERROR
-                (_("Invalid atempt to set a node with a different parent document"));
+                (_("Invalid attempt to set a node with a different parent document"));
     _element.append_child (node);
     if (_element.child_nodes.size == 0)
       throw new DomError.QUOTA_EXCEEDED_ERROR
@@ -340,10 +340,19 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.GomCollection {
    */
   public override bool validate_add (int index, DomElement element) throws GLib.Error {
     if (!(element is GomElement)) return false;
-    var key = element.get_attribute (attribute_key);
+#if DEBUG
+    message ("Validating HashMap Element..."
+            +(element as GomElement).write_string ()
+            +" Attrs:"+(element as GomElement).attributes.length.to_string());
+#endif
+    string key = null;
+    key = (element as DomElement).get_attribute (attribute_key);
     if (key == null)
-      throw new DomError.HIERARCHY_REQUEST_ERROR
-                (_("Invalid atempt to set a node without key attribute"));
+    key = (element as DomElement).get_attribute (attribute_key.down ());
+    if (key == null) assert_not_reached ();
+#if DEBUG
+    message ("Attribute key value: "+key);
+#endif
     if (key != null) {
       _hashtable.insert (key, index);
       return true;

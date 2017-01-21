@@ -433,30 +433,25 @@ public class GXml.XParser : Object, GXml.Parser {
     bool isempty = current_is_empty_element ();
     DomNode n = null;
     if (!read_element_property (parent, out n))
-      n = create_element (parent);
+      if (!add_element_collection (parent, out n)) {
+        n = create_element (parent);
+        read_element (n as DomElement);
+    }
     if (n == null) return false;
-#if DEBUG
-    GLib.message ("Reading New Node: "+n.node_name);
-#endif
-    read_element (n as DomElement);
     if (!isempty)
       read_child_nodes (n);
     return true;
   }
   /**
    * Creates a new {@link DomElement} and append it as a child of parent: for current
-   * read node, only if :
-   *
-   * # parent: have a property as {@link DomElement} type and current
+   * read node, only if parent: have a property as {@link DomElement} type and current
    * node have same local name as property element.
-   * # parent: have a property as {@link GomCollection} type and current
-   * node have same local name as collection {@link GomCollection.items_name}
    *
-   * Returns: true if element is set to a new object, it is set as a parent:
-   * property or has been added to a parent: collection property.
+   * Returns: true if element is set to a new object, it is set as a child of parent:
+   * as a property.
    */
   public bool read_element_property (DomNode parent,
-                  out DomNode element) throws GLib.Error {
+                                    out DomNode element) throws GLib.Error {
     if (!(parent is GomObject)) return false;
 #if DEBUG
     GLib.message ("Searching for Properties Nodes for:"+
@@ -465,65 +460,87 @@ public class GXml.XParser : Object, GXml.Parser {
 #endif
     foreach (ParamSpec pspec in
               (parent as GomObject).get_property_element_list ()) {
-      if (pspec.value_type.is_a (typeof (GomCollection))) {
+      if (pspec.value_type.is_a (typeof (GomCollection))) continue;
+      var obj = Object.new (pspec.value_type,
+                            "owner-document", _document) as DomElement;
+      if (obj.local_name.down ()
+             == tr.const_local_name ().down ()) {
+        Value v = Value (pspec.value_type);
+        parent.append_child (obj as DomNode);
+        v.set_object (obj);
+        parent.set_property (pspec.name, v);
+        read_element (element as DomElement);
+        element = obj as DomNode;
+        return true;
+      }
+    }
+    return false;
+  }
+  /**
+   * Creates a new {@link DomElement} and append it as a child of parent: for current
+   * read node, only if parent: have a property as {@link GomCollection} type and current
+   * node have same local name as collection {@link GomCollection.items_name}
+   *
+   * Returns: true if element is set to a new object, it is set as a child of parent:
+   * and has been added to a parent:'s collection property.
+   */
+  public bool add_element_collection (DomNode parent,
+                  out DomNode element) throws GLib.Error {
+    if (!(parent is GomObject)) return false;
 #if DEBUG
-        GLib.message (pspec.name+" Is Collection in: "+(parent as DomElement).local_name);
+    GLib.message ("Checking if node should be added to collection in "+
+                  (parent as DomElement).local_name+
+                  " Current node name: "+ tr.const_local_name ());
 #endif
-        GomCollection col;
-        Value vc = Value (pspec.value_type);
-        parent.get_property (pspec.name, ref vc);
-        col = vc.get_object () as GomCollection;
-        if (col == null) {
+    foreach (ParamSpec pspec in
+              (parent as GomObject).get_property_element_list ()) {
+      if (!(pspec.value_type.is_a (typeof (GomCollection)))) continue;
 #if DEBUG
-          GLib.message ("Initializing Collection property...");
+      GLib.message (pspec.name+" Is Collection in: "+(parent as DomElement).local_name);
 #endif
-          col = Object.new (pspec.value_type,
-                            "element", parent) as GomCollection;
-          vc.set_object (col);
-          parent.set_property (pspec.name, vc);
-        }
-        if (col.items_type == GLib.Type.INVALID
-            || !(col.items_type.is_a (typeof (GomObject)))) {
-          throw new DomError.INVALID_NODE_TYPE_ERROR
-                      (_("Invalid object type set to Collection"));
-        }
-        if (col.items_name == "" || col.items_name == null) {
-          throw new DomError.INVALID_NODE_TYPE_ERROR
-                      (_("Invalid DomElement name for objects in Collection"));
-        }
-        if (col.element == null || !(col.element is GomElement)) {
-          throw new DomError.INVALID_NODE_TYPE_ERROR
-                      (_("Invalid Element set to Collection"));
-        }
-        if (col.items_name.down () == current_node_name ().down ()) {
+      GomCollection col;
+      Value vc = Value (pspec.value_type);
+      parent.get_property (pspec.name, ref vc);
+      col = vc.get_object () as GomCollection;
+      if (col == null) {
 #if DEBUG
-          GLib.message (current_node_name ()+" Is a Node to append in collection: "+pspec.name);
+        GLib.message ("Initializing Collection property...");
 #endif
-          if (parent.owner_document == null)
-            throw new DomError.HIERARCHY_REQUEST_ERROR
-                        (_("No document is set to node"));
-          var obj = Object.new (col.items_type,
-                                "owner-document", _document) as DomElement;
+        col = Object.new (pspec.value_type,
+                          "element", parent) as GomCollection;
+        vc.set_object (col);
+        parent.set_property (pspec.name, vc);
+      }
+      if (col.items_type == GLib.Type.INVALID
+          || !(col.items_type.is_a (typeof (GomObject)))) {
+        throw new DomError.INVALID_NODE_TYPE_ERROR
+                    (_("Invalid object type set to Collection"));
+      }
+      if (col.items_name == "" || col.items_name == null) {
+        throw new DomError.INVALID_NODE_TYPE_ERROR
+                    (_("Invalid DomElement name for objects in Collection"));
+      }
+      if (col.element == null || !(col.element is GomElement)) {
+        throw new DomError.INVALID_NODE_TYPE_ERROR
+                    (_("Invalid Element set to Collection"));
+      }
+      if (col.items_name.down () == current_node_name ().down ()) {
 #if DEBUG
-          GLib.message ("Object Element to add in Collection: "
-                          +obj.local_name);
+        GLib.message (current_node_name ()+" Is a Node to append in collection: "+pspec.name);
 #endif
-          col.append (obj);
-          element = obj;
-          return true;
-        }
-      } else {
-        var obj = Object.new (pspec.value_type,
+        if (parent.owner_document == null)
+          throw new DomError.HIERARCHY_REQUEST_ERROR
+                      (_("No document is set to node"));
+        var obj = Object.new (col.items_type,
                               "owner-document", _document) as DomElement;
-        if (obj.local_name.down ()
-               == tr.const_local_name ().down ()) {
-          Value v = Value (pspec.value_type);
-          parent.append_child (obj as DomNode);
-          v.set_object (obj);
-          parent.set_property (pspec.name, v);
-          element = obj as DomNode;
-          return true;
-        }
+#if DEBUG
+        GLib.message ("Object Element to add in Collection: "
+                        +obj.local_name);
+#endif
+        read_element (obj as DomElement);
+        col.append (obj);
+        element = obj;
+        return true;
       }
     }
     return false;
