@@ -469,7 +469,7 @@ public class GXml.XParser : Object, GXml.Parser {
         parent.append_child (obj as DomNode);
         v.set_object (obj);
         parent.set_property (pspec.name, v);
-        read_element (element as DomElement);
+        read_element (obj as DomElement);
         element = obj as DomNode;
         return true;
       }
