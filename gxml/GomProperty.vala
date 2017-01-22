@@ -82,7 +82,11 @@ public abstract class GXml.GomBaseProperty : Object, GXml.GomProperty {
   /**
    * {@inheritDoc}
    */
-  public void initialize (string attribute_name) { message ("Type: "+this.get_type ().name());_attribute_name =  attribute_name; }
+  public void initialize (string attribute_name) {
+#if DEBUG
+  message ("Type: "+this.get_type ().name());
+#endif
+  _attribute_name =  attribute_name; }
   /**
    * Takes a string and check if it can be validated using
    * {@link validation_rule}.
@@ -142,6 +146,27 @@ public class GXml.GomArrayString : GomBaseProperty {
     }
     return false;
   }
+  /**
+   * Select one string from array at index:
+   */
+  public void select (int index) {
+    if (_values == null) return;
+    if (index < 0 || index > _values.length) return;
+    value = _values.index (index);
+  }
+  /**
+   * Check if string is in array
+   */
+  public bool search (string str) {
+    if (_values == null) return true;
+    for (int i = 0; i < _values.length; i++) {
+      if (_values.index (i) == str) return true;
+    }
+    return false;
+  }
+  /**
+   * {inheritDoc}
+   */
   public override string value {
     owned get {
       return _value;
@@ -182,6 +207,26 @@ public class GXml.GomFixedArrayString : GomBaseProperty {
     }
     return false;
   }
+  /**
+   * Select one string from array at index:
+   */
+  public void select (int index) {
+    if (index < 0 || index > _values.length) return;
+    value = _values[index];
+  }
+  /**
+   * Check if string is in array
+   */
+  public bool search (string str) {
+    if (_values == null) return true;
+    for (int i = 0; i < _values.length; i++) {
+      if (_values[i] == str) return true;
+    }
+    return false;
+  }
+  /**
+   * {inheritDoc}
+   */
   public override string value {
     owned get {
       return _value;

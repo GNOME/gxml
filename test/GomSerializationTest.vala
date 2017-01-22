@@ -287,6 +287,8 @@ class GomSerializationTest : GXmlTest  {
     public Speed speed { get; set; }
     public TensionType tension_type { get; set; }
     public Tension tension { get; set; }
+    public Model model { get; set; }
+    public ModelVariation modelvariation { get; set; }
     construct { try { initialize ("Motor"); } catch { assert_not_reached (); } }
     public string to_string () {
       var parser = new XParser (this);
@@ -325,6 +327,18 @@ class GomSerializationTest : GXmlTest  {
     public class Tension : GomInt {
       construct {
         try { initialize ("Tension"); } catch { assert_not_reached (); }
+      }
+    }
+    public class Model : GomFixedArrayString {
+      construct {
+        initialize ("Model");;
+        initialize_strings ({"MODEL1","MODEL2"});
+      }
+    }
+    public class ModelVariation : GomArrayString {
+      construct {
+        initialize ("ModelVariation");
+        initialize_strings ({"VAR1","VAR2 "});
       }
     }
   }
@@ -526,6 +540,28 @@ class GomSerializationTest : GXmlTest  {
       assert (s != null);
       GLib.message ("DOC:"+s);
       assert ("<Motor On=\"true\" Torque=\"3.1416\" Speed=\"3600.1011\" TensionType=\"dc\" Tension=\"125\"/>" in s);
+      m.model = new Motor.Model ();
+      assert (m.model != null);
+      assert (m.model.value != null);
+      assert (m.model.value == "");
+      m.model.value = "Model3";
+      assert (m.model.value == "Model3");
+      assert (!m.model.is_valid_value ());
+      s = m.to_string ();
+      assert (s != null);
+      GLib.message ("DOC:"+s);
+      assert ("<Motor On=\"true\" Torque=\"3.1416\" Speed=\"3600.1011\" TensionType=\"dc\" Tension=\"125\" Model=\"Model3\"/>" in s);
+      m.modelvariation = new Motor.ModelVariation ();
+      assert (m.modelvariation != null);
+      assert (m.modelvariation.value != null);
+      assert (m.modelvariation.value == "");
+      m.modelvariation.value = "var3";
+      assert (m.modelvariation.value == "var3");
+      assert (!m.modelvariation.is_valid_value ());
+      s = m.to_string ();
+      assert (s != null);
+      GLib.message ("DOC:"+s);
+      assert ("<Motor On=\"true\" Torque=\"3.1416\" Speed=\"3600.1011\" TensionType=\"dc\" Tension=\"125\" Model=\"Model3\" ModelVariation=\"var3\"/>" in s);
     } catch (GLib.Error e) {
       GLib.message ("Error: "+e.message);
       assert_not_reached ();
