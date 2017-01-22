@@ -288,7 +288,6 @@ class GomSerializationTest : GXmlTest  {
     public TensionType tension_type { get; set; }
     public Tension tension { get; set; }
     public Model model { get; set; }
-    public ModelVariation modelvariation { get; set; }
     construct { try { initialize ("Motor"); } catch { assert_not_reached (); } }
     public string to_string () {
       var parser = new XParser (this);
@@ -329,16 +328,10 @@ class GomSerializationTest : GXmlTest  {
         try { initialize ("Tension"); } catch { assert_not_reached (); }
       }
     }
-    public class Model : GomFixedArrayString {
+    public class Model : GomArrayString {
       construct {
         initialize ("Model");;
         initialize_strings ({"MODEL1","MODEL2"});
-      }
-    }
-    public class ModelVariation : GomArrayString {
-      construct {
-        initialize ("ModelVariation");
-        initialize_strings ({"VAR1","VAR2 "});
       }
     }
   }
@@ -353,7 +346,9 @@ class GomSerializationTest : GXmlTest  {
       b.name = "My Book";
       assert (b.get_attribute ("name") == "My Book");
       s = b.to_string ();
+#if DEBUG
       GLib.message ("DOC:"+s);
+#endif
     } catch (GLib.Error e) {
       GLib.message ("Error: "+e.message);
       assert_not_reached ();
@@ -371,14 +366,18 @@ class GomSerializationTest : GXmlTest  {
       assert (c.ignore == "Nothing");
       assert (c.get_attribute ("ignore") == null);
       s = c.to_string ();
+#if DEBUG
       GLib.message ("DOC:"+s);
+#endif
     });
     Test.add_func ("/gxml/gom-serialization/write/property-long-name", () => {
     try {
       var t = new Taxes ();
       string s = t.to_string ();
       assert (s != null);
+#if DEBUG
       GLib.message ("DOC:"+s);
+#endif
       assert ("<Taxes " in s);
       assert ("monthRate=\"0\"" in s);
       assert ("Month=\"january\"" in s);
@@ -397,7 +396,9 @@ class GomSerializationTest : GXmlTest  {
       assert ("monthRate=\"16.5\"" in s);
       assert ("Month=\"february\"" in s);
       assert ("TaxFree=\"true\"" in s);
+#if DEBUG
       GLib.message ("DOC:"+s);
+#endif
     } catch (GLib.Error e) {
       GLib.message ("Error: "+e.message);
       assert_not_reached ();
@@ -408,7 +409,9 @@ class GomSerializationTest : GXmlTest  {
       var bs = new BookStand ();
       string s = bs.to_string ();
       assert (s != null);
+#if DEBUG
       GLib.message ("DOC:"+s);
+#endif
       assert ("<BookStand Classification=\"Science\"/>" in s);
       assert (bs.owner_document != null);
       assert  (bs.registers == null);
@@ -416,7 +419,9 @@ class GomSerializationTest : GXmlTest  {
       bs.registers.initialize_element (bs);
       s = bs.to_string ();
       assert (s != null);
+#if DEBUG
       GLib.message ("DOC:"+s);
+#endif
       assert ("<BookStand Classification=\"Science\"/>" in s);
       try {
         var br = new BookRegister ();
@@ -428,7 +433,9 @@ class GomSerializationTest : GXmlTest  {
       bs.registers.append (br2);
       s = bs.to_string ();
       assert (s != null);
+#if DEBUG
       GLib.message ("DOC:"+s);
+#endif
       assert ("<BookStand Classification=\"Science\"><BookRegister Year=\"2016\"/></BookStand>" in s);
       var br3 = bs.registers.create_item () as BookRegister;
       bs.registers.append (br3);
@@ -439,7 +446,9 @@ class GomSerializationTest : GXmlTest  {
       br4.year = 2000;
       s = bs.to_string ();
       assert (s != null);
+#if DEBUG
       GLib.message ("DOC:"+s);
+#endif
       assert ("<BookStand Classification=\"Science\"><BookRegister Year=\"2016\"/><BookRegister Year=\"2010\"/><Test/><BookRegister Year=\"2000\"/></BookStand>" in s);
       assert ((bs.registers.get_item (0) as BookRegister).year == 2016);
       assert ((bs.registers.get_item (1) as BookRegister).year == 2010);
@@ -454,14 +463,18 @@ class GomSerializationTest : GXmlTest  {
       var bs = new BookStore ();
       string s = bs.to_string ();
       assert (s != null);
+#if DEBUG
       GLib.message ("DOC:"+s);
+#endif
       assert ("<BookStore/>" in s);
       assert (bs.books == null);
       bs.books = new Books ();
       bs.books.initialize_element (bs);
       s = bs.to_string ();
       assert (s != null);
+#if DEBUG
       GLib.message ("DOC:"+s);
+#endif
       assert ("<BookStore/>" in s);
       var b = new Book ();
       try {
@@ -473,7 +486,9 @@ class GomSerializationTest : GXmlTest  {
       bs.books.append (b);
       s = bs.to_string ();
       assert (s != null);
+#if DEBUG
       GLib.message ("DOC:"+s);
+#endif
       assert ("<BookStore><Book Name=\"Title1\"/></BookStore>" in s);
       var b2 = new Book.document (bs.owner_document);
       b2.name = "Title2";
@@ -484,7 +499,9 @@ class GomSerializationTest : GXmlTest  {
       bs.books.append (b3);
       s = bs.to_string ();
       assert (s != null);
+#if DEBUG
       GLib.message ("DOC:"+s);
+#endif
       assert ("<BookStore><Book Name=\"Title1\"/><Book Name=\"Title2\"/><Test/><Book Name=\"Title3\"/></BookStore>" in s);
       assert (bs.books.get("Title1") != null);
       assert (bs.books.get("Title2") != null);
@@ -502,34 +519,45 @@ class GomSerializationTest : GXmlTest  {
       var m = new Motor ();
       string s = m.to_string ();
       assert (s != null);
+#if DEBUG
       GLib.message ("DOC:"+s);
+#endif
       assert ("<Motor/>" in s);
       m.is_on = new Motor.On ();
       s = m.to_string ();
       assert (s != null);
+#if DEBUG
       GLib.message ("DOC:"+s);
+#endif
       assert ("<Motor On=\"false\"/>" in s);
       m.torque = new Motor.Torque ();
       s = m.to_string ();
       assert (s != null);
+#if DEBUG
       GLib.message ("DOC:"+s);
+#endif
       assert ("<Motor On=\"false\" Torque=\"0.0000\"/>" in s);
       m.speed = new Motor.Speed ();
       s = m.to_string ();
       assert (s != null);
+#if DEBUG
       GLib.message ("DOC:"+s);
+#endif
       assert ("<Motor On=\"false\" Torque=\"0.0000\" Speed=\"0.0000\"/>" in s);
       assert (m.tension_type == null);
-      message ("Initializing Motor.TensionType");
       m.tension_type = new Motor.TensionType ();
       s = m.to_string ();
       assert (s != null);
+#if DEBUG
       GLib.message ("DOC:"+s);
+#endif
       assert ("<Motor On=\"false\" Torque=\"0.0000\" Speed=\"0.0000\" TensionType=\"ac\"/>" in s);
       m.tension = new Motor.Tension ();
       s = m.to_string ();
       assert (s != null);
+#if DEBUG
       GLib.message ("DOC:"+s);
+#endif
       assert ("<Motor On=\"false\" Torque=\"0.0000\" Speed=\"0.0000\" TensionType=\"ac\" Tension=\"0\"/>" in s);
       m.is_on.set_boolean (true);
       m.torque.set_double (3.1416);
@@ -538,7 +566,9 @@ class GomSerializationTest : GXmlTest  {
       m.tension.set_integer (125);
       s = m.to_string ();
       assert (s != null);
+#if DEBUG
       GLib.message ("DOC:"+s);
+#endif
       assert ("<Motor On=\"true\" Torque=\"3.1416\" Speed=\"3600.1011\" TensionType=\"dc\" Tension=\"125\"/>" in s);
       m.model = new Motor.Model ();
       assert (m.model != null);
@@ -546,22 +576,16 @@ class GomSerializationTest : GXmlTest  {
       assert (m.model.value == "");
       m.model.value = "Model3";
       assert (m.model.value == "Model3");
-      assert (!m.model.is_valid_value ());
       s = m.to_string ();
       assert (s != null);
+#if DEBUG
       GLib.message ("DOC:"+s);
+#endif
       assert ("<Motor On=\"true\" Torque=\"3.1416\" Speed=\"3600.1011\" TensionType=\"dc\" Tension=\"125\" Model=\"Model3\"/>" in s);
-      m.modelvariation = new Motor.ModelVariation ();
-      assert (m.modelvariation != null);
-      assert (m.modelvariation.value != null);
-      assert (m.modelvariation.value == "");
-      m.modelvariation.value = "var3";
-      assert (m.modelvariation.value == "var3");
-      assert (!m.modelvariation.is_valid_value ());
-      s = m.to_string ();
-      assert (s != null);
-      GLib.message ("DOC:"+s);
-      assert ("<Motor On=\"true\" Torque=\"3.1416\" Speed=\"3600.1011\" TensionType=\"dc\" Tension=\"125\" Model=\"Model3\" ModelVariation=\"var3\"/>" in s);
+      assert (!m.model.is_valid_value ());
+      assert (m.model.search ("MODEL1"));
+      m.model.value = "MODEL1";
+      assert (m.model.is_valid_value ());
     } catch (GLib.Error e) {
       GLib.message ("Error: "+e.message);
       assert_not_reached ();
@@ -574,18 +598,24 @@ class GomSerializationTest : GXmlTest  {
       parser.read_string ("<book name=\"Loco\"/>", null);
       string s = parser.write_string ();
       assert (s != null);
+#if DEBUG
       GLib.message ("Doc:"+s);
+#endif
       assert (b != null);
       assert (b.child_nodes != null);
       assert (b.child_nodes.size == 0);
       assert (b.attributes != null);
       assert (b.attributes.size == 0);
       assert (b.name != null);
+#if DEBUG
       assert (b.name == "Loco");
+#endif
       s = parser.write_string ();
       assert (s != null);
       assert ("<Book Name=\"Loco\"/>" in s);
+#if DEBUG
       GLib.message ("Doc:"+s);
+#endif
       b.name = "My Book";
       assert (b.get_attribute ("name") == "My Book");
       s = b.to_string ();
@@ -611,11 +641,15 @@ class GomSerializationTest : GXmlTest  {
     try {
       var b = new BookRegister ();
       string s = b.to_string ();
+#if DEBUG
       GLib.message ("doc:"+s);
+#endif
       assert ("<BookRegister Year=\"0\"/>" in s);
       b.read_from_string ("<bookRegister><Book/></bookRegister>");
       s = b.to_string ();
+#if DEBUG
       GLib.message ("doc:"+s);
+#endif
       assert ("<BookRegister Year=\"0\"><Book/></BookRegister>" in s);
     } catch (GLib.Error e) {
       GLib.message ("Error: "+e.message);
@@ -626,12 +660,16 @@ class GomSerializationTest : GXmlTest  {
     try {
       var m = new Motor ();
       string s = m.to_string ();
+#if DEBUG
       GLib.message ("doc:"+s);
+#endif
       assert ("<Motor/>" in s);
       var parser = new XParser (m);
       parser.read_string ("<Motor On=\"true\" Torque=\"3.1416\" Speed=\"3600.1011\" TensionType=\"dc\" Tension=\"125\"/>", null);
       s = m.to_string ();
+#if DEBUG
       GLib.message ("doc:"+s);
+#endif
       assert ("<Motor " in s);
       assert ("On=\"true\"" in s);
       assert ("Torque=\"3.1416\"" in s);
@@ -648,13 +686,17 @@ class GomSerializationTest : GXmlTest  {
     try {
       var bs = new BookStand ();
       string s = bs.to_string ();
+#if DEBUG
       GLib.message ("doc:"+s);
+#endif
       assert ("<BookStand Classification=\"Science\"/>" in s);
       var parser = new XParser (bs);
       parser.read_string ("<BookStand Classification=\"Science\"><BookRegister Year=\"2016\"/><BookRegister Year=\"2010\"/><Test/><BookRegister Year=\"2000\"/></BookStand>", null);
       s = bs.to_string ();
+#if DEBUG
       GLib.message ("doc:"+s);
       GLib.message ("Registers: "+bs.registers.length.to_string ());
+#endif
       assert (bs.registers != null);
       assert (bs.registers.length == 3);
       assert (bs.registers.nodes_index.peek_nth (0) == 0);
@@ -681,13 +723,17 @@ class GomSerializationTest : GXmlTest  {
     try {
       var bs = new BookStand ();
       string s = bs.to_string ();
+#if DEBUG
       GLib.message ("doc:"+s);
+#endif
       assert ("<BookStand Classification=\"Science\"/>" in s);
       bs.read_from_string ("<bookStand Classification=\"Science\"><book name=\"Title1\"/><book name=\"Title2\"/><Test/><book name=\"Title3\"/></bookStand>");
       //assert (bs.registers == null);
       assert (bs.books != null);
       s = bs.to_string ();
+#if DEBUG
       GLib.message ("doc:"+s);
+#endif
       GLib.message ("Books: "+bs.books.length.to_string ());
       assert (bs.books.length == 3);
       assert (bs.books.nodes_index.peek_nth (0) == 0);
@@ -730,7 +776,9 @@ class GomSerializationTest : GXmlTest  {
         Test.timer_start ();
         var bs = new GomBookStore ();
         assert (bs != null);
+#if DEBUG
         GLib.message (">>>>>>>>Empty XML:"+bs.to_string ());
+#endif
         bs.read_from_file (f);
         assert (bs.books != null);
         assert (bs.books.element != null);
@@ -742,17 +790,25 @@ class GomSerializationTest : GXmlTest  {
         assert (bs.name == "The Great Book");
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "deserialize/performance: %g seconds", time);
+#if DEBUG
         GLib.message (">>>>>>>>XML:"+bs.to_string ());
+#endif
         var of = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR + "/test-large-new.xml");
         Test.timer_start ();
         // Check read structure
+#if DEBUG
         GLib.message ("Document Root: "+bs.owner_document.document_element.node_name);
+#endif
         assert (bs.owner_document.document_element.node_name.down () == "bookstore");
+#if DEBUG
         GLib.message ("Root Child nodes: "+bs.child_nodes.length.to_string ());
+#endif
         assert (bs.child_nodes.length == 7);
         var ns = bs.get_elements_by_tag_name ("Book");
+#if DEBUG
         GLib.message ("Query Books: "+ns.length.to_string ());
         GLib.message ("Books: "+bs.books.length.to_string ());
+#endif
         assert (ns.length == 3);
         /*assert (bs.books.length > 0);
         var b = bs.books.get_item (0) as GomBook;

@@ -113,76 +113,9 @@ public class GXml.GomString : GomBaseProperty {
 
 /**
  * Convenient class to handle a {@link GomElement}'s attribute
- * using a list of pre-defined and mutable values.
- * Values can be added or removed.
- */
-public class GXml.GomArrayString : GomBaseProperty {
-  protected string _value = "";
-  protected GLib.Array<string> _values = null;
-  /**
-   * Array of values to  choose from
-   * or to be validated from using {@link is_valid_value}
-   */
-  public GLib.Array<string> values {
-    get { return _values; }
-    set { _values = value; }
-  }
-  /**
-   * Convenient method to initialize array of values from an array of strings.
-   */
-  public void initialize_strings (string[] strs) {
-    if (strs.length == 0) return;
-    if (_values == null) _values = new GLib.Array<string> ();
-    _values.append_vals (strs, strs.length);
-  }
-  /**
-   * Returns true if current value in property is included
-   * in the array of values.
-   */
-  public bool is_valid_value () {
-    if (_values == null) return true;
-    for (int i = 0; i < _values.length; i++) {
-      if (_values.index (i) == value) return true;
-    }
-    return false;
-  }
-  /**
-   * Select one string from array at index:
-   */
-  public void select (int index) {
-    if (_values == null) return;
-    if (index < 0 || index > _values.length) return;
-    value = _values.index (index);
-  }
-  /**
-   * Check if string is in array
-   */
-  public bool search (string str) {
-    if (_values == null) return true;
-    for (int i = 0; i < _values.length; i++) {
-      if (_values.index (i) == str) return true;
-    }
-    return false;
-  }
-  /**
-   * {inheritDoc}
-   */
-  public override string value {
-    owned get {
-      return _value;
-    }
-    set {
-      if (validate_value (value))
-        _value = value;
-    }
-  }
-}
-
-/**
- * Convenient class to handle a {@link GomElement}'s attribute
  * using a list of pre-defined and unmutable values.
  */
-public class GXml.GomFixedArrayString : GomBaseProperty {
+public class GXml.GomArrayString : GomBaseProperty {
   protected string _value = "";
   protected string[] _values = null;
   public unowned string[] get_values () {
