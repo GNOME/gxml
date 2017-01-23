@@ -1,4 +1,5 @@
-/* TNode.vala
+/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
+/* XParser.vala
  *
  * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
  *
@@ -227,6 +228,7 @@ public class GXml.XParser : Object, GXml.Parser {
 #if DEBUG
           GLib.message ("Property Read: "+aprefix+":"+nsp+"="+ansuri);
 #endif
+          if (nsp == element.prefix && ansuri == element.namespace_uri) continue;
           string ansp = nsp;
           if (nsp != "xmlns")
             ansp = aprefix+":"+nsp;
