@@ -164,7 +164,7 @@ public class GXml.GomDocument : GomNode,
       throw new DomError.NAMESPACE_ERROR
         (_("Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"));
     var e = new GomElement ();
-    e.initialize_with_namespace (this, namespace_uri, nsp, n);
+    e.initialize_document_with_namespace (this, namespace_uri, nsp, n);
     return e;
   }
 

@@ -64,8 +64,9 @@ class GXmlTest {
 		GomDocumentTest.add_tests ();
 		GomElementTest.add_tests ();
 		GomSerializationTest.add_tests ();
+		GomSchemaTest.add_tests ();
 
-		Test.run ();
+				Test.run ();
 
 		return 0;
 	}

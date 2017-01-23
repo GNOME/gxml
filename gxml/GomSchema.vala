@@ -1,7 +1,7 @@
 /* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /*
  *
- * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2017  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,13 +22,12 @@
 using GXml;
 
 public class GXml.GomXsdSchema : GomElement, XsdSchema {
-  public XsdList elements { get; set; }
-  public XsdList simple_types { get; set; }
+  public XsdListElements elements { get; set; }
+  public XsdListSimpleTypes simple_types { get; set; }
   construct {
-    initialize (XsdSchema.SCHEMA_NODE_NAME);
-    set_attribute_ns ("http://www.w3.org/2000/xmlns/",
-                      "xmlns:"+XsdSchema.SCHEMA_NAMESPACE_PREFIX,
-                      XsdSchema.SCHEMA_NAMESPACE_URI);
+    initialize_with_namespace (XsdSchema.SCHEMA_NAMESPACE_URI,
+                              XsdSchema.SCHEMA_NAMESPACE_PREFIX,
+                              XsdSchema.SCHEMA_NODE_NAME);
   }
 }
 
@@ -59,26 +58,40 @@ public class GXml.GomXsdTypeRestrictionDefinition : GomElement,
               XsdTypeRestrictionDefinition {
   public XsdAnnotation annotation { get; set; }
 }
-public class GXml.GomXsdTypeRestrictionMinExclusive : GomXsdTypeRestrictionDefinition {}
-public class GXml.GomXsdTypeRestrictionMinInclusive : GomXsdTypeRestrictionDefinition {}
-public class GXml.GomXsdTypeRestrictionMaxExclusive : GomXsdTypeRestrictionDefinition {}
-public class GXml.GomXsdTypeRestrictionMaxInclusive : GomXsdTypeRestrictionDefinition {}
-public class GXml.GomXsdTypeRestrictionTotalDigits : GomXsdTypeRestrictionDefinition {}
-public class GXml.GomXsdTypeRestrictionFractionDigits : GomXsdTypeRestrictionDefinition {}
-public class GXml.GomXsdTypeRestrictionLength : GomXsdTypeRestrictionDefinition {}
-public class GXml.GomXsdTypeRestrictionMinLength : GomXsdTypeRestrictionDefinition {}
-public class GXml.GomXsdTypeRestrictionMaxLength : GomXsdTypeRestrictionDefinition {}
-public class GXml.GomXsdTypeRestrictionEnumeration : GomXsdTypeRestrictionDefinition {
+public class GXml.GomXsdTypeRestrictionMinExclusive : GomXsdTypeRestrictionDefinition,
+              XsdTypeRestrictionMinExclusive {}
+public class GXml.GomXsdTypeRestrictionMinInclusive : GomXsdTypeRestrictionDefinition,
+              XsdTypeRestrictionMinInclusive {}
+public class GXml.GomXsdTypeRestrictionMaxExclusive : GomXsdTypeRestrictionDefinition,
+              XsdTypeRestrictionMaxExclusive {}
+public class GXml.GomXsdTypeRestrictionMaxInclusive : GomXsdTypeRestrictionDefinition,
+              XsdTypeRestrictionMaxInclusive {}
+public class GXml.GomXsdTypeRestrictionTotalDigits : GomXsdTypeRestrictionDefinition,
+              XsdTypeRestrictionTotalDigits {}
+public class GXml.GomXsdTypeRestrictionFractionDigits : GomXsdTypeRestrictionDefinition,
+              XsdTypeRestrictionFractionDigits {}
+public class GXml.GomXsdTypeRestrictionLength : GomXsdTypeRestrictionDefinition,
+              XsdTypeRestrictionLength {}
+public class GXml.GomXsdTypeRestrictionMinLength : GomXsdTypeRestrictionDefinition,
+              XsdTypeRestrictionMinLength {}
+public class GXml.GomXsdTypeRestrictionMaxLength : GomXsdTypeRestrictionDefinition,
+              XsdTypeRestrictionMaxLength {}
+public class GXml.GomXsdTypeRestrictionEnumeration : GomXsdTypeRestrictionDefinition,
+              XsdTypeRestrictionEnumeration {
   public string id { get; set; }
   public string value { get; set; }
   construct { initialize (GXml.XsdTypeRestrictionEnumeration.SCHEMA_NODE_NAME); }
 }
-public class GXml.GomXsdTypeRestrictionWhiteSpace: GomXsdTypeRestrictionDefinition {}
-public class GXml.GomXsdTypeRestrictionPattern : GomXsdTypeRestrictionDefinition {}
-public class GXml.GomXsdTypeRestrictionAssertion : GomXsdTypeRestrictionDefinition {}
-public class GXml.GomXsdTypeRestrictionExplicitTimezone : GomXsdTypeRestrictionDefinition {}
+public class GXml.GomXsdTypeRestrictionWhiteSpace: GomXsdTypeRestrictionDefinition,
+              XsdTypeRestrictionWhiteSpace {}
+public class GXml.GomXsdTypeRestrictionPattern : GomXsdTypeRestrictionDefinition,
+              XsdTypeRestrictionPattern {}
+public class GXml.GomXsdTypeRestrictionAssertion : GomXsdTypeRestrictionDefinition,
+              XsdTypeRestrictionAssertion {}
+public class GXml.GomXsdTypeRestrictionExplicitTimezone : GomXsdTypeRestrictionDefinition,
+              XsdTypeRestrictionExplicitTimezone {}
 
-public class GXml.GomXsdComplexType : GomElement, DomElement, XsdBaseType {
+public class GXml.GomXsdComplexType : GomXsdBaseType, XsdComplexType {
   protected XsdList _type_attributes = null;
   protected XsdList _group_attributes = null;
   /**
@@ -99,7 +112,6 @@ public class GXml.GomXsdComplexType : GomElement, DomElement, XsdBaseType {
    * defaultAttributesApply
    */
   public bool default_attributes_apply { get; set; default = true; }
-  public XsdList anotations { get; set; }
   /**
    * A {@link XsdComplexType} or {@link XsdSimpleType}
    */
@@ -115,12 +127,12 @@ public class GXml.GomXsdComplexType : GomElement, DomElement, XsdBaseType {
   construct { initialize (GXml.XsdComplexType.SCHEMA_NODE_NAME); }
 }
 
-public class GXml.GomXsdExtension : GomElement, DomElement {
+public class GXml.GomXsdExtension : GomElement, XsdExtension {
   public string base { get; set; }
   construct { initialize (GXml.XsdExtension.SCHEMA_NODE_NAME); }
 }
 
-public class GXml.GomXsdElement : GomElement, DomElement {
+public class GXml.GomXsdElement : GomElement, XsdElement {
   /**
   * attribute name = abstract
   */
@@ -166,9 +178,34 @@ public class GXml.GomXsdElement : GomElement, DomElement {
   /**
    * A {@link XsdComplexType} or {@link XsdSimpleType} list of elements
    */
-  public XsdList type_definition { get; set; }
+  public XsdListBaseTypes type_definitions { get; set; }
   construct { initialize (GXml.XsdElement.SCHEMA_NODE_NAME); }
 }
+
+
+public class GXml.GomXsdAnnotation : GomElement, XsdAnnotation {
+}
+
+public class GXml.GomXsdBaseType : GomElement, XsdBaseType {
+  public XsdAnnotation anotation { get; set; }
+}
+
+public class GXml.GomXsdBaseContent : GomElement, XsdBaseContent {
+  public XsdAnnotation anotation { get; set; }
+}
+public class GXml.GomXsdSimpleContent : GomXsdBaseContent, XsdBaseContent {
+  construct { initialize (GXml.XsdSimpleContent.SCHEMA_NODE_NAME); }
+}
+public class GXml.GomXsdComplexContent : GomXsdBaseContent, XsdBaseContent {
+  construct { initialize (GXml.XsdComplexContent.SCHEMA_NODE_NAME); }
+}
+public class GXml.GomXsdOpenContent : GomXsdBaseContent, XsdBaseContent {}
+
+public class GXml.GomXsdBaseAttribute : GomElement, XsdBaseAttribute  {
+  public XsdAnnotation anotation { get; set; }
+}
+public class GXml.GomXsdAttribute : GomXsdBaseAttribute, XsdAttribute {}
+public class GXml.GomXsdAttributeGroup : GomXsdBaseAttribute, XsdAttributeGroup {}
 
 public class GXml.GomXsdList : GomArrayList, XsdList {
   public new int length {
@@ -187,4 +224,14 @@ public class GXml.GomXsdList : GomArrayList, XsdList {
   public DomElement? XsdList.get_item (int index) {
     return (this as GomArrayList).get_item (index);
   }
+}
+
+public class GXml.GomXsdListElements : GomXsdList, XsdListElements {
+  construct { initialize (typeof (GomXsdElement)); }
+}
+public class GXml.GomXsdListSimpleTypes : GomXsdList, XsdListSimpleTypes {
+  construct { initialize (typeof (GomXsdSimpleType)); }
+}
+public class GXml.GomXsdListBaseTypes : GomXsdList, XsdListBaseTypes {
+  construct { initialize (typeof (GomXsdBaseType)); }
 }

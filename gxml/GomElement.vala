@@ -245,9 +245,19 @@ public class GXml.GomElement : GomNode,
   }
   /**
    * Convenient function to initialize, at construction time, a {@link GomElement}
+   * using given local name and namespace.
+   */
+  public void initialize_with_namespace (string? namespace_uri,
+                              string? prefix, string local_name) {
+    _local_name = local_name;
+    _namespace_uri = namespace_uri;
+    _prefix = prefix;
+  }
+  /**
+   * Convenient function to initialize, at construction time, a {@link GomElement}
    * using given local name, document and namespace.
    */
-  public void initialize_with_namespace (DomDocument doc, string? namespace_uri,
+  public void initialize_document_with_namespace (DomDocument doc, string? namespace_uri,
                               string? prefix, string local_name) {
     _document = doc;
     _local_name = local_name;

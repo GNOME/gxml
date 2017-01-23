@@ -1,7 +1,7 @@
 /* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /*
  *
- * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2017  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -25,13 +25,18 @@ public interface GXml.XsdSchema : GLib.Object, DomElement {
   public const string SCHEMA_NODE_NAME = "schema";
   public const string SCHEMA_NAMESPACE_URI = "http://www.w3.org/2001/XMLSchema";
   public const string SCHEMA_NAMESPACE_PREFIX = "xs";
-  public abstract XsdList elements { get; set; }
-  public abstract XsdList simple_types { get; set; }
+  public abstract XsdListElements elements { get; set; }
+  public abstract XsdListSimpleTypes simple_types { get; set; }
 }
 
 public errordomain GXml.SchemaError {
   INVALIDATION_ERROR
 }
+
+public interface GXml.XsdBaseType : Object {
+  public abstract XsdAnnotation anotation { get; set; }
+}
+
 public interface GXml.XsdSimpleType: Object, DomElement, XsdBaseType {
   public const string SCHEMA_NODE_NAME = "simpleType";
   /**
@@ -47,7 +52,6 @@ public interface GXml.XsdSimpleTypeDefinition : Object {}
 public interface GXml.XsdTypeRestriction : Object, XsdSimpleTypeDefinition {
   public abstract string base { get; set; }
   public abstract string id { get; set; }
-  public abstract XsdAnnotation annotation { get; set; }
   public abstract XsdSimpleType simple_type { get; set; }
   /**
    * List of {link XsdTypeRestrictionDefinition} objects
@@ -100,7 +104,6 @@ public interface GXml.XsdComplexType : Object, DomElement, XsdBaseType {
    * defaultAttributesApply
    */
   public abstract bool default_attributes_apply { get; set; default = true; }
-  public abstract XsdList anotations { get; set; }
   /**
    * A {@link XsdComplexType} or {@link XsdSimpleType}
    */
@@ -168,15 +171,15 @@ public interface GXml.XsdElement : Object, DomElement {
   /**
    * A {@link XsdComplexType} or {@link XsdSimpleType} list of elements
    */
-  public abstract XsdList type_definition { get; set; }
+  public abstract XsdListBaseTypes type_definitions { get; set; }
   // TODO: Missing: ((simpleType | complexType)?, alternative*, (unique | key | keyref)*))
 }
 
 public interface GXml.XsdAnnotation : Object {}
 
-public interface GXml.XsdBaseType : Object {}
-
-public interface GXml.XsdBaseContent : Object {}
+public interface GXml.XsdBaseContent : Object {
+  public abstract XsdAnnotation anotation { get; set; }
+}
 public interface GXml.XsdSimpleContent : Object, XsdBaseContent {
   public const string SCHEMA_NODE_NAME = "simpleContent";
 }
@@ -185,9 +188,15 @@ public interface GXml.XsdComplexContent : Object, XsdBaseContent {
 }
 public interface GXml.XsdOpenContent : Object, XsdBaseContent {}
 
-public interface GXml.XsdBaseAttribute : Object {}
-public interface GXml.XsdAttribute : Object {}
-public interface GXml.XsdAttributeGroup : Object {}
+public interface GXml.XsdBaseAttribute : Object {
+  public abstract XsdAnnotation anotation { get; set; }
+}
+public interface GXml.XsdAttribute : Object {
+  public const string SCHEMA_NODE_NAME = "attribute";
+}
+public interface GXml.XsdAttributeGroup : Object {
+  public const string SCHEMA_NODE_NAME = "attributeGroup";
+}
 
 public interface GXml.XsdList : Object, GomCollection {
   public abstract DomElement element { get; construct set; }
@@ -199,3 +208,7 @@ public interface GXml.XsdList : Object, GomCollection {
   public abstract void remove (int index);
   public abstract int index_of (DomElement element);
 }
+
+public interface GXml.XsdListElements : Object, XsdList {}
+public interface GXml.XsdListSimpleTypes : Object, XsdList {}
+public interface GXml.XsdListBaseTypes : Object, XsdList {}

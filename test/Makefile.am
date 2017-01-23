@@ -61,6 +61,7 @@ sources = \
 	GomDocumentTest.vala \
 	GomElementTest.vala \
 	GomSerializationTest.vala \
+	GomSchemaTest.vala \
 	$(NULL)
 
 vala-stamp: $(sources)
@@ -160,5 +161,6 @@ EXTRA_DIST += \
 	index.html \
 	t-read-test.xml \
 	gdocument-read.xml \
+	schema-test.xsd \
 	$(NULL)
 
