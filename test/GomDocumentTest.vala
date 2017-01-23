@@ -167,9 +167,8 @@ class GomDocumentTest : GXmlTest {
 				assert ("<shortdesc xml:lang=\"en\">GObject XML and Serialization API</shortdesc>"
 								in s);
 				assert ("<homepage rdf:resource=\"https://wiki.gnome.org/GXml\"/>" in s);
-				assert ("<foaf:Person" in s);
-				assert ("<foaf:name " in s);
-				assert ("Daniel Espinosa</foaf:name>"in s);
+				assert ("<foaf:Person>" in s);
+				assert ("<foaf:name>Daniel Espinosa</foaf:name>" in s);
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+e.message);
 				assert_not_reached ();
@@ -184,7 +183,7 @@ class GomDocumentTest : GXmlTest {
 				assert (r.namespace_uri == "http://live.gnome.org/GXml");
 				var parser = new XParser (doc);
 				string s = parser.write_string ();
-				GLib.message (@"DOC: "+s);
+				Test.message (@"DOC: "+s);
 				assert ("<root xmlns=\"http://live.gnome.org/GXml\"/>" in s);
 				doc.document_element.set_attribute_ns ("http://www.w3.org/2000/xmlns/",
 																							"xmlns",

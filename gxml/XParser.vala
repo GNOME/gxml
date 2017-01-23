@@ -597,11 +597,20 @@ public class GXml.XParser : Object, GXml.Parser {
 #endif
       if ((node as DomElement).namespace_uri != null) {
 #if DEBUG
-            GLib.message ("Writting namespace definition for node");
+          GLib.message ("Writting namespace definition for node");
 #endif
-          tw.start_element_ns ((node as DomElement).prefix,
-                               (node as DomElement).local_name,
-                               (node as DomElement).namespace_uri);
+          string lpns = (node.parent_node).lookup_prefix ((node as DomElement).namespace_uri);
+          if (lpns == (node as DomElement).prefix
+              && (node as DomElement).prefix != null) {
+            tw.start_element (node.node_name);
+#if DEBUG
+            message ("Setting null NS URI for element: "+(node as DomElement).local_name);
+#endif
+          }
+          else
+            tw.start_element_ns ((node as DomElement).prefix,
+                                 (node as DomElement).local_name,
+                                 (node as DomElement).namespace_uri);
       } else
         tw.start_element ((node as DomElement).local_name);
 #if DEBUG
