@@ -594,22 +594,15 @@ public class GXml.XParser : Object, GXml.Parser {
       GLib.message (@"Starting Element... '$(node.node_name)'");
       GLib.message (@"Element Document is Null... '$((node.owner_document == null).to_string ())'");
 #endif
-      if ((node as DomElement).prefix != null
-          || (node as DomElement).namespace_uri != null) {
-        string name = (node as DomElement).prefix
-                      + ":" + (node as DomElement).local_name;
-        tw.start_element (name);
-      }
-      if ((node as DomElement).prefix == null
-            && (node as DomElement).namespace_uri != null) {
+      if ((node as DomElement).namespace_uri != null) {
 #if DEBUG
             GLib.message ("Writting namespace definition for node");
 #endif
-          tw.start_element_ns (null,
+          tw.start_element_ns ((node as DomElement).prefix,
                                (node as DomElement).local_name,
                                (node as DomElement).namespace_uri);
       } else
-        tw.start_element (node.node_name);
+        tw.start_element ((node as DomElement).local_name);
 #if DEBUG
     GLib.message ("Write down properties: size:"+(node as DomElement).attributes.size.to_string ());
 #endif
