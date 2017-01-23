@@ -171,6 +171,49 @@ public class GXml.GomArrayString : GomBaseProperty {
   }
 }
 
+
+/**
+ * Convenient class to handle a {@link GomElement}'s attribute
+ * using a list of pre-defined and unmutable values, taken from
+ * an {@link XsdSimpleType} definition
+ */
+public class GXml.GomXsdArrayString : GomArrayString {
+  protected GLib.File source = null;
+  protected string path = null;
+  public void initalize_xsd (GLib.File file) {
+    if (file.query_exists ()) return;
+    if (path == null) return;
+    if (!("/" in path)) return;
+    string[] nodes = path.split("/");
+    if (nodes.length < 1) return;
+    var xsd = new GomXsdSchema ();
+    xsd.read_from_file (file);
+    if (xsd.simple_type_definitions == null) return;
+    if (xsd.simple_type_definitions.length == 0) return;
+    foreach (string str in nodes) {
+      if (str.down () == "schema") continue;
+      for (int i = 0; i < xsd.simple_type_definitions.length; i++) {
+        var st = xsd.simple_type_definitions.get_item (i) as GomXsdSimpleType;
+        if (st == null) continue;
+        if (st.name == null) continue;
+        if (str.down () == st.name.down ()) {
+          if (st.restriction == null) continue;
+          if (st.restriction.enumerations == null) continue;
+          if (st.restriction.enumerations.length == 0) continue;
+          string[] vals = {};
+          for (int j = 0; j < st.restriction.enumerations.length; j++) {
+            var en = st.restriction.enumerations.get_item (j) as GomXsdTypeRestrictionEnumeration;
+            if (en == null) continue;
+            if (en.value == null) continue;
+              vals += en.value;
+          }
+          initialize_strings (vals);
+        }
+      }
+    }
+  }
+}
+
 /**
  * Convenient class to handle {@link GomElement}'s attributes
  * using double pressition floats as sources of values.

@@ -28,8 +28,9 @@ public interface GXml.IXsdSchema : GLib.Object, DomElement {
   public const string SCHEMA_NODE_NAME = "schema";
   public const string SCHEMA_NAMESPACE_URI = "http://www.w3.org/2001/XMLSchema";
   public const string SCHEMA_NAMESPACE_PREFIX = "xs";
-  public abstract IXsdListElements elements { get; set; }
-  public abstract IXsdListSimpleTypes simple_types { get; set; }
+  public abstract IXsdListElements element_definitions { get; set; }
+  public abstract IXsdListSimpleTypes simple_type_definitions { get; set; }
+  public abstract IXsdListComplexTypes complex_type_definitions { get; set; }
 }
 
 public errordomain GXml.IXsdSchemaError {

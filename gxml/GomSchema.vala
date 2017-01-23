@@ -25,7 +25,7 @@ using GXml;
  * Reference interfaces for XSD support.
  */
 public class GXml.GomXsdSchema : GomElement {
-  public GomXsdListElements elements { get; set; }
+  public GomXsdListElements element_definitions { get; set; }
   public GomXsdListSimpleTypes simple_type_definitions { get; set; }
   public GomXsdListComplexTypes complex_type_definitions { get; set; }
   construct {
