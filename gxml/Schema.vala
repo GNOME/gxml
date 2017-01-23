@@ -41,6 +41,7 @@ public interface GXml.XsdSimpleType: Object, DomElement, XsdBaseType {
   public abstract string id { get; set; }
   public abstract string name { get; set; }
   public abstract XsdAnnotation annotation { get; set; }
+  public abstract XsdSimpleTypeDefinition definition { get; set; }
 }
 public interface GXml.XsdSimpleTypeDefinition : Object {}
 public interface GXml.XsdTypeRestriction : Object, XsdSimpleTypeDefinition {
@@ -92,7 +93,7 @@ public interface GXml.XsdComplexType : Object, DomElement, XsdBaseType {
   * (#all | List of (extension | restriction))
   */
   public abstract string final { get; set; }
-  public abstract string id { get; set; }
+  public abstract string? id { get; set; }
   public abstract bool mixed { get; set; }
   public abstract string name { get; set; }
   /**
@@ -107,11 +108,11 @@ public interface GXml.XsdComplexType : Object, DomElement, XsdBaseType {
   /**
    * List of type {@link XsdAttribute} definitions
    */
-  public abstract XsdList attributes { get; set; }
+  public abstract XsdList type_attributes { get; }
   /**
    * List of type {@link XsdGroupAttribute} definitions
    */
-  public abstract XsdList group_attributes { get; set; }
+  public abstract XsdList group_attributes { get; }
 }
 
 public interface GXml.XsdExtension : Object, DomElement {
@@ -139,7 +140,7 @@ public interface GXml.XsdElement : Object, DomElement {
    * (qualified | unqualified)
    */
   public abstract string form { get; set; }
-  public abstract string id { get; set; }
+  public abstract string? id { get; set; }
   /**
    * (nonNegativeInteger | unbounded)  : 1
    */
@@ -188,12 +189,13 @@ public interface GXml.XsdBaseAttribute : Object {}
 public interface GXml.XsdAttribute : Object {}
 public interface GXml.XsdAttributeGroup : Object {}
 
-public interface GXml.XsdList : Object {
-  public abstract Type item_type { get; construct set; }
-  public abstract Type item_node_name { get; construct set; }
+public interface GXml.XsdList : Object, GomCollection {
+  public abstract DomElement element { get; construct set; }
+  public abstract Type items_type { get; construct set; }
+  public abstract Type items_name { get; construct set; }
   public abstract int length { get; }
-  public abstract DomElement? index (int index);
-  public abstract void add (DomElement element);
+  public abstract DomElement? get_item (int index);
+  public abstract void append (DomElement element);
   public abstract void remove (int index);
   public abstract int index_of (DomElement element);
 }

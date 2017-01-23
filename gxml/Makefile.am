@@ -93,6 +93,7 @@ sources = \
 	Parser.vala \
 	XParser.vala \
 	Schema.vala \
+	GomSchema.vala \
 	$(NULL)
 
 
