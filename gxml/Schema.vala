@@ -21,6 +21,9 @@
  */
 using GXml;
 
+/**
+ * Reference interfaces for XSD support.
+ */
 public interface GXml.XsdSchema : GLib.Object, DomElement {
   public const string SCHEMA_NODE_NAME = "schema";
   public const string SCHEMA_NAMESPACE_URI = "http://www.w3.org/2001/XMLSchema";
