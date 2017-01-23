@@ -723,7 +723,9 @@ class TDocumentTest : GXmlTest {
 				assert (d.root.name == "root");
 				assert (d.root.children_nodes[0] != null);
 				assert (d.root.children_nodes[0].name == "child");
+#if DEBUG
 				GLib.message ("child attri: "+(d.root.children_nodes[0].attrs.size).to_string ());
+#endif
 				assert (d.root.children_nodes[0].attrs.size == 2);
 				assert (d.root.children_nodes[0].attrs["v"] != null);
 				assert (d.root.children_nodes[0].children_nodes[0] is GXml.Text);
@@ -757,7 +759,9 @@ class TDocumentTest : GXmlTest {
 				assert (nc != null);
 				assert (nc.name == "Read");
 				assert (nc.children_nodes.size == 2);
+#if DEBUG
 				GLib.message ("from file");
+#endif
 				// Remove all unwanted
 				TDocument.ReadTypeFunc f1 = (node, tr)=>{
 					Test.message ("ReadType check node: "+node.name);
@@ -803,7 +807,9 @@ class TDocumentTest : GXmlTest {
 				assert (nc3.name == "Read");
 				assert (nc3.children_nodes.size == 1);
 				// From URI
+#if DEBUG
 				GLib.message ("from uri");
+#endif
 				var d4 = new TDocument.from_uri_with_readtype_func (file.get_uri (), f2);
 				Test.message (@"$d3");
 				assert (d4.root != null);
@@ -817,7 +823,9 @@ class TDocumentTest : GXmlTest {
 				assert (nc4.name == "Read");
 				assert (nc4.children_nodes.size == 1);
 				// From Stream
+#if DEBUG
 				GLib.message ("from stream");
+#endif
 				var file2 = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/t-read-test.xml");
 				var d5 = new TDocument.from_stream_with_readtype_func (file2.read (), f1);
 				assert (d5.root != null);
@@ -832,7 +840,9 @@ class TDocumentTest : GXmlTest {
 				assert (nc5.name == "Read");
 				assert (nc5.children_nodes.size == 1);
 				// From string
+#if DEBUG
 				GLib.message ("from string");
+#endif
 				var d6 = new TDocument.from_string_with_readtype_func ("<root><Read/><NoRead/><NoRead/><Read/><NoRead/></root>", f1);
 				assert (d6.root != null);
 				assert (d6.root.children_nodes.size == 2);

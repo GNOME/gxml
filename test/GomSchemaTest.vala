@@ -29,11 +29,15 @@ class GomSchemaTest : GXmlTest  {
 				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/schema-test.xsd");
 				assert (f.query_exists ());
 				var sch = new GomXsdSchema ();
+#if DEBUG
 				message ("XSD Empty: "+sch.write_string ());
 				message ("XSD node name: "+sch.node_name);
+#endif
 				assert (sch.local_name == "schema");
 				sch.read_from_file (f);
+#if DEBUG
 				message ("XSD: "+sch.write_string ());
+#endif
 				assert (sch.simple_type_definitions != null);
 				var st = sch.simple_type_definitions.get_item (0) as GomXsdSimpleType;
 				assert (st != null);

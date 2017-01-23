@@ -74,13 +74,16 @@ class GomElementTest : GXmlTest  {
 				assert (node.node_name == "magic:Potion");
 				assert ((node as DomElement).namespace_uri == "http://hogwarts.co.uk/magic");
 				assert ((node as DomElement).prefix == "magic");
-				assert ((node as DomElement).attributes.size == 2);
-				GLib.message ("Attributes: "+(node as DomElement).attributes.size.to_string ());
-				/*foreach (string k in (node as DomElement).attributes.keys) {
+#if DEBUG
+				message ("Element: "+(node as GomElement).write_string ());
+				message ("Attributes: "+(node as DomElement).attributes.length.to_string ());
+				foreach (string k in (node as DomElement).attributes.keys) {
 					string v = (node as DomElement).get_attribute (k);
 					if (v == null) v = "NULL";
 					GLib.message ("Attribute: "+k+"="+v);
-				}*/
+				}
+#endif
+				assert ((node as DomElement).attributes.length == 2);
 				assert ((node as DomElement).get_attribute ("xmlns:magic") == "http://hogwarts.co.uk/magic");
 				assert ((node as DomElement).get_attribute_ns ("http://www.w3.org/2000/xmlns/", "magic") == "http://hogwarts.co.uk/magic");
 				assert ((node as DomElement).get_attribute ("xmlns:products") == "http://diagonalley.co.uk/products");

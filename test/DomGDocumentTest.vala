@@ -68,7 +68,9 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 	public static void add_tests () {
 		Test.add_func ("/gxml/dom/document/children", () => {
 			try {
+#if DEBUG
 				GLib.message ("Doc: "+STRDOC);
+#endif
 				var doc = new GDocument.from_string (STRDOC) as DomDocument;
 				DomElement root = doc.document_element;
 				assert (root != null);
@@ -86,7 +88,9 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 		});
 		Test.add_func ("/gxml/dom/document/child_nodes", () => {
 			try {
+#if DEBUG
 				GLib.message ("Doc: "+STRDOC);
+#endif
 				var doc = new GDocument.from_string (STRDOC) as DomDocument;
 				assert (doc is DomDocument);
 				assert (doc.child_nodes != null);
@@ -107,7 +111,9 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 		});
 		Test.add_func ("/gxml/dom/document/element_collections", () => {
 			try {
+#if DEBUG
 				GLib.message ("Doc: "+STRDOC);
+#endif
 				var doc = new GDocument.from_string (HTMLDOC) as DomDocument;
 				assert (doc is DomDocument);
 				var le = doc.get_elements_by_tag_name ("p");
@@ -115,7 +121,9 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 				assert (le[0].get_attribute ("class") == "black");
 				assert (le[1].get_attribute ("id") == "p01");
 				var lc = doc.get_elements_by_class_name ("black");
+#if DEBUG
 				GLib.message ("DOC\n"+(doc as GDocument).to_string ());
+#endif
 				assert (lc.size == 2);
 				assert (lc[0].node_name == "p");
 				assert (lc[0].get_attribute ("class") == "black block");
@@ -283,7 +291,9 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 			assert (ng2.lookup_prefix ("http://live.gnome.org/GXml") == null);
 			assert (ng2.tag_name == "OtherNode");
 
+#if DEBUG
 			GLib.message ("BODY:"+(doc.document_element as GXml.Node).to_string ());
+#endif
 			var l = doc.document_element.get_elements_by_tag_name ("p");
 			assert (l != null);
 			assert (l is DomHTMLCollection);
@@ -365,7 +375,9 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 			assert (n2.attributes.length == 1);
 			assert (n2.has_attribute_ns ("http://devel.org/","nice"));
 			assert (!n2.has_attribute_ns ("http://devel.org/","dev:nice"));
+#if DEBUG
 			GLib.message ("NODE:"+(n2 as GXml.Node).to_string ());
+#endif
 			assert (n2.get_attribute_ns ("http://devel.org/","nice") == "good");
 			assert (n2.get_attribute_ns ("http://devel.org/","dev:nice") == null);
 			} catch (GLib.Error e) {
@@ -375,7 +387,9 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 		});
 		Test.add_func ("/gxml/dom/document/api", () => {
 			try {
+#if DEBUG
 				GLib.message ("Doc: "+XMLDOC);
+#endif
 				var doc = new GDocument.from_string (XMLDOC) as DomDocument;
 				assert (doc.url == "about:blank");
 				assert (doc.document_uri == "about:blank");
@@ -414,8 +428,10 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 				var lec4 = doc.get_elements_by_class_name ("code parent");
 				assert (lec4.length == 0);
 				var lec5 = doc.get_elements_by_class_name ("node parent");
+#if DEBUG
 				GLib.message ("Doc in use:\n"+(doc as GDocument).libxml_to_string ());
 				GLib.message ("Class node found: "+lec5.length.to_string ());
+#endif
 				assert (lec5.length == 3);
 				assert (lec5.item (0) is DomElement);
 				assert (lec5.item (0).node_name == "MyNode");
@@ -433,7 +449,9 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 				assert (doc.document_element.last_child.node_value == "COMMENT");
 				var pi = doc.create_processing_instruction ("git","commit");
 				doc.document_element.append_child (pi);
+#if DEBUG
 				GLib.message ("DOC: "+(doc.document_element as GXml.Node).to_string ());
+#endif
 				assert (doc.document_element.last_child is DomProcessingInstruction);
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+ e.message);
@@ -442,7 +460,7 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 		});
 		Test.add_func ("/gxml/dom/document/import", () => {
 			try {
-				GLib.message ("Doc: "+XMLDOC);
+				Test.message ("Doc: "+XMLDOC);
 				var doc = new GDocument.from_string (XMLDOC) as DomDocument;
 				var doc2 = new GDocument.from_string (STRDOC) as DomDocument;
 				doc.import_node (doc2.document_element, false);
@@ -458,7 +476,7 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 		});
 		Test.add_func ("/gxml/dom/document/adopt", () => {
 			try {
-				GLib.message ("Doc: "+XMLDOC);
+				Test.message ("Doc: "+XMLDOC);
 				var doc = new GDocument.from_string (XMLDOC) as DomDocument;
 				var doc2 = new GDocument.from_string (STRDOC) as DomDocument;
 				doc2.adopt_node (doc.document_element.children.last ());
@@ -475,7 +493,7 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 		});
 		Test.add_func ("/gxml/dom/document/event", () => {
 			try {
-				GLib.message ("No implemented...Skiping");
+				Test.message ("No implemented...Skiping");
 				//TODO: implement
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+ e.message);
@@ -484,7 +502,7 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 		});
 		Test.add_func ("/gxml/dom/document/range", () => {
 			try {
-				GLib.message ("No implemented...Skiping");
+				Test.message ("No implemented...Skiping");
 				//TODO: implement
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+ e.message);
@@ -493,7 +511,7 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 		});
 		Test.add_func ("/gxml/dom/document/iterator", () => {
 			try {
-				GLib.message ("No implemented...Skiping");
+				Test.message ("No implemented...Skiping");
 				//TODO: implement
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+ e.message);
@@ -502,7 +520,7 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 		});
 		Test.add_func ("/gxml/dom/document/walker", () => {
 			try {
-				GLib.message ("No implemented...Skiping");
+				Test.message ("No implemented...Skiping");
 				//TODO: implement
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+ e.message);
@@ -555,7 +573,9 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 				// BUG: libxml2 doesn't support continuos DomText nodes
 				// when it is added, its data is concatecated in just text
 				// node
+#if DEBUG
 				GLib.message ("NTST: "+(ntst as GXml.Node).to_string ());
+#endif
 				assert (ntst.child_nodes.item (0) is DomText);
 				assert ((ntst.child_nodes.item (0) as DomText).data == "TEXT1TEXT2");
 				// BUG: DomText.whole_text

@@ -657,7 +657,9 @@ class TElementTest : GXmlTest {
 				};
 				var d2 = new TDocument ();
 				TDocument.read_doc (d2, file, f1);
+#if DEBUG
 				GLib.message (@"$d2");
+#endif
 				assert (d2.root != null);
 				assert (d2.root.children_nodes.size == 7);
 				var n2 = d2.root.children_nodes[6];

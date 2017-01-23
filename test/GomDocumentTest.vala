@@ -167,8 +167,9 @@ class GomDocumentTest : GXmlTest {
 				assert ("<shortdesc xml:lang=\"en\">GObject XML and Serialization API</shortdesc>"
 								in s);
 				assert ("<homepage rdf:resource=\"https://wiki.gnome.org/GXml\"/>" in s);
-				assert ("<foaf:Person>" in s);
-				assert ("<foaf:name>Daniel Espinosa</foaf:name>" in s);
+				assert ("<foaf:Person" in s);
+				assert ("<foaf:name " in s);
+				assert ("Daniel Espinosa</foaf:name>"in s);
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+e.message);
 				assert_not_reached ();

@@ -228,7 +228,6 @@ public class GXml.XParser : Object, GXml.Parser {
 #if DEBUG
           GLib.message ("Property Read: "+aprefix+":"+nsp+"="+ansuri);
 #endif
-          if (nsp == element.prefix && ansuri == element.namespace_uri) continue;
           string ansp = nsp;
           if (nsp != "xmlns")
             ansp = aprefix+":"+nsp;
@@ -634,6 +633,21 @@ public class GXml.XParser : Object, GXml.Parser {
     // DomElement attributes
     foreach (string ak in (node as DomElement).attributes.keys) {
       string v = ((node as DomElement).attributes as HashMap<string,string>).get (ak);
+      if ("xmlns:" in ak) {
+        string ns = (node as DomElement).namespace_uri;
+        if (ns != null) {
+          string[] strs = ak.split (":");
+          if (strs.length == 2) {
+            string nsp = strs[1];
+            if (ns == v && nsp == (node as DomElement).prefix) {
+#if DEBUG
+              message ("Attribute Is element NS, skiping...");
+#endif
+              continue;
+            }
+          }
+        }
+      }
       size += tw.write_attribute (ak, v);
       size += tw.end_attribute ();
       if (size > 1500)

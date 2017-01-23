@@ -395,7 +395,7 @@ public class GXml.GomElement : GomNode,
           string ns_uri = _element.lookup_namespace_uri (null);
           if (ns_uri != null && ns_uri != node.node_value) {
 #if DEBUG
-            GLib.message ("NSURI: "+ns_uri+" NSURI Attr:"+node.node_value);
+            GLib.message ("Error: NSURI: "+ns_uri+" NSURI Attr:"+node.node_value);
 #endif
             throw new DomError.NAMESPACE_ERROR
                       (_("Redefinition of default namespace for %s")
@@ -409,6 +409,12 @@ public class GXml.GomElement : GomNode,
 #endif
           string nsprefix = _element.lookup_prefix (node.node_value);
           string nsuri = _element.lookup_namespace_uri ((node as DomAttr).local_name);
+
+#if DEBUG
+          if (nsprefix != null || nsuri != null)
+            GLib.message ("Ns Prefix = "+nsprefix
+                      + "Ns URI: "+nsuri);
+#endif
           if ((nsprefix != null || nsuri != null)
               && (nsprefix != (node as DomAttr).local_name
                   || nsuri != node.node_value)) {
