@@ -39,7 +39,9 @@ public class GXml.GomXsdSimpleType : GomElement {
   /**
    * (#all | List of (list | union | restriction | extension))
    */
+  [Description (nick="::final")]
   public string final { get; set; }
+  [Description (nick="::name")]
   public string name { get; set; }
   public GomXsdAnnotation annotation { get; set; }
   public GomXsdTypeList list { get; set; }

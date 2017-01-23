@@ -55,5 +55,25 @@ class GomSchemaTest : GXmlTest  {
 				assert_not_reached ();
 			}
 		});
+		Test.add_func ("/gxml/xsd-array-string/attribute-enumeration", () => {
+			try {
+				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/schema-test.xsd");
+				assert (f.query_exists ());
+				var ars = new GomXsdArrayString ();
+				ars.simple_type = "MethodCode";
+				ars.source = f;
+				assert (ars.search ("01"));
+				assert (ars.search ("02"));
+				assert (ars.search ("03"));
+				assert (ars.search ("04"));
+				assert (ars.search ("05"));
+				assert (ars.search ("06"));
+				assert (!ars.search ("07"));
+				assert (ars.search ("99"));
+			} catch (GLib.Error e) {
+				GLib.message ("Error: "+e.message);
+				assert_not_reached ();
+			}
+		});
 	}
 }

@@ -151,7 +151,7 @@ public class GXml.GomArrayString : GomBaseProperty {
    * Check if string is in array
    */
   public bool search (string str) {
-    if (_values == null) return true;
+    if (_values == null) return false;
     for (int i = 0; i < _values.length; i++) {
       if (_values[i] == str) return true;
     }
@@ -178,37 +178,82 @@ public class GXml.GomArrayString : GomBaseProperty {
  * an {@link XsdSimpleType} definition
  */
 public class GXml.GomXsdArrayString : GomArrayString {
-  protected GLib.File source = null;
-  protected string path = null;
-  public void initalize_xsd (GLib.File file) {
-    if (file.query_exists ()) return;
-    if (path == null) return;
-    if (!("/" in path)) return;
-    string[] nodes = path.split("/");
-    if (nodes.length < 1) return;
+  protected GLib.File _source = null;
+  protected string _simple_type = null;
+  /**
+   * Name of {@link XsdSympleType} to use as source. If {@link source} is set
+   * calls {@link initialize_xsd}.
+   */
+  public string simple_type {
+    get { return _simple_type; }
+    set {
+      _simple_type = value;
+      if (_source == null) return;
+      if (!_source.query_exists ()) return;
+      initialize_xsd ();
+    }
+  }
+  /**
+   * A {@link GLib.File} source to read from, simple type definitions in
+   * an XSD file type. Once it is set, search required {@link simple_type}
+   * definition name and call {@link initalize_xsd}
+   */
+  public GLib.File source {
+    get { return _source; }
+    set {
+      if (!value.query_exists ()) return;
+      _source = value;
+      initialize_xsd ();
+    }
+  }
+  /**
+   * Initialize list of strings from a {@link GLib.File}, parsing using an
+   * {@link GomXsdSchema} object and searching for {@link XsdSimpleType}
+   * definition with name {@link source_type}.
+   */
+  public void initialize_xsd () {
+#if DEBUG
+          message ("Initializing enumerations: ");
+#endif
+    if (_source == null) return;
+    if (!_source.query_exists ()) return;
+    if (_simple_type == null) return;
     var xsd = new GomXsdSchema ();
-    xsd.read_from_file (file);
+    xsd.read_from_file (_source);
     if (xsd.simple_type_definitions == null) return;
     if (xsd.simple_type_definitions.length == 0) return;
-    foreach (string str in nodes) {
-      if (str.down () == "schema") continue;
-      for (int i = 0; i < xsd.simple_type_definitions.length; i++) {
-        var st = xsd.simple_type_definitions.get_item (i) as GomXsdSimpleType;
-        if (st == null) continue;
-        if (st.name == null) continue;
-        if (str.down () == st.name.down ()) {
-          if (st.restriction == null) continue;
-          if (st.restriction.enumerations == null) continue;
-          if (st.restriction.enumerations.length == 0) continue;
-          string[] vals = {};
-          for (int j = 0; j < st.restriction.enumerations.length; j++) {
-            var en = st.restriction.enumerations.get_item (j) as GomXsdTypeRestrictionEnumeration;
-            if (en == null) continue;
-            if (en.value == null) continue;
-              vals += en.value;
-          }
-          initialize_strings (vals);
+#if DEBUG
+    message ("Searching SimpleType: "+_simple_type);
+    message ("SimpleType definitions: "+xsd.simple_type_definitions.length.to_string ());
+#endif
+    for (int i = 0; i < xsd.simple_type_definitions.length; i++) {
+      var st = xsd.simple_type_definitions.get_item (i) as GomXsdSimpleType;
+#if DEBUG
+          message ("Item SimpleType %i is Null %s: ".printf (i, (st == null).to_string ()));
+#endif
+      if (st == null) continue;
+#if DEBUG
+          message ("Item SimpleType %i name is Null %s: ".printf (i, (st.name == null).to_string ()));
+#endif
+      if (st.name == null) continue;
+#if DEBUG
+          message ("Checking SimpleType: "+st.name);
+#endif
+      if (_simple_type.down () == st.name.down ()) {
+        if (st.restriction == null) continue;
+        if (st.restriction.enumerations == null) continue;
+        if (st.restriction.enumerations.length == 0) continue;
+        string[] vals = {};
+        for (int j = 0; j < st.restriction.enumerations.length; j++) {
+          var en = st.restriction.enumerations.get_item (j) as GomXsdTypeRestrictionEnumeration;
+          if (en == null) continue;
+          if (en.value == null) continue;
+#if DEBUG
+          message ("Enumeration to add: "+en.value);
+#endif
+          vals += en.value;
         }
+        initialize_strings (vals);
       }
     }
   }
