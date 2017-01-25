@@ -2,14 +2,14 @@
 # Copyright (C) 2016 gxml's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gxml package.
 # Enrico Nicoletto <liverig@gmail.com>, 2016.
-# Rafael Fontenelle <rafaelff@gnome.org>, 2016.
+# Rafael Fontenelle <rafaelff@gnome.org>, 2016, 2017.
 msgid ""
 msgstr ""
-"Project-Id-Version: gxml gxml-0.12\n"
+"Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gxml&ke"
 "ywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-12-28 21:14+0000\n"
-"PO-Revision-Date: 2016-12-29 09:41-0200\n"
+"POT-Creation-Date: 2017-01-21 03:24+0000\n"
+"PO-Revision-Date: 2017-01-25 04:57-0200\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -36,11 +36,11 @@ msgstr "Deslocamento inválido para substituir dados"
 msgid "Invalid offset to split text"
 msgstr "Deslocamento inválido para dividir texto"
 
-#: ../gxml/DomNode.vala:144 ../gxml/Node.vala:202
+#: ../gxml/DomNode.vala:147 ../gxml/Node.vala:202
 msgid "Text node with NULL string"
 msgstr "O nó de texto com string NULA"
 
-#: ../gxml/DomNode.vala:151
+#: ../gxml/DomNode.vala:154
 msgid "Can't copy child text node"
 msgstr "Não foi possível copiar nó de texto"
 
@@ -52,123 +52,116 @@ msgstr "o valor é inválido"
 msgid "text cannot be parsed to enumeration type:"
 msgstr "o texto não pode ser analisado como tipo de enumeração:"
 
-#: ../gxml/GomCollections.vala:68
+#: ../gxml/GomCollections.vala:67
 msgid "Invalid index for elements in array list"
 msgstr "Índice inválido para elementos na lista de array"
 
-#: ../gxml/GomCollections.vala:72
+#: ../gxml/GomCollections.vala:71
 msgid "Invalid index reference for child elements in array list"
 msgstr "Referência de índice inválida para elementos na lista de array"
 
-#: ../gxml/GomCollections.vala:77
+#: ../gxml/GomCollections.vala:76
 msgid "Referenced object's type is invalid. Should be a GXmlGomElement"
-msgstr ""
-"O tipo do objeto referenciado é inválido. Deveria ser um GXmlGomElement"
+msgstr "O tipo do objeto referenciado é inválido. Deveria ser um GXmlGomElement"
 
-#: ../gxml/GomCollections.vala:131 ../gxml/GomCollections.vala:236
-msgid "Invalid element type only GXmlGomElement is supported"
-msgstr "Tipo de elemento inválido; há suporte apenas a GXmlGomElement"
-
-#: ../gxml/GomCollections.vala:153
-msgid "Invalid object item type to initialize ArrayList"
-msgstr "Tipo de item de objeto inválido para iniciar ArrayList"
-
-#: ../gxml/GomCollections.vala:167
+#: ../gxml/GomCollections.vala:190
+#| msgid ""
+#| "Invalid atempt to set unsupported type. Only GXmlGomElement is supported"
 msgid ""
-"Invalid atempt to add unsupported type. Only GXmlGomElement is supported"
+"Invalid attempt to initialize a collection using an unsupported type. Only "
+"GXmlGomElement is supported"
 msgstr ""
-"Tentativa inválida de adicionar tipo sem suporte. Há suporte apenas a "
-"GXmlGomElement"
+"Tentativa inválida de inicializar uma coleção usando um tipo sem suporte. Há "
+"suporte apenas a GXmlGomElement"
 
-#: ../gxml/GomCollections.vala:170 ../gxml/GomCollections.vala:174
-#: ../gxml/GomCollections.vala:285
-msgid "Invalid atempt to add a node with a different parent document"
-msgstr "Tentativa inválida de adicionar um nó com um documento pai diferente"
+#: ../gxml/GomCollections.vala:220 ../gxml/GomCollections.vala:246
+#| msgid "value is invalid"
+msgid "Parent Element is invalid"
+msgstr "Elemento pai é inválido"
 
-#: ../gxml/GomCollections.vala:259
-msgid "Invalid object item type to initialize HashMap"
-msgstr "Tipo de item de objeto inválido para iniciar HashMap"
-
-#: ../gxml/GomCollections.vala:274
+#: ../gxml/GomCollections.vala:223
+#| msgid ""
+#| "Invalid atempt to set unsupported type. Only GXmlGomElement is supported"
 msgid ""
-"Invalid atempt to set unsupported type. Only GXmlGomElement is supported"
+"Invalid attempt to set unsupported type. Only GXmlGomElement is supported"
 msgstr ""
 "Tentativa inválida de definir tipo sem suporte. Há suporte apenas a "
 "GXmlGomElement"
 
-#: ../gxml/GomCollections.vala:277
-msgid "Invalid atempt to set a node with a different parent document"
+#: ../gxml/GomCollections.vala:226
+#| msgid "Invalid atempt to set a node with a different parent document"
+msgid "Invalid attempt to set a node with a different parent document"
 msgstr "Tentativa inválida de definir um nó com um documento pai diferente"
 
-#: ../gxml/GomCollections.vala:281
-msgid "Invalid atempt to set a node without key attribute"
-msgstr "Tentativa inválida de definir um nó sem atributo chave"
+#: ../gxml/GomCollections.vala:230
+msgid ""
+"Node element not appended as child of parent. No node added to collection"
+msgstr ""
+"Elemento nó não anexado como filho de seu pai. Nenhum nó adicionado à coleção"
 
-#: ../gxml/GomDocument.vala:148
+#: ../gxml/GomDocument.vala:150
 msgid "Creating an namespaced element with invalid node name"
 msgstr "Criando um elemento de espaço de nome com nome de nó inválido"
 
-#: ../gxml/GomDocument.vala:155
+#: ../gxml/GomDocument.vala:157
 msgid "Creating an namespaced element with invalid namespace"
 msgstr "Criando um elemento de espaço de nome com espaço de nome inválido"
 
-#: ../gxml/GomDocument.vala:159
+#: ../gxml/GomDocument.vala:161
 msgid ""
 "Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
 msgstr ""
 "URI de espaço de nome inválido para prefixo de xmlns. Use http://www.w3."
 "org/2000/xmlns/"
 
-#: ../gxml/GomDocument.vala:163
+#: ../gxml/GomDocument.vala:165
 msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
 msgstr ""
 "Apenas prefixos de xmlns podem ser usados com http://www.w3.org/2000/xmlns/"
 
-#: ../gxml/GomDocument.vala:201 ../gxml/GXmlDocument.vala:269
+#: ../gxml/GomDocument.vala:205 ../gxml/GXmlDocument.vala:269
 msgid "Can't import a Document"
 msgstr "Não foi possível importar um documento"
 
-#: ../gxml/GomDocument.vala:203 ../gxml/GXmlDocument.vala:271
+#: ../gxml/GomDocument.vala:207 ../gxml/GXmlDocument.vala:271
 msgid "Can't import a non Element type node to a Document"
 msgstr "Não foi possível importar um nó de tipo não-elemento a um documento"
 
-#: ../gxml/GomDocument.vala:227 ../gxml/GXmlDocument.vala:295
+#: ../gxml/GomDocument.vala:231 ../gxml/GXmlDocument.vala:295
 msgid "Can't adopt a Document"
 msgstr "Não foi possível adotar um documento"
 
 #. FIXME:
-#: ../gxml/GomDocument.vala:382 ../gxml/GomElement.vala:163
+#: ../gxml/GomDocument.vala:387 ../gxml/GomElement.vala:178
 #: ../gxml/GXmlElement.vala:317
 msgid "DomElement query_selector is not implemented"
 msgstr "O query_selector de DomElement não foi implementado"
 
 #. FIXME:
-#: ../gxml/GomDocument.vala:386 ../gxml/GomElement.vala:167
+#: ../gxml/GomDocument.vala:391 ../gxml/GomElement.vala:182
 #: ../gxml/GXmlElement.vala:321
 msgid "DomElement query_selector_all is not implemented"
 msgstr "O query_selector_all de DomElement não foi implementado"
 
-#: ../gxml/GomElement.vala:73
+#: ../gxml/GomElement.vala:88
 msgid "Invalid namespace URI stored in element's attribute"
 msgstr "URI de espaço de nome inválido armazenado em atributo do elemento"
 
-#: ../gxml/GomElement.vala:80 ../gxml/GomElement.vala:102
+#: ../gxml/GomElement.vala:95 ../gxml/GomElement.vala:117
 msgid "Invalid attribute name in element's attributes list"
 msgstr "Nome de atributo inválido na lista de atributos do elemento"
 
-#: ../gxml/GomElement.vala:286 ../gxml/GomElement.vala:324
-msgid "Invalid attribute name"
-msgstr "Nome de atributo inválido"
+#: ../gxml/GomElement.vala:315 ../gxml/GomElement.vala:353
+#, c-format
+#| msgid "Invalid attribute name"
+msgid "Invalid attribute name: %s"
+msgstr "Nome de atributo inválido: %s"
 
-#: ../gxml/GomElement.vala:288 ../gxml/GomElement.vala:326
+#: ../gxml/GomElement.vala:317 ../gxml/GomElement.vala:355
 msgid "Invalid node type. DomAttr was expected"
 msgstr "Tipo de nó inválido. DomAttr era esperado"
 
-#: ../gxml/GomElement.vala:329
-msgid "Invalid namespaced attribute's name and prefix"
-msgstr "Nome e prefixo do atributo de espaço de nome inválidos"
-
-#: ../gxml/GomElement.vala:333
+#: ../gxml/GomElement.vala:360
 msgid ""
 "Namespace attributes prefixed with xmlns should use a namespace uri http://"
 "www.w3.org/2000/xmlns"
@@ -176,53 +169,56 @@ msgstr ""
 "Atributos de espaço de nome prefixados com xmlns deveriam usar uma uri de "
 "espaço de nome http://www.w3.org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:337
-msgid "Namespaced attributes should provide a valid prefix and namespace"
+#: ../gxml/GomElement.vala:367
+#, c-format
+#| msgid "Namespaced attributes should provide a valid prefix and namespace"
+msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
 msgstr ""
-"Atributos em espaço de nome deveriam fornecer um espaço de nome e prefixo "
-"válidos"
+"Atributos em espaço de nome deveriam fornecer um prefixo não-nulo e não-"
+"vazio: %s"
 
-#: ../gxml/GomElement.vala:340
+#: ../gxml/GomElement.vala:371
 msgid "Invalid namespace attribute's name."
 msgstr "Nome do atributo de espaço de nome."
 
-#: ../gxml/GomElement.vala:356
+#: ../gxml/GomElement.vala:391
 #, c-format
 msgid "Redefinition of default namespace for %s"
 msgstr "Redefinição do espaço de nome padrão para %s"
 
-#: ../gxml/GomElement.vala:370
+#: ../gxml/GomElement.vala:409
 #, c-format
 msgid "Redefinition of namespace's prefix for %s"
 msgstr "Redefinição de prefixo do espaço de nome para %s"
 
-#: ../gxml/GomElement.vala:384
-msgid "Trying to add an attribute with a non found namespace prefix"
+#: ../gxml/GomElement.vala:425
+#| msgid "Trying to add an attribute with a non found namespace prefix"
+msgid "Trying to add an attribute with an undefined namespace prefix"
 msgstr ""
-"Tentando adicionar um atributo com um prefixo de espaço de nome não "
-"localizado"
+"Tentando adicionar um atributo com um prefixo de espaço de nome não definido"
 
-#: ../gxml/GomElement.vala:390
+#: ../gxml/GomElement.vala:431
 msgid "Trying to add an attribute with a non found namespace URI"
 msgstr ""
 "Tentando adicionar um atributo com um URI de espaço de nome não localizado"
 
-#: ../gxml/GomElement.vala:440
+#: ../gxml/GomElement.vala:484
 msgid "Invalid attribute name. Just one prefix is allowed"
 msgstr "Nome de atributo inválido. Apenas um prefixo é permitido"
 
-#: ../gxml/GomElement.vala:446
-#| msgid ""
-#| "Invalid namespace. If prefix is null, name space uri shoud not be null"
+#: ../gxml/GomElement.vala:488
+#, c-format
+#| msgid "Invalid attribute name. Just one prefix is allowed"
+msgid "Invalid attribute name. Invalid use of colon: %s"
+msgstr "Nome de atributo inválido. Uso inválido de caractere de dois pontos: %s"
+
+#: ../gxml/GomElement.vala:492
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
 msgstr ""
 "Espaço de nome inválido. Se prefixo for nulo, URI de espaço de nome não "
 "deveria ser nulo"
 
-#: ../gxml/GomElement.vala:448
-#| msgid ""
-#| "Invalid namespace. If prefix is xml name space uri shoud be http://www.w3."
-#| "org/2000/xmlns/"
+#: ../gxml/GomElement.vala:494
 msgid ""
 "Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
 "org/2000/xmlns/"
@@ -230,10 +226,7 @@ msgstr ""
 "Espaço de nome inválido. Se prefixo for xml, URI de espaço de nome deveria "
 "ser http://www.w3.org/2000/xmlns/"
 
-#: ../gxml/GomElement.vala:450
-#| msgid ""
-#| "Invalid namespace. If attribute's prefix is xmlns name space uri shoud be "
-#| "http://www.w3.org/2000/xmlns/"
+#: ../gxml/GomElement.vala:496
 msgid ""
 "Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns/"
@@ -241,10 +234,7 @@ msgstr ""
 "Espaço de nome inválido. Se prefixo do prefixo for xmlns, URI de espaço de "
 "nome deveria ser http://www.w3.org/2000/xmlns/"
 
-#: ../gxml/GomElement.vala:452
-#| msgid ""
-#| "Invalid namespace. If attribute's name is xmlns name space uri shoud be "
-#| "http://www.w3.org/2000/xmlns/"
+#: ../gxml/GomElement.vala:498
 msgid ""
 "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns/"
@@ -252,29 +242,35 @@ msgstr ""
 "Espaço de nome inválido. Se nome do prefixo for xmlns, URI de espaço de nome "
 "deveria ser http://www.w3.org/2000/xmlns/"
 
-#: ../gxml/GomElement.vala:454
+#: ../gxml/GomElement.vala:500
 msgid "Invalid attribute name. No prefixed attributes should use xmlns name"
 msgstr ""
 "Nome de atributo inválido. Nenhum atributo prefixado deveria usar nome de "
 "xmlns"
 
-#: ../gxml/GomElement.vala:458
+#: ../gxml/GomElement.vala:504
 msgid "Setting namespaced property error: "
 msgstr "Erro ao definir a propriedade em espaço de nome: "
 
-#: ../gxml/GomNode.vala:148
+#: ../gxml/GomElement.vala:511
+msgid "Removing attribute Error: "
+msgstr "Erro ao remover atributo: "
+
+#: ../gxml/GomElement.vala:516
+#| msgid "Setting namespaced property error: "
+msgid "Removing namespaced attribute Error: "
+msgstr "Erro ao remover atributo de espaço de nome: "
+
+#: ../gxml/GomNode.vala:150
 msgid "Text content in element can't be created"
 msgstr "Conteúdo de texto no elemento não pode ser criado"
 
-#: ../gxml/GomNode.vala:203 ../gxml/GXmlNode.vala:274
+#: ../gxml/GomNode.vala:203 ../gxml/GXmlNode.vala:276
 msgid "Can't find node position"
 msgstr "Não foi possível localizar a posição do nó"
 
 #: ../gxml/GomNode.vala:249
 #, c-format
-#| msgid ""
-#| "Trying to add a namespaced element to a parent with invalid prefix for "
-#| "namesapce %s "
 msgid ""
 "Trying to add a namespaced element to a parent with invalid prefix for "
 "namespace %s"
@@ -284,31 +280,28 @@ msgstr ""
 
 #: ../gxml/GomNode.vala:254
 #, c-format
-#| msgid ""
-#| "Trying to add a namespaced element to a parent with invalid uri for "
-#| "prefix %s "
 msgid ""
 "Trying to add a namespaced element to a parent with invalid URI for prefix %s"
 msgstr ""
 "Tentando adicionar um elemento em espaço de nome a um pai com URI inválido "
 "para prefixo %s"
 
-#: ../gxml/GomNode.vala:265 ../gxml/GomNode.vala:307 ../gxml/GXmlNode.vala:305
-#: ../gxml/GXmlNode.vala:336
+#: ../gxml/GomNode.vala:265 ../gxml/GomNode.vala:307 ../gxml/GXmlNode.vala:307
+#: ../gxml/GXmlNode.vala:338
 msgid "Invalid attempt to add invalid node type"
 msgstr "Tentativa inválida de adicionar tipo de nó inválido"
 
-#: ../gxml/GomNode.vala:268 ../gxml/GXmlNode.vala:307
+#: ../gxml/GomNode.vala:268 ../gxml/GXmlNode.vala:309
 msgid "Can't find child to insert node before"
 msgstr "Não foi possível localizar filho para inserir nó antes"
 
-#: ../gxml/GomNode.vala:273 ../gxml/GomNode.vala:313 ../gxml/GXmlNode.vala:311
-#: ../gxml/GXmlNode.vala:342
+#: ../gxml/GomNode.vala:273 ../gxml/GomNode.vala:313 ../gxml/GXmlNode.vala:313
+#: ../gxml/GXmlNode.vala:344
 msgid "Invalid attempt to insert a node"
 msgstr "Tentativa inválida de inserir um nó"
 
-#: ../gxml/GomNode.vala:281 ../gxml/GomNode.vala:320 ../gxml/GXmlNode.vala:318
-#: ../gxml/GXmlNode.vala:349
+#: ../gxml/GomNode.vala:281 ../gxml/GomNode.vala:320 ../gxml/GXmlNode.vala:320
+#: ../gxml/GXmlNode.vala:351
 msgid "Invalid attempt to insert an invalid node type"
 msgstr "Tentativa inválida de inserir um tipo inválido de nó"
 
@@ -327,20 +320,20 @@ msgstr "Tipo de nó é inválido. Não foi possível anexar como filho"
 msgid "Invalid attempt to append a child with different parent document"
 msgstr "Tentativa inválida de anexar um filho com documento de pai diferente"
 
-#: ../gxml/GomNode.vala:309 ../gxml/GXmlNode.vala:338
+#: ../gxml/GomNode.vala:309 ../gxml/GXmlNode.vala:340
 msgid "Can't find child node to replace or child have a different parent"
 msgstr ""
 "Não foi possível localizar nó filho para substituir ou o filho possui um pai "
 "diferente"
 
-#: ../gxml/GomNode.vala:323 ../gxml/GXmlNode.vala:321 ../gxml/GXmlNode.vala:352
+#: ../gxml/GomNode.vala:323 ../gxml/GXmlNode.vala:323 ../gxml/GXmlNode.vala:354
 msgid ""
 "Invalid attempt to insert a document's type or text node to a invalid parent"
 msgstr ""
 "Tentativa inválida de inserir o tipo de um documento ou um nó de texto a um "
 "pai inválido"
 
-#: ../gxml/GomNode.vala:335 ../gxml/GXmlNode.vala:364
+#: ../gxml/GomNode.vala:335 ../gxml/GXmlNode.vala:366
 msgid "Can't find child node to remove or child have a different parent"
 msgstr ""
 "Não foi possível localizar nó filho para remover ou o filho possui um pai "
@@ -354,11 +347,11 @@ msgstr "Enumeração está fora do intervalo"
 msgid "Enumeration can't be parsed from string"
 msgstr "Enumeração não pode ser analisado a partir da string"
 
-#: ../gxml/GomProperty.vala:119
+#: ../gxml/GomProperty.vala:228
 msgid "Error when transform enum to attribute's value"
 msgstr "Erro ao transformar enum para o valor do atributo"
 
-#: ../gxml/GomProperty.vala:127
+#: ../gxml/GomProperty.vala:236
 msgid "Error when transform from attribute string value to enum"
 msgstr "Erro ao transformar da valor da string de atributo para enum"
 
@@ -378,9 +371,6 @@ msgstr ""
 "espaço"
 
 #: ../gxml/GXmlDomCollections.vala:52
-#| msgid ""
-#| "DOM: Invalid token. No empty string can could be used as token to check "
-#| "if it is contained in token list"
 msgid ""
 "DOM: Invalid token. No empty string could be used as token to check if it is "
 "contained in token list"
@@ -403,6 +393,10 @@ msgstr "DOM: Token inválido. String vazia não pode ser usada como token"
 #: ../gxml/GXmlDomCollections.vala:63 ../gxml/GXmlDomCollections.vala:86
 msgid "DOM: Invalid token. White spaces can't be used as token"
 msgstr "DOM: Token inválido. Espaços em branco podem ser usados como token"
+
+#: ../gxml/GXmlDomCollections.vala:100
+msgid "Update Error: "
+msgstr "Erro de atualização: "
 
 #: ../gxml/GXmlDomRange.vala:50 ../gxml/GXmlDomRange.vala:78
 #: ../gxml/GXmlDomRange.vala:151
@@ -431,36 +425,40 @@ msgid "Invalid node type to start after"
 msgstr "Tipo de nó inválido para se iniciar depois"
 
 #: ../gxml/GXmlDomRange.vala:166
-#| msgid "Invalid root's in range"
 msgid "Invalid root in the source range"
 msgstr "Raiz inválida está no intervalo fonte"
 
-#: ../gxml/GXmlHashMapAttr.vala:240
+#: ../gxml/GXmlElement.vala:342
+#| msgid "Invalid namespace attribute's name."
+msgid "invalid namespace. Code: "
+msgstr "Espaço de nome inválido. Código: "
+
+#: ../gxml/GXmlHashMapAttr.vala:242
 msgid "Invalid document when adding item to collection"
 msgstr "Documento inválido ao adicionar item à coleção"
 
-#: ../gxml/GXmlHashMapAttr.vala:242 ../gxml/GXmlHashMapAttr.vala:294
+#: ../gxml/GXmlHashMapAttr.vala:244 ../gxml/GXmlHashMapAttr.vala:296
 msgid "This node collection is read only"
 msgstr "A coleção deste nó é somente leitura"
 
-#: ../gxml/GXmlHashMapAttr.vala:244 ../gxml/GXmlHashMapAttr.vala:296
+#: ../gxml/GXmlHashMapAttr.vala:246 ../gxml/GXmlHashMapAttr.vala:298
 msgid "This node attribute is already in use by other Element"
 msgstr "Este atributo de nó já está sendo usado por outro elemento"
 
-#: ../gxml/GXmlHashMapAttr.vala:246 ../gxml/GXmlHashMapAttr.vala:298
+#: ../gxml/GXmlHashMapAttr.vala:248 ../gxml/GXmlHashMapAttr.vala:300
 msgid "Trying to add an object to an Element, but it is not an attribute"
 msgstr "Tentando adicionar um objeto a um elemento, mas ele não é um atributo"
 
-#: ../gxml/GXmlHashMapAttr.vala:258 ../gxml/GXmlHashMapAttr.vala:314
+#: ../gxml/GXmlHashMapAttr.vala:260 ../gxml/GXmlHashMapAttr.vala:316
 #, c-format
 msgid "No node with name %s was found"
 msgstr "Nenhum nó com nome %s foi localizado"
 
-#: ../gxml/GXmlHashMapAttr.vala:260 ../gxml/GXmlHashMapAttr.vala:316
+#: ../gxml/GXmlHashMapAttr.vala:262 ../gxml/GXmlHashMapAttr.vala:318
 msgid "Node collection is read only"
 msgstr "A coleção do nó é somente leitura"
 
-#: ../gxml/GXmlHashMapAttr.vala:292
+#: ../gxml/GXmlHashMapAttr.vala:294
 msgid "Invalid document when adding item to named node map collection"
 msgstr "Documento inválido ao adicionar item à coleção de mapa de nós nomeados"
 
@@ -517,7 +515,7 @@ msgstr "Nome do atributo XML não definido quando foi desserializado para: %s"
 #: ../gxml/Serializable.vala:434
 #, c-format
 msgid "Transformation Error on '%s' or Unsupported type: '%s'"
-msgstr "Erro de transformação em “%s” ou sem suporte ao tipo: \"%s\""
+msgstr "Erro de transformação em “%s” ou sem suporte ao tipo: “%s”"
 
 #: ../gxml/Serializable.vala:455
 #, c-format
@@ -528,40 +526,70 @@ msgstr "Não foi possível transformar “%s” para string"
 msgid "Invalid element name"
 msgstr "Nome de elemento inválido"
 
-#: ../gxml/TDocument.vala:573 ../gxml/XParser.vala:274
+#: ../gxml/TDocument.vala:573 ../gxml/XParser.vala:216
 #, c-format
 msgid "Parsing ERROR: Fail to move to attribute number: %i"
 msgstr "ERRO de interpretação: Falha ao mover para número de atributo: %i"
 
 #: ../gxml/XParser.vala:89
-#| msgid "Invalid document string, is empty is not allowed"
 msgid "Invalid document string, it is empty or is not allowed"
 msgstr "String de documento inválida; ela está vazia ou não é permitida"
 
-#: ../gxml/XParser.vala:124 ../gxml/XParser.vala:139
+#: ../gxml/XParser.vala:146
 msgid "Can't read node data"
 msgstr "Não foi possível ler os dados do nó"
 
-#: ../gxml/XParser.vala:174
+#: ../gxml/XParser.vala:428
+#| msgid "Invalid atempt to set a node with a different parent document"
+msgid ""
+"Invalid attempt to parse an element node, when current found node is not"
+msgstr ""
+"Tentativa inválida de analisar um nó de elemento, quando o nó encontrado não "
+"é"
+
+#: ../gxml/XParser.vala:517
 msgid "Invalid object type set to Collection"
 msgstr "Tipo de objeto inválido definido para Collection"
 
-#: ../gxml/XParser.vala:179
+#: ../gxml/XParser.vala:521
 msgid "Invalid DomElement name for objects in Collection"
 msgstr "Nome de DomElement inválido para objetos em Collection"
 
-#: ../gxml/XParser.vala:184
+#: ../gxml/XParser.vala:525
 msgid "Invalid Element set to Collection"
 msgstr "Elemento inválido definido para Collection"
 
-#: ../gxml/XParser.vala:193
+#: ../gxml/XParser.vala:533
 msgid "No document is set to node"
 msgstr "Nenhum documento está definido para o nó"
 
-#: ../gxml/XParser.vala:237
-#, c-format
-msgid "Invalid element node name. Expected %s"
-msgstr "Nome inválido do nó de elemento. Esperava-se %s"
+#~ msgid "Invalid element type only GXmlGomElement is supported"
+#~ msgstr "Tipo de elemento inválido; há suporte apenas a GXmlGomElement"
+
+#~ msgid "Invalid object item type to initialize ArrayList"
+#~ msgstr "Tipo de item de objeto inválido para iniciar ArrayList"
+
+#~ msgid ""
+#~ "Invalid atempt to add unsupported type. Only GXmlGomElement is supported"
+#~ msgstr ""
+#~ "Tentativa inválida de adicionar tipo sem suporte. Há suporte apenas a "
+#~ "GXmlGomElement"
+
+#~ msgid "Invalid atempt to add a node with a different parent document"
+#~ msgstr ""
+#~ "Tentativa inválida de adicionar um nó com um documento pai diferente"
+
+#~ msgid "Invalid object item type to initialize HashMap"
+#~ msgstr "Tipo de item de objeto inválido para iniciar HashMap"
+
+#~ msgid "Invalid atempt to set a node without key attribute"
+#~ msgstr "Tentativa inválida de definir um nó sem atributo chave"
+
+#~ msgid "Invalid namespaced attribute's name and prefix"
+#~ msgstr "Nome e prefixo do atributo de espaço de nome inválidos"
+
+#~ msgid "Invalid element node name. Expected %s"
+#~ msgstr "Nome inválido do nó de elemento. Esperava-se %s"
 
 #~ msgid "Invalid local name"
 #~ msgstr "Nome local inválido"
