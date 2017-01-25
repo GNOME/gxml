@@ -12,7 +12,7 @@
 # Release Version
 m4_define([project_major_version], [0])
 m4_define([project_minor_version], [13])
-m4_define([project_micro_version], [3])
+m4_define([project_micro_version], [90])
 m4_define([project_nano_version], [0])
 
 # LT_VERSION
