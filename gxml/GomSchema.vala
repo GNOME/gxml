@@ -98,6 +98,7 @@ public class GXml.GomXsdTypeRestrictionEnumeration : GomXsdTypeRestrictionDef {
   }
 }
 public class GXml.GomXsdTypeRestrictionWhiteSpace: GomXsdTypeRestrictionDef {
+  [Description (nick="::fixed")]
   public Fixed fixed { get; set; }
   [Description (nick="::id")]
   public string id { get; set; }
@@ -111,7 +112,7 @@ public class GXml.GomXsdTypeRestrictionWhiteSpace: GomXsdTypeRestrictionDef {
                               IXsdSchema.SCHEMA_NAMESPACE_PREFIX,
                               IXsdTypeRestrictionWhiteSpace.SCHEMA_NODE_NAME);
   }
-  public class Fixed : GomBoolean { construct { initialize ("fixed"); } }
+  public class Fixed : GomBoolean {}
 }
 public class GXml.GomXsdTypeRestrictionPattern : GomXsdTypeRestrictionDef {}
 public class GXml.GomXsdTypeRestrictionAssertion : GomXsdTypeRestrictionDef {}

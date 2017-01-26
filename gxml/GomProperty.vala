@@ -46,10 +46,6 @@ public interface GXml.GomProperty : Object
    */
   public abstract string value { owned get; set; }
   /**
-   * Convenient function to initialize property's name.
-   */
-  public abstract void initialize (string attribute_name);
-  /**
    * Takes a string and check if it can be validated using
    */
   public abstract bool validate_value (string val);
@@ -79,14 +75,6 @@ public abstract class GXml.GomBaseProperty : Object, GXml.GomProperty {
    * {@inheritDoc}
    */
   public abstract string value { owned get; set; }
-  /**
-   * {@inheritDoc}
-   */
-  public void initialize (string attribute_name) {
-#if DEBUG
-  message ("Type: "+this.get_type ().name());
-#endif
-  _attribute_name =  attribute_name; }
   /**
    * Takes a string and check if it can be validated using
    * {@link validation_rule}.
