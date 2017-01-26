@@ -263,6 +263,22 @@ public abstract class GXml.BaseCollection : Object {
 /**
  * A class impementing {@link GomCollection} to store references to
  * child {@link DomElement} of {@link element}, using an index.
+ *
+ * {{{
+ *   public class YourObject : GomElement {
+ *    [Description (nick="::Name")]
+ *    public string name { get; set; }
+ *   }
+ *   public class YourList : GomArrayList {
+ *    construct {
+ *      try { initialize (typeof (YourObject)); }
+ *      catch (GLib.Error e) {
+ *        warning ("Initialization error for collection type: %s : %s"
+ *             .printf (get_type ().name(), e.message));
+ *      }
+ *    }
+ *   }
+ * }}}
  */
 public class GXml.GomArrayList : GXml.BaseCollection, GomCollection {
   public override bool validate_add (int index, DomElement element) throws GLib.Error {
@@ -276,7 +292,24 @@ public class GXml.GomArrayList : GXml.BaseCollection, GomCollection {
 /**
  * A class impementing {@link GomCollection} to store references to
  * child {@link DomElement} of {@link element}, using an attribute in
- * items as key.
+ * items as key. If key is not defined in node, it is not added; but
+ * keeps it as a child node of actual {@link GomCollection.element}.
+ *
+ * {{{
+ *   public class YourObject : GomElement {
+ *    [Description (nick="::Name")]
+ *    public string name { get; set; }
+ *   }
+ *   public class YourList : GomHashMap {
+ *    construct {
+ *      try { initialize_with_key (typeof (YourObject,"Name")); }
+ *      catch (GLib.Error e) {
+ *        warning ("Initialization error for collection type: %s : %s"
+ *             .printf (get_type ().name(), e.message));
+ *      }
+ *    }
+ *   }
+ * }}}
  */
 public class GXml.GomHashMap : GXml.BaseCollection, GXml.GomCollection {
   /**
