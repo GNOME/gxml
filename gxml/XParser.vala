@@ -639,7 +639,7 @@ public class GXml.XParser : Object, GXml.Parser {
         if ("::" in pspec.get_nick ()) {
           attname = pspec.get_nick ().replace ("::","");
         } else {
-          warning (_("Invalid attribute name for Property: %s").printf (pspec.value_type));
+          warning (_("Invalid attribute name for Property: %s").printf (pspec.value_type.name ()));
           attname = pspec.get_nick ();
         }
       }
