@@ -316,25 +316,16 @@ class GomSerializationTest : GXmlTest  {
         try { initialize ("Torque"); } catch { assert_not_reached (); }
       }
     }
-    public class Speed : GomFloat {
-      construct {
-        try { initialize ("Speed"); } catch { assert_not_reached (); }
-      }
-    }
+    public class Speed : GomFloat {}
     public class TensionType : GomEnum {
       construct {
         try { initialize_enum ("TensionType", typeof (TensionTypeEnum)); }
         catch { assert_not_reached (); }
       }
     }
-    public class Tension : GomInt {
-      construct {
-        try { initialize ("Tension"); } catch { assert_not_reached (); }
-      }
-    }
+    public class Tension : GomInt {}
     public class Model : GomArrayString {
       construct {
-        initialize ("Model");;
         initialize_strings ({"MODEL1","MODEL2"});
       }
     }
