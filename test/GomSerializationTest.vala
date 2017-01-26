@@ -282,11 +282,17 @@ class GomSerializationTest : GXmlTest  {
     }
   }
   public class Motor : GomElement {
+    [Description (nick="::On")]
     public On is_on { get; set; }
+    [Description (nick="::Torque")]
     public Torque torque { get; set; }
+    [Description (nick="::Speed")]
     public Speed speed { get; set; }
+    [Description (nick="::TensionType")]
     public TensionType tension_type { get; set; }
+    [Description (nick="::Tension")]
     public Tension tension { get; set; }
+    [Description (nick="::Model")]
     public Model model { get; set; }
     construct { try { initialize ("Motor"); } catch { assert_not_reached (); } }
     public string to_string () {
@@ -304,9 +310,7 @@ class GomSerializationTest : GXmlTest  {
       AC,
       DC
     }
-    public class On : GomBoolean {
-      construct { try { initialize ("On"); } catch { assert_not_reached (); } }
-    }
+    public class On : GomBoolean {}
     public class Torque : GomDouble {
       construct {
         try { initialize ("Torque"); } catch { assert_not_reached (); }
