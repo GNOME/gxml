@@ -311,15 +311,11 @@ class GomSerializationTest : GXmlTest  {
       DC
     }
     public class On : GomBoolean {}
-    public class Torque : GomDouble {
-      construct {
-        try { initialize ("Torque"); } catch { assert_not_reached (); }
-      }
-    }
+    public class Torque : GomDouble {}
     public class Speed : GomFloat {}
     public class TensionType : GomEnum {
       construct {
-        try { initialize_enum ("TensionType", typeof (TensionTypeEnum)); }
+        try { initialize_enum (typeof (TensionTypeEnum)); }
         catch { assert_not_reached (); }
       }
     }

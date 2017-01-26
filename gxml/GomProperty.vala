@@ -399,8 +399,7 @@ public class GXml.GomEnum : GomBaseProperty {
   /**
    * Convenient method to initialize internal enum type.
    */
-  public void initialize_enum (string attribute_name, GLib.Type enum_type) {
-    initialize (attribute_name);
+  public void initialize_enum (GLib.Type enum_type) {
     _enum_type = enum_type;
   }
   /**
