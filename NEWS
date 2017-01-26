@@ -1,3 +1,12 @@
+===============
+Version 0.13.90
+===============
+
+* Added XSD interfaces (unstable) and GXml.Gom* implementation
+* Fixes on GXml.Gom* reading and writing namespaces
+* New and updated translations:
+    Updated Polish      by Piotr Drąg <piotrdrag@gmail.com>
+
 
 ===============
 Version 0.13.0
