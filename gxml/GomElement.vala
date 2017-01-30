@@ -109,7 +109,9 @@ public class GXml.GomElement : GomNode,
     if (prefix != null) s = prefix;
     foreach (string k in attributes.keys) {
       if (!("xmlns" in k)) continue;
+#if DEBUG
       GLib.message ("Attribute: "+k);
+#endif
       string nsp = null;
       if (":" in k) {
         string[] sa = k.split (":");
@@ -311,7 +313,10 @@ public class GXml.GomElement : GomNode,
         attr = new GomAttr (_element, n, val);
       else
         attr = new GomAttr.namespace (_element, ns, p, n, val);
+
+#if DEBUG
       GLib.message ("Return: "+ attr.node_name+"="+attr.node_value);
+#endif
       return attr;
     }
     /**

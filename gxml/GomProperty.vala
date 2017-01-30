@@ -44,7 +44,7 @@ public interface GXml.GomProperty : Object
    * Implementation should take care to validate value before to set or
    * parse from XML document.
    */
-  public abstract string value { owned get; set; }
+  public abstract string? value { owned get; set; }
   /**
    * Takes a string and check if it can be validated using
    */
@@ -74,7 +74,7 @@ public abstract class GXml.GomBaseProperty : Object, GXml.GomProperty {
   /**
    * {@inheritDoc}
    */
-  public abstract string value { owned get; set; }
+  public abstract string? value { owned get; set; }
   /**
    * Takes a string and check if it can be validated using
    * {@link validation_rule}.
@@ -88,7 +88,7 @@ public abstract class GXml.GomBaseProperty : Object, GXml.GomProperty {
  */
 public class GXml.GomString : GomBaseProperty {
   protected string _value = "";
-  public override string value {
+  public override string? value {
     owned get {
       return _value;
     }
@@ -148,7 +148,7 @@ public class GXml.GomArrayString : GomBaseProperty {
   /**
    * {inheritDoc}
    */
-  public override string value {
+  public override string? value {
     owned get {
       return _value;
     }
@@ -174,12 +174,7 @@ public class GXml.GomXsdArrayString : GomArrayString {
    */
   public string simple_type {
     get { return _simple_type; }
-    set {
-      _simple_type = value;
-      if (_source == null) return;
-      if (!_source.query_exists ()) return;
-      initialize_xsd ();
-    }
+    set { _simple_type = value; }
   }
   /**
    * A {@link GLib.File} source to read from, simple type definitions in
@@ -191,15 +186,14 @@ public class GXml.GomXsdArrayString : GomArrayString {
     set {
       if (!value.query_exists ()) return;
       _source = value;
-      initialize_xsd ();
     }
   }
   /**
-   * Initialize list of strings from a {@link GLib.File}, parsing using an
+   * Load list of strings from a {@link GLib.File}, parsing using an
    * {@link GomXsdSchema} object and searching for {@link XsdSimpleType}
    * definition with name {@link source_type}.
    */
-  public void initialize_xsd () {
+  public void load () throws GLib.Error {
 #if DEBUG
           message ("Initializing enumerations: ");
 #endif
@@ -255,7 +249,7 @@ public class GXml.GomXsdArrayString : GomArrayString {
  */
 public class GXml.GomDouble : GomBaseProperty {
   protected double _value = 0.0;
-  public override string value {
+  public override string? value {
     owned get {
       string s = "%."+decimals.to_string ()+"f";
       return s.printf (_value);
@@ -305,7 +299,7 @@ public class GXml.GomFloat : GomDouble {
  */
 public class GXml.GomInt : GomBaseProperty {
   protected int _value = 0;
-  public override string value {
+  public override string? value {
     owned get {
       return _value.to_string ();
     }
@@ -331,7 +325,7 @@ public class GXml.GomInt : GomBaseProperty {
  */
 public class GXml.GomBoolean : GomBaseProperty {
   protected bool _value = false;
-  public override string value {
+  public override string? value {
     owned get {
       return _value.to_string ();
     }
@@ -359,7 +353,7 @@ public class GXml.GomBoolean : GomBaseProperty {
 public class GXml.GomEnum : GomBaseProperty {
   protected int _value = 0;
   protected Type _enum_type;
-  public override string value {
+  public override string? value {
     owned get {
       string s = "";
       try {

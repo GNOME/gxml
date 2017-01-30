@@ -58,3 +58,4 @@ sub/gxml/SerializableObjectModel.c
 sub/gxml/SerializableProperty.c
 sub/gxml/TDocument.c
 sub/gxml/XParser.c
+gxml/GomSchema.c

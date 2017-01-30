@@ -194,7 +194,7 @@ public abstract class GXml.BaseCollection : Object {
     _items_type = items_type;
   }
   /**
-   * Initialize an {@link GomArrayList} to use an element as children's parent.
+   * Initialize an {@link GomCollection} to use an element as children's parent.
    * Searchs for all nodes, calling {@link GomCollection.search}
    * with {@link GomCollection.items_type}, using its
    * {@link DomElement.local_name} to find it.

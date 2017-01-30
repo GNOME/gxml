@@ -66,6 +66,7 @@ class GomSchemaTest : GXmlTest  {
 				var ars = new GomXsdArrayString ();
 				ars.simple_type = "MethodCode";
 				ars.source = f;
+				ars.load ();
 				assert (ars.search ("01"));
 				assert (ars.search ("02"));
 				assert (ars.search ("03"));

@@ -634,6 +634,7 @@ public class GXml.XParser : Object, GXml.Parser {
       node.get_property (pspec.name, ref v);
       GomProperty gp = v.get_object () as GomProperty;
       if (gp == null) continue;
+      if (gp.value == null) continue;
       string attname = gp.attribute_name;
       if (attname == null) {
         if ("::" in pspec.get_nick ()) {

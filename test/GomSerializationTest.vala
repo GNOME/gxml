@@ -724,8 +724,8 @@ class GomSerializationTest : GXmlTest  {
       s = bs.to_string ();
 #if DEBUG
       GLib.message ("doc:"+s);
-#endif
       GLib.message ("Books: "+bs.books.length.to_string ());
+#endif
       assert (bs.books.length == 3);
       assert (bs.books.nodes_index.peek_nth (0) == 0);
       assert (bs.books.nodes_index.peek_nth (1) == 1);
