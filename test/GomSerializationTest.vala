@@ -366,9 +366,9 @@ class GomSerializationTest : GXmlTest  {
       var t = new Taxes ();
       string s = t.to_string ();
       assert (s != null);
-#if DEBUG
+//#if DEBUG
       GLib.message ("DOC:"+s);
-#endif
+//#endif
       assert ("<Taxes " in s);
       assert ("monthRate=\"0\"" in s);
       assert ("Month=\"january\"" in s);
@@ -529,12 +529,23 @@ class GomSerializationTest : GXmlTest  {
 #endif
       assert ("<Motor On=\"false\" Torque=\"0.0000\"/>" in s);
       m.speed = new Motor.Speed ();
+      m.speed.set_double (1.0);
       s = m.to_string ();
       assert (s != null);
 #if DEBUG
       GLib.message ("DOC:"+s);
 #endif
-      assert ("<Motor On=\"false\" Torque=\"0.0000\" Speed=\"0.0000\"/>" in s);
+      assert ("<Motor On=\"false\" Torque=\"0.0000\" Speed=\"1.0000\"/>" in s);
+      assert (m.speed != null);
+      assert (m is GomObject);
+      assert (m.speed is GomProperty);
+      assert (m.speed.get_double () == 1.0);
+      assert (m.speed.value != null);
+      assert (m.speed.value == "1.0000");
+#if DEBUG
+      message ("Searching Element's attribute node: speed");
+#endif
+      assert (m.get_attribute ("speed") != null);
       assert (m.tension_type == null);
       m.tension_type = new Motor.TensionType ();
       s = m.to_string ();
@@ -542,14 +553,16 @@ class GomSerializationTest : GXmlTest  {
 #if DEBUG
       GLib.message ("DOC:"+s);
 #endif
-      assert ("<Motor On=\"false\" Torque=\"0.0000\" Speed=\"0.0000\" TensionType=\"ac\"/>" in s);
+      assert ("<Motor On=\"false\" Torque=\"0.0000\" Speed=\"1.0000\" TensionType=\"ac\"/>" in s);
+      assert (m.tension_type != null);
+      assert (m.tension_type.value == "ac");
       m.tension = new Motor.Tension ();
       s = m.to_string ();
       assert (s != null);
 #if DEBUG
       GLib.message ("DOC:"+s);
 #endif
-      assert ("<Motor On=\"false\" Torque=\"0.0000\" Speed=\"0.0000\" TensionType=\"ac\" Tension=\"0\"/>" in s);
+      assert ("<Motor On=\"false\" Torque=\"0.0000\" Speed=\"1.0000\" TensionType=\"ac\" Tension=\"0\"/>" in s);
       m.is_on.set_boolean (true);
       m.torque.set_double (3.1416);
       m.speed.set_float ((float) 3600.1011);

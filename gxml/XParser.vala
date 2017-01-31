@@ -619,32 +619,20 @@ public class GXml.XParser : Object, GXml.Parser {
 
     // GomObject serialization
     var lp = (node as GomObject).get_properties_list ();
-    foreach (string pk in lp) {
-      string v = (node as GomObject).get_attribute (pk);
-      if (v == null) continue;
-      size += tw.write_attribute (pk, v);
-      size += tw.end_attribute ();
-      if (size > 1500)
-        tw.flush ();
-    }
-    // GomProperty serialization
-    var lps = (node as GomObject).get_object_properties_list ();
-    foreach (ParamSpec pspec in lps) {
-      Value v = Value (pspec.value_type);
-      node.get_property (pspec.name, ref v);
-      GomProperty gp = v.get_object () as GomProperty;
-      if (gp == null) continue;
-      if (gp.value == null) continue;
-      string attname = gp.attribute_name;
-      if (attname == null) {
-        if ("::" in pspec.get_nick ()) {
-          attname = pspec.get_nick ().replace ("::","");
-        } else {
-          warning (_("Invalid attribute name for Property: %s").printf (pspec.value_type.name ()));
-          attname = pspec.get_nick ();
-        }
+    foreach (ParamSpec pspec in lp) {
+      string attname = pspec.get_nick ().replace ("::","");
+      string val = null;
+      if (pspec.value_type.is_a (typeof (GomProperty))) {
+        Value v = Value (pspec.value_type);
+        node.get_property (pspec.name, ref v);
+        GomProperty gp = v.get_object () as GomProperty;
+        if (gp == null) continue;
+        val = gp.value;
+      } else {
+        val = (node as GomObject).get_property_string (pspec);
       }
-      size += tw.write_attribute (attname, gp.value);
+      if (val == null) continue;
+      size += tw.write_attribute (attname, val);
       size += tw.end_attribute ();
       if (size > 1500)
         tw.flush ();

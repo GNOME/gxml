@@ -162,7 +162,9 @@ class GomDocumentTest : GXmlTest {
 				assert (d.document_element != null);
 				var parser = new XParser (d);
 				string s = parser.write_string ();
+#if DEBUG
 				GLib.message ("File read: "+s);
+#endif
 				assert ("<name xml:lang=\"en\">GXml</name>" in s);
 				assert ("<shortdesc xml:lang=\"en\">GObject XML and Serialization API</shortdesc>"
 								in s);
@@ -329,8 +331,10 @@ class GomDocumentTest : GXmlTest {
 				assert (instruction is DomProcessingInstruction);
 				assert (instruction.node_name == "target");
 				assert (instruction.node_value == "data");
+#if DEBUG
 				GLib.message ("Target:"+instruction.node_name);
 				GLib.message ("Dat:"+instruction.node_value);
+#endif
 				assert (instruction.data == "data");
 				assert (instruction.target != null);
 				assert (instruction.target == "target");
@@ -345,7 +349,9 @@ class GomDocumentTest : GXmlTest {
 				var parser = new XParser (doc);
 				//Test.message ("DOC:"+parser.write_string ());
 				var attr = ((DomElement) doc.document_element).get_attribute ("attrname");
-				Test.message ("Attr value: "+attr);
+#if DEBUG
+				GLib.message ("Attr value: "+attr);
+#endif
 				assert (attr != null);
 				assert (attr == "attrvalue");
 				//
@@ -360,9 +366,13 @@ class GomDocumentTest : GXmlTest {
 				var parser = new XParser (doc);
 				string s1 = parser.write_string ();
 				assert (s1 != null);
+#if DEBUG
 				GLib.message ("Document Read:"+s1);
+#endif
 				string[] cs1 = s1.split ("\n");
-				Test.message (s1);
+#if DEBUG
+				GLib.message (s1);
+#endif
 				assert (cs1[0] == "<?xml version=\"1.0\"?>");
 				assert (cs1[1] == "<Sentences><Sentence lang=\"en\">I like the colour blue.</Sentence><Sentence lang=\"de\">Ich liebe die T&#xFC;r.</Sentence><Authors><Author><Name>Fred</Name><Email>fweasley@hogwarts.co.uk</Email></Author><Author><Name>George</Name><Email>gweasley@hogwarts.co.uk</Email></Author></Authors></Sentences>");
 			} catch { assert_not_reached (); }
@@ -371,10 +381,14 @@ class GomDocumentTest : GXmlTest {
 			try {
 				var d = new GomDocument.from_path (GXmlTestConfig.TEST_DIR+"/gdocument-read.xml");
 				var parser = new XParser (d);
+#if DEBUG
 				GLib.message ("Document Read:"+parser.write_string ());
+#endif
 				assert (d.document_element != null);
 				assert (d.document_element.node_name == "DataTypeTemplates");
-				Test.message (d.document_element.child_nodes.size.to_string ());
+#if DEBUG
+				GLib.message (d.document_element.child_nodes.size.to_string ());
+#endif
 				assert (d.document_element.child_nodes[0] is GXml.DomText);
 				assert (d.document_element.child_nodes[1] is GXml.DomElement);
 				assert (d.document_element.child_nodes[2] is GXml.DomText);
@@ -412,7 +426,9 @@ class GomDocumentTest : GXmlTest {
 				assert (p != null);
 				assert (p == "val");
 				assert (doc.document_element.lookup_namespace_uri (null) != null);
+#if DEBUG
 				GLib.message ("NS default: "+doc.document_element.lookup_namespace_uri (null));
+#endif
 				assert (c.prefix == null);
 				assert (c.namespace_uri == null);
 				assert (c.lookup_namespace_uri (null) == "http://www.gnome.org/GXml");
@@ -445,7 +461,9 @@ class GomDocumentTest : GXmlTest {
 				assert (doc.document_element.prefix == null);
 				var parser = new XParser (doc);
 				string str = parser.write_string ();
+#if DEBUG
 				message ("Read: "+str);
+#endif
 			} catch (GLib.Error e) {
 				GLib.message ("ERROR: "+ e.message);
 				assert_not_reached ();

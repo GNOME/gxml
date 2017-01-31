@@ -147,7 +147,9 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 				assert (le[0].get_attribute ("class") == "black");
 				assert (le[1].get_attribute ("id") == "p01");
 				var lc = doc.document_element.get_elements_by_class_name ("black");
+#if DEBUG
 				GLib.message("size"+lc.size.to_string ());
+#endif
 				assert (lc.size == 2);
 				assert (lc[0].node_name == "p");
 				assert ("black" in lc[0].get_attribute ("class"));
@@ -164,7 +166,9 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 		});
 		Test.add_func ("/gxml/dom/node", () => {
 			try {
-			Test.message ("Doc: "+HTMLDOC);
+#if DEBUG
+			GLib.message ("Doc: "+HTMLDOC);
+#endif
 			var doc = new GDocument.from_string (HTMLDOC) as DomDocument;
 			assert (doc is DomDocument);
 			assert (doc.document_element.children.size == 1);
@@ -312,7 +316,9 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 			var lns = doc.document_element.get_elements_by_tag_name_ns ("http://live.gnome.org/GXml", "OtherNode");
 			assert (lns != null);
 			assert (lns is DomHTMLCollection);
+#if DEBUG
 			GLib.message ("Node with default ns: "+lns.length.to_string ());
+#endif
 			assert (lns.length == 1);
 			assert (lns.item (0) is DomElement);
 			assert (lns.item (0).node_name == "OtherNode");
@@ -331,7 +337,9 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 		});
 		Test.add_func ("/gxml/dom/element/api", () => {
 			try {
+#if DEBUG
 			GLib.message ("Doc: "+HTMLDOC);
+#endif
 			var doc = new GDocument.from_string (HTMLDOC) as DomDocument;
 			assert (doc is DomDocument);
 			assert (doc.document_element.children.size == 1);
@@ -368,9 +376,13 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 			var n2 = doc.create_element ("p");
 			doc.document_element.append_child (n2);
 			assert (doc.document_element.children.length == 3);
+#if DEBUG
 			GLib.message ("DOC:"+(doc.document_element as GXml.Node).to_string ());
+#endif
 			assert (n2.attributes.length == 0);
+#if DEBUG
 			GLib.message ("Setting nice NS");
+#endif
 			n2.set_attribute_ns ("http://devel.org/","dev:nice","good");
 			assert (n2.attributes.length == 1);
 			assert (n2.has_attribute_ns ("http://devel.org/","nice"));
@@ -412,7 +424,9 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 				assert (lens.length == 1);
 				assert (lens.item (0) is DomElement);
 				assert (lens.item (0).node_name == "MyNode");
+#if DEBUG
 				GLib.message ("DOC: "+(doc.document_element as GXml.Node).to_string ());
+#endif
 				var lec = doc.get_elements_by_class_name ("node");
 				assert (lec.length == 4);
 				assert (lec.item (0) is DomElement);
@@ -460,11 +474,15 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 		});
 		Test.add_func ("/gxml/dom/document/import", () => {
 			try {
-				Test.message ("Doc: "+XMLDOC);
+#if DEBUG
+				GLib.message ("Doc: "+XMLDOC);
+#endif
 				var doc = new GDocument.from_string (XMLDOC) as DomDocument;
 				var doc2 = new GDocument.from_string (STRDOC) as DomDocument;
 				doc.import_node (doc2.document_element, false);
+#if DEBUG
 				GLib.message ("DOC: "+(doc.document_element as GXml.Node).to_string ());
+#endif
 				assert (doc.document_element.last_child is DomElement);
 				assert (doc.document_element.last_child.node_name == "Sentences");
 				assert (doc.document_element.last_child.child_nodes.length == 0);
@@ -476,12 +494,16 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 		});
 		Test.add_func ("/gxml/dom/document/adopt", () => {
 			try {
-				Test.message ("Doc: "+XMLDOC);
+#if DEBUG
+				GLib.message ("Doc: "+XMLDOC);
+#endif
 				var doc = new GDocument.from_string (XMLDOC) as DomDocument;
 				var doc2 = new GDocument.from_string (STRDOC) as DomDocument;
 				doc2.adopt_node (doc.document_element.children.last ());
+#if DEBUG
 				GLib.message ("DOC: "+(doc.document_element as GXml.Node).to_string ());
 				GLib.message ("DOC: "+(doc2.document_element as GXml.Node).to_string ());
+#endif
 				assert (doc.document_element.children.last ().node_name == "project");
 				assert (doc2.document_element.last_child is DomElement);
 				assert (doc2.document_element.last_child.node_name == "Author");
@@ -493,7 +515,9 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 		});
 		Test.add_func ("/gxml/dom/document/event", () => {
 			try {
-				Test.message ("No implemented...Skiping");
+#if DEBUG
+				GLib.message ("No implemented...Skiping");
+#endif
 				//TODO: implement
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+ e.message);
@@ -502,7 +526,9 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 		});
 		Test.add_func ("/gxml/dom/document/range", () => {
 			try {
-				Test.message ("No implemented...Skiping");
+#if DEBUG
+				GLib.message ("No implemented...Skiping");
+#endif
 				//TODO: implement
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+ e.message);
@@ -511,7 +537,9 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 		});
 		Test.add_func ("/gxml/dom/document/iterator", () => {
 			try {
-				Test.message ("No implemented...Skiping");
+#if DEBUG
+				GLib.message ("No implemented...Skiping");
+#endif
 				//TODO: implement
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+ e.message);
@@ -520,7 +548,9 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 		});
 		Test.add_func ("/gxml/dom/document/walker", () => {
 			try {
-				Test.message ("No implemented...Skiping");
+#if DEBUG
+				GLib.message ("No implemented...Skiping");
+#endif
 				//TODO: implement
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+ e.message);

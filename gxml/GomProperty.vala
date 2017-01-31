@@ -29,16 +29,6 @@
 public interface GXml.GomProperty : Object
 {
   /**
-   * Attribute's name in the parent {@link DomElement}.
-   */
-  public abstract string attribute_name { get; construct set; }
-  /**
-   * Validation rule.
-   *
-   * Is a regular expression, used to validate if values are valid.
-   */
-  public abstract string validation_rule { get; construct set; }
-  /**
    * Attribute's value in the parent {@link DomElement} using a string.
    *
    * Implementation should take care to validate value before to set or
@@ -46,7 +36,7 @@ public interface GXml.GomProperty : Object
    */
   public abstract string? value { owned get; set; }
   /**
-   * Takes a string and check if it can be validated using
+   * Takes a string and check if it is a valid value for property
    */
   public abstract bool validate_value (string val);
 }
@@ -55,22 +45,6 @@ public interface GXml.GomProperty : Object
  * Base class for properties implementing {@link GomProperty} interface.
  */
 public abstract class GXml.GomBaseProperty : Object, GXml.GomProperty {
-  protected string _attribute_name;
-  protected string _validation_rule = "";
-  /**
-   * {@inheritDoc}
-   */
-  public string attribute_name {
-    get { return _attribute_name; }
-    construct set { _attribute_name = value;}
-  }
-  /**
-   * {@inheritDoc}
-   */
-  public string validation_rule {
-    get { return _validation_rule; }
-    construct set { _validation_rule = value; } // TODO: Validate RegEx
-  }
   /**
    * {@inheritDoc}
    */
@@ -79,7 +53,7 @@ public abstract class GXml.GomBaseProperty : Object, GXml.GomProperty {
    * Takes a string and check if it can be validated using
    * {@link validation_rule}.
    */
-  public bool validate_value (string val) { return true; } // FIXME: Validate value
+  public virtual bool validate_value (string val) { return true; }
 }
 
 /**

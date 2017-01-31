@@ -41,30 +41,15 @@ public interface GXml.GomObject : GLib.Object,
   public virtual bool use_nick_name () { return true; }
 
   /**
-   * Returns a list with all properties nick with "::" prefix. Nick name,
-   * without "::" will be used on serialization to an attribute's name.
+   * Returns a list with all properties' nick with "::" prefix. Nick name,
+   * with "::" prefix will be used on serialization to an attribute's name.
    */
-  public virtual List<string> get_properties_list () {
-    var l = new List<string> ();
+  public virtual List<ParamSpec> get_properties_list () {
+    var l = new List<ParamSpec> ();
     foreach (ParamSpec spec in this.get_class ().list_properties ()) {
       if ("::" in spec.get_nick ()) {
 #if DEBUG
         GLib.message ("Name: "+spec.name+ " Nick: "+spec.get_nick ());
-#endif
-        l.append (spec.get_nick ().replace ("::",""));
-      }
-    }
-    return l;
-  }
-  /**
-   * Returns a list with all object's {@link GomProperty} property names.
-   */
-  public virtual List<ParamSpec> get_object_properties_list () {
-    var l = new List<ParamSpec> ();
-    foreach (ParamSpec spec in this.get_class ().list_properties ()) {
-      if (spec.value_type.is_a (typeof (GomProperty))) {
-#if DEBUG
-          GLib.message ("GomProperty Name: "+spec.name);
 #endif
         l.append (spec);
       }
@@ -75,19 +60,20 @@ public interface GXml.GomObject : GLib.Object,
    * Returns property's name based on given nick. This function is
    * case insensitive.
    */
-  public virtual string? find_property_name (string nick) {
+  public virtual ParamSpec? find_property_name (string pname) {
     foreach (ParamSpec spec in this.get_class ().list_properties ()) {
-      if (spec.value_type.is_a (typeof (GomProperty))) {
-        return spec.name;
-      } else {
-        if ("::" in spec.get_nick ()) {
-          string name = spec.get_nick ().replace ("::","");
-          if (name.down () == nick.down ()) {
+      string name = spec.get_nick ();
 #if DEBUG
-            GLib.message ("Name: "+spec.name+ " Nick: "+spec.get_nick ());
+          GLib.message ("Name: "+spec.name+ " Nick: "+spec.get_nick ()+" Type: "+spec.value_type.name());
 #endif
-            return spec.name;
-          }
+      if ("::" in name) {
+        name = name.replace ("::","");
+        if (name.down () == pname.down ()) {
+#if DEBUG
+          GLib.message ("Found Property: "+pname);
+          GLib.message ("Is GomProperty? : "+(spec.value_type.is_a (typeof(GomProperty)).to_string ()));
+#endif
+          return spec;
         }
       }
     }
@@ -111,12 +97,63 @@ public interface GXml.GomObject : GLib.Object,
     return l;
   }
   /**
+   * Returns an string representation of an Object's property.
+   */
+  public virtual string? get_property_string (ParamSpec prop) {
+    var v = Value(prop.value_type);
+    get_property (prop.name, ref v);
+    if (prop.value_type.is_a (typeof(GomProperty))) {
+#if DEBUG
+    GLib.message ("Getting GomProperty attribute: "+prop.name);
+#endif
+      GomProperty so = (Object) v as GomProperty;
+      if (so == null) {
+#if DEBUG
+        GLib.message ("GomProperty is Null");
+#endif
+        return null;
+      }
+#if DEBUG
+      if (so.value != null) {
+        message ("GomProperty Value: "+so.value);
+      } else {
+        message ("GomProperty Value Is Null");
+      }
+      return so.value;
+#endif
+    }
+    if (prop.value_type.is_a (typeof (string))) {
+      return (string) v;
+    }
+    if (prop.value_type.is_a (typeof (int))) {
+      return ((int) v).to_string ();
+    }
+    if (prop.value_type.is_a (typeof (uint))) {
+      return ((uint) v).to_string ();
+    }
+    if (prop.value_type.is_a (typeof (double))) {
+      return ((double) v).to_string ();
+    }
+    if (prop.value_type.is_a (typeof (bool))) {
+      return ((bool) v).to_string ();
+    }
+    if (prop.value_type.is_a (Type.ENUM)) {
+      var n = v.get_enum ();
+      try {
+        return Enumeration.get_string (prop.value_type, n, true, true);
+      } catch {
+        GLib.warning (_("Enumeration is out of range"));
+      }
+    }
+    return null;
+  }
+  /**
    * Search for properties in objects, it should be
    * an {@link GLib.Object}'s property. If found a
    * property with given name its value is returned
    * as string representation.
    *
-   * If property is a {@link SerializableProperty}
+   * If property is a {@link GomProperty}
    * returned value is a string representation according
    * with object implementation.
    *
@@ -128,51 +165,14 @@ public interface GXml.GomObject : GLib.Object,
    */
   public virtual string? get_attribute (string name) {
 #if DEBUG
-    GLib.message ("GomObject: attribute: "+name);
+    GLib.message ("Searching GomObject attribute: "+name);
 #endif
-    string pname = find_property_name (name);
-    if (pname == null) return null;
+    var prop = find_property_name (name);
+    if (prop == null) return null;
 #if DEBUG
-    GLib.message ("GomObject: found attribute: "+pname);
+    GLib.message ("Found GomObject attribute: "+prop.name);
 #endif
-    var prop = get_class ().find_property (pname);
-    if (prop != null) {
-#if DEBUG
-      GLib.message ("Found attribute: "+prop.name);
-#endif
-      var v = Value(prop.value_type);
-      get_property (prop.name, ref v);
-      if (prop.value_type == typeof(GomProperty)) {
-        GomProperty so = (Object) v as GomProperty;
-        if (so == null) return null;
-        return so.value;
-      }
-      if (prop.value_type.is_a (typeof (string))) {
-        return (string) v;
-      }
-      if (prop.value_type.is_a (typeof (int))) {
-        return ((int) v).to_string ();
-      }
-      if (prop.value_type.is_a (typeof (uint))) {
-        return ((uint) v).to_string ();
-      }
-      if (prop.value_type.is_a (typeof (double))) {
-        return ((double) v).to_string ();
-      }
-      if (prop.value_type.is_a (typeof (bool))) {
-        return ((bool) v).to_string ();
-      }
-      if (prop.value_type.is_a (Type.ENUM)) {
-        var n = v.get_enum ();
-        try {
-          return Enumeration.get_string (prop.value_type, n, true, true);
-        } catch {
-          GLib.warning (_("Enumeration is out of range"));
-        }
-        return null;
-      }
-    }
-    return null;
+    return get_property_string (prop);
   }
   /**
    * Search for a {@link GLib.Object} property with
@@ -187,15 +187,13 @@ public interface GXml.GomObject : GLib.Object,
 #if DEBUG
     GLib.message ("GomObject: searching attribute to set: "+name);
 #endif
-    string pname = find_property_name (name);
-    if (pname == null) return false;
+    var prop = find_property_name (name);
 #if DEBUG
     GLib.message ("GomObject: setting attribute: "+name);
 #endif
-    var prop = get_class ().find_property (pname);
     if (prop != null) {
       var v = Value (prop.value_type);
-      if (prop.value_type == typeof(GomProperty)) {
+      if (prop.value_type.is_a (typeof(GomProperty))) {
         get_property (prop.name, ref v);
         GomProperty so = (Object) v as GomProperty;
         if (so == null) return false;
