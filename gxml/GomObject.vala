@@ -106,7 +106,7 @@ public interface GXml.GomObject : GLib.Object,
 #if DEBUG
     GLib.message ("Getting GomProperty attribute: "+prop.name);
 #endif
-      GomProperty so = (Object) v as GomProperty;
+      var so = v.get_object ();
       if (so == null) {
 #if DEBUG
         GLib.message ("GomProperty is Null");
@@ -114,13 +114,13 @@ public interface GXml.GomObject : GLib.Object,
         return null;
       }
 #if DEBUG
-      if (so.value != null) {
-        message ("GomProperty Value: "+so.value);
+      if ((so as GomProperty).value != null) {
+        message ("GomProperty Value: "+(so as GomProperty).value);
       } else {
         message ("GomProperty Value Is Null");
       }
-      return so.value;
 #endif
+      return (so as GomProperty).value;
     }
     if (prop.value_type.is_a (typeof (string))) {
       return (string) v;
@@ -196,7 +196,12 @@ public interface GXml.GomObject : GLib.Object,
       if (prop.value_type.is_a (typeof(GomProperty))) {
         get_property (prop.name, ref v);
         GomProperty so = (Object) v as GomProperty;
-        if (so == null) return false;
+        if (so == null) {
+          var obj = Object.new (prop.value_type);
+          v.set_object (obj);
+          set_property (prop.name, v);
+          so = obj as GomProperty;
+        }
         so.value = val;
         return true;
       }

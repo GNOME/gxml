@@ -448,7 +448,7 @@ public class GXml.XParser : Object, GXml.Parser {
    * read node, only if parent: have a property as {@link DomElement} type and current
    * node have same local name as property element.
    *
-   * Returns: true if element is set to a new object, it is set as a child of parent:
+   * Returns: true if element is set to a new object and it is set as a child of parent:
    * as a property.
    */
   public bool read_element_property (DomNode parent,

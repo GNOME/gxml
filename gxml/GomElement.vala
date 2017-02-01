@@ -473,9 +473,13 @@ public class GXml.GomElement : GomNode,
   }
   public DomNamedNodeMap attributes { owned get { return (DomNamedNodeMap) _attributes; } }
   public string? get_attribute (string name) {
+#if DEBUG
     message ("Searching attribute: "+name);
+#endif
     string s = (this as GomObject).get_attribute (name);
-    message ("Found as GomProperty?: "+(s != null).to_string ());
+#if DEBUG
+    message ("Found as GomObject Property?: "+(s != null).to_string ());
+#endif
     if (s != null) return s;
     return _attributes.get (name);
   }

@@ -681,6 +681,16 @@ class GomSerializationTest : GXmlTest  {
       assert ("TensionType=\"dc\"" in s);
       assert ("Tension=\"125\"" in s);
       assert ("/>" in s);
+      assert (m.is_on != null);
+      assert (m.is_on.get_boolean() == true);
+      assert (m.torque != null);
+      assert (m.torque.get_double () == 3.1416);
+      assert (m.speed != null);
+      assert (m.speed.get_double () == 3600.1011);
+      assert (m.tension != null);
+      assert (m.tension.get_integer () == 125);
+      assert (m.tension_type != null);
+      assert (m.tension_type.value == "dc");
     } catch (GLib.Error e) {
       GLib.message ("Error: "+e.message);
       assert_not_reached ();
