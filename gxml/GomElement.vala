@@ -232,7 +232,9 @@ public class GXml.GomElement : GomNode,
   }
   /**
    * Convenient function to initialize, at construction time, a {@link GomElement}
-   * using given local name.
+   * using given local name. If {@link GomElement.initialize_with_namespace}
+   * has been called in any base class, this method just change elment node's name
+   * and keeps previous namespace and prefix.
    */
   public void initialize (string local_name) {
     _local_name = local_name;
