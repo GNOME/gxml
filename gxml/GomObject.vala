@@ -80,6 +80,8 @@ public interface GXml.GomObject : GLib.Object,
    */
   public virtual ParamSpec? find_object_property_name (string pname) {
     foreach (ParamSpec spec in this.get_class ().list_properties ()) {
+      message ("Prop: '"+spec.name+"' : "+spec.value_type.is_a (typeof (GomObject)).to_string ());
+      message ("Search for: "+pname+" :"+(spec.name.down () == pname.down ()).to_string ());
       if (spec.name.down () == pname.down ()) {
         if (spec.value_type.is_a (typeof (GomObject))
             || spec.value_type.is_a (typeof (GomCollection))) {
@@ -327,6 +329,7 @@ public interface GXml.GomObject : GLib.Object,
    public bool create_instance_property (string name) {
       var prop = find_object_property_name (name);
       if (prop == null) return false;
+      message ("Found: "+prop.name);
       Value v = Value (prop.value_type);
       Object obj;
       if (prop.value_type.is_a (typeof (GomCollection))) {
@@ -336,13 +339,14 @@ public interface GXml.GomObject : GLib.Object,
         return true;
       }
       if (prop.value_type.is_a (typeof (GomElement))) {
-        obj = Object.new (prop.value_type);
-        try { (obj as GomNode).set_parent (this); }
+        obj = Object.new (prop.value_type,"owner_document", this.owner_document);
+        try { this.append_child (obj as GomElement); }
         catch (GLib.Error e) {
           warning (_("Error while atemting to instantiate property object: %s").printf (e.message));
         }
         v.set_object (obj);
         set_property (prop.name, v);
+        return true;
       }
       return false;
    }

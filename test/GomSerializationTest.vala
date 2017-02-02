@@ -232,6 +232,9 @@ class GomSerializationTest : GXmlTest  {
   public class BookStand : GomElement {
     [Description (nick="::Classification")]
     public string classification { get; set; default = "Science"; }
+    [Description (nick="::DimensionX")]
+    public Dimension dimension_x { get; set; }
+    public DimensionY dimension_y { get; set; }
     public Registers registers { get; set; }
     public Books books { get; set; }
     construct {
@@ -247,6 +250,20 @@ class GomSerializationTest : GXmlTest  {
         assert_not_reached ();
       }
       return s;
+    }
+    public class Dimension : GomElement {
+      [Description (nick="::Length")]
+      public double length { get; set; default = 1.0; }
+      [Description (nick="::Type")]
+      public string dtype { get; set; default = "x"; }
+      construct {
+        try { initialize ("Dimension"); } catch { assert_not_reached (); }
+      }
+    }
+    public class DimensionY : Dimension {
+      construct {
+        dtype = "y";
+      }
     }
   }
 
@@ -443,6 +460,15 @@ class GomSerializationTest : GXmlTest  {
       assert ((bs.registers.get_item (0) as BookRegister).year == 2016);
       assert ((bs.registers.get_item (1) as BookRegister).year == 2010);
       assert ((bs.registers.get_item (2) as BookRegister).year == 2000);
+      assert (bs.create_instance_property("Dimension-X"));
+      assert (bs.dimension_x != null);
+      assert (bs.dimension_x.length == 1.0);
+      s = bs.to_string ();
+      assert (s != null);
+//#if DEBUG
+      GLib.message ("DOC:"+s);
+//#endif
+      assert ("<BookStand Classification=\"Science\"><BookRegister Year=\"2016\"/><BookRegister Year=\"2010\"/><Test/><BookRegister Year=\"2000\"/><Dimension Length=\"1\" Type=\"x\"/></BookStand>" in s);
     } catch (GLib.Error e) {
       GLib.message ("Error: "+e.message);
       assert_not_reached ();
