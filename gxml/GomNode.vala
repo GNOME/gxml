@@ -256,6 +256,7 @@ public class GXml.GomNode : Object,
         }
       }
     }
+    _document = node.owner_document;
     _parent = node;
   }
 

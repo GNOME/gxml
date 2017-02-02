@@ -235,6 +235,13 @@ public class GXml.GomElement : GomNode,
    * using given local name. If {@link GomElement.initialize_with_namespace}
    * has been called in any base class, this method just change elment node's name
    * and keeps previous namespace and prefix.
+   *
+   * No {@link DomDocument} is set by default, if this is a top level element in a
+   * document, you can call {@link DomNode.owner_document} to set one if not set
+   * already.
+   *
+   * Any instance properties of type {@link GomElement} or {@link GomCollection}
+   * should be initialized using {@link GomObject.create_instance_property}
    */
   public void initialize (string local_name) {
     _local_name = local_name;

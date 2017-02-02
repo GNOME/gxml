@@ -405,9 +405,8 @@ class GomSerializationTest : GXmlTest  {
 #endif
       assert ("<BookStand Classification=\"Science\"/>" in s);
       assert (bs.owner_document != null);
-      assert  (bs.registers == null);
-      bs.registers = new Registers ();
-      bs.registers.initialize_element (bs);
+      assert (bs.registers == null);
+      assert (bs.create_instance_property ("registers"));
       s = bs.to_string ();
       assert (s != null);
 #if DEBUG
@@ -459,8 +458,7 @@ class GomSerializationTest : GXmlTest  {
 #endif
       assert ("<BookStore/>" in s);
       assert (bs.books == null);
-      bs.books = new Books ();
-      bs.books.initialize_element (bs);
+      bs.create_instance_property ("books");
       s = bs.to_string ();
       assert (s != null);
 #if DEBUG

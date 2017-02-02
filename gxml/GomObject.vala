@@ -35,12 +35,6 @@ public interface GXml.GomObject : GLib.Object,
                                   DomNode,
                                   DomElement {
   /**
-   * Controls if property name to be used when serialize to XML node
-   * attribute use property's nick name as declared in {@link GLib.ParamSpec}
-   */
-  public virtual bool use_nick_name () { return true; }
-
-  /**
    * Returns a list with all properties' nick with "::" prefix. Nick name,
    * with "::" prefix will be used on serialization to an attribute's name.
    */
@@ -57,7 +51,7 @@ public interface GXml.GomObject : GLib.Object,
     return l;
   }
   /**
-   * Returns property's name based on given nick. This function is
+   * Returns property's {@link ParamSpec} based on given nick. This function is
    * case insensitive.
    */
   public virtual ParamSpec? find_property_name (string pname) {
@@ -72,6 +66,25 @@ public interface GXml.GomObject : GLib.Object,
 #if DEBUG
           GLib.message ("Found Property: "+pname);
           GLib.message ("Is GomProperty? : "+(spec.value_type.is_a (typeof(GomProperty)).to_string ()));
+#endif
+          return spec;
+        }
+      }
+    }
+    return null;
+  }
+  /**
+   * Returns a {@link GomObject} or a {@link GomCollection} property's
+   * {@link ParamSpec} based on given name. This method is
+   * case insensitive.
+   */
+  public virtual ParamSpec? find_object_property_name (string pname) {
+    foreach (ParamSpec spec in this.get_class ().list_properties ()) {
+      if (spec.name.down () == pname.down ()) {
+        if (spec.value_type.is_a (typeof (GomObject))
+            || spec.value_type.is_a (typeof (GomCollection))) {
+#if DEBUG
+          GLib.message ("Found Property: "+pname);
 #endif
           return spec;
         }
@@ -274,8 +287,8 @@ public interface GXml.GomObject : GLib.Object,
     return null;
   }
   /**
-   * Search for a property and set it to null if possible, if value can't
-   * be removed, returns without change.
+   * Search for a property and set it to null if possible returning true,
+   * if value can't be removed or located, returns false without change.
    */
   public virtual bool remove_attribute (string name) {
     var prop = get_class ().find_property (name);
@@ -293,4 +306,41 @@ public interface GXml.GomObject : GLib.Object,
     }
     return false;
   }
+  /**
+   * Convenient method to create an instance of given property's
+   * name and initialize according to have same {@link DomNode.owner_document}
+   * and set its {@link DomNode.parent_node} to this.
+   * If property is a {@link GomCollection} it is initialize to use
+   * this as its {@link GomCollection.element}.
+   *
+   * Instance is set ot object's property.
+   *
+   * Property should be a {@link GomElement} or {@link GomCollection}
+   *
+   * While an object could be created and set to a Object's property, it
+   * is not correctly initialized by default. This method helps in the process.
+   *
+   * If Object's property has been set, this method overwrite it.
+   *
+   * Returns: true if property has been set and initialized, false otherwise.
+   */
+   public bool create_instance_property (string name) {
+      var prop = find_object_property_name (name);
+      if (prop == null) return false;
+      Value v = Value (prop.value_type);
+      Object obj;
+      if (prop.value_type.is_a (typeof (GomCollection))) {
+        obj = Object.new (prop.value_type, "element", this);
+        v.set_object (obj);
+        set_property (prop.name, v);
+        return true;
+      }
+      if (prop.value_type.is_a (typeof (GomElement))) {
+        obj = Object.new (prop.value_type);
+        (obj as GomNode).set_parent (this);
+        v.set_object (obj);
+        set_property (prop.name, v);
+      }
+      return false;
+   }
 }
