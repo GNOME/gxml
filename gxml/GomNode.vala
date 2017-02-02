@@ -237,7 +237,9 @@ public class GXml.GomNode : Object,
     if (ns == nspace) return true;
     return false;
   }
-
+  /**
+   * Sets node's parent and checks for namespace conflics.
+   */
   internal void set_parent (DomNode node) throws GLib.Error {
     if (this is DomElement) {
       var e = (this as DomElement);

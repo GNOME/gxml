@@ -332,29 +332,43 @@ public interface GXml.GomObject : GLib.Object,
    *
    * If Object's property has been set, this method overwrite it.
    *
+   * {{{
+   * class NodeA : GomObject {
+   *   construct { try { initialize ("NodeA"); } catch { warning ("Can't initialize); }
+   * }
+   * class NodeB : GomObject {
+   *   public NodeA node { get; set; }
+   * }
+   *
+   * var nb = new NodeB ();
+   * nb.create_instance_property ("node");
+   * assert (nb.node != null);
+   * }}}
+   *
    * Returns: true if property has been set and initialized, false otherwise.
    */
-   public bool create_instance_property (string name) {
-      var prop = find_object_property_name (name);
-      if (prop == null) return false;
-      Value v = Value (prop.value_type);
-      Object obj;
-      if (prop.value_type.is_a (typeof (GomCollection))) {
-        obj = Object.new (prop.value_type, "element", this);
-        v.set_object (obj);
-        set_property (prop.name, v);
-        return true;
+  public bool create_instance_property (string name) {
+    var prop = find_object_property_name (name);
+    if (prop == null) return false;
+    Value v = Value (prop.value_type);
+    Object obj;
+    if (prop.value_type.is_a (typeof (GomCollection))) {
+      obj = Object.new (prop.value_type, "element", this);
+      v.set_object (obj);
+      set_property (prop.name, v);
+      return true;
+    }
+    if (prop.value_type.is_a (typeof (GomElement))) {
+      obj = Object.new (prop.value_type,"owner_document", this.owner_document);
+      try { this.append_child (obj as GomElement); }
+      catch (GLib.Error e) {
+        warning (_("Error while atemting to instantiate property object: %s").printf (e.message));
+        return false;
       }
-      if (prop.value_type.is_a (typeof (GomElement))) {
-        obj = Object.new (prop.value_type,"owner_document", this.owner_document);
-        try { this.append_child (obj as GomElement); }
-        catch (GLib.Error e) {
-          warning (_("Error while atemting to instantiate property object: %s").printf (e.message));
-        }
-        v.set_object (obj);
-        set_property (prop.name, v);
-        return true;
-      }
-      return false;
-   }
+      v.set_object (obj);
+      set_property (prop.name, v);
+      return true;
+    }
+    return false;
+  }
 }
