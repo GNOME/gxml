@@ -77,12 +77,20 @@ public interface GXml.GomObject : GLib.Object,
    * Returns a {@link GomObject} or a {@link GomCollection} property's
    * {@link ParamSpec} based on given name. This method is
    * case insensitive.
+   *
+   * This method will check if nick's name is equal than given name
+   * in order to avoid use canonical names like "your-name" if your
+   * property is your_name; so you can se nick to "YourName" to find
+   * and instantiate it.
    */
   public virtual ParamSpec? find_object_property_name (string pname) {
     foreach (ParamSpec spec in this.get_class ().list_properties ()) {
-      message ("Prop: '"+spec.name+"' : "+spec.value_type.is_a (typeof (GomObject)).to_string ());
-      message ("Search for: "+pname+" :"+(spec.name.down () == pname.down ()).to_string ());
-      if (spec.name.down () == pname.down ()) {
+      string name = pname.down ();
+      if ("::" in name) name = name.replace ("::","");
+      string nick = spec.get_nick ().down ();
+      if ("::" in nick) nick = nick.replace ("::","");
+      string sname = spec.name.down ();
+      if (sname == name || nick == name) {
         if (spec.value_type.is_a (typeof (GomObject))
             || spec.value_type.is_a (typeof (GomCollection))) {
 #if DEBUG
@@ -329,7 +337,6 @@ public interface GXml.GomObject : GLib.Object,
    public bool create_instance_property (string name) {
       var prop = find_object_property_name (name);
       if (prop == null) return false;
-      message ("Found: "+prop.name);
       Value v = Value (prop.value_type);
       Object obj;
       if (prop.value_type.is_a (typeof (GomCollection))) {
