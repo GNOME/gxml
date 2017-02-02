@@ -337,7 +337,10 @@ public interface GXml.GomObject : GLib.Object,
       }
       if (prop.value_type.is_a (typeof (GomElement))) {
         obj = Object.new (prop.value_type);
-        (obj as GomNode).set_parent (this);
+        try { (obj as GomNode).set_parent (this); }
+        catch (GLib.Error e) {
+          warning (_("Error while atemting to instantiate property object: %s").printf (e.message));
+        }
         v.set_object (obj);
         set_property (prop.name, v);
       }
