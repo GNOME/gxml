@@ -362,7 +362,7 @@ public interface GXml.GomObject : GLib.Object,
       obj = Object.new (prop.value_type,"owner_document", this.owner_document);
       try { this.append_child (obj as GomElement); }
       catch (GLib.Error e) {
-        warning (_("Error while atemting to instantiate property object: %s").printf (e.message));
+        warning (_("Error while attempting to instantiate property object: %s").printf (e.message));
         return false;
       }
       v.set_object (obj);

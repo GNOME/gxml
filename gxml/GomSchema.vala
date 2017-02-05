@@ -272,7 +272,7 @@ public class GXml.GomXsdList : GomArrayList {
       try {
         if (get_item (i) == element) return i;
       } catch (GLib.Error e) {
-        warning (_("Can't find element at possition: %i : %s").printf (i,e.message));
+        warning (_("Can't find element at position: %i : %s").printf (i,e.message));
       }
     }
     return -1;

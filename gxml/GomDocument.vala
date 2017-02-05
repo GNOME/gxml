@@ -147,14 +147,14 @@ public class GXml.GomDocument : GomNode,
       var s = qualified_name.split (":");
       if (s.length != 2)
         throw new DomError.NAMESPACE_ERROR
-          (_("Creating an namespaced element with invalid node name"));
+          (_("Creating a namespaced element with invalid node name"));
       nsp = s[0];
       n = s[1];
     } else
       n = qualified_name;
     if (nsp == "" && namespace_uri == null)
       throw new DomError.NAMESPACE_ERROR
-        (_("Creating an namespaced element with invalid namespace"));
+        (_("Creating a namespaced element with invalid namespace"));
     if ((n == "xmlns" || nsp == "xmlns")
         && namespace_uri != "http://www.w3.org/2000/xmlns/")
       throw new DomError.NAMESPACE_ERROR

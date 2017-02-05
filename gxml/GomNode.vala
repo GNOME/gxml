@@ -285,7 +285,7 @@ public class GXml.GomNode : Object,
     if ((node is DomText && this is DomDocument)
           || (node is DomDocumentType && !(this is DomDocument)))
       throw new DomError.HIERARCHY_REQUEST_ERROR
-                  (_("Invalid attempt to insert a document or text type to a invalid parent node"));
+                  (_("Invalid attempt to insert a document or text type to an invalid parent node"));
     //FIXME: We should follow steps for DOM4 observers in https://www.w3.org/TR/dom/#concept-node-pre-insert
     if (child != null) {
       int i = this.child_nodes.index_of (child as GXml.DomNode);
@@ -323,7 +323,7 @@ public class GXml.GomNode : Object,
       throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid attempt to insert an invalid node type"));
     if ((node is DomText && this is DomDocument)
           || (node is DomDocumentType && !(this is DomDocument)))
-      throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid attempt to insert a document's type or text node to a invalid parent"));
+      throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid attempt to insert a document's type or text node to an invalid parent"));
     //FIXME: Checks for HierarchyRequestError for https://www.w3.org/TR/dom/#concept-node-replace
     int i = child_nodes.index_of ((child as GXml.DomNode));
     child_nodes.remove_at (i);
