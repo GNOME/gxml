@@ -144,7 +144,7 @@ public class GXml.GomNode : Object,
     }
     set {
       try {
-        var t = _document.create_text_node (text_content);
+        var t = _document.create_text_node (value);
         child_nodes.add (t);
       } catch (GLib.Error e) {
         GLib.warning (_("Text content in element can't be created"));

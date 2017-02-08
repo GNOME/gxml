@@ -314,6 +314,18 @@ class GomDocumentTest : GXmlTest {
 				assert (text.node_value == "Star of my dreams");
 			} catch { assert_not_reached (); }
 		});
+		Test.add_func ("/gxml/gom-document/node_text_content", () => {
+			try {
+				DomDocument doc = new GomDocument.from_string ("<document_element />");
+				var r = doc.document_element;
+				assert (r != null);
+				assert (r.text_content == null);
+				r.text_content = "Starting";
+				assert (r.child_nodes.length == 1);
+				assert (r.child_nodes.item (0) is DomText);
+				assert (r.child_nodes.item (0).node_value == "Starting");
+			} catch { assert_not_reached (); }
+		});
 		Test.add_func ("/gxml/gom-document/create_comment", () => {
 			try {
 				DomDocument doc = new GomDocument.from_string ("<document_element />");

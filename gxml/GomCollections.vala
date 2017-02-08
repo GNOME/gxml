@@ -119,7 +119,7 @@ public interface GXml.GomCollection : Object
    *
    * Return: true if node and index should be added to collection.
    */
-  public abstract bool validate_add (int index, DomElement element) throws GLib.Error;
+  public abstract bool validate_append (int index, DomElement element) throws GLib.Error;
 }
 
 /**
@@ -212,7 +212,7 @@ public abstract class GXml.BaseCollection : Object {
    * {@link element}.
    *
    * Object is always added as a child of {@link element}
-   * but just added to collection if {@link validate_add} returns true;
+   * but just added to collection if {@link validate_append} returns true;
    */
   public void append (DomElement node) throws GLib.Error {
     if (_element == null)
@@ -229,7 +229,7 @@ public abstract class GXml.BaseCollection : Object {
       throw new DomError.QUOTA_EXCEEDED_ERROR
                 (_("Node element not appended as child of parent. No node added to collection"));
     var index = _element.child_nodes.size - 1;
-    if (!validate_add (index, node)) return;
+    if (!validate_append (index, node)) return;
     _nodes_index.push_tail (index);
   }
   /**
@@ -248,7 +248,7 @@ public abstract class GXml.BaseCollection : Object {
       var n = _element.child_nodes.get (i);
       if (n is GomObject) {
         if ((n as DomElement).local_name.down () == items_name.down ()) {
-          if (validate_add (i, n as DomElement))
+          if (validate_append (i, n as DomElement))
             _nodes_index.push_tail (i);
         }
       }
@@ -257,7 +257,7 @@ public abstract class GXml.BaseCollection : Object {
   /**
    * {@inheritDoc}
    */
-  public abstract bool validate_add (int index, DomElement element) throws GLib.Error;
+  public abstract bool validate_append (int index, DomElement element) throws GLib.Error;
 }
 
 /**
@@ -281,7 +281,7 @@ public abstract class GXml.BaseCollection : Object {
  * }}}
  */
 public class GXml.GomArrayList : GXml.BaseCollection, GomCollection {
-  public override bool validate_add (int index, DomElement element) throws GLib.Error {
+  public override bool validate_append (int index, DomElement element) throws GLib.Error {
 #if DEBUG
     GLib.message ("Adding node:"+element.node_name);
 #endif
@@ -302,7 +302,7 @@ public class GXml.GomArrayList : GXml.BaseCollection, GomCollection {
  *   }
  *   public class YourList : GomHashMap {
  *    construct {
- *      try { initialize_with_key (typeof (YourObject,"Name")); }
+ *      try { initialize_with_key (typeof (YourObject),"Name"); }
  *      catch (GLib.Error e) {
  *        warning ("Initialization error for collection type: %s : %s"
  *             .printf (get_type ().name(), e.message));
@@ -371,7 +371,7 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.GomCollection {
    *
    * Return: false if element should not be added to collection.
    */
-  public override bool validate_add (int index, DomElement element) throws GLib.Error {
+  public override bool validate_append (int index, DomElement element) throws GLib.Error {
     if (!(element is GomElement)) return false;
 #if DEBUG
     message ("Validating HashMap Element..."
