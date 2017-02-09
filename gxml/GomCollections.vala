@@ -366,8 +366,11 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.GomCollection {
     return _element.child_nodes.get (i) as DomElement;
   }
   /**
-   * Validates if given element has a key property set, if so
-   * adds a new key pointing to given index and returns true.
+   * Validates if given element has a {@link GomHashMap.attribute_key} set,
+   * if so adds a new key pointing to given index and returns true.
+   *
+   * Attribute should be a valid {@link DomElement} attribute or
+   * a {@link GomObject} property identified using a nick with a '::' prefix.
    *
    * Return: false if element should not be added to collection.
    */
@@ -382,7 +385,7 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.GomCollection {
     key = (element as DomElement).get_attribute (attribute_key);
     if (key == null)
     key = (element as DomElement).get_attribute (attribute_key.down ());
-    if (key == null) assert_not_reached ();
+    if (key == null) return false;
 #if DEBUG
     message ("Attribute key value: "+key);
 #endif
