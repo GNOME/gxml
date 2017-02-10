@@ -366,6 +366,19 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.GomCollection {
     return _element.child_nodes.get (i) as DomElement;
   }
   /**
+   * Returns true if @key is used in collection.
+   */
+  public bool has_key (string key) {
+    if (_hashtable.contains (key)) return true;
+    return false;
+  }
+  /**
+   * Returns list of keys used in collection.
+   */
+  public GLib.List<string> get_keys () {
+    return _hashtable.get_keys ();
+  }
+  /**
    * Validates if given element has a {@link GomHashMap.attribute_key} set,
    * if so adds a new key pointing to given index and returns true.
    *
