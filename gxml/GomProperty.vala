@@ -368,12 +368,11 @@ public class GXml.GomEnum : GomBaseProperty {
   public void set_enum (int value) { _value = value; }
 }
 
-
 /**
  * Convenient class to handle {@link GomElement}'s attributes
  * using a {@link GLib.Date} as sources of values.
  *
- * Property is represented as a string using a %Y-%M-%D format
+ * Property is represented as a string using a %Y-%m-%d format
  */
 public class GXml.GomDate : GomBaseProperty {
   protected Date _value = Date ();
@@ -399,4 +398,43 @@ public class GXml.GomDate : GomBaseProperty {
    * Sets current value.
    */
   public void set_date (Date date) { _value = date; }
+}
+
+/**
+ * Convenient class to handle {@link GomElement}'s attributes
+ * using a {@link GLib.DateTime} as sources of values.
+ *
+ * Timestamp is considered in local time.
+ *
+ * Property is represented as a string using a {@link GomDateTime.format}
+ * and {@link GLib.DateTime.format} method. If {@link GomDateTime.format}
+ * is not set '%FT%T' format is used by default.
+ */
+public class GXml.GomDateTime : GomBaseProperty {
+  protected DateTime _value = null;
+  public string format { get; set; }
+  public override string? value {
+    owned get {
+      if (_value == null) return null;
+      string s = format;
+      if (s == null)
+        s = "%FT%T";
+      return _value.format (s);
+    }
+    set {
+      var tv = new TimeVal ();
+      if (tv.from_iso8601 (value)) {
+        _value = new DateTime.from_timeval_local (tv);
+      } else
+        warning (_("Invalid timestamp for property: "+value));
+    }
+  }
+  /**
+   * Retrives current value.
+   */
+  public DateTime get_datetime () { return _value; }
+  /**
+   * Sets current value.
+   */
+  public void set_datetime (DateTime dt) { _value = dt; }
 }

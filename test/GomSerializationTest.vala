@@ -191,6 +191,8 @@ class GomSerializationTest : GXmlTest  {
     public Month month { get; set; }
     [Description (nick="::PayDate")]
     public GomDate pay_date { get; set; }
+    [Description (nick="::Timestamp")]
+    public GomDateTime timestamp { get; set; }
     construct { try { initialize ("Taxes"); } catch { assert_not_reached (); } }
     public string to_string () {
       var parser = new XParser (this);
@@ -474,6 +476,44 @@ class GomSerializationTest : GXmlTest  {
       assert (t.pay_date.get_date ().valid ());
       assert (t.pay_date.value != null);
       assert (t.pay_date.value == "2050-12-09");
+    } catch (GLib.Error e) {
+      GLib.message ("Error: "+e.message);
+      assert_not_reached ();
+    }
+    });
+    Test.add_func ("/gxml/gom-serialization/write/property-datetime", () => {
+    try {
+      var t = new Taxes ();
+      string s = t.to_string ();
+      assert (s != null);
+#if DEBUG
+      GLib.message ("DOC:"+s);
+#endif
+      assert ("<Taxes " in s);
+      assert ("monthRate=\"0\"" in s);
+      assert ("Month=\"january\"" in s);
+      assert ("TaxFree=\"false\"" in s);
+      t.timestamp = new GomDateTime ();
+      var d = new DateTime.local (2017,2,10,14,14,20.345);
+#if DEBUG
+      s = t.to_string ();
+      assert (s != null);
+      GLib.message ("DOC:"+s);
+#endif
+      assert (t.timestamp != null);
+      t.timestamp.set_datetime (d);
+      assert (t.timestamp != null);
+      assert (t.timestamp.value != null);
+      assert (t.timestamp.value == "2017-02-10T14:14:20");
+      t.timestamp.value = "2023-3-10T15:23:10.356";
+      assert (t.timestamp.value != null);
+      assert (t.timestamp.value == "2023-03-10T15:23:10");
+      string s2 = t.to_string ();
+      assert (s2 != null);
+#if DEBUG
+      GLib.message ("DOC:"+s2);
+#endif
+      assert ("Timestamp=\"2023-03-10T15:23:10\"" in s2);
     } catch (GLib.Error e) {
       GLib.message ("Error: "+e.message);
       assert_not_reached ();
