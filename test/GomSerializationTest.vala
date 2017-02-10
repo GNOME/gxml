@@ -189,6 +189,8 @@ class GomSerializationTest : GXmlTest  {
     public bool tax_free { get; set; }
     [Description (nick="::Month")]
     public Month month { get; set; }
+    [Description (nick="::PayDate")]
+    public GomDate pay_date { get; set; }
     construct { try { initialize ("Taxes"); } catch { assert_not_reached (); } }
     public string to_string () {
       var parser = new XParser (this);
@@ -390,9 +392,9 @@ class GomSerializationTest : GXmlTest  {
       var t = new Taxes ();
       string s = t.to_string ();
       assert (s != null);
-//#if DEBUG
+#if DEBUG
       GLib.message ("DOC:"+s);
-//#endif
+#endif
       assert ("<Taxes " in s);
       assert ("monthRate=\"0\"" in s);
       assert ("Month=\"january\"" in s);
@@ -414,6 +416,42 @@ class GomSerializationTest : GXmlTest  {
 #if DEBUG
       GLib.message ("DOC:"+s);
 #endif
+    } catch (GLib.Error e) {
+      GLib.message ("Error: "+e.message);
+      assert_not_reached ();
+    }
+    });
+    Test.add_func ("/gxml/gom-serialization/write/property-date", () => {
+    try {
+      var t = new Taxes ();
+      string s = t.to_string ();
+      assert (s != null);
+//#if DEBUG
+      GLib.message ("DOC:"+s);
+//#endif
+      assert ("<Taxes " in s);
+      assert ("monthRate=\"0\"" in s);
+      assert ("Month=\"january\"" in s);
+      assert ("TaxFree=\"false\"" in s);
+      t.pay_date = new GomDate ();
+      var d = Date ();
+      d.set_dmy ((DateDay) 1, (DateMonth) 2, (DateYear) 2017);
+      assert (d.valid ());
+      t.pay_date.set_date (d);
+      assert (t.pay_date.get_date ().valid ());
+      assert (t.pay_date != null);
+      assert (t.pay_date.value != null);
+      assert (t.pay_date.value == "2017-02-01");
+      t.pay_date.value = "2023-3-10";
+      assert (t.pay_date.get_date ().valid ());
+      assert (t.pay_date.value != null);
+      assert (t.pay_date.value == "2023-03-10");
+      s = t.to_string ();
+      assert (s != null);
+#if DEBUG
+      GLib.message ("DOC:"+s);
+#endif
+      assert ("PayDate=\"2023-03-10\"" in s);
     } catch (GLib.Error e) {
       GLib.message ("Error: "+e.message);
       assert_not_reached ();

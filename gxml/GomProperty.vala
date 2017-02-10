@@ -367,3 +367,36 @@ public class GXml.GomEnum : GomBaseProperty {
    */
   public void set_enum (int value) { _value = value; }
 }
+
+
+/**
+ * Convenient class to handle {@link GomElement}'s attributes
+ * using a {@link GLib.Date} as sources of values.
+ *
+ * Property is represented as a string using a %Y-%M-%D format
+ */
+public class GXml.GomDate : GomBaseProperty {
+  protected Date _value = Date ();
+  public override string? value {
+    owned get {
+      if (!_value.valid ()) return null;
+      char[] fr = new char[100];
+      _value.strftime (fr, "%Y-%m-%d");
+      return (string) fr;
+    }
+    set {
+      _value = Date ();
+      _value.set_parse (value);
+      if (!_value.valid ())
+        warning (_("Invalid Date for property: "+value));
+    }
+  }
+  /**
+   * Retrives current value.
+   */
+  public Date get_date () { return _value; }
+  /**
+   * Sets current value.
+   */
+  public void set_date (Date date) { _value = date; }
+}
