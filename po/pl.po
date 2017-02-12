@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-05 16:43+0100\n"
-"PO-Revision-Date: 2017-02-05 16:44+0100\n"
+"POT-Creation-Date: 2017-02-12 14:19+0100\n"
+"PO-Revision-Date: 2017-02-12 14:20+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -356,6 +356,14 @@ msgstr "Błąd podczas przekształcania wyliczenia na wartość atrybutu"
 #: ../gxml/GomProperty.vala:344
 msgid "Error when transform from attribute string value to enum"
 msgstr "Błąd podczas przekształcania z wartości ciągu atrybutu na wyliczenie"
+
+#: ../gxml/GomProperty.vala:390
+msgid "Invalid Date for property: "
+msgstr "Nieprawidłowa data dla właściwości: "
+
+#: ../gxml/GomProperty.vala:429
+msgid "Invalid timestamp for property: "
+msgstr "Nieprawidłowy czas dla właściwości: "
 
 #: ../gxml/GXmlDocument.vala:56 ../gxml/Parser.vala:73
 #: ../gxml/TDocument.vala:474
