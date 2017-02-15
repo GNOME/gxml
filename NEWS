@@ -1,4 +1,22 @@
 ===============
+Version 0.13.98
+===============
+
+* GOM implementation improvements:
+    - GomProperty now requires to use nick with a :: prefix to serialization
+      this removes property initialization
+    - GomElement improvements, fixes and new read from stream method
+* Documentation improvements with examples
+* GOM Attributes access fixes
+* Added convenient methods to easy implementation of derived classes
+* Improved GomCollection implementations
+* New GomProperty implementations for Date, DateTime
+* New and updated translations:
+    Updated Brazilian   by Rafael Fontenelle <rafaelff@gnome.org>
+    Updated Polish      by Piotr Drąg <piotrdrag@gmail.com>
+    Updated Czech      by Marek Černocký <marek@manet.cz>
+
+===============
 Version 0.13.90
 ===============
 
