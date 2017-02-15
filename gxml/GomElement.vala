@@ -45,11 +45,20 @@ public class GXml.GomElement : GomNode,
     this.read_from_file (File.new_for_uri (uri));
   }
   /**
-   * Parses an XML file, deserializing it over {@link GomElemen}.
+   * Parses an XML file, deserializing it over {@link GomElement}.
    */
-  public void read_from_file (GLib.File f) throws GLib.Error {
+  public void read_from_file (GLib.File f,
+                      GLib.Cancellable? cancellable = null) throws GLib.Error {
     var parser = new XParser (this);
-    parser.read_file (f, null);
+    parser.read_file (f, cancellable);
+  }
+  /**
+   * Parses an XML over a {@link GLib.InputStream}, deserializing it over {@link GomElement}.
+   */
+  public void read_from_stream (GLib.InputStream istream,
+                      GLib.Cancellable? cancellable = null) throws GLib.Error {
+    var parser = new XParser (this);
+    parser.read_stream (istream, cancellable);
   }
   /**
    * Parses an XML string, deserializing it over {@link GomElemen}.

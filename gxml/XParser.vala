@@ -52,7 +52,7 @@ public class GXml.XParser : Object, GXml.Parser {
   }
 
   public void write_stream (OutputStream stream,
-                            GLib.Cancellable? cancellable) throws GLib.Error {
+                            GLib.Cancellable? cancellable = null) throws GLib.Error {
     var buf = new Xml.Buffer ();
     tw = Xmlx.new_text_writer_memory (buf, 0);
     if (_node is DomDocument) tw.start_document ();
@@ -94,7 +94,7 @@ public class GXml.XParser : Object, GXml.Parser {
 
 
   public void read_stream (GLib.InputStream istream,
-                          GLib.Cancellable? cancellable) throws GLib.Error {
+                          GLib.Cancellable? cancellable = null) throws GLib.Error {
     var b = new MemoryOutputStream.resizable ();
     b.splice (istream, 0);
 #if DEBUG
