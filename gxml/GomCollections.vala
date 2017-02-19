@@ -290,10 +290,27 @@ public class GXml.GomArrayList : GXml.BaseCollection, GomCollection {
 }
 
 /**
+ * Inteface to be implemented by {@link GomElement} derived classes
+ * in order to provide a string to be used in {@link GomHasMap} as key.
+ *
+ * If {@link GomHashMap} has set its {@link GomHashMap.attribute_key}
+ * its value has precedence over this method.
+ */
+public interface GXml.MappeableElement : Object, DomElement {
+  public abstract string get_map_key ();
+}
+
+/**
  * A class impementing {@link GomCollection} to store references to
  * child {@link DomElement} of {@link element}, using an attribute in
- * items as key. If key is not defined in node, it is not added; but
+ * items as key or {@link MappeableElement.map_key} method if implemented
+ * by items to be added. If key is not defined in node, it is not added; but
  * keeps it as a child node of actual {@link GomCollection.element}.
+ *
+ * If {@link GomElement} to be added is of type {@link GomCollection.items_type}
+ * and implements {@link MappeableElement}, you should set {@link GomHashMap.attribute_key}
+ * to null in order to use returned value of {@link MappeableElement.get_map_key}
+ * as key.
  *
  * {{{
  *   public class YourObject : GomElement {
@@ -322,7 +339,7 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.GomCollection {
    */
   protected string _attribute_key;
   /**
-   * An attribute's name in items to be added and used to retrieve a key to
+   * An attribute's name in items to be added and used to retrieve a key to be
    * used in collection.
    */
   public string attribute_key {
@@ -395,17 +412,21 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.GomCollection {
             +" Attrs:"+(element as GomElement).attributes.length.to_string());
 #endif
     string key = null;
-    key = (element as DomElement).get_attribute (attribute_key);
-    if (key == null)
-    key = (element as DomElement).get_attribute (attribute_key.down ());
+    if (attribute_key != null) {
+      key = (element as DomElement).get_attribute (attribute_key);
+      if (key == null)
+      key = (element as DomElement).get_attribute (attribute_key.down ());
+    } else {
+      if (items_type.is_a (typeof(MappeableElement))) {
+        if (!(element is MappeableElement)) return false;
+        key = ((MappeableElement) element).get_map_key ();
+      }
+    }
     if (key == null) return false;
 #if DEBUG
     message ("Attribute key value: "+key);
 #endif
-    if (key != null) {
-      _hashtable.insert (key, index);
-      return true;
-    }
-    return false;
+    _hashtable.insert (key, index);
+    return true;
   }
 }
