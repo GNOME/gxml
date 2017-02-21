@@ -210,16 +210,38 @@ class GomSerializationTest : GXmlTest  {
       FEBRUARY
     }
   }
-  public class BookRegister : GomElement {
+  public class BookRegister : GomElement, MappeableElement {
+    private Book _book = null;
     [Description (nick="::Year")]
     public int year { get; set; }
-    public Book book { get; set; }
+    public Book book {
+      get { return _book; }
+      set {
+        try {
+          clean_property_elements ("book");
+          _book = value;
+          append_child (_book);
+        } catch (GLib.Error e) {
+          warning (e.message);
+          assert_not_reached ();
+        }
+      }
+    }
     construct {
       try { initialize ("BookRegister"); }
       catch { assert_not_reached (); }
     }
     public BookRegister.document (DomDocument doc) {
       _document = doc;
+    }
+    public string get_map_key () {
+      return "%d".printf (year)+"-"+book.name;
+    }
+    public Book create_book (string name) {
+      return Object.new (typeof (Book),
+                        "owner-document", this.owner_document,
+                        "name", name)
+                        as Book;
     }
     public string to_string () {
       var parser = new XParser (this);
@@ -234,6 +256,7 @@ class GomSerializationTest : GXmlTest  {
     }
   }
   public class BookStand : GomElement {
+    HashRegisters _hashmap_registers = null;
     [Description (nick="::Classification")]
     public string classification { get; set; default = "Science"; }
     public Dimension dimension_x { get; set; }
@@ -242,9 +265,25 @@ class GomSerializationTest : GXmlTest  {
     [Description (nick="DimensionZ")]
     public DimensionZ dimension_z { get; set; }
     public Registers registers { get; set; }
+    public HashRegisters hashmap_registers {
+      get {
+        if (_hashmap_registers == null)
+          _hashmap_registers = Object.new (typeof (HashRegisters),"element",this)
+                              as HashRegisters;
+        return _hashmap_registers;
+      }
+      set {
+        _hashmap_registers = value;
+      }
+    }
     public Books books { get; set; }
     construct {
       try { initialize ("BookStand"); } catch { assert_not_reached (); }
+    }
+    public BookRegister create_register () {
+      return Object.new (typeof (BookRegister),
+                          "element", this)
+                        as BookRegister;
     }
     public string to_string () {
       var parser = new XParser (this);
@@ -279,6 +318,12 @@ class GomSerializationTest : GXmlTest  {
   }
 
   public class Registers : GomArrayList {
+    construct {
+      try { initialize (typeof (BookRegister)); }
+      catch { assert_not_reached (); }
+    }
+  }
+  public class HashRegisters : GomHashMap {
     construct {
       try { initialize (typeof (BookRegister)); }
       catch { assert_not_reached (); }
@@ -530,7 +575,7 @@ class GomSerializationTest : GXmlTest  {
       assert ("<BookStand Classification=\"Science\"/>" in s);
       assert (bs.owner_document != null);
       assert (bs.registers == null);
-      assert (bs.create_instance_property ("registers"));
+      assert (bs.set_instance_property ("registers"));
       s = bs.to_string ();
       assert (s != null);
 #if DEBUG
@@ -567,7 +612,7 @@ class GomSerializationTest : GXmlTest  {
       assert ((bs.registers.get_item (0) as BookRegister).year == 2016);
       assert ((bs.registers.get_item (1) as BookRegister).year == 2010);
       assert ((bs.registers.get_item (2) as BookRegister).year == 2000);
-      assert (bs.create_instance_property("Dimension-X"));
+      assert (bs.set_instance_property("Dimension-X"));
       assert (bs.dimension_x != null);
       assert (bs.dimension_x.length == 1.0);
       s = bs.to_string ();
@@ -576,7 +621,7 @@ class GomSerializationTest : GXmlTest  {
       GLib.message ("DOC:"+s);
 //#endif
       assert ("<BookStand Classification=\"Science\"><BookRegister Year=\"2016\"/><BookRegister Year=\"2010\"/><Test/><BookRegister Year=\"2000\"/><Dimension Length=\"1\" Type=\"x\"/></BookStand>" in s);
-      assert (bs.create_instance_property("DimensionY"));
+      assert (bs.set_instance_property("DimensionY"));
       assert (bs.dimension_y != null);
       assert (bs.dimension_y.length == 1.0);
       s = bs.to_string ();
@@ -585,7 +630,7 @@ class GomSerializationTest : GXmlTest  {
       GLib.message ("DOC:"+s);
 //#endif
       assert ("<BookStand Classification=\"Science\"><BookRegister Year=\"2016\"/><BookRegister Year=\"2010\"/><Test/><BookRegister Year=\"2000\"/><Dimension Length=\"1\" Type=\"x\"/><Dimension Length=\"1\" Type=\"y\"/></BookStand>" in s);
-      assert (bs.create_instance_property("::DimensionZ"));
+      assert (bs.set_instance_property("::DimensionZ"));
       assert (bs.dimension_z != null);
       assert (bs.dimension_z.length == 1.0);
       s = bs.to_string ();
@@ -609,7 +654,7 @@ class GomSerializationTest : GXmlTest  {
 #endif
       assert ("<BookStore/>" in s);
       assert (bs.books == null);
-      bs.create_instance_property ("books");
+      bs.set_instance_property ("books");
       s = bs.to_string ();
       assert (s != null);
 #if DEBUG
@@ -649,6 +694,33 @@ class GomSerializationTest : GXmlTest  {
       assert ((bs.books.get("Title1") as Book).name == "Title1");
       assert ((bs.books.get("Title2") as Book).name == "Title2");
       assert ((bs.books.get("Title3") as Book).name == "Title3");
+    } catch (GLib.Error e) {
+      GLib.message ("Error: "+e.message);
+      assert_not_reached ();
+    }
+    });
+    Test.add_func ("/gxml/gom-serialization/mappeable", () => {
+    try {
+      var bs = new BookStand ();
+      assert (bs.hashmap_registers != null);
+      var br = bs.hashmap_registers.create_item () as BookRegister;
+      var book = br.create_book ("Book1");
+      br.book = book;
+      br.year = 2017;
+      bs.hashmap_registers.append (br);
+      assert (bs.hashmap_registers.length == 1);
+      assert (bs.hashmap_registers.has_key ("2017-Book1"));
+      var b1 = bs.hashmap_registers.get ("2017-Book1") as BookRegister;
+      assert (b1 != null);
+      assert (b1.year == 2017);
+      assert (b1.book != null);
+      assert (b1.book.name == "Book1");
+      assert (b1.child_nodes.length == 1);
+      var book2 = b1.create_book ("Book2");
+      b1.append_child (book2);
+      assert (b1.child_nodes.length == 2);
+      b1.book = book2;
+      assert (b1.child_nodes.length == 1);
     } catch (GLib.Error e) {
       GLib.message ("Error: "+e.message);
       assert_not_reached ();
@@ -779,6 +851,7 @@ class GomSerializationTest : GXmlTest  {
     }
     });
     Test.add_func ("/gxml/gom-serialization/read/bad-node-name", () => {
+      try {
       var b = new Book ();
       b.read_from_string ("<chair name=\"Tall\"/>");
 #if DEBUG
@@ -789,6 +862,10 @@ class GomSerializationTest : GXmlTest  {
       assert (b.child_nodes.size == 0);
       assert (b.owner_document.document_element != null);
       assert (b.owner_document.document_element.node_name == "Book");
+      } catch (GLib.Error e) {
+        GLib.message ("Error: "+e.message);
+        assert_not_reached ();
+      }
     });
     Test.add_func ("/gxml/gom-serialization/read/object-property", () => {
     try {
@@ -800,9 +877,9 @@ class GomSerializationTest : GXmlTest  {
       assert ("<BookRegister Year=\"0\"/>" in s);
       b.read_from_string ("<bookRegister><Book/></bookRegister>");
       s = b.to_string ();
-#if DEBUG
+//#if DEBUG
       GLib.message ("doc:"+s);
-#endif
+//#endif
       assert ("<BookRegister Year=\"0\"><Book/></BookRegister>" in s);
     } catch (GLib.Error e) {
       GLib.message ("Error: "+e.message);

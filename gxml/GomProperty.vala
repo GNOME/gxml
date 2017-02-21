@@ -422,7 +422,7 @@ public class GXml.GomDateTime : GomBaseProperty {
       return _value.format (s);
     }
     set {
-      var tv = new TimeVal ();
+      var tv = TimeVal ();
       if (tv.from_iso8601 (value)) {
         _value = new DateTime.from_timeval_local (tv);
       } else

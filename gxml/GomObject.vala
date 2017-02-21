@@ -283,7 +283,7 @@ public interface GXml.GomObject : GLib.Object,
   public virtual DomElement? get_child (string name) {
     var prop = get_class ().find_property (name);
     if (prop != null) {
-      if (prop.value_type == typeof(DomElement)) {
+      if (prop.value_type.is_a (typeof(DomElement))) {
         var vo = Value(prop.value_type);
         get_property (prop.name, ref vo);
         return (DomElement) ((Object) vo);
@@ -297,19 +297,31 @@ public interface GXml.GomObject : GLib.Object,
     return null;
   }
   /**
+   * From a given property name of type {@link GomElement}, search all
+   * child nodes with node's local name equal to property.
+   */
+  public virtual DomElementList find_elements (string name) {
+    var l = new DomElementList ();
+    var prop = get_class ().find_property (name);
+    if (prop != null) {
+      if (prop.value_type.is_a (typeof(DomElement))) {
+        var o = Object.new (prop.value_type) as DomElement;
+        foreach (DomNode n in this.child_nodes) {
+          if (!(n is DomElement)) continue;
+          if ((n as DomElement).local_name.down () == o.local_name.down ())
+            l.add (n as DomElement);
+        }
+      }
+    }
+    return l;
+  }
+  /**
    * Search for a property and set it to null if possible returning true,
    * if value can't be removed or located, returns false without change.
    */
   public virtual bool remove_attribute (string name) {
     var prop = get_class ().find_property (name);
     if (prop != null) {
-      if (prop.value_type.is_a (typeof (SerializableProperty))) {
-        (this as SerializableProperty).set_serializable_property_value (null);
-        return true;
-      }
-      if (prop.value_type.is_a (typeof (SerializableCollection))) {
-        return true;
-      }
       Value v = Value (typeof (Object));
       (this as Object).set_property (name, v);
       return true;
@@ -317,9 +329,9 @@ public interface GXml.GomObject : GLib.Object,
     return false;
   }
   /**
-   * Convenient method to create an instance of given property's
+   * Convenient method to set an instance of given property's
    * name and initialize according to have same {@link DomNode.owner_document}
-   * and set its {@link DomNode.parent_node} to this.
+   * and set its {@link DomNode.parent_node} to this appending it as a child.
    * If property is a {@link GomCollection} it is initialize to use
    * this as its {@link GomCollection.element}.
    *
@@ -347,7 +359,7 @@ public interface GXml.GomObject : GLib.Object,
    *
    * Returns: true if property has been set and initialized, false otherwise.
    */
-  public bool create_instance_property (string name) {
+  public virtual bool set_instance_property (string name) {
     var prop = find_object_property_name (name);
     if (prop == null) return false;
     Value v = Value (prop.value_type);
@@ -359,7 +371,7 @@ public interface GXml.GomObject : GLib.Object,
       return true;
     }
     if (prop.value_type.is_a (typeof (GomElement))) {
-      obj = Object.new (prop.value_type,"owner_document", this.owner_document);
+      obj = Object.new (prop.value_type,"owner-document", this.owner_document);
       try { this.append_child (obj as GomElement); }
       catch (GLib.Error e) {
         warning (_("Error while attempting to instantiate property object: %s").printf (e.message));
@@ -370,5 +382,54 @@ public interface GXml.GomObject : GLib.Object,
       return true;
     }
     return false;
+  }
+  /**
+   * Utility method to remove all instances of a property being child elements
+   * of object. Is useful if you have a {@link GomElement} property, it should be
+   * just one child of this type and you want to overwrite it.
+   *
+   * In this example you have defined an element MyClass to be child of
+   * MyParentClass, but it should have just one element, once you set child_elements
+   * it calls {@link clean_property_elements} using property's canonicals name.
+   *
+   * {{{
+   *  public class MyClass : GomElement {
+   *    public string name { get; set; }
+   *  }
+   *  public class MyParentClass : GomElement {
+   *    private Myclass _child_elements = null;
+   *    public MyClass child_elements {
+   *      get { return _child_elements; }
+   *      set {
+   *        try {
+   *          clean_property_elements ("child-elements");
+   *          _child_elements = value;
+   *          append_child (_child_elements);
+   *        } catch (GLib.Error e) {
+   *          warning (e.message);
+   *        }
+   *      }
+   *    }
+   *  }
+   * }}}
+   *
+   * @param name property name to search value type, use canonical names.
+   *
+   * @throws DomError if property is not a {@link GomElement}.
+   */
+  public virtual
+  void clean_property_elements (string name) throws GLib.Error
+  {
+    var prop = get_class ().find_property (name);
+    if (prop != null) {
+      if (!prop.value_type.is_a (typeof (GomElement)))
+        throw new DomError.TYPE_MISMATCH_ERROR (_("Can't set value. It is not a GXmlGomElement type"));
+      var l = find_elements (name);
+      if (l.length != 0) {
+        foreach (DomElement e in l) {
+          e.remove ();
+        }
+      }
+    }
   }
 }
