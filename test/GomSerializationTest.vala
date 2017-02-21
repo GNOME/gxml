@@ -210,7 +210,7 @@ class GomSerializationTest : GXmlTest  {
       FEBRUARY
     }
   }
-  public class BookRegister : GomElement, MappeableElement {
+  public class BookRegister : GomElement, MappeableElement, MappeableElementPairKey {
     private Book _book = null;
     [Description (nick="::Year")]
     public int year { get; set; }
@@ -235,7 +235,13 @@ class GomSerializationTest : GXmlTest  {
       _document = doc;
     }
     public string get_map_key () {
+      if (book == null) return "";
       return "%d".printf (year)+"-"+book.name;
+    }
+    public string get_map_primary_key () { return "%d".printf (year); }
+    public string get_map_secondary_key () {
+      if (book == null) return "";
+      return book.name;
     }
     public Book create_book (string name) {
       return Object.new (typeof (Book),
@@ -257,6 +263,7 @@ class GomSerializationTest : GXmlTest  {
   }
   public class BookStand : GomElement {
     HashRegisters _hashmap_registers = null;
+    HashPairRegisters _hashpair_registers = null;
     [Description (nick="::Classification")]
     public string classification { get; set; default = "Science"; }
     public Dimension dimension_x { get; set; }
@@ -274,6 +281,17 @@ class GomSerializationTest : GXmlTest  {
       }
       set {
         _hashmap_registers = value;
+      }
+    }
+    public HashPairRegisters hashpair_registers {
+      get {
+        if (_hashpair_registers == null)
+          _hashpair_registers = Object.new (typeof (HashPairRegisters),"element",this)
+                              as HashPairRegisters;
+        return _hashpair_registers;
+      }
+      set {
+        _hashpair_registers = value;
       }
     }
     public Books books { get; set; }
@@ -324,6 +342,12 @@ class GomSerializationTest : GXmlTest  {
     }
   }
   public class HashRegisters : GomHashMap {
+    construct {
+      try { initialize (typeof (BookRegister)); }
+      catch { assert_not_reached (); }
+    }
+  }
+  public class HashPairRegisters : GomHashPairedMap {
     construct {
       try { initialize (typeof (BookRegister)); }
       catch { assert_not_reached (); }
@@ -721,6 +745,28 @@ class GomSerializationTest : GXmlTest  {
       assert (b1.child_nodes.length == 2);
       b1.book = book2;
       assert (b1.child_nodes.length == 1);
+    } catch (GLib.Error e) {
+      GLib.message ("Error: "+e.message);
+      assert_not_reached ();
+    }
+    });
+    Test.add_func ("/gxml/gom-serialization/write/mappeablepairedkey", () => {
+    try {
+      var bs = new BookStand ();
+      assert (bs.hashpair_registers != null);
+      var br = bs.hashpair_registers.create_item () as BookRegister;
+      var book = br.create_book ("Book1");
+      assert (book.name == "Book1");
+      br.book = book;
+      br.year = 2017;
+      assert (bs.hashpair_registers.length == 0);
+      bs.hashpair_registers.append (br);
+      assert (bs.hashpair_registers.length == 1);
+      var b1 = bs.hashpair_registers.get ("2017","Book1") as BookRegister;
+      assert (b1 != null);
+      assert (b1.year == 2017);
+      assert (b1.book != null);
+      assert (b1.book.name == "Book1");
     } catch (GLib.Error e) {
       GLib.message ("Error: "+e.message);
       assert_not_reached ();
