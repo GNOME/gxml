@@ -44,5 +44,5 @@ public class GXml.TText : GXml.TNode, GXml.Text
     set { _str = value; }
   }
   // GXml.Text
-  public string str { owned get { return _str.dup (); } }
+  public string str { owned get { return _str.dup ();} set { _str = value; } }
 }

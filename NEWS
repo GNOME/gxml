@@ -1,4 +1,10 @@
 ===============
+Version 0.14
+===============
+
+* API additions now GXml.Text.str is writable see Bug #779038
+
+===============
 Version 0.13.98
 ===============
 
@@ -9,7 +15,7 @@ Version 0.13.98
 * Documentation improvements with examples
 * GOM Attributes access fixes
 * Added convenient methods to easy implementation of derived classes
-* Improved GomCollection implementations
+* Improved GomCollection implementations: HashMap, ArrayList and HashPairedMap
 * New GomProperty implementations for Date, DateTime
 * New and updated translations:
     Updated Brazilian   by Rafael Fontenelle <rafaelff@gnome.org>

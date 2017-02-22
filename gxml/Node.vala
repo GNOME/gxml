@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 0; tab-width: 2 -*- */
+  /* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 0; tab-width: 2 -*- */
 /* ObjectModel.vala
  *
  * Copyright (C) 2015  Daniel Espinosa <esodan@gmail.com>
