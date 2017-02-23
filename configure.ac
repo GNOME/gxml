@@ -147,8 +147,14 @@ GOBJECT_INTROSPECTION_CHECK([1.32.0])
 AC_PATH_PROG(YELP_BUILD, [yelp-build], [no])
 AC_PATH_PROG([VALADOC], [valadoc], [no])
 
+
+docs=yes
+AC_ARG_ENABLE(docs,
+	AS_HELP_STRING([--disable-docs], [Disable Docs option [default=yes]]),
+        [docs=$enableval], [docs="yes"])
+
 have_valadoc=no
-if test "x$VALADOC" = "xno"; then
+if test "x$VALADOC" = "xno" -a "x$docs" = "xno"; then
 	have_valadoc="no"
 	else
 	have_valadoc="yes"
@@ -161,7 +167,7 @@ PKG_CHECK_MODULES([GTKDOC], gtk-doc,[
     ],[
     found_gtk_docs=no
     ])
-if test x$have_valadoc = xyes; then
+if test x$have_valadoc = xyes -a "x$docs" = "xyes"; then
   if test $found_gtk_docs=xyes; then
     build_gtkdoc=yes
   else
@@ -173,7 +179,7 @@ AM_CONDITIONAL([BUILD_GTK_DOCS], [test "x$build_gtkdoc" = "xyes"])
 build_devhelp=no
 build_mallard_doc=no
 build_gir_doc=no
-if test x$have_valadoc = "xyes"; then
+if test x$have_valadoc = "xyes" -a "x$docs" = "xyes"; then
   if test x$YELP_BUILD != "xno"; then
     build_devhelp=yes
     YELP_HELP_INIT
@@ -275,7 +281,7 @@ echo ""
 echo " Configuration summary for GXml-$GXML_VERSION"
 echo "   Installation prefix:     $prefix"
 echo "   GObject Introspection:   $found_introspection"
-echo "   Documentation:           ${enable_docs}"
+echo "   Documentation:           ${docs}"
 echo "       DevHelp Docs:        ${build_devhelp}"
 echo "       Gtk-Docs:            ${build_gtkdoc}"
 echo "   Enable Performance Test: $performance"
