@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-12 14:19+0100\n"
-"PO-Revision-Date: 2017-02-12 14:20+0100\n"
+"POT-Creation-Date: 2017-02-26 18:07+0100\n"
+"PO-Revision-Date: 2017-02-26 18:08+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -131,36 +131,36 @@ msgid "Can't adopt a Document"
 msgstr "Nie można przyjąć dokumentu"
 
 #. FIXME:
-#: ../gxml/GomDocument.vala:387 ../gxml/GomElement.vala:180
+#: ../gxml/GomDocument.vala:387 ../gxml/GomElement.vala:189
 #: ../gxml/GXmlElement.vala:317
 msgid "DomElement query_selector is not implemented"
 msgstr "„query_selector” z DomElement nie jest zaimplementowane"
 
 #. FIXME:
-#: ../gxml/GomDocument.vala:391 ../gxml/GomElement.vala:184
+#: ../gxml/GomDocument.vala:391 ../gxml/GomElement.vala:193
 #: ../gxml/GXmlElement.vala:321
 msgid "DomElement query_selector_all is not implemented"
 msgstr "„query_selector_all” z DomElement nie jest zaimplementowane"
 
-#: ../gxml/GomElement.vala:88
+#: ../gxml/GomElement.vala:97
 msgid "Invalid namespace URI stored in element's attribute"
 msgstr ""
 "Nieprawidłowy adres URI przestrzeni nazw przechowywany w atrybucie elementu"
 
-#: ../gxml/GomElement.vala:95 ../gxml/GomElement.vala:119
+#: ../gxml/GomElement.vala:104 ../gxml/GomElement.vala:128
 msgid "Invalid attribute name in element's attributes list"
 msgstr "Nieprawidłowa nazwa atrybutu na liście atrybutów elementu"
 
-#: ../gxml/GomElement.vala:339 ../gxml/GomElement.vala:377
+#: ../gxml/GomElement.vala:348 ../gxml/GomElement.vala:386
 #, c-format
 msgid "Invalid attribute name: %s"
 msgstr "Nieprawidłowa nazwa atrybutu: %s"
 
-#: ../gxml/GomElement.vala:341 ../gxml/GomElement.vala:379
+#: ../gxml/GomElement.vala:350 ../gxml/GomElement.vala:388
 msgid "Invalid node type. DomAttr was expected"
 msgstr "Nieprawidłowy typ węzła. Oczekiwano „DomAttr”"
 
-#: ../gxml/GomElement.vala:384
+#: ../gxml/GomElement.vala:393
 msgid ""
 "Namespace attributes prefixed with xmlns should use a namespace uri http://"
 "www.w3.org/2000/xmlns"
@@ -168,53 +168,53 @@ msgstr ""
 "Atrybuty przestrzeni nazw z przedrostkiem xmlns muszą używać adresu URI "
 "przestrzeni nazw http://www.w3.org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:391
+#: ../gxml/GomElement.vala:400
 #, c-format
 msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
 msgstr "Atrybuty w przestrzeni nazw muszą dostarczać niepusty przedrostek: %s"
 
-#: ../gxml/GomElement.vala:395
+#: ../gxml/GomElement.vala:404
 msgid "Invalid namespace attribute's name."
 msgstr "Nieprawidłowa nazwa atrybutu przestrzeni nazw."
 
-#: ../gxml/GomElement.vala:415
+#: ../gxml/GomElement.vala:424
 #, c-format
 msgid "Redefinition of default namespace for %s"
 msgstr "Ponowne określenie domyślnej przestrzeni nazw dla %s"
 
-#: ../gxml/GomElement.vala:439
+#: ../gxml/GomElement.vala:448
 #, c-format
 msgid "Redefinition of namespace's prefix for %s"
 msgstr "Ponowne określenie przedrostka przestrzeni nazw dla %s"
 
-#: ../gxml/GomElement.vala:455
+#: ../gxml/GomElement.vala:464
 msgid "Trying to add an attribute with an undefined namespace prefix"
 msgstr ""
 "Próbowanie dodania atrybutu za pomocą nieokreślonego przedrostka przestrzeni "
 "nazw"
 
-#: ../gxml/GomElement.vala:461
+#: ../gxml/GomElement.vala:470
 msgid "Trying to add an attribute with a non found namespace URI"
 msgstr ""
 "Próbowanie dodania atrybutu za pomocą nieodnalezionego adresu URI "
 "przestrzeni nazw"
 
-#: ../gxml/GomElement.vala:520
+#: ../gxml/GomElement.vala:529
 msgid "Invalid attribute name. Just one prefix is allowed"
 msgstr "Nieprawidłowa nazwa atrybutu. Dozwolony jest tylko jeden przedrostek"
 
-#: ../gxml/GomElement.vala:524
+#: ../gxml/GomElement.vala:533
 #, c-format
 msgid "Invalid attribute name. Invalid use of colon: %s"
 msgstr "Nieprawidłowa nazwa atrybutu. Nieprawidłowe użycie dwukropka: %s"
 
-#: ../gxml/GomElement.vala:528
+#: ../gxml/GomElement.vala:537
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
 msgstr ""
 "Nieprawidłowa przestrzeń nazw. Jeśli przedrostek jest pusty, adres URI "
 "przestrzeni nazw nie może być pusty"
 
-#: ../gxml/GomElement.vala:530
+#: ../gxml/GomElement.vala:539
 msgid ""
 "Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
 "org/2000/xmlns/"
@@ -222,7 +222,7 @@ msgstr ""
 "Nieprawidłowa przestrzeń nazw. Jeśli przedrostek to xml, adres URI "
 "przestrzeni nazw musi być http://www.w3.org/2000/xmlns/"
 
-#: ../gxml/GomElement.vala:532
+#: ../gxml/GomElement.vala:541
 msgid ""
 "Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns/"
@@ -230,7 +230,7 @@ msgstr ""
 "Nieprawidłowa przestrzeń nazw. Jeśli przedrostek atrybutu to xmlns, adres "
 "URI przestrzeni nazw musi być http://www.w3.org/2000/xmlns/"
 
-#: ../gxml/GomElement.vala:534
+#: ../gxml/GomElement.vala:543
 msgid ""
 "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns/"
@@ -238,21 +238,21 @@ msgstr ""
 "Nieprawidłowa przestrzeń nazw. Jeśli nazwa atrybutu to xmlns, adres URI "
 "przestrzeni nazw musi być http://www.w3.org/2000/xmlns/"
 
-#: ../gxml/GomElement.vala:536
+#: ../gxml/GomElement.vala:545
 msgid "Invalid attribute name. No prefixed attributes should use xmlns name"
 msgstr ""
 "Nieprawidłowa nazwa atrybutu. Atrybuty z przedrostkami nie mogą używać nazw "
 "xmlns"
 
-#: ../gxml/GomElement.vala:540
+#: ../gxml/GomElement.vala:549
 msgid "Setting namespaced property error: "
 msgstr "Błąd podczas ustawiania właściwości w przestrzeni nazw: "
 
-#: ../gxml/GomElement.vala:547
+#: ../gxml/GomElement.vala:556
 msgid "Removing attribute Error: "
 msgstr "Usuwanie błędu atrybutu: "
 
-#: ../gxml/GomElement.vala:552
+#: ../gxml/GomElement.vala:561
 msgid "Removing namespaced attribute Error: "
 msgstr "Usuwanie błędu atrybutu w przestrzeni nazw: "
 
@@ -344,10 +344,14 @@ msgstr "Wyliczenie jest poza zakresem"
 msgid "Enumeration can't be parsed from string"
 msgstr "Nie można przetworzyć wyliczenia z ciągu"
 
-#: ../gxml/GomObject.vala:365
+#: ../gxml/GomObject.vala:377
 #, c-format
 msgid "Error while attempting to instantiate property object: %s"
 msgstr "Błąd podczas próby utworzenia wystąpienia obiektu właściwości: %s"
+
+#: ../gxml/GomObject.vala:426
+msgid "Can't set value. It is not a GXmlGomElement type"
+msgstr "Nie można ustawić wartości. Nie jest typem GXmlGomElement"
 
 #: ../gxml/GomProperty.vala:336
 msgid "Error when transform enum to attribute's value"
