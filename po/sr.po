@@ -3,17 +3,17 @@
 # Copyright (C) 2016 gxml's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gxml package.
 # Translators:
-# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2016.
+# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2016, 2017.
 # Марко М. Костић <marko.m.kostic@gmail.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gxml&ke"
 "ywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-09-15 14:25+0000\n"
-"PO-Revision-Date: 2016-09-20 11:38+0200\n"
+"POT-Creation-Date: 2017-02-10 20:46+0000\n"
+"PO-Revision-Date: 2017-02-17 19:56+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
-"Language-Team: српски <gnome-sr@googlegroups.org>\n"
+"Language-Team: Serbian <(nothing)>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,6 +38,15 @@ msgstr "Неисправан померај за податке замене"
 msgid "Invalid offset to split text"
 msgstr "Неисправан померај за поделу текста"
 
+#: ../gxml/DomNode.vala:147 ../gxml/Node.vala:202
+msgid "Text node with NULL string"
+msgstr "Чвор текста са НИШТАВНОМ ниском"
+
+#: ../gxml/DomNode.vala:154
+#| msgid "Can't find child to insert node before"
+msgid "Can't copy child text node"
+msgstr "Не могу да умножим чвор текста порода"
+
 #: ../gxml/Enumeration.vala:88
 msgid "value is invalid"
 msgstr "вредност је неисправна"
@@ -46,41 +55,347 @@ msgstr "вредност је неисправна"
 msgid "text cannot be parsed to enumeration type:"
 msgstr "текст не може бити обрађен на врсту набрајања:"
 
-#: ../gxml/GXmlDocument.vala:55 ../gxml/TDocument.vala:476
+#: ../gxml/GomCollections.vala:67
+#| msgid "Invalid element name"
+msgid "Invalid index for elements in array list"
+msgstr "Неисправан индекс за елементе на списку низа"
+
+#: ../gxml/GomCollections.vala:71
+msgid "Invalid index reference for child elements in array list"
+msgstr "Неисправна упута индекса за елементе порода на списку низа"
+
+#: ../gxml/GomCollections.vala:76
+msgid "Referenced object's type is invalid. Should be a GXmlGomElement"
+msgstr "Врста упутног објекта је неисправна. Треба бити „GXmlGomElement“"
+
+#: ../gxml/GomCollections.vala:190
+msgid ""
+"Invalid attempt to initialize a collection using an unsupported type. Only "
+"GXmlGomElement is supported"
+msgstr ""
+"Неисправан покушај покретања збирке коришћењем неподржане врсте. Подржана је "
+"само „GXmlGomElement“"
+
+#: ../gxml/GomCollections.vala:220 ../gxml/GomCollections.vala:246
+#| msgid "value is invalid"
+msgid "Parent Element is invalid"
+msgstr "Елемент родитеља је неисправан"
+
+#: ../gxml/GomCollections.vala:223
+msgid ""
+"Invalid attempt to set unsupported type. Only GXmlGomElement is supported"
+msgstr ""
+"Неисправан покушај подешавања неподржане врсте. Подржана је само "
+"„GXmlGomElement“"
+
+#: ../gxml/GomCollections.vala:226
+#| msgid "Invalid attempt to insert an invalid node type"
+msgid "Invalid attempt to set a node with a different parent document"
+msgstr ""
+"Неисправан покушај подешавања чвора са другачијим родитељским документом"
+
+#: ../gxml/GomCollections.vala:230
+msgid ""
+"Node element not appended as child of parent. No node added to collection"
+msgstr ""
+"Елемент чвора није прикачен као пород родитеља. Збирци није додат ниједан "
+"чвор"
+
+#: ../gxml/GomDocument.vala:150
+msgid "Creating a namespaced element with invalid node name"
+msgstr "Стварам елемент просторног назива са неисправним називом чвора"
+
+#: ../gxml/GomDocument.vala:157
+msgid "Creating a namespaced element with invalid namespace"
+msgstr "Стварам елемент просторног назива са неисправним простором назива"
+
+#: ../gxml/GomDocument.vala:161
+msgid ""
+"Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
+msgstr ""
+"Неисправна путања просторног назива за иксмлнс префикс. Користите "
+"„http://www.w3.org/2000/xmlns/“"
+
+#: ../gxml/GomDocument.vala:165
+msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
+msgstr ""
+"Само иксмлнс префикси се могу користити са „http://www.w3.org/2000/xmlns/“"
+
+#: ../gxml/GomDocument.vala:205 ../gxml/GXmlDocument.vala:269
+msgid "Can't import a Document"
+msgstr "Не могу да увезем Документ"
+
+#: ../gxml/GomDocument.vala:207 ../gxml/GXmlDocument.vala:271
+msgid "Can't import a non Element type node to a Document"
+msgstr "Не могу да увезем у Документ чвор који није врста Елемента"
+
+#: ../gxml/GomDocument.vala:231 ../gxml/GXmlDocument.vala:295
+msgid "Can't adopt a Document"
+msgstr "Не могу да присвојим Документ"
+
+#. FIXME:
+#: ../gxml/GomDocument.vala:387 ../gxml/GomElement.vala:180
+#: ../gxml/GXmlElement.vala:317
+msgid "DomElement query_selector is not implemented"
+msgstr "„query_selector“ Дом елемента није примењен"
+
+#. FIXME:
+#: ../gxml/GomDocument.vala:391 ../gxml/GomElement.vala:184
+#: ../gxml/GXmlElement.vala:321
+msgid "DomElement query_selector_all is not implemented"
+msgstr "„query_selector_all“ Дом елемента није примењен"
+
+#: ../gxml/GomElement.vala:88
+msgid "Invalid namespace URI stored in element's attribute"
+msgstr "Неисправна путања просторног назива смештеног у атрибуту елемента"
+
+#: ../gxml/GomElement.vala:95 ../gxml/GomElement.vala:119
+msgid "Invalid attribute name in element's attributes list"
+msgstr "Неисправан назив атрибута на списку атрибута елемента"
+
+#: ../gxml/GomElement.vala:339 ../gxml/GomElement.vala:377
+#, c-format
+#| msgid "Invalid element name"
+msgid "Invalid attribute name: %s"
+msgstr "Неисправан назив атрибута: %s"
+
+#: ../gxml/GomElement.vala:341 ../gxml/GomElement.vala:379
+#| msgid "Invalid node type to start after"
+msgid "Invalid node type. DomAttr was expected"
+msgstr "Неисправна врста чвора. Очекивано је „DomAttr“"
+
+#: ../gxml/GomElement.vala:384
+msgid ""
+"Namespace attributes prefixed with xmlns should use a namespace uri http://"
+"www.w3.org/2000/xmlns"
+msgstr ""
+"Атрибути простроног назива који имају иксмлнс као префикс треба да користе "
+"путању просторног назива „http://www.w3.org/2000/xmlns“"
+
+#: ../gxml/GomElement.vala:391
+#, c-format
+msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
+msgstr ""
+"Атрибути са простроним називом треба да обезбеде не-ништаван, не-празан "
+"префикс: %s"
+
+#: ../gxml/GomElement.vala:395
+msgid "Invalid namespace attribute's name."
+msgstr "Неисправан назив атрибута просторног назива."
+
+#: ../gxml/GomElement.vala:415
+#, c-format
+msgid "Redefinition of default namespace for %s"
+msgstr "Поновно дефинисање основног просторног назива за „%s“"
+
+#: ../gxml/GomElement.vala:439
+#, c-format
+msgid "Redefinition of namespace's prefix for %s"
+msgstr "Поновно дефинисање префикса просторног назива за „%s“"
+
+#: ../gxml/GomElement.vala:455
+msgid "Trying to add an attribute with an undefined namespace prefix"
+msgstr "Покушавам да додам атрибут са недефинисаним префиксом просторног назива"
+
+#: ../gxml/GomElement.vala:461
+msgid "Trying to add an attribute with a non found namespace URI"
+msgstr "Покушавам да додам атрибут са не пронађеном путањом просторног назива"
+
+#: ../gxml/GomElement.vala:520
+msgid "Invalid attribute name. Just one prefix is allowed"
+msgstr "Неисправан назив атрибута. Дозвољен је само један префикс"
+
+#: ../gxml/GomElement.vala:524
+#, c-format
+msgid "Invalid attribute name. Invalid use of colon: %s"
+msgstr "Неисправан назив атрибута. Неисправно коришћење двотачке: %s"
+
+#: ../gxml/GomElement.vala:528
+msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
+msgstr ""
+"Неисправан просторни назив. Ако је префикс ништаван, путања просторног "
+"назива не треба бити ништавна"
+
+#: ../gxml/GomElement.vala:530
+msgid ""
+"Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
+"org/2000/xmlns/"
+msgstr ""
+"Неисправан просторни назив. Ако је префикс иксмл, путања просторног назива "
+"треба бити „http://www.w3.org/2000/xmlns/“"
+
+#: ../gxml/GomElement.vala:532
+msgid ""
+"Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
+"http://www.w3.org/2000/xmlns/"
+msgstr ""
+"Неисправан просторни назив. Ако је префикс атрибута иксмлнс, путања треба "
+"бити „http://www.w3.org/2000/xmlns/“"
+
+#: ../gxml/GomElement.vala:534
+msgid ""
+"Invalid namespace. If attribute's name is xmlns, namespace URI should be "
+"http://www.w3.org/2000/xmlns/"
+msgstr ""
+"Неисправан просторни назив. Ако је назив атрибута иксмлнс, путања треба бити "
+"„http://www.w3.org/2000/xmlns/“"
+
+#: ../gxml/GomElement.vala:536
+msgid "Invalid attribute name. No prefixed attributes should use xmlns name"
+msgstr ""
+"Неисправан назив атрибута. Ниједан атрибут са префиксом не треба да користи "
+"назив иксмлнс"
+
+#: ../gxml/GomElement.vala:540
+msgid "Setting namespaced property error: "
+msgstr "Грешка подешавања својства просторног назива: "
+
+#: ../gxml/GomElement.vala:547
+msgid "Removing attribute Error: "
+msgstr "Грешка уклањања атрибута: "
+
+#: ../gxml/GomElement.vala:552
+msgid "Removing namespaced attribute Error: "
+msgstr "Грешка уклањања атрибута просторног назива: "
+
+#: ../gxml/GomNode.vala:150
+msgid "Text content in element can't be created"
+msgstr "Садржај текста у елементу се не може направити"
+
+#: ../gxml/GomNode.vala:203 ../gxml/GXmlNode.vala:276
+msgid "Can't find node position"
+msgstr "Не могу да нађем положај чвора"
+
+#: ../gxml/GomNode.vala:251
+#, c-format
+msgid ""
+"Trying to add a namespaced element to a parent with invalid prefix for "
+"namespace %s"
+msgstr ""
+"Покушавам да додам просторно именовани елемент родитељу са неисправним "
+"префиксом за просторни назив „%s“"
+
+#: ../gxml/GomNode.vala:256
+#, c-format
+msgid ""
+"Trying to add a namespaced element to a parent with invalid URI for prefix %s"
+msgstr ""
+"Покушавам да додам просторно именовани елемент родитељу са неисправном "
+"путањом за префикс „%s“"
+
+#: ../gxml/GomNode.vala:268 ../gxml/GomNode.vala:310 ../gxml/GXmlNode.vala:307
+#: ../gxml/GXmlNode.vala:338
+msgid "Invalid attempt to add invalid node type"
+msgstr "Неисправан покушај додавања неисправне врсте чвора"
+
+#: ../gxml/GomNode.vala:271 ../gxml/GXmlNode.vala:309
+msgid "Can't find child to insert node before"
+msgstr "Не могу да нађем пород да уметнем чвор пре"
+
+#: ../gxml/GomNode.vala:276 ../gxml/GomNode.vala:316 ../gxml/GXmlNode.vala:313
+#: ../gxml/GXmlNode.vala:344
+msgid "Invalid attempt to insert a node"
+msgstr "Неисправан покушај уметања чвора"
+
+#: ../gxml/GomNode.vala:284 ../gxml/GomNode.vala:323 ../gxml/GXmlNode.vala:320
+#: ../gxml/GXmlNode.vala:351
+msgid "Invalid attempt to insert an invalid node type"
+msgstr "Неисправан покушај уметања неисправне врсте чвора"
+
+#: ../gxml/GomNode.vala:288
+#| msgid ""
+#| "Invalid attempt to insert a document's type or text node to a invalid "
+#| "parent"
+msgid ""
+"Invalid attempt to insert a document or text type to an invalid parent node"
+msgstr ""
+"Неисправан покушај уметања документа или врсте текста неисправном "
+"родитељском чвору"
+
+#: ../gxml/GomNode.vala:301
+msgid "Node type is invalid. Can't append as child"
+msgstr "Врста чвора је неисправна. Не могу да приложим као пород"
+
+#: ../gxml/GomNode.vala:304
+msgid "Invalid attempt to append a child with different parent document"
+msgstr ""
+"Неисправан покушај прилагања порода са другачијим родитељским документом"
+
+#: ../gxml/GomNode.vala:312 ../gxml/GXmlNode.vala:340
+msgid "Can't find child node to replace or child have a different parent"
+msgstr "Не могу да нађем чвор порода да заменим или пород има другог родитеља"
+
+#: ../gxml/GomNode.vala:326 ../gxml/GXmlNode.vala:323 ../gxml/GXmlNode.vala:354
+#| msgid ""
+#| "Invalid attempt to insert a document's type or text node to a invalid "
+#| "parent"
+msgid ""
+"Invalid attempt to insert a document's type or text node to an invalid parent"
+msgstr ""
+"Неисправан покушај уметања врсте документа или чвора текста неисправном "
+"родитељу"
+
+#: ../gxml/GomNode.vala:338 ../gxml/GXmlNode.vala:366
+msgid "Can't find child node to remove or child have a different parent"
+msgstr "Не могу да нађем чвор порода да уклоним или пород има другог родитеља"
+
+#: ../gxml/GomObject.vala:168
+msgid "Enumeration is out of range"
+msgstr "Набрајање је ван опсега"
+
+#: ../gxml/GomObject.vala:265
+msgid "Enumeration can't be parsed from string"
+msgstr "Набрајање се не може обрадити из ниске"
+
+#: ../gxml/GomObject.vala:365
+#, c-format
+msgid "Error while attempting to instantiate property object: %s"
+msgstr "Грешка приликом покушаја покретања објекта својства: %s"
+
+#: ../gxml/GomProperty.vala:336
+msgid "Error when transform enum to attribute's value"
+msgstr "Грешка приликом претварња набрајања за вредност атрибута"
+
+#: ../gxml/GomProperty.vala:344
+msgid "Error when transform from attribute string value to enum"
+msgstr "Грешка приликом претварња из вредности ниске атрибута у набрајање"
+
+#: ../gxml/GomProperty.vala:390
+#| msgid "Invalid offset for replace data"
+msgid "Invalid Date for property: "
+msgstr "Неисправан датум за својство: "
+
+#: ../gxml/GomProperty.vala:429
+#| msgid "Invalid offset for replace data"
+msgid "Invalid timestamp for property: "
+msgstr "Неисправна временска ознака за својство: "
+
+#: ../gxml/GXmlDocument.vala:56 ../gxml/Parser.vala:73
+#: ../gxml/TDocument.vala:474
 msgid "File doesn't exist"
 msgstr "Датотека не постоји"
 
-#: ../gxml/GXmlDocument.vala:79
+#: ../gxml/GXmlDocument.vala:80
 msgid "stream doesn't provide data"
 msgstr "ток не обезбеђује податке"
 
-#: ../gxml/GXmlDocument.vala:224
+#: ../gxml/GXmlDocument.vala:225
 msgid "Invalid element qualified name: multiple namespace prefixes"
 msgstr ""
 "Неисправан назив квалификованог елемента: неколико префикса називног простора"
 
-#: ../gxml/GXmlDocument.vala:268
-msgid "Can't import a Document"
-msgstr "Не могу да увезем Документ"
-
-#: ../gxml/GXmlDocument.vala:270
-msgid "Can't import a non Element type node to a Document"
-msgstr "Не могу да увезем у Документ чвор који није врста Елемента"
-
-#: ../gxml/GXmlDocument.vala:294
-msgid "Can't adopt a Document"
-msgstr "Не могу да присвојим Документ"
-
 #: ../gxml/GXmlDomCollections.vala:52
+#| msgid ""
+#| "DOM: Invalid token. No empty string can could be used as token to check "
+#| "if it is contained in token list"
 msgid ""
-"DOM: Invalid token. No empty string can could be used as token to check if "
-"it is contained in token list"
+"DOM: Invalid token. No empty string could be used as token to check if it is "
+"contained in token list"
 msgstr ""
 "ДОМ: Неисправан симбол. Ниједна празна ниска се не може користити као симбол "
 "да се провери да ли је садржан у списку симбола"
 
 #: ../gxml/GXmlDomCollections.vala:54
-#| msgid "DOM: No white spaces should be included in token"
 msgid ""
 "DOM: Invalid token. No white spaces could be included as token to check if "
 "it is contained in token list"
@@ -89,14 +404,16 @@ msgstr ""
 "да се провери да ли је садржан у списку симбола"
 
 #: ../gxml/GXmlDomCollections.vala:61 ../gxml/GXmlDomCollections.vala:84
-#| msgid "DOM: No empty string could be a token"
 msgid "DOM: Invalid token. Empty string can't be used as token"
 msgstr "ДОМ: Неисправан симбол. Празна ниска се не може користити као симбол"
 
 #: ../gxml/GXmlDomCollections.vala:63 ../gxml/GXmlDomCollections.vala:86
-#| msgid "DOM: No white spaces should be included in token"
 msgid "DOM: Invalid token. White spaces can't be used as token"
 msgstr "ДОМ: Неисправан симбол. Празна места се не могу користити као симбол"
+
+#: ../gxml/GXmlDomCollections.vala:100
+msgid "Update Error: "
+msgstr "Грешка освежавања: "
 
 #: ../gxml/GXmlDomRange.vala:50 ../gxml/GXmlDomRange.vala:78
 #: ../gxml/GXmlDomRange.vala:151
@@ -125,126 +442,48 @@ msgid "Invalid node type to start after"
 msgstr "Неисправна врста чвора за почетак након"
 
 #: ../gxml/GXmlDomRange.vala:166
-msgid "Invalid root's in range"
-msgstr "Неисправан коренов у опсегу"
+#| msgid "Invalid root's in range"
+msgid "Invalid root in the source range"
+msgstr "Неисправан корен у опсегу извора"
 
-#. FIXME:
-#: ../gxml/GXmlElement.vala:313
-msgid "DomElement query_selector is not implemented"
-msgstr "„query_selector“ Дом елемента није примењен"
+#: ../gxml/GXmlElement.vala:342
+msgid "invalid namespace. Code: "
+msgstr "неисправан просторни назив. Код: "
 
-#. FIXME:
-#: ../gxml/GXmlElement.vala:317
-msgid "DomElement query_selector_all is not implemented"
-msgstr "„query_selector_all“ Дом елемента није примењен"
-
-#: ../gxml/GXmlHashMapAttr.vala:240
-#| msgid "Invalid document when addin item to collection"
+#: ../gxml/GXmlHashMapAttr.vala:242
 msgid "Invalid document when adding item to collection"
 msgstr "Неисправан документ приликом додавања ставке у збирку"
 
-#: ../gxml/GXmlHashMapAttr.vala:242 ../gxml/GXmlHashMapAttr.vala:294
+#: ../gxml/GXmlHashMapAttr.vala:244 ../gxml/GXmlHashMapAttr.vala:296
 msgid "This node collection is read only"
 msgstr "Ова збирка чвора је само за читање"
 
-#: ../gxml/GXmlHashMapAttr.vala:244 ../gxml/GXmlHashMapAttr.vala:296
+#: ../gxml/GXmlHashMapAttr.vala:246 ../gxml/GXmlHashMapAttr.vala:298
 msgid "This node attribute is already in use by other Element"
 msgstr "Овај атрибут чвора је већ у употреби другим Елементом"
 
-#: ../gxml/GXmlHashMapAttr.vala:246 ../gxml/GXmlHashMapAttr.vala:298
+#: ../gxml/GXmlHashMapAttr.vala:248 ../gxml/GXmlHashMapAttr.vala:300
 msgid "Trying to add an object to an Element, but it is not an attribute"
 msgstr "Покушавам да додам објекат у Елемент, али није атрибут"
 
-#: ../gxml/GXmlHashMapAttr.vala:258 ../gxml/GXmlHashMapAttr.vala:314
+#: ../gxml/GXmlHashMapAttr.vala:260 ../gxml/GXmlHashMapAttr.vala:316
 #, c-format
 msgid "No node with name %s was found"
 msgstr "Нисам нашао чвор под називом „%s“"
 
-#: ../gxml/GXmlHashMapAttr.vala:260 ../gxml/GXmlHashMapAttr.vala:316
+#: ../gxml/GXmlHashMapAttr.vala:262 ../gxml/GXmlHashMapAttr.vala:318
 msgid "Node collection is read only"
 msgstr "Збирка чвора је само за читање"
 
-#: ../gxml/GXmlHashMapAttr.vala:292
-#| msgid "Invalid document when addin item to collection"
+#: ../gxml/GXmlHashMapAttr.vala:294
 msgid "Invalid document when adding item to named node map collection"
 msgstr ""
 "Неисправан документ приликом додавања ставке у збирку мапе именованог чвора"
 
-#: ../gxml/GXmlNode.vala:259
-msgid "Can't find node position"
-msgstr "Не могу да нађем положај чвора"
-
-#: ../gxml/GXmlNode.vala:290 ../gxml/GXmlNode.vala:321
-#| msgid "Invalid atemp to add invalid node type"
-msgid "Invalid attempt to add invalid node type"
-msgstr "Неисправан покушај додавања неисправне врсте чвора"
-
-#: ../gxml/GXmlNode.vala:292
-msgid "Can't find child to insert node before"
-msgstr "Не могу да нађем пород да уметнем чвор пре"
-
-#: ../gxml/GXmlNode.vala:296 ../gxml/GXmlNode.vala:327
-#| msgid "Invalid atemp to insert a node"
-msgid "Invalid attempt to insert a node"
-msgstr "Неисправан покушај уметања чвора"
-
-#: ../gxml/GXmlNode.vala:303 ../gxml/GXmlNode.vala:334
-#| msgid "Invalid atemp to insert an invalid node type"
-msgid "Invalid attempt to insert an invalid node type"
-msgstr "Неисправан покушај уметања неисправне врсте чвора"
-
-#: ../gxml/GXmlNode.vala:306 ../gxml/GXmlNode.vala:337
-#| msgid ""
-#| "Invalid atemp to insert a document's type or text node to a invalid parent"
-msgid ""
-"Invalid attempt to insert a document's type or text node to a invalid parent"
-msgstr ""
-"Неисправан покушај уметања врсте документа или чвора текста неисправном "
-"родитељу"
-
-#: ../gxml/GXmlNode.vala:323
-msgid "Can't find child node to replace or child have a different parent"
-msgstr "Не могу да нађем чвор порода да заменим или пород има другог родитеља"
-
-#: ../gxml/GXmlNode.vala:349
-msgid "Can't find child node to remove or child have a different parent"
-msgstr "Не могу да нађем чвор порода да уклоним или пород има другог родитеља"
-
-#: ../gxml/libxml-ChildNodeList.vala:148
-#, c-format
-msgid "ref_child '%s' not found, was supposed to have '%s' inserted before it."
-msgstr ""
-"нисам нашао „ref_child %s“, претпостављало се да је „%s“ уметнуто пре њега."
-
-#: ../gxml/libxml-Document.vala:128
-#, c-format
-msgid "Looking up %s from an xmlNode* is not supported"
-msgstr "Тражење „%s“ из иксмлЧвора* није подржано"
-
-#: ../gxml/libxml-Document.vala:303
-#, c-format
-msgid "Could not load document from path: %s"
-msgstr "Не могу да учитам документ из путање: %s"
-
-#: ../gxml/libxml-Entity.vala:130
-msgid "Cloning of Entity not yet supported"
-msgstr "Клонирање ентитета још није подржано"
-
-#. TODO: replace usage of this with GXml.get_last_error_msg
-#: ../gxml/libxml-Error.vala:13
+#: ../gxml/GXmlNode.vala:42
 #, c-format
 msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
-
-#: ../gxml/libxml-Node.vala:68
-msgid ""
-"Node tried to interact with a different document than the one it belongs to"
-msgstr ""
-"Чвор је покушао да делује са другим документом уместо са оним којем припада"
-
-#: ../gxml/Node.vala:202
-msgid "Text node with NULL string"
-msgstr "Чвор текста са НИШТАВНОМ ниском"
 
 #: ../gxml/SerializableEnum.vala:75
 msgid "Value can't be parsed to a valid enumeration's value. Value is not set"
@@ -301,19 +540,93 @@ msgstr "Грешка преображаја на „%s“ или неподрж�
 msgid "Can't transform '%s' to string"
 msgstr "Не могу да преобратим „%s“ у ниску"
 
-#: ../gxml/TDocument.vala:151
-msgid "Document has more than one root GXmlElement. Using first found"
-msgstr ""
-"Документ има више од једног кореног ГИксмл елемента. Користићу први пронађен"
-
-#: ../gxml/TDocument.vala:170
+#: ../gxml/TDocument.vala:168
 msgid "Invalid element name"
 msgstr "Неисправан назив елемента"
 
-#: ../gxml/TDocument.vala:575
+#: ../gxml/TDocument.vala:573 ../gxml/XParser.vala:217
 #, c-format
 msgid "Parsing ERROR: Fail to move to attribute number: %i"
 msgstr "Грешка обраде: Нисам успео да пређем на број атрибута: %i"
+
+#: ../gxml/XParser.vala:90
+#| msgid "Invalid document when adding item to collection"
+msgid "Invalid document string, it is empty or is not allowed"
+msgstr "Неисправна ниска документа, празан је или није дозвољен"
+
+#: ../gxml/XParser.vala:147
+#| msgid "Can't find node position"
+msgid "Can't read node data"
+msgstr "Не могу да читам податке чвора"
+
+#: ../gxml/XParser.vala:429
+msgid ""
+"Invalid attempt to parse an element node, when current found node is not"
+msgstr "Неисправан покушај обраде чвора елемента, када текући нађени чвор није"
+
+#: ../gxml/XParser.vala:518
+#| msgid "Invalid document when adding item to collection"
+msgid "Invalid object type set to Collection"
+msgstr "Неисправна врста објекта је подешена у збирци"
+
+#: ../gxml/XParser.vala:522
+#| msgid "Invalid document when adding item to collection"
+msgid "Invalid DomElement name for objects in Collection"
+msgstr "Неисправан назив Дом_елемента за објекте у збирци"
+
+#: ../gxml/XParser.vala:526
+#| msgid "Invalid document when adding item to collection"
+msgid "Invalid Element set to Collection"
+msgstr "Неисправан елемент је подешен у збирци"
+
+#: ../gxml/XParser.vala:534
+msgid "No document is set to node"
+msgstr "Ниједан документ није подешен у чвору"
+
+#: ../gxml/GomSchema.vala:266
+#, c-format
+msgid "Error removing Collection's element: %s"
+msgstr "Грешка уклањања елемента збирке: %s"
+
+#: ../gxml/GomSchema.vala:275
+#, c-format
+#| msgid "Can't find node position"
+msgid "Can't find element at position: %i : %s"
+msgstr "Не могу да нађем елемент на положају: %i: %s"
+
+#: ../gxml/GomSchema.vala:289 ../gxml/GomSchema.vala:297
+#: ../gxml/GomSchema.vala:305 ../gxml/GomSchema.vala:313
+#: ../gxml/GomSchema.vala:321
+#, c-format
+msgid "Collection type %s, initialization error: %s"
+msgstr "Врста збирке „%s“, грешка покретања: %s"
+
+#~ msgid ""
+#~ "ref_child '%s' not found, was supposed to have '%s' inserted before it."
+#~ msgstr ""
+#~ "нисам нашао „ref_child %s“, претпостављало се да је „%s“ уметнуто пре "
+#~ "њега."
+
+#~ msgid "Looking up %s from an xmlNode* is not supported"
+#~ msgstr "Тражење „%s“ из иксмлЧвора* није подржано"
+
+#~ msgid "Could not load document from path: %s"
+#~ msgstr "Не могу да учитам документ из путање: %s"
+
+#~ msgid "Cloning of Entity not yet supported"
+#~ msgstr "Клонирање ентитета још није подржано"
+
+#~ msgid ""
+#~ "Node tried to interact with a different document than the one it belongs "
+#~ "to"
+#~ msgstr ""
+#~ "Чвор је покушао да делује са другим документом уместо са оним којем "
+#~ "припада"
+
+#~ msgid "Document has more than one root GXmlElement. Using first found"
+#~ msgstr ""
+#~ "Документ има више од једног кореног ГИксмл елемента. Користићу први "
+#~ "пронађен"
 
 #~ msgid "DOM: No empty string could be toggle"
 #~ msgstr "ДОМ: Празна ниска не може бити прекидач"
