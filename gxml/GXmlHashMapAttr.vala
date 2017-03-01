@@ -318,7 +318,9 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
       throw new GXml.DomError.NO_MODIFICATION_ALLOWED_ERROR (_("Node collection is read only"));
     // FIXME: Detects if no namespace is supported to rise exception  NOT_SUPPORTED_ERROR
     if (_parent is DomElement) {
-      (_parent as DomElement).set_attribute_ns (namespace_uri, local_name, null);
+      var ns = (_parent as GNode).get_internal_node ()->doc->search_ns_by_href ((_parent as GNode).get_internal_node (),
+                                                              namespace_uri);
+      (_parent as GNode).get_internal_node ()->set_ns_prop (ns, local_name, null);
       return n;
     }
     return null;
