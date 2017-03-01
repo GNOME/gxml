@@ -58,20 +58,16 @@ public interface GXml.SerializableCollection : Object, Gee.Traversable<Serializa
   public abstract bool deserialized ();
   /**
    * Executes a deserialization from a {@link GXml.Node}. After this operation
-   * {@link GXml.SerializableCollection.deserialized} should return true. This
-   * operation should not be executed if {@link GXml.SerializableCollection.is_prepared}
-   * return false;
+   * {@link GXml.SerializableCollection.deserialized} should return true.
    *
-   * This could override existing objects in collection.
+   * This could unref existing objects in collection.
    */
   public abstract bool deserialize_node (GXml.Node node) throws GLib.Error;
   /**
    * Executes a deserialization from all children nodes in a {@link GXml.Node}. After this operation
-   * {@link GXml.SerializableCollection.deserialized} should return true. This
-   * operation should not be executed if {@link GXml.SerializableCollection.is_prepared}
-   * return false;
+   * {@link GXml.SerializableCollection.deserialized} should return true.
    *
-   * This could override existing objects in collection.
+   * This could unref existing objects in collection.
    */
   public abstract bool deserialize_children () throws GLib.Error;
   /**

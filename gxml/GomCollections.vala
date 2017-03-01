@@ -23,8 +23,7 @@
 
 /**
  * An interface to keep references to {@link DomElement} in a {@link element}
- * child nodes. Only {@link GomObject} are supported. It can be filled out
- * using {@link update}.
+ * child nodes. Only {@link GomObject} are supported.
  */
 public interface GXml.GomCollection : Object
 {
@@ -44,7 +43,7 @@ public interface GXml.GomCollection : Object
    */
   public abstract string items_name { get; }
   /**
-   * A {@link Type} of {@link DomElement} child objects of {@link element},
+   * A {@link GLib.Type} of {@link DomElement} child objects of {@link element},
    * which could be contained in this collection.
    *
    * Type should be an {@link GomObject}.
@@ -52,7 +51,7 @@ public interface GXml.GomCollection : Object
   public abstract Type items_type { get; construct set; }
   /**
    * Search and add references to all {@link GomObject} nodes as child of
-   * {@link element} with same, case insensitive, name of {@link element_name}
+   * {@link element} with same, case insensitive, name of {@link items_name}
    */
   public abstract void search () throws GLib.Error;
   /**
@@ -262,7 +261,7 @@ public abstract class GXml.BaseCollection : Object {
 
 /**
  * A class impementing {@link GomCollection} to store references to
- * child {@link DomElement} of {@link element}, using an index.
+ * child {@link DomElement} of {@link GomCollection.element}, using an index.
  *
  * {{{
  *   public class YourObject : GomElement {
@@ -291,7 +290,7 @@ public class GXml.GomArrayList : GXml.BaseCollection, GomCollection {
 
 /**
  * Inteface to be implemented by {@link GomElement} derived classes
- * in order to provide a string to be used in {@link GomHasMap} as key.
+ * in order to provide a string to be used in {@link GomHashMap} as key.
  *
  * If {@link GomHashMap} has set its {@link GomHashMap.attribute_key}
  * its value has precedence over this method.
@@ -302,8 +301,8 @@ public interface GXml.MappeableElement : Object, DomElement {
 
 /**
  * A class impementing {@link GomCollection} to store references to
- * child {@link DomElement} of {@link element}, using an attribute in
- * items as key or {@link MappeableElement.map_key} method if implemented
+ * child {@link DomElement} of {@link GomCollection.element}, using an attribute in
+ * items as key or {@link MappeableElement.get_map_key} method if implemented
  * by items to be added. If key is not defined in node, it is not added; but
  * keeps it as a child node of actual {@link GomCollection.element}.
  *
@@ -438,7 +437,7 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.GomCollection {
 
 /**
  * Inteface to be implemented by {@link GomElement} derived classes
- * in order to provide a string to be used in {@link GomHasMap} as key.
+ * in order to provide a string to be used in {@link GomHashMap} as key.
  *
  * If {@link GomHashMap} has set its {@link GomHashMap.attribute_key}
  * its value has precedence over this method.
@@ -450,9 +449,9 @@ public interface GXml.MappeableElementPairKey : Object, DomElement {
 
 /**
  * A class impementing {@link GomCollection} to store references to
- * child {@link DomElement} of {@link element}, using two attributes in
- * items as primary and secondary keys or {@link MappeableElementPairKey.map_primary_key}
- * and {@link MappeableElementPairKey.map_secondary_key} methods if
+ * child {@link DomElement} of {@link GomCollection.element}, using two attributes in
+ * items as primary and secondary keys or {@link MappeableElementPairKey.get_map_primary_key}
+ * and {@link MappeableElementPairKey.get_map_secondary_key} methods if
  * {@link MappeableElementPairKey} is implemented
  * by items to be added. If one or both keys are not defined in node,
  * it is not added; but keeps it as a child node of actual
@@ -460,9 +459,9 @@ public interface GXml.MappeableElementPairKey : Object, DomElement {
  *
  * If {@link GomElement} to be added is of type {@link GomCollection.items_type}
  * and implements {@link MappeableElementPairKey}, you should set
- * {@link GomHashMap.attribute_primary_key} and {@link GomHashMap.attribute_secondary_key}
- * to null in order to use returned value of {@link MappeableElementPairKey.map_primary_key}
- * and {@link MappeableElementPairKey.map_secondary_key}
+ * {@link attribute_primary_key} and {@link attribute_secondary_key}
+ * to null in order to use returned value of {@link MappeableElementPairKey.get_map_primary_key}
+ * and {@link MappeableElementPairKey.get_map_secondary_key}
  * as keys.
  *
  * {{{
@@ -589,8 +588,8 @@ public class GXml.GomHashPairedMap : GXml.BaseCollection, GXml.GomCollection {
     return ht.get_keys ();
   }
   /**
-   * Validates if given element has a {@link GomHashMap.attribute_primary_key}
-   * and {@link GomHashMap.attribute_secondary_key} set,
+   * Validates if given element has a {@link attribute_primary_key}
+   * and {@link attribute_secondary_key} set,
    * if so adds a new keys pointing to given index and returns true.
    *
    * Attribute should be a valid {@link DomElement} attribute or

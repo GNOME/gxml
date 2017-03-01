@@ -142,7 +142,7 @@ public class GXml.GomXsdComplexType : GomXsdBaseType {
    */
   public GomXsdList type_attributes { get { return _type_attributes; } }
   /**
-   * List of type {@link GomXsdGroupAttribute} definitions
+   * List of group {@link GomXsdAttribute} definitions
    */
   public GomXsdList group_attributes { get { return _group_attributes; } }
   construct {

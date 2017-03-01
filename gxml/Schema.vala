@@ -111,7 +111,6 @@ public interface GXml.IXsdComplexType : Object, DomElement, IXsdBaseType {
   * (#all | List of (extension | restriction))
   */
   public abstract string final { get; set; }
-  public abstract string? id { get; set; }
   public abstract bool mixed { get; set; }
   public abstract string name { get; set; }
   /**
@@ -123,13 +122,13 @@ public interface GXml.IXsdComplexType : Object, DomElement, IXsdBaseType {
    */
   public abstract IXsdBaseContent content_type { get; set; }
   /**
-   * List of type {@link IXsdAttribute} definitions
+   * List of {@link IXsdAttribute} definitions
    */
   public abstract IXsdListAttributes type_attributes { get; }
   /**
-   * List of type {@link IXsdGroupAttribute} definitions
+   * List of {@link IXsdAttributeGroup} definitions
    */
-  public abstract IXsdListGroupAttributes group_attributes { get; }
+  public abstract IXsdListAttributesGroup group_attributes { get; }
 }
 
 public interface GXml.IXsdExtension : Object, DomElement {
@@ -225,6 +224,6 @@ public interface GXml.IXsdListElements : Object, IXsdList {}
 public interface GXml.IXsdListSimpleTypes : Object, IXsdList {}
 public interface GXml.IXsdListComplexTypes : Object, IXsdList {}
 public interface GXml.IXsdListAttributes : Object, IXsdList {}
-public interface GXml.IXsdListGroupAttributes : Object, IXsdList {}
+public interface GXml.IXsdListAttributesGroup : Object, IXsdList {}
 public interface GXml.IXsdListTypeRestrictionEnumerations : Object, IXsdList {}
 public interface GXml.IXsdListTypeRestrictionWhiteSpaces : Object, IXsdList {}

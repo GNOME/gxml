@@ -118,9 +118,7 @@ namespace GXml {
       *
       * Implementors could set up methods to provide a clean easy to use API to set
       * nodes contents. In most cases, users would like to set a value through a getter
-      * or setter or through a property in the class. If you use a property, you should
-      * add it to {@link ignored_serializable_properties} in order to see its value
-      * in a XML node property.
+      * or setter or through a property in the class.
       *
      */
     public abstract bool serialize_use_xml_node_value ();
@@ -186,7 +184,7 @@ namespace GXml {
      * override the properties to serialize.
      *
      * @param property_node the {@link GXml.Node} encapsulating data to deserialize
-     * @return `true` if the property was handled, `false` if {@link GXml.Serialization} should handle it.
+     * @return `true` if the property was handled.
      */
     public abstract bool deserialize_property (GXml.Node property_node)
                                               throws GLib.Error;
@@ -234,28 +232,8 @@ namespace GXml {
                                                           ParamSpec prop);
 
     /**
-     * Handles finding the {@link GLib.ParamSpec} for a given property.
-     *
-     * {@link GXml.Serialization} uses {@link GLib.ObjectClass.find_property}
-     * (as well as {@link GLib.ObjectClass.list_properties},
-     * {@link GLib.Object.get_property}, and
-     * {@link GLib.Object.set_property}) to manage serialization
-     * of properties.  {@link GXml.Serializable} gives the
-     * implementing class an opportunity to override
-     * {@link GLib.ObjectClass.find_property} to control
-     * what properties exist for {@link GXml.Serialization}'s
-     * purposes.
-     *
-     * For instance, if an object has private data fields
-     * that are not installed public properties, but that
-     * should be serialized, {@link GLib.ObjectClass.find_property} can be defined
-     * to return a {@link GLib.ParamSpec} for non-installed
-     * properties.  Other {@link GXml.Serializable} functions
-     * should be consistent with it.
-     *
-     * An implementing class might wish to maintain such
-     * {@link GLib.ParamSpec} s separately, rather than creating new
-     * ones for each call.
+     * Handles finding the {@link GLib.ParamSpec} for a given property, it should
+     * a serializable property, see {@link list_serializable_properties}.
      *
      * @param property_name the name of a property to obtain a {@link GLib.ParamSpec} for
      * @return a {@link GLib.ParamSpec} describing the named property
@@ -288,29 +266,7 @@ namespace GXml {
     }
 
     /**
-     * List the known properties for an object's class
-     *
-     * Class {@link GXml.Serialization} uses
-     * {@link GLib.ObjectClass.list_properties} (as well as
-     * {@link GLib.ObjectClass.find_property},
-     * {@link GLib.Object.get_property}, and {@link GLib.Object.set_property})
-     * to manage serialization of an object's properties.
-     * {@link GXml.Serializable} gives an implementing class an
-     * opportunity to override
-     * {@link GLib.ObjectClass.list_properties} to control which
-     * properties exist for {@link GXml.Serialization}'s purposes.
-     *
-     * For instance, if an object has private data fields
-     * that are not installed public properties, but that
-     * should be serialized, list_properties can be
-     * defined to return a list of {@link GLib.ParamSpec} s covering
-     * all the "properties" to serialize.  Other
-     * {@link GXml.Serializable} functions should be consistent
-     * with it.
-     *
-     * An implementing class might wish to maintain such
-     * {@link GLib.ParamSpec} s separately, rather than creating new
-     * ones for each call.
+     * List the known properties for an object's class to be de/seriablizable.
      *
      * @return an array of {@link GLib.ParamSpec} of "properties" for the object.
      */
@@ -346,10 +302,10 @@ namespace GXml {
       * representation of a value into the type specified by the
       * supplied #GValue dest.  A #GXmlSerializableError will be
       * set if the string cannot be parsed into the desired type.
-      * 
+      *
       * {@link Serializable} interface support a number of data types to convert
       * from its string representation. These are supported types:
-      * 
+      *
       * a. integers: int8, int64, uint, long, ulong, char, uchar
       * a. boolean
       * a. floats: float, double

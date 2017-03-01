@@ -78,7 +78,7 @@ public interface GXml.Element : Object, GXml.Node
 
 /**
  * Convenient class for a list of {@link GXml.Element} objects based on
- * {@link Gee.ListArray}, with good support for bindings.
+ * {@link Gee.ArrayList}, with good support for bindings.
  */
 public class GXml.ElementList : ArrayList<Element>, GXml.DomHTMLCollection {
   // DomHTMLCollection

@@ -50,8 +50,7 @@ public abstract class GXml.GomBaseProperty : Object, GXml.GomProperty {
    */
   public abstract string? value { owned get; set; }
   /**
-   * Takes a string and check if it can be validated using
-   * {@link validation_rule}.
+   * Takes a string and check if it can be valid for this property.
    */
   public virtual bool validate_value (string val) { return true; }
 }
@@ -137,14 +136,13 @@ public class GXml.GomArrayString : GomBaseProperty {
 /**
  * Convenient class to handle a {@link GomElement}'s attribute
  * using a list of pre-defined and unmutable values, taken from
- * an {@link XsdSimpleType} definition
+ * an {@link IXsdSimpleType} definition
  */
 public class GXml.GomXsdArrayString : GomArrayString {
   protected GLib.File _source = null;
   protected string _simple_type = null;
   /**
-   * Name of {@link XsdSympleType} to use as source. If {@link source} is set
-   * calls {@link initialize_xsd}.
+   * Name of {@link IXsdSimpleType} to use as source.
    */
   public string simple_type {
     get { return _simple_type; }
@@ -152,8 +150,7 @@ public class GXml.GomXsdArrayString : GomArrayString {
   }
   /**
    * A {@link GLib.File} source to read from, simple type definitions in
-   * an XSD file type. Once it is set, search required {@link simple_type}
-   * definition name and call {@link initalize_xsd}
+   * an XSD file type.
    */
   public GLib.File source {
     get { return _source; }
@@ -164,8 +161,8 @@ public class GXml.GomXsdArrayString : GomArrayString {
   }
   /**
    * Load list of strings from a {@link GLib.File}, parsing using an
-   * {@link GomXsdSchema} object and searching for {@link XsdSimpleType}
-   * definition with name {@link source_type}.
+   * {@link GomXsdSchema} object and searching for {@link IXsdSimpleType}
+   * definition with name {@link simple_type}.
    */
   public void load () throws GLib.Error {
 #if DEBUG

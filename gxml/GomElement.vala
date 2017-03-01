@@ -61,7 +61,7 @@ public class GXml.GomElement : GomNode,
     parser.read_stream (istream, cancellable);
   }
   /**
-   * Parses an XML string, deserializing it over {@link GomElemen}.
+   * Parses an XML string, deserializing it over {@link GomElement}.
    */
   public void read_from_string (string str) throws GLib.Error {
     var parser = new XParser (this);
@@ -250,7 +250,7 @@ public class GXml.GomElement : GomNode,
    * already.
    *
    * Any instance properties of type {@link GomElement} or {@link GomCollection}
-   * should be initialized using {@link GomObject.create_instance_property}
+   * should be initialized using {@link GomObject.set_instance_property}
    */
   public void initialize (string local_name) {
     _local_name = local_name;

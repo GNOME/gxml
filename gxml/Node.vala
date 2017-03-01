@@ -217,7 +217,7 @@ public interface GXml.Node : Object
 
 /**
  * Convenient class for a list of {@link GXml.Node} objects based on
- * {@link Gee.ListArray}, with good support for bindings.
+ * {@link Gee.ArrayList}, with good support for bindings.
  */
 public class GXml.NodeList : Gee.ArrayList<GXml.Node> {
   public new GXml.Node get (int index) { return base.get (index); }

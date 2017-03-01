@@ -295,7 +295,7 @@ public class GXml.XParser : Object, GXml.Parser {
    * parent: depending on current node's type found by parser.
    *
    * If current found node is a {@link DomElement}, it is not parsed.
-   * If you want to parse it use {@link parse_element} method.
+   * If you want to parse it use {@link read_element} method.
    *
    * Returns: true if node has been created and appended to parent.
    */

@@ -103,7 +103,7 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
    * belonging to given document.
    *
    * Only {@link GXml.DomElement} objects are supported. For attributes, use
-   * {@link GXml.DomElement.set_attr} method, passing source's name and value as arguments.
+   * {@link GXml.DomElement.set_attribute} method, passing source's name and value as arguments.
    *
    * @param doc a {@link GXml.DomDocument} owning destiny node
    * @param node a {@link GXml.DomElement} to copy nodes to

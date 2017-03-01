@@ -51,7 +51,7 @@ public interface GXml.GomObject : GLib.Object,
     return l;
   }
   /**
-   * Returns property's {@link ParamSpec} based on given nick. This function is
+   * Returns property's {@link GLib.ParamSpec} based on given nick. This function is
    * case insensitive.
    */
   public virtual ParamSpec? find_property_name (string pname) {
@@ -75,7 +75,7 @@ public interface GXml.GomObject : GLib.Object,
   }
   /**
    * Returns a {@link GomObject} or a {@link GomCollection} property's
-   * {@link ParamSpec} based on given name. This method is
+   * {@link GLib.ParamSpec} based on given name. This method is
    * case insensitive.
    *
    * This method will check if nick's name is equal than given name
@@ -204,7 +204,7 @@ public interface GXml.GomObject : GLib.Object,
    * transformation from string.
    *
    * By default all {@link GLib.Object} are children of
-   * this object, see {@link set_child}
+   * this object.
    */
   public virtual bool set_attribute (string name, string val) {
 #if DEBUG
@@ -273,7 +273,7 @@ public interface GXml.GomObject : GLib.Object,
   /**
    * Search a {@link GLib.Object} property with given name
    * and returns it, if it is a {@link DomElement}. If not found,
-   * {@link DomNode.get_elements_by_tag_name} is called, returning
+   * {@link DomElement.get_elements_by_tag_name} is called, returning
    * first node found. Tag name to use, is the given name parameter.
    *
    * @param name a name of this object's property of type {@link DomElement} or
