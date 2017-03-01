@@ -307,7 +307,7 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
     Document doc;
     if (node is Document) {
       doc = (Document) node;
-      return_val_if_fail (doc.root != null, null);
+      return_val_if_fail (doc.root != null, false);
     }
     else
       doc = node.document;
