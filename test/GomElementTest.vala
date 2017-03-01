@@ -28,11 +28,6 @@ class GomElementTest : GXmlTest  {
 			DomDocument doc = null;
 			try {
 				doc = new GomDocument.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
-			} catch (GLib.Error e) {
-				GLib.message (e.message);
-				assert_not_reached ();
-			}
-			try {
 				GXml.GomNode root = (GXml.GomNode) doc.document_element;
 				assert (root != null);
 				assert (root.node_name == "Potions");

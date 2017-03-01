@@ -79,8 +79,8 @@ class GomDocumentTest : GXmlTest {
 				var s = new GLib.StringBuilder ();
 				s.append ("""<document_element />""");
 				var d = new GomDocument.from_string (s.str);
-				var parser = new XParser (d);
 #if DEBUG
+				var parser = new XParser (d);
 				message ("Saving to file: "+f.get_uri ());
 				message ("XML:\n"+parser.write_string ());
 #endif
@@ -197,7 +197,6 @@ class GomDocumentTest : GXmlTest {
 		});
 		Test.add_func ("/gxml/gom-document/construct_from_stream_error", () => {
 				File fin;
-				InputStream instream;
 				FileIOStream iostream;
 				DomDocument doc;
 
@@ -247,7 +246,6 @@ class GomDocumentTest : GXmlTest {
 			try {
 				string xml;
 				DomDocument doc;
-				GXml.DomNode document_element;
 
 				xml = """<?xml version="1.0"?>""";
 				doc = new GomDocument.from_string (xml);
@@ -258,7 +256,6 @@ class GomDocumentTest : GXmlTest {
 			try {
 				string xml;
 				DomDocument doc;
-				GXml.DomNode document_element;
 
 				xml = "";
 				doc = new GomDocument.from_string (xml);
@@ -267,7 +264,6 @@ class GomDocumentTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/gom-document/save", () => {
 				DomDocument doc;
-				int exit_status;
 
 				try {
 					doc = new GomDocument.from_string ("<document_element />");
@@ -358,8 +354,6 @@ class GomDocumentTest : GXmlTest {
 				assert (doc.document_element != null);
 				((DomElement) doc.document_element).set_attribute ("attrname", "attrvalue");
 				assert (doc.document_element.attributes.size == 1);
-				var parser = new XParser (doc);
-				//Test.message ("DOC:"+parser.write_string ());
 				var attr = ((DomElement) doc.document_element).get_attribute ("attrname");
 #if DEBUG
 				GLib.message ("Attr value: "+attr);
@@ -392,8 +386,8 @@ class GomDocumentTest : GXmlTest {
 		Test.add_func ("/gxml/gom-document/to_string/extended", () => {
 			try {
 				var d = new GomDocument.from_path (GXmlTestConfig.TEST_DIR+"/gdocument-read.xml");
-				var parser = new XParser (d);
 #if DEBUG
+				var parser = new XParser (d);
 				GLib.message ("Document Read:"+parser.write_string ());
 #endif
 				assert (d.document_element != null);
@@ -471,9 +465,9 @@ class GomDocumentTest : GXmlTest {
          xmlns:gnome="http://api.gnome.org/doap-extensions#"
          xmlns="http://usefulinc.com/ns/doap#"><child/></Project>""");
 				assert (doc.document_element.prefix == null);
+#if DEBUG
 				var parser = new XParser (doc);
 				string str = parser.write_string ();
-#if DEBUG
 				message ("Read: "+str);
 #endif
 			} catch (GLib.Error e) {

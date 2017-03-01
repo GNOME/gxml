@@ -26,15 +26,11 @@ using GXml;
 class GomName : GomElement
 {
   construct { try { initialize ("Name"); } catch { assert_not_reached (); } }
-  public string get_name () { return this.text_content; }
-  public void   set_name (string name) { this.text_content = name; }
 }
 
 class GomEmail : GomElement
 {
   construct {  try { initialize ("Email"); } catch { assert_not_reached (); } }
-  public string get_mail () { return this.text_content; }
-  public void   set_mail (string email) { text_content = email; }
 }
 
 class GomAuthor : GomElement
@@ -131,17 +127,6 @@ class GomBookStore : GomElement
   public GomBook.Array books { get; set; }
   construct {
     try { initialize ("BookStore"); } catch { assert_not_reached (); }
-  }
-  public string to_string () {
-    var parser = new XParser (this);
-    string s = "";
-    try {
-      s = parser.write_string ();
-    } catch (GLib.Error e) {
-      GLib.message ("Error: "+e.message);
-      assert_not_reached ();
-    }
-    return s;
   }
 }
 
@@ -297,11 +282,6 @@ class GomSerializationTest : GXmlTest  {
     public Books books { get; set; }
     construct {
       try { initialize ("BookStand"); } catch { assert_not_reached (); }
-    }
-    public BookRegister create_register () {
-      return Object.new (typeof (BookRegister),
-                          "element", this)
-                        as BookRegister;
     }
     public string to_string () {
       var parser = new XParser (this);
@@ -459,7 +439,6 @@ class GomSerializationTest : GXmlTest  {
 #endif
     });
     Test.add_func ("/gxml/gom-serialization/write/property-long-name", () => {
-    try {
       var t = new Taxes ();
       string s = t.to_string ();
       assert (s != null);
@@ -487,13 +466,8 @@ class GomSerializationTest : GXmlTest  {
 #if DEBUG
       GLib.message ("DOC:"+s);
 #endif
-    } catch (GLib.Error e) {
-      GLib.message ("Error: "+e.message);
-      assert_not_reached ();
-    }
     });
     Test.add_func ("/gxml/gom-serialization/write/property-date", () => {
-    try {
       var t = new Taxes ();
       string s = t.to_string ();
       assert (s != null);
@@ -523,10 +497,6 @@ class GomSerializationTest : GXmlTest  {
       GLib.message ("DOC:"+s);
 #endif
       assert ("PayDate=\"2023-03-10\"" in s);
-    } catch (GLib.Error e) {
-      GLib.message ("Error: "+e.message);
-      assert_not_reached ();
-    }
     });
     Test.add_func ("/gxml/gom-serialization/read/property-date", () => {
     try {
@@ -551,7 +521,6 @@ class GomSerializationTest : GXmlTest  {
     }
     });
     Test.add_func ("/gxml/gom-serialization/write/property-datetime", () => {
-    try {
       var t = new Taxes ();
       string s = t.to_string ();
       assert (s != null);
@@ -583,10 +552,6 @@ class GomSerializationTest : GXmlTest  {
       GLib.message ("DOC:"+s2);
 #endif
       assert ("Timestamp=\"2023-03-10T15:23:10\"" in s2);
-    } catch (GLib.Error e) {
-      GLib.message ("Error: "+e.message);
-      assert_not_reached ();
-    }
     });
     Test.add_func ("/gxml/gom-serialization/write/property-arraylist", () => {
     try {
@@ -773,7 +738,6 @@ class GomSerializationTest : GXmlTest  {
     }
     });
     Test.add_func ("/gxml/gom-serialization/write/gom-property", () => {
-    try {
       var m = new Motor ();
       string s = m.to_string ();
       assert (s != null);
@@ -857,10 +821,6 @@ class GomSerializationTest : GXmlTest  {
       assert (m.model.search ("MODEL1"));
       m.model.value = "MODEL1";
       assert (m.model.is_valid_value ());
-    } catch (GLib.Error e) {
-      GLib.message ("Error: "+e.message);
-      assert_not_reached ();
-    }
     });
     Test.add_func ("/gxml/gom-serialization/read/properties", () => {
     try {

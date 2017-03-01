@@ -31,7 +31,6 @@ class TDocumentTest : GXmlTest {
 	}
 	public static void add_tests () {
 		Test.add_func ("/gxml/t-document", () => {
-			try {
 				var d = new TDocument ();
 				assert (d.name == "#document");
 				assert (d.root == null);
@@ -39,13 +38,6 @@ class TDocumentTest : GXmlTest {
 				assert (d.attrs != null);
 				assert (d.children_nodes.size == 0);
 				assert (d.value == null);
-			}
-			catch (GLib.Error e) {
-#if DEBUG
-				GLib.message (@"ERROR: $(e.message)");
-#endif
-				assert_not_reached ();
-			}
 		});
 		Test.add_func ("/gxml/t-document/root", () => {
 			try {
@@ -418,7 +410,6 @@ class TDocumentTest : GXmlTest {
 					assert (c.attrs.size == 1);
 					var pt = c.attrs.get ("gxml:prop");
 					assert (pt != null);
-					var pt2 = (c as Element).get_ns_attr ("prop", doc.namespaces[0].uri);
 					str = doc.to_string ().split("\n");
 					assert (str[1] == "<root xmlns:gxml=\"http://www.gnome.org/GXml\"><gxml2:child xmlns:gxml2=\"http://www.gnome.org/GXml2\" gxml:prop=\"Ten\"/></root>");
 				} catch (GLib.Error e) {
@@ -499,7 +490,6 @@ class TDocumentTest : GXmlTest {
 			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
 		});
 		Test.add_func ("/gxml/t-document/read/namespace", () => {
-			try {
 				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/t-read-test.xml");
 				assert (f.query_exists ());
 				var d = new TDocument.from_file (f);
@@ -539,10 +529,8 @@ class TDocumentTest : GXmlTest {
 				assert (bp.namespaces.size == 1);
 				assert (bp.namespaces[0].prefix == "gxml");
 				assert (bp.namespaces[0].uri == "http://wiki.gnome.org/GXml");
-			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
 		});
 		Test.add_func ("/gxml/t-document/read/comment", () => {
-			try {
 				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/t-read-test.xml");
 				assert (f.query_exists ());
 				var d = new TDocument.from_file (f);
@@ -555,7 +543,6 @@ class TDocumentTest : GXmlTest {
 				assert (a1.children_nodes[0] is GXml.Comment);
 				assert (a1.children_nodes[0].value == " Inner comment");
 				//GLib.message ("Doc:"+d.to_string ());
-			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
 		});
 		Test.add_func ("/gxml/t-document/read/pi", () => {
 			try {
@@ -695,7 +682,6 @@ class TDocumentTest : GXmlTest {
 			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
 		});
 		Test.add_func ("/gxml/t-document/read/string", () => {
-			try {
 				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/t-read-test.xml");
 				assert (f.query_exists ());
 				var d = new TDocument.from_string ("<root><child v=\"1\">TEXT</child><doc year=\"2016\"><name>COMMUNICATIONS</name></doc></root>");
@@ -712,10 +698,8 @@ class TDocumentTest : GXmlTest {
 				assert (d.root.children_nodes[1].children_nodes[0].name == "name");
 				assert (d.root.children_nodes[1].children_nodes[0].children_nodes[0] is GXml.Text);
 				assert (d.root.children_nodes[1].children_nodes[0].children_nodes[0].value == "COMMUNICATIONS");
-			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
 		});
 		Test.add_func ("/gxml/t-document/read/string/attrs", () => {
-			try {
 				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/t-read-test.xml");
 				assert (f.query_exists ());
 				var d = new TDocument.from_string ("<root xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><child v=\"1\" xsi:v=\"VType\">TEXT</child><doc year=\"2016\"><name>COMMUNICATIONS</name></doc></root>");
@@ -737,7 +721,6 @@ class TDocumentTest : GXmlTest {
 				assert (d.root.children_nodes[1].children_nodes[0].name == "name");
 				assert (d.root.children_nodes[1].children_nodes[0].children_nodes[0] is GXml.Text);
 				assert (d.root.children_nodes[1].children_nodes[0].children_nodes[0].value == "COMMUNICATIONS");
-			} catch (GLib.Error e) { GLib.message ("ERROR: "+e.message); assert_not_reached (); }
 		});
 		Test.add_func ("/gxml/t-document/readtype", () => {
 			try {

@@ -88,7 +88,6 @@ class SerializableGeeArrayListTest : GXmlTest
   {
     Test.add_func ("/gxml/serializable/arraylist/api",
     () => {
-      try {
         var c = new SerializableArrayList<AElement> ();
         var o1 = new AElement.named ("Big");
         var o2 = new AElement.named ("Small");
@@ -108,10 +107,6 @@ class SerializableGeeArrayListTest : GXmlTest
           stdout.printf (@"Small is not found\n");
           assert_not_reached ();
         }
-      }
-      catch (GLib.Error e) {
-        stdout.printf (@"ERROR: $(e.message)");
-      }
     });
     Test.add_func ("/gxml/serializable/arraylist/serialize",
     () => {

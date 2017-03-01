@@ -104,11 +104,11 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
     _node->new_prop (key, value.@value);
   }
   public override bool unset (string key, out GXml.Node value = null) {
+    value = null;
     if (_node == null) return false;
     var p = _node->has_prop (key);
     if (p == null) return false;
     p->remove ();
-    value = null;
     return true;
   }
   public override Gee.Set<Gee.Map.Entry<string,GXml.Node>> entries {

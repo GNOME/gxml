@@ -124,7 +124,6 @@ class GDocumentTest : GXmlTest {
 		});
 		Test.add_func ("/gxml/gdocument/construct_from_stream_error", () => {
 				File fin;
-				InputStream instream;
 				FileIOStream iostream;
 				GDocument doc;
 
@@ -156,7 +155,6 @@ class GDocumentTest : GXmlTest {
 			try {
 				string xml;
 				GDocument doc;
-				GXml.Node root;
 
 				xml = """<?xml version="1.0"?>""";
 				doc = new GDocument.from_string (xml);
@@ -167,7 +165,6 @@ class GDocumentTest : GXmlTest {
 			try {
 				string xml;
 				GDocument doc;
-				GXml.Node root;
 
 				xml = "";
 				doc = new GDocument.from_string (xml);
@@ -175,7 +172,6 @@ class GDocumentTest : GXmlTest {
 			});
 		Test.add_func ("/gxml/gdocument/save", () => {
 				GDocument doc;
-				int exit_status;
 
 				try {
 					doc = new GDocument.from_string ("<root />");
@@ -336,7 +332,6 @@ class GDocumentTest : GXmlTest {
 				assert (c.attrs.size == 1);
 				var pt = c.attrs.get ("prop");
 				assert (pt != null);
-				var pt2 = (c as Element).get_ns_attr ("prop", doc.root.namespaces[0].uri);
 #if DEBUG
 				GLib.message ("ROOT: "+doc.root.to_string ());
 #endif

@@ -32,8 +32,6 @@ class SerializableGeeCollectionsTest : GXmlTest
   class Citizen : SerializableObjectModel
   {
     public string ctype { get; set; }
-    public string get_value () { return serialized_xml_node_value; }
-    public void set_value (string val) { serialized_xml_node_value = val; }
     //Enable set GElement content
     public override bool serialize_use_xml_node_value () { return true; }
     public override string to_string () { return @"Citizen: $ctype"; }
@@ -45,11 +43,9 @@ class SerializableGeeCollectionsTest : GXmlTest
   {
     public int size { get; set; }
     public Asteroid.with_size (int size) { this.size = size; }
-    public string get_value () { return serialized_xml_node_value; }
-    public void set_value (string val) { serialized_xml_node_value = val; }
     public override string to_string () { return @"$size"; }
     public override string node_name () { return "asteroid"; }
-    
+
     public class Array : SerializableArrayList<Asteroid> {}
   }
   class Planet : SerializableContainer, SerializableMapKey<string>
@@ -183,7 +179,6 @@ class SerializableGeeCollectionsTest : GXmlTest
   class BallFill : SerializableObjectModel
   {
     public string name { get; set; default = "Fill"; }
-    public void set_text (string txt) { serialized_xml_node_value = txt; }
     public override string to_string () { return name; }
     public override string node_name () { return "BallFill"; }
     public override bool serialize_use_xml_node_value () { return true; }
@@ -430,8 +425,8 @@ class SerializableGeeCollectionsTest : GXmlTest
           if (n.name == "ChargeZone") {
             foreach (GXml.Node cn in n.children_nodes)
             {
-              if (n is Text) { if (n.value != "") assert_not_reached (); }
-              
+              if (cn is Text) { if (cn.value != "") assert_not_reached (); }
+
             }
           }
         }

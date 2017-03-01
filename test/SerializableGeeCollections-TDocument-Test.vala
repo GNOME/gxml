@@ -31,8 +31,6 @@ class SerializableGeeCollectionsTDocumentTest : GXmlTest
   class Citizen : SerializableObjectModel
   {
     public string ctype { get; set; }
-    public string get_value () { return serialized_xml_node_value; }
-    public void set_value (string val) { serialized_xml_node_value = val; }
     public override bool serialize_use_xml_node_value () { return true; }
     public override string to_string () { return @"Citizen: $ctype"; }
     public override string node_name () { return "citizen"; }
@@ -43,11 +41,9 @@ class SerializableGeeCollectionsTDocumentTest : GXmlTest
   {
     public int size { get; set; }
     public Asteroid.with_size (int size) { this.size = size; }
-    public string get_value () { return serialized_xml_node_value; }
-    public void set_value (string val) { serialized_xml_node_value = val; }
     public override string to_string () { return @"$size"; }
     public override string node_name () { return "asteroid"; }
-    
+
     public class Array : SerializableArrayList<Asteroid> {}
   }
   class Planet : SerializableContainer, SerializableMapKey<string>

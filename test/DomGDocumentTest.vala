@@ -514,48 +514,16 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 			}
 		});
 		Test.add_func ("/gxml/dom/document/event", () => {
-			try {
-#if DEBUG
-				GLib.message ("No implemented...Skiping");
-#endif
 				//TODO: implement
-			} catch (GLib.Error e) {
-				GLib.message ("Error: "+ e.message);
-				assert_not_reached ();
-			}
 		});
 		Test.add_func ("/gxml/dom/document/range", () => {
-			try {
-#if DEBUG
-				GLib.message ("No implemented...Skiping");
-#endif
 				//TODO: implement
-			} catch (GLib.Error e) {
-				GLib.message ("Error: "+ e.message);
-				assert_not_reached ();
-			}
 		});
 		Test.add_func ("/gxml/dom/document/iterator", () => {
-			try {
-#if DEBUG
-				GLib.message ("No implemented...Skiping");
-#endif
 				//TODO: implement
-			} catch (GLib.Error e) {
-				GLib.message ("Error: "+ e.message);
-				assert_not_reached ();
-			}
 		});
 		Test.add_func ("/gxml/dom/document/walker", () => {
-			try {
-#if DEBUG
-				GLib.message ("No implemented...Skiping");
-#endif
 				//TODO: implement
-			} catch (GLib.Error e) {
-				GLib.message ("Error: "+ e.message);
-				assert_not_reached ();
-			}
 		});
 		Test.add_func ("/gxml/dom/character", () => {
 			try {
@@ -590,7 +558,6 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 				d.append_child (n);
 				n.append_child (t);
 				assert (t.parent_node.child_nodes.length == 1);
-				var t2 = (t as DomText).split_text (4);
 				assert (t.parent_node.child_nodes.length == 1);
 				var ntst = d.create_element ("child");
 				n.append_child (ntst);

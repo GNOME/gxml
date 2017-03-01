@@ -104,7 +104,6 @@ class SerializableGeeHashMapTest : GXmlTest
   {
     Test.add_func ("/gxml/serializable/hashmap/api",
     () => {
-      try {
         var c = new SerializableHashMap<string,Space> ();
         var o1 = new Space.named ("Big");
         var o2 = new Space.named ("Small");
@@ -137,10 +136,6 @@ class SerializableGeeHashMapTest : GXmlTest
           GLib.message (@"Small key value is not found\n");
           assert_not_reached ();
         }
-      }
-      catch (GLib.Error e) {
-        GLib.message (@"ERROR: $(e.message)");
-      }
     });
     Test.add_func ("/gxml/serializable/hashmap/serialize",
     () => {

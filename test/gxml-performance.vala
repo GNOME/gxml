@@ -21,7 +21,6 @@ using GXml;
 class Name : SerializableObjectModel
 {
   public string get_name () { return serialized_xml_node_value; }
-  public void   set_name (string name) { serialized_xml_node_value = name; }
   public override bool serialize_use_xml_node_value () { return true; }
   public override string to_string () { return serialized_xml_node_value; }
 }
@@ -29,7 +28,6 @@ class Name : SerializableObjectModel
 class Email : SerializableObjectModel
 {
   public string get_mail () { return serialized_xml_node_value; }
-  public void   set_mail (string email) { serialized_xml_node_value = email; }
   public override bool serialize_use_xml_node_value () { return true; }
   public override string to_string () { return serialized_xml_node_value; }
 }
@@ -214,9 +212,9 @@ public class Performance
   public static void iterate (GXml.Node node) {
     foreach (GXml.Node n in node.children_nodes) {
       int i = node.children_nodes.size;
+#if DEBUG
       string name = n.name;
       string val = n.value;
-#if DEBUG
       GLib.message ("Node: "+name+" Val: "+val+ " Children: "+i.to_string ());
 #endif
       if (i > 0)
@@ -226,9 +224,9 @@ public class Performance
   public static void iterate_dom (GXml.DomNode node) {
     foreach (GXml.DomNode n in node.child_nodes) {
       int i = n.child_nodes.size;
+#if DEBUG
       string name = n.node_name;
       string val = n.node_value;
-#if DEBUG
       GLib.message ("Node: "+name+" Val: "+val+ " Children: "+i.to_string ());
 #endif
       if (i > 0)
