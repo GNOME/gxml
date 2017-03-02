@@ -29,7 +29,7 @@ namespace Xmlx {
   [CCode (cname = "gxml_doc_get_intsubset_entities", cheader_filename = "gxml/xlibxml.h")]
   public static Xml.HashTable doc_get_dtd_entities (Xml.Doc *doc);
   [CCode (cname = "gxml_validate_name", cheader_filename = "gxml//xlibxml.h")]
-  public static int validate_name (string name, int space);
+  public static int validate_name ([CCode (type = "xmlChar*")] string name, int space);
   [CCode (cname = "gxml_parser_context_get_last_error", cheader_filename = "gxml/xlibxml.h")]
   [Version (deprecated=true, replacement = "context_get_last_error", deprecated_since = "0.8.1")]
   public static Xml.Error* parser_context_get_last_error (Xml.ParserCtxt ctx);
