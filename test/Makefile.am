@@ -103,7 +103,6 @@ AM_VALAFLAGS = \
 	--pkg libxml-2.0 \
 	-C \
 	-g \
-	-X -DTEST_DIR=$(top_srcdir)/test \
 	$(NULL)
 
 if DEBUG

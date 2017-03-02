@@ -29,9 +29,15 @@ m4_define([_VALAC_CHECK_INTERNAL],
       AC_MSG_ERROR([valac is not installed])
     ], [
       check_prog=yes
-      VALAC_VERSION=`$VALAC --api-version`
-      VAPIDIR=$datadir/vala-$VALAC_VERSION/vapi
-      VAPIDIR_UNVERSIONED=$datadir/vala-$VALAC_VERSION/vapi
+      AC_MSG_CHECKING([for VALA_API_VERSION])
+      VALAC_API_VERSION=`$VALAC --api-version`
+      AC_MSG_RESULT([$VALAC_API_VERSION])
+      AC_MSG_CHECKING([for VAPIDIR])
+      VAPIDIR=$datarootdir/vala-$VALAC_API_VERSION/vapi
+      AC_MSG_RESULT([$VAPIDIR])
+      AC_MSG_CHECKING([for VAPIDIR_UNVERSIONED])
+      VAPIDIR_UNVERSIONED=$datadir/vala/vapi
+      AC_MSG_RESULT([$VAPIDIR_UNVERSIONED])
     ])
   ], [
     AS_IF([ test "x$1" = "x"], [
@@ -39,30 +45,30 @@ m4_define([_VALAC_CHECK_INTERNAL],
       ], [
         vala_pkg="libvala-$2 >= $1"
       ])
-	  AC_MSG_CHECKING([for $vala_pkg])
-	  PKG_CHECK_EXISTS([ $vala_pkg ], [
-	          vala_pkg_found=yes
-            VAPIGEN=`$PKG_CONFIG --variable=vapigen libvala-$2`
-	          VAPIGEN_MAKEFILE=`$PKG_CONFIG --variable=datadir libvala-$2`/vala/Makefile.vapigen
-	          VAPIDIR=`$PKG_CONFIG --variable=vapidir libvala-$2`
-            GEN_INTROSPECT=`$PKG_CONFIG --variable=gen_introspect libvala-$2`
-            vala_datadir=`$PKG_CONFIG --variable=datadir libvala-$2`
-            VAPIDIR_UNVERSIONED=$vala_datadir/vala/vapi
-            VALA_GEN_INTROSPECT=`$PKG_CONFIG --variable=vala_gen_introspect libvala-$2`
-	    ], [
-	          vala_pkg_found=no
-	          AC_MSG_ERROR([no package libvala-$2 is installed])
-	    ])
-	  AC_MSG_RESULT([$vala_pkg_found])
+        AC_MSG_CHECKING([for $vala_pkg])
+        PKG_CHECK_EXISTS([ $vala_pkg ], [
+        vala_pkg_found=yes
+        VAPIGEN=`$PKG_CONFIG --variable=vapigen libvala-$2`
+        VAPIGEN_MAKEFILE=`$PKG_CONFIG --variable=datadir libvala-$2`/vala/Makefile.vapigen
+        VAPIDIR=`$PKG_CONFIG --variable=vapidir libvala-$2`
+        GEN_INTROSPECT=`$PKG_CONFIG --variable=gen_introspect libvala-$2`
+        vala_datadir=`$PKG_CONFIG --variable=datadir libvala-$2`
+        VAPIDIR_UNVERSIONED=$vala_datadir/vala/vapi
+        VALA_GEN_INTROSPECT=`$PKG_CONFIG --variable=vala_gen_introspect libvala-$2`
+      ], [
+            vala_pkg_found=no
+            AC_MSG_ERROR([no package libvala-$2 is installed])
+      ])
+    AC_MSG_RESULT([$vala_pkg_found])
   ])
-	AC_SUBST([VAPIGEN])
-	AC_SUBST([VAPIGEN_VAPIDIR])
-	AC_SUBST([VAPIDIR])
-	AC_SUBST([VAPIDIR_UNVERSIONED])
-	AC_SUBST([VAPIGEN_MAKEFILE])
-	AC_SUBST([GEN_INTROSPECT])
-	AC_SUBST([VALA_GEN_INTROSPECT])
-	AC_SUBST([VALAC_VERSION])
+  AC_SUBST([VAPIGEN])
+  AC_SUBST([VAPIGEN_VAPIDIR])
+  AC_SUBST([VAPIDIR])
+  AC_SUBST([VAPIDIR_UNVERSIONED])
+  AC_SUBST([VAPIGEN_MAKEFILE])
+  AC_SUBST([GEN_INTROSPECT])
+  AC_SUBST([VALA_GEN_INTROSPECT])
+  AC_SUBST([VALAC_API_VERSION])
 ])
 
 dnl Check VAPIGEN

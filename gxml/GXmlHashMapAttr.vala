@@ -262,7 +262,7 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
       throw new GXml.DomError.NO_MODIFICATION_ALLOWED_ERROR (_("Node collection is read only"));
     if (_parent is DomElement) {
       var a = _parent.attributes.get_named_item (name);
-      (_parent as DomElement).set_attribute (name, null);
+      (_parent as GNode).get_internal_node ()->set_prop (name, null);
       return a;
     }
     return null;

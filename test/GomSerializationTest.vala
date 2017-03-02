@@ -1016,7 +1016,6 @@ class GomSerializationTest : GXmlTest  {
     () => {
       try {
         double time;
-        GomDocument doc;
         var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR + "/test-collection.xml");
         assert (f.query_exists ());
         Test.timer_start ();
