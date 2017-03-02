@@ -247,11 +247,6 @@ gxml/namespace-info.vala
 gxml/gxml-0.14.pc
 gxml/Makefile
 test/Makefile
-test/test.xml
-test/test_invalid.xml
-test/test_out_path_expected.xml
-test/test_out_stream_expected.xml
-test/test_with_ns.xml
 docs/Makefile
 docs/valadoc/Makefile
 docs/valadoc/devhelp/Makefile
