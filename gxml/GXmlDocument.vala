@@ -60,9 +60,9 @@ public class GXml.GDocument : GXml.GNode,
   }
 
   public GDocument.from_string (string str, int options = 0) throws GLib.Error {
-    Xmlx.reset_last_error ();
+    Xml.reset_last_error ();
     doc = Xml.Parser.parse_memory (str, (int) str.length);
-    var e = Xmlx.get_last_error ();
+    var e = Xml.get_last_error ();
     if (e != null) {
       var errmsg = "Parser Error for string";
       string s = libxml2_error_to_string (e);
@@ -134,9 +134,9 @@ public class GXml.GDocument : GXml.GNode,
   }
   public GXml.Node GXml.Document.create_element (string name) throws GLib.Error
   {
-    Xmlx.reset_last_error ();
+    Xml.reset_last_error ();
     var el = doc->new_raw_node (null, name, null);
-    var e = Xmlx.get_last_error ();
+    var e = Xml.get_last_error ();
     if (e != null) {
       var errmsg = "Parser Error for string";
       string s = libxml2_error_to_string (e);
@@ -161,8 +161,8 @@ public class GXml.GDocument : GXml.GNode,
 #if DEBUG
     GLib.message ("TDocument: to_string ()");
 #endif
-    Xml.Doc doc = new Xml.Doc ();
-    Xml.TextWriter tw = Xmlx.new_text_writer_doc (ref doc);
+    Xml.Doc doc = null;
+    Xml.TextWriter tw = new Xml.TextWriter.doc (out doc);
     try { TDocument.write_document (this, tw); } catch { return "<?xml version=\"0\"?>"; }
     string str;
     int size;

@@ -54,7 +54,7 @@ public class GXml.XParser : Object, GXml.Parser {
   public void write_stream (OutputStream stream,
                             GLib.Cancellable? cancellable = null) throws GLib.Error {
     var buf = new Xml.Buffer ();
-    tw = Xmlx.new_text_writer_memory (buf, 0);
+    tw = new TextWriter.memory (buf);
     if (_node is DomDocument) tw.start_document ();
     tw.set_indent (indent);
     // Root
@@ -549,8 +549,8 @@ public class GXml.XParser : Object, GXml.Parser {
 
   private string dump () throws GLib.Error {
     int size;
-    Xml.Doc doc = new Xml.Doc ();
-    tw = Xmlx.new_text_writer_doc (ref doc);
+    Xml.Doc doc = null;
+    tw = new TextWriter.doc (out doc);
     if (_node is DomDocument) tw.start_document ();
     tw.set_indent (indent);
     // Root
@@ -698,8 +698,8 @@ public class GXml.XParser : Object, GXml.Parser {
   #if DEBUG
       GLib.message (@"Starting Child Element: writting ProcessingInstruction '$(n.node_value)'");
   #endif
-        size += Xmlx.text_writer_write_pi (tw, (n as DomProcessingInstruction).target,
-                                          (n as DomProcessingInstruction).data);
+        size += tw.write_pi ((n as DomProcessingInstruction).target,
+                            (n as DomProcessingInstruction).data);
         if (size > 1500)
           tw.flush ();
       }

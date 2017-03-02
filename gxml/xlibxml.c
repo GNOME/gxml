@@ -64,7 +64,6 @@ void gxml_reset_last_error ()
 {
   xmlResetLastError ();
 }
-
 xmlNsPtr* gxml_doc_get_ns_list (xmlDoc* doc, xmlNode* node)
 {
   g_return_val_if_fail (doc != NULL, NULL);

@@ -102,7 +102,6 @@ AM_VALAFLAGS= \
 	$(ERROR_AM_VALAFLAGS) \
 	--library=gxml-0.14 \
 	$(top_srcdir)/vapi/config.vapi \
-	$(top_srcdir)/vapi/xlibxml-1.0.vapi \
 	--vapidir=. \
 	--vapidir=$(top_srcdir)/vapi \
 	--pkg libxml-2.0 \

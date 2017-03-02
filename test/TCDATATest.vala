@@ -29,20 +29,18 @@ class TCDATATest : GXmlTest {
 				var d = new TDocument ();
 				var r = d.create_element ("root");
 				d.children_nodes.add (r);
+				assert (d.children_nodes.size == 1);
+				GLib.message (@"$d");
 				var cd = d.create_cdata ("<test/>");
 				assert (cd.value == "<test/>");
 				d.root.children_nodes.add (cd);
 				assert (d.root.children_nodes.size == 1);
 				string str = d.to_string ();
-				assert ("<root><![CDATA[<test/>]]></root>" in str);
-#if DEBUG
 				GLib.message (@"$d");
-#endif
+				assert ("<root><![CDATA[<test/>]]></root>" in str);
 			}
 			catch (GLib.Error e) {
-#if DEBUG
 				GLib.message (@"ERROR: $(e.message)");
-#endif
 				assert_not_reached ();
 			}
 		});

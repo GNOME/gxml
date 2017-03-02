@@ -164,7 +164,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
   }
   public GXml.Node create_element (string name) throws GLib.Error
   {
-    if (Xmlx.validate_name (name, 1) != 0)
+    if (Xml.Tree.validate_name (name) != 0)
       throw new GXml.Error.PARSER (_("Invalid element name"));
     return new TElement (this, name);
   }
@@ -200,7 +200,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
     throws GLib.Error
   {
     var buf = new Xml.Buffer ();
-    var tw = Xmlx.new_text_writer_memory (buf, 0);
+    var tw = new Xml.TextWriter.memory (buf);
     write_document (doc, tw);
     var s = new GLib.StringBuilder ();
     s.append (buf.content ());
@@ -419,7 +419,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
 #if DEBUG
       GLib.message (@"Starting Child Element: writting CDATA '$(n.value)'");
 #endif
-        size += Xmlx.text_writer_write_cdata (tw, n.value);
+        size += tw.write_cdata (n.value);
         if (size > 1500)
           tw.flush ();
       }
@@ -427,7 +427,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
   #if DEBUG
       GLib.message (@"Starting Child Element: writting ProcessingInstruction '$(n.value)'");
   #endif
-        size += Xmlx.text_writer_write_pi (tw, ((ProcessingInstruction) n).target, ((ProcessingInstruction) n).data);
+        size += tw.write_pi (((ProcessingInstruction) n).target, ((ProcessingInstruction) n).data);
         if (size > 1500)
           tw.flush ();
       }
@@ -439,8 +439,8 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
 #if DEBUG
     GLib.message ("TDocument: to_string ()");
 #endif
-    Xml.Doc doc = new Xml.Doc ();
-    Xml.TextWriter tw = Xmlx.new_text_writer_doc (ref doc);
+    Xml.Doc doc = null;
+    Xml.TextWriter tw = new TextWriter.doc (out doc);
     write_document (this, tw);
     string str;
     int size;
