@@ -252,7 +252,6 @@ test/test_invalid.xml
 test/test_out_path_expected.xml
 test/test_out_stream_expected.xml
 test/test_with_ns.xml
-test/tests-config.vala
 docs/Makefile
 docs/valadoc/Makefile
 docs/valadoc/devhelp/Makefile

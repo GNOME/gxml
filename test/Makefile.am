@@ -16,7 +16,8 @@ AM_CFLAGS = \
 	$(LIBXML_CFLAGS) \
 	$(GIO_CFLAGS) \
 	-I$(top_builddir) \
-	-DTEST_DIR=\"$(builddir)\" \
+	-DTEST_DIR=\"$(abs_builddir)\" \
+	-DTEST_SAVE_DIR=\"$(abs_builddir)\" \
 	$(NULL)
 
 
@@ -25,7 +26,6 @@ noinst_PROGRAMS = $(TEST_PROGS)
 TEST_PROGS += gxml_test
 
 sources = \
-	tests-config.vala \
 	GXmlTest.vala \
 	NodeListTest.vala \
 	ValaLibxml2Test.vala \

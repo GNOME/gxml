@@ -7,7 +7,9 @@
  * This defines a string for Vala that we can then at compile time use
  * "-X -DTEST_DIR=$(top_srcdir)/test so gxml_test can find its
  * tests, similar to how libgdata does it in C. */
-namespace GXml {
+namespace GXmlTestConfig {
 	[CCode (cname = "TEST_DIR")]
 	public const string TEST_DIR;
+	[CCode (cname = "TEST_SAVE_DIR")]
+	public const string TEST_SAVE_DIR;
 }
