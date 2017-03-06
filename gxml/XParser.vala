@@ -12,7 +12,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
-
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
  *
@@ -80,6 +80,7 @@ public class GXml.XParser : Object, GXml.Parser {
     var b = new GLib.MemoryInputStream.from_data (s.data, null);
     stream.splice (b, GLib.OutputStreamSpliceFlags.NONE);
     stream.close ();
+    tw = null;
   }
 
   public string write_string () throws GLib.Error  {
@@ -102,11 +103,14 @@ public class GXml.XParser : Object, GXml.Parser {
 #endif
     tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), "/gxml_memory");
     read_node (_node);
+    tr = null;
   }
   /**
    * Reads a node using current parser.
    */
   public void read_node (DomNode node) throws GLib.Error {
+    if (tr == null)
+      throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
     move_next_node ();
     if (node is DomElement) {
       while (true) {
@@ -142,6 +146,8 @@ public class GXml.XParser : Object, GXml.Parser {
    * Use parser to go to next parsed node.
    */
   public bool move_next_node () throws GLib.Error {
+    if (tr == null)
+      throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
     int res = tr.read ();
     if (res == -1)
       throw new ParserError.INVALID_DATA_ERROR (_("Can't read node data"));
@@ -157,30 +163,40 @@ public class GXml.XParser : Object, GXml.Parser {
    * Check if current node has childs.
    */
   public bool current_is_empty_element () {
+    if (tr == null)
+      throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
     return tr.is_empty_element () == 1;
   }
   /**
    * Check if current node found by parser, is a {@link DomElement}
    */
   public bool current_is_element () {
+    if (tr == null)
+      throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
     return (tr.node_type () == Xml.ReaderType.ELEMENT);
   }
   /**
    * Check if current node found by parser, is a {@link DomDocument}
    */
   public bool current_is_document() {
+    if (tr == null)
+      throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
     return (tr.node_type () == Xml.ReaderType.DOCUMENT);
   }
   /**
    * Returns current node's local name, found by parser.
    */
   public string current_node_name () {
+    if (tr == null)
+      throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
     return tr.const_local_name ();
   }
   /**
    * Creates a new {@link DomElement} and append it as a child of parent.
    */
   public DomElement? create_element (DomNode parent) throws GLib.Error {
+    if (tr == null)
+      throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
     DomElement n = null;
 #if DEBUG
     GLib.message ("Creating a standard element: "
@@ -203,6 +219,8 @@ public class GXml.XParser : Object, GXml.Parser {
    * Reads a {@link DomElement}
    */
   public void read_element (DomElement element) throws GLib.Error {
+    if (tr == null)
+      throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
     var nattr = tr.attribute_count ();
 #if DEBUG
     GLib.message ("Current reading Element:"+element.local_name);
@@ -275,6 +293,8 @@ public class GXml.XParser : Object, GXml.Parser {
    * Iterates in all child nodes and append them to node.
    */
   public void read_child_nodes (DomNode parent) throws GLib.Error {
+    if (tr == null)
+      throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
     bool cont = true;
     while (cont) {
 #if DEBUG
@@ -300,6 +320,8 @@ public class GXml.XParser : Object, GXml.Parser {
    * Returns: true if node has been created and appended to parent.
    */
   public bool read_child_node (DomNode parent) throws GLib.Error {
+    if (tr == null)
+      throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
     DomNode n = null;
     bool ret = true;
     var t = tr.node_type ();
@@ -424,6 +446,8 @@ public class GXml.XParser : Object, GXml.Parser {
    * Reads current found element
    */
   public bool read_child_element (DomNode parent) throws GLib.Error {
+    if (tr == null)
+      throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
     if (!current_is_element ())
       throw new DomError.INVALID_NODE_TYPE_ERROR
         (_("Invalid attempt to parse an element node, when current found node is not"));
@@ -453,6 +477,8 @@ public class GXml.XParser : Object, GXml.Parser {
    */
   public bool read_element_property (DomNode parent,
                                     out DomNode element) throws GLib.Error {
+    if (tr == null)
+      throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
     if (!(parent is GomObject)) return false;
 #if DEBUG
     GLib.message ("Searching for Properties Nodes for:"+
@@ -578,11 +604,14 @@ public class GXml.XParser : Object, GXml.Parser {
     if (str != null)
       GLib.message ("STR: "+str);
 #endif
+    tw = null;
     return str;
   }
   private void start_node (GXml.DomNode node)
     throws GLib.Error
   {
+    if (tw == null)
+      throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextWriter initialized"));
 #if DEBUG
     GLib.message ("Starting node..."+node.node_name);
 #endif
