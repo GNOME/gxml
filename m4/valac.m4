@@ -30,7 +30,7 @@ m4_define([_VALAC_CHECK_INTERNAL],
     ], [
       check_prog=yes
       AC_MSG_CHECKING([for VALA_API_VERSION])
-      VALAC_API_VERSION=`$VALAC --api-version`
+      VALA_API_VERSION=`$VALAC --api-version`
       AC_MSG_RESULT([$VALAC_API_VERSION])
       AC_MSG_CHECKING([for VAPIDIR])
       VAPIDIR=$datarootdir/vala-$VALAC_API_VERSION/vapi
@@ -68,7 +68,7 @@ m4_define([_VALAC_CHECK_INTERNAL],
   AC_SUBST([VAPIGEN_MAKEFILE])
   AC_SUBST([GEN_INTROSPECT])
   AC_SUBST([VALA_GEN_INTROSPECT])
-  AC_SUBST([VALAC_API_VERSION])
+  AC_SUBST([VALA_API_VERSION])
 ])
 
 dnl Check VAPIGEN

@@ -2,7 +2,7 @@
 CLEANFILES=
 
 VALADOC_FLAGS = \
-	--driver $(VALAC_VERSION) \
+	--driver $(VALA_API_VERSION) \
 	--force \
 	--package-name=GXml-$(API_VERSION) \
 	--package-version=$(PACKAGE_VERSION) \
