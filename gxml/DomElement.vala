@@ -46,6 +46,18 @@ public interface GXml.DomElement : GLib.Object,
   public abstract string? get_attribute (string name);
   public abstract string? get_attribute_ns (string? namespace, string local_name);
   public abstract void set_attribute (string name, string value) throws GLib.Error;
+  /**
+   * Set an attribute value to this element. If it doesn't exists yet, it is added
+   * to the list of attributes, unless it is an namespace redefinition.
+   *
+   * To set a namespace declaration [[http://www.w3.org/2000/xmlns]] namespace and xmlns
+   * as prefix. For default namespaces, use xmlns as name without prefix. Namespace
+   * URI will be the one provided as value.
+   *
+   * @param namespace, attribute namespace
+   * @param name, a prefixed attribute name or xmlns for default namespace declaration
+   * @param value, a value for the attribute or URI for namespace declaration
+   */
   public abstract void set_attribute_ns (string? namespace, string name, string value) throws GLib.Error;
   public abstract void remove_attribute (string name);
   public abstract void remove_attribute_ns (string? namespace, string local_name);
