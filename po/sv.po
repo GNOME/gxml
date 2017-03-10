@@ -1,15 +1,16 @@
 # Swedish translation for gxml.
-# Copyright © 2016 gxml's COPYRIGHT HOLDER
+# Copyright © 2016, 2017 gxml's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gxml package.
 # Anders Jonsson <anders.jonsson@norsjovallen.se>, 2016.
+# Josef Andersson <l10nl18nsweja@gmail.com>, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-04-03 00:13+0000\n"
-"PO-Revision-Date: 2016-04-03 15:03+0200\n"
+"POT-Creation-Date: 2017-01-09 15:33+0000\n"
+"PO-Revision-Date: 2017-03-09 15:42+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -17,11 +18,27 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 1.8.11\n"
 
-#: ../gxml/Document.vala:148
+#: ../gxml/Document.vala:151
 msgid "Invalid file"
 msgstr "Ogiltig fil"
+
+#: ../gxml/DomCharacter.vala:43
+msgid "Invalid offset for substring"
+msgstr "Ogiltig förskjutning för delsträng"
+
+#: ../gxml/DomCharacter.vala:63
+msgid "Invalid offset for replace data"
+msgstr "Ogiltig förskjutning för ersättningsdata"
+
+#: ../gxml/DomCharacter.vala:74
+msgid "Invalid offset to split text"
+msgstr "Ogiltig förskjutning för att dela text"
+
+#: ../gxml/DomNode.vala:128 ../gxml/Node.vala:202
+msgid "Text node with NULL string"
+msgstr "Textnod med NULL-sträng"
 
 #: ../gxml/Enumeration.vala:88
 msgid "value is invalid"
@@ -31,55 +48,218 @@ msgstr "värde är ogiltigt"
 msgid "text cannot be parsed to enumeration type:"
 msgstr "text kan inte tolkas till uppräkningstyp:"
 
-#: ../gxml/GXmlDocument.vala:49 ../gxml/TDocument.vala:475
+#: ../gxml/GomDocument.vala:72
+msgid "Invalid node name"
+msgstr "Ogiltigt nodnamn"
+
+#: ../gxml/GomDocument.vala:78
+msgid "Invalid namespace"
+msgstr "Ogiltig namnrymd"
+
+#: ../gxml/GomDocument.vala:127 ../gxml/GXmlDocument.vala:268
+msgid "Can't import a Document"
+msgstr "Det går inte att importera ett dokument"
+
+#: ../gxml/GomDocument.vala:129 ../gxml/GXmlDocument.vala:270
+msgid "Can't import a non Element type node to a Document"
+msgstr ""
+"Det går inte att importera en typ som inte är ett element till ett dokument"
+
+#: ../gxml/GomDocument.vala:153 ../gxml/GXmlDocument.vala:294
+msgid "Can't adopt a Document"
+msgstr "Det går inte att ta in ett dokument som underordnad nod"
+
+#: ../gxml/GomNode.vala:167 ../gxml/GXmlNode.vala:259
+msgid "Can't find node position"
+msgstr "Det går inte att hitta nodposition"
+
+#: ../gxml/GomNode.vala:194 ../gxml/GomNode.vala:225 ../gxml/GXmlNode.vala:290
+#: ../gxml/GXmlNode.vala:321
+msgid "Invalid attempt to add invalid node type"
+msgstr "Ogiltigt försök att lägga till ogiltig nodtyp"
+
+#: ../gxml/GomNode.vala:196 ../gxml/GXmlNode.vala:292
+msgid "Can't find child to insert node before"
+msgstr "Det går inte att hitta underordnad nod för att infoga noden innan"
+
+#: ../gxml/GomNode.vala:200 ../gxml/GomNode.vala:231 ../gxml/GXmlNode.vala:296
+#: ../gxml/GXmlNode.vala:327
+msgid "Invalid attempt to insert a node"
+msgstr "Ogiltigt försök till att infoga en nod"
+
+#: ../gxml/GomNode.vala:207 ../gxml/GomNode.vala:238 ../gxml/GXmlNode.vala:303
+#: ../gxml/GXmlNode.vala:334
+msgid "Invalid attempt to insert an invalid node type"
+msgstr "Ogiltigt försök att infoga en ogiltig nodtyp"
+
+#: ../gxml/GomNode.vala:210 ../gxml/GomNode.vala:241 ../gxml/GXmlNode.vala:306
+#: ../gxml/GXmlNode.vala:337
+msgid ""
+"Invalid attempt to insert a document's type or text node to a invalid parent"
+msgstr ""
+"Ogiltigt försök att infoga ett dokuments typ- eller textnod till en ogiltig "
+"överordnad nod"
+
+#: ../gxml/GomNode.vala:227 ../gxml/GXmlNode.vala:323
+msgid "Can't find child node to replace or child have a different parent"
+msgstr ""
+"Det går inte att hitta underordnad nod för att ersätta eller så har "
+"underordnad nod en annan överordnad nod"
+
+#: ../gxml/GomNode.vala:253 ../gxml/GXmlNode.vala:349
+msgid "Can't find child node to remove or child have a different parent"
+msgstr ""
+"Det går inte att hitta underordnad nod att ta bort eller så har underordnad "
+"nod en annan överordnad nod"
+
+#. FIXME:
+#: ../gxml/GomObject.vala:92 ../gxml/GXmlElement.vala:313
+msgid "DomElement query_selector is not implemented"
+msgstr "DomElement query_selector är inte implementerad"
+
+#. FIXME:
+#: ../gxml/GomObject.vala:96 ../gxml/GXmlElement.vala:317
+msgid "DomElement query_selector_all is not implemented"
+msgstr "DomElement query_selector_all är inte implementerad"
+
+#: ../gxml/GomObject.vala:209
+msgid "Invalid local name"
+msgstr "Ogiltigt lokalnamn"
+
+#: ../gxml/GXmlDocument.vala:55 ../gxml/TDocument.vala:476
 msgid "File doesn't exist"
 msgstr "Fil existerar inte"
 
-#: ../gxml/GXmlDocument.vala:73
+#: ../gxml/GXmlDocument.vala:79
 msgid "stream doesn't provide data"
 msgstr "ström tillhandahåller inte data"
+
+#: ../gxml/GXmlDocument.vala:224
+msgid "Invalid element qualified name: multiple namespace prefixes"
+msgstr "Ogiltigt kvalificerat elementnamn: flera namnrymdsprefix"
+
+#: ../gxml/GXmlDomCollections.vala:52
+msgid ""
+"DOM: Invalid token. No empty string can could be used as token to check if "
+"it is contained in token list"
+msgstr ""
+"DOM: Ogiltigt token. Ingen tom sträng kan inkluderas som ett token för att "
+"se om det finns i tokenlistan"
+
+#: ../gxml/GXmlDomCollections.vala:54
+msgid ""
+"DOM: Invalid token. No white spaces could be included as token to check if "
+"it is contained in token list"
+msgstr ""
+"DOM: Ogiltigt token. Inga blanktecken kan inkluderas som ett token för att "
+"se om det finns i tokenlistan"
+
+#: ../gxml/GXmlDomCollections.vala:61 ../gxml/GXmlDomCollections.vala:84
+msgid "DOM: Invalid token. Empty string can't be used as token"
+msgstr "DOM: Ogiltigt token. Tom sträng kan inte användas som token"
+
+#: ../gxml/GXmlDomCollections.vala:63 ../gxml/GXmlDomCollections.vala:86
+msgid "DOM: Invalid token. White spaces can't be used as token"
+msgstr "DOM: Ogiltigt token. Blanktecken kan inte användas som token"
+
+#: ../gxml/GXmlDomRange.vala:50 ../gxml/GXmlDomRange.vala:78
+#: ../gxml/GXmlDomRange.vala:151
+msgid "Invalid node type to start"
+msgstr "Ogiltig nodtyp att starta"
+
+#: ../gxml/GXmlDomRange.vala:53 ../gxml/GXmlDomRange.vala:81
+msgid "Invalid offset for node to start: for document type"
+msgstr "Ogiltig förskjutning för nod att starta: för dokumenttyp"
+
+#: ../gxml/GXmlDomRange.vala:57 ../gxml/GXmlDomRange.vala:85
+msgid "Invalid offset for node to start: for character data"
+msgstr "Ogiltig förskjutning för nod att starta: för teckendata"
+
+#: ../gxml/GXmlDomRange.vala:60 ../gxml/GXmlDomRange.vala:88
+msgid "Invalid offset for node to start: for children number"
+msgstr "Ogiltig förskjutning för nod att starta: för antal underordnade"
+
+#: ../gxml/GXmlDomRange.vala:104 ../gxml/GXmlDomRange.vala:118
+msgid "Invalid node type to start before"
+msgstr "Ogiltig nodtyp att starta innan"
+
+#: ../gxml/GXmlDomRange.vala:109 ../gxml/GXmlDomRange.vala:123
+#: ../gxml/GXmlDomRange.vala:141
+msgid "Invalid node type to start after"
+msgstr "Ogiltig nodtyp att starta efter"
+
+#: ../gxml/GXmlDomRange.vala:166
+msgid "Invalid root's in range"
+msgstr "Ogiltig rot i intervallet"
+
+#: ../gxml/GXmlHashMapAttr.vala:240
+msgid "Invalid document when adding item to collection"
+msgstr "Ogiltigt dokument vid tillägg av objekt till samling"
+
+#: ../gxml/GXmlHashMapAttr.vala:242 ../gxml/GXmlHashMapAttr.vala:294
+msgid "This node collection is read only"
+msgstr "Denna nodsamling är skrivskyddad"
+
+#: ../gxml/GXmlHashMapAttr.vala:244 ../gxml/GXmlHashMapAttr.vala:296
+msgid "This node attribute is already in use by other Element"
+msgstr "Detta nodattribut används redan av andra element"
+
+#: ../gxml/GXmlHashMapAttr.vala:246 ../gxml/GXmlHashMapAttr.vala:298
+msgid "Trying to add an object to an Element, but it is not an attribute"
+msgstr ""
+"Försöker att lägga till ett objekt till ett element men det är inte ett "
+"attribut"
+
+#: ../gxml/GXmlHashMapAttr.vala:258 ../gxml/GXmlHashMapAttr.vala:314
+#, c-format
+msgid "No node with name %s was found"
+msgstr "Hittade ingen nod med namn %s"
+
+#: ../gxml/GXmlHashMapAttr.vala:260 ../gxml/GXmlHashMapAttr.vala:316
+msgid "Node collection is read only"
+msgstr "Nodsamlingen är skrivskyddad"
+
+#: ../gxml/GXmlHashMapAttr.vala:292
+msgid "Invalid document when adding item to named node map collection"
+msgstr "Ogiltigt dokument vid tillägg av objekt till en namngiven nodsamling"
 
 #: ../gxml/libxml-ChildNodeList.vala:148
 #, c-format
 msgid "ref_child '%s' not found, was supposed to have '%s' inserted before it."
 msgstr "ref_child ”%s” hittades inte, borde ha ”%s” infogat före det."
 
-#: ../gxml/libxml-Document.vala:127
+#: ../gxml/libxml-Document.vala:128
 #, c-format
 msgid "Looking up %s from an xmlNode* is not supported"
 msgstr "Att slå upp %s från en xmlNode* stöds inte"
 
-#: ../gxml/libxml-Document.vala:302
+#: ../gxml/libxml-Document.vala:303
 #, c-format
 msgid "Could not load document from path: %s"
 msgstr "Kunde inte läsa in dokument från sökväg: %s"
 
-#: ../gxml/libxml-Entity.vala:129
+#: ../gxml/libxml-Entity.vala:130
 msgid "Cloning of Entity not yet supported"
 msgstr "Klonande av entitet stöds ännu inte"
 
 #. TODO: replace usage of this with GXml.get_last_error_msg
-#: ../gxml/libxml-Error.vala:12
+#: ../gxml/libxml-Error.vala:13
 #, c-format
 msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
 
-#: ../gxml/libxml-Node.vala:67
+#: ../gxml/libxml-Node.vala:68
 msgid ""
 "Node tried to interact with a different document than the one it belongs to"
 msgstr "Nod försökte interagera med ett annat dokument än det som den tillhör"
 
-#: ../gxml/Node.vala:180
-msgid "Text node with NULL string"
-msgstr "Textnod med NULL-sträng"
-
-#: ../gxml/SerializableEnum.vala:72
+#: ../gxml/SerializableEnum.vala:75
 msgid "Value can't be parsed to a valid enumeration's value. Value is not set"
 msgstr ""
 "Värde kan inte tolkas till ett värde för en giltig uppräkning. Värde ställs "
 "inte in"
 
-#: ../gxml/SerializableEnum.vala:75
+#: ../gxml/SerializableEnum.vala:78
 msgid "Value can't be parsed to a valid enumeration's value"
 msgstr "Värde kan inte tolkas till ett värde för en giltig uppräkning"
 
@@ -95,12 +275,12 @@ msgstr "Värde kan inte tolkas till ett värde för en giltig uppräkning"
 msgid "%s: Value type '%s' is unsupported"
 msgstr "%s: Värdetyp ”%s” stöds inte"
 
-#: ../gxml/SerializableObjectModel.vala:322
+#: ../gxml/SerializableObjectModel.vala:321
 #, c-format
 msgid "WARNING: Object type '%s' has no Node Name defined"
 msgstr "VARNING: Objekttypen ”%s” har inget nodnamn definierat"
 
-#: ../gxml/SerializableObjectModel.vala:326
+#: ../gxml/SerializableObjectModel.vala:325
 #, c-format
 msgid "Actual node's name is '%s' expected '%s'"
 msgstr "Faktiskt namn på nod är ”%s”, förväntade ”%s”"
@@ -118,21 +298,310 @@ msgstr "Inget attribut hittades att deserialisera från"
 msgid "XML Attribute name is not set, when deserializing to: %s"
 msgstr "XML-attributnamn är inte inställt vid deserialisering till: %s"
 
-#: ../gxml/Serializable.vala:439
+#: ../gxml/Serializable.vala:434
 #, c-format
 msgid "Transformation Error on '%s' or Unsupported type: '%s'"
 msgstr "Omvandlingsfel på ”%s” eller typ som inte stöds: ”%s”"
 
-#: ../gxml/Serializable.vala:460
+#: ../gxml/Serializable.vala:455
 #, c-format
 msgid "Can't transform '%s' to string"
 msgstr "Kan inte omvandla ”%s” till sträng"
 
-#: ../gxml/TDocument.vala:152
+#: ../gxml/TDocument.vala:151
 msgid "Document has more than one root GXmlElement. Using first found"
 msgstr ""
 "Dokument har mer än ett rot-GXmlElement. Använder det första som hittades"
 
-#: ../gxml/TDocument.vala:171
+#: ../gxml/TDocument.vala:170
 msgid "Invalid element name"
 msgstr "Ogiltigt elementnamn"
+
+#: ../gxml/TDocument.vala:575
+#, c-format
+msgid "Parsing ERROR: Fail to move to attribute number: %i"
+msgstr "TOLKFEL: Misslyckades med att flytta till attributsiffra: %i"
+
+#~ msgid "Can't copy child text node"
+#~ msgstr "Kan inte kopiera underordnad textnod"
+
+#~ msgid "Invalid index for elements in array list"
+#~ msgstr "Ogiltigt index för elementen i vektorlistan"
+
+#~ msgid "Invalid index reference for child elements in array list"
+#~ msgstr "Ogiltig indexreferens för underordnade element i vektorlistan"
+
+#~ msgid "Referenced object's type is invalid. Should be a GXmlGomElement"
+#~ msgstr "Refererat objekts typ är ogiltig. Ska vara ett GXmlGomElement"
+
+#~ msgid ""
+#~ "Invalid attempt to initialize a collection using an unsupported type. "
+#~ "Only GXmlGomElement is supported"
+#~ msgstr ""
+#~ "Ogiltigt försök till att initiera en samling med typ som inte stöds. "
+#~ "Endast GXmlGomElement stöds"
+
+#~ msgid "Parent Element is invalid"
+#~ msgstr "Överordnat element är ogiltigt"
+
+#~ msgid ""
+#~ "Invalid attempt to set unsupported type. Only GXmlGomElement is supported"
+#~ msgstr ""
+#~ "Ogiltigt försök till att ange typ som inte stöds. Endast GXmlGomElement "
+#~ "stöds"
+
+#~ msgid "Invalid attempt to set a node with a different parent document"
+#~ msgstr "Ogiltigt försök att ange en nod med ett annat överordnat dokument"
+
+#~ msgid ""
+#~ "Node element not appended as child of parent. No node added to collection"
+#~ msgstr ""
+#~ "Nodelement ej tillagt som en underordnad nod. Ingen nod lades till "
+#~ "samlingen"
+
+#~ msgid "Creating a namespaced element with invalid node name"
+#~ msgstr "Skapar ett element med namnrymd med ogiltigt nodnamn"
+
+#~ msgid "Creating a namespaced element with invalid namespace"
+#~ msgstr "Skapar ett element med namnrymd med ogiltig namnrymd"
+
+#~ msgid ""
+#~ "Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
+#~ msgstr ""
+#~ "Ogiltig namnrymds-URI för xmlns-prefix. Använd http://www.w3.org/2000/"
+#~ "xmlns/"
+
+#~ msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
+#~ msgstr "Endast xmlns-prefix kan användas med http://www.w3.org/2000/xmlns/"
+
+#~ msgid "Invalid namespace URI stored in element's attribute"
+#~ msgstr "Ogiltig namnrymds-URI lagras i elementets attribut"
+
+#~ msgid "Invalid attribute name in element's attributes list"
+#~ msgstr "Ogiltigt attributnamn i elementets attributlista"
+
+#~ msgid "Invalid attribute name: %s"
+#~ msgstr "Ogiltigt attributnamn: %s"
+
+#~ msgid "Invalid node type. DomAttr was expected"
+#~ msgstr "Ogiltig nodtyp. DomAttr förväntades"
+
+#~ msgid ""
+#~ "Namespace attributes prefixed with xmlns should use a namespace uri "
+#~ "http://www.w3.org/2000/xmlns"
+#~ msgstr ""
+#~ "Namnrymdsattribut med xmlns-prefix ska använda en namnrymds-URI http://"
+#~ "www.w3.org/2000/xmlns"
+
+#~ msgid ""
+#~ "Namespaced attributes should provide a non-null, non-empty prefix: %s"
+#~ msgstr ""
+#~ "Namnrymdsattribut ska ha ett prefix som varken är tomt eller null: %s"
+
+#~ msgid "Invalid namespace attribute's name."
+#~ msgstr "Ogiltigt namn på namnrymdsattribut."
+
+#~ msgid "Redefinition of default namespace for %s"
+#~ msgstr "Omdefinition av standardnamnrymd för %s"
+
+#~ msgid "Redefinition of namespace's prefix for %s"
+#~ msgstr "Omdefinition av namnrymdsprefix för %s"
+
+#~ msgid "Trying to add an attribute with an undefined namespace prefix"
+#~ msgstr ""
+#~ "Försöker att lägga till ett attribut med ett odefinierat namnrymdsprefix"
+
+#~ msgid "Trying to add an attribute with a non found namespace URI"
+#~ msgstr ""
+#~ "Försöker att lägga till ett attribut med ett icke funnet namnrymds-URI"
+
+#~ msgid "Invalid attribute name. Just one prefix is allowed"
+#~ msgstr "Ogiltigt attributnamn. Endast ett prefix är tillåtet"
+
+#~ msgid "Invalid attribute name. Invalid use of colon: %s"
+#~ msgstr "Ogiltigt attributnamn. Ogiltig användning av kolon: %s"
+
+#~ msgid ""
+#~ "Invalid namespace. If prefix is null, namespace URI should not be null"
+#~ msgstr "Ogiltig namnrymd. Om prefix är null bör namnrymd-URI inte vara tom"
+
+#~ msgid ""
+#~ "Invalid namespace. If prefix is xml, namespace URI should be http://www."
+#~ "w3.org/2000/xmlns/"
+#~ msgstr ""
+#~ "Ogiltig namnrymd. Om prefix är xml bör namnrymd-URI vara http://www.w3."
+#~ "org/2000/xmlns/"
+
+#~ msgid ""
+#~ "Invalid namespace. If attribute's prefix is xmlns, namespace URI should "
+#~ "be http://www.w3.org/2000/xmlns/"
+#~ msgstr ""
+#~ "Ogiltig namnrymd. Om attributets prefix är xmlns bör namnrymd-URI vara "
+#~ "http://www.w3.org/2000/xmlns/"
+
+#~ msgid ""
+#~ "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
+#~ "http://www.w3.org/2000/xmlns/"
+#~ msgstr ""
+#~ "Ogiltig namnrymd. Om attributets namn är xmlns bör namnrymd-URI vara "
+#~ "http://www.w3.org/2000/xmlns/"
+
+#~ msgid "Invalid attribute name. No prefixed attributes should use xmlns name"
+#~ msgstr ""
+#~ "Ogiltigt attributnamn. Inga attribut med prefix ska använda xmlns-namn"
+
+#~ msgid "Setting namespaced property error: "
+#~ msgstr "Anger fel för egenskap i namnrymd: "
+
+#~ msgid "Removing attribute Error: "
+#~ msgstr "Tar bort attributfel: "
+
+#~ msgid "Removing namespaced attribute Error: "
+#~ msgstr "Tar bort fel för namnrymdsattribut: "
+
+#~ msgid "Text content in element can't be created"
+#~ msgstr "Kan inte skapa textinnehåll i element"
+
+#~ msgid ""
+#~ "Trying to add a namespaced element to a parent with invalid prefix for "
+#~ "namespace %s"
+#~ msgstr ""
+#~ "Försöker att lägga till ett element i namnrymd till en överordnad nod med "
+#~ "ogiltigt prefix för namnrymden %s"
+
+#~ msgid ""
+#~ "Trying to add a namespaced element to a parent with invalid URI for "
+#~ "prefix %s"
+#~ msgstr ""
+#~ "Försöker att lägga till ett element i namnrymden till en överordnad nod "
+#~ "med ogiltigt URI för prefixet %s"
+
+#~ msgid ""
+#~ "Invalid attempt to insert a document or text type to an invalid parent "
+#~ "node"
+#~ msgstr ""
+#~ "Ogiltigt försök att infoga en dokument- eller texttyp till en ogiltig "
+#~ "överordnad nod"
+
+#~ msgid "Node type is invalid. Can't append as child"
+#~ msgstr "Nodtypen är ogiltig. Kan inte lägga till som underordnad"
+
+#~ msgid "Invalid attempt to append a child with different parent document"
+#~ msgstr ""
+#~ "Ogiltigt försök att lägga till en nod med ett annat överordnat dokument"
+
+#~ msgid "Enumeration is out of range"
+#~ msgstr "Uppräkningen är utanför intervallet"
+
+#~ msgid "Enumeration can't be parsed from string"
+#~ msgstr "Uppräkningen kan inte tolkas från strängen"
+
+#~ msgid "Error while attempting to instantiate property object: %s"
+#~ msgstr "Fel vid försök att instansiera egenskapsobjektet: %s"
+
+#~ msgid "Can't set value. It is not a GXmlGomElement type"
+#~ msgstr "Kan inte sätta värdet. Det är inte en GXmlGomElement-typ"
+
+#~ msgid "Error when transform enum to attribute's value"
+#~ msgstr "Fel vid transformering av enum till attributvärde"
+
+#~ msgid "Error when transform from attribute string value to enum"
+#~ msgstr "Fel vid transformering från attributsträngvärde till enum"
+
+#~ msgid "Invalid Date for property: "
+#~ msgstr "Ogiltigt datum för egenskap: "
+
+#~ msgid "Invalid timestamp for property: "
+#~ msgstr "Ogiltig tidsstämpel för egenskap: "
+
+#~ msgid "Update Error: "
+#~ msgstr "Uppdateringsfel: "
+
+#~ msgid "Invalid document string, it is empty or is not allowed"
+#~ msgstr "Ogiltigt dokumentsträng, den är tom eller ej tillåten"
+
+#~ msgid "Internal Error: No TextReader was set"
+#~ msgstr "Internt fel: Ingen TextReader angavs"
+
+#~ msgid "Can't read node data"
+#~ msgstr "Kan inte läsa noddata"
+
+#~ msgid ""
+#~ "Invalid attempt to parse an element node, when current found node is not"
+#~ msgstr "Ogiltigt försök att tolka en elementnod när aktuell nod ej är det"
+
+#~ msgid "Invalid object type set to Collection"
+#~ msgstr "Ogiltig objekttyp satt till samling"
+
+#~ msgid "Invalid DomElement name for objects in Collection"
+#~ msgstr "Ogiltigt DomElement-namn för objekt i samling"
+
+#~ msgid "Invalid Element set to Collection"
+#~ msgstr "Ogiltigt element satt till samling"
+
+#~ msgid "No document is set to node"
+#~ msgstr "Inget dokument är satt till nod"
+
+#~ msgid "Internal Error: No TextWriter initialized"
+#~ msgstr "Internt fel: Ingen TextWriter initierades"
+
+#~ msgid "Error removing Collection's element: %s"
+#~ msgstr "Fel vid borttagning av samlingens element: %s"
+
+#~ msgid "Can't find element at position: %i : %s"
+#~ msgstr "Det går inte att hitta element vid position: %i: %s"
+
+#~ msgid "Collection type %s, initialization error: %s"
+#~ msgstr "Samlingstyp %s, initieringsfel: %s"
+
+#~ msgid "Invalid element type only GXmlGomElement is supported"
+#~ msgstr "Ogiltig elementtyp, endast GXmlGomElement stöds"
+
+#~ msgid "Invalid object item type to initialize ArrayList"
+#~ msgstr "Ogiltig objekttyp för att initiera ArrayList"
+
+#~ msgid ""
+#~ "Invalid atempt to add unsupported type. Only GXmlGomElement is supported"
+#~ msgstr ""
+#~ "Ogiltigt försök till att lägga till typ som inte stöds. Endast "
+#~ "GXmlGomElement stöds"
+
+#~ msgid "Invalid atempt to add a node with a different parent document"
+#~ msgstr ""
+#~ "Ogiltigt försök att lägga till en nod med ett annat överordnat dokument"
+
+#~ msgid "Invalid object item type to initialize HashMap"
+#~ msgstr "Ogiltig objekttyp för att initiera HashMap"
+
+#~ msgid "Invalid atempt to set a node without key attribute"
+#~ msgstr "Ogiltigt försök till att infoga en nod utan nyckelattribut"
+
+#~ msgid "Invalid namespaced attribute's name and prefix"
+#~ msgstr "Ogiltigt attributnamn och prefix med namnrymd"
+
+#~ msgid "Invalid element node name. Expected %s"
+#~ msgstr "Ogiltigt elementnamn. Förväntade sig %s"
+
+#~ msgid "DOM: Invalid token. Empty string can't be as token"
+#~ msgstr "DOM: Ogiltig token. Tom sträng kan inte vara en token"
+
+#~ msgid "DOM:  Invalid token. White spaces can't be used as token"
+#~ msgstr "DOM: Ogiltigt token.  Blanktecken kan inte användas som en token"
+
+#~ msgid "Invalid atemp to add invalid node type"
+#~ msgstr "ogiltigt försök att lägga till ogiltig nodtyp"
+
+#~ msgid "Invalid atemp to insert an invalid node type"
+#~ msgstr "Ogiltigt försök att infoga en ogiltig nodtyp"
+
+#~ msgid ""
+#~ "Invalid atemp to insert a document's type or text node to a invalid parent"
+#~ msgstr ""
+#~ "Ogiltigt försök att infoga ett dokuments typ- eller textnod till en "
+#~ "överordnad nod"
+
+#~ msgid "DOM: No empty string could be toggle"
+#~ msgstr "DOM: Ingen tom sträng kan vara en växlare"
+
+#~ msgid "DOM: No white spaces should be included to toggle"
+#~ msgstr "DOM: Inga blanktecken bör inkluderas i växlare"
