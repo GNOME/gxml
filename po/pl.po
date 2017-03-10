@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-26 18:07+0100\n"
-"PO-Revision-Date: 2017-02-26 18:08+0100\n"
+"POT-Creation-Date: 2017-03-10 11:54+0100\n"
+"PO-Revision-Date: 2017-03-10 11:55+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -51,21 +51,21 @@ msgstr "wartość jest nieprawidłowa"
 msgid "text cannot be parsed to enumeration type:"
 msgstr "tekst nie może zostać przetworzony na typ wyliczenia:"
 
-#: ../gxml/GomCollections.vala:67
+#: ../gxml/GomCollections.vala:66
 msgid "Invalid index for elements in array list"
 msgstr "Nieprawidłowy indeks elementów na liście macierzy"
 
-#: ../gxml/GomCollections.vala:71
+#: ../gxml/GomCollections.vala:70
 msgid "Invalid index reference for child elements in array list"
 msgstr ""
 "Nieprawidłowe odniesienie indeksu dla elementów potomnych na liście macierzy"
 
-#: ../gxml/GomCollections.vala:76
+#: ../gxml/GomCollections.vala:75
 msgid "Referenced object's type is invalid. Should be a GXmlGomElement"
 msgstr ""
 "Typ wymienionego obiektu jest nieprawidłowy. Powinien być GXmlGomElement"
 
-#: ../gxml/GomCollections.vala:190
+#: ../gxml/GomCollections.vala:189
 msgid ""
 "Invalid attempt to initialize a collection using an unsupported type. Only "
 "GXmlGomElement is supported"
@@ -73,22 +73,22 @@ msgstr ""
 "Nieprawidłowa próba zainicjowania zbioru za pomocą nieobsługiwanego typu. "
 "Tylko GXmlGomElement jest obsługiwany"
 
-#: ../gxml/GomCollections.vala:220 ../gxml/GomCollections.vala:246
+#: ../gxml/GomCollections.vala:219 ../gxml/GomCollections.vala:245
 msgid "Parent Element is invalid"
 msgstr "Element nadrzędny jest nieprawidłowy"
 
-#: ../gxml/GomCollections.vala:223
+#: ../gxml/GomCollections.vala:222
 msgid ""
 "Invalid attempt to set unsupported type. Only GXmlGomElement is supported"
 msgstr ""
 "Nieprawidłowa próba ustawienia nieobsługiwanego typu. Tylko GXmlGomElement "
 "jest obsługiwany"
 
-#: ../gxml/GomCollections.vala:226
+#: ../gxml/GomCollections.vala:225
 msgid "Invalid attempt to set a node with a different parent document"
 msgstr "Nieprawidłowa próba ustawienia węzła z innym dokumentem nadrzędnym"
 
-#: ../gxml/GomCollections.vala:230
+#: ../gxml/GomCollections.vala:229
 msgid ""
 "Node element not appended as child of parent. No node added to collection"
 msgstr ""
@@ -353,19 +353,19 @@ msgstr "Błąd podczas próby utworzenia wystąpienia obiektu właściwości: %s
 msgid "Can't set value. It is not a GXmlGomElement type"
 msgstr "Nie można ustawić wartości. Nie jest typem GXmlGomElement"
 
-#: ../gxml/GomProperty.vala:336
+#: ../gxml/GomProperty.vala:333
 msgid "Error when transform enum to attribute's value"
 msgstr "Błąd podczas przekształcania wyliczenia na wartość atrybutu"
 
-#: ../gxml/GomProperty.vala:344
+#: ../gxml/GomProperty.vala:341
 msgid "Error when transform from attribute string value to enum"
 msgstr "Błąd podczas przekształcania z wartości ciągu atrybutu na wyliczenie"
 
-#: ../gxml/GomProperty.vala:390
+#: ../gxml/GomProperty.vala:387
 msgid "Invalid Date for property: "
 msgstr "Nieprawidłowa data dla właściwości: "
 
-#: ../gxml/GomProperty.vala:429
+#: ../gxml/GomProperty.vala:426
 msgid "Invalid timestamp for property: "
 msgstr "Nieprawidłowy czas dla właściwości: "
 
@@ -529,12 +529,12 @@ msgstr "Nie odnaleziono atrybutu, z którego deszeregować"
 msgid "XML Attribute name is not set, when deserializing to: %s"
 msgstr "Nie ustawiono nazwy atrybutu XML podczas deszeregowania do: %s"
 
-#: ../gxml/Serializable.vala:434
+#: ../gxml/Serializable.vala:390
 #, c-format
 msgid "Transformation Error on '%s' or Unsupported type: '%s'"
 msgstr "Błąd przekształcania na „%s” lub nieobsługiwany typ: „%s”"
 
-#: ../gxml/Serializable.vala:455
+#: ../gxml/Serializable.vala:411
 #, c-format
 msgid "Can't transform '%s' to string"
 msgstr "Nie można przekształcić „%s” na ciąg"
@@ -543,42 +543,53 @@ msgstr "Nie można przekształcić „%s” na ciąg"
 msgid "Invalid element name"
 msgstr "Nieprawidłowa nazwa elementu"
 
-#: ../gxml/TDocument.vala:573 ../gxml/XParser.vala:217
+#: ../gxml/TDocument.vala:573 ../gxml/XParser.vala:235
 #, c-format
 msgid "Parsing ERROR: Fail to move to attribute number: %i"
 msgstr ""
 "BŁĄD podczas przetwarzania: przejście do numeru atrybutu się nie powiodło: %i"
 
-#: ../gxml/XParser.vala:90
+#: ../gxml/XParser.vala:91
 msgid "Invalid document string, it is empty or is not allowed"
 msgstr "Nieprawidłowy ciąg dokumentu, jest pusty lub nie jest dozwolony"
 
-#: ../gxml/XParser.vala:147
+#: ../gxml/XParser.vala:113 ../gxml/XParser.vala:150 ../gxml/XParser.vala:167
+#: ../gxml/XParser.vala:175 ../gxml/XParser.vala:183 ../gxml/XParser.vala:191
+#: ../gxml/XParser.vala:199 ../gxml/XParser.vala:223 ../gxml/XParser.vala:297
+#: ../gxml/XParser.vala:324 ../gxml/XParser.vala:450 ../gxml/XParser.vala:481
+msgid "Internal Error: No TextReader was set"
+msgstr "Wewnętrzny błąd: nie ustawiono TextReader"
+
+#: ../gxml/XParser.vala:153
 msgid "Can't read node data"
 msgstr "Nie można odczytać danych węzła"
 
-#: ../gxml/XParser.vala:429
+#: ../gxml/XParser.vala:453
 msgid ""
 "Invalid attempt to parse an element node, when current found node is not"
 msgstr ""
 "Nieprawidłowa próba przetworzenia węzła elementu, kiedy obecnie odnaleziony "
 "węzeł nie jest"
 
-#: ../gxml/XParser.vala:518
+#: ../gxml/XParser.vala:544
 msgid "Invalid object type set to Collection"
 msgstr "Nieprawidłowy zestaw typów obiektów do zbioru"
 
-#: ../gxml/XParser.vala:522
+#: ../gxml/XParser.vala:548
 msgid "Invalid DomElement name for objects in Collection"
 msgstr "Nieprawidłowa nazwa elementu DOM dla obiektów w zbiorze"
 
-#: ../gxml/XParser.vala:526
+#: ../gxml/XParser.vala:552
 msgid "Invalid Element set to Collection"
 msgstr "Nieprawidłowy zestaw elementów do zbioru"
 
-#: ../gxml/XParser.vala:534
+#: ../gxml/XParser.vala:560
 msgid "No document is set to node"
 msgstr "Żaden dokument nie jest ustawiony na węzeł"
+
+#: ../gxml/XParser.vala:614
+msgid "Internal Error: No TextWriter initialized"
+msgstr "Wewnętrzny błąd: nie zainicjowano TextWriter"
 
 #: ../gxml/GomSchema.vala:266
 #, c-format
