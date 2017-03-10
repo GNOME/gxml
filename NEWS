@@ -3,6 +3,27 @@ Version 0.14
 ===============
 
 * API additions now GXml.Text.str is writable see Bug #779038
+* Fixed running conditions on XParser
+* Vala required version is set to 0.34.6
+* Some documentation additions
+* Build system improvements (Rico Tzschichholz)
+* Removing lot of warnings
+* Simplified GomHashMap using MappeableElement
+* Added new interface MappeableElementPairKey for double key hash collections
+* Added GomHashPairedMap collection using MappeableElementPairKey
+* New GomObject.clean_property_elements() to search and remove redundant
+  nodes of requested property.
+* New GomObject.find_elements() to search and return a list of all child
+  elements of same type.
+* Added documentation on how to define properties removing redundant
+  child nodes.
+* Added --disable-docs switch
+* Renamed IXsdListAttributesGroup, remember this is unstable API
+* Improved VALAC_CHECK and new VALA_PKG_CHECK macros
+* New and updated translations:
+    Updated Brazilian   by Rafael Fontenelle <rafaelff@gnome.org>
+    Updated Polish      by Piotr Drąg <piotrdrag@gmail.com>
+    Updated Servian     by Мирослав Николић <miroslavnikolic@rocketmail.com>
 
 ===============
 Version 0.13.98
@@ -20,7 +41,7 @@ Version 0.13.98
 * New and updated translations:
     Updated Brazilian   by Rafael Fontenelle <rafaelff@gnome.org>
     Updated Polish      by Piotr Drąg <piotrdrag@gmail.com>
-    Updated Czech      by Marek Černocký <marek@manet.cz>
+    Updated Czech       by Marek Černocký <marek@manet.cz>
 
 ===============
 Version 0.13.90

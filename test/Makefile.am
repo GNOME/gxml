@@ -16,7 +16,7 @@ AM_CFLAGS = \
 	$(LIBXML_CFLAGS) \
 	$(GIO_CFLAGS) \
 	-I$(top_builddir) \
-	-DTEST_DIR=\"$(abs_builddir)\" \
+	-DTEST_DIR=\"$(abs_srcdir)\" \
 	-DTEST_SAVE_DIR=\"$(abs_builddir)\" \
 	$(NULL)
 
@@ -121,7 +121,7 @@ gxml_test_LDADD = \
 	$(GXML_LIBS) \
 	$(LIBXML_LIBS) \
 	$(GIO_LIBS) \
-	../gxml/libgxml-0.14.la
+	../gxml/libgxml-0.14.la \
 	$(NULL)
 
 gxml_test_LDFLAGS = $(AM_LDFLAGS)

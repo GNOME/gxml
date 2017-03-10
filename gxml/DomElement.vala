@@ -54,9 +54,9 @@ public interface GXml.DomElement : GLib.Object,
    * as prefix. For default namespaces, use xmlns as name without prefix. Namespace
    * URI will be the one provided as value.
    *
-   * @param namespace, attribute namespace
-   * @param name, a prefixed attribute name or xmlns for default namespace declaration
-   * @param value, a value for the attribute or URI for namespace declaration
+   * @param namespace attribute namespace
+   * @param name a prefixed attribute name or xmlns for default namespace declaration
+   * @param value a value for the attribute or URI for namespace declaration
    */
   public abstract void set_attribute_ns (string? namespace, string name, string value) throws GLib.Error;
   public abstract void remove_attribute (string name);

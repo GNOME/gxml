@@ -308,9 +308,7 @@ class SerializableGeeTreeMapTest : GXmlTest
         assert (r.chapter == "II");
         assert (r.text == "Nothing to say");
       } catch (GLib.Error e) {
-#if DEBUG
         GLib.message ("ERROR: "+e.message);
-#endif
         assert_not_reached ();
       }
     });

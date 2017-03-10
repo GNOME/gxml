@@ -11,8 +11,8 @@
 
 # Release Version
 m4_define([project_major_version], [0])
-m4_define([project_minor_version], [13])
-m4_define([project_micro_version], [98])
+m4_define([project_minor_version], [14])
+m4_define([project_micro_version], [0])
 m4_define([project_nano_version], [0])
 
 # LT_VERSION
@@ -35,7 +35,7 @@ m4_define([project_full_version],
 
 # You should set project_released to one in order to mark this as a released version
 # and to avoid date on version number
-m4_define(project_released, [0])
+m4_define(project_released, [1])
 m4_define([project_maybe_datestamp],
           m4_if(project_released, [1],
                 [], [m4_esyscmd([date +.%Y%m%d | tr -d '\n\r'])]))
@@ -115,12 +115,13 @@ AC_SUBST(GXML_LOCALEDIR)
 # TODO: what do we do about libvala's versioning?  set it back to -0.18 and see what happens when we upgraded from Fedora 18 to 19
 
 GLIB_REQUIRED=2.32.0
-VALA_REQUIRED=0.34
-LIBVALA_REQUIRED=0.34
+VALA_REQUIRED=0.34.6
+VALA_API_REQUIRED=
+LIBVALA_REQUIRED=
 GEE_REQUIRED=0.18.0
 LIBXML_REQUIRED=2.7
 GIO_MODULES="gio-2.0 >= 2.16"
-VALADOC_REQUIRED=0.3.1
+VALADOC_REQUIRED=0.30
 
 # Check glib
 PKG_CHECK_MODULES([GLIB],
@@ -129,6 +130,7 @@ PKG_CHECK_MODULES([GLIB],
 
 # Check for vala
 VALAC_CHECK([$VALA_REQUIRED])
+#VALA_PKG_CHECK([$VALA_API_REQUIRED],[$LIBVALA_REQUIRED])
 
 # Check for libgee
 PKG_CHECK_MODULES(GEE, gee-0.8 >= $GEE_REQUIRED)
@@ -174,7 +176,7 @@ if test x$have_valadoc = xyes -a "x$docs" = "xyes"; then
     build_gtkdoc=no
 fi
 fi
-AM_CONDITIONAL([BUILD_GTK_DOCS], [test "x$build_gtkdoc" = "xyes"])
+AM_CONDITIONAL([BUILD_GTK_DOCS], [ test "x$build_gtkdoc" = "xyes"])
 
 build_devhelp=no
 build_mallard_doc=no
@@ -281,4 +283,5 @@ echo "       Gtk-Docs:            ${build_gtkdoc}"
 echo "   Enable Performance Test: $performance"
 echo "   Debug:                   $debug"
 echo "   Platform:                $host"
+echo "   valac:                   $have_vala"
 echo ""
