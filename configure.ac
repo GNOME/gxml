@@ -156,9 +156,10 @@ AC_ARG_ENABLE(docs,
         [docs=$enableval], [docs="yes"])
 
 have_valadoc=no
-if test "x$VALADOC" = "xno" -a "x$docs" = "xno"; then
+if test "x$VALADOC" = "xno" -o "x$docs" = "xno"; then
 	have_valadoc="no"
-	else
+	docs="no"
+else
 	have_valadoc="yes"
 fi
 AM_CONDITIONAL([HAVE_VALADOC], [test x$have_valadoc = xyes])
