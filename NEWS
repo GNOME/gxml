@@ -1,4 +1,13 @@
 ===============
+Version 0.14.1
+===============
+
+* valadoc in not necesary to build from tarball
+* New and updated translations:
+    Updated Swedish   by Josef Andersson <l10nl18nsweja@gmail.com>
+    Updated Polish      by Piotr Drąg <piotrdrag@gmail.com>
+
+===============
 Version 0.14
 ===============
 
