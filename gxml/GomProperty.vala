@@ -382,7 +382,20 @@ public class GXml.GomDate : GomBaseProperty {
     }
     set {
       _value = Date ();
-      _value.set_parse (value);
+      if ("-" in value) {
+        string[] dp = value.split ("-");
+        if (dp.length == 3) {
+          int y = int.parse (dp[0]);
+          int m = int.parse (dp[1]);
+          int d = int.parse (dp[2]);
+          _value.set_dmy ((DateDay) d, (DateMonth) m, (DateYear) y);
+          if (!_value.valid ())
+            warning (_("Invalid Date for property: "+value));
+        } else
+          warning (_("Invalid format for Date property: "+value));
+      } else {
+        _value.set_parse (value);
+      }
       if (!_value.valid ())
         warning (_("Invalid Date for property: "+value));
     }

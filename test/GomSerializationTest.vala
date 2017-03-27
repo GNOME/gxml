@@ -491,12 +491,14 @@ class GomSerializationTest : GXmlTest  {
       assert (t.pay_date.get_date ().valid ());
       assert (t.pay_date.value != null);
       assert (t.pay_date.value == "2023-03-10");
+      t.pay_date.value = "2075-3-17";
+      assert (t.pay_date.get_date ().valid ());
+      assert (t.pay_date.value != null);
+      assert (t.pay_date.value == "2075-03-17");
       s = t.to_string ();
       assert (s != null);
-#if DEBUG
-      GLib.message ("DOC:"+s);
-#endif
-      assert ("PayDate=\"2023-03-10\"" in s);
+      message (t.pay_date.value);
+      assert ("PayDate=\"2075-03-17\"" in s);
     });
     Test.add_func ("/gxml/gom-serialization/read/property-date", () => {
     try {
