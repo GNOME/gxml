@@ -497,8 +497,11 @@ class GomSerializationTest : GXmlTest  {
       assert (t.pay_date.value == "2075-03-17");
       s = t.to_string ();
       assert (s != null);
-      message (t.pay_date.value);
       assert ("PayDate=\"2075-03-17\"" in s);
+      var gd = new GomDate ();
+      gd.value = "2076-03-17";
+      assert (gd.get_date ().valid ());
+      assert (gd.value == "2076-03-17");
     });
     Test.add_func ("/gxml/gom-serialization/read/property-date", () => {
     try {
