@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-03-06 18:14+0000\n"
-"PO-Revision-Date: 2017-03-16 12:17+0100\n"
+"POT-Creation-Date: 2017-03-27 23:28+0000\n"
+"PO-Revision-Date: 2017-04-03 22:46+0200\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -367,11 +367,15 @@ msgstr ""
 "Fehler beim Umwandeln der des Wertes der Attributzeichenkette in eine "
 "Aufzählung"
 
-#: ../gxml/GomProperty.vala:387
+#: ../gxml/GomProperty.vala:393 ../gxml/GomProperty.vala:400
 msgid "Invalid Date for property: "
 msgstr "Ungültiges Datum für Eigenschaft: "
 
-#: ../gxml/GomProperty.vala:426
+#: ../gxml/GomProperty.vala:395
+msgid "Invalid format for Date property: "
+msgstr "Ungültiges Format für Datum-Eigenschaft: "
+
+#: ../gxml/GomProperty.vala:439
 msgid "Invalid timestamp for property: "
 msgstr "Ungültiger Zeitstempel für Eigenschaft: "
 
