@@ -1,4 +1,16 @@
 ===============
+Version 0.14.2
+===============
+
+* Fixed parsing dates on GomDate
+* New and updated translations:
+    Update Hungarian              by Balázs Úr <urbalazs@gmail.com>
+    Updated German                by Mario Blättermann <mario.blaettermann@gmail.com>
+    Update Indonesian             by Andika Triwidada <atriwidada@gnome.org>
+    Updated Polish                by Piotr Drąg <piotrdrag@gmail.com>
+    Updated Brazilian Portuguese  by Rafael Fontenelle <rafaelff@gnome.org>
+
+===============
 Version 0.14.1
 ===============
 
