@@ -2,6 +2,12 @@
 Version 0.14.2
 ===============
 
+* Fixed allow http://www.w3.org/2000/xmlns as URI for namespace declaration
+
+===============
+Version 0.14.2
+===============
+
 * Fixed parsing dates on GomDate
 * New and updated translations:
     Update Hungarian              by Balázs Úr <urbalazs@gmail.com>
