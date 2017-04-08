@@ -537,7 +537,8 @@ public class GXml.GomElement : GomNode,
        throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If prefix is null, namespace URI should not be null"));
     if (p == "xml" && namespace_uri != "http://www.w3.org/2000/xmlns/")
        throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If prefix is xml, namespace URI should be http://www.w3.org/2000/xmlns/"));
-    if (p == "xmlns" && namespace_uri != "http://www.w3.org/2000/xmlns/")
+    if (p == "xmlns" && (namespace_uri != "http://www.w3.org/2000/xmlns/"
+            && namespace_uri != "http://www.w3.org/2000/xmlns"))
        throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If attribute's prefix is xmlns, namespace URI should be http://www.w3.org/2000/xmlns/"));
     if (p == "" && n == "xmlns"
         && (namespace_uri != "http://www.w3.org/2000/xmlns/"
