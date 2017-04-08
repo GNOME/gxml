@@ -1,5 +1,5 @@
 ===============
-Version 0.14.2
+Version 0.14.3
 ===============
 
 * Fixed allow http://www.w3.org/2000/xmlns as URI for namespace declaration
