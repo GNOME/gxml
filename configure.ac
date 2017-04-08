@@ -22,7 +22,7 @@ m4_define([project_nano_version], [0])
 #   If public symbols have been added since last release, increment age
 #   If public symbols have been removed since last release, set age to 0
 m4_define([project_lt_current], [14])
-m4_define([project_lt_revision], [0])
+m4_define([project_lt_revision], [3])
 m4_define([project_lt_age], [0])
 
 # Combine numbers to various version variables (different uses)
