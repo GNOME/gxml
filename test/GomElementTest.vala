@@ -51,6 +51,7 @@ class GomElementTest : GXmlTest  {
 				assert ((node as DomElement).get_attribute_ns ("http://www.w3.org/2000/xmlns/","products") == "http://diagonalley.co.uk/products");
 				assert (node.lookup_prefix ("http://diagonalley.co.uk/products") == "products");
 				assert (node.lookup_namespace_uri ("products") == "http://diagonalley.co.uk/products");
+				(node as DomElement).set_attribute_ns ("http://www.w3.org/2000/xmlns", "xmlns:gxmlt","http://org.gnome.org/GXmlTest/");
 			} catch (GLib.Error e) {
 				GLib.message (e.message);
 				assert_not_reached ();
