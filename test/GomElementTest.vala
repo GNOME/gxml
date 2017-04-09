@@ -23,6 +23,13 @@
 using GXml;
 
 class GomElementTest : GXmlTest  {
+	public class ParsedDelayed : GomElement {
+		construct {
+			try { initialize ("root"); }
+			catch (GLib.Error e) { warning ("Error: "+e.message); }
+			parse_children = false;
+		}
+	}
 	public static void add_tests () {
 	Test.add_func ("/gxml/gom-element/read/namespace_uri", () => {
 			DomDocument doc = null;
@@ -193,6 +200,23 @@ class GomElementTest : GXmlTest  {
 				assert (doc.document_element.child_nodes[0].parent_node != null);
 				assert (doc.document_element.child_nodes[0].parent_node.node_name == "root");
 		  } catch (GLib.Error e) {
+		    GLib.message ("Error: "+e.message);
+		    assert_not_reached ();
+		  }
+		});
+		Test.add_func ("/gxml/gom-element/parsed-delayed", () => {
+			try {
+				var n = new ParsedDelayed ();
+				n.read_from_string ("<root><child p1=\"Value1\" p2=\"Value2\"><child2/></child></root>");
+				assert (n.unparsed != null);
+				assert (n.unparsed == "<child p1=\"Value1\" p2=\"Value2\"><child2/></child>");
+				assert (!n.has_child_nodes ());
+				assert (n.child_nodes.length == 0);
+				(n as GomObject).read_unparsed ();
+				assert (n.has_child_nodes ());
+				assert (n.child_nodes.length == 1);
+				assert (n.unparsed == null);
+			} catch (GLib.Error e) {
 		    GLib.message ("Error: "+e.message);
 		    assert_not_reached ();
 		  }

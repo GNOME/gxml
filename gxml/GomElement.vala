@@ -635,6 +635,12 @@ public class GXml.GomElement : GomNode,
   // GomObject
   public bool parse_children { get; set; default = true; }
   public string unparsed { get; set; }
+  public void read_unparsed () throws GLib.Error {
+    if (unparsed == null) return;
+    var parser = new XParser (this);
+    parser.read_child_nodes_string (unparsed, null);
+    unparsed = null;
+  }
 }
 
 

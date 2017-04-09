@@ -49,13 +49,9 @@ public interface GXml.GomObject : GLib.Object,
   /**
    * Reads all children stored in {@link unparsed} string.
    *
-   * After this method is called, {@link unparsed} is freed.
+   * After this method is called, {@link unparsed} is freed and set to null.
    */
-  public virtual void read_children () throws GLib.Error {
-    if (unparsed != null);
-    (this as GomElement).read_from_string (unparsed);
-    unparsed = null;
-  }
+  public abstract void read_unparsed () throws GLib.Error;
   /**
    * Returns a list with all properties' nick with "::" prefix. Nick name,
    * with "::" prefix will be used on serialization to an attribute's name.

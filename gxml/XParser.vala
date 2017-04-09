@@ -105,6 +105,22 @@ public class GXml.XParser : Object, GXml.Parser {
     read_node (_node);
     tr = null;
   }
+
+  public void read_child_nodes_stream (GLib.InputStream istream,
+                          GLib.Cancellable? cancellable = null) throws GLib.Error {
+    var b = new MemoryOutputStream.resizable ();
+    b.splice (istream, 0);
+    tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), "/gxml_memory");
+    read_child_nodes (_node);
+    tr = null;
+  }
+
+  public void read_child_nodes_string (string str, GLib.Cancellable? cancellable) throws GLib.Error {
+    if (str == "")
+      throw new ParserError.INVALID_DATA_ERROR (_("Invalid document string, it is empty or is not allowed"));
+    var stream = new GLib.MemoryInputStream.from_data (str.data);
+    read_child_nodes_stream (stream, cancellable);
+  }
   /**
    * Reads a node using current parser.
    */
@@ -114,17 +130,9 @@ public class GXml.XParser : Object, GXml.Parser {
     move_next_node ();
     if (node is DomElement) {
       while (true) {
-#if DEBUG
-        GLib.message ("Node's name: "+(node as DomElement).local_name.down ());
-        GLib.message ("Current Node's name: "+current_node_name ().down ());
-        GLib.message ("Current Node is Element: "+current_is_element ().to_string ());
-#endif
         if (current_is_element ()
             &&
             (current_node_name ().down () == (node as DomElement).local_name.down ())) {
-#if DEBUG
-          GLib.message ("Found Element node: "+current_node_name ());
-#endif
           break;
         }
         if (!current_is_document ()) {
@@ -134,15 +142,26 @@ public class GXml.XParser : Object, GXml.Parser {
       }
       read_element (node as DomElement);
     }
-#if DEBUG
-        GLib.message ("Parsing child nodes of: "+node.node_name);
-#endif
     if (current_is_element () && (node is DomDocument))
       read_child_element (node);
     else {
       if ((node as GomObject).parse_children)
         read_child_nodes (node);
+      else {
+        (node as GomObject).unparsed = read_unparsed ();
+        //warning ("Unparsed text: "+(node as GomObject).unparsed);
+        move_next_node ();
+      }
     }
+  }
+  /**
+   * Reads all child nodes as string
+   */
+  public string read_unparsed () throws GLib.Error {
+    if (tr == null)
+      throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
+    string s = tr.read_inner_xml ();
+    return s;
   }
   /**
    * Use parser to go to next parsed node.
@@ -299,13 +318,7 @@ public class GXml.XParser : Object, GXml.Parser {
       throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
     bool cont = true;
     while (cont) {
-#if DEBUG
-      GLib.message ("Parent: "+parent.node_name+" Current node: "+current_node_name ());
-#endif
       if (!move_next_node ()) return;
-#if DEBUG
-      GLib.message ("Parent: "+parent.node_name+" Next Current child node: "+current_node_name ());
-#endif
       if (current_is_element ())
         cont = read_child_element (parent);
       else
