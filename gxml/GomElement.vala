@@ -632,6 +632,9 @@ public class GXml.GomElement : GomNode,
     }
     return l;
   }
+  // GomObject
+  public bool parse_children { get; set; default = true; }
+  public string unparsed { get; set; }
 }
 
 

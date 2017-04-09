@@ -35,6 +35,28 @@ public interface GXml.GomObject : GLib.Object,
                                   DomNode,
                                   DomElement {
   /**
+   * Controls if children should be parsed or delayed
+   */
+  public abstract bool parse_children { get; set; default = true; }
+  /**
+   * Holds unparsed text for this {@link GomElement}.
+   *
+   * If {@link parse_children} is true this will hold a string with all childrens
+   * for this {@link GomElement}. It is set to null if {@link parse_children} is false
+   * and {@link read_children} is called.
+   */
+  public abstract string unparsed { get; set; }
+  /**
+   * Reads all children stored in {@link unparsed} string.
+   *
+   * After this method is called, {@link unparsed} is freed.
+   */
+  public virtual void read_children () throws GLib.Error {
+    if (unparsed != null);
+    (this as GomElement).read_from_string (unparsed);
+    unparsed = null;
+  }
+  /**
    * Returns a list with all properties' nick with "::" prefix. Nick name,
    * with "::" prefix will be used on serialization to an attribute's name.
    */

@@ -139,8 +139,10 @@ public class GXml.XParser : Object, GXml.Parser {
 #endif
     if (current_is_element () && (node is DomDocument))
       read_child_element (node);
-    else
-      read_child_nodes (node);
+    else {
+      if ((node as GomObject).parse_children)
+        read_child_nodes (node);
+    }
   }
   /**
    * Use parser to go to next parsed node.
