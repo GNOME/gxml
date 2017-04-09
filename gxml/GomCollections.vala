@@ -203,7 +203,6 @@ public abstract class GXml.BaseCollection : Object {
    */
   public void initialize_element (GomElement e) throws GLib.Error {
     _element = e;
-    search ();
   }
 
   /**
@@ -356,7 +355,6 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.GomCollection {
     initialize (items_type);
     initialize_element (element);
     _attribute_key = attribute_key;
-    search ();
   }
 
   /**
@@ -402,7 +400,7 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.GomCollection {
    * Attribute should be a valid {@link DomElement} attribute or
    * a {@link GomObject} property identified using a nick with a '::' prefix.
    *
-   * If there are more elements with same key, they are keep as child nodes
+   * If there are more elements with same key, they are kept as child nodes
    * but the one in collection will be the last one to be found.
    *
    * Return: false if element should not be added to collection.
@@ -437,10 +435,10 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.GomCollection {
 
 /**
  * Inteface to be implemented by {@link GomElement} derived classes
- * in order to provide a string to be used in {@link GomHashMap} as key.
+ * in order to provide a strings to be used in {@link GomHashPairedMap} as keys.
  *
- * If {@link GomHashMap} has set its {@link GomHashMap.attribute_key}
- * its value has precedence over this method.
+ * If {@link GomHashPairedMap} has set its {@link GomHashMap.attribute_primary_key}
+ * and {@link GomHashMap.attribute_secondary_key} its value has precedence over these methods.
  */
 public interface GXml.MappeableElementPairKey : Object, DomElement {
   public abstract string get_map_primary_key ();
@@ -452,7 +450,7 @@ public interface GXml.MappeableElementPairKey : Object, DomElement {
  * child {@link DomElement} of {@link GomCollection.element}, using two attributes in
  * items as primary and secondary keys or {@link MappeableElementPairKey.get_map_primary_key}
  * and {@link MappeableElementPairKey.get_map_secondary_key} methods if
- * {@link MappeableElementPairKey} is implemented
+ * {@link MappeableElementPairKey} are implemented
  * by items to be added. If one or both keys are not defined in node,
  * it is not added; but keeps it as a child node of actual
  * {@link GomCollection.element}.
@@ -465,14 +463,16 @@ public interface GXml.MappeableElementPairKey : Object, DomElement {
  * as keys.
  *
  * {{{
- *   public class YourObject : GomElement {
+ *   public class YourObject : GomElement, MappeableElementPairKey {
  *    [Description (nick="::Name")]
  *    public string name { get; set; }
  *    public string code { get; set; }
+ *    public string get_map_primary_key () { return code; }
+ *    public string get_map_secondary_key () { return name; }
  *   }
  *   public class YourList : GomHashPairedMap {
  *    construct {
- *      try { initialize_with_key (typeof (YourObject),"Name"); }
+ *      try { initialize_with (typeof (YourObject)); }
  *      catch (GLib.Error e) {
  *        warning ("Initialization error for collection type: %s : %s"
  *             .printf (get_type ().name(), e.message));
@@ -525,7 +525,6 @@ public class GXml.GomHashPairedMap : GXml.BaseCollection, GXml.GomCollection {
     initialize_element (element);
     _attribute_primary_key = attribute_primary_key;
     _attribute_secondary_key = attribute_secondary_key;
-    search ();
   }
 
   /**
@@ -595,7 +594,7 @@ public class GXml.GomHashPairedMap : GXml.BaseCollection, GXml.GomCollection {
    * Attribute should be a valid {@link DomElement} attribute or
    * a {@link GomObject} property identified using a nick with a '::' prefix.
    *
-   * If there are more elements with same keys, they are keep as child nodes
+   * If there are more elements with same keys, they are kept as child nodes
    * but the one in collection will be the last one to be found.
    *
    * Return: false if element should not be added to collection.
@@ -628,6 +627,261 @@ public class GXml.GomHashPairedMap : GXml.BaseCollection, GXml.GomCollection {
     if (ht == null) ht = new HashTable<string,int> (str_hash, str_equal);
     ht.insert (skey, index);
     if (!_hashtable.contains (pkey)) _hashtable.insert (pkey, ht);
+    return true;
+  }
+}
+
+
+/**
+ * Inteface to beimplemented by {@link GomElement} derived classes
+ * in order to provide a string to be used in {@link GomHashThreeMap} as key.
+ *
+ * If {@link GomHashMap} has set its {@link GomHashMap.attribute_key}
+ * its value has precedence over this method.
+ */
+public interface GXml.MappeableElementThreeKey : Object, DomElement {
+  public abstract string get_map_primary_key ();
+  public abstract string get_map_secondary_key ();
+  public abstract string get_map_third_key ();
+}
+
+/**
+ * A class impementing {@link GomCollection} to store references to
+ * child {@link DomElement} of {@link GomCollection.element}, using three attributes in
+ * items as primary and secondary keys or {@link MappeableElementThreeKey.get_map_primary_key},
+ * {@link MappeableElementPairKey.get_map_secondary_key}
+ * and {@link MappeableElementPairKey.get_map_third_key}
+ * methods if {@link MappeableElementThreeKey} are implemented
+ * by items to be added. All keys should be defined in node, otherwise
+ * it is not added; but keeps it as a child node of actual
+ * {@link GomCollection.element}.
+ *
+ * If {@link GomElement} to be added is of type {@link GomCollection.items_type}
+ * and implements {@link MappeableElementThreeKey}, you should set
+ * {@link attribute_primary_key}, {@link attribute_secondary_key}
+ * and  {@link attribute_third_key}
+ * to null in order to use returned value of {@link MappeableElementThreeKey.get_map_primary_key},
+ * {@link MappeableElementPairKey.get_map_secondary_key}
+ * and {@link MappeableElementPairKey.get_map_third_key}
+ * as keys.
+ *
+ * {{{
+ *   public class YourObject : GomElement, MappeableElementThirdKey {
+ *    [Description (nick="::Name")]
+ *    public string name { get; set; }
+ *    public string code { get; set; }
+ *    public string category { get; set; }
+ *    public string get_map_primary_key () { return code; }
+ *    public string get_map_secondary_key () { return name; }
+ *    public string get_map_third_key () { return category; }
+ *   }
+ *   public class YourList : GomHashPairedMap {
+ *    construct {
+ *      try { initialize_with (typeof (YourObject)); }
+ *      catch (GLib.Error e) {
+ *        warning ("Initialization error for collection type: %s : %s"
+ *             .printf (get_type ().name(), e.message));
+ *      }
+ *    }
+ *   }
+ * }}}
+ */
+public class GXml.GomHashThreeMap : GXml.BaseCollection, GXml.GomCollection {
+  /**
+   * A hashtable with all keys as string to node's index refered. Don't modify it manually.
+   */
+  protected HashTable<string,HashTable<string,HashTable<string,int>>> _hashtable = new HashTable<string,HashTable<string,HashTable<string,int>>> (str_hash,str_equal);
+  /**
+   * Element's attribute name used to refer of container's element as primery key.
+   * You should define it at construction time
+   * our set it as a construction property.
+   */
+  protected string _attribute_primary_key;
+  /**
+   * Element's attribute name used to refer of container's element as secondary key.
+   * You should define it at construction time
+   * our set it as a construction property.
+   */
+  protected string _attribute_secondary_key;
+  /**
+   * Element's attribute name used to refer of container's element as third key.
+   * You should define it at construction time
+   * our set it as a construction property.
+   */
+  protected string _attribute_third_key;
+  /**
+   * An attribute's name in items to be added and used to retrieve elements
+   * as primary key.
+   */
+  public string attribute_primary_key {
+    get { return _attribute_primary_key; } construct set { _attribute_primary_key = value; }
+  }
+  /**
+   * An attribute's name in items to be added and used to retrieve elements
+   * as secondary key.
+   */
+  public string attribute_secondary_key {
+    get { return _attribute_secondary_key; } construct set { _attribute_secondary_key = value; }
+  }
+  /**
+   * An attribute's name in items to be added and used to retrieve elements
+   * as third key.
+   */
+  public string attribute_third_key {
+    get { return _attribute_third_key; } construct set { _attribute_third_key = value; }
+  }
+  /**
+   * Convenient function to initialize a {@link GomHashMap} collection, using
+   * given element, items' type and name.
+   */
+  public void initialize_element_with_keys (GomElement element,
+                                  GLib.Type items_type,
+                                  string attribute_primary_key,
+                                  string attribute_secondary_key,
+                                  string attribute_third_key) throws GLib.Error
+  {
+    initialize (items_type);
+    initialize_element (element);
+    _attribute_primary_key = attribute_primary_key;
+    _attribute_secondary_key = attribute_secondary_key;
+    _attribute_third_key = attribute_third_key;
+  }
+
+  /**
+   * Convenient function to initialize a {@link GomHashMap} collection, using
+   * given element, items' type and name.
+   *
+   * Using this method at construction time of derived classes.
+   */
+  public void initialize_with_keys (GLib.Type items_type,
+                                  string attribute_primary_key,
+                                  string attribute_secondary_key,
+                                  string attribute_third_key) throws GLib.Error
+  {
+    initialize (items_type);
+    _attribute_primary_key = attribute_primary_key;
+    _attribute_secondary_key = attribute_secondary_key;
+    _attribute_third_key = attribute_third_key;
+  }
+  /**
+   * Returns an {@link DomElement} in the collection using given string keys.
+   */
+  public new DomElement? get (string primary_key, string secondary_key, string third_key) {
+    if (!_hashtable.contains (primary_key)) return null;
+    var ht = _hashtable.get (primary_key);
+    if (ht == null) return null;
+    if (!ht.contains (secondary_key)) return null;
+    var hte = ht.get (secondary_key);
+    if (hte == null) return null;
+    if (!hte.contains (third_key)) return null;
+    var i = hte.get (secondary_key);
+    return _element.child_nodes.get (i) as DomElement;
+  }
+  /**
+   * Returns true if @key is used in collection as primery key.
+   */
+  public bool has_primary_key (string key) {
+    if (_hashtable.contains (key)) return true;
+    return false;
+  }
+  /**
+   * Returns true if @key is used in collection as secondary key
+   * with @pkey as primary.
+   */
+  public bool has_secondary_key (string pkey, string key) {
+    if (!(_hashtable.contains (pkey))) return false;
+    var ht = _hashtable.get (pkey);
+    if (ht == null) return false;
+    if (ht.contains (key)) return true;
+    return false;
+  }
+  /**
+   * Returns true if @key is used in collection as third key with secondary key
+   * and pkey as primary.
+   */
+  public bool has_third_key (string pkey, string skey, string key) {
+    if (!(_hashtable.contains (pkey))) return false;
+    var ht = _hashtable.get (pkey);
+    if (ht == null) return false;
+    var hte = ht.get (skey);
+    if (hte == null) return false;
+    if (hte.contains (key)) return true;
+    return false;
+  }
+  /**
+   * Returns list of primary keys used in collection.
+   */
+  public GLib.List<string> get_primary_keys () {
+    return _hashtable.get_keys ();
+  }
+  /**
+   * Returns list of secondary keys used in collection with pkey as primary key.
+   */
+  public GLib.List<string> get_secondary_keys (string pkey) {
+    var l = new GLib.List<string> ();
+    if (!_hashtable.contains (pkey)) return l;
+    var ht = _hashtable.get (pkey);
+    if (ht == null) return l;
+    return ht.get_keys ();
+  }
+  /**
+   * Returns list of third keys used in collection with pkey as primary key
+   * and skey as secondary key.
+   */
+  public GLib.List<string> get_third_keys (string pkey, string skey) {
+    var l = new GLib.List<string> ();
+    if (!_hashtable.contains (pkey)) return l;
+    var ht = _hashtable.get (pkey);
+    if (ht == null) return l;
+    var hte = ht.get (skey);
+    if (hte == null) return l;
+    return hte.get_keys ();
+  }
+  /**
+   * Validates if given element has a {@link attribute_primary_key},
+   * {@link attribute_secondary_key} and
+   * {@link attribute_third_key} set,
+   * if so adds a new keys pointing to given index and returns true.
+   *
+   * Attribute should be a valid {@link DomElement} attribute or
+   * a {@link GomObject} property identified using a nick with a '::' prefix.
+   *
+   * If there are more elements with same keys, they are kept as child nodes
+   * but the one in collection will be the last one to be found.
+   *
+   * Return: false if element should not be added to collection.
+   */
+  public override bool validate_append (int index, DomElement element) throws GLib.Error {
+    if (!(element is GomElement)) return false;
+    string pkey = null;
+    string skey = null;
+    string tkey = null;
+    if (attribute_primary_key != null && attribute_secondary_key != null
+        && attribute_third_key != null) {
+      pkey = (element as DomElement).get_attribute (attribute_primary_key);
+      skey = (element as DomElement).get_attribute (attribute_secondary_key);
+      tkey = (element as DomElement).get_attribute (attribute_third_key);
+      if (pkey == null || skey == null || skey == null) {
+        pkey = (element as DomElement).get_attribute (attribute_primary_key.down ());
+        skey = (element as DomElement).get_attribute (attribute_secondary_key.down ());
+        tkey = (element as DomElement).get_attribute (attribute_third_key.down ());
+      }
+    } else {
+      if (items_type.is_a (typeof(MappeableElementThreeKey))) {
+        if (!(element is MappeableElementThreeKey)) return false;
+        pkey = ((MappeableElementThreeKey) element).get_map_primary_key ();
+        skey = ((MappeableElementThreeKey) element).get_map_secondary_key ();
+        tkey = ((MappeableElementThreeKey) element).get_map_third_key ();
+      }
+    }
+    if (pkey == null || skey == null || tkey == null) return false;
+    var ht = _hashtable.get (pkey);
+    if (ht == null) ht = new HashTable<string,HashTable<string,int>> (str_hash, str_equal);
+    var hte = ht.get (skey);
+    if (hte == null) hte = new HashTable<string,int> (str_hash, str_equal);
+    if (!_hashtable.contains (pkey)) _hashtable.insert (pkey, ht);
+    if (!ht.contains (skey)) ht.insert (skey, hte);
+    hte.insert (tkey, index);
     return true;
   }
 }

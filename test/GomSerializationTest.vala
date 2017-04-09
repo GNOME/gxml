@@ -195,10 +195,15 @@ class GomSerializationTest : GXmlTest  {
       FEBRUARY
     }
   }
-  public class BookRegister : GomElement, MappeableElement, MappeableElementPairKey {
+  public class BookRegister : GomElement,
+                              MappeableElement,
+                              MappeableElementPairKey,
+                              MappeableElementThreeKey {
     private Book _book = null;
     [Description (nick="::Year")]
     public int year { get; set; }
+    [Description (nick="::Cover")]
+    public string cover { get; set; }
     public Book book {
       get { return _book; }
       set {
@@ -228,6 +233,7 @@ class GomSerializationTest : GXmlTest  {
       if (book == null) return "";
       return book.name;
     }
+    public string get_map_third_key () { return cover; }
     public Book create_book (string name) {
       return Object.new (typeof (Book),
                         "owner-document", this.owner_document,
