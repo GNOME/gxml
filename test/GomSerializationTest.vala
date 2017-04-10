@@ -233,7 +233,9 @@ class GomSerializationTest : GXmlTest  {
       if (book == null) return "";
       return book.name;
     }
-    public string get_map_third_key () { return cover; }
+    public string get_map_pkey () { return get_map_primary_key (); }
+    public string get_map_skey () { return get_map_secondary_key (); }
+    public string get_map_tkey () { return cover; }
     public Book create_book (string name) {
       return Object.new (typeof (Book),
                         "owner-document", this.owner_document,
@@ -255,6 +257,7 @@ class GomSerializationTest : GXmlTest  {
   public class BookStand : GomElement {
     HashRegisters _hashmap_registers = null;
     HashPairRegisters _hashpair_registers = null;
+    HashThreeRegisters _hashthree_registers = null;
     [Description (nick="::Classification")]
     public string classification { get; set; default = "Science"; }
     public Dimension dimension_x { get; set; }
@@ -283,6 +286,17 @@ class GomSerializationTest : GXmlTest  {
       }
       set {
         _hashpair_registers = value;
+      }
+    }
+    public HashThreeRegisters hashthree_registers {
+      get {
+        if (_hashthree_registers == null)
+          _hashthree_registers = Object.new (typeof (HashThreeRegisters),"element",this)
+                              as HashThreeRegisters;
+        return _hashthree_registers;
+      }
+      set {
+        _hashthree_registers = value;
       }
     }
     public Books books { get; set; }
@@ -334,6 +348,12 @@ class GomSerializationTest : GXmlTest  {
     }
   }
   public class HashPairRegisters : GomHashPairedMap {
+    construct {
+      try { initialize (typeof (BookRegister)); }
+      catch { assert_not_reached (); }
+    }
+  }
+  public class HashThreeRegisters : GomHashThreeMap {
     construct {
       try { initialize (typeof (BookRegister)); }
       catch { assert_not_reached (); }
@@ -743,6 +763,34 @@ class GomSerializationTest : GXmlTest  {
       assert (b1.year == 2017);
       assert (b1.book != null);
       assert (b1.book.name == "Book1");
+    } catch (GLib.Error e) {
+      GLib.message ("Error: "+e.message);
+      assert_not_reached ();
+    }
+    });
+    Test.add_func ("/gxml/gom-serialization/write/mappeablethreekey", () => {
+    try {
+      var bs = new BookStand ();
+      assert (bs.hashthree_registers != null);
+      var br = bs.hashthree_registers.create_item () as BookRegister;
+      var book = br.create_book ("Book1");
+      assert (book.name == "Book1");
+      br.book = book;
+      br.year = 2017;
+      br.cover = "SYSTEMS";
+      assert (br.get_map_pkey () == "2017");
+      assert (br.get_map_skey () == "Book1");
+      assert (br.cover == "SYSTEMS");
+      assert (br.get_map_tkey () == "SYSTEMS");
+      assert (bs.hashthree_registers.length == 0);
+      bs.hashthree_registers.append (br);
+      assert (bs.hashthree_registers.length == 1);
+      var b1 = bs.hashthree_registers.get ("2017","Book1", "SYSTEMS") as BookRegister;
+      assert (b1 != null);
+      assert (b1.year == 2017);
+      assert (b1.book != null);
+      assert (b1.book.name == "Book1");
+      assert (b1.cover == "SYSTEMS");
     } catch (GLib.Error e) {
       GLib.message ("Error: "+e.message);
       assert_not_reached ();

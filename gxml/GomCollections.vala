@@ -640,9 +640,18 @@ public class GXml.GomHashPairedMap : GXml.BaseCollection, GXml.GomCollection {
  * its value has precedence over this method.
  */
 public interface GXml.MappeableElementThreeKey : Object, DomElement {
-  public abstract string get_map_primary_key ();
-  public abstract string get_map_secondary_key ();
-  public abstract string get_map_third_key ();
+  /**
+   * Returns primary key of collection.
+   */
+  public abstract string get_map_pkey ();
+  /**
+   * Returns secundary key of collection.
+   */
+  public abstract string get_map_skey ();
+  /**
+   * Returns third key of collection.
+   */
+  public abstract string get_map_tkey ();
 }
 
 /**
@@ -861,7 +870,7 @@ public class GXml.GomHashThreeMap : GXml.BaseCollection, GXml.GomCollection {
       pkey = (element as DomElement).get_attribute (attribute_primary_key);
       skey = (element as DomElement).get_attribute (attribute_secondary_key);
       tkey = (element as DomElement).get_attribute (attribute_third_key);
-      if (pkey == null || skey == null || skey == null) {
+      if (pkey == null || skey == null || tkey == null) {
         pkey = (element as DomElement).get_attribute (attribute_primary_key.down ());
         skey = (element as DomElement).get_attribute (attribute_secondary_key.down ());
         tkey = (element as DomElement).get_attribute (attribute_third_key.down ());
@@ -869,9 +878,9 @@ public class GXml.GomHashThreeMap : GXml.BaseCollection, GXml.GomCollection {
     } else {
       if (items_type.is_a (typeof(MappeableElementThreeKey))) {
         if (!(element is MappeableElementThreeKey)) return false;
-        pkey = ((MappeableElementThreeKey) element).get_map_primary_key ();
-        skey = ((MappeableElementThreeKey) element).get_map_secondary_key ();
-        tkey = ((MappeableElementThreeKey) element).get_map_third_key ();
+        pkey = ((MappeableElementThreeKey) element).get_map_pkey ();
+        skey = ((MappeableElementThreeKey) element).get_map_skey ();
+        tkey = ((MappeableElementThreeKey) element).get_map_tkey ();
       }
     }
     if (pkey == null || skey == null || tkey == null) return false;
