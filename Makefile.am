@@ -17,7 +17,7 @@ DISTCHECK_CONFIGURE_FLAGS = \
 ### Specify files to include in dist
 
 # in share/doc/
-gxmldocdir = ${prefix}/doc/gxml
+gxmldocdir = ${datadir}/doc/gxml
 gxmldoc_DATA = \
 	README \
 	COPYING \
