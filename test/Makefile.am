@@ -121,7 +121,7 @@ gxml_test_LDADD = \
 	$(GXML_LIBS) \
 	$(LIBXML_LIBS) \
 	$(GIO_LIBS) \
-	../gxml/libgxml-0.14.la \
+	$(top_builddir)/gxml/libgxml-0.14.la \
 	$(NULL)
 
 gxml_test_LDFLAGS = $(AM_LDFLAGS)
