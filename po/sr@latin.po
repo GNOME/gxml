@@ -1,6 +1,6 @@
 # Serbian translation for gxml.
 # Courtesy of Prevod.org team (http://prevod.org/) -- 2016—2017.
-# Copyright (C) 2016 gxml's COPYRIGHT HOLDER
+# Copyright © 2016 gxml's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gxml package.
 # Translators:
 # Miroslav Nikolić <miroslavnikolic@rocketmail.com>, 2016—2017.
@@ -8,18 +8,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
-"product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-02-26 08:16+0000\n"
-"PO-Revision-Date: 2017-02-26 15:56+0200\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gxml&k"
+"eywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2017-04-09 14:25+0000\n"
+"PO-Revision-Date: 2017-05-05 06:46+0200\n"
 "Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
-"Language-Team: Serbian <(nothing)>\n"
+"Language-Team: srpski <gnome-sr@googlegroups.org>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : "
+"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Project-Style: gnome\n"
 
 #: ../gxml/Document.vala:151
@@ -54,19 +54,19 @@ msgstr "vrednost je neispravna"
 msgid "text cannot be parsed to enumeration type:"
 msgstr "tekst ne može biti obrađen na vrstu nabrajanja:"
 
-#: ../gxml/GomCollections.vala:67
+#: ../gxml/GomCollections.vala:66
 msgid "Invalid index for elements in array list"
 msgstr "Neispravan indeks za elemente na spisku niza"
 
-#: ../gxml/GomCollections.vala:71
+#: ../gxml/GomCollections.vala:70
 msgid "Invalid index reference for child elements in array list"
 msgstr "Neispravna uputa indeksa za elemente poroda na spisku niza"
 
-#: ../gxml/GomCollections.vala:76
+#: ../gxml/GomCollections.vala:75
 msgid "Referenced object's type is invalid. Should be a GXmlGomElement"
 msgstr "Vrsta uputnog objekta je neispravna. Treba biti „GXmlGomElement“"
 
-#: ../gxml/GomCollections.vala:190
+#: ../gxml/GomCollections.vala:189
 msgid ""
 "Invalid attempt to initialize a collection using an unsupported type. Only "
 "GXmlGomElement is supported"
@@ -74,23 +74,23 @@ msgstr ""
 "Neispravan pokušaj pokretanja zbirke korišćenjem nepodržane vrste. Podržana je "
 "samo „GXmlGomElement“"
 
-#: ../gxml/GomCollections.vala:220 ../gxml/GomCollections.vala:246
+#: ../gxml/GomCollections.vala:219 ../gxml/GomCollections.vala:245
 msgid "Parent Element is invalid"
 msgstr "Element roditelja je neispravan"
 
-#: ../gxml/GomCollections.vala:223
+#: ../gxml/GomCollections.vala:222
 msgid ""
 "Invalid attempt to set unsupported type. Only GXmlGomElement is supported"
 msgstr ""
 "Neispravan pokušaj podešavanja nepodržane vrste. Podržana je samo "
 "„GXmlGomElement“"
 
-#: ../gxml/GomCollections.vala:226
+#: ../gxml/GomCollections.vala:225
 msgid "Invalid attempt to set a node with a different parent document"
 msgstr ""
 "Neispravan pokušaj podešavanja čvora sa drugačijim roditeljskim dokumentom"
 
-#: ../gxml/GomCollections.vala:230
+#: ../gxml/GomCollections.vala:229
 msgid ""
 "Node element not appended as child of parent. No node added to collection"
 msgstr ""
@@ -219,7 +219,7 @@ msgstr ""
 "Neispravan prostorni naziv. Ako je prefiks iksml, putanja prostornog naziva "
 "treba biti „http://www.w3.org/2000/xmlns/“"
 
-#: ../gxml/GomElement.vala:541
+#: ../gxml/GomElement.vala:542
 msgid ""
 "Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns/"
@@ -227,7 +227,7 @@ msgstr ""
 "Neispravan prostorni naziv. Ako je prefiks atributa iksmlns, putanja treba "
 "biti „http://www.w3.org/2000/xmlns/“"
 
-#: ../gxml/GomElement.vala:543
+#: ../gxml/GomElement.vala:546
 msgid ""
 "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns/"
@@ -235,21 +235,21 @@ msgstr ""
 "Neispravan prostorni naziv. Ako je naziv atributa iksmlns, putanja treba biti "
 "„http://www.w3.org/2000/xmlns/“"
 
-#: ../gxml/GomElement.vala:545
+#: ../gxml/GomElement.vala:548
 msgid "Invalid attribute name. No prefixed attributes should use xmlns name"
 msgstr ""
 "Neispravan naziv atributa. Nijedan atribut sa prefiksom ne treba da koristi "
 "naziv iksmlns"
 
-#: ../gxml/GomElement.vala:549
+#: ../gxml/GomElement.vala:552
 msgid "Setting namespaced property error: "
 msgstr "Greška podešavanja svojstva prostornog naziva: "
 
-#: ../gxml/GomElement.vala:556
+#: ../gxml/GomElement.vala:559
 msgid "Removing attribute Error: "
 msgstr "Greška uklanjanja atributa: "
 
-#: ../gxml/GomElement.vala:561
+#: ../gxml/GomElement.vala:564
 msgid "Removing namespaced attribute Error: "
 msgstr "Greška uklanjanja atributa prostornog naziva: "
 
@@ -345,19 +345,24 @@ msgstr "Greška prilikom pokušaja pokretanja objekta svojstva: %s"
 msgid "Can't set value. It is not a GXmlGomElement type"
 msgstr "Ne mogu da postavim vrednost. Nije vrsta G_Iksml_gom_elementa"
 
-#: ../gxml/GomProperty.vala:336
+#: ../gxml/GomProperty.vala:333
 msgid "Error when transform enum to attribute's value"
 msgstr "Greška prilikom pretvarnja nabrajanja za vrednost atributa"
 
-#: ../gxml/GomProperty.vala:344
+#: ../gxml/GomProperty.vala:341
 msgid "Error when transform from attribute string value to enum"
 msgstr "Greška prilikom pretvarnja iz vrednosti niske atributa u nabrajanje"
 
-#: ../gxml/GomProperty.vala:390
+#: ../gxml/GomProperty.vala:393 ../gxml/GomProperty.vala:400
 msgid "Invalid Date for property: "
 msgstr "Neispravan datum za svojstvo: "
 
-#: ../gxml/GomProperty.vala:429
+#: ../gxml/GomProperty.vala:395
+#| msgid "Invalid Date for property: "
+msgid "Invalid format for Date property: "
+msgstr "Neispravan format za svojstvo datuma: "
+
+#: ../gxml/GomProperty.vala:439
 msgid "Invalid timestamp for property: "
 msgstr "Neispravna vremenska oznaka za svojstvo: "
 
@@ -517,12 +522,12 @@ msgstr "Nisam našao osobinu iz koje da poništim serijalizaciju"
 msgid "XML Attribute name is not set, when deserializing to: %s"
 msgstr "Naziv IksML atributa nije postavljen, prilikom deserijalizacije na: %s"
 
-#: ../gxml/Serializable.vala:434
+#: ../gxml/Serializable.vala:390
 #, c-format
 msgid "Transformation Error on '%s' or Unsupported type: '%s'"
 msgstr "Greška preobražaja na „%s“ ili nepodržana vrsta: „%s“"
 
-#: ../gxml/Serializable.vala:455
+#: ../gxml/Serializable.vala:411
 #, c-format
 msgid "Can't transform '%s' to string"
 msgstr "Ne mogu da preobratim „%s“ u nisku"
@@ -531,39 +536,50 @@ msgstr "Ne mogu da preobratim „%s“ u nisku"
 msgid "Invalid element name"
 msgstr "Neispravan naziv elementa"
 
-#: ../gxml/TDocument.vala:573 ../gxml/XParser.vala:217
+#: ../gxml/TDocument.vala:573 ../gxml/XParser.vala:235
 #, c-format
 msgid "Parsing ERROR: Fail to move to attribute number: %i"
 msgstr "Greška obrade: Nisam uspeo da pređem na broj atributa: %i"
 
-#: ../gxml/XParser.vala:90
+#: ../gxml/XParser.vala:91
 msgid "Invalid document string, it is empty or is not allowed"
 msgstr "Neispravna niska dokumenta, prazan je ili nije dozvoljen"
 
-#: ../gxml/XParser.vala:147
+#: ../gxml/XParser.vala:113 ../gxml/XParser.vala:150 ../gxml/XParser.vala:167
+#: ../gxml/XParser.vala:175 ../gxml/XParser.vala:183 ../gxml/XParser.vala:191
+#: ../gxml/XParser.vala:199 ../gxml/XParser.vala:223 ../gxml/XParser.vala:297
+#: ../gxml/XParser.vala:324 ../gxml/XParser.vala:450 ../gxml/XParser.vala:481
+msgid "Internal Error: No TextReader was set"
+msgstr "Unutrašnja greška: Nije podešen čitač teksta"
+
+#: ../gxml/XParser.vala:153
 msgid "Can't read node data"
 msgstr "Ne mogu da čitam podatke čvora"
 
-#: ../gxml/XParser.vala:429
+#: ../gxml/XParser.vala:453
 msgid ""
 "Invalid attempt to parse an element node, when current found node is not"
 msgstr "Neispravan pokušaj obrade čvora elementa, kada tekući nađeni čvor nije"
 
-#: ../gxml/XParser.vala:518
+#: ../gxml/XParser.vala:544
 msgid "Invalid object type set to Collection"
 msgstr "Neispravna vrsta objekta je podešena u zbirci"
 
-#: ../gxml/XParser.vala:522
+#: ../gxml/XParser.vala:548
 msgid "Invalid DomElement name for objects in Collection"
 msgstr "Neispravan naziv Dom_elementa za objekte u zbirci"
 
-#: ../gxml/XParser.vala:526
+#: ../gxml/XParser.vala:552
 msgid "Invalid Element set to Collection"
 msgstr "Neispravan element je podešen u zbirci"
 
-#: ../gxml/XParser.vala:534
+#: ../gxml/XParser.vala:560
 msgid "No document is set to node"
 msgstr "Nijedan dokument nije podešen u čvoru"
+
+#: ../gxml/XParser.vala:614
+msgid "Internal Error: No TextWriter initialized"
+msgstr "Unutrašnja greška: Nije pokrenut pisac teksta"
 
 #: ../gxml/GomSchema.vala:266
 #, c-format
