@@ -83,6 +83,31 @@ public class GXml.XParser : Object, GXml.Parser {
     tw = null;
   }
 
+  /**
+   * Creates an {@link GLib.InputStream} to write a string representation
+   * in XML
+   */
+  public InputStream
+  create_stream (GLib.Cancellable? cancellable = null) throws GLib.Error {
+    var buf = new Xml.Buffer ();
+    tw = new TextWriter.memory (buf);
+    if (_node is DomDocument) tw.start_document ();
+    tw.set_indent (indent);
+    // Root
+    if (_node is DomDocument) {
+      if ((_node as DomDocument).document_element == null)
+        tw.end_document ();
+    }
+    start_node (_node);
+    tw.end_element ();
+    tw.end_document ();
+    tw.flush ();
+    var s = new GLib.StringBuilder ();
+    s.append (buf.content ());
+    tw = null;
+    return new GLib.MemoryInputStream.from_data ((uint8[]) s.str.dup (), null);
+  }
+
   public string write_string () throws GLib.Error  {
     return dump ();
   }

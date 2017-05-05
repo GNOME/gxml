@@ -221,5 +221,49 @@ class GomElementTest : GXmlTest  {
 		    assert_not_reached ();
 		  }
 		});
+		Test.add_func ("/gxml/gom-element/write/string", () => {
+			try {
+				var n = new GomElement ();
+				n.initialize ("Node");
+				n.set_attribute ("name","value");
+				string str = n.write_string ();
+				assert ("<Node" in str);
+				assert ("<Node name=\"value\"/>" in str);
+			} catch (GLib.Error e) {
+		    GLib.message ("Error: "+e.message);
+		    assert_not_reached ();
+		  }
+		});
+		Test.add_func ("/gxml/gom-element/write/stream", () => {
+			try {
+				var n = new GomElement ();
+				n.initialize ("Node");
+				n.set_attribute ("name","value");
+				var ostream = new MemoryOutputStream.resizable ();
+				n.write_stream (ostream);
+				string str = (string) ostream.data;
+				assert ("<Node" in str);
+				assert ("<Node name=\"value\"/>" in str);
+			} catch (GLib.Error e) {
+		    GLib.message ("Error: "+e.message);
+		    assert_not_reached ();
+		  }
+		});
+		Test.add_func ("/gxml/gom-element/write/input_stream", () => {
+			try {
+				var n = new GomElement ();
+				n.initialize ("Node");
+				n.set_attribute ("name","value");
+				var ostream = new MemoryOutputStream.resizable ();
+				var istream = n.create_stream ();
+				ostream.splice (istream, GLib.OutputStreamSpliceFlags.NONE);
+				string str = (string) ostream.data;
+				assert ("<Node" in str);
+				assert ("<Node name=\"value\"/>" in str);
+			} catch (GLib.Error e) {
+		    GLib.message ("Error: "+e.message);
+		    assert_not_reached ();
+		  }
+		});
 	}
 }

@@ -120,6 +120,14 @@ public class GXml.GomDocument : GomNode,
     parser.write_stream (stream, null);
   }
   /**
+   * Creates an {@link GLib.InputStream} to write a string representation
+   * in XML of {@link GomDocument}
+   */
+  public InputStream create_stream () throws GLib.Error {
+    var parser = new XParser (this);
+    return parser.create_stream (null);
+  }
+  /**
    * Reads a file contents and parse it to document.
    */
   public void read_from_file (GLib.File file) throws GLib.Error {

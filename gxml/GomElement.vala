@@ -86,6 +86,13 @@ public class GXml.GomElement : GomNode,
   public void write_stream (GLib.OutputStream stream) throws GLib.Error {
     (this.owner_document as GomDocument).write_stream (stream);
   }
+  /**
+   * Creates an {@link GLib.InputStream} to write a string representation
+   * in XML of {@link GomElement} using node's {@link GomDocument}
+   */
+  public InputStream create_stream () throws GLib.Error {
+    return (this.owner_document as GomDocument).create_stream ();
+  }
   // DomNode overrides
   public new string? lookup_prefix (string? nspace) {
     if (_namespace_uri == nspace)
