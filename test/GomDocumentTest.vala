@@ -526,5 +526,22 @@ class GomDocumentTest : GXmlTest {
 			var doc = new GomDocument ();
 			assert (doc.parent_node == null);
 		});
+		Test.add_func ("/gxml/gom-document/write/string", () => {
+			try {
+				var d = new GomDocument ();
+				var n = d.create_element ("Node") as GomElement;
+				d.append_child (n);
+				n.set_attribute ("name","value");
+				var n2 = d.create_element ("Node2") as GomElement;
+				n.append_child (n2);
+				message (d.write_string ());
+				string str = d.write_string ();
+				assert ("<Node" in str);
+				assert ("<Node name=\"value\"><Node2/></Node>" in str);
+			} catch (GLib.Error e) {
+		    GLib.message ("Error: "+e.message);
+		    assert_not_reached ();
+		  }
+		});
 	}
 }

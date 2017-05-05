@@ -226,9 +226,14 @@ class GomElementTest : GXmlTest  {
 				var n = new GomElement ();
 				n.initialize ("Node");
 				n.set_attribute ("name","value");
+				var n2 = n.owner_document.create_element ("Node2") as GomElement;
+				n.append_child (n2);
 				string str = n.write_string ();
 				assert ("<Node" in str);
-				assert ("<Node name=\"value\"/>" in str);
+				assert ("<Node name=\"value\"><Node2/></Node>" in str);
+				str = n2.write_string ();
+				assert ("<Node2/>" in str);
+				assert (!("<Node name=\"value\"><Node2/></Node>" in str));
 			} catch (GLib.Error e) {
 		    GLib.message ("Error: "+e.message);
 		    assert_not_reached ();

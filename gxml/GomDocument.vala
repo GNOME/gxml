@@ -128,6 +128,13 @@ public class GXml.GomDocument : GomNode,
     return parser.create_stream (null);
   }
   /**
+   * Serialize {@link GomDocument} to a string.
+   */
+  public string write_string () throws GLib.Error {
+    var parser = new XParser (this);
+    return parser.write_string ();
+  }
+  /**
    * Reads a file contents and parse it to document.
    */
   public void read_from_file (GLib.File file) throws GLib.Error {
