@@ -202,6 +202,12 @@ gxml_HEADERS = gxml.h xlibxml.h
 
 # .vapi Vala API file
 gxml-0.14.vapi: libgxml-0.14.la
+
+gxml-0.14.deps:
+	echo 'libxml-2.0' > $@
+	echo 'gee-0.8' >> $@
+	echo 'gio-2.0' >> $@
+
 vapidir = $(datadir)/vala/vapi
 dist_vapi_DATA = \
 	gxml-0.14.vapi \
@@ -209,9 +215,11 @@ dist_vapi_DATA = \
 	$(NULL)
 
 # .pc pkg-config file
-pkgconfig_in = gxml-0.14.pc.in
+gxml-0.14.pc:
+	cp gxml.pc $@
+
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = $(pkgconfig_in:.in=)
+pkgconfig_DATA = gxml-0.14.pc
 
 EXTRA_DIST = \
 	$(sources) \

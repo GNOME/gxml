@@ -1,0 +1,13 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+datadir=@prefix@/share
+includedir=@prefix@/include
+
+Name: libgxml
+Description: GObject API for XML manipulation and serialization library
+URL: http://live.gnome.org/GXml
+Version: @GXML_VERSION@
+Requires: @PCDEPS@
+Libs: -L${libdir} -lgxml-@API_VERSION@
+Cflags: -I${includedir}/gxml-@API_VERSION@/gxml

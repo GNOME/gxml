@@ -120,8 +120,11 @@ VALA_API_REQUIRED=
 LIBVALA_REQUIRED=
 GEE_REQUIRED=0.18.0
 LIBXML_REQUIRED=2.7
-GIO_MODULES="gio-2.0 >= 2.16"
+GIO_MODULES="gio-2.0 >= 2.32"
 VALADOC_REQUIRED=0.30
+
+PCDEPS="gee-0.8 gio-2.0 libxml-2.0"
+AC_SUBST(PCDEPS)
 
 # Check glib
 PKG_CHECK_MODULES([GLIB],
@@ -140,7 +143,6 @@ PKG_CHECK_MODULES(LIBXML, libxml-2.0 >= $LIBXML_REQUIRED)
 
 # Check for GIO
 PKG_CHECK_MODULES(GIO, $GIO_MODULES)
-
 
 # Check for GObject Introspection
 GOBJECT_INTROSPECTION_CHECK([1.32.0])
@@ -247,7 +249,7 @@ AM_CONDITIONAL(PLATFORM_WIN32, [test x$platform_win32 = xyes])
 AC_CONFIG_FILES([
 Makefile
 gxml/namespace-info.vala
-gxml/gxml-0.14.pc
+gxml/gxml.pc
 gxml/Makefile
 test/Makefile
 docs/Makefile
