@@ -1,7 +1,7 @@
 valadoc = find_program ('valadoc')
 outdir ='GXml-'+API_VERSION
 valacapi = run_command ('valac', '--api-version')
-driver = '--driver=0.34'
+driver = '--driver='+valacapi.stdout().strip()
 pkgname = '--package-name='+'GXml-'+API_VERSION
 pkgversion = '--package-version='+GXML_VERSION
 vapidirgxml = '--vapidir='+join_paths (meson.current_source_dir (),'gxml')

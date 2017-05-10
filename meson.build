@@ -19,7 +19,7 @@ configure_file(input : 'gxml/namespace-info.vala.in',
 	output : 'namespace-info.vala',
 	configuration : conf)
 
-#subdir('po')
+subdir('po')
 subdir('vapi')
 subdir('gxml')
 subdir('docs')
