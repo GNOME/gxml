@@ -48,7 +48,7 @@ class SerializablePropertyDoubleTest : GXmlTest {
         var s = element.get_attr ("name");
         assert (s == null);
       } catch (GLib.Error e) {
-        Test.message (@"ERROR: $(e.message)");
+        GLib.message (@"ERROR: $(e.message)");
         assert_not_reached ();
       }
     });
@@ -99,7 +99,7 @@ class SerializablePropertyDoubleTest : GXmlTest {
         var b4 = element4.get_attr ("DoubleValue");
         assert (b4 == null);
       } catch (GLib.Error e) {
-        Test.message (@"ERROR: $(e.message)");
+        GLib.message (@"ERROR: $(e.message)");
         assert_not_reached ();
       }
     });
@@ -115,7 +115,7 @@ class SerializablePropertyDoubleTest : GXmlTest {
         Test.message ("Actual value parse: "+"%2.4f".printf (double.parse (d.double_value.get_serializable_property_value ())));
         assert ("%2.4f".printf (double.parse (d.double_value.get_serializable_property_value ())) == "3.1416");
       } catch (GLib.Error e) {
-        Test.message (@"ERROR: $(e.message)");
+        GLib.message (@"ERROR: $(e.message)");
         assert_not_reached ();
       }
     });
@@ -131,7 +131,7 @@ class SerializablePropertyDoubleTest : GXmlTest {
         Test.message ("Actual value parse: "+"%2.4f".printf (double.parse (d.double_value.get_serializable_property_value ())));
         assert ("%2.4f".printf (double.parse (d.double_value.get_serializable_property_value ())) == "0.0000");
       } catch (GLib.Error e) {
-        Test.message (@"ERROR: $(e.message)");
+        GLib.message (@"ERROR: $(e.message)");
         assert_not_reached ();
       }
     });
@@ -148,12 +148,12 @@ class SerializablePropertyDoubleTest : GXmlTest {
         assert (d.double_value.get_serializable_property_value () == "3.02");
         Test.message ("Actual value parse: "+"%2.4f".printf (double.parse (d.double_value.get_serializable_property_value ())));
         assert ("%2.2f".printf (double.parse (d.double_value.get_serializable_property_value ())) == "3.02");
-        GLib.message ("Value to string: "+d.double_value.to_string ());
+        Test.message ("Value to string: "+d.double_value.to_string ());
         assert ("3.02" == d.double_value.to_string ());
         d.double_value.set_fraction (4);
         assert ("3.0200" == d.double_value.to_string ());
       } catch (GLib.Error e) {
-        Test.message (@"ERROR: $(e.message)");
+        GLib.message (@"ERROR: $(e.message)");
         assert_not_reached ();
       }
     });

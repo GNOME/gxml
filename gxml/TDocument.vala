@@ -463,7 +463,11 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
    *
    * While you get the current {@link Xml.TextReader} used in parsing, you can control
    * next action to take depending on current node.
+   *
+   * NOTE: Unless a bug on parsing is fixed, don't use this function, you will get
+   * unexpected tree parsing
    */
+  [Deprecated (since="0.16")]
   public delegate ReadType ReadTypeFunc (GXml.Node node, TextReader tr);
   /**
    * Read a {@link GXml.Document} from a {@link GLib.File}, parsing is controller
@@ -472,7 +476,9 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
   public static void read_doc (GXml.Document doc, GLib.File file, ReadTypeFunc? rtfunc = null) throws GLib.Error {
     if (!file.query_exists ())
       throw new GXml.DocumentError.INVALID_FILE (_("File doesn't exist"));
-    read_doc_stream (doc, file.read (), rtfunc);
+    var istream = file.read ();
+    read_doc_stream (doc, istream, rtfunc);
+    istream.close ();
   }
   /**
    * Reads document from {@link GLib.InputStream} objects.
@@ -488,6 +494,7 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
 #endif
     var tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), "/gxml_memory");
     while (read_node (doc, tr, rtfunc) == ReadType.CONTINUE);
+    tr = null;
   }
   /**
    * Parse current node in {@link Xml.TextReader}.
@@ -542,7 +549,6 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
         return ReadType.CONTINUE;
       }
       if (nrt == ReadType.STOP) {
-        tr.close ();
         return ReadType.STOP;
       }
       node.children_nodes.add (n);
