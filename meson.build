@@ -15,11 +15,8 @@ xlibxml_cflags = '-I' + meson.current_source_dir()
 conf = configuration_data()
 conf.set('API_VERSION', API_VERSION)
 
-configure_file(input : 'gxml/namespace-info.vala.in',
-	output : 'namespace-info.vala',
-	configuration : conf)
-
 subdir('po')
 subdir('vapi')
 subdir('gxml')
 subdir('docs')
+subdir('test')

@@ -23,9 +23,14 @@ configure_file(input : 'gxml.deps.in',
 
 conf = configuration_data()
 conf.set_quoted('PACKAGE_LOCALE_DIR', join_paths(get_option('prefix'), get_option('datadir'), 'locale'))
-conf.set_quoted('GETTEXT_PACKAGE', 'GXml')
+conf.set_quoted('GETTEXT_PACKAGE', 'gxml')
 configure_file(output : 'config.h',
 	configuration : conf)
+
+nsinfo = configure_file(input : 'namespace-info.vala.in',
+	output : 'namespace-info.vala',
+	configuration : conf)
+namespaceinfo_dep = declare_dependency (sources : nsinfo)
 
 valasources = files ([
 	'Attribute.vala',
@@ -108,8 +113,7 @@ valasources = files ([
 	'TProcessingInstruction.vala',
 	'TText.vala',
 	'XParser.vala',
-	'XPath.vala',
-	meson.build_root() + '/namespace-info.vala'
+	'XPath.vala'
 ])
 
 sources = files ([
@@ -117,17 +121,15 @@ sources = files ([
 	'xlibxml.h'
 ])
 
+inc_gxmlh = include_directories ('.')
+
 gxml = library('gxml-@0@'.format(API_VERSION),
-	valasources+sources,
+	valasources+sources+configvapi,
 	version : GXML_VERSION,
 	vala_header : 'gxml.h',
 	vala_vapi : 'gxml-@0@.vapi'.format(API_VERSION),
 	vala_gir : 'GXml-@0@.gir'.format(API_VERSION),
-	dependencies : [ gee, gio, xml ],
-	vala_args : [
-		'--vapidir=' + meson.source_root() + '/vapi',
-		'--pkg', 'config'
-	],
+	dependencies : [ gee, gio, xml, namespaceinfo_dep ],
 	c_args : [
 		'-include',
 		meson.current_build_dir() + '/config.h',
