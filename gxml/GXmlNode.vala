@@ -28,7 +28,7 @@ public errordomain GXml.Error {
 	}
 
 /**
- * Base interface providing basic functionalities to all GXml interfaces.
+ * DOM4 Base interface providing basic functionalities to all libxml2 DOM4 implementations.
  */
 public abstract class GXml.GNode : Object,
                       GXml.DomEventTarget,

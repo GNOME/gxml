@@ -22,6 +22,12 @@
 
 using GXml;
 
+/**
+ * A DOM4 implementation of {@link DomCharacterData}, for one step parsing.
+ *
+ * This object avoids pre and post XML parsing, by using a one step parsing
+ * to translate text XML tree to an GObject based tree.
+ */
 public class GXml.GomCharacterData : GomNode,
                           DomNonDocumentTypeChildNode,
                           DomChildNode,
@@ -67,6 +73,12 @@ public class GXml.GomCharacterData : GomNode,
   }
 }
 
+/**
+ * A DOM4 implementation of {@link DomText}, for one step parsing.
+ *
+ * This object avoids pre and post XML parsing, by using a one step parsing
+ * to translate text XML tree to an GObject based tree.
+ */
 public class GXml.GomText : GomCharacterData,
                           DomText
 
@@ -81,6 +93,13 @@ public class GXml.GomText : GomCharacterData,
     _node_value = data;
   }
 }
+
+/**
+ * A DOM4 implementation of {@link DomProcessingInstruction}, for one step parsing.
+ *
+ * This object avoids pre and post XML parsing, by using a one step parsing
+ * to translate text XML tree to an GObject based tree.
+ */
 public class GXml.GomProcessingInstruction : GomCharacterData,
                                             DomProcessingInstruction
 {
@@ -96,6 +115,12 @@ public class GXml.GomProcessingInstruction : GomCharacterData,
   }
 }
 
+/**
+ * A DOM4 implementation of {@link DomComment}, for one step parsing.
+ *
+ * This object avoids pre and post XML parsing, by using a one step parsing
+ * to translate text XML tree to an GObject based tree.
+ */
 public class GXml.GomComment : GomCharacterData,
                               DomComment
 {

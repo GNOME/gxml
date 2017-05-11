@@ -24,7 +24,9 @@ using Gee;
 
 /**
  * Object Model is an {@link Serializable} implementation using {@link Element}
- * to represent {@link GLib.Object} class objects.
+ * to represent {@link GLib.Object} class objects. It requires to dump to a {@link GXml.Document}
+ * or parse a pre-parsed XML tree {@link GXml.Document}. See {@link GXml.GomDocument} to avoid
+ * pre/post parsing processes.
  * 
  * This implementation consider each object as a XML node, represented in GXml 
  * as a {@link GXml.Element} and its properties is represented by {@link GXml.Attribute}.

@@ -22,7 +22,7 @@
 
 
 /**
- * An interface to keep references to {@link DomElement} in a {@link element}
+ * A DOM4 interface to keep references to {@link DomElement} in a {@link element}
  * child nodes. Only {@link GomObject} are supported.
  */
 public interface GXml.GomCollection : Object

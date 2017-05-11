@@ -23,7 +23,10 @@ using GXml;
 using Gee;
 
 /**
- * Serializable Framework. A {@link Serializable} objects container based on Gee interfaces with dual key.
+ * Serializable Framework. A {@link Serializable} objects container
+ * based on Gee interfaces with dual key. It requires to dump to a {@link GXml.Document}
+ * or parse a pre-parsed XML tree {@link GXml.Document}. See {@link GXml.GomCollection} to avoid
+ * pre/post parsing processes.
  * 
  * It implements {@link Serializable} and {@link SerializableCollection} interfaces, it is iterable as
  * other Gee collections.

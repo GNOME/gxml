@@ -24,7 +24,7 @@ using Gee;
 
 namespace GXml {
   /**
-   * Serialization framework. Base interface.
+   * A {@link GXml.Node} Serialization framework. Base interface.
    *
    * Implementors of this interface, could define or override the way you want to 
    * represent your class in a XML file.

@@ -23,7 +23,7 @@
 using Gee;
 
 /**
- * A {@link Gee.AbstractList} implementation to access {@link Xml.Ns} namespaces collection
+ * A {@link Gee.AbstractList} implementation to access libxml2's {@link Xml.Ns} namespaces collection
  */
 public class GXml.GListNamespaces : Gee.AbstractList<GXml.Namespace>
 {

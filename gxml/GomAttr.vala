@@ -23,7 +23,9 @@
 using GXml;
 using Gee;
 
-
+/**
+ * DOM4 implemenation of {@link DomAttr}.
+ */
 public class GXml.GomAttr : GXml.GomNode, GXml.DomAttr {
   protected string _namespace_uri;
   public string local_name { owned get { return _local_name; } }

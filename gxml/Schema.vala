@@ -33,6 +33,9 @@ public interface GXml.IXsdSchema : GLib.Object, DomElement {
   public abstract IXsdListComplexTypes complex_type_definitions { get; set; }
 }
 
+/**
+ * XSD schema Error codes for {@link IXsdSchema} objects
+ */
 public errordomain GXml.IXsdSchemaError {
   INVALIDATION_ERROR
 }

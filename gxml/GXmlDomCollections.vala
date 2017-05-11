@@ -23,7 +23,7 @@
 using Gee;
 
 /**
- * List of string tokens.
+ * DOM4 List of string tokens, powered by libxml2 library.
  */
 public class GXml.GDomTokenList : Gee.ArrayList<string>, GXml.DomTokenList {
   protected DomElement _element;
@@ -109,6 +109,9 @@ public class GXml.GDomTokenList : Gee.ArrayList<string>, GXml.DomTokenList {
   }
 }
 
+/**
+ * DOM4 Setteable token list, powered by libxml2 library.
+ */
 public class GXml.GDomSettableTokenList : GXml.GDomTokenList, GXml.DomSettableTokenList {
   public string value {
     owned get  { return to_string (); }
@@ -125,7 +128,9 @@ public class GXml.GDomSettableTokenList : GXml.GDomTokenList, GXml.DomSettableTo
   }
 
 }
-
+/**
+ * DOM4 HTML Collection, powered by libxml2 library.
+ */
 public class GXml.GDomHTMLCollection : Gee.ArrayList<GXml.DomElement>,
               GXml.DomHTMLCollection
 {

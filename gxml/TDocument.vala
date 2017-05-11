@@ -23,7 +23,7 @@ using Gee;
 using Xml;
 
 /**
- * Class implemeting {@link GXml.Document} interface, not tied to libxml-2.0 library.
+ * DOM1 Class implemeting {@link GXml.Document} interface, not tied to libxml-2.0 library.
  *
  * This class use {@link Xml.TextWriter} to write down XML documents using
  * its contained {@link GXml.Node} children or other XML structures.

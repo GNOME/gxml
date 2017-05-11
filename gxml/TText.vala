@@ -22,7 +22,7 @@
 using Gee;
 
 /**
- * Class implemeting {@link GXml.Text} interface, not tied to libxml-2.0 library.
+ * DOM1 Class implemeting {@link GXml.Text} interface, not tied to libxml-2.0 library.
  */
 public class GXml.TText : GXml.TNode, GXml.Text
 {

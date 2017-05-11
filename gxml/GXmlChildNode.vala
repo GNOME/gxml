@@ -20,6 +20,9 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 
+/**
+ * DOM4 class for child nodes, powered by libxml2 library.
+ */
 public class GXml.GChildNode : GXml.GNode,
               GXml.DomChildNode
 {

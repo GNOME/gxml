@@ -22,7 +22,8 @@
 using Gee;
 
 /**
- * Class implemeting {@link GXml.ProcessingInstruction} interface, not tied to libxml-2.0 library.
+ * DOM4 Class implemeting {@link GXml.ProcessingInstruction} and
+ * {@link DomProcessingInstruction} interface, powered by libxml2 library.
  */
 public class GXml.GProcessingInstruction : GXml.GCharacterData,
               GXml.ProcessingInstruction,

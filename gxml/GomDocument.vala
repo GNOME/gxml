@@ -22,6 +22,12 @@
 
 using GXml;
 
+/**
+ * A DOM4 implementation of {@link DomDocument}, for one step parsing.
+ *
+ * This object avoids pre and post XML parsing, by using a one step parsing
+ * to translate text XML tree to an GObject based tree.
+ */
 public class GXml.GomDocument : GomNode,
                               DomParentNode,
                               DomNonElementParentNode,

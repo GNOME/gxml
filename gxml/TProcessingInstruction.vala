@@ -22,7 +22,7 @@
 using Gee;
 
 /**
- * Class implemeting {@link GXml.ProcessingInstruction} interface, not tied to libxml-2.0 library.
+ * DOM1 Class implemeting {@link GXml.ProcessingInstruction} interface, not tied to libxml-2.0 library.
  */
 public class GXml.TProcessingInstruction : GXml.TNode, GXml.ProcessingInstruction
 {

@@ -21,6 +21,9 @@
  */
 
 // FIXME Range could be a set of nodes or a set of character data
+/**
+ * DOM4 Range implementation, powered by libxml2 library.
+ */
 public class GXml.GDomRange : Object, GXml.DomRange {
 	protected DomDocument _document;
 	protected DomNode _start_container;

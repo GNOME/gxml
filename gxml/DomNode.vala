@@ -20,6 +20,9 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 
+/**
+ * Base interface for all DOM4 implementations
+ */
 public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
 	public enum NodeType {
 		INVALID = 0,
@@ -163,7 +166,9 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
     return false;
   }
 }
-
+/**
+ * DOM4 error codes.
+ */
 public errordomain GXml.DomError {
 	INDEX_SIZE_ERROR = 1,
 	DOMSTRING_SIZE_ERROR,//

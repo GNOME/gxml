@@ -22,7 +22,7 @@
 
 using Gee;
 /**
- * Interface to handle XML tags properties.
+ * DOM4 Interface to handle XML tags properties, powered by libxml2 library.
  *
  * Its features relays on {@link GXml.Node} interface inplementation to access
  * {@link GXml.Element} properties.

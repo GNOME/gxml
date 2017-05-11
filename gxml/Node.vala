@@ -23,7 +23,7 @@
 using Gee;
 
 /**
- * Base interface providing basic functionalities to all GXml interfaces.
+ * Base interface providing basic functionalities for DOM1 interfaces.
  */
 public interface GXml.Node : Object
 {

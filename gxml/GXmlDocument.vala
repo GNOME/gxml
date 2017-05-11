@@ -24,7 +24,8 @@ using Gee;
 using Xml;
 
 /**
- * Class implemeting {@link GXml.Document} interface, not tied to libxml-2.0 library.
+ * DOM4 class implemeting {@link GXml.Document} and {GXml.DomDocument} interface,
+ * powered by libxml-2.0 library.
  *
  * This class use {@link Xml.TextWriter} to write down XML documents using
  * its contained {@link GXml.Node} children or other XML structures.

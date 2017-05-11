@@ -20,6 +20,9 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 
+/**
+ * DOM4 An event handler, powered by libxml2 library.
+ */
 public class GXml.GDomEvent : Object, GXml.DomEvent {
 	protected string _etype;
 	protected DomEventTarget _event_target;
@@ -62,6 +65,9 @@ public class GXml.GDomEvent : Object, GXml.DomEvent {
 	}
 }
 
+/**
+ * Custom event handler, powered by libxml2 library.
+ */
 public class GXml.GDomCustomEvent : GXml.GDomEvent {
 	protected GLib.Value? _detail;
 	public GLib.Value? detail { get { return _detail; } }

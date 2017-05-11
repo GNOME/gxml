@@ -20,7 +20,9 @@
  */
 
 using Gee;
-
+/**
+ * Parser Error codes for {@link DomNode} parsing objects
+ */
 public errordomain GXml.ParserError {
   INVALID_DATA_ERROR,
   INVALID_FILE_ERROR,

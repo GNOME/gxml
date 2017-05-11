@@ -21,6 +21,10 @@
  *      Yannick Inizan <inizan.yannick@gmail.com>
  *      Daniel Espinosa <esodan@gmail.com>
  */
+
+/**
+ * Object type codes for  {@link XPathObject} objects
+ */
 public enum GXml.XPathObjectType {
   UNDEFINED,
   NODESET,
@@ -34,6 +38,9 @@ public enum GXml.XPathObjectType {
   XSLT_TREE // not implemented
 }
 
+/**
+ * Parser Error codes for {@link XPathObject} objects
+ */
 public errordomain GXml.XPathError {
   EXPRESSION_OK,
   NUMBER_ERROR,

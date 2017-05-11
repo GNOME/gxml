@@ -23,7 +23,8 @@
 using Gee;
 
 /**
- * Implementation of {@link Gee.AbstractMap} to handle {@link Xml.Node} attributes
+ * Implementation of {@link Gee.AbstractMap} to handle {@link Xml.Node} attributes,
+ * powered by libxml2 library.
  */
 public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
                                   GXml.DomNamedNodeMap

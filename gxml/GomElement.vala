@@ -22,9 +22,19 @@
 
 using GXml;
 using Gee;
+
 /**
+ * A DOM4 implementation of {@link DomElement}, for one-step-parsing.
+ *
+ * This object avoids pre and post XML parsing, by using a one step parsing
+ * to translate text XML tree to an GObject based tree.
+ *
  * A GXml Object Model (GOM) implementation of {@link GomElement}.It can be used
  * transparently as {@link DomElement} in a XML tree.
+ *
+ * It also allows delayed parsing, so you can read large documents by parsing
+ * just a XML element node and its attributes but not its childs; save its childs
+ * as a text, for a post-on-step-parsing.
  */
 public class GXml.GomElement : GomNode,
                               DomChildNode,
