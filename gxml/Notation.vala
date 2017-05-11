@@ -38,3 +38,8 @@ public interface GXml.Notation : Object, GXml.Node
   public abstract string? public_id { get; }
   public abstract string? external_id { get; }
 }
+
+/**
+ * Dummy definition for entity.
+ */
+public interface GXml.Entity : Object, GXml.Node {}

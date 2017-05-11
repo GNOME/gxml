@@ -20,13 +20,22 @@
  */
 
 #include<gxml/xlibxml.h>
-
+/**
+ * gxml_doc_get_intsubset_entities:
+ *
+ * Deprecated: 0.15
+ */
 void* gxml_doc_get_intsubset_entities (xmlDoc *doc)
 {
   g_return_val_if_fail (doc != NULL, NULL);
   return doc->intSubset->entities;
 }
 
+/**
+ * gxml_validate_name:
+ *
+ * Deprecated: 0.15
+ */
 gint gxml_validate_name (xmlChar* name, int space)
 {
   g_return_val_if_fail (name != NULL, -1);
@@ -44,26 +53,52 @@ xmlErrorPtr gxml_parser_context_get_last_error (void* ctx)
   return gxml_context_get_last_error (ctx);
 }
 
+/**
+ * gxml_context_get_last_error:
+ *
+ * Deprecated: 0.15
+ */
 xmlErrorPtr gxml_context_get_last_error (void* ctx)
 {
   g_return_val_if_fail (ctx != NULL, NULL);
   return xmlCtxtGetLastError (ctx);
 }
 
+/**
+ * gxml_context_reset_last_error:
+ *
+ * Deprecated: 0.15
+ */
 void gxml_context_reset_last_error (void* ctx)
 {
   xmlCtxtResetLastError (ctx);
 }
 
+/**
+ * gxml_get_last_error:
+ *
+ * Deprecated: 0.15
+ */
 xmlErrorPtr gxml_get_last_error ()
 {
   return xmlGetLastError ();
 }
 
+/**
+ * gxml_reset_last_error:
+ *
+ * Deprecated: 0.15
+ */
 void gxml_reset_last_error ()
 {
   xmlResetLastError ();
 }
+
+/**
+ * gxml_doc_get_ns_list:
+ *
+ * Deprecated: 0.15
+ */
 xmlNsPtr* gxml_doc_get_ns_list (xmlDoc* doc, xmlNode* node)
 {
   g_return_val_if_fail (doc != NULL, NULL);
@@ -71,18 +106,33 @@ xmlNsPtr* gxml_doc_get_ns_list (xmlDoc* doc, xmlNode* node)
   return xmlGetNsList (doc, node);
 }
 
+/**
+ * gxml_new_text_writer_doc:
+ *
+ * Deprecated: 0.15
+ */
 xmlTextWriterPtr gxml_new_text_writer_doc (xmlDoc** doc)
 {
   g_return_val_if_fail (doc != NULL, NULL);
   return xmlNewTextWriterDoc (doc, 0);
 }
 
+/**
+ * gxml_new_text_writer_memory:
+ *
+ * Deprecated: 0.15
+ */
 xmlTextWriterPtr gxml_new_text_writer_memory (xmlBufferPtr buffer, gint compression)
 {
   g_return_val_if_fail (buffer != NULL, NULL);
   return xmlNewTextWriterMemory (buffer, compression);
 }
 
+/**
+ * gxml_text_writer_write_cdata:
+ *
+ * Deprecated: 0.15
+ */
 gint gxml_text_writer_write_cdata (xmlTextWriterPtr tw, const xmlChar* text)
 {
   g_return_val_if_fail (tw != NULL, -1);
@@ -90,6 +140,11 @@ gint gxml_text_writer_write_cdata (xmlTextWriterPtr tw, const xmlChar* text)
   return xmlTextWriterWriteCDATA (tw, text);
 }
 
+/**
+ * gxml_text_writer_write_pi:
+ *
+ * Deprecated: 0.15
+ */
 gint gxml_text_writer_write_pi (xmlTextWriterPtr tw, const xmlChar* target, const xmlChar* data)
 {
   g_return_val_if_fail (tw != NULL, -1);
@@ -99,6 +154,11 @@ gint gxml_text_writer_write_pi (xmlTextWriterPtr tw, const xmlChar* target, cons
 }
 
 
+/**
+ * gxml_copy_props:
+ *
+ * Deprecated: 0.15
+ */
 void gxml_copy_props (xmlNodePtr src, xmlNodePtr dst)
 {
 	g_return_if_fail (src != NULL);

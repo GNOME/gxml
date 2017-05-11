@@ -119,6 +119,8 @@ valasources = files ([
 ])
 
 sources = files ([
+	'xlibxml.c',
+	'xlibxml.h'
 ])
 
 inc_gxmlh = include_directories ('.')

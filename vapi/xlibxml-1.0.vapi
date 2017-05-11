@@ -20,37 +20,49 @@
  */
 
 /**
- * Utility functions not present in libxml-2.0 bindings to be used internaly.
+ * Deprecated utility functions.
  *
  * Don't use this namespace's functions in your code. Instead, use GXml's public API.
  */
 [CCode (cheader_filename = "gxml/xlibxml.h")]
 namespace Xmlx {
   [CCode (cname = "gxml_doc_get_intsubset_entities", cheader_filename = "gxml/xlibxml.h")]
+  [Version (deprecated="true", since="0.15")]
   public static Xml.HashTable doc_get_dtd_entities (Xml.Doc *doc);
   [CCode (cname = "gxml_validate_name", cheader_filename = "gxml//xlibxml.h")]
+  [Version (deprecated="true", since="0.15")]
   public static int validate_name ([CCode (type = "xmlChar*")] string name, int space);
   [CCode (cname = "gxml_parser_context_get_last_error", cheader_filename = "gxml/xlibxml.h")]
   [Version (deprecated=true, replacement = "context_get_last_error", deprecated_since = "0.8.1")]
   public static Xml.Error* parser_context_get_last_error (Xml.ParserCtxt ctx);
   [CCode (cname = "gxml_context_get_last_error", cheader_filename = "gxml/xlibxml.h")]
+  [Version (deprecated="true", since="0.15")]
   public static Xml.Error* context_get_last_error (Xml.ParserCtxt ctx);
   [CCode (cname = "gxml_context_reset_last_error", cheader_filename = "gxml/xlibxml.h")]
+  [Version (deprecated="true", since="0.15")]
   public static void context_reset_last_error (Xml.ParserCtxt ctx);
   [CCode (cname = "gxml_get_last_error", cheader_filename = "gxml/xlibxml.h")]
+  [Version (deprecated="true", since="0.15")]
   public static Xml.Error* get_last_error ();
   [CCode (cname = "gxml_reset_last_error", cheader_filename = "gxml/xlibxml.h")]
+  [Version (deprecated="true", since="0.15")]
   public static void reset_last_error ();
   [CCode (cname = "gxml_doc_get_ns_list", array_null_terminated = true, cheader_filename = "gxml/xlibxml.h")]
+  [Version (deprecated="true", since="0.15")]
   public static Xml.Ns*[] doc_get_ns_list (Xml.Doc* doc, Xml.Node* node);
   [CCode (cname = "gxml_new_text_writer_doc", cheader_filename = "gxml/xlibxml.h")]
+  [Version (deprecated="true", since="0.15")]
   public static Xml.TextWriter new_text_writer_doc (ref Xml.Doc doc);
   [CCode (cname = "gxml_new_text_writer_memory", cheader_filename = "gxml/xlibxml.h")]
+  [Version (deprecated="true", since="0.15")]
   public static Xml.TextWriter new_text_writer_memory (Xml.Buffer buffer, int compression);
   [CCode (cname = "gxml_text_writer_write_cdata", cheader_filename = "gxml/xlibxml.h")]
+  [Version (deprecated="true", since="0.15")]
   public static int text_writer_write_cdata (Xml.TextWriter tw, string text);
   [CCode (cname = "gxml_text_writer_write_pi", cheader_filename = "gxml/xlibxml.h")]
+  [Version (deprecated="true", since="0.15")]
   public static int text_writer_write_pi (Xml.TextWriter tw, string target, string data);
   [CCode (cname = "gxml_copy_props", cheader_filename = "gxml/xlibxml.h")]
+  [Version (deprecated="true", since="0.15")]
   public static int copy_props (Xml.Node src, Xml.Node dst);
 }
