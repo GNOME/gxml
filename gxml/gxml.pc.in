@@ -10,4 +10,4 @@ URL: http://live.gnome.org/GXml
 Version: @GXML_VERSION@
 Requires: @PCDEPS@
 Libs: -L${libdir} -lgxml-@API_VERSION@
-Cflags: -I${includedir}/gxml-@API_VERSION@/gxml
+Cflags: -I${includedir}/gxml-@API_VERSION@

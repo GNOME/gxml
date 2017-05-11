@@ -6,6 +6,7 @@ pkgname = '--package-name='+'GXml-'+API_VERSION
 pkgversion = '--package-version='+GXML_VERSION
 vapidirgxml = '--vapidir='+join_paths (meson.current_source_dir (),'gxml')
 vapidirvapi = '--vapidir='+join_paths (meson.current_source_dir (),'vapi')
+docsdir = join_paths (get_option ('datadir'), 'devhelp','books')
 
 custom_target ('valadocs',
 		input : sources,
@@ -27,5 +28,4 @@ custom_target ('valadocs',
 			'--directory=@OUTDIR@',
 			valasources],
 		install : true,
-		install_dir : join_paths (meson.current_source_dir (), 'devhelp','books'))
-
+		install_dir : docsdir)

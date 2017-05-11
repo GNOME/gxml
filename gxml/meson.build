@@ -1,9 +1,10 @@
-vapidir = get_option('datadir') + '/vala/vapi'
-includedir = get_option('includedir') + '/gxml-@0@/gxml'.format(API_VERSION)
+vapidir = join_paths (get_option('datadir'),'vala','vapi')
 
 conf = configuration_data()
 conf.set('prefix', get_option('prefix'))
-conf.set('libdir', get_option('prefix') + '/' + get_option('libdir'))
+conf.set('exec_prefix', get_option('prefix'))
+conf.set('libdir', join_paths (get_option ('prefix'),get_option ('libdir')))
+conf.set('includedir', get_option ('includedir'))
 conf.set('VALADEPS', VALADEPS)
 conf.set('PCDEPS', PCDEPS)
 conf.set('GXML_VERSION', GXML_VERSION)
@@ -138,12 +139,10 @@ gxml = library('gxml-@0@'.format(API_VERSION),
 	install : true,
 	install_dir : [
 		get_option('libdir'),
-		includedir,
+		join_paths (get_option('includedir'),'gxml-@0@'.format (API_VERSION)),
 		vapidir,
 		true
 	])
-
-install_headers('xlibxml.h', subdir : includedir)
 
 g_ir_compiler = find_program('g-ir-compiler')
 custom_target('gxml-typelib',
