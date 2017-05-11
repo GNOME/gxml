@@ -22,16 +22,17 @@ configure_file(input : 'gxml.deps.in',
 	install : true,
 	install_dir : vapidir)
 
-conf = configuration_data()
-conf.set_quoted('PACKAGE_LOCALE_DIR', join_paths(get_option('prefix'), get_option('datadir'), 'locale'))
-conf.set_quoted('GETTEXT_PACKAGE', 'gxml')
-configure_file(output : 'config.h',
-	configuration : conf)
-
 nsinfo = configure_file(input : 'namespace-info.vala.in',
 	output : 'namespace-info.vala',
 	configuration : conf)
 namespaceinfo_dep = declare_dependency (sources : nsinfo)
+
+confh = configuration_data ()
+confh.set_quoted('PACKAGE_LOCALE_DIR', join_paths(get_option('prefix'), get_option('datadir'), 'locale'))
+confh.set_quoted('GETTEXT_PACKAGE', 'GXml')
+configure_file(output : 'config.h',
+	configuration : confh)
+
 
 valasources = files ([
 	'Attribute.vala',
@@ -118,8 +119,6 @@ valasources = files ([
 ])
 
 sources = files ([
-	'xlibxml.c',
-	'xlibxml.h'
 ])
 
 inc_gxmlh = include_directories ('.')
@@ -148,7 +147,7 @@ g_ir_compiler = find_program('g-ir-compiler')
 custom_target('gxml-typelib',
 	command: [
 		g_ir_compiler,
-		'--shared-library', 'libgxml-@0@.so.@1@'.format (API_VERSION, GXML_VERSION),
+		'--shared-library', 'libgxml-@0@.so'.format (API_VERSION),
 		'--output', '@OUTPUT@',
 		join_paths(meson.current_build_dir(), 'GXml-@0@.gir'.format(API_VERSION))
 	],
