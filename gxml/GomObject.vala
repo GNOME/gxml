@@ -43,7 +43,7 @@ public interface GXml.GomObject : GLib.Object,
    *
    * If {@link parse_children} is true this will hold a string with all childrens
    * for this {@link GomElement}. It is set to null if {@link parse_children} is false
-   * and {@link read_children} is called.
+   * and {@link parse_children} is called.
    */
   public abstract string unparsed { get; set; }
   /**

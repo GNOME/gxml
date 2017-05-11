@@ -467,7 +467,6 @@ public class GXml.TDocument : GXml.TNode, GXml.Document
    * NOTE: Unless a bug on parsing is fixed, don't use this function, you will get
    * unexpected tree parsing
    */
-  [Deprecated (since="0.16")]
   public delegate ReadType ReadTypeFunc (GXml.Node node, TextReader tr);
   /**
    * Read a {@link GXml.Document} from a {@link GLib.File}, parsing is controller

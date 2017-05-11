@@ -209,32 +209,32 @@ public class GXml.XParser : Object, GXml.Parser {
    * Check if current node has childs.
    */
   public bool current_is_empty_element () {
-    if (tr == null)
-      throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
+    if (tr == null) return false;
+    // TODO:  throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
     return tr.is_empty_element () == 1;
   }
   /**
    * Check if current node found by parser, is a {@link DomElement}
    */
   public bool current_is_element () {
-    if (tr == null)
-      throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
+    if (tr == null) return false;
+    // TODO:  throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
     return (tr.node_type () == Xml.ReaderType.ELEMENT);
   }
   /**
    * Check if current node found by parser, is a {@link DomDocument}
    */
   public bool current_is_document() {
-    if (tr == null)
-      throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
+    if (tr == null) return false;
+    // TODO:  throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
     return (tr.node_type () == Xml.ReaderType.DOCUMENT);
   }
   /**
    * Returns current node's local name, found by parser.
    */
   public string current_node_name () {
-    if (tr == null)
-      throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
+    if (tr == null) return "";
+    // TODO:  throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
     return tr.const_local_name ();
   }
   /**

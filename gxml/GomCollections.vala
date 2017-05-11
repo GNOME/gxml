@@ -436,9 +436,6 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.GomCollection {
 /**
  * Inteface to be implemented by {@link GomElement} derived classes
  * in order to provide a strings to be used in {@link GomHashPairedMap} as keys.
- *
- * If {@link GomHashPairedMap} has set its {@link GomHashMap.attribute_primary_key}
- * and {@link GomHashMap.attribute_secondary_key} its value has precedence over these methods.
  */
 public interface GXml.MappeableElementPairKey : Object, DomElement {
   public abstract string get_map_primary_key ();
@@ -657,9 +654,9 @@ public interface GXml.MappeableElementThreeKey : Object, DomElement {
 /**
  * A class impementing {@link GomCollection} to store references to
  * child {@link DomElement} of {@link GomCollection.element}, using three attributes in
- * items as primary and secondary keys or {@link MappeableElementThreeKey.get_map_primary_key},
- * {@link MappeableElementPairKey.get_map_secondary_key}
- * and {@link MappeableElementPairKey.get_map_third_key}
+ * items as primary, secondary tertiary keys or {@link MappeableElementThreeKey.get_map_pkey},
+ * {@link MappeableElementThreeKey.get_map_skey}
+ * and {@link MappeableElementThreeKey.get_map_tkey}
  * methods if {@link MappeableElementThreeKey} are implemented
  * by items to be added. All keys should be defined in node, otherwise
  * it is not added; but keeps it as a child node of actual
@@ -669,9 +666,9 @@ public interface GXml.MappeableElementThreeKey : Object, DomElement {
  * and implements {@link MappeableElementThreeKey}, you should set
  * {@link attribute_primary_key}, {@link attribute_secondary_key}
  * and  {@link attribute_third_key}
- * to null in order to use returned value of {@link MappeableElementThreeKey.get_map_primary_key},
- * {@link MappeableElementPairKey.get_map_secondary_key}
- * and {@link MappeableElementPairKey.get_map_third_key}
+ * to null in order to use returned value of {@link MappeableElementThreeKey.get_map_pkey},
+ * {@link MappeableElementThreeKey.get_map_skey}
+ * and {@link MappeableElementThreeKey.get_map_tkey}
  * as keys.
  *
  * {{{
