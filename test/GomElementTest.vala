@@ -212,7 +212,7 @@ class GomElementTest : GXmlTest  {
 				assert (n.unparsed == "<child p1=\"Value1\" p2=\"Value2\"><child2/></child>");
 				assert (!n.has_child_nodes ());
 				assert (n.child_nodes.length == 0);
-				(n as GomObject).read_unparsed ();
+				n.read_unparsed ();
 				assert (n.has_child_nodes ());
 				assert (n.child_nodes.length == 1);
 				assert (n.unparsed == null);

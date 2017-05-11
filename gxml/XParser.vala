@@ -170,12 +170,14 @@ public class GXml.XParser : Object, GXml.Parser {
     if (current_is_element () && (node is DomDocument))
       read_child_element (node);
     else {
-      if ((node as GomObject).parse_children)
-        read_child_nodes (node);
-      else {
-        (node as GomObject).unparsed = read_unparsed ();
-        //warning ("Unparsed text: "+(node as GomObject).unparsed);
-        move_next_node ();
+      if (node is GomElement) {
+        if ((node as GomElement).parse_children)
+          read_child_nodes (node);
+        else {
+          (node as GomElement).unparsed = read_unparsed ();
+          //warning ("Unparsed text: "+(node as GomObject).unparsed);
+          move_next_node ();
+        }
       }
     }
   }
