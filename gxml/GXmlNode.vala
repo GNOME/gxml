@@ -21,7 +21,9 @@
  */
 
 using Gee;
-
+/**
+ * Auxiliary error codes for parsing/writting libxml2 powered classes
+ */
 public errordomain GXml.Error {
 		NOT_SUPPORTED, /* TODO: GET RID OF THIS */
 		PARSER, WRITER;
