@@ -7,7 +7,7 @@ conf.set('libdir', join_paths (get_option ('prefix'),get_option ('libdir')))
 conf.set('includedir', get_option ('includedir'))
 conf.set('VALADEPS', VALADEPS)
 conf.set('PCDEPS', PCDEPS)
-conf.set('GXML_VERSION', GXML_VERSION)
+conf.set('GXML_VERSION', PROJECT_VERSION)
 conf.set('API_VERSION', API_VERSION)
 
 configure_file(input : 'gxml.pc.in',
@@ -127,7 +127,7 @@ inc_gxmlh = include_directories ('.')
 
 gxml = library('gxml-@0@'.format(API_VERSION),
 	valasources+sources+configvapi,
-	version : GXML_VERSION,
+	version : PROJECT_VERSION,
 	vala_header : 'gxml.h',
 	vala_vapi : 'gxml-@0@.vapi'.format(API_VERSION),
 	vala_gir : 'GXml-@0@.gir'.format(API_VERSION),

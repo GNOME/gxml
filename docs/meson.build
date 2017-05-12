@@ -3,7 +3,7 @@ outdir ='GXml-'+API_VERSION
 valacapi = run_command ('valac', '--api-version')
 driver = '--driver='+valacapi.stdout().strip()
 pkgname = '--package-name='+'GXml-'+API_VERSION
-pkgversion = '--package-version='+GXML_VERSION
+pkgversion = '--package-version='+PROJECT_VERSION
 vapidirgxml = '--vapidir='+join_paths (meson.current_source_dir (),'gxml')
 vapidirvapi = '--vapidir='+join_paths (meson.current_source_dir (),'vapi')
 docsdir = join_paths (get_option ('datadir'), 'devhelp','books')
