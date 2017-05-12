@@ -1,2 +1,2 @@
 i18n = import('i18n')
-i18n.gettext('GXml', preset : 'glib')
+i18n.gettext(CAMEL_CASE_NAME, preset : 'glib')

@@ -1,4 +1,7 @@
 vapidir = join_paths (get_option('datadir'),'vala','vapi')
+GIR_NAME= VERSIONED_CAMEL_CASE_NAME+'.gir'
+TYPELIB_NAME= VERSIONED_CAMEL_CASE_NAME+'.typelib'
+VAPI_NAME = VERSIONED_PROJECT_NAME+'.vapi'
 
 conf = configuration_data()
 conf.set('prefix', get_option('prefix'))
@@ -7,7 +10,7 @@ conf.set('libdir', join_paths (get_option ('prefix'),get_option ('libdir')))
 conf.set('includedir', get_option ('includedir'))
 conf.set('VALADEPS', VALADEPS)
 conf.set('PCDEPS', PCDEPS)
-conf.set('GXML_VERSION', PROJECT_VERSION)
+conf.set('PROJECT_VERSION', PROJECT_VERSION)
 conf.set('API_VERSION', API_VERSION)
 
 configure_file(input : 'gxml.pc.in',
@@ -123,14 +126,15 @@ sources = files ([
 	'xlibxml.h'
 ])
 
-inc_gxmlh = include_directories ('.')
+inc_libh = include_directories ('.')
+inc_libh_dep = declare_dependency (include_directories : inc_libh)
 
-gxml = library('gxml-@0@'.format(API_VERSION),
+lib = library(VERSIONED_PROJECT_NAME,
 	valasources+sources+configvapi,
 	version : PROJECT_VERSION,
-	vala_header : 'gxml.h',
-	vala_vapi : 'gxml-@0@.vapi'.format(API_VERSION),
-	vala_gir : 'GXml-@0@.gir'.format(API_VERSION),
+	vala_header : PROJECT_NAME+'.h',
+	vala_vapi : VAPI_NAME,
+	vala_gir : GIR_NAME,
 	dependencies : [ gee, gio, xml, namespaceinfo_dep ],
 	c_args : [
 		'-include',
@@ -146,14 +150,14 @@ gxml = library('gxml-@0@'.format(API_VERSION),
 	])
 
 g_ir_compiler = find_program('g-ir-compiler')
-custom_target('gxml-typelib',
+custom_target('typelib',
 	command: [
 		g_ir_compiler,
-		'--shared-library', 'libgxml-@0@.so'.format (API_VERSION),
+		'--shared-library', 'lib'+PROJECT_NAME+'-@0@.so'.format (API_VERSION),
 		'--output', '@OUTPUT@',
-		join_paths(meson.current_build_dir(), 'GXml-@0@.gir'.format(API_VERSION))
+		join_paths(meson.current_build_dir(), GIR_NAME)
 	],
-	output: 'GXml-@0@.typelib'.format(API_VERSION),
-	depends: gxml,
+	output: TYPELIB_NAME,
+	depends: lib,
 	install: true,
 	install_dir: join_paths(get_option('libdir'), 'girepository-1.0'))
