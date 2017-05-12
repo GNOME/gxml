@@ -7,7 +7,7 @@ includedir=@prefix@/include
 Name: libgxml
 Description: GObject API for XML manipulation and serialization library
 URL: http://live.gnome.org/GXml
-Version: @GXML_VERSION@
+Version: @PROJECT_VERSION@
 Requires: @PCDEPS@
 Libs: -L${libdir} -lgxml-@API_VERSION@
 Cflags: -I${includedir}/gxml-@API_VERSION@

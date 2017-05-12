@@ -14,11 +14,6 @@ gee = dependency('gee-0.8')
 VALADEPS = 'gee-0.8\ngio-2.0\nlibxml-2.0'
 PCDEPS = 'gee-0.8 gio-2.0 libxml-2.0'
 
-xlibxml_cflags = '-I' + meson.current_source_dir()
-
-conf = configuration_data()
-conf.set('API_VERSION', API_VERSION)
-
 subdir('po')
 subdir('vapi')
 subdir('gxml')
