@@ -1,4 +1,4 @@
-project('gxml', [ 'vala', 'c'])
+project('gxml', [ 'vala', 'c'], version : '0.15.0')
 
 PROJECT_NAME = 'gxml'
 API_VERSION = '0.14'

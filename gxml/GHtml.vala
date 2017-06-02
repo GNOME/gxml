@@ -44,13 +44,15 @@ namespace GXml {
 		}
 		
 		public HtmlDocument.from_file (File file, int options = 0, Cancellable? cancel = null) throws GLib.Error {
-			uint8[] data;
-			file.load_contents (cancel, out data, null);
-			this.from_string ((string)data, options);
+			var ostream = new MemoryOutputStream.resizable ();
+			ostream.splice (file.read (), GLib.OutputStreamSpliceFlags.CLOSE_SOURCE, cancel);
+			this.from_string ((string) ostream.data, options);
 		}
-		
+
 		public HtmlDocument.from_string (string html, int options = 0) {
-			base.from_doc (Html.Doc.read_memory (html.to_utf8(), html.length, "", null, options));
+			Html.ParserCtxt ctx = new Html.ParserCtxt ();
+			Xml.Doc *doc = ctx.read_memory ((char[]) html, html.length, "", null, options);
+			base.from_doc (doc);
 		}
 		/**
 		 * Search all {@link GXml.Element} with a property called "class" and with a

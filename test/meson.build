@@ -49,3 +49,16 @@ t = executable('tests', files_tests + configvapi + configtestvapi,
 )
 
 test ('tests', t)
+
+feedreader_files = ([
+	'feedreader-test.vala'
+])
+
+
+feedreadert = executable('feedreader_tests', feedreader_files + configvapi + configtestvapi,
+	vala_args : [],
+	dependencies : [ gio, gee, xml, inc_libh_dep, testdirs_dep],
+	link_with: lib
+)
+
+# test ('feedreader_tests', feedreadert)

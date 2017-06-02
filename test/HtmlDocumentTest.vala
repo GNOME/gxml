@@ -70,5 +70,16 @@ class HtmlDocumentTest : GXmlTest {
 				assert_not_reached ();
 			}
 		});
+		// Test.add_func ("/gxml/htmldocument/uri", () => {
+		// 	try {
+		// 		var f = GLib.File.new_for_uri ("http://www.omgubuntu.co.uk/2017/05/kde-neon-5-10-available-download-comes-plasma-5-10");
+		// 		DomDocument doc;
+		// 		doc = new HtmlDocument.from_uri ("http://www.omgubuntu.co.uk/2017/05/kde-neon-5-10-available-download-comes-plasma-5-10");
+		// 		message ((doc as GDocument).to_string ());
+		// 	} catch (GLib.Error e){
+		// 		message ("ERROR: "+e.message);
+		// 		assert_not_reached ();
+		// 	}
+		// });
 	}
 }

@@ -649,9 +649,22 @@ public class GXml.GomElement : GomNode,
     }
     return l;
   }
-  // GomObject
+  /**
+   * If true all children are parsed. If false, all its children are stored
+   * as plain string in {@link unparsed}. In order to generate an XML tree
+   * use {@link read_unparsed}.
+   */
   public bool parse_children { get; set; default = true; }
+  /**
+   * Temporally stores, all unparsed children as plain string. See {@link parse_children}.
+   *
+   * If it is null, means all children have been already parsed.
+   */
   public string unparsed { get; set; }
+  /**
+   * Parse all children, adding them to current node, stored in {@link unparsed}.
+   * Once it finish, sets {@link unparsed} to null.
+   */
   public void read_unparsed () throws GLib.Error {
     if (unparsed == null) return;
     var parser = new XParser (this);
