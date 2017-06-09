@@ -23,6 +23,41 @@
 using GXml;
 
 // GOM Collection Definitions
+class ThreeKeys : GomElement {
+  private ThreeKey.Map _map;
+  public ThreeKey.Map map {
+    get {
+      if (_map == null)
+        set_instance_property ("map");
+      return _map;
+    }
+    set {
+      if (_map != null)
+        try { clean_property_elements ("map"); }
+        catch (GLib.Error e) { warning ("Error: "+e.message); }
+      _map = value;
+    }
+  }
+  construct { try { initialize ("ThreeKeys"); } catch { assert_not_reached (); } }
+}
+class ThreeKey : GomElement, MappeableElementThreeKey {
+  [Description (nick="::ID")]
+  public string id { get; set; }
+  [Description (nick="::Code")]
+  public string code { get; set; }
+  [Description (nick="::name")]
+  public string name { get; set; }
+  construct { try { initialize ("ThreeKey"); } catch { assert_not_reached (); } }
+  public string get_map_pkey () { return id; }
+  public string get_map_skey () { return code; }
+  public string get_map_tkey () { return name; }
+  public class Map : GomHashThreeMap {
+    construct {
+      try { initialize (typeof (ThreeKey)); }
+      catch (GLib.Error e) { message ("Error: "+e.message); }
+    }
+  }
+}
 class Operations : GomElement {
   private Operation.Map _map;
   public Operation.Map map {
@@ -279,6 +314,7 @@ class GomSerializationTest : GXmlTest  {
       string s = "";
       try {
         s = parser.write_string ();
+        assert (s != "");
       } catch (GLib.Error e) {
         GLib.message ("Error: "+e.message);
         assert_not_reached ();
@@ -1163,7 +1199,7 @@ class GomSerializationTest : GXmlTest  {
         assert_not_reached ();
       }
     });
-    Test.add_func ("/gxml/gom-serialization/collections/hashpairedmap",
+    Test.add_func ("/gxml/gom-serialization/collections/hashpairedmap/keys",
     () => {
       try {
         var ops = new Operations ();
@@ -1203,6 +1239,58 @@ class GomSerializationTest : GXmlTest  {
         assert (pkeys2.length () == 2);
         foreach (string pk in pkeys2) { message (pk); }
         var skeys1 = ops.map.get_secondary_keys ("a1");
+        foreach (string pk in skeys1) { message (pk); }
+        assert (skeys1.length () == 2);
+      } catch (GLib.Error e) {
+        GLib.message ("ERROR: "+e.message);
+        assert_not_reached ();
+      }
+    });
+    Test.add_func ("/gxml/gom-serialization/collections/hashthreemap/keys",
+    () => {
+      try {
+        var ks = new ThreeKeys ();
+        assert (ks.map != null);
+        assert (ks.map.length == 0);
+        var k1 = ks.map.create_item () as ThreeKey;
+        assert (k1 is ThreeKey);
+        k1.id = "a1";
+        k1.code = "b1";
+        k1.name = "name1";
+        ks.map.append (k1);
+        assert (ks.map.length == 1);
+        var tk1 = ks.map.get ("a1", "b1", "name1") as ThreeKey;
+        assert (tk1 is ThreeKey);
+        assert (tk1.id == "a1");
+        assert (tk1.code == "b1");
+        assert (tk1.name == "name1");
+        var pkeys1 = ks.map.get_primary_keys ();
+        assert (pkeys1.length () == 1);
+        var k2 = ks.map.create_item () as ThreeKey;
+        assert (k2 is ThreeKey);
+        k2.id = "a1";
+        k2.code = "b2";
+        k2.name = "name2";
+        ks.map.append (k2);
+        var k3 = ks.map.create_item () as ThreeKey;
+        assert (k3 is ThreeKey);
+        k3.id = "a2";
+        k3.code = "b1";
+        k3.name = "name3";
+        ks.map.append (k3);
+        assert (ks.map.length == 3);
+        var k4 = ks.map.create_item () as ThreeKey;
+        assert (k4 is ThreeKey);
+        k4.id = "a2";
+        k4.code = "b2";
+        k4.name = "name3";
+        ks.map.append (k4);
+        assert (ks.map.length == 4);
+        message (ks.write_string ());
+        var pkeys2 = ks.map.get_primary_keys ();
+        assert (pkeys2.length () == 2);
+        foreach (string pk in pkeys2) { message (pk); }
+        var skeys1 = ks.map.get_secondary_keys ("a1");
         foreach (string pk in skeys1) { message (pk); }
         assert (skeys1.length () == 2);
       } catch (GLib.Error e) {

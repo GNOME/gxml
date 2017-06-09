@@ -705,7 +705,7 @@ public class GXml.GomHashThreeMap : GXml.BaseCollection, GXml.GomCollection {
   /**
    * A hashtable with all keys as string to node's index refered. Don't modify it manually.
    */
-  protected HashTable<string,HashTable<string,HashTable<string,int>>> _hashtable = new HashTable<string,HashTable<string,HashTable<string,int>>> (str_hash,str_equal);
+  protected HashMap<string,HashMap<string,HashMap<string,int>>> _hashtable = new HashMap<string,HashMap<string,HashMap<string,int>>> ();
   /**
    * Element's attribute name used to refer of container's element as primery key.
    * You should define it at construction time
@@ -827,7 +827,11 @@ public class GXml.GomHashThreeMap : GXml.BaseCollection, GXml.GomCollection {
    * Returns list of primary keys used in collection.
    */
   public GLib.List<string> get_primary_keys () {
-    return _hashtable.get_keys ();
+    var l = new GLib.List<string> ();
+    foreach (string k in _hashtable.keys) {
+      l.append (k);
+    }
+    return l;
   }
   /**
    * Returns list of secondary keys used in collection with pkey as primary key.
@@ -837,7 +841,10 @@ public class GXml.GomHashThreeMap : GXml.BaseCollection, GXml.GomCollection {
     if (!_hashtable.contains (pkey)) return l;
     var ht = _hashtable.get (pkey);
     if (ht == null) return l;
-    return ht.get_keys ();
+    foreach (string k in ht.keys) {
+      l.append (k);
+    }
+    return l;
   }
   /**
    * Returns list of third keys used in collection with pkey as primary key
@@ -850,7 +857,10 @@ public class GXml.GomHashThreeMap : GXml.BaseCollection, GXml.GomCollection {
     if (ht == null) return l;
     var hte = ht.get (skey);
     if (hte == null) return l;
-    return hte.get_keys ();
+    foreach (string k in hte.keys) {
+      l.append (k);
+    }
+    return l;
   }
   /**
    * Validates if given element has a {@link attribute_primary_key},
@@ -891,12 +901,12 @@ public class GXml.GomHashThreeMap : GXml.BaseCollection, GXml.GomCollection {
     }
     if (pkey == null || skey == null || tkey == null) return false;
     var ht = _hashtable.get (pkey);
-    if (ht == null) ht = new HashTable<string,HashTable<string,int>> (str_hash, str_equal);
+    if (ht == null) ht = new HashMap<string,HashMap<string,int>> ();
     var hte = ht.get (skey);
-    if (hte == null) hte = new HashTable<string,int> (str_hash, str_equal);
-    if (!_hashtable.contains (pkey)) _hashtable.insert (pkey, ht);
-    if (!ht.contains (skey)) ht.insert (skey, hte);
-    hte.insert (tkey, index);
+    if (hte == null) hte = new HashMap<string,int> ();
+    if (!_hashtable.contains (pkey)) _hashtable.set (pkey, ht);
+    if (!ht.contains (skey)) ht.set (skey, hte);
+    hte.set (tkey, index);
     return true;
   }
 }
