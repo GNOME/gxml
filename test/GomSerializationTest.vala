@@ -23,6 +23,38 @@
 using GXml;
 
 // GOM Collection Definitions
+class Operations : GomElement {
+  private Operation.Map _map;
+  public Operation.Map map {
+    get {
+      if (_map == null)
+        set_instance_property ("map");
+      return _map;
+    }
+    set {
+      if (_map != null)
+        try { clean_property_elements ("map"); }
+        catch (GLib.Error e) { warning ("Error: "+e.message); }
+      _map = value;
+    }
+  }
+  construct { try { initialize ("Operations"); } catch { assert_not_reached (); } }
+}
+class Operation : GomElement, MappeableElementPairKey {
+  [Description (nick="::ID")]
+  public string id { get; set; }
+  [Description (nick="::Code")]
+  public string code { get; set; }
+  construct { try { initialize ("Operation"); } catch { assert_not_reached (); } }
+  public string get_map_primary_key () { return id; }
+  public string get_map_secondary_key () { return code; }
+  public class Map : GomHashPairedMap {
+    construct {
+      try { initialize (typeof (Operation)); }
+      catch (GLib.Error e) { message ("Error: "+e.message); }
+    }
+  }
+}
 class GomName : GomElement
 {
   construct { try { initialize ("Name"); } catch { assert_not_reached (); } }
@@ -1128,6 +1160,53 @@ class GomSerializationTest : GXmlTest  {
 #if DEBUG
         GLib.message ("ERROR: "+e.message);
 #endif
+        assert_not_reached ();
+      }
+    });
+    Test.add_func ("/gxml/gom-serialization/collections/hashpairedmap",
+    () => {
+      try {
+        var ops = new Operations ();
+        assert (ops.map != null);
+        assert (ops.map.length == 0);
+        var op1 = ops.map.create_item () as Operation;
+        assert (op1 is Operation);
+        op1.id = "a1";
+        op1.code = "b1";
+        ops.map.append (op1);
+        assert (ops.map.length == 1);
+        var top1 = ops.map.get ("a1", "b1") as Operation;
+        assert (top1 is Operation);
+        assert (top1.id == "a1");
+        assert (top1.code == "b1");
+        var pkeys1 = ops.map.get_primary_keys ();
+        assert (pkeys1.length () == 1);
+        var op2 = ops.map.create_item () as Operation;
+        assert (op2 is Operation);
+        op2.id = "a1";
+        op2.code = "b2";
+        ops.map.append (op2);
+        var op3 = ops.map.create_item () as Operation;
+        assert (op2 is Operation);
+        op3.id = "a2";
+        op3.code = "b1";
+        ops.map.append (op3);
+        assert (ops.map.length == 3);
+        var op4 = ops.map.create_item () as Operation;
+        assert (op4 is Operation);
+        op4.id = "a2";
+        op4.code = "b2";
+        ops.map.append (op4);
+        assert (ops.map.length == 4);
+        message (ops.write_string ());
+        var pkeys2 = ops.map.get_primary_keys ();
+        assert (pkeys2.length () == 2);
+        foreach (string pk in pkeys2) { message (pk); }
+        var skeys1 = ops.map.get_secondary_keys ("a1");
+        foreach (string pk in skeys1) { message (pk); }
+        assert (skeys1.length () == 2);
+      } catch (GLib.Error e) {
+        GLib.message ("ERROR: "+e.message);
         assert_not_reached ();
       }
     });

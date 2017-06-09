@@ -20,7 +20,7 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 
-
+using Gee;
 /**
  * A DOM4 interface to keep references to {@link DomElement} in a {@link element}
  * child nodes. Only {@link GomObject} are supported.
@@ -30,7 +30,7 @@ public interface GXml.GomCollection : Object
   /**
    * A list of child {@link DomElement} objects of {@link element}
    */
-  public abstract Queue<int> nodes_index { get; }
+  public abstract GLib.Queue<int> nodes_index { get; }
   /**
    * A {@link GomElement} with all child elements in collection.
    */
@@ -133,7 +133,7 @@ public abstract class GXml.BaseCollection : Object {
   /**
    * A collection of node's index refered. Don't modify it manually.
    */
-  protected Queue<int> _nodes_index = new Queue<int> ();
+  protected GLib.Queue<int> _nodes_index = new GLib.Queue<int> ();
   /**
    * Element used to refer of containier element. You should define it at construction time
    * our set it as a construction property.
@@ -169,7 +169,7 @@ public abstract class GXml.BaseCollection : Object {
   /**
    * {@inheritDoc}
    */
-  public Queue<int> nodes_index { get { return _nodes_index; } }
+  public GLib.Queue<int> nodes_index { get { return _nodes_index; } }
   /**
    * {@inheritDoc}
    */
@@ -482,7 +482,7 @@ public class GXml.GomHashPairedMap : GXml.BaseCollection, GXml.GomCollection {
   /**
    * A hashtable with all keys as string to node's index refered. Don't modify it manually.
    */
-  protected HashTable<string,HashTable<string,int>> _hashtable = new HashTable<string,HashTable<string,int>> (str_hash,str_equal);
+  protected Gee.HashMap<string,HashMap<string,int>> _hashtable = new HashMap<string,HashMap<string,int>> ();
   /**
    * Element's attribute name used to refer of container's element as primery key.
    * You should define it at construction time
@@ -571,17 +571,23 @@ public class GXml.GomHashPairedMap : GXml.BaseCollection, GXml.GomCollection {
    * Returns list of primary keys used in collection.
    */
   public GLib.List<string> get_primary_keys () {
-    return _hashtable.get_keys ();
+    var l = new GLib.List<string> ();
+    foreach (string k in _hashtable.keys) {
+      l.append (k);
+    }
+    return l;
   }
   /**
    * Returns list of secondary keys used in collection with @pkey as primary key.
    */
   public GLib.List<string> get_secondary_keys (string pkey) {
     var l = new GLib.List<string> ();
-    if (!_hashtable.contains (pkey)) return l;
     var ht = _hashtable.get (pkey);
     if (ht == null) return l;
-    return ht.get_keys ();
+    foreach (string k in ht.keys) {
+      l.append (k);
+    }
+    return l;
   }
   /**
    * Validates if given element has a {@link attribute_primary_key}
@@ -619,11 +625,14 @@ public class GXml.GomHashPairedMap : GXml.BaseCollection, GXml.GomCollection {
         skey = ((MappeableElementPairKey) element).get_map_secondary_key ();
       }
     }
-    if (pkey == null || skey == null) return false;
+    if (pkey == null || skey == null)
+      throw new DomError.NOT_FOUND_ERROR (_("No primary key and/or secondary key was found"));
     var ht = _hashtable.get (pkey);
-    if (ht == null) ht = new HashTable<string,int> (str_hash, str_equal);
-    ht.insert (skey, index);
-    if (!_hashtable.contains (pkey)) _hashtable.insert (pkey, ht);
+    if (ht == null) {
+      ht = new HashMap<string,int> ();
+      _hashtable.set (pkey, ht);
+    }
+    ht.set (skey, index);
     return true;
   }
 }
