@@ -30,10 +30,12 @@ public interface GXml.GomCollection : Object
   /**
    * A list of child {@link DomElement} objects of {@link element}
    */
+  [CCode (ordering = 0)]
   public abstract GLib.Queue<int> nodes_index { get; }
   /**
    * A {@link GomElement} with all child elements in collection.
    */
+  [CCode (ordering = 1)]
   public abstract GomElement element { get; construct set; }
   /**
    * Local name of {@link DomElement} objects of {@link element}, which could be
@@ -41,6 +43,7 @@ public interface GXml.GomCollection : Object
    *
    * Used when reading to add elements to collection.
    */
+  [CCode (ordering = 2)]
   public abstract string items_name { get; }
   /**
    * A {@link GLib.Type} of {@link DomElement} child objects of {@link element},
@@ -48,16 +51,19 @@ public interface GXml.GomCollection : Object
    *
    * Type should be an {@link GomObject}.
    */
+  [CCode (ordering = 3)]
   public abstract Type items_type { get; construct set; }
   /**
    * Search and add references to all {@link GomObject} nodes as child of
    * {@link element} with same, case insensitive, name of {@link items_name}
    */
+  [CCode (ordering = 4)]
   public abstract void search () throws GLib.Error;
   /**
    * Gets a child {@link DomElement} of {@link element} referenced in
    * {@link nodes_index}.
    */
+  [CCode (ordering = 5)]
   public virtual DomElement? get_item (int index) throws GLib.Error {
     if (nodes_index.length == 0)
       return null;
@@ -80,10 +86,12 @@ public interface GXml.GomCollection : Object
    * collection, this method will take information from node to initialize
    * how to find it.
    */
+  [CCode (ordering = 6)]
   public abstract void append (DomElement node) throws GLib.Error;
   /**
    * Number of items referenced in {@link nodes_index}
    */
+  [CCode (ordering = 7)]
   public virtual int length { get { return (int) nodes_index.get_length (); } }
   /**
    * Initialize collection to use a given {@link GomElement} derived type.
@@ -93,6 +101,7 @@ public interface GXml.GomCollection : Object
    * This method can be used at construction time of classes implementing
    * {@link GomCollection} to initialize object type to refer in collection.
    */
+  [CCode (ordering = 8)]
   public abstract void initialize (GLib.Type t) throws GLib.Error;
   /**
    * Creates a new instance of {@link items_type}, with same
@@ -102,6 +111,7 @@ public interface GXml.GomCollection : Object
    *
    * Returns: a new instance object or null if type is not a {@link GomElement} or no parent has been set
    */
+  [CCode (ordering = 9)]
   public virtual GomElement? create_item () {
     if (items_type.is_a (GLib.Type.INVALID)) return null;
     if (!items_type.is_a (typeof (GomElement))) return null;
@@ -118,7 +128,13 @@ public interface GXml.GomCollection : Object
    *
    * Return: true if node and index should be added to collection.
    */
+  [CCode (ordering = 10)]
   public abstract bool validate_append (int index, DomElement element) throws GLib.Error;
+  /**
+   * Clear this collection in prepareation for a search
+   */
+  [CCode (ordering = 11)]
+  public abstract void clear () throws GLib.Error;
 }
 
 /**
@@ -233,12 +249,13 @@ public abstract class GXml.BaseCollection : Object {
   /**
    * Search for all child nodes in {@link element} of type {@link GomElement}
    * with a {@link GomElement.local_name} equal to {@link GomCollection.items_name},
-   * to add it to collection.
+   * to add it to collection. This method calls {@link clear} first.
    *
    * Implementations could add additional restrictions to add element to collection.
    */
   public void search () throws GLib.Error {
     _nodes_index.clear ();
+    clear ();
     if (_element == null)
       throw new DomError.INVALID_NODE_TYPE_ERROR
                 (_("Parent Element is invalid"));
@@ -256,6 +273,17 @@ public abstract class GXml.BaseCollection : Object {
    * {@inheritDoc}
    */
   public abstract bool validate_append (int index, DomElement element) throws GLib.Error;
+  /**
+   * {@inheritDoc}
+   */
+  public virtual void clear () throws GLib.Error {}
+
+  // Internal for future expansions
+  internal new virtual void reserved0() {}
+  internal new virtual void reserved1() {}
+  internal new virtual void reserved2() {}
+  internal new virtual void reserved3() {}
+  internal new virtual void reserved4() {}
 }
 
 /**
@@ -429,6 +457,9 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.GomCollection {
 #endif
     _hashtable.insert (key, index);
     return true;
+  }
+  public override void clear () {
+    _hashtable = new HashTable<string,int> (str_hash,str_equal);
   }
 }
 
@@ -634,6 +665,9 @@ public class GXml.GomHashPairedMap : GXml.BaseCollection, GXml.GomCollection {
     }
     ht.set (skey, index);
     return true;
+  }
+  public override void clear () {
+    _hashtable = new HashMap<string,HashMap<string,int>> ();
   }
 }
 
@@ -908,5 +942,8 @@ public class GXml.GomHashThreeMap : GXml.BaseCollection, GXml.GomCollection {
     if (!ht.contains (skey)) ht.set (skey, hte);
     hte.set (tkey, index);
     return true;
+  }
+  public override void clear () {
+    _hashtable = new HashMap<string,HashMap<string,HashMap<string,int>>> ();
   }
 }

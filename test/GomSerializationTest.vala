@@ -1241,6 +1241,11 @@ class GomSerializationTest : GXmlTest  {
         var skeys1 = ops.map.get_secondary_keys ("a1");
         foreach (string pk in skeys1) { message (pk); }
         assert (skeys1.length () == 2);
+        op4.remove ();
+        ops.map.search ();
+        assert (ops.map.length == 3);
+        var op3t = ops.map.get ("a2", "b1");
+        assert (op3t != null);
       } catch (GLib.Error e) {
         GLib.message ("ERROR: "+e.message);
         assert_not_reached ();
@@ -1293,6 +1298,10 @@ class GomSerializationTest : GXmlTest  {
         var skeys1 = ks.map.get_secondary_keys ("a1");
         foreach (string pk in skeys1) { message (pk); }
         assert (skeys1.length () == 2);
+        k4.remove ();
+        ks.map.search ();
+        var k3t = ks.map.get ("a2", "b1", "name3");
+        assert (k3t != null);
       } catch (GLib.Error e) {
         GLib.message ("ERROR: "+e.message);
         assert_not_reached ();

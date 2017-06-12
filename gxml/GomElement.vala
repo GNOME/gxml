@@ -158,6 +158,8 @@ public class GXml.GomElement : GomNode,
   public void remove () {
     if (parent_node != null) {
       var i = parent_node.child_nodes.index_of (this);
+      if (i < 0 || i > parent_node.child_nodes.length)
+        warning (_("Can't locate child node to remove"));
       parent_node.child_nodes.remove_at (i);
     }
   }

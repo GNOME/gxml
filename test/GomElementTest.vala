@@ -204,6 +204,22 @@ class GomElementTest : GXmlTest  {
 		    assert_not_reached ();
 		  }
 		});
+		Test.add_func ("/gxml/gom-element/remove", () => {
+			try {
+				var doc = new GomDocument.from_string ("<root><child/></root>");
+				assert (doc.document_element != null);
+				assert (doc.document_element.parent_node is GXml.DomNode);
+				assert (doc.document_element.parent_node is GXml.DomDocument);
+				assert (doc.document_element.child_nodes.length == 1);
+				assert (doc.document_element.child_nodes[0] is DomChildNode);
+				(doc.document_element.child_nodes[0] as DomChildNode).remove ();
+				assert (doc.document_element.child_nodes.length == 0);
+				assert ("<root/>" in  doc.write_string ());
+		  } catch (GLib.Error e) {
+		    GLib.message ("Error: "+e.message);
+		    assert_not_reached ();
+		  }
+		});
 		Test.add_func ("/gxml/gom-element/parsed-delayed", () => {
 			try {
 				var n = new ParsedDelayed ();

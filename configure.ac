@@ -35,7 +35,7 @@ m4_define([project_full_version],
 
 # You should set project_released to one in order to mark this as a released version
 # and to avoid date on version number
-m4_define(project_released, [1])
+m4_define(project_released, [0])
 m4_define([project_maybe_datestamp],
           m4_if(project_released, [1],
                 [], [m4_esyscmd([date +.%Y%m%d | tr -d '\n\r'])]))
@@ -93,7 +93,7 @@ AC_SUBST([PROJECT_MAJOR_MINOR_VERSION])
 # - If new versions are compatible with the actual one, just leave this untouched
 # - If new version breaks API change it in order to allow paralled installations
 #   with old versions. Change name of pc files to use a new API too.
-API_VERSION=0.14
+API_VERSION=0.16
 AC_SUBST([API_VERSION])
 
 GXML_VERSION=project_base_version

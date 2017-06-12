@@ -1,7 +1,7 @@
 project('gxml', [ 'vala', 'c'], version : '0.15.0')
 
 PROJECT_NAME = 'gxml'
-API_VERSION = '0.14'
+API_VERSION = '0.16'
 PROJECT_VERSION = '0.15.0'
 VERSIONED_PROJECT_NAME = PROJECT_NAME+'-'+API_VERSION
 CAMEL_CASE_NAME = 'GXml'
