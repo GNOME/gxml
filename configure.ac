@@ -94,10 +94,13 @@ AC_SUBST([PROJECT_MAJOR_MINOR_VERSION])
 # - If new version breaks API change it in order to allow paralled installations
 #   with old versions. Change name of pc files to use a new API too.
 API_VERSION=0.16
+API_MAJOR_VERSION=0
+API_MINOR_VERSION=16
 AC_SUBST([API_VERSION])
+AC_SUBST([API_UNDERSCORE_VERSION])
 
-GXML_VERSION=project_base_version
-AC_SUBST([GXML_VERSION])
+PROJECT_VERSION=project_base_version
+AC_SUBST([PROJECT_VERSION])
 
 IT_PROG_INTLTOOL([0.35.0])
 
@@ -249,7 +252,7 @@ AM_CONDITIONAL(PLATFORM_WIN32, [test x$platform_win32 = xyes])
 AC_CONFIG_FILES([
 Makefile
 gxml/namespace-info.vala
-gxml/gxml.pc
+gxml/gxml-$API_VERSION.pc:gxml/gxml.pc.in
 gxml/Makefile
 test/Makefile
 docs/Makefile
@@ -277,7 +280,7 @@ AC_OUTPUT
 
 # Print configuration summary
 echo ""
-echo " Configuration summary for GXml-$GXML_VERSION"
+echo " Configuration summary for GXml-$PROJECT_VERSION"
 echo "   Installation prefix:     $prefix"
 echo "   GObject Introspection:   $found_introspection"
 echo "   Documentation:           ${docs}"
