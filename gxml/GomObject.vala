@@ -154,6 +154,9 @@ public interface GXml.GomObject : GLib.Object,
     if (prop.value_type.is_a (typeof (uint))) {
       return ((uint) v).to_string ();
     }
+    if (prop.value_type.is_a (typeof (float))) {
+      return ((float) v).to_string ();
+    }
     if (prop.value_type.is_a (typeof (double))) {
       return ((double) v).to_string ();
     }
@@ -241,7 +244,13 @@ public interface GXml.GomObject : GLib.Object,
       }
       if (prop.value_type.is_a (typeof (uint))) {
         uint iv = (uint) double.parse (val);
-        v.set_int ((int) iv);
+        v.set_uint ((int) iv);
+        set_property (prop.name, v);
+        return true;
+      }
+      if (prop.value_type.is_a (typeof (float))) {
+        double dv = double.parse (val);
+        v.set_float ((float) dv);
         set_property (prop.name, v);
         return true;
       }

@@ -143,7 +143,7 @@ class GomCategory : GomElement
   construct { try { initialize ("Category"); } catch { assert_not_reached (); } }
   public class Map : GomHashMap {
     construct {
-      try { initialize_with_key (typeof (GomInventory), "name");  }
+      try { initialize_with_key (typeof (GomCategory), "name");  }
       catch { assert_not_reached (); }
     }
   }
@@ -159,7 +159,7 @@ class GomResume : GomElement
   construct { try { initialize ("Resume"); } catch { assert_not_reached (); } }
   public class Map : GomHashMap {
     construct {
-      try { initialize_with_key (typeof (GomInventory), "chapter"); }
+      try { initialize_with_key (typeof (GomResume), "chapter"); }
       catch { assert_not_reached (); }
     }
   }
@@ -194,6 +194,24 @@ class GomBookStore : GomElement
   public GomBook.Array books { get; set; }
   construct {
     try { initialize ("BookStore"); } catch { assert_not_reached (); }
+  }
+}
+
+class GomBasicTypes : GomElement {
+  [Description (nick="::text")]
+  public string text { get; set; }
+  [Description (nick="::integer")]
+  public int integer { get; set; }
+  [Description (nick="::realDouble")]
+  public double real_double { get; set; }
+  [Description (nick="::realFloat")]
+  public float real_float { get; set; }
+  [Description (nick="::unsignedInteger")]
+  public uint unsigned_integer { get; set; }
+  [Description (nick="::Boolean")]
+  public bool boolean { get; set; }
+  construct {
+    try { initialize ("GomBasicTypes"); } catch { assert_not_reached (); }
   }
 }
 
@@ -1302,6 +1320,38 @@ class GomSerializationTest : GXmlTest  {
         ks.map.search ();
         var k3t = ks.map.get ("a2", "b1", "name3");
         assert (k3t != null);
+      } catch (GLib.Error e) {
+        GLib.message ("ERROR: "+e.message);
+        assert_not_reached ();
+      }
+    });
+    Test.add_func ("/gxml/gom-serialization/basic-types",
+    () => {
+      try {
+        var bt = new GomBasicTypes ();
+        message (bt.write_string ());
+        bt.text = "Text";
+        bt.integer = -1;
+        bt.unsigned_integer = 1;
+        bt.real_float = (float) 1.1;
+        bt.real_double = 2.2;
+        message (bt.write_string ());
+        var bt2 = new GomBasicTypes ();
+        bt2.read_from_string (bt.write_string ());
+        assert (bt2.text == "Text");
+        assert (bt2.integer == -1);
+        assert (bt2.unsigned_integer == 1);
+        assert (bt2.real_float == (float) 1.1);
+        assert (bt2.real_double == 2.2);
+        bt2.real_double = 100.0;
+        assert (bt2.real_double == 100.0);
+        var bt3 = new GomBasicTypes ();
+        bt3.read_from_string (bt2.write_string ());
+        assert (bt3.text == "Text");
+        assert (bt3.integer == -1);
+        assert (bt3.unsigned_integer == 1);
+        assert (bt3.real_float == (float) 1.1);
+        assert (bt3.real_double == 100.0);
       } catch (GLib.Error e) {
         GLib.message ("ERROR: "+e.message);
         assert_not_reached ();
