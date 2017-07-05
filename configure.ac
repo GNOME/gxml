@@ -12,7 +12,7 @@
 # Release Version
 m4_define([project_major_version], [0])
 m4_define([project_minor_version], [15])
-m4_define([project_micro_version], [0])
+m4_define([project_micro_version], [1])
 m4_define([project_nano_version], [0])
 
 # LT_VERSION
@@ -89,7 +89,7 @@ AC_SUBST([LT_AGE])
 PROJECT_MAJOR_MINOR_VERSION=project_major_minor_version
 AC_SUBST([PROJECT_MAJOR_MINOR_VERSION])
 
-# This is used to identify a set of API compatible beatween versions 
+# This is used to identify a set of API compatible beatween versions
 # - If new versions are compatible with the actual one, just leave this untouched
 # - If new version breaks API change it in order to allow paralled installations
 #   with old versions. Change name of pc files to use a new API too.
@@ -98,6 +98,10 @@ API_MAJOR_VERSION=0
 API_MINOR_VERSION=16
 AC_SUBST([API_VERSION])
 AC_SUBST([API_UNDERSCORE_VERSION])
+PROJECT_NAME=gxml
+AC_SUBST(PROJECT_NAME)
+CAMEL_CASE_NAME=GXml
+AC_SUBST(CAMEL_CASE_NAME)
 
 PROJECT_VERSION=project_base_version
 AC_SUBST([PROJECT_VERSION])
