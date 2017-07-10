@@ -118,6 +118,16 @@ public class GXml.XParser : Object, GXml.Parser {
     read_node (_node);
     tr = null;
   }
+  public async void read_stream_async (GLib.InputStream istream,
+                          GLib.Cancellable? cancellable = null) throws GLib.Error {
+    var b = new MemoryOutputStream.resizable ();
+    b.splice (istream, 0);
+    Idle.add (read_stream_async.callback);
+    yield;
+    tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), "/gxml_memory");
+    read_node (_node);
+    tr = null;
+  }
 
   /**
    * Reads a node using current parser.
@@ -160,6 +170,18 @@ public class GXml.XParser : Object, GXml.Parser {
     b.splice (istream, 0);
     tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), "/gxml_memory");
     read_child_nodes (_node);
+    tr = null;
+  }
+  public async void read_child_nodes_stream_async (GLib.InputStream istream,
+                          GLib.Cancellable? cancellable = null) throws GLib.Error {
+    var b = new MemoryOutputStream.resizable ();
+    b.splice (istream, 0);
+    Idle.add (read_child_nodes_stream_async.callback);
+    yield;
+    tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), "/gxml_memory");
+     Idle.add (read_child_nodes_stream_async.callback);
+    yield;
+    yield read_child_nodes_async (_node);
     tr = null;
   }
   /**

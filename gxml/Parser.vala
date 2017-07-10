@@ -75,11 +75,29 @@ public interface GXml.Parser : Object {
       throw new GXml.ParserError.INVALID_FILE_ERROR (_("File doesn't exist"));
     read_stream (file.read (), cancellable);
   }
+  /**
+   * Writes a {@link GXml.DomDocument} to a {@link GLib.OutputStream}
+   */
+  public async virtual void read_file_async (GLib.File file,
+                                    GLib.Cancellable? cancellable)
+                                    throws GLib.Error {
+    if (!file.query_exists ())
+      throw new GXml.ParserError.INVALID_FILE_ERROR (_("File doesn't exist"));
+    Idle.add (read_file_async.callback);
+    yield;
+    yield read_stream_async (file.read (), cancellable);
+  }
 
   /**
    * Read a {@link GXml.DomDocument} from a {@link GLib.InputStream}
    */
   public abstract void read_stream (InputStream stream,
+                                   GLib.Cancellable? cancellable) throws GLib.Error;
+
+  /**
+   * Read a {@link GXml.DomDocument} from a {@link GLib.InputStream}
+   */
+  public async abstract void read_stream_async (InputStream stream,
                                    GLib.Cancellable? cancellable) throws GLib.Error;
   /**
    * Read a {@link GXml.DomDocument} from a {@link GLib.File}
@@ -97,6 +115,21 @@ public interface GXml.Parser : Object {
   public virtual void read_child_nodes (DomNode parent) throws GLib.Error {
     bool cont = true;
     while (cont) {
+      if (!move_next_node ()) return;
+      if (current_is_element ())
+        cont = read_child_element (parent);
+      else
+        cont = read_child_node (parent);
+    }
+  }
+  /**
+   * Iterates in all child nodes and append them to node.
+   */
+  public async virtual void read_child_nodes_async (DomNode parent) throws GLib.Error {
+    bool cont = true;
+    while (cont) {
+      Idle.add (read_child_nodes_async.callback);
+      yield;
       if (!move_next_node ()) return;
       if (current_is_element ())
         cont = read_child_element (parent);
