@@ -119,21 +119,6 @@ public class GXml.XParser : Object, GXml.Parser {
     tr = null;
   }
 
-  public void read_child_nodes_stream (GLib.InputStream istream,
-                          GLib.Cancellable? cancellable = null) throws GLib.Error {
-    var b = new MemoryOutputStream.resizable ();
-    b.splice (istream, 0);
-    tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), "/gxml_memory");
-    read_child_nodes (_node);
-    tr = null;
-  }
-
-  public void read_child_nodes_string (string str, GLib.Cancellable? cancellable) throws GLib.Error {
-    if (str == "")
-      throw new ParserError.INVALID_DATA_ERROR (_("Invalid document string, it is empty or is not allowed"));
-    var stream = new GLib.MemoryInputStream.from_data (str.data);
-    read_child_nodes_stream (stream, cancellable);
-  }
   /**
    * Reads a node using current parser.
    */
@@ -168,6 +153,14 @@ public class GXml.XParser : Object, GXml.Parser {
         }
       }
     }
+  }
+  public void read_child_nodes_stream (GLib.InputStream istream,
+                          GLib.Cancellable? cancellable = null) throws GLib.Error {
+    var b = new MemoryOutputStream.resizable ();
+    b.splice (istream, 0);
+    tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), "/gxml_memory");
+    read_child_nodes (_node);
+    tr = null;
   }
   /**
    * Reads all child nodes as string
@@ -226,6 +219,9 @@ public class GXml.XParser : Object, GXml.Parser {
   }
   /**
    * Creates a new {@link DomElement} and append it as a child of parent.
+   *
+
+   * It should set current namespace, taking care about set namespace prefix.
    */
   public DomElement? create_element (DomNode parent) throws GLib.Error {
     if (tr == null)
@@ -240,9 +236,6 @@ public class GXml.XParser : Object, GXml.Parser {
     parent.append_child (n);
     return n;
   }
-  /**
-   * Reads a {@link DomElement}
-   */
   public void read_element (DomElement element) throws GLib.Error {
     if (tr == null)
       throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
@@ -289,30 +282,6 @@ public class GXml.XParser : Object, GXml.Parser {
       }
     }
   }
-  /**
-   * Iterates in all child nodes and append them to node.
-   */
-  public void read_child_nodes (DomNode parent) throws GLib.Error {
-    if (tr == null)
-      throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
-    bool cont = true;
-    while (cont) {
-      if (!move_next_node ()) return;
-      if (current_is_element ())
-        cont = read_child_element (parent);
-      else
-        cont = read_child_node (parent);
-    }
-  }
-  /**
-   * Creates a new {@link DomNode} and append it to
-   * parent: depending on current node's type found by parser.
-   *
-   * If current found node is a {@link DomElement}, it is not parsed.
-   * If you want to parse it use {@link read_element} method.
-   *
-   * Returns: true if node has been created and appended to parent.
-   */
   public bool read_child_node (DomNode parent) throws GLib.Error {
     if (tr == null)
       throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
@@ -383,109 +352,6 @@ public class GXml.XParser : Object, GXml.Parser {
       break;
     }
     return ret;
-  }
-  /**
-   * Reads current found element
-   */
-  public bool read_child_element (DomNode parent) throws GLib.Error {
-    if (tr == null)
-      throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
-    if (!current_is_element ())
-      throw new DomError.INVALID_NODE_TYPE_ERROR
-        (_("Invalid attempt to parse an element node, when current found node is not"));
-    bool isempty = current_is_empty_element ();
-    DomNode n = null;
-    if (!read_element_property (parent, out n))
-      if (!add_element_collection (parent, out n)) {
-        n = create_element (parent);
-        read_element (n as DomElement);
-    }
-    if (n == null) return false;
-    if (!isempty)
-      read_child_nodes (n);
-    return true;
-  }
-  /**
-   * Creates a new {@link DomElement} and append it as a child of parent: for current
-   * read node, only if parent: have a property as {@link DomElement} type and current
-   * node have same local name as property element.
-   *
-   * Returns: true if element is set to a new object and it is set as a child of parent:
-   * as a property.
-   */
-  public bool read_element_property (DomNode parent,
-                                    out DomNode element) throws GLib.Error {
-    if (tr == null)
-      throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
-    if (!(parent is GomObject)) return false;
-    foreach (ParamSpec pspec in
-              (parent as GomObject).get_property_element_list ()) {
-      if (pspec.value_type.is_a (typeof (GomCollection))) continue;
-      var obj = Object.new (pspec.value_type,
-                            "owner-document", _document) as DomElement;
-      if (obj.local_name.down ()
-             == tr.const_local_name ().down ()) {
-        Value v = Value (pspec.value_type);
-        parent.append_child (obj as DomNode);
-        v.set_object (obj);
-        parent.set_property (pspec.name, v);
-        read_element (obj as DomElement);
-        element = obj as DomNode;
-        return true;
-      }
-    }
-    return false;
-  }
-  /**
-   * Creates a new {@link DomElement} and append it as a child of parent: for current
-   * read node, only if parent: have a property as {@link GomCollection} type and current
-   * node have same local name as collection {@link GomCollection.items_name}
-   *
-   * Returns: true if element is set to a new object, it is set as a child of parent:
-   * and has been added to a parent:'s collection property.
-   */
-  public bool add_element_collection (DomNode parent,
-                  out DomNode element) throws GLib.Error {
-    if (!(parent is GomObject)) return false;
-    foreach (ParamSpec pspec in
-              (parent as GomObject).get_property_element_list ()) {
-      if (!(pspec.value_type.is_a (typeof (GomCollection)))) continue;
-      GomCollection col;
-      Value vc = Value (pspec.value_type);
-      parent.get_property (pspec.name, ref vc);
-      col = vc.get_object () as GomCollection;
-      if (col == null) {
-        col = Object.new (pspec.value_type,
-                          "element", parent) as GomCollection;
-        vc.set_object (col);
-        parent.set_property (pspec.name, vc);
-      }
-      if (col.items_type == GLib.Type.INVALID
-          || !(col.items_type.is_a (typeof (GomObject)))) {
-        throw new DomError.INVALID_NODE_TYPE_ERROR
-                    (_("Invalid object type set to Collection"));
-      }
-      if (col.items_name == "" || col.items_name == null) {
-        throw new DomError.INVALID_NODE_TYPE_ERROR
-                    (_("Invalid DomElement name for objects in Collection"));
-      }
-      if (col.element == null || !(col.element is GomElement)) {
-        throw new DomError.INVALID_NODE_TYPE_ERROR
-                    (_("Invalid Element set to Collection"));
-      }
-      if (col.items_name.down () == current_node_name ().down ()) {
-        if (parent.owner_document == null)
-          throw new DomError.HIERARCHY_REQUEST_ERROR
-                      (_("No document is set to node"));
-        var obj = Object.new (col.items_type,
-                              "owner-document", _document) as DomElement;
-        read_element (obj as DomElement);
-        col.append (obj);
-        element = obj;
-        return true;
-      }
-    }
-    return false;
   }
 
   private string dump () throws GLib.Error {
