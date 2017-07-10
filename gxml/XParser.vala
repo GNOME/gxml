@@ -62,17 +62,8 @@ public class GXml.XParser : Object, GXml.Parser {
       if ((_node as DomDocument).document_element == null)
         tw.end_document ();
     }
-#if DEBUG
-    GLib.message ("Starting writting Document child nodes");
-#endif
     start_node (_node);
-#if DEBUG
-    GLib.message ("Ending writting Document child nodes");
-#endif
     tw.end_element ();
-#if DEBUG
-    GLib.message ("Ending Document");
-#endif
     tw.end_document ();
     tw.flush ();
     var s = new GLib.StringBuilder ();
@@ -123,9 +114,6 @@ public class GXml.XParser : Object, GXml.Parser {
                           GLib.Cancellable? cancellable = null) throws GLib.Error {
     var b = new MemoryOutputStream.resizable ();
     b.splice (istream, 0);
-#if DEBUG
-    GLib.message ("DATA:"+(string)b.data);
-#endif
     tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), "/gxml_memory");
     read_node (_node);
     tr = null;
@@ -200,9 +188,6 @@ public class GXml.XParser : Object, GXml.Parser {
     if (res == -1)
       throw new ParserError.INVALID_DATA_ERROR (_("Can't read node data"));
     if (res == 0) {
-#if DEBUG
-      GLib.message ("ReadNode: No more nodes");
-#endif
       return false;
     }
     return true;
@@ -246,16 +231,8 @@ public class GXml.XParser : Object, GXml.Parser {
     if (tr == null)
       throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
     DomElement n = null;
-#if DEBUG
-    GLib.message ("Creating a standard element: "
-                  +tr.const_local_name ());
-    GLib.message ("Reading: Element: "+tr.const_local_name ());
-#endif
     string prefix = tr.prefix ();
     if (prefix != null) {
-#if DEBUG
-      GLib.message ("Is namespaced element");
-#endif
       string nsuri = tr.lookup_namespace (prefix);
       n = _document.create_element_ns (nsuri, tr.prefix () +":"+ tr.const_local_name ());
     } else
@@ -270,60 +247,35 @@ public class GXml.XParser : Object, GXml.Parser {
     if (tr == null)
       throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
     var nattr = tr.attribute_count ();
-#if DEBUG
-    GLib.message ("Current reading Element:"+element.local_name);
-    GLib.message ("Number of Attributes:"+nattr.to_string ());
-#endif
     for (int i = 0; i < nattr; i++) {
       var c = tr.move_to_attribute_no (i);
-#if DEBUG
-      GLib.message ("Current Attribute: "+i.to_string ());
-#endif
       if (c != 1) {
         throw new DomError.HIERARCHY_REQUEST_ERROR (_("Parsing ERROR: Fail to move to attribute number: %i").printf (i));
       }
       if (tr.is_namespace_decl () == 1) {
-#if DEBUG
-        GLib.message ("Is Namespace Declaration...");
-#endif
         string nsp = tr.const_local_name ();
         string aprefix = tr.prefix ();
         tr.read_attribute_value ();
         if (tr.node_type () == Xml.ReaderType.TEXT) {
           string ansuri = tr.read_string ();
-#if DEBUG
-          GLib.message ("Property Read: "+aprefix+":"+nsp+"="+ansuri);
-#endif
           string ansp = nsp;
           if (nsp != "xmlns")
             ansp = aprefix+":"+nsp;
-#if DEBUG
-          GLib.message ("To append: "+ansp+"="+ansuri);
-#endif
           element.set_attribute_ns ("http://www.w3.org/2000/xmlns/",
                                                ansp, ansuri);
         }
       } else {
         var attrname = tr.const_local_name ();
         string prefix = tr.prefix ();
-#if DEBUG
-        GLib.message ("Attribute: "+tr.const_local_name ());
-#endif
         tr.read_attribute_value ();
         if (tr.node_type () == Xml.ReaderType.TEXT) {
           var attrval = tr.read_string ();
-#if DEBUG
-          GLib.message ("Attribute:"+attrname+" Value: "+attrval);
-#endif
           bool processed = false;
           if (node is GomObject) {
             processed = (element as GomObject).set_attribute (attrname, attrval);
           }
           if (!processed) {
             if (prefix != null) {
-#if DEBUG
-              GLib.message ("Prefix found: "+prefix);
-#endif
               string nsuri = null;
               if (prefix == "xml")
                 nsuri = "http://www.w3.org/2000/xmlns/";
@@ -369,22 +321,12 @@ public class GXml.XParser : Object, GXml.Parser {
     var t = tr.node_type ();
     switch (t) {
     case Xml.ReaderType.NONE:
-#if DEBUG
-      GLib.message ("Type NONE");
-#endif
       move_next_node ();
       break;
     case Xml.ReaderType.ATTRIBUTE:
-#if DEBUG
-      GLib.message ("Type ATTRIBUTE");
-#endif
       break;
     case Xml.ReaderType.TEXT:
       var txtval = tr.read_string ();
-#if DEBUG
-      GLib.message ("Type TEXT");
-      GLib.message ("ReadNode: Text Node : '"+txtval+"'");
-#endif
       if (!(parent is DomDocument)) {
         n = _document.create_text_node (txtval);
         parent.append_child (n);
@@ -393,89 +335,47 @@ public class GXml.XParser : Object, GXml.Parser {
     case Xml.ReaderType.CDATA:
       break;
     case Xml.ReaderType.ENTITY_REFERENCE:
-#if DEBUG
-      GLib.message ("Type ENTITY_REFERENCE");
-#endif
       break;
     case Xml.ReaderType.ENTITY:
-#if DEBUG
-      GLib.message ("Type ENTITY");
-#endif
       break;
     case Xml.ReaderType.PROCESSING_INSTRUCTION:
       var pit = tr.const_local_name ();
       var pival = tr.value ();
-#if DEBUG
-      GLib.message ("Type PROCESSING_INSTRUCTION");
-      GLib.message ("ReadNode: PI Node : '"+pit+"' : '"+pival+"'");
-#endif
       n = _document.create_processing_instruction (pit,pival);
       parent.append_child (n);
       break;
     case Xml.ReaderType.COMMENT:
       var commval = tr.value ();
-#if DEBUG
-      GLib.message ("Type COMMENT");
-      GLib.message ("ReadNode: Comment Node : '"+commval+"'");
-#endif
       n = _document.create_comment (commval);
       parent.append_child (n);
       break;
     case Xml.ReaderType.DOCUMENT:
-#if DEBUG
-      GLib.message ("Type DOCUMENT");
-#endif
       ret = false;
       break;
     case Xml.ReaderType.DOCUMENT_TYPE:
-#if DEBUG
-      GLib.message ("Type DOCUMENT_TYPE");
-#endif
       ret = false;
       break;
     case Xml.ReaderType.DOCUMENT_FRAGMENT:
-#if DEBUG
-      GLib.message ("Type DOCUMENT_FRAGMENT");
-#endif
       ret = false;
       break;
     case Xml.ReaderType.NOTATION:
-#if DEBUG
-      GLib.message ("Type NOTATION");
-#endif
       break;
     case Xml.ReaderType.WHITESPACE:
-#if DEBUG
-      GLib.message ("Type WHITESPACE");
-#endif
       break;
     case Xml.ReaderType.SIGNIFICANT_WHITESPACE:
       var stxtval = tr.read_string ();
-#if DEBUG
-      GLib.message ("ReadNode: Text Node : '"+stxtval+"'");
-      GLib.message ("Type SIGNIFICANT_WHITESPACE");
-#endif
       if (!(parent is DomDocument)) {
         n = _document.create_text_node (stxtval);
         parent.append_child (n);
       }
       break;
     case Xml.ReaderType.END_ELEMENT:
-#if DEBUG
-      GLib.message ("Type END_ELEMENT");
-#endif
       ret = false;
       break;
     case Xml.ReaderType.END_ENTITY:
-#if DEBUG
-      GLib.message ("Type END_ENTITY");
-#endif
       ret = false;
       break;
     case Xml.ReaderType.XML_DECLARATION:
-#if DEBUG
-      GLib.message ("Type XML_DECLARATION");
-#endif
       ret = false;
       break;
     case Xml.ReaderType.ELEMENT:
@@ -493,10 +393,6 @@ public class GXml.XParser : Object, GXml.Parser {
     if (!current_is_element ())
       throw new DomError.INVALID_NODE_TYPE_ERROR
         (_("Invalid attempt to parse an element node, when current found node is not"));
-#if DEBUG
-    GLib.message ("Parsing Child ELEMENT: "+current_node_name ()+" NODE to parent: "+parent.node_name);
-    GLib.message ("Node "+current_node_name()+" Is Empty? "+current_is_empty_element ().to_string ());
-#endif
     bool isempty = current_is_empty_element ();
     DomNode n = null;
     if (!read_element_property (parent, out n))
@@ -522,11 +418,6 @@ public class GXml.XParser : Object, GXml.Parser {
     if (tr == null)
       throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
     if (!(parent is GomObject)) return false;
-#if DEBUG
-    GLib.message ("Searching for Properties Nodes for:"+
-                  (parent as DomElement).local_name+
-                  " Current node name: "+ tr.const_local_name ());
-#endif
     foreach (ParamSpec pspec in
               (parent as GomObject).get_property_element_list ()) {
       if (pspec.value_type.is_a (typeof (GomCollection))) continue;
@@ -556,25 +447,14 @@ public class GXml.XParser : Object, GXml.Parser {
   public bool add_element_collection (DomNode parent,
                   out DomNode element) throws GLib.Error {
     if (!(parent is GomObject)) return false;
-#if DEBUG
-    GLib.message ("Checking if node should be added to collection in "+
-                  (parent as DomElement).local_name+
-                  " Current node name: "+ tr.const_local_name ());
-#endif
     foreach (ParamSpec pspec in
               (parent as GomObject).get_property_element_list ()) {
       if (!(pspec.value_type.is_a (typeof (GomCollection)))) continue;
-#if DEBUG
-      GLib.message (pspec.name+" Is Collection in: "+(parent as DomElement).local_name);
-#endif
       GomCollection col;
       Value vc = Value (pspec.value_type);
       parent.get_property (pspec.name, ref vc);
       col = vc.get_object () as GomCollection;
       if (col == null) {
-#if DEBUG
-        GLib.message ("Initializing Collection property...");
-#endif
         col = Object.new (pspec.value_type,
                           "element", parent) as GomCollection;
         vc.set_object (col);
@@ -594,18 +474,11 @@ public class GXml.XParser : Object, GXml.Parser {
                     (_("Invalid Element set to Collection"));
       }
       if (col.items_name.down () == current_node_name ().down ()) {
-#if DEBUG
-        GLib.message (current_node_name ()+" Is a Node to append in collection: "+pspec.name);
-#endif
         if (parent.owner_document == null)
           throw new DomError.HIERARCHY_REQUEST_ERROR
                       (_("No document is set to node"));
         var obj = Object.new (col.items_type,
                               "owner-document", _document) as DomElement;
-#if DEBUG
-        GLib.message ("Object Element to add in Collection: "
-                        +obj.local_name);
-#endif
         read_element (obj as DomElement);
         col.append (obj);
         element = obj;
@@ -627,25 +500,12 @@ public class GXml.XParser : Object, GXml.Parser {
         tw.end_document ();
       }
     }
-#if DEBUG
-    GLib.message ("Starting writting Document child nodes");
-#endif
     start_node (_node);
-#if DEBUG
-    GLib.message ("Ending writting Document child nodes");
-#endif
     tw.end_element ();
-#if DEBUG
-    GLib.message ("Ending Document");
-#endif
     tw.end_document ();
     tw.flush ();
     string str;
     doc.dump_memory (out str, out size);
-#if DEBUG
-    if (str != null)
-      GLib.message ("STR: "+str);
-#endif
     tw = null;
     return str;
   }
@@ -654,29 +514,13 @@ public class GXml.XParser : Object, GXml.Parser {
   {
     if (tw == null)
       throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextWriter initialized"));
-#if DEBUG
-    GLib.message ("Starting node..."+node.node_name);
-#endif
     int size = 0;
-#if DEBUG
-    GLib.message (@"Starting Node: start Node: '$(node.node_name)'");
-#endif
     if (node is GXml.DomElement) {
-#if DEBUG
-      GLib.message (@"Starting Element... '$(node.node_name)'");
-      GLib.message (@"Element Document is Null... '$((node.owner_document == null).to_string ())'");
-#endif
       if ((node as DomElement).namespace_uri != null) {
-#if DEBUG
-          GLib.message ("Writting namespace definition for node");
-#endif
           string lpns = (node.parent_node).lookup_prefix ((node as DomElement).namespace_uri);
           if (lpns == (node as DomElement).prefix
               && (node as DomElement).prefix != null) {
             tw.start_element (node.node_name);
-#if DEBUG
-            message ("Setting null NS URI for element: "+(node as DomElement).local_name);
-#endif
           }
           else
             tw.start_element_ns ((node as DomElement).prefix,
@@ -684,9 +528,6 @@ public class GXml.XParser : Object, GXml.Parser {
                                  (node as DomElement).namespace_uri);
       } else
         tw.start_element ((node as DomElement).local_name);
-#if DEBUG
-    GLib.message ("Write down properties: size:"+(node as DomElement).attributes.size.to_string ());
-#endif
 
     // GomObject serialization
     var lp = (node as GomObject).get_properties_list ();
@@ -718,9 +559,6 @@ public class GXml.XParser : Object, GXml.Parser {
           if (strs.length == 2) {
             string nsp = strs[1];
             if (ns == v && nsp == (node as DomElement).prefix) {
-#if DEBUG
-              message ("Attribute Is element NS, skiping...");
-#endif
               continue;
             }
           }
@@ -733,42 +571,24 @@ public class GXml.XParser : Object, GXml.Parser {
     }
   }
   // Non Elements
-#if DEBUG
-    GLib.message (@"Starting Element: writting Node '$(node.node_name)' children");
-#endif
     foreach (GXml.DomNode n in node.child_nodes) {
-#if DEBUG
-      GLib.message (@"Child Node is: $(n.get_type ().name ())");
-#endif
       if (n is GXml.DomElement) {
-#if DEBUG
-      GLib.message (@"Starting Child Element: writting Node '$(n.node_name)'");
-#endif
         start_node (n);
         size += tw.end_element ();
         if (size > 1500)
           tw.flush ();
       }
       if (n is GXml.DomText) {
-#if DEBUG
-      GLib.message ("Writting Element's contents");
-#endif
       size += tw.write_string (n.node_value);
       if (size > 1500)
         tw.flush ();
       }
       if (n is GXml.DomComment) {
-#if DEBUG
-      GLib.message (@"Starting Child Element: writting Comment '$(n.node_value)'");
-#endif
         size += tw.write_comment (n.node_value);
         if (size > 1500)
           tw.flush ();
       }
       if (n is GXml.DomProcessingInstruction) {
-  #if DEBUG
-      GLib.message (@"Starting Child Element: writting ProcessingInstruction '$(n.node_value)'");
-  #endif
         size += tw.write_pi ((n as DomProcessingInstruction).target,
                             (n as DomProcessingInstruction).data);
         if (size > 1500)

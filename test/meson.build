@@ -44,7 +44,7 @@ files_tests = ([
 
 t = executable('tests', files_tests + configvapi + configtestvapi,
 	vala_args : [],
-	dependencies : [ gio, gee, xml, inc_libh_dep, testdirs_dep],
+	dependencies : [ gio, gee, xml, inc_libh_dep, testdirs_dep, inc_rooth_dep],
 	link_with: lib
 )
 
@@ -57,7 +57,7 @@ feedreader_files = ([
 
 feedreadert = executable('feedreader_tests', feedreader_files + configvapi + configtestvapi,
 	vala_args : [],
-	dependencies : [ gio, gee, xml, inc_libh_dep, testdirs_dep],
+	dependencies : [ gio, gee, xml, inc_libh_dep, testdirs_dep, inc_rooth_dep],
 	link_with: lib
 )
 

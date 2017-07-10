@@ -8,6 +8,7 @@ conf.set('prefix', get_option('prefix'))
 conf.set('libdir', join_paths (get_option ('prefix'),get_option ('libdir')))
 conf.set('VALADEPS', VALADEPS)
 conf.set('PCDEPS', PCDEPS)
+conf.set('PROJECT_NAME', PROJECT_NAME)
 conf.set('PROJECT_VERSION', PROJECT_VERSION)
 conf.set('API_VERSION', API_VERSION)
 
@@ -133,7 +134,7 @@ lib = library(VERSIONED_PROJECT_NAME,
 	vala_header : PROJECT_NAME+'.h',
 	vala_vapi : VAPI_NAME,
 	vala_gir : GIR_NAME,
-	dependencies : [ gee, gio, xml, namespaceinfo_dep ],
+	dependencies : [ gee, gio, xml, namespaceinfo_dep, inc_libh_dep, inc_rooth_dep ],
 	c_args : [
 		'-include',
 		meson.current_build_dir() + '/config.h',
