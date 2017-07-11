@@ -114,10 +114,23 @@ public class GXml.GomElement : GomNode,
     return parser.write_string ();
   }
   /**
+   * Serialize asinchronically {@link GomElement} to a string.
+   */
+  public async string write_string_async () throws GLib.Error {
+    var parser = new XParser (this);
+    return yield parser.write_string_async ();
+  }
+  /**
    * Uses element's {@link GomDocument} to write an XML to a file, serializing it.
    */
   public void write_file (GLib.File f) throws GLib.Error {
     (this.owner_document as GomDocument).write_file (f);
+  }
+  /**
+   * Uses element's {@link GomDocument} to write asynchronically an XML to a file, serializing it.
+   */
+  public async void write_file_async (GLib.File f) throws GLib.Error {
+    yield (this.owner_document as GomDocument).write_file_async (f);
   }
   /**
    * Uses element's {@link GomDocument} to write an XML to a stream, serializing it.
@@ -126,11 +139,24 @@ public class GXml.GomElement : GomNode,
     (this.owner_document as GomDocument).write_stream (stream);
   }
   /**
+   * Uses element's {@link GomDocument} to write an XML to a stream, serializing it.
+   */
+  public async void write_stream_async (GLib.OutputStream stream) throws GLib.Error {
+    yield (this.owner_document as GomDocument).write_stream_async (stream);
+  }
+  /**
    * Creates an {@link GLib.InputStream} to write a string representation
    * in XML of {@link GomElement} using node's {@link GomDocument}
    */
   public InputStream create_stream () throws GLib.Error {
     return (this.owner_document as GomDocument).create_stream ();
+  }
+  /**
+   * Creates an {@link GLib.InputStream} to write a string representation
+   * in XML of {@link GomElement} using node's {@link GomDocument}
+   */
+  public async InputStream create_stream_async () throws GLib.Error {
+    return yield (this.owner_document as GomDocument).create_stream_async ();
   }
   // DomNode overrides
   public new string? lookup_prefix (string? nspace) {

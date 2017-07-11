@@ -57,6 +57,16 @@ public interface GXml.Parser : Object {
     write_stream (ostream, cancellable);
   }
   /**
+   * Writes a {@link GXml.DomDocument} to a {@link GLib.File}
+   */
+  public virtual async void write_file_async (GLib.File file,
+                            GLib.Cancellable? cancellable)
+                            throws GLib.Error {
+    var ostream = file.replace (null, backup,
+                            GLib.FileCreateFlags.NONE, cancellable);
+    yield write_stream_async (ostream, cancellable);
+  }
+  /**
    * Writes a {@link node} to a string
    */
   public abstract string write_string () throws GLib.Error;

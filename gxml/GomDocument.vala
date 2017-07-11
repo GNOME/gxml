@@ -119,9 +119,23 @@ public class GXml.GomDocument : GomNode,
     parser.write_file (file, null);
   }
   /**
+   * Writes asynchronically a dump XML representation of document to a file.
+   */
+  public async void write_file_async (GLib.File file) throws GLib.Error {
+    var parser = new XParser (this);
+    yield parser.write_file_async (file, null);
+  }
+  /**
    * Writes a dump XML representation of document to a stream.
    */
   public void write_stream (GLib.OutputStream stream) throws GLib.Error {
+    var parser = new XParser (this);
+    parser.write_stream (stream, null);
+  }
+  /**
+   * Writes a dump XML representation of document to a stream.
+   */
+  public async void write_stream_async (GLib.OutputStream stream) throws GLib.Error {
     var parser = new XParser (this);
     parser.write_stream (stream, null);
   }
@@ -134,11 +148,26 @@ public class GXml.GomDocument : GomNode,
     return parser.create_stream (null);
   }
   /**
+   * Creates an {@link GLib.InputStream} to write a string representation
+   * in XML of {@link GomDocument}
+   */
+  public async InputStream create_stream_async () throws GLib.Error {
+    var parser = new XParser (this);
+    return yield parser.create_stream_async (null);
+  }
+  /**
    * Serialize {@link GomDocument} to a string.
    */
   public string write_string () throws GLib.Error {
     var parser = new XParser (this);
     return parser.write_string ();
+  }
+  /**
+   * Serialize {@link GomDocument} to a string.
+   */
+  public async string write_string_async () throws GLib.Error {
+    var parser = new XParser (this);
+    return yield parser.write_string_async ();
   }
   /**
    * Reads a file contents and parse it to document.
@@ -148,11 +177,25 @@ public class GXml.GomDocument : GomNode,
     parser.read_file (file, null);
   }
   /**
+   * Reads a file contents and parse it to document.
+   */
+  public async void read_from_file_async (GLib.File file) throws GLib.Error {
+    var parser = new XParser (this);
+    yield parser.read_file_async (file, null);
+  }
+  /**
    * Reads a string and parse it to document.
    */
   public void read_from_string (string str) throws GLib.Error {
     var parser = new XParser (this);
     parser.read_string (str, null);
+  }
+  /**
+   * Reads a string and parse it to document.
+   */
+  public async void read_from_string_async (string str) throws GLib.Error {
+    var parser = new XParser (this);
+    yield parser.read_string_async (str, null);
   }
 
   public DomElement create_element (string local_name) throws GLib.Error {
