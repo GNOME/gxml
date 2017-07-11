@@ -97,13 +97,18 @@ public interface GXml.Parser : Object {
   /**
    * Read a {@link GXml.DomDocument} from a {@link GLib.InputStream}
    */
-  public async abstract void read_stream_async (InputStream stream,
+  public abstract async abstract void read_stream_async (InputStream stream,
                                    GLib.Cancellable? cancellable) throws GLib.Error;
   /**
-   * Read a {@link GXml.DomDocument} from a {@link GLib.File}
+   * Reads a {@link node} from a string
    */
   public abstract void read_string (string str,
                                    GLib.Cancellable? cancellable) throws GLib.Error;
+
+  /**
+   * Reads synchronically {@link node} a from a string
+   */
+  public abstract async void read_string_async (string str, GLib.Cancellable? cancellable) throws GLib.Error;
   /**
    * Creates an {@link GLib.InputStream} to write a string representation
    * in XML

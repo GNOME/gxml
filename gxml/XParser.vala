@@ -108,6 +108,14 @@ public class GXml.XParser : Object, GXml.Parser {
     var stream = new GLib.MemoryInputStream.from_data (str.data);
     read_stream (stream, cancellable);
   }
+  public async void read_string_async (string str, GLib.Cancellable? cancellable) throws GLib.Error {
+    if (str == "")
+      throw new ParserError.INVALID_DATA_ERROR (_("Invalid document string, it is empty or is not allowed"));
+    var stream = new GLib.MemoryInputStream.from_data (str.data);
+    Idle.add (read_string_async.callback);
+    yield;
+    yield read_stream_async (stream, cancellable);
+  }
 
 
   public void read_stream (GLib.InputStream istream,
