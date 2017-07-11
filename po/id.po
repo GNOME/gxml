@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: gxml gxml-0.14\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-04-09 14:25+0000\n"
-"PO-Revision-Date: 2017-04-15 10:41+0700\n"
-"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
+"POT-Creation-Date: 2017-06-12 17:49+0000\n"
+"PO-Revision-Date: 2017-06-18 14:34+0700\n"
+"Last-Translator: Kukuh Syafaat <syafaatkukuh@gmail.com>\n"
 "Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 1.8.11\n"
 
 #: ../gxml/Document.vala:151
 msgid "Invalid file"
@@ -34,11 +34,11 @@ msgstr "Ofset tidak valid untuk mengganti data"
 msgid "Invalid offset to split text"
 msgstr "Ofset tidak valid untuk membelah teks"
 
-#: ../gxml/DomNode.vala:147 ../gxml/Node.vala:202
+#: ../gxml/DomNode.vala:150 ../gxml/Node.vala:202
 msgid "Text node with NULL string"
 msgstr "Simpul teks dengan kalimat NULL"
 
-#: ../gxml/DomNode.vala:154
+#: ../gxml/DomNode.vala:157
 msgid "Can't copy child text node"
 msgstr "Tak bisa menyalin simpul teks anak"
 
@@ -50,19 +50,19 @@ msgstr "nilai tak valid"
 msgid "text cannot be parsed to enumeration type:"
 msgstr "teks tak bisa diurai ke tipe enumerasi:"
 
-#: ../gxml/GomCollections.vala:66
+#: ../gxml/GomCollections.vala:72
 msgid "Invalid index for elements in array list"
 msgstr "Indeks tidak valid untuk elemen dalam daftar larik"
 
-#: ../gxml/GomCollections.vala:70
+#: ../gxml/GomCollections.vala:76
 msgid "Invalid index reference for child elements in array list"
 msgstr "Acuan indeks tidak valid untuk elemen anak dalam daftar larik"
 
-#: ../gxml/GomCollections.vala:75
+#: ../gxml/GomCollections.vala:81
 msgid "Referenced object's type is invalid. Should be a GXmlGomElement"
 msgstr "Tipe objek yang diacu tidak valid. Seharusnya GXmlGomElement"
 
-#: ../gxml/GomCollections.vala:189
+#: ../gxml/GomCollections.vala:205
 msgid ""
 "Invalid attempt to initialize a collection using an unsupported type. Only "
 "GXmlGomElement is supported"
@@ -70,95 +70,103 @@ msgstr ""
 "Upaya yang tidak valid untuk menginisialisasi suatu koleksi memakai sebuah "
 "tipe yang tidak didukung. Hanya GXmlGomElement yang didukung"
 
-#: ../gxml/GomCollections.vala:219 ../gxml/GomCollections.vala:245
+#: ../gxml/GomCollections.vala:234 ../gxml/GomCollections.vala:261
 msgid "Parent Element is invalid"
 msgstr "Elemen Induk tidak valid"
 
-#: ../gxml/GomCollections.vala:222
+#: ../gxml/GomCollections.vala:237
 msgid ""
 "Invalid attempt to set unsupported type. Only GXmlGomElement is supported"
 msgstr ""
 "Upaya yang tidak valid untuk menata tipe yang tidak didukung. Hanya "
 "GXmlGomElement yang didukung"
 
-#: ../gxml/GomCollections.vala:225
+#: ../gxml/GomCollections.vala:240
 msgid "Invalid attempt to set a node with a different parent document"
 msgstr ""
 "Percobaan yang tidak valid untuk menata suatu simpul dengan sebuah dokumen "
 "induk yang berbeda"
 
-#: ../gxml/GomCollections.vala:229
+#: ../gxml/GomCollections.vala:244
 msgid ""
 "Node element not appended as child of parent. No node added to collection"
 msgstr ""
 "Elemen simpul tidak ditambahkan sebagai anak dari induk. Tidak ada simpul "
 "yang ditambahkan ke koleksi"
 
-#: ../gxml/GomDocument.vala:150
+#: ../gxml/GomCollections.vala:660
+msgid "No primary key and/or secondary key was found"
+msgstr "Tidak ada kunci primer dan/atau kunci sekunder yang ditemukan"
+
+#: ../gxml/GomDocument.vala:171
 msgid "Creating a namespaced element with invalid node name"
 msgstr ""
 "Membuat sebuah elemen yang di-namespace-kan dengan nama simpul yang tidak "
 "valid"
 
-#: ../gxml/GomDocument.vala:157
+#: ../gxml/GomDocument.vala:178
 msgid "Creating a namespaced element with invalid namespace"
 msgstr ""
 "Membuat sebuah elemen yang di-namespace-kan dengan namespace yang tidak valid"
 
-#: ../gxml/GomDocument.vala:161
+#: ../gxml/GomDocument.vala:182
 msgid ""
 "Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
 msgstr ""
 "URI namespace tidak valid bagi prefiks xmlns. Gunakan http://www.w3.org/2000/"
 "xmlns/"
 
-#: ../gxml/GomDocument.vala:165
+#: ../gxml/GomDocument.vala:186
 msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
 msgstr ""
 "Hanya prefiks xmlns yang dapat digunakan dengan http://www.w3.org/2000/xmlns/"
 
-#: ../gxml/GomDocument.vala:205 ../gxml/GXmlDocument.vala:269
+#: ../gxml/GomDocument.vala:226 ../gxml/GXmlDocument.vala:270
 msgid "Can't import a Document"
 msgstr "Tak bisa mengimpor suatu Dokumen"
 
-#: ../gxml/GomDocument.vala:207 ../gxml/GXmlDocument.vala:271
+#: ../gxml/GomDocument.vala:228 ../gxml/GXmlDocument.vala:272
 msgid "Can't import a non Element type node to a Document"
 msgstr "Tak bisa mengimpor suatu simpul tipe bukan Element ke suatu Dokumen"
 
-#: ../gxml/GomDocument.vala:231 ../gxml/GXmlDocument.vala:295
+#: ../gxml/GomDocument.vala:252 ../gxml/GXmlDocument.vala:296
 msgid "Can't adopt a Document"
 msgstr "Tak bisa mengadopsi sebuah Dokumen"
 
 #. FIXME:
-#: ../gxml/GomDocument.vala:387 ../gxml/GomElement.vala:189
-#: ../gxml/GXmlElement.vala:317
+#: ../gxml/GomDocument.vala:408 ../gxml/GomElement.vala:208
+#: ../gxml/GXmlElement.vala:318
 msgid "DomElement query_selector is not implemented"
 msgstr "query_selector DomElement tidak diimplementasikan"
 
 #. FIXME:
-#: ../gxml/GomDocument.vala:391 ../gxml/GomElement.vala:193
-#: ../gxml/GXmlElement.vala:321
+#: ../gxml/GomDocument.vala:412 ../gxml/GomElement.vala:212
+#: ../gxml/GXmlElement.vala:322
 msgid "DomElement query_selector_all is not implemented"
 msgstr "query_selector_all DomElement tidak diimplementasikan"
 
-#: ../gxml/GomElement.vala:97
+#: ../gxml/GomElement.vala:114
 msgid "Invalid namespace URI stored in element's attribute"
 msgstr "URI namespace yang tidak valid disimpan dalam atribut elemen"
 
-#: ../gxml/GomElement.vala:104 ../gxml/GomElement.vala:128
+#: ../gxml/GomElement.vala:121 ../gxml/GomElement.vala:145
 msgid "Invalid attribute name in element's attributes list"
 msgstr "Nama atribut yang tidak valid dalam daftar atribut elemen"
 
-#: ../gxml/GomElement.vala:348 ../gxml/GomElement.vala:386
+#: ../gxml/GomElement.vala:162
+msgid "Can't locate child node to remove"
+msgstr "Tak bisa menemukan simpul teks anak untuk dihapus"
+
+#: ../gxml/GomElement.vala:367 ../gxml/GomElement.vala:405
 #, c-format
 msgid "Invalid attribute name: %s"
 msgstr "Nama atribut tidak valid: %s"
 
-#: ../gxml/GomElement.vala:350 ../gxml/GomElement.vala:388
+#: ../gxml/GomElement.vala:369 ../gxml/GomElement.vala:407
 msgid "Invalid node type. DomAttr was expected"
 msgstr "Tipe simpul tidak valid. DomAttr yang diharapkan"
 
-#: ../gxml/GomElement.vala:393
+#: ../gxml/GomElement.vala:412
 msgid ""
 "Namespace attributes prefixed with xmlns should use a namespace uri http://"
 "www.w3.org/2000/xmlns"
@@ -166,54 +174,54 @@ msgstr ""
 "Atribut namespace diawali dengan xmlns mesti memakai suatu uri namespace "
 "http://www.w3.org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:400
+#: ../gxml/GomElement.vala:419
 #, c-format
 msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
 msgstr ""
 "Atribut yang di-namespace-kan mesti menyediakan prefiks bukan null, tidak "
 "kosong: %s"
 
-#: ../gxml/GomElement.vala:404
+#: ../gxml/GomElement.vala:423
 msgid "Invalid namespace attribute's name."
 msgstr "Nama atribut namespace tidak valid."
 
-#: ../gxml/GomElement.vala:424
+#: ../gxml/GomElement.vala:443
 #, c-format
 msgid "Redefinition of default namespace for %s"
 msgstr "Definisi ulang namespace baku bagi %s"
 
-#: ../gxml/GomElement.vala:448
+#: ../gxml/GomElement.vala:467
 #, c-format
 msgid "Redefinition of namespace's prefix for %s"
 msgstr "Definisi ulang prefiks namespace bagi %s"
 
-#: ../gxml/GomElement.vala:464
+#: ../gxml/GomElement.vala:483
 msgid "Trying to add an attribute with an undefined namespace prefix"
 msgstr ""
 "Mencoba menambah suatu atribut dengan prefiks namespace yang tidak "
 "terdefinisi"
 
-#: ../gxml/GomElement.vala:470
+#: ../gxml/GomElement.vala:489
 msgid "Trying to add an attribute with a non found namespace URI"
 msgstr ""
 "Mencoba menambah suatu atribut dengan URI namespace yang tidak ditemukan"
 
-#: ../gxml/GomElement.vala:529
+#: ../gxml/GomElement.vala:548
 msgid "Invalid attribute name. Just one prefix is allowed"
 msgstr "Nama atribut tidak valid. Hanya satu prefiks yang diizinkan"
 
-#: ../gxml/GomElement.vala:533
+#: ../gxml/GomElement.vala:552
 #, c-format
 msgid "Invalid attribute name. Invalid use of colon: %s"
 msgstr "Nama atribut tidak valid. Penggunaan titik dua yang tidak valid: %s"
 
-#: ../gxml/GomElement.vala:537
+#: ../gxml/GomElement.vala:556
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
 msgstr ""
 "Namespace tidak valid. Bila prefiks adalah null, URI namespace tidak boleh "
 "null"
 
-#: ../gxml/GomElement.vala:539
+#: ../gxml/GomElement.vala:558
 msgid ""
 "Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
 "org/2000/xmlns/"
@@ -221,7 +229,7 @@ msgstr ""
 "Namespace tidak valid. Bila prefiks adalah xml, URI namespace mesti http://"
 "www.w3.org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:542
+#: ../gxml/GomElement.vala:561
 msgid ""
 "Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns/"
@@ -229,7 +237,7 @@ msgstr ""
 "Namespace tidak valid. Bila prefiks atribut adalah xmlns, URI namespace "
 "mesti http://www.w3.org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:546
+#: ../gxml/GomElement.vala:565
 msgid ""
 "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns/"
@@ -237,33 +245,33 @@ msgstr ""
 "Namespace tidak valid. Bila nama atribut adalah xmlns, URI namespace mesti "
 "http://www.w3.org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:548
+#: ../gxml/GomElement.vala:567
 msgid "Invalid attribute name. No prefixed attributes should use xmlns name"
 msgstr ""
 "Nama atribut tidak valid. Tidak ada atribut berprefiks yang boleh memakai "
 "nama xmlns"
 
-#: ../gxml/GomElement.vala:552
+#: ../gxml/GomElement.vala:571
 msgid "Setting namespaced property error: "
 msgstr "Galat pengaturan property yang di-namespace-kan:"
 
-#: ../gxml/GomElement.vala:559
+#: ../gxml/GomElement.vala:578
 msgid "Removing attribute Error: "
 msgstr "Kesalahan menghapus atribut:"
 
-#: ../gxml/GomElement.vala:564
+#: ../gxml/GomElement.vala:583
 msgid "Removing namespaced attribute Error: "
 msgstr "Kesalahan menghapus atribut yang di-namespace-kan:"
 
-#: ../gxml/GomNode.vala:150
+#: ../gxml/GomNode.vala:156
 msgid "Text content in element can't be created"
 msgstr "Isi teks dalam elemen tidak dapat dibuat"
 
-#: ../gxml/GomNode.vala:203 ../gxml/GXmlNode.vala:276
+#: ../gxml/GomNode.vala:209 ../gxml/GXmlNode.vala:278
 msgid "Can't find node position"
 msgstr "Tak bisa temukan posisi simpul"
 
-#: ../gxml/GomNode.vala:251
+#: ../gxml/GomNode.vala:257
 #, c-format
 msgid ""
 "Trying to add a namespaced element to a parent with invalid prefix for "
@@ -272,7 +280,7 @@ msgstr ""
 "Mencoba menambahkan suatu elemen ber-namespace ke sebuah induk dengan "
 "prefiks yang tidak valid bagi namespace %s"
 
-#: ../gxml/GomNode.vala:256
+#: ../gxml/GomNode.vala:262
 #, c-format
 msgid ""
 "Trying to add a namespaced element to a parent with invalid URI for prefix %s"
@@ -280,57 +288,56 @@ msgstr ""
 "Mencoba menambahkan sebuah elemen ber-namespace ke suatu induk dengan URI "
 "yang tidak valid untuk prefiks %s"
 
-#: ../gxml/GomNode.vala:268 ../gxml/GomNode.vala:310 ../gxml/GXmlNode.vala:307
-#: ../gxml/GXmlNode.vala:338
+#: ../gxml/GomNode.vala:274 ../gxml/GomNode.vala:316 ../gxml/GXmlNode.vala:309
+#: ../gxml/GXmlNode.vala:340
 msgid "Invalid attempt to add invalid node type"
 msgstr "Upaya yang tidak valid untuk menambah tipe simpul yang tidak valid"
 
-#: ../gxml/GomNode.vala:271 ../gxml/GXmlNode.vala:309
+#: ../gxml/GomNode.vala:277 ../gxml/GXmlNode.vala:311
 msgid "Can't find child to insert node before"
 msgstr "Tak bisa temukan anak tempat menyisipkan simpul sebelumnya"
 
-#: ../gxml/GomNode.vala:276 ../gxml/GomNode.vala:316 ../gxml/GXmlNode.vala:313
-#: ../gxml/GXmlNode.vala:344
+#: ../gxml/GomNode.vala:282 ../gxml/GomNode.vala:322 ../gxml/GXmlNode.vala:315
+#: ../gxml/GXmlNode.vala:346
 msgid "Invalid attempt to insert a node"
 msgstr "Upaya yang tidak valid untuk menyisipkan sebuah simpul"
 
-#: ../gxml/GomNode.vala:284 ../gxml/GomNode.vala:323 ../gxml/GXmlNode.vala:320
-#: ../gxml/GXmlNode.vala:351
+#: ../gxml/GomNode.vala:290 ../gxml/GomNode.vala:329 ../gxml/GXmlNode.vala:322
+#: ../gxml/GXmlNode.vala:353
 msgid "Invalid attempt to insert an invalid node type"
 msgstr "Upaya yang tidak valid untuk menyisipkan tipe simpul yang tidak valid"
 
-#: ../gxml/GomNode.vala:288
+#: ../gxml/GomNode.vala:294
 msgid ""
 "Invalid attempt to insert a document or text type to an invalid parent node"
 msgstr ""
 "Percobaan yang tidak valid untuk menyisipkan tipe teks atau dokumen ke "
 "simpul induk yang tidak valid"
 
-#: ../gxml/GomNode.vala:301
+#: ../gxml/GomNode.vala:307
 msgid "Node type is invalid. Can't append as child"
 msgstr "Tipe simpul tidak valid. Tak dapat menambahkan sebagai anak"
 
-#: ../gxml/GomNode.vala:304
+#: ../gxml/GomNode.vala:310
 msgid "Invalid attempt to append a child with different parent document"
 msgstr ""
 "Percobaan yang tidak valid untuk menambahkan sebuah anak dengan dokumen "
 "induk yang berbeda"
 
-#: ../gxml/GomNode.vala:312 ../gxml/GXmlNode.vala:340
+#: ../gxml/GomNode.vala:318 ../gxml/GXmlNode.vala:342
 msgid "Can't find child node to replace or child have a different parent"
 msgstr ""
 "Tak bisa temukan simpul anak untuk menggantikan atau anak punya induk yang "
 "berbeda"
 
-#: ../gxml/GomNode.vala:326 ../gxml/GXmlNode.vala:323
-#: ../gxml/GXmlNode.vala:354
+#: ../gxml/GomNode.vala:332 ../gxml/GXmlNode.vala:325 ../gxml/GXmlNode.vala:356
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr ""
 "Percobaan yang tidak valid untuk menyisipkan simpul teks atau tipe dokumen "
 "ke induk yang tidak valid"
 
-#: ../gxml/GomNode.vala:338 ../gxml/GXmlNode.vala:366
+#: ../gxml/GomNode.vala:344 ../gxml/GXmlNode.vala:368
 msgid "Can't find child node to remove or child have a different parent"
 msgstr ""
 "Tak bisa temukan simpul anak yang akan dihapus atau anak punya induk yang "
@@ -373,16 +380,16 @@ msgstr "Format tidak valid bagi properti Tanggal:"
 msgid "Invalid timestamp for property: "
 msgstr "Penanda waktu tidak valid bagi properti:"
 
-#: ../gxml/GXmlDocument.vala:56 ../gxml/Parser.vala:73
-#: ../gxml/TDocument.vala:474
+#: ../gxml/GXmlDocument.vala:57 ../gxml/Parser.vala:75
+#: ../gxml/TDocument.vala:477
 msgid "File doesn't exist"
 msgstr "Berkas tak ada"
 
-#: ../gxml/GXmlDocument.vala:80
+#: ../gxml/GXmlDocument.vala:81
 msgid "stream doesn't provide data"
 msgstr "stream tidak menyediakan data"
 
-#: ../gxml/GXmlDocument.vala:225
+#: ../gxml/GXmlDocument.vala:226
 msgid "Invalid element qualified name: multiple namespace prefixes"
 msgstr ""
 "Nama terkualifikasi elemen yang tidak valid: prefiks namespace berganda"
@@ -415,72 +422,72 @@ msgstr "DOM: Token tidak valid. Spasi tak dapat dipakai sebagai token"
 msgid "Update Error: "
 msgstr "Galat Pemutakhiran:"
 
-#: ../gxml/GXmlDomRange.vala:50 ../gxml/GXmlDomRange.vala:78
-#: ../gxml/GXmlDomRange.vala:151
+#: ../gxml/GXmlDomRange.vala:53 ../gxml/GXmlDomRange.vala:81
+#: ../gxml/GXmlDomRange.vala:154
 msgid "Invalid node type to start"
 msgstr "Tipe simpul yang tidak valid untuk memulai"
 
-#: ../gxml/GXmlDomRange.vala:53 ../gxml/GXmlDomRange.vala:81
+#: ../gxml/GXmlDomRange.vala:56 ../gxml/GXmlDomRange.vala:84
 msgid "Invalid offset for node to start: for document type"
 msgstr "Ofset tidak valid bagi simpul untuk memulai: untuk tipe dokumen"
 
-#: ../gxml/GXmlDomRange.vala:57 ../gxml/GXmlDomRange.vala:85
+#: ../gxml/GXmlDomRange.vala:60 ../gxml/GXmlDomRange.vala:88
 msgid "Invalid offset for node to start: for character data"
 msgstr "Ofset tidak valid bagi simpul untuk memulai: untuk data karakter"
 
-#: ../gxml/GXmlDomRange.vala:60 ../gxml/GXmlDomRange.vala:88
+#: ../gxml/GXmlDomRange.vala:63 ../gxml/GXmlDomRange.vala:91
 msgid "Invalid offset for node to start: for children number"
 msgstr "Ofset tidak valid bagi simpul untuk memulai: untuk nomor anak"
 
-#: ../gxml/GXmlDomRange.vala:104 ../gxml/GXmlDomRange.vala:118
+#: ../gxml/GXmlDomRange.vala:107 ../gxml/GXmlDomRange.vala:121
 msgid "Invalid node type to start before"
 msgstr "Tipe simpul yang tidak valid untuk memulai sebelumnya"
 
-#: ../gxml/GXmlDomRange.vala:109 ../gxml/GXmlDomRange.vala:123
-#: ../gxml/GXmlDomRange.vala:141
+#: ../gxml/GXmlDomRange.vala:112 ../gxml/GXmlDomRange.vala:126
+#: ../gxml/GXmlDomRange.vala:144
 msgid "Invalid node type to start after"
 msgstr "Tipe simpul yang tidak valid untuk memulai setelahnya"
 
-#: ../gxml/GXmlDomRange.vala:166
+#: ../gxml/GXmlDomRange.vala:169
 msgid "Invalid root in the source range"
 msgstr "Root yang  tidak valid dalam rentang sumber"
 
-#: ../gxml/GXmlElement.vala:342
+#: ../gxml/GXmlElement.vala:343
 msgid "invalid namespace. Code: "
 msgstr "namespace tidak valid. Kode:"
 
-#: ../gxml/GXmlHashMapAttr.vala:242
+#: ../gxml/GXmlHashMapAttr.vala:243
 msgid "Invalid document when adding item to collection"
 msgstr "Dokumen tidak valid ketika menambahkan butir ke koleksi"
 
-#: ../gxml/GXmlHashMapAttr.vala:244 ../gxml/GXmlHashMapAttr.vala:296
+#: ../gxml/GXmlHashMapAttr.vala:245 ../gxml/GXmlHashMapAttr.vala:297
 msgid "This node collection is read only"
 msgstr "Koleksi simpul ini hanya baca"
 
-#: ../gxml/GXmlHashMapAttr.vala:246 ../gxml/GXmlHashMapAttr.vala:298
+#: ../gxml/GXmlHashMapAttr.vala:247 ../gxml/GXmlHashMapAttr.vala:299
 msgid "This node attribute is already in use by other Element"
 msgstr "Atribut simpul ini telah dipakai oleh Elemen lain"
 
-#: ../gxml/GXmlHashMapAttr.vala:248 ../gxml/GXmlHashMapAttr.vala:300
+#: ../gxml/GXmlHashMapAttr.vala:249 ../gxml/GXmlHashMapAttr.vala:301
 msgid "Trying to add an object to an Element, but it is not an attribute"
 msgstr ""
 "Mencoba menambah sebuah objek ke suatu Elemen, tapi itu bukan suatu atribut"
 
-#: ../gxml/GXmlHashMapAttr.vala:260 ../gxml/GXmlHashMapAttr.vala:316
+#: ../gxml/GXmlHashMapAttr.vala:261 ../gxml/GXmlHashMapAttr.vala:317
 #, c-format
 msgid "No node with name %s was found"
 msgstr "Tidak ditemukan simpul dengan nama %s"
 
-#: ../gxml/GXmlHashMapAttr.vala:262 ../gxml/GXmlHashMapAttr.vala:318
+#: ../gxml/GXmlHashMapAttr.vala:263 ../gxml/GXmlHashMapAttr.vala:319
 msgid "Node collection is read only"
 msgstr "Koleksi simpul hanya baca"
 
-#: ../gxml/GXmlHashMapAttr.vala:294
+#: ../gxml/GXmlHashMapAttr.vala:295
 msgid "Invalid document when adding item to named node map collection"
 msgstr ""
 "Dokumen tidak valid ketika menambahkan butir ke koleksi peta simpul bernama"
 
-#: ../gxml/GXmlNode.vala:42
+#: ../gxml/GXmlNode.vala:44
 #, c-format
 msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
@@ -493,24 +500,24 @@ msgstr "Nilai tak bisa diurai ke nilai enumerasi yang valid. Nilai tak ditata"
 msgid "Value can't be parsed to a valid enumeration's value"
 msgstr "Nilai tak bisa diurai ke nilai enumerasi yang valid"
 
-#: ../gxml/SerializableGeeArrayList.vala:41
-#: ../gxml/SerializableGeeArrayList.vala:60
-#: ../gxml/SerializableGeeDualKeyMap.vala:43
-#: ../gxml/SerializableGeeDualKeyMap.vala:64
-#: ../gxml/SerializableGeeHashMap.vala:40
-#: ../gxml/SerializableGeeHashMap.vala:61
-#: ../gxml/SerializableGeeTreeMap.vala:40
-#: ../gxml/SerializableGeeTreeMap.vala:61
+#: ../gxml/SerializableGeeArrayList.vala:44
+#: ../gxml/SerializableGeeArrayList.vala:63
+#: ../gxml/SerializableGeeDualKeyMap.vala:46
+#: ../gxml/SerializableGeeDualKeyMap.vala:67
+#: ../gxml/SerializableGeeHashMap.vala:43
+#: ../gxml/SerializableGeeHashMap.vala:64
+#: ../gxml/SerializableGeeTreeMap.vala:43
+#: ../gxml/SerializableGeeTreeMap.vala:64
 #, c-format
 msgid "%s: Value type '%s' is unsupported"
 msgstr "%s: Tipe nilai '%s' tak didukung"
 
-#: ../gxml/SerializableObjectModel.vala:321
+#: ../gxml/SerializableObjectModel.vala:323
 #, c-format
 msgid "WARNING: Object type '%s' has no Node Name defined"
 msgstr "PERINGATAN: Tipe objek '%s' tak punya definisi Nama Simpul"
 
-#: ../gxml/SerializableObjectModel.vala:325
+#: ../gxml/SerializableObjectModel.vala:327
 #, c-format
 msgid "Actual node's name is '%s' expected '%s'"
 msgstr "Nama simpul sebenarnya '%s' diharapkan '%s'"
@@ -542,50 +549,49 @@ msgstr "Tak bisa mentransformasi '%s' ke kalimat"
 msgid "Invalid element name"
 msgstr "Nama elemen tak valid"
 
-#: ../gxml/TDocument.vala:573 ../gxml/XParser.vala:235
+#: ../gxml/TDocument.vala:578 ../gxml/XParser.vala:283
 #, c-format
 msgid "Parsing ERROR: Fail to move to attribute number: %i"
 msgstr "GALAT saat mengurai: Gagal memindah ke nomor atribut: %i"
 
-#: ../gxml/XParser.vala:91
+#: ../gxml/XParser.vala:116 ../gxml/XParser.vala:145
 msgid "Invalid document string, it is empty or is not allowed"
 msgstr "String dokumen tidak valid, itu kosong atau tidak diizinkan"
 
-#: ../gxml/XParser.vala:113 ../gxml/XParser.vala:150 ../gxml/XParser.vala:167
-#: ../gxml/XParser.vala:175 ../gxml/XParser.vala:183 ../gxml/XParser.vala:191
-#: ../gxml/XParser.vala:199 ../gxml/XParser.vala:223 ../gxml/XParser.vala:297
-#: ../gxml/XParser.vala:324 ../gxml/XParser.vala:450 ../gxml/XParser.vala:481
+#: ../gxml/XParser.vala:154 ../gxml/XParser.vala:189 ../gxml/XParser.vala:198
+#: ../gxml/XParser.vala:247 ../gxml/XParser.vala:271 ../gxml/XParser.vala:345
+#: ../gxml/XParser.vala:366 ../gxml/XParser.vala:492 ../gxml/XParser.vala:523
 msgid "Internal Error: No TextReader was set"
 msgstr "Galat Internal: Tidak ada TextReader yang ditata"
 
-#: ../gxml/XParser.vala:153
+#: ../gxml/XParser.vala:201
 msgid "Can't read node data"
 msgstr "Tak bisa membaca data simpul"
 
-#: ../gxml/XParser.vala:453
+#: ../gxml/XParser.vala:495
 msgid ""
 "Invalid attempt to parse an element node, when current found node is not"
 msgstr ""
 "Upaya yang tidak valid untuk mengurai suatu simpul elemen, ketika simpul "
 "yang kini ditemukan bukan"
 
-#: ../gxml/XParser.vala:544
+#: ../gxml/XParser.vala:586
 msgid "Invalid object type set to Collection"
 msgstr "Tipe objek yang tidak valid ditata ke Koleksi"
 
-#: ../gxml/XParser.vala:548
+#: ../gxml/XParser.vala:590
 msgid "Invalid DomElement name for objects in Collection"
 msgstr "Nama DomElement yang tidak valid bagi objek dalam Koleksi"
 
-#: ../gxml/XParser.vala:552
+#: ../gxml/XParser.vala:594
 msgid "Invalid Element set to Collection"
 msgstr "Elemen yang tidak valid ditata ke Koleksi"
 
-#: ../gxml/XParser.vala:560
+#: ../gxml/XParser.vala:602
 msgid "No document is set to node"
 msgstr "Tidak ada dokumen yang ditata ke simpul"
 
-#: ../gxml/XParser.vala:614
+#: ../gxml/XParser.vala:656
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Galat Internal: Tidak ada TextWriter yang diinisialisasi"
 
