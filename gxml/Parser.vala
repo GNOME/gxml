@@ -70,11 +70,16 @@ public interface GXml.Parser : Object {
   public abstract void write_stream (OutputStream stream,
                                     GLib.Cancellable? cancellable) throws GLib.Error;
   /**
-   * Writes a {@link GXml.DomDocument} to a {@link GLib.OutputStream}
+   * Writes asynchronically a {@link node} to a {@link GLib.OutputStream}
+   */
+  public abstract async void write_stream_async (OutputStream stream,
+                            GLib.Cancellable? cancellable = null) throws GLib.Error;
+  /**
+   * Writes a {@link node} to a {@link GLib.OutputStream}
    */
   public virtual void read_file (GLib.File file,
-                                    GLib.Cancellable? cancellable)
-                                    throws GLib.Error {
+                                GLib.Cancellable? cancellable)
+                                throws GLib.Error {
     if (!file.query_exists ())
       throw new GXml.ParserError.INVALID_FILE_ERROR (_("File doesn't exist"));
     read_stream (file.read (), cancellable);
@@ -118,6 +123,12 @@ public interface GXml.Parser : Object {
    * in XML
    */
   public abstract InputStream create_stream (GLib.Cancellable? cancellable = null) throws GLib.Error;
+  /**
+   * Creates asyncronically an {@link GLib.InputStream} to write a string representation
+   * in XML
+   */
+  public abstract async InputStream
+  create_stream_async (GLib.Cancellable? cancellable = null) throws GLib.Error;
   /**
    * Iterates in all child nodes and append them to node.
    */

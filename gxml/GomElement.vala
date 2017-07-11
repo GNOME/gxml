@@ -55,12 +55,26 @@ public class GXml.GomElement : GomNode,
     this.read_from_file (File.new_for_uri (uri));
   }
   /**
+   * Parsing asinchronically a URI file.
+   */
+  public async void read_from_uri_async (string uri) throws GLib.Error {
+    yield this.read_from_file_async (File.new_for_uri (uri));
+  }
+  /**
    * Parses an XML file, deserializing it over {@link GomElement}.
    */
   public void read_from_file (GLib.File f,
                       GLib.Cancellable? cancellable = null) throws GLib.Error {
     var parser = new XParser (this);
     parser.read_file (f, cancellable);
+  }
+  /**
+   * Parses asinchronically an XML file, deserializing it over {@link GomElement}.
+   */
+  public async void read_from_file_async (GLib.File f,
+                      GLib.Cancellable? cancellable = null) throws GLib.Error {
+    var parser = new XParser (this);
+    yield parser.read_file_async (f, cancellable);
   }
   /**
    * Parses an XML over a {@link GLib.InputStream}, deserializing it over {@link GomElement}.
@@ -71,11 +85,26 @@ public class GXml.GomElement : GomNode,
     parser.read_stream (istream, cancellable);
   }
   /**
+   * Parses asynchronically an XML over a {@link GLib.InputStream}, deserializing it over {@link GomElement}.
+   */
+  public async void read_from_stream_async (GLib.InputStream istream,
+                      GLib.Cancellable? cancellable = null) throws GLib.Error {
+    var parser = new XParser (this);
+    yield parser.read_stream_async (istream, cancellable);
+  }
+  /**
    * Parses an XML string, deserializing it over {@link GomElement}.
    */
   public void read_from_string (string str) throws GLib.Error {
     var parser = new XParser (this);
     parser.read_string (str, null);
+  }
+  /**
+   * Parses an XML string, deserializing it over {@link GomElement}.
+   */
+  public async void read_from_string_async (string str) throws GLib.Error {
+    var parser = new XParser (this);
+    yield parser.read_string_async (str, null);
   }
   /**
    * Serialize {@link GomElement} to a string.
