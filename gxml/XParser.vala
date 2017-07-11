@@ -102,6 +102,9 @@ public class GXml.XParser : Object, GXml.Parser {
   public string write_string () throws GLib.Error  {
     return dump ();
   }
+  public async string write_string_async () throws GLib.Error  {
+    return yield dump_async ();
+  }
   public void read_string (string str, GLib.Cancellable? cancellable) throws GLib.Error {
     if (str == "")
       throw new ParserError.INVALID_DATA_ERROR (_("Invalid document string, it is empty or is not allowed"));
@@ -468,6 +471,128 @@ public class GXml.XParser : Object, GXml.Parser {
   }
   // Non Elements
     foreach (GXml.DomNode n in node.child_nodes) {
+      if (n is GXml.DomElement) {
+        start_node (n);
+        size += tw.end_element ();
+        if (size > 1500)
+          tw.flush ();
+      }
+      if (n is GXml.DomText) {
+      size += tw.write_string (n.node_value);
+      if (size > 1500)
+        tw.flush ();
+      }
+      if (n is GXml.DomComment) {
+        size += tw.write_comment (n.node_value);
+        if (size > 1500)
+          tw.flush ();
+      }
+      if (n is GXml.DomProcessingInstruction) {
+        size += tw.write_pi ((n as DomProcessingInstruction).target,
+                            (n as DomProcessingInstruction).data);
+        if (size > 1500)
+          tw.flush ();
+      }
+    }
+  }
+
+  private async string dump_async () throws GLib.Error {
+    int size;
+    Xml.Doc doc = null;
+    tw = new TextWriter.doc (out doc);
+    if (_node is DomDocument) tw.start_document ();
+    tw.set_indent (indent);
+    // Root
+    if (_node is DomDocument) {
+      if ((node as DomDocument).document_element == null) {
+        tw.end_document ();
+      }
+    }
+    Idle.add (dump_async.callback);
+    yield;
+    yield start_node_async (_node);
+    Idle.add (dump_async.callback);
+    yield;
+    tw.end_element ();
+    tw.end_document ();
+    tw.flush ();
+    Idle.add (dump_async.callback);
+    yield;
+    string str;
+    doc.dump_memory (out str, out size);
+    tw = null;
+    return str;
+  }
+  private async void start_node_async (GXml.DomNode node)
+    throws GLib.Error
+  {
+    if (tw == null)
+      throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextWriter initialized"));
+    int size = 0;
+    if (node is GXml.DomElement) {
+      if ((node as DomElement).namespace_uri != null) {
+          string lpns = (node.parent_node).lookup_prefix ((node as DomElement).namespace_uri);
+          if (lpns == (node as DomElement).prefix
+              && (node as DomElement).prefix != null) {
+            tw.start_element (node.node_name);
+          }
+          else
+            tw.start_element_ns ((node as DomElement).prefix,
+                                 (node as DomElement).local_name,
+                                 (node as DomElement).namespace_uri);
+      } else
+        tw.start_element ((node as DomElement).local_name);
+    Idle.add (start_node_async.callback);
+    yield;
+    // GomObject serialization
+    var lp = (node as GomObject).get_properties_list ();
+    foreach (ParamSpec pspec in lp) {
+      Idle.add (start_node_async.callback);
+      yield;
+      string attname = pspec.get_nick ().replace ("::","");
+      string val = null;
+      if (pspec.value_type.is_a (typeof (GomProperty))) {
+        Value v = Value (pspec.value_type);
+        node.get_property (pspec.name, ref v);
+        GomProperty gp = v.get_object () as GomProperty;
+        if (gp == null) continue;
+        val = gp.value;
+      } else {
+        val = (node as GomObject).get_property_string (pspec);
+      }
+      if (val == null) continue;
+      size += tw.write_attribute (attname, val);
+      size += tw.end_attribute ();
+      if (size > 1500)
+        tw.flush ();
+    }
+    // DomElement attributes
+    foreach (string ak in (node as DomElement).attributes.keys) {
+      Idle.add (start_node_async.callback);
+      yield;
+      string v = ((node as DomElement).attributes as HashMap<string,string>).get (ak);
+      if ("xmlns:" in ak) {
+        string ns = (node as DomElement).namespace_uri;
+        if (ns != null) {
+          string[] strs = ak.split (":");
+          if (strs.length == 2) {
+            string nsp = strs[1];
+            if (ns == v && nsp == (node as DomElement).prefix) {
+              continue;
+            }
+          }
+        }
+      }
+      size += tw.write_attribute (ak, v);
+      size += tw.end_attribute ();
+      if (size > 1500)
+        tw.flush ();
+    }
+  }
+  // Non Elements
+    foreach (GXml.DomNode n in node.child_nodes) {
+      Idle.add (start_node_async.callback);
+      yield;
       if (n is GXml.DomElement) {
         start_node (n);
         size += tw.end_element ();
