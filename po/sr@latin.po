@@ -1,6 +1,6 @@
 # Serbian translation for gxml.
 # Courtesy of Prevod.org team (http://prevod.org/) -- 2016—2017.
-# Copyright (C) 2016 gxml's COPYRIGHT HOLDER
+# Copyright © 2016 gxml's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gxml package.
 # Translators:
 # Miroslav Nikolić <miroslavnikolic@rocketmail.com>, 2016—2017.
@@ -8,18 +8,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
-"product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-02-26 08:16+0000\n"
-"PO-Revision-Date: 2017-02-26 15:56+0200\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gxml&k"
+"eywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2017-08-01 11:56+0000\n"
+"PO-Revision-Date: 2017-08-13 08:07+0200\n"
 "Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
-"Language-Team: Serbian <(nothing)>\n"
+"Language-Team: srpski <gnome-sr@googlegroups.org>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : "
+"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Project-Style: gnome\n"
 
 #: ../gxml/Document.vala:151
@@ -38,11 +38,11 @@ msgstr "Neispravan pomeraj za podatke zamene"
 msgid "Invalid offset to split text"
 msgstr "Neispravan pomeraj za podelu teksta"
 
-#: ../gxml/DomNode.vala:147 ../gxml/Node.vala:202
+#: ../gxml/DomNode.vala:150 ../gxml/Node.vala:202
 msgid "Text node with NULL string"
 msgstr "Čvor teksta sa NIŠTAVNOM niskom"
 
-#: ../gxml/DomNode.vala:154
+#: ../gxml/DomNode.vala:157
 msgid "Can't copy child text node"
 msgstr "Ne mogu da umnožim čvor teksta poroda"
 
@@ -54,19 +54,19 @@ msgstr "vrednost je neispravna"
 msgid "text cannot be parsed to enumeration type:"
 msgstr "tekst ne može biti obrađen na vrstu nabrajanja:"
 
-#: ../gxml/GomCollections.vala:67
+#: ../gxml/GomCollections.vala:72
 msgid "Invalid index for elements in array list"
 msgstr "Neispravan indeks za elemente na spisku niza"
 
-#: ../gxml/GomCollections.vala:71
+#: ../gxml/GomCollections.vala:76
 msgid "Invalid index reference for child elements in array list"
 msgstr "Neispravna uputa indeksa za elemente poroda na spisku niza"
 
-#: ../gxml/GomCollections.vala:76
+#: ../gxml/GomCollections.vala:81
 msgid "Referenced object's type is invalid. Should be a GXmlGomElement"
 msgstr "Vrsta uputnog objekta je neispravna. Treba biti „GXmlGomElement“"
 
-#: ../gxml/GomCollections.vala:190
+#: ../gxml/GomCollections.vala:205
 msgid ""
 "Invalid attempt to initialize a collection using an unsupported type. Only "
 "GXmlGomElement is supported"
@@ -74,91 +74,100 @@ msgstr ""
 "Neispravan pokušaj pokretanja zbirke korišćenjem nepodržane vrste. Podržana je "
 "samo „GXmlGomElement“"
 
-#: ../gxml/GomCollections.vala:220 ../gxml/GomCollections.vala:246
+#: ../gxml/GomCollections.vala:234 ../gxml/GomCollections.vala:261
 msgid "Parent Element is invalid"
 msgstr "Element roditelja je neispravan"
 
-#: ../gxml/GomCollections.vala:223
+#: ../gxml/GomCollections.vala:237
 msgid ""
 "Invalid attempt to set unsupported type. Only GXmlGomElement is supported"
 msgstr ""
 "Neispravan pokušaj podešavanja nepodržane vrste. Podržana je samo "
 "„GXmlGomElement“"
 
-#: ../gxml/GomCollections.vala:226
+#: ../gxml/GomCollections.vala:240
 msgid "Invalid attempt to set a node with a different parent document"
 msgstr ""
 "Neispravan pokušaj podešavanja čvora sa drugačijim roditeljskim dokumentom"
 
-#: ../gxml/GomCollections.vala:230
+#: ../gxml/GomCollections.vala:244
 msgid ""
 "Node element not appended as child of parent. No node added to collection"
 msgstr ""
 "Element čvora nije prikačen kao porod roditelja. Zbirci nije dodat nijedan "
 "čvor"
 
-#: ../gxml/GomDocument.vala:150
+#: ../gxml/GomCollections.vala:660
+msgid "No primary key and/or secondary key was found"
+msgstr "Nisam našao primarni i/ili sekundarni ključ"
+
+#: ../gxml/GomDocument.vala:214
 msgid "Creating a namespaced element with invalid node name"
 msgstr "Stvaram element prostornog naziva sa neispravnim nazivom čvora"
 
-#: ../gxml/GomDocument.vala:157
+#: ../gxml/GomDocument.vala:221
 msgid "Creating a namespaced element with invalid namespace"
 msgstr "Stvaram element prostornog naziva sa neispravnim prostorom naziva"
 
-#: ../gxml/GomDocument.vala:161
+#: ../gxml/GomDocument.vala:225
 msgid ""
 "Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
 msgstr ""
 "Neispravna putanja prostornog naziva za iksmlns prefiks. Koristite „http://"
 "www.w3.org/2000/xmlns/“"
 
-#: ../gxml/GomDocument.vala:165
+#: ../gxml/GomDocument.vala:229
 msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
 msgstr ""
 "Samo iksmlns prefiksi se mogu koristiti sa „http://www.w3.org/2000/xmlns/“"
 
-#: ../gxml/GomDocument.vala:205 ../gxml/GXmlDocument.vala:269
+#: ../gxml/GomDocument.vala:269 ../gxml/GXmlDocument.vala:270
 msgid "Can't import a Document"
 msgstr "Ne mogu da uvezem Dokument"
 
-#: ../gxml/GomDocument.vala:207 ../gxml/GXmlDocument.vala:271
+#: ../gxml/GomDocument.vala:271 ../gxml/GXmlDocument.vala:272
 msgid "Can't import a non Element type node to a Document"
 msgstr "Ne mogu da uvezem u Dokument čvor koji nije vrsta Elementa"
 
-#: ../gxml/GomDocument.vala:231 ../gxml/GXmlDocument.vala:295
+#: ../gxml/GomDocument.vala:295 ../gxml/GXmlDocument.vala:296
 msgid "Can't adopt a Document"
 msgstr "Ne mogu da prisvojim Dokument"
 
 #. FIXME:
-#: ../gxml/GomDocument.vala:387 ../gxml/GomElement.vala:189
-#: ../gxml/GXmlElement.vala:317
+#: ../gxml/GomDocument.vala:451 ../gxml/GomElement.vala:263
+#: ../gxml/GXmlElement.vala:318
 msgid "DomElement query_selector is not implemented"
 msgstr "„query_selector“ Dom elementa nije primenjen"
 
 #. FIXME:
-#: ../gxml/GomDocument.vala:391 ../gxml/GomElement.vala:193
-#: ../gxml/GXmlElement.vala:321
+#: ../gxml/GomDocument.vala:455 ../gxml/GomElement.vala:267
+#: ../gxml/GXmlElement.vala:322
 msgid "DomElement query_selector_all is not implemented"
 msgstr "„query_selector_all“ Dom elementa nije primenjen"
 
-#: ../gxml/GomElement.vala:97
+#: ../gxml/GomElement.vala:169
 msgid "Invalid namespace URI stored in element's attribute"
 msgstr "Neispravna putanja prostornog naziva smeštenog u atributu elementa"
 
-#: ../gxml/GomElement.vala:104 ../gxml/GomElement.vala:128
+#: ../gxml/GomElement.vala:176 ../gxml/GomElement.vala:200
 msgid "Invalid attribute name in element's attributes list"
 msgstr "Neispravan naziv atributa na spisku atributa elementa"
 
-#: ../gxml/GomElement.vala:348 ../gxml/GomElement.vala:386
+#: ../gxml/GomElement.vala:217
+#| msgid "Can't copy child text node"
+msgid "Can't locate child node to remove"
+msgstr "Ne mogu da nađem čvor poroda za uklanjanje"
+
+#: ../gxml/GomElement.vala:422 ../gxml/GomElement.vala:460
 #, c-format
 msgid "Invalid attribute name: %s"
 msgstr "Neispravan naziv atributa: %s"
 
-#: ../gxml/GomElement.vala:350 ../gxml/GomElement.vala:388
+#: ../gxml/GomElement.vala:424 ../gxml/GomElement.vala:462
 msgid "Invalid node type. DomAttr was expected"
 msgstr "Neispravna vrsta čvora. Očekivano je „DomAttr“"
 
-#: ../gxml/GomElement.vala:393
+#: ../gxml/GomElement.vala:467
 msgid ""
 "Namespace attributes prefixed with xmlns should use a namespace uri http://"
 "www.w3.org/2000/xmlns"
@@ -166,52 +175,52 @@ msgstr ""
 "Atributi prostronog naziva koji imaju iksmlns kao prefiks treba da koriste "
 "putanju prostornog naziva „http://www.w3.org/2000/xmlns“"
 
-#: ../gxml/GomElement.vala:400
+#: ../gxml/GomElement.vala:474
 #, c-format
 msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
 msgstr ""
 "Atributi sa prostronim nazivom treba da obezbede ne-ništavan, ne-prazan "
 "prefiks: %s"
 
-#: ../gxml/GomElement.vala:404
+#: ../gxml/GomElement.vala:478
 msgid "Invalid namespace attribute's name."
 msgstr "Neispravan naziv atributa prostornog naziva."
 
-#: ../gxml/GomElement.vala:424
+#: ../gxml/GomElement.vala:498
 #, c-format
 msgid "Redefinition of default namespace for %s"
 msgstr "Ponovno definisanje osnovnog prostornog naziva za „%s“"
 
-#: ../gxml/GomElement.vala:448
+#: ../gxml/GomElement.vala:522
 #, c-format
 msgid "Redefinition of namespace's prefix for %s"
 msgstr "Ponovno definisanje prefiksa prostornog naziva za „%s“"
 
-#: ../gxml/GomElement.vala:464
+#: ../gxml/GomElement.vala:538
 msgid "Trying to add an attribute with an undefined namespace prefix"
 msgstr ""
 "Pokušavam da dodam atribut sa nedefinisanim prefiksom prostornog naziva"
 
-#: ../gxml/GomElement.vala:470
+#: ../gxml/GomElement.vala:544
 msgid "Trying to add an attribute with a non found namespace URI"
 msgstr "Pokušavam da dodam atribut sa ne pronađenom putanjom prostornog naziva"
 
-#: ../gxml/GomElement.vala:529
+#: ../gxml/GomElement.vala:603
 msgid "Invalid attribute name. Just one prefix is allowed"
 msgstr "Neispravan naziv atributa. Dozvoljen je samo jedan prefiks"
 
-#: ../gxml/GomElement.vala:533
+#: ../gxml/GomElement.vala:607
 #, c-format
 msgid "Invalid attribute name. Invalid use of colon: %s"
 msgstr "Neispravan naziv atributa. Neispravno korišćenje dvotačke: %s"
 
-#: ../gxml/GomElement.vala:537
+#: ../gxml/GomElement.vala:611
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
 msgstr ""
 "Neispravan prostorni naziv. Ako je prefiks ništavan, putanja prostornog "
 "naziva ne treba biti ništavna"
 
-#: ../gxml/GomElement.vala:539
+#: ../gxml/GomElement.vala:613
 msgid ""
 "Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
 "org/2000/xmlns/"
@@ -219,7 +228,7 @@ msgstr ""
 "Neispravan prostorni naziv. Ako je prefiks iksml, putanja prostornog naziva "
 "treba biti „http://www.w3.org/2000/xmlns/“"
 
-#: ../gxml/GomElement.vala:541
+#: ../gxml/GomElement.vala:616
 msgid ""
 "Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns/"
@@ -227,7 +236,7 @@ msgstr ""
 "Neispravan prostorni naziv. Ako je prefiks atributa iksmlns, putanja treba "
 "biti „http://www.w3.org/2000/xmlns/“"
 
-#: ../gxml/GomElement.vala:543
+#: ../gxml/GomElement.vala:620
 msgid ""
 "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns/"
@@ -235,33 +244,33 @@ msgstr ""
 "Neispravan prostorni naziv. Ako je naziv atributa iksmlns, putanja treba biti "
 "„http://www.w3.org/2000/xmlns/“"
 
-#: ../gxml/GomElement.vala:545
+#: ../gxml/GomElement.vala:622
 msgid "Invalid attribute name. No prefixed attributes should use xmlns name"
 msgstr ""
 "Neispravan naziv atributa. Nijedan atribut sa prefiksom ne treba da koristi "
 "naziv iksmlns"
 
-#: ../gxml/GomElement.vala:549
+#: ../gxml/GomElement.vala:626
 msgid "Setting namespaced property error: "
 msgstr "Greška podešavanja svojstva prostornog naziva: "
 
-#: ../gxml/GomElement.vala:556
+#: ../gxml/GomElement.vala:633
 msgid "Removing attribute Error: "
 msgstr "Greška uklanjanja atributa: "
 
-#: ../gxml/GomElement.vala:561
+#: ../gxml/GomElement.vala:638
 msgid "Removing namespaced attribute Error: "
 msgstr "Greška uklanjanja atributa prostornog naziva: "
 
-#: ../gxml/GomNode.vala:150
+#: ../gxml/GomNode.vala:156
 msgid "Text content in element can't be created"
 msgstr "Sadržaj teksta u elementu se ne može napraviti"
 
-#: ../gxml/GomNode.vala:203 ../gxml/GXmlNode.vala:276
+#: ../gxml/GomNode.vala:209 ../gxml/GXmlNode.vala:278
 msgid "Can't find node position"
 msgstr "Ne mogu da nađem položaj čvora"
 
-#: ../gxml/GomNode.vala:251
+#: ../gxml/GomNode.vala:257
 #, c-format
 msgid ""
 "Trying to add a namespaced element to a parent with invalid prefix for "
@@ -270,7 +279,7 @@ msgstr ""
 "Pokušavam da dodam prostorno imenovani element roditelju sa neispravnim "
 "prefiksom za prostorni naziv „%s“"
 
-#: ../gxml/GomNode.vala:256
+#: ../gxml/GomNode.vala:262
 #, c-format
 msgid ""
 "Trying to add a namespaced element to a parent with invalid URI for prefix %s"
@@ -278,99 +287,104 @@ msgstr ""
 "Pokušavam da dodam prostorno imenovani element roditelju sa neispravnom "
 "putanjom za prefiks „%s“"
 
-#: ../gxml/GomNode.vala:268 ../gxml/GomNode.vala:310 ../gxml/GXmlNode.vala:307
-#: ../gxml/GXmlNode.vala:338
+#: ../gxml/GomNode.vala:274 ../gxml/GomNode.vala:316 ../gxml/GXmlNode.vala:309
+#: ../gxml/GXmlNode.vala:340
 msgid "Invalid attempt to add invalid node type"
 msgstr "Neispravan pokušaj dodavanja neispravne vrste čvora"
 
-#: ../gxml/GomNode.vala:271 ../gxml/GXmlNode.vala:309
+#: ../gxml/GomNode.vala:277 ../gxml/GXmlNode.vala:311
 msgid "Can't find child to insert node before"
 msgstr "Ne mogu da nađem porod da umetnem čvor pre"
 
-#: ../gxml/GomNode.vala:276 ../gxml/GomNode.vala:316 ../gxml/GXmlNode.vala:313
-#: ../gxml/GXmlNode.vala:344
+#: ../gxml/GomNode.vala:282 ../gxml/GomNode.vala:322 ../gxml/GXmlNode.vala:315
+#: ../gxml/GXmlNode.vala:346
 msgid "Invalid attempt to insert a node"
 msgstr "Neispravan pokušaj umetanja čvora"
 
-#: ../gxml/GomNode.vala:284 ../gxml/GomNode.vala:323 ../gxml/GXmlNode.vala:320
-#: ../gxml/GXmlNode.vala:351
+#: ../gxml/GomNode.vala:290 ../gxml/GomNode.vala:329 ../gxml/GXmlNode.vala:322
+#: ../gxml/GXmlNode.vala:353
 msgid "Invalid attempt to insert an invalid node type"
 msgstr "Neispravan pokušaj umetanja neispravne vrste čvora"
 
-#: ../gxml/GomNode.vala:288
+#: ../gxml/GomNode.vala:294
 msgid ""
 "Invalid attempt to insert a document or text type to an invalid parent node"
 msgstr ""
 "Neispravan pokušaj umetanja dokumenta ili vrste teksta neispravnom "
 "roditeljskom čvoru"
 
-#: ../gxml/GomNode.vala:301
+#: ../gxml/GomNode.vala:307
 msgid "Node type is invalid. Can't append as child"
 msgstr "Vrsta čvora je neispravna. Ne mogu da priložim kao porod"
 
-#: ../gxml/GomNode.vala:304
+#: ../gxml/GomNode.vala:310
 msgid "Invalid attempt to append a child with different parent document"
 msgstr ""
 "Neispravan pokušaj prilaganja poroda sa drugačijim roditeljskim dokumentom"
 
-#: ../gxml/GomNode.vala:312 ../gxml/GXmlNode.vala:340
+#: ../gxml/GomNode.vala:318 ../gxml/GXmlNode.vala:342
 msgid "Can't find child node to replace or child have a different parent"
 msgstr "Ne mogu da nađem čvor poroda da zamenim ili porod ima drugog roditelja"
 
-#: ../gxml/GomNode.vala:326 ../gxml/GXmlNode.vala:323 ../gxml/GXmlNode.vala:354
+#: ../gxml/GomNode.vala:332 ../gxml/GXmlNode.vala:325 ../gxml/GXmlNode.vala:356
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr ""
 "Neispravan pokušaj umetanja vrste dokumenta ili čvora teksta neispravnom "
 "roditelju"
 
-#: ../gxml/GomNode.vala:338 ../gxml/GXmlNode.vala:366
+#: ../gxml/GomNode.vala:344 ../gxml/GXmlNode.vala:368
 msgid "Can't find child node to remove or child have a different parent"
 msgstr "Ne mogu da nađem čvor poroda da uklonim ili porod ima drugog roditelja"
 
-#: ../gxml/GomObject.vala:168
+#: ../gxml/GomObject.vala:171
 msgid "Enumeration is out of range"
 msgstr "Nabrajanje je van opsega"
 
-#: ../gxml/GomObject.vala:265
+#: ../gxml/GomObject.vala:274
 msgid "Enumeration can't be parsed from string"
 msgstr "Nabrajanje se ne može obraditi iz niske"
 
-#: ../gxml/GomObject.vala:377
+#: ../gxml/GomObject.vala:386
 #, c-format
 msgid "Error while attempting to instantiate property object: %s"
 msgstr "Greška prilikom pokušaja pokretanja objekta svojstva: %s"
 
-#: ../gxml/GomObject.vala:426
+#: ../gxml/GomObject.vala:435
 msgid "Can't set value. It is not a GXmlGomElement type"
 msgstr "Ne mogu da postavim vrednost. Nije vrsta G_Iksml_gom_elementa"
 
-#: ../gxml/GomProperty.vala:336
+#: ../gxml/GomProperty.vala:333
 msgid "Error when transform enum to attribute's value"
 msgstr "Greška prilikom pretvarnja nabrajanja za vrednost atributa"
 
-#: ../gxml/GomProperty.vala:344
+#: ../gxml/GomProperty.vala:341
 msgid "Error when transform from attribute string value to enum"
 msgstr "Greška prilikom pretvarnja iz vrednosti niske atributa u nabrajanje"
 
-#: ../gxml/GomProperty.vala:390
+#: ../gxml/GomProperty.vala:393 ../gxml/GomProperty.vala:400
 msgid "Invalid Date for property: "
 msgstr "Neispravan datum za svojstvo: "
 
-#: ../gxml/GomProperty.vala:429
+#: ../gxml/GomProperty.vala:395
+#| msgid "Invalid Date for property: "
+msgid "Invalid format for Date property: "
+msgstr "Neispravan format za svojstvo datuma: "
+
+#: ../gxml/GomProperty.vala:439
 msgid "Invalid timestamp for property: "
 msgstr "Neispravna vremenska oznaka za svojstvo: "
 
-#: ../gxml/GXmlDocument.vala:56 ../gxml/Parser.vala:73
-#: ../gxml/TDocument.vala:474
+#: ../gxml/GXmlDocument.vala:57 ../gxml/Parser.vala:94 ../gxml/Parser.vala:104
+#: ../gxml/TDocument.vala:477
 msgid "File doesn't exist"
 msgstr "Datoteka ne postoji"
 
-#: ../gxml/GXmlDocument.vala:80
+#: ../gxml/GXmlDocument.vala:81
 msgid "stream doesn't provide data"
 msgstr "tok ne obezbeđuje podatke"
 
-#: ../gxml/GXmlDocument.vala:225
+#: ../gxml/GXmlDocument.vala:226
 msgid "Invalid element qualified name: multiple namespace prefixes"
 msgstr ""
 "Neispravan naziv kvalifikovanog elementa: nekoliko prefiksa nazivnog prostora"
@@ -403,74 +417,99 @@ msgstr "DOM: Neispravan simbol. Prazna mesta se ne mogu koristiti kao simbol"
 msgid "Update Error: "
 msgstr "Greška osvežavanja: "
 
-#: ../gxml/GXmlDomRange.vala:50 ../gxml/GXmlDomRange.vala:78
-#: ../gxml/GXmlDomRange.vala:151
+#: ../gxml/GXmlDomRange.vala:53 ../gxml/GXmlDomRange.vala:81
+#: ../gxml/GXmlDomRange.vala:154
 msgid "Invalid node type to start"
 msgstr "Neispravna vrsta čvora za početak"
 
-#: ../gxml/GXmlDomRange.vala:53 ../gxml/GXmlDomRange.vala:81
+#: ../gxml/GXmlDomRange.vala:56 ../gxml/GXmlDomRange.vala:84
 msgid "Invalid offset for node to start: for document type"
 msgstr "Neispravan pomeraj za čvor za početak: za vrstu dokumenta"
 
-#: ../gxml/GXmlDomRange.vala:57 ../gxml/GXmlDomRange.vala:85
+#: ../gxml/GXmlDomRange.vala:60 ../gxml/GXmlDomRange.vala:88
 msgid "Invalid offset for node to start: for character data"
 msgstr "Neispravan pomeraj za čvor za početak: za podatke znaka"
 
-#: ../gxml/GXmlDomRange.vala:60 ../gxml/GXmlDomRange.vala:88
+#: ../gxml/GXmlDomRange.vala:63 ../gxml/GXmlDomRange.vala:91
 msgid "Invalid offset for node to start: for children number"
 msgstr "Neispravan pomeraj za čvor za početak: za sadržani broj"
 
-#: ../gxml/GXmlDomRange.vala:104 ../gxml/GXmlDomRange.vala:118
+#: ../gxml/GXmlDomRange.vala:107 ../gxml/GXmlDomRange.vala:121
 msgid "Invalid node type to start before"
 msgstr "Neispravna vrsta čvora za početak pre"
 
-#: ../gxml/GXmlDomRange.vala:109 ../gxml/GXmlDomRange.vala:123
-#: ../gxml/GXmlDomRange.vala:141
+#: ../gxml/GXmlDomRange.vala:112 ../gxml/GXmlDomRange.vala:126
+#: ../gxml/GXmlDomRange.vala:144
 msgid "Invalid node type to start after"
 msgstr "Neispravna vrsta čvora za početak nakon"
 
-#: ../gxml/GXmlDomRange.vala:166
+#: ../gxml/GXmlDomRange.vala:169
 msgid "Invalid root in the source range"
 msgstr "Neispravan koren u opsegu izvora"
 
-#: ../gxml/GXmlElement.vala:342
+#: ../gxml/GXmlElement.vala:343
 msgid "invalid namespace. Code: "
 msgstr "neispravan prostorni naziv. Kod: "
 
-#: ../gxml/GXmlHashMapAttr.vala:242
+#: ../gxml/GXmlHashMapAttr.vala:243
 msgid "Invalid document when adding item to collection"
 msgstr "Neispravan dokument prilikom dodavanja stavke u zbirku"
 
-#: ../gxml/GXmlHashMapAttr.vala:244 ../gxml/GXmlHashMapAttr.vala:296
+#: ../gxml/GXmlHashMapAttr.vala:245 ../gxml/GXmlHashMapAttr.vala:297
 msgid "This node collection is read only"
 msgstr "Ova zbirka čvora je samo za čitanje"
 
-#: ../gxml/GXmlHashMapAttr.vala:246 ../gxml/GXmlHashMapAttr.vala:298
+#: ../gxml/GXmlHashMapAttr.vala:247 ../gxml/GXmlHashMapAttr.vala:299
 msgid "This node attribute is already in use by other Element"
 msgstr "Ovaj atribut čvora je već u upotrebi drugim Elementom"
 
-#: ../gxml/GXmlHashMapAttr.vala:248 ../gxml/GXmlHashMapAttr.vala:300
+#: ../gxml/GXmlHashMapAttr.vala:249 ../gxml/GXmlHashMapAttr.vala:301
 msgid "Trying to add an object to an Element, but it is not an attribute"
 msgstr "Pokušavam da dodam objekat u Element, ali nije atribut"
 
-#: ../gxml/GXmlHashMapAttr.vala:260 ../gxml/GXmlHashMapAttr.vala:316
+#: ../gxml/GXmlHashMapAttr.vala:261 ../gxml/GXmlHashMapAttr.vala:317
 #, c-format
 msgid "No node with name %s was found"
 msgstr "Nisam našao čvor pod nazivom „%s“"
 
-#: ../gxml/GXmlHashMapAttr.vala:262 ../gxml/GXmlHashMapAttr.vala:318
+#: ../gxml/GXmlHashMapAttr.vala:263 ../gxml/GXmlHashMapAttr.vala:319
 msgid "Node collection is read only"
 msgstr "Zbirka čvora je samo za čitanje"
 
-#: ../gxml/GXmlHashMapAttr.vala:294
+#: ../gxml/GXmlHashMapAttr.vala:295
 msgid "Invalid document when adding item to named node map collection"
 msgstr ""
 "Neispravan dokument prilikom dodavanja stavke u zbirku mape imenovanog čvora"
 
-#: ../gxml/GXmlNode.vala:42
+#: ../gxml/GXmlNode.vala:44
 #, c-format
 msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
+
+#: ../gxml/Parser.vala:186
+msgid ""
+"Invalid attempt to parse an element node, when current found node is not"
+msgstr "Neispravan pokušaj obrade čvora elementa, kada tekući nađeni čvor nije"
+
+#: ../gxml/Parser.vala:255
+msgid "Invalid object type set to Collection"
+msgstr "Neispravna vrsta objekta je podešena u zbirci"
+
+#: ../gxml/Parser.vala:259
+msgid "Invalid DomElement name for objects in Collection"
+msgstr "Neispravan naziv Dom_elementa za objekte u zbirci"
+
+#: ../gxml/Parser.vala:263
+msgid "Invalid Element set to Collection"
+msgstr "Neispravan element je podešen u zbirci"
+
+#: ../gxml/Parser.vala:268
+msgid "No document is set to node"
+msgstr "Nijedan dokument nije podešen u čvoru"
+
+#: ../gxml/Parser.vala:289 ../gxml/XParser.vala:172 ../gxml/XParser.vala:178
+msgid "Invalid document string, it is empty or is not allowed"
+msgstr "Neispravna niska dokumenta, prazan je ili nije dozvoljen"
 
 #: ../gxml/SerializableEnum.vala:75
 msgid "Value can't be parsed to a valid enumeration's value. Value is not set"
@@ -482,24 +521,24 @@ msgstr ""
 msgid "Value can't be parsed to a valid enumeration's value"
 msgstr "Vrednost ne može biti obrađena na ispravnu vrednost nabrajanja"
 
-#: ../gxml/SerializableGeeArrayList.vala:41
-#: ../gxml/SerializableGeeArrayList.vala:60
-#: ../gxml/SerializableGeeDualKeyMap.vala:43
-#: ../gxml/SerializableGeeDualKeyMap.vala:64
-#: ../gxml/SerializableGeeHashMap.vala:40
-#: ../gxml/SerializableGeeHashMap.vala:61
-#: ../gxml/SerializableGeeTreeMap.vala:40
-#: ../gxml/SerializableGeeTreeMap.vala:61
+#: ../gxml/SerializableGeeArrayList.vala:44
+#: ../gxml/SerializableGeeArrayList.vala:63
+#: ../gxml/SerializableGeeDualKeyMap.vala:46
+#: ../gxml/SerializableGeeDualKeyMap.vala:67
+#: ../gxml/SerializableGeeHashMap.vala:43
+#: ../gxml/SerializableGeeHashMap.vala:64
+#: ../gxml/SerializableGeeTreeMap.vala:43
+#: ../gxml/SerializableGeeTreeMap.vala:64
 #, c-format
 msgid "%s: Value type '%s' is unsupported"
 msgstr "%s: Vrsta vrednosti „%s“ nije podržana"
 
-#: ../gxml/SerializableObjectModel.vala:321
+#: ../gxml/SerializableObjectModel.vala:323
 #, c-format
 msgid "WARNING: Object type '%s' has no Node Name defined"
 msgstr "Upozorenje: Vrsta objekta „%s“ nema određen naziv čvora"
 
-#: ../gxml/SerializableObjectModel.vala:325
+#: ../gxml/SerializableObjectModel.vala:327
 #, c-format
 msgid "Actual node's name is '%s' expected '%s'"
 msgstr "Stvarni naziv čvora je „%s“ a očekivan je „%s“"
@@ -517,12 +556,12 @@ msgstr "Nisam našao osobinu iz koje da poništim serijalizaciju"
 msgid "XML Attribute name is not set, when deserializing to: %s"
 msgstr "Naziv IksML atributa nije postavljen, prilikom deserijalizacije na: %s"
 
-#: ../gxml/Serializable.vala:434
+#: ../gxml/Serializable.vala:390
 #, c-format
 msgid "Transformation Error on '%s' or Unsupported type: '%s'"
 msgstr "Greška preobražaja na „%s“ ili nepodržana vrsta: „%s“"
 
-#: ../gxml/Serializable.vala:455
+#: ../gxml/Serializable.vala:411
 #, c-format
 msgid "Can't transform '%s' to string"
 msgstr "Ne mogu da preobratim „%s“ u nisku"
@@ -531,39 +570,23 @@ msgstr "Ne mogu da preobratim „%s“ u nisku"
 msgid "Invalid element name"
 msgstr "Neispravan naziv elementa"
 
-#: ../gxml/TDocument.vala:573 ../gxml/XParser.vala:217
+#: ../gxml/TDocument.vala:578 ../gxml/XParser.vala:341
 #, c-format
 msgid "Parsing ERROR: Fail to move to attribute number: %i"
 msgstr "Greška obrade: Nisam uspeo da pređem na broj atributa: %i"
 
-#: ../gxml/XParser.vala:90
-msgid "Invalid document string, it is empty or is not allowed"
-msgstr "Neispravna niska dokumenta, prazan je ili nije dozvoljen"
+#: ../gxml/XParser.vala:210 ../gxml/XParser.vala:265 ../gxml/XParser.vala:274
+#: ../gxml/XParser.vala:323 ../gxml/XParser.vala:336 ../gxml/XParser.vala:382
+msgid "Internal Error: No TextReader was set"
+msgstr "Unutrašnja greška: Nije podešen čitač teksta"
 
-#: ../gxml/XParser.vala:147
+#: ../gxml/XParser.vala:277
 msgid "Can't read node data"
 msgstr "Ne mogu da čitam podatke čvora"
 
-#: ../gxml/XParser.vala:429
-msgid ""
-"Invalid attempt to parse an element node, when current found node is not"
-msgstr "Neispravan pokušaj obrade čvora elementa, kada tekući nađeni čvor nije"
-
-#: ../gxml/XParser.vala:518
-msgid "Invalid object type set to Collection"
-msgstr "Neispravna vrsta objekta je podešena u zbirci"
-
-#: ../gxml/XParser.vala:522
-msgid "Invalid DomElement name for objects in Collection"
-msgstr "Neispravan naziv Dom_elementa za objekte u zbirci"
-
-#: ../gxml/XParser.vala:526
-msgid "Invalid Element set to Collection"
-msgstr "Neispravan element je podešen u zbirci"
-
-#: ../gxml/XParser.vala:534
-msgid "No document is set to node"
-msgstr "Nijedan dokument nije podešen u čvoru"
+#: ../gxml/XParser.vala:477 ../gxml/XParser.vala:592
+msgid "Internal Error: No TextWriter initialized"
+msgstr "Unutrašnja greška: Nije pokrenut pisač teksta"
 
 #: ../gxml/GomSchema.vala:266
 #, c-format
