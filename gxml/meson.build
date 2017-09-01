@@ -143,7 +143,7 @@ lib = library(VERSIONED_PROJECT_NAME,
 	install : true,
 	install_dir : [
 		get_option('libdir'),
-		join_paths (get_option('includedir'), 'gxml','gxml-@0@'.format (API_VERSION)),
+		join_paths (get_option('includedir'), 'gxml-@0@'.format (API_VERSION), 'gxml'),
 		vapidir,
 		true
 	])
