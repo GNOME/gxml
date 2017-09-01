@@ -358,7 +358,7 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.GomCollection {
   /**
    * A hashtable with all keys as string to node's index refered. Don't modify it manually.
    */
-  protected HashTable<string,int> _hashtable = new HashTable<string,int> (str_hash,str_equal);
+  protected Gee.HashMap<string,int> _hashtable = new Gee.HashMap<string,int> ();
   /**
    * Element's attribute name used to refer of container's element.
    * You should define it at construction time
@@ -401,7 +401,7 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.GomCollection {
    * Returns an {@link DomElement} in the collection using a string key.
    */
   public new DomElement? get (string key) {
-    if (!_hashtable.contains (key)) return null;
+    if (!_hashtable.has_key (key)) return null;
     var i = _hashtable.get (key);
 #if DEBUG
     GLib.message ("Key:"+key+" item:"+i.to_string ());
@@ -412,14 +412,16 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.GomCollection {
    * Returns true if @key is used in collection.
    */
   public bool has_key (string key) {
-    if (_hashtable.contains (key)) return true;
+    if (_hashtable.has_key (key)) return true;
     return false;
   }
   /**
    * Returns list of keys used in collection.
    */
   public GLib.List<string> get_keys () {
-    return _hashtable.get_keys ();
+    var l = new GLib.List<string> ();
+    foreach (string k in _hashtable.keys) { l.append (k); }
+    return l;
   }
   /**
    * Validates if given element has a {@link GomHashMap.attribute_key} set,
@@ -455,11 +457,11 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.GomCollection {
 #if DEBUG
     message ("Attribute key value: "+key);
 #endif
-    _hashtable.insert (key, index);
+    _hashtable.set (key, index);
     return true;
   }
   public override void clear () {
-    _hashtable = new HashTable<string,int> (str_hash,str_equal);
+    _hashtable = new HashMap<string,int> ();
   }
 }
 
@@ -573,10 +575,10 @@ public class GXml.GomHashPairedMap : GXml.BaseCollection, GXml.GomCollection {
    * Returns an {@link DomElement} in the collection using given string keys.
    */
   public new DomElement? get (string primary_key, string secondary_key) {
-    if (!_hashtable.contains (primary_key)) return null;
+    if (!_hashtable.has_key (primary_key)) return null;
     var ht = _hashtable.get (primary_key);
     if (ht == null) return null;
-    if (!ht.contains (secondary_key)) return null;
+    if (!ht.has_key (secondary_key)) return null;
     var i = ht.get (secondary_key);
     return _element.child_nodes.get (i) as DomElement;
   }
@@ -584,7 +586,7 @@ public class GXml.GomHashPairedMap : GXml.BaseCollection, GXml.GomCollection {
    * Returns true if @key is used in collection as primery key.
    */
   public bool has_primary_key (string key) {
-    if (_hashtable.contains (key)) return true;
+    if (_hashtable.has_key (key)) return true;
     return false;
   }
   /**
@@ -592,10 +594,10 @@ public class GXml.GomHashPairedMap : GXml.BaseCollection, GXml.GomCollection {
    * with @pkey as primary.
    */
   public bool has_secondary_key (string pkey, string key) {
-    if (!(_hashtable.contains (pkey))) return false;
+    if (!(_hashtable.has_key (pkey))) return false;
     var ht = _hashtable.get (pkey);
     if (ht == null) return false;
-    if (ht.contains (key)) return true;
+    if (ht.has_key (key)) return true;
     return false;
   }
   /**
@@ -816,13 +818,13 @@ public class GXml.GomHashThreeMap : GXml.BaseCollection, GXml.GomCollection {
    * Returns an {@link DomElement} in the collection using given string keys.
    */
   public new DomElement? get (string primary_key, string secondary_key, string third_key) {
-    if (!_hashtable.contains (primary_key)) return null;
+    if (!_hashtable.has_key (primary_key)) return null;
     var ht = _hashtable.get (primary_key);
     if (ht == null) return null;
-    if (!ht.contains (secondary_key)) return null;
+    if (!ht.has_key (secondary_key)) return null;
     var hte = ht.get (secondary_key);
     if (hte == null) return null;
-    if (!hte.contains (third_key)) return null;
+    if (!hte.has_key (third_key)) return null;
     var i = hte.get (secondary_key);
     return _element.child_nodes.get (i) as DomElement;
   }
@@ -830,7 +832,7 @@ public class GXml.GomHashThreeMap : GXml.BaseCollection, GXml.GomCollection {
    * Returns true if @key is used in collection as primery key.
    */
   public bool has_primary_key (string key) {
-    if (_hashtable.contains (key)) return true;
+    if (_hashtable.has_key (key)) return true;
     return false;
   }
   /**
@@ -838,10 +840,10 @@ public class GXml.GomHashThreeMap : GXml.BaseCollection, GXml.GomCollection {
    * with @pkey as primary.
    */
   public bool has_secondary_key (string pkey, string key) {
-    if (!(_hashtable.contains (pkey))) return false;
+    if (!(_hashtable.has_key (pkey))) return false;
     var ht = _hashtable.get (pkey);
     if (ht == null) return false;
-    if (ht.contains (key)) return true;
+    if (ht.has_key (key)) return true;
     return false;
   }
   /**
@@ -849,12 +851,12 @@ public class GXml.GomHashThreeMap : GXml.BaseCollection, GXml.GomCollection {
    * and pkey as primary.
    */
   public bool has_third_key (string pkey, string skey, string key) {
-    if (!(_hashtable.contains (pkey))) return false;
+    if (!(_hashtable.has_key (pkey))) return false;
     var ht = _hashtable.get (pkey);
     if (ht == null) return false;
     var hte = ht.get (skey);
     if (hte == null) return false;
-    if (hte.contains (key)) return true;
+    if (hte.has_key (key)) return true;
     return false;
   }
   /**
@@ -872,7 +874,7 @@ public class GXml.GomHashThreeMap : GXml.BaseCollection, GXml.GomCollection {
    */
   public GLib.List<string> get_secondary_keys (string pkey) {
     var l = new GLib.List<string> ();
-    if (!_hashtable.contains (pkey)) return l;
+    if (!_hashtable.has_key (pkey)) return l;
     var ht = _hashtable.get (pkey);
     if (ht == null) return l;
     foreach (string k in ht.keys) {
@@ -886,7 +888,7 @@ public class GXml.GomHashThreeMap : GXml.BaseCollection, GXml.GomCollection {
    */
   public GLib.List<string> get_third_keys (string pkey, string skey) {
     var l = new GLib.List<string> ();
-    if (!_hashtable.contains (pkey)) return l;
+    if (!_hashtable.has_key (pkey)) return l;
     var ht = _hashtable.get (pkey);
     if (ht == null) return l;
     var hte = ht.get (skey);
@@ -938,8 +940,8 @@ public class GXml.GomHashThreeMap : GXml.BaseCollection, GXml.GomCollection {
     if (ht == null) ht = new HashMap<string,HashMap<string,int>> ();
     var hte = ht.get (skey);
     if (hte == null) hte = new HashMap<string,int> ();
-    if (!_hashtable.contains (pkey)) _hashtable.set (pkey, ht);
-    if (!ht.contains (skey)) ht.set (skey, hte);
+    if (!_hashtable.has_key (pkey)) _hashtable.set (pkey, ht);
+    if (!ht.has_key (skey)) ht.set (skey, hte);
     hte.set (tkey, index);
     return true;
   }

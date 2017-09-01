@@ -206,6 +206,7 @@ public interface GXml.Parser : Object {
    */
   public virtual bool read_element_property (DomNode parent,
                                     out DomNode element) throws GLib.Error {
+    element = null;
     if (!(parent is GomObject)) return false;
     foreach (ParamSpec pspec in
               (parent as GomObject).get_property_element_list ()) {
@@ -235,6 +236,7 @@ public interface GXml.Parser : Object {
    */
   public virtual bool add_element_collection (DomNode parent,
                   out DomNode element) throws GLib.Error {
+    element = null;
     if (!(parent is GomObject)) return false;
     foreach (ParamSpec pspec in
               (parent as GomObject).get_property_element_list ()) {
