@@ -70,6 +70,47 @@ class HtmlDocumentTest : GXmlTest {
 				assert_not_reached ();
 			}
 		});
+		Test.add_func ("/gxml/htmldocument/fom_string_doc", () => {
+			try {
+				var sdoc = "<!doctype html>
+<html>
+<head>
+  <style>
+  * { color: red; }
+  </style>
+</head>
+<body>
+  <script type=\"text/javascript\">
+  </script>
+</body>
+</html>
+";
+				var doc = new HtmlDocument.from_string_doc (sdoc);
+				assert (doc.root != null);
+				assert (doc.root.name.down () == "html".down ());
+				var ln = doc.root.get_elements_by_property_value ("type","text/javascript");
+				assert (ln != null);
+				assert (ln.size == 1);
+				var np = ln.item (0);
+				assert (np != null);
+				assert (np.node_name == "script");
+				var l = doc.get_elements_by_tag_name ("style");
+				assert (l != null);
+				assert (l.size == 1);
+				var sn = l.item (0);
+				assert (sn != null);
+				assert (sn.node_name == "style");
+				message (sn.child_nodes.length.to_string ());
+				assert (sn.child_nodes.length == 1);
+				message (doc.to_html ());
+				var s = doc.to_html ();
+				message (s);
+				assert ("style>\n  * { color: red; }\n  </style>" in s);
+			} catch (GLib.Error e){
+				Test.message ("ERROR: "+e.message);
+				assert_not_reached ();
+			}
+		});
 		// Test.add_func ("/gxml/htmldocument/uri", () => {
 		// 	try {
 		// 		var f = GLib.File.new_for_uri ("http://www.omgubuntu.co.uk/2017/05/kde-neon-5-10-available-download-comes-plasma-5-10");

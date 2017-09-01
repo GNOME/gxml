@@ -43,16 +43,52 @@ namespace GXml {
 			this.from_file (File.new_for_uri (uri), options);
 		}
 		
+		/**
+		 * This method parse strings in a {@link GLib.File} using {@link Xml.Html.Doc.read_memory} method.
+		 * Refer to libxml2 documentation about limitations on parsing.
+		 *
+		 * In order to use a different parser, may you want to load in memory your file,
+		 * then create a new {@link HtmlDocument} using a constructor better fitting
+		 * your document content or source.
+		 */
 		public HtmlDocument.from_file (File file, int options = 0, Cancellable? cancel = null) throws GLib.Error {
 			var ostream = new MemoryOutputStream.resizable ();
 			ostream.splice (file.read (), GLib.OutputStreamSpliceFlags.CLOSE_SOURCE, cancel);
 			this.from_string ((string) ostream.data, options);
 		}
-
+		/**
+		 * This method parse strings using {@link Xml.Html.Doc.read_memory} method.
+		 * Refer to libxml2 documentation about limitations on parsing.
+		 */
 		public HtmlDocument.from_string (string html, int options = 0) {
+			base.from_doc (Html.Doc.read_memory ((char[]) html, html.length, "", null, options));
+		}
+		/**
+		 * This method parse strings using {@link Xml.Html.ParserCtxt} class.
+		 * Refer to libxml2 documentation about limitations on parsing.
+		 */
+		public HtmlDocument.from_string_context (string html, int options = 0) {
 			Html.ParserCtxt ctx = new Html.ParserCtxt ();
 			Xml.Doc *doc = ctx.read_memory ((char[]) html, html.length, "", null, options);
 			base.from_doc (doc);
+		}
+		/**
+		 * This method parse strings using {@link Xml.Html.read_doc} method.
+		 * Refer to libxml2 documentation about limitations on parsing.
+		 */
+		public HtmlDocument.from_string_doc (string html, int options = 0) {
+			base.from_doc (Html.Doc.read_doc (html, "", null, options));
+		}
+		/**
+		 * This method dump to HTML string using {@link Xml.Html.dump_memory} method.
+		 * Refer to libxml2 documentation about output.
+		 */
+		public new string to_html () {
+			string buffer;
+			int len = 0;
+			((Html.Doc*) doc)->dump_memory (out buffer, out len);
+			message (len.to_string ());
+			return buffer.dup ();
 		}
 		/**
 		 * Search all {@link GXml.Element} with a property called "class" and with a
