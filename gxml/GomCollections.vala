@@ -277,13 +277,6 @@ public abstract class GXml.BaseCollection : Object {
    * {@inheritDoc}
    */
   public virtual void clear () throws GLib.Error {}
-
-  // Internal for future expansions
-  internal new virtual void reserved0() {}
-  internal new virtual void reserved1() {}
-  internal new virtual void reserved2() {}
-  internal new virtual void reserved3() {}
-  internal new virtual void reserved4() {}
 }
 
 /**
