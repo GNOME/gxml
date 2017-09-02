@@ -58,8 +58,8 @@ public interface GXml.DomParentNode : GLib.Object {
 }
 
 public interface GXml.DomNonDocumentTypeChildNode : GLib.Object {
-  public abstract DomElement? previous_element_sibling { get; }
-  public abstract DomElement? next_element_sibling { get; }
+  public abstract DomElement? previous_element_sibling { owned get; }
+  public abstract DomElement? next_element_sibling { owned get; }
 }
 
 public interface GXml.DomChildNode : GLib.Object {

@@ -41,25 +41,31 @@ public class GXml.GNonDocumentChildNode : GXml.GChildNode,
 
   // DomNonDocumentTypeChildNode
   public DomElement? previous_element_sibling {
-    get {
+    owned get {
       if (parent_node != null) {
         var i = parent_node.child_nodes.index_of (this);
-        if (i == 0) return null;
-        var n = parent_node.child_nodes.item (i - 1);
-        if (n is DomElement) return (DomElement) n;
-        return null;
+        if (i == 0)
+          return null;
+        for (var j = i; j >= 1; j--) {
+          var n = parent_node.child_nodes.item (j - 1);
+          if (n is DomElement)
+			return n as DomElement;
+        }
       }
       return null;
     }
   }
   public DomElement? next_element_sibling {
-    get {
+    owned get {
       if (parent_node != null) {
         var i = parent_node.child_nodes.index_of (this);
-        if (i == parent_node.child_nodes.length - 1) return null;
-        var n = parent_node.child_nodes.item (i + 1);
-        if (n is DomElement) return (DomElement) n;
-        return null;
+        if (i == parent_node.child_nodes.length - 1)
+          return null;
+        for (var j = i; j < parent_node.child_nodes.length - 1; j--) {
+          var n = parent_node.child_nodes.item (j + 1);
+          if (n is DomElement)
+            return (DomElement) n;
+        }
       }
       return null;
     }
