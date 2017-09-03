@@ -23,6 +23,7 @@
  */
 
 using Gee;
+using Xml;
 
 namespace GXml {
 	/**
