@@ -47,6 +47,7 @@ valasources = files ([
 	'DomCharacter.vala',
 	'DomCollections.vala',
 	'DomDocument.vala',
+	'DomHtml.vala',
 	'DomElement.vala',
 	'DomEvents.vala',
 	'DomMutationObservers.vala',
