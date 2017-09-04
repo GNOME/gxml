@@ -309,8 +309,10 @@ class SerializableGeeHashMapTest : GXmlTest
         assert (sc.storage != null);
         assert (sc.storage.size == 5);
         int i = 0;
-        foreach (Space s in sc.storage.values)
+        foreach (Space s in sc.storage.values) {
+          assert (s != null);
           i++;
+        }
         assert (i == 5);
         var s1 = sc.storage.get ("Big");
         assert (s1 != null);

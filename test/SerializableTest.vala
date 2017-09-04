@@ -101,6 +101,7 @@ public class SerializableCapsicum : GXml.SerializableObjectModel {
 	}
 	private void serialize_unknown_property_type (GXml.Node elem, ParamSpec prop, out GXml.Node node)
 	{
+		node = null;
 		try {
 			var element = (GElement) elem;
 			var doc = element.document;

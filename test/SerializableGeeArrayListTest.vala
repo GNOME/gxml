@@ -197,8 +197,10 @@ class SerializableGeeArrayListTest : GXmlTest
         c.deserialize (root);
         assert (c.size == 3);
         int count_elements = 0;
-        foreach (AElement e in c)
+        foreach (AElement e in c) {
+          assert (e != null);
           count_elements++;
+        }
         assert (count_elements == 3);
         string[] s = {"Big","Small","Wall"};
 #if DEBUG

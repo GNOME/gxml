@@ -126,6 +126,7 @@ public class Package : ObjectModel
     source = "Mexico";
     destiny = "World";
     ((Serializable) this).serialize_unknown_property.connect ( (element, prop, out node) => {
+      node = null;
       //GLib.message (@"Serializing Unknown Property: $(prop.name) | $(prop.get_nick ())");
       if (prop.name == "tags")
       {
