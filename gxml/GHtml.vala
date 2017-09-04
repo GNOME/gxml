@@ -45,7 +45,7 @@ namespace GXml {
 		}
 		
 		/**
-		 * This method parse strings in a {@link GLib.File} using {@link Xml.Html.Doc.read_memory} method.
+		 * This method parse strings in a {@link GLib.File} using {@link Html.Doc.read_memory} method.
 		 * Refer to libxml2 documentation about limitations on parsing.
 		 *
 		 * In order to use a different parser, may you want to load in memory your file,
@@ -58,14 +58,14 @@ namespace GXml {
 			this.from_string ((string) ostream.data, options);
 		}
 		/**
-		 * This method parse strings using {@link Xml.Html.Doc.read_memory} method.
+		 * This method parse strings using {@link Html.Doc.read_memory} method.
 		 * Refer to libxml2 documentation about limitations on parsing.
 		 */
 		public HtmlDocument.from_string (string html, int options = 0) {
 			base.from_doc (Html.Doc.read_memory ((char[]) html, html.length, "", null, options));
 		}
 		/**
-		 * This method parse strings using {@link Xml.Html.ParserCtxt} class.
+		 * This method parse strings using {@link Html.ParserCtxt} class.
 		 * Refer to libxml2 documentation about limitations on parsing.
 		 */
 		public HtmlDocument.from_string_context (string html, int options = 0) {
@@ -74,14 +74,14 @@ namespace GXml {
 			base.from_doc (doc);
 		}
 		/**
-		 * This method parse strings using {@link Xml.Html.read_doc} method.
+		 * This method parse strings using {@link Html.Doc.read_doc} method.
 		 * Refer to libxml2 documentation about limitations on parsing.
 		 */
 		public HtmlDocument.from_string_doc (string html, int options = 0) {
 			base.from_doc (Html.Doc.read_doc (html, "", null, options));
 		}
 		/**
-		 * This method dump to HTML string using {@link Xml.Html.dump_memory} method.
+		 * This method dump to HTML string using {@link Html.Doc.dump_memory} method.
 		 * Refer to libxml2 documentation about output.
 		 */
 		public new string to_html () {
