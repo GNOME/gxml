@@ -45,11 +45,11 @@ public class GXml.DomMutationObserverInit : GLib.Object {
 
 public interface GXml.DomMutationRecord : GLib.Object {
   public abstract string mtype { get; }
-  public abstract DomNode target { get; }
-  public abstract DomNodeList added_nodes { get; set; }
-  public abstract DomNodeList removed_nodes { get; set; }
-  public abstract DomNode? previous_sibling { get; }
-  public abstract DomNode? next_sibling { get; }
+  public abstract DomNode target { owned get; }
+  public abstract DomNodeList added_nodes { owned get; set; }
+  public abstract DomNodeList removed_nodes { owned get; set; }
+  public abstract DomNode? previous_sibling { owned get; }
+  public abstract DomNode? next_sibling { owned get; }
   public abstract string? attribute_name { get; }
   public abstract string? attribute_namespace { get; }
   public abstract string? old_value { get; }
