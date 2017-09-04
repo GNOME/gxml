@@ -387,7 +387,7 @@ public class GXml.GImplementation : GLib.Object, GXml.DomImplementation {
                                          throws GLib.Error
   { return new GDocument (); } // FIXME
   public Document create_html_document (string title) {
-    return new HtmlDocument (); // FIXME:
+    return new GHtmlDocument (); // FIXME:
   }
 }
 

@@ -55,7 +55,7 @@ sources = \
 	GDocumentTest.vala \
 	GElementTest.vala \
 	GAttributeTest.vala \
-	HtmlDocumentTest.vala \
+	GHtmlDocumentTest.vala \
 	DomGDocumentTest.vala \
 	XPathTest.vala \
 	GomDocumentTest.vala \

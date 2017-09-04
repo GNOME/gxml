@@ -382,7 +382,7 @@ public class GXml.GomImplementation : GLib.Object, GXml.DomImplementation {
     return d as DomXMLDocument;
   } // FIXME
   public Document create_html_document (string title) {
-    return new HtmlDocument (); // FIXME:
+    return new GHtmlDocument (); // FIXME:
   }
 }
 

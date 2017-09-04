@@ -58,7 +58,7 @@ class GXmlTest {
 		GDocumentTest.add_tests ();
 		GElementTest.add_tests ();
 		GAttributeTest.add_tests ();
-		HtmlDocumentTest.add_tests ();
+		GHtmlDocumentTest.add_tests ();
 		DomGDocumentTest.add_tests ();
 		XPathTest.add_tests ();
 		GomDocumentTest.add_tests ();

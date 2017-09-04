@@ -29,18 +29,18 @@ namespace GXml {
 	/**
    * HML parsing suport. Document handling
    */
-	public class HtmlDocument : GXml.GDocument {
+	public class GHtmlDocument : GXml.GDocument, GXml.DomHtmlDocument {
 		public static int default_options {
 			get {
 				return Html.ParserOption.NONET | Html.ParserOption.NOWARNING | Html.ParserOption.NOERROR | Html.ParserOption.NOBLANKS;
 			}
 		}
 		
-		public HtmlDocument.from_path (string path, int options = 0) throws GLib.Error {
+		public GHtmlDocument.from_path (string path, int options = 0) throws GLib.Error {
 			this.from_file (File.new_for_path (path), options);
 		}
 		
-		public HtmlDocument.from_uri (string uri, int options = 0) throws GLib.Error {
+		public GHtmlDocument.from_uri (string uri, int options = 0) throws GLib.Error {
 			this.from_file (File.new_for_uri (uri), options);
 		}
 		
@@ -49,10 +49,10 @@ namespace GXml {
 		 * Refer to libxml2 documentation about limitations on parsing.
 		 *
 		 * In order to use a different parser, may you want to load in memory your file,
-		 * then create a new {@link HtmlDocument} using a constructor better fitting
+		 * then create a new {@link GHtmlDocument} using a constructor better fitting
 		 * your document content or source.
 		 */
-		public HtmlDocument.from_file (File file, int options = 0, Cancellable? cancel = null) throws GLib.Error {
+		public GHtmlDocument.from_file (File file, int options = 0, Cancellable? cancel = null) throws GLib.Error {
 			var ostream = new MemoryOutputStream.resizable ();
 			ostream.splice (file.read (), GLib.OutputStreamSpliceFlags.CLOSE_SOURCE, cancel);
 			this.from_string ((string) ostream.data, options);
@@ -61,14 +61,14 @@ namespace GXml {
 		 * This method parse strings using {@link Html.Doc.read_memory} method.
 		 * Refer to libxml2 documentation about limitations on parsing.
 		 */
-		public HtmlDocument.from_string (string html, int options = 0) {
+		public GHtmlDocument.from_string (string html, int options = 0) {
 			base.from_doc (Html.Doc.read_memory ((char[]) html, html.length, "", null, options));
 		}
 		/**
 		 * This method parse strings using {@link Html.ParserCtxt} class.
 		 * Refer to libxml2 documentation about limitations on parsing.
 		 */
-		public HtmlDocument.from_string_context (string html, int options = 0) {
+		public GHtmlDocument.from_string_context (string html, int options = 0) {
 			Html.ParserCtxt ctx = new Html.ParserCtxt ();
 			Xml.Doc *doc = ctx.read_memory ((char[]) html, html.length, "", null, options);
 			base.from_doc (doc);
@@ -77,14 +77,19 @@ namespace GXml {
 		 * This method parse strings using {@link Html.Doc.read_doc} method.
 		 * Refer to libxml2 documentation about limitations on parsing.
 		 */
-		public HtmlDocument.from_string_doc (string html, int options = 0) {
+		public GHtmlDocument.from_string_doc (string html, int options = 0) {
 			base.from_doc (Html.Doc.read_doc (html, "", null, options));
 		}
-		/**
-		 * This method dump to HTML string using {@link Html.Doc.dump_memory} method.
-		 * Refer to libxml2 documentation about output.
-		 */
-		public new string to_html () {
+		// DomHtmlDocument implementation
+		public void read_from_string (string str) {
+			this.doc = Html.Doc.read_memory ((char[]) str, str.length, "", null, 0);
+		}
+
+		public void read_from_string_tolerant (string str) throws GLib.Error {
+			Html.ParserCtxt ctx = new Html.ParserCtxt ();
+			this.doc = ctx.read_memory ((char[]) str, str.length, "", null, 0);
+		}
+		public string to_html () throws GLib.Error {
 			string buffer;
 			int len = 0;
 			((Html.Doc*) doc)->dump_memory (out buffer, out len);

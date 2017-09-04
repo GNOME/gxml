@@ -77,6 +77,7 @@ sources = \
 	DomDocument.vala \
 	DomElement.vala \
 	DomEvents.vala \
+	DomHtml.vala \
 	DomMutationObservers.vala \
 	DomNode.vala \
 	DomRange.vala \

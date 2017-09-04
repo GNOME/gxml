@@ -24,11 +24,11 @@
 
 using GXml;
 
-class HtmlDocumentTest : GXmlTest {
+class GHtmlDocumentTest : GXmlTest {
 	public static void add_tests () {
-		Test.add_func ("/gxml/htmldocument/api/element_id", () => {
+		Test.add_func ("/gxml/GHtmlDocument/api/element_id", () => {
 			try {
-				var doc = new HtmlDocument.from_path (GXmlTestConfig.TEST_DIR+"/index.html");
+				var doc = new GHtmlDocument.from_path (GXmlTestConfig.TEST_DIR+"/index.html");
 				Test.message ("Checking root element...");
 				assert (doc.root != null);
 				assert (doc.root.name.down () == "html".down ());
@@ -43,9 +43,9 @@ class HtmlDocumentTest : GXmlTest {
 				assert_not_reached ();
 			}
 		});
-		Test.add_func ("/gxml/htmldocument/api/element_class", () => {
+		Test.add_func ("/gxml/GHtmlDocument/api/element_class", () => {
 			try {
-				var doc = new HtmlDocument.from_path (GXmlTestConfig.TEST_DIR+"/index.html");
+				var doc = new GHtmlDocument.from_path (GXmlTestConfig.TEST_DIR+"/index.html");
 				Test.message ("Checking root element...");
 				assert (doc.root != null);
 				assert (doc.root.name.down () == "html".down ());
@@ -70,7 +70,7 @@ class HtmlDocumentTest : GXmlTest {
 				assert_not_reached ();
 			}
 		});
-		Test.add_func ("/gxml/htmldocument/fom_string_doc", () => {
+		Test.add_func ("/gxml/GHtmlDocument/fom_string_doc", () => {
 				var sdoc = "<!doctype html>
 <html>
 <head>
@@ -84,7 +84,7 @@ class HtmlDocumentTest : GXmlTest {
 </body>
 </html>
 ";
-				var doc = new HtmlDocument.from_string_doc (sdoc);
+				var doc = new GHtmlDocument.from_string_doc (sdoc);
 				assert (doc.root != null);
 				assert (doc.root.name.down () == "html".down ());
 				var ln = doc.root.get_elements_by_property_value ("type","text/javascript");
@@ -106,11 +106,11 @@ class HtmlDocumentTest : GXmlTest {
 				message (s);
 				assert ("style>\n  * { color: red; }\n  </style>" in s);
 		});
-		// Test.add_func ("/gxml/htmldocument/uri", () => {
+		// Test.add_func ("/gxml/GHtmlDocument/uri", () => {
 		// 	try {
 		// 		var f = GLib.File.new_for_uri ("http://www.omgubuntu.co.uk/2017/05/kde-neon-5-10-available-download-comes-plasma-5-10");
 		// 		DomDocument doc;
-		// 		doc = new HtmlDocument.from_uri ("http://www.omgubuntu.co.uk/2017/05/kde-neon-5-10-available-download-comes-plasma-5-10");
+		// 		doc = new GHtmlDocument.from_uri ("http://www.omgubuntu.co.uk/2017/05/kde-neon-5-10-available-download-comes-plasma-5-10");
 		// 		message ((doc as GDocument).to_string ());
 		// 	} catch (GLib.Error e){
 		// 		message ("ERROR: "+e.message);
