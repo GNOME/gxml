@@ -286,5 +286,36 @@ class GomElementTest : GXmlTest  {
 		    assert_not_reached ();
 		  }
 		});
+		Test.add_func ("/gxml/gom-element/previous_element_sibling", () => {
+			try {
+				var doc = new GomDocument.from_string ("<root> <child/> <child/></root>");
+				assert (doc.document_element != null);
+				assert (doc.document_element.parent_node is GXml.DomNode);
+				assert (doc.document_element.parent_node is GXml.DomDocument);
+				assert (doc.document_element.child_nodes[0] != null);
+				assert (doc.document_element.child_nodes[0].parent_node != null);
+				assert (doc.document_element.child_nodes[0].parent_node.node_name == "root");
+				assert (doc.document_element.child_nodes[0] is DomText);
+				assert (doc.document_element.child_nodes[1] != null);
+				assert (doc.document_element.child_nodes[1] is DomElement);
+				assert (doc.document_element.child_nodes[1].node_name == "child");
+				assert ((doc.document_element.child_nodes[1] as DomElement).next_element_sibling != null);
+				assert ((doc.document_element.child_nodes[1] as DomElement).next_element_sibling is DomElement);
+				assert ((doc.document_element.child_nodes[1] as DomElement).next_element_sibling.node_name == "child");
+				assert (doc.document_element.child_nodes[2] != null);
+				assert (doc.document_element.child_nodes[2].parent_node != null);
+				assert (doc.document_element.child_nodes[2].parent_node.node_name == "root");
+				assert (doc.document_element.child_nodes[2] is DomText);
+				assert (doc.document_element.child_nodes[3] != null);
+				assert (doc.document_element.child_nodes[3] is DomElement);
+				assert (doc.document_element.child_nodes[3].node_name == "child");
+				assert ((doc.document_element.child_nodes[3] as DomElement).previous_element_sibling != null);
+				assert ((doc.document_element.child_nodes[3] as DomElement).previous_element_sibling is DomElement);
+				assert ((doc.document_element.child_nodes[3] as DomElement).previous_element_sibling.node_name == "child");
+				} catch (GLib.Error e) {
+					Test.message (e.message);
+					assert_not_reached ();
+				}
+		});
 	}
 }

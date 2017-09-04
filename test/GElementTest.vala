@@ -161,8 +161,8 @@ class GElementTest : GXmlTest  {
 			try {
 				var doc = new GDocument.from_string ("<root> <child/> <child/></root>");
 				assert (doc.document_element != null);
-				assert (doc.document_element.parent_node is GXml.Node);
-				assert (doc.document_element.parent_node is GXml.Document);
+				assert (doc.document_element.parent_node is GXml.DomNode);
+				assert (doc.document_element.parent_node is GXml.DomDocument);
 				assert (doc.document_element.child_nodes[0] != null);
 				assert (doc.document_element.child_nodes[0].parent_node != null);
 				assert (doc.document_element.child_nodes[0].parent_node.node_name == "root");
