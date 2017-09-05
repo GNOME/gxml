@@ -5,6 +5,7 @@ testdirs_dep = declare_dependency (compile_args : [
 
 files_tests = ([
 		'GXmlTest.vala',
+		'CssSelectorTest.vala',
 		'NodeListTest.vala',
 		'ValaLibxml2Test.vala',
 		'EnumerationTest.vala',

@@ -55,7 +55,7 @@ public struct GXml.CssSelectorData {
 	public string value;
 }
 
-public class GXml.CssCssSelectorParser : GLib.Object {
+public class GXml.CssSelectorParser : GLib.Object {
 	Gee.ArrayList<CssSelectorData?> list;
 	
 	construct {

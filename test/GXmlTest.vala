@@ -65,6 +65,7 @@ class GXmlTest {
 		GomElementTest.add_tests ();
 		GomSerializationTest.add_tests ();
 		GomSchemaTest.add_tests ();
+		CssSelectorTest.add_tests ();
 
 				Test.run ();
 

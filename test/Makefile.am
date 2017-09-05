@@ -26,6 +26,7 @@ noinst_PROGRAMS = $(TEST_PROGS)
 TEST_PROGS += gxml_test
 
 sources = \
+        CssSelectorTest.vala \
 	GXmlTest.vala \
 	NodeListTest.vala \
 	ValaLibxml2Test.vala \
