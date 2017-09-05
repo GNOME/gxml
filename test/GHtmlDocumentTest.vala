@@ -71,6 +71,7 @@ class GHtmlDocumentTest : GXmlTest {
 			}
 		});
 		Test.add_func ("/gxml/GHtmlDocument/fom_string_doc", () => {
+			try {
 				var sdoc = "<!doctype html>
 <html>
 <head>
@@ -105,6 +106,10 @@ class GHtmlDocumentTest : GXmlTest {
 				var s = doc.to_html ();
 				message (s);
 				assert ("style>\n  * { color: red; }\n  </style>" in s);
+			} catch (GLib.Error e){
+				Test.message ("ERROR: "+e.message);
+				assert_not_reached ();
+			}
 		});
 		// Test.add_func ("/gxml/GHtmlDocument/uri", () => {
 		// 	try {
