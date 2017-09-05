@@ -2,6 +2,7 @@
 /*
  *
  * Copyright (C) 2017  Yannick Inizan <inizan.yannick@gmail.com>
+ * Copyright (C) 2017  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,8 +19,9 @@
  *
  * Authors:
  *      Yannick Inizan <inizan.yannick@gmail.com>
+ *      Daniel Espinosa <esodan@gmail.com>
  */
-public errordomain GXml.SelectorError {
+public errordomain GXml.CssSelectorError {
 	NULL,
 	ATTRIBUTE,
 	INVALID,
@@ -28,7 +30,7 @@ public errordomain GXml.SelectorError {
 	TYPE
 }
 
-public enum GXml.SelectorType {
+public enum GXml.CssSelectorType {
 	CLASS,
 	ID,
 	ALL,
@@ -47,17 +49,17 @@ public enum GXml.SelectorType {
 	BEFORE
 }
 
-public struct GXml.SelectorData {
-	public SelectorType selector_type;
+public struct GXml.CssSelectorData {
+	public CssSelectorType selector_type;
 	public string data;
 	public string value;
 }
 
-public class GXml.SelectorParser : GLib.Object {
-	Gee.ArrayList<SelectorData?> list;
+public class GXml.CssCssSelectorParser : GLib.Object {
+	Gee.ArrayList<CssSelectorData?> list;
 	
 	construct {
-		list = new Gee.ArrayList<SelectorData?>();
+		list = new Gee.ArrayList<CssSelectorData?>();
 	}
 	
 	void parse_class (string css, ref int position) {
@@ -66,7 +68,7 @@ public class GXml.SelectorParser : GLib.Object {
 		unichar u = 0;
 		while (css.get_next_char (ref position, out u) && (u.isalnum() || u == '-'))
 			sb.append_unichar (u);
-		SelectorData data = { SelectorType.CLASS, sb.str };
+		CssSelectorData data = { CssSelectorType.CLASS, sb.str };
 		list.add (data);
 	}
 	
@@ -76,13 +78,13 @@ public class GXml.SelectorParser : GLib.Object {
 		unichar u = 0;
 		while (css.get_next_char (ref position, out u) && (u.isalnum() || u == '-'))
 			sb.append_unichar (u);
-		SelectorData data = { SelectorType.ID, sb.str };
+		CssSelectorData data = { CssSelectorType.ID, sb.str };
 		list.add (data);
 	}
 	
 	void parse_all (string css, ref int position) {
 		position++;
-		SelectorData data = { SelectorType.ALL, "*" };
+		CssSelectorData data = { CssSelectorType.ALL, "*" };
 		list.add (data);
 	}
 	
@@ -91,7 +93,7 @@ public class GXml.SelectorParser : GLib.Object {
 		unichar u = 0;
 		while (css.get_next_char (ref position, out u) && (u.isalnum() || u == '-'))
 			sb.append_unichar (u);
-		SelectorData data = { SelectorType.ELEMENT, sb.str };
+		CssSelectorData data = { CssSelectorType.ELEMENT, sb.str };
 		list.add (data);
 	}
 	
@@ -103,14 +105,14 @@ public class GXml.SelectorParser : GLib.Object {
 		while (u.isspace())
 			css.get_next_char (ref position, out u);
 		if (!u.isalnum())
-			throw new SelectorError.ATTRIBUTE ("invalid attribute character");
+			throw new CssSelectorError.ATTRIBUTE ("invalid attribute character");
 		sb.append_unichar (u);
 		while (css.get_next_char (ref position, out u) && u.isalnum())
 			sb.append_unichar (u);
 		while (u.isspace())
 			css.get_next_char (ref position, out u);
 		if (u == ']') {
-			SelectorData data = { SelectorType.ATTRIBUTE, sb.str };
+			CssSelectorData data = { CssSelectorType.ATTRIBUTE, sb.str };
 			list.add (data);
 			return;
 		}
@@ -125,21 +127,21 @@ public class GXml.SelectorParser : GLib.Object {
 				css.get_next_char (ref position, out u);
 			}
 			if (!u.isalnum())
-				throw new SelectorError.ATTRIBUTE ("invalid attribute selector character");
+				throw new CssSelectorError.ATTRIBUTE ("invalid attribute selector character");
 			sb1.append_unichar (u);
 			while (css.get_next_char (ref position, out u) && (u.isalnum() || u.isspace()))
 				sb1.append_unichar (u);
 			if (s != 0) {
 				if (u != s)
-					throw new SelectorError.STRING ("invalid end of attribute value");
+					throw new CssSelectorError.STRING ("invalid end of attribute value");
 				css.get_next_char (ref position, out u);
 			}
 			while (u.isspace())
 				css.get_next_char (ref position, out u);
 			if (u != ']')
-				throw new SelectorError.ATTRIBUTE ("invalid end of attribute selector");
-			SelectorData data = {
-				SelectorType.ATTRIBUTE_EQUAL,
+				throw new CssSelectorError.ATTRIBUTE ("invalid end of attribute selector");
+			CssSelectorData data = {
+				CssSelectorType.ATTRIBUTE_EQUAL,
 				sb.str,
 				sb1.str
 			};
@@ -149,20 +151,20 @@ public class GXml.SelectorParser : GLib.Object {
 			return;
 		}
 		StringBuilder sb1 = new StringBuilder();
-		SelectorData data = { SelectorType.ATTRIBUTE, sb.str, "" };
+		CssSelectorData data = { CssSelectorType.ATTRIBUTE, sb.str, "" };
 		if (u == '~')
-			data.selector_type = SelectorType.ATTRIBUTE_CONTAINS;
+			data.selector_type = CssSelectorType.ATTRIBUTE_CONTAINS;
 		else if (u == '*')
-			data.selector_type = SelectorType.ATTRIBUTE_SUBSTRING;
+			data.selector_type = CssSelectorType.ATTRIBUTE_SUBSTRING;
 		else if (u == '|' || u == '^')
-			data.selector_type = SelectorType.ATTRIBUTE_START_WITH;
+			data.selector_type = CssSelectorType.ATTRIBUTE_START_WITH;
 		else if (u == '$')
-			data.selector_type = SelectorType.ATTRIBUTE_END_WITH;
+			data.selector_type = CssSelectorType.ATTRIBUTE_END_WITH;
 		else
-			throw new SelectorError.ATTRIBUTE ("invalid attribute selector character");
+			throw new CssSelectorError.ATTRIBUTE ("invalid attribute selector character");
 		css.get_next_char (ref position, out u);
 		if (u != '=')
-			throw new SelectorError.ATTRIBUTE ("invalid attribute selector character : can't find '=' character");
+			throw new CssSelectorError.ATTRIBUTE ("invalid attribute selector character : can't find '=' character");
 		css.get_next_char (ref position, out u);
 		while (u.isspace())
 			css.get_next_char (ref position, out u);
@@ -172,19 +174,19 @@ public class GXml.SelectorParser : GLib.Object {
 			css.get_next_char (ref position, out u);
 		}
 		if (!u.isalnum())
-			throw new SelectorError.ATTRIBUTE ("invalid attribute selector character 2 (%s)".printf (u.to_string()));
+			throw new CssSelectorError.ATTRIBUTE ("invalid attribute selector character 2 (%s)".printf (u.to_string()));
 		sb1.append_unichar (u);
 		while (css.get_next_char (ref position, out u) && (u.isalnum() || u.isspace()))
 			sb1.append_unichar (u);
 		if (s != 0) {
 			if (u != s)
-				throw new SelectorError.STRING ("invalid end of attribute value");
+				throw new CssSelectorError.STRING ("invalid end of attribute value");
 			css.get_next_char (ref position, out u);
 		}
 		while (u.isspace())
 			css.get_next_char (ref position, out u);
 		if (u != ']')
-			throw new SelectorError.ATTRIBUTE ("invalid end of attribute selector");
+			throw new CssSelectorError.ATTRIBUTE ("invalid end of attribute selector");
 		if (s == 0)
 			data.value = sb1.str.strip();
 		else
@@ -211,16 +213,15 @@ public class GXml.SelectorParser : GLib.Object {
 			"last-of-type"
 		};
 		if (!(sb.str in valid_selectors))
-			throw new SelectorError.INVALID ("invalid pseudo class selector");
-		SelectorData data = { SelectorType.PSEUDO, sb.str };
+			throw new CssSelectorError.INVALID ("invalid pseudo class selector");
+		CssSelectorData data = { CssSelectorType.PSEUDO, sb.str };
 		list.add (data);
 	}
 	
 	public void parse (string query) throws GLib.Error {
 		string css = query.strip();
 		if (css.length == 0)
-			throw new SelectorError.LENGTH ("invalid string length.");
-		bool space = false;
+			throw new CssSelectorError.LENGTH ("invalid string length.");
 		int position = 0;
 		while (position < css.length) {
 			print ("position : %d (%c)\n", position, css[position]);
@@ -238,22 +239,22 @@ public class GXml.SelectorParser : GLib.Object {
 				parse_element (css, ref position);
 			else if (css[position] == ',') {
 				position++;
-				SelectorData data = { SelectorType.AND, "," };
+				CssSelectorData data = { CssSelectorType.AND, "," };
 				list.add (data);
 			}
 			else if (css[position] == '+') {
 				position++;
-				SelectorData data = { SelectorType.AFTER, "+" };
+				CssSelectorData data = { CssSelectorType.AFTER, "+" };
 				list.add (data);
 			}
 			else if (css[position] == '~') {
 				position++;
-				SelectorData data = { SelectorType.BEFORE, "~" };
+				CssSelectorData data = { CssSelectorType.BEFORE, "~" };
 				list.add (data);
 			}
 			else if (css[position] == '>') {
 				position++;
-				SelectorData data = { SelectorType.PARENT, ">" };
+				CssSelectorData data = { CssSelectorType.PARENT, ">" };
 				list.add (data);
 			}
 			else if (css[position].isspace()) {
@@ -262,22 +263,22 @@ public class GXml.SelectorParser : GLib.Object {
 				while (u.isspace())
 					css.get_next_char (ref position, out u);
 				position--;
-				if (list.size > 0 && list[list.size - 1].selector_type != SelectorType.AND && list[list.size - 1].selector_type != SelectorType.PARENT
-					&& list[list.size - 1].selector_type != SelectorType.BEFORE && list[list.size - 1].selector_type != SelectorType.AFTER)
+				if (list.size > 0 && list[list.size - 1].selector_type != CssSelectorType.AND && list[list.size - 1].selector_type != CssSelectorType.PARENT
+					&& list[list.size - 1].selector_type != CssSelectorType.BEFORE && list[list.size - 1].selector_type != CssSelectorType.AFTER)
 				{
-					SelectorData data = { SelectorType.INSIDE, " " };
+					CssSelectorData data = { CssSelectorType.INSIDE, " " };
 					list.add (data);
 				}
 			}
 			else
-				throw new SelectorError.TYPE ("invalid '%c' character.".printf (css[position]));
+				throw new CssSelectorError.TYPE ("invalid '%c' character.".printf (css[position]));
 		}
 		
 		foreach (var data in list)
 			print ("%s\n", data.selector_type.to_string());
 	}
 
-	public Gee.List<SelectorData?> selectors {
+	public Gee.List<CssSelectorData?> selectors {
 		get {
 			return list;
 		}
