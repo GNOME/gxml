@@ -117,7 +117,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 		while (u.isspace())
 			css.get_next_char (ref position, out u);
 		if (!u.isalnum())
-			throw new CssSelectorError.ATTRIBUTE ("invalid attribute character");
+			throw new CssSelectorError.ATTRIBUTE (_("Invalid attribute character"));
 		sb.append_unichar (u);
 		while (css.get_next_char (ref position, out u) && u.isalnum())
 			sb.append_unichar (u);
@@ -139,19 +139,19 @@ public class GXml.CssSelectorParser : GLib.Object {
 				css.get_next_char (ref position, out u);
 			}
 			if (!u.isalnum())
-				throw new CssSelectorError.ATTRIBUTE ("invalid attribute selector character");
+				throw new CssSelectorError.ATTRIBUTE (_("Invalid attribute selector character"));
 			sb1.append_unichar (u);
 			while (css.get_next_char (ref position, out u) && (u.isalnum() || u.isspace()))
 				sb1.append_unichar (u);
 			if (s != 0) {
 				if (u != s)
-					throw new CssSelectorError.STRING ("invalid end of attribute value");
+					throw new CssSelectorError.STRING (_("Invalid end of attribute value"));
 				css.get_next_char (ref position, out u);
 			}
 			while (u.isspace())
 				css.get_next_char (ref position, out u);
 			if (u != ']')
-				throw new CssSelectorError.ATTRIBUTE ("invalid end of attribute selector");
+				throw new CssSelectorError.ATTRIBUTE (_("Invalid end of attribute selector"));
 			CssSelectorData data = {
 				CssSelectorType.ATTRIBUTE_EQUAL,
 				sb.str,
@@ -173,10 +173,10 @@ public class GXml.CssSelectorParser : GLib.Object {
 		else if (u == '$')
 			data.selector_type = CssSelectorType.ATTRIBUTE_END_WITH;
 		else
-			throw new CssSelectorError.ATTRIBUTE ("invalid attribute selector character");
+			throw new CssSelectorError.ATTRIBUTE (_("Invalid attribute selector character"));
 		css.get_next_char (ref position, out u);
 		if (u != '=')
-			throw new CssSelectorError.ATTRIBUTE ("invalid attribute selector character : can't find '=' character");
+			throw new CssSelectorError.ATTRIBUTE (_("Invalid attribute selector character : can't find '=' character"));
 		css.get_next_char (ref position, out u);
 		while (u.isspace())
 			css.get_next_char (ref position, out u);
@@ -186,19 +186,19 @@ public class GXml.CssSelectorParser : GLib.Object {
 			css.get_next_char (ref position, out u);
 		}
 		if (!u.isalnum())
-			throw new CssSelectorError.ATTRIBUTE ("invalid attribute selector character 2 (%s)".printf (u.to_string()));
+			throw new CssSelectorError.ATTRIBUTE (_("Invalid attribute selector character 2 (%s)").printf (u.to_string()));
 		sb1.append_unichar (u);
 		while (css.get_next_char (ref position, out u) && (u.isalnum() || u.isspace()))
 			sb1.append_unichar (u);
 		if (s != 0) {
 			if (u != s)
-				throw new CssSelectorError.STRING ("invalid end of attribute value");
+				throw new CssSelectorError.STRING (_("Invalid end of attribute value"));
 			css.get_next_char (ref position, out u);
 		}
 		while (u.isspace())
 			css.get_next_char (ref position, out u);
 		if (u != ']')
-			throw new CssSelectorError.ATTRIBUTE ("invalid end of attribute selector");
+			throw new CssSelectorError.ATTRIBUTE (_("Invalid end of attribute selector"));
 		if (s == 0)
 			data.value = sb1.str.strip();
 		else
@@ -227,7 +227,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 			"last-of-type"
 		};
 		if (!(sb.str in valid_selectors))
-			throw new CssSelectorError.INVALID ("invalid pseudo class selector");
+			throw new CssSelectorError.INVALID (_("Invalid pseudo class selector"));
 		CssSelectorData data = { CssSelectorType.PSEUDO, sb.str };
 		list.add (data);
 	}
@@ -235,7 +235,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 	public void parse (string query) throws GLib.Error {
 		string css = query.strip();
 		if (css.length == 0)
-			throw new CssSelectorError.LENGTH ("invalid string length.");
+			throw new CssSelectorError.LENGTH (_("Invalid string length."));
 		int position = 0;
 		unichar u = 0;
 		while (position < css.length) {
@@ -268,7 +268,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 							continue;
 						}
 						else
-							throw new CssSelectorError.TYPE ("invalid '%s' character.".printf (css.substring (position, 1)));
+							throw new CssSelectorError.TYPE (_("Invalid '%s' character.").printf (css.substring (position, 1)));
 					}
 				}
 			}
@@ -311,7 +311,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 		foreach (var data in list)
 			message ("%s\n", data.selector_type.to_string());
 	}
-	public bool match (DomElement element) {
+	public bool match (DomElement element) throws GLib.Error {
 		bool is_element = false;
 		for (int i = 0; i < selectors.size; i++) {
 			CssSelectorData s = selectors.get (i);
@@ -336,11 +336,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 				var p = element.get_attribute ("class");
 				if (p == null) return false;
 				var lc = element.class_list;
-				try {
-					if (lc.contains (s.data)) return true;
-				} catch (GLib.Error e) {
-					warning ("Error: "+e.message);
-				}
+				if (lc.contains (s.data)) return true;
 				if (p=="warning") warning ("Not found");
 			}
 		}
