@@ -57,12 +57,20 @@ public struct GXml.CssSelectorData {
 
 public class GXml.CssSelectorParser : GLib.Object {
 	Gee.ArrayList<CssSelectorData?> list;
-	
+
+	public Gee.List<CssSelectorData?> selectors {
+		get {
+			return list;
+		}
+	}
+
 	construct {
 		list = new Gee.ArrayList<CssSelectorData?>();
 	}
-	
+
 	void parse_class (string css, ref int position) {
+		CssSelectorData idata = { CssSelectorType.INSIDE, " " };
+		list.add (idata);
 		position++;
 		StringBuilder sb = new StringBuilder();
 		unichar u = 0;
@@ -71,8 +79,10 @@ public class GXml.CssSelectorParser : GLib.Object {
 		CssSelectorData data = { CssSelectorType.CLASS, sb.str };
 		list.add (data);
 	}
-	
+
 	void parse_id (string css, ref int position) {
+		CssSelectorData idata = { CssSelectorType.INSIDE, " " };
+		list.add (idata);
 		position++;
 		StringBuilder sb = new StringBuilder();
 		unichar u = 0;
@@ -81,13 +91,13 @@ public class GXml.CssSelectorParser : GLib.Object {
 		CssSelectorData data = { CssSelectorType.ID, sb.str };
 		list.add (data);
 	}
-	
+
 	void parse_all (string css, ref int position) {
 		position++;
 		CssSelectorData data = { CssSelectorType.ALL, "*" };
 		list.add (data);
 	}
-	
+
 	void parse_element (string css, ref int position) {
 		StringBuilder sb = new StringBuilder();
 		unichar u = 0;
@@ -95,10 +105,11 @@ public class GXml.CssSelectorParser : GLib.Object {
 			sb.append_unichar (u);
 		CssSelectorData data = { CssSelectorType.ELEMENT, sb.str };
 		list.add (data);
-		css.get_prev_char (ref position, out u);
 	}
-	
+
 	void parse_attribute (string css, ref int position) throws GLib.Error {
+		CssSelectorData idata = { CssSelectorType.INSIDE, " " };
+		list.add (idata);
 		position++;
 		StringBuilder sb = new StringBuilder();
 		unichar u = 0;
@@ -194,8 +205,10 @@ public class GXml.CssSelectorParser : GLib.Object {
 			data.value = sb1.str;
 		list.add (data);
 	}
-	
+
 	void parse_pseudo (string css, ref int position) throws GLib.Error {
+		CssSelectorData idata = { CssSelectorType.INSIDE, " " };
+		list.add (idata);
 		position++;
 		StringBuilder sb = new StringBuilder();
 		unichar u = 0;
@@ -218,77 +231,106 @@ public class GXml.CssSelectorParser : GLib.Object {
 		CssSelectorData data = { CssSelectorType.PSEUDO, sb.str };
 		list.add (data);
 	}
-	
+
 	public void parse (string query) throws GLib.Error {
 		string css = query.strip();
 		if (css.length == 0)
 			throw new CssSelectorError.LENGTH ("invalid string length.");
 		int position = 0;
+		unichar u = 0;
 		while (position < css.length) {
-			message ("position : %d (%s)", position, css.substring (position, 1));
-			if (list.size > 0) {
-				var inside = list.get (list.size-1);
-				if (inside.selector_type == CssSelectorType.INSIDE) {
-					if (css.substring (position, 1) == ".")
-						parse_class (css, ref position);
-					else if (css.substring (position, 1) == "#")
-						parse_id (css, ref position);
-					else if (css.substring (position, 1) == "[") {
-						parse_attribute (css, ref position);
-					}
-					else if (css.substring (position, 1) == ":")
-						parse_pseudo (css, ref position);
-					else if (css.substring (position, 1) == ",") {
-						position++;
-						CssSelectorData data = { CssSelectorType.AND, "," };
-						list.add (data);
-					}
-					else if (css.substring (position, 1) == "+") {
-						position++;
-						CssSelectorData data = { CssSelectorType.AFTER, "+" };
-						list.add (data);
-					}
-					else if (css.substring (position, 1) == "~") {
-						position++;
-						CssSelectorData data = { CssSelectorType.BEFORE, "~" };
-						list.add (data);
-					}
-					else if (css.substring (position, 1) == ">") {
-						position++;
-						CssSelectorData data = { CssSelectorType.PARENT, ">" };
-						list.add (data);
+			message ("position : %d (%s)\n", position, css.substring (position, 1));
+			u = css.get_char (position);
+			if (u.isspace()) {
+				css.get_next_char (ref position, out u);
+				while (u.isspace())
+					css.get_next_char (ref position, out u);
+				position--;
+			}
+			if (selectors.size > 0) {
+			  var ps = selectors.get (selectors.size -1);
+			  if (ps != null) {
+					if (ps.selector_type == CssSelectorType.ELEMENT) {
+						css.get_prev_char (ref position, out u);
+						if (u == '.') {
+							parse_class (css, ref position);
+							continue;
+						}
+						else if (u == '#') {
+							parse_id (css, ref position);
+							continue;
+						}
+						else if (u == '[') {
+							parse_attribute (css, ref position);
+							continue;
+						}
+						else if (u == ':') {
+							parse_pseudo (css, ref position);
+							continue;
+						}
+						else
+							throw new CssSelectorError.TYPE ("invalid '%s' character.".printf (css.substring (position, 1)));
 					}
 				}
 			}
-			else if (css.substring (position, 1) == "*")
+			if (u == '*')
 				parse_all (css, ref position);
-			else if (css.substring (position, 1).get_char (0).isalnum())
+			else if (u.isalnum())
 				parse_element (css, ref position);
-			if (position >= css.length) break;
-			if (css.substring (position, 1).get_char (0).isspace()) {
-			  message ("Skiping Spaces: position : %d (%s)", position, css.substring (position, 1));
-				while (css.substring (position, 1).get_char (0).isspace())
-					position++;
-			}
-		  message ("Next: position : %d (%s)", position, css.substring (position, 1));
-			if (list.size > 0 && list[list.size - 1].selector_type != CssSelectorType.AND && list[list.size - 1].selector_type != CssSelectorType.PARENT
-					&& list[list.size - 1].selector_type != CssSelectorType.BEFORE && list[list.size - 1].selector_type != CssSelectorType.AFTER)
-			{
-		    message ("Inside");
-				CssSelectorData data = { CssSelectorType.INSIDE, " " };
+			else if (u == ',') {
+				position++;
+				CssSelectorData data = { CssSelectorType.AND, "," };
 				list.add (data);
 			}
-//			else
-//				throw new CssSelectorError.TYPE ("invalid '%s' character.".printf (css.substring (position, 1)));
+			else if (u == '+') {
+				position++;
+				CssSelectorData data = { CssSelectorType.AFTER, "+" };
+				list.add (data);
+			}
+			else if (u == '~') {
+				position++;
+				CssSelectorData data = { CssSelectorType.BEFORE, "~" };
+				list.add (data);
+			}
+			else if (u == '>') {
+				position++;
+				CssSelectorData data = { CssSelectorType.PARENT, ">" };
+				list.add (data);
+			}
+//			if (list.size > 0 && list[list.size - 1].selector_type != CssSelectorType.AND && list[list.size - 1].selector_type != CssSelectorType.PARENT
+//				&& list[list.size - 1].selector_type != CssSelectorType.BEFORE && list[list.size - 1].selector_type != CssSelectorType.AFTER
+//				&& list[list.size - 1].selector_type == CssSelectorType.ELEMENT && position < css.length)
+//			{
+//				
+//			}
 		}
 		
 		foreach (var data in list)
-			print ("%s\n", data.selector_type.to_string());
+			message ("%s\n", data.selector_type.to_string());
+	}
+	public bool match (DomElement element) {
+		bool is_element = false;
+		bool is_inside = false;
+		for (int i = 0; i < selectors.size; i++) {
+			CssSelectorData s = selectors.get (i);
+			if (s.selector_type == CssSelectorType.ALL) return true;
+			if (s.selector_type == CssSelectorType.ELEMENT) {
+				if (element.node_name.down () != s.data.down ()) return false;
+				is_element = true;
+				if ((i+1) >= selectors.size) return true;
+				continue;
+			}
+			if (is_element && s.selector_type != CssSelectorType.INSIDE) return true;
+			if (is_element && s.selector_type == CssSelectorType.INSIDE) {
+				is_inside = true;
+				continue;
+			}
+			if (is_element && is_inside && s.selector_type == CssSelectorType.ATTRIBUTE) {
+				var p = element.get_attribute (s.data);
+				if (p != null) return true;
+			}
+		}
+		return false;
 	}
 
-	public Gee.List<CssSelectorData?> selectors {
-		get {
-			return list;
-		}
-	}
 }
