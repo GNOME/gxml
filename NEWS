@@ -1,6 +1,37 @@
 ===============
-Version 0.15.0
+Version 0.15.2
 ===============
+
+* GomElement gains delaying parsing to improve parse time
+* GomDocument and GomElement gain async methods for parsing
+* GomDocument can be converted to string
+* New GomHashTreeMap implementation, allowing to create collections with
+  Gee.TreeMap API
+* XParser can create an InputStream to dump string of the object
+* XParser gains async method for parsing
+* Added infrastructure for CSS Selectors, basic implementation. Added to DOM4
+  implementation classes
+* Improvements to HTML parsing, adding new methods to be used on different
+  sources. Renamed HtmlDocument to GHtmlDocument, implementing a new interface
+  DomHtmlDocument for future expansions of HTML engines
+* Improved HTML to string conversion using DomHtmlDocument.to_html(), actually
+  just GHtmlDocument implements it using libxml2
+* DomNonDocumentTypeChildNode.next/previous_element_sibling converted to owned
+  and fixed on G and Gom implementations
+* Improved Meson build system
+* xlibxml have been deprecated and will be removed in future versions
+* Ported C examples to new API
+* Updated documentation
+* New and updated translations:
+    Added Catalan         by Matej Urbančič <mateju@svn.gnome.org>
+    Updated Indonesian    by Andika Triwidada <atriwidada@gnome.org>
+    Updated Spanish       by Daniel Mustieles <daniel.mustieles@gmail.com>
+    Updated Hungarian     by Balázs Úr <urbalazs@gmail.com>
+    Updated Slovenian     by Matej Urbančič <mateju@svn.gnome.org>
+    Updated Polish        by Piotr Drąg <piotrdrag@gmail.com>
+    Updated Czech         by Marek Černocký <marek@manet.cz>
+    Updated Brazilian     by Rafael Fontenelle <rafaelff@gnome.org>
+    Updated Servian       by Мирослав Николић <miroslavnikolic@rocketmail.com>
 
 
 ===============
