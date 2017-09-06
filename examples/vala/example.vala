@@ -1,32 +1,32 @@
 using GXml;
 
-void create_a_document () {
+void create_a_document () throws GLib.Error {
 	string[] authors = { "John Green", "Jane Austen", "J.D. Salinger" };
 	string[] titles = { "The Fault in Our Stars", "Pride & Prejudice", "Nine Stories" };
 
-	Document doc = new Document ();
-	Element root = doc.create_element ("Bookshelf");
+	DomDocument doc = new GomDocument ();
+	DomElement root = doc.create_element ("Bookshelf");
 	doc.append_child (root);
-	Element owner = doc.create_element ("Owner");
+	DomElement owner = doc.create_element ("Owner");
 	root.append_child (owner);
 	owner.set_attribute ("fullname", "John Green");
 
-	Element books = doc.create_element ("Books");
+	DomElement books = doc.create_element ("Books");
 	root.append_child (books);
 
 	for (int i = 0; i < authors.length; i++) {
-		Element book = doc.create_element ("Book");
+		DomElement book = doc.create_element ("Book");
 		book.set_attribute ("author", authors[i]);
 		book.set_attribute ("title", titles[i]);
 		books.append_child (book);
 	}
 
-	stdout.printf ("create_a_document:\n%s\n", doc.to_string (true, 8));
+	stdout.printf ("create_a_document:\n%s\n", (doc as GomDocument).write_string ());
 }
 
-void create_a_document_from_a_string () {
+void create_a_document_from_a_string () throws GLib.Error {
 	string xml;
-	Document doc;
+	DomDocument doc;
 
 	xml = """<?xml version="1.0"?>
 <Bookshelf>
@@ -38,39 +38,63 @@ void create_a_document_from_a_string () {
 </Books>
 </Bookshelf>""";
 
-	doc = new Document.from_string (xml);
-	stdout.printf ("create_a_document_from_a_string:\n%s\n", doc.to_string (true, 8));
+	doc = new GomDocument.from_string (xml);
+	stdout.printf ("create_a_document_from_a_string:\n%s\n", (doc as GomDocument).write_string ());
 }
 
-void create_a_document_from_a_file () {
-	File f = File.new_for_path ("bookshelf.xml");
-	Cancellable can = new Cancellable ();
-	Document doc;
+void create_a_document_from_a_file (string uri) throws GLib.Error {
+	File f = File.new_for_uri (uri+"/bookshelf2.xml");
+	stdout.printf (uri+"\n");
+	DomDocument doc;
 
-	doc = new Document.from_gfile (f, can);
-	stdout.printf ("create_a_document_from_a_file:\n%s\n", doc.to_string (true, 8));
+	doc = new GomDocument.from_file (f);
+	stdout.printf ("create_a_document_from_a_file:\n%s\n", (doc as GomDocument).write_string ());
 }
 
-void create_a_document_from_a_path () {
-	Document doc;
+void create_a_document_from_a_path (string uri) throws GLib.Error {
+	DomDocument doc;
+	GLib.File f = GLib.File.new_for_uri (uri+"/bookshelf2.xml");
 
-	doc = new Document.from_path ("bookshelf.xml");
-	stdout.printf ("create_a_document_from_a_path:\n%s\n", doc.to_string (true, 8));
+	doc = new GomDocument.from_path (f.get_path ());
+	stdout.printf ("create_a_document_from_a_path:\n%s\n", (doc as GomDocument).write_string ());
 }
 
-void saving_a_document_to_a_path () {
-	Document doc;
+void saving_a_document_to_a_path (string uri) throws GLib.Error {
+	string xml;
+	DomDocument doc;
 
-	doc = new Document.from_path ("bookshelf.xml");
-	doc.save_to_path ("bookshelf2.xml");
+	xml = """<?xml version="1.0"?>
+<Bookshelf>
+<Owner fullname="John Green"/>
+<Books>
+<Book author="John Green" title="The Fault in Our Stars"/>
+<Book author="Jane Austen" title="Pride &amp; Prejudice"/>
+<Book author="J.D. Salinger" title="Nine Stories"/>
+</Books>
+</Bookshelf>""";
+	GLib.File f = GLib.File.new_for_uri (uri+"/bookshelf2.xml");
+	stdout.printf (f.get_path ()+"\n");
+	doc = new GomDocument.from_string (xml);
+	if (f.query_exists ()) f.delete ();
+	(doc as GomDocument).write_file (f);
+	if (!f.query_exists ()) stdout.printf ("Can't save file bookshelf2.xml");
 }
 
 int main (string[] args) {
-	create_a_document ();
-	create_a_document_from_a_string ();
-	create_a_document_from_a_file ();
-	create_a_document_from_a_path ();
-	saving_a_document_to_a_path ();
+	GLib.File ex = GLib.File.new_for_path (args[0]);
+	GLib.File fex = ex.get_parent ();
+	
+	try {
+		create_a_document ();
+		create_a_document_from_a_string ();
+		saving_a_document_to_a_path (fex.get_uri ());
+		create_a_document_from_a_path (fex.get_uri ());
+		create_a_document_from_a_file (fex.get_uri ());
+		GLib.File f = GLib.File.new_for_uri (fex.get_uri ()+"/bookshelf2.xml");
+		if (f.query_exists ()) f.delete ();
+	} catch (GLib.Error e) {
+		warning ("Error: "+e.message);
+	}
 
 	return 0;
 }
