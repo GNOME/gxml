@@ -13,8 +13,8 @@ function create_a_document_from_a_string () {
 <Book author=\"J.D. Salinger\" title=\"Nine Stories\"/>\
 </Books>\
 </Bookshelf>";
-    let doc = GXml.Document.from_string (xml);
-    print ("create_a_document_from_a_string:\n" + doc.to_string (true, 4));
+    let doc = GXml.GomDocument.from_string (xml);
+    print ("create_a_document_from_a_string:\n" + doc.write_string ());
     
 }
 

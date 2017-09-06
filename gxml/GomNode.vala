@@ -312,7 +312,7 @@ public class GXml.GomNode : Object,
     return insert_before (node, null);
   }
   public DomNode replace_child (DomNode node, DomNode child) throws GLib.Error {
-    if (!(node is GXml.GNode))
+    if (!(node is GXml.GomNode))
       throw new DomError.INVALID_NODE_TYPE_ERROR (_("Invalid attempt to add invalid node type"));
     if (child == null || !this.contains (child))
       throw new DomError.NOT_FOUND_ERROR (_("Can't find child node to replace or child have a different parent"));
