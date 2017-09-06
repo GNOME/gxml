@@ -314,8 +314,15 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
   public int child_element_count { get { return children.size; } }
 
   public DomNodeList query_selector_all (string selectors) throws GLib.Error {
-  // FIXME:
-    throw new DomError.SYNTAX_ERROR (_("DomElement query_selector_all is not implemented"));
+    var cs = new CssSelectorParser ();
+    cs.parse (selectors);
+    var l = new GomNodeList ();
+    foreach (GXml.Node e in children_nodes) {
+      if (!(e is DomElement)) continue;
+      if (cs.match (e as DomElement))
+        l.add (e as DomNode);
+    }
+    return l as DomNodeList;
   }
   // XPathContext implementation
   /**
