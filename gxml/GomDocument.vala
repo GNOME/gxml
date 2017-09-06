@@ -345,8 +345,16 @@ public class GXml.GomDocument : GomNode,
   public int child_element_count { get { return child_nodes.size; } }
 
   public DomNodeList query_selector_all (string selectors) throws GLib.Error  {
-    DomNodeList nulllist = null;
-    return nulllist; // FIXME
+    var cs = new CssSelectorParser ();
+    cs.parse (selectors);
+    var l = new GomNodeList ();
+    foreach (DomNode e in child_nodes) {
+      if (!(e is DomElement)) continue;
+      if (cs.match (e as DomElement))
+        l.add (e);
+      l.add_all ((e as DomElement).query_selector_all (selectors));
+    }
+    return l;
   }
   // DomNonElementParentNode
   public DomElement? get_element_by_id (string element_id) throws GLib.Error {

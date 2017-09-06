@@ -239,7 +239,6 @@ public class GXml.CssSelectorParser : GLib.Object {
 		int position = 0;
 		unichar u = 0;
 		while (position < css.length) {
-			message ("position : %d (%s)\n", position, css.substring (position, 1));
 			u = css.get_char (position);
 			if (u.isspace()) {
 				css.get_next_char (ref position, out u);
@@ -336,9 +335,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 			if (s.selector_type == CssSelectorType.CLASS) {
 				var p = element.get_attribute ("class");
 				if (p == null) return false;
-				message (p+": "+s.data);
 				var lc = element.class_list;
-				message (lc.length.to_string ());
 				try {
 					if (lc.contains (s.data)) return true;
 				} catch (GLib.Error e) {
