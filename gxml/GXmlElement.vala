@@ -321,6 +321,7 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
       if (!(e is DomElement)) continue;
       if (cs.match (e as DomElement))
         l.add (e as DomNode);
+      l.add_all ((e as DomElement).query_selector_all (selectors));
     }
     return l as DomNodeList;
   }

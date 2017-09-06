@@ -270,10 +270,9 @@ public class GXml.GomElement : GomNode,
     var l = new GomNodeList ();
     foreach (DomNode e in child_nodes) {
       if (!(e is DomElement)) continue;
-      if (cs.match (e as DomElement)) {
+      if (cs.match (e as DomElement))
         l.add (e);
-        l.add_all ((e as DomElement).query_selector_all (selectors));
-      }
+      l.add_all ((e as DomElement).query_selector_all (selectors));
     }
     return l;
   }

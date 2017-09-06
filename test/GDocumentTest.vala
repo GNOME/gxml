@@ -345,5 +345,66 @@ class GDocumentTest : GXmlTest {
 			var doc = new GDocument ();
 			assert (doc.parent == null);
 		});
+		Test.add_func ("/gxml/gdocument/css-selector", () => {
+			try {
+				var d = new GDocument () as DomDocument;
+				var r = d.create_element ("root");
+				d.append_child (r);
+				var c1 = d.create_element ("child");
+				c1.set_attribute ("class", "error");
+				r.append_child (c1);
+				var c2 = d.create_element ("child");
+				c2.set_attribute ("class", "warning");
+				r.append_child (c2);
+				var c3 = d.create_element ("child");
+				c3.set_attribute ("class", "error warning");
+				r.append_child (c3);
+				var c4 = d.create_element ("child");
+				c4.set_attribute ("class", "error calc");
+				r.append_child (c4);
+				var c5 = d.create_element ("child");
+				r.append_child (c5);
+				var c51 = d.create_element ("child");
+				c5.append_child (c51);
+				var n1 = d.query_selector ("child");
+				assert (n1 != null);
+				assert (n1.get_attribute ("class") == "error");
+				var n2 = d.query_selector ("child.warning");
+				assert (n2 != null);
+				assert (n2.get_attribute ("class") == "warning");
+				var n3 = d.query_selector ("child[class]");
+				assert (n3 != null);
+				assert (n3.get_attribute ("class") == "error");
+				var n4 = d.query_selector ("child[class=\"error calc\"]");
+				assert (n4 != null);
+				assert (n4.get_attribute ("class") == "error calc");
+				var l1 = d.query_selector_all ("child");
+				assert (l1 != null);
+				message (l1.length.to_string ());
+				assert (l1.length == 6);
+				assert (l1.item (4).node_name == "child");
+				var l2 = d.query_selector_all ("child[class]");
+				assert (l2 != null);
+				assert (l2.length == 4);
+				assert (l2.item (3).node_name == "child");
+				var l3 = d.query_selector_all ("child[class=\"error\"]");
+				assert (l3 != null);
+				assert (l3.length == 1);
+				assert (l3.item (0).node_name == "child");
+				var c6 = d.create_element ("child");
+				c6.set_attribute ("prop", "val1");
+				r.append_child (c6);
+				var c7 = d.create_element ("child");
+				c7.set_attribute ("prop", "val1");
+				r.append_child (c7);
+				var l4 = d.query_selector_all ("child[prop=\"val1\"]");
+				assert (l4 != null);
+				assert (l4.length == 2);
+				assert (l4.item (0).node_name == "child");
+			} catch (GLib.Error e) {
+		    GLib.message ("Error: "+e.message);
+		    assert_not_reached ();
+		  }
+		});
 	}
 }
