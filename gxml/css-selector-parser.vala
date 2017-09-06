@@ -1,4 +1,4 @@
-/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 0; tab-width: 2 -*- */
+/* -*- Mode: vala; indent-tabs-mode: tab; c-basic-offset: 0; tab-width: 2 -*- */
 /*
  *
  * Copyright (C) 2017  Yannick Inizan <inizan.yannick@gmail.com>
@@ -275,6 +275,10 @@ public class GXml.CssSelectorParser : GLib.Object {
 			}
 			if (u == '*')
 				parse_all (css, ref position);
+			else if (u == '.') {
+				parse_class (css, ref position);
+				continue;
+			}
 			else if (u.isalnum())
 				parse_element (css, ref position);
 			else if (u == ',') {
@@ -328,6 +332,20 @@ public class GXml.CssSelectorParser : GLib.Object {
 				var p = element.get_attribute (s.data);
 				if (p == null) return false;
 				if (p == s.value) return true;
+			}
+			if (s.selector_type == CssSelectorType.CLASS) {
+				var p = element.get_attribute ("class");
+				if (p == null) return false;
+				message (p+": "+s.data);
+				var lc = element.class_list;
+				message (lc.length.to_string ());
+				for (int k = 0; k < lc.length; k++) {
+					var cl = lc.item (k);
+					if (cl == null) continue;
+					if (cl.down () == s.data.down ()) return true;
+				}
+				if (lc.contains (s.data)) return true;
+				if (p=="warning") warning ("Not found");
 			}
 		}
 		return false;

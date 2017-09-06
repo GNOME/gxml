@@ -43,6 +43,8 @@ public class GXml.GDomTokenList : Gee.ArrayList<string>, GXml.DomTokenList {
         for (int i = 0; i < s.length; i++) {
           (this as Gee.ArrayList<string>).add (s[i]);
         }
+      } else {
+        (this as Gee.ArrayList<string>).add (av);
       }
     }
   }
