@@ -30,3 +30,4 @@ gxml/Serializable.vala
 gxml/TDocument.vala
 gxml/XParser.vala
 gxml/GomSchema.vala
+gxml/CssSelectorParser.vala

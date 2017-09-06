@@ -30,6 +30,7 @@ gxml/SerializableProperty.c
 gxml/TDocument.c
 gxml/XParser.c
 gxml/GomSchema.c
+gxml/CssSelectorParser.c
 sub/gxml/Document.c
 sub/gxml/DomCharacter.c
 sub/gxml/DomNode.c
@@ -60,3 +61,4 @@ sub/gxml/SerializableProperty.c
 sub/gxml/TDocument.c
 sub/gxml/XParser.c
 sub/gxml/GomSchema.c
+sub/gxml/CssSelectorParser.c

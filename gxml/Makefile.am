@@ -12,7 +12,7 @@ BUILT_SOURCES=
 
 # Vala source code
 sources = \
-        css-selector-parser.vala \
+	CssSelectorParser.vala \
 	gxml-init.vala \
 	namespace-info.vala \
 	Attribute.vala \
