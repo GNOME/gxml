@@ -31,7 +31,9 @@ public interface GXml.DomParentNode : GLib.Object {
   public abstract DomElement? last_element_child { owned get; }
   public abstract int child_element_count { get; }
 
-  public abstract DomElement? query_selector (string selectors) throws GLib.Error;
+  public virtual DomElement? query_selector (string selectors) throws GLib.Error {
+    return query_selector_all (selectors).item (0) as DomElement;
+  }
   public abstract DomNodeList query_selector_all (string selectors) throws GLib.Error;
   /**
    * Search all child {@link GXml.Element} with a given property's name and with

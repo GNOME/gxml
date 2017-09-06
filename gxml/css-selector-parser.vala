@@ -339,12 +339,11 @@ public class GXml.CssSelectorParser : GLib.Object {
 				message (p+": "+s.data);
 				var lc = element.class_list;
 				message (lc.length.to_string ());
-				for (int k = 0; k < lc.length; k++) {
-					var cl = lc.item (k);
-					if (cl == null) continue;
-					if (cl.down () == s.data.down ()) return true;
+				try {
+					if (lc.contains (s.data)) return true;
+				} catch (GLib.Error e) {
+					warning ("Error: "+e.message);
 				}
-				if (lc.contains (s.data)) return true;
 				if (p=="warning") warning ("Not found");
 			}
 		}

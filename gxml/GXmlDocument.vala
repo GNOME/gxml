@@ -346,9 +346,6 @@ public class GXml.GDocument : GXml.GNode,
   }
   public int child_element_count { get { return children_nodes.size; } }
 
-  public DomElement? query_selector (string selectors) throws GLib.Error {
-    return null; // FIXME
-  }
   public DomNodeList query_selector_all (string selectors) throws GLib.Error  {
     DomNodeList nulllist = null;
     return nulllist; // FIXME

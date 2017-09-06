@@ -313,10 +313,6 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
   public DomElement? last_element_child { owned get { return (DomElement) children.last (); } }
   public int child_element_count { get { return children.size; } }
 
-  public DomElement? query_selector (string selectors) throws GLib.Error {
-  // FIXME:
-    throw new DomError.SYNTAX_ERROR (_("DomElement query_selector is not implemented"));
-  }
   public DomNodeList query_selector_all (string selectors) throws GLib.Error {
   // FIXME:
     throw new DomError.SYNTAX_ERROR (_("DomElement query_selector_all is not implemented"));
