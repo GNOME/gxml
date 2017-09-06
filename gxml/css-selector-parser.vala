@@ -310,22 +310,17 @@ public class GXml.CssSelectorParser : GLib.Object {
 	}
 	public bool match (DomElement element) {
 		bool is_element = false;
-		bool is_inside = false;
 		for (int i = 0; i < selectors.size; i++) {
 			CssSelectorData s = selectors.get (i);
 			if (s.selector_type == CssSelectorType.ALL) return true;
+			if (s.selector_type == CssSelectorType.INSIDE) continue;
 			if (s.selector_type == CssSelectorType.ELEMENT) {
 				if (element.node_name.down () != s.data.down ()) return false;
 				is_element = true;
 				if ((i+1) >= selectors.size) return true;
 				continue;
 			}
-			if (is_element && s.selector_type != CssSelectorType.INSIDE) return true;
-			if (is_element && s.selector_type == CssSelectorType.INSIDE) {
-				is_inside = true;
-				continue;
-			}
-			if (is_element && is_inside && s.selector_type == CssSelectorType.ATTRIBUTE) {
+			if (is_element && s.selector_type == CssSelectorType.ATTRIBUTE) {
 				var p = element.get_attribute (s.data);
 				if (p != null) return true;
 			}
