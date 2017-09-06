@@ -95,6 +95,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 			sb.append_unichar (u);
 		CssSelectorData data = { CssSelectorType.ELEMENT, sb.str };
 		list.add (data);
+		css.get_prev_char (ref position, out u);
 	}
 	
 	void parse_attribute (string css, ref int position) throws GLib.Error {
@@ -224,54 +225,61 @@ public class GXml.CssSelectorParser : GLib.Object {
 			throw new CssSelectorError.LENGTH ("invalid string length.");
 		int position = 0;
 		while (position < css.length) {
-			print ("position : %d (%c)\n", position, css[position]);
-			if (css[position] == '.')
-				parse_class (css, ref position);
-			else if (css[position] == '#')
-				parse_id (css, ref position);
-			else if (css[position] == '*')
-				parse_all (css, ref position);
-			else if (css[position] == '[')
-				parse_attribute (css, ref position);
-			else if (css[position] == ':')
-				parse_pseudo (css, ref position);
-			else if (css[position].isalnum())
-				parse_element (css, ref position);
-			else if (css[position] == ',') {
-				position++;
-				CssSelectorData data = { CssSelectorType.AND, "," };
-				list.add (data);
-			}
-			else if (css[position] == '+') {
-				position++;
-				CssSelectorData data = { CssSelectorType.AFTER, "+" };
-				list.add (data);
-			}
-			else if (css[position] == '~') {
-				position++;
-				CssSelectorData data = { CssSelectorType.BEFORE, "~" };
-				list.add (data);
-			}
-			else if (css[position] == '>') {
-				position++;
-				CssSelectorData data = { CssSelectorType.PARENT, ">" };
-				list.add (data);
-			}
-			else if (css[position].isspace()) {
-				unichar u = 0;
-				css.get_next_char (ref position, out u);
-				while (u.isspace())
-					css.get_next_char (ref position, out u);
-				position--;
-				if (list.size > 0 && list[list.size - 1].selector_type != CssSelectorType.AND && list[list.size - 1].selector_type != CssSelectorType.PARENT
-					&& list[list.size - 1].selector_type != CssSelectorType.BEFORE && list[list.size - 1].selector_type != CssSelectorType.AFTER)
-				{
-					CssSelectorData data = { CssSelectorType.INSIDE, " " };
-					list.add (data);
+			message ("position : %d (%s)", position, css.substring (position, 1));
+			if (list.size > 0) {
+				var inside = list.get (list.size-1);
+				if (inside.selector_type == CssSelectorType.INSIDE) {
+					if (css.substring (position, 1) == ".")
+						parse_class (css, ref position);
+					else if (css.substring (position, 1) == "#")
+						parse_id (css, ref position);
+					else if (css.substring (position, 1) == "[") {
+						parse_attribute (css, ref position);
+					}
+					else if (css.substring (position, 1) == ":")
+						parse_pseudo (css, ref position);
+					else if (css.substring (position, 1) == ",") {
+						position++;
+						CssSelectorData data = { CssSelectorType.AND, "," };
+						list.add (data);
+					}
+					else if (css.substring (position, 1) == "+") {
+						position++;
+						CssSelectorData data = { CssSelectorType.AFTER, "+" };
+						list.add (data);
+					}
+					else if (css.substring (position, 1) == "~") {
+						position++;
+						CssSelectorData data = { CssSelectorType.BEFORE, "~" };
+						list.add (data);
+					}
+					else if (css.substring (position, 1) == ">") {
+						position++;
+						CssSelectorData data = { CssSelectorType.PARENT, ">" };
+						list.add (data);
+					}
 				}
 			}
-			else
-				throw new CssSelectorError.TYPE ("invalid '%c' character.".printf (css[position]));
+			else if (css.substring (position, 1) == "*")
+				parse_all (css, ref position);
+			else if (css.substring (position, 1).get_char (0).isalnum())
+				parse_element (css, ref position);
+			if (position >= css.length) break;
+			if (css.substring (position, 1).get_char (0).isspace()) {
+			  message ("Skiping Spaces: position : %d (%s)", position, css.substring (position, 1));
+				while (css.substring (position, 1).get_char (0).isspace())
+					position++;
+			}
+		  message ("Next: position : %d (%s)", position, css.substring (position, 1));
+			if (list.size > 0 && list[list.size - 1].selector_type != CssSelectorType.AND && list[list.size - 1].selector_type != CssSelectorType.PARENT
+					&& list[list.size - 1].selector_type != CssSelectorType.BEFORE && list[list.size - 1].selector_type != CssSelectorType.AFTER)
+			{
+		    message ("Inside");
+				CssSelectorData data = { CssSelectorType.INSIDE, " " };
+				list.add (data);
+			}
+//			else
+//				throw new CssSelectorError.TYPE ("invalid '%s' character.".printf (css.substring (position, 1)));
 		}
 		
 		foreach (var data in list)
