@@ -366,6 +366,18 @@ public class GXml.CssSelectorParser : GLib.Object {
 									!= (element.owner_document.document_element as GNode).get_internal_node ()) return false;
 					if (element.node_name.down () == element.owner_document.document_element.node_name.down ()) return true;
 				}
+				if (s.data.down () == "checked") {
+					if (!(element.owner_document is DomHtmlDocument)) return false;
+					// FIXME: check for tags UI allowed to have this state you can use E[checked="true"] instead
+				}
+				if (s.data.down () == "enable") {
+					if (!(element.owner_document is DomHtmlDocument)) return false;
+					// FIXME: check for tags UI allowed to have this state you can use E[enable="true"] instead
+				}
+				if (s.data.down () == "disabled") {
+					if (!(element.owner_document is DomHtmlDocument)) return false;
+					// FIXME: check for tags UI allowed to have this state you can use E[disable="true"] instead
+				}
 			}
 			if (s.selector_type == CssSelectorType.CLASS) {
 				var p = element.get_attribute ("class");
