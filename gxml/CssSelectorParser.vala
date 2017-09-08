@@ -343,6 +343,11 @@ public class GXml.CssSelectorParser : GLib.Object {
 				if (p == null) return false;
 				if (p.has_prefix (s.value)) return true;
 			}
+			if (is_element && s.selector_type == CssSelectorType.ATTRIBUTE_END_WITH) {
+				var p = element.get_attribute (s.data);
+				if (p == null) return false;
+				if (p.has_suffix (s.value)) return true;
+			}
 			if (s.selector_type == CssSelectorType.CLASS) {
 				var p = element.get_attribute ("class");
 				if (p == null) return false;
