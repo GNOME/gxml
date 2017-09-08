@@ -48,11 +48,15 @@ public enum GXml.CssSelectorType {
 	AFTER,
 	BEFORE
 }
-
-public struct GXml.CssSelectorData {
-	public CssSelectorType selector_type;
-	public string data;
-	public string value;
+public class GXml.CssSelectorData : GLib.Object {
+	public CssSelectorType selector_type { get; set; default = CssSelectorType.ALL; }
+	public string data { get; set; default = ""; }
+	public string value { get; set; default = ""; }
+	public CssSelectorData.with_values (CssSelectorType t, string data, string val) {
+		selector_type = t;
+		this.data = data;
+		value = val;
+	}
 }
 
 public class GXml.CssSelectorParser : GLib.Object {
@@ -69,32 +73,32 @@ public class GXml.CssSelectorParser : GLib.Object {
 	}
 
 	void parse_class (string css, ref int position) {
-		CssSelectorData idata = { CssSelectorType.INSIDE, " " };
+		CssSelectorData idata = new CssSelectorData.with_values (CssSelectorType.INSIDE, "", "");
 		list.add (idata);
 		position++;
 		StringBuilder sb = new StringBuilder();
 		unichar u = 0;
 		while (css.get_next_char (ref position, out u) && (u.isalnum() || u == '-'))
 			sb.append_unichar (u);
-		CssSelectorData data = { CssSelectorType.CLASS, sb.str };
+		CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.CLASS, sb.str, "");
 		list.add (data);
 	}
 
 	void parse_id (string css, ref int position) {
-		CssSelectorData idata = { CssSelectorType.INSIDE, " " };
+		CssSelectorData idata = new CssSelectorData.with_values (CssSelectorType.INSIDE, "", "");
 		list.add (idata);
 		position++;
 		StringBuilder sb = new StringBuilder();
 		unichar u = 0;
 		while (css.get_next_char (ref position, out u) && (u.isalnum() || u == '-'))
 			sb.append_unichar (u);
-		CssSelectorData data = { CssSelectorType.ID, sb.str };
+		CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.ID, sb.str, "");
 		list.add (data);
 	}
 
 	void parse_all (string css, ref int position) {
 		position++;
-		CssSelectorData data = { CssSelectorType.ALL, "*" };
+		CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.ALL, "*", "");
 		list.add (data);
 	}
 
@@ -103,12 +107,12 @@ public class GXml.CssSelectorParser : GLib.Object {
 		unichar u = 0;
 		while (css.get_next_char (ref position, out u) && (u.isalnum() || u == '-'))
 			sb.append_unichar (u);
-		CssSelectorData data = { CssSelectorType.ELEMENT, sb.str };
+		CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.ELEMENT, sb.str, "");
 		list.add (data);
 	}
 
 	void parse_attribute (string css, ref int position) throws GLib.Error {
-		CssSelectorData idata = { CssSelectorType.INSIDE, " " };
+		CssSelectorData idata = new CssSelectorData.with_values (CssSelectorType.INSIDE, "", "");
 		list.add (idata);
 		position++;
 		StringBuilder sb = new StringBuilder();
@@ -124,7 +128,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 		while (u.isspace())
 			css.get_next_char (ref position, out u);
 		if (u == ']') {
-			CssSelectorData data = { CssSelectorType.ATTRIBUTE, sb.str };
+			CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.ATTRIBUTE, sb.str, "");
 			list.add (data);
 			return;
 		}
@@ -152,18 +156,14 @@ public class GXml.CssSelectorParser : GLib.Object {
 				css.get_next_char (ref position, out u);
 			if (u != ']')
 				throw new CssSelectorError.ATTRIBUTE (_("Invalid end of attribute selector"));
-			CssSelectorData data = {
-				CssSelectorType.ATTRIBUTE_EQUAL,
-				sb.str,
-				sb1.str
-			};
+			CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.ATTRIBUTE_EQUAL, sb.str, sb1.str);
 			if (s == 0)
 				data.value = sb1.str.strip();
 			list.add (data);
 			return;
 		}
 		StringBuilder sb1 = new StringBuilder();
-		CssSelectorData data = { CssSelectorType.ATTRIBUTE, sb.str, "" };
+		CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.ATTRIBUTE, sb.str, "");
 		if (u == '~')
 			data.selector_type = CssSelectorType.ATTRIBUTE_CONTAINS;
 		else if (u == '*')
@@ -207,7 +207,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 	}
 
 	void parse_pseudo (string css, ref int position) throws GLib.Error {
-		CssSelectorData idata = { CssSelectorType.INSIDE, " " };
+		CssSelectorData idata = new CssSelectorData.with_values (CssSelectorType.INSIDE, "", "");
 		list.add (idata);
 		position++;
 		StringBuilder sb = new StringBuilder();
@@ -228,7 +228,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 		};
 		if (!(sb.str in valid_selectors))
 			throw new CssSelectorError.INVALID (_("Invalid pseudo class selector"));
-		CssSelectorData data = { CssSelectorType.PSEUDO, sb.str };
+		CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.PSEUDO, sb.str, "");
 		list.add (data);
 	}
 
@@ -282,22 +282,22 @@ public class GXml.CssSelectorParser : GLib.Object {
 				parse_element (css, ref position);
 			else if (u == ',') {
 				position++;
-				CssSelectorData data = { CssSelectorType.AND, "," };
+				CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.AND, ",", "");
 				list.add (data);
 			}
 			else if (u == '+') {
 				position++;
-				CssSelectorData data = { CssSelectorType.AFTER, "+" };
+				CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.AFTER, "+", "");
 				list.add (data);
 			}
 			else if (u == '~') {
 				position++;
-				CssSelectorData data = { CssSelectorType.BEFORE, "~" };
+				CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.BEFORE, "~", "");
 				list.add (data);
 			}
 			else if (u == '>') {
 				position++;
-				CssSelectorData data = { CssSelectorType.PARENT, ">" };
+				CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.PARENT, ">", "");
 				list.add (data);
 			}
 //			if (list.size > 0 && list[list.size - 1].selector_type != CssSelectorType.AND && list[list.size - 1].selector_type != CssSelectorType.PARENT
