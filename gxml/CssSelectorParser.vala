@@ -40,6 +40,7 @@ public enum GXml.CssSelectorType {
 	ATTRIBUTE_CONTAINS,
 	ATTRIBUTE_SUBSTRING,
 	ATTRIBUTE_START_WITH,
+	ATTRIBUTE_START_WITH_HYPHEN,
 	ATTRIBUTE_END_WITH,
 	PSEUDO,
 	AND,
@@ -168,8 +169,10 @@ public class GXml.CssSelectorParser : GLib.Object {
 			data.selector_type = CssSelectorType.ATTRIBUTE_CONTAINS;
 		else if (u == '*')
 			data.selector_type = CssSelectorType.ATTRIBUTE_SUBSTRING;
-		else if (u == '|' || u == '^')
+		else if (u == '^')
 			data.selector_type = CssSelectorType.ATTRIBUTE_START_WITH;
+		else if (u == '|')
+			data.selector_type = CssSelectorType.ATTRIBUTE_START_WITH_HYPHEN;
 		else if (u == '$')
 			data.selector_type = CssSelectorType.ATTRIBUTE_END_WITH;
 		else
@@ -347,6 +350,11 @@ public class GXml.CssSelectorParser : GLib.Object {
 				var p = element.get_attribute (s.data);
 				if (p == null) return false;
 				if (p.has_suffix (s.value)) return true;
+			}
+			if (is_element && s.selector_type == CssSelectorType.ATTRIBUTE_START_WITH_HYPHEN) {
+				var p = element.get_attribute (s.data);
+				if (p == null) return false;
+				if (p.has_suffix (s.value+"-")) return true;
 			}
 			if (s.selector_type == CssSelectorType.CLASS) {
 				var p = element.get_attribute ("class");
