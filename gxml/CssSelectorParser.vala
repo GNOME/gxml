@@ -390,6 +390,15 @@ public class GXml.CssSelectorParser : GLib.Object {
 						if ((element as GNode).get_internal_node () 
 									== ((element.parent_node as DomParentNode).first_element_child as GNode).get_internal_node ()) return true;
 				}
+				if (s.data.down () == "last-child") {
+					if (element.parent_node == null) return false;
+					if (!(element.parent_node is DomElement)) return false;
+					if (element is GomElement)
+						if (element == (element.parent_node as DomParentNode).last_element_child) return true;
+					if (element is GElement)
+						if ((element as GNode).get_internal_node () 
+									== ((element.parent_node as DomParentNode).last_element_child as GNode).get_internal_node ()) return true;
+				}
 			}
 			if (s.selector_type == CssSelectorType.CLASS) {
 				var p = element.get_attribute ("class");
