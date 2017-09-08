@@ -332,6 +332,12 @@ public class GXml.CssSelectorParser : GLib.Object {
 				if (p == null) return false;
 				if (p == s.value) return true;
 			}
+			if (is_element && s.selector_type == CssSelectorType.ATTRIBUTE_CONTAINS) {
+				var p = element.get_attribute (s.data);
+				if (p == null) return false;
+				var tl = new GDomTokenList (element, s.data);
+				if (tl.contains (s.value)) return true;
+			}
 			if (s.selector_type == CssSelectorType.CLASS) {
 				var p = element.get_attribute ("class");
 				if (p == null) return false;
