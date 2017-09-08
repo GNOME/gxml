@@ -218,6 +218,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 		while (css.get_next_char (ref position, out u) && (u.isalnum() || u == '-' || u == ':'))
 			sb.append_unichar (u);
 		string[] valid_selectors = {
+			"root",
 			"checked",
 			"disabled",
 			"empty",
@@ -230,7 +231,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 			"last-of-type"
 		};
 		if (!(sb.str in valid_selectors))
-			throw new CssSelectorError.INVALID (_("Invalid pseudo class selector"));
+			throw new CssSelectorError.INVALID (_("Invalid pseudo class selector %s").printf (sb.str));
 		CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.PSEUDO, sb.str, "");
 		list.add (data);
 	}
@@ -355,6 +356,16 @@ public class GXml.CssSelectorParser : GLib.Object {
 				var p = element.get_attribute (s.data);
 				if (p == null) return false;
 				if (p.has_suffix (s.value+"-")) return true;
+			}
+			if (is_element && s.selector_type == CssSelectorType.PSEUDO) {
+				if (s.data.down () == "root") {
+					if (element is GomElement)
+						if (element != element.owner_document.document_element) return false;
+					if (element is GElement)
+						if ((element as GNode).get_internal_node () 
+									!= (element.owner_document.document_element as GNode).get_internal_node ()) return false;
+					if (element.node_name.down () == element.owner_document.document_element.node_name.down ()) return true;
+				}
 			}
 			if (s.selector_type == CssSelectorType.CLASS) {
 				var p = element.get_attribute ("class");

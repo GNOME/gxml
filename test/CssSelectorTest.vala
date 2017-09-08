@@ -374,5 +374,64 @@ class CssSelectorTest : GXmlTest {
 				warning ("ERROR: "+e.message);
 			}
 		});
+		Test.add_func ("/gxml/css-selector/element/pseudo/root", () => {
+			try {
+				var cp = new CssSelectorParser ();
+				cp.parse ("toplevel:root");
+				foreach (CssSelectorData sel in cp.selectors) {
+					message ("Type: "+sel.selector_type.to_string ()+" : "+sel.data+" : "+sel.value);
+				}
+				assert (cp.selectors.size == 3);
+				var s = cp.selectors[0];
+				assert (s != null);
+				assert (s.selector_type == CssSelectorType.ELEMENT);
+				var si = cp.selectors[1];
+				assert (si != null);
+				assert (si.selector_type == CssSelectorType.INSIDE);
+				var sa = cp.selectors[2];
+				assert (sa != null);
+				assert (sa.selector_type == CssSelectorType.PSEUDO);
+				var d = new GomDocument ();
+				var r = d.create_element ("toplevel");
+				d.append_child (r);
+				var c1 = d.create_element ("child");
+				r.append_child (c1);
+				var c2 = d.create_element ("child");
+				c2.set_attribute ("prop", "subval");
+				r.append_child (c2);
+				var c3 = d.create_element ("child");
+				c3.set_attribute ("prop", "techval");
+				r.append_child (c3);
+				var c4 = d.create_element ("child");
+				c4.set_attribute ("prop", "secondaryvalue");
+				r.append_child (c4);
+				assert (cp.match (r));
+				assert (!cp.match (c1));
+				assert (!cp.match (c2));
+				assert (!cp.match (c3));
+				assert (!cp.match (c4));
+				var d2 = new GDocument () as DomDocument;
+				var r2 = d2.create_element ("toplevel");
+				d2.append_child (r2);
+				var c1g = d2.create_element ("child");
+				r2.append_child (c1g);
+				var c2g = d2.create_element ("child");
+				c2g.set_attribute ("prop", "subval");
+				r2.append_child (c2g);
+				var c3g = d2.create_element ("child");
+				c3g.set_attribute ("prop", "techval");
+				r2.append_child (c3g);
+				var c4g = d2.create_element ("child");
+				c4g.set_attribute ("prop", "secondaryvalue");
+				r2.append_child (c4g);
+				assert (cp.match (r));
+				assert (!cp.match (c1));
+				assert (!cp.match (c2));
+				assert (!cp.match (c3));
+				assert (!cp.match (c4));
+			} catch (GLib.Error e){
+				warning ("ERROR: "+e.message);
+			}
+		});
 	}
 }
