@@ -378,6 +378,9 @@ public class GXml.CssSelectorParser : GLib.Object {
 					if (!(element.owner_document is DomHtmlDocument)) return false;
 					// FIXME: check for tags UI allowed to have this state you can use E[disable="true"] instead
 				}
+				if (s.data.down () == "empty") {
+					if (!element.has_child_nodes ()) return true;
+				}
 			}
 			if (s.selector_type == CssSelectorType.CLASS) {
 				var p = element.get_attribute ("class");
