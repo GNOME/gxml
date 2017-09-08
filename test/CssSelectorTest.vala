@@ -134,6 +134,46 @@ class CssSelectorTest : GXmlTest {
 				warning ("ERROR: "+e.message);
 			}
 		});
+		Test.add_func ("/gxml/css-selector/element/attribute/starts_with", () => {
+			try {
+				var cp = new CssSelectorParser ();
+				cp.parse ("child[prop^=\"val\"]");
+				foreach (CssSelectorData sel in cp.selectors) {
+					message ("Type: "+sel.selector_type.to_string ()+" : "+sel.data+" : "+sel.value);
+				}
+				assert (cp.selectors.size == 3);
+				var s = cp.selectors[0];
+				assert (s != null);
+				assert (s.selector_type == CssSelectorType.ELEMENT);
+				var si = cp.selectors[1];
+				assert (si != null);
+				assert (si.selector_type == CssSelectorType.INSIDE);
+				var sa = cp.selectors[2];
+				assert (sa != null);
+				assert (sa.selector_type == CssSelectorType.ATTRIBUTE_START_WITH);
+				var d = new GomDocument ();
+				var r = d.create_element ("root");
+				d.append_child (r);
+				var c1 = d.create_element ("child");
+				r.append_child (c1);
+				var c2 = d.create_element ("child");
+				c2.set_attribute ("prop", "val");
+				r.append_child (c2);
+				var c3 = d.create_element ("child");
+				c3.set_attribute ("prop", "value");
+				r.append_child (c3);
+				var c4 = d.create_element ("child");
+				c4.set_attribute ("prop", "secondaryvalue");
+				r.append_child (c4);
+				assert (!cp.match (r));
+				assert (!cp.match (c1));
+				assert (cp.match (c2));
+				assert (cp.match (c3));
+				assert (!cp.match (c4));
+			} catch (GLib.Error e){
+				warning ("ERROR: "+e.message);
+			}
+		});
 		Test.add_func ("/gxml/css-selector/element/attribute-value", () => {
 			try {
 				var cp = new CssSelectorParser ();
