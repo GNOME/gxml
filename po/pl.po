@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-18 21:12+0200\n"
-"PO-Revision-Date: 2017-06-18 21:13+0200\n"
+"POT-Creation-Date: 2017-09-10 20:34+0200\n"
+"PO-Revision-Date: 2017-09-10 20:35+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -95,80 +95,78 @@ msgstr ""
 "Element węzła nie jest dołączony jako element potomny elementu nadrzędnego. "
 "Nie dodano żadnego węzła do zbioru"
 
-#: ../gxml/GomCollections.vala:660
+#: ../gxml/GomCollections.vala:655
 msgid "No primary key and/or secondary key was found"
 msgstr "Nie odnaleziono głównego ani dodatkowego klucza"
 
-#: ../gxml/GomDocument.vala:171
+#: ../gxml/GomDocument.vala:214
 msgid "Creating a namespaced element with invalid node name"
 msgstr ""
 "Tworzenie elementu w przestrzeni nazw za pomocą nieprawidłowej nazwy węzła"
 
-#: ../gxml/GomDocument.vala:178
+#: ../gxml/GomDocument.vala:221
 msgid "Creating a namespaced element with invalid namespace"
 msgstr ""
 "Tworzenie elementu w przestrzeni nazw za pomocą nieprawidłowej przestrzeni "
 "nazw"
 
-#: ../gxml/GomDocument.vala:182
+#: ../gxml/GomDocument.vala:225
 msgid ""
 "Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
 msgstr ""
 "Nieprawidłowy adres URI przestrzeni nazw dla przedrostka xmlns. Należy użyć "
 "http://www.w3.org/2000/xmlns/"
 
-#: ../gxml/GomDocument.vala:186
+#: ../gxml/GomDocument.vala:229
 msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
 msgstr ""
 "Tylko przedrostki xmlns mogą być używane z http://www.w3.org/2000/xmlns/"
 
-#: ../gxml/GomDocument.vala:226 ../gxml/GXmlDocument.vala:270
+#: ../gxml/GomDocument.vala:269 ../gxml/GXmlDocument.vala:270
 msgid "Can't import a Document"
 msgstr "Nie można zaimportować dokumentu"
 
-#: ../gxml/GomDocument.vala:228 ../gxml/GXmlDocument.vala:272
+#: ../gxml/GomDocument.vala:271 ../gxml/GXmlDocument.vala:272
 msgid "Can't import a non Element type node to a Document"
 msgstr "Nie można zaimportować węzła o typie niebędącym elementem do dokumentu"
 
-#: ../gxml/GomDocument.vala:252 ../gxml/GXmlDocument.vala:296
+#: ../gxml/GomDocument.vala:295 ../gxml/GXmlDocument.vala:296
 msgid "Can't adopt a Document"
 msgstr "Nie można przyjąć dokumentu"
 
 #. FIXME:
-#: ../gxml/GomDocument.vala:408 ../gxml/GomElement.vala:208
-#: ../gxml/GXmlElement.vala:318
+#: ../gxml/GomDocument.vala:456
 msgid "DomElement query_selector is not implemented"
 msgstr "„query_selector” z DomElement nie jest zaimplementowane"
 
 #. FIXME:
-#: ../gxml/GomDocument.vala:412 ../gxml/GomElement.vala:212
-#: ../gxml/GXmlElement.vala:322
+#: ../gxml/GomDocument.vala:460
 msgid "DomElement query_selector_all is not implemented"
 msgstr "„query_selector_all” z DomElement nie jest zaimplementowane"
 
-#: ../gxml/GomElement.vala:114
+#: ../gxml/GomElement.vala:169
 msgid "Invalid namespace URI stored in element's attribute"
 msgstr ""
 "Nieprawidłowy adres URI przestrzeni nazw przechowywany w atrybucie elementu"
 
-#: ../gxml/GomElement.vala:121 ../gxml/GomElement.vala:145
+#: ../gxml/GomElement.vala:176 ../gxml/GomElement.vala:200
 msgid "Invalid attribute name in element's attributes list"
 msgstr "Nieprawidłowa nazwa atrybutu na liście atrybutów elementu"
 
-#: ../gxml/GomElement.vala:162
+#: ../gxml/GomElement.vala:217
 msgid "Can't locate child node to remove"
 msgstr "Nie można odnaleźć węzła potomnego do usunięcia"
 
-#: ../gxml/GomElement.vala:367 ../gxml/GomElement.vala:405
+#: ../gxml/GomElement.vala:432 ../gxml/GomElement.vala:470
 #, c-format
 msgid "Invalid attribute name: %s"
 msgstr "Nieprawidłowa nazwa atrybutu: %s"
 
-#: ../gxml/GomElement.vala:369 ../gxml/GomElement.vala:407
+#: ../gxml/GomElement.vala:434 ../gxml/GomElement.vala:472
 msgid "Invalid node type. DomAttr was expected"
 msgstr "Nieprawidłowy typ węzła. Oczekiwano „DomAttr”"
 
-#: ../gxml/GomElement.vala:412
+#: ../gxml/GomElement.vala:477
 msgid ""
 "Namespace attributes prefixed with xmlns should use a namespace uri http://"
 "www.w3.org/2000/xmlns"
@@ -176,53 +174,53 @@ msgstr ""
 "Atrybuty przestrzeni nazw z przedrostkiem xmlns muszą używać adresu URI "
 "przestrzeni nazw http://www.w3.org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:419
+#: ../gxml/GomElement.vala:484
 #, c-format
 msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
 msgstr "Atrybuty w przestrzeni nazw muszą dostarczać niepusty przedrostek: %s"
 
-#: ../gxml/GomElement.vala:423
+#: ../gxml/GomElement.vala:488
 msgid "Invalid namespace attribute's name."
 msgstr "Nieprawidłowa nazwa atrybutu przestrzeni nazw."
 
-#: ../gxml/GomElement.vala:443
+#: ../gxml/GomElement.vala:508
 #, c-format
 msgid "Redefinition of default namespace for %s"
 msgstr "Ponowne określenie domyślnej przestrzeni nazw dla %s"
 
-#: ../gxml/GomElement.vala:467
+#: ../gxml/GomElement.vala:532
 #, c-format
 msgid "Redefinition of namespace's prefix for %s"
 msgstr "Ponowne określenie przedrostka przestrzeni nazw dla %s"
 
-#: ../gxml/GomElement.vala:483
+#: ../gxml/GomElement.vala:548
 msgid "Trying to add an attribute with an undefined namespace prefix"
 msgstr ""
 "Próbowanie dodania atrybutu za pomocą nieokreślonego przedrostka przestrzeni "
 "nazw"
 
-#: ../gxml/GomElement.vala:489
+#: ../gxml/GomElement.vala:554
 msgid "Trying to add an attribute with a non found namespace URI"
 msgstr ""
 "Próbowanie dodania atrybutu za pomocą nieodnalezionego adresu URI "
 "przestrzeni nazw"
 
-#: ../gxml/GomElement.vala:548
+#: ../gxml/GomElement.vala:613
 msgid "Invalid attribute name. Just one prefix is allowed"
 msgstr "Nieprawidłowa nazwa atrybutu. Dozwolony jest tylko jeden przedrostek"
 
-#: ../gxml/GomElement.vala:552
+#: ../gxml/GomElement.vala:617
 #, c-format
 msgid "Invalid attribute name. Invalid use of colon: %s"
 msgstr "Nieprawidłowa nazwa atrybutu. Nieprawidłowe użycie dwukropka: %s"
 
-#: ../gxml/GomElement.vala:556
+#: ../gxml/GomElement.vala:621
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
 msgstr ""
 "Nieprawidłowa przestrzeń nazw. Jeśli przedrostek jest pusty, adres URI "
 "przestrzeni nazw nie może być pusty"
 
-#: ../gxml/GomElement.vala:558
+#: ../gxml/GomElement.vala:623
 msgid ""
 "Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
 "org/2000/xmlns/"
@@ -230,7 +228,7 @@ msgstr ""
 "Nieprawidłowa przestrzeń nazw. Jeśli przedrostek to xml, adres URI "
 "przestrzeni nazw musi być http://www.w3.org/2000/xmlns/"
 
-#: ../gxml/GomElement.vala:561
+#: ../gxml/GomElement.vala:626
 msgid ""
 "Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns/"
@@ -238,7 +236,7 @@ msgstr ""
 "Nieprawidłowa przestrzeń nazw. Jeśli przedrostek atrybutu to xmlns, adres "
 "URI przestrzeni nazw musi być http://www.w3.org/2000/xmlns/"
 
-#: ../gxml/GomElement.vala:565
+#: ../gxml/GomElement.vala:630
 msgid ""
 "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns/"
@@ -246,21 +244,21 @@ msgstr ""
 "Nieprawidłowa przestrzeń nazw. Jeśli nazwa atrybutu to xmlns, adres URI "
 "przestrzeni nazw musi być http://www.w3.org/2000/xmlns/"
 
-#: ../gxml/GomElement.vala:567
+#: ../gxml/GomElement.vala:632
 msgid "Invalid attribute name. No prefixed attributes should use xmlns name"
 msgstr ""
 "Nieprawidłowa nazwa atrybutu. Atrybuty z przedrostkami nie mogą używać nazw "
 "xmlns"
 
-#: ../gxml/GomElement.vala:571
+#: ../gxml/GomElement.vala:636
 msgid "Setting namespaced property error: "
 msgstr "Błąd podczas ustawiania właściwości w przestrzeni nazw: "
 
-#: ../gxml/GomElement.vala:578
+#: ../gxml/GomElement.vala:643
 msgid "Removing attribute Error: "
 msgstr "Usuwanie błędu atrybutu: "
 
-#: ../gxml/GomElement.vala:583
+#: ../gxml/GomElement.vala:648
 msgid "Removing namespaced attribute Error: "
 msgstr "Usuwanie błędu atrybutu w przestrzeni nazw: "
 
@@ -344,20 +342,20 @@ msgstr ""
 "Nie można odnaleźć elementu potomnego do usunięcia lub element potomny ma "
 "inny element nadrzędny"
 
-#: ../gxml/GomObject.vala:168
+#: ../gxml/GomObject.vala:171
 msgid "Enumeration is out of range"
 msgstr "Wyliczenie jest poza zakresem"
 
-#: ../gxml/GomObject.vala:265
+#: ../gxml/GomObject.vala:274
 msgid "Enumeration can't be parsed from string"
 msgstr "Nie można przetworzyć wyliczenia z ciągu"
 
-#: ../gxml/GomObject.vala:377
+#: ../gxml/GomObject.vala:386
 #, c-format
 msgid "Error while attempting to instantiate property object: %s"
 msgstr "Błąd podczas próby utworzenia wystąpienia obiektu właściwości: %s"
 
-#: ../gxml/GomObject.vala:426
+#: ../gxml/GomObject.vala:435
 msgid "Can't set value. It is not a GXmlGomElement type"
 msgstr "Nie można ustawić wartości. Nie jest typem GXmlGomElement"
 
@@ -381,7 +379,7 @@ msgstr "Nieprawidłowy format dla właściwości daty: "
 msgid "Invalid timestamp for property: "
 msgstr "Nieprawidłowy czas dla właściwości: "
 
-#: ../gxml/GXmlDocument.vala:57 ../gxml/Parser.vala:75
+#: ../gxml/GXmlDocument.vala:57 ../gxml/Parser.vala:94 ../gxml/Parser.vala:104
 #: ../gxml/TDocument.vala:477
 msgid "File doesn't exist"
 msgstr "Plik nie istnieje"
@@ -396,7 +394,7 @@ msgstr ""
 "Nieprawidłowa nazwa kwalifikowana elementu: wiele przedrostków przestrzeni "
 "nazw"
 
-#: ../gxml/GXmlDomCollections.vala:52
+#: ../gxml/GXmlDomCollections.vala:54
 msgid ""
 "DOM: Invalid token. No empty string could be used as token to check if it is "
 "contained in token list"
@@ -404,7 +402,7 @@ msgstr ""
 "DOM: nieprawidłowy token. Żaden pusty ciąg nie może zostać użyty jako token "
 "do sprawdzenia, czy jest zawarty na liście tokenów"
 
-#: ../gxml/GXmlDomCollections.vala:54
+#: ../gxml/GXmlDomCollections.vala:56
 msgid ""
 "DOM: Invalid token. No white spaces could be included as token to check if "
 "it is contained in token list"
@@ -412,15 +410,15 @@ msgstr ""
 "DOM: nieprawidłowy token. Żadna spacja nie może zostać dołączona do tokena, "
 "aby sprawdzić, czy jest zawarty na liście tokenów"
 
-#: ../gxml/GXmlDomCollections.vala:61 ../gxml/GXmlDomCollections.vala:84
+#: ../gxml/GXmlDomCollections.vala:63 ../gxml/GXmlDomCollections.vala:86
 msgid "DOM: Invalid token. Empty string can't be used as token"
 msgstr "DOM: nieprawidłowy token. Puste ciągi nie mogą być używane jako tokeny"
 
-#: ../gxml/GXmlDomCollections.vala:63 ../gxml/GXmlDomCollections.vala:86
+#: ../gxml/GXmlDomCollections.vala:65 ../gxml/GXmlDomCollections.vala:88
 msgid "DOM: Invalid token. White spaces can't be used as token"
 msgstr "DOM: nieprawidłowy token. Spacje nie mogą być używane jako tokeny"
 
-#: ../gxml/GXmlDomCollections.vala:100
+#: ../gxml/GXmlDomCollections.vala:102
 msgid "Update Error: "
 msgstr "Błąd aktualizacji: "
 
@@ -456,7 +454,7 @@ msgstr "Nieprawidłowy typ węzła do rozpoczęcia po"
 msgid "Invalid root in the source range"
 msgstr "Nieprawidłowy główny element w zakresie źródłowym"
 
-#: ../gxml/GXmlElement.vala:343
+#: ../gxml/GXmlElement.vala:347
 msgid "invalid namespace. Code: "
 msgstr "nieprawidłowa przestrzeń nazw. Kod: "
 
@@ -495,6 +493,33 @@ msgstr ""
 #, c-format
 msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
+
+#: ../gxml/Parser.vala:186
+msgid ""
+"Invalid attempt to parse an element node, when current found node is not"
+msgstr ""
+"Nieprawidłowa próba przetworzenia węzła elementu, kiedy obecnie odnaleziony "
+"węzeł nie jest"
+
+#: ../gxml/Parser.vala:257
+msgid "Invalid object type set to Collection"
+msgstr "Nieprawidłowy zestaw typów obiektów do zbioru"
+
+#: ../gxml/Parser.vala:261
+msgid "Invalid DomElement name for objects in Collection"
+msgstr "Nieprawidłowa nazwa elementu DOM dla obiektów w zbiorze"
+
+#: ../gxml/Parser.vala:265
+msgid "Invalid Element set to Collection"
+msgstr "Nieprawidłowy zestaw elementów do zbioru"
+
+#: ../gxml/Parser.vala:270
+msgid "No document is set to node"
+msgstr "Żaden dokument nie jest ustawiony na węzeł"
+
+#: ../gxml/Parser.vala:291 ../gxml/XParser.vala:172 ../gxml/XParser.vala:178
+msgid "Invalid document string, it is empty or is not allowed"
+msgstr "Nieprawidłowy ciąg dokumentu, jest pusty lub nie jest dozwolony"
 
 #: ../gxml/SerializableEnum.vala:75
 msgid "Value can't be parsed to a valid enumeration's value. Value is not set"
@@ -555,50 +580,22 @@ msgstr "Nie można przekształcić „%s” na ciąg"
 msgid "Invalid element name"
 msgstr "Nieprawidłowa nazwa elementu"
 
-#: ../gxml/TDocument.vala:578 ../gxml/XParser.vala:283
+#: ../gxml/TDocument.vala:578 ../gxml/XParser.vala:341
 #, c-format
 msgid "Parsing ERROR: Fail to move to attribute number: %i"
 msgstr ""
 "BŁĄD podczas przetwarzania: przejście do numeru atrybutu się nie powiodło: %i"
 
-#: ../gxml/XParser.vala:116 ../gxml/XParser.vala:145
-msgid "Invalid document string, it is empty or is not allowed"
-msgstr "Nieprawidłowy ciąg dokumentu, jest pusty lub nie jest dozwolony"
-
-#: ../gxml/XParser.vala:154 ../gxml/XParser.vala:189 ../gxml/XParser.vala:198
-#: ../gxml/XParser.vala:247 ../gxml/XParser.vala:271 ../gxml/XParser.vala:345
-#: ../gxml/XParser.vala:366 ../gxml/XParser.vala:492 ../gxml/XParser.vala:523
+#: ../gxml/XParser.vala:210 ../gxml/XParser.vala:265 ../gxml/XParser.vala:274
+#: ../gxml/XParser.vala:323 ../gxml/XParser.vala:336 ../gxml/XParser.vala:382
 msgid "Internal Error: No TextReader was set"
 msgstr "Wewnętrzny błąd: nie ustawiono TextReader"
 
-#: ../gxml/XParser.vala:201
+#: ../gxml/XParser.vala:277
 msgid "Can't read node data"
 msgstr "Nie można odczytać danych węzła"
 
-#: ../gxml/XParser.vala:495
-msgid ""
-"Invalid attempt to parse an element node, when current found node is not"
-msgstr ""
-"Nieprawidłowa próba przetworzenia węzła elementu, kiedy obecnie odnaleziony "
-"węzeł nie jest"
-
-#: ../gxml/XParser.vala:586
-msgid "Invalid object type set to Collection"
-msgstr "Nieprawidłowy zestaw typów obiektów do zbioru"
-
-#: ../gxml/XParser.vala:590
-msgid "Invalid DomElement name for objects in Collection"
-msgstr "Nieprawidłowa nazwa elementu DOM dla obiektów w zbiorze"
-
-#: ../gxml/XParser.vala:594
-msgid "Invalid Element set to Collection"
-msgstr "Nieprawidłowy zestaw elementów do zbioru"
-
-#: ../gxml/XParser.vala:602
-msgid "No document is set to node"
-msgstr "Żaden dokument nie jest ustawiony na węzeł"
-
-#: ../gxml/XParser.vala:656
+#: ../gxml/XParser.vala:477 ../gxml/XParser.vala:592
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Wewnętrzny błąd: nie zainicjowano TextWriter"
 
@@ -618,3 +615,42 @@ msgstr "Nie można odnaleźć elementu w położeniu: %i: %s"
 #, c-format
 msgid "Collection type %s, initialization error: %s"
 msgstr "Typ zbioru %s, błąd inicjacji: %s"
+
+#: ../gxml/CssSelectorParser.vala:125
+msgid "Invalid attribute character"
+msgstr "Nieprawidłowy znak atrybutu"
+
+#: ../gxml/CssSelectorParser.vala:147 ../gxml/CssSelectorParser.vala:179
+msgid "Invalid attribute selector character"
+msgstr "Nieprawidłowy znak selektora atrybutu"
+
+#: ../gxml/CssSelectorParser.vala:153 ../gxml/CssSelectorParser.vala:198
+msgid "Invalid end of attribute value"
+msgstr "Nieprawidłowy koniec wartości atrybutu"
+
+#: ../gxml/CssSelectorParser.vala:159 ../gxml/CssSelectorParser.vala:204
+msgid "Invalid end of attribute selector"
+msgstr "Nieprawidłowy koniec selektora atrybutu"
+
+#: ../gxml/CssSelectorParser.vala:182
+msgid "Invalid attribute selector character : can't find '=' character"
+msgstr "Nieprawidłowy znak selektora atrybutu: nie można odnaleźć znaku „=”"
+
+#: ../gxml/CssSelectorParser.vala:192
+#, c-format
+msgid "Invalid attribute selector character 2 (%s)"
+msgstr "Nieprawidłowy 2. znak selektora atrybutu (%s)"
+
+#: ../gxml/CssSelectorParser.vala:234
+#, c-format
+msgid "Invalid pseudo class selector %s"
+msgstr "Nieprawidłowy selektor pseudoklasy %s"
+
+#: ../gxml/CssSelectorParser.vala:242
+msgid "Invalid string length."
+msgstr "Nieprawidłowa długość ciągu."
+
+#: ../gxml/CssSelectorParser.vala:275
+#, c-format
+msgid "Invalid '%s' character."
+msgstr "Nieprawidłowy znak „%s”."
