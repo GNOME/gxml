@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-03-06 18:14+0000\n"
-"PO-Revision-Date: 2017-03-09 15:35+0100\n"
+"POT-Creation-Date: 2017-04-09 14:25+0000\n"
+"PO-Revision-Date: 2017-09-12 01:37+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 2.0.3\n"
 
 #: ../gxml/Document.vala:151
 msgid "Invalid file"
@@ -209,7 +209,7 @@ msgstr ""
 "Ogiltig namnrymd. Om prefix är xml bör namnrymd-URI vara http://www.w3."
 "org/2000/xmlns/"
 
-#: ../gxml/GomElement.vala:541
+#: ../gxml/GomElement.vala:542
 msgid ""
 "Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns/"
@@ -217,7 +217,7 @@ msgstr ""
 "Ogiltig namnrymd. Om attributets prefix är xmlns bör namnrymd-URI vara "
 "http://www.w3.org/2000/xmlns/"
 
-#: ../gxml/GomElement.vala:543
+#: ../gxml/GomElement.vala:546
 msgid ""
 "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns/"
@@ -225,19 +225,19 @@ msgstr ""
 "Ogiltig namnrymd. Om attributets namn är xmlns bör namnrymd-URI vara http://"
 "www.w3.org/2000/xmlns/"
 
-#: ../gxml/GomElement.vala:545
+#: ../gxml/GomElement.vala:548
 msgid "Invalid attribute name. No prefixed attributes should use xmlns name"
 msgstr "Ogiltigt attributnamn. Inga attribut med prefix ska använda xmlns-namn"
 
-#: ../gxml/GomElement.vala:549
+#: ../gxml/GomElement.vala:552
 msgid "Setting namespaced property error: "
 msgstr "Anger fel för egenskap i namnrymd: "
 
-#: ../gxml/GomElement.vala:556
+#: ../gxml/GomElement.vala:559
 msgid "Removing attribute Error: "
 msgstr "Tar bort attributfel: "
 
-#: ../gxml/GomElement.vala:561
+#: ../gxml/GomElement.vala:564
 msgid "Removing namespaced attribute Error: "
 msgstr "Tar bort fel för namnrymdsattribut: "
 
@@ -345,11 +345,15 @@ msgstr "Fel vid transformering av enum till attributvärde"
 msgid "Error when transform from attribute string value to enum"
 msgstr "Fel vid transformering från attributsträngvärde till enum"
 
-#: ../gxml/GomProperty.vala:387
+#: ../gxml/GomProperty.vala:393 ../gxml/GomProperty.vala:400
 msgid "Invalid Date for property: "
 msgstr "Ogiltigt datum för egenskap: "
 
-#: ../gxml/GomProperty.vala:426
+#: ../gxml/GomProperty.vala:395
+msgid "Invalid format for Date property: "
+msgstr "Ogiltigt format för datumegenskap: "
+
+#: ../gxml/GomProperty.vala:439
 msgid "Invalid timestamp for property: "
 msgstr "Ogiltig tidsstämpel för egenskap: "
 
