@@ -29,7 +29,7 @@ namespace GXml {
 	/**
    * HML parsing suport. Document handling
    */
-	public class GHtmlDocument : GXml.GDocument, GXml.DomHtmlDocument {
+	public class GHtmlDocument : GDocument, DomHtmlDocument {
 		public static int default_options {
 			get {
 				return Html.ParserOption.NONET | Html.ParserOption.NOWARNING | Html.ParserOption.NOERROR | Html.ParserOption.NOBLANKS;

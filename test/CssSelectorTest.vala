@@ -66,9 +66,6 @@ class CssSelectorTest : GXmlTest {
 			try {
 				var cp = new CssSelectorParser ();
 				cp.parse ("child[prop]");
-				foreach (CssSelectorData sel in cp.selectors) {
-					message ("Type: "+sel.selector_type.to_string ()+" : "+sel.data+" : "+sel.value);
-				}
 				assert (cp.selectors.size == 3);
 				var s = cp.selectors[0];
 				assert (s != null);
@@ -98,9 +95,6 @@ class CssSelectorTest : GXmlTest {
 			try {
 				var cp = new CssSelectorParser ();
 				cp.parse ("child[prop~=\"val\"]");
-				foreach (CssSelectorData sel in cp.selectors) {
-					message ("Type: "+sel.selector_type.to_string ()+" : "+sel.data+" : "+sel.value);
-				}
 				assert (cp.selectors.size == 3);
 				var s = cp.selectors[0];
 				assert (s != null);
@@ -138,9 +132,6 @@ class CssSelectorTest : GXmlTest {
 			try {
 				var cp = new CssSelectorParser ();
 				cp.parse ("child[prop^=\"val\"]");
-				foreach (CssSelectorData sel in cp.selectors) {
-					message ("Type: "+sel.selector_type.to_string ()+" : "+sel.data+" : "+sel.value);
-				}
 				assert (cp.selectors.size == 3);
 				var s = cp.selectors[0];
 				assert (s != null);
@@ -178,9 +169,6 @@ class CssSelectorTest : GXmlTest {
 			try {
 				var cp = new CssSelectorParser ();
 				cp.parse ("child[prop|=\"val\"]");
-				foreach (CssSelectorData sel in cp.selectors) {
-					message ("Type: "+sel.selector_type.to_string ()+" : "+sel.data+" : "+sel.value);
-				}
 				assert (cp.selectors.size == 3);
 				var s = cp.selectors[0];
 				assert (s != null);
@@ -218,9 +206,6 @@ class CssSelectorTest : GXmlTest {
 			try {
 				var cp = new CssSelectorParser ();
 				cp.parse ("child[prop$=\"val\"]");
-				foreach (CssSelectorData sel in cp.selectors) {
-					message ("Type: "+sel.selector_type.to_string ()+" : "+sel.data+" : "+sel.value);
-				}
 				assert (cp.selectors.size == 3);
 				var s = cp.selectors[0];
 				assert (s != null);
@@ -258,9 +243,6 @@ class CssSelectorTest : GXmlTest {
 			try {
 				var cp = new CssSelectorParser ();
 				cp.parse ("child[prop=\"val\"]");
-				foreach (CssSelectorData sel in cp.selectors) {
-					message ("Type: "+sel.selector_type.to_string ()+" : "+sel.data+" : "+sel.value);
-				}
 				assert (cp.selectors.size == 3);
 				var s = cp.selectors[0];
 				assert (s != null);
@@ -293,9 +275,6 @@ class CssSelectorTest : GXmlTest {
 			try {
 				var cp = new CssSelectorParser ();
 				cp.parse (".warning");
-				foreach (CssSelectorData sel in cp.selectors) {
-					message ("Type: "+sel.selector_type.to_string ()+" : "+sel.data+" : "+sel.value);
-				}
 				assert (cp.selectors.size == 2);
 				var s = cp.selectors[0];
 				assert (s != null);
@@ -334,9 +313,6 @@ class CssSelectorTest : GXmlTest {
 			try {
 				var cp = new CssSelectorParser ();
 				cp.parse ("child.warning");
-				foreach (CssSelectorData sel in cp.selectors) {
-					message ("Type: "+sel.selector_type.to_string ()+" : "+sel.data+" : "+sel.value);
-				}
 				assert (cp.selectors.size == 3);
 				var s = cp.selectors[0];
 				assert (s != null);
@@ -378,9 +354,6 @@ class CssSelectorTest : GXmlTest {
 			try {
 				var cp = new CssSelectorParser ();
 				cp.parse ("toplevel:root");
-				foreach (CssSelectorData sel in cp.selectors) {
-					message ("Type: "+sel.selector_type.to_string ()+" : "+sel.data+" : "+sel.value);
-				}
 				assert (cp.selectors.size == 3);
 				var s = cp.selectors[0];
 				assert (s != null);
@@ -437,9 +410,6 @@ class CssSelectorTest : GXmlTest {
 			try {
 				var cp = new CssSelectorParser ();
 				cp.parse ("radio[enable=\"true\"]");
-				foreach (CssSelectorData sel in cp.selectors) {
-					message ("Type: "+sel.selector_type.to_string ()+" : "+sel.data+" : "+sel.value);
-				}
 				assert (cp.selectors.size == 3);
 				var s = cp.selectors[0];
 				assert (s != null);
@@ -460,7 +430,7 @@ class CssSelectorTest : GXmlTest {
 				r.append_child (c2);
 				assert (!cp.match (r));
 				assert (!cp.match (c1));
-				assert (!cp.match (c2));
+				assert (cp.match (c2));
 			} catch (GLib.Error e){
 				warning ("ERROR: "+e.message);
 			}
@@ -468,10 +438,7 @@ class CssSelectorTest : GXmlTest {
 		Test.add_func ("/gxml/css-selector/pseudo/empty", () => {
 			try {
 				var cp = new CssSelectorParser ();
-				cp.parse ("toplevel:root");
-				foreach (CssSelectorData sel in cp.selectors) {
-					message ("Type: "+sel.selector_type.to_string ()+" : "+sel.data+" : "+sel.value);
-				}
+				cp.parse ("child:empty");
 				assert (cp.selectors.size == 3);
 				var s = cp.selectors[0];
 				assert (s != null);
@@ -498,12 +465,17 @@ class CssSelectorTest : GXmlTest {
 				r.append_child (c4);
 				var c5 = d.create_element ("common");
 				c4.append_child (c5);
+				assert (!c1.has_child_nodes ());
+				assert (!c2.has_child_nodes ());
+				assert (!c3.has_child_nodes ());
+				assert (c4.has_child_nodes ());
+				assert (!c5.has_child_nodes ());
 				assert (!cp.match (r));
 				assert (cp.match (c1));
 				assert (cp.match (c2));
 				assert (cp.match (c3));
 				assert (!cp.match (c4));
-				assert (cp.match (c5));
+				assert (!cp.match (c5));
 				var d2 = new GDocument () as DomDocument;
 				var r2 = d2.create_element ("toplevel");
 				d2.append_child (r2);
@@ -518,11 +490,14 @@ class CssSelectorTest : GXmlTest {
 				var c4g = d2.create_element ("child");
 				c4g.set_attribute ("prop", "secondaryvalue");
 				r2.append_child (c4g);
-				assert (cp.match (r));
-				assert (!cp.match (c1g));
-				assert (!cp.match (c2g));
-				assert (!cp.match (c3g));
+				var c5g = d2.create_element ("common");
+				c4g.append_child (c5g);
+				assert (!cp.match (r));
+				assert (cp.match (c1g));
+				assert (cp.match (c2g));
+				assert (cp.match (c3g));
 				assert (!cp.match (c4g));
+				assert (!cp.match (c5g));
 			} catch (GLib.Error e){
 				warning ("ERROR: "+e.message);
 			}
@@ -531,9 +506,6 @@ class CssSelectorTest : GXmlTest {
 			try {
 				var cp = new CssSelectorParser ();
 				cp.parse ("second:first-child");
-				foreach (CssSelectorData sel in cp.selectors) {
-					message ("Type: "+sel.selector_type.to_string ()+" : "+sel.data+" : "+sel.value);
-				}
 				assert (cp.selectors.size == 3);
 				var s = cp.selectors[0];
 				assert (s != null);
@@ -562,6 +534,12 @@ class CssSelectorTest : GXmlTest {
 				c3.append_child (c5);
 				var c6 = d.create_element ("second");
 				c4.append_child (c6);
+				assert (c1 == (c1.parent_node as DomParentNode).first_element_child);
+				assert (c2 != (c2.parent_node as DomParentNode).first_element_child);
+				assert (c3 != (c3.parent_node as DomParentNode).first_element_child);
+				assert (c4 != (c4.parent_node as DomParentNode).first_element_child);
+				assert (c5 == (c5.parent_node as DomParentNode).first_element_child);
+				assert (c6 == (c6.parent_node as DomParentNode).first_element_child);
 				assert (!cp.match (r));
 				assert (!cp.match (c1));
 				assert (!cp.match (c2));
@@ -583,15 +561,17 @@ class CssSelectorTest : GXmlTest {
 				var c4g = d2.create_element ("child");
 				c4g.set_attribute ("prop", "secondaryvalue");
 				r2.append_child (c4g);
-				var c5g = d.create_element ("second");
+				var c5g = d2.create_element ("second");
 				c3g.append_child (c5g);
-				var c6g = d.create_element ("second");
+				var c6g = d2.create_element ("second");
 				c4g.append_child (c6g);
-				assert (cp.match (r));
+				assert (!cp.match (r));
 				assert (!cp.match (c1g));
 				assert (!cp.match (c2g));
 				assert (!cp.match (c3g));
 				assert (!cp.match (c4g));
+				assert (cp.match (c5g));
+				assert (cp.match (c6g));
 			} catch (GLib.Error e){
 				warning ("ERROR: "+e.message);
 			}
@@ -600,9 +580,6 @@ class CssSelectorTest : GXmlTest {
 			try {
 				var cp = new CssSelectorParser ();
 				cp.parse ("second:last-child");
-				foreach (CssSelectorData sel in cp.selectors) {
-					message ("Type: "+sel.selector_type.to_string ()+" : "+sel.data+" : "+sel.value);
-				}
 				assert (cp.selectors.size == 3);
 				var s = cp.selectors[0];
 				assert (s != null);
@@ -637,7 +614,7 @@ class CssSelectorTest : GXmlTest {
 				assert (!cp.match (c1));
 				assert (!cp.match (c2));
 				assert (!cp.match (c3));
-				assert (cp.match (c4));
+				assert (!cp.match (c4));
 				assert (cp.match (c5));
 				assert (!cp.match (c6));
 				assert (cp.match (c7));
@@ -655,17 +632,17 @@ class CssSelectorTest : GXmlTest {
 				var c4g = d2.create_element ("child");
 				c4g.set_attribute ("prop", "secondaryvalue");
 				r2.append_child (c4g);
-				var c5g = d.create_element ("second");
+				var c5g = d2.create_element ("second");
 				c3g.append_child (c5g);
-				var c6g = d.create_element ("second");
+				var c6g = d2.create_element ("second");
 				c4g.append_child (c6g);
-				var c7g = d.create_element ("second");
+				var c7g = d2.create_element ("second");
 				c4g.append_child (c7g);
-				assert (cp.match (r));
+				assert (!cp.match (r));
 				assert (!cp.match (c1g));
 				assert (!cp.match (c2g));
 				assert (!cp.match (c3g));
-				assert (cp.match (c4g));
+				assert (!cp.match (c4g));
 				assert (cp.match (c5g));
 				assert (!cp.match (c6g));
 				assert (cp.match (c7g));

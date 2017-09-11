@@ -304,16 +304,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 				CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.PARENT, ">", "");
 				list.add (data);
 			}
-//			if (list.size > 0 && list[list.size - 1].selector_type != CssSelectorType.AND && list[list.size - 1].selector_type != CssSelectorType.PARENT
-//				&& list[list.size - 1].selector_type != CssSelectorType.BEFORE && list[list.size - 1].selector_type != CssSelectorType.AFTER
-//				&& list[list.size - 1].selector_type == CssSelectorType.ELEMENT && position < css.length)
-//			{
-//				
-//			}
 		}
-		
-		foreach (var data in list)
-			message ("%s\n", data.selector_type.to_string());
 	}
 	public bool match (DomElement element) throws GLib.Error {
 		bool is_element = false;
@@ -381,7 +372,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 				if (s.data.down () == "empty") {
 					if (!element.has_child_nodes ()) return true;
 				}
-				if (s.data.down () == "fist-child") {
+				if (s.data.down () == "first-child") {
 					if (element.parent_node == null) return false;
 					if (!(element.parent_node is DomElement)) return false;
 					if (element is GomElement)
