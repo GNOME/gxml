@@ -162,7 +162,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 			while (css.get_next_char (ref position, out u) && (s != 0 ? u != s : u != ']'))
 				sb1.append_unichar (u);
 			if (s == 0 && !is_valid_identifier (sb1.str))
-				throw new CssSelectorError.ATTRIBUTE (_("Invalid attribute selector value : %s").printf (sb1.str));
+				throw new CssSelectorError.ATTRIBUTE (_("Invalid attribute selector value: %s").printf (sb1.str));
 			if (s != 0) {
 				if (u != s)
 					throw new CssSelectorError.STRING (_("Invalid end of attribute value"));
@@ -194,7 +194,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 			throw new CssSelectorError.ATTRIBUTE (_("Invalid attribute selector character"));
 		css.get_next_char (ref position, out u);
 		if (u != '=')
-			throw new CssSelectorError.ATTRIBUTE (_("Invalid attribute selector character : can't find '=' character"));
+			throw new CssSelectorError.ATTRIBUTE (_("Invalid attribute selector character: can't find '=' character"));
 		css.get_next_char (ref position, out u);
 		while (u.isspace())
 			css.get_next_char (ref position, out u);
@@ -208,7 +208,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 		while (css.get_next_char (ref position, out u) && (s != 0 ? u != s : u != ']'))
 			sb1.append_unichar (u);
 		if (s == 0 && !is_valid_identifier (sb1.str))
-			throw new CssSelectorError.ATTRIBUTE (_("Invalid attribute selector value : %s").printf (sb1.str));
+			throw new CssSelectorError.ATTRIBUTE (_("Invalid attribute selector value: %s").printf (sb1.str));
 		if (s != 0) {
 			if (u != s)
 				throw new CssSelectorError.STRING (_("Invalid end of attribute value"));
