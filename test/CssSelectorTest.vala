@@ -65,7 +65,7 @@ class CssSelectorTest : GXmlTest {
 		Test.add_func ("/gxml/css-selector/element/attribute/value", () => {
 			try {
 				var cp = new CssSelectorParser ();
-				cp.parse ("child[prop]");
+				cp.parse ("child[prop-name]");
 				assert (cp.selectors.size == 3);
 				var s = cp.selectors[0];
 				assert (s != null);
@@ -82,7 +82,7 @@ class CssSelectorTest : GXmlTest {
 				var c1 = d.create_element ("child");
 				r.append_child (c1);
 				var c2 = d.create_element ("child");
-				c2.set_attribute ("prop", "val");
+				c2.set_attribute ("prop-name", "val");
 				r.append_child (c2);
 				assert (!cp.match (r));
 				assert (!cp.match (c1));
@@ -94,7 +94,7 @@ class CssSelectorTest : GXmlTest {
 		Test.add_func ("/gxml/css-selector/element/attribute/contains", () => {
 			try {
 				var cp = new CssSelectorParser ();
-				cp.parse ("child[prop~=\"val\"]");
+				cp.parse ("child[prop-name~=\"val\"]");
 				assert (cp.selectors.size == 3);
 				var s = cp.selectors[0];
 				assert (s != null);
@@ -111,13 +111,13 @@ class CssSelectorTest : GXmlTest {
 				var c1 = d.create_element ("child");
 				r.append_child (c1);
 				var c2 = d.create_element ("child");
-				c2.set_attribute ("prop", "val calc soup");
+				c2.set_attribute ("prop-name", "val calc soup");
 				r.append_child (c2);
 				var c3 = d.create_element ("child");
-				c3.set_attribute ("prop", "calc val soup");
+				c3.set_attribute ("prop-name", "calc val soup");
 				r.append_child (c3);
 				var c4 = d.create_element ("child");
-				c4.set_attribute ("prop", "calc secondary soup");
+				c4.set_attribute ("prop-name", "calc secondary soup");
 				r.append_child (c4);
 				assert (!cp.match (r));
 				assert (!cp.match (c1));
@@ -131,7 +131,7 @@ class CssSelectorTest : GXmlTest {
 		Test.add_func ("/gxml/css-selector/element/attribute/starts_with", () => {
 			try {
 				var cp = new CssSelectorParser ();
-				cp.parse ("child[prop^=\"val\"]");
+				cp.parse ("child[prop-name^=\"val\"]");
 				assert (cp.selectors.size == 3);
 				var s = cp.selectors[0];
 				assert (s != null);
@@ -148,13 +148,13 @@ class CssSelectorTest : GXmlTest {
 				var c1 = d.create_element ("child");
 				r.append_child (c1);
 				var c2 = d.create_element ("child");
-				c2.set_attribute ("prop", "val");
+				c2.set_attribute ("prop-name", "val");
 				r.append_child (c2);
 				var c3 = d.create_element ("child");
-				c3.set_attribute ("prop", "value");
+				c3.set_attribute ("prop-name", "value");
 				r.append_child (c3);
 				var c4 = d.create_element ("child");
-				c4.set_attribute ("prop", "secondaryvalue");
+				c4.set_attribute ("prop-name", "secondaryvalue");
 				r.append_child (c4);
 				assert (!cp.match (r));
 				assert (!cp.match (c1));
@@ -168,7 +168,7 @@ class CssSelectorTest : GXmlTest {
 		Test.add_func ("/gxml/css-selector/element/attribute/starts_with_hyphen", () => {
 			try {
 				var cp = new CssSelectorParser ();
-				cp.parse ("child[prop|=\"val\"]");
+				cp.parse ("child[prop-name|=\"val\"]");
 				assert (cp.selectors.size == 3);
 				var s = cp.selectors[0];
 				assert (s != null);
@@ -185,13 +185,13 @@ class CssSelectorTest : GXmlTest {
 				var c1 = d.create_element ("child");
 				r.append_child (c1);
 				var c2 = d.create_element ("child");
-				c2.set_attribute ("prop", "val-");
+				c2.set_attribute ("prop-name", "val-");
 				r.append_child (c2);
 				var c3 = d.create_element ("child");
-				c3.set_attribute ("prop", "value");
+				c3.set_attribute ("prop-name", "value");
 				r.append_child (c3);
 				var c4 = d.create_element ("child");
-				c4.set_attribute ("prop", "secondaryvalue");
+				c4.set_attribute ("prop-name", "secondaryvalue");
 				r.append_child (c4);
 				assert (!cp.match (r));
 				assert (!cp.match (c1));
@@ -205,7 +205,7 @@ class CssSelectorTest : GXmlTest {
 		Test.add_func ("/gxml/css-selector/element/attribute/ends_with", () => {
 			try {
 				var cp = new CssSelectorParser ();
-				cp.parse ("child[prop$=\"val\"]");
+				cp.parse ("child[prop-name$=\"val\"]");
 				assert (cp.selectors.size == 3);
 				var s = cp.selectors[0];
 				assert (s != null);
@@ -222,13 +222,13 @@ class CssSelectorTest : GXmlTest {
 				var c1 = d.create_element ("child");
 				r.append_child (c1);
 				var c2 = d.create_element ("child");
-				c2.set_attribute ("prop", "subval");
+				c2.set_attribute ("prop-name", "subval");
 				r.append_child (c2);
 				var c3 = d.create_element ("child");
-				c3.set_attribute ("prop", "techval");
+				c3.set_attribute ("prop-name", "techval");
 				r.append_child (c3);
 				var c4 = d.create_element ("child");
-				c4.set_attribute ("prop", "secondaryvalue");
+				c4.set_attribute ("prop-name", "secondaryvalue");
 				r.append_child (c4);
 				assert (!cp.match (r));
 				assert (!cp.match (c1));
@@ -239,10 +239,10 @@ class CssSelectorTest : GXmlTest {
 				warning ("ERROR: "+e.message);
 			}
 		});
-		Test.add_func ("/gxml/css-selector/element/attribute-value", () => {
+		Test.add_func ("/gxml/css-selector/element/attribute-value-unquoted", () => {
 			try {
 				var cp = new CssSelectorParser ();
-				cp.parse ("child[prop=\"val\"]");
+				cp.parse ("child[prop-name=va7u3_unqu§ted]");
 				assert (cp.selectors.size == 3);
 				var s = cp.selectors[0];
 				assert (s != null);
@@ -259,9 +259,41 @@ class CssSelectorTest : GXmlTest {
 				var c1 = d.create_element ("child");
 				r.append_child (c1);
 				var c2 = d.create_element ("child");
-				c2.set_attribute ("prop", "t");
+				c2.set_attribute ("prop-name", "t");
 				var c3 = d.create_element ("child");
-				c3.set_attribute ("prop", "val");
+				c3.set_attribute ("prop-name", "va7u3_unqu§ted");
+				r.append_child (c3);
+				assert (!cp.match (r));
+				assert (!cp.match (c1));
+				assert (!cp.match (c2));
+				assert (cp.match (c3));
+			} catch (GLib.Error e){
+				warning ("ERROR: "+e.message);
+			}
+		});
+		Test.add_func ("/gxml/css-selector/element/attribute-value", () => {
+			try {
+				var cp = new CssSelectorParser ();
+				cp.parse ("child[prop-name=\"val\"]");
+				assert (cp.selectors.size == 3);
+				var s = cp.selectors[0];
+				assert (s != null);
+				assert (s.selector_type == CssSelectorType.ELEMENT);
+				var si = cp.selectors[1];
+				assert (si != null);
+				assert (si.selector_type == CssSelectorType.INSIDE);
+				var sa = cp.selectors[2];
+				assert (sa != null);
+				assert (sa.selector_type == CssSelectorType.ATTRIBUTE_EQUAL);
+				var d = new GomDocument ();
+				var r = d.create_element ("root");
+				d.append_child (r);
+				var c1 = d.create_element ("child");
+				r.append_child (c1);
+				var c2 = d.create_element ("child");
+				c2.set_attribute ("prop-name", "t");
+				var c3 = d.create_element ("child");
+				c3.set_attribute ("prop-name", "val");
 				r.append_child (c3);
 				assert (!cp.match (r));
 				assert (!cp.match (c1));
@@ -370,13 +402,13 @@ class CssSelectorTest : GXmlTest {
 				var c1 = d.create_element ("child");
 				r.append_child (c1);
 				var c2 = d.create_element ("child");
-				c2.set_attribute ("prop", "subval");
+				c2.set_attribute ("prop-name", "subval");
 				r.append_child (c2);
 				var c3 = d.create_element ("child");
-				c3.set_attribute ("prop", "techval");
+				c3.set_attribute ("prop-name", "techval");
 				r.append_child (c3);
 				var c4 = d.create_element ("child");
-				c4.set_attribute ("prop", "secondaryvalue");
+				c4.set_attribute ("prop-name", "secondaryvalue");
 				r.append_child (c4);
 				assert (cp.match (r));
 				assert (!cp.match (c1));
@@ -389,13 +421,13 @@ class CssSelectorTest : GXmlTest {
 				var c1g = d2.create_element ("child");
 				r2.append_child (c1g);
 				var c2g = d2.create_element ("child");
-				c2g.set_attribute ("prop", "subval");
+				c2g.set_attribute ("prop-name", "subval");
 				r2.append_child (c2g);
 				var c3g = d2.create_element ("child");
-				c3g.set_attribute ("prop", "techval");
+				c3g.set_attribute ("prop-name", "techval");
 				r2.append_child (c3g);
 				var c4g = d2.create_element ("child");
-				c4g.set_attribute ("prop", "secondaryvalue");
+				c4g.set_attribute ("prop-name", "secondaryvalue");
 				r2.append_child (c4g);
 				assert (cp.match (r));
 				assert (!cp.match (c1g));
@@ -455,13 +487,13 @@ class CssSelectorTest : GXmlTest {
 				var c1 = d.create_element ("child");
 				r.append_child (c1);
 				var c2 = d.create_element ("child");
-				c2.set_attribute ("prop", "subval");
+				c2.set_attribute ("prop-name", "subval");
 				r.append_child (c2);
 				var c3 = d.create_element ("child");
-				c3.set_attribute ("prop", "techval");
+				c3.set_attribute ("prop-name", "techval");
 				r.append_child (c3);
 				var c4 = d.create_element ("child");
-				c4.set_attribute ("prop", "secondaryvalue");
+				c4.set_attribute ("prop-name", "secondaryvalue");
 				r.append_child (c4);
 				var c5 = d.create_element ("common");
 				c4.append_child (c5);
@@ -482,13 +514,13 @@ class CssSelectorTest : GXmlTest {
 				var c1g = d2.create_element ("child");
 				r2.append_child (c1g);
 				var c2g = d2.create_element ("child");
-				c2g.set_attribute ("prop", "subval");
+				c2g.set_attribute ("prop-name", "subval");
 				r2.append_child (c2g);
 				var c3g = d2.create_element ("child");
-				c3g.set_attribute ("prop", "techval");
+				c3g.set_attribute ("prop-name", "techval");
 				r2.append_child (c3g);
 				var c4g = d2.create_element ("child");
-				c4g.set_attribute ("prop", "secondaryvalue");
+				c4g.set_attribute ("prop-name", "secondaryvalue");
 				r2.append_child (c4g);
 				var c5g = d2.create_element ("common");
 				c4g.append_child (c5g);
@@ -522,13 +554,13 @@ class CssSelectorTest : GXmlTest {
 				var c1 = d.create_element ("child");
 				r.append_child (c1);
 				var c2 = d.create_element ("child");
-				c2.set_attribute ("prop", "subval");
+				c2.set_attribute ("prop-name", "subval");
 				r.append_child (c2);
 				var c3 = d.create_element ("child");
-				c3.set_attribute ("prop", "techval");
+				c3.set_attribute ("prop-name", "techval");
 				r.append_child (c3);
 				var c4 = d.create_element ("child");
-				c4.set_attribute ("prop", "secondaryvalue");
+				c4.set_attribute ("prop-name", "secondaryvalue");
 				r.append_child (c4);
 				var c5 = d.create_element ("second");
 				c3.append_child (c5);
@@ -553,13 +585,13 @@ class CssSelectorTest : GXmlTest {
 				var c1g = d2.create_element ("child");
 				r2.append_child (c1g);
 				var c2g = d2.create_element ("child");
-				c2g.set_attribute ("prop", "subval");
+				c2g.set_attribute ("prop-name", "subval");
 				r2.append_child (c2g);
 				var c3g = d2.create_element ("child");
-				c3g.set_attribute ("prop", "techval");
+				c3g.set_attribute ("prop-name", "techval");
 				r2.append_child (c3g);
 				var c4g = d2.create_element ("child");
-				c4g.set_attribute ("prop", "secondaryvalue");
+				c4g.set_attribute ("prop-name", "secondaryvalue");
 				r2.append_child (c4g);
 				var c5g = d2.create_element ("second");
 				c3g.append_child (c5g);
@@ -596,13 +628,13 @@ class CssSelectorTest : GXmlTest {
 				var c1 = d.create_element ("child");
 				r.append_child (c1);
 				var c2 = d.create_element ("child");
-				c2.set_attribute ("prop", "subval");
+				c2.set_attribute ("prop-name", "subval");
 				r.append_child (c2);
 				var c3 = d.create_element ("child");
-				c3.set_attribute ("prop", "techval");
+				c3.set_attribute ("prop-name", "techval");
 				r.append_child (c3);
 				var c4 = d.create_element ("child");
-				c4.set_attribute ("prop", "secondaryvalue");
+				c4.set_attribute ("prop-name", "secondaryvalue");
 				r.append_child (c4);
 				var c5 = d.create_element ("second");
 				c3.append_child (c5);
@@ -624,13 +656,13 @@ class CssSelectorTest : GXmlTest {
 				var c1g = d2.create_element ("child");
 				r2.append_child (c1g);
 				var c2g = d2.create_element ("child");
-				c2g.set_attribute ("prop", "subval");
+				c2g.set_attribute ("prop-name", "subval");
 				r2.append_child (c2g);
 				var c3g = d2.create_element ("child");
-				c3g.set_attribute ("prop", "techval");
+				c3g.set_attribute ("prop-name", "techval");
 				r2.append_child (c3g);
 				var c4g = d2.create_element ("child");
-				c4g.set_attribute ("prop", "secondaryvalue");
+				c4g.set_attribute ("prop-name", "secondaryvalue");
 				r2.append_child (c4g);
 				var c5g = d2.create_element ("second");
 				c3g.append_child (c5g);
