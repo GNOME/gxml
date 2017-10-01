@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-10 20:34+0200\n"
-"PO-Revision-Date: 2017-09-10 20:35+0200\n"
+"POT-Creation-Date: 2017-10-01 13:48+0200\n"
+"PO-Revision-Date: 2017-10-01 13:49+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -606,7 +606,7 @@ msgstr "Błąd podczas usuwania elementu zbioru: %s"
 
 #: ../gxml/GomSchema.vala:275
 #, c-format
-msgid "Can't find element at position: %i : %s"
+msgid "Can't find element at position: %i: %s"
 msgstr "Nie można odnaleźć elementu w położeniu: %i: %s"
 
 #: ../gxml/GomSchema.vala:289 ../gxml/GomSchema.vala:297
@@ -616,41 +616,41 @@ msgstr "Nie można odnaleźć elementu w położeniu: %i: %s"
 msgid "Collection type %s, initialization error: %s"
 msgstr "Typ zbioru %s, błąd inicjacji: %s"
 
-#: ../gxml/CssSelectorParser.vala:125
+#: ../gxml/CssSelectorParser.vala:139
 msgid "Invalid attribute character"
 msgstr "Nieprawidłowy znak atrybutu"
 
-#: ../gxml/CssSelectorParser.vala:147 ../gxml/CssSelectorParser.vala:179
-msgid "Invalid attribute selector character"
-msgstr "Nieprawidłowy znak selektora atrybutu"
+#: ../gxml/CssSelectorParser.vala:165 ../gxml/CssSelectorParser.vala:211
+#, c-format
+msgid "Invalid attribute selector value: %s"
+msgstr "Nieprawidłowa wartość selektora atrybutu: %s"
 
-#: ../gxml/CssSelectorParser.vala:153 ../gxml/CssSelectorParser.vala:198
+#: ../gxml/CssSelectorParser.vala:168 ../gxml/CssSelectorParser.vala:214
 msgid "Invalid end of attribute value"
 msgstr "Nieprawidłowy koniec wartości atrybutu"
 
-#: ../gxml/CssSelectorParser.vala:159 ../gxml/CssSelectorParser.vala:204
+#: ../gxml/CssSelectorParser.vala:174 ../gxml/CssSelectorParser.vala:220
 msgid "Invalid end of attribute selector"
 msgstr "Nieprawidłowy koniec selektora atrybutu"
 
-#: ../gxml/CssSelectorParser.vala:182
-msgid "Invalid attribute selector character : can't find '=' character"
+#: ../gxml/CssSelectorParser.vala:194
+msgid "Invalid attribute selector character"
+msgstr "Nieprawidłowy znak selektora atrybutu"
+
+#: ../gxml/CssSelectorParser.vala:197
+msgid "Invalid attribute selector character: can't find '=' character"
 msgstr "Nieprawidłowy znak selektora atrybutu: nie można odnaleźć znaku „=”"
 
-#: ../gxml/CssSelectorParser.vala:192
-#, c-format
-msgid "Invalid attribute selector character 2 (%s)"
-msgstr "Nieprawidłowy 2. znak selektora atrybutu (%s)"
-
-#: ../gxml/CssSelectorParser.vala:234
+#: ../gxml/CssSelectorParser.vala:250
 #, c-format
 msgid "Invalid pseudo class selector %s"
 msgstr "Nieprawidłowy selektor pseudoklasy %s"
 
-#: ../gxml/CssSelectorParser.vala:242
+#: ../gxml/CssSelectorParser.vala:258
 msgid "Invalid string length."
 msgstr "Nieprawidłowa długość ciągu."
 
-#: ../gxml/CssSelectorParser.vala:275
+#: ../gxml/CssSelectorParser.vala:291
 #, c-format
 msgid "Invalid '%s' character."
 msgstr "Nieprawidłowy znak „%s”."
