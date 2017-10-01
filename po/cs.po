@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-09-08 17:03+0000\n"
-"PO-Revision-Date: 2017-09-10 11:36+0200\n"
+"POT-Creation-Date: 2017-09-29 16:31+0000\n"
+"PO-Revision-Date: 2017-10-01 19:57+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -589,8 +589,8 @@ msgstr "Chyba při odstraňování prvku ze sady: %s"
 
 #: ../gxml/GomSchema.vala:275
 #, c-format
-msgid "Can't find element at position: %i : %s"
-msgstr "Nelze najít prvek na pozici: %i : %s"
+msgid "Can't find element at position: %i: %s"
+msgstr "Nelze najít prvek na pozici: %i: %s"
 
 #: ../gxml/GomSchema.vala:289 ../gxml/GomSchema.vala:297
 #: ../gxml/GomSchema.vala:305 ../gxml/GomSchema.vala:313
@@ -599,41 +599,41 @@ msgstr "Nelze najít prvek na pozici: %i : %s"
 msgid "Collection type %s, initialization error: %s"
 msgstr "Typ sady %s, chyba inicializace: %s"
 
-#: ../gxml/CssSelectorParser.vala:125
+#: ../gxml/CssSelectorParser.vala:139
 msgid "Invalid attribute character"
 msgstr "Neplatný znak v atributu"
 
-#: ../gxml/CssSelectorParser.vala:147 ../gxml/CssSelectorParser.vala:179
-msgid "Invalid attribute selector character"
-msgstr "Neplatný znak v selektoru atributu"
+#: ../gxml/CssSelectorParser.vala:165 ../gxml/CssSelectorParser.vala:211
+#, c-format
+msgid "Invalid attribute selector value: %s"
+msgstr "Neplatný hodnota v selektoru atributu: %s"
 
-#: ../gxml/CssSelectorParser.vala:153 ../gxml/CssSelectorParser.vala:198
+#: ../gxml/CssSelectorParser.vala:168 ../gxml/CssSelectorParser.vala:214
 msgid "Invalid end of attribute value"
 msgstr "Neplatné zakončení hodnoty atributu"
 
-#: ../gxml/CssSelectorParser.vala:159 ../gxml/CssSelectorParser.vala:204
+#: ../gxml/CssSelectorParser.vala:174 ../gxml/CssSelectorParser.vala:220
 msgid "Invalid end of attribute selector"
 msgstr "Neplatné zakončení selektoru atributu"
 
-#: ../gxml/CssSelectorParser.vala:182
-msgid "Invalid attribute selector character : can't find '=' character"
+#: ../gxml/CssSelectorParser.vala:194
+msgid "Invalid attribute selector character"
+msgstr "Neplatný znak v selektoru atributu"
+
+#: ../gxml/CssSelectorParser.vala:197
+msgid "Invalid attribute selector character: can't find '=' character"
 msgstr "Neplatný znak v selektoru atributu: nelze najít znak „=“"
 
-#: ../gxml/CssSelectorParser.vala:192
-#, c-format
-msgid "Invalid attribute selector character 2 (%s)"
-msgstr "Neplatný znak 2 v selektoru atributu (%s)"
-
-#: ../gxml/CssSelectorParser.vala:234
+#: ../gxml/CssSelectorParser.vala:250
 #, c-format
 msgid "Invalid pseudo class selector %s"
 msgstr "Neplatný selektor pseudotřídy %s"
 
-#: ../gxml/CssSelectorParser.vala:242
+#: ../gxml/CssSelectorParser.vala:258
 msgid "Invalid string length."
 msgstr "Neplatná délka řetězce"
 
-#: ../gxml/CssSelectorParser.vala:275
+#: ../gxml/CssSelectorParser.vala:291
 #, c-format
 msgid "Invalid '%s' character."
 msgstr "Neplatný znak „%s“"
