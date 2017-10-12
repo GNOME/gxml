@@ -32,7 +32,10 @@ public interface GXml.DomParentNode : GLib.Object {
   public abstract int child_element_count { get; }
 
   public virtual DomElement? query_selector (string selectors) throws GLib.Error {
-    return query_selector_all (selectors).item (0) as DomElement;
+    var list = query_selector_all (selectors);
+    if (list.size == 0)
+      return null;
+    return list.item (0) as DomElement;
   }
   public abstract DomNodeList query_selector_all (string selectors) throws GLib.Error;
   /**
