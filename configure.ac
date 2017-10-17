@@ -259,11 +259,6 @@ gxml/namespace-info.vala
 gxml/gxml-$API_VERSION.pc:gxml/gxml.pc.in
 gxml/Makefile
 test/Makefile
-docs/Makefile
-docs/valadoc/Makefile
-docs/valadoc/devhelp/Makefile
-docs/valadoc/gtk-doc/Makefile
-docs/valadoc/gir-docs/Makefile
 examples/Makefile
 examples/c/Makefile
 examples/js/Makefile
@@ -289,7 +284,6 @@ echo "   Installation prefix:     $prefix"
 echo "   GObject Introspection:   $found_introspection"
 echo "   Documentation:           ${docs}"
 echo "       DevHelp Docs:        ${build_devhelp}"
-echo "       Gtk-Docs:            ${build_gtkdoc}"
 echo "   Enable Performance Test: $performance"
 echo "   Debug:                   $debug"
 echo "   Platform:                $host"

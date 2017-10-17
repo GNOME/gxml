@@ -98,18 +98,21 @@ sources = \
 	GomSchema.vala \
 	$(NULL)
 
-
-AM_VALAFLAGS= \
+VALA_FLAGS= \
 	--vapidir=$(VAPIDIR) \
-	$(ERROR_AM_VALAFLAGS) \
-	--library=gxml-@API_VERSION@ \
 	$(top_srcdir)/vapi/config.vapi \
 	--vapidir=. \
 	--vapidir=$(top_srcdir)/vapi \
 	--pkg libxml-2.0 \
 	--pkg gee-0.8 \
 	--pkg gobject-2.0 \
-	--pkg gio-2.0 \
+	--pkg gio-2.0
+
+AM_VALAFLAGS= \
+	$(VALA_FLAGS) \
+	--vapidir=$(VAPIDIR) \
+	$(ERROR_AM_VALAFLAGS) \
+	--library=gxml-@API_VERSION@ \
 	--includedir gxml \
 	-H gxml.h -C \
 	$(NULL)
@@ -285,4 +288,36 @@ CLEANFILES += \
 	gxml.h
 
 -include $(top_srcdir)/git.mk
+
+if BUILD_DEVHELP_DOCS
+
+VALADOC_FLAGS = \
+	--driver $(VALA_API_VERSION) \
+	--force \
+	--package-name=GXml-$(API_VERSION) \
+	--package-version=$(PACKAGE_VERSION)
+
+gxmldocdir=$(datadir)/devhelp/books/GXml-$(API_VERSION)
+gxmldoc_DATA = \
+	devhelp/GXml-$(API_VERSION)/GXml-$(API_VERSION).devhelp2 \
+	devhelp/GXml-$(API_VERSION)/*.png \
+	devhelp/GXml-$(API_VERSION)/*.css \
+	devhelp/GXml-$(API_VERSION)/*.js \
+	devhelp/GXml-$(API_VERSION)/*.htm \
+	devhelp/GXml-$(API_VERSION)/*.html
+
+gxmldocimgdir=$(datadir)/devhelp/books/GXml-$(API_VERSION)/img
+gxmldocimg_DATA=\
+		devhelp/GXml-$(API_VERSION)/img/*
+
+$(gxmldoc_DATA) $(gxmldocimg_DATA): gxml-doc
+
+gxml-doc : $(sources)
+	$(VALADOC) -o devhelp --doclet=devhelp $(VALADOC_FLAGS) $(VALA_FLAGS) $^
+
+clean-local: clean-local-gxml-doc
+.PHONY: clean-local-gxml-doc
+clean-local-gxml-doc:
+	-rm -rf devhelp
+endif
 

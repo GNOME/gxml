@@ -12,8 +12,7 @@ VALADOC_FLAGS = \
 	--pkg gee-0.8 \
 	--vapidir=$(top_srcdir)/gxml \
 	--vapidir=$(top_srcdir)/vapi \
-	$(top_srcdir)/vapi/config.vapi \
-	$(top_srcdir)/vapi/xlibxml-1.0.vapi
+	$(top_srcdir)/vapi/config.vapi
 
 sources= \
 	$(top_srcdir)/gxml/*.vala
