@@ -87,7 +87,6 @@ public class GXml.SerializableTreeMap<K,V> : Gee.TreeMap<K,V>, Serializable, Ser
       return new Gee.ArrayList<GXml.Node> ();
     }
   }
-  protected ParamSpec[] properties { get; set; }
   public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; protected set; }
   public string? serialized_xml_node_value { owned get; protected set; default=null; }
   public virtual bool set_default_namespace (GXml.Node node) { return true; }

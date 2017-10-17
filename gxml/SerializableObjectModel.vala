@@ -43,7 +43,6 @@ public abstract class GXml.SerializableObjectModel : Object, Serializable
   // To find unknown nodes
   protected GXml.Node _node = null;
   /* Serializable interface properties */
-  protected ParamSpec[] properties { get; set; }
   public GLib.HashTable<string,GLib.ParamSpec> ignored_serializable_properties { get; protected set; }
   public string? serialized_xml_node_value { owned get ; protected set; default = null; }
   public virtual bool get_enable_unknown_serializable_property () { return false; }
