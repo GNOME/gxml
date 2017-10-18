@@ -75,13 +75,13 @@ public class GXml.DomEventInit : GLib.Object {
 }
 
 public interface GXml.DomCustomEvent : GLib.Object, GXml.DomEvent {
-  public abstract GLib.Value? detail { get; }
+  public abstract GLib.Value detail { get; }
 
-  public abstract void init_custom_event (string type, bool bubbles, bool cancelable, GLib.Value? detail);
+  public abstract void init_custom_event (string type, bool bubbles, bool cancelable, GLib.Value detail);
 }
 
 public class GXml.DomCustomEventInit : GXml.DomEventInit {
-  public GLib.Value? detail { get; set; default = null; }
+  public GLib.Value detail { get; set; }
 }
 
 
