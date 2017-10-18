@@ -494,52 +494,24 @@ public class GXml.GomElement : GomNode,
       }
       if ((node as DomAttr).namespace_uri == "http://www.w3.org/2000/xmlns/"
           || (node as DomAttr).namespace_uri == "http://www.w3.org/2000/xmlns") {
-#if DEBUG
-        GLib.message ("Searching for duplicated ns..."+node.node_value
-                  +" NS: "+(node as DomAttr).namespace_uri);
-#endif
         if ((node as DomAttr).local_name == "xmlns") {
           string ns_uri = _element.lookup_namespace_uri (null);
           if (ns_uri != null && ns_uri != node.node_value) {
-#if DEBUG
-            GLib.message ("Error: NSURI: "+ns_uri+" NSURI Attr:"+node.node_value);
-#endif
-            throw new DomError.NAMESPACE_ERROR
-                      (_("Redefinition of default namespace for %s")
-                        .printf (node.node_value));
+            message (_("Duplicated default namespace detected with URI: %s").printf (ns_uri));
           }
         }
         if ((node as DomAttr).prefix == "xmlns") {
-#if DEBUG
-          GLib.message ("Attr Prefix = "+(node as DomAttr).prefix
-                      + "Attr Name: "+(node as DomAttr).local_name);
-#endif
           string nsprefix = _element.lookup_prefix (node.node_value);
           string nsuri = _element.lookup_namespace_uri ((node as DomAttr).local_name);
-
-#if DEBUG
-          if (nsprefix != null || nsuri != null)
-            GLib.message ("Ns Prefix = "+nsprefix
-                      + "Ns URI: "+nsuri);
-#endif
           if ((nsprefix != null || nsuri != null)
               && (nsprefix != (node as DomAttr).local_name
                   || nsuri != node.node_value)) {
-#if DEBUG
-            GLib.message ("Prefix: "+nsprefix+" Prefix Attr:"+(node as DomAttr).local_name);
-#endif
-            throw new DomError.NAMESPACE_ERROR
-                      (_("Redefinition of namespace's prefix for %s")
-                        .printf (node.node_value));
+            message (_("Duplicated namespace detected for: %s:%s").printf ((node as DomAttr).local_name, node.node_value));
           }
         }
       }
       if ((node as DomAttr).namespace_uri != "http://www.w3.org/2000/xmlns/"
           && (node as DomAttr).namespace_uri != "http://www.w3.org/2000/xmlns"){
-#if DEBUG
-        GLib.message ("No namespace attribute: "+(node as DomAttr).namespace_uri
-                    + ":"+(node as DomAttr).prefix);
-#endif
         string nsn = _element.lookup_namespace_uri ((node as DomAttr).prefix);
         string nspn = _element.lookup_prefix (nsn);
         if (nspn != (node as DomAttr).prefix
@@ -558,10 +530,6 @@ public class GXml.GomElement : GomNode,
       if ((node as DomAttr).prefix != null
           && (node as DomAttr).prefix != "")
         p = (node as DomAttr).prefix + ":";
-#if DEBUG
-      GLib.message ("Attribute to set: "+p+(node as DomAttr).local_name
-                    +"="+node.node_value);
-#endif
       set (p+(node as DomAttr).local_name,
           node.node_value);
 

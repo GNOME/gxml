@@ -247,23 +247,6 @@ public class GXml.GomNode : Object,
    * Sets node's parent and checks for namespace conflics.
    */
   internal void set_parent (DomNode node) throws GLib.Error {
-    if (this is DomElement) {
-      var e = (this as DomElement);
-      if (e.namespace_uri != null || e.prefix != null) {
-        string nsprefix = node.lookup_prefix (e.namespace_uri);
-        string nsuri = node.lookup_namespace_uri (e.prefix);
-        if (nsprefix != null && nsprefix != e.prefix) {
-          throw new DomError.NAMESPACE_ERROR
-            (_("Trying to add a namespaced element to a parent with invalid prefix for namespace %s")
-              .printf (e.namespace_uri));
-        }
-        if (nsuri != null && nsuri != e.namespace_uri) {
-          throw new DomError.NAMESPACE_ERROR
-            (_("Trying to add a namespaced element to a parent with invalid URI for prefix %s")
-              .printf (e.prefix));
-        }
-      }
-    }
     _document = node.owner_document;
     _parent = node;
   }

@@ -97,6 +97,31 @@ class GomElementTest : GXmlTest  {
 				GLib.message (e.message);
 				assert_not_reached ();
 			}
+		});Test.add_func ("/gxml/gom-element/read/namespace/redefinition", () => {
+			DomDocument doc = null;
+			try {
+				doc = new GomDocument.from_string ("<magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://hogwarts.co.uk/magic\"><magic:Arc/><products:Diamond/></magic:Potion>");
+				var r = doc.document_element;
+				assert (r != null);
+				assert (r.local_name == "Potion");
+				assert (r.get_attribute_ns ("http://www.w3.org/2000/xmlns/", "magic") == "http://hogwarts.co.uk/magic");
+				assert (r.get_attribute_ns ("http://www.w3.org/2000/xmlns/", "products") == "http://hogwarts.co.uk/magic");
+				assert (r.child_nodes.length == 2);
+				var n1 = r.child_nodes.item (0);
+				assert (n1 != null);
+				assert (n1 is DomElement);
+				assert ((n1 as DomElement).local_name == "Arc");
+				assert ((n1 as DomElement).prefix == "magic");
+				assert ((n1 as DomElement).namespace_uri == "http://hogwarts.co.uk/magic");
+				var n2 = r.child_nodes.item (1);
+				assert (n2 != null);
+				assert (n2 is DomElement);
+				assert ((n2 as DomElement).local_name == "Diamond");
+				assert ((n2 as DomElement).prefix == "products");
+				assert ((n2 as DomElement).namespace_uri == "http://hogwarts.co.uk/magic");
+			} catch (GLib.Error e) {
+				GLib.warning (e.message);
+			}
 		});
 		Test.add_func ("/gxml/gom-element/attributes", () => {
 			try {
