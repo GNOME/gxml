@@ -298,10 +298,8 @@ public class GXml.GomElement : GomNode,
   /**
    * An attribute called 'id'.
    */
-  public string? id {
-    owned get { return (this as GomElement).get_attribute ("id"); }
-    set { (this as GomObject).set_attribute ("id", value); }
-  }
+  [Description (nick="::id")]
+  public string? id { owned get; set; }
   /**
    * An attribute called 'class'.
    */

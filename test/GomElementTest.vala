@@ -164,6 +164,9 @@ class GomElementTest : GXmlTest  {
 				assert (elem.get_attribute_ns ("http://www.gnome.org/GXml", "xola") == null);
 				assert (elem.get_attribute ("xola") == null);
 				assert (elem.attributes.size == 2);
+				elem.id = "idnode";
+				assert ("id=\"idnode\"" in elem.write_string ());
+				assert (elem.id == "idnode");
 				try {
 #if DEBUG
 					message ("Documento:"+parser.write_string ());
