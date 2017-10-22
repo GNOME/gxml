@@ -413,11 +413,17 @@ class GomDocumentTest : GXmlTest {
 		Test.add_func ("/gxml/gom-document/namespace/create", () => {
 			try {
 				DomDocument doc = new GomDocument.from_string ("<document_element><child/></document_element>");
+
+				assert (doc.document_element != null);
+				assert (doc.document_element.namespace_uri == null);
+				assert (doc.document_element.prefix == null);
+				assert (doc.document_element.lookup_namespace_uri (null) == null);
 				doc.document_element.set_attribute_ns ("http://www.w3.org/2000/xmlns/",
 																							"xmlns","http://www.gnome.org/GXml");
 				assert (doc.document_element != null);
 				assert (doc.document_element.namespace_uri == null);
 				assert (doc.document_element.prefix == null);
+				assert (doc.document_element.lookup_namespace_uri (null) == "http://www.gnome.org/GXml");
 				assert (doc.document_element.child_nodes != null);
 				assert (doc.document_element.child_nodes.size == 1);
 				var c = doc.document_element.child_nodes[0] as DomElement;
@@ -431,10 +437,8 @@ class GomDocumentTest : GXmlTest {
 									.get_attribute_ns ("http://www.gnome.org/GXml2", "prop");
 				assert (p != null);
 				assert (p == "val");
-				assert (doc.document_element.lookup_namespace_uri (null) != null);
-#if DEBUG
-				GLib.message ("NS default: "+doc.document_element.lookup_namespace_uri (null));
-#endif
+				message ((doc as GomDocument).write_string ());
+				assert (doc.document_element.lookup_namespace_uri (null) == "http://www.gnome.org/GXml");
 				assert (c.prefix == null);
 				assert (c.namespace_uri == null);
 				assert (c.lookup_namespace_uri (null) == "http://www.gnome.org/GXml");

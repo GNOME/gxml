@@ -47,11 +47,6 @@ class GomElementTest : GXmlTest  {
 				assert ((node as DomElement).prefix == "magic");
 				assert ((node as DomElement).attributes.size == 2);
 				GLib.message ("Attributes: "+(node as DomElement).attributes.size.to_string ());
-				/*foreach (string k in (node as DomElement).attributes.keys) {
-					string v = (node as DomElement).get_attribute (k);
-					if (v == null) v = "NULL";
-					GLib.message ("Attribute: "+k+"="+v);
-				}*/
 				assert ((node as DomElement).get_attribute ("xmlns:magic") == "http://hogwarts.co.uk/magic");
 				assert ((node as DomElement).get_attribute_ns ("http://www.w3.org/2000/xmlns/", "magic") == "http://hogwarts.co.uk/magic");
 				assert ((node as DomElement).get_attribute ("xmlns:products") == "http://diagonalley.co.uk/products");
@@ -168,9 +163,6 @@ class GomElementTest : GXmlTest  {
 				assert ("id=\"idnode\"" in elem.write_string ());
 				assert (elem.id == "idnode");
 				try {
-#if DEBUG
-					message ("Documento:"+parser.write_string ());
-#endif
 					elem.set_attribute_ns ("http://www.gnome.org/GXml", "gxml2:xola","Mexico");
 					assert_not_reached ();
 				} catch (GLib.Error e) {
@@ -179,6 +171,22 @@ class GomElementTest : GXmlTest  {
 				assert (elem != null);
 				assert (elem.attributes != null);
 				assert (elem.attributes.size == 2);
+				var n = doc.create_element ("node");
+				elem.append_child (n);
+				var child = doc.create_element ("child");
+				n.append_child (child);
+				elem.set_attribute_ns ("http://www.w3.org/2000/xmlns","xmlns:xtest","http://www.w3c.org/test");
+				assert (elem.lookup_prefix ("http://www.w3c.org/test") == "xtest");
+				assert (n.lookup_prefix ("http://www.w3c.org/test") == "xtest");
+				assert (child.lookup_prefix ("http://www.w3c.org/test") == "xtest");
+				assert (elem.lookup_namespace_uri ("xtest") == "http://www.w3c.org/test");
+				assert (n.lookup_namespace_uri ("xtest") == "http://www.w3c.org/test");
+				assert (child.lookup_namespace_uri ("xtest") == "http://www.w3c.org/test");
+				message ((elem as GomElement).write_string ());
+				child.set_attribute_ns ("http://www.w3c.org/test","xtest:val","Value");
+				assert (elem.get_attribute_ns ("http://www.w3.org/2000/xmlns/","xtest") == "http://www.w3c.org/test");
+				assert (elem.get_attribute_ns ("http://www.w3.org/2000/xmlns","xtest") == "http://www.w3c.org/test");
+				assert (child.get_attribute_ns ("http://www.w3c.org/test","val") == "Value");
 			} catch (GLib.Error e) {
 				GLib.message (e.message);
 				assert_not_reached ();

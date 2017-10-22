@@ -184,26 +184,18 @@ public class GXml.GomElement : GomNode,
     return parent_node.lookup_prefix (nspace);
   }
   public new string? lookup_namespace_uri (string? prefix) {
-    if (_namespace_uri != null && _prefix == prefix)
-      return namespace_uri;
-    string s = "";
-    if (prefix != null) s = prefix;
     foreach (string k in attributes.keys) {
       if (!("xmlns" in k)) continue;
-#if DEBUG
-      GLib.message ("Attribute: "+k);
-#endif
-      string nsp = null;
+      string nsp = _attributes.get (k);
+      if (prefix == null && k == "xmlns") return nsp;
       if (":" in k) {
         string[] sa = k.split (":");
-        if (sa.length > 2) {
+        if (sa.length != 2) {
           GLib.warning (_("Invalid attribute name in element's attributes list"));
           return null;
         }
-        nsp = sa[1];
+        if (prefix == sa[1]) return nsp;
       }
-      if (nsp != prefix) continue;
-      return _attributes.get (k);
     }
     if (parent_node == null) return null;
     return parent_node.lookup_namespace_uri (prefix);
@@ -541,19 +533,14 @@ public class GXml.GomElement : GomNode,
   }
   public DomNamedNodeMap attributes { owned get { return (DomNamedNodeMap) _attributes; } }
   public string? get_attribute (string name) {
-#if DEBUG
-    message ("Searching attribute: "+name);
-#endif
     string s = (this as GomObject).get_attribute (name);
-#if DEBUG
-    message ("Found as GomObject Property?: "+(s != null).to_string ());
-#endif
     if (s != null) return s;
     return _attributes.get (name);
   }
   public string? get_attribute_ns (string? namespace_uri, string local_name) {
     string nsp = null;
-    if (namespace_uri == "http://www.w3.org/2000/xmlns/"
+    if ((namespace_uri == "http://www.w3.org/2000/xmlns/"
+          || namespace_uri == "http://www.w3.org/2000/xmlns")
         && local_name != "xmlns")
       nsp = "xmlns";
     else
