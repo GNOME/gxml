@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-10-18 20:56+0000\n"
-"PO-Revision-Date: 2017-10-20 15:44+0200\n"
+"POT-Creation-Date: 2017-10-22 01:59+0000\n"
+"PO-Revision-Date: 2017-10-23 08:07+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -142,24 +142,24 @@ msgstr "DomElement query_selector_all není implementován"
 msgid "Invalid namespace URI stored in element's attribute"
 msgstr "Neplatná adresa URI jmenného prostoru uchovaná v atributu prvku"
 
-#: ../gxml/GomElement.vala:176 ../gxml/GomElement.vala:200
+#: ../gxml/GomElement.vala:176 ../gxml/GomElement.vala:194
 msgid "Invalid attribute name in element's attributes list"
 msgstr "Neplatný název atributu v seznamu atributů prvku"
 
-#: ../gxml/GomElement.vala:217
+#: ../gxml/GomElement.vala:209
 msgid "Can't locate child node to remove"
 msgstr "Nelze najit uzel potomka k odstranění"
 
-#: ../gxml/GomElement.vala:432 ../gxml/GomElement.vala:470
+#: ../gxml/GomElement.vala:422 ../gxml/GomElement.vala:460
 #, c-format
 msgid "Invalid attribute name: %s"
 msgstr "Neplatný název atributu: %s"
 
-#: ../gxml/GomElement.vala:434 ../gxml/GomElement.vala:472
+#: ../gxml/GomElement.vala:424 ../gxml/GomElement.vala:462
 msgid "Invalid node type. DomAttr was expected"
 msgstr "Neplatný typ uzlu. Byl očekáván DomAttr"
 
-#: ../gxml/GomElement.vala:477
+#: ../gxml/GomElement.vala:467
 msgid ""
 "Namespace attributes prefixed with xmlns should use a namespace uri http://"
 "www.w3.org/2000/xmlns"
@@ -167,91 +167,91 @@ msgstr ""
 "Atribut se jmenným prostorem určeným pomocí xmlns by měl používat jmenný "
 "prostor http://www.w3.org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:484
+#: ../gxml/GomElement.vala:474
 #, c-format
 msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
 msgstr ""
 "Atribut se jmenným prostorem by měl mít uvedený nenulový, neprázdný prefix: "
 "%s"
 
-#: ../gxml/GomElement.vala:488
+#: ../gxml/GomElement.vala:478
 msgid "Invalid namespace attribute's name."
 msgstr "Neplatný název atributu se jmenným prostorem"
 
-#: ../gxml/GomElement.vala:500
+#: ../gxml/GomElement.vala:490
 #, c-format
 msgid "Duplicated default namespace detected with URI: %s"
 msgstr "Zjištěn duplicitní výchozí jmenný prostor s URI: %s"
 
-#: ../gxml/GomElement.vala:509
+#: ../gxml/GomElement.vala:499
 #, c-format
 msgid "Duplicated namespace detected for: %s:%s"
 msgstr "Zjištěn duplicitní jmenný prostor pro: %s:%s"
 
-#: ../gxml/GomElement.vala:520
+#: ../gxml/GomElement.vala:510
 msgid "Trying to add an attribute with an undefined namespace prefix"
 msgstr "Zkouší se přidat atribut s nedefinovaným prefixem jmenného prostoru"
 
-#: ../gxml/GomElement.vala:526
+#: ../gxml/GomElement.vala:516
 msgid "Trying to add an attribute with a non found namespace URI"
 msgstr ""
 "Zkouší se přidat atribut, u kterého nebyla nalezena adresa URI jmenného "
 "prostoru"
 
-#: ../gxml/GomElement.vala:581
+#: ../gxml/GomElement.vala:566
 msgid "Invalid attribute name. Just one prefix is allowed"
 msgstr "Neplatný název atributu. Povolen je jen jeden prefix"
 
-#: ../gxml/GomElement.vala:585
+#: ../gxml/GomElement.vala:570
 #, c-format
 msgid "Invalid attribute name. Invalid use of colon: %s"
 msgstr "Neplatný název atributu. Neplatné použití dvojtečky: %s"
 
-#: ../gxml/GomElement.vala:589
+#: ../gxml/GomElement.vala:574
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
 msgstr ""
 "Neplatný jmenný prostor. Když není uveden prefix, měla by být uvedena adresa "
 "URI jmenného prostoru"
 
-#: ../gxml/GomElement.vala:591
+#: ../gxml/GomElement.vala:576
 msgid ""
 "Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
-"org/2000/xmlns/"
+"org/2000/xmlns"
 msgstr ""
 "Neplatný jmenný prostor. Když je prefix „xml“, měla by být adresa URI http://"
-"www.w3.org/2000/xmlns/"
+"www.w3.org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:594
+#: ../gxml/GomElement.vala:579
 msgid ""
 "Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
-"http://www.w3.org/2000/xmlns/"
+"http://www.w3.org/2000/xmlns"
 msgstr ""
 "Neplatný jmenný prostor. Když je prefix atributu „xmlns“, měla by být adresa "
-"URI http://www.w3.org/2000/xmlns/"
+"URI http://www.w3.org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:598
+#: ../gxml/GomElement.vala:583
 msgid ""
 "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
-"http://www.w3.org/2000/xmlns/"
+"http://www.w3.org/2000/xmlns"
 msgstr ""
 "Neplatný jmenný prostor. Když má název atributu jmenný prostor „xmlns“, měla "
-"by být adresa URI http://www.w3.org/2000/xmlns/"
+"by být adresa URI http://www.w3.org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:600
+#: ../gxml/GomElement.vala:585
 msgid "Invalid attribute name. No prefixed attributes should use xmlns name"
 msgstr ""
 "Neplatný název atributu. Atributy bez prefixu by neměly používat název s "
 "xmlns"
 
-#: ../gxml/GomElement.vala:604
+#: ../gxml/GomElement.vala:589
 msgid "Setting namespaced property error: "
 msgstr "Chyba nastavení vlastnosti s jmenným prostorem:"
 
-#: ../gxml/GomElement.vala:611
+#: ../gxml/GomElement.vala:596
 msgid "Removing attribute Error: "
 msgstr "Chyba při odstraňování atributu:"
 
-#: ../gxml/GomElement.vala:616
+#: ../gxml/GomElement.vala:601
 msgid "Removing namespaced attribute Error: "
 msgstr "Chyba při odstraňování atributu jmenného prostoru:"
 
@@ -620,23 +620,3 @@ msgstr "Neplatná délka řetězce"
 #, c-format
 msgid "Invalid '%s' character."
 msgstr "Neplatný znak „%s“"
-
-#~ msgid "Redefinition of default namespace for %s"
-#~ msgstr "Předefinování výchozího jmenného prostoru pro %s"
-
-#~ msgid "Redefinition of namespace's prefix for %s"
-#~ msgstr "Předefinování prefixu jemnného prostoru pro %s"
-
-#~ msgid ""
-#~ "Trying to add a namespaced element to a parent with invalid prefix for "
-#~ "namespace %s"
-#~ msgstr ""
-#~ "Zkouší se přidat prvek s jmenným prostorem do rodiče s neplatným prefixem "
-#~ "pro jmenný prostor %s"
-
-#~ msgid ""
-#~ "Trying to add a namespaced element to a parent with invalid URI for "
-#~ "prefix %s"
-#~ msgstr ""
-#~ "Zkouší se přidat prvek s jmenným prostorem do rodiče s neplatnou adresou "
-#~ "URI pro prefix %s"
