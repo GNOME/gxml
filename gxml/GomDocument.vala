@@ -393,7 +393,6 @@ public class GXml.GomImplementation : GLib.Object, GXml.DomImplementation {
 
 
 public class GXml.GomDocumentType : GXml.GomNode,
-                                  GXml.DomNode,
                                   GXml.DomChildNode,
                                   GXml.DomDocumentType
 {
@@ -401,10 +400,20 @@ public class GXml.GomDocumentType : GXml.GomNode,
   protected string _public_id = "";
   protected string _system_id = "";
 
-  public  new string name { get { return _name; } }
+  public string name { get { return _name; } }
   public string public_id { get { return _public_id; } }
   public string system_id { get { return _system_id; } }
 
+  construct {
+    _node_type = DomNode.NodeType.DOCUMENT_TYPE_NODE;
+    _local_name = "!DOCTYPE";
+  }
+  public GomDocumentType (DomDocument doc, string name, string public_id, string system_id) {
+    _document = doc;
+     _name = name;
+    _public_id = public_id;
+    _system_id = system_id;
+  }
   public GomDocumentType.with_name (DomDocument doc, string name) {
     _document = doc;
     _name = name;

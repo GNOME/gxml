@@ -533,28 +533,7 @@ public class GXml.XParser : Object, GXml.Parser {
   }
   // Non Elements
     foreach (GXml.DomNode n in node.child_nodes) {
-      if (n is GXml.DomElement) {
-        start_node (n);
-        size += tw.end_element ();
-        if (size > 1500)
-          tw.flush ();
-      }
-      if (n is GXml.DomText) {
-      size += tw.write_string (n.node_value);
-      if (size > 1500)
-        tw.flush ();
-      }
-      if (n is GXml.DomComment) {
-        size += tw.write_comment (n.node_value);
-        if (size > 1500)
-          tw.flush ();
-      }
-      if (n is GXml.DomProcessingInstruction) {
-        size += tw.write_pi ((n as DomProcessingInstruction).target,
-                            (n as DomProcessingInstruction).data);
-        if (size > 1500)
-          tw.flush ();
-      }
+      write_node (n);
     }
   }
 
@@ -655,28 +634,43 @@ public class GXml.XParser : Object, GXml.Parser {
     foreach (GXml.DomNode n in node.child_nodes) {
       Idle.add (start_node_async.callback);
       yield;
-      if (n is GXml.DomElement) {
-        start_node (n);
-        size += tw.end_element ();
-        if (size > 1500)
-          tw.flush ();
-      }
-      if (n is GXml.DomText) {
-      size += tw.write_string (n.node_value);
+      write_node (n);
+    }
+  }
+  private void write_node (DomNode n) {
+    if (tw == null)
+      throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextWriter initialized"));
+    int size = 0;
+    if (n is GXml.DomElement) {
+      start_node (n);
+      size += tw.end_element ();
       if (size > 1500)
         tw.flush ();
-      }
-      if (n is GXml.DomComment) {
-        size += tw.write_comment (n.node_value);
-        if (size > 1500)
-          tw.flush ();
-      }
-      if (n is GXml.DomProcessingInstruction) {
-        size += tw.write_pi ((n as DomProcessingInstruction).target,
-                            (n as DomProcessingInstruction).data);
-        if (size > 1500)
-          tw.flush ();
-      }
+    }
+    if (n is GXml.DomText) {
+    size += tw.write_string (n.node_value);
+    if (size > 1500)
+      tw.flush ();
+    }
+    if (n is GXml.DomComment) {
+      size += tw.write_comment (n.node_value);
+      if (size > 1500)
+        tw.flush ();
+    }
+    if (n is GXml.DomProcessingInstruction) {
+      size += tw.write_pi ((n as DomProcessingInstruction).target,
+                          (n as DomProcessingInstruction).data);
+      if (size > 1500)
+        tw.flush ();
+    }
+    if (n is GXml.DomDocumentType) {
+      message ("Document Type:");
+      size += tw.write_document_type ((n as DomDocumentType).name,
+                          (n as DomDocumentType).public_id,
+                          (n as DomDocumentType).system_id,
+                          "");
+      if (size > 1500)
+        tw.flush ();
     }
   }
 }

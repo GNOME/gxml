@@ -608,5 +608,28 @@ class GomDocumentTest : GXmlTest {
 		    assert_not_reached ();
 		  }
 		});
+		Test.add_func ("/gxml/gom-document/doc-type/create", () => {
+			try {
+				var d = new GomDocument ();
+				message ("Creating a DocumentType");
+				var dt1 = new GXml.GomDocumentType (d, "svg", "-//W3C//DTD SVG 1.1//EN", "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd");
+				assert (dt1 is DomDocumentType);
+				assert (dt1.node_type == DomNode.NodeType.DOCUMENT_TYPE_NODE);
+				assert (dt1.node_name == "!DOCTYPE");
+				assert (dt1.name == "svg");
+				assert (dt1.public_id == "-//W3C//DTD SVG 1.1//EN");
+				assert (dt1.system_id == "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd");
+				d.append_child (dt1);
+				assert (d.child_nodes.length == 1);
+				var r = d.create_element ("svg");
+				d.append_child (r);
+				assert (d.child_nodes.length == 2);
+				message (d.write_string ());
+				assert ("<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">" in d.write_string ());
+			} catch (GLib.Error e) {
+		    GLib.message ("Error: "+e.message);
+		    assert_not_reached ();
+		  }
+		});
 	}
 }
