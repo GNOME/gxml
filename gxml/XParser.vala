@@ -655,7 +655,7 @@ public class GXml.XParser : Object, GXml.Parser {
       write_node (n);
     }
   }
-  private void write_node (DomNode n) {
+  private void write_node (DomNode n) throws GLib.Error {
     if (tw == null)
       throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextWriter initialized"));
     int size = 0;
