@@ -1,7 +1,7 @@
 /* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /* XParser.vala
  *
- * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2016-2017  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -226,6 +226,9 @@ public class GXml.XParser : Object, GXml.Parser {
     if (current_is_element () && (node is DomDocument))
       read_child_element (node);
     else {
+      if (node is GomDocument) {
+        read_child_nodes (node);
+      }
       if (node is GomElement) {
         if ((node as GomElement).parse_children)
           read_child_nodes (node);
@@ -417,7 +420,22 @@ public class GXml.XParser : Object, GXml.Parser {
       ret = false;
       break;
     case Xml.ReaderType.DOCUMENT_TYPE:
-      ret = false;
+      var bf = new Xml.Buffer ();
+      var xn = tr.current_node ();
+      bf.node_dump (xn->doc, xn, 0, 0);
+      string sids = bf.content ();
+      var reg = new GLib.Regex ("^<!DOCTYPE\\s*((([a-z]*|[A-Z]*))|(([a-z]*|[A-Z]*)\\s*PUBLIC\\s*(?<pid> \".*\")\\s*(?<sid> \".*\")))\\s*>");
+			GLib.MatchInfo info = null;
+			if (!reg.match (sids, RegexMatchFlags.ANCHORED, out info)) {
+				warning (_("Invalid sequence for document type definition: "+sids));
+				return false;
+			}
+			string pid = info.fetch_named ("pid");
+			if (pid != null) pid = pid.replace ("\"","").chomp ().strip ();
+			string sid = info.fetch_named ("sid");
+			if (sid != null) sid = sid.replace ("\"","").chomp ().strip ();
+      n = new GomDocumentType (_document, tr.const_local_name (), pid, sid);
+      parent.append_child (n);
       break;
     case Xml.ReaderType.DOCUMENT_FRAGMENT:
       ret = false;
@@ -664,7 +682,6 @@ public class GXml.XParser : Object, GXml.Parser {
         tw.flush ();
     }
     if (n is GXml.DomDocumentType) {
-      message ("Document Type:");
       size += tw.write_document_type ((n as DomDocumentType).name,
                           (n as DomDocumentType).public_id,
                           (n as DomDocumentType).system_id,

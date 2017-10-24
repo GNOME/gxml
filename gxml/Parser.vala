@@ -1,6 +1,7 @@
-/* TNode.vala
+/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
+/* Parser.vala
  *
- * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2016-2017  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -145,6 +146,9 @@ public interface GXml.Parser : Object {
   public virtual void read_child_nodes (DomNode parent) throws GLib.Error {
     bool cont = true;
     while (cont) {
+      if (parent is DomDocument) {
+        cont = read_child_node (parent);
+      }
       if (!move_next_node ()) return;
       if (current_is_element ())
         cont = read_child_element (parent);

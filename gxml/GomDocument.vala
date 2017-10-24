@@ -408,7 +408,7 @@ public class GXml.GomDocumentType : GXml.GomNode,
     _node_type = DomNode.NodeType.DOCUMENT_TYPE_NODE;
     _local_name = "!DOCTYPE";
   }
-  public GomDocumentType (DomDocument doc, string name, string public_id, string system_id) {
+  public GomDocumentType (DomDocument doc, string name, string? public_id, string? system_id) {
     _document = doc;
      _name = name;
     _public_id = public_id;

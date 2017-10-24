@@ -608,7 +608,7 @@ class GomDocumentTest : GXmlTest {
 		    assert_not_reached ();
 		  }
 		});
-		Test.add_func ("/gxml/gom-document/doc-type/create", () => {
+		Test.add_func ("/gxml/gom-document/doc-type/write/full", () => {
 			try {
 				var d = new GomDocument ();
 				message ("Creating a DocumentType");
@@ -626,6 +626,86 @@ class GomDocumentTest : GXmlTest {
 				assert (d.child_nodes.length == 2);
 				message (d.write_string ());
 				assert ("<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">" in d.write_string ());
+			} catch (GLib.Error e) {
+		    GLib.message ("Error: "+e.message);
+		    assert_not_reached ();
+		  } //<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+		});
+		Test.add_func ("/gxml/gom-document/doc-type/write/no-ids", () => {
+			try {
+				var d = new GomDocument ();
+				message ("Creating a DocumentType");
+				var dt1 = new GXml.GomDocumentType (d, "svg", null, null);
+				assert (dt1 is DomDocumentType);
+				assert (dt1.node_type == DomNode.NodeType.DOCUMENT_TYPE_NODE);
+				assert (dt1.node_name == "!DOCTYPE");
+				assert (dt1.name == "svg");
+				assert (dt1.public_id == null);
+				assert (dt1.system_id == null);
+				d.append_child (dt1);
+				assert (d.child_nodes.length == 1);
+				var r = d.create_element ("svg");
+				d.append_child (r);
+				assert (d.child_nodes.length == 2);
+				message (d.write_string ());
+				assert ("<!DOCTYPE svg>" in d.write_string ());
+			} catch (GLib.Error e) {
+		    GLib.message ("Error: "+e.message);
+		    assert_not_reached ();
+		  } //<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+		});
+		Test.add_func ("/gxml/gom-document/doc-type/read/full", () => {
+			try {
+				var d = new GomDocument.from_string ("<?xml version=\"1.0\"?>\n<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg/>");
+				message (d.write_string ());
+				message (d.child_nodes.length.to_string ());
+				assert (d.child_nodes.length == 2);
+				var dt1 = d.child_nodes[0] as DomDocumentType;
+				assert (dt1 != null);
+				assert (dt1 is DomDocumentType);
+				assert (dt1.node_type == DomNode.NodeType.DOCUMENT_TYPE_NODE);
+				assert (dt1.node_name == "!DOCTYPE");
+				assert (dt1.name == "svg");
+				assert (dt1.public_id == "-//W3C//DTD SVG 1.1//EN");
+				assert (dt1.system_id == "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd");
+			} catch (GLib.Error e) {
+		    GLib.message ("Error: "+e.message);
+		    assert_not_reached ();
+		  }
+		});
+		Test.add_func ("/gxml/gom-document/doc-type/read/spaces", () => {
+			try {
+				var d = new GomDocument.from_string ("<?xml version=\"1.0\"?>\n<!DOCTYPE     svg     PUBLIC     \"-//W3C//DTD SVG 1.1//EN\"     \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"    ><svg/>");
+				message (d.write_string ());
+				message (d.child_nodes.length.to_string ());
+				assert (d.child_nodes.length == 2);
+				var dt1 = d.child_nodes[0] as DomDocumentType;
+				assert (dt1 != null);
+				assert (dt1 is DomDocumentType);
+				assert (dt1.node_type == DomNode.NodeType.DOCUMENT_TYPE_NODE);
+				assert (dt1.node_name == "!DOCTYPE");
+				assert (dt1.name == "svg");
+				assert (dt1.public_id == "-//W3C//DTD SVG 1.1//EN");
+				assert (dt1.system_id == "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd");
+			} catch (GLib.Error e) {
+		    GLib.message ("Error: "+e.message);
+		    assert_not_reached ();
+		  }
+		});
+		Test.add_func ("/gxml/gom-document/doc-type/read/no-ids", () => {
+			try {
+				var d = new GomDocument.from_string ("<?xml version=\"1.0\"?>\n<!DOCTYPE     svg     ><svg/>");
+				message (d.write_string ());
+				message (d.child_nodes.length.to_string ());
+				assert (d.child_nodes.length == 2);
+				var dt1 = d.child_nodes[0] as DomDocumentType;
+				assert (dt1 != null);
+				assert (dt1 is DomDocumentType);
+				assert (dt1.node_type == DomNode.NodeType.DOCUMENT_TYPE_NODE);
+				assert (dt1.node_name == "!DOCTYPE");
+				assert (dt1.name == "svg");
+				assert (dt1.public_id == null);
+				assert (dt1.system_id == null);
 			} catch (GLib.Error e) {
 		    GLib.message ("Error: "+e.message);
 		    assert_not_reached ();
