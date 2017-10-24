@@ -258,74 +258,74 @@ class TDocumentTest : GXmlTest {
 				assert_not_reached ();
 			}
 		});
-		Test.add_func ("/gxml/t-document/save/children-children", () => {
-#if DEBUG
-				GLib.message (@"TDocument root children/children...");
-#endif
-			try {
-#if DEBUG
-				GLib.message (@"Checking file to save to...");
-#endif
-				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-large.xml");
-				if (f.query_exists ()) f.delete ();
-#if DEBUG
-				GLib.message (@"Creating Document...");
-#endif
-				var d = new TDocument.from_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-large.xml");
-				var e = d.create_element ("bookstore");
-				d.children_nodes.add (e);
-				assert (d.children_nodes.size == 1);
-				assert (d.root != null);
-				assert (d.root.name == "bookstore");
-				assert (d.root.value == "");
-				var r = (GXml.Element) d.root;
-				r.set_attr ("name","The Great Book");
-#if DEBUG
-				GLib.message (@"Creating children...");
-#endif
-				for (int i = 0; i < 30000; i++){
-					var b = (GXml.Element) d.create_element ("book");
-					r.children_nodes.add (b);
-					var aths = (GXml.Element) d.create_element ("Authors");
-					b.children_nodes.add (aths);
-					var ath1 = (GXml.Element) d.create_element ("Author");
-					aths.children_nodes.add (ath1);
-					var name1 = (GXml.Element) d.create_element ("Name");
-					name1.content = "Fred";
-					ath1.children_nodes.add (name1);
-					var email1 = (GXml.Element) d.create_element ("Email");
-					email1.content = "fweasley@hogwarts.co.uk";
-					ath1.children_nodes.add (email1);
-					var ath2 = (GXml.Element) d.create_element ("Author");
-					aths.children_nodes.add (ath2);
-					var name2 = (GXml.Element) d.create_element ("Name");
-					name2.content = "Greoge";
-					ath2.children_nodes.add (name2);
-					var email2 = (GXml.Element) d.create_element ("Email");
-					email2.content = "gweasley@hogwarts.co.uk";
-					ath2.children_nodes.add (email2);
-				}
-				assert (d.root.children_nodes.size == 30000);
-				d.save ();
-				GLib.Test.message ("Reading saved file...");
-				var fr = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-large.xml");
-				assert (fr.query_exists ());
-				var ostream = new MemoryOutputStream.resizable ();
-				ostream.splice (fr.read (), GLib.OutputStreamSpliceFlags.NONE);
-				assert ("<?xml version=\"1.0\"?>" in ((string)ostream.data));
-				assert ("<bookstore name=\"The Great Book\">" in ((string)ostream.data));
-				assert ("<book>" in ((string)ostream.data));
-				assert ("<Authors>" in ((string)ostream.data));
-				assert ("<Author>" in ((string)ostream.data));
-				f.delete ();
-			}
-			catch (GLib.Error e) {
-#if DEBUG
-				GLib.message (@"ERROR: $(e.message)");
-#endif
-				assert_not_reached ();
-			}
-		});
+// 		Test.add_func ("/gxml/t-document/save/children-children", () => {
+// #if DEBUG
+// 				GLib.message (@"TDocument root children/children...");
+// #endif
+// 			try {
+// #if DEBUG
+// 				GLib.message (@"Checking file to save to...");
+// #endif
+// 				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-large.xml");
+// 				if (f.query_exists ()) f.delete ();
+// #if DEBUG
+// 				GLib.message (@"Creating Document...");
+// #endif
+// 				var d = new TDocument.from_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-large.xml");
+// 				var e = d.create_element ("bookstore");
+// 				d.children_nodes.add (e);
+// 				assert (d.children_nodes.size == 1);
+// 				assert (d.root != null);
+// 				assert (d.root.name == "bookstore");
+// 				assert (d.root.value == "");
+// 				var r = (GXml.Element) d.root;
+// 				r.set_attr ("name","The Great Book");
+// #if DEBUG
+// 				GLib.message (@"Creating children...");
+// #endif
+// 				for (int i = 0; i < 30000; i++){
+// 					var b = (GXml.Element) d.create_element ("book");
+// 					r.children_nodes.add (b);
+// 					var aths = (GXml.Element) d.create_element ("Authors");
+// 					b.children_nodes.add (aths);
+// 					var ath1 = (GXml.Element) d.create_element ("Author");
+// 					aths.children_nodes.add (ath1);
+// 					var name1 = (GXml.Element) d.create_element ("Name");
+// 					name1.content = "Fred";
+// 					ath1.children_nodes.add (name1);
+// 					var email1 = (GXml.Element) d.create_element ("Email");
+// 					email1.content = "fweasley@hogwarts.co.uk";
+// 					ath1.children_nodes.add (email1);
+// 					var ath2 = (GXml.Element) d.create_element ("Author");
+// 					aths.children_nodes.add (ath2);
+// 					var name2 = (GXml.Element) d.create_element ("Name");
+// 					name2.content = "Greoge";
+// 					ath2.children_nodes.add (name2);
+// 					var email2 = (GXml.Element) d.create_element ("Email");
+// 					email2.content = "gweasley@hogwarts.co.uk";
+// 					ath2.children_nodes.add (email2);
+// 				}
+// 				assert (d.root.children_nodes.size == 30000);
+// 				d.save ();
+// 				GLib.Test.message ("Reading saved file...");
+// 				var fr = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-large.xml");
+// 				assert (fr.query_exists ());
+// 				var ostream = new MemoryOutputStream.resizable ();
+// 				ostream.splice (fr.read (), GLib.OutputStreamSpliceFlags.NONE);
+// 				assert ("<?xml version=\"1.0\"?>" in ((string)ostream.data));
+// 				assert ("<bookstore name=\"The Great Book\">" in ((string)ostream.data));
+// 				assert ("<book>" in ((string)ostream.data));
+// 				assert ("<Authors>" in ((string)ostream.data));
+// 				assert ("<Author>" in ((string)ostream.data));
+// 				f.delete ();
+// 			}
+// 			catch (GLib.Error e) {
+// #if DEBUG
+// 				GLib.message (@"ERROR: $(e.message)");
+// #endif
+// 				assert_not_reached ();
+// 			}
+// 		});
 		Test.add_func ("/gxml/t-document/save/backup", () => {
 				try {
 					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/t-test.xml");

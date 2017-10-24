@@ -685,7 +685,7 @@ public class GXml.XParser : Object, GXml.Parser {
       size += tw.write_document_type ((n as DomDocumentType).name,
                           (n as DomDocumentType).public_id,
                           (n as DomDocumentType).system_id,
-                          "");
+                          null);
       if (size > 1500)
         tw.flush ();
     }
