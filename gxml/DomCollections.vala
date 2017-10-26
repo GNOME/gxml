@@ -46,17 +46,14 @@ public interface GXml.DomParentNode : GLib.Object {
    get_elements_by_property_value (string property, string value)
   {
     var list = new GXml.DomElementList ();
-    foreach (var child in children) {
-      if (child is GXml.Element) {
-        list.add_all (child.get_elements_by_property_value (property, value));
-        if (child.attributes == null) continue;
-        var cls = child.attributes.get (property);
-        if (cls == null) {
-          continue;
-        }
-        if (value in cls.node_value)
-            list.add ((GXml.DomElement) child);
-      }
+    foreach (DomElement child in children) {
+      if (child == null) continue;
+      list.add_all (child.get_elements_by_property_value (property, value));
+      if (child.attributes == null) continue;
+      var cls = child.get_attribute (property);
+      if (cls == null) continue;
+      if (value == cls)
+          list.add ((GXml.DomElement) child);
     }
     return list;
   }

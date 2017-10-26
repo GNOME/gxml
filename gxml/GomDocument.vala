@@ -335,7 +335,15 @@ public class GXml.GomDocument : GomNode,
       return new GDomTreeWalker (root, what_to_show, filter);
   }
   // DomParentNode
-  public DomHTMLCollection children { owned get { return (DomHTMLCollection) child_nodes; } }
+  public DomHTMLCollection children {
+    owned get {
+      var l = new GDomHTMLCollection ();
+      foreach (GXml.DomNode n in child_nodes) {
+        if (n is DomElement) l.add ((DomElement) n);
+      }
+      return l;
+    }
+  }
   public DomElement? first_element_child {
     owned get { return (DomElement) child_nodes.first (); }
   }
@@ -358,9 +366,9 @@ public class GXml.GomDocument : GomNode,
   }
   // DomNonElementParentNode
   public DomElement? get_element_by_id (string element_id) throws GLib.Error {
-    var l = this.get_elements_by_property_value ("id", element_id);
-    if (l.size > 0) return (DomElement) l[0];
-    return null;
+    var l = get_elements_by_property_value ("id", element_id);
+    if (l.size == 0) return null;
+    return l.get_element (0) as DomElement;
   }
 }
 
@@ -449,7 +457,7 @@ public class GXml.GomDocumentFragment : GXml.GomNode,
   // DomParentNode
   public new DomHTMLCollection children {
     owned get {
-      var l = new DomElementList ();
+      var l = new GDomHTMLCollection ();
       foreach (GXml.DomNode n in child_nodes) {
         if (n is DomElement) l.add ((DomElement) n);
       }
@@ -472,8 +480,8 @@ public class GXml.GomDocumentFragment : GXml.GomNode,
   // DomNonElementParentNode
   public DomElement? get_element_by_id (string element_id) throws GLib.Error {
     var l = get_elements_by_property_value ("id", element_id);
-    if (l.size > 0) return (DomElement) l[0];
-    return null;
+    if (l.size == 0) return null;
+    return (DomElement) l.get_element (0) as DomElement;
   }
 }
 

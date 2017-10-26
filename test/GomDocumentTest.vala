@@ -711,5 +711,16 @@ class GomDocumentTest : GXmlTest {
 		    assert_not_reached ();
 		  }
 		});
+		Test.add_func ("/gxml/gom-document/element-id", () => {
+			try {
+				var d = new GomDocument.from_string ("""<root><child id="id1"/><child id="id2"/></root>""") as DomDocument;
+				message ((d as GomDocument).write_string ());
+				var e = d.get_element_by_id ("id1");
+				assert (e != null);
+			} catch (GLib.Error e) {
+		    GLib.message ("Error: "+e.message);
+		    assert_not_reached ();
+		  } //<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+		});
 	}
 }

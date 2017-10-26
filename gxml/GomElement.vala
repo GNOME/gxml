@@ -245,9 +245,9 @@ public class GXml.GomElement : GomNode,
   // DomParentNode
   public new DomHTMLCollection children {
     owned get {
-      var l = new DomElementList ();
+      var l = new GDomHTMLCollection ();
       foreach (GXml.DomNode n in child_nodes) {
-        if (n is DomElement) l.add ((DomElement) n);
+        if (n is DomElement) l.add (n as DomElement);
       }
       return l;
     }
