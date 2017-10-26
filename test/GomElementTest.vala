@@ -42,8 +42,29 @@ class GomElementTest : GXmlTest  {
 	}
 	public class Top : GomElement {
 		public NoInstantiatable inst {
-			get { return inst_i; } set { inst_i = value as Instantiatable; } }
+			get { return inst_i; } set { inst_i = value as Instantiatable; }
+		}
 		public Instantiatable inst_i { get; set; }
+		[Description (nick="::pq")]
+		public Property pq { get; set; }
+		construct { initialize ("Top"); }
+	}
+	public class GProperty : GomString, Property {}
+	public class GTop : GomElement {
+		public NoInstantiatable inst { get; set; }
+		public Instantiatable inst_i {
+			get { return inst as Instantiatable; }
+			set { inst = value as NoInstantiatable; }
+		}
+		// Order Matters: Put first instantiatable properties
+		[Description (nick="::pq")]
+		public GProperty gpq {
+			get { return pq as GProperty; }
+			set { pq = value as Property; }
+		}
+		// Don't tag non-instantiatable properties
+		// Here works because an instantiatable property is placed first
+		// but will fail if you derive or implement a interferface
 		[Description (nick="::pq")]
 		public Property pq { get; set; }
 		construct { initialize ("Top"); }
@@ -430,13 +451,27 @@ class GomElementTest : GXmlTest  {
 		    assert_not_reached ();
 		  }
 		});
-		Test.add_func ("/gxml/gom-element/no-instantiatable", () => {
+		Test.add_func ("/gxml/gom-element/no-instantiatable/avoid", () => {
 			try {
 				string str = """<Top pq="Qlt"><Instantiatable name="Nop"/></Top>""";
 				var t = new Top ();
 				t.read_from_string (str);
 				assert (t.inst != null);
 				assert (t.inst.name == "Nop");
+			} catch (GLib.Error e) {
+		    GLib.message ("Error: "+e.message);
+		    assert_not_reached ();
+		  }
+		});
+		Test.add_func ("/gxml/gom-element/no-instantiatable/set", () => {
+			try {
+				string str = """<Top pq="Qlt"><Instantiatable name="Nop"/></Top>""";
+				var t = new GTop ();
+				t.read_from_string (str);
+				assert (t.inst != null);
+				assert (t.inst.name == "Nop");
+				assert (t.pq != null);
+				assert (t.pq.value == "Qlt");
 			} catch (GLib.Error e) {
 		    GLib.message ("Error: "+e.message);
 		    assert_not_reached ();
