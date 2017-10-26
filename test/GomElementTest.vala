@@ -25,6 +25,7 @@ using GXml;
 public interface NoInstantiatable : Object, GomObject {
 	public abstract string name { get; set; }
 }
+public interface Property : Object, GomProperty {}
 
 class GomElementTest : GXmlTest  {
 	public class ParsedDelayed : GomElement {
@@ -43,6 +44,8 @@ class GomElementTest : GXmlTest  {
 		public NoInstantiatable inst {
 			get { return inst_i; } set { inst_i = value as Instantiatable; } }
 		public Instantiatable inst_i { get; set; }
+		[Description (nick="::pq")]
+		public Property pq { get; set; }
 		construct { initialize ("Top"); }
 	}
 	public static void add_tests () {
@@ -429,7 +432,7 @@ class GomElementTest : GXmlTest  {
 		});
 		Test.add_func ("/gxml/gom-element/no-instantiatable", () => {
 			try {
-				string str = """<Top><Instantiatable name="Nop"/></Top>""";
+				string str = """<Top pq="Qlt"><Instantiatable name="Nop"/></Top>""";
 				var t = new Top ();
 				t.read_from_string (str);
 				assert (t.inst != null);

@@ -220,7 +220,8 @@ public interface GXml.GomObject : GLib.Object,
 #endif
     if (prop != null) {
       var v = Value (prop.value_type);
-      if (prop.value_type.is_a (typeof(GomProperty))) {
+      if (prop.value_type.is_a (typeof(GomProperty))
+          && prop.value_type.is_instantiatable ()) {
         get_property (prop.name, ref v);
         GomProperty so = (Object) v as GomProperty;
         if (so == null) {
