@@ -53,21 +53,7 @@ public class GXml.XParser : Object, GXml.Parser {
 
   public void write_stream (OutputStream stream,
                             GLib.Cancellable? cancellable = null) throws GLib.Error {
-    var buf = new Xml.Buffer ();
-    tw = new TextWriter.memory (buf);
-    if (_node is DomDocument) tw.start_document ();
-    tw.set_indent (indent);
-    // Root
-    if (_node is DomDocument) {
-      if ((_node as DomDocument).document_element == null)
-        tw.end_document ();
-    }
-    start_node (_node);
-    tw.end_element ();
-    tw.end_document ();
-    tw.flush ();
-    var s = new GLib.StringBuilder ();
-    s.append (buf.content ());
+    var s = dump ();
     var b = new GLib.MemoryInputStream.from_data (s.data, null);
     stream.splice (b, GLib.OutputStreamSpliceFlags.NONE);
     stream.close ();
@@ -112,23 +98,9 @@ public class GXml.XParser : Object, GXml.Parser {
    */
   public InputStream
   create_stream (GLib.Cancellable? cancellable = null) throws GLib.Error {
-    var buf = new Xml.Buffer ();
-    tw = new TextWriter.memory (buf);
-    if (_node is DomDocument) tw.start_document ();
-    tw.set_indent (indent);
-    // Root
-    if (_node is DomDocument) {
-      if ((_node as DomDocument).document_element == null)
-        tw.end_document ();
-    }
-    start_node (_node);
-    tw.end_element ();
-    tw.end_document ();
-    tw.flush ();
-    var s = new GLib.StringBuilder ();
-    s.append (buf.content ());
+    var s = dump ();
     tw = null;
-    return new GLib.MemoryInputStream.from_data ((uint8[]) s.str.dup (), null);
+    return new GLib.MemoryInputStream.from_data (s.data, null);
   }
   /**
    * Creates asynchronically an {@link GLib.InputStream} to write a string representation
