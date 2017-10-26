@@ -215,6 +215,7 @@ public interface GXml.Parser : Object {
     foreach (ParamSpec pspec in
               (parent as GomObject).get_property_element_list ()) {
       if (pspec.value_type.is_a (typeof (GomCollection))) continue;
+      //if (!pspec.value_type.is_instantiatable ()) continue;
       var obj = Object.new (pspec.value_type,
                             "owner-document", node.owner_document) as DomElement;
       if (obj.local_name.down ()

@@ -22,6 +22,10 @@
 
 using GXml;
 
+public interface NoInstantiatable : Object, GomObject {
+	public abstract string name { get; set; }
+}
+
 class GomElementTest : GXmlTest  {
 	public class ParsedDelayed : GomElement {
 		construct {
@@ -29,6 +33,17 @@ class GomElementTest : GXmlTest  {
 			catch (GLib.Error e) { warning ("Error: "+e.message); }
 			parse_children = false;
 		}
+	}
+	public class Instantiatable : GomElement, NoInstantiatable {
+		[Description (nick="::name")]
+		public string name { get; set; }
+		construct { initialize ("Instantiatable"); }
+	}
+	public class Top : GomElement {
+		public NoInstantiatable inst {
+			get { return inst_i; } set { inst_i = value as Instantiatable; } }
+		public Instantiatable inst_i { get; set; }
+		construct { initialize ("Top"); }
 	}
 	public static void add_tests () {
 	Test.add_func ("/gxml/gom-element/read/namespace_uri", () => {
@@ -407,6 +422,18 @@ class GomElementTest : GXmlTest  {
 				assert (l4 != null);
 				assert (l4.length == 2);
 				assert (l4.item (0).node_name == "child");
+			} catch (GLib.Error e) {
+		    GLib.message ("Error: "+e.message);
+		    assert_not_reached ();
+		  }
+		});
+		Test.add_func ("/gxml/gom-element/no-instantiatable", () => {
+			try {
+				string str = """<Top><Instantiatable name="Nop"/></Top>""";
+				var t = new Top ();
+				t.read_from_string (str);
+				assert (t.inst != null);
+				assert (t.inst.name == "Nop");
 			} catch (GLib.Error e) {
 		    GLib.message ("Error: "+e.message);
 		    assert_not_reached ();
