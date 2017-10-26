@@ -61,31 +61,7 @@ public class GXml.XParser : Object, GXml.Parser {
   }
   public async void write_stream_async (OutputStream stream,
                             GLib.Cancellable? cancellable = null) throws GLib.Error {
-    var buf = new Xml.Buffer ();
-    tw = new TextWriter.memory (buf);
-    if (_node is DomDocument) tw.start_document ();
-    tw.set_indent (indent);
-    Idle.add (write_stream_async.callback);
-    yield;
-    // Root
-    if (_node is DomDocument) {
-      if ((_node as DomDocument).document_element == null)
-        tw.end_document ();
-    }
-    Idle.add (write_stream_async.callback);
-    yield;
-    start_node (_node);
-    tw.end_element ();
-    tw.end_document ();
-    Idle.add (write_stream_async.callback);
-    yield;
-    tw.flush ();
-    Idle.add (write_stream_async.callback);
-    yield;
-    var s = new GLib.StringBuilder ();
-    s.append (buf.content ());
-    Idle.add (write_stream_async.callback);
-    yield;
+    var s = yield dump_async ();
     var b = new GLib.MemoryInputStream.from_data (s.data, null);
     stream.splice (b, GLib.OutputStreamSpliceFlags.NONE);
     stream.close ();
@@ -108,29 +84,9 @@ public class GXml.XParser : Object, GXml.Parser {
    */
   public async InputStream
   create_stream_async (GLib.Cancellable? cancellable = null) throws GLib.Error {
-    var buf = new Xml.Buffer ();
-    tw = new TextWriter.memory (buf);
-    if (_node is DomDocument) tw.start_document ();
-    tw.set_indent (indent);
-    // Root
-    if (_node is DomDocument) {
-      if ((_node as DomDocument).document_element == null)
-        tw.end_document ();
-    }
-    Idle.add (create_stream_async.callback);
-    yield;
-    yield start_node_async (_node);
-    tw.end_element ();
-    tw.end_document ();
-    tw.flush ();
-    Idle.add (create_stream_async.callback);
-    yield;
-    var s = new GLib.StringBuilder ();
-    s.append (buf.content ());
+    var s = yield dump_async ();
     tw = null;
-    Idle.add (create_stream_async.callback);
-    yield;
-    return new GLib.MemoryInputStream.from_data ((uint8[]) s.str.dup (), null);
+    return new GLib.MemoryInputStream.from_data (s.data, null);
   }
 
   public string write_string () throws GLib.Error  {
