@@ -682,7 +682,7 @@ public class GXml.XParser : Object, GXml.Parser {
         tw.flush ();
     }
     if (n is GXml.DomDocumentType) {
-      size += tw.write_document_type ((n as DomDocumentType).name,
+      size += tw.write_dtd ((n as DomDocumentType).name,
                           (n as DomDocumentType).public_id,
                           (n as DomDocumentType).system_id,
                           null);
