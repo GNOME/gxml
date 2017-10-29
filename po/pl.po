@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-22 18:12+0200\n"
-"PO-Revision-Date: 2017-10-22 18:13+0200\n"
+"POT-Creation-Date: 2017-10-29 17:49+0100\n"
+"PO-Revision-Date: 2017-10-29 17:50+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -135,12 +135,12 @@ msgid "Can't adopt a Document"
 msgstr "Nie można przyjąć dokumentu"
 
 #. FIXME:
-#: ../gxml/GomDocument.vala:456
+#: ../gxml/GomDocument.vala:473
 msgid "DomElement query_selector is not implemented"
 msgstr "„query_selector” z DomElement nie jest zaimplementowane"
 
 #. FIXME:
-#: ../gxml/GomDocument.vala:460
+#: ../gxml/GomDocument.vala:477
 msgid "DomElement query_selector_all is not implemented"
 msgstr "„query_selector_all” z DomElement nie jest zaimplementowane"
 
@@ -325,20 +325,20 @@ msgstr ""
 "Nie można odnaleźć elementu potomnego do usunięcia lub element potomny ma "
 "inny element nadrzędny"
 
-#: ../gxml/GomObject.vala:171
+#: ../gxml/GomObject.vala:172
 msgid "Enumeration is out of range"
 msgstr "Wyliczenie jest poza zakresem"
 
-#: ../gxml/GomObject.vala:274
+#: ../gxml/GomObject.vala:276
 msgid "Enumeration can't be parsed from string"
 msgstr "Nie można przetworzyć wyliczenia z ciągu"
 
-#: ../gxml/GomObject.vala:386
+#: ../gxml/GomObject.vala:388
 #, c-format
 msgid "Error while attempting to instantiate property object: %s"
 msgstr "Błąd podczas próby utworzenia wystąpienia obiektu właściwości: %s"
 
-#: ../gxml/GomObject.vala:435
+#: ../gxml/GomObject.vala:437
 msgid "Can't set value. It is not a GXmlGomElement type"
 msgstr "Nie można ustawić wartości. Nie jest typem GXmlGomElement"
 
@@ -362,7 +362,7 @@ msgstr "Nieprawidłowy format dla właściwości daty: "
 msgid "Invalid timestamp for property: "
 msgstr "Nieprawidłowy czas dla właściwości: "
 
-#: ../gxml/GXmlDocument.vala:57 ../gxml/Parser.vala:94 ../gxml/Parser.vala:104
+#: ../gxml/GXmlDocument.vala:57 ../gxml/Parser.vala:95 ../gxml/Parser.vala:105
 #: ../gxml/TDocument.vala:477
 msgid "File doesn't exist"
 msgstr "Plik nie istnieje"
@@ -477,30 +477,30 @@ msgstr ""
 msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
 
-#: ../gxml/Parser.vala:186
+#: ../gxml/Parser.vala:190
 msgid ""
 "Invalid attempt to parse an element node, when current found node is not"
 msgstr ""
 "Nieprawidłowa próba przetworzenia węzła elementu, kiedy obecnie odnaleziony "
 "węzeł nie jest"
 
-#: ../gxml/Parser.vala:257
+#: ../gxml/Parser.vala:262
 msgid "Invalid object type set to Collection"
 msgstr "Nieprawidłowy zestaw typów obiektów do zbioru"
 
-#: ../gxml/Parser.vala:261
+#: ../gxml/Parser.vala:266
 msgid "Invalid DomElement name for objects in Collection"
 msgstr "Nieprawidłowa nazwa elementu DOM dla obiektów w zbiorze"
 
-#: ../gxml/Parser.vala:265
+#: ../gxml/Parser.vala:270
 msgid "Invalid Element set to Collection"
 msgstr "Nieprawidłowy zestaw elementów do zbioru"
 
-#: ../gxml/Parser.vala:270
+#: ../gxml/Parser.vala:275
 msgid "No document is set to node"
 msgstr "Żaden dokument nie jest ustawiony na węzeł"
 
-#: ../gxml/Parser.vala:291 ../gxml/XParser.vala:172 ../gxml/XParser.vala:178
+#: ../gxml/Parser.vala:296 ../gxml/XParser.vala:100 ../gxml/XParser.vala:106
 msgid "Invalid document string, it is empty or is not allowed"
 msgstr "Nieprawidłowy ciąg dokumentu, jest pusty lub nie jest dozwolony"
 
@@ -563,22 +563,26 @@ msgstr "Nie można przekształcić „%s” na ciąg"
 msgid "Invalid element name"
 msgstr "Nieprawidłowa nazwa elementu"
 
-#: ../gxml/TDocument.vala:578 ../gxml/XParser.vala:341
+#: ../gxml/TDocument.vala:578 ../gxml/XParser.vala:272
 #, c-format
 msgid "Parsing ERROR: Fail to move to attribute number: %i"
 msgstr ""
 "BŁĄD podczas przetwarzania: przejście do numeru atrybutu się nie powiodło: %i"
 
-#: ../gxml/XParser.vala:210 ../gxml/XParser.vala:265 ../gxml/XParser.vala:274
-#: ../gxml/XParser.vala:323 ../gxml/XParser.vala:336 ../gxml/XParser.vala:382
+#: ../gxml/XParser.vala:138 ../gxml/XParser.vala:196 ../gxml/XParser.vala:205
+#: ../gxml/XParser.vala:254 ../gxml/XParser.vala:267 ../gxml/XParser.vala:313
 msgid "Internal Error: No TextReader was set"
 msgstr "Wewnętrzny błąd: nie ustawiono TextReader"
 
-#: ../gxml/XParser.vala:277
+#: ../gxml/XParser.vala:208
 msgid "Can't read node data"
 msgstr "Nie można odczytać danych węzła"
 
-#: ../gxml/XParser.vala:477 ../gxml/XParser.vala:592
+#: ../gxml/XParser.vala:358
+msgid "Invalid sequence for document type definition: "
+msgstr "Nieprawidłowa sekwencja dla definicji typu dokumentu: "
+
+#: ../gxml/XParser.vala:423 ../gxml/XParser.vala:517 ../gxml/XParser.vala:588
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Wewnętrzny błąd: nie zainicjowano TextWriter"
 
