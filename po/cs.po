@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-10-22 01:59+0000\n"
-"PO-Revision-Date: 2017-10-23 08:07+0200\n"
+"POT-Creation-Date: 2017-10-24 15:05+0000\n"
+"PO-Revision-Date: 2017-10-29 08:50+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -129,12 +129,12 @@ msgid "Can't adopt a Document"
 msgstr "Nelze převzít dokument"
 
 #. FIXME:
-#: ../gxml/GomDocument.vala:456
+#: ../gxml/GomDocument.vala:465
 msgid "DomElement query_selector is not implemented"
 msgstr "DomElement query_selector není implementován"
 
 #. FIXME:
-#: ../gxml/GomDocument.vala:460
+#: ../gxml/GomDocument.vala:469
 msgid "DomElement query_selector_all is not implemented"
 msgstr "DomElement query_selector_all není implementován"
 
@@ -353,7 +353,7 @@ msgstr "Neplatný formát pro vlastnost Date: "
 msgid "Invalid timestamp for property: "
 msgstr "Neplatné časové razítko pro vlastnost: "
 
-#: ../gxml/GXmlDocument.vala:57 ../gxml/Parser.vala:94 ../gxml/Parser.vala:104
+#: ../gxml/GXmlDocument.vala:57 ../gxml/Parser.vala:95 ../gxml/Parser.vala:105
 #: ../gxml/TDocument.vala:477
 msgid "File doesn't exist"
 msgstr "Soubor neexistuje"
@@ -463,29 +463,29 @@ msgstr "Neplatný dokument při přidávání položky do sady map pojmenovanýc
 msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
 
-#: ../gxml/Parser.vala:186
+#: ../gxml/Parser.vala:190
 msgid ""
 "Invalid attempt to parse an element node, when current found node is not"
 msgstr ""
 "Neplatný pokus o zpracování uzlu prvku, když není aktuální nalezený uzel"
 
-#: ../gxml/Parser.vala:257
+#: ../gxml/Parser.vala:261
 msgid "Invalid object type set to Collection"
 msgstr "Do sady nastaven neplatný objektový typ"
 
-#: ../gxml/Parser.vala:261
+#: ../gxml/Parser.vala:265
 msgid "Invalid DomElement name for objects in Collection"
 msgstr "Neplatný název prvku DomElement pro objekty v sadě"
 
-#: ../gxml/Parser.vala:265
+#: ../gxml/Parser.vala:269
 msgid "Invalid Element set to Collection"
 msgstr "Do sady nastaven neplatný prvek"
 
-#: ../gxml/Parser.vala:270
+#: ../gxml/Parser.vala:274
 msgid "No document is set to node"
 msgstr "U uzlu není nastavený žádný dokument"
 
-#: ../gxml/Parser.vala:291 ../gxml/XParser.vala:172 ../gxml/XParser.vala:178
+#: ../gxml/Parser.vala:295 ../gxml/XParser.vala:172 ../gxml/XParser.vala:178
 msgid "Invalid document string, it is empty or is not allowed"
 msgstr "Neplatný řetězec dokumentu, je prázdný nebo není dovolený"
 
@@ -547,21 +547,25 @@ msgstr "Nelze transformovat „%s“ na řetězec"
 msgid "Invalid element name"
 msgstr "Neplatný název prvku"
 
-#: ../gxml/TDocument.vala:578 ../gxml/XParser.vala:341
+#: ../gxml/TDocument.vala:578 ../gxml/XParser.vala:344
 #, c-format
 msgid "Parsing ERROR: Fail to move to attribute number: %i"
 msgstr "CHYBA zpracování: Selhal přesun na atribut číslo %i"
 
-#: ../gxml/XParser.vala:210 ../gxml/XParser.vala:265 ../gxml/XParser.vala:274
-#: ../gxml/XParser.vala:323 ../gxml/XParser.vala:336 ../gxml/XParser.vala:382
+#: ../gxml/XParser.vala:210 ../gxml/XParser.vala:268 ../gxml/XParser.vala:277
+#: ../gxml/XParser.vala:326 ../gxml/XParser.vala:339 ../gxml/XParser.vala:385
 msgid "Internal Error: No TextReader was set"
 msgstr "Interní chyba: Není nastaven údaj TextReader"
 
-#: ../gxml/XParser.vala:277
+#: ../gxml/XParser.vala:280
 msgid "Can't read node data"
 msgstr "Nezdařilo se čtení dat uzlu"
 
-#: ../gxml/XParser.vala:477 ../gxml/XParser.vala:592
+#: ../gxml/XParser.vala:430
+msgid "Invalid sequence for document type definition: "
+msgstr "Neplatná posloupnost pro definici typu dokumentu: "
+
+#: ../gxml/XParser.vala:495 ../gxml/XParser.vala:589 ../gxml/XParser.vala:660
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Interní chyba: Není nastaven údaj TextWriter"
 
