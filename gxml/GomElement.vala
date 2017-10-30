@@ -406,9 +406,6 @@ public class GXml.GomElement : GomNode,
       else
         attr = new GomAttr.namespace (_element, ns, p, n, val);
 
-#if DEBUG
-      GLib.message ("Return: "+ attr.node_name+"="+attr.node_value);
-#endif
       return attr;
     }
     /**
@@ -507,7 +504,7 @@ public class GXml.GomElement : GomNode,
         if (nspn != (node as DomAttr).prefix
             && nsn != (node as DomAttr).namespace_uri)
           throw new DomError.NAMESPACE_ERROR
-                  (_("Trying to add an attribute with an undefined namespace prefix"));
+                  (_("Trying to add an attribute with an undefined namespace prefix: %s").printf ((node as DomAttr).prefix));
         nspn = _element.lookup_prefix ((node as DomAttr).namespace_uri);
         nsn = _element.lookup_namespace_uri (nspn);
         if (nspn != (node as DomAttr).prefix

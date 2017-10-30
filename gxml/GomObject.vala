@@ -57,16 +57,9 @@ public interface GXml.GomObject : GLib.Object,
   public virtual ParamSpec? find_property_name (string pname) {
     foreach (ParamSpec spec in this.get_class ().list_properties ()) {
       string name = spec.get_nick ();
-#if DEBUG
-          GLib.message ("Name: "+spec.name+ " Nick: "+spec.get_nick ()+" Type: "+spec.value_type.name());
-#endif
       if ("::" in name) {
         name = name.replace ("::","");
         if (name.down () == pname.down ()) {
-#if DEBUG
-          GLib.message ("Found Property: "+pname);
-          GLib.message ("Is GomProperty? : "+(spec.value_type.is_a (typeof(GomProperty)).to_string ()));
-#endif
           return spec;
         }
       }
@@ -191,14 +184,8 @@ public interface GXml.GomObject : GLib.Object,
    * this object, see {@link get_child}
    */
   public virtual string? get_attribute (string name) {
-#if DEBUG
-    GLib.message ("Searching GomObject attribute: "+name);
-#endif
     var prop = find_property_name (name);
     if (prop == null) return null;
-#if DEBUG
-    GLib.message ("Found GomObject attribute: "+prop.name);
-#endif
     return get_property_string (prop);
   }
   /**
@@ -211,13 +198,7 @@ public interface GXml.GomObject : GLib.Object,
    * this object.
    */
   public virtual bool set_attribute (string name, string val) {
-#if DEBUG
-    GLib.message ("GomObject: searching attribute to set: "+name);
-#endif
     var prop = find_property_name (name);
-#if DEBUG
-    GLib.message ("GomObject: setting attribute: "+name);
-#endif
     if (prop != null) {
       var v = Value (prop.value_type);
       if (prop.value_type.is_a (typeof(GomProperty))

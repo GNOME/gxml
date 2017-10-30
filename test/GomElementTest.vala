@@ -69,11 +69,114 @@ class GomElementTest : GXmlTest  {
 		public Property pq { get; set; }
 		construct { initialize ("Top"); }
 	}
+	public class Potion : GomElement {
+		[Description (nick="::c:name")]
+		public string cname { get; set; }
+		public Ingredient ingredient { get; set; }
+		construct {
+			initialize ("Potion");
+			try {
+				set_attribute_ns ("http://www.w3.org/2000/xmlns", "xmlns:c","http://c.org/1.0");
+			} catch (GLib.Error e) { warning ("Error: "+e.message); }
+		}
+	}
+	public class Ingredient : GomElement, MappeableElement {
+		[Description (nick="::c:name")]
+		public string cname { get; set; }
+		public Method.Map methods { get; set; }
+		construct { initialize ("ingredient"); }
+		public string get_map_key () { return cname; }
+		public class Map : GomHashMap {
+			construct {
+				try {
+					initialize (typeof (Ingredient));
+				} catch (GLib.Error e) { warning ("Error: "+e.message); }
+			}
+		}
+	}
+	public class Method : GomElement, MappeableElement {
+		[Description (nick="::c:name")]
+		public string cname { get; set; }
+		construct { initialize ("method"); }
+		public string get_map_key () { return cname; }
+		public class Map : GomHashMap {
+			construct {
+				try {
+					initialize (typeof (Method));
+				} catch (GLib.Error e) { warning ("Error: "+e.message); }
+			}
+		}
+	}
+	public class Repository : GomElement
+ {
+    [Description (nick="::version")]
+    public string version { get; set; }
+
+    public Namespace ns { get; set; }
+
+    construct {
+      initialize ("repository");
+      set_attribute_ns ("http://www.w3.org/2000/xmlns",
+                      "xmlns", "http://www.gtk.org/introspection/core/1.0");
+      set_attribute_ns ("http://www.w3.org/2000/xmlns",
+                      "xmlns:c", "http://www.gtk.org/introspection/c/1.0");
+      set_attribute_ns ("http://www.w3.org/2000/xmlns",
+                        "xmlns:glib", "http://www.gtk.org/introspection/glib/1.0");
+      version = "1.2";
+    }
+ }
+ public class Namespace : GomElement
+ {
+    TClass.Map _classes;
+    [Description (nick="::name")]
+    public string name { get; set; }
+    [Description (nick="::version")]
+    public string version { get; set; }
+    [Description (nick="::c:prefix")]
+    public string cprefix { get; set; }
+    public TClass.Map classes {
+      get {
+        if (_classes == null)
+          set_instance_property ("classes");
+        return _classes;
+      }
+      set {
+        if (_classes != null)
+          clean_property_elements ("classes");
+        _classes = value;
+      }
+    }
+    construct {
+      initialize ("namespace");
+      _classes = new TClass.Map ();
+      _classes.initialize_element (this);
+    }
+ }
+ public class TClass : GomElement, MappeableElement
+ {
+    [Description (nick="::name")]
+    public string name { get; set; }
+    [Description (nick="::version")]
+    public string version { get; set; }
+    [Description (nick="::c:prefix")]
+    public string prefix { get; set; }
+
+    construct {
+      initialize ("class");
+    }
+
+    public string get_map_key () { return name; }
+    public class Map : GomHashMap {
+      construct {
+        initialize (typeof (TClass));
+      }
+    }
+ }
 	public static void add_tests () {
 	Test.add_func ("/gxml/gom-element/read/namespace_uri", () => {
 			DomDocument doc = null;
 			try {
-				doc = new GomDocument.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
+				doc = new GomDocument.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"><ingredient products:name=\"spider\"/></magic:Potion></Potions>");
 				GXml.GomNode root = (GXml.GomNode) doc.document_element;
 				assert (root != null);
 				assert (root.node_name == "Potions");
@@ -120,6 +223,7 @@ class GomElementTest : GXmlTest  {
 					GLib.message ("Attribute: "+k+"="+v);
 				}
 #endif
+				message ((node as GomElement).write_string ());
 				assert ((node as DomElement).attributes.length == 2);
 				assert ((node as DomElement).get_attribute ("xmlns:magic") == "http://hogwarts.co.uk/magic");
 				assert ((node as DomElement).get_attribute_ns ("http://www.w3.org/2000/xmlns/", "magic") == "http://hogwarts.co.uk/magic");
@@ -226,6 +330,77 @@ class GomElementTest : GXmlTest  {
 				assert (elem.get_attribute_ns ("http://www.w3.org/2000/xmlns/","xtest") == "http://www.w3c.org/test");
 				assert (elem.get_attribute_ns ("http://www.w3.org/2000/xmlns","xtest") == "http://www.w3c.org/test");
 				assert (child.get_attribute_ns ("http://www.w3c.org/test","val") == "Value");
+			} catch (GLib.Error e) {
+				GLib.message (e.message);
+				assert_not_reached ();
+			}
+		});
+		Test.add_func ("/gxml/gom-element/attributes/property-ns", () => {
+			try {
+				string str = """<Potion xmlns:c="http://c.org/1.0" c:name="edumor"><ingredient c:name="spider"><child/><method c:name="move"/></ingredient></Potion>""";
+				var p = new Potion ();
+				assert (p.node_name == "Potion");
+				assert (p.cname == null);
+				assert (p.get_attribute_ns ("http://www.w3.org/2000/xmlns", "c") == "http://c.org/1.0");
+				p.read_from_string (str);
+				message (p.write_string ());
+				assert (p.cname == "edumor");
+				assert (p.ingredient != null);
+				assert (p.ingredient.cname == "spider");
+				assert (p.ingredient.methods != null);
+				assert (p.ingredient.methods.length == 1);
+				var m = p.ingredient.methods.get_item (0) as Method;
+				assert (m.cname == "move");
+			} catch (GLib.Error e) {
+				GLib.message (e.message);
+				assert_not_reached ();
+			}
+		});
+		Test.add_func ("/gxml/gom-element/attribute-ns/collection", () => {
+			try {
+				string str = """<?xml version="1.0"?>
+<repository version="1.2" xmlns="http://www.gtk.org/introspection/core/1.0" xmlns:c="http://www.gtk.org/introspection/c/1.0" xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
+<include name="GXml" version="0.16"/>
+<package name="girp-0.2"/>
+<c:include name="girp.h"/>
+<namespace name="Girp" version="0.2" c:prefix="Girp">
+	<attribute name="ccode.gir-version" value="0.2"/>
+	<attribute name="ccode.cheader-filename" value="girp.h"/>
+	<attribute name="ccode.gir-namespace" value="Girp"/>
+	<class name="Repository" c:type="GirpRepository" glib:type-name="GirpRepository" glib:get-type="girp_repository_get_type" glib:type-struct="RepositoryClass" parent="GXml.GomElement">
+	</class>
+</namespace>
+</repository>""";
+				var r = new Repository ();
+				r.read_from_string (str);
+			} catch (GLib.Error e) {
+				GLib.message (e.message);
+				assert_not_reached ();
+			}
+		});
+		Test.add_func ("/gxml/gom-element/lookup-prefix", () => {
+			try {
+				string str = """<?xml version="1.0"?>
+<repository version="1.2" xmlns="http://www.gtk.org/introspection/core/1.0" xmlns:c="http://www.gtk.org/introspection/c/1.0" xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
+<include name="GXml" version="0.16"/>
+<package name="girp-0.2"/>
+<c:include name="girp.h"/>
+<namespace name="Girp" version="0.2" c:prefix="Girp">
+	<attribute name="ccode.gir-version" value="0.2"/>
+	<attribute name="ccode.cheader-filename" value="girp.h"/>
+	<attribute name="ccode.gir-namespace" value="Girp"/>
+	<class name="Repository" c:type="GirpRepository" glib:type-name="GirpRepository" glib:get-type="girp_repository_get_type" glib:type-struct="RepositoryClass" parent="GXml.GomElement">
+	</class>
+</namespace>
+</repository>""";
+				var d = new GomDocument.from_string (str);
+				assert (d.document_element.node_name == "repository");
+				var lt = d.document_element.get_elements_by_tag_name ("class");
+				assert (lt.length == 1);
+				var n = lt[0];
+				assert (n.node_name == "class");
+				assert (n.lookup_namespace_uri ("c") == "http://www.gtk.org/introspection/c/1.0");
+				assert (n.lookup_prefix ("http://www.gtk.org/introspection/c/1.0") == "c");
 			} catch (GLib.Error e) {
 				GLib.message (e.message);
 				assert_not_reached ();

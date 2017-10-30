@@ -238,7 +238,8 @@ public abstract class GXml.BaseCollection : Object {
     if (node.owner_document != _element.owner_document)
       throw new DomError.HIERARCHY_REQUEST_ERROR
                 (_("Invalid attempt to set a node with a different parent document"));
-    _element.append_child (node);
+    if (node.parent_node == null)
+      _element.append_child (node);
     if (_element.child_nodes.size == 0)
       throw new DomError.QUOTA_EXCEEDED_ERROR
                 (_("Node element not appended as child of parent. No node added to collection"));

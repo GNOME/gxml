@@ -290,8 +290,10 @@ public class GXml.XParser : Object, GXml.Parser {
         if (tr.node_type () == Xml.ReaderType.TEXT) {
           var attrval = tr.read_string ();
           bool processed = false;
+          string attn = attrname;
+          if (prefix != null) attn = prefix+":"+attrname;
           if (node is GomObject) {
-            processed = (element as GomObject).set_attribute (attrname, attrval);
+            processed = (element as GomObject).set_attribute (attn, attrval);
           }
           if (!processed) {
             if (prefix != null) {

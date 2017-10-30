@@ -275,6 +275,7 @@ public interface GXml.Parser : Object {
                       (_("No document is set to node"));
         var obj = Object.new (col.items_type,
                               "owner-document", node.owner_document) as DomElement;
+        parent.append_child (obj);
         read_element (obj as DomElement);
         col.append (obj);
         element = obj;
