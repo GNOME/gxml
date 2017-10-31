@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-10-24 15:05+0000\n"
-"PO-Revision-Date: 2017-10-29 08:50+0100\n"
+"POT-Creation-Date: 2017-10-31 01:18+0000\n"
+"PO-Revision-Date: 2017-10-31 10:38+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -71,7 +71,7 @@ msgstr ""
 "Neplatný pokus o inicializaci sady pomocí nepodporovaného typu. Podporován "
 "je jen GXmlGomElement"
 
-#: ../gxml/GomCollections.vala:234 ../gxml/GomCollections.vala:261
+#: ../gxml/GomCollections.vala:234 ../gxml/GomCollections.vala:262
 msgid "Parent Element is invalid"
 msgstr "Rodičovský prvek je neplatný"
 
@@ -86,14 +86,14 @@ msgstr ""
 msgid "Invalid attempt to set a node with a different parent document"
 msgstr "Neplatný pokus o nastavení uzlu s jiným rodičovským dokumentem"
 
-#: ../gxml/GomCollections.vala:244
+#: ../gxml/GomCollections.vala:245
 msgid ""
 "Node element not appended as child of parent. No node added to collection"
 msgstr ""
 "Prvek není k uzlu připojen jako potomek rodiče. Do sady není přidán žádný "
 "uzel"
 
-#: ../gxml/GomCollections.vala:655
+#: ../gxml/GomCollections.vala:656
 msgid "No primary key and/or secondary key was found"
 msgstr "Nebyl nalezen hlavní a/nebo vedlejší klíč"
 
@@ -129,12 +129,12 @@ msgid "Can't adopt a Document"
 msgstr "Nelze převzít dokument"
 
 #. FIXME:
-#: ../gxml/GomDocument.vala:465
+#: ../gxml/GomDocument.vala:473
 msgid "DomElement query_selector is not implemented"
 msgstr "DomElement query_selector není implementován"
 
 #. FIXME:
-#: ../gxml/GomDocument.vala:469
+#: ../gxml/GomDocument.vala:477
 msgid "DomElement query_selector_all is not implemented"
 msgstr "DomElement query_selector_all není implementován"
 
@@ -150,16 +150,16 @@ msgstr "Neplatný název atributu v seznamu atributů prvku"
 msgid "Can't locate child node to remove"
 msgstr "Nelze najit uzel potomka k odstranění"
 
-#: ../gxml/GomElement.vala:422 ../gxml/GomElement.vala:460
+#: ../gxml/GomElement.vala:419 ../gxml/GomElement.vala:457
 #, c-format
 msgid "Invalid attribute name: %s"
 msgstr "Neplatný název atributu: %s"
 
-#: ../gxml/GomElement.vala:424 ../gxml/GomElement.vala:462
+#: ../gxml/GomElement.vala:421 ../gxml/GomElement.vala:459
 msgid "Invalid node type. DomAttr was expected"
 msgstr "Neplatný typ uzlu. Byl očekáván DomAttr"
 
-#: ../gxml/GomElement.vala:467
+#: ../gxml/GomElement.vala:464
 msgid ""
 "Namespace attributes prefixed with xmlns should use a namespace uri http://"
 "www.w3.org/2000/xmlns"
@@ -167,53 +167,54 @@ msgstr ""
 "Atribut se jmenným prostorem určeným pomocí xmlns by měl používat jmenný "
 "prostor http://www.w3.org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:474
+#: ../gxml/GomElement.vala:471
 #, c-format
 msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
 msgstr ""
 "Atribut se jmenným prostorem by měl mít uvedený nenulový, neprázdný prefix: "
 "%s"
 
-#: ../gxml/GomElement.vala:478
+#: ../gxml/GomElement.vala:475
 msgid "Invalid namespace attribute's name."
 msgstr "Neplatný název atributu se jmenným prostorem"
 
-#: ../gxml/GomElement.vala:490
+#: ../gxml/GomElement.vala:487
 #, c-format
 msgid "Duplicated default namespace detected with URI: %s"
 msgstr "Zjištěn duplicitní výchozí jmenný prostor s URI: %s"
 
-#: ../gxml/GomElement.vala:499
+#: ../gxml/GomElement.vala:496
 #, c-format
 msgid "Duplicated namespace detected for: %s:%s"
 msgstr "Zjištěn duplicitní jmenný prostor pro: %s:%s"
 
-#: ../gxml/GomElement.vala:510
-msgid "Trying to add an attribute with an undefined namespace prefix"
-msgstr "Zkouší se přidat atribut s nedefinovaným prefixem jmenného prostoru"
+#: ../gxml/GomElement.vala:507
+#, c-format
+msgid "Trying to add an attribute with an undefined namespace prefix: %s"
+msgstr "Zkouší se přidat atribut s nedefinovaným prefixem jmenného prostoru: %s"
 
-#: ../gxml/GomElement.vala:516
+#: ../gxml/GomElement.vala:513
 msgid "Trying to add an attribute with a non found namespace URI"
 msgstr ""
 "Zkouší se přidat atribut, u kterého nebyla nalezena adresa URI jmenného "
 "prostoru"
 
-#: ../gxml/GomElement.vala:566
+#: ../gxml/GomElement.vala:563
 msgid "Invalid attribute name. Just one prefix is allowed"
 msgstr "Neplatný název atributu. Povolen je jen jeden prefix"
 
-#: ../gxml/GomElement.vala:570
+#: ../gxml/GomElement.vala:567
 #, c-format
 msgid "Invalid attribute name. Invalid use of colon: %s"
 msgstr "Neplatný název atributu. Neplatné použití dvojtečky: %s"
 
-#: ../gxml/GomElement.vala:574
+#: ../gxml/GomElement.vala:571
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
 msgstr ""
 "Neplatný jmenný prostor. Když není uveden prefix, měla by být uvedena adresa "
 "URI jmenného prostoru"
 
-#: ../gxml/GomElement.vala:576
+#: ../gxml/GomElement.vala:573
 msgid ""
 "Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
 "org/2000/xmlns"
@@ -221,7 +222,7 @@ msgstr ""
 "Neplatný jmenný prostor. Když je prefix „xml“, měla by být adresa URI http://"
 "www.w3.org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:579
+#: ../gxml/GomElement.vala:576
 msgid ""
 "Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns"
@@ -229,7 +230,7 @@ msgstr ""
 "Neplatný jmenný prostor. Když je prefix atributu „xmlns“, měla by být adresa "
 "URI http://www.w3.org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:583
+#: ../gxml/GomElement.vala:580
 msgid ""
 "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns"
@@ -237,21 +238,21 @@ msgstr ""
 "Neplatný jmenný prostor. Když má název atributu jmenný prostor „xmlns“, měla "
 "by být adresa URI http://www.w3.org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:585
+#: ../gxml/GomElement.vala:582
 msgid "Invalid attribute name. No prefixed attributes should use xmlns name"
 msgstr ""
 "Neplatný název atributu. Atributy bez prefixu by neměly používat název s "
 "xmlns"
 
-#: ../gxml/GomElement.vala:589
+#: ../gxml/GomElement.vala:586
 msgid "Setting namespaced property error: "
 msgstr "Chyba nastavení vlastnosti s jmenným prostorem:"
 
-#: ../gxml/GomElement.vala:596
+#: ../gxml/GomElement.vala:593
 msgid "Removing attribute Error: "
 msgstr "Chyba při odstraňování atributu:"
 
-#: ../gxml/GomElement.vala:601
+#: ../gxml/GomElement.vala:598
 msgid "Removing namespaced attribute Error: "
 msgstr "Chyba při odstraňování atributu jmenného prostoru:"
 
@@ -316,20 +317,20 @@ msgstr ""
 "Nelze najít synovský uzel, který se má odstranit, nebo má potomek jiného "
 "rodiče"
 
-#: ../gxml/GomObject.vala:171
+#: ../gxml/GomObject.vala:165
 msgid "Enumeration is out of range"
 msgstr "Výčet je mimo rozsah"
 
-#: ../gxml/GomObject.vala:274
+#: ../gxml/GomObject.vala:257
 msgid "Enumeration can't be parsed from string"
 msgstr "Nezdařilo se určit výčet z řetězce"
 
-#: ../gxml/GomObject.vala:386
+#: ../gxml/GomObject.vala:369
 #, c-format
 msgid "Error while attempting to instantiate property object: %s"
 msgstr "Chyba při pokusu o vytvoření instance vlastnosti objektu: %s"
 
-#: ../gxml/GomObject.vala:435
+#: ../gxml/GomObject.vala:418
 msgid "Can't set value. It is not a GXmlGomElement type"
 msgstr "Nelze nastavit hodnotu. Nejedná se o typ GXmlGomElement"
 
@@ -469,23 +470,23 @@ msgid ""
 msgstr ""
 "Neplatný pokus o zpracování uzlu prvku, když není aktuální nalezený uzel"
 
-#: ../gxml/Parser.vala:261
+#: ../gxml/Parser.vala:262
 msgid "Invalid object type set to Collection"
 msgstr "Do sady nastaven neplatný objektový typ"
 
-#: ../gxml/Parser.vala:265
+#: ../gxml/Parser.vala:266
 msgid "Invalid DomElement name for objects in Collection"
 msgstr "Neplatný název prvku DomElement pro objekty v sadě"
 
-#: ../gxml/Parser.vala:269
+#: ../gxml/Parser.vala:270
 msgid "Invalid Element set to Collection"
 msgstr "Do sady nastaven neplatný prvek"
 
-#: ../gxml/Parser.vala:274
+#: ../gxml/Parser.vala:275
 msgid "No document is set to node"
 msgstr "U uzlu není nastavený žádný dokument"
 
-#: ../gxml/Parser.vala:295 ../gxml/XParser.vala:172 ../gxml/XParser.vala:178
+#: ../gxml/Parser.vala:297 ../gxml/XParser.vala:100 ../gxml/XParser.vala:106
 msgid "Invalid document string, it is empty or is not allowed"
 msgstr "Neplatný řetězec dokumentu, je prázdný nebo není dovolený"
 
@@ -547,25 +548,25 @@ msgstr "Nelze transformovat „%s“ na řetězec"
 msgid "Invalid element name"
 msgstr "Neplatný název prvku"
 
-#: ../gxml/TDocument.vala:578 ../gxml/XParser.vala:344
+#: ../gxml/TDocument.vala:578 ../gxml/XParser.vala:272
 #, c-format
 msgid "Parsing ERROR: Fail to move to attribute number: %i"
 msgstr "CHYBA zpracování: Selhal přesun na atribut číslo %i"
 
-#: ../gxml/XParser.vala:210 ../gxml/XParser.vala:268 ../gxml/XParser.vala:277
-#: ../gxml/XParser.vala:326 ../gxml/XParser.vala:339 ../gxml/XParser.vala:385
+#: ../gxml/XParser.vala:138 ../gxml/XParser.vala:196 ../gxml/XParser.vala:205
+#: ../gxml/XParser.vala:254 ../gxml/XParser.vala:267 ../gxml/XParser.vala:315
 msgid "Internal Error: No TextReader was set"
 msgstr "Interní chyba: Není nastaven údaj TextReader"
 
-#: ../gxml/XParser.vala:280
+#: ../gxml/XParser.vala:208
 msgid "Can't read node data"
 msgstr "Nezdařilo se čtení dat uzlu"
 
-#: ../gxml/XParser.vala:430
+#: ../gxml/XParser.vala:360
 msgid "Invalid sequence for document type definition: "
 msgstr "Neplatná posloupnost pro definici typu dokumentu: "
 
-#: ../gxml/XParser.vala:495 ../gxml/XParser.vala:589 ../gxml/XParser.vala:660
+#: ../gxml/XParser.vala:425 ../gxml/XParser.vala:519 ../gxml/XParser.vala:590
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Interní chyba: Není nastaven údaj TextWriter"
 
