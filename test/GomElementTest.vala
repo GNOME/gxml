@@ -116,12 +116,14 @@ class GomElementTest : GXmlTest  {
 
     construct {
       initialize ("repository");
-      set_attribute_ns ("http://www.w3.org/2000/xmlns",
-                      "xmlns", "http://www.gtk.org/introspection/core/1.0");
-      set_attribute_ns ("http://www.w3.org/2000/xmlns",
-                      "xmlns:c", "http://www.gtk.org/introspection/c/1.0");
-      set_attribute_ns ("http://www.w3.org/2000/xmlns",
-                        "xmlns:glib", "http://www.gtk.org/introspection/glib/1.0");
+      try {
+		    set_attribute_ns ("http://www.w3.org/2000/xmlns",
+		                    "xmlns", "http://www.gtk.org/introspection/core/1.0");
+		    set_attribute_ns ("http://www.w3.org/2000/xmlns",
+		                    "xmlns:c", "http://www.gtk.org/introspection/c/1.0");
+		    set_attribute_ns ("http://www.w3.org/2000/xmlns",
+		                      "xmlns:glib", "http://www.gtk.org/introspection/glib/1.0");
+		   } catch (GLib.Error e) { warning ("Error: "+e.message); }
       version = "1.2";
     }
  }
@@ -141,15 +143,18 @@ class GomElementTest : GXmlTest  {
         return _classes;
       }
       set {
-        if (_classes != null)
-          clean_property_elements ("classes");
+        if (_classes != null) {
+          try { clean_property_elements ("classes"); }
+        	catch (GLib.Error e) { warning ("Error: "+e.message); }
+        }
         _classes = value;
       }
     }
     construct {
       initialize ("namespace");
       _classes = new TClass.Map ();
-      _classes.initialize_element (this);
+      try { _classes.initialize_element (this); }
+      catch (GLib.Error e) { warning ("Error: "+e.message); }
     }
  }
  public class TClass : GomElement, MappeableElement
@@ -159,7 +164,7 @@ class GomElementTest : GXmlTest  {
     [Description (nick="::version")]
     public string version { get; set; }
     [Description (nick="::c:prefix")]
-    public string prefix { get; set; }
+    public string cprefix { get; set; }
 
     construct {
       initialize ("class");
@@ -168,7 +173,8 @@ class GomElementTest : GXmlTest  {
     public string get_map_key () { return name; }
     public class Map : GomHashMap {
       construct {
-        initialize (typeof (TClass));
+        try { initialize (typeof (TClass)); }
+        catch (GLib.Error e) { warning ("Error: "+e.message); }
       }
     }
  }
