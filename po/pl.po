@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-29 17:49+0100\n"
-"PO-Revision-Date: 2017-10-29 17:50+0100\n"
+"POT-Creation-Date: 2017-11-05 15:39+0100\n"
+"PO-Revision-Date: 2017-11-05 15:40+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -73,7 +73,7 @@ msgstr ""
 "Nieprawidłowa próba zainicjowania zbioru za pomocą nieobsługiwanego typu. "
 "Tylko GXmlGomElement jest obsługiwany"
 
-#: ../gxml/GomCollections.vala:234 ../gxml/GomCollections.vala:261
+#: ../gxml/GomCollections.vala:234 ../gxml/GomCollections.vala:262
 msgid "Parent Element is invalid"
 msgstr "Element nadrzędny jest nieprawidłowy"
 
@@ -88,14 +88,14 @@ msgstr ""
 msgid "Invalid attempt to set a node with a different parent document"
 msgstr "Nieprawidłowa próba ustawienia węzła z innym dokumentem nadrzędnym"
 
-#: ../gxml/GomCollections.vala:244
+#: ../gxml/GomCollections.vala:245
 msgid ""
 "Node element not appended as child of parent. No node added to collection"
 msgstr ""
 "Element węzła nie jest dołączony jako element potomny elementu nadrzędnego. "
 "Nie dodano żadnego węzła do zbioru"
 
-#: ../gxml/GomCollections.vala:655
+#: ../gxml/GomCollections.vala:656
 msgid "No primary key and/or secondary key was found"
 msgstr "Nie odnaleziono głównego ani dodatkowego klucza"
 
@@ -157,16 +157,16 @@ msgstr "Nieprawidłowa nazwa atrybutu na liście atrybutów elementu"
 msgid "Can't locate child node to remove"
 msgstr "Nie można odnaleźć węzła potomnego do usunięcia"
 
-#: ../gxml/GomElement.vala:422 ../gxml/GomElement.vala:460
+#: ../gxml/GomElement.vala:419 ../gxml/GomElement.vala:457
 #, c-format
 msgid "Invalid attribute name: %s"
 msgstr "Nieprawidłowa nazwa atrybutu: %s"
 
-#: ../gxml/GomElement.vala:424 ../gxml/GomElement.vala:462
+#: ../gxml/GomElement.vala:421 ../gxml/GomElement.vala:459
 msgid "Invalid node type. DomAttr was expected"
 msgstr "Nieprawidłowy typ węzła. Oczekiwano „DomAttr”"
 
-#: ../gxml/GomElement.vala:467
+#: ../gxml/GomElement.vala:464
 msgid ""
 "Namespace attributes prefixed with xmlns should use a namespace uri http://"
 "www.w3.org/2000/xmlns"
@@ -174,53 +174,54 @@ msgstr ""
 "Atrybuty przestrzeni nazw z przedrostkiem xmlns muszą używać adresu URI "
 "przestrzeni nazw http://www.w3.org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:474
+#: ../gxml/GomElement.vala:471
 #, c-format
 msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
 msgstr "Atrybuty w przestrzeni nazw muszą dostarczać niepusty przedrostek: %s"
 
-#: ../gxml/GomElement.vala:478
+#: ../gxml/GomElement.vala:475
 msgid "Invalid namespace attribute's name."
 msgstr "Nieprawidłowa nazwa atrybutu przestrzeni nazw."
 
-#: ../gxml/GomElement.vala:490
+#: ../gxml/GomElement.vala:487
 #, c-format
 msgid "Duplicated default namespace detected with URI: %s"
 msgstr "Wykryto podwójną domyślną przestrzeń nazw o adresie URI: %s"
 
-#: ../gxml/GomElement.vala:499
+#: ../gxml/GomElement.vala:496
 #, c-format
 msgid "Duplicated namespace detected for: %s:%s"
 msgstr "Wykryto podwójną przestrzeń nazw dla: %s:%s"
 
-#: ../gxml/GomElement.vala:510
-msgid "Trying to add an attribute with an undefined namespace prefix"
+#: ../gxml/GomElement.vala:507
+#, c-format
+msgid "Trying to add an attribute with an undefined namespace prefix: %s"
 msgstr ""
 "Próbowanie dodania atrybutu za pomocą nieokreślonego przedrostka przestrzeni "
-"nazw"
+"nazw: %s"
 
-#: ../gxml/GomElement.vala:516
+#: ../gxml/GomElement.vala:513
 msgid "Trying to add an attribute with a non found namespace URI"
 msgstr ""
 "Próbowanie dodania atrybutu za pomocą nieodnalezionego adresu URI "
 "przestrzeni nazw"
 
-#: ../gxml/GomElement.vala:566
+#: ../gxml/GomElement.vala:563
 msgid "Invalid attribute name. Just one prefix is allowed"
 msgstr "Nieprawidłowa nazwa atrybutu. Dozwolony jest tylko jeden przedrostek"
 
-#: ../gxml/GomElement.vala:570
+#: ../gxml/GomElement.vala:567
 #, c-format
 msgid "Invalid attribute name. Invalid use of colon: %s"
 msgstr "Nieprawidłowa nazwa atrybutu. Nieprawidłowe użycie dwukropka: %s"
 
-#: ../gxml/GomElement.vala:574
+#: ../gxml/GomElement.vala:571
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
 msgstr ""
 "Nieprawidłowa przestrzeń nazw. Jeśli przedrostek jest pusty, adres URI "
 "przestrzeni nazw nie może być pusty"
 
-#: ../gxml/GomElement.vala:576
+#: ../gxml/GomElement.vala:573
 msgid ""
 "Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
 "org/2000/xmlns"
@@ -228,7 +229,7 @@ msgstr ""
 "Nieprawidłowa przestrzeń nazw. Jeśli przedrostek to xml, adres URI "
 "przestrzeni nazw musi być http://www.w3.org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:579
+#: ../gxml/GomElement.vala:576
 msgid ""
 "Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns"
@@ -236,7 +237,7 @@ msgstr ""
 "Nieprawidłowa przestrzeń nazw. Jeśli przedrostek atrybutu to xmlns, adres "
 "URI przestrzeni nazw musi być http://www.w3.org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:583
+#: ../gxml/GomElement.vala:580
 msgid ""
 "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns"
@@ -244,21 +245,21 @@ msgstr ""
 "Nieprawidłowa przestrzeń nazw. Jeśli nazwa atrybutu to xmlns, adres URI "
 "przestrzeni nazw musi być http://www.w3.org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:585
+#: ../gxml/GomElement.vala:582
 msgid "Invalid attribute name. No prefixed attributes should use xmlns name"
 msgstr ""
 "Nieprawidłowa nazwa atrybutu. Atrybuty z przedrostkami nie mogą używać nazw "
 "xmlns"
 
-#: ../gxml/GomElement.vala:589
+#: ../gxml/GomElement.vala:586
 msgid "Setting namespaced property error: "
 msgstr "Błąd podczas ustawiania właściwości w przestrzeni nazw: "
 
-#: ../gxml/GomElement.vala:596
+#: ../gxml/GomElement.vala:593
 msgid "Removing attribute Error: "
 msgstr "Usuwanie błędu atrybutu: "
 
-#: ../gxml/GomElement.vala:601
+#: ../gxml/GomElement.vala:598
 msgid "Removing namespaced attribute Error: "
 msgstr "Usuwanie błędu atrybutu w przestrzeni nazw: "
 
@@ -325,20 +326,20 @@ msgstr ""
 "Nie można odnaleźć elementu potomnego do usunięcia lub element potomny ma "
 "inny element nadrzędny"
 
-#: ../gxml/GomObject.vala:172
+#: ../gxml/GomObject.vala:165
 msgid "Enumeration is out of range"
 msgstr "Wyliczenie jest poza zakresem"
 
-#: ../gxml/GomObject.vala:276
+#: ../gxml/GomObject.vala:257
 msgid "Enumeration can't be parsed from string"
 msgstr "Nie można przetworzyć wyliczenia z ciągu"
 
-#: ../gxml/GomObject.vala:388
+#: ../gxml/GomObject.vala:369
 #, c-format
 msgid "Error while attempting to instantiate property object: %s"
 msgstr "Błąd podczas próby utworzenia wystąpienia obiektu właściwości: %s"
 
-#: ../gxml/GomObject.vala:437
+#: ../gxml/GomObject.vala:418
 msgid "Can't set value. It is not a GXmlGomElement type"
 msgstr "Nie można ustawić wartości. Nie jest typem GXmlGomElement"
 
@@ -500,7 +501,7 @@ msgstr "Nieprawidłowy zestaw elementów do zbioru"
 msgid "No document is set to node"
 msgstr "Żaden dokument nie jest ustawiony na węzeł"
 
-#: ../gxml/Parser.vala:296 ../gxml/XParser.vala:100 ../gxml/XParser.vala:106
+#: ../gxml/Parser.vala:297 ../gxml/XParser.vala:100 ../gxml/XParser.vala:106
 msgid "Invalid document string, it is empty or is not allowed"
 msgstr "Nieprawidłowy ciąg dokumentu, jest pusty lub nie jest dozwolony"
 
@@ -570,7 +571,7 @@ msgstr ""
 "BŁĄD podczas przetwarzania: przejście do numeru atrybutu się nie powiodło: %i"
 
 #: ../gxml/XParser.vala:138 ../gxml/XParser.vala:196 ../gxml/XParser.vala:205
-#: ../gxml/XParser.vala:254 ../gxml/XParser.vala:267 ../gxml/XParser.vala:313
+#: ../gxml/XParser.vala:254 ../gxml/XParser.vala:267 ../gxml/XParser.vala:315
 msgid "Internal Error: No TextReader was set"
 msgstr "Wewnętrzny błąd: nie ustawiono TextReader"
 
@@ -578,11 +579,11 @@ msgstr "Wewnętrzny błąd: nie ustawiono TextReader"
 msgid "Can't read node data"
 msgstr "Nie można odczytać danych węzła"
 
-#: ../gxml/XParser.vala:358
+#: ../gxml/XParser.vala:360
 msgid "Invalid sequence for document type definition: "
 msgstr "Nieprawidłowa sekwencja dla definicji typu dokumentu: "
 
-#: ../gxml/XParser.vala:423 ../gxml/XParser.vala:517 ../gxml/XParser.vala:588
+#: ../gxml/XParser.vala:425 ../gxml/XParser.vala:519 ../gxml/XParser.vala:590
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Wewnętrzny błąd: nie zainicjowano TextWriter"
 
