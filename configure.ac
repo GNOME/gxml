@@ -122,7 +122,7 @@ AC_SUBST(GXML_LOCALEDIR)
 # TODO: what do we do about libvala's versioning?  set it back to -0.18 and see what happens when we upgraded from Fedora 18 to 19
 
 GLIB_REQUIRED=2.32.0
-VALA_REQUIRED=0.34.6
+VALA_REQUIRED=0.34.7
 VALA_API_REQUIRED=
 LIBVALA_REQUIRED=
 GEE_REQUIRED=0.18.0
