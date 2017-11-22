@@ -1,4 +1,5 @@
-valadoc = find_program ('valadoc')
+valadoc = find_program ('valadoc', required: false)
+if valadoc.found()
 outdir ='GXml-'+API_VERSION
 gtkdoc_outdir ='gxml-'+API_VERSION
 valacapi = run_command ('valac', '--api-version')
@@ -30,3 +31,4 @@ custom_target ('valadocs',
 			valasources],
 		install : true,
 		install_dir : docsdir)
+endif
