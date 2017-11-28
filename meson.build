@@ -1,8 +1,8 @@
-project('gxml', [ 'vala', 'c'], version : '0.15.0')
+project('gxml', [ 'vala', 'c'], version : '0.15.3')
 
 PROJECT_NAME = meson.project_name ()
 API_VERSION = '0.16'
-PROJECT_VERSION = '0.15.3'
+PROJECT_VERSION = meson.project_version ()
 VERSIONED_PROJECT_NAME = PROJECT_NAME+'-'+API_VERSION
 CAMEL_CASE_NAME = 'GXml'
 VERSIONED_CAMEL_CASE_NAME = CAMEL_CASE_NAME +'-'+ API_VERSION
