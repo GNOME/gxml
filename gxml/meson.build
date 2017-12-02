@@ -5,7 +5,7 @@ VAPI_NAME = VERSIONED_PROJECT_NAME+'.vapi'
 
 conf = configuration_data()
 conf.set('prefix', get_option('prefix'))
-conf.set('libdir', join_paths (get_option ('prefix'),get_option ('libdir')))
+conf.set('libdir', '${exec_prefix}/'+get_option ('libdir'))
 conf.set('VALADEPS', VALADEPS)
 conf.set('PCDEPS', PCDEPS)
 conf.set('PROJECT_NAME', PROJECT_NAME)
@@ -144,7 +144,7 @@ lib = library(VERSIONED_PROJECT_NAME,
 	],
 	install : true,
 	install_dir : [
-		get_option('libdir'),
+		true,
 		join_paths (get_option('includedir'), 'gxml-@0@'.format (API_VERSION), 'gxml'),
 		vapidir,
 		true
