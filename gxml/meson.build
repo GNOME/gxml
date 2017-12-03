@@ -130,9 +130,17 @@ sources = files ([
 inc_libh = include_directories ('.')
 inc_libh_dep = declare_dependency (include_directories : inc_libh)
 
+#   If public symbols have been removed or changed since last release,
+#     increment current and set revision and age to 0
+#   If library source has changed since last release, increment revision
+#   If public symbols have been added since last release, increment age
+LT_CURRENT='15'
+LT_REVISION='0'
+LT_AGE='0'
 lib = library(VERSIONED_PROJECT_NAME,
 	valasources+sources+configvapi,
-	version : PROJECT_VERSION,
+	version : LT_CURRENT+'.'+LT_REVISION+'.'+LT_AGE,
+	soversion : LT_CURRENT,
 	vala_header : PROJECT_NAME+'.h',
 	vala_vapi : VAPI_NAME,
 	vala_gir : GIR_NAME,

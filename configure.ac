@@ -16,11 +16,10 @@ m4_define([project_micro_version], [3])
 m4_define([project_nano_version], [0])
 
 # LT_VERSION
+#   If public symbols have been removed or changed since last release,
+#     increment current and set revision and age to 0
 #   If library source has changed since last release, increment revision
-#   If public symbols have been added, removed or changed since last release,
-#     increment current and set revision to 0
 #   If public symbols have been added since last release, increment age
-#   If public symbols have been removed since last release, set age to 0
 m4_define([project_lt_current], [15])
 m4_define([project_lt_revision], [0])
 m4_define([project_lt_age], [0])
