@@ -9,18 +9,19 @@
 
 ### Version numbers
 
-# Release Version
+# Release Version for API related changes
 m4_define([project_major_version], [0])
 m4_define([project_minor_version], [15])
-m4_define([project_micro_version], [3])
+m4_define([project_micro_version], [90])
 m4_define([project_nano_version], [0])
 
-# LT_VERSION
-#   If public symbols have been removed or changed since last release,
-#     increment current and set revision and age to 0
-#   If library source has changed since last release, increment revision
-#   If public symbols have been added since last release, increment age
-m4_define([project_lt_current], [15])
+# LT_VERSION for ABI related changes
+# From: https://autotools.io/libtool/version.html
+# Always increase revision value whenever an interface has been added, removed or changed.
+# Increase the current value whenever an interface has been added, removed or changed.
+# Increase the age value only if the changes made to the ABI are backward compatible.
+# Reset current to 1 and revision and age to 0 if library's name is changed
+m4_define([project_lt_current], [1])
 m4_define([project_lt_revision], [0])
 m4_define([project_lt_age], [0])
 
