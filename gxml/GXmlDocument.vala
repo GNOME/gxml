@@ -337,7 +337,15 @@ public class GXml.GDocument : GXml.GNode,
       return new GDomTreeWalker (root, what_to_show, filter);
   }
   // DomParentNode
-  public DomHTMLCollection children { owned get { return (DomHTMLCollection) children_nodes; } }
+  public DomHTMLCollection children {
+    owned get {
+      var l = new DomElementList ();
+      foreach (GXml.DomNode n in child_nodes) {
+        if (n is DomElement) l.add ((DomElement) n);
+      }
+      return l;
+    }
+  }
   public DomElement? first_element_child {
     owned get { return (DomElement) (this as Document).children_nodes.first (); }
   }

@@ -26,7 +26,7 @@ using Gee;
  * Implementation of {@link Gee.AbstractMap} to handle {@link Xml.Node} attributes,
  * powered by libxml2 library.
  */
-public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
+public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.GNode>,
                                   GXml.DomNamedNodeMap
 {
   private GDocument _doc;
@@ -36,7 +36,7 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
     _doc = doc;
   }
   
-  public class Entry : Gee.Map.Entry<string,GXml.Node> {
+  public class Entry : Gee.Map.Entry<string,GXml.GNode> {
     private GXml.GDocument _doc;
     private Xml.Attr *_attr;
     private GAttribute oattr;
@@ -47,7 +47,7 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
     }
     public override string key { get { return _attr->name; } }
     public override bool read_only { get { return true; } }
-    public override GXml.Node value {
+    public override GXml.GNode value {
       get { return oattr; }
       set {}
     }
@@ -61,8 +61,8 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
       pn->remove ();
     }
   }
-  public override GXml.Node @get (string key) {
-    GXml.Node nullnode = null;
+  public override GXml.GNode @get (string key) {
+    GXml.GNode nullnode = null;
     if (_node == null) return nullnode;
     if (":" in key) {
       string[] pp = key.split (":");
@@ -89,7 +89,7 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
     }
     return new GAttribute (_doc, p);
   }
-  public override bool has (string key, GXml.Node value) { return has_key (key); }
+  public override bool has (string key, GXml.GNode value) { return has_key (key); }
   public override bool has_key (string key) {
     if (_node == null) return false;
     var p = _node->properties;
@@ -99,12 +99,12 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
     }
     return false;
   }
-  public override Gee.MapIterator<string,GXml.Node> map_iterator () { return new Iterator (_doc, _node); }
-  public override void @set (string key, GXml.Node value) {
+  public override Gee.MapIterator<string,GXml.GNode> map_iterator () { return new Iterator (_doc, _node); }
+  public override void @set (string key, GXml.GNode value) {
     if (_node == null) return;
     _node->new_prop (key, value.@value);
   }
-  public override bool unset (string key, out GXml.Node value = null) {
+  public override bool unset (string key, out GXml.GNode value = null) {
     value = null;
     if (_node == null) return false;
     var p = _node->has_prop (key);
@@ -112,7 +112,7 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
     p->remove ();
     return true;
   }
-  public override Gee.Set<Gee.Map.Entry<string,GXml.Node>> entries {
+  public override Gee.Set<Gee.Map.Entry<string,GXml.GNode>> entries {
     owned get {
       var l = new Gee.HashSet<Entry> ();
       if (_node == null) return l;
@@ -149,9 +149,9 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
       return i;
     }
   }
-  public override Gee.Collection<GXml.Node> values {
+  public override Gee.Collection<GXml.GNode> values {
     owned get {
-      var l = new ArrayList<GXml.Node> ();
+      var l = new ArrayList<GXml.GNode> ();
       var p = _node->properties;
       while (p != null) {
         l.add (new GAttribute (_doc, p));
@@ -160,7 +160,7 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
       return l;
     }
   }
-  public class Iterator : Object, MapIterator<string,GXml.Node> {
+  public class Iterator : Object, MapIterator<string,GXml.GNode> {
     private GXml.GDocument _doc;
     private Xml.Node *_node;
     private Xml.Attr *_current;
@@ -176,7 +176,7 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
       if (_current != null) _current->name.dup ();
       return nullstr;
     }
-    public GXml.Node get_value () {
+    public GXml.GNode get_value () {
       return new GAttribute (_doc, _current);
     }
     public bool has_next () {
@@ -193,7 +193,7 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
       _current = _current->next;
       return true;
     }
-    public void set_value (GXml.Node value) {
+    public void set_value (GXml.GNode value) {
       if (_current == null) return;
       if (_current->name == value.name) {
         var p = _node->properties;
@@ -231,7 +231,7 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
   public DomNode? item (int index) {
     int i = 0;
     if (index > size) return null;
-    foreach (GXml.Node node in values) {
+    foreach (GXml.GNode node in values) {
       if (i == index) return (DomNode?) node;
     }
     return null;
@@ -270,7 +270,7 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
   }
   // Introduced in DOM Level 2:
   public DomNode? get_named_item_ns (string namespace_uri, string local_name) throws GLib.Error {
-    foreach (GXml.Node n in values) {
+    foreach (GXml.DomNode n in values) {
       string uri = "";
       if (!(n is DomElement || n is DomAttr)) continue;
       if (n is DomElement) {
@@ -281,7 +281,7 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.Node>,
         if ((n as DomAttr).namespace_uri == null) continue;
         uri = (n as DomAttr).namespace_uri;
       }
-      if (uri == namespace_uri && n.name == local_name)
+      if (uri == namespace_uri && n.node_name == local_name)
         return (GXml.DomNode?) n;
     }
     // FIXME: Detects if no namespace is supported to rise exception NOT_SUPPORTED_ERROR
