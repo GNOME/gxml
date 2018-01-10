@@ -35,6 +35,11 @@ EXTRA_DIST = $(gxmldoc_DATA) \
 	autogen.sh \
 	vapi \
 	config.rpath \
+	meson.build \
+	gxml/meson.build \
+	po/meson.build \
+	docs/meson.build \
+	test/meson.build \
 	$(INTLTOOL_FILES)
 
 config.rpath:

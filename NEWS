@@ -1,4 +1,36 @@
 ===============
+Version 0.16.0
+===============
+
+* DOM4: Implemented CSS Selectors
+* Fixes on Meson build system
+* Relaxing duplicated namespace checks
+* Making library LT version consistent
+* Fixed GomElement.id implementation
+* Fixes for Gom Serialization
+* Set valac required to 0.36.7ç
+* GXmlDocument: Fixed DomParentNode.children implementation
+* GomElement, Parser: Fix parse namespaced attributes
+* GomDocument: Fixed get_element_by_id()
+* XPath: Reimplemented write_stream_async, create_stream_async
+* Gom: DocumenType write remove DTD definitions []
+* Gom: Added suppòrt for DOCTYPE definitions
+* Fixed lookup_namespace_uri()
+* Better support of xmlns http://www.w3.org/2000/xmlns
+* Fixes for Vala 0.39
+* Updated examples to new API
+* Removed gtk-doc
+* Make documentation generation optional if no valadoc is present
+* New and updated translations:
+    Updated Czech translation     by Marek Cernocky <marek_cernocky@conel.cz>
+    Update Hungarian translation  by Balázs Meskó <meskobalazs@fedoraproject.org>
+    Update Polish translation     by Piotr Drąg <piotrdrag@gmail.com>
+    Update German translation     by Mario Blättermann <mario.blaettermann@gmail.com>
+    Update Swedish translation    by Josef Andersson <l10nl18nsweja@gmail.com>
+    Update Indonesian translation by Kukuh Syafaat <syafaatkukuh@gmail.com>
+
+
+===============
 Version 0.15.2
 ===============
 
