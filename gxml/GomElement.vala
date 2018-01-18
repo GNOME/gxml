@@ -365,13 +365,26 @@ public class GXml.GomElement : GomNode,
    * key if a namespaced attribute.
    */
   public class Attributes : HashMap<string,string>, DomNamedNodeMap  {
+    private TreeMap<long,string> order = new TreeMap<long,string> ();
     /**
      * Holds {@link GomElement} refrence to attributes' parent element.
      * Derived classes should not modify, but set at construction time.
      */
     protected GomElement _element;
     public int length { get { return size; } }
-    public DomNode? item (int index) { return null; }
+    public DomNode? item (int index) {
+      if (index < 0 || index >= size) return null;
+      long i = -1;
+      foreach (Map.Entry<long,string> e in order.ascending_entries) {
+        i++;
+        if (i == index) {
+          string name = e.value;
+          string v = get (name);
+          return new GomAttr (_element, name, v);
+        }
+      }
+      return null;
+    }
 
     public Attributes (GomElement element) {
       _element = element;
@@ -420,6 +433,7 @@ public class GXml.GomElement : GomNode,
       if (!(node is DomAttr))
         throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid node type. DomAttr was expected"));
       set ((node as DomAttr).local_name, node.node_value);
+      order.set (size, (node as DomAttr).local_name);
       return new GomAttr (_element, (node as DomAttr).local_name, node.node_value);
     }
     public DomNode? remove_named_item (string name) throws GLib.Error {
@@ -428,6 +442,12 @@ public class GXml.GomElement : GomNode,
       if (v == null) return null;
       var n = new GomAttr (_element, name, v);
       unset (name);
+      long i = index_of (name);
+      if (i < 0) {
+        warning (_("No index found for ttribute %s").printf (name));
+      } else {
+        order.unset (i);
+      }
       return n;
     }
     // Introduced in DOM Level 2:
@@ -438,7 +458,14 @@ public class GXml.GomElement : GomNode,
       var v = get (nsp+":"+local_name);
       if (v == null) return null;
       var n = new GomAttr.namespace (_element, namespace_uri, nsp, local_name, v);
-      unset (nsp+":"+local_name);
+      string k = nsp+":"+local_name;
+      unset (k);
+      long i = index_of (k);
+      if (i < 0) {
+        warning (_("No index found for ttribute %s").printf (k));
+      } else {
+        order.unset (i);
+      }
       return n;
     }
     // Introduced in DOM Level 2:
@@ -517,8 +544,9 @@ public class GXml.GomElement : GomNode,
       if ((node as DomAttr).prefix != null
           && (node as DomAttr).prefix != "")
         p = (node as DomAttr).prefix + ":";
-      set (p+(node as DomAttr).local_name,
-          node.node_value);
+      string k = p+(node as DomAttr).local_name;
+      set (k, node.node_value);
+      order.set (size, k);
 
       var attr = new GomAttr.namespace (_element,
                                     (node as DomAttr).namespace_uri,
@@ -526,6 +554,14 @@ public class GXml.GomElement : GomNode,
                                     (node as DomAttr).local_name,
                                     node.node_value);
       return attr;
+    }
+    private long index_of (string name) {
+      long i = -1;
+      foreach (Map.Entry<long,string> e in order.ascending_entries) {
+        i++;
+        if (e.value == name) return i;
+      }
+      return -1;
     }
   }
   public DomNamedNodeMap attributes { owned get { return (DomNamedNodeMap) _attributes; } }

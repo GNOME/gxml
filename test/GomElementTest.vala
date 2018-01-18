@@ -658,5 +658,71 @@ class GomElementTest : GXmlTest  {
 		    assert_not_reached ();
 		  }
 		});
+		Test.add_func ("/gxml/gom-element/ordered-attributes", () => {
+			try {
+				var e = new GomElement ();
+				e.set_attribute ("a1", "v1");
+				e.set_attribute ("a2", "v2");
+				e.set_attribute ("a3", "v3");
+				e.set_attribute ("a4", "v4");
+				assert (e.attributes.length == 4);
+				for (int i = 0; i < e.attributes.length; i++) {
+					assert (e.attributes.item (i) != null);
+				}
+				assert (e.attributes.item (0) != null);
+				assert (e.attributes.item (0).node_name == "a1");
+				assert (e.attributes.item (0).node_value == "v1");
+				assert (e.attributes.item (1) != null);
+				assert (e.attributes.item (1).node_name == "a2");
+				assert (e.attributes.item (1).node_value == "v2");
+				assert (e.attributes.item (2) != null);
+				assert (e.attributes.item (2).node_name == "a3");
+				assert (e.attributes.item (2).node_value == "v3");
+				assert (e.attributes.item (3) != null);
+				assert (e.attributes.item (3).node_name == "a4");
+				assert (e.attributes.item (3).node_value == "v4");
+				e.remove_attribute ("a3");
+				assert (e.attributes.length == 3);
+				assert (e.attributes.item (2) != null);
+				assert (e.attributes.item (2).node_name == "a4");
+				assert (e.attributes.item (2).node_value == "v4");
+				assert (e.attributes.item (3) == null);
+
+				var e2 = new GomElement ();
+				e2.set_attribute_ns ("http://www.w3.org/2000/xmlns", "xmlns:gxml", "http://wiki.gnome.org/GXml");
+				e2.set_attribute_ns ("http://wiki.gnome.org/GXml", "gxml:a1", "v1");
+				e2.set_attribute_ns ("http://wiki.gnome.org/GXml", "gxml:a2", "v2");
+				e2.set_attribute_ns ("http://wiki.gnome.org/GXml", "gxml:a3", "v3");
+				e2.set_attribute_ns ("http://wiki.gnome.org/GXml", "gxml:a4", "v4");
+				assert (e2.attributes.length == 5);
+				for (int i = 0; i < e2.attributes.length; i++) {
+					assert (e2.attributes.item (i) != null);
+				}
+				assert (e2.attributes.item (0) != null);
+				assert (e2.attributes.item (0).node_name == "xmlns:gxml");
+				assert (e2.attributes.item (0).node_value == "http://wiki.gnome.org/GXml");
+				assert (e2.attributes.item (1) != null);
+				assert (e2.attributes.item (1).node_name == "gxml:a1");
+				assert (e2.attributes.item (1).node_value == "v1");
+				assert (e2.attributes.item (2) != null);
+				assert (e2.attributes.item (2).node_name == "gxml:a2");
+				assert (e2.attributes.item (2).node_value == "v2");
+				assert (e2.attributes.item (3) != null);
+				assert (e2.attributes.item (3).node_name == "gxml:a3");
+				assert (e2.attributes.item (3).node_value == "v3");
+				assert (e2.attributes.item (4) != null);
+				assert (e2.attributes.item (4).node_name == "gxml:a4");
+				assert (e2.attributes.item (4).node_value == "v4");
+				e2.remove_attribute_ns ("http://wiki.gnome.org/GXml", "a3");
+				assert (e2.attributes.length == 4);
+				assert (e2.attributes.item (3) != null);
+				assert (e2.attributes.item (3).node_name == "gxml:a4");
+				assert (e2.attributes.item (3).node_value == "v4");
+				assert (e2.attributes.item (4) == null);
+			} catch (GLib.Error e) {
+		    GLib.message ("Error: "+e.message);
+		    assert_not_reached ();
+		  }
+		});
 	}
 }

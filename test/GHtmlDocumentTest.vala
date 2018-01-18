@@ -123,8 +123,7 @@ class GHtmlDocumentTest : GXmlTest {
 		// 	}
 		// });
 		Test.add_func ("/gxml/GHtmlDocument/element-by-property", () => {
-		 	try {
-		 		var src = """
+		 	var src = """
 <!--[if lt IE 7]>      <html dir="ltr" lang="fr" data-locale="fr" data-locale-long="fr_FR" data-locale-name="French (France)" data-locale-facebook="fr_FR" data-locale-twitter="fr" data-locale-google="fr" data-locale-linkedin="fr_FR" class="no-js lt-ie9 lt-ie8 lt-ie7 "> <![endif]-->
 <!--[if IE 7]>         <html dir="ltr" lang="fr" data-locale="fr" data-locale-long="fr_FR" data-locale-name="French (France)" data-locale-facebook="fr_FR" data-locale-twitter="fr" data-locale-google="fr" data-locale-linkedin="fr_FR" class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html dir="ltr" lang="fr" data-locale="fr" data-locale-long="fr_FR" data-locale-name="French (France)" data-locale-facebook="fr_FR" data-locale-twitter="fr" data-locale-google="fr" data-locale-linkedin="fr_FR" class="no-js lt-ie9"> <![endif]-->
@@ -1508,25 +1507,21 @@ var _analytics_elem = document.getElementsByTagName('script')[0]; _analytics_ele
 })();
 // ]]></script></body></html>
 		""";
-		 		DomDocument doc;
-		 		doc = new GHtmlDocument.from_string (src);
-		 		message ((doc as GDocument).to_string ());
-		 		assert (doc.document_element != null);
-		 		var c = doc.document_element.get_elements_by_property_value ("property", "article:published_time");
-		 		foreach (DomNode n in c) {
-		 			message (n.node_name);
-		 		}
-		 		var collection = doc.get_elements_by_property_value ("property", "article:published_time");
-				message (collection.length.to_string ());
-				assert (collection.length == 1);
-		 		foreach (DomNode n in c) {
-		 			message (n.node_name);
-		 		}
-		 	} catch (GLib.Error e){
-		 		message ("ERROR: "+e.message);
-		 		assert_not_reached ();
-		 	}
+	 		DomDocument doc;
+	 		doc = new GHtmlDocument.from_string (src);
+	 		message ((doc as GDocument).to_string ());
+	 		assert (doc.document_element != null);
+	 		var c = doc.document_element.get_elements_by_property_value ("property", "article:published_time");
+	 		foreach (DomNode n in c) {
+	 			message (n.node_name);
+	 		}
+	 		var collection = doc.get_elements_by_property_value ("property", "article:published_time");
+			message (collection.length.to_string ());
+			assert (collection.length == 1);
+	 		foreach (DomNode n in c) {
+	 			message (n.node_name);
+	 		}
 		 });
-		
+
 	}
 }
