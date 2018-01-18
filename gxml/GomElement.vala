@@ -444,7 +444,7 @@ public class GXml.GomElement : GomNode,
       unset (name);
       long i = index_of (name);
       if (i < 0) {
-        warning (_("No index found for ttribute %s").printf (name));
+        warning (_("No index found for attribute %s").printf (name));
       } else {
         order.unset (i);
       }
@@ -462,7 +462,7 @@ public class GXml.GomElement : GomNode,
       unset (k);
       long i = index_of (k);
       if (i < 0) {
-        warning (_("No index found for ttribute %s").printf (k));
+        warning (_("No index found for attribute %s").printf (k));
       } else {
         order.unset (i);
       }
