@@ -11,8 +11,8 @@
 
 # Release Version for API related changes
 m4_define([project_major_version], [0])
-m4_define([project_minor_version], [16])
-m4_define([project_micro_version], [2])
+m4_define([project_minor_version], [17])
+m4_define([project_micro_version], [0])
 m4_define([project_nano_version], [0])
 
 # LT_VERSION for ABI related changes
