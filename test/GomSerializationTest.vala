@@ -1375,6 +1375,84 @@ class GomSerializationTest : GXmlTest  {
         assert ((e as Book).name == "Title %d".printf (n));
         n++;
       }
+      var bst = new BookStand ();
+      bst.set_instance_property ("registers");
+      var r = bst.registers;
+      assert (r.items_type.is_a (typeof (BookRegister)));
+      n = 1;
+      for (int i = 0; i < 10; i++) {
+        var b = r.create_item () as BookRegister;
+        assert (b != null);
+        b.year = 2000 + n;
+        n++;
+        r.append (b);
+      }
+      n = 1;
+      foreach (DomElement e in r) {
+        assert ((e as BookRegister) != null);
+        assert ((e as BookRegister).year == 2000 + n);
+        n++;
+      }
+      bst.set_instance_property ("hashmap-registers");
+      var hr = bst.hashmap_registers;
+      n = 1;
+      for (int i = 0; i < 10; i++) {
+        var b = hr.create_item () as BookRegister;
+        assert (b != null);
+        b.set_instance_property ("book");
+        b.book.name = "book%d".printf (n);
+        b.year = 2000 + n;
+        n++;
+        hr.append (b);
+      }
+      n = 1;
+      foreach (DomElement e in hr) {
+        assert ((e as BookRegister) != null);
+        assert ((e as BookRegister).year == 2000 + n);
+        n++;
+      }
+
+      bst.set_instance_property ("hashpair-registers");
+      var hpr = bst.hashpair_registers;
+      n = 1;
+      for (int i = 0; i < 10; i++) {
+        var b = hpr.create_item () as BookRegister;
+        assert (b != null);
+        b.set_instance_property ("book");
+        b.book.name = "book%d".printf (n);
+        b.year = 2000 + n;
+        n++;
+        hpr.append (b);
+      }
+      n = 1;
+      foreach (DomElement e in hpr) {
+        assert ((e as BookRegister) != null);
+        assert ((e as BookRegister).book.name == "book%d".printf (n));
+        assert ((e as BookRegister).year ==  2000 + n);
+        n++;
+      }
+
+      bst.set_instance_property ("hashthree-registers");
+      var htr = bst.hashthree_registers;
+      n = 1;
+      for (int i = 0; i < 10; i++) {
+        var b = htr.create_item () as BookRegister;
+        assert (b != null);
+        b.set_instance_property ("book");
+        b.book.name = "book%d".printf (n);
+        b.year = 2000 + n;
+        b.cover = "cover%d".printf (n);
+        n++;
+        htr.append (b);
+      }
+      n = 1;
+      foreach (DomElement e in htr) {
+        assert ((e as BookRegister) != null);
+        assert ((e as BookRegister).book.name == "book%d".printf (n));
+        assert ((e as BookRegister).year == 2000 + n);
+        assert ((e as BookRegister).cover == "cover%d".printf (n));
+        n++;
+      }
     } catch (GLib.Error e) {
       GLib.message ("Error: "+e.message);
       assert_not_reached ();

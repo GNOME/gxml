@@ -25,7 +25,7 @@ using Gee;
  * A DOM4 interface to keep references to {@link DomElement} in a {@link element}
  * child nodes. Only {@link GomObject} are supported.
  */
-public interface GXml.GomCollection : Object, Traversable, Iterable
+public interface GXml.GomCollection : Object
 {
   /**
    * A list of child {@link DomElement} objects of {@link element}
@@ -286,9 +286,15 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
       pos = -1;
     }
 
-    public DomElement @get ()
+    public new DomElement @get ()
       requires (pos >= 0 && pos < _collection.length) {
-      return _collection.get_item (pos);
+      DomElement e = null;
+      try {
+        e = _collection.get_item (pos);
+      } catch (GLib.Error e) {
+        warning (_("Error: %s").printf (e.message));
+      }
+      return e;
     }
     public bool has_next () { return (pos + 1 < _collection.length); }
     public bool next () {
@@ -297,10 +303,15 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
       return true;
     }
     public void remove () {
-      var n = _collection.get_item (pos);
-      if (n == null) return;
-      n.remove ();
-      _collection.search ();
+      DomElement e = null;
+      try {
+        e = _collection.get_item (pos);
+        if (e == null) return;
+        e.remove ();
+        _collection.search ();
+      } catch (GLib.Error e) {
+        warning (_("Error: %s").printf (e.message));
+      }
     }
 
     public bool @foreach (ForallFunc<DomElement> f) {
@@ -312,6 +323,11 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
     }
   }
 }
+
+/**
+ * {@link Gee.Iterable} and {@link Gee.Traversable} implementation of {@link GomCollection}
+ */
+public interface GXml.GomList : Object, GomCollection, Traversable<DomElement>, Iterable<DomElement> {}
 
 /**
  * A class impementing {@link GomCollection} to store references to
@@ -333,7 +349,7 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
  *   }
  * }}}
  */
-public class GXml.GomArrayList : GXml.BaseCollection {
+public class GXml.GomArrayList : GXml.BaseCollection, GomList {
   public override bool validate_append (int index, DomElement element) throws GLib.Error {
 #if DEBUG
     GLib.message ("Adding node:"+element.node_name);
@@ -352,6 +368,31 @@ public class GXml.GomArrayList : GXml.BaseCollection {
 public interface GXml.MappeableElement : Object, DomElement {
   public abstract string get_map_key ();
 }
+
+
+/**
+ * {@link Gee.Iterable} and {@link Gee.Traversable} implementation of {@link GomCollection}
+ */
+public interface GXml.GomMap : Object, GomCollection, Traversable<DomElement>, Iterable<DomElement> {
+  /**
+   * An attribute's name in items to be added and used to retrieve elements
+   * as key.
+   */
+  public abstract string attribute_key { get; construct set; }
+  /**
+   * Returns an {@link DomElement} in the collection using a string key.
+   */
+  public abstract DomElement? get (string key);
+  /**
+   * Returns true if @key is used in collection.
+   */
+  public abstract bool has_key (string key);
+  /**
+   * Returns list of keys used in collection.
+   */
+  public abstract Set<string> keys_set { owned get; }
+}
+
 
 /**
  * A class impementing {@link GomCollection} to store references to
@@ -381,7 +422,7 @@ public interface GXml.MappeableElement : Object, DomElement {
  *   }
  * }}}
  */
-public class GXml.GomHashMap : GXml.BaseCollection {
+public class GXml.GomHashMap : GXml.BaseCollection, GomMap {
   /**
    * A hashtable with all keys as string to node's index refered. Don't modify it manually.
    */
@@ -490,6 +531,13 @@ public class GXml.GomHashMap : GXml.BaseCollection {
   public override void clear () {
     _hashtable = new HashMap<string,int> ();
   }
+  public Gee.Set<string> keys_set {
+    owned get {
+      var l = new HashSet<string> ();
+      foreach (string k in _hashtable.keys) { l.add (k); }
+      return l;
+    }
+  }
 }
 
 
@@ -500,6 +548,44 @@ public class GXml.GomHashMap : GXml.BaseCollection {
 public interface GXml.MappeableElementPairKey : Object, DomElement {
   public abstract string get_map_primary_key ();
   public abstract string get_map_secondary_key ();
+}
+
+
+/**
+ * {@link Gee.Iterable} and {@link Gee.Traversable} implementation of {@link GomCollection}
+ */
+public interface GXml.GomPairedMap : Object, GomCollection, Traversable<DomElement>, Iterable<DomElement> {
+  /**
+   * An attribute's name in items to be added and used to retrieve elements
+   * as primary key.
+   */
+  public abstract string attribute_primary_key { get; construct set; }
+  /**
+   * An attribute's name in items to be added and used to retrieve elements
+   * as secondary key.
+   */
+  public abstract string attribute_secondary_key { get; construct set; }
+  /**
+   * Returns list of primary keys used in collection.
+   */
+  public abstract Set<string> primary_keys_set { owned get; }
+  /**
+   * Returns an {@link DomElement} in the collection using given string keys.
+   */
+  public abstract DomElement? get (string primary_key, string secondary_key);
+  /**
+   * Returns true if @key is used in collection as primery key.
+   */
+  public abstract bool has_primary_key (string key);
+  /**
+   * Returns true if @key is used in collection as secondary key
+   * with @pkey as primary.
+   */
+  public abstract bool has_secondary_key (string pkey, string key);
+  /**
+   * Returns list of secondary keys used in collection with @pkey as primary key.
+   */
+  public abstract Set<string> secondary_keys_set (string pkey);
 }
 
 /**
@@ -538,7 +624,7 @@ public interface GXml.MappeableElementPairKey : Object, DomElement {
  *   }
  * }}}
  */
-public class GXml.GomHashPairedMap : GXml.BaseCollection {
+public class GXml.GomHashPairedMap : GXml.BaseCollection, GomPairedMap {
   /**
    * A hashtable with all keys as string to node's index refered. Don't modify it manually.
    */
@@ -698,6 +784,24 @@ public class GXml.GomHashPairedMap : GXml.BaseCollection {
   public override void clear () {
     _hashtable = new HashMap<string,HashMap<string,int>> ();
   }
+  public Set<string> primary_keys_set {
+    owned get {
+      var l = new HashSet<string> ();
+      foreach (string k in _hashtable.keys) {
+        l.add (k);
+      }
+      return l;
+    }
+  }
+  public Set<string> secondary_keys_set (string pkey) {
+    var l = new HashSet<string> ();
+    var ht = _hashtable.get (pkey);
+    if (ht == null) return l;
+    foreach (string k in ht.keys) {
+      l.add (k);
+    }
+    return l;
+  }
 }
 
 
@@ -721,6 +825,59 @@ public interface GXml.MappeableElementThreeKey : Object, DomElement {
    * Returns third key of collection.
    */
   public abstract string get_map_tkey ();
+}
+
+
+/**
+ * {@link Gee.Iterable} and {@link Gee.Traversable} implementation of {@link GomCollection}
+ */
+public interface GXml.GomThreeMap : Object, GomCollection, Traversable<DomElement>, Iterable<DomElement> {
+  /**
+   * An attribute's name in items to be added and used to retrieve elements
+   * as primary key.
+   */
+  public abstract string attribute_primary_key { get; construct set; }
+  /**
+   * An attribute's name in items to be added and used to retrieve elements
+   * as secondary key.
+   */
+  public abstract string attribute_secondary_key { get; construct set; }
+  /**
+   * An attribute's name in items to be added and used to retrieve elements
+   * as third key.
+   */
+  public abstract string attribute_third_key { get; construct set; }
+  /**
+   * Returns list of primary keys used in collection.
+   */
+  public abstract Set<string> primary_keys_set { owned get; }
+  /**
+   * Returns an {@link DomElement} in the collection using given string keys.
+   */
+  public abstract DomElement? get (string primary_key, string secondary_key, string third_key);
+  /**
+   * Returns true if @key is used in collection as primery key.
+   */
+  public abstract bool has_primary_key (string key);
+  /**
+   * Returns true if @key is used in collection as secondary key
+   * with @pkey as primary.
+   */
+  public abstract bool has_secondary_key (string pkey, string key);
+  /**
+   * Returns true if @key is used in collection as third key with secondary key
+   * and pkey as primary.
+   */
+  public abstract bool has_third_key (string pkey, string skey, string key);
+  /**
+   * Returns list of secondary keys used in collection with @pkey as primary key.
+   */
+  public abstract Set<string> secondary_keys_set (string pkey);
+  /**
+   * Returns list of third keys used in collection with pkey as primary key
+   * and skey as secondary key.
+   */
+  public abstract Set<string> third_keys_set (string pkey, string skey);
 }
 
 /**
@@ -764,7 +921,7 @@ public interface GXml.MappeableElementThreeKey : Object, DomElement {
  *   }
  * }}}
  */
-public class GXml.GomHashThreeMap : GXml.BaseCollection {
+public class GXml.GomHashThreeMap : GXml.BaseCollection, GomThreeMap {
   /**
    * A hashtable with all keys as string to node's index refered. Don't modify it manually.
    */
@@ -974,5 +1131,36 @@ public class GXml.GomHashThreeMap : GXml.BaseCollection {
   }
   public override void clear () {
     _hashtable = new HashMap<string,HashMap<string,HashMap<string,int>>> ();
+  }
+  public Set<string> primary_keys_set {
+    owned get {
+      var l = new HashSet<string> ();
+      foreach (string k in _hashtable.keys) {
+        l.add (k);
+      }
+      return l;
+    }
+  }
+  public Set<string> secondary_keys_set (string pkey) {
+    var l = new HashSet<string> ();
+    if (!_hashtable.has_key (pkey)) return l;
+    var ht = _hashtable.get (pkey);
+    if (ht == null) return l;
+    foreach (string k in ht.keys) {
+      l.add (k);
+    }
+    return l;
+  }
+  public Set<string> third_keys_set (string pkey, string skey) {
+    var l = new HashSet<string> ();
+    if (!_hashtable.has_key (pkey)) return l;
+    var ht = _hashtable.get (pkey);
+    if (ht == null) return l;
+    var hte = ht.get (skey);
+    if (hte == null) return l;
+    foreach (string k in hte.keys) {
+      l.add (k);
+    }
+    return l;
   }
 }
