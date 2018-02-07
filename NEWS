@@ -1,4 +1,12 @@
 ===============
+Version 0.16.1
+===============
+
+* GomElement: Fixed attributes traversing
+* Updated translations:
+    Brazilian Portuguese by     Rafael Fontenelle <rafaelff@gnome.org>
+
+===============
 Version 0.16.0
 ===============
 
