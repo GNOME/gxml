@@ -1355,5 +1355,30 @@ class GomSerializationTest : GXmlTest  {
         assert_not_reached ();
       }
     });
+    Test.add_func ("/gxml/gom-serialization/collection/iteration", () => {
+    try {
+      var bs = new BookStore ();
+      assert (bs.books == null);
+      bs.set_instance_property ("books");
+      int n = 1;
+      for (int i = 0; i < 10; i++) {
+        var b = bs.books.create_item () as Book;
+        assert (b != null);
+        b.name = "Title %d".printf (n);
+        n++;
+        bs.books.append (b);
+      }
+      message (bs.write_string ());
+      n = 1;
+      foreach (DomElement e in bs.books) {
+        assert ((e as Book) != null);
+        assert ((e as Book).name == "Title %d".printf (n));
+        n++;
+      }
+    } catch (GLib.Error e) {
+      GLib.message ("Error: "+e.message);
+      assert_not_reached ();
+    }
+    });
   }
 }

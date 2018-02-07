@@ -25,17 +25,15 @@ using Gee;
  * A DOM4 interface to keep references to {@link DomElement} in a {@link element}
  * child nodes. Only {@link GomObject} are supported.
  */
-public interface GXml.GomCollection : Object
+public interface GXml.GomCollection : Object, Traversable, Iterable
 {
   /**
    * A list of child {@link DomElement} objects of {@link element}
    */
-  [CCode (ordering = 0)]
   public abstract GLib.Queue<int> nodes_index { get; }
   /**
    * A {@link GomElement} with all child elements in collection.
    */
-  [CCode (ordering = 1)]
   public abstract GomElement element { get; construct set; }
   /**
    * Local name of {@link DomElement} objects of {@link element}, which could be
@@ -43,7 +41,6 @@ public interface GXml.GomCollection : Object
    *
    * Used when reading to add elements to collection.
    */
-  [CCode (ordering = 2)]
   public abstract string items_name { get; }
   /**
    * A {@link GLib.Type} of {@link DomElement} child objects of {@link element},
@@ -51,19 +48,16 @@ public interface GXml.GomCollection : Object
    *
    * Type should be an {@link GomObject}.
    */
-  [CCode (ordering = 3)]
   public abstract Type items_type { get; construct set; }
   /**
    * Search and add references to all {@link GomObject} nodes as child of
    * {@link element} with same, case insensitive, name of {@link items_name}
    */
-  [CCode (ordering = 4)]
   public abstract void search () throws GLib.Error;
   /**
    * Gets a child {@link DomElement} of {@link element} referenced in
    * {@link nodes_index}.
    */
-  [CCode (ordering = 5)]
   public virtual DomElement? get_item (int index) throws GLib.Error {
     if (nodes_index.length == 0)
       return null;
@@ -86,12 +80,10 @@ public interface GXml.GomCollection : Object
    * collection, this method will take information from node to initialize
    * how to find it.
    */
-  [CCode (ordering = 6)]
   public abstract void append (DomElement node) throws GLib.Error;
   /**
    * Number of items referenced in {@link nodes_index}
    */
-  [CCode (ordering = 7)]
   public virtual int length { get { return (int) nodes_index.get_length (); } }
   /**
    * Initialize collection to use a given {@link GomElement} derived type.
@@ -101,7 +93,6 @@ public interface GXml.GomCollection : Object
    * This method can be used at construction time of classes implementing
    * {@link GomCollection} to initialize object type to refer in collection.
    */
-  [CCode (ordering = 8)]
   public abstract void initialize (GLib.Type t) throws GLib.Error;
   /**
    * Creates a new instance of {@link items_type}, with same
@@ -111,7 +102,6 @@ public interface GXml.GomCollection : Object
    *
    * Returns: a new instance object or null if type is not a {@link GomElement} or no parent has been set
    */
-  [CCode (ordering = 9)]
   public virtual GomElement? create_item () {
     if (items_type.is_a (GLib.Type.INVALID)) return null;
     if (!items_type.is_a (typeof (GomElement))) return null;
@@ -128,12 +118,10 @@ public interface GXml.GomCollection : Object
    *
    * Return: true if node and index should be added to collection.
    */
-  [CCode (ordering = 10)]
   public abstract bool validate_append (int index, DomElement element) throws GLib.Error;
   /**
    * Clear this collection in prepareation for a search
    */
-  [CCode (ordering = 11)]
   public abstract void clear () throws GLib.Error;
 }
 
@@ -145,7 +133,7 @@ public interface GXml.GomCollection : Object
  * in order to be able to add new references to elements. Use {@link initialize_element}
  * to set parent element and {@link search} to find elements for collection.
  */
-public abstract class GXml.BaseCollection : Object {
+public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Iterable<DomElement>, GomCollection {
   /**
    * A collection of node's index refered. Don't modify it manually.
    */
@@ -278,6 +266,51 @@ public abstract class GXml.BaseCollection : Object {
    * {@inheritDoc}
    */
   public virtual void clear () throws GLib.Error {}
+
+  // Traversable Interface
+  public bool @foreach (ForallFunc<DomElement> f) {
+    var i = iterator ();
+    return i.foreach (f);
+  }
+  // Itarable Interface
+  public Iterator<DomElement> iterator () { return new GomCollectionIterator (this); }
+  // For Iterable interface implementation
+  private class GomCollectionIterator : Object, Traversable<DomElement>, Iterator<DomElement> {
+    private int pos;
+    private GomCollection _collection;
+    public bool read_only { get { return false; } }
+    public bool valid { get { return (pos >= 0 && pos < _collection.length); } }
+
+    public GomCollectionIterator (GomCollection col) {
+      _collection = col;
+      pos = -1;
+    }
+
+    public DomElement @get ()
+      requires (pos >= 0 && pos < _collection.length) {
+      return _collection.get_item (pos);
+    }
+    public bool has_next () { return (pos + 1 < _collection.length); }
+    public bool next () {
+      if (!has_next ()) return false;
+      pos++;
+      return true;
+    }
+    public void remove () {
+      var n = _collection.get_item (pos);
+      if (n == null) return;
+      n.remove ();
+      _collection.search ();
+    }
+
+    public bool @foreach (ForallFunc<DomElement> f) {
+      while (has_next ()) {
+        next ();
+        if (!f (get ())) return false;
+      }
+      return true;
+    }
+  }
 }
 
 /**
@@ -300,7 +333,7 @@ public abstract class GXml.BaseCollection : Object {
  *   }
  * }}}
  */
-public class GXml.GomArrayList : GXml.BaseCollection, GomCollection {
+public class GXml.GomArrayList : GXml.BaseCollection {
   public override bool validate_append (int index, DomElement element) throws GLib.Error {
 #if DEBUG
     GLib.message ("Adding node:"+element.node_name);
@@ -348,7 +381,7 @@ public interface GXml.MappeableElement : Object, DomElement {
  *   }
  * }}}
  */
-public class GXml.GomHashMap : GXml.BaseCollection, GXml.GomCollection {
+public class GXml.GomHashMap : GXml.BaseCollection {
   /**
    * A hashtable with all keys as string to node's index refered. Don't modify it manually.
    */
@@ -505,7 +538,7 @@ public interface GXml.MappeableElementPairKey : Object, DomElement {
  *   }
  * }}}
  */
-public class GXml.GomHashPairedMap : GXml.BaseCollection, GXml.GomCollection {
+public class GXml.GomHashPairedMap : GXml.BaseCollection {
   /**
    * A hashtable with all keys as string to node's index refered. Don't modify it manually.
    */
@@ -731,7 +764,7 @@ public interface GXml.MappeableElementThreeKey : Object, DomElement {
  *   }
  * }}}
  */
-public class GXml.GomHashThreeMap : GXml.BaseCollection, GXml.GomCollection {
+public class GXml.GomHashThreeMap : GXml.BaseCollection {
   /**
    * A hashtable with all keys as string to node's index refered. Don't modify it manually.
    */
