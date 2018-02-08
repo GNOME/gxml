@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
-"product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-10-31 01:18+0000\n"
-"PO-Revision-Date: 2018-01-13 10:26-0200\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gxml&k"
+"eywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2018-02-07 18:00+0000\n"
+"PO-Revision-Date: 2018-02-08 09:43-0200\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -152,16 +152,21 @@ msgstr "Nome de atributo inválido na lista de atributos do elemento"
 msgid "Can't locate child node to remove"
 msgstr "Não foi possível localizar nó filho para remover"
 
-#: ../gxml/GomElement.vala:419 ../gxml/GomElement.vala:457
+#: ../gxml/GomElement.vala:432 ../gxml/GomElement.vala:484
 #, c-format
 msgid "Invalid attribute name: %s"
 msgstr "Nome de atributo inválido: %s"
 
-#: ../gxml/GomElement.vala:421 ../gxml/GomElement.vala:459
+#: ../gxml/GomElement.vala:434 ../gxml/GomElement.vala:486
 msgid "Invalid node type. DomAttr was expected"
 msgstr "Tipo de nó inválido. DomAttr era esperado"
 
-#: ../gxml/GomElement.vala:464
+#: ../gxml/GomElement.vala:447 ../gxml/GomElement.vala:465
+#, c-format
+msgid "No index found for attribute %s"
+msgstr "Nenhum índice localizado para o atributo %s"
+
+#: ../gxml/GomElement.vala:491
 msgid ""
 "Namespace attributes prefixed with xmlns should use a namespace uri http://"
 "www.w3.org/2000/xmlns"
@@ -169,60 +174,56 @@ msgstr ""
 "Atributos de espaço de nome prefixados com xmlns deveriam usar uma uri de "
 "espaço de nome http://www.w3.org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:471
+#: ../gxml/GomElement.vala:498
 #, c-format
 msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
 msgstr ""
 "Atributos em espaço de nome deveriam fornecer um prefixo não-nulo e não-"
 "vazio: %s"
 
-#: ../gxml/GomElement.vala:475
+#: ../gxml/GomElement.vala:502
 msgid "Invalid namespace attribute's name."
 msgstr "Nome do atributo de espaço de nome."
 
-#: ../gxml/GomElement.vala:487
+#: ../gxml/GomElement.vala:514
 #, c-format
 msgid "Duplicated default namespace detected with URI: %s"
 msgstr "Espaço de nome padrão duplicado foi detectado com URI: %s"
 
-#: ../gxml/GomElement.vala:496
+#: ../gxml/GomElement.vala:523
 #, c-format
 msgid "Duplicated namespace detected for: %s:%s"
 msgstr "Espaço de nome duplicado foi detectado para: %s:%s"
 
-#: ../gxml/GomElement.vala:507
+#: ../gxml/GomElement.vala:534
 #, c-format
-#| msgid "Trying to add an attribute with an undefined namespace prefix"
 msgid "Trying to add an attribute with an undefined namespace prefix: %s"
 msgstr ""
 "Tentando adicionar um atributo com um prefixo de espaço de nome não "
 "definido: %s"
 
-#: ../gxml/GomElement.vala:513
+#: ../gxml/GomElement.vala:540
 msgid "Trying to add an attribute with a non found namespace URI"
 msgstr ""
 "Tentando adicionar um atributo com um URI de espaço de nome não localizado"
 
-#: ../gxml/GomElement.vala:563
+#: ../gxml/GomElement.vala:599
 msgid "Invalid attribute name. Just one prefix is allowed"
 msgstr "Nome de atributo inválido. Apenas um prefixo é permitido"
 
-#: ../gxml/GomElement.vala:567
+#: ../gxml/GomElement.vala:603
 #, c-format
 msgid "Invalid attribute name. Invalid use of colon: %s"
 msgstr ""
 "Nome de atributo inválido. Uso inválido de caractere de dois pontos: %s"
 
-#: ../gxml/GomElement.vala:571
+#: ../gxml/GomElement.vala:607
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
 msgstr ""
 "Espaço de nome inválido. Se prefixo for nulo, URI de espaço de nome não "
 "deveria ser nulo"
 
-#: ../gxml/GomElement.vala:573
-#| msgid ""
-#| "Invalid namespace. If prefix is xml, namespace URI should be http://www."
-#| "w3.org/2000/xmlns/"
+#: ../gxml/GomElement.vala:609
 msgid ""
 "Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
 "org/2000/xmlns"
@@ -230,10 +231,7 @@ msgstr ""
 "Espaço de nome inválido. Se prefixo for xml, URI de espaço de nome deveria "
 "ser http://www.w3.org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:576
-#| msgid ""
-#| "Invalid namespace. If attribute's prefix is xmlns, namespace URI should "
-#| "be http://www.w3.org/2000/xmlns/"
+#: ../gxml/GomElement.vala:612
 msgid ""
 "Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns"
@@ -241,10 +239,7 @@ msgstr ""
 "Espaço de nome inválido. Se prefixo do prefixo for xmlns, URI de espaço de "
 "nome deveria ser http://www.w3.org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:580
-#| msgid ""
-#| "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
-#| "http://www.w3.org/2000/xmlns/"
+#: ../gxml/GomElement.vala:616
 msgid ""
 "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns"
@@ -252,21 +247,21 @@ msgstr ""
 "Espaço de nome inválido. Se nome do prefixo for xmlns, URI de espaço de nome "
 "deveria ser http://www.w3.org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:582
+#: ../gxml/GomElement.vala:618
 msgid "Invalid attribute name. No prefixed attributes should use xmlns name"
 msgstr ""
 "Nome de atributo inválido. Nenhum atributo prefixado deveria usar nome de "
 "xmlns"
 
-#: ../gxml/GomElement.vala:586
+#: ../gxml/GomElement.vala:622
 msgid "Setting namespaced property error: "
 msgstr "Erro ao definir a propriedade em espaço de nome: "
 
-#: ../gxml/GomElement.vala:593
+#: ../gxml/GomElement.vala:629
 msgid "Removing attribute Error: "
 msgstr "Erro ao remover atributo: "
 
-#: ../gxml/GomElement.vala:598
+#: ../gxml/GomElement.vala:634
 msgid "Removing namespaced attribute Error: "
 msgstr "Erro ao remover atributo de espaço de nome: "
 
@@ -580,7 +575,6 @@ msgid "Can't read node data"
 msgstr "Não foi possível ler os dados do nó"
 
 #: ../gxml/XParser.vala:360
-#| msgid "Invalid offset for node to start: for document type"
 msgid "Invalid sequence for document type definition: "
 msgstr "Sequência inválida para definição de tipo de documento: "
 
@@ -595,7 +589,6 @@ msgstr "Erro ao remover elemento da Collection: %s"
 
 #: ../gxml/GomSchema.vala:275
 #, c-format
-#| msgid "Can't find element at position: %i : %s"
 msgid "Can't find element at position: %i: %s"
 msgstr "Não foi possível localizar elemento na posição: %i: %s"
 
@@ -607,28 +600,23 @@ msgid "Collection type %s, initialization error: %s"
 msgstr "Collection tipo %s, erro de inicialização: %s"
 
 #: ../gxml/CssSelectorParser.vala:139
-#| msgid "Invalid attribute name: %s"
 msgid "Invalid attribute character"
 msgstr "Caractere de atributo inválido"
 
 #: ../gxml/CssSelectorParser.vala:165 ../gxml/CssSelectorParser.vala:211
 #, c-format
-#| msgid "Invalid attribute name: %s"
 msgid "Invalid attribute selector value: %s"
 msgstr "Valor de seletor de atributo inválido: %s"
 
 #: ../gxml/CssSelectorParser.vala:168 ../gxml/CssSelectorParser.vala:214
-#| msgid "Invalid attribute name: %s"
 msgid "Invalid end of attribute value"
 msgstr "Fim inválido de valor de atributo"
 
 #: ../gxml/CssSelectorParser.vala:174 ../gxml/CssSelectorParser.vala:220
-#| msgid "Invalid attribute name: %s"
 msgid "Invalid end of attribute selector"
 msgstr "Fim inválido de seletor de atributo"
 
 #: ../gxml/CssSelectorParser.vala:194
-#| msgid "Invalid attribute name: %s"
 msgid "Invalid attribute selector character"
 msgstr "Caractere de seletor de atributo inválido"
 
@@ -644,7 +632,6 @@ msgid "Invalid pseudo class selector %s"
 msgstr "Seletor de pseudo-classe inválido %s"
 
 #: ../gxml/CssSelectorParser.vala:258
-#| msgid "Invalid file"
 msgid "Invalid string length."
 msgstr "Tamanho de string inválido."
 
