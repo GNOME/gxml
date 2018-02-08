@@ -382,7 +382,7 @@ public interface GXml.GomMap : Object, GomCollection, Traversable<DomElement>, I
   /**
    * Returns an {@link DomElement} in the collection using a string key.
    */
-  public abstract DomElement? get (string key);
+  public abstract DomElement? item (string key);
   /**
    * Returns true if @key is used in collection.
    */
@@ -531,6 +531,7 @@ public class GXml.GomHashMap : GXml.BaseCollection, GomMap {
   public override void clear () {
     _hashtable = new HashMap<string,int> ();
   }
+  public DomElement? item (string key) { return get (key); }
   public Gee.Set<string> keys_set {
     owned get {
       var l = new HashSet<string> ();
