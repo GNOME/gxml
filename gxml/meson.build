@@ -138,9 +138,9 @@ inc_libh_dep = declare_dependency (include_directories : inc_libh)
 # Increase the age value only if the changes made to the ABI are backward compatible.
 # Set version to the value of subtract age from current
 # Reset current and version to 1 and, age and version to 0 if library's name is changed
-LT_CURRENT='1'
-LT_REVISION='0'
-LT_AGE='0'
+LT_CURRENT='2'
+LT_REVISION='1'
+LT_AGE='1'
 LT_VERSION='1'
 lib = library(VERSIONED_PROJECT_NAME,
 	valasources+sources+configvapi,

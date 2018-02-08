@@ -21,9 +21,9 @@ m4_define([project_nano_version], [0])
 # Increase the current value whenever an interface has been added, removed or changed.
 # Increase the age value only if the changes made to the ABI are backward compatible.
 # Reset current to 1 and revision and age to 0 if library's name is changed
-m4_define([project_lt_current], [1])
-m4_define([project_lt_revision], [0])
-m4_define([project_lt_age], [0])
+m4_define([project_lt_current], [2])
+m4_define([project_lt_revision], [1])
+m4_define([project_lt_age], [1])
 
 # Combine numbers to various version variables (different uses)
 #   Display the nano_version only if it's not '0'
