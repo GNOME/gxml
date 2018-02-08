@@ -573,7 +573,7 @@ public interface GXml.GomPairedMap : Object, GomCollection, Traversable<DomEleme
   /**
    * Returns an {@link DomElement} in the collection using given string keys.
    */
-  public abstract DomElement? get (string primary_key, string secondary_key);
+  public abstract DomElement? item (string primary_key, string secondary_key);
   /**
    * Returns true if @key is used in collection as primery key.
    */
@@ -785,6 +785,9 @@ public class GXml.GomHashPairedMap : GXml.BaseCollection, GomPairedMap {
   public override void clear () {
     _hashtable = new HashMap<string,HashMap<string,int>> ();
   }
+  public DomElement? item (string primary_key, string secondary_key) {
+    return get (primary_key, secondary_key);
+  }
   public Set<string> primary_keys_set {
     owned get {
       var l = new HashSet<string> ();
@@ -855,7 +858,7 @@ public interface GXml.GomThreeMap : Object, GomCollection, Traversable<DomElemen
   /**
    * Returns an {@link DomElement} in the collection using given string keys.
    */
-  public abstract DomElement? get (string primary_key, string secondary_key, string third_key);
+  public abstract DomElement? item (string primary_key, string secondary_key, string third_key);
   /**
    * Returns true if @key is used in collection as primery key.
    */
@@ -1132,6 +1135,10 @@ public class GXml.GomHashThreeMap : GXml.BaseCollection, GomThreeMap {
   }
   public override void clear () {
     _hashtable = new HashMap<string,HashMap<string,HashMap<string,int>>> ();
+  }
+
+  public DomElement? item (string primary_key, string secondary_key, string third_key) {
+    return get (primary_key, secondary_key, third_key);
   }
   public Set<string> primary_keys_set {
     owned get {
