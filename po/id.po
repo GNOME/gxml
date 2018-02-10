@@ -6,10 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml gxml-0.14\n"
-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
-"product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2018-01-18 21:27+0000\n"
-"PO-Revision-Date: 2018-01-31 11:48+0700\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
+"POT-Creation-Date: 2018-02-08 15:59+0000\n"
+"PO-Revision-Date: 2018-02-09 17:03+0700\n"
 "Last-Translator: Kukuh Syafaat <syafaatkukuh@gmail.com>\n"
 "Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
 "Language: id\n"
@@ -50,19 +49,19 @@ msgstr "nilai tak valid"
 msgid "text cannot be parsed to enumeration type:"
 msgstr "teks tak bisa diurai ke tipe enumerasi:"
 
-#: ../gxml/GomCollections.vala:72
+#: ../gxml/GomCollections.vala:66
 msgid "Invalid index for elements in array list"
 msgstr "Indeks tidak valid untuk elemen dalam daftar larik"
 
-#: ../gxml/GomCollections.vala:76
+#: ../gxml/GomCollections.vala:70
 msgid "Invalid index reference for child elements in array list"
 msgstr "Acuan indeks tidak valid untuk elemen anak dalam daftar larik"
 
-#: ../gxml/GomCollections.vala:81
+#: ../gxml/GomCollections.vala:75
 msgid "Referenced object's type is invalid. Should be a GXmlGomElement"
 msgstr "Tipe objek yang diacu tidak valid. Seharusnya GXmlGomElement"
 
-#: ../gxml/GomCollections.vala:205
+#: ../gxml/GomCollections.vala:193
 msgid ""
 "Invalid attempt to initialize a collection using an unsupported type. Only "
 "GXmlGomElement is supported"
@@ -70,31 +69,36 @@ msgstr ""
 "Upaya yang tidak valid untuk menginisialisasi suatu koleksi memakai sebuah "
 "tipe yang tidak didukung. Hanya GXmlGomElement yang didukung"
 
-#: ../gxml/GomCollections.vala:234 ../gxml/GomCollections.vala:262
+#: ../gxml/GomCollections.vala:222 ../gxml/GomCollections.vala:250
 msgid "Parent Element is invalid"
 msgstr "Elemen Induk tidak valid"
 
-#: ../gxml/GomCollections.vala:237
+#: ../gxml/GomCollections.vala:225
 msgid ""
 "Invalid attempt to set unsupported type. Only GXmlGomElement is supported"
 msgstr ""
 "Upaya yang tidak valid untuk menata tipe yang tidak didukung. Hanya "
 "GXmlGomElement yang didukung"
 
-#: ../gxml/GomCollections.vala:240
+#: ../gxml/GomCollections.vala:228
 msgid "Invalid attempt to set a node with a different parent document"
 msgstr ""
 "Percobaan yang tidak valid untuk menata suatu simpul dengan sebuah dokumen "
 "induk yang berbeda"
 
-#: ../gxml/GomCollections.vala:245
+#: ../gxml/GomCollections.vala:233
 msgid ""
 "Node element not appended as child of parent. No node added to collection"
 msgstr ""
 "Elemen simpul tidak ditambahkan sebagai anak dari induk. Tidak ada simpul "
 "yang ditambahkan ke koleksi"
 
-#: ../gxml/GomCollections.vala:656
+#: ../gxml/GomCollections.vala:295 ../gxml/GomCollections.vala:313
+#, c-format
+msgid "Error: %s"
+msgstr "Galat: %s"
+
+#: ../gxml/GomCollections.vala:776
 msgid "No primary key and/or secondary key was found"
 msgstr "Tidak ada kunci primer dan/atau kunci sekunder yang ditemukan"
 
