@@ -1,7 +1,7 @@
 # Swedish translation for gxml.
-# Copyright © 2016, 2017 gxml's COPYRIGHT HOLDER
+# Copyright © 2016, 2017, 2018 gxml's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gxml package.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2016.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2016, 2018.
 # Josef Andersson <l10nl18nsweja@gmail.com>, 2017.
 #
 msgid ""
@@ -9,16 +9,16 @@ msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-11-27 15:01+0000\n"
-"PO-Revision-Date: 2017-12-04 21:09+0100\n"
-"Last-Translator: Josef Andersson <josef.andersson@fripost.org>\n"
+"POT-Creation-Date: 2018-02-08 11:44+0000\n"
+"PO-Revision-Date: 2018-02-11 01:13+0100\n"
+"Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.4\n"
+"X-Generator: Poedit 2.0.5\n"
 
 #: ../gxml/Document.vala:151
 msgid "Invalid file"
@@ -149,16 +149,21 @@ msgstr "Ogiltigt attributnamn i elementets attributlista"
 msgid "Can't locate child node to remove"
 msgstr "Kan inte finna underordnad nod att ta bort"
 
-#: ../gxml/GomElement.vala:419 ../gxml/GomElement.vala:457
+#: ../gxml/GomElement.vala:432 ../gxml/GomElement.vala:484
 #, c-format
 msgid "Invalid attribute name: %s"
 msgstr "Ogiltigt attributnamn: %s"
 
-#: ../gxml/GomElement.vala:421 ../gxml/GomElement.vala:459
+#: ../gxml/GomElement.vala:434 ../gxml/GomElement.vala:486
 msgid "Invalid node type. DomAttr was expected"
 msgstr "Ogiltig nodtyp. DomAttr förväntades"
 
-#: ../gxml/GomElement.vala:464
+#: ../gxml/GomElement.vala:447 ../gxml/GomElement.vala:465
+#, c-format
+msgid "No index found for attribute %s"
+msgstr "Inget index hittades för attributet %s"
+
+#: ../gxml/GomElement.vala:491
 msgid ""
 "Namespace attributes prefixed with xmlns should use a namespace uri http://"
 "www.w3.org/2000/xmlns"
@@ -166,49 +171,49 @@ msgstr ""
 "Namnrymdsattribut med xmlns-prefix ska använda en namnrymds-URI http://www."
 "w3.org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:471
+#: ../gxml/GomElement.vala:498
 #, c-format
 msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
 msgstr "Namnrymdsattribut ska ha ett prefix som varken är tomt eller null: %s"
 
-#: ../gxml/GomElement.vala:475
+#: ../gxml/GomElement.vala:502
 msgid "Invalid namespace attribute's name."
 msgstr "Ogiltigt namn på namnrymdsattribut."
 
-#: ../gxml/GomElement.vala:487
+#: ../gxml/GomElement.vala:514
 #, c-format
 msgid "Duplicated default namespace detected with URI: %s"
 msgstr "Identifierade duplicerad standardnamnrymd med URI: %s"
 
-#: ../gxml/GomElement.vala:496
+#: ../gxml/GomElement.vala:523
 #, c-format
 msgid "Duplicated namespace detected for: %s:%s"
 msgstr "Identifierade duplicerad namnrymd för: %s:%s"
 
-#: ../gxml/GomElement.vala:507
+#: ../gxml/GomElement.vala:534
 #, c-format
 msgid "Trying to add an attribute with an undefined namespace prefix: %s"
 msgstr ""
 "Försöker att lägga till ett attribut med ett odefinierat namnrymdsprefix: %s"
 
-#: ../gxml/GomElement.vala:513
+#: ../gxml/GomElement.vala:540
 msgid "Trying to add an attribute with a non found namespace URI"
 msgstr "Försöker att lägga till ett attribut med ett icke funnet namnrymds-URI"
 
-#: ../gxml/GomElement.vala:563
+#: ../gxml/GomElement.vala:599
 msgid "Invalid attribute name. Just one prefix is allowed"
 msgstr "Ogiltigt attributnamn. Endast ett prefix är tillåtet"
 
-#: ../gxml/GomElement.vala:567
+#: ../gxml/GomElement.vala:603
 #, c-format
 msgid "Invalid attribute name. Invalid use of colon: %s"
 msgstr "Ogiltigt attributnamn. Ogiltig användning av kolon: %s"
 
-#: ../gxml/GomElement.vala:571
+#: ../gxml/GomElement.vala:607
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
 msgstr "Ogiltig namnrymd. Om prefix är null bör namnrymd-URI inte vara tom"
 
-#: ../gxml/GomElement.vala:573
+#: ../gxml/GomElement.vala:609
 msgid ""
 "Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
 "org/2000/xmlns"
@@ -216,7 +221,7 @@ msgstr ""
 "Ogiltig namnrymd. Om prefix är xml bör namnrymd-URI vara http://www.w3."
 "org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:576
+#: ../gxml/GomElement.vala:612
 msgid ""
 "Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns"
@@ -224,7 +229,7 @@ msgstr ""
 "Ogiltig namnrymd. Om attributets prefix är xmlns bör namnrymd-URI vara "
 "http://www.w3.org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:580
+#: ../gxml/GomElement.vala:616
 msgid ""
 "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns"
@@ -232,19 +237,19 @@ msgstr ""
 "Ogiltig namnrymd. Om attributets namn är xmlns bör namnrymd-URI vara http://"
 "www.w3.org/2000/xmlns"
 
-#: ../gxml/GomElement.vala:582
+#: ../gxml/GomElement.vala:618
 msgid "Invalid attribute name. No prefixed attributes should use xmlns name"
 msgstr "Ogiltigt attributnamn. Inga attribut med prefix ska använda xmlns-namn"
 
-#: ../gxml/GomElement.vala:586
+#: ../gxml/GomElement.vala:622
 msgid "Setting namespaced property error: "
 msgstr "Anger fel för egenskap i namnrymd: "
 
-#: ../gxml/GomElement.vala:593
+#: ../gxml/GomElement.vala:629
 msgid "Removing attribute Error: "
 msgstr "Tar bort attributfel: "
 
-#: ../gxml/GomElement.vala:598
+#: ../gxml/GomElement.vala:634
 msgid "Removing namespaced attribute Error: "
 msgstr "Tar bort fel för namnrymdsattribut: "
 
