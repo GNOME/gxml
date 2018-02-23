@@ -7,10 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
-"product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2018-02-08 11:44+0000\n"
-"PO-Revision-Date: 2018-02-23 10:22+0100\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
+"POT-Creation-Date: 2018-02-23 09:24+0000\n"
+"PO-Revision-Date: 2018-02-23 10:25+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -52,19 +51,19 @@ msgstr "valor no válido"
 msgid "text cannot be parsed to enumeration type:"
 msgstr "el texto no se puede convertir a un tipo enumeración:"
 
-#: ../gxml/GomCollections.vala:72
+#: ../gxml/GomCollections.vala:66
 msgid "Invalid index for elements in array list"
 msgstr "Índice de elementos no válido en la lista de vectores"
 
-#: ../gxml/GomCollections.vala:76
+#: ../gxml/GomCollections.vala:70
 msgid "Invalid index reference for child elements in array list"
 msgstr "Referencia del índice no válida para elementos hijo en la lista"
 
-#: ../gxml/GomCollections.vala:81
+#: ../gxml/GomCollections.vala:75
 msgid "Referenced object's type is invalid. Should be a GXmlGomElement"
 msgstr "Tipo de objeto de la referencia no válido. Debe ser un GXmlGomElement"
 
-#: ../gxml/GomCollections.vala:205
+#: ../gxml/GomCollections.vala:193
 msgid ""
 "Invalid attempt to initialize a collection using an unsupported type. Only "
 "GXmlGomElement is supported"
@@ -72,30 +71,36 @@ msgstr ""
 "Intento no válido de iniciar una colección usando un tipo no soportado. Sólo "
 "se soporta GXmlGomElement"
 
-#: ../gxml/GomCollections.vala:234 ../gxml/GomCollections.vala:262
+#: ../gxml/GomCollections.vala:222 ../gxml/GomCollections.vala:250
 msgid "Parent Element is invalid"
 msgstr "El elemento padre no es válido"
 
-#: ../gxml/GomCollections.vala:237
+#: ../gxml/GomCollections.vala:225
 msgid ""
 "Invalid attempt to set unsupported type. Only GXmlGomElement is supported"
 msgstr ""
 "Intento no válido de establecer un tipo no soportado. Sólo se soporta "
 "GXmlGomElement"
 
-#: ../gxml/GomCollections.vala:240
+#: ../gxml/GomCollections.vala:228
 msgid "Invalid attempt to set a node with a different parent document"
 msgstr ""
 "Intento no válido de establecer un nodo con un documento padre diferente"
 
-#: ../gxml/GomCollections.vala:245
+#: ../gxml/GomCollections.vala:233
 msgid ""
 "Node element not appended as child of parent. No node added to collection"
 msgstr ""
 "Elemento de nodo no añadido como hijo de un padre. No se ha añadido ningún "
 "nodo a la colección"
 
-#: ../gxml/GomCollections.vala:656
+#: ../gxml/GomCollections.vala:295 ../gxml/GomCollections.vala:313
+#, c-format
+#| msgid "Update Error: "
+msgid "Error: %s"
+msgstr "Error: %s"
+
+#: ../gxml/GomCollections.vala:776
 msgid "No primary key and/or secondary key was found"
 msgstr "No se ha encontrado ninguna clave primario y/o secundaria"
 
@@ -202,7 +207,6 @@ msgstr "Detectado espacio de nombres duplicado para: %s:%s"
 
 #: ../gxml/GomElement.vala:534
 #, c-format
-#| msgid "Trying to add an attribute with an undefined namespace prefix"
 msgid "Trying to add an attribute with an undefined namespace prefix: %s"
 msgstr ""
 "Intentado añadir un atributo con un prefijo de espacio de nombres no "
@@ -229,9 +233,6 @@ msgstr ""
 "nombres no debe ser nulo"
 
 #: ../gxml/GomElement.vala:609
-#| msgid ""
-#| "Invalid namespace. If prefix is xml, namespace URI should be http://www."
-#| "w3.org/2000/xmlns/"
 msgid ""
 "Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
 "org/2000/xmlns"
@@ -240,9 +241,6 @@ msgstr ""
 "nombres debe ser http://www.w3.org/2000/xmlns/"
 
 #: ../gxml/GomElement.vala:612
-#| msgid ""
-#| "Invalid namespace. If attribute's prefix is xmlns, namespace URI should "
-#| "be http://www.w3.org/2000/xmlns/"
 msgid ""
 "Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns"
@@ -251,9 +249,6 @@ msgstr ""
 "del espacio de nombres debe ser http://www.w3.org/2000/xmlns/"
 
 #: ../gxml/GomElement.vala:616
-#| msgid ""
-#| "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
-#| "http://www.w3.org/2000/xmlns/"
 msgid ""
 "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns"
@@ -596,7 +591,6 @@ msgid "Can't read node data"
 msgstr "No se pueden leer los datos del nodo"
 
 #: ../gxml/XParser.vala:360
-#| msgid "Invalid offset for node to start: for document type"
 msgid "Invalid sequence for document type definition: "
 msgstr "Secuencia no válida para definición de tipo de documento:"
 
@@ -611,7 +605,6 @@ msgstr "Error al eliminar el elemento de la colección: %s"
 
 #: ../gxml/GomSchema.vala:275
 #, c-format
-#| msgid "Can't find element at position: %i : %s"
 msgid "Can't find element at position: %i: %s"
 msgstr "No se puede encontrar el elemento en la posición: %i: %s"
 
@@ -623,28 +616,23 @@ msgid "Collection type %s, initialization error: %s"
 msgstr "Tipo de colección %s, error de inicialización: %s"
 
 #: ../gxml/CssSelectorParser.vala:139
-#| msgid "Invalid attribute name: %s"
 msgid "Invalid attribute character"
 msgstr "Carácter de atributo no válido"
 
 #: ../gxml/CssSelectorParser.vala:165 ../gxml/CssSelectorParser.vala:211
 #, c-format
-#| msgid "Invalid attribute name: %s"
 msgid "Invalid attribute selector value: %s"
 msgstr "Valor de selector de atributo no válido: %s"
 
 #: ../gxml/CssSelectorParser.vala:168 ../gxml/CssSelectorParser.vala:214
-#| msgid "Invalid attribute name: %s"
 msgid "Invalid end of attribute value"
 msgstr "Fin de valor de atributo no válido"
 
 #: ../gxml/CssSelectorParser.vala:174 ../gxml/CssSelectorParser.vala:220
-#| msgid "Invalid attribute name: %s"
 msgid "Invalid end of attribute selector"
 msgstr "Fin de selector de atributo no válido"
 
 #: ../gxml/CssSelectorParser.vala:194
-#| msgid "Invalid attribute name: %s"
 msgid "Invalid attribute selector character"
 msgstr "Carácter de selector de atributo no válido"
 
@@ -660,7 +648,6 @@ msgid "Invalid pseudo class selector %s"
 msgstr "Selector de pseudo-clase %s no válido"
 
 #: ../gxml/CssSelectorParser.vala:258
-#| msgid "Invalid file"
 msgid "Invalid string length."
 msgstr "Longitud de cadena no válida."
 
