@@ -8,10 +8,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
-"product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2018-02-08 11:44+0000\n"
-"PO-Revision-Date: 2018-02-25 21:37+0100\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
+"POT-Creation-Date: 2018-02-26 02:33+0000\n"
+"PO-Revision-Date: 2018-02-26 20:39+0100\n"
 "Last-Translator: Tim Sabsch <tim@sabsch.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -53,21 +52,21 @@ msgstr "Wert ist ungültig"
 msgid "text cannot be parsed to enumeration type:"
 msgstr "Text kann nicht als Aufzählung ausgewertet werden:"
 
-#: ../gxml/GomCollections.vala:72
+#: ../gxml/GomCollections.vala:66
 msgid "Invalid index for elements in array list"
 msgstr "Ungültiger Index für Elemente in der Feldliste"
 
-#: ../gxml/GomCollections.vala:76
+#: ../gxml/GomCollections.vala:70
 msgid "Invalid index reference for child elements in array list"
 msgstr "Ungültige Indexreferenz für Unterelemente in der Feldliste"
 
-#: ../gxml/GomCollections.vala:81
+#: ../gxml/GomCollections.vala:75
 msgid "Referenced object's type is invalid. Should be a GXmlGomElement"
 msgstr ""
 "Der Typ des referenzierten Objekts ist ungültig. Es sollte ein "
 "GXmlGomElement sein"
 
-#: ../gxml/GomCollections.vala:205
+#: ../gxml/GomCollections.vala:193
 msgid ""
 "Invalid attempt to initialize a collection using an unsupported type. Only "
 "GXmlGomElement is supported"
@@ -75,30 +74,35 @@ msgstr ""
 "Ungültiger Versuch, eine Sammlung eines nicht unterstützten Typs zu "
 "initialisieren. Nur GXmlGomElement wird unterstützt"
 
-#: ../gxml/GomCollections.vala:234 ../gxml/GomCollections.vala:262
+#: ../gxml/GomCollections.vala:222 ../gxml/GomCollections.vala:250
 msgid "Parent Element is invalid"
 msgstr "Elternelement ist ungültig"
 
-#: ../gxml/GomCollections.vala:237
+#: ../gxml/GomCollections.vala:225
 msgid ""
 "Invalid attempt to set unsupported type. Only GXmlGomElement is supported"
 msgstr ""
 "Ungültiger Versuch, einen nicht unterstützten Typ festzulegen. Nur "
 "GXmlGomElement wird unterstützt"
 
-#: ../gxml/GomCollections.vala:240
+#: ../gxml/GomCollections.vala:228
 msgid "Invalid attempt to set a node with a different parent document"
 msgstr ""
 "Ungültiger Versuch, einen Knoten auf ein anderes Elterndokument zu setzen"
 
-#: ../gxml/GomCollections.vala:245
+#: ../gxml/GomCollections.vala:233
 msgid ""
 "Node element not appended as child of parent. No node added to collection"
 msgstr ""
 "Knotenelement wurde nicht als Unterelement des Elternelements angehängt. Es "
 "wurde kein Knoten zur Sammlung hinzugefügt"
 
-#: ../gxml/GomCollections.vala:656
+#: ../gxml/GomCollections.vala:295 ../gxml/GomCollections.vala:313
+#, c-format
+msgid "Error: %s"
+msgstr "Fehler: %s"
+
+#: ../gxml/GomCollections.vala:776
 msgid "No primary key and/or secondary key was found"
 msgstr "Kein primärer und/oder sekundärer Schlüssel gefunden"
 
