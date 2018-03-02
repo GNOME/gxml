@@ -5,8 +5,7 @@ stages:
   - build
 
 before_script:
-  - apt install pip3 libxml2-dev libglib2.0-dev valac
-  - pip3 install meson
+  - apt install libxml2-dev libglib2.0-dev valac meson
 
 build-gxml:
   stage: build
