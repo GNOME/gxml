@@ -163,7 +163,7 @@ lib = library(VERSIONED_PROJECT_NAME,
 		true
 	])
 
-g_ir_compiler = find_program('g-ir-compiler')
+g_ir_compiler = find_program('g-ir-compiler', required: false)
 if g_ir_compiler.found()
 custom_target('typelib',
 	command: [
