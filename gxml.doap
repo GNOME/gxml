@@ -9,7 +9,7 @@
   <description>GXml provides a GObject API for manipulating XML and a Serializable
   framework from GObject to XML.
   
-  Currently, GXml provides the DOM Level 1 Core API, Basic HTML support, Serialization.
+  Currently, GXml provides the DOM Level 4 like Core API, Basic HTML support, Serialization.
   
   Provides a set of interfaces to access XML equivalent files with different
   implementations, some of them based on libxml but able to use different backends.
