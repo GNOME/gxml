@@ -1,0 +1,18 @@
+image: debian:testing
+
+
+stages:
+  - build
+
+before_script:
+  - apt install pip3 libxml2-dev libglib2.0-dev valac
+  - pip3 install meson
+
+build-gxml:
+  stage: build
+  script:
+  - meson _build .
+  - ninja -C _build
+  - ninja -C _build test
+  - ninja -C _build install
+

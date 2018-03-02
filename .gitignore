@@ -5,7 +5,6 @@
 *.bak
 *.la
 *.lo
-.*
 #### autotools
 configure
 Makefile
