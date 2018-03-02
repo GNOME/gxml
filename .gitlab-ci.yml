@@ -6,7 +6,7 @@ stages:
 
 before_script:
   - apt update
-  - apt-get install -y libxml2-dev libglib2.0-dev valac libgee-0.8-dev gettext meson
+  - apt-get install -y libxml2-dev libglib2.0-dev valac libgee-0.8-dev gettext gobject-introspection meson
 
 build-gxml:
   stage: build
