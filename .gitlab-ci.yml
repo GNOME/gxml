@@ -1,4 +1,4 @@
-image: debian:testing
+image: ubuntu:devel
 
 
 stages:
@@ -6,7 +6,7 @@ stages:
 
 before_script:
   - apt update
-  - apt-get install -y libxml2-dev libglib2.0-dev valac libgee-0.8-dev gettext gobject-introspection gir1.2-glib-2.0 meson
+  - apt-get install -y libxml2-dev libglib2.0-dev valac libgee-0.8-dev gettext meson
 
 build-gxml:
   stage: build
