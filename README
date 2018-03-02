@@ -1,18 +1,39 @@
-GXml is a GObject API that wraps around libxml2.
+GXml provides a GObject API for manipulating XML and a Serializable
+framework from GObject to XML.
+
+GXml provide a DOM level 4 API for XML with multiple backends.
+
+* A backend wrapping around libxml2 for read/write, the GNode class series
+* A GObject based tree backend, a more closed DOM4 implementation support is present,
+  the GomNode class series.
+
+There is a GObject based tree backend, using libxml2 just to read XML files,
+the TNode [Unmaintained], offering just DOM leve 1 API.
 
 Compile:
   Requirements:
+   * vala
+   * libxml2
+
+  Optional Requirements:
     * valadoc: we generate documentation using valadoc.  If it's not
       packaged for your distro (like Fedora) follow the instructions
       at:
 
       https://live.gnome.org/Valadoc
 
-  autotools for a build system
+  Autotools build system:
 
   $ ./configure
-  $ ./make
-  $ ./make install
+  $ make
+  $ make install
+
+  Meson build system:
+
+  $ meson _build
+  $ cd _build
+  $ ninja
+  $ ninja install
 
   You can use some common ./configure options like --prefix=$SOMEPATH to specify
   where to install it.
@@ -25,6 +46,14 @@ Test: You can run the test suite, which is gxml_test, which you may
   $ cd test/
   $ ./gxml_test
 
+  Autotools build system:
+
+  $ make test
+
+  Meson build system:
+
+  $ meson test
+
 
 
 Writing documentation
@@ -32,6 +61,12 @@ Writing documentation
   We use Valadoc, http://www.valadoc.org/, which is probably the best
   solution to generate both valadoc documentation and HTML gtk-doc
   documentation.
+
+  Installation for DevHelp:
+
+  Make sure you have valadoc installed, documentation is automatically
+  generated, then install it, your documentation will be available in
+  DevHelp.
 
   Some notes:
 
@@ -53,7 +88,11 @@ Writing documentation
   - Multiline descriptions will only have the first line appear in
     valadoc.
 
-  - For the gtkdoc to be visible in devhelp and you're installing into
+  - For the gtkdoc or valadoc to be visible in devhelp and you're installing into
     an abnormal prefix, consider placing a symlink to your prefix
     installed gtk-doc in /usr/share/gtk-doc/html/.  For example,
     $ ln -s ~/.local/share/gtk-doc/html/gxml /usr/share/gtk-doc/html
+
+  - Valadoc's documentation use JavaScript to naviate over inherited
+    methods and properties, but DevHelp have no support for that.
+    TODO: write a patch to DevHelp to support Valadoc's JavaScript
