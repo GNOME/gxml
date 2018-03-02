@@ -194,11 +194,6 @@ libgxml_0_16_la_SOURCES= \
 	xlibxml.c \
 	$(NULL)
 
-gxml-$(API_VERSION).deps:
-	echo 'libxml-2.0' > $@
-	echo 'gee-0.8' >> $@
-	echo 'gio-2.0' >> $@
-
 # .h header file
 gxml.h: libgxml-$(API_VERSION).la
 gxmldir= $(includedir)/gxml-$(API_VERSION)/gxml
@@ -220,6 +215,9 @@ EXTRA_DIST = \
 	$(sources) \
 	$(pkgconfig_in) \
 	$(NULL)
+
+DISTCLEANFILES= \
+	gxml-$(API_VERSION).deps
 
 # This makes GObject Introspection optional and requires to use --enable-instrospection switch on configure
 if HAVE_INTROSPECTION

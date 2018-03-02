@@ -6,7 +6,6 @@ VAPI_NAME = VERSIONED_PROJECT_NAME+'.vapi'
 conf = configuration_data()
 conf.set('prefix', get_option('prefix'))
 conf.set('libdir', '${exec_prefix}/'+get_option ('libdir'))
-conf.set('VALADEPS', VALADEPS)
 conf.set('PCDEPS', PCDEPS)
 conf.set('PROJECT_NAME', PROJECT_NAME)
 conf.set('PROJECT_VERSION', PROJECT_VERSION)
