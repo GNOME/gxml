@@ -50,12 +50,12 @@ m4_define([project_module_version], project_lt_current)
 
 # Initialise autoconf with project details, version
 AC_INIT([GXml], project_version,
-        [https://bugzilla.gnome.org/browse.cgi?product=gxml], [gxml],
+        [https://gitlab.gnome.org/GNOME/gxml/issues], [gxml],
         [http://live.gnome.org/GXml])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 AC_PREREQ([2.65])
-AC_COPYRIGHT([Copyright (C) 2012 Richard Schwarting, 2013 - 2016 (C) Daniel Espinosa])
+AC_COPYRIGHT([Copyright (C) 2012 Richard Schwarting, 2013 - 2018 (C) Daniel Espinosa])
 
 # Configure various files and settings for autoconf/automake
 AC_CONFIG_MACRO_DIR([m4])
