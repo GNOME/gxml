@@ -169,6 +169,7 @@ custom_target('typelib',
 		g_ir_compiler,
 		'--shared-library', 'lib'+PROJECT_NAME+'-@0@.so'.format (API_VERSION),
 		'--output', '@OUTPUT@',
+		'--includedir', join_paths(get_option('libdir'), 'girepository-1.0'),
 		join_paths(meson.current_build_dir(), GIR_NAME)
 	],
 	output: TYPELIB_NAME,
