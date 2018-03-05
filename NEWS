@@ -1,4 +1,19 @@
 ===============
+Version 0.16.3
+===============
+* Fix GDocument namespaces by Chris Lee <clee@mg8.org>
+* Fix Issue #2: Adding gxml.deps.in in distribution tar
+* Autotools: Updated address for issues to GNOME's GitLab instance
+* README: Updated for Autotools, Meson and documentation
+* Updated translations:
+    Brazilian Portuguese by     Rafael Fontenelle <rafaelff@gnome.org>
+    Indonesian by               Kukuh Syafaat <syafaatkukuh@gmail.com>
+    Swedish by                  Anders Jonsson <anders.jonsson@norsjovallen.se>
+    Spanish  by                 Daniel Mustieles <daniel.mustieles@gmail.com>
+    German by                   Tim Sabsch <tim@sabsch.com>
+    Hungarian by                Balázs Úr <balazs@urbalazs.hu>
+
+===============
 Version 0.16.2
 ===============
 
