@@ -1,15 +1,15 @@
 # Brazilian Portuguese translation for gxml.
-# Copyright (C) 2017 gxml's COPYRIGHT HOLDER
+# Copyright (C) 2018 gxml's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gxml package.
 # Enrico Nicoletto <liverig@gmail.com>, 2016.
-# Rafael Fontenelle <rafaelff@gnome.org>, 2016, 2017, 2018.
+# Rafael Fontenelle <rafaelff@gnome.org>, 2016-2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gxml&k"
 "eywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2018-02-07 18:00+0000\n"
-"PO-Revision-Date: 2018-02-08 09:43-0200\n"
+"POT-Creation-Date: 2018-02-08 11:44+0000\n"
+"PO-Revision-Date: 2018-03-05 11:47-0200\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -52,20 +52,20 @@ msgstr "o valor é inválido"
 msgid "text cannot be parsed to enumeration type:"
 msgstr "o texto não pode ser analisado como tipo de enumeração:"
 
-#: ../gxml/GomCollections.vala:72
+#: ../gxml/GomCollections.vala:66
 msgid "Invalid index for elements in array list"
 msgstr "Índice inválido para elementos na lista de array"
 
-#: ../gxml/GomCollections.vala:76
+#: ../gxml/GomCollections.vala:70
 msgid "Invalid index reference for child elements in array list"
 msgstr "Referência de índice inválida para elementos na lista de array"
 
-#: ../gxml/GomCollections.vala:81
+#: ../gxml/GomCollections.vala:75
 msgid "Referenced object's type is invalid. Should be a GXmlGomElement"
 msgstr ""
 "O tipo do objeto referenciado é inválido. Deveria ser um GXmlGomElement"
 
-#: ../gxml/GomCollections.vala:205
+#: ../gxml/GomCollections.vala:193
 msgid ""
 "Invalid attempt to initialize a collection using an unsupported type. Only "
 "GXmlGomElement is supported"
@@ -73,28 +73,34 @@ msgstr ""
 "Tentativa inválida de inicializar uma coleção usando um tipo sem suporte. Há "
 "suporte apenas a GXmlGomElement"
 
-#: ../gxml/GomCollections.vala:234 ../gxml/GomCollections.vala:262
+#: ../gxml/GomCollections.vala:222 ../gxml/GomCollections.vala:250
 msgid "Parent Element is invalid"
 msgstr "Elemento pai é inválido"
 
-#: ../gxml/GomCollections.vala:237
+#: ../gxml/GomCollections.vala:225
 msgid ""
 "Invalid attempt to set unsupported type. Only GXmlGomElement is supported"
 msgstr ""
 "Tentativa inválida de definir tipo sem suporte. Há suporte apenas a "
 "GXmlGomElement"
 
-#: ../gxml/GomCollections.vala:240
+#: ../gxml/GomCollections.vala:228
 msgid "Invalid attempt to set a node with a different parent document"
 msgstr "Tentativa inválida de definir um nó com um documento pai diferente"
 
-#: ../gxml/GomCollections.vala:245
+#: ../gxml/GomCollections.vala:233
 msgid ""
 "Node element not appended as child of parent. No node added to collection"
 msgstr ""
 "Elemento nó não anexado como filho de seu pai. Nenhum nó adicionado à coleção"
 
-#: ../gxml/GomCollections.vala:656
+#: ../gxml/GomCollections.vala:295 ../gxml/GomCollections.vala:313
+#, c-format
+#| msgid "Update Error: "
+msgid "Error: %s"
+msgstr "Erro: %s"
+
+#: ../gxml/GomCollections.vala:775
 msgid "No primary key and/or secondary key was found"
 msgstr "Nenhuma chave primária e/ou chave secundária foi localizada"
 
