@@ -1,6 +1,6 @@
 testdirs_dep = declare_dependency (compile_args : [
-	'-DTEST_DIR="'+join_paths (meson.source_root (),'test')+'"',
-	'-DTEST_SAVE_DIR="'+join_paths (meson.build_root (),'test')+'"',
+	'-DTEST_DIR="'+meson.current_source_dir()+'"',
+	'-DTEST_SAVE_DIR="'+meson.current_build_dir()+'"',
 ])
 
 files_tests = ([
