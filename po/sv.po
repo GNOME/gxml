@@ -7,10 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
-"product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2018-02-08 11:44+0000\n"
-"PO-Revision-Date: 2018-02-11 01:13+0100\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
+"POT-Creation-Date: 2018-02-11 00:15+0000\n"
+"PO-Revision-Date: 2018-03-11 17:33+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -18,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.5\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: ../gxml/Document.vala:151
 msgid "Invalid file"
@@ -52,19 +51,19 @@ msgstr "värde är ogiltigt"
 msgid "text cannot be parsed to enumeration type:"
 msgstr "text kan inte tolkas till uppräkningstyp:"
 
-#: ../gxml/GomCollections.vala:72
+#: ../gxml/GomCollections.vala:66
 msgid "Invalid index for elements in array list"
 msgstr "Ogiltigt index för elementen i vektorlistan"
 
-#: ../gxml/GomCollections.vala:76
+#: ../gxml/GomCollections.vala:70
 msgid "Invalid index reference for child elements in array list"
 msgstr "Ogiltig indexreferens för underordnade element i vektorlistan"
 
-#: ../gxml/GomCollections.vala:81
+#: ../gxml/GomCollections.vala:75
 msgid "Referenced object's type is invalid. Should be a GXmlGomElement"
 msgstr "Refererat objekts typ är ogiltig. Ska vara ett GXmlGomElement"
 
-#: ../gxml/GomCollections.vala:205
+#: ../gxml/GomCollections.vala:193
 msgid ""
 "Invalid attempt to initialize a collection using an unsupported type. Only "
 "GXmlGomElement is supported"
@@ -72,27 +71,33 @@ msgstr ""
 "Ogiltigt försök till att initiera en samling med typ som inte stöds. Endast "
 "GXmlGomElement stöds"
 
-#: ../gxml/GomCollections.vala:234 ../gxml/GomCollections.vala:262
+#: ../gxml/GomCollections.vala:222 ../gxml/GomCollections.vala:250
 msgid "Parent Element is invalid"
 msgstr "Överordnat element är ogiltigt"
 
-#: ../gxml/GomCollections.vala:237
+#: ../gxml/GomCollections.vala:225
 msgid ""
 "Invalid attempt to set unsupported type. Only GXmlGomElement is supported"
 msgstr ""
 "Ogiltigt försök till att ange typ som inte stöds. Endast GXmlGomElement stöds"
 
-#: ../gxml/GomCollections.vala:240
+#: ../gxml/GomCollections.vala:228
 msgid "Invalid attempt to set a node with a different parent document"
 msgstr "Ogiltigt försök att ange en nod med ett annat överordnat dokument"
 
-#: ../gxml/GomCollections.vala:245
+#: ../gxml/GomCollections.vala:233
 msgid ""
 "Node element not appended as child of parent. No node added to collection"
 msgstr ""
 "Nodelement ej tillagt som en underordnad nod. Ingen nod lades till samlingen"
 
-#: ../gxml/GomCollections.vala:656
+#: ../gxml/GomCollections.vala:295 ../gxml/GomCollections.vala:313
+#, c-format
+#| msgid "Update Error: "
+msgid "Error: %s"
+msgstr "Fel: %s"
+
+#: ../gxml/GomCollections.vala:776
 msgid "No primary key and/or secondary key was found"
 msgstr "Ingen primärnyckel och/eller sekundärnyckel hittades"
 
