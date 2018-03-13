@@ -1458,5 +1458,12 @@ class GomSerializationTest : GXmlTest  {
       assert_not_reached ();
     }
     });
+    Test.add_func ("/gxml/gom-serialization/attribute-gobject", () => {
+      var tk = new ThreeKey ();
+      assert (tk.code == null);
+      assert (tk.get_attribute ("Code") == null);
+      tk.code = "code";
+      assert (tk.get_attribute ("Code") == "code");
+    });
   }
 }
