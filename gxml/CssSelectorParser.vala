@@ -298,7 +298,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 				parse_class (css, ref position);
 				continue;
 			}
-			else if (u.isalnum() || u == '*')
+			else if (u.isalnum() || u == '*' || u == '|')
 				parse_element (css, ref position);
 			else if (u == ',') {
 				position++;
@@ -331,16 +331,18 @@ public class GXml.CssSelectorParser : GLib.Object {
 			if (s.selector_type == CssSelectorType.ELEMENT) {
 				string ns = null;
 				string nn = s.data.down ();
+				bool nsnull = false;
 				if ("|" in s.data) {
 					var nss = s.data.split ("|");
 					if (nss.length == 2) {
 						ns = nss[0].down ();
 						nn = nss[1].down ();
+						if (ns == null) nsnull = true;
 					}
 				}
 				message (element.prefix+";"+element.local_name);
 				if (element.local_name.down () != nn) return false;
-				if (ns != null && ns != "*" && element.prefix != null && element.prefix.down () != ns) return false;
+				if (!nsnull && ns != null && ns != "*" && element.prefix != null && element.prefix.down () != ns) return false;
 				message (s.data);
 				message (ns+";"+nn);
 				is_element = true;
