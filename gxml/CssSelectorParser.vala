@@ -120,7 +120,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 	void parse_element (string css, ref int position) {
 		StringBuilder sb = new StringBuilder();
 		unichar u = 0;
-		while (css.get_next_char (ref position, out u) && (u.isalnum() || u == '-'))
+		while (css.get_next_char (ref position, out u) && (u.isalnum() || u == '-' || u == '|'))
 			sb.append_unichar (u);
 		CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.ELEMENT, sb.str, "");
 		list.add (data);
@@ -329,7 +329,20 @@ public class GXml.CssSelectorParser : GLib.Object {
 			if (s.selector_type == CssSelectorType.ALL) return true;
 			if (s.selector_type == CssSelectorType.INSIDE) continue;
 			if (s.selector_type == CssSelectorType.ELEMENT) {
-				if (element.node_name.down () != s.data.down ()) return false;
+				string ns = null;
+				string nn = s.data.down ();
+				if ("|" in s.data) {
+					var nss = s.data.split ("|");
+					if (nss.length == 2) {
+						ns = nss[0].down ();
+						nn = nss[1].down ();
+					}
+				}
+				message (element.prefix+";"+element.local_name);
+				if (element.local_name.down () != nn) return false;
+				if (ns != null && element.prefix.down () != ns) return false;
+				message (s.data);
+				message (ns+";"+nn);
 				is_element = true;
 				if ((i+1) >= selectors.size) return true;
 				continue;
