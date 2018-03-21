@@ -120,7 +120,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 	void parse_element (string css, ref int position) {
 		StringBuilder sb = new StringBuilder();
 		unichar u = 0;
-		while (css.get_next_char (ref position, out u) && (u.isalnum() || u == '-' || u == '|'))
+		while (css.get_next_char (ref position, out u) && (u.isalnum() || u == '-' || u == '|' || u == '*'))
 			sb.append_unichar (u);
 		CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.ELEMENT, sb.str, "");
 		list.add (data);
@@ -292,13 +292,13 @@ public class GXml.CssSelectorParser : GLib.Object {
 					}
 				}
 			}
-			if (u == '*')
+			if (u == '*' && !("|" in css))
 				parse_all (css, ref position);
 			else if (u == '.') {
 				parse_class (css, ref position);
 				continue;
 			}
-			else if (u.isalnum())
+			else if (u.isalnum() || u == '*')
 				parse_element (css, ref position);
 			else if (u == ',') {
 				position++;
@@ -340,7 +340,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 				}
 				message (element.prefix+";"+element.local_name);
 				if (element.local_name.down () != nn) return false;
-				if (ns != null && element.prefix.down () != ns) return false;
+				if (ns != null && ns != "*" && element.prefix != null && element.prefix.down () != ns) return false;
 				message (s.data);
 				message (ns+";"+nn);
 				is_element = true;
