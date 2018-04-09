@@ -24,6 +24,9 @@ using Gee;
 /**
  * A DOM4 interface to keep references to {@link DomElement} in a {@link element}
  * child nodes. Only {@link GomObject} are supported.
+ *
+ * @deprecated 0.18
+ * @see GXml.Collection
  */
 public interface GXml.GomCollection : Object
 {
@@ -133,7 +136,7 @@ public interface GXml.GomCollection : Object
  * in order to be able to add new references to elements. Use {@link initialize_element}
  * to set parent element and {@link search} to find elements for collection.
  */
-public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Iterable<DomElement>, GomCollection {
+public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Iterable<DomElement>, GomCollection, Collection {
   /**
    * A collection of node's index refered. Don't modify it manually.
    */

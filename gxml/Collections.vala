@@ -23,12 +23,115 @@
 using Gee;
 
 /**
- * {@link Gee.Iterable} and {@link Gee.Traversable} implementation of {@link GomCollection}
+ * A DOM4 interface to keep references to {@link DomElement} children of a {@link element}
  */
-public interface GXml.List : Object, GomCollection, Traversable<DomElement>, Iterable<DomElement> {}
+public interface GXml.Collection : Object
+{
+  /**
+   * A list of child {@link DomElement} objects of {@link element}
+   */
+  public abstract GLib.Queue<int> nodes_index { get; }
+  /**
+   * A {@link GXml.DomCollection} with all child elements in collection.
+   */
+  public abstract GXml.DomCollection element { get; construct set; }
+  /**
+   * Local name of {@link DomElement} objects of {@link element}, which could be
+   * contained in this collection.
+   *
+   * Used when reading to add elements to collection.
+   */
+  public abstract string items_name { get; }
+  /**
+   * A {@link GLib.Type} of {@link DomElement} child objects of {@link element},
+   * which could be contained in this collection.
+   *
+   * Type should be an {@link GomObject}.
+   */
+  public abstract Type items_type { get; construct set; }
+  /**
+   * Search and add references to all {@link GomObject} nodes as child of
+   * {@link element} with same, case insensitive, name of {@link items_name}
+   */
+  public abstract void search () throws GLib.Error;
+  /**
+   * Gets a child {@link DomElement} of {@link element} referenced in
+   * {@link nodes_index}.
+   */
+  public virtual DomElement? get_item (int index) throws GLib.Error {
+    if (nodes_index.length == 0)
+      return null;
+    if (index < 0 || index >= nodes_index.length)
+      throw new DomError.INDEX_SIZE_ERROR
+                  (_("Invalid index for elements in array list"));
+    int i = nodes_index.peek_nth (index);
+    if (i < 0 || i >= element.child_nodes.size)
+      throw new DomError.INDEX_SIZE_ERROR
+                  (_("Invalid index reference for child elements in array list"));
+    var e = element.child_nodes.get (i);
+    if (e != null)
+      if (!(e is GXml.DomCollection))
+        throw new DomError.INVALID_NODE_TYPE_ERROR
+              (_("Referenced object's type is invalid. Should be a GXmlDomElement"));
+    return (DomElement?) e;
+  }
+  /**
+   * Adds a {@link DomElement} node to this collection. Depending on type of
+   * collection, this method will take information from node to initialize
+   * how to find it.
+   */
+  public abstract void append (DomElement node) throws GLib.Error;
+  /**
+   * Number of items referenced in {@link nodes_index}
+   */
+  public virtual int length { get { return (int) nodes_index.get_length (); } }
+  /**
+   * Initialize collection to use a given {@link GXml.DomCollection} derived type.
+   * Internally, this method create an instance of given type to initialize
+   * {@link items_type} and {@link items_name}.
+   *
+   * This method can be used at construction time of classes implementing
+   * {@link GXml.Collection} to initialize object type to refer in the collection.
+   */
+  public abstract void initialize (GLib.Type t) throws GLib.Error;
+  /**
+   * Creates a new instance of {@link items_type}, with same
+   * {@link DomNode.owner_document} than {@link element}. New instance
+   * is not set as a child of collection's {@link element}; to do so,
+   * use {@link append}
+   *
+   * Returns: a new instance object or null if type is not a {@link DomElement} or no parent has been set
+   */
+  public virtual DomElement? create_item () {
+    if (items_type.is_a (GLib.Type.INVALID)) return null;
+    if (!items_type.is_a (typeof (DomElement))) return null;
+    if (element == null) return null;
+    return Object.new (items_type,
+                      "owner_document", element.owner_document) as DomElement;
+  }
+  /**
+   * Validate if given node and index, should be added to collection.
+   *
+   * Implementations should use this method to perform any action before
+   * element is added to collection, like setup internal pointers to given
+   * index, in order to get access to referenced node.
+   *
+   * Return: true if node and index should be added to collection.
+   */
+  public abstract bool validate_append (int index, DomElement element) throws GLib.Error;
+  /**
+   * Clear this collection in prepareation for a search
+   */
+  public abstract void clear () throws GLib.Error;
+}
 
 /**
- * Inteface to be implemented by {@link GomElement} derived classes
+ * {@link Gee.Iterable} and {@link Gee.Traversable} implementation of {@link GXml.Collection}
+ */
+public interface GXml.List : Object, Collection, Traversable<DomElement>, Iterable<DomElement> {}
+
+/**
+ * Inteface to be implemented by {@link GXml.DomCollection} derived classes
  * in order to provide a string to be used in {@link GomHashMap} as key.
  *
  * If {@link GomHashMap} has set its {@link GomHashMap.attribute_key}
@@ -39,9 +142,9 @@ public interface GXml.MappeableElement : Object, DomElement {
 }
 
 /**
- * {@link Gee.Iterable} and {@link Gee.Traversable} implementation of {@link GomCollection}
+ * {@link Gee.Iterable} and {@link Gee.Traversable} implementation of {@link GXml.Collection}
  */
-public interface GXml.Map : Object, GomCollection, Traversable<DomElement>, Iterable<DomElement> {
+public interface GXml.Map : Object, GXml.Collection, Traversable<DomElement>, Iterable<DomElement> {
   /**
    * An attribute's name in items to be added and used to retrieve elements
    * as key.
@@ -64,7 +167,7 @@ public interface GXml.Map : Object, GomCollection, Traversable<DomElement>, Iter
 
 
 /**
- * Inteface to be implemented by {@link GomElement} derived classes
+ * Inteface to be implemented by {@link GXml.DomCollection} derived classes
  * in order to provide a strings to be used in {@link GomHashPairedMap} as keys.
  */
 public interface GXml.MappeableElementPairKey : Object, DomElement {
@@ -74,9 +177,9 @@ public interface GXml.MappeableElementPairKey : Object, DomElement {
 
 
 /**
- * {@link Gee.Iterable} and {@link Gee.Traversable} implementation of {@link GomCollection}
+ * {@link Gee.Iterable} and {@link Gee.Traversable} implementation of {@link GXml.Collection}
  */
-public interface GXml.PairedMap : Object, GomCollection, Traversable<DomElement>, Iterable<DomElement> {
+public interface GXml.PairedMap : Object, GXml.Collection, Traversable<DomElement>, Iterable<DomElement> {
   /**
    * An attribute's name in items to be added and used to retrieve elements
    * as primary key.
@@ -112,7 +215,7 @@ public interface GXml.PairedMap : Object, GomCollection, Traversable<DomElement>
 
 
 /**
- * Inteface to beimplemented by {@link GomElement} derived classes
+ * Inteface to beimplemented by {@link GXml.DomCollection} derived classes
  * in order to provide a string to be used in {@link GomHashThreeMap} as key.
  *
  * If {@link GomHashMap} has set its {@link GomHashMap.attribute_key}
@@ -134,9 +237,9 @@ public interface GXml.MappeableElementThreeKey : Object, DomElement {
 }
 
 /**
- * {@link Gee.Iterable} and {@link Gee.Traversable} implementation of {@link GomCollection}
+ * {@link Gee.Iterable} and {@link Gee.Traversable} implementation of {@link GXml.Collection}
  */
-public interface GXml.ThreeMap : Object, GomCollection, Traversable<DomElement>, Iterable<DomElement> {
+public interface GXml.ThreeMap : Object, GXml.Collection, Traversable<DomElement>, Iterable<DomElement> {
   /**
    * An attribute's name in items to be added and used to retrieve elements
    * as primary key.
