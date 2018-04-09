@@ -36,6 +36,7 @@ configure_file(output : 'config.h',
 
 
 valasources = files ([
+	'Collections.vala',
 	'CssSelectorParser.vala',
 	'Attribute.vala',
 	'CDATA.vala',
