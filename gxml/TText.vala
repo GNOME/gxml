@@ -24,6 +24,7 @@ using Gee;
 /**
  * DOM1 Class implemeting {@link GXml.Text} interface, not tied to libxml-2.0 library.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.GomText")]
 public class GXml.TText : GXml.TNode, GXml.Text
 {
   private string _str = null;

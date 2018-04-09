@@ -24,6 +24,7 @@ using Gee;
 /**
  * DOM1 Class implemeting {@link GXml.CDATA} interface, not tied to libxml-2.0 library.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "")]
 public class GXml.TCDATA : GXml.TNode, GXml.CDATA
 {
   private string _str = null;

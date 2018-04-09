@@ -24,6 +24,7 @@ using Gee;
 /**
  * DOM1 Class implemeting {@link GXml.Comment} interface, not tied to libxml-2.0 library.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.GomComment")]
 public class GXml.TComment : GXml.TNode, GXml.Comment
 {
   private string _str = "";

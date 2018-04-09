@@ -24,6 +24,7 @@ using Gee;
 /**
  * DOM1 Class implemeting {@link GXml.Attribute} interface, not tied to libxml-2.0 library.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.GomAttr")]
 public class GXml.TAttribute : GXml.TNode, GXml.Attribute
 {
   protected Gee.ArrayList<GXml.Node> _namespaces;

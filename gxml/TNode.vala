@@ -24,6 +24,7 @@ using Gee;
 /**
  * DOM1 Base node abstract class implemeting {@link GXml.Node} interface, not tied to libxml-2.0 library.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.GomNode")]
 public abstract class GXml.TNode : Object, GXml.Node
 {
   protected string _name = null;

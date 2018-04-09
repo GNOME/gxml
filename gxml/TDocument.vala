@@ -28,6 +28,7 @@ using Xml;
  * This class use {@link Xml.TextWriter} to write down XML documents using
  * its contained {@link GXml.Node} children or other XML structures.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.GomDocument")]
 public class GXml.TDocument : GXml.TNode, GXml.Document
 {
   protected Gee.ArrayList<GXml.Node> _namespaces;

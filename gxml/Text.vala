@@ -24,6 +24,7 @@ using Gee;
 /**
  * Representation of text nodes in any {@link GXml.Node}
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.DomText")]
 public interface GXml.Text : Object, GXml.Node
 {
   /**
