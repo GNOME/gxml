@@ -38,8 +38,8 @@ public interface GXml.GomObject : GLib.Object,
    * Returns a list with all properties' nick with "::" prefix. Nick name,
    * with "::" prefix will be used on serialization to an attribute's name.
    */
-  public virtual List<ParamSpec> get_properties_list () {
-    var l = new List<ParamSpec> ();
+  public virtual GLib.List<ParamSpec> get_properties_list () {
+    var l = new GLib.List<ParamSpec> ();
     foreach (ParamSpec spec in this.get_class ().list_properties ()) {
       if ("::" in spec.get_nick ()) {
 #if DEBUG
@@ -99,8 +99,8 @@ public interface GXml.GomObject : GLib.Object,
    * Returns a list of names for all {@link DomElement}
    * present as object's properties.
    */
-  public virtual List<ParamSpec> get_property_element_list () {
-    var l = new List<ParamSpec> ();
+  public virtual GLib.List<ParamSpec> get_property_element_list () {
+    var l = new GLib.List<ParamSpec> ();
     foreach (ParamSpec spec in this.get_class ().list_properties ()) {
       if ((spec.value_type.is_a (typeof (GomObject))
           || spec.value_type.is_a (typeof (GomCollection)))

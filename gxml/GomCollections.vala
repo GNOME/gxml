@@ -344,7 +344,7 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
  *   }
  * }}}
  */
-public class GXml.GomArrayList : GXml.BaseCollection, GomList {
+public class GXml.GomArrayList : GXml.BaseCollection, GXml.List {
   public override bool validate_append (int index, DomElement element) throws GLib.Error {
 #if DEBUG
     GLib.message ("Adding node:"+element.node_name);

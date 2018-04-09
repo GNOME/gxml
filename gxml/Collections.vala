@@ -25,7 +25,7 @@ using Gee;
 /**
  * {@link Gee.Iterable} and {@link Gee.Traversable} implementation of {@link GomCollection}
  */
-public interface GXml.GomList : Object, GomCollection, Traversable<DomElement>, Iterable<DomElement> {}
+public interface GXml.List : Object, GomCollection, Traversable<DomElement>, Iterable<DomElement> {}
 
 /**
  * Inteface to be implemented by {@link GomElement} derived classes
