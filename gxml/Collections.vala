@@ -41,7 +41,7 @@ public interface GXml.MappeableElement : Object, DomElement {
 /**
  * {@link Gee.Iterable} and {@link Gee.Traversable} implementation of {@link GomCollection}
  */
-public interface GXml.GomMap : Object, GomCollection, Traversable<DomElement>, Iterable<DomElement> {
+public interface GXml.Map : Object, GomCollection, Traversable<DomElement>, Iterable<DomElement> {
   /**
    * An attribute's name in items to be added and used to retrieve elements
    * as key.

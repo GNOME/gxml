@@ -381,7 +381,7 @@ public class GXml.GomArrayList : GXml.BaseCollection, GXml.List {
  *   }
  * }}}
  */
-public class GXml.GomHashMap : GXml.BaseCollection, GomMap {
+public class GXml.GomHashMap : GXml.BaseCollection, GXml.Map {
   /**
    * A hashtable with all keys as string to node's index refered. Don't modify it manually.
    */

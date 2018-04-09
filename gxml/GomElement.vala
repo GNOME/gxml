@@ -375,7 +375,7 @@ public class GXml.GomElement : GomNode,
     public DomNode? item (int index) {
       if (index < 0 || index >= size) return null;
       long i = -1;
-      foreach (Map.Entry<long,string> e in order.ascending_entries) {
+      foreach (Gee.Map.Entry<long,string> e in order.ascending_entries) {
         i++;
         if (i == index) {
           string name = e.value;
@@ -557,7 +557,7 @@ public class GXml.GomElement : GomNode,
     }
     private long index_of (string name) {
       long i = -1;
-      foreach (Map.Entry<long,string> e in order.ascending_entries) {
+      foreach (Gee.Map.Entry<long,string> e in order.ascending_entries) {
         i++;
         if (e.value == name) return i;
       }
