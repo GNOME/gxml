@@ -76,7 +76,7 @@ public interface GXml.MappeableElementPairKey : Object, DomElement {
 /**
  * {@link Gee.Iterable} and {@link Gee.Traversable} implementation of {@link GomCollection}
  */
-public interface GXml.GomPairedMap : Object, GomCollection, Traversable<DomElement>, Iterable<DomElement> {
+public interface GXml.PairedMap : Object, GomCollection, Traversable<DomElement>, Iterable<DomElement> {
   /**
    * An attribute's name in items to be added and used to retrieve elements
    * as primary key.

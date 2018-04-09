@@ -536,7 +536,7 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.Map {
  *   }
  * }}}
  */
-public class GXml.GomHashPairedMap : GXml.BaseCollection, GomPairedMap {
+public class GXml.GomHashPairedMap : GXml.BaseCollection, GXml.PairedMap {
   /**
    * A hashtable with all keys as string to node's index refered. Don't modify it manually.
    */
