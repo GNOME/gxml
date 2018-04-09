@@ -760,7 +760,7 @@ public class GXml.GomHashPairedMap : GXml.BaseCollection, GXml.PairedMap {
  *   }
  * }}}
  */
-public class GXml.GomHashThreeMap : GXml.BaseCollection, GomThreeMap {
+public class GXml.GomHashThreeMap : GXml.BaseCollection, ThreeMap {
   /**
    * A hashtable with all keys as string to node's index refered. Don't modify it manually.
    */
