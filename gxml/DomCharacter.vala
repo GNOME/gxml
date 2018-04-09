@@ -20,6 +20,9 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 
+/**
+ * DOM4 character handling interface
+ */
 public interface GXml.DomCharacterData : GLib.Object,
                   GXml.DomNode,
                   GXml.DomNonDocumentTypeChildNode,
@@ -67,6 +70,9 @@ public interface GXml.DomCharacterData : GLib.Object,
   }
 }
 
+/**
+ * DOM4 text node
+ */
 public interface GXml.DomText : GXml.DomCharacterData {
   public virtual GXml.DomText split_text (int offset) throws GLib.Error {
     Init.init ();
@@ -93,10 +99,15 @@ public interface GXml.DomText : GXml.DomCharacterData {
     }
   }
 }
-
+/**
+ * DOM4 Processing Instruction node
+ */
 public interface GXml.DomProcessingInstruction : GXml.DomCharacterData {
   public abstract string target { owned get; }
 }
 
+/**
+ * DOM4 comment node
+ */
 public interface GXml.DomComment : GXml.DomCharacterData {}
 

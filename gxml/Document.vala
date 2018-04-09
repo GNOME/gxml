@@ -25,16 +25,18 @@ using Gee;
 /**
  * Errors for documents handling {@link GXml.Document} reading/writing
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.DomError")]
 public errordomain GXml.DocumentError {
   INVALID_DOCUMENT_ERROR,
   INVALID_FILE
 }
 
 /**
- * Interface to handle XML documents.
+ * DOM1 Interface to handle XML documents.
  *
  * Provides basic interfaces to read and create XML documents.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.DomDocument")]
 public interface GXml.Document : Object, GXml.Node
 {
   /**

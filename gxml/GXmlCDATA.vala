@@ -22,7 +22,7 @@
 using Gee;
 
 /**
- * DOM4 Class implemeting {@link GXml.CDATA} interface, powered by libxml2 library.
+ * DOM1 Class implemeting {@link GXml.CDATA} interface, powered by libxml2 library.
  */
 public class GXml.GCDATA : GXml.GNode, GXml.CDATA
 {

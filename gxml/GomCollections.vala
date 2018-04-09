@@ -24,10 +24,8 @@ using Gee;
 /**
  * A DOM4 interface to keep references to {@link DomElement} in a {@link element}
  * child nodes. Only {@link GomObject} are supported.
- *
- * @deprecated 0.18
- * @see GXml.Collection
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.Collection")]
 public interface GXml.GomCollection : Object
 {
   /**
@@ -185,6 +183,16 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
     construct set {
       if (value != null)
         _element = value;
+    }
+  }
+  /**
+   * {@inheritDoc}
+   */
+  public DomElement parent_element {
+    get { return _element as DomElement; }
+    construct set {
+      if (value is GomElement)
+        _element = value as GomElement;
     }
   }
   /**

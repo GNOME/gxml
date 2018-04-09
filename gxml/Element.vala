@@ -22,11 +22,12 @@
 
 using Gee;
 /**
- * Interface to access XML document's tags, properties and content.
+ * DOM1 Interface to access XML document's tags, properties and content.
  *
  * Provides methods to create new XML tags properties and its values, and 
  * access to tag's contents.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.DomElement")]
 public interface GXml.Element : Object, GXml.Node
 {
     /**

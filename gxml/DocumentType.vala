@@ -23,6 +23,7 @@
 using Gee;
 
 /**
- * Interface to represent Document type definitions.
+ * DOM1 Interface to represent Document type definitions.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.DomDocumentType")]
 public interface GXml.DocumentType : Object, GXml.Node {}

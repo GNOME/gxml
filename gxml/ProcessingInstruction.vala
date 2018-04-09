@@ -23,8 +23,9 @@
 using Gee;
 
 /**
- * Interface for XML Processing Instruction sections.
+ * DOM1 Interface for XML Processing Instruction sections.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.DomProcessingInstruction")]
 public interface GXml.ProcessingInstruction : Object, GXml.Node
 {
   /**

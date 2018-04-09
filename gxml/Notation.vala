@@ -23,7 +23,7 @@
 using Gee;
 
 /**
- * Interface to handle notation elements
+ * DOM1 Interface to handle notation elements
  *
  * Used in defining {@link GXml.DocumentType}s to declare the format of
  * {@link GXml.Entity} and {@link GXml.ProcessingInstruction}s.
@@ -33,6 +33,7 @@ using Gee;
  * ProcessingInstruction targets.
  * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-5431D1B9]]
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "")]
 public interface GXml.Notation : Object, GXml.Node
 {
   public abstract string? public_id { get; }
@@ -42,4 +43,5 @@ public interface GXml.Notation : Object, GXml.Node
 /**
  * Dummy definition for entity.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "")]
 public interface GXml.Entity : Object, GXml.Node {}

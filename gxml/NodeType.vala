@@ -25,14 +25,12 @@
 // TODO: want a method to convert NodeType to a string
 
 /**
- * Enumerates possible NodeTypes.
+ * DOM1 Enumerates possible NodeTypes.
  *
  * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1950641247]]
  */
-public enum GXml.NodeType { // TODO: Rename to DomNodeType
-	/* NOTE: bug in vala?  if I don't have == 0, I fail when creating
-	   this class because I can't set default values for NodeType properties
-	   GLib-GObject-CRITICAL **: g_param_spec_enum: assertion `g_enum_get_value (enum_class, default_value) != NULL' failed */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.DomNode.NodeType")]
+public enum GXml.NodeType {
 	INVALID = 0,
 	ELEMENT = 1,
 	ATTRIBUTE,

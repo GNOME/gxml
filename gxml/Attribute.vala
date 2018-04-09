@@ -22,7 +22,7 @@
 
 using Gee;
 /**
- * DOM4 Interface to handle XML tags properties, powered by libxml2 library.
+ * DOM1 Interface to handle XML tags properties, powered by libxml2 library.
  *
  * Its features relays on {@link GXml.Node} interface inplementation to access
  * {@link GXml.Element} properties.
@@ -30,6 +30,7 @@ using Gee;
  * Attribute's name could be get from {@link GXml.Node.name} property. Its value
  * should be get from {@link GXml.Node.value} property.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.DomAttr")]
 public interface GXml.Attribute : Object, GXml.Node {
   public abstract GXml.Namespace? @namespace { owned get; set; }
   public abstract string? prefix { owned get; }

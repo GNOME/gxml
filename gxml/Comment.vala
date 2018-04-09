@@ -22,8 +22,9 @@
 
 using Gee;
 /**
- * Representation of comments nodes in any {@link GXml.Node}
+ * DOM1 Representation of comments nodes in any {@link GXml.Node}
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.DomComment")]
 public interface GXml.Comment : Object, GXml.Node
 {
   /**

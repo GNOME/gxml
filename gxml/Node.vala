@@ -25,6 +25,7 @@ using Gee;
 /**
  * Base interface providing basic functionalities for DOM1 interfaces.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.DomNode")]
 public interface GXml.Node : Object
 {
   /**

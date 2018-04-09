@@ -23,7 +23,7 @@
 using Gee;
 
 /**
- * Interface to handle XML Namespaces.
+ * DOM1 Interface to handle XML Namespaces.
  *
  * Basic information for a XML document's namespaces and applied to a given
  * {@link GXml.Node}.
@@ -31,6 +31,7 @@ using Gee;
  * Namespace management is a matter of this or other libraries, implementing
  * this interfaces.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "")]
 public interface GXml.Namespace : Object
 {
   /**

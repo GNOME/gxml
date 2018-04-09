@@ -23,8 +23,9 @@
 using Gee;
 
 /**
- * CDATA sections in XML documents.
+ * DOM1 CDATA sections in XML documents.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "")]
 public interface GXml.CDATA : Object, GXml.Node
 {
   
