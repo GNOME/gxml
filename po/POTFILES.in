@@ -1,5 +1,7 @@
 # List of source files containing translatable strings.
 # Please keep this file sorted alphabetically.
+gxml/Collections.vala
+gxml/CssSelectorParser.vala
 gxml/Document.vala
 gxml/DomCharacter.vala
 gxml/DomNode.vala
@@ -10,6 +12,7 @@ gxml/GomElement.vala
 gxml/GomNode.vala
 gxml/GomObject.vala
 gxml/GomProperty.vala
+gxml/GomSchema.vala
 gxml/GXmlDocument.vala
 gxml/GXmlDomCollections.vala
 gxml/GXmlDomRange.vala
@@ -29,5 +32,3 @@ gxml/SerializableProperty.vala
 gxml/Serializable.vala
 gxml/TDocument.vala
 gxml/XParser.vala
-gxml/GomSchema.vala
-gxml/CssSelectorParser.vala

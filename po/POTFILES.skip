@@ -1,5 +1,7 @@
 # List of source files that should *not* be translated.
 # Please keep this file sorted alphabetically.
+gxml/Collections.c
+gxml/CssSelectorParser.c
 gxml/Document.c
 gxml/DomCharacter.c
 gxml/DomNode.c
@@ -10,6 +12,7 @@ gxml/GomElement.c
 gxml/GomNode.c
 gxml/GomObject.c
 gxml/GomProperty.c
+gxml/GomSchema.c
 gxml/GXmlDocument.c
 gxml/GXmlDomCollections.c
 gxml/GXmlDomRange.c
@@ -29,18 +32,19 @@ gxml/SerializableObjectModel.c
 gxml/SerializableProperty.c
 gxml/TDocument.c
 gxml/XParser.c
-gxml/GomSchema.c
-gxml/CssSelectorParser.c
+sub/gxml/Collections.c
+sub/gxml/CssSelectorParser.c
 sub/gxml/Document.c
 sub/gxml/DomCharacter.c
 sub/gxml/DomNode.c
 sub/gxml/Enumeration.c
 sub/gxml/GomCollections.c
-sub/gxml/GomElement.c
 sub/gxml/GomDocument.c
+sub/gxml/GomElement.c
 sub/gxml/GomNode.c
 sub/gxml/GomObject.c
 sub/gxml/GomProperty.c
+sub/gxml/GomSchema.c
 sub/gxml/GXmlDocument.c
 sub/gxml/GXmlDomCollections.c
 sub/gxml/GXmlDomRange.c
@@ -60,5 +64,3 @@ sub/gxml/SerializableObjectModel.c
 sub/gxml/SerializableProperty.c
 sub/gxml/TDocument.c
 sub/gxml/XParser.c
-sub/gxml/GomSchema.c
-sub/gxml/CssSelectorParser.c
