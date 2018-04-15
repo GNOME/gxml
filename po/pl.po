@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-11 16:35+0100\n"
-"PO-Revision-Date: 2018-02-11 16:37+0100\n"
+"POT-Creation-Date: 2018-04-15 10:52+0200\n"
+"PO-Revision-Date: 2018-04-15 10:53+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -19,23 +19,76 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
-#: ../gxml/Document.vala:151
+#: ../gxml/Collections.vala:66 ../gxml/GomCollections.vala:67
+msgid "Invalid index for elements in array list"
+msgstr "Nieprawidłowy indeks elementów na liście macierzy"
+
+#: ../gxml/Collections.vala:70 ../gxml/GomCollections.vala:71
+msgid "Invalid index reference for child elements in array list"
+msgstr ""
+"Nieprawidłowe odniesienie indeksu dla elementów potomnych na liście macierzy"
+
+#: ../gxml/Collections.vala:75
+msgid "Referenced object's type is invalid. Should be a GXmlDomElement"
+msgstr ""
+"Typ wymienionego obiektu jest nieprawidłowy. Powinien być GXmlDomElement"
+
+#: ../gxml/CssSelectorParser.vala:139
+msgid "Invalid attribute character"
+msgstr "Nieprawidłowy znak atrybutu"
+
+#: ../gxml/CssSelectorParser.vala:165 ../gxml/CssSelectorParser.vala:211
+#, c-format
+msgid "Invalid attribute selector value: %s"
+msgstr "Nieprawidłowa wartość selektora atrybutu: %s"
+
+#: ../gxml/CssSelectorParser.vala:168 ../gxml/CssSelectorParser.vala:214
+msgid "Invalid end of attribute value"
+msgstr "Nieprawidłowy koniec wartości atrybutu"
+
+#: ../gxml/CssSelectorParser.vala:174 ../gxml/CssSelectorParser.vala:220
+msgid "Invalid end of attribute selector"
+msgstr "Nieprawidłowy koniec selektora atrybutu"
+
+#: ../gxml/CssSelectorParser.vala:194
+msgid "Invalid attribute selector character"
+msgstr "Nieprawidłowy znak selektora atrybutu"
+
+#: ../gxml/CssSelectorParser.vala:197
+msgid "Invalid attribute selector character: can't find '=' character"
+msgstr "Nieprawidłowy znak selektora atrybutu: nie można odnaleźć znaku „=”"
+
+#: ../gxml/CssSelectorParser.vala:250
+#, c-format
+msgid "Invalid pseudo class selector %s"
+msgstr "Nieprawidłowy selektor pseudoklasy %s"
+
+#: ../gxml/CssSelectorParser.vala:258
+msgid "Invalid string length."
+msgstr "Nieprawidłowa długość ciągu."
+
+#: ../gxml/CssSelectorParser.vala:291
+#, c-format
+msgid "Invalid '%s' character."
+msgstr "Nieprawidłowy znak „%s”."
+
+#: ../gxml/Document.vala:153
 msgid "Invalid file"
 msgstr "Nieprawidłowy plik"
 
-#: ../gxml/DomCharacter.vala:43
+#: ../gxml/DomCharacter.vala:46
 msgid "Invalid offset for substring"
 msgstr "Nieprawidłowe wyrównanie dla fragmentu ciągu"
 
-#: ../gxml/DomCharacter.vala:63
+#: ../gxml/DomCharacter.vala:66
 msgid "Invalid offset for replace data"
 msgstr "Nieprawidłowe wyrównanie dla danych zastępowania"
 
-#: ../gxml/DomCharacter.vala:74
+#: ../gxml/DomCharacter.vala:80
 msgid "Invalid offset to split text"
 msgstr "Nieprawidłowe wyrównanie do rozdzielenia tekstu"
 
-#: ../gxml/DomNode.vala:150 ../gxml/Node.vala:202
+#: ../gxml/DomNode.vala:150 ../gxml/Node.vala:203
 msgid "Text node with NULL string"
 msgstr "Węzeł tekstowy z ciągiem NULL"
 
@@ -51,21 +104,12 @@ msgstr "wartość jest nieprawidłowa"
 msgid "text cannot be parsed to enumeration type:"
 msgstr "tekst nie może zostać przetworzony na typ wyliczenia:"
 
-#: ../gxml/GomCollections.vala:66
-msgid "Invalid index for elements in array list"
-msgstr "Nieprawidłowy indeks elementów na liście macierzy"
-
-#: ../gxml/GomCollections.vala:70
-msgid "Invalid index reference for child elements in array list"
-msgstr ""
-"Nieprawidłowe odniesienie indeksu dla elementów potomnych na liście macierzy"
-
-#: ../gxml/GomCollections.vala:75
+#: ../gxml/GomCollections.vala:76
 msgid "Referenced object's type is invalid. Should be a GXmlGomElement"
 msgstr ""
 "Typ wymienionego obiektu jest nieprawidłowy. Powinien być GXmlGomElement"
 
-#: ../gxml/GomCollections.vala:193
+#: ../gxml/GomCollections.vala:204
 msgid ""
 "Invalid attempt to initialize a collection using an unsupported type. Only "
 "GXmlGomElement is supported"
@@ -73,34 +117,34 @@ msgstr ""
 "Nieprawidłowa próba zainicjowania zbioru za pomocą nieobsługiwanego typu. "
 "Tylko GXmlGomElement jest obsługiwany"
 
-#: ../gxml/GomCollections.vala:222 ../gxml/GomCollections.vala:250
+#: ../gxml/GomCollections.vala:233 ../gxml/GomCollections.vala:261
 msgid "Parent Element is invalid"
 msgstr "Element nadrzędny jest nieprawidłowy"
 
-#: ../gxml/GomCollections.vala:225
+#: ../gxml/GomCollections.vala:236
 msgid ""
 "Invalid attempt to set unsupported type. Only GXmlGomElement is supported"
 msgstr ""
 "Nieprawidłowa próba ustawienia nieobsługiwanego typu. Tylko GXmlGomElement "
 "jest obsługiwany"
 
-#: ../gxml/GomCollections.vala:228
+#: ../gxml/GomCollections.vala:239
 msgid "Invalid attempt to set a node with a different parent document"
 msgstr "Nieprawidłowa próba ustawienia węzła z innym dokumentem nadrzędnym"
 
-#: ../gxml/GomCollections.vala:233
+#: ../gxml/GomCollections.vala:244
 msgid ""
 "Node element not appended as child of parent. No node added to collection"
 msgstr ""
 "Element węzła nie jest dołączony jako element potomny elementu nadrzędnego. "
 "Nie dodano żadnego węzła do zbioru"
 
-#: ../gxml/GomCollections.vala:295 ../gxml/GomCollections.vala:313
+#: ../gxml/GomCollections.vala:306 ../gxml/GomCollections.vala:324
 #, c-format
 msgid "Error: %s"
 msgstr "Błąd: %s"
 
-#: ../gxml/GomCollections.vala:776
+#: ../gxml/GomCollections.vala:698
 msgid "No primary key and/or secondary key was found"
 msgstr "Nie odnaleziono głównego ani dodatkowego klucza"
 
@@ -373,8 +417,25 @@ msgstr "Nieprawidłowy format dla właściwości daty: "
 msgid "Invalid timestamp for property: "
 msgstr "Nieprawidłowy czas dla właściwości: "
 
+#: ../gxml/GomSchema.vala:266
+#, c-format
+msgid "Error removing Collection's element: %s"
+msgstr "Błąd podczas usuwania elementu zbioru: %s"
+
+#: ../gxml/GomSchema.vala:275
+#, c-format
+msgid "Can't find element at position: %i: %s"
+msgstr "Nie można odnaleźć elementu w położeniu: %i: %s"
+
+#: ../gxml/GomSchema.vala:289 ../gxml/GomSchema.vala:297
+#: ../gxml/GomSchema.vala:305 ../gxml/GomSchema.vala:313
+#: ../gxml/GomSchema.vala:321
+#, c-format
+msgid "Collection type %s, initialization error: %s"
+msgstr "Typ zbioru %s, błąd inicjacji: %s"
+
 #: ../gxml/GXmlDocument.vala:57 ../gxml/Parser.vala:95 ../gxml/Parser.vala:105
-#: ../gxml/TDocument.vala:477
+#: ../gxml/TDocument.vala:478
 msgid "File doesn't exist"
 msgstr "Plik nie istnieje"
 
@@ -570,11 +631,11 @@ msgstr "Błąd przekształcania na „%s” lub nieobsługiwany typ: „%s”"
 msgid "Can't transform '%s' to string"
 msgstr "Nie można przekształcić „%s” na ciąg"
 
-#: ../gxml/TDocument.vala:168
+#: ../gxml/TDocument.vala:169
 msgid "Invalid element name"
 msgstr "Nieprawidłowa nazwa elementu"
 
-#: ../gxml/TDocument.vala:578 ../gxml/XParser.vala:272
+#: ../gxml/TDocument.vala:579 ../gxml/XParser.vala:272
 #, c-format
 msgid "Parsing ERROR: Fail to move to attribute number: %i"
 msgstr ""
@@ -596,59 +657,3 @@ msgstr "Nieprawidłowa sekwencja dla definicji typu dokumentu: "
 #: ../gxml/XParser.vala:425 ../gxml/XParser.vala:519 ../gxml/XParser.vala:590
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Wewnętrzny błąd: nie zainicjowano TextWriter"
-
-#: ../gxml/GomSchema.vala:266
-#, c-format
-msgid "Error removing Collection's element: %s"
-msgstr "Błąd podczas usuwania elementu zbioru: %s"
-
-#: ../gxml/GomSchema.vala:275
-#, c-format
-msgid "Can't find element at position: %i: %s"
-msgstr "Nie można odnaleźć elementu w położeniu: %i: %s"
-
-#: ../gxml/GomSchema.vala:289 ../gxml/GomSchema.vala:297
-#: ../gxml/GomSchema.vala:305 ../gxml/GomSchema.vala:313
-#: ../gxml/GomSchema.vala:321
-#, c-format
-msgid "Collection type %s, initialization error: %s"
-msgstr "Typ zbioru %s, błąd inicjacji: %s"
-
-#: ../gxml/CssSelectorParser.vala:139
-msgid "Invalid attribute character"
-msgstr "Nieprawidłowy znak atrybutu"
-
-#: ../gxml/CssSelectorParser.vala:165 ../gxml/CssSelectorParser.vala:211
-#, c-format
-msgid "Invalid attribute selector value: %s"
-msgstr "Nieprawidłowa wartość selektora atrybutu: %s"
-
-#: ../gxml/CssSelectorParser.vala:168 ../gxml/CssSelectorParser.vala:214
-msgid "Invalid end of attribute value"
-msgstr "Nieprawidłowy koniec wartości atrybutu"
-
-#: ../gxml/CssSelectorParser.vala:174 ../gxml/CssSelectorParser.vala:220
-msgid "Invalid end of attribute selector"
-msgstr "Nieprawidłowy koniec selektora atrybutu"
-
-#: ../gxml/CssSelectorParser.vala:194
-msgid "Invalid attribute selector character"
-msgstr "Nieprawidłowy znak selektora atrybutu"
-
-#: ../gxml/CssSelectorParser.vala:197
-msgid "Invalid attribute selector character: can't find '=' character"
-msgstr "Nieprawidłowy znak selektora atrybutu: nie można odnaleźć znaku „=”"
-
-#: ../gxml/CssSelectorParser.vala:250
-#, c-format
-msgid "Invalid pseudo class selector %s"
-msgstr "Nieprawidłowy selektor pseudoklasy %s"
-
-#: ../gxml/CssSelectorParser.vala:258
-msgid "Invalid string length."
-msgstr "Nieprawidłowa długość ciągu."
-
-#: ../gxml/CssSelectorParser.vala:291
-#, c-format
-msgid "Invalid '%s' character."
-msgstr "Nieprawidłowy znak „%s”."
