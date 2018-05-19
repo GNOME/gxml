@@ -28,7 +28,6 @@ using Gee;
 
 public enum OptionsEnum
 {
-  [Description (nick="SelectionOption")]
   SelectBefore,
   HoldOn,
   LeaveHeare,
