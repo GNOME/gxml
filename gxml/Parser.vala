@@ -86,7 +86,7 @@ public interface GXml.Parser : Object {
   public abstract async void write_stream_async (OutputStream stream,
                             GLib.Cancellable? cancellable = null) throws GLib.Error;
   /**
-   * Writes a {@link node} to a {@link GLib.OutputStream}
+   * Reads a {@link node} from a {@link GLib.File}
    */
   public virtual void read_file (GLib.File file,
                                 GLib.Cancellable? cancellable)
@@ -96,7 +96,7 @@ public interface GXml.Parser : Object {
     read_stream (file.read (), cancellable);
   }
   /**
-   * Writes a {@link GXml.DomDocument} to a {@link GLib.OutputStream}
+   * Reads a {@link GXml.DomDocument} from a {@link GLib.File}
    */
   public async virtual void read_file_async (GLib.File file,
                                     GLib.Cancellable? cancellable)
