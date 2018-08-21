@@ -219,6 +219,13 @@ AC_ARG_ENABLE(performance-tests,
 
 AM_CONDITIONAL(ENABLE_PERFORMANCE_TESTS, [test $performance = yes])
 
+
+tnode_tests=no
+AC_ARG_ENABLE(test_tnode,
+	AS_HELP_STRING([--enable-test-tnode], [Enable Tests for deprecated TNode classes [default=no]]),
+        [docs=$enableval], [docs="no"])
+AM_CONDITIONAL([ENABLE_TNODE_TESTS], [test x$tnode_tests = xyes])
+
 dnl Check Cross Compile
 dnl ******************************
 dnl Check for Operating System

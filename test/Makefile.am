@@ -30,7 +30,27 @@ sources = \
 	GXmlTest.vala \
 	NodeListTest.vala \
 	ValaLibxml2Test.vala \
+	GDocumentTest.vala \
+	GElementTest.vala \
+	GAttributeTest.vala \
+	GHtmlDocumentTest.vala \
+	DomGDocumentTest.vala \
+	XPathTest.vala \
+	GomDocumentTest.vala \
+	GomElementTest.vala \
+	GomSerializationTest.vala \
+	GomSchemaTest.vala \
+	$(NULL)
+
+if ENABLE_TNODE_TESTS
+sources += \
 	EnumerationTest.vala \
+	gxml-performance.vala \
+	TElementTest.vala \
+	TDocumentTest.vala \
+	TCDATATest.vala \
+	TCommentTest.vala \
+	TProcessingInstructionTest.vala \
 	SerializableTest.vala \
 	SerializablePropertyBoolTest.vala \
 	SerializablePropertyDoubleTest.vala \
@@ -47,23 +67,8 @@ sources = \
 	SerializableGeeCollectionsTest.vala \
 	SerializableGeeCollections-TDocument-Test.vala \
 	SerializableBasicTypesTest.vala \
-	gxml-performance.vala \
-	TElementTest.vala \
-	TDocumentTest.vala \
-	TCDATATest.vala \
-	TCommentTest.vala \
-	TProcessingInstructionTest.vala \
-	GDocumentTest.vala \
-	GElementTest.vala \
-	GAttributeTest.vala \
-	GHtmlDocumentTest.vala \
-	DomGDocumentTest.vala \
-	XPathTest.vala \
-	GomDocumentTest.vala \
-	GomElementTest.vala \
-	GomSerializationTest.vala \
-	GomSchemaTest.vala \
 	$(NULL)
+endif
 
 vala-stamp: $(sources)
 	@rm -f vala-temp

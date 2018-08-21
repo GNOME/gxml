@@ -29,9 +29,8 @@ class GXmlTest {
 
 		// Sets 29 as fatal flags, 16 + 8 + 4 + 1; bits 0,2,3,4, recursion,error,critical,warning; we'll want to undo that warning one so we can catch it
 		Test.init (ref args);
-
+#if ENABLE_TNODE_TESTS
 		NodeListTest.add_tests ();
-		ValaLibxml2Test.add_tests ();
 		SerializableTest.add_tests ();
 		SerializableObjectModelTest.add_tests ();
 		SerializableObjectModelTDocumentTest.add_tests ();
@@ -43,7 +42,6 @@ class GXmlTest {
 		SerializableGeeCollectionsTDocumentTest.add_tests ();
 		SerializableBasicTypeTest.add_tests ();
 		SerializableEnumerationTest.add_tests ();
-		Performance.add_tests ();
 		TElementTest.add_tests ();
 		TCDATATest.add_tests ();
 		TCommentTest.add_tests ();
@@ -55,6 +53,11 @@ class GXmlTest {
 		SerializablePropertyIntTest.add_tests ();
 		SerializablePropertyValueListTest.add_tests ();
 		SerializablePropertyEnumTest.add_tests ();
+#if ENABLE_PERFORMANCE_TESTS
+		Performance.add_tests ();
+#endif
+#endif
+		ValaLibxml2Test.add_tests ();
 		GDocumentTest.add_tests ();
 		GElementTest.add_tests ();
 		GAttributeTest.add_tests ();

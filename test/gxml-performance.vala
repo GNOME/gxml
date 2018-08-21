@@ -235,7 +235,6 @@ public class Performance
   }
   public static void add_tests ()
   {
-#if ENABLE_PERFORMANCE_TESTS
     Test.add_func ("/gxml/performance/read/gomdocument",
     () => {
       try {
@@ -1003,6 +1002,5 @@ public class Performance
         assert_not_reached ();
       }
     });
-#endif
   }
 }
