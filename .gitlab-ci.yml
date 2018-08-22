@@ -3,16 +3,41 @@ image: ubuntu:devel
 
 stages:
   - build
+  - deploy
+
+variables:
+	gcc gettext gtk-doc-tools make autoconf meson ninja-build
+	libxml2-dev libglib2.0-dev valac libgee-0.8-dev gettext
 
 before_script:
   - apt update
-  - apt-get install -y libxml2-dev libglib2.0-dev valac libgee-0.8-dev gettext meson
+  - apt-get install -y $DEPENDENCIES
 
 build-gxml:
   stage: build
   script:
-  - meson _build .
-  - ninja -C _build
-  - ninja -C _build test
-  - ninja -C _build install
+  - meson _build
+  - cd _build
+  - ninja
+  - meson test
+  - ninja install
+
+build-autotools:
+  stage: build
+  script:
+  - ./autogen.sh --prefix=/usr
+  - make
+  - make check
+  - make install
+
+package-tar:
+  stage: deploy
+  script:
+  - ./autogen.sh --prefix=/usr
+  - make
+  - make distcheck
+  artifacts:
+    paths:
+      - ./gxml-*.tar.xz
+
 
