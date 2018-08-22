@@ -29,7 +29,6 @@
  *
  * For more, see: [[http://www.w3.org/TR/DOM-Level-1/level-one-core.html#ID-1950641247]]
  */
-[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.DomNode.NodeType")]
 public enum GXml.NodeType {
 	INVALID = 0,
 	ELEMENT = 1,
