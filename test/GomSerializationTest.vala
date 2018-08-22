@@ -102,8 +102,8 @@ class GomEmail : GomElement
 
 class GomAuthor : GomElement
 {
-  public Name name { get; set; }
-  public Email email { get; set; }
+  public GomName name { get; set; }
+  public GomEmail email { get; set; }
   construct { try { initialize ("Author"); } catch { assert_not_reached (); } }
   public class Array : GomArrayList {
     construct { try { initialize (typeof (GomAuthor)); }
