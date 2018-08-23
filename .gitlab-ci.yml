@@ -8,7 +8,9 @@ stages:
 variables:
   DEPENDENCIES: gcc gettext gtk-doc-tools make autoconf meson ninja-build
                 libxml2-dev libglib2.0-dev valac libgee-0.8-dev gettext
-                gnome-common
+                gnome-common libtool-bin libglib2.0 libglib2-dev libglib2.0-bin
+                gobject-introspection libgirepository1.0-dev valadoc
+                yelp-tools iso-codes
 
 before_script:
   - apt update
