@@ -6,8 +6,8 @@ stages:
   - deploy
 
 variables:
-	gcc gettext gtk-doc-tools make autoconf meson ninja-build
-	libxml2-dev libglib2.0-dev valac libgee-0.8-dev gettext
+  DEPENDENCIES: gcc gettext gtk-doc-tools make autoconf meson ninja-build
+                libxml2-dev libglib2.0-dev valac libgee-0.8-dev gettext
 
 before_script:
   - apt update
