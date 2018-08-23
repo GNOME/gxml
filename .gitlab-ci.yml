@@ -8,6 +8,7 @@ stages:
 variables:
   DEPENDENCIES: gcc gettext gtk-doc-tools make autoconf meson ninja-build
                 libxml2-dev libglib2.0-dev valac libgee-0.8-dev gettext
+                gnome-common
 
 before_script:
   - apt update
@@ -39,5 +40,15 @@ package-tar:
   artifacts:
     paths:
       - ./gxml-*.tar.xz
+
+pages:
+  stage: deploy
+  script:
+  - meson _build
+  - cd _build
+  - ninja
+  - mv docs/GXml-* ../public
+  - cd ..
+  - mv public/index.htm public/index.html
 
 
