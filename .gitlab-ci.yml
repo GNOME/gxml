@@ -15,7 +15,7 @@ variables:
 
 before_script:
   - apt update
-  - apt-get install -y $DEPENDENCIES
+  - apt -y install $DEPENDENCIES
 
 build-gxml:
   stage: build
