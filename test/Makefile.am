@@ -40,9 +40,6 @@ sources = \
 	GomElementTest.vala \
 	GomSerializationTest.vala \
 	GomSchemaTest.vala \
-	$(NULL)
-
-deprecated = \
 	EnumerationTest.vala \
 	gxml-performance.vala \
 	TElementTest.vala \
@@ -67,10 +64,6 @@ deprecated = \
 	SerializableGeeCollections-TDocument-Test.vala \
 	SerializableBasicTypesTest.vala \
 	$(NULL)
-
-if ENABLE_TNODE_TESTS
-sources += $(deprecated)
-endif
 
 vala-stamp: $(sources)
 	@rm -f vala-temp
