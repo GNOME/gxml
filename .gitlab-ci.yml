@@ -11,7 +11,7 @@ variables:
                 valac libgee-0.8-dev gettext
                 gnome-common libtool-bin
                 gobject-introspection libgirepository1.0-dev valadoc
-                yelp-tools iso-codes
+                yelp-tools iso-codes git
 
   GIT_SUBMODULE_STRATEGY: normal
 
