@@ -13,7 +13,10 @@ variables:
                 gobject-introspection libgirepository1.0-dev valadoc
                 yelp-tools iso-codes
 
+  GIT_SUBMODULE_STRATEGY: normal
+
 before_script:
+  - export DEBIAN_FRONTEND=noninteractive
   - apt update
   - apt -y install $DEPENDENCIES
 
