@@ -56,5 +56,8 @@ pages:
   - mv docs/GXml-* ../public
   - cd ..
   - mv public/index.htm public/index.html
+  artifacts:
+    paths:
+      - public
 
 
