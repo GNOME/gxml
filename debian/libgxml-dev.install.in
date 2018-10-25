@@ -1,0 +1,6 @@
+usr/lib/*/libgxml-@API_VERSION@.so
+usr/lib/*/libgxml-@API_VERSION@.a
+usr/lib/*/pkgconfig/
+usr/include/gxml-@API_VERSION@/gxml
+usr/share/vala
+usr/share/gir-1.0

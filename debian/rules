@@ -1,0 +1,20 @@
+#!/usr/bin/make -f
+
+override_dh_auto_clean:
+	rm -fr build
+
+override_dh_auto_configure:
+	mkdir -p build
+	cd build && meson .. --prefix=/usr
+
+override_dh_auto_build:
+	cd build && ninja -v
+
+override_dh_auto_test:
+#	cd build && ninja test
+
+override_dh_auto_install:
+	DESTDIR=${CURDIR}/debian/tmp ninja -Cbuild -v install
+
+%:
+	dh $@
