@@ -198,7 +198,7 @@ class CssSelectorTest : GXmlTest {
 			try {
 				var cp = new CssSelectorParser ();
 				cp.parse ("child[prop-name$=\"val\"]");
-				assert (cp.selectors.size == 3);
+				assert (cp.selectors.size == 2);
 				var s = cp.selectors[0];
 				assert (s != null);
 				assert (s.selector_type == CssSelectorType.ELEMENT);
@@ -367,7 +367,7 @@ class CssSelectorTest : GXmlTest {
 			try {
 				var cp = new CssSelectorParser ();
 				cp.parse ("toplevel:root");
-				assert (cp.selectors.size == 3);
+				assert (cp.selectors.size == 2);
 				var s = cp.selectors[0];
 				assert (s != null);
 				assert (s.selector_type == CssSelectorType.ELEMENT);

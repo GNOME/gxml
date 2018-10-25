@@ -116,13 +116,19 @@ public class GXml.CssSelector : GLib.Object {
 }
 
 public class GXml.CssElementSelector : GXml.CssSelector {
-	public CssElementSelector (string prefix = "", string local_name = "", bool prefixed = false) {
-		GLib.Object (selector_type : GXml.CssSelectorType.ELEMENT, name : prefix, value : local_name, prefixed : prefixed);
+	public CssElementSelector (string? prefix = null, string local_name = "") {
+		base (GXml.CssSelectorType.ELEMENT);
+		this.name = prefix;
+		this.value = local_name;
 	}
 	
-	public bool prefixed { get; set construct; }
+	public bool prefixed {
+		get {
+			return this.prefix != null;
+		}
+	}
 	
-	public string prefix {
+	public string? prefix {
 		owned get {
 			return this.name;
 		}
@@ -139,6 +145,19 @@ public class GXml.CssElementSelector : GXml.CssSelector {
 			this.value = value;
 		}
 	}
+}
+
+public class GXml.CssAttributeSelector : GXml.CssSelector {
+	public CssAttributeSelector (string? prefix = null, string local_name = "") {
+		base (GXml.CssSelectorType.ATTRIBUTE);
+		this.prefix = prefix;
+		this.local_name = local_name;
+		this.name = (prefix == null) ? local_name : "%s|%s".printf (prefix, local_name);
+	}
+	
+	public string? prefix { get; set; }
+	
+	public string local_name { get; set; }
 }
 
 public class GXml.CssNotSelector : GXml.CssSelector {
@@ -166,7 +185,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 			'$', '&', '#', '|', '`',
 			'^', '@', '+', '~', '*',
 			'%', '!', '?', '<', '>', 
-			'.', '"', '\''
+			':', '.', '"', '\''
 		};
 		return !(u in array);
 	}
@@ -193,11 +212,11 @@ public class GXml.CssSelectorParser : GLib.Object {
 				throw new GXml.CssSelectorError.IDENTIFIER ("string value is empty");
 			if (extra_builder.str.contains ("*") && extra_builder.len > 1)
 				throw new GXml.CssSelectorError.IDENTIFIER ("Invalid identifier");
-			return new GXml.CssElementSelector (builder.str, extra_builder.str, true);
+			return new GXml.CssElementSelector (builder.str, extra_builder.str);
 		}
 		if (builder.len == 0)
 			throw new GXml.CssSelectorError.IDENTIFIER ("string value is empty");
-		return new GXml.CssElementSelector ("", builder.str);
+		return new GXml.CssElementSelector (null, builder.str);
 	}
 	
 	static GXml.CssNotSelector parse_not_selector (GXml.CssString str) throws GLib.Error {
@@ -265,16 +284,36 @@ public class GXml.CssSelectorParser : GLib.Object {
 		str.read();
 		while (str.peek().isspace())
 			str.read();
-		if (!str.peek().isalpha())
-			throw new GXml.CssSelectorError.ATTRIBUTE ("Attribute key doesn't start with letter");
-		var key = parse_identifier (str, s => { return !s.peek().isspace(); });
-		if (key.length == 0)
-			throw new GXml.CssSelectorError.ATTRIBUTE ("No key found for current attribute selector");
+			
+		var builder = new StringBuilder();
+		var extra_builder = new StringBuilder();
+		bool prefixed = false;
+		while (!str.eof && (str.peek() == '*' || is_valid_char (str.peek())) && !str.peek().isspace())
+			builder.append_unichar (str.read());	
+		if (builder.str.contains ("*") && builder.len > 1)
+			throw new GXml.CssSelectorError.ATTRIBUTE ("Invalid attribute");
+		if (str.peek() == '|') {
+			str.read();
+			if (str.peek() == '=')
+				str.read_r();
+			else {
+				prefixed = true;
+				while (!str.eof && (str.peek() == '*' || is_valid_char (str.peek())) && !str.peek().isspace())
+					extra_builder.append_unichar (str.read());
+				if (extra_builder.len == 0)
+					throw new GXml.CssSelectorError.ATTRIBUTE ("string value is empty");
+				if (extra_builder.str.contains ("*") && extra_builder.len > 1)
+					throw new GXml.CssSelectorError.ATTRIBUTE ("Invalid attribute");
+			}
+		}
+		string? prefix = prefixed ? builder.str : null;
+		string local_name = prefixed ? extra_builder.str : builder.str;
+		var selector = new GXml.CssAttributeSelector (prefix, local_name);
 		while (str.peek().isspace())
 			str.read();
 		if (str.peek() == ']') {
 			str.read();
-			return new GXml.CssSelector (GXml.CssSelectorType.ATTRIBUTE, key);
+			return selector;
 		}
 		var ct = GXml.CssSelectorType.CLASS;
 		if (str.peek() == '=')
@@ -291,6 +330,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 			ct = GXml.CssSelectorType.ATTRIBUTE_SUBSTRING;
 		if (ct == GXml.CssSelectorType.CLASS)
 			throw new GXml.CssSelectorError.ATTRIBUTE ("Invalid attribute selector");
+		selector.selector_type = ct;
 		if (ct != GXml.CssSelectorType.ATTRIBUTE_EQUAL)
 			str.read();
 		if (str.peek() != '=')
@@ -301,7 +341,11 @@ public class GXml.CssSelectorParser : GLib.Object {
 		unichar quote = 0;
 		if (str.peek() == '"' || str.peek() == '\'')
 			quote = str.read();
-		var attr_value = parse_identifier (str, s => { return s.peek() != quote; });
+		var attr_value = parse_identifier (str, s => {
+			return quote == 0 && !s.peek().isspace() || quote > 0 && s.peek() != quote;
+		});
+		selector.value = attr_value;
+		print ("coucou la valeur : %s\n", attr_value);
 		if (quote > 0 && quote != str.read())
 			throw new GXml.CssSelectorError.ATTRIBUTE ("Cannot find end of attribute value");
 		while (str.peek().isspace())
@@ -311,7 +355,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 		
 		// TODO : CSS Selectors level 4 : case sensivity.
 		
-		return new GXml.CssSelector.with_value (ct, key, attr_value);
+		return selector;
 	}
 	
 	static void parse_selectors (GXml.CssString str, Gee.List<GXml.CssSelector> list, unichar stop_char = 0) throws GLib.Error {
@@ -328,7 +372,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 				list.add (parse_attribute (str));
 			if (list[list.size - 1] is GXml.CssElementSelector) {
 				var sel = list[list.size - 1] as GXml.CssElementSelector;
-				if (sel.prefix == "" && !sel.prefixed && sel.local_name == "*")
+				if (!sel.prefixed && sel.local_name == "*")
 					list[list.size - 1] = new GXml.CssSelector (GXml.CssSelectorType.ALL);
 			}
 			
@@ -355,6 +399,8 @@ public class GXml.CssSelectorParser : GLib.Object {
 		}
 		if (list.size == 0)
 			throw new GXml.CssSelectorError.NULL ("No selectors found");
+		foreach (var sel in list)
+			print ("%s %s %s\n", sel.selector_type.to_string(), sel.name, sel.value);
 		if (list[list.size - 1].combiner == GXml.CssCombiner.NONE)
 			list[list.size - 1].combiner = GXml.CssCombiner.NULL;
 		if (list[list.size - 1].combiner != GXml.CssCombiner.NULL)
@@ -531,6 +577,62 @@ public class GXml.CssSelectorParser : GLib.Object {
 		}
 		return false;
 	}
+	
+	static bool match_attribute (GXml.DomElement element, GXml.CssAttributeSelector selector) throws GLib.Error {
+		var list = new Gee.ArrayList<GXml.DomNode>();
+		if (selector.prefix != null) {
+			if (selector.prefix == "") {
+				for (var i = 0; i < element.attributes.length; i++) {
+					if (element.attributes.item (i) == null)
+						continue;
+					if (element.attributes.item (i).node_name == selector.local_name || selector.local_name == "*")
+						list.add (element.attributes.item (i));
+				}
+			}
+			else if (selector.prefix == "*") {
+				for (var i = 0; i < element.attributes.length; i++) {
+					if (element.attributes.item (i) == null)
+						continue;
+					var attr_name = element.attributes.item (i).node_name;
+					if (attr_name.split (":").length == 2 && (attr_name.split (":")[1] == selector.local_name || selector.local_name == "*"))
+						list.add (element.attributes.item (i));
+				}
+			}
+			else {
+				for (var i = 0; i < element.attributes.length; i++) {
+					if (element.attributes.item (i) == null)
+						continue;
+					var attr_name = element.attributes.item (i).node_name;
+					if (attr_name.split (":").length == 2 && attr_name.split (":")[0] == selector.prefix && (attr_name.split (":")[1] == selector.local_name || selector.local_name == "*"))
+						list.add (element.attributes.item (i));
+				}
+			}
+		}
+		else {
+			var attr = element.attributes.get_named_item (selector.local_name);
+			if (attr != null)
+				list.add (attr);
+		}
+		if (list.size == 0)
+			return false;
+		foreach (var attr in list) {
+			if (selector.selector_type == GXml.CssSelectorType.ATTRIBUTE)
+				return true;
+			if (selector.selector_type == GXml.CssSelectorType.ATTRIBUTE_EQUAL && attr.node_value == selector.value)
+				return true;
+			if (selector.selector_type == GXml.CssSelectorType.ATTRIBUTE_CONTAINS && attr.node_value != null && (selector.value in attr.node_value.split (" ")))
+				return true;
+			if (selector.selector_type == GXml.CssSelectorType.ATTRIBUTE_SUBSTRING && attr.node_value != null && attr.node_value.contains (selector.value))
+				return true;
+			if (selector.selector_type == GXml.CssSelectorType.ATTRIBUTE_STARTS_WITH_WORD && attr.node_value != null && attr.node_value.split ("-")[0] == selector.value)
+				return true;
+			if (selector.selector_type == GXml.CssSelectorType.ATTRIBUTE_STARTS_WITH && attr.node_value != null && attr.node_value.index_of (selector.value) == 0)
+				return true;
+			if (selector.selector_type == GXml.CssSelectorType.ATTRIBUTE_ENDS_WITH && attr.node_value != null && attr.node_value.last_index_of (selector.value) == attr.node_value.length - selector.value.length)
+				return true;
+		}
+		return false;
+	}
 			
 	static bool match_node (GXml.DomElement element, GXml.CssSelector selector) throws GLib.Error {
 		if (selector.selector_type == GXml.CssSelectorType.ALL)
@@ -539,6 +641,8 @@ public class GXml.CssSelectorParser : GLib.Object {
 			return true;
 		if (selector.selector_type == GXml.CssSelectorType.ID && element.id == selector.name)
 			return true;
+		if (selector is GXml.CssAttributeSelector)
+			return match_attribute (element, selector as GXml.CssAttributeSelector);
 		if (selector is GXml.CssElementSelector) {
 			var sel = selector as GXml.CssElementSelector;
 			if (sel.local_name == "*" && (!sel.prefixed || sel.prefix == "*"))
@@ -552,6 +656,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 				return sel.local_name == element.local_name;
 			return sel.local_name == element.local_name && sel.prefix == element.prefix;
 		}
+		/*
 		if (selector.selector_type == GXml.CssSelectorType.ATTRIBUTE && element.attributes.get_named_item (selector.name) != null)
 			return true;
 		if (selector.selector_type == GXml.CssSelectorType.ATTRIBUTE_EQUAL && element.get_attribute (selector.name) == selector.value)
@@ -566,6 +671,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 			return true;
 		if (selector.selector_type == GXml.CssSelectorType.ATTRIBUTE_ENDS_WITH && element.get_attribute (selector.name) != null && element.get_attribute (selector.name).last_index_of (selector.value) == element.get_attribute (selector.name).length - selector.value.length)
 			return true;
+		*/
 		if (selector is GXml.CssNotSelector)
 			return !match_element (element, (selector as GXml.CssNotSelector).selectors);
 		if (selector.selector_type == GXml.CssSelectorType.PSEUDO_CLASS)
