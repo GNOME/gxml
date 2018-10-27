@@ -345,7 +345,6 @@ public class GXml.CssSelectorParser : GLib.Object {
 			return quote == 0 && !s.peek().isspace() || quote > 0 && s.peek() != quote;
 		});
 		selector.value = attr_value;
-		print ("coucou la valeur : %s\n", attr_value);
 		if (quote > 0 && quote != str.read())
 			throw new GXml.CssSelectorError.ATTRIBUTE ("Cannot find end of attribute value");
 		while (str.peek().isspace())
@@ -399,8 +398,8 @@ public class GXml.CssSelectorParser : GLib.Object {
 		}
 		if (list.size == 0)
 			throw new GXml.CssSelectorError.NULL ("No selectors found");
-		foreach (var sel in list)
-			print ("%s %s %s\n", sel.selector_type.to_string(), sel.name, sel.value);
+//		foreach (var sel in list)
+//			print ("%s %s %s\n", sel.selector_type.to_string(), sel.name, sel.value);
 		if (list[list.size - 1].combiner == GXml.CssCombiner.NONE)
 			list[list.size - 1].combiner = GXml.CssCombiner.NULL;
 		if (list[list.size - 1].combiner != GXml.CssCombiner.NULL)

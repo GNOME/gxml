@@ -352,15 +352,24 @@ public class GXml.GomDocument : GomNode,
   }
   public int child_element_count { get { return child_nodes.size; } }
 
+  static DomNodeList query_selector_all_internal (DomElement element, CssSelectorParser parser) throws GLib.Error {
+    var l = new GomNodeList();
+    foreach (DomElement e in element.children) {
+      if (parser.match (e))
+        l.add (e);
+      l.add_all (query_selector_all_internal (e, parser));
+    }
+    return l;
+  }
+
   public DomNodeList query_selector_all (string selectors) throws GLib.Error  {
     var cs = new CssSelectorParser ();
     cs.parse (selectors);
-    var l = new GomNodeList ();
-    foreach (DomNode e in child_nodes) {
-      if (!(e is DomElement)) continue;
-      if (cs.match (e as DomElement))
+    var l = new GomNodeList();
+    foreach (DomElement e in children) {
+      if (cs.match (e))
         l.add (e);
-      l.add_all ((e as DomElement).query_selector_all (selectors));
+      l.add_all (query_selector_all_internal (e, cs));
     }
     return l;
   }

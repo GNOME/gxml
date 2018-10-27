@@ -21,7 +21,7 @@ configure_file(input : 'copyright.in',
 	install_dir : meson.current_source_dir())
 	
 configure_file(input : 'gir1.2-gxml.install.in',
-	output : 'gir1.2-@0@-install'.format(API_VERSION),
+	output : 'gir1.2-gxml-@0@-install'.format(API_VERSION),
 	configuration : conf,
 	install : true,
 	install_dir : meson.current_source_dir())

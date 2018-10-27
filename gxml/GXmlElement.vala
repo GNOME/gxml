@@ -313,17 +313,20 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
   public DomElement? last_element_child { owned get { return (DomElement) children.last (); } }
   public int child_element_count { get { return children.size; } }
 
+  static DomNodeList query_selector_all_internal (DomElement element, CssSelectorParser parser) throws GLib.Error {
+    var l = new GomNodeList();
+    foreach (DomElement e in element.children) {
+      if (parser.match (e))
+        l.add (e);
+      l.add_all (query_selector_all_internal (e, parser));
+    }
+    return l;
+  }
+
   public DomNodeList query_selector_all (string selectors) throws GLib.Error {
     var cs = new CssSelectorParser ();
     cs.parse (selectors);
-    var l = new GomNodeList ();
-    foreach (GXml.Node e in children_nodes) {
-      if (!(e is DomElement)) continue;
-      if (cs.match (e as DomElement))
-        l.add (e as DomNode);
-      l.add_all ((e as DomElement).query_selector_all (selectors));
-    }
-    return l as DomNodeList;
+    return query_selector_all_internal (this, cs);
   }
   // XPathContext implementation
   /**
