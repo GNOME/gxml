@@ -426,7 +426,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 	
 	static bool match_pseudo (GXml.DomElement element, GXml.CssSelector selector) throws GLib.Error {
 		if (selector.name == "root")
-			return (element as GXml.GNode).get_internal_node() == (element.owner_document.document_element as GXml.GNode).get_internal_node();
+			return element == element.owner_document.document_element;
 		if (selector.name == "empty")
 			return element.children.length == 0;
 		if (selector.name == "checked") {
@@ -492,18 +492,13 @@ public class GXml.CssSelectorParser : GLib.Object {
 					var child = element.parent_element.children.item (i);
 					if (child == element)
 						return true;
-					if ((child as GXml.GNode).get_internal_node() == (element as GXml.GNode).get_internal_node())
-						return true;
 				}
 				return false;
 			}
 			var index = int.parse (selector.value) - 1;
 			if (index >= element.parent_element.children.length)
 				return false;
-			var child = element.parent_element.children.item (index);
-			if (child == element)
-				return true;
-			return (child as GXml.GNode).get_internal_node() == (element as GXml.GNode).get_internal_node();
+			return element == element.parent_element.children.item (index);
 		}
 		if (selector.name == "nth-last-child") {
 			if (element.parent_element == null)
@@ -513,18 +508,13 @@ public class GXml.CssSelectorParser : GLib.Object {
 					var child = element.parent_element.children.item (element.parent_element.children.length - 1 - i);
 					if (child == element)
 						return true;
-					if ((child as GXml.GNode).get_internal_node() == (element as GXml.GNode).get_internal_node())
-						return true;
 				}
 				return false;
 			}
 			var index = int.parse (selector.value) - 1;
 			if (index >= element.parent_element.children.length)
 				return false;
-			var child = element.parent_element.children.item (element.parent_element.children.length - 1 - index);
-			if (child == element)
-				return true;
-			return (child as GXml.GNode).get_internal_node() == (element as GXml.GNode).get_internal_node();
+			return element == element.parent_element.children.item (element.parent_element.children.length - 1 - index);
 		}
 		if (selector.name == "nth-of-type") {
 			if (element.parent_element == null)
@@ -538,17 +528,13 @@ public class GXml.CssSelectorParser : GLib.Object {
 					var child = list[i];
 					if (child == element)
 						return true;
-					if ((child as GXml.GNode).get_internal_node() == (element as GXml.GNode).get_internal_node())
-						return true;
 				}
 				return false;
 			}
 			var index = int.parse (selector.value) - 1;
 			if (index >= list.size)
 				return false;
-			if (list[index] == element)
-				return true;
-			return (list[index] as GXml.GNode).get_internal_node() == (element as GXml.GNode).get_internal_node();
+			return list[index] == element;
 		}
 		if (selector.name == "nth-last-of-type") {
 			if (element.parent_element == null)
@@ -562,8 +548,6 @@ public class GXml.CssSelectorParser : GLib.Object {
 					var child = list[list.size - 1 - i];
 					if (child == element)
 						return true;
-					if ((child as GXml.GNode).get_internal_node() == (element as GXml.GNode).get_internal_node())
-						return true;
 				}
 				return false;
 			}
@@ -572,7 +556,6 @@ public class GXml.CssSelectorParser : GLib.Object {
 				return false;
 			if (list[list.size - 1 - index] == element)
 				return true;
-			return (list[list.size - 1 - index] as GXml.GNode).get_internal_node() == (element as GXml.GNode).get_internal_node();
 		}
 		return false;
 	}

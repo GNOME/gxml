@@ -585,7 +585,7 @@ class CssSelectorTest : GXmlTest {
 			try {
 				var cp = new CssSelectorParser ();
 				cp.parse ("second:last-child");
-				assert (cp.selectors.size == 3);
+				assert (cp.selectors.size == 2);
 				var s = cp.selectors[0];
 				assert (s != null);
 				assert (s.selector_type == CssSelectorType.ELEMENT);
