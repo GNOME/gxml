@@ -71,7 +71,7 @@ public interface GXml.DomElement : GLib.Object,
   public bool matches (string selectors) throws GLib.Error {
     var parser = new CssSelectorParser();
     parser.parse (selectors);
-    return parser.match (selectors);
+    return parser.match (this);
   }
 }
 
