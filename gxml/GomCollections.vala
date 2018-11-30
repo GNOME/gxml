@@ -198,7 +198,7 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
   /**
    * {@inheritDoc}
    */
-  public void initialize (GLib.Type items_type) throws GLib.Error {
+  public void GomCollection.initialize (GLib.Type items_type) throws GLib.Error {
     if (!items_type.is_a (typeof (GomElement))) {
       throw new DomError.INVALID_NODE_TYPE_ERROR
                 (_("Invalid attempt to initialize a collection using an unsupported type. Only GXmlGomElement is supported"));
@@ -206,6 +206,9 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
     var o = Object.new (items_type) as GomElement;
     _items_name = o.local_name;
     _items_type = items_type;
+  }
+  public void Collection.initialize (GLib.Type items_type) throws GLib.Error {
+    (this as GomCollection).initialize (items_type);
   }
   /**
    * Initialize an {@link GomCollection} to use an element as children's parent.
@@ -227,7 +230,7 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
    * Object is always added as a child of {@link element}
    * but just added to collection if {@link validate_append} returns true;
    */
-  public void append (DomElement node) throws GLib.Error {
+  public void GomCollection.append (DomElement node) throws GLib.Error {
     if (_element == null)
       throw new DomError.INVALID_NODE_TYPE_ERROR
                 (_("Parent Element is invalid"));
@@ -246,6 +249,9 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
     if (!validate_append (index, node)) return;
     _nodes_index.push_tail (index);
   }
+  public void Collection.append (DomElement node) throws GLib.Error {
+    (this as GomCollection).append (node);
+  }
   /**
    * Search for all child nodes in {@link element} of type {@link GomElement}
    * with a {@link GomElement.local_name} equal to {@link GomCollection.items_name},
@@ -253,7 +259,7 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
    *
    * Implementations could add additional restrictions to add element to collection.
    */
-  public void search () throws GLib.Error {
+  public void GomCollection.search () throws GLib.Error {
     _nodes_index.clear ();
     clear ();
     if (_element == null)
@@ -269,14 +275,23 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
       }
     }
   }
+  public void Collection.search () throws GLib.Error { (this as GomCollection).search (); }
   /**
    * {@inheritDoc}
    */
-  public abstract bool validate_append (int index, DomElement element) throws GLib.Error;
+  public virtual bool GomCollection.validate_append (int index, DomElement element) throws GLib.Error {
+    return false;
+  }
+  public virtual bool Collection.validate_append (int index, DomElement element) throws GLib.Error {
+    return (this as GomCollection).validate_append (index, element);
+  }
   /**
    * {@inheritDoc}
    */
-  public virtual void clear () throws GLib.Error {}
+  public virtual void GomCollection.clear () throws GLib.Error {}
+  public virtual void Collection.clear () throws GLib.Error {
+    (this as GomCollection).clear ();
+  }
 
   // Traversable Interface
   public bool @foreach (ForallFunc<DomElement> f) {
@@ -356,7 +371,7 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
  * }}}
  */
 public class GXml.GomArrayList : GXml.BaseCollection, GXml.List {
-  public override bool validate_append (int index, DomElement element) throws GLib.Error {
+  public override bool GomCollection.validate_append (int index, DomElement element) throws GLib.Error {
 #if DEBUG
     GLib.message ("Adding node:"+element.node_name);
 #endif
