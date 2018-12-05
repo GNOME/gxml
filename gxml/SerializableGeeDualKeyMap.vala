@@ -25,9 +25,9 @@ using Gee;
 /**
  * Serializable Framework. A {@link Serializable} objects container
  * based on Gee interfaces with dual key. It requires to dump to a {@link GXml.Document}
- * or parse a pre-parsed XML tree {@link GXml.Document}. See {@link GXml.GomCollection} to avoid
+ * or parse a pre-parsed XML tree {@link GXml.Document}. See {@link GXml.Collection} to avoid
  * pre/post parsing processes.
- * 
+ *
  * It implements {@link Serializable} and {@link SerializableCollection} interfaces, it is iterable as
  * other Gee collections.
  */
@@ -43,7 +43,7 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Gee.Traversable <V>, S
   public virtual bool deserialize_node (GXml.Node node) throws GLib.Error {
     if (!(value_type.is_a (typeof (GXml.Serializable)) &&
         value_type.is_a (typeof (SerializableMapDualKey)))) {
-      throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"), 
+      throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"),
                                                     this.get_type ().name (), value_type.name ());
     }
     if (node is Element) {
@@ -64,7 +64,7 @@ public class GXml.SerializableDualKeyMap<P,S,V> : Object, Gee.Traversable <V>, S
     if (_node == null) return false;
     if (!(value_type.is_a (typeof (GXml.Serializable)) &&
         value_type.is_a (typeof (SerializableMapDualKey)))) {
-      throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"), 
+      throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"),
                                                     this.get_type ().name (), value_type.name ());
     }
     foreach (GXml.Node n in _node.children_nodes) {

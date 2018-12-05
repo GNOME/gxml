@@ -23,7 +23,7 @@ using GXml;
 /**
  * Serializable Framework. A {@link Serializable} objects container based
  * on {@link Gee.TreeMap}. It requires to dump to a {@link GXml.Document}
- * or parse a pre-parsed XML tree {@link GXml.Document}. See {@link GXml.GomCollection} to avoid
+ * or parse a pre-parsed XML tree {@link GXml.Document}. See {@link GXml.Collection} to avoid
  * pre/post parsing processes.
  * 
  * It uses a key and value store implementing {@link Gee.TreeMap} interface.

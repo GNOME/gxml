@@ -67,7 +67,7 @@ public interface GXml.GomObject : GLib.Object,
     return null;
   }
   /**
-   * Returns a {@link GomObject} or a {@link GomCollection} property's
+   * Returns a {@link GomObject} or a {@link Collection} property's
    * {@link GLib.ParamSpec} based on given name. This method is
    * case insensitive.
    *
@@ -85,7 +85,7 @@ public interface GXml.GomObject : GLib.Object,
       string sname = spec.name.down ();
       if (sname == name || nick == name) {
         if (spec.value_type.is_a (typeof (GomObject))
-            || spec.value_type.is_a (typeof (GomCollection))) {
+            || spec.value_type.is_a (typeof (Collection))) {
 #if DEBUG
           GLib.message ("Found Property: "+pname);
 #endif
@@ -103,7 +103,7 @@ public interface GXml.GomObject : GLib.Object,
     var l = new GLib.List<ParamSpec> ();
     foreach (ParamSpec spec in this.get_class ().list_properties ()) {
       if ((spec.value_type.is_a (typeof (GomObject))
-          || spec.value_type.is_a (typeof (GomCollection)))
+          || spec.value_type.is_a (typeof (Collection)))
           && spec.value_type.is_instantiatable ()) {
 #if DEBUG
         GLib.message ("Object Name: "+spec.name+ " Nick: "+spec.get_nick ());
@@ -324,12 +324,12 @@ public interface GXml.GomObject : GLib.Object,
    * Convenient method to set an instance of given property's
    * name and initialize according to have same {@link DomNode.owner_document}
    * and set its {@link DomNode.parent_node} to this appending it as a child.
-   * If property is a {@link GomCollection} it is initialize to use
-   * this as its {@link GomCollection.element}.
+   * If property is a {@link Collection} it is initialize to use
+   * this as its {@link Collection.element}.
    *
    * Instance is set ot object's property.
    *
-   * Property should be a {@link GomElement} or {@link GomCollection}
+   * Property should be a {@link GomElement} or {@link Collection}
    *
    * While an object could be created and set to a Object's property, it
    * is not correctly initialized by default. This method helps in the process.
@@ -356,7 +356,7 @@ public interface GXml.GomObject : GLib.Object,
     if (prop == null) return false;
     Value v = Value (prop.value_type);
     Object obj;
-    if (prop.value_type.is_a (typeof (GomCollection))) {
+    if (prop.value_type.is_a (typeof (Collection))) {
       obj = Object.new (prop.value_type, "element", this);
       v.set_object (obj);
       set_property (prop.name, v);

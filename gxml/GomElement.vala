@@ -323,7 +323,7 @@ public class GXml.GomElement : GomNode,
    * document, you can call {@link DomNode.owner_document} to set one if not set
    * already.
    *
-   * Any instance properties of type {@link GomElement} or {@link GomCollection}
+   * Any instance properties of type {@link GomElement} or {@link Collection}
    * should be initialized using {@link GomObject.set_instance_property}
    */
   public void initialize (string local_name) {
