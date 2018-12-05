@@ -208,8 +208,9 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
     _items_type = items_type;
   }
   public void Collection.initialize (GLib.Type items_type) throws GLib.Error {
-    (this as GomCollection).initialize (items_type);
+    ((GomCollection) this).initialize (items_type);
   }
+
   /**
    * Initialize an {@link GomCollection} to use an element as children's parent.
    * Searchs for all nodes, calling {@link GomCollection.search}
@@ -250,7 +251,7 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
     _nodes_index.push_tail (index);
   }
   public void Collection.append (DomElement node) throws GLib.Error {
-    (this as GomCollection).append (node);
+    ((GomCollection) this).append (node);
   }
   /**
    * Search for all child nodes in {@link element} of type {@link GomElement}
@@ -275,22 +276,22 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
       }
     }
   }
-  public void Collection.search () throws GLib.Error { (this as GomCollection).search (); }
+  public void Collection.search () throws GLib.Error {
+    ((GomCollection) this).search ();
+  }
   /**
    * {@inheritDoc}
    */
-  public virtual bool GomCollection.validate_append (int index, DomElement element) throws GLib.Error {
-    return false;
-  }
-  public virtual bool Collection.validate_append (int index, DomElement element) throws GLib.Error {
-    return (this as GomCollection).validate_append (index, element);
+  public abstract bool GomCollection.validate_append (int index, DomElement element) throws GLib.Error;
+  public bool Collection.validate_append (int index, DomElement element) throws GLib.Error {
+    return ((GomCollection) this).validate_append (index, element);
   }
   /**
    * {@inheritDoc}
    */
   public virtual void GomCollection.clear () throws GLib.Error {}
-  public virtual void Collection.clear () throws GLib.Error {
-    (this as GomCollection).clear ();
+  public void Collection.clear () throws GLib.Error {
+    ((GomCollection) this).clear ();
   }
 
   // Traversable Interface
