@@ -120,7 +120,7 @@ public interface GXml.Document : Object, GXml.Node
   /**
    * Creates a new {@link GXml.Document} using default implementation class.
    *
-   * As an interface you can create your own implementation of it, but if 
+   * As an interface you can create your own implementation of it, but if
    * default one is required use this.
    */
   public static GXml.Document new_default ()
@@ -130,7 +130,7 @@ public interface GXml.Document : Object, GXml.Node
   /**
    * Creates a new {@link GXml.Document} from a file path using default implementation class.
    *
-   * As an interface you can create your own implementation of it, but if 
+   * As an interface you can create your own implementation of it, but if
    * default one is required use this.
    */
   public static GXml.Document new_default_for_path (string path)
@@ -142,7 +142,7 @@ public interface GXml.Document : Object, GXml.Node
   /**
    * Creates a new {@link GXml.Document} from a {@link GLib.File} using default implementation class.
    *
-   * As an interface you can create your own implementation of it, but if 
+   * As an interface you can create your own implementation of it, but if
    * default one is required use this.
    */
   public static GXml.Document new_default_for_file (GLib.File f)
