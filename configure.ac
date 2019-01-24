@@ -12,7 +12,7 @@
 # Release Version for API related changes
 m4_define([project_major_version], [0])
 m4_define([project_minor_version], [16])
-m4_define([project_micro_version], [3])
+m4_define([project_micro_version], [4])
 m4_define([project_nano_version], [0])
 
 # LT_VERSION for ABI related changes
@@ -267,12 +267,6 @@ examples/python/Makefile
 examples/vala/Makefile
 po/Makefile.in
 debian/Makefile
-debian/control
-debian/copyright
-debian/changelog
-debian/gir1.2-gxml.install
-debian/libgxml-0.install
-debian/libgxml-dev.install
 ])
 AC_OUTPUT
 

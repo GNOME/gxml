@@ -1,8 +1,5 @@
 #!/usr/bin/make -f
-
-override_dh_auto_configure:
-	./autogen.sh
-	dh_auto_configure -- --disable-doc --disable-tests
-
 %:
-	dh $@
+	dh $@ --buildsystem=meson
+
+

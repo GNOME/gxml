@@ -1,0 +1,3 @@
+usr/include/*/gxml/gxml.h
+usr/lib/*/pkgconfig/gxml-*
+usr/share/vala/vapi/gxml*

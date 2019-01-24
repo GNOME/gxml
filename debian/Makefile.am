@@ -1,10 +1,17 @@
 EXTRA_DIST= \
-  control.in \
-  copyright.in
+	compat \
+	control \
+	copyright \
+	gir1.2-gxml-0.16.dirs \
+	gir1.2-gxml-0.16.install \
+	libgxml-0.16-dev.dirs \
+	libgxml-0.16-dev.install \
+	libgxml-0.16.dirs \
+	libgxml-0.16-doc.dirs \
+	libgxml-0.16-doc.install \
+	libgxml-0.16-docs.docs \
+	libgxml-0.16.install \
+	rules \
+	source \
+	$(NULL)
 
-all:
-	cp gir1.2-gxml.install gir1.2-gxml-@API_VERSION@.install
-	cp libgxml-0.install libgxml-@API_VERSION@-0.install
-	cp libgxml-dev.install libgxml-@API_VERSION@-dev.install
-
-CLEANFILES = gir1.2-gxml-@API_VERSION@.install libgxml-@API_VERSION@-0.install libgxml-@API_VERSION@-dev.install
