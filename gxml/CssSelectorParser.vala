@@ -697,4 +697,14 @@ public class GXml.CssSelectorParser : GLib.Object {
 	public bool match (GXml.DomElement element) throws GLib.Error {
 		return match_element (element, this.list);
 	}
+	
+	public GXml.DomNodeList query_selector_all (GXml.DomElement element) throws GLib.Error {
+		var list = new GXml.GomNodeList();
+		foreach (GXml.DomElement child in element.children) {
+			if (match (child))
+				list.add (child);
+			list.add_all (query_selector_all (child));
+		}
+		return list;
+	}
 }
