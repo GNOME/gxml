@@ -43,10 +43,10 @@ files_tests = ([
 		'GomSchemaTest.vala'
 	])
 
-t = executable('tests', files_tests + configvapi + configtestvapi,
+t = executable('gxml_tests', files_tests + configvapi + configtestvapi,
 	vala_args : [],
 	dependencies : [ gio, gee, xml, inc_libh_dep, testdirs_dep, inc_rooth_dep],
-	link_with: lib
+	link_with: libgxml
 )
 
 test ('tests', t)
@@ -56,10 +56,10 @@ feedreader_files = ([
 ])
 
 
-feedreadert = executable('feedreader_tests', feedreader_files + configvapi + configtestvapi,
+feedreadert = executable('gxml_feedreader_tests', feedreader_files + configvapi + configtestvapi,
 	vala_args : [],
 	dependencies : [ gio, gee, xml, inc_libh_dep, testdirs_dep, inc_rooth_dep],
-	link_with: lib
+	link_with: libgxml
 )
 
 # test ('feedreader_tests', feedreadert)

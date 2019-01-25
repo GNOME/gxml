@@ -141,7 +141,7 @@ LT_CURRENT='1'
 LT_REVISION='0'
 LT_AGE='0'
 LT_VERSION='1'
-lib = library(VERSIONED_PROJECT_NAME,
+libgxml = library(VERSIONED_PROJECT_NAME,
 	valasources+sources+configvapi,
 	version : LT_VERSION,
 	soversion : LT_VERSION+'.'+LT_AGE+'.'+LT_REVISION,
@@ -163,7 +163,7 @@ lib = library(VERSIONED_PROJECT_NAME,
 	])
 
 g_ir_compiler = find_program('g-ir-compiler')
-custom_target('typelib',
+custom_target('libgxml_typelib',
 	command: [
 		g_ir_compiler,
 		'--shared-library', 'lib'+PROJECT_NAME+'-@0@.so'.format (API_VERSION),
@@ -171,6 +171,6 @@ custom_target('typelib',
 		join_paths(meson.current_build_dir(), GIR_NAME)
 	],
 	output: TYPELIB_NAME,
-	depends: lib,
+	depends: libgxml,
 	install: true,
 	install_dir: join_paths(get_option('libdir'), 'girepository-1.0'))
