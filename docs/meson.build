@@ -10,7 +10,7 @@ vapidirgxml = '--vapidir='+join_paths (meson.current_source_dir (),'gxml')
 vapidirvapi = '--vapidir='+join_paths (meson.current_source_dir (),'vapi')
 docsdir = join_paths (get_option ('datadir'), 'devhelp','books')
 
-custom_target ('valadocs',
+custom_target ('gxml_valadocs',
 		input : sources,
 		output : outdir,
 		command : [valadoc,
