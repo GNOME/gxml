@@ -4,9 +4,7 @@ conf.set ('VERSION', PROJECT_VERSION)
 
 configure_file(input : 'changelog.in',
 	output : 'changelog',
-	configuration : conf,
-	install : true,
-	install_dir : meson.current_source_dir())
+	configuration : conf)
 
 configure_file(input : 'control.in',
 	output : 'control',

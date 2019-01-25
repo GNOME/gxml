@@ -192,7 +192,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 	
 	static string parse_identifier (GXml.CssString str, GXml.CssStringFunc func) {
 		var builder = new StringBuilder();
-		while (!str.eof && is_valid_char (str.peek()) && func (str))
+		while (!str.eof && func (str))
 			builder.append_unichar (str.read());
 		return builder.str;
 	}
@@ -284,7 +284,6 @@ public class GXml.CssSelectorParser : GLib.Object {
 		str.read();
 		while (str.peek().isspace())
 			str.read();
-			
 		var builder = new StringBuilder();
 		var extra_builder = new StringBuilder();
 		bool prefixed = false;
@@ -342,7 +341,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 		if (str.peek() == '"' || str.peek() == '\'')
 			quote = str.read();
 		var attr_value = parse_identifier (str, s => {
-			return quote == 0 && !s.peek().isspace() || quote > 0 && s.peek() != quote;
+			return quote == 0 && !s.peek().isspace() && is_valid_char (s.peek()) || quote > 0 && s.peek() != quote;
 		});
 		selector.value = attr_value;
 		if (quote > 0 && quote != str.read())
