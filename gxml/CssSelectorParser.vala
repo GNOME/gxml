@@ -1,7 +1,7 @@
 /* -*- Mode: vala; indent-tabs-mode: tab; c-basic-offset: 0; tab-width: 2 -*- */
 /*
  *
- * Copyright (C) 2018  Yannick Inizan <inizan.yannick@gmail.com>
+ * Copyright (C) 2017-2019  Yannick Inizan <inizan.yannick@gmail.com>
  * Copyright (C) 2017  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
