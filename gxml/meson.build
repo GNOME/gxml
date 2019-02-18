@@ -142,7 +142,7 @@ LT_CURRENT='2'
 LT_REVISION='1'
 LT_AGE='1'
 LT_VERSION='1'
-lib = library(VERSIONED_PROJECT_NAME,
+libgxml = library(VERSIONED_PROJECT_NAME,
 	valasources+sources+configvapi,
 	version : LT_VERSION,
 	soversion : LT_VERSION+'.'+LT_AGE+'.'+LT_REVISION,
@@ -173,7 +173,11 @@ custom_target('typelib',
 		join_paths(meson.current_build_dir(), GIR_NAME)
 	],
 	output: TYPELIB_NAME,
-	depends: lib,
+	depends: libgxml,
 	install: true,
 	install_dir: join_paths(get_option('libdir'), 'girepository-1.0'))
 endif
+
+
+libgxml_dep = declare_dependency(include_directories : inc_rooth_dep,
+  link_with : libgxml)
