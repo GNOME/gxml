@@ -162,6 +162,7 @@ libgxml = library(VERSIONED_PROJECT_NAME,
 		true
 	])
 
+if not get_option('disable-introspection')
 g_ir_compiler = find_program('g-ir-compiler')
 custom_target('libgxml_typelib',
 	command: [
@@ -174,7 +175,7 @@ custom_target('libgxml_typelib',
 	depends: libgxml,
 	install: true,
 	install_dir: join_paths(get_option('libdir'), 'girepository-1.0'))
-
+endif
 
 libgxml_dep = declare_dependency(include_directories : inc_rooth,
   link_with : libgxml)
