@@ -23,9 +23,9 @@ using GXml;
 /**
  * Serializable Framework. A {@link Serializable} objects container based
  * on {@link Gee.HashMap}. It requires to dump to a {@link GXml.Document}
- * or parse a pre-parsed XML tree {@link GXml.Document}. See {@link GXml.GomCollection} to avoid
+ * or parse a pre-parsed XML tree {@link GXml.Document}. See {@link GXml.Collection} to avoid
  * pre/post parsing processes.
- * 
+ *
  * It uses a key and value store implementing {@link Gee.HashMap} interface.
  * It implements {@link Serializable} and {@link SerializableCollection} interfaces.
  */
@@ -40,7 +40,7 @@ public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, Ser
   public virtual bool deserialize_node (GXml.Node node) throws GLib.Error {
     if (!(value_type.is_a (typeof (GXml.Serializable)) &&
         value_type.is_a (typeof (SerializableMapKey)))) {
-      throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"), 
+      throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"),
                                                     this.get_type ().name (), value_type.name ());
     }
     if (node is Element) {
@@ -61,7 +61,7 @@ public class GXml.SerializableHashMap<K,V> : Gee.HashMap<K,V>, Serializable, Ser
     if (_node == null) return false;
     if (!(value_type.is_a (typeof (GXml.Serializable)) &&
         value_type.is_a (typeof (SerializableMapKey)))) {
-      throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"), 
+      throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"),
                                                     this.get_type ().name (), value_type.name ());
     }
     if (_node is Element) {

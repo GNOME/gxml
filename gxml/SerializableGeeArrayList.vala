@@ -25,9 +25,9 @@ using Gee;
 /**
  * {@link GXml.Node} Serializable Framework. A {@link Serializable} objects container
  * based on {@link Gee.ArrayList}. It requires to dump to a {@link GXml.Document}
- * or parse a pre-parsed XML tree {@link GXml.Document}. See {@link GXml.GomCollection} to avoid
+ * or parse a pre-parsed XML tree {@link GXml.Document}. See {@link GXml.Collection} to avoid
  * pre/post parsing processes.
- * 
+ *
  * It is derived  It implements {@link Serializable} and {@link SerializableCollection}
  * interfaces.
  */
@@ -41,7 +41,7 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
   public virtual bool deserialized () { return _deserialized; }
   public virtual bool deserialize_node (GXml.Node node)  throws GLib.Error {
     if (!element_type.is_a (typeof (GXml.Serializable))) {
-      throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"), 
+      throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"),
                                                     this.get_type ().name (), element_type.name ());
     }
     if (node is Element) {
@@ -60,7 +60,7 @@ public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, Ser
     if (_deserialized) return false;
     if (_node == null) return false;
     if (!element_type.is_a (typeof (GXml.Serializable))) {
-      throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"), 
+      throw new SerializableError.UNSUPPORTED_TYPE_ERROR (_("%s: Value type '%s' is unsupported"),
                                                     this.get_type ().name (), element_type.name ());
     }
     if (_node is Element) {

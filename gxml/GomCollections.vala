@@ -21,120 +21,16 @@
  */
 
 using Gee;
-/**
- * A DOM4 interface to keep references to {@link DomElement} in a {@link element}
- * child nodes. Only {@link GomObject} are supported.
- */
-[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.Collection")]
-public interface GXml.GomCollection : Object
-{
-  /**
-   * A list of child {@link DomElement} objects of {@link element}
-   */
-  public abstract GLib.Queue<int> nodes_index { get; }
-  /**
-   * A {@link GomElement} with all child elements in collection.
-   */
-  public abstract GomElement element { get; construct set; }
-  /**
-   * Local name of {@link DomElement} objects of {@link element}, which could be
-   * contained in this collection.
-   *
-   * Used when reading to add elements to collection.
-   */
-  public abstract string items_name { get; }
-  /**
-   * A {@link GLib.Type} of {@link DomElement} child objects of {@link element},
-   * which could be contained in this collection.
-   *
-   * Type should be an {@link GomObject}.
-   */
-  public abstract Type items_type { get; construct set; }
-  /**
-   * Search and add references to all {@link GomObject} nodes as child of
-   * {@link element} with same, case insensitive, name of {@link items_name}
-   */
-  public abstract void search () throws GLib.Error;
-  /**
-   * Gets a child {@link DomElement} of {@link element} referenced in
-   * {@link nodes_index}.
-   */
-  public virtual DomElement? get_item (int index) throws GLib.Error {
-    if (nodes_index.length == 0)
-      return null;
-    if (index < 0 || index >= nodes_index.length)
-      throw new DomError.INDEX_SIZE_ERROR
-                  (_("Invalid index for elements in array list"));
-    int i = nodes_index.peek_nth (index);
-    if (i < 0 || i >= element.child_nodes.size)
-      throw new DomError.INDEX_SIZE_ERROR
-                  (_("Invalid index reference for child elements in array list"));
-    var e = element.child_nodes.get (i);
-    if (e != null)
-      if (!(e is GomElement))
-        throw new DomError.INVALID_NODE_TYPE_ERROR
-              (_("Referenced object's type is invalid. Should be a GXmlGomElement"));
-    return (DomElement?) e;
-  }
-  /**
-   * Adds a {@link DomElement} node to this collection. Depending on type of
-   * collection, this method will take information from node to initialize
-   * how to find it.
-   */
-  public abstract void append (DomElement node) throws GLib.Error;
-  /**
-   * Number of items referenced in {@link nodes_index}
-   */
-  public virtual int length { get { return (int) nodes_index.get_length (); } }
-  /**
-   * Initialize collection to use a given {@link GomElement} derived type.
-   * Internally, this method create an instance of given type to initialize
-   * {@link items_type} and {@link items_name}.
-   *
-   * This method can be used at construction time of classes implementing
-   * {@link GomCollection} to initialize object type to refer in collection.
-   */
-  public abstract void initialize (GLib.Type t) throws GLib.Error;
-  /**
-   * Creates a new instance of {@link items_type}, with same
-   * {@link DomNode.owner_document} than {@link element}. New instance
-   * is not set as a child of collection's {@link element}; to do so,
-   * use {@link append}
-   *
-   * Returns: a new instance object or null if type is not a {@link GomElement} or no parent has been set
-   */
-  public virtual GomElement? create_item () {
-    if (items_type.is_a (GLib.Type.INVALID)) return null;
-    if (!items_type.is_a (typeof (GomElement))) return null;
-    if (element == null) return null;
-    return Object.new (items_type,
-                      "owner_document", element.owner_document) as GomElement;
-  }
-  /**
-   * Validate if given node and index, should be added to collection.
-   *
-   * Implementations should use this method to perform any action before
-   * element is added to collection, like setup internal pointers to given
-   * index, in order to get access to referenced node.
-   *
-   * Return: true if node and index should be added to collection.
-   */
-  public abstract bool validate_append (int index, DomElement element) throws GLib.Error;
-  /**
-   * Clear this collection in prepareation for a search
-   */
-  public abstract void clear () throws GLib.Error;
-}
 
 /**
- * Base class for collections implemeting {@link GomCollection}, priving basic
+ * Base class for collections implemeting {@link Collection}, priving basic
  * infrastructure.
  *
  * Collections properties should be initialized with current container element
  * in order to be able to add new references to elements. Use {@link initialize_element}
  * to set parent element and {@link search} to find elements for collection.
  */
-public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Iterable<DomElement>, GomCollection, Collection {
+public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Iterable<DomElement>, Collection {
   /**
    * A collection of node's index refered. Don't modify it manually.
    */
@@ -149,7 +45,7 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
    * contained in this collection.
    *
    * Used when reading to add elements to collection. You can set it at construction time,
-   * by, for example, instantaiting a object of the type {@link GomCollection.items_type}
+   * by, for example, instantaiting a object of the type {@link Collection.items_type}
    * then use {@link GomElement.local_name}'s value.
    */
   protected string _items_name = "";
@@ -178,17 +74,7 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
   /**
    * {@inheritDoc}
    */
-  public GomElement element {
-    get { return _element; }
-    construct set {
-      if (value != null)
-        _element = value;
-    }
-  }
-  /**
-   * {@inheritDoc}
-   */
-  public DomElement parent_element {
+  public DomElement element {
     get { return _element as DomElement; }
     construct set {
       if (value is GomElement)
@@ -208,13 +94,13 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
     _items_type = items_type;
   }
   /**
-   * Initialize an {@link GomCollection} to use an element as children's parent.
-   * Searchs for all nodes, calling {@link GomCollection.search}
-   * with {@link GomCollection.items_type}, using its
+   * Initialize an {@link Collection} to use an element as children's parent.
+   * Searchs for all nodes, calling {@link Collection.search}
+   * with {@link Collection.items_type}, using its
    * {@link DomElement.local_name} to find it.
    *
    * Implemenation classes, should initialize collection to hold a {@link GomElement}
-   * derived type using {@link GomCollection.initialize}.
+   * derived type using {@link Collection.initialize}.
    */
   public void initialize_element (GomElement e) throws GLib.Error {
     _element = e;
@@ -248,7 +134,7 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
   }
   /**
    * Search for all child nodes in {@link element} of type {@link GomElement}
-   * with a {@link GomElement.local_name} equal to {@link GomCollection.items_name},
+   * with a {@link GomElement.local_name} equal to {@link Collection.items_name},
    * to add it to collection. This method calls {@link clear} first.
    *
    * Implementations could add additional restrictions to add element to collection.
@@ -284,15 +170,15 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
     return i.foreach (f);
   }
   // Itarable Interface
-  public Iterator<DomElement> iterator () { return new GomCollectionIterator (this); }
+  public Iterator<DomElement> iterator () { return new CollectionIterator (this); }
   // For Iterable interface implementation
-  private class GomCollectionIterator : Object, Traversable<DomElement>, Iterator<DomElement> {
+  private class CollectionIterator : Object, Traversable<DomElement>, Iterator<DomElement> {
     private int pos;
-    private GomCollection _collection;
+    private Collection _collection;
     public bool read_only { get { return false; } }
     public bool valid { get { return (pos >= 0 && pos < _collection.length); } }
 
-    public GomCollectionIterator (GomCollection col) {
+    public CollectionIterator (Collection col) {
       _collection = col;
       pos = -1;
     }
@@ -336,8 +222,8 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
 }
 
 /**
- * A class impementing {@link GomCollection} to store references to
- * child {@link DomElement} of {@link GomCollection.element}, using an index.
+ * A class impementing {@link Collection} to store references to
+ * child {@link DomElement} of {@link Collection.element}, using an index.
  *
  * {{{
  *   public class YourObject : GomElement {
@@ -365,13 +251,13 @@ public class GXml.GomArrayList : GXml.BaseCollection, GXml.List {
 }
 
 /**
- * A class impementing {@link GomCollection} to store references to
- * child {@link DomElement} of {@link GomCollection.element}, using an attribute in
+ * A class impementing {@link Collection} to store references to
+ * child {@link DomElement} of {@link Collection.element}, using an attribute in
  * items as key or {@link MappeableElement.get_map_key} method if implemented
  * by items to be added. If key is not defined in node, it is not added; but
- * keeps it as a child node of actual {@link GomCollection.element}.
+ * keeps it as a child node of actual {@link Collection.element}.
  *
- * If {@link GomElement} to be added is of type {@link GomCollection.items_type}
+ * If {@link GomElement} to be added is of type {@link Collection.items_type}
  * and implements {@link MappeableElement}, you should set {@link GomHashMap.attribute_key}
  * to null in order to use returned value of {@link MappeableElement.get_map_key}
  * as key.
@@ -512,16 +398,16 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.Map {
 }
 
 /**
- * A class impementing {@link GomCollection} to store references to
- * child {@link DomElement} of {@link GomCollection.element}, using two attributes in
+ * A class impementing {@link Collection} to store references to
+ * child {@link DomElement} of {@link Collection.element}, using two attributes in
  * items as primary and secondary keys or {@link MappeableElementPairKey.get_map_primary_key}
  * and {@link MappeableElementPairKey.get_map_secondary_key} methods if
  * {@link MappeableElementPairKey} are implemented
  * by items to be added. If one or both keys are not defined in node,
  * it is not added; but keeps it as a child node of actual
- * {@link GomCollection.element}.
+ * {@link Collection.element}.
  *
- * If {@link GomElement} to be added is of type {@link GomCollection.items_type}
+ * If {@link GomElement} to be added is of type {@link Collection.items_type}
  * and implements {@link MappeableElementPairKey}, you should set
  * {@link attribute_primary_key} and {@link attribute_secondary_key}
  * to null in order to use returned value of {@link MappeableElementPairKey.get_map_primary_key}
@@ -731,17 +617,17 @@ public class GXml.GomHashPairedMap : GXml.BaseCollection, GXml.PairedMap {
 }
 
 /**
- * A class impementing {@link GomCollection} to store references to
- * child {@link DomElement} of {@link GomCollection.element}, using three attributes in
+ * A class impementing {@link Collection} to store references to
+ * child {@link DomElement} of {@link Collection.element}, using three attributes in
  * items as primary, secondary tertiary keys or {@link MappeableElementThreeKey.get_map_pkey},
  * {@link MappeableElementThreeKey.get_map_skey}
  * and {@link MappeableElementThreeKey.get_map_tkey}
  * methods if {@link MappeableElementThreeKey} are implemented
  * by items to be added. All keys should be defined in node, otherwise
  * it is not added; but keeps it as a child node of actual
- * {@link GomCollection.element}.
+ * {@link Collection.element}.
  *
- * If {@link GomElement} to be added is of type {@link GomCollection.items_type}
+ * If {@link GomElement} to be added is of type {@link Collection.items_type}
  * and implements {@link MappeableElementThreeKey}, you should set
  * {@link attribute_primary_key}, {@link attribute_secondary_key}
  * and  {@link attribute_third_key}

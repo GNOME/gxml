@@ -212,7 +212,7 @@ public interface GXml.IXsdAttributeGroup : Object {
   public const string SCHEMA_NODE_NAME = "attributeGroup";
 }
 
-public interface GXml.IXsdList : Object, GomCollection {
+public interface GXml.IXsdList : Object, Collection {
   public abstract DomElement element { get; construct set; }
   public abstract Type items_type { get; construct set; }
   public abstract Type items_name { get; construct set; }

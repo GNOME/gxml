@@ -214,7 +214,7 @@ public interface GXml.Parser : Object {
     if (!(parent is GomObject)) return false;
     foreach (ParamSpec pspec in
               (parent as GomObject).get_property_element_list ()) {
-      if (pspec.value_type.is_a (typeof (GomCollection))) continue;
+      if (pspec.value_type.is_a (typeof (Collection))) continue;
       //if (!pspec.value_type.is_instantiatable ()) continue;
       var obj = Object.new (pspec.value_type,
                             "owner-document", node.owner_document) as DomElement;
@@ -233,8 +233,8 @@ public interface GXml.Parser : Object {
   }
   /**
    * Creates a new {@link DomElement} and append it as a child of parent: for current
-   * read node, only if parent: have a property as {@link GomCollection} type and current
-   * node have same local name as collection {@link GomCollection.items_name}
+   * read node, only if parent: have a property as {@link Collection} type and current
+   * node have same local name as collection {@link Collection.items_name}
    *
    * Returns: true if element is set to a new object, it is set as a child of parent:
    * and has been added to a parent:'s collection property.
@@ -245,14 +245,14 @@ public interface GXml.Parser : Object {
     if (!(parent is GomObject)) return false;
     foreach (ParamSpec pspec in
               (parent as GomObject).get_property_element_list ()) {
-      if (!(pspec.value_type.is_a (typeof (GomCollection)))) continue;
-      GomCollection col;
+      if (!(pspec.value_type.is_a (typeof (Collection)))) continue;
+      Collection col;
       Value vc = Value (pspec.value_type);
       parent.get_property (pspec.name, ref vc);
-      col = vc.get_object () as GomCollection;
+      col = vc.get_object () as Collection;
       if (col == null) {
         col = Object.new (pspec.value_type,
-                          "element", parent) as GomCollection;
+                          "element", parent) as Collection;
         vc.set_object (col);
         parent.set_property (pspec.name, vc);
       }
