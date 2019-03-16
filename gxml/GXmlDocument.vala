@@ -362,7 +362,7 @@ public class GXml.GDocument : GXml.GNode,
       if (!(e is DomElement)) continue;
       if (cs.match (e as DomElement))
         l.add (e);
-      l.add_all ((e as DomElement).query_selector_all (selectors));
+      l.add_all (cs.query_selector_all (e as DomElement));
     }
     return l;
   }

@@ -360,7 +360,7 @@ public class GXml.GomDocument : GomNode,
       if (!(e is DomElement)) continue;
       if (cs.match (e as DomElement))
         l.add (e);
-      l.add_all (cs.query_selector_all (e));
+      l.add_all (cs.query_selector_all (e as DomElement));
     }
     return l;
   }
