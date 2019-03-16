@@ -358,10 +358,11 @@ public class GXml.GDocument : GXml.GNode,
     var cs = new CssSelectorParser ();
     cs.parse (selectors);
     var l = new GListChildren (this, get_internal_node());
-    foreach (DomElement e in children) {
-      if (cs.match (e))
+    foreach (GXml.Node e in children_nodes) {
+      if (!(e is DomElement)) continue;
+      if (cs.match (e as DomElement))
         l.add (e);
-      l.add_all (cs.query_selector_all (e));
+      l.add_all ((e as DomElement).query_selector_all (selectors));
     }
     return l;
   }
