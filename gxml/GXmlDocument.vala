@@ -357,7 +357,7 @@ public class GXml.GDocument : GXml.GNode,
   public DomNodeList query_selector_all (string selectors) throws GLib.Error  {
     var cs = new CssSelectorParser ();
     cs.parse (selectors);
-    var l = new GomNodeList();
+    var l = new GListChildren (this, get_internal_node());
     foreach (DomElement e in children) {
       if (cs.match (e))
         l.add (e);
