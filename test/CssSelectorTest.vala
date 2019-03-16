@@ -70,7 +70,7 @@ class CssSelectorTest : GXmlTest {
 				var s = cp.selectors[0];
 				assert (s != null);
 				assert (s.selector_type == CssSelectorType.ELEMENT);
-				assert (s.combiner == CssSelectorType.NONE);
+				assert (s.combiner == CssCombiner.NONE);
 				var sa = cp.selectors[1];
 				assert (sa != null);
 				assert (sa.selector_type == CssSelectorType.ATTRIBUTE);
@@ -97,7 +97,7 @@ class CssSelectorTest : GXmlTest {
 				var s = cp.selectors[0];
 				assert (s != null);
 				assert (s.selector_type == CssSelectorType.ELEMENT);
-				assert (s.combiner == CssSelectorType.NONE);
+				assert (s.combiner == CssCombiner.NONE);
 				var sa = cp.selectors[1];
 				assert (sa != null);
 				assert (sa.selector_type == CssSelectorType.ATTRIBUTE_CONTAINS);
@@ -132,7 +132,7 @@ class CssSelectorTest : GXmlTest {
 				var s = cp.selectors[0];
 				assert (s != null);
 				assert (s.selector_type == CssSelectorType.ELEMENT);
-				assert (s.combiner == CssSelectorType.NONE);
+				assert (s.combiner == CssCombiner.NONE);
 				var sa = cp.selectors[1];
 				assert (sa != null);
 				assert (sa.selector_type == CssSelectorType.ATTRIBUTE_STARTS_WITH);
@@ -167,7 +167,7 @@ class CssSelectorTest : GXmlTest {
 				var s = cp.selectors[0];
 				assert (s != null);
 				assert (s.selector_type == CssSelectorType.ELEMENT);
-				assert (s.combiner == CssSelectorType.NONE);
+				assert (s.combiner == CssCombiner.NONE);
 				var sa = cp.selectors[1];
 				assert (sa != null);
 				assert (sa.selector_type == CssSelectorType.ATTRIBUTE_STARTS_WITH_WORD);
@@ -202,7 +202,7 @@ class CssSelectorTest : GXmlTest {
 				var s = cp.selectors[0];
 				assert (s != null);
 				assert (s.selector_type == CssSelectorType.ELEMENT);
-				assert (s.combiner == CssSelectorType.NONE);
+				assert (s.combiner == CssCombiner.NONE);
 				var sa = cp.selectors[1];
 				assert (sa != null);
 				assert (sa.selector_type == CssSelectorType.ATTRIBUTE_ENDS_WITH);
@@ -237,7 +237,7 @@ class CssSelectorTest : GXmlTest {
 				var s = cp.selectors[0];
 				assert (s != null);
 				assert (s.selector_type == CssSelectorType.ELEMENT);
-				assert (s.combiner == CssSelectorType.NONE);
+				assert (s.combiner == CssCombiner.NONE);
 				var sa = cp.selectors[1];
 				assert (sa != null);
 				assert (sa.selector_type == CssSelectorType.ATTRIBUTE_EQUAL);
@@ -267,7 +267,7 @@ class CssSelectorTest : GXmlTest {
 				var s = cp.selectors[0];
 				assert (s != null);
 				assert (s.selector_type == CssSelectorType.ELEMENT);
-				assert (s.combiner == CssSelectorType.NONE);
+				assert (s.combiner == CssCombiner.NONE);
 				var sa = cp.selectors[1];
 				assert (sa != null);
 				assert (sa.selector_type == CssSelectorType.ATTRIBUTE_EQUAL);
@@ -332,7 +332,7 @@ class CssSelectorTest : GXmlTest {
 				var s = cp.selectors[0];
 				assert (s != null);
 				assert (s.selector_type == CssSelectorType.ELEMENT);
-				assert (s.combiner == CssSelectorType.NONE);
+				assert (s.combiner == CssCombiner.NONE);
 				var sc = cp.selectors[1];
 				assert (sc != null);
 				assert (sc.selector_type == CssSelectorType.CLASS);
@@ -371,7 +371,7 @@ class CssSelectorTest : GXmlTest {
 				var s = cp.selectors[0];
 				assert (s != null);
 				assert (s.selector_type == CssSelectorType.ELEMENT);
-				assert (s.combiner == CssSelectorType.NONE);
+				assert (s.combiner == CssCombiner.NONE);
 				var sa = cp.selectors[1];
 				assert (sa != null);
 				assert (sa.selector_type == CssSelectorType.PSEUDO_CLASS);
@@ -425,7 +425,7 @@ class CssSelectorTest : GXmlTest {
 				var s = cp.selectors[0];
 				assert (s != null);
 				assert (s.selector_type == CssSelectorType.ELEMENT);
-				assert (s.combiner == CssSelectorType.NONE);
+				assert (s.combiner == CssCombiner.NONE);
 				var sa = cp.selectors[1];
 				assert (sa != null);
 				assert (sa.selector_type == CssSelectorType.ATTRIBUTE_EQUAL);
@@ -452,7 +452,7 @@ class CssSelectorTest : GXmlTest {
 				var s = cp.selectors[0];
 				assert (s != null);
 				assert (s.selector_type == CssSelectorType.ELEMENT);
-				assert (s.combiner == CssSelectorType.NONE);
+				assert (s.combiner == CssCombiner.NONE);
 				var sa = cp.selectors[1];
 				assert (sa != null);
 				assert (sa.selector_type == CssSelectorType.PSEUDO_CLASS);
@@ -517,7 +517,7 @@ class CssSelectorTest : GXmlTest {
 				var s = cp.selectors[0];
 				assert (s != null);
 				assert (s.selector_type == CssSelectorType.ELEMENT);
-				assert (s.combiner == CssSelectorType.NONE);
+				assert (s.combiner == CssCombiner.NONE);
 				var sa = cp.selectors[1];
 				assert (sa != null);
 				assert (sa.selector_type == CssSelectorType.PSEUDO_CLASS);
@@ -589,7 +589,7 @@ class CssSelectorTest : GXmlTest {
 				var s = cp.selectors[0];
 				assert (s != null);
 				assert (s.selector_type == CssSelectorType.ELEMENT);
-				assert (s.combiner == CssSelectorType.NONE);
+				assert (s.combiner == CssCombiner.NONE);
 				var sa = cp.selectors[1];
 				assert (sa != null);
 				assert (sa.selector_type == CssSelectorType.PSEUDO_CLASS);
