@@ -68,7 +68,7 @@ public interface GXml.DomElement : GLib.Object,
   public abstract DomHTMLCollection get_elements_by_tag_name_ns (string? namespace, string local_name);
   public abstract DomHTMLCollection get_elements_by_class_name (string class_names);
   
-  public bool matches (string selectors) throws GLib.Error {
+  public virtual bool matches (string selectors) throws GLib.Error {
     var parser = new CssSelectorParser();
     parser.parse (selectors);
     return parser.match (this);
