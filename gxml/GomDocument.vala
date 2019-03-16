@@ -356,8 +356,9 @@ public class GXml.GomDocument : GomNode,
     var cs = new CssSelectorParser ();
     cs.parse (selectors);
     var l = new GomNodeList();
-    foreach (DomElement e in children) {
-      if (cs.match (e))
+    foreach (DomNode e in child_nodes) {
+      if (!(e is DomElement)) continue;
+      if (cs.match (e as DomElement))
         l.add (e);
       l.add_all (cs.query_selector_all (e));
     }
