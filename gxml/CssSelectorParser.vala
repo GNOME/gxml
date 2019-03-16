@@ -203,31 +203,31 @@ public class GXml.CssSelectorParser : GLib.Object {
 		while (!str.eof && (str.peek() == '*' || is_valid_char (str.peek())) && !str.peek().isspace())
 			builder.append_unichar (str.read());
 		if (builder.str.contains ("*") && builder.len > 1)
-			throw new GXml.CssSelectorError.IDENTIFIER ("Invalid identifier");
+			throw new GXml.CssSelectorError.IDENTIFIER (_("Invalid identifier"));
 		if (str.peek() == '|') {
 			str.read();
 			while (!str.eof && (str.peek() == '*' || is_valid_char (str.peek())) && !str.peek().isspace())
 				extra_builder.append_unichar (str.read());
 			if (extra_builder.len == 0)
-				throw new GXml.CssSelectorError.IDENTIFIER ("string value is empty");
+				throw new GXml.CssSelectorError.IDENTIFIER (_("string value is empty"));
 			if (extra_builder.str.contains ("*") && extra_builder.len > 1)
-				throw new GXml.CssSelectorError.IDENTIFIER ("Invalid identifier");
+				throw new GXml.CssSelectorError.IDENTIFIER (_("Invalid identifier"));
 			return new GXml.CssElementSelector (builder.str, extra_builder.str);
 		}
 		if (builder.len == 0)
-			throw new GXml.CssSelectorError.IDENTIFIER ("string value is empty");
+			throw new GXml.CssSelectorError.IDENTIFIER (_("string value is empty"));
 		return new GXml.CssElementSelector (null, builder.str);
 	}
 	
 	static GXml.CssNotSelector parse_not_selector (GXml.CssString str) throws GLib.Error {
 		if (str.read() != '(')
-			throw new GXml.CssSelectorError.NOT ("Cannot find start of 'not selector' value");
+			throw new GXml.CssSelectorError.NOT (_("Cannot find start of 'not selector' value"));
 		var selector = new GXml.CssNotSelector();
 		while (str.peek().isspace())
 			str.read();
 		parse_selectors (str, selector.selectors, ')');
 		if (str.read() != ')')
-			throw new GXml.CssSelectorError.NOT ("Cannot find end of 'not selector' value");
+			throw new GXml.CssSelectorError.NOT (_("Cannot find end of 'not selector' value"));
 		return selector;
 	}
 	
@@ -242,21 +242,21 @@ public class GXml.CssSelectorParser : GLib.Object {
 		if (builder.str == "not")
 			return parse_not_selector (str);
 		if (!(builder.str in pseudo_strv) && !(builder.str in pseudo_value_strv))
-			throw new GXml.CssSelectorError.PSEUDO ("Invalid '%s' pseudo class".printf (builder.str));
+			throw new GXml.CssSelectorError.PSEUDO (_("Invalid '%s' pseudo class").printf (builder.str));
 		if (builder.str in pseudo_strv)
 			return new GXml.CssSelector (GXml.CssSelectorType.PSEUDO_CLASS, builder.str);
 		if (builder.str in pseudo_value_strv && str.read() != '(')
-			throw new GXml.CssSelectorError.PSEUDO ("Invalid '%s' pseudo class : cannot find value".printf (builder.str));
+			throw new GXml.CssSelectorError.PSEUDO (_("Invalid '%s' pseudo class : cannot find value").printf (builder.str));
 		var vbuilder = new StringBuilder();
 		while (str.peek().isalnum() || str.peek() == '-')
 			vbuilder.append_unichar (str.read());
 		if (str.read() != ')')
-			throw new GXml.CssSelectorError.PSEUDO ("Cannot find end of pseudo class value");
+			throw new GXml.CssSelectorError.PSEUDO (_("Cannot find end of pseudo class value"));
 		if (builder.str == "lang")
 			return new GXml.CssSelector.with_value (GXml.CssSelectorType.PSEUDO_CLASS, "lang", vbuilder.str);
 		uint64 val = 0;
 		if (vbuilder.str != "odd" && vbuilder.str != "even" && (!uint64.try_parse (vbuilder.str, out val) || val == 0))
-			throw new GXml.CssSelectorError.PSEUDO ("Pseudo class value isn't a valid number");
+			throw new GXml.CssSelectorError.PSEUDO (_("Pseudo class value isn't a valid number"));
 		return new GXml.CssSelector.with_value (GXml.CssSelectorType.PSEUDO_CLASS, builder.str, vbuilder.str);
 	}
 	
@@ -264,7 +264,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 		str.read();
 		var builder = new StringBuilder();
 		if (!str.peek().isalpha())
-			throw new GXml.CssSelectorError.ATTRIBUTE ("current class doesn't start with letter");
+			throw new GXml.CssSelectorError.ATTRIBUTE (_("current class doesn't start with letter"));
 		while (!str.eof && is_valid_char (str.peek()) && !str.peek().isspace())
 			builder.append_unichar (str.read());
 		return new GXml.CssSelector (GXml.CssSelectorType.CLASS, builder.str);
@@ -274,7 +274,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 		str.read();
 		var builder = new StringBuilder();
 		if (!str.peek().isalpha())
-			throw new GXml.CssSelectorError.ATTRIBUTE ("current id doesn't start with letter");
+			throw new GXml.CssSelectorError.ATTRIBUTE (_("current id doesn't start with letter"));
 		while (!str.eof && is_valid_char (str.peek()) && !str.peek().isspace())
 			builder.append_unichar (str.read());
 		return new GXml.CssSelector (GXml.CssSelectorType.ID, builder.str);
@@ -290,7 +290,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 		while (!str.eof && (str.peek() == '*' || is_valid_char (str.peek())) && !str.peek().isspace())
 			builder.append_unichar (str.read());	
 		if (builder.str.contains ("*") && builder.len > 1)
-			throw new GXml.CssSelectorError.ATTRIBUTE ("Invalid attribute");
+			throw new GXml.CssSelectorError.ATTRIBUTE (_("Invalid attribute"));
 		if (str.peek() == '|') {
 			str.read();
 			if (str.peek() == '=')
@@ -300,9 +300,9 @@ public class GXml.CssSelectorParser : GLib.Object {
 				while (!str.eof && (str.peek() == '*' || is_valid_char (str.peek())) && !str.peek().isspace())
 					extra_builder.append_unichar (str.read());
 				if (extra_builder.len == 0)
-					throw new GXml.CssSelectorError.ATTRIBUTE ("string value is empty");
+					throw new GXml.CssSelectorError.ATTRIBUTE (_("string value is empty"));
 				if (extra_builder.str.contains ("*") && extra_builder.len > 1)
-					throw new GXml.CssSelectorError.ATTRIBUTE ("Invalid attribute");
+					throw new GXml.CssSelectorError.ATTRIBUTE (_("Invalid attribute"));
 			}
 		}
 		string? prefix = prefixed ? builder.str : null;
@@ -328,12 +328,12 @@ public class GXml.CssSelectorParser : GLib.Object {
 		else if (str.peek() == '*')
 			ct = GXml.CssSelectorType.ATTRIBUTE_SUBSTRING;
 		if (ct == GXml.CssSelectorType.CLASS)
-			throw new GXml.CssSelectorError.ATTRIBUTE ("Invalid attribute selector");
+			throw new GXml.CssSelectorError.ATTRIBUTE (_("Invalid attribute selector"));
 		selector.selector_type = ct;
 		if (ct != GXml.CssSelectorType.ATTRIBUTE_EQUAL)
 			str.read();
 		if (str.peek() != '=')
-			throw new GXml.CssSelectorError.ATTRIBUTE ("Invalid attribute selector. '=' expected but '%s' was found".printf (str.peek().to_string()));
+			throw new GXml.CssSelectorError.ATTRIBUTE (_("Invalid attribute selector. '=' expected but '%s' was found").printf (str.peek().to_string()));
 		str.read();
 		while (str.peek().isspace())
 			str.read();
@@ -345,11 +345,11 @@ public class GXml.CssSelectorParser : GLib.Object {
 		});
 		selector.value = attr_value;
 		if (quote > 0 && quote != str.read())
-			throw new GXml.CssSelectorError.ATTRIBUTE ("Cannot find end of attribute value");
+			throw new GXml.CssSelectorError.ATTRIBUTE (_("Cannot find end of attribute value"));
 		while (str.peek().isspace())
 			str.read();
 		if (str.read() != ']')
-			throw new GXml.CssSelectorError.ATTRIBUTE ("Cannot find end of attribute selector");
+			throw new GXml.CssSelectorError.ATTRIBUTE (_("Cannot find end of attribute selector"));
 		
 		// TODO : CSS Selectors level 4 : case sensivity.
 		
@@ -396,13 +396,13 @@ public class GXml.CssSelectorParser : GLib.Object {
 				str.read();
 		}
 		if (list.size == 0)
-			throw new GXml.CssSelectorError.NULL ("No selectors found");
+			throw new GXml.CssSelectorError.NULL (_("No selectors found"));
 //		foreach (var sel in list)
 //			print ("%s %s %s\n", sel.selector_type.to_string(), sel.name, sel.value);
 		if (list[list.size - 1].combiner == GXml.CssCombiner.NONE)
 			list[list.size - 1].combiner = GXml.CssCombiner.NULL;
 		if (list[list.size - 1].combiner != GXml.CssCombiner.NULL)
-			throw new GXml.CssSelectorError.COMBINER ("Last selector has combiner assigned (%s)".printf (list[list.size - 1].combiner.to_string()));
+			throw new GXml.CssSelectorError.COMBINER (_("Last selector has combiner assigned (%s)").printf (list[list.size - 1].combiner.to_string()));
 	}
 
 	public void parse (string selectors) throws GLib.Error {
