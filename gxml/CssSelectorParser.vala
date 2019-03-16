@@ -637,22 +637,6 @@ public class GXml.CssSelectorParser : GLib.Object {
 				return sel.local_name == element.local_name;
 			return sel.local_name == element.local_name && sel.prefix == element.prefix;
 		}
-		/*
-		if (selector.selector_type == GXml.CssSelectorType.ATTRIBUTE && element.attributes.get_named_item (selector.name) != null)
-			return true;
-		if (selector.selector_type == GXml.CssSelectorType.ATTRIBUTE_EQUAL && element.get_attribute (selector.name) == selector.value)
-			return true;
-		if (selector.selector_type == GXml.CssSelectorType.ATTRIBUTE_CONTAINS && element.get_attribute (selector.name) != null && (selector.value in element.get_attribute (selector.name).split (" ")))
-			return true;
-		if (selector.selector_type == GXml.CssSelectorType.ATTRIBUTE_SUBSTRING && element.get_attribute (selector.name) != null && element.get_attribute (selector.name).contains (selector.value))
-			return true;
-		if (selector.selector_type == GXml.CssSelectorType.ATTRIBUTE_STARTS_WITH_WORD && element.get_attribute (selector.name) != null && element.get_attribute (selector.name).split ("-")[0] == selector.value)
-			return true;
-		if (selector.selector_type == GXml.CssSelectorType.ATTRIBUTE_STARTS_WITH && element.get_attribute (selector.name) != null && element.get_attribute (selector.name).index_of (selector.value) == 0)
-			return true;
-		if (selector.selector_type == GXml.CssSelectorType.ATTRIBUTE_ENDS_WITH && element.get_attribute (selector.name) != null && element.get_attribute (selector.name).last_index_of (selector.value) == element.get_attribute (selector.name).length - selector.value.length)
-			return true;
-		*/
 		if (selector is GXml.CssNotSelector)
 			return !match_element (element, (selector as GXml.CssNotSelector).selectors);
 		if (selector.selector_type == GXml.CssSelectorType.PSEUDO_CLASS)
