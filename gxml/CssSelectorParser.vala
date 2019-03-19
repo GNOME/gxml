@@ -1,7 +1,7 @@
 /* -*- Mode: vala; indent-tabs-mode: tab; c-basic-offset: 0; tab-width: 2 -*- */
 /*
  *
- * Copyright (C) 2017  Yannick Inizan <inizan.yannick@gmail.com>
+ * Copyright (C) 2017-2019  Yannick Inizan <inizan.yannick@gmail.com>
  * Copyright (C) 2017  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -21,13 +21,15 @@
  *      Yannick Inizan <inizan.yannick@gmail.com>
  *      Daniel Espinosa <esodan@gmail.com>
  */
-public errordomain GXml.CssSelectorError {
+
+public enum GXml.CssCombiner {
 	NULL,
-	ATTRIBUTE,
-	INVALID,
-	LENGTH,
-	STRING,
-	TYPE
+	NONE,
+	INSIDE,
+	AND,
+	PARENT,
+	AFTER,
+	BEFORE
 }
 
 public enum GXml.CssSelectorType {
@@ -39,398 +41,654 @@ public enum GXml.CssSelectorType {
 	ATTRIBUTE_EQUAL,
 	ATTRIBUTE_CONTAINS,
 	ATTRIBUTE_SUBSTRING,
-	ATTRIBUTE_START_WITH,
-	ATTRIBUTE_START_WITH_HYPHEN,
-	ATTRIBUTE_END_WITH,
-	PSEUDO,
-	AND,
-	INSIDE,
-	PARENT,
-	AFTER,
-	BEFORE
+	ATTRIBUTE_STARTS_WITH,
+	ATTRIBUTE_STARTS_WITH_WORD,
+	ATTRIBUTE_ENDS_WITH,
+	PSEUDO_CLASS
 }
-public class GXml.CssSelectorData : GLib.Object {
-	public CssSelectorType selector_type { get; set; default = CssSelectorType.ALL; }
-	public string data { get; set; default = ""; }
-	public string value { get; set; default = ""; }
-	public CssSelectorData.with_values (CssSelectorType t, string data, string val) {
-		selector_type = t;
-		this.data = data;
-		value = val;
+
+public errordomain GXml.CssSelectorError {
+	NULL,
+	EOF,
+	NOT,
+	PSEUDO,
+	ATTRIBUTE,
+	IDENTIFIER,
+	COMBINER
+}
+
+internal class GXml.CssString : GLib.Object {
+	public CssString (string text) {
+		GLib.Object (text : text);
+	}
+	
+	int position;
+	
+	public unichar peek() {
+		int pos = this.position;
+		unichar u = 0;
+		if (!this.text.get_next_char (ref pos, out u))
+			return 0;
+		return u;
+	}
+	
+	public unichar read() {
+		unichar u = 0;
+		if (!this.text.get_next_char (ref this.position, out u))
+			return 0;
+		return u;
+	}
+	
+	public unichar read_r() {
+		unichar u = 0;
+		if (!this.text.get_prev_char (ref this.position, out u))
+			return 0;
+		return u;
+	}
+	
+	public bool eof {
+		get {
+			return peek() == 0;
+		}
+	}
+	
+	public string text { get; construct; }
+}
+
+internal delegate bool GXml.CssStringFunc (GXml.CssString str);
+
+public class GXml.CssSelector : GLib.Object {
+	public CssSelector (GXml.CssSelectorType t = GXml.CssSelectorType.ELEMENT, string name = "") {
+		GLib.Object (selector_type : t, name : name, value : "");
+	}
+	
+	public CssSelector.with_value (GXml.CssSelectorType t = GXml.CssSelectorType.ELEMENT, string name, string value) {
+		GLib.Object (selector_type : t, name : name, value : value);
+	}
+	
+	public GXml.CssSelectorType selector_type { get; set construct; }
+	
+	public string name { get; set construct; }
+	
+	public string value { get; set construct; }
+	
+	public GXml.CssCombiner combiner { get; set; }
+}
+
+public class GXml.CssElementSelector : GXml.CssSelector {
+	public CssElementSelector (string? prefix = null, string local_name = "") {
+		base (GXml.CssSelectorType.ELEMENT);
+		this.name = prefix;
+		this.value = local_name;
+	}
+	
+	public bool prefixed {
+		get {
+			return this.prefix != null;
+		}
+	}
+	
+	public string? prefix {
+		owned get {
+			return this.name;
+		}
+		set {
+			this.name = value;
+		}
+	}
+	
+	public string local_name {
+		owned get {
+			return this.value;
+		}
+		set {
+			this.value = value;
+		}
+	}
+}
+
+public class GXml.CssAttributeSelector : GXml.CssSelector {
+	public CssAttributeSelector (string? prefix = null, string local_name = "") {
+		base (GXml.CssSelectorType.ATTRIBUTE);
+		this.prefix = prefix;
+		this.local_name = local_name;
+		this.name = (prefix == null) ? local_name : "%s|%s".printf (prefix, local_name);
+	}
+	
+	public string? prefix { get; set; }
+	
+	public string local_name { get; set; }
+}
+
+public class GXml.CssNotSelector : GXml.CssSelector {
+	public CssNotSelector() {
+		GLib.Object (selector_type : GXml.CssSelectorType.PSEUDO_CLASS, name : "not");
+	}
+	
+	Gee.ArrayList<GXml.CssSelector> list;
+	
+	construct {
+		this.list = new Gee.ArrayList<GXml.CssSelector>();
+	}
+	
+	public Gee.List<GXml.CssSelector> selectors {
+		get {
+			return this.list;
+		}
 	}
 }
 
 public class GXml.CssSelectorParser : GLib.Object {
-	Gee.ArrayList<CssSelectorData?> list;
-
-	public Gee.List<CssSelectorData?> selectors {
-		get {
-			return list;
-		}
-	}
-
-	construct {
-		list = new Gee.ArrayList<CssSelectorData?>();
-	}
-
-	static bool is_valid_identifier (string data) {
-		unichar u = 0;
-		int index = 0;
-		while (data.get_next_char (ref index, out u))
-			if (u == '[' || u == ']' || u == '{' || u == '}' ||
-				u == '$' || u == '&' || u == '#' || u == '|' ||
-				u == '`' || u == '^' || u == '@' || u == '+' ||
-				u == '~' || u == '*' || u == '%' || u == '!' ||
-				u == '?' || u == '<' || u == '>' || u == '"' ||
-				u == '\'')
-					return false;
-		return true;
-	}
-
-	void parse_class (string css, ref int position) {
-		CssSelectorData idata = new CssSelectorData.with_values (CssSelectorType.INSIDE, "", "");
-		list.add (idata);
-		position++;
-		StringBuilder sb = new StringBuilder();
-		unichar u = 0;
-		while (css.get_next_char (ref position, out u) && (u.isalnum() || u == '-'))
-			sb.append_unichar (u);
-		CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.CLASS, sb.str, "");
-		list.add (data);
-	}
-
-	void parse_id (string css, ref int position) {
-		CssSelectorData idata = new CssSelectorData.with_values (CssSelectorType.INSIDE, "", "");
-		list.add (idata);
-		position++;
-		StringBuilder sb = new StringBuilder();
-		unichar u = 0;
-		while (css.get_next_char (ref position, out u) && (u.isalnum() || u == '-'))
-			sb.append_unichar (u);
-		CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.ID, sb.str, "");
-		list.add (data);
-	}
-
-	void parse_all (string css, ref int position) {
-		position++;
-		CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.ALL, "*", "");
-		list.add (data);
-	}
-
-	void parse_element (string css, ref int position) {
-		StringBuilder sb = new StringBuilder();
-		unichar u = 0;
-		while (css.get_next_char (ref position, out u) && (u.isalnum() || u == '-' || u == '|' || u == '*'))
-			sb.append_unichar (u);
-		CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.ELEMENT, sb.str, "");
-		list.add (data);
-	}
-
-	void parse_attribute (string css, ref int position) throws GLib.Error {
-		CssSelectorData idata = new CssSelectorData.with_values (CssSelectorType.INSIDE, "", "");
-		list.add (idata);
-		position++;
-		StringBuilder sb = new StringBuilder();
-		unichar u = 0;
-		css.get_next_char (ref position, out u);
-		while (u.isspace())
-			css.get_next_char (ref position, out u);
-		if (!u.isalnum())
-			throw new CssSelectorError.ATTRIBUTE (_("Invalid attribute character"));
-		sb.append_unichar (u);
-		while (css.get_next_char (ref position, out u) && (u.isalnum() || u == '-'))
-			sb.append_unichar (u);
-		while (u.isspace())
-			css.get_next_char (ref position, out u);
-		if (u == ']') {
-			CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.ATTRIBUTE, sb.str, "");
-			list.add (data);
-			return;
-		}
-		if (u == '=') {
-			StringBuilder sb1 = new StringBuilder();
-			css.get_next_char (ref position, out u);
-			while (u.isspace())
-				css.get_next_char (ref position, out u);
-			unichar s = 0;
-			if (u == '"' || u == '\'') {
-				s = u;
-				css.get_next_char (ref position, out u);
-			}
-			if (s != 0 || is_valid_identifier (u.to_string()))
-				sb1.append_unichar (u);
-			while (css.get_next_char (ref position, out u) && (s != 0 ? u != s : u != ']'))
-				sb1.append_unichar (u);
-			if (s == 0 && !is_valid_identifier (sb1.str))
-				throw new CssSelectorError.ATTRIBUTE (_("Invalid attribute selector value: %s").printf (sb1.str));
-			if (s != 0) {
-				if (u != s)
-					throw new CssSelectorError.STRING (_("Invalid end of attribute value"));
-				css.get_next_char (ref position, out u);
-			}
-			while (u.isspace())
-				css.get_next_char (ref position, out u);
-			if (u != ']')
-				throw new CssSelectorError.ATTRIBUTE (_("Invalid end of attribute selector"));
-			CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.ATTRIBUTE_EQUAL, sb.str, sb1.str);
-			if (s == 0)
-				data.value = sb1.str.strip();
-			list.add (data);
-			return;
-		}
-		StringBuilder sb1 = new StringBuilder();
-		CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.ATTRIBUTE, sb.str, "");
-		if (u == '~')
-			data.selector_type = CssSelectorType.ATTRIBUTE_CONTAINS;
-		else if (u == '*')
-			data.selector_type = CssSelectorType.ATTRIBUTE_SUBSTRING;
-		else if (u == '^')
-			data.selector_type = CssSelectorType.ATTRIBUTE_START_WITH;
-		else if (u == '|')
-			data.selector_type = CssSelectorType.ATTRIBUTE_START_WITH_HYPHEN;
-		else if (u == '$')
-			data.selector_type = CssSelectorType.ATTRIBUTE_END_WITH;
-		else
-			throw new CssSelectorError.ATTRIBUTE (_("Invalid attribute selector character"));
-		css.get_next_char (ref position, out u);
-		if (u != '=')
-			throw new CssSelectorError.ATTRIBUTE (_("Invalid attribute selector character: can't find '=' character"));
-		css.get_next_char (ref position, out u);
-		while (u.isspace())
-			css.get_next_char (ref position, out u);
-		unichar s = 0;
-		if (u == '"' || u == '\'') {
-			s = u;
-			css.get_next_char (ref position, out u);
-		}
-		if (s != 0 || is_valid_identifier (u.to_string()))
-			sb1.append_unichar (u);
-		while (css.get_next_char (ref position, out u) && (s != 0 ? u != s : u != ']'))
-			sb1.append_unichar (u);
-		if (s == 0 && !is_valid_identifier (sb1.str))
-			throw new CssSelectorError.ATTRIBUTE (_("Invalid attribute selector value: %s").printf (sb1.str));
-		if (s != 0) {
-			if (u != s)
-				throw new CssSelectorError.STRING (_("Invalid end of attribute value"));
-			css.get_next_char (ref position, out u);
-		}
-		while (u.isspace())
-			css.get_next_char (ref position, out u);
-		if (u != ']')
-			throw new CssSelectorError.ATTRIBUTE (_("Invalid end of attribute selector"));
-		if (s == 0)
-			data.value = sb1.str.strip();
-		else
-			data.value = sb1.str;
-		list.add (data);
-	}
-
-	void parse_pseudo (string css, ref int position) throws GLib.Error {
-		CssSelectorData idata = new CssSelectorData.with_values (CssSelectorType.INSIDE, "", "");
-		list.add (idata);
-		position++;
-		StringBuilder sb = new StringBuilder();
-		unichar u = 0;
-		while (css.get_next_char (ref position, out u) && (u.isalnum() || u == '-' || u == ':'))
-			sb.append_unichar (u);
-		string[] valid_selectors = {
-			"root",
-			"checked",
-			"disabled",
-			"empty",
-			"enable",
-			"first-child",
-			":first-letter",
-			":first-line",
-			"first-of-type",
-			"last-child",
-			"last-of-type"
+	static bool is_valid_char (unichar u) {
+		unichar[] array = { 
+			'=', '[', ']', '{', '}', 
+			'$', '&', '#', '|', '`',
+			'^', '@', '+', '~', '*',
+			'%', '!', '?', '<', '>', 
+			':', '.', '"', '\''
 		};
-		if (!(sb.str in valid_selectors))
-			throw new CssSelectorError.INVALID (_("Invalid pseudo class selector %s").printf (sb.str));
-		CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.PSEUDO, sb.str, "");
-		list.add (data);
+		return !(u in array);
 	}
-
-	public void parse (string query) throws GLib.Error {
-		string css = query.strip();
-		if (css.length == 0)
-			throw new CssSelectorError.LENGTH (_("Invalid string length."));
-		int position = 0;
-		unichar u = 0;
-		while (position < css.length) {
-			u = css.get_char (position);
-			if (u.isspace()) {
-				css.get_next_char (ref position, out u);
-				while (u.isspace())
-					css.get_next_char (ref position, out u);
-				position--;
-			}
-			if (selectors.size > 0) {
-			  var ps = selectors.get (selectors.size -1);
-			  if (ps != null) {
-					if (ps.selector_type == CssSelectorType.ELEMENT) {
-						css.get_prev_char (ref position, out u);
-						if (u == '.') {
-							parse_class (css, ref position);
-							continue;
-						}
-						else if (u == '#') {
-							parse_id (css, ref position);
-							continue;
-						}
-						else if (u == '[') {
-							parse_attribute (css, ref position);
-							continue;
-						}
-						else if (u == ':') {
-							parse_pseudo (css, ref position);
-							continue;
-						}
-						else
-							throw new CssSelectorError.TYPE (_("Invalid '%s' character.").printf (css.substring (position, 1)));
-					}
-				}
-			}
-			if (u == '*' && !("|" in css))
-				parse_all (css, ref position);
-			else if (u == '.') {
-				parse_class (css, ref position);
-				continue;
-			}
-			else if (u.isalnum() || u == '*' || u == '|')
-				parse_element (css, ref position);
-			else if (u == ',') {
-				position++;
-				CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.AND, ",", "");
-				list.add (data);
-			}
-			else if (u == '+') {
-				position++;
-				CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.AFTER, "+", "");
-				list.add (data);
-			}
-			else if (u == '~') {
-				position++;
-				CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.BEFORE, "~", "");
-				list.add (data);
-			}
-			else if (u == '>') {
-				position++;
-				CssSelectorData data = new CssSelectorData.with_values (CssSelectorType.PARENT, ">", "");
-				list.add (data);
+	
+	static string parse_identifier (GXml.CssString str, GXml.CssStringFunc func) {
+		var builder = new StringBuilder();
+		while (!str.eof && func (str))
+			builder.append_unichar (str.read());
+		return builder.str;
+	}
+	
+	static GXml.CssSelector parse_element (GXml.CssString str) throws GLib.Error {
+		var builder = new StringBuilder();
+		var extra_builder = new StringBuilder();
+		while (!str.eof && (str.peek() == '*' || is_valid_char (str.peek())) && !str.peek().isspace())
+			builder.append_unichar (str.read());
+		if (builder.str.contains ("*") && builder.len > 1)
+			throw new GXml.CssSelectorError.IDENTIFIER (_("Invalid identifier"));
+		if (str.peek() == '|') {
+			str.read();
+			while (!str.eof && (str.peek() == '*' || is_valid_char (str.peek())) && !str.peek().isspace())
+				extra_builder.append_unichar (str.read());
+			if (extra_builder.len == 0)
+				throw new GXml.CssSelectorError.IDENTIFIER (_("string value is empty"));
+			if (extra_builder.str.contains ("*") && extra_builder.len > 1)
+				throw new GXml.CssSelectorError.IDENTIFIER (_("Invalid identifier"));
+			return new GXml.CssElementSelector (builder.str, extra_builder.str);
+		}
+		if (builder.len == 0)
+			throw new GXml.CssSelectorError.IDENTIFIER (_("string value is empty"));
+		return new GXml.CssElementSelector (null, builder.str);
+	}
+	
+	static GXml.CssNotSelector parse_not_selector (GXml.CssString str) throws GLib.Error {
+		if (str.read() != '(')
+			throw new GXml.CssSelectorError.NOT (_("Cannot find start of 'not selector' value"));
+		var selector = new GXml.CssNotSelector();
+		while (str.peek().isspace())
+			str.read();
+		parse_selectors (str, selector.selectors, ')');
+		if (str.read() != ')')
+			throw new GXml.CssSelectorError.NOT (_("Cannot find end of 'not selector' value"));
+		return selector;
+	}
+	
+	static GXml.CssSelector parse_pseudo (GXml.CssString str) throws GLib.Error {
+		string[] pseudo_strv = { "checked", "enabled", "disabled", "root", "empty", "first-child", "last-child", "only-child", "first-of-type", "last-of-type", "only-of-type" };
+		string[] pseudo_value_strv = { "nth-child", "nth-last-child", "nth-of-type", "nth-last-of-type" };
+		
+		str.read();
+		var builder = new StringBuilder();
+		while (str.peek().isalpha() || str.peek() == '-')
+			builder.append_unichar (str.read());
+		if (builder.str == "not")
+			return parse_not_selector (str);
+		if (!(builder.str in pseudo_strv) && !(builder.str in pseudo_value_strv))
+			throw new GXml.CssSelectorError.PSEUDO (_("Invalid '%s' pseudo class").printf (builder.str));
+		if (builder.str in pseudo_strv)
+			return new GXml.CssSelector (GXml.CssSelectorType.PSEUDO_CLASS, builder.str);
+		if (builder.str in pseudo_value_strv && str.read() != '(')
+			throw new GXml.CssSelectorError.PSEUDO (_("Invalid '%s' pseudo class : cannot find value").printf (builder.str));
+		var vbuilder = new StringBuilder();
+		while (str.peek().isalnum() || str.peek() == '-')
+			vbuilder.append_unichar (str.read());
+		if (str.read() != ')')
+			throw new GXml.CssSelectorError.PSEUDO (_("Cannot find end of pseudo class value"));
+		if (builder.str == "lang")
+			return new GXml.CssSelector.with_value (GXml.CssSelectorType.PSEUDO_CLASS, "lang", vbuilder.str);
+		uint64 val = 0;
+		if (vbuilder.str != "odd" && vbuilder.str != "even" && (!uint64.try_parse (vbuilder.str, out val) || val == 0))
+			throw new GXml.CssSelectorError.PSEUDO (_("Pseudo class value isn't a valid number"));
+		return new GXml.CssSelector.with_value (GXml.CssSelectorType.PSEUDO_CLASS, builder.str, vbuilder.str);
+	}
+	
+	static GXml.CssSelector parse_class (GXml.CssString str) throws GLib.Error {
+		str.read();
+		var builder = new StringBuilder();
+		if (!str.peek().isalpha())
+			throw new GXml.CssSelectorError.ATTRIBUTE (_("current class doesn't start with letter"));
+		while (!str.eof && is_valid_char (str.peek()) && !str.peek().isspace())
+			builder.append_unichar (str.read());
+		return new GXml.CssSelector (GXml.CssSelectorType.CLASS, builder.str);
+	}
+	
+	static GXml.CssSelector parse_id (GXml.CssString str) throws GLib.Error {
+		str.read();
+		var builder = new StringBuilder();
+		if (!str.peek().isalpha())
+			throw new GXml.CssSelectorError.ATTRIBUTE (_("current id doesn't start with letter"));
+		while (!str.eof && is_valid_char (str.peek()) && !str.peek().isspace())
+			builder.append_unichar (str.read());
+		return new GXml.CssSelector (GXml.CssSelectorType.ID, builder.str);
+	}
+	
+	static GXml.CssSelector parse_attribute (GXml.CssString str) throws GLib.Error {
+		str.read();
+		while (str.peek().isspace())
+			str.read();
+		var builder = new StringBuilder();
+		var extra_builder = new StringBuilder();
+		bool prefixed = false;
+		while (!str.eof && (str.peek() == '*' || is_valid_char (str.peek())) && !str.peek().isspace())
+			builder.append_unichar (str.read());	
+		if (builder.str.contains ("*") && builder.len > 1)
+			throw new GXml.CssSelectorError.ATTRIBUTE (_("Invalid attribute"));
+		if (str.peek() == '|') {
+			str.read();
+			if (str.peek() == '=')
+				str.read_r();
+			else {
+				prefixed = true;
+				while (!str.eof && (str.peek() == '*' || is_valid_char (str.peek())) && !str.peek().isspace())
+					extra_builder.append_unichar (str.read());
+				if (extra_builder.len == 0)
+					throw new GXml.CssSelectorError.ATTRIBUTE (_("string value is empty"));
+				if (extra_builder.str.contains ("*") && extra_builder.len > 1)
+					throw new GXml.CssSelectorError.ATTRIBUTE (_("Invalid attribute"));
 			}
 		}
+		string? prefix = prefixed ? builder.str : null;
+		string local_name = prefixed ? extra_builder.str : builder.str;
+		var selector = new GXml.CssAttributeSelector (prefix, local_name);
+		while (str.peek().isspace())
+			str.read();
+		if (str.peek() == ']') {
+			str.read();
+			return selector;
+		}
+		var ct = GXml.CssSelectorType.CLASS;
+		if (str.peek() == '=')
+			ct = GXml.CssSelectorType.ATTRIBUTE_EQUAL;
+		else if (str.peek() == '|')
+			ct = GXml.CssSelectorType.ATTRIBUTE_STARTS_WITH_WORD;
+		else if (str.peek() == '^')
+			ct = GXml.CssSelectorType.ATTRIBUTE_STARTS_WITH;
+		else if (str.peek() == '$')
+			ct = GXml.CssSelectorType.ATTRIBUTE_ENDS_WITH;
+		else if (str.peek() == '~')
+			ct = GXml.CssSelectorType.ATTRIBUTE_CONTAINS;
+		else if (str.peek() == '*')
+			ct = GXml.CssSelectorType.ATTRIBUTE_SUBSTRING;
+		if (ct == GXml.CssSelectorType.CLASS)
+			throw new GXml.CssSelectorError.ATTRIBUTE (_("Invalid attribute selector"));
+		selector.selector_type = ct;
+		if (ct != GXml.CssSelectorType.ATTRIBUTE_EQUAL)
+			str.read();
+		if (str.peek() != '=')
+			throw new GXml.CssSelectorError.ATTRIBUTE (_("Invalid attribute selector. '=' expected but '%s' was found").printf (str.peek().to_string()));
+		str.read();
+		while (str.peek().isspace())
+			str.read();
+		unichar quote = 0;
+		if (str.peek() == '"' || str.peek() == '\'')
+			quote = str.read();
+		var attr_value = parse_identifier (str, s => {
+			return quote == 0 && !s.peek().isspace() && is_valid_char (s.peek()) || quote > 0 && s.peek() != quote;
+		});
+		selector.value = attr_value;
+		if (quote > 0 && quote != str.read())
+			throw new GXml.CssSelectorError.ATTRIBUTE (_("Cannot find end of attribute value"));
+		while (str.peek().isspace())
+			str.read();
+		if (str.read() != ']')
+			throw new GXml.CssSelectorError.ATTRIBUTE (_("Cannot find end of attribute selector"));
+		
+		// TODO : CSS Selectors level 4 : case sensivity.
+		
+		return selector;
 	}
-	public bool match (DomElement element) throws GLib.Error {
-		bool is_element = false;
-		for (int i = 0; i < selectors.size; i++) {
-			CssSelectorData s = selectors.get (i);
-			if (s.selector_type == CssSelectorType.ALL) return true;
-			if (s.selector_type == CssSelectorType.INSIDE) continue;
-			if (s.selector_type == CssSelectorType.ELEMENT) {
-				string ns = null;
-				string nn = s.data.down ();
-				bool nsnull = false;
-				if ("|" in s.data) {
-					var nss = s.data.split ("|");
-					if (nss.length == 2) {
-						ns = nss[0].down ();
-						nn = nss[1].down ();
-						if (ns == null) nsnull = true;
-					}
-				}
-				message (element.prefix+";"+element.local_name);
-				if (element.local_name.down () != nn) return false;
-				if (!nsnull && ns != null && ns != "*" && element.prefix != null && element.prefix.down () != ns) return false;
-				message (s.data);
-				message (ns+";"+nn);
-				is_element = true;
-				if ((i+1) >= selectors.size) return true;
-				continue;
+	
+	static void parse_selectors (GXml.CssString str, Gee.List<GXml.CssSelector> list, unichar stop_char = 0) throws GLib.Error {
+		while (!str.eof && str.peek() != stop_char) {
+			if (str.peek().isalpha() || str.peek() == '*' || str.peek() == '|')
+				list.add (parse_element (str));
+			else if (str.peek() == '.')
+				list.add (parse_class (str));
+			else if (str.peek() == '#')
+				list.add (parse_id (str));
+			else if (str.peek() == ':')
+				list.add (parse_pseudo (str));
+			else if (str.peek() == '[')
+				list.add (parse_attribute (str));
+			if (list[list.size - 1] is GXml.CssElementSelector) {
+				var sel = list[list.size - 1] as GXml.CssElementSelector;
+				if (!sel.prefixed && sel.local_name == "*")
+					list[list.size - 1] = new GXml.CssSelector (GXml.CssSelectorType.ALL);
 			}
-			if (is_element && s.selector_type == CssSelectorType.ATTRIBUTE) {
-				var p = element.get_attribute (s.data);
-				if (p != null) return true;
+			
+			GXml.CssCombiner combiner = 0;
+			if (str.peek().isspace())
+				combiner = GXml.CssCombiner.INSIDE;
+			while (str.peek().isspace())
+				str.read();
+			if (str.peek() == ',')
+				combiner = GXml.CssCombiner.AND;
+			else if (str.peek() == '>')
+				combiner = GXml.CssCombiner.PARENT;
+			else if (str.peek() == '+')
+				combiner = GXml.CssCombiner.AFTER;
+			else if (str.peek() == '~')
+				combiner = GXml.CssCombiner.BEFORE;
+			else if (combiner == 0)
+				combiner = GXml.CssCombiner.NONE;
+			if (combiner != GXml.CssCombiner.NONE && combiner != GXml.CssCombiner.INSIDE)
+				str.read();
+			list[list.size - 1].combiner = combiner;
+			while (str.peek().isspace())
+				str.read();
+		}
+		if (list.size == 0)
+			throw new GXml.CssSelectorError.NULL (_("No selectors found"));
+//		foreach (var sel in list)
+//			print ("%s %s %s\n", sel.selector_type.to_string(), sel.name, sel.value);
+		if (list[list.size - 1].combiner == GXml.CssCombiner.NONE)
+			list[list.size - 1].combiner = GXml.CssCombiner.NULL;
+		if (list[list.size - 1].combiner != GXml.CssCombiner.NULL)
+			throw new GXml.CssSelectorError.COMBINER (_("Last selector has combiner assigned (%s)").printf (list[list.size - 1].combiner.to_string()));
+	}
+
+	public void parse (string selectors) throws GLib.Error {
+		this.list.clear();
+		var str = new GXml.CssString (selectors);
+		parse_selectors (str, this.list);
+	}
+
+	Gee.ArrayList<GXml.CssSelector> list;
+	
+	construct {
+		this.list = new Gee.ArrayList<GXml.CssSelector>();
+	}
+	
+	public Gee.List<GXml.CssSelector> selectors {
+		get {
+			return this.list;
+		}
+	}
+	
+	static bool match_pseudo (GXml.DomElement element, GXml.CssSelector selector) throws GLib.Error {
+		if (selector.name == "root")
+			return element == element.owner_document.document_element;
+		if (selector.name == "empty")
+			return element.children.length == 0;
+		if (selector.name == "checked") {
+			if (element.local_name != "input")
+				return false;
+			return element.attributes.get_named_item ("checked") != null;
+		}
+		if (selector.name == "enabled" || selector.name == "disabled") {
+			if (element.local_name != "input")
+				return false;
+			if (selector.name == "disabled")
+				return element.attributes.get_named_item ("disabled") != null;
+			return element.attributes.get_named_item ("disabled") == null;
+		}
+		if (selector.name == "first-child")
+			return element.previous_element_sibling == null;
+		if (selector.name == "last-child")
+			return element.next_element_sibling == null;
+		if (selector.name == "only-child")
+			return element.previous_element_sibling == null && element.next_element_sibling == null;
+		if (selector.name == "first-of-type") {
+			var e = element.previous_element_sibling;
+			bool res = true;
+			while (e != null) {
+				if (e.local_name == element.local_name)
+					res = false;
+				e = e.previous_element_sibling;
 			}
-			if (is_element && s.selector_type == CssSelectorType.ATTRIBUTE_EQUAL) {
-				var p = element.get_attribute (s.data);
-				if (p == null) return false;
-				if (p == s.value) return true;
+			return res;
+		}
+		if (selector.name == "last-of-type") {
+			var e = element.next_element_sibling;
+			bool res = true;
+			while (e != null) {
+				if (e.local_name == element.local_name)
+					res = false;
+				e = e.next_element_sibling;
 			}
-			if (is_element && s.selector_type == CssSelectorType.ATTRIBUTE_CONTAINS) {
-				var p = element.get_attribute (s.data);
-				if (p == null) return false;
-				var tl = new GDomTokenList (element, s.data);
-				if (tl.contains (s.value)) return true;
+			return res;
+		}
+		if (selector.name == "only-of-type") {
+			var e = element.previous_element_sibling;
+			var f = element.next_element_sibling;
+			bool eres = true;
+			bool fres = true;
+			while (e != null) {
+				if (e.local_name == element.local_name)
+					eres = false;
+				e = e.previous_element_sibling;
 			}
-			if (is_element && s.selector_type == CssSelectorType.ATTRIBUTE_START_WITH) {
-				var p = element.get_attribute (s.data);
-				if (p == null) return false;
-				if (p.has_prefix (s.value)) return true;
+			while (f != null) {
+				if (f.local_name == element.local_name)
+					fres = false;
+				f = f.next_element_sibling;
 			}
-			if (is_element && s.selector_type == CssSelectorType.ATTRIBUTE_END_WITH) {
-				var p = element.get_attribute (s.data);
-				if (p == null) return false;
-				if (p.has_suffix (s.value)) return true;
+			return eres && fres;
+		}
+		if (selector.name == "nth-child") {
+			if (element.parent_element == null)
+				return false;
+			if (selector.value == "even" || selector.value == "odd") {
+				for (var i = (selector.value == "even" ? 1 : 0); i < element.parent_element.children.length; i += 2) {
+					var child = element.parent_element.children.item (i);
+					if (child == element)
+						return true;
+				}
+				return false;
 			}
-			if (is_element && s.selector_type == CssSelectorType.ATTRIBUTE_START_WITH_HYPHEN) {
-				var p = element.get_attribute (s.data);
-				if (p == null) return false;
-				if (p.has_suffix (s.value+"-")) return true;
+			var index = int.parse (selector.value) - 1;
+			if (index >= element.parent_element.children.length)
+				return false;
+			return element == element.parent_element.children.item (index);
+		}
+		if (selector.name == "nth-last-child") {
+			if (element.parent_element == null)
+				return false;
+			if (selector.value == "even" || selector.value == "odd") {
+				for (var i = (selector.value == "even" ? 1 : 0); i < element.parent_element.children.length; i += 2) {
+					var child = element.parent_element.children.item (element.parent_element.children.length - 1 - i);
+					if (child == element)
+						return true;
+				}
+				return false;
 			}
-			if (is_element && s.selector_type == CssSelectorType.PSEUDO) {
-				if (s.data.down () == "root") {
-					if (element is GomElement)
-						if (element != element.owner_document.document_element) return false;
-					if (element is GElement)
-						if ((element as GNode).get_internal_node () 
-									!= (element.owner_document.document_element as GNode).get_internal_node ()) return false;
-					if (element.node_name.down () == element.owner_document.document_element.node_name.down ()) return true;
+			var index = int.parse (selector.value) - 1;
+			if (index >= element.parent_element.children.length)
+				return false;
+			return element == element.parent_element.children.item (element.parent_element.children.length - 1 - index);
+		}
+		if (selector.name == "nth-of-type") {
+			if (element.parent_element == null)
+				return false;
+			var list = new Gee.ArrayList<GXml.DomElement>();
+			foreach (var child in element.parent_element.children)
+				if (child.local_name == element.local_name)
+					list.add (child);
+			if (selector.value == "even" || selector.value == "odd") {
+				for (var i = (selector.value == "even" ? 1 : 0); i < list.size; i += 2) {
+					var child = list[i];
+					if (child == element)
+						return true;
 				}
-				if (s.data.down () == "checked") {
-					if (!(element.owner_document is DomHtmlDocument)) return false;
-					// FIXME: check for tags UI allowed to have this state you can use E[checked="true"] instead
+				return false;
+			}
+			var index = int.parse (selector.value) - 1;
+			if (index >= list.size)
+				return false;
+			return list[index] == element;
+		}
+		if (selector.name == "nth-last-of-type") {
+			if (element.parent_element == null)
+				return false;
+			var list = new Gee.ArrayList<GXml.DomElement>();
+			foreach (var child in element.parent_element.children)
+				if (child.local_name == element.local_name)
+					list.add (child);
+			if (selector.value == "even" || selector.value == "odd") {
+				for (var i = (selector.value == "even" ? 1 : 0); i < list.size; i += 2) {
+					var child = list[list.size - 1 - i];
+					if (child == element)
+						return true;
 				}
-				if (s.data.down () == "enable") {
-					if (!(element.owner_document is DomHtmlDocument)) return false;
-					// FIXME: check for tags UI allowed to have this state you can use E[enable="true"] instead
-				}
-				if (s.data.down () == "disabled") {
-					if (!(element.owner_document is DomHtmlDocument)) return false;
-					// FIXME: check for tags UI allowed to have this state you can use E[disable="true"] instead
-				}
-				if (s.data.down () == "empty") {
-					if (!element.has_child_nodes ()) return true;
-				}
-				if (s.data.down () == "first-child") {
-					if (element.parent_node == null) return false;
-					if (!(element.parent_node is DomElement)) return false;
-					if (element is GomElement)
-						if (element == (element.parent_node as DomParentNode).first_element_child) return true;
-					if (element is GElement)
-						if ((element as GNode).get_internal_node () 
-									== ((element.parent_node as DomParentNode).first_element_child as GNode).get_internal_node ()) return true;
-				}
-				if (s.data.down () == "last-child") {
-					if (element.parent_node == null) return false;
-					if (!(element.parent_node is DomElement)) return false;
-					if (element is GomElement)
-						if (element == (element.parent_node as DomParentNode).last_element_child) return true;
-					if (element is GElement)
-						if ((element as GNode).get_internal_node () 
-									== ((element.parent_node as DomParentNode).last_element_child as GNode).get_internal_node ()) return true;
+				return false;
+			}
+			var index = int.parse (selector.value) - 1;
+			if (index >= list.size)
+				return false;
+			if (list[list.size - 1 - index] == element)
+				return true;
+		}
+		return false;
+	}
+	
+	static bool match_attribute (GXml.DomElement element, GXml.CssAttributeSelector selector) throws GLib.Error {
+		var list = new Gee.ArrayList<GXml.DomNode>();
+		if (selector.prefix != null) {
+			if (selector.prefix == "") {
+				for (var i = 0; i < element.attributes.length; i++) {
+					if (element.attributes.item (i) == null)
+						continue;
+					if (element.attributes.item (i).node_name == selector.local_name || selector.local_name == "*")
+						list.add (element.attributes.item (i));
 				}
 			}
-			if (s.selector_type == CssSelectorType.CLASS) {
-				var p = element.get_attribute ("class");
-				if (p == null) return false;
-				var lc = element.class_list;
-				if (lc.contains (s.data)) return true;
-				if (p=="warning") warning ("Not found");
+			else if (selector.prefix == "*") {
+				for (var i = 0; i < element.attributes.length; i++) {
+					if (element.attributes.item (i) == null)
+						continue;
+					var attr_name = element.attributes.item (i).node_name;
+					if (attr_name.split (":").length == 2 && (attr_name.split (":")[1] == selector.local_name || selector.local_name == "*"))
+						list.add (element.attributes.item (i));
+				}
+			}
+			else {
+				for (var i = 0; i < element.attributes.length; i++) {
+					if (element.attributes.item (i) == null)
+						continue;
+					var attr_name = element.attributes.item (i).node_name;
+					if (attr_name.split (":").length == 2 && attr_name.split (":")[0] == selector.prefix && (attr_name.split (":")[1] == selector.local_name || selector.local_name == "*"))
+						list.add (element.attributes.item (i));
+				}
+			}
+		}
+		else {
+			var attr = element.attributes.get_named_item (selector.local_name);
+			if (attr != null)
+				list.add (attr);
+		}
+		if (list.size == 0)
+			return false;
+		foreach (var attr in list) {
+			if (selector.selector_type == GXml.CssSelectorType.ATTRIBUTE)
+				return true;
+			if (selector.selector_type == GXml.CssSelectorType.ATTRIBUTE_EQUAL && attr.node_value == selector.value)
+				return true;
+			if (selector.selector_type == GXml.CssSelectorType.ATTRIBUTE_CONTAINS && attr.node_value != null && (selector.value in attr.node_value.split (" ")))
+				return true;
+			if (selector.selector_type == GXml.CssSelectorType.ATTRIBUTE_SUBSTRING && attr.node_value != null && attr.node_value.contains (selector.value))
+				return true;
+			if (selector.selector_type == GXml.CssSelectorType.ATTRIBUTE_STARTS_WITH_WORD && attr.node_value != null && attr.node_value.split ("-")[0] == selector.value)
+				return true;
+			if (selector.selector_type == GXml.CssSelectorType.ATTRIBUTE_STARTS_WITH && attr.node_value != null && attr.node_value.index_of (selector.value) == 0)
+				return true;
+			if (selector.selector_type == GXml.CssSelectorType.ATTRIBUTE_ENDS_WITH && attr.node_value != null && attr.node_value.last_index_of (selector.value) == attr.node_value.length - selector.value.length)
+				return true;
+		}
+		return false;
+	}
+			
+	static bool match_node (GXml.DomElement element, GXml.CssSelector selector) throws GLib.Error {
+		if (selector.selector_type == GXml.CssSelectorType.ALL)
+			return true;
+		if (selector.selector_type == GXml.CssSelectorType.CLASS && element.get_attribute ("class") != null && element.class_list.contains (selector.name))
+			return true;
+		if (selector.selector_type == GXml.CssSelectorType.ID && element.id == selector.name)
+			return true;
+		if (selector is GXml.CssAttributeSelector)
+			return match_attribute (element, selector as GXml.CssAttributeSelector);
+		if (selector is GXml.CssElementSelector) {
+			var sel = selector as GXml.CssElementSelector;
+			if (sel.local_name == "*" && (!sel.prefixed || sel.prefix == "*"))
+				return true;
+			if (sel.prefixed && sel.prefix == "") {
+				if (element.prefix != null && element.prefix.length > 0)
+					return false;
+				return sel.local_name == "*" || element.local_name == sel.local_name;
+			}
+			if (sel.prefix == "*")
+				return sel.local_name == element.local_name;
+			return sel.local_name == element.local_name && sel.prefix == element.prefix;
+		}
+		if (selector is GXml.CssNotSelector)
+			return !match_element (element, (selector as GXml.CssNotSelector).selectors);
+		if (selector.selector_type == GXml.CssSelectorType.PSEUDO_CLASS)
+			return match_pseudo (element, selector);
+		return false;
+	}
+	
+	static bool match_element (GXml.DomElement element, Gee.Collection<GXml.CssSelector> selectors) throws GLib.Error {
+		var list = new Gee.ArrayList<GXml.CssSelector>();
+		list.add_all (selectors);
+		var selector = list.remove_at (list.size - 1);
+		if (list.size == 0)
+			return match_node (element, selector);
+		if (list[list.size - 1].combiner == GXml.CssCombiner.AND)
+			return match_node (element, selector) || match_element (element, list);
+		if (list[list.size - 1].combiner == GXml.CssCombiner.NONE)
+			return match_node (element, selector) && match_element (element, list);
+		if (list[list.size - 1].combiner == GXml.CssCombiner.AFTER) {
+			if (element.previous_element_sibling == null)
+				return false;
+			return match_node (element, selector) && match_element (element.previous_element_sibling, list);
+		}
+		if (list[list.size - 1].combiner == GXml.CssCombiner.BEFORE) {
+			if (element.next_element_sibling == null)
+				return false;
+			return match_node (element, selector) && match_element (element.next_element_sibling, list);
+		}
+		if (list[list.size - 1].combiner == GXml.CssCombiner.PARENT)
+			return match_node (element, selector) && match_element (element.parent_element, list);
+		if (list[list.size - 1].combiner == GXml.CssCombiner.INSIDE) {
+			var parent = element.parent_element;
+			bool res = match_node (element, selector);
+			while (parent != null) {
+				if (res && match_element (parent, list))
+					return true;
+				parent = parent.parent_element;
 			}
 		}
 		return false;
 	}
 
+	public bool match (GXml.DomElement element) throws GLib.Error {
+		return match_element (element, this.list);
+	}
+	
+	public GXml.DomNodeList query_selector_all (GXml.DomElement element) throws GLib.Error {
+		var list = new GXml.GomNodeList();
+		foreach (GXml.DomElement child in element.children) {
+			if (match (child))
+				list.add (child);
+			list.add_all (query_selector_all (child));
+		}
+		return list;
+	}
 }

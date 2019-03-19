@@ -357,14 +357,14 @@ public class GXml.GDocument : GXml.GNode,
   public DomNodeList query_selector_all (string selectors) throws GLib.Error  {
     var cs = new CssSelectorParser ();
     cs.parse (selectors);
-    var l = new GomNodeList ();
+    var l = new GomNodeList();
     foreach (GXml.Node e in children_nodes) {
       if (!(e is DomElement)) continue;
       if (cs.match (e as DomElement))
         l.add (e as DomNode);
-      l.add_all ((e as DomElement).query_selector_all (selectors));
+      l.add_all (cs.query_selector_all (e as DomElement));
     }
-    return l as DomNodeList;
+    return l;
   }
   // DomNonElementParentNode
   public DomElement? get_element_by_id (string element_id) throws GLib.Error {

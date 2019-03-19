@@ -355,12 +355,12 @@ public class GXml.GomDocument : GomNode,
   public DomNodeList query_selector_all (string selectors) throws GLib.Error  {
     var cs = new CssSelectorParser ();
     cs.parse (selectors);
-    var l = new GomNodeList ();
+    var l = new GomNodeList();
     foreach (DomNode e in child_nodes) {
       if (!(e is DomElement)) continue;
       if (cs.match (e as DomElement))
         l.add (e);
-      l.add_all ((e as DomElement).query_selector_all (selectors));
+      l.add_all (cs.query_selector_all (e as DomElement));
     }
     return l;
   }
