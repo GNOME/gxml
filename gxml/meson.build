@@ -69,6 +69,7 @@ valasources = files ([
 	'GomObject.vala',
 	'GomProperty.vala',
 	'GomSchema.vala',
+	'GomStringRef.vala',
 	'GomText.vala',
 	'GXmlAttribute.vala',
 	'GXmlCDATA.vala',

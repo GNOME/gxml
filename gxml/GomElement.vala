@@ -164,7 +164,11 @@ public class GXml.GomElement : GomNode,
       return _prefix;
     foreach (string k in _attributes.keys) {
       if (!("xmlns" in k)) continue;
-      string ns_uri = _attributes.get (k);
+      string ns_uri = null;
+      var prop = _attributes.get (k);
+      if (prop != null) {
+          ns_uri = prop.value;
+      }
       if (ns_uri == null) {
         GLib.warning (_("Invalid namespace URI stored in element's attribute"));
         return null;
@@ -186,7 +190,11 @@ public class GXml.GomElement : GomNode,
   public new string? lookup_namespace_uri (string? prefix) {
     foreach (string k in attributes.keys) {
       if (!("xmlns" in k)) continue;
-      string nsp = _attributes.get (k);
+      var p = _attributes.get (k);
+      string nsp = null;
+      if (p != null) {
+        nsp = p.value;
+      }
       if (prefix == null && k == "xmlns") return nsp;
       if (":" in k) {
         string[] sa = k.split (":");
@@ -351,13 +359,12 @@ public class GXml.GomElement : GomNode,
     _namespace_uri = namespace_uri;
     _prefix = prefix;
   }
-
   /**
    * Holds attributes in current node, using attribute's name as key
    * and it's value as value. Appends namespace prefix to attribute's name as
-   * key if a namespaced attribute.
+   * key if is a namespaced attribute.
    */
-  public class Attributes : HashMap<string,string>, DomNamedNodeMap  {
+  public class Attributes : HashMap<string,GomProperty>, DomNamedNodeMap  {
     private TreeMap<long,string> order = new TreeMap<long,string> ();
     /**
      * Holds {@link GomElement} refrence to attributes' parent element.
@@ -372,7 +379,11 @@ public class GXml.GomElement : GomNode,
         i++;
         if (i == index) {
           string name = e.value;
-          string v = get (name);
+          string v = null;
+          var o = get (name);
+          if (o != null) {
+              v = o.value;
+          }
           return new GomAttr (_element, name, v);
         }
       }
@@ -404,7 +415,11 @@ public class GXml.GomElement : GomNode,
         if (p != "xmlns" && p != "xml")
           ns =  _element.lookup_namespace_uri (p);
       }
-      string val = get (name);
+      var prop = get (name);
+      string val = null;
+      if (prop != null) {
+          val = prop.value;
+      }
       if (val == null) return null;
       DomNode attr = null;
       if (p == null || p == "")
@@ -425,15 +440,27 @@ public class GXml.GomElement : GomNode,
         throw new DomError.INVALID_CHARACTER_ERROR (_("Invalid attribute name: %s"), (node as DomAttr).local_name);
       if (!(node is DomAttr))
         throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid node type. DomAttr was expected"));
-      set ((node as DomAttr).local_name, node.node_value);
+      GomProperty prop = null;
+      var pprop = (_element as GomObject).find_property_name ((node as DomAttr).local_name);
+      if (pprop != null) {
+        (_element as GomObject).set_attribute ((node as DomAttr).local_name, node.node_value);
+        prop = new GomStringRef (_element, (node as DomAttr).local_name);
+      } else {
+        prop = new GomString.with_string (node.node_value);
+      }
+      set ((node as DomAttr).local_name, prop);
       order.set (size, (node as DomAttr).local_name);
       return new GomAttr (_element, (node as DomAttr).local_name, node.node_value);
     }
     public DomNode? remove_named_item (string name) throws GLib.Error {
       if (":" in name) return null;
-      var v = get (name);
-      if (v == null) return null;
-      var n = new GomAttr (_element, name, v);
+      string val = null;
+      var prop = get (name);
+      if (prop != null) {
+          val = prop.value;
+          prop.value = null;
+      }
+      var n = new GomAttr (_element, name, val);
       unset (name);
       long i = index_of (name);
       if (i < 0) {
@@ -450,8 +477,10 @@ public class GXml.GomElement : GomNode,
       if (nsp == null || nsp == "") return null;
       var v = get (nsp+":"+local_name);
       if (v == null) return null;
-      var n = new GomAttr.namespace (_element, namespace_uri, nsp, local_name, v);
+      string val = v.value;
+      var n = new GomAttr.namespace (_element, namespace_uri, nsp, local_name, val);
       string k = nsp+":"+local_name;
+      v.value = null;
       unset (k);
       long i = index_of (k);
       if (i < 0) {
@@ -468,7 +497,8 @@ public class GXml.GomElement : GomNode,
       if (nsp == null) return null;
       var v = get (nsp+":"+local_name);
       if (v == null) return null;
-      var n = new GomAttr.namespace (_element, namespace_uri, nsp, local_name, v);
+      string val = v.value;
+      var n = new GomAttr.namespace (_element, namespace_uri, nsp, local_name, val);
       return n;
     }
     // Introduced in DOM Level 2:
@@ -538,7 +568,15 @@ public class GXml.GomElement : GomNode,
           && (node as DomAttr).prefix != "")
         p = (node as DomAttr).prefix + ":";
       string k = p+(node as DomAttr).local_name;
-      set (k, node.node_value);
+      GomProperty prop = null;
+      var pprop = (_element as GomObject).find_property_name ((node as DomAttr).local_name);
+      if (pprop != null) {
+        (_element as GomObject).set_attribute ((node as DomAttr).local_name, node.node_value);
+        prop = new GomStringRef (_element, (node as DomAttr).local_name);
+      } else {
+        prop = new GomString.with_string (node.node_value);
+      }
+      set (k, prop);
       order.set (size, k);
 
       var attr = new GomAttr.namespace (_element,
@@ -559,9 +597,12 @@ public class GXml.GomElement : GomNode,
   }
   public DomNamedNodeMap attributes { owned get { return (DomNamedNodeMap) _attributes; } }
   public string? get_attribute (string name) {
-    string s = (this as GomObject).get_attribute (name);
-    if (s != null) return s;
-    return _attributes.get (name);
+    string str = null;
+    var prop = _attributes.get (name);
+    if (prop != null) {
+        str = prop.value;
+    }
+    return str;
   }
   public string? get_attribute_ns (string? namespace_uri, string local_name) {
     string nsp = null;
@@ -574,16 +615,20 @@ public class GXml.GomElement : GomNode,
     string name = local_name;
     if (nsp != null)
       name = nsp + ":" + local_name;
-    return _attributes.get (name);
+    string val = null;
+    var prop = _attributes.get (name);
+    if (prop != null) {
+        val = prop.value;
+    }
+    return val;
   }
   public void set_attribute (string name, string value) throws GLib.Error {
-    bool res = (this as GomObject).set_attribute (name, value);
-    if (res) return;
     var a = new GomAttr (this, name, value);
     attributes.set_named_item (a);
   }
   public void set_attribute_ns (string? namespace_uri,
-                                string name, string value) throws GLib.Error {
+                                string name, string value) throws GLib.Error
+  {
     string p = "";
     string n = name;
     if (":" in name) {
@@ -594,8 +639,9 @@ public class GXml.GomElement : GomNode,
       n = s[1];
       if (":" in n)
         throw new DomError.NAMESPACE_ERROR (_("Invalid attribute name. Invalid use of colon: %s"), n);
-    } else
+    } else {
       n = name;
+    }
     if (namespace_uri == null && p == "")
        throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If prefix is null, namespace URI should not be null"));
     if (p == "xml" && namespace_uri != "http://www.w3.org/2000/xmlns/" && namespace_uri != "http://www.w3.org/2000/xmlns")
@@ -616,7 +662,6 @@ public class GXml.GomElement : GomNode,
     }
   }
   public void remove_attribute (string name) {
-    if ((this as GomObject).remove_attribute (name)) return;
     try { attributes.remove_named_item (name); }
     catch (GLib.Error e)
       { warning (_("Removing attribute Error: ")+e.message); }
@@ -630,9 +675,17 @@ public class GXml.GomElement : GomNode,
     return _attributes.has_key (name);
   }
   public bool has_attribute_ns (string? namespace_uri, string local_name) {
-    var p = lookup_prefix (namespace_uri);
-    if (p == null) return false;
-    return attributes.has_key (p+":"+local_name);
+  string nsp = null;
+    if ((namespace_uri == "http://www.w3.org/2000/xmlns/"
+          || namespace_uri == "http://www.w3.org/2000/xmlns")
+        && local_name != "xmlns")
+      nsp = "xmlns";
+    else
+      nsp = lookup_prefix (namespace_uri);
+    string name = local_name;
+    if (nsp != null)
+      name = nsp + ":" + local_name;
+    return attributes.has_key (name);
   }
 
 

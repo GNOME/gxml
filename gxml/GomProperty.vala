@@ -70,6 +70,9 @@ public class GXml.GomString : GomBaseProperty {
         _value = value;
     }
   }
+  public GomString.with_string (string str) {
+    _value = str;
+  }
 }
 
 /**

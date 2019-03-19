@@ -189,6 +189,29 @@ public interface GXml.GomObject : GLib.Object,
     return get_property_string (prop);
   }
   /**
+   * Search for a property of type {@link GomProperty}
+   * and returns it as object
+   */
+  public virtual GomProperty? find_property (string name) {
+    var prop = find_property_name (name);
+    if (prop != null) {
+      var v = Value (prop.value_type);
+      if (prop.value_type.is_a (typeof(GomProperty))
+          && prop.value_type.is_instantiatable ()) {
+        get_property (prop.name, ref v);
+        GomProperty so = (Object) v as GomProperty;
+        if (so == null) {
+          var obj = Object.new (prop.value_type);
+          v.set_object (obj);
+          set_property (prop.name, v);
+          so = obj as GomProperty;
+        }
+        return so;
+      }
+    }
+    return null;
+  }
+  /**
    * Search for a {@link GLib.Object} property with
    * given name, if found, given string representation
    * is used as value to property, using any required
