@@ -27,6 +27,23 @@ public interface NoInstantiatable : Object, GomObject {
 }
 public interface Property : Object, GomProperty {}
 
+class ObjectParent : GomElement {
+	construct {
+		try { initialize ("root"); }
+		catch (GLib.Error e) { warning ("Error: "+e.message); }
+	}
+	[Description (nick="::text")]
+	public string text { get; set; }
+	[Description (nick="::prop")]
+	public ObjectProperty prop { get; set; }
+	public class ObjectProperty : Object, GomProperty {
+		public string? value { owned get; set; }
+		public bool validate_value (string val) {
+			return true;
+		}
+	}
+}
+
 class GomElementTest : GXmlTest  {
 	public class ParsedDelayed : GomElement {
 		construct {
@@ -719,6 +736,24 @@ class GomElementTest : GXmlTest  {
 				assert (e2.attributes.item (3).node_name == "gxml:a4");
 				assert (e2.attributes.item (3).node_value == "v4");
 				assert (e2.attributes.item (4) == null);
+			} catch (GLib.Error e) {
+		    GLib.message ("Error: "+e.message);
+		    assert_not_reached ();
+		  }
+		});
+		Test.add_func ("/gxml/gom-element/object-attributes", () => {
+			try {
+				var e = new ObjectParent ();
+				assert (e.text == null);
+				assert (e.prop == null);
+				e.set_attribute ("text", "value1");
+				assert (e.get_attribute ("text") == "value1");
+				e.set_attribute ("prop", "value_prop");
+				message ("Attribute: prop: %s", e.get_attribute ("prop"));
+				assert (e.get_attribute ("prop") == "value_prop");
+				assert (e.text != null);
+				assert (e.prop != null);
+				assert_not_reached ();
 			} catch (GLib.Error e) {
 		    GLib.message ("Error: "+e.message);
 		    assert_not_reached ();
