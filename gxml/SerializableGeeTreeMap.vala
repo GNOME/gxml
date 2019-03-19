@@ -29,6 +29,7 @@ using GXml;
  * It uses a key and value store implementing {@link Gee.TreeMap} interface.
  * It implements {@link Serializable} and {@link SerializableCollection} interfaces.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.GomHashThreeMap")]
 public class GXml.SerializableTreeMap<K,V> : Gee.TreeMap<K,V>, Serializable, SerializableCollection
 {
   protected GXml.Node _node;

@@ -25,6 +25,7 @@ using GXml;
  * 
  * This interface must be implemented by classes derived from {@link GXml.SerializableDualKeyMap}.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.MappeableElementPairKey ")]
 public interface GXml.SerializableMapDualKey<P,S> : Object
 {
   /**

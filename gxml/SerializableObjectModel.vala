@@ -37,6 +37,7 @@ using Gee;
  * then it requires to override {@link Serializable.serialize_use_xml_node_value}
  * and set value at {@link Serializable.serialized_xml_node_value}.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.DomElement")]
 public abstract class GXml.SerializableObjectModel : Object, Serializable
 {
 	construct { Init.init (); }

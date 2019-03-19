@@ -31,6 +31,7 @@ using Gee;
  * function to initialize any Serializable collection objects in order to serialize/deserialize
  * all {@link GXml.Node} to given clases.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.GomCollection")]
 public abstract class GXml.SerializableContainer : SerializableObjectModel
 {
 	construct { Init.init (); }

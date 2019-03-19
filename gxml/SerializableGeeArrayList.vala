@@ -31,6 +31,7 @@ using Gee;
  * It is derived  It implements {@link Serializable} and {@link SerializableCollection}
  * interfaces.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.GomArrayList")]
 public class GXml.SerializableArrayList<G> : Gee.ArrayList<G>, Serializable, SerializableCollection
 {
   protected GXml.Node _node;

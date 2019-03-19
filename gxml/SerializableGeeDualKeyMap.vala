@@ -31,6 +31,7 @@ using Gee;
  * It implements {@link Serializable} and {@link SerializableCollection} interfaces, it is iterable as
  * other Gee collections.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.GomHashPairedMap")]
 public class GXml.SerializableDualKeyMap<P,S,V> : Object, Gee.Traversable <V>, Serializable, SerializableCollection
 {
   protected Gee.HashMultiMap<P,HashMap<S,V>> storage;

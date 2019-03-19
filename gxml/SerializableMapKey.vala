@@ -27,6 +27,7 @@ using GXml;
  * This interface must be implemented by classes derived from {@link SerializableTreeMap}
  * and {@link SerializableHashMap}.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.MappeableElement")]
 public interface GXml.SerializableMapKey<K> : Object
 {
   /**

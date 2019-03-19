@@ -26,6 +26,7 @@
  * This object can be used when the property could be removed from serialization, specially if missing
  * on XML have some missing and avoidable.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.GomFloat")]
 public class GXml.SerializableFloat : GXml.SerializableDouble
 {
   /**

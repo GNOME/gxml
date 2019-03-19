@@ -29,6 +29,7 @@ using Gee;
  * serialization, specially if missing on XML have some
  * missing and avoidable.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.GomDouble")]
 public class GXml.SerializableDouble : Object, SerializableProperty
 {
   protected string _val = null;

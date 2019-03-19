@@ -24,6 +24,7 @@ using Gee;
 /**
  * Represent any boolean property to be added as a {@link GXml.Attribute} to a {@link GXml.Element} 
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.GomInt")]
 public class GXml.SerializableInt : GXml.SerializableDouble
 {
   /**

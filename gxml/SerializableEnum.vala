@@ -25,6 +25,7 @@ using Gee;
 /**
  * Errors when de/serializing enumerations as a set of string when using {@link GXml.SerializableEnum}
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.DomAttr")]
 public errordomain GXml.SerializableEnumError {
   INVALID_VALUE_ERROR,
   PARSE_ERROR
@@ -40,6 +41,7 @@ public errordomain GXml.SerializableEnumError {
  * an extension element in the enumeration and return it when the supported values
  * are not met with the string representation in the property.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.GomEnum")]
 public class GXml.SerializableEnum : Object, SerializableProperty
 {
   protected string _val = null;

@@ -33,6 +33,7 @@ using Gee;
  * when parsing {@link GXml.Attribute} properties values and to exclude to be serialized if they have not
  * been created in the holding objects.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.GromProperty")]
 public interface GXml.SerializableProperty : Object
 {
   /**

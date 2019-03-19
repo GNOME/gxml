@@ -29,7 +29,8 @@ namespace GXml {
    * Implementors of this interface, could define or override the way you want to 
    * represent your class in a XML file.
    */
-    public interface Serializable : GLib.Object {
+  [Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.GomElement")]
+  public interface Serializable : GLib.Object {
    /**
     * Return false if you want to ignore unknown properties and {@link GXml.Node}'s
     * not in your class definition.

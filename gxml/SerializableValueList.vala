@@ -33,6 +33,7 @@ using Gee;
  * {@link GXml.SerializableValueList._vals}, at construct {} clause to point a fixed
  * array of strings.
  */
+[Version (deprecated = true, deprecated_since = "0.18", replacement = "GXml.GomArrayString")]
 public class GXml.SerializableValueList : Object, SerializableProperty
 {
   
