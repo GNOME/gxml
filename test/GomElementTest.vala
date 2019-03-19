@@ -753,7 +753,6 @@ class GomElementTest : GXmlTest  {
 				assert (e.get_attribute ("prop") == "value_prop");
 				assert (e.text != null);
 				assert (e.prop != null);
-				assert_not_reached ();
 			} catch (GLib.Error e) {
 		    GLib.message ("Error: "+e.message);
 		    assert_not_reached ();
