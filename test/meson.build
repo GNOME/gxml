@@ -90,6 +90,19 @@ gom_performance = executable('gom-performance-load', files_gom_performance + con
 benchmark ('gom-performance-load', gom_performance)
 
 
+files_gom_performance_iterate = files ([
+		'GomDocumentPerformanceIterateTest.vala'
+	])
+
+gom_performance = executable('gom-performance-iterate', files_gom_performance + configvapi + configtestvapi,
+	vala_args : [],
+	dependencies : [ gio, gee, xml, inc_libh_dep, testdirs_dep, inc_rooth_dep],
+	link_with: libgxml
+)
+
+benchmark ('gom-performance-iterate', gom_performance)
+
+
 files_libxml_performance = files ([
 		'GXmlDocumentPerformanceTest.vala'
 	])
