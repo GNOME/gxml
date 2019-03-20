@@ -49,18 +49,6 @@ public class GXml.GomElement : GomNode,
   protected Attributes _attributes;
   // Convenient Serialization methods
   /**
-   * Parsing a URI file.
-   */
-  public void read_from_uri (string uri) throws GLib.Error {
-    this.read_from_file (File.new_for_uri (uri));
-  }
-  /**
-   * Parsing asinchronically a URI file.
-   */
-  public async void read_from_uri_async (string uri) throws GLib.Error {
-    yield this.read_from_file_async (File.new_for_uri (uri));
-  }
-  /**
    * Parses an XML file, deserializing it over {@link GomElement}.
    */
   public void read_from_file (GLib.File f,
@@ -102,7 +90,7 @@ public class GXml.GomElement : GomNode,
   /**
    * Parses an XML string, deserializing it over {@link GomElement}.
    */
-  public async void read_from_string_async (string str) throws GLib.Error {
+  public async void read_from_string_async (string str, Cancellable? cancellable = null) throws GLib.Error {
     var parser = new XParser (this);
     yield parser.read_string_async (str, null);
   }
@@ -116,7 +104,7 @@ public class GXml.GomElement : GomNode,
   /**
    * Serialize asinchronically {@link GomElement} to a string.
    */
-  public async string write_string_async () throws GLib.Error {
+  public async string write_string_async (Cancellable? cancellable = null) throws GLib.Error {
     var parser = new XParser (this);
     return yield parser.write_string_async ();
   }
@@ -129,7 +117,7 @@ public class GXml.GomElement : GomNode,
   /**
    * Uses element's {@link GomDocument} to write asynchronically an XML to a file, serializing it.
    */
-  public async void write_file_async (GLib.File f) throws GLib.Error {
+  public async void write_file_async (GLib.File f, Cancellable? cancellable = null) throws GLib.Error {
     yield (this.owner_document as GomDocument).write_file_async (f);
   }
   /**
@@ -141,7 +129,7 @@ public class GXml.GomElement : GomNode,
   /**
    * Uses element's {@link GomDocument} to write an XML to a stream, serializing it.
    */
-  public async void write_stream_async (GLib.OutputStream stream) throws GLib.Error {
+  public async void write_stream_async (GLib.OutputStream stream, Cancellable? cancellable = null) throws GLib.Error {
     yield (this.owner_document as GomDocument).write_stream_async (stream);
   }
   /**
@@ -155,7 +143,7 @@ public class GXml.GomElement : GomNode,
    * Creates an {@link GLib.InputStream} to write a string representation
    * in XML of {@link GomElement} using node's {@link GomDocument}
    */
-  public async InputStream create_stream_async () throws GLib.Error {
+  public async InputStream create_stream_async (Cancellable? cancellable = null) throws GLib.Error {
     return yield (this.owner_document as GomDocument).create_stream_async ();
   }
   // DomNode overrides

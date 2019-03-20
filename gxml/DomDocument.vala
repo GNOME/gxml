@@ -70,6 +70,66 @@ public interface GXml.DomDocument : GLib.Object,
    * No implemented jet. This can lead to API changes in future versions.
    */
   public abstract DomTreeWalker create_tree_walker (DomNode root, int what_to_show = (int) 0xFFFFFFFF, DomNodeFilter? filter = null);
+
+
+  /**
+   * Writes a dump XML representation of document to a file.
+   */
+  public virtual void write_file (GLib.File file) throws GLib.Error {}
+  /**
+   * Writes asynchronically a dump XML representation of document to a file.
+   */
+  public virtual async void write_file_async (GLib.File file,
+                            Cancellable? cancellable = null) throws GLib.Error {}
+  /**
+   * Writes a dump XML representation of document to a stream.
+   */
+  public virtual void write_stream (GLib.OutputStream stream) throws GLib.Error {}
+  /**
+   * Writes a dump XML representation of document to a stream.
+   */
+  public virtual async void write_stream_async (GLib.OutputStream stream,
+                            Cancellable? cancellable = null) throws GLib.Error {}
+  /**
+   * Creates an {@link GLib.InputStream} to write a string representation
+   * in XML of {@link GomDocument}
+   */
+  public virtual InputStream create_stream () throws GLib.Error {
+    return new MemoryInputStream ();
+  }
+  /**
+   * Creates an {@link GLib.InputStream} to write a string representation
+   * in XML of {@link GomDocument}
+   */
+  public virtual async InputStream create_stream_async (Cancellable? cancellable = null) throws GLib.Error {
+    return new MemoryInputStream ();
+  }
+  /**
+   * Serialize {@link GomDocument} to a string.
+   */
+  public virtual string write_string () throws GLib.Error { return ""; }
+  /**
+   * Serialize {@link GomDocument} to a string.
+   */
+  public virtual async string write_string_async (Cancellable? cancellable = null) throws GLib.Error { return ""; }
+  /**
+   * Reads a file contents and parse it to document.
+   */
+  public virtual void read_from_file (GLib.File file) throws GLib.Error {}
+  /**
+   * Reads a file contents and parse it to document.
+   */
+  public virtual async void read_from_file_async (GLib.File file,
+                              Cancellable? cancellable = null) throws GLib.Error {}
+  /**
+   * Reads a string and parse it to document.
+   */
+  public virtual void read_from_string (string str) throws GLib.Error {}
+  /**
+   * Reads a string and parse it to document.
+   */
+  public virtual async void read_from_string_async (string str,
+                              Cancellable? cancellable = null) throws GLib.Error {}
 }
 
 public interface GXml.DomXMLDocument : GLib.Object, GXml.DomDocument {}

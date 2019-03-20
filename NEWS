@@ -1,6 +1,7 @@
 ===============
 Version 0.18.0
 ===============
+* New serialization methods for DomElement and DomDocument interfaces
 * Now all GomElement attributes are available from 'attributes' property,
   this include basic and Object's implementing GomProperty
 * New CSS Selector machinery thanks to Yannick Inizan <inizan.yannick@gmail.com>
