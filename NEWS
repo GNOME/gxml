@@ -1,4 +1,27 @@
 ===============
+Version 0.18.0
+===============
+* Now all GomElement attributes are available from 'attributes' property,
+  this include basic and Object's implementing GomProperty
+* New CSS Selector machinery thanks to Yannick Inizan <inizan.yannick@gmail.com>
+* New Meson setup, to allow GXml as a subproject
+* GomCollection's name renamed to convert them as default interfaces to implement
+* Deprecated TNode and derived classes
+* Deprecated Node and derived classes
+* Deprecated Serializable and derived classes
+* Fixes on Unit Tests
+* Updated translations:
+    Hungarian  by                Balázs Úr <balazs@urbalazs.hu>
+    Indonesian by                Kukuh Syafaat <kukuhsyafaat@gnome.org>
+    German     by                Tim Sabsch <tim@sabsch.com>
+    Spanish    by                Daniel Mustieles <daniel.mustieles.contractor@bbva.com>
+    Swedish    by                Anders Jonsson <anders.jonsson@norsjovallen.se>
+    Brazilian  by                Rafael Fontenelle <rafaelff@gnome.org>
+    Czech      by                Marek Černocký <marek@manet.cz>
+    Polish     by                Piotr Drąg <piotrdrag@gmail.com>
+
+
+===============
 Version 0.16.3
 ===============
 * Fix GDocument namespaces by Chris Lee <clee@mg8.org>
