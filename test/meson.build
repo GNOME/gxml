@@ -77,15 +77,27 @@ feedreadert = executable('feedreader_tests', feedreader_files + configvapi + con
 # test ('feedreader_tests', feedreadert)
 
 
-files_benchmark = files ([
+files_gom_performance = files ([
 		'GomDocumentPerformanceTest.vala'
 	])
 
-benchmark = executable('gom-performance', files_benchmark + configvapi + configtestvapi,
+gom_performance = executable('gom-performance-load', files_gom_performance + configvapi + configtestvapi,
 	vala_args : [],
 	dependencies : [ gio, gee, xml, inc_libh_dep, testdirs_dep, inc_rooth_dep],
 	link_with: libgxml
 )
 
-benchmark ('gom-performance', benchmark)
+benchmark ('gom-performance-load', gom_performance)
+
+
+files_libxml_performance = files ([
+		'GXmlDocumentPerformanceTest.vala'
+	])
+libxml_performance = executable('libxml-performance-load', files_libxml_performance + configvapi + configtestvapi,
+	vala_args : [],
+	dependencies : [ gio, gee, xml, inc_libh_dep, testdirs_dep, inc_rooth_dep],
+	link_with: libgxml
+)
+
+benchmark ('libxml-performance', libxml_performance)
 		
