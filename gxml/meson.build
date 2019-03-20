@@ -155,6 +155,9 @@ libgxml = library(VERSIONED_PROJECT_NAME,
 	vala_vapi : VAPI_NAME,
 	vala_gir : GIR_NAME,
 	dependencies : [ gee, gio, xml, namespaceinfo_dep, inc_libh_dep, inc_rooth_dep ],
+	vala_args: [
+		'--abi-stability'
+	],
 	c_args : [
 		'-include',
 		meson.current_build_dir() + '/config.h',
