@@ -103,14 +103,6 @@ msgstr "la valeur est invalide"
 msgid "text cannot be parsed to enumeration type:"
 msgstr "le texte ne peut pas être converti vers le type d'énumération :"
 
-#: ../gxml/GomCollections.vala:66
-msgid "Invalid index for elements in array list"
-msgstr "Index invalide pour les éléments de cette liste"
-
-#: ../gxml/GomCollections.vala:70
-msgid "Invalid index reference for child elements in array list"
-msgstr "Référence d'index invalide pour les éléments enfants de cette liste"
-
 #: ../gxml/GomCollections.vala:75
 msgid "Referenced object's type is invalid. Should be a GXmlGomElement"
 msgstr "Le type de l'objet référencé est invalide. Il devrait être un GXmlGomElement"
