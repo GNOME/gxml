@@ -714,6 +714,7 @@ class GomDocumentTest : GXmlTest {
 		Test.add_func ("/gxml/gom-document/element-id", () => {
 			try {
 				var d = new GomDocument.from_string ("""<root><child id="id1"/><child id="id2"/></root>""") as DomDocument;
+				message ("Serialize Document");
 				message ((d as GomDocument).write_string ());
 				var e = d.get_element_by_id ("id1");
 				assert (e != null);

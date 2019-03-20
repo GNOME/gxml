@@ -38,7 +38,7 @@ class ObjectParent : GomElement {
 	public ObjectProperty prop { get; set; }
 	public class ObjectProperty : Object, GomProperty {
 		public string? value { owned get; set; }
-		public bool validate_value (string val) {
+		public bool validate_value (string? val) {
 			return true;
 		}
 	}
@@ -336,7 +336,7 @@ class GomElementTest : GXmlTest  {
 				}
 				assert (elem != null);
 				assert (elem.attributes != null);
-				assert (elem.attributes.size == 2);
+				assert (elem.attributes.size == 3);
 				var n = doc.create_element ("node");
 				elem.append_child (n);
 				var child = doc.create_element ("child");
@@ -781,6 +781,12 @@ class GomElementTest : GXmlTest  {
 				assert (e.attributes.item (5).node_value == "http://www.gnome.org/gxml/test");
 				assert (e.attributes.item (6).node_value == "prop1_test");
 				assert (e.attributes.item (7).node_value == "prop2_test");
+				e.id = "di1";
+				assert (e.id == "di1");
+				assert (e.get_attribute ("id") == "di1");
+				assert (e.attributes.length == 9);
+				assert (e.attributes.item (8) != null);
+				assert (e.attributes.item (8).node_value == "di1");
 			} catch (GLib.Error e) {
 		    GLib.message ("Error: "+e.message);
 		    assert_not_reached ();

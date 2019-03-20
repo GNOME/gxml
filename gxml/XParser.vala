@@ -116,7 +116,9 @@ public class GXml.XParser : Object, GXml.Parser {
     var b = new MemoryOutputStream.resizable ();
     b.splice (istream, 0);
     tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), "/gxml_memory");
+    _node.freeze_notify ();
     read_node (_node);
+    _node.thaw_notify ();
     tr = null;
   }
   public async void read_stream_async (GLib.InputStream istream,
@@ -126,7 +128,9 @@ public class GXml.XParser : Object, GXml.Parser {
     Idle.add (read_stream_async.callback);
     yield;
     tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), "/gxml_memory");
+    _node.freeze_notify ();
     read_node (_node);
+    _node.thaw_notify ();
     tr = null;
   }
 
@@ -459,8 +463,19 @@ public class GXml.XParser : Object, GXml.Parser {
         tw.flush ();
     }
     // DomElement attributes
-    foreach (string ak in (node as DomElement).attributes.keys) {
-      string v = ((node as DomElement).attributes as HashMap<string,string>).get (ak);
+    var keys = (node as DomElement).attributes.keys;
+    foreach (string ak in keys) {
+      var prop = ((node as DomElement).attributes as HashMap<string,GomProperty>).get (ak);
+      if (prop == null) {
+        continue;
+      }
+      if (prop is GomStringRef) {
+        continue;
+      }
+      string v = prop.value;
+      if (v == null) {
+        continue;
+      }
       if ("xmlns:" in ak) {
         string ns = (node as DomElement).namespace_uri;
         if (ns != null) {
@@ -621,3 +636,4 @@ public class GXml.XParser : Object, GXml.Parser {
     }
   }
 }
+

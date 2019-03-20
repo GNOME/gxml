@@ -31,7 +31,7 @@ public class GXml.GomStringRef : Object, GomProperty {
         object.set_attribute (name, value);
     }
   }
-  public bool validate_value (string val) { return true; }
+  public bool validate_value (string? val) { return true; }
   public GomStringRef (GomObject obj, string name)  {
       object = obj;
       this.name = name;

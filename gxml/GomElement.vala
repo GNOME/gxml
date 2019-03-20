@@ -313,6 +313,17 @@ public class GXml.GomElement : GomNode,
     _node_type = DomNode.NodeType.ELEMENT_NODE;
     _attributes = new Attributes (this);
     _local_name = "";
+    notify.connect ((pspec)=>{
+      if ("::" in pspec.get_nick ()) {
+        string name = pspec.get_nick ().replace ("::", "");
+        var p = _attributes.get (name.down ());
+        if (p == null) {
+          GomProperty prop = new GomStringRef (this, name);
+          _attributes.add (name, prop);
+          message ("Set: %s", name);
+        }
+      }
+    });
   }
   /**
    * Convenient function to initialize, at construction time, a {@link GomElement}
@@ -402,12 +413,12 @@ public class GXml.GomElement : GomNode,
       }
       string p = "";
       string ns = null;
-      string n = name;
+      string n = name.down ();
       if (":" in name) {
         string[] s = name.split (":");
         if (s.length > 2) return null;
         p = s[0];
-        n = s[1];
+        n = s[1].down ();
         if (p == "xml")
           ns = "http://www.w3.org/2000/xmlns/";
         if (p == "xmlns")
@@ -415,7 +426,7 @@ public class GXml.GomElement : GomNode,
         if (p != "xmlns" && p != "xml")
           ns =  _element.lookup_namespace_uri (p);
       }
-      var prop = get (name);
+      var prop = get (n);
       string val = null;
       if (prop != null) {
           val = prop.value;
@@ -448,21 +459,21 @@ public class GXml.GomElement : GomNode,
       } else {
         prop = new GomString.with_string (node.node_value);
       }
-      set ((node as DomAttr).local_name, prop);
-      order.set (size, (node as DomAttr).local_name);
+      set ((node as DomAttr).local_name.down (), prop);
+      order.set (size, (node as DomAttr).local_name.down ());
       return new GomAttr (_element, (node as DomAttr).local_name, node.node_value);
     }
     public DomNode? remove_named_item (string name) throws GLib.Error {
       if (":" in name) return null;
       string val = null;
-      var prop = get (name);
+      var prop = get (name.down ());
       if (prop != null) {
           val = prop.value;
           prop.value = null;
       }
       var n = new GomAttr (_element, name, val);
-      unset (name);
       long i = index_of (name);
+      unset (name.down ());
       if (i < 0) {
         warning (_("No index found for attribute %s").printf (name));
       } else {
@@ -475,11 +486,11 @@ public class GXml.GomElement : GomNode,
       if (":" in local_name) return null;
       var nsp = _element.lookup_prefix (namespace_uri);
       if (nsp == null || nsp == "") return null;
-      var v = get (nsp+":"+local_name);
+      var v = get ((nsp+":"+local_name).down ());
       if (v == null) return null;
       string val = v.value;
       var n = new GomAttr.namespace (_element, namespace_uri, nsp, local_name, val);
-      string k = nsp+":"+local_name;
+      string k = (nsp+":"+local_name).down ();
       v.value = null;
       unset (k);
       long i = index_of (k);
@@ -495,7 +506,7 @@ public class GXml.GomElement : GomNode,
       if (":" in local_name) return null;
       var nsp = _element.lookup_prefix (namespace_uri);
       if (nsp == null) return null;
-      var v = get (nsp+":"+local_name);
+      var v = get ((nsp+":"+local_name).down ());
       if (v == null) return null;
       string val = v.value;
       var n = new GomAttr.namespace (_element, namespace_uri, nsp, local_name, val);
@@ -567,7 +578,7 @@ public class GXml.GomElement : GomNode,
       if ((node as DomAttr).prefix != null
           && (node as DomAttr).prefix != "")
         p = (node as DomAttr).prefix + ":";
-      string k = p+(node as DomAttr).local_name;
+      string k = (p+(node as DomAttr).local_name).down ();
       GomProperty prop = null;
       var pprop = (_element as GomObject).find_property_name ((node as DomAttr).local_name);
       if (pprop != null) {
@@ -594,11 +605,15 @@ public class GXml.GomElement : GomNode,
       }
       return -1;
     }
+    public void add (string name, GomProperty prop) {
+      set (name.down (), prop);
+      order.set (size, name);
+    }
   }
   public DomNamedNodeMap attributes { owned get { return (DomNamedNodeMap) _attributes; } }
   public string? get_attribute (string name) {
     string str = null;
-    var prop = _attributes.get (name);
+    var prop = _attributes.get (name.down ());
     if (prop != null) {
         str = prop.value;
     }
