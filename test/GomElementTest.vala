@@ -42,6 +42,13 @@ class ObjectParent : GomElement {
 			return true;
 		}
 	}
+	public ObjectChild child { get; set; }
+	public class ObjectChild : GomElement {
+		construct {
+			try { initialize ("child"); }
+			catch (GLib.Error e) { warning ("Error: "+e.message); }
+		}
+	}
 }
 
 class GomElementTest : GXmlTest  {
@@ -787,6 +794,15 @@ class GomElementTest : GXmlTest  {
 				assert (e.attributes.length == 9);
 				assert (e.attributes.item (8) != null);
 				assert (e.attributes.item (8).node_value == "di1");
+				e.child = Object.new (typeof (ObjectParent.ObjectChild),
+															"owner-document", e.owner_document) as ObjectParent.ObjectChild;
+				e.append_child (e.child);
+				assert (e.child != null);
+				message (e.write_string ());
+				var e2 = new ObjectParent ();
+				e2.read_from_string (e.write_string ());
+				message (e.write_string ());
+				assert (e2.child != null);
 			} catch (GLib.Error e) {
 		    GLib.message ("Error: "+e.message);
 		    assert_not_reached ();

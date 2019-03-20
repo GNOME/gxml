@@ -187,5 +187,5 @@ custom_target('typelib',
 endif
 
 
-libgxml_dep = declare_dependency(include_directories : inc_rooth_dep,
+libgxml_dep = declare_dependency(include_directories : inc_rooth,
   link_with : libgxml)
