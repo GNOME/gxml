@@ -75,3 +75,17 @@ feedreadert = executable('feedreader_tests', feedreader_files + configvapi + con
 )
 
 # test ('feedreader_tests', feedreadert)
+
+
+files_benchmark = files ([
+		'GomDocumentPerformanceTest.vala'
+	])
+
+benchmark = executable('gom-performance', files_benchmark + configvapi + configtestvapi,
+	vala_args : [],
+	dependencies : [ gio, gee, xml, inc_libh_dep, testdirs_dep, inc_rooth_dep],
+	link_with: libgxml
+)
+
+benchmark ('gom-performance', benchmark)
+		
