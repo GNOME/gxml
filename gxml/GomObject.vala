@@ -1,7 +1,7 @@
 /* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /*
  *
- * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2016-2019  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -51,15 +51,20 @@ public interface GXml.GomObject : GLib.Object,
     return l;
   }
   /**
-   * Returns property's {@link GLib.ParamSpec} based on given nick. This function is
-   * case insensitive.
+   * Returns property's {@link GLib.ParamSpec} based on given nick, without '::'
+   * This function is case insensitive.
+   *
+   * By default any property to be serialized, should set its nick with a prefix
+   * '::', while this method requires to avoid '::' for property's name to find.
+   * '::' will not be present on serialization output, so you can use any convention
+   * for your attribute's name, like using camel case.
    */
-  public virtual ParamSpec? find_property_name (string pname) {
+  public virtual ParamSpec? find_property_name (string nick) {
     foreach (ParamSpec spec in this.get_class ().list_properties ()) {
       string name = spec.get_nick ();
       if ("::" in name) {
         name = name.replace ("::","");
-        if (name.down () == pname.down ()) {
+        if (name.down () == nick.down ()) {
           return spec;
         }
       }
@@ -73,7 +78,7 @@ public interface GXml.GomObject : GLib.Object,
    *
    * This method will check if nick's name is equal than given name
    * in order to avoid use canonical names like "your-name" if your
-   * property is your_name; so you can se nick to "YourName" to find
+   * property is your_name; so you can use nick to "YourName" to find
    * and instantiate it.
    */
   public virtual ParamSpec? find_object_property_name (string pname) {
@@ -371,6 +376,8 @@ public interface GXml.GomObject : GLib.Object,
    * nb.create_instance_property ("node");
    * assert (nb.node != null);
    * }}}
+   *
+   * Property's name can be canonical or its nick name, see {@link find_object_property_name}
    *
    * Returns: true if property has been set and initialized, false otherwise.
    */

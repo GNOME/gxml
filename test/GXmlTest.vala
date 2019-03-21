@@ -2,7 +2,7 @@
 /* GXmlTest.vala
  *
  * Copyright (C) 2011-2013  Richard Schwarting <aquarichy@gmail.com>
- * Copyright (C) 2011-2015  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2011-2019  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -69,8 +69,9 @@ class GXmlTest {
 		GomSerializationTest.add_tests ();
 		GomSchemaTest.add_tests ();
 		CssSelectorTest.add_tests ();
+		NodeListTest.add_tests ();
 
-				Test.run ();
+		Test.run ();
 
 		return 0;
 	}

@@ -87,6 +87,7 @@ valasources = files ([
 	'GXmlListNamespaces.vala',
 	'GXmlNamespace.vala',
 	'GXmlNode.vala',
+	'GXmlParser.vala',
 	'GXmlProcessingInstruction.vala',
 	'GXmlText.vala',
 	'GXPathObject.vala',

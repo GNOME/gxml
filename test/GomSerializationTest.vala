@@ -971,7 +971,7 @@ class GomSerializationTest : GXmlTest  {
     try {
       var b = new Book ();
       var parser = new XParser (b);
-      parser.read_string ("<book name=\"Loco\"/>", null);
+      parser.read_string ("<book name=\"Loco\"/>");
       string s = parser.write_string ();
       assert (s != null);
       GLib.message ("Doc:"+s);
@@ -1040,7 +1040,7 @@ class GomSerializationTest : GXmlTest  {
 #endif
       assert ("<Motor/>" in s);
       var parser = new XParser (m);
-      parser.read_string ("<Motor On=\"true\" Torque=\"3.1416\" Speed=\"3600.1011\" TensionType=\"dc\" Tension=\"125\"/>", null);
+      parser.read_string ("<Motor On=\"true\" Torque=\"3.1416\" Speed=\"3600.1011\" TensionType=\"dc\" Tension=\"125\"/>");
       s = m.to_string ();
 #if DEBUG
       GLib.message ("doc:"+s);
@@ -1076,7 +1076,7 @@ class GomSerializationTest : GXmlTest  {
 #endif
       assert ("<BookStand Classification=\"Science\"/>" in s);
       var parser = new XParser (bs);
-      parser.read_string ("<BookStand Classification=\"Science\"><BookRegister Year=\"2016\"/><BookRegister Year=\"2010\"/><Test/><BookRegister Year=\"2000\"/></BookStand>", null);
+      parser.read_string ("<BookStand Classification=\"Science\"><BookRegister Year=\"2016\"/><BookRegister Year=\"2010\"/><Test/><BookRegister Year=\"2000\"/></BookStand>");
       s = bs.to_string ();
 #if DEBUG
       GLib.message ("doc:"+s);

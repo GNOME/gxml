@@ -54,7 +54,8 @@ public class GXml.GomElement : GomNode,
   public void read_from_file (GLib.File f,
                       GLib.Cancellable? cancellable = null) throws GLib.Error {
     var parser = new XParser (this);
-    parser.read_file (f, cancellable);
+    parser.cancellable = cancellable;
+    parser.read_file (f);
   }
   /**
    * Parses asinchronically an XML file, deserializing it over {@link GomElement}.
@@ -62,7 +63,8 @@ public class GXml.GomElement : GomNode,
   public async void read_from_file_async (GLib.File f,
                       GLib.Cancellable? cancellable = null) throws GLib.Error {
     var parser = new XParser (this);
-    yield parser.read_file_async (f, cancellable);
+    parser.cancellable = cancellable;
+    yield parser.read_file_async (f);
   }
   /**
    * Parses an XML over a {@link GLib.InputStream}, deserializing it over {@link GomElement}.
@@ -70,7 +72,8 @@ public class GXml.GomElement : GomNode,
   public void read_from_stream (GLib.InputStream istream,
                       GLib.Cancellable? cancellable = null) throws GLib.Error {
     var parser = new XParser (this);
-    parser.read_stream (istream, cancellable);
+    parser.cancellable = cancellable;
+    parser.read_stream (istream);
   }
   /**
    * Parses asynchronically an XML over a {@link GLib.InputStream}, deserializing it over {@link GomElement}.
@@ -78,27 +81,31 @@ public class GXml.GomElement : GomNode,
   public async void read_from_stream_async (GLib.InputStream istream,
                       GLib.Cancellable? cancellable = null) throws GLib.Error {
     var parser = new XParser (this);
-    yield parser.read_stream_async (istream, cancellable);
+    parser.cancellable = cancellable;
+    yield parser.read_stream_async (istream);
   }
   /**
    * Parses an XML string, deserializing it over {@link GomElement}.
    */
-  public void read_from_string (string str) throws GLib.Error {
+  public void read_from_string (string str, Cancellable? cancellable = null) throws GLib.Error {
     var parser = new XParser (this);
-    parser.read_string (str, null);
+    parser.cancellable = cancellable;
+    parser.read_string (str);
   }
   /**
    * Parses an XML string, deserializing it over {@link GomElement}.
    */
   public async void read_from_string_async (string str, Cancellable? cancellable = null) throws GLib.Error {
     var parser = new XParser (this);
-    yield parser.read_string_async (str, null);
+    parser.cancellable = cancellable;
+    yield parser.read_string_async (str);
   }
   /**
    * Serialize {@link GomElement} to a string.
    */
-  public string write_string () throws GLib.Error {
+  public string write_string (Cancellable? cancellable = null) throws GLib.Error {
     var parser = new XParser (this);
+    parser.cancellable = cancellable;
     return parser.write_string ();
   }
   /**
@@ -106,12 +113,13 @@ public class GXml.GomElement : GomNode,
    */
   public async string write_string_async (Cancellable? cancellable = null) throws GLib.Error {
     var parser = new XParser (this);
+    parser.cancellable = cancellable;
     return yield parser.write_string_async ();
   }
   /**
    * Uses element's {@link GomDocument} to write an XML to a file, serializing it.
    */
-  public void write_file (GLib.File f) throws GLib.Error {
+  public void write_file (GLib.File f, Cancellable? cancellable = null) throws GLib.Error {
     (this.owner_document as GomDocument).write_file (f);
   }
   /**
@@ -308,7 +316,6 @@ public class GXml.GomElement : GomNode,
         if (p == null) {
           GomProperty prop = new GomStringRef (this, name);
           _attributes.add (name, prop);
-          message ("Set: %s", name);
         }
       }
     });
@@ -770,7 +777,7 @@ public class GXml.GomElement : GomNode,
   public void read_unparsed () throws GLib.Error {
     if (unparsed == null) return;
     var parser = new XParser (this);
-    parser.read_child_nodes_string (unparsed, null);
+    parser.read_child_nodes_string (unparsed);
     unparsed = null;
   }
 }

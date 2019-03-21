@@ -23,6 +23,33 @@
 using GXml;
 
 class GomDocumentTest : GXmlTest {
+	class ObjectDocument : GomDocument {
+		[Description (nick="::ROOT")]
+		public ObjectParent root { get; set; }
+		public class ObjectParent : GomElement {
+			construct {
+				try { initialize ("root"); }
+				catch (GLib.Error e) { warning ("Error: "+e.message); }
+			}
+			[Description (nick="::text")]
+			public string text { get; set; }
+			[Description (nick="::prop")]
+			public ObjectProperty prop { get; set; }
+			public class ObjectProperty : Object, GomProperty {
+				public string? value { owned get; set; }
+				public bool validate_value (string? val) {
+					return true;
+				}
+			}
+			public ObjectChild child { get; set; }
+			public class ObjectChild : GomElement {
+				construct {
+					try { initialize ("child"); }
+					catch (GLib.Error e) { warning ("Error: "+e.message); }
+				}
+			}
+		}
+	}
 	public static void add_tests () {
 		Test.add_func ("/gxml/gom-document/construct_api", () => {
 			try {
@@ -540,6 +567,7 @@ class GomDocumentTest : GXmlTest {
 				n.append_child (n2);
 				message (d.write_string ());
 				string str = d.write_string ();
+				message ("Output document: %s", str);
 				assert ("<Node" in str);
 				assert ("<Node name=\"value\"><Node2/></Node>" in str);
 			} catch (GLib.Error e) {
@@ -718,6 +746,17 @@ class GomDocumentTest : GXmlTest {
 				message ((d as GomDocument).write_string ());
 				var e = d.get_element_by_id ("id1");
 				assert (e != null);
+			} catch (GLib.Error e) {
+		    GLib.message ("Error: "+e.message);
+		    assert_not_reached ();
+		  } //<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+		});
+		Test.add_func ("/gxml/gom-document/parse-root-element", () => {
+			try {
+				var d = new ObjectDocument ();
+				d.read_from_string ("""<root><child id="id1"/><child id="id2"/></root>""");
+				message (d.write_string ());
+				assert (d.root != null);
 			} catch (GLib.Error e) {
 		    GLib.message ("Error: "+e.message);
 		    assert_not_reached ();

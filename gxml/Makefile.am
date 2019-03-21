@@ -68,6 +68,7 @@ sources = \
 	GXmlElement.vala \
 	GXmlNamespace.vala \
 	GXmlNode.vala \
+	GXmlParser.vala \
 	GXmlProcessingInstruction.vala \
 	GXmlText.vala \
 	GXmlHashMapAttr.vala \

@@ -246,5 +246,18 @@ class GElementTest : GXmlTest  {
 		    assert_not_reached ();
 		  }
 		});
+    Test.add_func ("/gxml/g-document/dom-write-read", () => {
+      try {
+        DomDocument d = new GDocument ();
+        File dir = File.new_for_path (GXmlTestConfig.TEST_DIR);
+        assert (dir.query_exists ());
+        File f = File.new_for_uri (dir.get_uri ()+"/test-large.xml");
+        assert (f.query_exists ());
+        d.read_from_file (f);
+      } catch (GLib.Error e) {
+        warning ("Error: %s", e.message);
+        assert_not_reached ();
+      }
+    });
 	}
 }

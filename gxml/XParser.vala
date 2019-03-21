@@ -1,7 +1,7 @@
 /* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /* XParser.vala
  *
- * Copyright (C) 2016-2017  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2016-2019  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -31,13 +31,14 @@ public class GXml.XParser : Object, GXml.Parser {
   private DomNode _node;
   private TextReader tr;
   private Xml.TextWriter tw;
-  private Cancellable cancellable;
   private DataInputStream tistream;
 
   public bool backup { get; set; }
   public bool indent { get; set; }
 
   public DomNode node { get { return _node; } }
+
+  public Cancellable? cancellable { get; set; }
 
 
   public XParser (DomNode node) {
@@ -55,20 +56,17 @@ public class GXml.XParser : Object, GXml.Parser {
     tistream = null;
   }
 
-  public void write_stream (OutputStream stream,
-                            GLib.Cancellable? cancellable = null) throws GLib.Error {
+  public void write_stream (OutputStream stream) throws GLib.Error {
     var s = dump ();
     var b = new GLib.MemoryInputStream.from_data (s.data, null);
-    stream.splice (b, GLib.OutputStreamSpliceFlags.NONE);
+    stream.splice (b, GLib.OutputStreamSpliceFlags.NONE, cancellable);
     stream.close ();
     tw = null;
   }
-  public async void write_stream_async (OutputStream stream,
-                            GLib.Cancellable? cancellable = null) throws GLib.Error {
+  public async void write_stream_async (OutputStream stream) throws GLib.Error {
     var s = yield dump_async ();
     var b = new GLib.MemoryInputStream.from_data (s.data, null);
-    stream.splice (b, GLib.OutputStreamSpliceFlags.NONE);
-    stream.close ();
+    yield stream.splice_async (b, GLib.OutputStreamSpliceFlags.NONE, 0, cancellable);
     tw = null;
   }
 
@@ -77,7 +75,7 @@ public class GXml.XParser : Object, GXml.Parser {
    * in XML
    */
   public InputStream
-  create_stream (GLib.Cancellable? cancellable = null) throws GLib.Error {
+  create_stream () throws GLib.Error {
     var s = dump ();
     tw = null;
     return new GLib.MemoryInputStream.from_data (s.data, null);
@@ -87,7 +85,7 @@ public class GXml.XParser : Object, GXml.Parser {
    * in XML
    */
   public async InputStream
-  create_stream_async (GLib.Cancellable? cancellable = null) throws GLib.Error {
+  create_stream_async () throws GLib.Error {
     var s = yield dump_async ();
     tw = null;
     return new GLib.MemoryInputStream.from_data (s.data, null);
@@ -99,19 +97,19 @@ public class GXml.XParser : Object, GXml.Parser {
   public async string write_string_async () throws GLib.Error  {
     return yield dump_async ();
   }
-  public void read_string (string str, GLib.Cancellable? cancellable) throws GLib.Error {
+  public void read_string (string str) throws GLib.Error {
     if (str == "")
       throw new ParserError.INVALID_DATA_ERROR (_("Invalid document string, it is empty or is not allowed"));
     var stream = new GLib.MemoryInputStream.from_data (str.data);
-    read_stream (stream, cancellable);
+    read_stream (stream);
   }
-  public async void read_string_async (string str, GLib.Cancellable? cancellable) throws GLib.Error {
+  public async void read_string_async (string str) throws GLib.Error {
     if (str == "")
       throw new ParserError.INVALID_DATA_ERROR (_("Invalid document string, it is empty or is not allowed"));
     var stream = new GLib.MemoryInputStream.from_data (str.data);
     Idle.add (read_string_async.callback);
     yield;
-    yield read_stream_async (stream, cancellable);
+    yield read_stream_async (stream);
   }
 
   static int read_callback (void* context, [CCode (array_length=false)] char[] buffer, int len) {
@@ -137,15 +135,8 @@ public class GXml.XParser : Object, GXml.Parser {
         dr += bdr;
       }
     } catch (GLib.Error e) {
-      try {
-        message (_("Error reading stream: %s"), e.message);
-        // parser->tistream.close (parser->cancellable);
-        // parser->tistream = null;
-        return -1;
-      } catch (GLib.Error e) {
-        warning (_("Error closing stream: %s"), e.message);
-        return -1;
-      }
+      message (_("Error reading stream: %s"), e.message);
+      return -1;
     }
     return dr;
   }
@@ -163,8 +154,7 @@ public class GXml.XParser : Object, GXml.Parser {
     return 0;
   }
 
-  public void read_stream (GLib.InputStream istream,
-                          GLib.Cancellable? cancellable = null) throws GLib.Error {
+  public void read_stream (GLib.InputStream istream) throws GLib.Error {
     this.cancellable = cancellable;
     tistream = new DataInputStream (istream);
     tr = new TextReader.for_io (read_callback,
@@ -178,8 +168,7 @@ public class GXml.XParser : Object, GXml.Parser {
     tr = null;
     tistream = null;
   }
-  public async void read_stream_async (GLib.InputStream istream,
-                          GLib.Cancellable? cancellable = null) throws GLib.Error {
+  public async void read_stream_async (GLib.InputStream istream) throws GLib.Error {
     this.cancellable = cancellable;
     tistream = new DataInputStream (istream);
     Idle.add (read_stream_async.callback);
@@ -233,16 +222,14 @@ public class GXml.XParser : Object, GXml.Parser {
       }
     }
   }
-  public void read_child_nodes_stream (GLib.InputStream istream,
-                          GLib.Cancellable? cancellable = null) throws GLib.Error {
+  public void read_child_nodes_stream (GLib.InputStream istream) throws GLib.Error {
     var b = new MemoryOutputStream.resizable ();
     b.splice (istream, 0);
     tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), "/gxml_memory");
     read_child_nodes (_node);
     tr = null;
   }
-  public async void read_child_nodes_stream_async (GLib.InputStream istream,
-                          GLib.Cancellable? cancellable = null) throws GLib.Error {
+  public async void read_child_nodes_stream_async (GLib.InputStream istream) throws GLib.Error {
     var b = new MemoryOutputStream.resizable ();
     b.splice (istream, 0);
     Idle.add (read_child_nodes_stream_async.callback);

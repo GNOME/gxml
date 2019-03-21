@@ -1,7 +1,7 @@
 /* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /* GDocument.vala
  *
- * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2016-2019  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -38,8 +38,9 @@ public class GXml.GDocument : GXml.GNode,
                               GXml.DomXMLDocument,
                               GXml.XPathContext
 {
-  protected Xml.Doc* doc;
+  internal Xml.Doc* doc;
   protected Xml.Buffer _buffer;
+  protected Parser _parser = null;
 
   public GDocument () {
     doc = new Xml.Doc ();
@@ -55,33 +56,31 @@ public class GXml.GDocument : GXml.GNode,
   public GDocument.from_file (GLib.File file, int options = 0, Cancellable? cancel = null) throws GLib.Error {
     if (!file.query_exists ())
       throw new DocumentError.INVALID_DOCUMENT_ERROR (_("File doesn't exist"));
-    var b = new MemoryOutputStream.resizable ();
-    b.splice (file.read (), 0);
-    this.from_string ((string) b.data, options);
+    var parser = new GParser (this);
+    parser.cancellable = cancel;
+    parser.read_stream (file.read ());
   }
 
   public GDocument.from_string (string str, int options = 0) throws GLib.Error {
-    Xml.reset_last_error ();
-    doc = Xml.Parser.parse_memory (str, (int) str.length);
-    var e = Xml.get_last_error ();
-    if (e != null) {
-      var errmsg = "Parser Error for string";
-      string s = libxml2_error_to_string (e);
-      if (s != null)
-        errmsg = ".  ";
-      throw new GXml.Error.PARSER (errmsg);
-    }
-    if (doc == null)
-      doc = new Xml.Doc ();
+    var parser = new GParser (this);
+    parser.read_string (str);
   }
   public GDocument.from_stream (GLib.InputStream istream) throws GLib.Error {
-    var b = new MemoryOutputStream.resizable ();
-    b.splice (istream, 0);
-    if (b.data == null)
-      throw new DocumentError.INVALID_DOCUMENT_ERROR (_("stream doesn't provide data"));
-    this.from_string ((string) b.data);
+    var parser = new GParser (this);
+    parser.read_stream (istream);
   }
   public GDocument.from_doc (Xml.Doc doc) { this.doc = doc; }
+
+  public Parser GXml.DomDocument.get_xml_parser () {
+    if (_parser != null) {
+      return _parser;
+    }
+    return new GParser (this);
+  }
+  public void set_xml_parser (Parser parser) {
+    _parser = parser;
+  }
+
   // GXml.Node
   public override bool set_namespace (string uri, string? prefix)
   {

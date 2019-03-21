@@ -1,7 +1,7 @@
 /* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /* Parser.vala
  *
- * Copyright (C) 2016-2017  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2016-2019  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -44,28 +44,28 @@ public interface GXml.Parser : Object {
    */
   public abstract bool indent { get; set; }
   /**
+   * Controls if, when writing, identation should be used.
+   */
+  public abstract Cancellable? cancellable { get; set; }
+  /**
    * A {@link GXml.DomDocument} to read to or write from
    */
   public abstract DomNode node { get; }
   /**
    * Writes a {@link GXml.DomDocument} to a {@link GLib.File}
    */
-  public virtual void write_file (GLib.File file,
-                            GLib.Cancellable? cancellable)
-                            throws GLib.Error {
+  public virtual void write_file (GLib.File file) throws GLib.Error {
     var ostream = file.replace (null, backup,
                             GLib.FileCreateFlags.NONE, cancellable);
-    write_stream (ostream, cancellable);
+    write_stream (ostream);
   }
   /**
    * Writes a {@link GXml.DomDocument} to a {@link GLib.File}
    */
-  public virtual async void write_file_async (GLib.File file,
-                            GLib.Cancellable? cancellable)
-                            throws GLib.Error {
-    var ostream = file.replace (null, backup,
-                            GLib.FileCreateFlags.NONE, cancellable);
-    yield write_stream_async (ostream, cancellable);
+  public virtual async void write_file_async (GLib.File file) throws GLib.Error {
+    var ostream = yield file.replace_async (null, backup,
+                            GLib.FileCreateFlags.NONE, 0, cancellable);
+    yield write_stream_async (ostream);
   }
   /**
    * Writes a {@link node} to a string
@@ -78,68 +78,59 @@ public interface GXml.Parser : Object {
   /**
    * Writes a {@link GXml.DomDocument} to a {@link GLib.OutputStream}
    */
-  public abstract void write_stream (OutputStream stream,
-                                    GLib.Cancellable? cancellable) throws GLib.Error;
+  public abstract void write_stream (OutputStream stream) throws GLib.Error;
   /**
    * Writes asynchronically a {@link node} to a {@link GLib.OutputStream}
    */
-  public abstract async void write_stream_async (OutputStream stream,
-                            GLib.Cancellable? cancellable = null) throws GLib.Error;
+  public abstract async void write_stream_async (OutputStream stream) throws GLib.Error;
   /**
    * Reads a {@link node} from a {@link GLib.File}
    */
-  public virtual void read_file (GLib.File file,
-                                GLib.Cancellable? cancellable)
+  public virtual void read_file (GLib.File file)
                                 throws GLib.Error {
     if (!file.query_exists ())
       throw new GXml.ParserError.INVALID_FILE_ERROR (_("File doesn't exist"));
-    read_stream (file.read (), cancellable);
+    read_stream (file.read ());
   }
   /**
    * Reads a {@link GXml.DomDocument} from a {@link GLib.File}
    */
-  public async virtual void read_file_async (GLib.File file,
-                                    GLib.Cancellable? cancellable)
-                                    throws GLib.Error {
+  public async virtual void read_file_async (GLib.File file) throws GLib.Error {
     if (!file.query_exists ())
       throw new GXml.ParserError.INVALID_FILE_ERROR (_("File doesn't exist"));
     Idle.add (read_file_async.callback);
     yield;
-    yield read_stream_async (file.read (), cancellable);
+    yield read_stream_async (file.read ());
   }
 
   /**
    * Read a {@link GXml.DomDocument} from a {@link GLib.InputStream}
    */
-  public abstract void read_stream (InputStream stream,
-                                   GLib.Cancellable? cancellable) throws GLib.Error;
+  public abstract void read_stream (InputStream stream) throws GLib.Error;
 
   /**
    * Read a {@link GXml.DomDocument} from a {@link GLib.InputStream}
    */
-  public abstract async abstract void read_stream_async (InputStream stream,
-                                   GLib.Cancellable? cancellable) throws GLib.Error;
+  public abstract async abstract void read_stream_async (InputStream stream) throws GLib.Error;
   /**
    * Reads a {@link node} from a string
    */
-  public abstract void read_string (string str,
-                                   GLib.Cancellable? cancellable) throws GLib.Error;
+  public abstract void read_string (string str) throws GLib.Error;
 
   /**
    * Reads synchronically {@link node} a from a string
    */
-  public abstract async void read_string_async (string str, GLib.Cancellable? cancellable) throws GLib.Error;
+  public abstract async void read_string_async (string str) throws GLib.Error;
   /**
    * Creates an {@link GLib.InputStream} to write a string representation
    * in XML
    */
-  public abstract InputStream create_stream (GLib.Cancellable? cancellable = null) throws GLib.Error;
+  public abstract InputStream create_stream () throws GLib.Error;
   /**
    * Creates asyncronically an {@link GLib.InputStream} to write a string representation
    * in XML
    */
-  public abstract async InputStream
-  create_stream_async (GLib.Cancellable? cancellable = null) throws GLib.Error;
+  public abstract async InputStream create_stream_async () throws GLib.Error;
   /**
    * Iterates in all child nodes and append them to node.
    */
@@ -287,16 +278,15 @@ public interface GXml.Parser : Object {
   /**
    * Read all childs node feed by stream.
    */
-  public abstract void read_child_nodes_stream (GLib.InputStream istream,
-                          GLib.Cancellable? cancellable = null) throws GLib.Error;
+  public abstract void read_child_nodes_stream (GLib.InputStream istream) throws GLib.Error;
   /**
    * Read childs nodes from string
    */
-  public virtual void read_child_nodes_string (string str, GLib.Cancellable? cancellable) throws GLib.Error {
+  public virtual void read_child_nodes_string (string str) throws GLib.Error {
     if (str == "")
       throw new ParserError.INVALID_DATA_ERROR (_("Invalid document string, it is empty or is not allowed"));
     var stream = new GLib.MemoryInputStream.from_data (str.data);
-    read_child_nodes_stream (stream, cancellable);
+    read_child_nodes_stream (stream);
   }
   /**
    * Reads all child nodes as string

@@ -108,7 +108,7 @@ public interface GXml.DomElement : GLib.Object,
   /**
    * Parses an XML string, deserializing it over {@link GomElement}.
    */
-  public virtual void read_from_string (string str) throws GLib.Error {}
+  public virtual void read_from_string (string str, Cancellable? cancellable = null) throws GLib.Error {}
   /**
    * Parses an XML string, deserializing it over {@link GomElement}.
    */
@@ -117,7 +117,7 @@ public interface GXml.DomElement : GLib.Object,
   /**
    * Serialize {@link GomElement} to a string.
    */
-  public virtual string write_string () throws GLib.Error { return ""; }
+  public virtual string write_string (Cancellable? cancellable = null) throws GLib.Error { return ""; }
   /**
    * Serialize asinchronically {@link GomElement} to a string.
    */
@@ -125,8 +125,8 @@ public interface GXml.DomElement : GLib.Object,
   /**
    * Uses element's {@link GomDocument} to write an XML to a file, serializing it.
    */
-  public virtual void write_file (GLib.File f) throws GLib.Error {
-    owner_document.write_file (f);
+  public virtual void write_file (GLib.File f, Cancellable? cancellable = null) throws GLib.Error {
+    owner_document.write_file (f, cancellable);
   }
   /**
    * Uses element's {@link GomDocument} to write asynchronically an XML to a file, serializing it.

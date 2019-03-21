@@ -1,7 +1,7 @@
 /* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /*
  *
- * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2016-2019  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,6 +27,9 @@ using GXml;
  *
  * This object avoids pre and post XML parsing, by using a one step parsing
  * to translate text XML tree to an GObject based tree.
+ *
+ * If you define a property in a derived class with a nick's name '::ROOT' it
+ * will be initialized and used as root node to parse documents.
  */
 public class GXml.GomDocument : GomNode,
                               DomParentNode,
@@ -42,6 +45,7 @@ public class GXml.GomDocument : GomNode,
   protected string _character_set;
   protected string _content_type;
   protected GXml.DomEvent _constructor;
+  protected Parser _parser;
   public DomImplementation implementation { get { return _implementation; } }
   public string url { get { return _url; } }
   public string document_uri { get { return _url; } }
@@ -73,6 +77,7 @@ public class GXml.GomDocument : GomNode,
     _compat_mode = "";
     _character_set = "utf-8";
     _content_type = "application/xml";
+    _parser = null;
   }
   public GomDocument () {}
   public GomDocument.from_path (string path) throws GLib.Error {
@@ -91,113 +96,69 @@ public class GXml.GomDocument : GomNode,
    * Creates a document parsing a file.
    */
   public GomDocument.from_file (GLib.File file) throws GLib.Error {
-    var parser = new XParser (this);
-    parser.read_file (file, null);
+    Parser parser = get_xml_parser ();
+    parser.read_file (file);
+  }
+
+  private GomElement get_root_gom_element () {
+    Object obj = null;
+    foreach (ParamSpec spec in this.get_class ().list_properties ()) {
+      if ("::" in spec.get_nick () && spec.name.down () == "root") {
+        if (spec.value_type.is_a (typeof (GomElement))) {
+          Value val = Value (Type.OBJECT);
+          get_property (spec.name, ref val);
+          var roote = val.get_object () as GomElement;
+          if (roote == null) {
+            obj = Object.new (spec.value_type,"owner-document", this.owner_document);
+            try { this.append_child (obj as GomElement); }
+            catch (GLib.Error e) {
+              warning (_("Error while attempting to instantiate root property object: %s").printf (e.message));
+              obj = null;
+            }
+            val.set_object (obj);
+            set_property (spec.name, val);
+          }
+        }
+      }
+    }
+    return obj as GomElement;
   }
 
   /**
    * Creates a document parsing a stream.
    */
   public GomDocument.from_stream (GLib.InputStream stream) throws GLib.Error {
-    var parser = new XParser (this);
-    parser.read_stream (stream, null);
+    Parser parser = get_xml_parser ();
+    parser.read_stream (stream);
   }
 
   /**
    * Creates a document parsing a string.
    */
   public GomDocument.from_string (string str) throws GLib.Error {
-    var parser = new XParser (this);
-    parser.read_string (str, null);
+    Parser parser = get_xml_parser ();
+    parser.read_string (str);
   }
 
-  /**
-   * Writes a dump XML representation of document to a file.
-   */
-  public void write_file (GLib.File file) throws GLib.Error {
-    var parser = new XParser (this);
-    parser.write_file (file, null);
-  }
-  /**
-   * Writes asynchronically a dump XML representation of document to a file.
-   */
-  public async void write_file_async (GLib.File file, Cancellable? cancellable = null) throws GLib.Error {
-    var parser = new XParser (this);
-    yield parser.write_file_async (file, null);
-  }
-  /**
-   * Writes a dump XML representation of document to a stream.
-   */
-  public void write_stream (GLib.OutputStream stream) throws GLib.Error {
-    var parser = new XParser (this);
-    parser.write_stream (stream, null);
-  }
-  /**
-   * Writes a dump XML representation of document to a stream.
-   */
-  public async void write_stream_async (GLib.OutputStream stream, Cancellable? cancellable = null) throws GLib.Error {
-    var parser = new XParser (this);
-    parser.write_stream (stream, null);
-  }
-  /**
-   * Creates an {@link GLib.InputStream} to write a string representation
-   * in XML of {@link GomDocument}
-   */
-  public InputStream create_stream () throws GLib.Error {
-    var parser = new XParser (this);
-    return parser.create_stream (null);
-  }
-  /**
-   * Creates an {@link GLib.InputStream} to write a string representation
-   * in XML of {@link GomDocument}
-   */
-  public async InputStream create_stream_async (Cancellable? cancellable = null) throws GLib.Error {
-    var parser = new XParser (this);
-    return yield parser.create_stream_async (null);
-  }
-  /**
-   * Serialize {@link GomDocument} to a string.
-   */
-  public string write_string () throws GLib.Error {
-    var parser = new XParser (this);
-    return parser.write_string ();
-  }
-  /**
-   * Serialize {@link GomDocument} to a string.
-   */
-  public async string write_string_async (Cancellable? cancellable = null) throws GLib.Error {
-    var parser = new XParser (this);
-    return yield parser.write_string_async ();
-  }
-  /**
-   * Reads a file contents and parse it to document.
-   */
-  public void read_from_file (GLib.File file) throws GLib.Error {
-    var parser = new XParser (this);
-    parser.read_file (file, null);
-  }
-  /**
-   * Reads a file contents and parse it to document.
-   */
-  public async void read_from_file_async (GLib.File file, Cancellable? cancellable = null) throws GLib.Error {
-    var parser = new XParser (this);
-    yield parser.read_file_async (file, null);
-  }
-  /**
-   * Reads a string and parse it to document.
-   */
-  public void read_from_string (string str) throws GLib.Error {
-    var parser = new XParser (this);
-    parser.read_string (str, null);
-  }
-  /**
-   * Reads a string and parse it to document.
-   */
-  public async void read_from_string_async (string str, Cancellable? cancellable = null) throws GLib.Error {
-    var parser = new XParser (this);
-    yield parser.read_string_async (str, null);
+  public Parser get_xml_parser () {
+    var roote = get_root_gom_element ();
+    Parser parser = null;
+    if (roote != null) {
+      parser = new XParser (roote);
+    } else {
+      parser = new XParser (this);
+    }
+    if (_parser != null) {
+      parser.backup = _parser.backup;
+      parser.indent = _parser.indent;
+      parser.cancellable = _parser.cancellable;
+    }
+    return parser;
   }
 
+  public void set_xml_parser (Parser parser) {
+    _parser = parser;
+  }
   public DomElement create_element (string local_name) throws GLib.Error {
     var e = new GomElement ();
     e.initialize_document (this, local_name);
