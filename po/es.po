@@ -2,14 +2,14 @@
 # Copyright (C) 2015 Daniel Espinosa Ortiz
 # This file is distributed under the same license as the GXml package.
 # esodan@gmail.com, 2015.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2015, 2016, 2017, 2018.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2015-2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2018-04-10 05:22+0000\n"
-"PO-Revision-Date: 2018-06-22 09:56+0200\n"
+"POT-Creation-Date: 2019-03-20 20:36+0000\n"
+"PO-Revision-Date: 2019-03-21 18:33+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -17,61 +17,101 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Gtranslator 3.31.90\n"
 
-#: gxml/Collections.vala:66 gxml/GomCollections.vala:67
+#: gxml/Collections.vala:66
 msgid "Invalid index for elements in array list"
 msgstr "Índice de elementos no válido en la lista de vectores"
 
-#: gxml/Collections.vala:70 gxml/GomCollections.vala:71
+#: gxml/Collections.vala:70
 msgid "Invalid index reference for child elements in array list"
 msgstr "Referencia del índice no válida para elementos hijo en la lista"
 
 #: gxml/Collections.vala:75
-#| msgid "Referenced object's type is invalid. Should be a GXmlGomElement"
 msgid "Referenced object's type is invalid. Should be a GXmlDomElement"
 msgstr "Tipo de objeto de la referencia no válido. Debe ser un GXmlDomElement"
 
-#: gxml/CssSelectorParser.vala:139
-msgid "Invalid attribute character"
-msgstr "Carácter de atributo no válido"
+#: gxml/CssSelectorParser.vala:206 gxml/CssSelectorParser.vala:214
+#| msgid "Invalid file"
+msgid "Invalid identifier"
+msgstr "Identificador no válido"
 
-#: gxml/CssSelectorParser.vala:165 gxml/CssSelectorParser.vala:211
+#: gxml/CssSelectorParser.vala:212 gxml/CssSelectorParser.vala:218
+#: gxml/CssSelectorParser.vala:303
+msgid "string value is empty"
+msgstr "el valor de la cadena está vacío"
+
+#: gxml/CssSelectorParser.vala:224
+msgid "Cannot find start of 'not selector' value"
+msgstr "No se puede encontrar el inicio del valor «sin selector»"
+
+#: gxml/CssSelectorParser.vala:230
+msgid "Cannot find end of 'not selector' value"
+msgstr "No se puede encontrar el final del valor «sin selector»"
+
+#: gxml/CssSelectorParser.vala:245
 #, c-format
-msgid "Invalid attribute selector value: %s"
-msgstr "Valor de selector de atributo no válido: %s"
+#| msgid "Invalid pseudo class selector %s"
+msgid "Invalid '%s' pseudo class"
+msgstr "Pseudo-clase «%s» no válida"
 
-#: gxml/CssSelectorParser.vala:168 gxml/CssSelectorParser.vala:214
-msgid "Invalid end of attribute value"
-msgstr "Fin de valor de atributo no válido"
+#: gxml/CssSelectorParser.vala:249
+#, c-format
+#| msgid "Invalid pseudo class selector %s"
+msgid "Invalid '%s' pseudo class : cannot find value"
+msgstr "Pseudo-clase «%s» no válida: no se puede encontrar el valor"
 
-#: gxml/CssSelectorParser.vala:174 gxml/CssSelectorParser.vala:220
-msgid "Invalid end of attribute selector"
-msgstr "Fin de selector de atributo no válido"
+#: gxml/CssSelectorParser.vala:254
+msgid "Cannot find end of pseudo class value"
+msgstr "No se puede encontrar el final del valor de la pseudo-clase"
 
-#: gxml/CssSelectorParser.vala:194
-msgid "Invalid attribute selector character"
-msgstr "Carácter de selector de atributo no válido"
+#: gxml/CssSelectorParser.vala:259
+msgid "Pseudo class value isn't a valid number"
+msgstr "El valor de la pseudo-clase no es un número válido"
 
-#: gxml/CssSelectorParser.vala:197
-msgid "Invalid attribute selector character: can't find '=' character"
+#: gxml/CssSelectorParser.vala:267
+msgid "current class doesn't start with letter"
+msgstr "la clase actual no empieza por una letra"
+
+#: gxml/CssSelectorParser.vala:277
+msgid "current id doesn't start with letter"
+msgstr "el ID actual no empieza por una letra"
+
+#: gxml/CssSelectorParser.vala:293 gxml/CssSelectorParser.vala:305
+#| msgid "Invalid attribute name: %s"
+msgid "Invalid attribute"
+msgstr "Atributo no válido"
+
+#: gxml/CssSelectorParser.vala:331
+#| msgid "Invalid end of attribute selector"
+msgid "Invalid attribute selector"
+msgstr "Selector de atributo no válido"
+
+#: gxml/CssSelectorParser.vala:336
+#, c-format
+#| msgid "Invalid attribute selector value: %s"
+msgid "Invalid attribute selector. '=' expected but '%s' was found"
 msgstr ""
-"Carácter de selector de atributo no válido: no se puede encontrar el "
-"carácter «=»"
+"Selector de atributo no válido. se esperaba «=» pero se ha encontrado «%s»"
 
-#: gxml/CssSelectorParser.vala:250
+#: gxml/CssSelectorParser.vala:348
+#| msgid "Invalid end of attribute value"
+msgid "Cannot find end of attribute value"
+msgstr "No se puede encontrar el final del valor del atributo"
+
+#: gxml/CssSelectorParser.vala:352
+#| msgid "Invalid end of attribute selector"
+msgid "Cannot find end of attribute selector"
+msgstr "No se puede encontrar el final del selector del atributo"
+
+#: gxml/CssSelectorParser.vala:399
+msgid "No selectors found"
+msgstr "No se encontraron selectores"
+
+#: gxml/CssSelectorParser.vala:405
 #, c-format
-msgid "Invalid pseudo class selector %s"
-msgstr "Selector de pseudo-clase %s no válido"
-
-#: gxml/CssSelectorParser.vala:258
-msgid "Invalid string length."
-msgstr "Longitud de cadena no válida."
-
-#: gxml/CssSelectorParser.vala:291
-#, c-format
-msgid "Invalid '%s' character."
-msgstr "Carácter «%s» no válido"
+msgid "Last selector has combiner assigned (%s)"
+msgstr "El último selector tiene un combinador asignado (%s)"
 
 #: gxml/Document.vala:153
 msgid "Invalid file"
@@ -105,11 +145,7 @@ msgstr "valor no válido"
 msgid "text cannot be parsed to enumeration type:"
 msgstr "el texto no se puede convertir a un tipo enumeración:"
 
-#: gxml/GomCollections.vala:76
-msgid "Referenced object's type is invalid. Should be a GXmlGomElement"
-msgstr "Tipo de objeto de la referencia no válido. Debe ser un GXmlGomElement"
-
-#: gxml/GomCollections.vala:204
+#: gxml/GomBaseCollection.vala:90
 msgid ""
 "Invalid attempt to initialize a collection using an unsupported type. Only "
 "GXmlGomElement is supported"
@@ -117,37 +153,33 @@ msgstr ""
 "Intento no válido de iniciar una colección usando un tipo no soportado. Sólo "
 "se soporta GXmlGomElement"
 
-#: gxml/GomCollections.vala:233 gxml/GomCollections.vala:261
+#: gxml/GomBaseCollection.vala:119 gxml/GomBaseCollection.vala:147
 msgid "Parent Element is invalid"
 msgstr "El elemento padre no es válido"
 
-#: gxml/GomCollections.vala:236
+#: gxml/GomBaseCollection.vala:122
 msgid ""
 "Invalid attempt to set unsupported type. Only GXmlGomElement is supported"
 msgstr ""
 "Intento no válido de establecer un tipo no soportado. Sólo se soporta "
 "GXmlGomElement"
 
-#: gxml/GomCollections.vala:239
+#: gxml/GomBaseCollection.vala:125
 msgid "Invalid attempt to set a node with a different parent document"
 msgstr ""
 "Intento no válido de establecer un nodo con un documento padre diferente"
 
-#: gxml/GomCollections.vala:244
+#: gxml/GomBaseCollection.vala:130
 msgid ""
 "Node element not appended as child of parent. No node added to collection"
 msgstr ""
 "Elemento de nodo no añadido como hijo de un padre. No se ha añadido ningún "
 "nodo a la colección"
 
-#: gxml/GomCollections.vala:306 gxml/GomCollections.vala:324
+#: gxml/GomBaseCollection.vala:192 gxml/GomBaseCollection.vala:210
 #, c-format
 msgid "Error: %s"
 msgstr "Error: %s"
-
-#: gxml/GomCollections.vala:698
-msgid "No primary key and/or secondary key was found"
-msgstr "No se ha encontrado ninguna clave primario y/o secundaria"
 
 #: gxml/GomDocument.vala:214
 msgid "Creating a namespaced element with invalid node name"
@@ -194,34 +226,34 @@ msgstr "Elemento del DOM query_selector is no implementado"
 msgid "DomElement query_selector_all is not implemented"
 msgstr "Elemento del DOM query_selector_all is no implementado"
 
-#: gxml/GomElement.vala:169
+#: gxml/GomElement.vala:161
 msgid "Invalid namespace URI stored in element's attribute"
 msgstr ""
 "URI del espacio de nombres no válido guardado en el atributo del elemento"
 
-#: gxml/GomElement.vala:176 gxml/GomElement.vala:194
+#: gxml/GomElement.vala:168 gxml/GomElement.vala:190
 msgid "Invalid attribute name in element's attributes list"
 msgstr "Nombre del atributo no válido en la lista de atributos del elemento"
 
-#: gxml/GomElement.vala:209
+#: gxml/GomElement.vala:205
 msgid "Can't locate child node to remove"
 msgstr "No se puede encontrar el nodo hijo que eliminar"
 
-#: gxml/GomElement.vala:432 gxml/GomElement.vala:484
+#: gxml/GomElement.vala:439 gxml/GomElement.vala:506
 #, c-format
 msgid "Invalid attribute name: %s"
 msgstr "Nombre de atributo no válido: %s"
 
-#: gxml/GomElement.vala:434 gxml/GomElement.vala:486
+#: gxml/GomElement.vala:441 gxml/GomElement.vala:508
 msgid "Invalid node type. DomAttr was expected"
 msgstr "Tipo de nodo no válido. Se esperaba DomAttr"
 
-#: gxml/GomElement.vala:447 gxml/GomElement.vala:465
+#: gxml/GomElement.vala:466 gxml/GomElement.vala:486
 #, c-format
 msgid "No index found for attribute %s"
 msgstr "No se ha encontrado el índice para el atributo %s"
 
-#: gxml/GomElement.vala:491
+#: gxml/GomElement.vala:513
 msgid ""
 "Namespace attributes prefixed with xmlns should use a namespace uri http://"
 "www.w3.org/2000/xmlns"
@@ -229,55 +261,55 @@ msgstr ""
 "Los atributos de un espacio de nombres precedido por xmlsn deben usar http://"
 "www.w3.org/2000/xmlns como URI de espacio de nombres"
 
-#: gxml/GomElement.vala:498
+#: gxml/GomElement.vala:520
 #, c-format
 msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
 msgstr ""
 "Los atributos de un espacio de nombres deben proporcionar un prefijo no nulo "
 "y no vacío: %s"
 
-#: gxml/GomElement.vala:502
+#: gxml/GomElement.vala:524
 msgid "Invalid namespace attribute's name."
 msgstr "Nombre del atributo de espacio de nombres no válido."
 
-#: gxml/GomElement.vala:514
+#: gxml/GomElement.vala:536
 #, c-format
 msgid "Duplicated default namespace detected with URI: %s"
 msgstr "Detectado espacio de nombres duplicado con URI: %s"
 
-#: gxml/GomElement.vala:523
+#: gxml/GomElement.vala:545
 #, c-format
 msgid "Duplicated namespace detected for: %s:%s"
 msgstr "Detectado espacio de nombres duplicado para: %s:%s"
 
-#: gxml/GomElement.vala:534
+#: gxml/GomElement.vala:556
 #, c-format
 msgid "Trying to add an attribute with an undefined namespace prefix: %s"
 msgstr ""
 "Intentado añadir un atributo con un prefijo de espacio de nombres no "
 "definido: %s"
 
-#: gxml/GomElement.vala:540
+#: gxml/GomElement.vala:562
 msgid "Trying to add an attribute with a non found namespace URI"
 msgstr ""
 "Intentado añadir un atributo con un URI de espacio de nombres no definido"
 
-#: gxml/GomElement.vala:599
+#: gxml/GomElement.vala:640
 msgid "Invalid attribute name. Just one prefix is allowed"
 msgstr "Nombre de atributo no válido. Sólo se permite un prefijo"
 
-#: gxml/GomElement.vala:603
+#: gxml/GomElement.vala:644
 #, c-format
 msgid "Invalid attribute name. Invalid use of colon: %s"
 msgstr "Nombre de atributo no válido. Uso del punto no válido: %s"
 
-#: gxml/GomElement.vala:607
+#: gxml/GomElement.vala:649
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
 msgstr ""
 "Espacio de nombres no válido. Si el prefijo es nulo, el URI del espacio de "
 "nombres no debe ser nulo"
 
-#: gxml/GomElement.vala:609
+#: gxml/GomElement.vala:651
 msgid ""
 "Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
 "org/2000/xmlns"
@@ -285,7 +317,7 @@ msgstr ""
 "Espacio de nombres no válido. Si el el prefijo es xml, el URI del espacio de "
 "nombres debe ser http://www.w3.org/2000/xmlns/"
 
-#: gxml/GomElement.vala:612
+#: gxml/GomElement.vala:654
 msgid ""
 "Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns"
@@ -293,7 +325,7 @@ msgstr ""
 "Espacio de nombres no válido. Si el prefijo del atributo es xmlns, el URI "
 "del espacio de nombres debe ser http://www.w3.org/2000/xmlns/"
 
-#: gxml/GomElement.vala:616
+#: gxml/GomElement.vala:658
 msgid ""
 "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns"
@@ -301,23 +333,27 @@ msgstr ""
 "Espacio de nombres no válido. Si el el prefijo es xmlns, el URI del espacio "
 "de nombres debe ser http://www.w3.org/2000/xmlns/"
 
-#: gxml/GomElement.vala:618
+#: gxml/GomElement.vala:660
 msgid "Invalid attribute name. No prefixed attributes should use xmlns name"
 msgstr ""
 "Nombre de atributo no válido. Los atributos sin prefijo deben usar el nombre "
 "xmlns"
 
-#: gxml/GomElement.vala:622
+#: gxml/GomElement.vala:664
 msgid "Setting namespaced property error: "
 msgstr "Error al establecer la propiedad del espacio de nombres: "
 
-#: gxml/GomElement.vala:629
+#: gxml/GomElement.vala:670
 msgid "Removing attribute Error: "
 msgstr "Error al quitar el atributo: "
 
-#: gxml/GomElement.vala:634
+#: gxml/GomElement.vala:675
 msgid "Removing namespaced attribute Error: "
 msgstr "Error al quitar el atributo del espacio de nombres: "
+
+#: gxml/GomHashPairedMap.vala:210
+msgid "No primary key and/or secondary key was found"
+msgstr "No se ha encontrado ninguna clave primario y/o secundaria"
 
 #: gxml/GomNode.vala:156
 msgid "Text content in element can't be created"
@@ -384,36 +420,36 @@ msgstr ""
 msgid "Enumeration is out of range"
 msgstr "El enumerado está fuera de rango"
 
-#: gxml/GomObject.vala:257
+#: gxml/GomObject.vala:280
 msgid "Enumeration can't be parsed from string"
 msgstr "El enumerado no se puede analizar como una cadena"
 
-#: gxml/GomObject.vala:369
+#: gxml/GomObject.vala:392
 #, c-format
 msgid "Error while attempting to instantiate property object: %s"
 msgstr "Error al intentar instanciar el objeto de propiedad: %s"
 
-#: gxml/GomObject.vala:418
+#: gxml/GomObject.vala:441
 msgid "Can't set value. It is not a GXmlGomElement type"
 msgstr "No se puede establecer el valor. No es de tipo GXmlGomElement"
 
-#: gxml/GomProperty.vala:333
+#: gxml/GomProperty.vala:336
 msgid "Error when transform enum to attribute's value"
 msgstr "Error al transformar el enumerado al valor del atributo"
 
-#: gxml/GomProperty.vala:341
+#: gxml/GomProperty.vala:344
 msgid "Error when transform from attribute string value to enum"
 msgstr "Error al transformar de valor de cadena a de atributo a enumerado"
 
-#: gxml/GomProperty.vala:393 gxml/GomProperty.vala:400
+#: gxml/GomProperty.vala:396 gxml/GomProperty.vala:403
 msgid "Invalid Date for property: "
 msgstr "Fecha no válida para la propiedad: "
 
-#: gxml/GomProperty.vala:395
+#: gxml/GomProperty.vala:398
 msgid "Invalid format for Date property: "
 msgstr "Formato no válido para la propiedad de fecha: "
 
-#: gxml/GomProperty.vala:439
+#: gxml/GomProperty.vala:442
 msgid "Invalid timestamp for property: "
 msgstr "Marca de tiempo no válida para la propiedad: "
 
@@ -510,7 +546,7 @@ msgstr "Tipo de nodo que iniciar después no válido"
 msgid "Invalid root in the source range"
 msgstr "Raíz no válida en el rango fuente"
 
-#: gxml/GXmlElement.vala:347
+#: gxml/GXmlElement.vala:340
 msgid "invalid namespace. Code: "
 msgstr "Espacio de nombres no válido. Código: "
 
@@ -573,58 +609,58 @@ msgstr "Elemento no válido asignado a la colección"
 msgid "No document is set to node"
 msgstr "No hay ningún documento establecido como nodo"
 
-#: gxml/Parser.vala:297 gxml/XParser.vala:100 gxml/XParser.vala:106
+#: gxml/Parser.vala:297 gxml/XParser.vala:104 gxml/XParser.vala:110
 msgid "Invalid document string, it is empty or is not allowed"
 msgstr "Cadena del documento no válida, está vacía o no está permitida"
 
-#: gxml/SerializableEnum.vala:75
+#: gxml/SerializableEnum.vala:77
 msgid "Value can't be parsed to a valid enumeration's value. Value is not set"
 msgstr ""
 "El valor no puede ser convertido a un valor de enumeración válido. No hay "
 "valor asignado."
 
-#: gxml/SerializableEnum.vala:78
+#: gxml/SerializableEnum.vala:80
 msgid "Value can't be parsed to a valid enumeration's value"
 msgstr "El valor no puede ser convertido a un valor de enumeración válido"
 
-#: gxml/SerializableGeeArrayList.vala:44 gxml/SerializableGeeArrayList.vala:63
-#: gxml/SerializableGeeDualKeyMap.vala:46
-#: gxml/SerializableGeeDualKeyMap.vala:67 gxml/SerializableGeeHashMap.vala:43
-#: gxml/SerializableGeeHashMap.vala:64 gxml/SerializableGeeTreeMap.vala:43
-#: gxml/SerializableGeeTreeMap.vala:64
+#: gxml/SerializableGeeArrayList.vala:45 gxml/SerializableGeeArrayList.vala:64
+#: gxml/SerializableGeeDualKeyMap.vala:47
+#: gxml/SerializableGeeDualKeyMap.vala:68 gxml/SerializableGeeHashMap.vala:44
+#: gxml/SerializableGeeHashMap.vala:65 gxml/SerializableGeeTreeMap.vala:44
+#: gxml/SerializableGeeTreeMap.vala:65
 #, c-format
 msgid "%s: Value type '%s' is unsupported"
 msgstr "%s: el valor de tipo «%s» no está soportado"
 
-#: gxml/SerializableObjectModel.vala:322
+#: gxml/SerializableObjectModel.vala:323
 #, c-format
 msgid "WARNING: Object type '%s' has no Node Name defined"
 msgstr "CUIDADO: el tipo de objeto «%s» no tiene un nombre de nodo definido"
 
-#: gxml/SerializableObjectModel.vala:326
+#: gxml/SerializableObjectModel.vala:327
 #, c-format
 msgid "Actual node's name is '%s' expected '%s'"
 msgstr "El nombre actual del nodo es «%s», el esperado es «%s»"
 
-#: gxml/SerializableProperty.vala:91
+#: gxml/SerializableProperty.vala:92
 msgid "Trying to serialize to a non GXmlElement!"
 msgstr "Intentando serializar a un objeto que no es del tipo GXmlElement"
 
-#: gxml/SerializableProperty.vala:110
+#: gxml/SerializableProperty.vala:111
 msgid "No attribute found to deserialize from"
 msgstr "No se ha encontrado ningún atributo para el formulario deserializado"
 
-#: gxml/SerializableProperty.vala:115
+#: gxml/SerializableProperty.vala:116
 #, c-format
 msgid "XML Attribute name is not set, when deserializing to: %s"
 msgstr "Atributo XML nombre no establecido, al deserializar a: %s"
 
-#: gxml/Serializable.vala:390
+#: gxml/Serializable.vala:391
 #, c-format
 msgid "Transformation Error on '%s' or Unsupported type: '%s'"
 msgstr "Error de transformación en «%s» o es un tipo no soportado: «%s»"
 
-#: gxml/Serializable.vala:411
+#: gxml/Serializable.vala:412
 #, c-format
 msgid "Can't transform '%s' to string"
 msgstr "No se puede transformar «%s» a una cadena de texto"
@@ -633,27 +669,64 @@ msgstr "No se puede transformar «%s» a una cadena de texto"
 msgid "Invalid element name"
 msgstr "Nombre de elemento no válido"
 
-#: gxml/TDocument.vala:579 gxml/XParser.vala:272
+#: gxml/TDocument.vala:579 gxml/XParser.vala:337
 #, c-format
 msgid "Parsing ERROR: Fail to move to attribute number: %i"
 msgstr "Error al analizar: falló al mover al número de atributo: %i"
 
-#: gxml/XParser.vala:138 gxml/XParser.vala:196 gxml/XParser.vala:205
-#: gxml/XParser.vala:254 gxml/XParser.vala:267 gxml/XParser.vala:315
+#: gxml/XParser.vala:120
+#| msgid "Invalid offset for replace data"
+msgid "Invalid input stream to read data from"
+msgstr "Flujo de entrada del que leer datos no válido"
+
+#: gxml/XParser.vala:141
+#, c-format
+#| msgid "Error removing Collection's element: %s"
+msgid "Error reading stream: %s"
+msgstr "Error al leer el flujo: %s"
+
+#: gxml/XParser.vala:146 gxml/XParser.vala:160
+#, c-format
+msgid "Error closing stream: %s"
+msgstr "Error al cerrar el flujo: %s"
+
+#: gxml/XParser.vala:203 gxml/XParser.vala:261 gxml/XParser.vala:270
+#: gxml/XParser.vala:319 gxml/XParser.vala:332 gxml/XParser.vala:380
 msgid "Internal Error: No TextReader was set"
 msgstr "Error interno: TextReader no se ha establecido"
 
-#: gxml/XParser.vala:208
+#: gxml/XParser.vala:273
 msgid "Can't read node data"
 msgstr "No se pueden leer los datos del nodo"
 
-#: gxml/XParser.vala:360
+#: gxml/XParser.vala:425
 msgid "Invalid sequence for document type definition: "
 msgstr "Secuencia no válida para definición de tipo de documento:"
 
-#: gxml/XParser.vala:425 gxml/XParser.vala:519 gxml/XParser.vala:590
+#: gxml/XParser.vala:490 gxml/XParser.vala:595 gxml/XParser.vala:666
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Error interno: TextWriter no inicializado"
+
+#~ msgid "Invalid attribute character"
+#~ msgstr "Carácter de atributo no válido"
+
+#~ msgid "Invalid attribute selector character"
+#~ msgstr "Carácter de selector de atributo no válido"
+
+#~ msgid "Invalid attribute selector character: can't find '=' character"
+#~ msgstr ""
+#~ "Carácter de selector de atributo no válido: no se puede encontrar el "
+#~ "carácter «=»"
+
+#~ msgid "Invalid string length."
+#~ msgstr "Longitud de cadena no válida."
+
+#~ msgid "Invalid '%s' character."
+#~ msgstr "Carácter «%s» no válido"
+
+#~ msgid "Referenced object's type is invalid. Should be a GXmlGomElement"
+#~ msgstr ""
+#~ "Tipo de objeto de la referencia no válido. Debe ser un GXmlGomElement"
 
 #~ msgid "Redefinition of default namespace for %s"
 #~ msgstr "Redefinición del espacio de nombres personalizado para %s"
