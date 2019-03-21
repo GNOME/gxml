@@ -1,6 +1,9 @@
 ===============
 Version 0.18.0
 ===============
+* GomDocument now can detect default root property, instantiate it
+  on reading
+* New API in DomDocument and DomElement for read/write operations
 * New serialization methods for DomElement and DomDocument interfaces
 * Now all GomElement attributes are available from 'attributes' property,
   this include basic and Object's implementing GomProperty
@@ -11,6 +14,8 @@ Version 0.18.0
 * Deprecated Node and derived classes
 * Deprecated Serializable and derived classes
 * Fixes on Unit Tests
+* Added benchmark tests
+* Documentation updates
 * Updated translations:
     Hungarian  by                Balázs Úr <balazs@urbalazs.hu>
     Indonesian by                Kukuh Syafaat <kukuhsyafaat@gnome.org>
