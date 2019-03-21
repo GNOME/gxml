@@ -974,24 +974,18 @@ class GomSerializationTest : GXmlTest  {
       parser.read_string ("<book name=\"Loco\"/>", null);
       string s = parser.write_string ();
       assert (s != null);
-#if DEBUG
       GLib.message ("Doc:"+s);
-#endif
       assert (b != null);
       assert (b.child_nodes != null);
       assert (b.child_nodes.size == 0);
       assert (b.attributes != null);
-      assert (b.attributes.size == 0);
+      assert (b.attributes.size == 1);
       assert (b.name != null);
-#if DEBUG
       assert (b.name == "Loco");
-#endif
       s = parser.write_string ();
       assert (s != null);
       assert ("<Book Name=\"Loco\"/>" in s);
-#if DEBUG
       GLib.message ("Doc:"+s);
-#endif
       b.name = "My Book";
       assert (b.get_attribute ("name") == "My Book");
       s = b.to_string ();
@@ -1334,10 +1328,19 @@ class GomSerializationTest : GXmlTest  {
         bt.real_float = (float) 1.1;
         bt.real_double = 2.2;
         message (bt.write_string ());
+        assert (bt.attributes.size == 5);
+        assert (bt.unsigned_integer == 1);
+        assert (bt.get_attribute ("text") == "Text");
+        assert (bt.get_attribute ("integer") == "-1");
+        message ("realFloat = %s", bt.get_attribute ("realFloat"));
+        assert (bt.get_attribute ("realFloat") == "1.1");
+        message ("unsignedInteger = %s", bt.get_attribute ("unsignedInteger"));
+        assert (bt.get_attribute ("unsignedInteger") == "1");
         var bt2 = new GomBasicTypes ();
         bt2.read_from_string (bt.write_string ());
         assert (bt2.text == "Text");
         assert (bt2.integer == -1);
+        message (bt2.unsigned_integer.to_string ());
         assert (bt2.unsigned_integer == 1);
         assert (bt2.real_float == (float) 1.1);
         assert (bt2.real_double == 2.2);

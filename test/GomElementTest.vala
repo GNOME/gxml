@@ -27,6 +27,23 @@ public interface NoInstantiatable : Object, GomObject {
 }
 public interface Property : Object, GomProperty {}
 
+class ObjectParent : GomElement {
+	construct {
+		try { initialize ("root"); }
+		catch (GLib.Error e) { warning ("Error: "+e.message); }
+	}
+	[Description (nick="::text")]
+	public string text { get; set; }
+	[Description (nick="::prop")]
+	public ObjectProperty prop { get; set; }
+	public class ObjectProperty : Object, GomProperty {
+		public string? value { owned get; set; }
+		public bool validate_value (string? val) {
+			return true;
+		}
+	}
+}
+
 class GomElementTest : GXmlTest  {
 	public class ParsedDelayed : GomElement {
 		construct {
@@ -319,7 +336,7 @@ class GomElementTest : GXmlTest  {
 				}
 				assert (elem != null);
 				assert (elem.attributes != null);
-				assert (elem.attributes.size == 2);
+				assert (elem.attributes.size == 3);
 				var n = doc.create_element ("node");
 				elem.append_child (n);
 				var child = doc.create_element ("child");
@@ -719,6 +736,57 @@ class GomElementTest : GXmlTest  {
 				assert (e2.attributes.item (3).node_name == "gxml:a4");
 				assert (e2.attributes.item (3).node_value == "v4");
 				assert (e2.attributes.item (4) == null);
+			} catch (GLib.Error e) {
+		    GLib.message ("Error: "+e.message);
+		    assert_not_reached ();
+		  }
+		});
+		Test.add_func ("/gxml/gom-element/object-attributes", () => {
+			try {
+				var e = new ObjectParent ();
+				assert (e.text == null);
+				assert (e.prop == null);
+				assert (e.attributes != null);
+				assert (e.attributes.length == 0);
+				e.set_attribute ("text", "value1");
+				assert (e.get_attribute ("text") == "value1");
+				e.set_attribute ("prop", "value_prop");
+				message ("Attribute: prop: %s", e.get_attribute ("prop"));
+				assert (e.get_attribute ("prop") == "value_prop");
+				assert (e.text != null);
+				assert (e.prop != null);
+				assert (e.attributes.length == 2);
+				assert (e.attributes.item (0).node_value == "value1");
+				assert (e.attributes.item (1).node_value == "value_prop");
+				e.set_attribute ("p1", "prop1");
+				e.set_attribute ("p2", "prop2");
+				e.set_attribute ("p3", "prop3");
+				assert (e.attributes.length == 5);
+				assert (e.attributes.item (0).node_value == "value1");
+				assert (e.attributes.item (1).node_value == "value_prop");
+				assert (e.attributes.item (2).node_value == "prop1");
+				assert (e.attributes.item (3).node_value == "prop2");
+				assert (e.attributes.item (4).node_value == "prop3");
+				e.set_attribute_ns ("http://www.w3.org/2000/xmlns/", "xmlns:t", "http://www.gnome.org/gxml/test");
+				e.set_attribute_ns ("http://www.gnome.org/gxml/test", "t:p1", "prop1_test");
+				e.set_attribute_ns ("http://www.gnome.org/gxml/test", "t:p2", "prop2_test");
+				assert (e.get_attribute_ns ("http://www.gnome.org/gxml/test", "p1") == "prop1_test");
+				assert (e.get_attribute_ns ("http://www.gnome.org/gxml/test", "p2") == "prop2_test");
+				assert (e.attributes.length == 8);
+				assert (e.attributes.item (0).node_value == "value1");
+				assert (e.attributes.item (1).node_value == "value_prop");
+				assert (e.attributes.item (2).node_value == "prop1");
+				assert (e.attributes.item (3).node_value == "prop2");
+				assert (e.attributes.item (4).node_value == "prop3");
+				assert (e.attributes.item (5).node_value == "http://www.gnome.org/gxml/test");
+				assert (e.attributes.item (6).node_value == "prop1_test");
+				assert (e.attributes.item (7).node_value == "prop2_test");
+				e.id = "di1";
+				assert (e.id == "di1");
+				assert (e.get_attribute ("id") == "di1");
+				assert (e.attributes.length == 9);
+				assert (e.attributes.item (8) != null);
+				assert (e.attributes.item (8).node_value == "di1");
 			} catch (GLib.Error e) {
 		    GLib.message ("Error: "+e.message);
 		    assert_not_reached ();

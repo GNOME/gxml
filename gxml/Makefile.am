@@ -85,14 +85,19 @@ sources = \
 	DomRange.vala \
 	XPath.vala \
 	GXPathObject.vala \
+	GomArrayList.vala \
+	GomAttr.vala \
+	GomBaseCollection.vala \
 	GomDocument.vala \
 	GomElement.vala \
-	GomAttr.vala \
+	GomHashMap.vala \
+	GomHashPairedMap.vala \
+	GomHashThreeMap.vala \
 	GomNode.vala \
 	GomText.vala \
 	GomObject.vala \
-	GomCollections.vala \
 	GomProperty.vala \
+	GomStringRef.vala \
 	Parser.vala \
 	XParser.vala \
 	Schema.vala \

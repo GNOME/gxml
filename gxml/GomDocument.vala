@@ -121,7 +121,7 @@ public class GXml.GomDocument : GomNode,
   /**
    * Writes asynchronically a dump XML representation of document to a file.
    */
-  public async void write_file_async (GLib.File file) throws GLib.Error {
+  public async void write_file_async (GLib.File file, Cancellable? cancellable = null) throws GLib.Error {
     var parser = new XParser (this);
     yield parser.write_file_async (file, null);
   }
@@ -135,7 +135,7 @@ public class GXml.GomDocument : GomNode,
   /**
    * Writes a dump XML representation of document to a stream.
    */
-  public async void write_stream_async (GLib.OutputStream stream) throws GLib.Error {
+  public async void write_stream_async (GLib.OutputStream stream, Cancellable? cancellable = null) throws GLib.Error {
     var parser = new XParser (this);
     parser.write_stream (stream, null);
   }
@@ -151,7 +151,7 @@ public class GXml.GomDocument : GomNode,
    * Creates an {@link GLib.InputStream} to write a string representation
    * in XML of {@link GomDocument}
    */
-  public async InputStream create_stream_async () throws GLib.Error {
+  public async InputStream create_stream_async (Cancellable? cancellable = null) throws GLib.Error {
     var parser = new XParser (this);
     return yield parser.create_stream_async (null);
   }
@@ -165,7 +165,7 @@ public class GXml.GomDocument : GomNode,
   /**
    * Serialize {@link GomDocument} to a string.
    */
-  public async string write_string_async () throws GLib.Error {
+  public async string write_string_async (Cancellable? cancellable = null) throws GLib.Error {
     var parser = new XParser (this);
     return yield parser.write_string_async ();
   }
@@ -179,7 +179,7 @@ public class GXml.GomDocument : GomNode,
   /**
    * Reads a file contents and parse it to document.
    */
-  public async void read_from_file_async (GLib.File file) throws GLib.Error {
+  public async void read_from_file_async (GLib.File file, Cancellable? cancellable = null) throws GLib.Error {
     var parser = new XParser (this);
     yield parser.read_file_async (file, null);
   }
@@ -193,7 +193,7 @@ public class GXml.GomDocument : GomNode,
   /**
    * Reads a string and parse it to document.
    */
-  public async void read_from_string_async (string str) throws GLib.Error {
+  public async void read_from_string_async (string str, Cancellable? cancellable = null) throws GLib.Error {
     var parser = new XParser (this);
     yield parser.read_string_async (str, null);
   }

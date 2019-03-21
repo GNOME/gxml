@@ -38,7 +38,7 @@ public interface GXml.GomProperty : Object
   /**
    * Takes a string and check if it is a valid value for property
    */
-  public abstract bool validate_value (string val);
+  public abstract bool validate_value (string? val);
 }
 
 /**
@@ -52,7 +52,7 @@ public abstract class GXml.GomBaseProperty : Object, GXml.GomProperty {
   /**
    * Takes a string and check if it can be valid for this property.
    */
-  public virtual bool validate_value (string val) { return true; }
+  public virtual bool validate_value (string? val) { return true; }
 }
 
 /**
@@ -69,6 +69,9 @@ public class GXml.GomString : GomBaseProperty {
       if (validate_value (value))
         _value = value;
     }
+  }
+  public GomString.with_string (string str) {
+    _value = str;
   }
 }
 

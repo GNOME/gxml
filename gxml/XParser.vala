@@ -31,6 +31,8 @@ public class GXml.XParser : Object, GXml.Parser {
   private DomNode _node;
   private TextReader tr;
   private Xml.TextWriter tw;
+  private Cancellable cancellable;
+  private DataInputStream tistream;
 
   public bool backup { get; set; }
   public bool indent { get; set; }
@@ -49,6 +51,8 @@ public class GXml.XParser : Object, GXml.Parser {
   construct {
     backup = true;
     indent = false;
+    cancellable = null;
+    tistream = null;
   }
 
   public void write_stream (OutputStream stream,
@@ -110,23 +114,84 @@ public class GXml.XParser : Object, GXml.Parser {
     yield read_stream_async (stream, cancellable);
   }
 
+  static int read_callback (void* context, [CCode (array_length=false)] char[] buffer, int len) {
+    XParser *parser = (XParser*) context;
+    if (parser->tistream == null) {
+      warning (_("Invalid input stream to read data from"));
+      return -1;
+    }
+    int dr = 0;
+    try {
+      int bs = (int) parser->tistream.get_buffer_size ();
+      while (dr < len) {
+        var r = parser->tistream.fill (bs > (len - dr) ? (len - dr) : bs,
+                            parser->cancellable);
+        if (r == 0) {
+          break;
+        }
+        int bdr = 0;
+        while (bdr < r) {
+          buffer[dr+bdr] = (char) parser->tistream.read_byte (parser->cancellable);
+          bdr++;
+        }
+        dr += bdr;
+      }
+    } catch (GLib.Error e) {
+      try {
+        message (_("Error reading stream: %s"), e.message);
+        // parser->tistream.close (parser->cancellable);
+        // parser->tistream = null;
+        return -1;
+      } catch (GLib.Error e) {
+        warning (_("Error closing stream: %s"), e.message);
+        return -1;
+      }
+    }
+    return dr;
+  }
+  static int close_callback (void* context) {
+    XParser *parser = (XParser*) context;
+    if (parser->tistream == null) {
+      return 0;
+    }
+    try {
+      parser->tistream.close (parser->cancellable);
+    } catch (GLib.Error e) {
+      warning (_("Error closing stream: %s"), e.message);
+      return -1;
+    }
+    return 0;
+  }
 
   public void read_stream (GLib.InputStream istream,
                           GLib.Cancellable? cancellable = null) throws GLib.Error {
-    var b = new MemoryOutputStream.resizable ();
-    b.splice (istream, 0);
-    tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), "/gxml_memory");
+    this.cancellable = cancellable;
+    tistream = new DataInputStream (istream);
+    tr = new TextReader.for_io (read_callback,
+                              close_callback,
+                              this,
+                              "", null,
+                             ParserOption.NOERROR);
+    _node.freeze_notify ();
     read_node (_node);
+    _node.thaw_notify ();
     tr = null;
+    tistream = null;
   }
   public async void read_stream_async (GLib.InputStream istream,
                           GLib.Cancellable? cancellable = null) throws GLib.Error {
-    var b = new MemoryOutputStream.resizable ();
-    b.splice (istream, 0);
+    this.cancellable = cancellable;
+    tistream = new DataInputStream (istream);
     Idle.add (read_stream_async.callback);
     yield;
-    tr = new TextReader.for_memory ((char[]) b.data, (int) b.get_data_size (), "/gxml_memory");
+    tr = new TextReader.for_io (read_callback,
+                              close_callback,
+                              this,
+                              "", null,
+                             ParserOption.NOERROR);
+    _node.freeze_notify ();
     read_node (_node);
+    _node.thaw_notify ();
     tr = null;
   }
 
@@ -459,8 +524,19 @@ public class GXml.XParser : Object, GXml.Parser {
         tw.flush ();
     }
     // DomElement attributes
-    foreach (string ak in (node as DomElement).attributes.keys) {
-      string v = ((node as DomElement).attributes as HashMap<string,string>).get (ak);
+    var keys = (node as DomElement).attributes.keys;
+    foreach (string ak in keys) {
+      var prop = ((node as DomElement).attributes as HashMap<string,GomProperty>).get (ak);
+      if (prop == null) {
+        continue;
+      }
+      if (prop is GomStringRef) {
+        continue;
+      }
+      string v = prop.value;
+      if (v == null) {
+        continue;
+      }
       if ("xmlns:" in ak) {
         string ns = (node as DomElement).namespace_uri;
         if (ns != null) {
@@ -621,3 +697,4 @@ public class GXml.XParser : Object, GXml.Parser {
     }
   }
 }
+

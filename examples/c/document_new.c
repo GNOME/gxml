@@ -82,7 +82,7 @@ int main () {
     g_object_unref (book);
   }
 
-  str = gxml_gom_element_write_string (GXML_GOM_ELEMENT (root), &error);
+  str = gxml_dom_element_write_string (GXML_GOM_ELEMENT (root), &error);
   if (error != NULL) {
     printf ("Error writing string from root: %s", error->message);
     exit (1);

@@ -49,18 +49,6 @@ public class GXml.GomElement : GomNode,
   protected Attributes _attributes;
   // Convenient Serialization methods
   /**
-   * Parsing a URI file.
-   */
-  public void read_from_uri (string uri) throws GLib.Error {
-    this.read_from_file (File.new_for_uri (uri));
-  }
-  /**
-   * Parsing asinchronically a URI file.
-   */
-  public async void read_from_uri_async (string uri) throws GLib.Error {
-    yield this.read_from_file_async (File.new_for_uri (uri));
-  }
-  /**
    * Parses an XML file, deserializing it over {@link GomElement}.
    */
   public void read_from_file (GLib.File f,
@@ -102,7 +90,7 @@ public class GXml.GomElement : GomNode,
   /**
    * Parses an XML string, deserializing it over {@link GomElement}.
    */
-  public async void read_from_string_async (string str) throws GLib.Error {
+  public async void read_from_string_async (string str, Cancellable? cancellable = null) throws GLib.Error {
     var parser = new XParser (this);
     yield parser.read_string_async (str, null);
   }
@@ -116,7 +104,7 @@ public class GXml.GomElement : GomNode,
   /**
    * Serialize asinchronically {@link GomElement} to a string.
    */
-  public async string write_string_async () throws GLib.Error {
+  public async string write_string_async (Cancellable? cancellable = null) throws GLib.Error {
     var parser = new XParser (this);
     return yield parser.write_string_async ();
   }
@@ -129,7 +117,7 @@ public class GXml.GomElement : GomNode,
   /**
    * Uses element's {@link GomDocument} to write asynchronically an XML to a file, serializing it.
    */
-  public async void write_file_async (GLib.File f) throws GLib.Error {
+  public async void write_file_async (GLib.File f, Cancellable? cancellable = null) throws GLib.Error {
     yield (this.owner_document as GomDocument).write_file_async (f);
   }
   /**
@@ -141,7 +129,7 @@ public class GXml.GomElement : GomNode,
   /**
    * Uses element's {@link GomDocument} to write an XML to a stream, serializing it.
    */
-  public async void write_stream_async (GLib.OutputStream stream) throws GLib.Error {
+  public async void write_stream_async (GLib.OutputStream stream, Cancellable? cancellable = null) throws GLib.Error {
     yield (this.owner_document as GomDocument).write_stream_async (stream);
   }
   /**
@@ -155,7 +143,7 @@ public class GXml.GomElement : GomNode,
    * Creates an {@link GLib.InputStream} to write a string representation
    * in XML of {@link GomElement} using node's {@link GomDocument}
    */
-  public async InputStream create_stream_async () throws GLib.Error {
+  public async InputStream create_stream_async (Cancellable? cancellable = null) throws GLib.Error {
     return yield (this.owner_document as GomDocument).create_stream_async ();
   }
   // DomNode overrides
@@ -164,7 +152,11 @@ public class GXml.GomElement : GomNode,
       return _prefix;
     foreach (string k in _attributes.keys) {
       if (!("xmlns" in k)) continue;
-      string ns_uri = _attributes.get (k);
+      string ns_uri = null;
+      var prop = _attributes.get (k);
+      if (prop != null) {
+          ns_uri = prop.value;
+      }
       if (ns_uri == null) {
         GLib.warning (_("Invalid namespace URI stored in element's attribute"));
         return null;
@@ -186,7 +178,11 @@ public class GXml.GomElement : GomNode,
   public new string? lookup_namespace_uri (string? prefix) {
     foreach (string k in attributes.keys) {
       if (!("xmlns" in k)) continue;
-      string nsp = _attributes.get (k);
+      var p = _attributes.get (k);
+      string nsp = null;
+      if (p != null) {
+        nsp = p.value;
+      }
       if (prefix == null && k == "xmlns") return nsp;
       if (":" in k) {
         string[] sa = k.split (":");
@@ -305,6 +301,17 @@ public class GXml.GomElement : GomNode,
     _node_type = DomNode.NodeType.ELEMENT_NODE;
     _attributes = new Attributes (this);
     _local_name = "";
+    notify.connect ((pspec)=>{
+      if ("::" in pspec.get_nick ()) {
+        string name = pspec.get_nick ().replace ("::", "");
+        var p = _attributes.get (name.down ());
+        if (p == null) {
+          GomProperty prop = new GomStringRef (this, name);
+          _attributes.add (name, prop);
+          message ("Set: %s", name);
+        }
+      }
+    });
   }
   /**
    * Convenient function to initialize, at construction time, a {@link GomElement}
@@ -351,13 +358,12 @@ public class GXml.GomElement : GomNode,
     _namespace_uri = namespace_uri;
     _prefix = prefix;
   }
-
   /**
    * Holds attributes in current node, using attribute's name as key
    * and it's value as value. Appends namespace prefix to attribute's name as
-   * key if a namespaced attribute.
+   * key if is a namespaced attribute.
    */
-  public class Attributes : HashMap<string,string>, DomNamedNodeMap  {
+  public class Attributes : HashMap<string,GomProperty>, DomNamedNodeMap  {
     private TreeMap<long,string> order = new TreeMap<long,string> ();
     /**
      * Holds {@link GomElement} refrence to attributes' parent element.
@@ -372,7 +378,11 @@ public class GXml.GomElement : GomNode,
         i++;
         if (i == index) {
           string name = e.value;
-          string v = get (name);
+          string v = null;
+          var o = get (name);
+          if (o != null) {
+              v = o.value;
+          }
           return new GomAttr (_element, name, v);
         }
       }
@@ -391,12 +401,12 @@ public class GXml.GomElement : GomNode,
       }
       string p = "";
       string ns = null;
-      string n = name;
+      string n = name.down ();
       if (":" in name) {
         string[] s = name.split (":");
         if (s.length > 2) return null;
         p = s[0];
-        n = s[1];
+        n = s[1].down ();
         if (p == "xml")
           ns = "http://www.w3.org/2000/xmlns/";
         if (p == "xmlns")
@@ -404,7 +414,11 @@ public class GXml.GomElement : GomNode,
         if (p != "xmlns" && p != "xml")
           ns =  _element.lookup_namespace_uri (p);
       }
-      string val = get (name);
+      var prop = get (n);
+      string val = null;
+      if (prop != null) {
+          val = prop.value;
+      }
       if (val == null) return null;
       DomNode attr = null;
       if (p == null || p == "")
@@ -425,17 +439,29 @@ public class GXml.GomElement : GomNode,
         throw new DomError.INVALID_CHARACTER_ERROR (_("Invalid attribute name: %s"), (node as DomAttr).local_name);
       if (!(node is DomAttr))
         throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid node type. DomAttr was expected"));
-      set ((node as DomAttr).local_name, node.node_value);
-      order.set (size, (node as DomAttr).local_name);
+      GomProperty prop = null;
+      var pprop = (_element as GomObject).find_property_name ((node as DomAttr).local_name);
+      if (pprop != null) {
+        (_element as GomObject).set_attribute ((node as DomAttr).local_name, node.node_value);
+        prop = new GomStringRef (_element, (node as DomAttr).local_name);
+      } else {
+        prop = new GomString.with_string (node.node_value);
+      }
+      set ((node as DomAttr).local_name.down (), prop);
+      order.set (size, (node as DomAttr).local_name.down ());
       return new GomAttr (_element, (node as DomAttr).local_name, node.node_value);
     }
     public DomNode? remove_named_item (string name) throws GLib.Error {
       if (":" in name) return null;
-      var v = get (name);
-      if (v == null) return null;
-      var n = new GomAttr (_element, name, v);
-      unset (name);
+      string val = null;
+      var prop = get (name.down ());
+      if (prop != null) {
+          val = prop.value;
+          prop.value = null;
+      }
+      var n = new GomAttr (_element, name, val);
       long i = index_of (name);
+      unset (name.down ());
       if (i < 0) {
         warning (_("No index found for attribute %s").printf (name));
       } else {
@@ -448,10 +474,12 @@ public class GXml.GomElement : GomNode,
       if (":" in local_name) return null;
       var nsp = _element.lookup_prefix (namespace_uri);
       if (nsp == null || nsp == "") return null;
-      var v = get (nsp+":"+local_name);
+      var v = get ((nsp+":"+local_name).down ());
       if (v == null) return null;
-      var n = new GomAttr.namespace (_element, namespace_uri, nsp, local_name, v);
-      string k = nsp+":"+local_name;
+      string val = v.value;
+      var n = new GomAttr.namespace (_element, namespace_uri, nsp, local_name, val);
+      string k = (nsp+":"+local_name).down ();
+      v.value = null;
       unset (k);
       long i = index_of (k);
       if (i < 0) {
@@ -466,9 +494,10 @@ public class GXml.GomElement : GomNode,
       if (":" in local_name) return null;
       var nsp = _element.lookup_prefix (namespace_uri);
       if (nsp == null) return null;
-      var v = get (nsp+":"+local_name);
+      var v = get ((nsp+":"+local_name).down ());
       if (v == null) return null;
-      var n = new GomAttr.namespace (_element, namespace_uri, nsp, local_name, v);
+      string val = v.value;
+      var n = new GomAttr.namespace (_element, namespace_uri, nsp, local_name, val);
       return n;
     }
     // Introduced in DOM Level 2:
@@ -537,8 +566,16 @@ public class GXml.GomElement : GomNode,
       if ((node as DomAttr).prefix != null
           && (node as DomAttr).prefix != "")
         p = (node as DomAttr).prefix + ":";
-      string k = p+(node as DomAttr).local_name;
-      set (k, node.node_value);
+      string k = (p+(node as DomAttr).local_name).down ();
+      GomProperty prop = null;
+      var pprop = (_element as GomObject).find_property_name ((node as DomAttr).local_name);
+      if (pprop != null) {
+        (_element as GomObject).set_attribute ((node as DomAttr).local_name, node.node_value);
+        prop = new GomStringRef (_element, (node as DomAttr).local_name);
+      } else {
+        prop = new GomString.with_string (node.node_value);
+      }
+      set (k, prop);
       order.set (size, k);
 
       var attr = new GomAttr.namespace (_element,
@@ -556,12 +593,19 @@ public class GXml.GomElement : GomNode,
       }
       return -1;
     }
+    public void add (string name, GomProperty prop) {
+      set (name.down (), prop);
+      order.set (size, name);
+    }
   }
   public DomNamedNodeMap attributes { owned get { return (DomNamedNodeMap) _attributes; } }
   public string? get_attribute (string name) {
-    string s = (this as GomObject).get_attribute (name);
-    if (s != null) return s;
-    return _attributes.get (name);
+    string str = null;
+    var prop = _attributes.get (name.down ());
+    if (prop != null) {
+        str = prop.value;
+    }
+    return str;
   }
   public string? get_attribute_ns (string? namespace_uri, string local_name) {
     string nsp = null;
@@ -574,16 +618,20 @@ public class GXml.GomElement : GomNode,
     string name = local_name;
     if (nsp != null)
       name = nsp + ":" + local_name;
-    return _attributes.get (name);
+    string val = null;
+    var prop = _attributes.get (name);
+    if (prop != null) {
+        val = prop.value;
+    }
+    return val;
   }
   public void set_attribute (string name, string value) throws GLib.Error {
-    bool res = (this as GomObject).set_attribute (name, value);
-    if (res) return;
     var a = new GomAttr (this, name, value);
     attributes.set_named_item (a);
   }
   public void set_attribute_ns (string? namespace_uri,
-                                string name, string value) throws GLib.Error {
+                                string name, string value) throws GLib.Error
+  {
     string p = "";
     string n = name;
     if (":" in name) {
@@ -594,8 +642,9 @@ public class GXml.GomElement : GomNode,
       n = s[1];
       if (":" in n)
         throw new DomError.NAMESPACE_ERROR (_("Invalid attribute name. Invalid use of colon: %s"), n);
-    } else
+    } else {
       n = name;
+    }
     if (namespace_uri == null && p == "")
        throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If prefix is null, namespace URI should not be null"));
     if (p == "xml" && namespace_uri != "http://www.w3.org/2000/xmlns/" && namespace_uri != "http://www.w3.org/2000/xmlns")
@@ -616,7 +665,6 @@ public class GXml.GomElement : GomNode,
     }
   }
   public void remove_attribute (string name) {
-    if ((this as GomObject).remove_attribute (name)) return;
     try { attributes.remove_named_item (name); }
     catch (GLib.Error e)
       { warning (_("Removing attribute Error: ")+e.message); }
@@ -630,9 +678,17 @@ public class GXml.GomElement : GomNode,
     return _attributes.has_key (name);
   }
   public bool has_attribute_ns (string? namespace_uri, string local_name) {
-    var p = lookup_prefix (namespace_uri);
-    if (p == null) return false;
-    return attributes.has_key (p+":"+local_name);
+  string nsp = null;
+    if ((namespace_uri == "http://www.w3.org/2000/xmlns/"
+          || namespace_uri == "http://www.w3.org/2000/xmlns")
+        && local_name != "xmlns")
+      nsp = "xmlns";
+    else
+      nsp = lookup_prefix (namespace_uri);
+    string name = local_name;
+    if (nsp != null)
+      name = nsp + ":" + local_name;
+    return attributes.has_key (name);
   }
 
 

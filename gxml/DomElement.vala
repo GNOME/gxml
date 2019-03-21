@@ -73,6 +73,93 @@ public interface GXml.DomElement : GLib.Object,
     parser.parse (selectors);
     return parser.match (this);
   }
+  /**
+   * Parsing a URI file.
+   */
+  public virtual void read_from_uri (string uri) throws GLib.Error {
+    this.read_from_file (File.new_for_uri (uri));
+  }
+  /**
+   * Parsing asinchronically a URI file.
+   */
+  public async virtual void read_from_uri_async (string uri, Cancellable? cancellable = null) throws GLib.Error {
+    yield this.read_from_file_async (File.new_for_uri (uri));
+  }
+  /**
+   * Parses an XML file, deserializing it over {@link GomElement}.
+   */
+  public virtual void read_from_file (GLib.File f,
+                      GLib.Cancellable? cancellable = null) throws GLib.Error {}
+  /**
+   * Parses asinchronically an XML file, deserializing it over {@link GomElement}.
+   */
+  public virtual async void read_from_file_async (GLib.File f,
+                      GLib.Cancellable? cancellable = null) throws GLib.Error {}
+  /**
+   * Parses an XML over a {@link GLib.InputStream}, deserializing it over {@link GomElement}.
+   */
+  public virtual void read_from_stream (GLib.InputStream istream,
+                      GLib.Cancellable? cancellable = null) throws GLib.Error {}
+  /**
+   * Parses asynchronically an XML over a {@link GLib.InputStream}, deserializing it over {@link GomElement}.
+   */
+  public virtual async void read_from_stream_async (GLib.InputStream istream,
+                      GLib.Cancellable? cancellable = null) throws GLib.Error {}
+  /**
+   * Parses an XML string, deserializing it over {@link GomElement}.
+   */
+  public virtual void read_from_string (string str) throws GLib.Error {}
+  /**
+   * Parses an XML string, deserializing it over {@link GomElement}.
+   */
+  public virtual async void read_from_string_async (string str,
+                      Cancellable? cancellable = null) throws GLib.Error {}
+  /**
+   * Serialize {@link GomElement} to a string.
+   */
+  public virtual string write_string () throws GLib.Error { return ""; }
+  /**
+   * Serialize asinchronically {@link GomElement} to a string.
+   */
+  public virtual async string write_string_async (Cancellable? cancellable = null) throws GLib.Error { return ""; }
+  /**
+   * Uses element's {@link GomDocument} to write an XML to a file, serializing it.
+   */
+  public virtual void write_file (GLib.File f) throws GLib.Error {
+    owner_document.write_file (f);
+  }
+  /**
+   * Uses element's {@link GomDocument} to write asynchronically an XML to a file, serializing it.
+   */
+  public virtual async void write_file_async (GLib.File f, Cancellable? cancellable = null) throws GLib.Error {
+    yield this.owner_document.write_file_async (f);
+  }
+  /**
+   * Uses element's {@link GomDocument} to write an XML to a stream, serializing it.
+   */
+  public virtual void write_stream (GLib.OutputStream stream) throws GLib.Error {
+    owner_document.write_stream (stream);
+  }
+  /**
+   * Uses element's {@link GomDocument} to write an XML to a stream, serializing it.
+   */
+  public virtual async void write_stream_async (GLib.OutputStream stream, Cancellable? cancellable = null) throws GLib.Error {
+    yield this.owner_document.write_stream_async (stream);
+  }
+  /**
+   * Creates an {@link GLib.InputStream} to write a string representation
+   * in XML of {@link GomElement} using node's {@link GomDocument}
+   */
+  public virtual InputStream create_stream () throws GLib.Error {
+    return this.owner_document.create_stream ();
+  }
+  /**
+   * Creates an {@link GLib.InputStream} to write a string representation
+   * in XML of {@link GomElement} using node's {@link GomDocument}
+   */
+  public virtual async InputStream create_stream_async (Cancellable? cancellable = null) throws GLib.Error {
+    return yield this.owner_document.create_stream_async ();
+  }
 }
 
 public class GXml.DomElementList : Gee.ArrayList<DomElement>, GXml.DomHTMLCollection {
