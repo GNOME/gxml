@@ -26,6 +26,11 @@ class GomDocumentTest : GXmlTest {
 	class ObjectDocument : GomDocument {
 		[Description (nick="::ROOT")]
 		public ObjectParent root_element { get; set; }
+		construct {
+		  var dt = new GomDocumentType (this, "svg", "-//W3C//DTD SVG 1.1//EN",
+		"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd");
+		  try { append_child (dt); } catch (GLib.Error e) { warning ("Error: "+e.message); }
+		}
 		public class ObjectParent : GomElement {
 			construct {
 				try { initialize ("root"); }
@@ -754,9 +759,14 @@ class GomDocumentTest : GXmlTest {
 		Test.add_func ("/gxml/gom-document/parse-root-element", () => {
 			try {
 				var d = new ObjectDocument ();
-				d.read_from_string ("""<root><child id="id1"/><child id="id2"/></root>""");
+				assert (d.root_element == null);
+				d.read_from_string ("""<root text="val2" prop="yat"><child id="id1"/><child id="id2"/></root>""");
 				message (d.write_string ());
 				assert (d.root_element != null);
+				assert (d.root_element.text != null);
+				assert (d.root_element.text == "val2");
+				assert (d.root_element.prop != null);
+				assert (d.root_element.prop.value == "yat");
 			} catch (GLib.Error e) {
 		    GLib.message ("Error: "+e.message);
 		    assert_not_reached ();
