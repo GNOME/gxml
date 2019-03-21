@@ -111,8 +111,8 @@ public class GXml.GomDocument : GomNode,
         if (spec.value_type.is_a (typeof (GomElement))) {
           Value val = Value (Type.OBJECT);
           get_property (spec.name, ref val);
-          var roote = val.get_object () as GomElement;
-          if (roote == null) {
+          obj = val.get_object () as GomElement;
+          if (obj == null) {
             obj = Object.new (spec.value_type,"owner-document", this.owner_document);
             try { this.append_child (obj as GomElement); }
             catch (GLib.Error e) {
