@@ -143,13 +143,13 @@ public interface GXml.DomTreeWalker : Object {
   public abstract DomNodeFilter? filter { get; }
   public abstract DomNode current_node { get; }
 
-  public abstract DomNode? parentNode();
-  public abstract DomNode? firstChild();
-  public abstract DomNode? lastChild();
-  public abstract DomNode? previousSibling();
-  public abstract DomNode? nextSibling();
-  public abstract DomNode? previousNode();
-  public abstract DomNode? nextNode();
+  public abstract DomNode? parent_node();
+  public abstract DomNode? first_child();
+  public abstract DomNode? last_child();
+  public abstract DomNode? previous_sibling();
+  public abstract DomNode? next_sibling();
+  public abstract DomNode? previous_node();
+  public abstract DomNode? next_node();
 }
 
 public interface GXml.DomNamedNodeMap : Object, Gee.Map<string,DomNode> {

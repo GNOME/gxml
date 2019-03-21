@@ -483,11 +483,11 @@ public class GXml.GDomTreeWalker : Object, GXml.DomTreeWalker {
     _filter = f;
   }
 
-  public DomNode? parentNode() { return null; }// FIXME
-  public DomNode? firstChild() { return null; } // FIXME
-  public DomNode? lastChild() { return null; }// FIXME
-  public DomNode? previousSibling() { return null; }// FIXME
-  public DomNode? nextSibling() { return null; }// FIXME
-  public DomNode? previousNode() { return null; }// FIXME
-  public DomNode? nextNode() { return null; }// FIXME
+  public DomNode? parent_node() { return null; }// FIXME
+  public DomNode? first_child() { return null; } // FIXME
+  public DomNode? last_child() { return null; }// FIXME
+  public DomNode? previous_sibling() { return null; }// FIXME
+  public DomNode? next_sibling() { return null; }// FIXME
+  public DomNode? previous_node() { return null; }// FIXME
+  public DomNode? next_node() { return null; }// FIXME
 }
