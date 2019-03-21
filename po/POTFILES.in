@@ -12,6 +12,7 @@ gxml/GomElement.vala
 gxml/GomHashPairedMap.vala
 gxml/GomNode.vala
 gxml/GomObject.vala
+gxml/GXmlParser.vala
 gxml/GomProperty.vala
 gxml/GomSchema.vala
 gxml/GXmlDocument.vala

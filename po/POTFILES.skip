@@ -12,6 +12,7 @@ gxml/GomElement.c
 gxml/GomHashPairedMap.c
 gxml/GomNode.c
 gxml/GomObject.c
+gxml/GXmlParser.c
 gxml/GomProperty.c
 gxml/GomSchema.c
 gxml/GXmlDocument.c
@@ -45,6 +46,7 @@ sub/gxml/GomElement.c
 sub/gxml/GomHashPairedMap.c
 sub/gxml/GomNode.c
 sub/gxml/GomObject.c
+sub/gxml/GXmlParser.c
 sub/gxml/GomProperty.c
 sub/gxml/GomSchema.c
 sub/gxml/GXmlDocument.c
