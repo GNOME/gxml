@@ -25,7 +25,7 @@ using GXml;
 class GomDocumentTest : GXmlTest {
 	class ObjectDocument : GomDocument {
 		[Description (nick="::ROOT")]
-		public ObjectParent root { get; set; }
+		public ObjectParent root_element { get; set; }
 		public class ObjectParent : GomElement {
 			construct {
 				try { initialize ("root"); }
@@ -756,7 +756,7 @@ class GomDocumentTest : GXmlTest {
 				var d = new ObjectDocument ();
 				d.read_from_string ("""<root><child id="id1"/><child id="id2"/></root>""");
 				message (d.write_string ());
-				assert (d.root != null);
+				assert (d.root_element != null);
 			} catch (GLib.Error e) {
 		    GLib.message ("Error: "+e.message);
 		    assert_not_reached ();

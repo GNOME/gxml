@@ -103,7 +103,11 @@ public class GXml.GomDocument : GomNode,
   private GomElement get_root_gom_element () {
     Object obj = null;
     foreach (ParamSpec spec in this.get_class ().list_properties ()) {
-      if ("::" in spec.get_nick () && spec.name.down () == "root") {
+      if ("::" in spec.get_nick ()) {
+        string name = spec.get_nick ().down ().replace ("::", "");
+        if (name != "root") {
+          continue;
+        }
         if (spec.value_type.is_a (typeof (GomElement))) {
           Value val = Value (Type.OBJECT);
           get_property (spec.name, ref val);
