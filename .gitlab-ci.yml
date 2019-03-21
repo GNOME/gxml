@@ -37,7 +37,7 @@ build-autotools:
   - make check
   - make install
 
-package-tar:
+package-tar-autotools:
   stage: deploy
   script:
   - ./autogen.sh --prefix=/usr
@@ -46,6 +46,17 @@ package-tar:
   artifacts:
     paths:
       - ./gxml-*.tar.xz
+
+package-tar-meson:
+  stage: deploy
+  script:
+  - meson _build
+  - cd _build
+  - ninja
+  - ninja dist
+  artifacts:
+    paths:
+      - _build/meson-dist/gxml-*.tar.xz
 
 pages:
   stage: deploy
