@@ -169,9 +169,10 @@ libgxml = library(VERSIONED_PROJECT_NAME,
 		true,
 		join_paths (get_option('includedir'), 'gxml-@0@'.format (API_VERSION), 'gxml'),
 		vapidir,
-		true
+		not get_option('disable-introspection')
 	])
 
+if not get_option('disable-introspection')
 g_ir_compiler = find_program('g-ir-compiler', required: false)
 if g_ir_compiler.found()
 custom_target('typelib',
@@ -185,6 +186,7 @@ custom_target('typelib',
 	depends: libgxml,
 	install: true,
 	install_dir: join_paths(get_option('libdir'), 'girepository-1.0'))
+endif
 endif
 
 

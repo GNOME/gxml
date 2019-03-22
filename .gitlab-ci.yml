@@ -23,7 +23,7 @@ before_script:
 build-gxml:
   stage: build
   script:
-  - meson _build
+  - meson _build -Ddisable-introspection=false -Ddisable-valadocs=false
   - cd _build
   - ninja
   - meson test
@@ -61,7 +61,7 @@ package-tar-meson:
 pages:
   stage: deploy
   script:
-  - meson _build
+  - meson _build -Ddisable-valadocs=false
   - cd _build
   - ninja
   - mv docs/GXml-* ../public
