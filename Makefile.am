@@ -5,7 +5,7 @@ ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
 
 
 # Set up subdirectories to traverse
-SUBDIRS = gxml test po examples debian
+SUBDIRS = gxml test po examples
 
 # Define available flags
 DISTCHECK_CONFIGURE_FLAGS = \
