@@ -342,9 +342,17 @@ public interface GXml.GomObject : GLib.Object,
   public virtual bool remove_attribute (string name) {
     var prop = get_class ().find_property (name);
     if (prop != null) {
-      Value v = Value (typeof (Object));
-      (this as Object).set_property (name, v);
-      return true;
+      if (prop.value_type.is_a (typeof (Object))) {
+        Value v = Value (typeof (Object));
+        (this as Object).set_property (name, v);
+        return true;
+      }
+      if (prop.value_type.is_a (typeof (string))) {
+        Value v = Value (typeof (string));
+        v.set_string (null);
+        set_property (prop.name, v);
+        return true;
+      }
     }
     return false;
   }

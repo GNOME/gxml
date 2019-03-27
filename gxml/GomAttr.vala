@@ -28,6 +28,7 @@ using Gee;
  */
 public class GXml.GomAttr : GXml.GomNode, GXml.DomAttr {
   protected string _namespace_uri;
+  protected GomProperty prop = null;
   public string local_name { owned get { return _local_name; } }
   public string name {
     owned get {
@@ -43,22 +44,48 @@ public class GXml.GomAttr : GXml.GomNode, GXml.DomAttr {
       return _prefix;
     }
   }
-  public string value { owned get { return _node_value; } set { _node_value = value; } }
+  public string value {
+    owned get {
+      if (prop != null) {
+        return prop.value;
+      }
+      return _node_value;
+    }
+    set {
+      if (prop != null) {
+        prop.value = value;
+      } else {
+        _node_value = value;
+      }
+    }
+  }
+
+  public bool is_referenced { get { return prop != null; } }
 
   construct { _child_nodes = null; }
 
-  public GomAttr (DomElement element, string name, string value) {
+  public GomAttr (DomElement element, string name, string val) {
     _document = element.owner_document;
     _parent = element;
     _local_name = name;
-    _node_value = value;
+    _node_value = val;
+    assert (node_value == val);
+    prop = null;
   }
-  public GomAttr.namespace (DomElement element, string namespace_uri, string? prefix, string name, string value) {
+  public GomAttr.namespace (DomElement element, string namespace_uri, string? prefix, string name, string val) {
     _document = element.owner_document;
     _parent = element;
     _local_name = name;
-    _node_value = value;
+    _node_value = val;
     _namespace_uri = namespace_uri;
     _prefix = prefix;
+    prop = null;
+  }
+  public GomAttr.reference (DomElement element, string name) {
+    _document = element.owner_document;
+    _parent = element;
+    _local_name = name;
+    _node_value = null;
+    prop = new GomStringRef (element as GomObject, name);
   }
 }

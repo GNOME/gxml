@@ -513,11 +513,11 @@ public class GXml.XParser : Object, GXml.Parser {
     // DomElement attributes
     var keys = (node as DomElement).attributes.keys;
     foreach (string ak in keys) {
-      var prop = ((node as DomElement).attributes as HashMap<string,GomProperty>).get (ak);
+      var prop = (node as DomElement).attributes.get (ak) as GomAttr;
       if (prop == null) {
         continue;
       }
-      if (prop is GomStringRef) {
+      if (prop.is_referenced) {
         continue;
       }
       string v = prop.value;
