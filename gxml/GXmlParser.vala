@@ -23,9 +23,11 @@
 
 private class GXml.GParser : Object, Parser {
   private GDocument document;
+  private DomNode _node;
 
   public GParser (GDocument doc) {
     document = doc;
+    _node = doc;
   }
 
   // Parser Interface
@@ -105,7 +107,7 @@ private class GXml.GParser : Object, Parser {
 	}
 	public bool backup { get; set; }
 	public bool indent { get; set; }
-	public GXml.DomNode node { get; }
+	public GXml.DomNode node { get { return _node; } }
 	public Cancellable? cancellable { get; set; }
 }
 
