@@ -57,7 +57,7 @@ endif
 t = executable('tests', files_tests + configvapi + configtestvapi,
 	vala_args : [],
 	c_args: tests_cargs,
-	dependencies : [ gio, gee, xml, inc_libh_dep, testdirs_dep, inc_rooth_dep],
+	dependencies : [ libgxml_deps, inc_libh_dep, testdirs_dep, inc_rooth_dep],
 	link_with: libgxml
 )
 
@@ -70,7 +70,7 @@ feedreader_files = ([
 
 feedreadert = executable('feedreader_tests', feedreader_files + configvapi + configtestvapi,
 	vala_args : [],
-	dependencies : [ gio, gee, xml, inc_libh_dep, testdirs_dep, inc_rooth_dep],
+	dependencies : [ libgxml_deps, inc_libh_dep, testdirs_dep, inc_rooth_dep],
 	link_with: libgxml
 )
 
@@ -83,7 +83,7 @@ files_gom_performance = files ([
 
 gom_performance = executable('gom-performance-load', files_gom_performance + configvapi + configtestvapi,
 	vala_args : [],
-	dependencies : [ gio, gee, xml, inc_libh_dep, testdirs_dep, inc_rooth_dep],
+	dependencies : [ libgxml_deps, inc_libh_dep, testdirs_dep, inc_rooth_dep],
 	link_with: libgxml
 )
 
@@ -96,7 +96,7 @@ files_gom_performance_iterate = files ([
 
 gom_performance_iterate = executable('gom-performance-iterate', files_gom_performance + configvapi + configtestvapi,
 	vala_args : [],
-	dependencies : [ gio, gee, xml, inc_libh_dep, testdirs_dep, inc_rooth_dep],
+	dependencies : [ libgxml_deps, inc_libh_dep, testdirs_dep, inc_rooth_dep],
 	link_with: libgxml
 )
 
@@ -108,7 +108,7 @@ files_libxml_performance = files ([
 	])
 libxml_performance = executable('libxml-performance-load', files_libxml_performance + configvapi + configtestvapi,
 	vala_args : [],
-	dependencies : [ gio, gee, xml, inc_libh_dep, testdirs_dep, inc_rooth_dep],
+	dependencies : [ libgxml_deps, inc_libh_dep, testdirs_dep, inc_rooth_dep],
 	link_with: libgxml
 )
 
@@ -120,7 +120,7 @@ files_libxml_performance_iterate = files ([
 
 libxml_performance_iterate = executable('libxml-performance-iterate', files_gom_performance + configvapi + configtestvapi,
 	vala_args : [],
-	dependencies : [ gio, gee, xml, inc_libh_dep, testdirs_dep, inc_rooth_dep],
+	dependencies : [ libgxml_deps, inc_libh_dep, testdirs_dep, inc_rooth_dep],
 	link_with: libgxml
 )
 

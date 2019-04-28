@@ -155,7 +155,7 @@ libgxml = library(VERSIONED_PROJECT_NAME,
 	vala_header : PROJECT_NAME+'.h',
 	vala_vapi : VAPI_NAME,
 	vala_gir : GIR_NAME,
-	dependencies : [ gee, gio, xml, namespaceinfo_dep, inc_libh_dep, inc_rooth_dep ],
+	dependencies : [ libgxml_deps, namespaceinfo_dep, inc_libh_dep, inc_rooth_dep ],
 	vala_args: [
 		'--abi-stability'
 	],
@@ -191,4 +191,6 @@ endif
 
 
 libgxml_dep = declare_dependency(include_directories : inc_rooth,
-  link_with : libgxml)
+  link_with : libgxml,
+  dependencies: libgxml_deps,
+  )
