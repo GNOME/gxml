@@ -29,7 +29,7 @@ public enum GXml.CssCombiner {
 	AND,
 	PARENT,
 	AFTER,
-	BEFORE
+	PRECEDED
 }
 
 public enum GXml.CssSelectorType {
@@ -185,7 +185,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 			'$', '&', '#', '|', '`',
 			'^', '@', '+', '~', '*',
 			'%', '!', '?', '<', '>', 
-			':', '.', '"', '\''
+			':', '.', '"', '\'', ','
 		};
 		return !(u in array);
 	}
@@ -386,7 +386,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 			else if (str.peek() == '+')
 				combiner = GXml.CssCombiner.AFTER;
 			else if (str.peek() == '~')
-				combiner = GXml.CssCombiner.BEFORE;
+				combiner = GXml.CssCombiner.PRECEDED;
 			else if (combiner == 0)
 				combiner = GXml.CssCombiner.NONE;
 			if (combiner != GXml.CssCombiner.NONE && combiner != GXml.CssCombiner.INSIDE)
@@ -397,8 +397,6 @@ public class GXml.CssSelectorParser : GLib.Object {
 		}
 		if (list.size == 0)
 			throw new GXml.CssSelectorError.NULL (_("No selectors found"));
-//		foreach (var sel in list)
-//			print ("%s %s %s\n", sel.selector_type.to_string(), sel.name, sel.value);
 		if (list[list.size - 1].combiner == GXml.CssCombiner.NONE)
 			list[list.size - 1].combiner = GXml.CssCombiner.NULL;
 		if (list[list.size - 1].combiner != GXml.CssCombiner.NULL)
@@ -638,39 +636,43 @@ public class GXml.CssSelectorParser : GLib.Object {
 			return sel.local_name == element.local_name && sel.prefix == element.prefix;
 		}
 		if (selector is GXml.CssNotSelector)
-			return !match_element (element, (selector as GXml.CssNotSelector).selectors);
+			return !match_element (element, element, (selector as GXml.CssNotSelector).selectors);
 		if (selector.selector_type == GXml.CssSelectorType.PSEUDO_CLASS)
 			return match_pseudo (element, selector);
 		return false;
 	}
 	
-	static bool match_element (GXml.DomElement element, Gee.Collection<GXml.CssSelector> selectors) throws GLib.Error {
+	static bool match_element (GXml.DomElement root, GXml.DomElement element, Gee.Collection<GXml.CssSelector> selectors) throws GLib.Error {
 		var list = new Gee.ArrayList<GXml.CssSelector>();
 		list.add_all (selectors);
 		var selector = list.remove_at (list.size - 1);
 		if (list.size == 0)
 			return match_node (element, selector);
 		if (list[list.size - 1].combiner == GXml.CssCombiner.AND)
-			return match_node (element, selector) || match_element (element, list);
+			return match_node (element, selector) || match_element (root, root, list);
 		if (list[list.size - 1].combiner == GXml.CssCombiner.NONE)
-			return match_node (element, selector) && match_element (element, list);
+			return match_node (element, selector) && match_element (root, element, list);
 		if (list[list.size - 1].combiner == GXml.CssCombiner.AFTER) {
 			if (element.previous_element_sibling == null)
 				return false;
-			return match_node (element, selector) && match_element (element.previous_element_sibling, list);
+			return match_node (element, selector) && match_element (root, element.previous_element_sibling, list);
 		}
-		if (list[list.size - 1].combiner == GXml.CssCombiner.BEFORE) {
-			if (element.next_element_sibling == null)
-				return false;
-			return match_node (element, selector) && match_element (element.next_element_sibling, list);
+		if (list[list.size - 1].combiner == GXml.CssCombiner.PRECEDED) {
+			bool res = match_node (element, selector);
+			var prev = element.previous_element_sibling;
+			while (prev != null) {
+				if (res && match_element (root, prev, list))
+					return true;
+				prev = prev.previous_element_sibling;
+			}
 		}
 		if (list[list.size - 1].combiner == GXml.CssCombiner.PARENT)
-			return match_node (element, selector) && match_element (element.parent_element, list);
+			return match_node (element, selector) && match_element (root, element.parent_element, list);
 		if (list[list.size - 1].combiner == GXml.CssCombiner.INSIDE) {
 			var parent = element.parent_element;
 			bool res = match_node (element, selector);
 			while (parent != null) {
-				if (res && match_element (parent, list))
+				if (res && match_element (root, parent, list))
 					return true;
 				parent = parent.parent_element;
 			}
@@ -679,7 +681,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 	}
 
 	public bool match (GXml.DomElement element) throws GLib.Error {
-		return match_element (element, this.list);
+		return match_element (element, element, this.list);
 	}
 	
 	public GXml.DomNodeList query_selector_all (GXml.DomElement element) throws GLib.Error {
