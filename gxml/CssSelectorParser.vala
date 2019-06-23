@@ -185,7 +185,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 			'$', '&', '#', '|', '`',
 			'^', '@', '+', '~', '*',
 			'%', '!', '?', '<', '>', 
-			':', '.', '"', '\''
+			':', '.', '"', '\'', ','
 		};
 		return !(u in array);
 	}
@@ -379,6 +379,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 				combiner = GXml.CssCombiner.INSIDE;
 			while (str.peek().isspace())
 				str.read();
+			print ("caractère de merde : %s\n", str.peek().to_string());
 			if (str.peek() == ',')
 				combiner = GXml.CssCombiner.AND;
 			else if (str.peek() == '>')
@@ -397,6 +398,10 @@ public class GXml.CssSelectorParser : GLib.Object {
 		}
 		if (list.size == 0)
 			throw new GXml.CssSelectorError.NULL (_("No selectors found"));
+		foreach (var sel in list) {
+			print ("%s %s %s\n", sel.selector_type.to_string(), sel.name, sel.value);
+			print ("\t%s\n", sel.combiner.to_string());
+		}
 		if (list[list.size - 1].combiner == GXml.CssCombiner.NONE)
 			list[list.size - 1].combiner = GXml.CssCombiner.NULL;
 		if (list[list.size - 1].combiner != GXml.CssCombiner.NULL)
