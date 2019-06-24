@@ -1,0 +1,2 @@
+# git-build-recipe format 0.4 deb-version {debupstream}+rev1535+git34a4249-1
+lp:gxml git-commit:34a42495413fe6214a60ea034f8bf09f8bd1cf4c

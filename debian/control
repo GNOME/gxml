@@ -1,0 +1,52 @@
+Source: gxml-0.18
+Section: libs
+Priority: optional
+Maintainer: Daniel Espinosa <daniel.espinosa@pwmc.mx>
+Build-Depends: debhelper (>= 9),
+	git,
+	meson,
+    ninja-build,
+	valac,
+	yelp-tools,
+	intltool,
+	libxml2-dev,
+	libgee-0.8-dev,
+	gir1.2-glib-2.0 (>= 0.9.12),
+	libgirepository1.0-dev (>= 0.9.12),
+	gobject-introspection (>= 0.9.12-4~)
+Standards-Version: 3.9.6
+Homepage: https://wiki.gnome.org/GXml
+#Vcs-Git: git://anonscm.debian.org/collab-maint/gxml-0.6.git
+#Vcs-Browser: https://anonscm.debian.org/gitweb/?p=collab-maint/gxml-0.6.git;a=summary
+
+Package: libgxml-0.18-0
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: GObject libxml2 bindings
+ GXml is a wrapper of libxml2 to GObject providing bidings to Vala and any
+ language supporting GObject Introspection.
+
+Package: libgxml-0.18-dev
+Section: libdevel
+Architecture: any
+Depends: libgxml-0.18-0 (= ${binary:Version}),
+		 libgee-0.8-dev,
+		 libxml2-dev,
+		 ${misc:Depends}
+Description: GObject libxml2 bindings (development files)
+ GXml is a wrapper of libxml2 to GObject providing bidings to Vala and any
+ language supporting GObject Introspection.
+ .
+ This package contains the development files.
+
+Package: gir1.2-gxml-0.18
+Architecture: any
+Section: introspection
+Depends: ${gir:Depends}, ${misc:Depends}
+Description: GObject libxml2 bindings (GObject-Introspection)
+ GXml is a wrapper of libxml2 to GObject providing bidings to Vala and any
+ language supporting GObject Introspection.
+ .
+ This package contains introspection data for GXml, which can be used
+ to generate dynamic bindings.
