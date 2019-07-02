@@ -1,0 +1,4 @@
+[wrap-git]
+directory=libgee
+url=https://gitlab.gnome.org/GNOME/libgee.git
+revision=wip/tintou/meson
