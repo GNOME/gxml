@@ -189,7 +189,7 @@ custom_target('typelib',
 endif
 endif
 
-
+libxml_build_dir = meson.current_build_dir ()
 libgxml_dep = declare_dependency(include_directories : inc_rooth,
   link_with : libgxml,
   dependencies: libgxml_deps,
