@@ -1,7 +1,7 @@
 GXml provides a GObject API for manipulating XML and a Serializable
 framework from GObject to XML.
 
-GXml provide a DOM level 4 API for XML with multiple backends.
+GXml provide a DOM level 4 API and CSS Selectors Level 3 for XML with multiple backends.
 
 * A backend wrapping around libxml2 for read/write, the GNode class series
 * A GObject based tree backend, a more closed DOM4 implementation support is present,
@@ -13,6 +13,7 @@ the TNode [Unmaintained], offering just DOM leve 1 API.
 Compile:
   Requirements:
    * vala
+   * libgee
    * libxml2
 
   Optional Requirements:
@@ -34,6 +35,21 @@ Compile:
   $ cd _build
   $ ninja
   $ ninja install
+  
+  NOTE : GXml can be used as meson subproject for others projects
+    * create a file named 'gxml.wrap' (or another name, but keep .wrap extension) with this content:
+        [wrap-git]
+        directory=gxml
+        url=https://gitlab.gnome.org/GNOME/gxml.git
+        revision=master
+    * put .wrap file inside 'subprojects' folder (folder at the root of project)
+    * in your meson.build file, call this subproject like this:
+        subproject('gxml').get_variable('any_variable_inside_build_files') (replace 'gxml' with the name of your .wrap file)
+        subproject('gxml').get_variable('libgxml_build_dir')
+      or, as dependency:
+        gxml = dependency('gxml-0.18', fallback : [ 'gxml', 'any_variable_inside_build_files' ]) (replace 'gxml' with the name of your .wrap file)
+        gxml = dependency('gxml-0.18', fallback : [ 'gxml', 'libgxml_dep' ]) (replace 'gxml' with the name of your .wrap file)
+
 
   You can use some common ./configure options like --prefix=$SOMEPATH to specify
   where to install it.
