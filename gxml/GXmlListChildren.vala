@@ -25,7 +25,7 @@ using Gee;
 /**
  * A {@link Gee.AbstractBidirList} implementation to access {@link Xml.Node} collection
  */
-public class GXml.GListChildren : AbstractBidirList<GXml.Node>,
+public class GXml.GListChildren : AbstractBidirList<GXml.DomNode>,
             DomNodeList, DomHTMLCollection
 {
   private GXml.GDocument _doc;
@@ -34,12 +34,12 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>,
     _node = node;
     _doc = doc;
   }
-  public new override Gee.BidirListIterator<GXml.Node> bidir_list_iterator () {
+  public new override Gee.BidirListIterator<GXml.DomNode> bidir_list_iterator () {
     return new Iterator (_doc, _node);
   }
   // List
-  public override GXml.Node @get (int index) {
-    GXml.Node nullnode = null;
+  public override GXml.DomNode @get (int index) {
+    GXml.DomNode nullnode = null;
     if (_node == null) return nullnode;
     var n = _node->children;
     int i = 0;
@@ -52,7 +52,7 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>,
     }
     return nullnode;
   }
-  public override int index_of (GXml.Node item) {
+  public override int index_of (GXml.DomNode item) {
     if (_node == null) return -1;
     if (!(item is GNode)) return -1;
     var n = _node->children;
@@ -67,17 +67,17 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>,
   /**
    * Insert @item before @index
    */
-  public override void insert (int index, GXml.Node item) {
+  public override void insert (int index, GXml.DomNode item) {
     var n = @get (index);
     if (n == null) return;
     (n as GXml.GNode).get_internal_node ()->add_prev_sibling ((item as GXml.GNode).get_internal_node ());
   }
-  public override  Gee.ListIterator<GXml.Node> list_iterator () { return new Iterator (_doc, _node); }
+  public override  Gee.ListIterator<GXml.DomNode> list_iterator () { return new Iterator (_doc, _node); }
   /**
    * Removes a node at @index. This method never returns a valid pointer.
    */
-  public override GXml.Node remove_at (int index) {
-    GXml.Node nullnode = null;
+  public override GXml.DomNode remove_at (int index) {
+    GXml.DomNode nullnode = null;
     if (index > size || index < 0) return nullnode;
     var n = @get (index);
     if (n == null) return nullnode;
@@ -89,9 +89,9 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>,
   /**
    * This method is ignored by default.
    */
-  public override void @set (int index, GXml.Node item) {}
-  public override Gee.List<GXml.Node>? slice (int start, int stop) {
-    var l = new ArrayList<GXml.Node> ();
+  public override void @set (int index, GXml.DomNode item) {}
+  public override Gee.List<GXml.DomNode>? slice (int start, int stop) {
+    var l = new ArrayList<GXml.DomNode> ();
     if (_node == null) return l;
     var n = _node->children;
     int i = 0;
@@ -104,7 +104,7 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>,
     }
     return l;
   }
-  public override bool add (GXml.Node item) {
+  public override bool add (GXml.DomNode item) {
     if (_node == null) return false;
     if (!(item is GNamespace))
       return (_node->add_child (((GNode) item).get_internal_node ())) != null;
@@ -115,7 +115,7 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>,
     if (_node == null) return;
     _node->children->free_list ();
   }
-  public override bool contains (GXml.Node item) {
+  public override bool contains (GXml.DomNode item) {
     if (_node == null) return false;
     if (!(item is GXml.GNode)) return false;
     var n = _node->children;
@@ -125,8 +125,8 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>,
     }
     return false;
   }
-  public override Gee.Iterator<GXml.Node> iterator () { return new Iterator (_doc, _node); }
-  public override bool remove (GXml.Node item) {
+  public override Gee.Iterator<GXml.DomNode> iterator () { return new Iterator (_doc, _node); }
+  public override bool remove (GXml.DomNode item) {
     if (_node == null) return false;
     if (!(item is GXml.GNode)) return false;
     var n = _node->children;
@@ -154,11 +154,11 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>,
   }
   public override bool read_only { get { return false; } }
   // Iterator
-  public class Iterator : Object, Traversable<GXml.Node>,
-                          Gee.Iterator<GXml.Node>,
-                          Gee.BidirIterator<GXml.Node>,
-                          Gee.ListIterator<GXml.Node>,
-                          BidirListIterator<GXml.Node> {
+  public class Iterator : Object, Traversable<GXml.DomNode>,
+                          Gee.Iterator<GXml.DomNode>,
+                          Gee.BidirIterator<GXml.DomNode>,
+                          Gee.ListIterator<GXml.DomNode>,
+                          BidirListIterator<GXml.DomNode> {
     private GDocument _doc;
     private Xml.Node *_node;
     private Xml.Node *_current;
@@ -171,19 +171,19 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>,
     /**
      * This method is ignored by default.
      */
-    public void insert (GXml.Node item) {}
+    public void insert (GXml.DomNode item) {}
     // ListIterator
     /**
      * This method is ignored by default.
      */
-    public void add (GXml.Node item) {}
+    public void add (GXml.DomNode item) {}
     public int index () { return i; }
     /**
      * This method is ignored by default.
      */
-    public new void @set (GXml.Node item) {}
+    public new void @set (GXml.DomNode item) {}
     // Iterator
-    public new GXml.Node @get () { return GNode.to_gnode (_doc, _node); }
+    public new GXml.DomNode @get () { return GNode.to_gnode (_doc, _node); }
     public bool has_next () {
       if (_node == null) return false;
       if (_node->children == null) return false;
@@ -209,7 +209,7 @@ public class GXml.GListChildren : AbstractBidirList<GXml.Node>,
     }
     public bool read_only { get { return false; } }
     public bool valid { get { return (_current != null); } }
-    public new bool @foreach (Gee.ForallFunc<GXml.Node> f) {
+    public new bool @foreach (Gee.ForallFunc<GXml.DomNode> f) {
       while (has_next ()) {
         next ();
         if (!f(@get())) return false;

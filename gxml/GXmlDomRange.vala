@@ -51,7 +51,7 @@ public class GXml.GDomRange : Object, GXml.DomRange {
 	public void set_start (DomNode node, int offset) throws GLib.Error {
 		if (node is DomDocumentType)
 			throw new DomError.INVALID_NODE_TYPE_ERROR (_("Invalid node type to start"));
-		if (node is DocumentType)
+		if (node is DomDocumentType)
 			if (offset > 0)
 				throw new DomError.INDEX_SIZE_ERROR (_("Invalid offset for node to start: for document type"));
 		else
@@ -79,7 +79,7 @@ public class GXml.GDomRange : Object, GXml.DomRange {
 	public void set_end (DomNode node, int offset) throws GLib.Error {
 		if (node is DomDocumentType)
 			throw new DomError.INVALID_NODE_TYPE_ERROR (_("Invalid node type to start"));
-		if (node is DocumentType)
+		if (node is DomDocumentType)
 			if (offset > 0)
 				throw new DomError.INDEX_SIZE_ERROR (_("Invalid offset for node to start: for document type"));
 		else
@@ -154,7 +154,7 @@ public class GXml.GDomRange : Object, GXml.DomRange {
 			throw new DomError.INVALID_NODE_TYPE_ERROR (_("Invalid node type to start"));
 		set_start (node, 0);
 		int length = 0;
-		if (node is DocumentType) length = 0;
+		if (node is DomDocumentType) length = 0;
 		else
 			if (node is DomCharacterData) length = (node as DomCharacterData).length;
 				else

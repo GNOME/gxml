@@ -28,7 +28,7 @@ using Xml;
  * powered by libxml-2.0 library.
  *
  * This class use {@link Xml.TextWriter} to write down XML documents using
- * its contained {@link GXml.Node} children or other XML structures.
+ * its contained {@link GXml.DomNode} children or other XML structures.
  */
 public class GXml.GDocument : GXml.GNode,
                               GXml.DomParentNode,
@@ -90,9 +90,9 @@ public class GXml.GDocument : GXml.GNode,
     }
     return false;
   }
-  // GXml.Node
-  public override Gee.Map<string,GXml.Node> attrs { owned get { return new GHashMapAttr (this, (Xml.Node*) doc) as Gee.Map<string,GXml.Node>; } }
-  public override Gee.BidirList<GXml.Node> children_nodes { owned get { return new GListChildren (this, (Xml.Node*) doc) as Gee.BidirList<GXml.Node>; } }
+  // GXml.DomNode
+  public override Gee.Map<string,GXml.DomNode> attrs { owned get { return new GHashMapAttr (this, (Xml.Node*) doc) as Gee.Map<string,GXml.DomNode>; } }
+  public override Gee.BidirList<GXml.DomNode> children_nodes { owned get { return new GListChildren (this, (Xml.Node*) doc) as Gee.BidirList<GXml.DomNode>; } }
   public override Gee.List<GXml.Namespace> namespaces { owned get { return new GListNamespaces (this, doc->get_root_element()) as Gee.List<GXml.Namespace>; } }
   public override GXml.DomDocument document { get { return this; } }
   // GXml.DomDocument
@@ -101,13 +101,13 @@ public class GXml.GDocument : GXml.GNode,
   public bool prefix_default_ns { get; set; default = false; }
   public bool backup { get; set; default = true; }
   public GLib.File file { get; set; }
-  public GXml.Node root {
+  public GXml.DomNode root {
     owned get {
       var r = doc->get_root_element ();
       if (r == null) {
         int found = 0;
         for (int i = 0; i < children_nodes.size; i++) {
-          GXml.Node n = children_nodes.get (i);
+          GXml.DomNode n = children_nodes.get (i);
           if (n is GXml.DomElement) {
             found++;
             if (found == 1)
@@ -121,13 +121,13 @@ public class GXml.GDocument : GXml.GNode,
       return new GElement (this, r);
     }
   }
-  public GXml.Node create_pi (string target, string data)
+  public GXml.DomNode create_pi (string target, string data)
   {
     var pi = doc->new_pi (target, data);
     return new GProcessingInstruction (this, pi);
   }
 
-  public GXml.Node create_text (string text)
+  public GXml.DomNode create_text (string text)
   {
     var t = doc->new_text (text);
     return new GText (this, t);
@@ -256,7 +256,7 @@ public class GXml.GDocument : GXml.GNode,
       GXml.DomNode dst = null;
       if (node is DomElement) {
         dst = (this as DomDocument).create_element (node.node_name);
-        GXml.Node.copy (this, (GXml.Node) dst, (GXml.Node) node, deep);
+        GXml.DomNode.copy (this, (GXml.DomNode) dst, (GXml.DomNode) node, deep);
         if (document_element == null) {
           this.append_child (dst);
           return dst;
@@ -279,7 +279,7 @@ public class GXml.GDocument : GXml.GNode,
         throw new GXml.DomError.NOT_SUPPORTED_ERROR (_("Can't adopt a Document"));
       if (this == node.owner_document) return node;
       var dst = this.create_element (node.node_name);
-      GXml.Node.copy (this, dst as GXml.Node, (GXml.Node) node, true);
+      GXml.DomNode.copy (this, dst as GXml.DomNode, (GXml.DomNode) node, true);
       if (node.parent_node != null)
         node.parent_node.child_nodes.remove_at (node.parent_node.child_nodes.index_of (node));
       if (this.document_element == null)
@@ -341,7 +341,7 @@ public class GXml.GDocument : GXml.GNode,
     var cs = new CssSelectorParser ();
     cs.parse (selectors);
     var l = new GomNodeList();
-    foreach (GXml.Node e in children_nodes) {
+    foreach (GXml.DomNode e in children_nodes) {
       if (!(e is DomElement)) continue;
       if (cs.match (e as DomElement))
         l.add (e as DomNode);

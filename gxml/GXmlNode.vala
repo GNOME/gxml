@@ -34,8 +34,7 @@ public errordomain GXml.Error {
  */
 public abstract class GXml.GNode : Object,
                       GXml.DomEventTarget,
-                      GXml.DomNode,
-                      GXml.Node
+                      GXml.DomNode
 {
   protected GXml.GDocument _doc;
   protected Xml.Node *_node;
@@ -57,13 +56,13 @@ public abstract class GXml.GNode : Object,
     if (_node == null) return false;
     return ((_node->new_ns (uri, prefix)) != null);
   }
-  public virtual Gee.Map<string,GXml.Node> attrs { owned get { return new GHashMapAttr (_doc, _node) as Gee.Map<string,GXml.Node>; } }
-  public virtual Gee.BidirList<GXml.Node> children_nodes { owned get { return new GListChildren (_doc, _node) as Gee.BidirList<GXml.Node>; } }
+  public virtual Gee.Map<string,GXml.DomNode> attrs { owned get { return new GHashMapAttr (_doc, _node) as Gee.Map<string,GXml.DomNode>; } }
+  public virtual Gee.BidirList<GXml.DomNode> children_nodes { owned get { return new GListChildren (_doc, _node) as Gee.BidirList<GXml.DomNode>; } }
   public virtual Gee.List<GXml.Namespace> namespaces { owned get { return new GListNamespaces (_doc, _node) as Gee.List<GXml.Namespace>; } }
   public virtual GXml.DomDocument document { get { return _doc; } }
-  public virtual GXml.Node parent {
+  public virtual GXml.DomNode parent {
     owned get {
-      GXml.Node nullnode = null;
+      GXml.DomNode nullnode = null;
       if (_node == null) return nullnode;
       return to_gnode (document as GDocument, _node->parent);
     }
@@ -94,8 +93,8 @@ public abstract class GXml.GNode : Object,
   public virtual string to_string () { return get_type ().name (); }
   public Xml.Node* get_internal_node () { return _node; }
   // Static
-  public static GXml.Node to_gnode (GXml.GDocument doc, Xml.Node *node) {
-    GXml.Node nullnode = null;
+  public static GXml.DomNode to_gnode (GXml.GDocument doc, Xml.Node *node) {
+    GXml.DomNode nullnode = null;
     var t = (GXml.NodeType) node->type;
     switch (t) {
       case GXml.NodeType.ELEMENT:
@@ -200,10 +199,10 @@ public abstract class GXml.GNode : Object,
 	    if (this is GXml.DomComment) return this.@value;
 	    if (this is GXml.DomDocument || this is GXml.DomElement) {
 	      message ("Is Element");
-	      foreach (GXml.Node n in children_nodes) {
+	      foreach (GXml.DomNode n in children_nodes) {
           if (n is GXml.DomText) {
-            if (t == null) t = n.value;
-            else t += n.value;
+            if (t == null) t = (n as GNode).value;
+            else t += (n as GNode).value;
           }
 	      }
 	    }
@@ -211,8 +210,12 @@ public abstract class GXml.GNode : Object,
 	  }
 	  set {
       if (this is GXml.DomDocument || this is GXml.DomElement) {
-        var t = this.document.create_text_node (value);
-        (this.document as Node).children_nodes.add (t as Node);
+        try {
+          var t = this.document.create_text_node (value);
+          this.document.child_nodes.add (t);
+        } catch (GLib.Error e) {
+          warning (_("Error while setting text content to node: %s"), e.message);
+        }
       }
       if (!(this is GXml.DomText || this is GXml.DomComment || this is GXml.DomProcessingInstruction)) return;
       this.@value = value;
@@ -240,22 +243,22 @@ public abstract class GXml.GNode : Object,
     return (DomNode) GNode.to_gnode (_doc, n);
   }
   public bool is_equal_node (DomNode? node) {
-    if (!(node is GXml.Node)) return false;
+    if (!(node is GXml.DomNode)) return false;
     if (node == null) return false;
-    if (this.children_nodes.size != (node as Node).children_nodes.size) return false;
-    foreach (GXml.Node a in attrs.values) {
-      if (!(node as GXml.Node?).attrs.has_key (a.name)) return false;
-      if (a.value != (node as GXml.Node).attrs.get (a.name).value) return false;
+    if (this.children_nodes.size != node.child_nodes.size) return false;
+    foreach (GXml.DomNode a in attrs.values) {
+      if (!(node as GXml.GNode?).attrs.has_key (a.node_name)) return false;
+      if ((a as GNode).value != ((node as GXml.GNode).attrs.get (a.node_name) as GNode).value) return false;
     }
     for (int i=0; i < children_nodes.size; i++) {
-      if (!(children_nodes[i] as GXml.DomNode).is_equal_node ((node as GXml.Node?).children_nodes[i] as GXml.DomNode?)) return false;
+      if (!(children_nodes[i] as GXml.DomNode).is_equal_node ((node as GXml.DomNode?).child_nodes[i] as GXml.DomNode?)) return false;
     }
     return true;
   }
 
   public DomNode.DocumentPosition compare_document_position (DomNode other) {
     if ((this as GXml.DomNode) == other) return DomNode.DocumentPosition.NONE;
-    if (this.document != (other as GXml.Node).document || other.parent_node == null) {
+    if (this.document != (other as GXml.DomNode).owner_document || other.parent_node == null) {
       var p = DomNode.DocumentPosition.DISCONNECTED & DomNode.DocumentPosition.IMPLEMENTATION_SPECIFIC;
       if ((&this) > (&other))
         p = p & DomNode.DocumentPosition.PRECEDING;
@@ -285,13 +288,13 @@ public abstract class GXml.GNode : Object,
   public string? lookup_prefix (string? nspace) {
     if (_node == null) return null;
     if (parent == null) return null;
-    if (this is GXml.DocumentType || this is GXml.DomDocumentFragment) return null;
+    if (this is GXml.DomDocumentType || this is GXml.DomDocumentFragment) return null;
     var ns = _node->doc->search_ns_by_href (_node, nspace);
     if (ns == null) return null;
     return ns->prefix;
   }
   public string? lookup_namespace_uri (string? prefix) {
-    if (this is GXml.DocumentType || this is GXml.DomDocumentFragment) return null;
+    if (this is GXml.DomDocumentType || this is GXml.DomDocumentFragment) return null;
     var ns = _node->doc->search_ns (_node, prefix);
     if (ns == null) return null;
     return ns->href;
@@ -324,11 +327,11 @@ public abstract class GXml.GNode : Object,
       throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid attempt to insert a document's type or text node to an invalid parent"));
     //FIXME: We should follow steps for DOM4 observers in https://www.w3.org/TR/dom/#concept-node-pre-insert
     if (child != null) {
-      int i = this.children_nodes.index_of (child as GXml.Node);
-      children_nodes.insert (i, (node as GXml.Node));
+      int i = this.children_nodes.index_of (child as GXml.DomNode);
+      children_nodes.insert (i, (node as GXml.DomNode));
       return node;
     }
-    children_nodes.add ((node as GXml.Node));
+    children_nodes.add ((node as GXml.DomNode));
     return node;
   }
   public DomNode append_child (DomNode node) throws GLib.Error {
@@ -354,10 +357,10 @@ public abstract class GXml.GNode : Object,
           || (node is DomDocumentType && !(this is DomDocument)))
       throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid attempt to insert a document's type or text node to an invalid parent"));
     //FIXME: Checks for HierarchyRequestError for https://www.w3.org/TR/dom/#concept-node-replace
-    int i = children_nodes.index_of ((child as GXml.Node));
+    int i = children_nodes.index_of ((child as GXml.DomNode));
     children_nodes.remove_at (i);
     if (i < children_nodes.size)
-      children_nodes.insert (i, (node as GXml.Node));
+      children_nodes.insert (i, (node as GXml.DomNode));
     if (i >= children_nodes.size)
       child_nodes.add (node);
     return child;
@@ -365,7 +368,7 @@ public abstract class GXml.GNode : Object,
   public DomNode remove_child (DomNode child) throws GLib.Error {
     if (!this.contains (child))
       throw new DomError.NOT_FOUND_ERROR (_("Can't find child node to remove or child have a different parent"));
-    int i = children_nodes.index_of ((child as GXml.Node));
+    int i = children_nodes.index_of ((child as GXml.DomNode));
     return (DomNode) children_nodes.remove_at (i);
   }
   // DomEventTarget implementation

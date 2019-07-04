@@ -94,9 +94,9 @@ public class GXml.GAttribute : GXml.GNode, GXml.DomAttr
       return _attr->ns->prefix.dup ();
     }
   }
-  public override GXml.Node parent {
+  public override GXml.DomNode parent {
     owned get {
-      GXml.Node nullnode = null;
+      GXml.DomNode nullnode = null;
       if (_attr == null) return nullnode;
       return to_gnode (document as GDocument, _node);
     }
@@ -114,20 +114,20 @@ public class GXml.GAttribute : GXml.GNode, GXml.DomAttr
       return namespace.prefix;
     }
   }*/
-  public string local_name { owned get { return (this as GXml.Node).name; } }
+  public string local_name { owned get { return (this as GXml.GNode).name; } }
   /*public string GXml.DomAttr.name {
     get {
-      if (namespace == null) return (this as GXml.Node).name;
-      string s = namespace.prefix+":"+(this as GXml.Node).name;
+      if (namespace == null) return (this as GXml.DomNode).name;
+      string s = namespace.prefix+":"+(this as GXml.DomNode).name;
       return s;
     }
   }
   public string @value {
     get {
-      return (this as GXml.Node).value;
+      return (this as GXml.DomNode).value;
     }
     set {
-      (this as GXml.Node).value = value;
+      (this as GXml.DomNode).value = value;
     }
   }*/
 }

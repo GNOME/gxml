@@ -30,8 +30,8 @@ class GHtmlDocumentTest : GXmlTest {
 			try {
 				var doc = new GHtmlDocument.from_path (GXmlTestConfig.TEST_DIR+"/index.html");
 				Test.message ("Checking root element...");
-				assert (doc.root != null);
-				assert (doc.root.name.down () == "html".down ());
+				assert (doc.document_element != null);
+				assert (doc.document_element.node_name.down () == "html".down ());
 				Test.message ("Searching for elemento with id 'user'...");
 				var n = doc.get_element_by_id ("user");
 				assert (n != null);
@@ -48,10 +48,10 @@ class GHtmlDocumentTest : GXmlTest {
 			try {
 				var doc = new GHtmlDocument.from_path (GXmlTestConfig.TEST_DIR+"/index.html");
 				Test.message ("Checking root element...");
-				assert (doc.root != null);
-				assert (doc.root.name.down () == "html".down ());
+				assert (doc.document_element != null);
+				assert (doc.document_element.node_name.down () == "html".down ());
 				Test.message ("Searching for element with property class and value app...");
-				var np = doc.root.get_elements_by_property_value ("class","app");
+				var np = doc.document_element.get_elements_by_property_value ("class","app");
 				assert (np != null);
 				assert (np.size == 2);
 				Test.message ("Searching for elemento with class 'app'...");
@@ -87,9 +87,9 @@ class GHtmlDocumentTest : GXmlTest {
 </html>
 ";
 				var doc = new GHtmlDocument.from_string_doc (sdoc);
-				assert (doc.root != null);
-				assert (doc.root.name.down () == "html".down ());
-				var ln = doc.root.get_elements_by_property_value ("type","text/javascript");
+				assert (doc.document_element != null);
+				assert (doc.document_element.node_name.down () == "html".down ());
+				var ln = doc.document_element.get_elements_by_property_value ("type","text/javascript");
 				assert (ln != null);
 				assert (ln.size == 1);
 				var np = ln.item (0);

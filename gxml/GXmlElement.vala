@@ -37,7 +37,7 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
     _node = node;
     _doc = doc;
   }
-  // GXml.Node
+  // GXml.DomNode
   public override string value
   {
     owned get {
@@ -52,7 +52,7 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
     if (":" in aname) return;
     _node->set_prop (aname, avalue);
   }
-  public GXml.Node? get_attr (string name)
+  public GXml.DomNode? get_attr (string name)
   {
     if (_node == null) return null;
     string prefix = null;
@@ -94,7 +94,7 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
       _node->set_ns_prop (nns, qname, value);
     }
   }
-  public GXml.Node? get_ns_attr (string name, string uri) {
+  public GXml.DomNode? get_ns_attr (string name, string uri) {
     if (_node == null) return null;
     var a = _node->has_ns_prop (name, uri);
     if (a == null) return null;
@@ -142,7 +142,12 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
     }
   }
   public override string to_string () {
-    return write_string ();
+    try {
+      return write_string ();
+    } catch (GLib.Error e) {
+      warning (_("Error while converting Element to string: %s"), e.message);
+    }
+    return "";
   }
   public string write_string (GLib.Cancellable? cancellable = null) {
     var buf = new Xml.Buffer ();
@@ -185,28 +190,28 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
     owned get {
         var p = attrs.get ("id");
         if (p == null) return null;
-        return p.value;
+        return (p as GNode).value;
     }
     set {
         var p = attrs.get ("id");
         if (p == null)
             set_attr ("id",value);
         else
-            p.value = value;
+            (p as GNode).value = value;
     }
   }
   public string? class_name {
     owned get {
         var p = attrs.get ("class");
         if (p == null) return null;
-        return p.value;
+        return (p as GNode).value;
     }
     set {
         var p = attrs.get ("class");
         if (p == null)
             set_attr ("class",value);
         else
-            p.value = value;
+            (p as GNode).value = value;
     }
   }
   public DomTokenList class_list {
@@ -219,12 +224,12 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
   public string? get_attribute (string name) {
     var p = attrs.get (name);
     if (p == null) return null;
-    return p.value;
+    return (p as GNode).value;
   }
   public string? get_attribute_ns (string? namespace, string local_name) {
     var p = get_ns_attr (local_name, namespace);
     if (p == null) return null;
-    return p.value;
+    return (p as GNode).value;
   }
   public void set_attribute (string name, string value) throws GLib.Error { set_attr (name, value); }
   public void set_attribute_ns (string? namespace, string name, string value) throws GLib.Error {
@@ -329,9 +334,9 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
                                     throws GXml.XPathError
   {
     GXml.XPathObject nullobj = null;
-    if (!(this is GXml.Node))
+    if (!(this is GXml.DomNode))
       return nullobj;
-    string data = (this as GXml.Node).to_string();
+    string data = (this as GXml.GNode).to_string();
     var ndoc = Xml.Parser.read_memory (data, data.length);
     var gdoc = new GXml.GDocument.from_doc (ndoc);
     var context = new Xml.XPath.Context (ndoc);

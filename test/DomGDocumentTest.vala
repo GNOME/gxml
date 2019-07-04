@@ -351,9 +351,6 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 			assert (n.node_name == "code");
 			n.set_attribute ("id","0y1");
 			n.set_attribute ("class","login black");
-			assert ((n as GXml.Node).namespaces.size == 1);
-			assert ((n as GXml.Node).namespaces[0].uri == "http://live.gnome.org/GXml");
-			assert ((n as GXml.Node).namespaces[0].prefix == "gxml");
 			assert (n.namespace_uri == "http://live.gnome.org/GXml");
 			assert (n.prefix == "gxml");
 			assert (n.local_name == "code");
