@@ -11,7 +11,7 @@
 
 # Release Version for API related changes
 m4_define([project_major_version], [0])
-m4_define([project_minor_version], [17])
+m4_define([project_minor_version], [18])
 m4_define([project_micro_version], [0])
 m4_define([project_nano_version], [0])
 
@@ -21,9 +21,9 @@ m4_define([project_nano_version], [0])
 # Increase the current value whenever an interface has been added, removed or changed.
 # Increase the age value only if the changes made to the ABI are backward compatible.
 # Reset current to 1 and revision and age to 0 if library's name is changed
-m4_define([project_lt_current], [2])
-m4_define([project_lt_revision], [1])
-m4_define([project_lt_age], [1])
+m4_define([project_lt_current], [3])
+m4_define([project_lt_revision], [2])
+m4_define([project_lt_age], [0])
 
 # Combine numbers to various version variables (different uses)
 #   Display the nano_version only if it's not '0'
@@ -35,7 +35,7 @@ m4_define([project_full_version],
 
 # You should set project_released to one in order to mark this as a released version
 # and to avoid date on version number
-m4_define(project_released, [0])
+m4_define(project_released, [1])
 m4_define([project_maybe_datestamp],
           m4_if(project_released, [1],
                 [], [m4_esyscmd([date +.%Y%m%d | tr -d '\n\r'])]))
@@ -223,7 +223,7 @@ AM_CONDITIONAL(ENABLE_PERFORMANCE_TESTS, [test $performance = yes])
 tnode_tests=no
 AC_ARG_ENABLE(test_tnode,
 	AS_HELP_STRING([--enable-test-tnode], [Enable Tests for deprecated TNode classes [default=no]]),
-        [docs=$enableval], [docs="no"])
+        [tnode_tests=$enableval], [tnode_tests="no"])
 AM_CONDITIONAL([ENABLE_TNODE_TESTS], [test x$tnode_tests = xyes])
 
 dnl Check Cross Compile
@@ -286,6 +286,7 @@ echo "   GObject Introspection:   $found_introspection"
 echo "   Documentation:           ${docs}"
 echo "       DevHelp Docs:        ${build_devhelp}"
 echo "   Enable Performance Test: $performance"
+echo "   Enable TNode Test:       $tnode_tests"
 echo "   Debug:                   $debug"
 echo "   Platform:                $host"
 echo "   valac:                   $have_vala"
