@@ -104,8 +104,6 @@ public abstract class GXml.GNode : Object,
         return new GAttribute (doc, (Xml.Attr*) node);
       case GXml.NodeType.TEXT:
         return new GText (doc, node);
-      case GXml.NodeType.CDATA_SECTION:
-        return new GCDATA (doc, node);
       case GXml.NodeType.ENTITY_REFERENCE:
         return nullnode;
       case GXml.NodeType.ENTITY:

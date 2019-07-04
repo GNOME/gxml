@@ -94,13 +94,6 @@ public interface GXml.Document : Object, GXml.Node
    */
   public abstract GXml.Node create_comment (string text);
   /**
-   * Creates a new {@link GXml.CDATA}.
-   *
-   * Is a matter of you to add as a child to any other
-   * {@link GXml.Node}, like a {@link GXml.Element} node.
-   */
-  public abstract GXml.Node create_cdata (string text);
-  /**
    * Creates a new {@link GXml.ProcessingInstruction}.
    *
    * Is a matter of you to add as a child to any other

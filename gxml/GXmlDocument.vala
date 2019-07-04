@@ -151,11 +151,6 @@ public class GXml.GDocument : GXml.GNode,
     var t = doc->new_text (text);
     return new GText (this, t);
   }
-  public GXml.Node create_cdata (string text)
-  {
-    var cd = doc->new_cdata_block (text, text.length);
-    return new GCDATA (this, cd);
-  }
   public override string to_string ()
   {
     try {
