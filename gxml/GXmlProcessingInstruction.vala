@@ -26,7 +26,6 @@ using Gee;
  * {@link DomProcessingInstruction} interface, powered by libxml2 library.
  */
 public class GXml.GProcessingInstruction : GXml.GCharacterData,
-              GXml.ProcessingInstruction,
               GXml.DomProcessingInstruction
 {
   public GProcessingInstruction (GDocument doc, Xml.Node *node)

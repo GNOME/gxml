@@ -198,7 +198,7 @@ public abstract class GXml.GNode : Object,
 	  owned get {
 	    string t = null;
 	    if (this is GXml.DomText) return (this as DomText).data;
-	    if (this is GXml.ProcessingInstruction) return this.@value;
+	    if (this is GXml.DomProcessingInstruction) return this.@value;
 	    if (this is GXml.Comment) return this.@value;
 	    if (this is GXml.Document || this is GXml.Element) {
 	      message ("Is Element");
@@ -216,7 +216,7 @@ public abstract class GXml.GNode : Object,
         var t = this.document.create_text (value);
         this.document.children_nodes.add (t);
       }
-      if (!(this is GXml.DomText || this is GXml.Comment || this is GXml.ProcessingInstruction)) return;
+      if (!(this is GXml.DomText || this is GXml.Comment || this is GXml.DomProcessingInstruction)) return;
       this.@value = value;
 	  }
 	}

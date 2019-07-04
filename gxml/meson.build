@@ -95,7 +95,6 @@ valasources = files ([
 	'NodeType.vala',
 	'Notation.vala',
 	'Parser.vala',
-	'ProcessingInstruction.vala',
 	'Schema.vala',
 	'XParser.vala',
 	'XPath.vala'
