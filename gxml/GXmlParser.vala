@@ -34,7 +34,7 @@ private class GXml.GParser : Object, Parser {
 	public GXml.DomElement? create_element (GXml.DomNode parent) throws GLib.Error { return null; }
 	public GLib.InputStream create_stream () throws GLib.Error {
 	  string str = document.libxml_to_string ();
-	  return new MemoryInputStream.from_data ((uint8[]) str);
+	  return new MemoryInputStream.from_data (str.data);
 	}
 	public async GLib.InputStream create_stream_async () throws GLib.Error {
 	  Idle.add (create_stream_async.callback);

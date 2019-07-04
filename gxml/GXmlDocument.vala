@@ -158,16 +158,12 @@ public class GXml.GDocument : GXml.GNode,
   }
   public override string to_string ()
   {
-#if DEBUG
-    GLib.message ("TDocument: to_string ()");
-#endif
-    Xml.Doc doc = null;
-    Xml.TextWriter tw = new Xml.TextWriter.doc (out doc);
-    try { TDocument.write_document (this, tw); } catch { return "<?xml version=\"0\"?>"; }
-    string str;
-    int size;
-    doc.dump_memory (out str, out size);
-    return str;
+    try {
+      return write_string ();
+    } catch (GLib.Error e) {
+      warning (_("Error writting documento to string: %s"), e.message);
+      return "";
+    }
   }
   /**
    * Uses libxml2 internal dump to memory function over owned 
@@ -185,7 +181,8 @@ public class GXml.GDocument : GXml.GNode,
   public virtual bool save_as (GLib.File f, GLib.Cancellable? cancellable = null)
     throws GLib.Error
   {
-    return TDocument.tw_save_as (this, f, cancellable);
+    write_file (f, cancellable);
+    return true;
   }
   // DomDocument implementation
   protected GImplementation _implementation = new GImplementation ();

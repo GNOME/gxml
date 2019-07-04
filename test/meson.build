@@ -23,30 +23,7 @@ files_tests = files ([
 tests_cargs = []
 if get_option('enable-tnode-tests')
 files_tests += files ([
-
 	'EnumerationTest.vala',
-	'SerializableTest.vala',
-	'SerializablePropertyBoolTest.vala',
-	'SerializablePropertyDoubleTest.vala',
-	'SerializablePropertyFloatTest.vala',
-	'SerializablePropertyEnumTest.vala',
-	'SerializablePropertyIntTest.vala',
-	'SerializablePropertyValueListTest.vala',
-	'SerializableObjectModelTest.vala',
-	'SerializableObjectModel-TDocument-Test.vala',
-	'SerializableGeeTreeMapTest.vala',
-	'SerializableGeeDualKeyMapTest.vala',
-	'SerializableGeeArrayListTest.vala',
-	'SerializableGeeHashMapTest.vala',
-	'SerializableGeeCollectionsTest.vala',
-	'SerializableGeeCollections-TDocument-Test.vala',
-	'SerializableBasicTypesTest.vala',
-	'gxml-performance.vala',
-	'TElementTest.vala',
-	'TDocumentTest.vala',
-	'TCDATATest.vala',
-	'TCommentTest.vala',
-	'TProcessingInstructionTest.vala',
 	])
 tests_cargs += [
 	'-DENABLE_TNODE_TESTS',
