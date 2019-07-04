@@ -40,7 +40,6 @@ valasources = files ([
 	'CssSelectorParser.vala',
 	'Attribute.vala',
 	'CDATA.vala',
-	'Comment.vala',
 	'Document.vala',
 	'DocumentType.vala',
 	'DomAttr.vala',

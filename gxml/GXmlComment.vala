@@ -24,7 +24,7 @@ using Gee;
 /**
  * DOM4 Class implemeting {@link GXml.Comment} and {@link GXml.DomComment} interface, powered by libxml2 library.
  */
-public class GXml.GComment : GXml.GCharacterData, GXml.Comment, GXml.DomComment
+public class GXml.GComment : GXml.GCharacterData, GXml.DomComment
 {
   public GComment (GDocument doc, Xml.Node *node)
   {
