@@ -7,7 +7,7 @@ Version 0.18.0
 * New serialization methods for DomElement and DomDocument interfaces
 * Now all GomElement attributes are available from 'attributes' property,
   this include basic and Object's implementing GomProperty
-* New CSS Selector machinery thanks to Yannick Inizan <inizan.yannick@gmail.com>
+* New CSS Selectors (Level 3) machinery thanks to Yannick Inizan <inizan.yannick@gmail.com>
 * New Meson setup, to allow GXml as a subproject
 * GomCollection's name renamed to convert them as default interfaces to implement
 * Deprecated TNode and derived classes
