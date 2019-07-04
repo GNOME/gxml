@@ -142,6 +142,9 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
     }
   }
   public override string to_string () {
+    return write_string ();
+  }
+  public string write_string (GLib.Cancellable? cancellable = null) {
     var buf = new Xml.Buffer ();
     buf.node_dump (_node->doc, _node, 1, 0);
     return buf.content ().dup ();

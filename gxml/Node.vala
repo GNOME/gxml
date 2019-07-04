@@ -58,7 +58,7 @@ public interface GXml.Node : Object
   /**
    * Node's XML document holding this node.
    */
-  public abstract GXml.Document document { get; }
+  public abstract GXml.DomDocument document { get; }
   /**
    * Node's XML document holding this node.
    */
@@ -101,7 +101,7 @@ public interface GXml.Node : Object
    get_elements_by_name (string name)
   {
     var list = new GXml.DomElementList ();
-    if (!(this is GXml.DomElement || this is GXml.Document)) return list;
+    if (!(this is GXml.DomElement || this is GXml.DomDocument)) return list;
     foreach (var child in children_nodes) {
       if (child is GXml.DomElement) {
         (list as Gee.Collection<GXml.DomElement>).add_all (child.get_elements_by_name (name) as Gee.Collection<GXml.DomElement>);
@@ -118,7 +118,7 @@ public interface GXml.Node : Object
    get_elements_by_name_ns (string name, string? ns)
   {
     var list = new GXml.DomElementList ();
-    if (!(this is GXml.DomElement || this is GXml.Document)) return list;
+    if (!(this is GXml.DomElement || this is GXml.DomDocument)) return list;
     foreach (var child in children_nodes) {
       if (child is GXml.DomElement) {
         (list as Gee.Collection<GXml.DomElement>).add_all (child.get_elements_by_name (name) as Gee.Collection<GXml.DomElement>);
@@ -156,24 +156,24 @@ public interface GXml.Node : Object
    */
   public virtual string ns_uri () { return namespaces.first ().uri; }
   /**
-   * Copy a {@link GXml.Node} relaying on {@link GXml.Document} to other {@link GXml.Node}.
+   * Copy a {@link GXml.Node} relaying on {@link GXml.DomDocument} to other {@link GXml.Node}.
    *
-   * {@link node} could belongs from different {@link GXml.Document}, while source is a node
+   * {@link node} could belongs from different {@link GXml.DomDocument}, while source is a node
    * belonging to given document.
    *
    * Only {@link GXml.DomElement} objects are supported. For attributes, use
    * {@link GXml.DomElement.set_attr} method, passing source's name and value as arguments.
    *
-   * @param doc a {@link GXml.Document} owning destiny node
+   * @param doc a {@link GXml.DomDocument} owning destiny node
    * @param node a {@link GXml.DomElement} to copy nodes to
-   * @param source a {@link GXml.DomElement} to copy nodes from, it could be holded by different {@link GXml.Document}
+   * @param source a {@link GXml.DomElement} to copy nodes from, it could be holded by different {@link GXml.DomDocument}
    */
-  public static bool copy (GXml.Document doc, GXml.Node node, GXml.Node source, bool deep)
+  public static bool copy (GXml.DomDocument doc, GXml.Node node, GXml.Node source, bool deep)
   {
 #if DEBUG
     GLib.message ("Copying GXml.Node");
 #endif
-    if (node is GXml.Document) return false;
+    if (node is GXml.DomDocument) return false;
     if (source is GXml.DomElement && node is GXml.DomElement) {
 #if DEBUG
     GLib.message ("Copying source and destiny nodes are GXml.Elements... copying...");
@@ -194,8 +194,8 @@ public interface GXml.Node : Object
 #endif
           try {
             var e = doc.create_element (c.name); // TODO: Namespace
-            node.children_nodes.add (e);
-            copy (doc, e, c, deep);
+            node.children_nodes.add (e as GXml.Node);
+            copy (doc, e as GXml.Node, c, deep);
           } catch {}
         }
         if (c is DomText) {
@@ -203,8 +203,8 @@ public interface GXml.Node : Object
             GLib.warning (_("Text node with NULL string"));
             continue;
           }
-          var t = doc.create_text (c.value);
-          node.children_nodes.add (t);
+          var t = doc.create_text_node (c.value);
+          node.children_nodes.add (t as GXml.Node);
 #if DEBUG
           GLib.message (@"Copying source's Text node '$(source.name)' to destiny node with text: $(c.value) : Size= $(node.children_nodes.size)");
           GLib.message (@"Added Text: $(node.children_nodes.get (node.children_nodes.size - 1))");

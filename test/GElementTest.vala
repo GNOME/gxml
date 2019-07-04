@@ -26,18 +26,18 @@ class GElementTest : GXmlTest  {
 	public static void add_tests () {
 		Test.add_func ("/gxml/gelement/to_string", () =>{
 			try {
-				GDocument doc = new GDocument.from_string ("<root />");
+				DomDocument doc = new GDocument.from_string ("<root />");
 				var elem = doc.create_element ("country");
-				var t = doc.create_text ("New Zealand");
+				var t = doc.create_text_node ("New Zealand");
 				assert (t != null);
-				elem.children_nodes.add (t);
-				Test.message ("Elem1:"+elem.to_string ());
-				assert (elem.to_string () == "<country>New Zealand</country>");
+				elem.append_child (t);
+				message ("Elem1:"+elem.write_string ());
+				assert (elem.write_string () == "<country>New Zealand</country>");
 				var elem2 = doc.create_element ("messy");
-				var t2 = doc.create_text ("&lt;<>&gt;");
-				elem2.children_nodes.add (t2);
-				Test.message ("Elem2:"+elem2.to_string ());
-				assert (elem2.to_string () == "<messy>&amp;lt;&lt;&gt;&amp;gt;</messy>");
+				var t2 = doc.create_text_node ("&lt;<>&gt;");
+				elem2.append_child (t2);
+				message ("Elem2:"+elem2.write_string ());
+				assert (elem2.write_string () == "<messy>&amp;lt;&lt;&gt;&amp;gt;</messy>");
 			} catch (GLib.Error e) {
 				Test.message (e.message);
 				assert_not_reached ();

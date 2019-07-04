@@ -54,7 +54,7 @@ private class GXml.GParser : Object, Parser {
   var b = new MemoryOutputStream.resizable ();
   b.splice (stream, 0);
   if (b.data == null)
-    throw new DocumentError.INVALID_DOCUMENT_ERROR (_("stream doesn't provide data"));
+    throw new ParserError.INVALID_STREAM_ERROR (_("stream doesn't provide data"));
   read_string ((string) b.data);
 	}
 	public async void read_stream_async (GLib.InputStream stream) throws GLib.Error

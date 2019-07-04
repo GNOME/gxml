@@ -60,7 +60,7 @@ public abstract class GXml.GNode : Object,
   public virtual Gee.Map<string,GXml.Node> attrs { owned get { return new GHashMapAttr (_doc, _node) as Gee.Map<string,GXml.Node>; } }
   public virtual Gee.BidirList<GXml.Node> children_nodes { owned get { return new GListChildren (_doc, _node) as Gee.BidirList<GXml.Node>; } }
   public virtual Gee.List<GXml.Namespace> namespaces { owned get { return new GListNamespaces (_doc, _node) as Gee.List<GXml.Namespace>; } }
-  public virtual GXml.Document document { get { return _doc; } }
+  public virtual GXml.DomDocument document { get { return _doc; } }
   public virtual GXml.Node parent {
     owned get {
       GXml.Node nullnode = null;
@@ -198,7 +198,7 @@ public abstract class GXml.GNode : Object,
 	    if (this is GXml.DomText) return (this as DomText).data;
 	    if (this is GXml.DomProcessingInstruction) return this.@value;
 	    if (this is GXml.DomComment) return this.@value;
-	    if (this is GXml.Document || this is GXml.DomElement) {
+	    if (this is GXml.DomDocument || this is GXml.DomElement) {
 	      message ("Is Element");
 	      foreach (GXml.Node n in children_nodes) {
           if (n is GXml.DomText) {
@@ -210,9 +210,9 @@ public abstract class GXml.GNode : Object,
 	    return t;
 	  }
 	  set {
-      if (this is GXml.Document || this is GXml.DomElement) {
-        var t = this.document.create_text (value);
-        this.document.children_nodes.add (t);
+      if (this is GXml.DomDocument || this is GXml.DomElement) {
+        var t = this.document.create_text_node (value);
+        (this.document as Node).children_nodes.add (t as Node);
       }
       if (!(this is GXml.DomText || this is GXml.DomComment || this is GXml.DomProcessingInstruction)) return;
       this.@value = value;

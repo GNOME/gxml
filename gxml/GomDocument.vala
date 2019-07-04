@@ -359,7 +359,7 @@ public class GXml.GomImplementation : GLib.Object, GXml.DomImplementation {
     d.append_child (d.create_element_ns (namespace, qualified_name));
     return d as DomXMLDocument;
   } // FIXME
-  public Document create_html_document (string title) {
+  public DomDocument create_html_document (string title) {
     return new GHtmlDocument (); // FIXME:
   }
 }

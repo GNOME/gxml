@@ -30,7 +30,7 @@ class XPathTest : GXmlTest  {
   public static void add_tests () {
     Test.add_func ("/gxml/gelement/xpath", () => {
       try {
-      Document document = null;
+      DomDocument document = null;
       var rf = GLib.File.new_for_uri ("http://www.w3schools.com/xsl/books.xml");
       if (rf.query_exists ()) {
         document = new GDocument.from_uri ("http://www.w3schools.com/xsl/books.xml");

@@ -24,14 +24,13 @@ using Gee;
 using Xml;
 
 /**
- * DOM4 class implemeting {@link GXml.Document} and {GXml.DomDocument} interface,
+ * DOM4 class implemeting {@link GXml.DomDocument} and {GXml.DomDocument} interface,
  * powered by libxml-2.0 library.
  *
  * This class use {@link Xml.TextWriter} to write down XML documents using
  * its contained {@link GXml.Node} children or other XML structures.
  */
 public class GXml.GDocument : GXml.GNode,
-                              GXml.Document,
                               GXml.DomParentNode,
                               GXml.DomNonElementParentNode,
                               GXml.DomDocument,
@@ -55,7 +54,7 @@ public class GXml.GDocument : GXml.GNode,
 
   public GDocument.from_file (GLib.File file, int options = 0, Cancellable? cancel = null) throws GLib.Error {
     if (!file.query_exists ())
-      throw new DocumentError.INVALID_DOCUMENT_ERROR (_("File doesn't exist"));
+      throw new DomDocumentError.INVALID_DOCUMENT_ERROR (_("File doesn't exist"));
     var parser = new GParser (this);
     parser.cancellable = cancel;
     parser.read_stream (file.read ());
@@ -95,8 +94,8 @@ public class GXml.GDocument : GXml.GNode,
   public override Gee.Map<string,GXml.Node> attrs { owned get { return new GHashMapAttr (this, (Xml.Node*) doc) as Gee.Map<string,GXml.Node>; } }
   public override Gee.BidirList<GXml.Node> children_nodes { owned get { return new GListChildren (this, (Xml.Node*) doc) as Gee.BidirList<GXml.Node>; } }
   public override Gee.List<GXml.Namespace> namespaces { owned get { return new GListNamespaces (this, doc->get_root_element()) as Gee.List<GXml.Namespace>; } }
-  public override GXml.Document document { get { return this; } }
-  // GXml.Document
+  public override GXml.DomDocument document { get { return this; } }
+  // GXml.DomDocument
   public bool indent { get; set; default = false; }
   public bool ns_top { get; set; default = false; }
   public bool prefix_default_ns { get; set; default = false; }
@@ -122,30 +121,12 @@ public class GXml.GDocument : GXml.GNode,
       return new GElement (this, r);
     }
   }
-  public GXml.Node GXml.Document.create_comment (string text)
-  {
-    var c = doc->new_comment (text);
-    return new GComment (this, c);
-  }
   public GXml.Node create_pi (string target, string data)
   {
     var pi = doc->new_pi (target, data);
     return new GProcessingInstruction (this, pi);
   }
-  public GXml.Node GXml.Document.create_element (string name) throws GLib.Error
-  {
-    Xml.reset_last_error ();
-    var el = doc->new_raw_node (null, name, null);
-    var e = Xml.get_last_error ();
-    if (e != null) {
-      var errmsg = "Parser Error for string";
-      string s = libxml2_error_to_string (e);
-      if (s != null)
-        errmsg = ".  ";
-      throw new GXml.Error.PARSER (errmsg);
-    }
-    return new GElement (this, el);
-  }
+
   public GXml.Node create_text (string text)
   {
     var t = doc->new_text (text);
@@ -205,7 +186,17 @@ public class GXml.GDocument : GXml.GNode,
   public DomElement? document_element { owned get { return (DomElement) root; } }
 
   public DomElement GXml.DomDocument.create_element (string local_name) throws GLib.Error {
-      return (DomElement) (this as Document).create_element (local_name);
+    Xml.reset_last_error ();
+    var el = doc->new_raw_node (null, local_name, null);
+    var e = Xml.get_last_error ();
+    if (e != null) {
+      var errmsg = "Parser Error for string";
+      string s = libxml2_error_to_string (e);
+      if (s != null)
+        errmsg = ".  ";
+      throw new GXml.Error.PARSER (errmsg);
+    }
+    return new GElement (this, el);
   }
   public DomElement GXml.DomDocument.create_element_ns (string? ns, string qualified_name) throws GLib.Error
   {
@@ -219,8 +210,8 @@ public class GXml.GDocument : GXml.GNode,
         prefix = s[0];
         qname = s[1];
       }
-      var e = (this as GXml.Document).create_element (qname);
-      e.set_namespace (ns, prefix);
+      var e = (this as GXml.DomDocument).create_element (qname);
+      (e as GElement).set_namespace (ns, prefix);
       return e as DomElement;
   }
 
@@ -250,7 +241,8 @@ public class GXml.GDocument : GXml.GNode,
       return (DomText) create_text (data);
   }
   public DomComment GXml.DomDocument.create_comment (string data) throws GLib.Error {
-      return (DomComment) create_comment (data);
+    var c = doc->new_comment (data);
+    return new GComment (this, c);
   }
   public DomProcessingInstruction create_processing_instruction (string target, string data) throws GLib.Error {
       return (DomProcessingInstruction) create_pi (target, data);
@@ -287,7 +279,7 @@ public class GXml.GDocument : GXml.GNode,
         throw new GXml.DomError.NOT_SUPPORTED_ERROR (_("Can't adopt a Document"));
       if (this == node.owner_document) return node;
       var dst = this.create_element (node.node_name);
-      GXml.Node.copy (this, dst, (GXml.Node) node, true);
+      GXml.Node.copy (this, dst as GXml.Node, (GXml.Node) node, true);
       if (node.parent_node != null)
         node.parent_node.child_nodes.remove_at (node.parent_node.child_nodes.index_of (node));
       if (this.document_element == null)
@@ -338,12 +330,12 @@ public class GXml.GDocument : GXml.GNode,
     }
   }
   public DomElement? first_element_child {
-    owned get { return (DomElement) (this as Document).children_nodes.first (); }
+    owned get { return (DomElement) (this as DomDocument).child_nodes.first (); }
   }
   public DomElement? last_element_child {
-    owned get { return (DomElement) (this as Document).children_nodes.last (); }
+    owned get { return (DomElement) (this as DomDocument).child_nodes.last (); }
   }
-  public int child_element_count { get { return children_nodes.size; } }
+  public int child_element_count { get { return child_nodes.size; } }
 
   public DomNodeList query_selector_all (string selectors) throws GLib.Error  {
     var cs = new CssSelectorParser ();
@@ -390,7 +382,7 @@ public class GXml.GImplementation : GLib.Object, GXml.DomImplementation {
                                          DomDocumentType? doctype = null)
                                          throws GLib.Error
   { return new GDocument (); } // FIXME
-  public Document create_html_document (string title) {
+  public DomDocument create_html_document (string title) {
     return new GHtmlDocument (); // FIXME:
   }
 }

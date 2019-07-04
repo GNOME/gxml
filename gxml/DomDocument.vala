@@ -206,7 +206,8 @@ public interface GXml.DomDocument : GLib.Object,
 }
 
 public errordomain GXml.DomDocumentError {
-  FILE_NOT_FOUND_ERROR
+  FILE_NOT_FOUND_ERROR,
+  INVALID_DOCUMENT_ERROR
 }
 
 public interface GXml.DomXMLDocument : GLib.Object, GXml.DomDocument {}
@@ -219,7 +220,7 @@ public interface GXml.DomImplementation : GLib.Object {
   public abstract DomXMLDocument create_document (string? nspace,
                                                   string? qualified_name,
                                                   DomDocumentType? doctype = null) throws GLib.Error;
-  public abstract Document create_html_document (string title);
+  public abstract DomDocument create_html_document (string title);
 
   public virtual bool has_feature() { return true; } // useless; always returns true
 }
