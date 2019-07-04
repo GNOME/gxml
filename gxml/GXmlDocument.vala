@@ -109,7 +109,7 @@ public class GXml.GDocument : GXml.GNode,
         int found = 0;
         for (int i = 0; i < children_nodes.size; i++) {
           GXml.Node n = children_nodes.get (i);
-          if (n is GXml.Element) {
+          if (n is GXml.DomElement) {
             found++;
             if (found == 1)
               return n;

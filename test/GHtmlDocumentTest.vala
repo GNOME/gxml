@@ -36,8 +36,9 @@ class GHtmlDocumentTest : GXmlTest {
 				var n = doc.get_element_by_id ("user");
 				assert (n != null);
 				assert (n.node_name == "p");
-				assert (n is GXml.Element);
-				assert (((GXml.Element) n).content == "");
+				assert (n is GXml.DomElement);
+				message (((GXml.DomElement) n).text_content);
+				assert (((GXml.DomElement) n).node_value == "");
 			} catch (GLib.Error e){
 				Test.message ("ERROR: "+e.message);
 				assert_not_reached ();

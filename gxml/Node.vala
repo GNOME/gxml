@@ -73,59 +73,59 @@ public interface GXml.Node : Object
     return null;
   }
   /**
-   * Search all child {@link GXml.Element} with a given property's name and with
+   * Search all child {@link GXml.DomElement} with a given property's name and with
    * value contained in text.
    */
-  public virtual GXml.ElementList
+  public virtual GXml.DomElementList
    get_elements_by_property_value (string property, string value)
   {
-    var list = new GXml.ElementList ();
+    var list = new GXml.DomElementList ();
     foreach (var child in children_nodes) {
-      if (child is GXml.Element) {
-        (list as Gee.Collection<Element>).add_all (child.get_elements_by_property_value (property, value) as Gee.Collection<Element>);
+      if (child is GXml.DomElement) {
+        (list as Gee.Collection<GXml.DomElement>).add_all (child.get_elements_by_property_value (property, value) as Gee.Collection<GXml.DomElement>);
         if (child.attrs == null) continue;
         var cls = child.attrs.get (property);
         if (cls == null) {
           continue;
         }
         if (value in cls.value)
-            list.add ((GXml.Element) child);
+            list.add ((GXml.DomElement) child);
       }
     }
     return list;
   }
   /**
-   * Search all child {@link GXml.Element} with a given name.
+   * Search all child {@link GXml.DomElement} with a given name.
    */
-  public virtual GXml.ElementList
+  public virtual GXml.DomElementList
    get_elements_by_name (string name)
   {
-    var list = new GXml.ElementList ();
-    if (!(this is GXml.Element || this is GXml.Document)) return list;
+    var list = new GXml.DomElementList ();
+    if (!(this is GXml.DomElement || this is GXml.Document)) return list;
     foreach (var child in children_nodes) {
-      if (child is GXml.Element) {
-        (list as Gee.Collection<Element>).add_all (child.get_elements_by_name (name) as Gee.Collection<Element>);
+      if (child is GXml.DomElement) {
+        (list as Gee.Collection<GXml.DomElement>).add_all (child.get_elements_by_name (name) as Gee.Collection<GXml.DomElement>);
         if (name == child.name)
-          list.add ((GXml.Element) child);
+          list.add ((GXml.DomElement) child);
       }
     }
     return list;
   }
   /**
-   * Search all child {@link GXml.Element} with a given name and namespace URI.
+   * Search all child {@link GXml.DomElement} with a given name and namespace URI.
    */
-  public virtual GXml.ElementList
+  public virtual GXml.DomElementList
    get_elements_by_name_ns (string name, string? ns)
   {
-    var list = new GXml.ElementList ();
-    if (!(this is GXml.Element || this is GXml.Document)) return list;
+    var list = new GXml.DomElementList ();
+    if (!(this is GXml.DomElement || this is GXml.Document)) return list;
     foreach (var child in children_nodes) {
-      if (child is GXml.Element) {
-        (list as Gee.Collection<Element>).add_all (child.get_elements_by_name (name) as Gee.Collection<Element>);
+      if (child is GXml.DomElement) {
+        (list as Gee.Collection<GXml.DomElement>).add_all (child.get_elements_by_name (name) as Gee.Collection<GXml.DomElement>);
         if (!(child.namespaces == null && child.namespaces.size != 0
               && ns == null)) continue;
         if (name == child.name && child.namespaces.get(0).uri == ns)
-          list.add ((GXml.Element) child);
+          list.add ((GXml.DomElement) child);
       }
     }
     return list;
@@ -161,12 +161,12 @@ public interface GXml.Node : Object
    * {@link node} could belongs from different {@link GXml.Document}, while source is a node
    * belonging to given document.
    *
-   * Only {@link GXml.Element} objects are supported. For attributes, use
-   * {@link GXml.Element.set_attr} method, passing source's name and value as arguments.
+   * Only {@link GXml.DomElement} objects are supported. For attributes, use
+   * {@link GXml.DomElement.set_attr} method, passing source's name and value as arguments.
    *
    * @param doc a {@link GXml.Document} owning destiny node
-   * @param node a {@link GXml.Element} to copy nodes to
-   * @param source a {@link GXml.Element} to copy nodes from, it could be holded by different {@link GXml.Document}
+   * @param node a {@link GXml.DomElement} to copy nodes to
+   * @param source a {@link GXml.DomElement} to copy nodes from, it could be holded by different {@link GXml.Document}
    */
   public static bool copy (GXml.Document doc, GXml.Node node, GXml.Node source, bool deep)
   {
@@ -174,20 +174,20 @@ public interface GXml.Node : Object
     GLib.message ("Copying GXml.Node");
 #endif
     if (node is GXml.Document) return false;
-    if (source is GXml.Element && node is GXml.Element) {
+    if (source is GXml.DomElement && node is GXml.DomElement) {
 #if DEBUG
     GLib.message ("Copying source and destiny nodes are GXml.Elements... copying...");
     GLib.message ("Copying source's attributes to destiny node");
 #endif
       foreach (GXml.Node p in source.attrs.values) {
-        ((GXml.Element) node).set_attr (p.name, p.value); // TODO: Namespace
+        ((GXml.GElement) node).set_attr (p.name, p.value); // TODO: Namespace
       }
       if (!deep) return true;
 #if DEBUG
       GLib.message ("Copying source's child nodes to destiny node");
 #endif
       foreach (Node c in source.children_nodes) {
-        if (c is Element) {
+        if (c is GXml.DomElement) {
           if (c.name == null) continue;
 #if DEBUG
             GLib.message (@"Copying child Element node: $(c.name)");

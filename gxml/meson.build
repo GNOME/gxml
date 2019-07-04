@@ -50,7 +50,6 @@ valasources = files ([
 	'DomMutationObservers.vala',
 	'DomNode.vala',
 	'DomRange.vala',
-	'Element.vala',
 	'Enumeration.vala',
 	'GHtml.vala',
 	'GomArrayList.vala',

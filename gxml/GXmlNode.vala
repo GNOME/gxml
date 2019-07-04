@@ -198,7 +198,7 @@ public abstract class GXml.GNode : Object,
 	    if (this is GXml.DomText) return (this as DomText).data;
 	    if (this is GXml.DomProcessingInstruction) return this.@value;
 	    if (this is GXml.DomComment) return this.@value;
-	    if (this is GXml.Document || this is GXml.Element) {
+	    if (this is GXml.Document || this is GXml.DomElement) {
 	      message ("Is Element");
 	      foreach (GXml.Node n in children_nodes) {
           if (n is GXml.DomText) {
@@ -210,7 +210,7 @@ public abstract class GXml.GNode : Object,
 	    return t;
 	  }
 	  set {
-      if (this is GXml.Document || this is GXml.Element) {
+      if (this is GXml.Document || this is GXml.DomElement) {
         var t = this.document.create_text (value);
         this.document.children_nodes.add (t);
       }

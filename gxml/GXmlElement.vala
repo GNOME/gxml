@@ -25,13 +25,12 @@
 using Gee;
 
 /**
- * DOM4 Class implemeting {@link GXml.Element} and {@link GXml.DomElement} interface,
+ * DOM4 Class implemeting {@link GXml.DomElement} interface,
  * powered by libxml-2.0 library.
  */
 public class GXml.GElement : GXml.GNonDocumentChildNode,
                             GXml.DomParentNode,
                             GXml.DomElement,
-                            GXml.Element,
                             GXml.XPathContext
 {
   public GElement (GDocument doc, Xml.Node *node) {
