@@ -197,12 +197,13 @@ public abstract class GXml.GNode : Object,
 	public string? text_content {
 	  owned get {
 	    string t = null;
-	    if (this is GXml.Text) return this.@value;
+	    if (this is GXml.DomText) return (this as DomText).data;
 	    if (this is GXml.ProcessingInstruction) return this.@value;
 	    if (this is GXml.Comment) return this.@value;
 	    if (this is GXml.Document || this is GXml.Element) {
+	      message ("Is Element");
 	      foreach (GXml.Node n in children_nodes) {
-          if (n is GXml.Text) {
+          if (n is GXml.DomText) {
             if (t == null) t = n.value;
             else t += n.value;
           }
@@ -215,7 +216,7 @@ public abstract class GXml.GNode : Object,
         var t = this.document.create_text (value);
         this.document.children_nodes.add (t);
       }
-      if (!(this is GXml.Text || this is GXml.Comment || this is GXml.ProcessingInstruction)) return;
+      if (!(this is GXml.DomText || this is GXml.Comment || this is GXml.ProcessingInstruction)) return;
       this.@value = value;
 	  }
 	}

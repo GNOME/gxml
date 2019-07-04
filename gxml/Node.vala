@@ -198,7 +198,7 @@ public interface GXml.Node : Object
             copy (doc, e, c, deep);
           } catch {}
         }
-        if (c is Text) {
+        if (c is DomText) {
           if (c.value == null) {
             GLib.warning (_("Text node with NULL string"));
             continue;

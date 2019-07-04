@@ -166,15 +166,16 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 		});
 		Test.add_func ("/gxml/dom/node", () => {
 			try {
-#if DEBUG
-			GLib.message ("Doc: "+HTMLDOC);
-#endif
 			var doc = new GDocument.from_string (HTMLDOC) as DomDocument;
 			assert (doc is DomDocument);
+			message (doc.write_string ());
 			assert (doc.document_element.children.size == 1);
 			assert (doc.document_element.children[0] != null);
 			assert (doc.document_element.children[0].children[1] != null);
 			var e = doc.document_element.children[0].children[1];
+			assert (e.node_name == "p");
+			assert (e is DomElement);
+			assert ((e as DomElement).get_attribute ("id") == "p01");
 			assert (e.owner_document == (DomDocument) doc);
 			assert (e.parent_node != null);
 			assert (e.parent_node.node_name == "body");
@@ -193,6 +194,7 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 			assert (t.next_sibling == null);
 			assert (t.text_content != null);
 			assert (t.text_content == "p01 p id");
+			message ("%s: '%s'", e.parent_node.node_name, e.parent_node.text_content);
 			assert (e.parent_node.text_content == "\n\n\n\n\n");
 			assert (e.parent_node.has_child_nodes ());
 			e.parent_node.normalize ();
