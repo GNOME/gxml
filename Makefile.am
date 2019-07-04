@@ -40,6 +40,9 @@ EXTRA_DIST = $(gxmldoc_DATA) \
 	po/meson.build \
 	docs/meson.build \
 	test/meson.build \
+	examples/meson.build \
+	examples/c/meson.build \
+	examples/vala/meson.build \
 	$(INTLTOOL_FILES)
 
 config.rpath:
