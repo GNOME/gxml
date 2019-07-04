@@ -24,59 +24,6 @@ using GXml;
 
 class GElementTest : GXmlTest  {
 	public static void add_tests () {
-		Test.add_func ("/gxml/gelement/namespace_uri", () => {
-			try {
-				GDocument doc = new GDocument.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
-				GXml.GNode root = (GXml.GNode) doc.root;
-				assert (root != null);
-				assert (root.name == "Potions");
-				GXml.GNode node = (GXml.GNode) root.children_nodes[0];
-				assert (node != null);
-				assert (node.name == "Potion");
-				assert (node.namespaces != null);
-				assert (node.namespaces.size == 2);
-				assert (node.namespaces[0].uri == "http://hogwarts.co.uk/magic");
-				assert (node.namespaces[0].prefix == "magic");
-				assert (node.namespaces.get (1).prefix == "products");
-				assert (node.namespaces.get (1).uri == "http://diagonalley.co.uk/products");
-			} catch (GLib.Error e) {
-				Test.message (e.message);
-				assert_not_reached ();
-			}
-		});
-		Test.add_func ("/gxml/gelement/attributes", () => {
-			try {
-				GDocument doc = new GDocument.from_string ("<root />");
-				assert (doc.root != null);
-				GElement elem = (GElement) doc.create_element ("alphanumeric");
-				doc.root.children_nodes.add (elem);
-				assert (elem.attrs != null);
-				assert (elem.attrs.size == 0);
-				elem.set_attr ("alley", "Diagon");
-				elem.set_attr ("train", "Hogwarts Express");
-				assert (elem.attrs.size == 2);
-				Test.message ("Getting attributes value alley... Node: "+doc.to_string ());
-				assert (elem.attrs.get ("alley").value == "Diagon");
-				assert (elem.attrs.get ("train").value == "Hogwarts Express");
-
-				elem.set_attr ("owl", "");
-				GAttribute attr = elem.get_attr ("owl") as GAttribute;
-				assert (attr != null);
-				attr.value = "Hedwig";
-
-				assert (elem.attrs.size == 3);
-				assert (elem.attrs.get ("owl").value == "Hedwig");
-
-				elem.attrs.unset ("alley");
-				assert (elem.attrs.get ("alley") == null);
-				assert (elem.attrs.size == 2);
-				elem.remove_attr ("owl");
-				assert (elem.attrs.size == 1);
-			} catch (GLib.Error e) {
-				Test.message (e.message);
-				assert_not_reached ();
-			}
-		});
 		Test.add_func ("/gxml/gelement/to_string", () =>{
 			try {
 				GDocument doc = new GDocument.from_string ("<root />");
@@ -95,67 +42,6 @@ class GElementTest : GXmlTest  {
 				Test.message (e.message);
 				assert_not_reached ();
 			}
-		});
-		Test.add_func ("/gxml/gelement/content/set", () =>{
-			try {
-				var doc = new GDocument ();
-				var root = (GElement) doc.create_element ("root");
-				doc.children_nodes.add ((GNode) root);
-				root.content = "TEXT1";
-				assert (root.to_string () == "<root>TEXT1</root>");
-				string s = doc.to_string ().split ("\n")[1];
-				assert (s == "<root>TEXT1</root>");
-			} catch (GLib.Error e) {
-				Test.message (e.message);
-				assert_not_reached ();
-			}
-		});
-		Test.add_func ("/gxml/gelement/content/add_aside_child_nodes", () =>{
-			try {
-				var doc = new GDocument ();
-				var root = (GElement) doc.create_element ("root");
-				doc.children_nodes.add (root);
-				var n = (GElement) doc.create_element ("child");
-				root.children_nodes.add (n);
-				var t = doc.create_text ("TEXT1");
-				root.children_nodes.add (t);
-				string s = doc.to_string ().split ("\n")[1];
-				Test.message ("root="+root.to_string ());
-				assert (s == "<root><child/>TEXT1</root>");
-			} catch (GLib.Error e) {
-				Test.message (e.message);
-				assert_not_reached ();
-			}
-		});
-		Test.add_func ("/gxml/gelement/content/keep_child_nodes", () =>{
-			try {
-				var doc = new GDocument ();
-				var root = (GElement) doc.create_element ("root");
-				doc.children_nodes.add (root);
-				var n = (GElement) doc.create_element ("child");
-				root.children_nodes.add (n);
-				var t = (Text) doc.create_text ("TEXT1");
-				root.children_nodes.add (t);
-				string s = doc.to_string ().split ("\n")[1];
-				assert (s == "<root><child/>TEXT1</root>");
-			} catch (GLib.Error e) {
-				Test.message (e.message);
-				assert_not_reached ();
-			}
-		});
-		Test.add_func ("/gxml/gelement/parent", () => {
-			try {
-				var doc = new GDocument.from_string ("<root><child/></root>");
-				assert (doc.root != null);
-				assert (doc.root.parent is GXml.Node);
-				assert (doc.root.parent is GXml.Document);
-				assert (doc.root.children_nodes[0] != null);
-				assert (doc.root.children_nodes[0].parent != null);
-				assert (doc.root.children_nodes[0].parent.name == "root");
-				} catch (GLib.Error e) {
-					Test.message (e.message);
-					assert_not_reached ();
-				}
 		});
 		Test.add_func ("/gxml/gelement/previous_element_sibling", () => {
 			try {

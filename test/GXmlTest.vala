@@ -58,7 +58,6 @@ class GXmlTest {
 #endif
 #endif
 		ValaLibxml2Test.add_tests ();
-		GDocumentTest.add_tests ();
 		GElementTest.add_tests ();
 		GAttributeTest.add_tests ();
 		GHtmlDocumentTest.add_tests ();

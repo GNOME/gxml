@@ -8,7 +8,6 @@ files_tests = files ([
 		'CssSelectorTest.vala',
 		'NodeListTest.vala',
 		'ValaLibxml2Test.vala',
-		'GDocumentTest.vala',
 		'GElementTest.vala',
 		'GAttributeTest.vala',
 		'GHtmlDocumentTest.vala',
