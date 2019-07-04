@@ -9,7 +9,6 @@ files_tests = files ([
 		'NodeListTest.vala',
 		'ValaLibxml2Test.vala',
 		'GElementTest.vala',
-		'GAttributeTest.vala',
 		'GHtmlDocumentTest.vala',
 		'DomGDocumentTest.vala',
 		'XPathTest.vala',
