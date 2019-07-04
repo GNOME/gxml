@@ -87,7 +87,6 @@ valasources = files ([
 	'Namespace.vala',
 	'Node.vala',
 	'NodeType.vala',
-	'Notation.vala',
 	'Parser.vala',
 	'Schema.vala',
 	'XParser.vala',
