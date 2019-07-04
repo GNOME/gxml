@@ -23,7 +23,7 @@
 /**
  * DOM4 Base class for character data, powered by libxml2 library.
  */
-public class GXml.GCharacterData : GXml.GNonDocumentChildNode, GXml.Character,
+public class GXml.GCharacterData : GXml.GNonDocumentChildNode,
               GXml.DomCharacterData
 {
   // GXml.Character
