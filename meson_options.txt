@@ -1,3 +1,2 @@
-option('enable-tnode-tests', type : 'boolean', value : false, description : 'Enable TNode classes unit tests')
 option('disable-introspection', type : 'boolean', value : true, description : 'Disable GObject Introspection')
 option('disable-valadocs', type : 'boolean', value : true, description : 'Disable Vala Documentation')

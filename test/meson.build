@@ -6,7 +6,6 @@ testdirs_dep = declare_dependency (compile_args : [
 files_tests = files ([
 		'GXmlTest.vala',
 		'CssSelectorTest.vala',
-		'NodeListTest.vala',
 		'ValaLibxml2Test.vala',
 		'GElementTest.vala',
 		'GHtmlDocumentTest.vala',
@@ -19,15 +18,6 @@ files_tests = files ([
 	])
 
 tests_cargs = []
-if get_option('enable-tnode-tests')
-files_tests += files ([
-	'EnumerationTest.vala',
-	])
-tests_cargs += [
-	'-DENABLE_TNODE_TESTS',
-	'-DENABLE_PERFORMANCE_TESTS'
-	]
-endif
 
 t = executable('tests', files_tests + configvapi + configtestvapi,
 	vala_args : [],
@@ -87,7 +77,7 @@ libxml_performance = executable('libxml-performance-load', files_libxml_performa
 	link_with: libgxml
 )
 
-benchmark ('libxml-performance', libxml_performance)
+benchmark ('libxml-performance-load', libxml_performance)
 
 files_libxml_performance_iterate = files ([
 		'GXmlDocumentPerformanceIterateTest.vala'
