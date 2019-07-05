@@ -110,7 +110,7 @@ public abstract class GXml.GNode : Object,
       case GXml.NodeType.PROCESSING_INSTRUCTION:
         return new GProcessingInstruction (doc, node);
       case GXml.NodeType.COMMENT:
-        return new GComment (doc, node);
+        return new XComment (doc, node);
       case GXml.NodeType.DOCUMENT:
         return new GDocument.from_doc (node->doc);
       case GXml.NodeType.DOCUMENT_TYPE:

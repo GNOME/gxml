@@ -242,7 +242,7 @@ public class GXml.GDocument : GXml.GNode,
   }
   public DomComment GXml.DomDocument.create_comment (string data) throws GLib.Error {
     var c = doc->new_comment (data);
-    return new GComment (this, c);
+    return new XComment (this, c);
   }
   public DomProcessingInstruction create_processing_instruction (string target, string data) throws GLib.Error {
       return (DomProcessingInstruction) create_pi (target, data);
