@@ -348,6 +348,6 @@ public class GXml.XElement : GXml.XNonDocumentChildNode,
       }
       return true;
     });
-    return new GXml.GXPathObject (gdoc, context.eval (expression));
+    return new GXml.LXPathObject (gdoc, context.eval (expression));
   }
 }

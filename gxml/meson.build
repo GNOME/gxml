@@ -67,7 +67,7 @@ valasources = files ([
 	'GomStringRef.vala',
 	'GomText.vala',
 	'gxml-init.vala',
-	'GXPathObject.vala',
+	'LXPathObject.vala',
 	'Namespace.vala',
 	'NodeType.vala',
 	'Parser.vala',

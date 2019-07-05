@@ -22,14 +22,14 @@
  *     Daniel Espinosa <esodan@gmail.com>
  */
 
-public class GXml.GXPathObject : GLib.Object, GXml.XPathObject {
+public class GXml.LXPathObject : GLib.Object, GXml.XPathObject {
   private GXml.GDomHTMLCollection _collection;
   private GXml.XPathObjectType _object_type;
   private bool _boolean_value;
   private string _string_value;
   private double _number_value;
 
-  public GXPathObject (GXml.XDocument document, Xml.XPath.Object* pointer) {
+  public LXPathObject (GXml.XDocument document, Xml.XPath.Object* pointer) {
     _collection = new GXml.GDomHTMLCollection();
 
     _object_type = (GXml.XPathObjectType) pointer->type;
