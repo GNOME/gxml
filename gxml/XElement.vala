@@ -28,12 +28,12 @@ using Gee;
  * DOM4 Class implemeting {@link GXml.DomElement} interface,
  * powered by libxml-2.0 library.
  */
-public class GXml.GElement : GXml.XNonDocumentChildNode,
+public class GXml.XElement : GXml.XNonDocumentChildNode,
                             GXml.DomParentNode,
                             GXml.DomElement,
                             GXml.XPathContext
 {
-  public GElement (GDocument doc, Xml.Node *node) {
+  public XElement (GDocument doc, Xml.Node *node) {
     _node = node;
     _doc = doc;
   }

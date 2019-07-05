@@ -45,7 +45,7 @@ public class GXml.XNonDocumentChildNode : GXml.XChildNode,
       if (_node == null) return null;
       var n = _node->previous_element_sibling ();
       if (n == null) return null;
-      return new GElement (owner_document as GDocument, n);
+      return new XElement (owner_document as GDocument, n);
     }
   }
   public DomElement? next_element_sibling {
@@ -53,7 +53,7 @@ public class GXml.XNonDocumentChildNode : GXml.XChildNode,
       if (_node == null) return null;
       var n = _node->next_element_sibling ();
       if (n == null) return null;
-      return new GElement (owner_document as GDocument, n);
+      return new XElement (owner_document as GDocument, n);
     }
   }
 }

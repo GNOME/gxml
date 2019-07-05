@@ -118,7 +118,7 @@ public class GXml.GDocument : GXml.GNode,
           GLib.warning ("Document have more than one root GXmlElement. Using first found");
         }
       } 
-      return new GElement (this, r);
+      return new XElement (this, r);
     }
   }
   public GXml.DomNode create_pi (string target, string data)
@@ -196,7 +196,7 @@ public class GXml.GDocument : GXml.GNode,
         errmsg = ".  ";
       throw new GXml.Error.PARSER (errmsg);
     }
-    return new GElement (this, el);
+    return new XElement (this, el);
   }
   public DomElement GXml.DomDocument.create_element_ns (string? ns, string qualified_name) throws GLib.Error
   {
@@ -211,7 +211,7 @@ public class GXml.GDocument : GXml.GNode,
         qname = s[1];
       }
       var e = (this as GXml.DomDocument).create_element (qname);
-      (e as GElement).set_namespace (ns, prefix);
+      (e as XElement).set_namespace (ns, prefix);
       return e as DomElement;
   }
 

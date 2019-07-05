@@ -98,7 +98,7 @@ public abstract class GXml.GNode : Object,
     var t = (GXml.NodeType) node->type;
     switch (t) {
       case GXml.NodeType.ELEMENT:
-        return new GElement (doc, node);
+        return new XElement (doc, node);
       case GXml.NodeType.ATTRIBUTE:
         return new XAttribute (doc, (Xml.Attr*) node);
       case GXml.NodeType.TEXT:

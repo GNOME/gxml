@@ -36,7 +36,7 @@ public class GXml.GXPathObject : GLib.Object, GXml.XPathObject {
 
     if (_object_type == GXml.XPathObjectType.NODESET)
       for (var i = 0; i < pointer->nodesetval->length(); i++)
-        _collection.add (new GXml.GElement (document, pointer->nodesetval->item (i)));
+        _collection.add (new GXml.XElement (document, pointer->nodesetval->item (i)));
     else if (_object_type == GXml.XPathObjectType.BOOLEAN)
       _boolean_value = pointer->boolval == 1;
     else if (_object_type == GXml.XPathObjectType.STRING)
