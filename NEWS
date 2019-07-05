@@ -1,4 +1,10 @@
 ===============
+Version 0.18.1
+===============
+* GParser: fix create_stream() using string.data
+* build: add support for darwin_versions thanks to Tom Schoonjans <Tom.Schoonjans@diamond.ac.uk>
+
+===============
 Version 0.18.0
 ===============
 * GomDocument now can detect default a root property and instantiate it on reading
