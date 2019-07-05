@@ -388,7 +388,7 @@ public class GXml.GImplementation : GLib.Object, GXml.DomImplementation {
 }
 
 
-public class GXml.GDocumentType : GXml.GChildNode,
+public class GXml.GDocumentType : GXml.XChildNode,
                                   GXml.DomNode,
                                   GXml.DomChildNode,
                                   GXml.DomDocumentType

@@ -28,7 +28,7 @@ using Gee;
  * DOM4 Class implemeting {@link GXml.DomElement} interface,
  * powered by libxml-2.0 library.
  */
-public class GXml.GElement : GXml.GNonDocumentChildNode,
+public class GXml.GElement : GXml.XNonDocumentChildNode,
                             GXml.DomParentNode,
                             GXml.DomElement,
                             GXml.XPathContext

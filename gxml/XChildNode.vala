@@ -23,7 +23,7 @@
 /**
  * DOM4 class for child nodes, powered by libxml2 library.
  */
-public class GXml.GChildNode : GXml.GNode,
+public class GXml.XChildNode : GXml.GNode,
               GXml.DomChildNode
 {
   // DomChildNode
@@ -35,7 +35,7 @@ public class GXml.GChildNode : GXml.GNode,
   }
 }
 
-public class GXml.GNonDocumentChildNode : GXml.GChildNode,
+public class GXml.XNonDocumentChildNode : GXml.XChildNode,
               GXml.DomNonDocumentTypeChildNode
 {
 
