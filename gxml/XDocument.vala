@@ -383,7 +383,7 @@ public class GXml.GImplementation : GLib.Object, GXml.DomImplementation {
                                          throws GLib.Error
   { return new XDocument (); } // FIXME
   public DomDocument create_html_document (string title) {
-    return new GHtmlDocument (); // FIXME:
+    return new XHtmlDocument (); // FIXME:
   }
 }
 

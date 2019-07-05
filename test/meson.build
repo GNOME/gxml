@@ -7,7 +7,7 @@ files_tests = files ([
 		'GXmlTest.vala',
 		'CssSelectorTest.vala',
 		'ValaLibxml2Test.vala',
-		'GHtmlDocumentTest.vala',
+		'XHtmlDocumentTest.vala',
 		'DomXDocumentTest.vala',
 		'GomDocumentTest.vala',
 		'GomElementTest.vala',

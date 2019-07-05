@@ -22,7 +22,7 @@
 
 using GXml;
 
-class GElementTest : GXmlTest  {
+class XElementTest : GXmlTest  {
 	public static void add_tests () {
 		Test.add_func ("/gxml/gelement/to_string", () =>{
 			try {

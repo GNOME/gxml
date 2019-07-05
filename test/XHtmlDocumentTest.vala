@@ -24,11 +24,11 @@
 
 using GXml;
 
-class GHtmlDocumentTest : GXmlTest {
+class XHtmlDocumentTest : GXmlTest {
 	public static void add_tests () {
-		Test.add_func ("/gxml/GHtmlDocument/api/element_id", () => {
+		Test.add_func ("/gxml/XHtmlDocument/api/element_id", () => {
 			try {
-				var doc = new GHtmlDocument.from_path (GXmlTestConfig.TEST_DIR+"/index.html");
+				var doc = new XHtmlDocument.from_path (GXmlTestConfig.TEST_DIR+"/index.html");
 				Test.message ("Checking root element...");
 				assert (doc.document_element != null);
 				assert (doc.document_element.node_name.down () == "html".down ());
@@ -44,9 +44,9 @@ class GHtmlDocumentTest : GXmlTest {
 				assert_not_reached ();
 			}
 		});
-		Test.add_func ("/gxml/GHtmlDocument/api/element_class", () => {
+		Test.add_func ("/gxml/XHtmlDocument/api/element_class", () => {
 			try {
-				var doc = new GHtmlDocument.from_path (GXmlTestConfig.TEST_DIR+"/index.html");
+				var doc = new XHtmlDocument.from_path (GXmlTestConfig.TEST_DIR+"/index.html");
 				Test.message ("Checking root element...");
 				assert (doc.document_element != null);
 				assert (doc.document_element.node_name.down () == "html".down ());
@@ -71,7 +71,7 @@ class GHtmlDocumentTest : GXmlTest {
 				assert_not_reached ();
 			}
 		});
-		Test.add_func ("/gxml/GHtmlDocument/fom_string_doc", () => {
+		Test.add_func ("/gxml/XHtmlDocument/fom_string_doc", () => {
 			try {
 				var sdoc = "<!doctype html>
 <html>
@@ -86,7 +86,7 @@ class GHtmlDocumentTest : GXmlTest {
 </body>
 </html>
 ";
-				var doc = new GHtmlDocument.from_string_doc (sdoc);
+				var doc = new XHtmlDocument.from_string_doc (sdoc);
 				assert (doc.document_element != null);
 				assert (doc.document_element.node_name.down () == "html".down ());
 				var ln = doc.document_element.get_elements_by_property_value ("type","text/javascript");
@@ -112,18 +112,18 @@ class GHtmlDocumentTest : GXmlTest {
 				assert_not_reached ();
 			}
 		});
-		// Test.add_func ("/gxml/GHtmlDocument/uri", () => {
+		// Test.add_func ("/gxml/XHtmlDocument/uri", () => {
 		// 	try {
 		// 		var f = GLib.File.new_for_uri ("http://www.omgubuntu.co.uk/2017/05/kde-neon-5-10-available-download-comes-plasma-5-10");
 		// 		DomDocument doc;
-		// 		doc = new GHtmlDocument.from_uri ("http://www.omgubuntu.co.uk/2017/05/kde-neon-5-10-available-download-comes-plasma-5-10");
+		// 		doc = new XHtmlDocument.from_uri ("http://www.omgubuntu.co.uk/2017/05/kde-neon-5-10-available-download-comes-plasma-5-10");
 		// 		message ((doc as GDocument).to_string ());
 		// 	} catch (GLib.Error e){
 		// 		message ("ERROR: "+e.message);
 		// 		assert_not_reached ();
 		// 	}
 		// });
-		Test.add_func ("/gxml/GHtmlDocument/element-by-property", () => {
+		Test.add_func ("/gxml/XHtmlDocument/element-by-property", () => {
 		 	var src = """
 <!--[if lt IE 7]>      <html dir="ltr" lang="fr" data-locale="fr" data-locale-long="fr_FR" data-locale-name="French (France)" data-locale-facebook="fr_FR" data-locale-twitter="fr" data-locale-google="fr" data-locale-linkedin="fr_FR" class="no-js lt-ie9 lt-ie8 lt-ie7 "> <![endif]-->
 <!--[if IE 7]>         <html dir="ltr" lang="fr" data-locale="fr" data-locale-long="fr_FR" data-locale-name="French (France)" data-locale-facebook="fr_FR" data-locale-twitter="fr" data-locale-google="fr" data-locale-linkedin="fr_FR" class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -190,153 +190,153 @@ window.tc_vars = tms_vars;
                                 <dd><a class="modeless filter" title="Les derni&#xE8;res 24h" href="http://www.france24.com/fr/home/24h/1/">24h</a></dd>
                                 <dd><a class="modeless filter" title="Vid&#xE9;os" href="http://www.france24.com/fr/video/">Vid&#xE9;os</a></dd>
                             </dl></li>
-                                                                                                                                
-                                
-                                                
+
+
+
 
                 <li class="">
                                                                                                                                                                                                                             <a href="/fr/video/" class="modeless" title="Vid&#xE9;os News - Actualit&#xE9; vid&#xE9;o - France24">
                             Vid&#xE9;os
                         </a>
                                                                                     </li>
-                                                                                                                                
-                                
-                                                
+
+
+
 
                 <li class="">
                                                                                                                                                                                                                             <a href="/fr/france/" class="modeless" title="FRANCE : News et actualit&#xE9; en continu - France 24">
                             France
                         </a>
                                                                                     </li>
-                                                                                                                                
-                                
-                                                
+
+
+
 
                 <li class="">
                                                                                                                                                                                                                             <a href="/fr/afrique/" class="modeless" title="Politique &amp; &#xE9;conomie en AFRIQUE, infos &amp; news au Maghreb - France 24">
                             Afrique
                         </a>
                                                                                     </li>
-                                                                                                                                
-                                
-                                                
+
+
+
 
                 <li class="">
                                                                                                                                                                                                                             <a href="/fr/moyen-orient/" class="modeless" title="Informations et news au MOYEN-ORIENT - Toute l'actualit&#xE9; sur France 24">
                             Moyen-orient
                         </a>
                                                                                     </li>
-                                                                                                                                
-                                
-                                                
+
+
+
 
                 <li class="">
                                                                                                                                                                                                                             <a href="/fr/europe/" class="modeless" title="News, actualit&#xE9; politique &amp; &#xE9;conomique en Europe - France 24">
                             Europe
                         </a>
                                                                                     </li>
-                                                                                                                                
-                                
-                                                
+
+
+
 
                 <li class="">
                                                                                                                                                                                                                             <a href="/fr/ameriques/" class="modeless" title="Am&#xE9;riques : information en direct, news et actu en continu - France 24">
                             Am&#xE9;riques
                         </a>
                                                                                     </li>
-                                                                                                                                
-                                
-                                                
+
+
+
 
                 <li class="">
                                                                                                                                                                                                                             <a href="/fr/asie-pacifique/" class="modeless" title="Asie et Pacifique : actualit&#xE9; internationale en continu - France 24">
                             Asie-pacifique
                         </a>
                                                                                     </li>
-                                                                                                                                
-                                
-                                                
+
+
+
 
                 <li class="">
                                                                                                                                                                                                                             <a href="/fr/sports/" class="modeless" title="SPORT : toutes les news sportives et les r&#xE9;sultats - France 24">
                             Sports
                         </a>
                                                                                     </li>
-                                                                                                                                
-                                
-                                                
+
+
+
 
                 <li class="">
                                                                                                                                                                                                                             <a href="/fr/eco-tech/" class="modeless" title="&#xC9;CONOMIE &amp; TECHNOLOGIE : toute l'actu &#xE9;co &amp; tech  - France 24">
                             &#xC9;co/tech
                         </a>
                                                                                     </li>
-                                                                                                                                
-                                
-                                                
+
+
+
 
                 <li class="">
                                                                                                                                                                                                                             <a href="/fr/culture/" class="modeless" title="CULTURE &amp; artistes : l'actualit&#xE9; culturelle &amp; artistique - France 24">
                             Culture
                         </a>
                                                                                     </li>
-                                                                                                                                
-                                
-                                                
+
+
+
 
                 <li class="">
                                                                                                                                                                                                                             <a href="/fr/planete/" class="modeless" title="PLAN&#xC8;TE : toute l'actu environnement - France 24">
                             Plan&#xE8;te
                         </a>
                                                                                     </li>
-                                                                                                                                                                    
-                                
-                                                
+
+
+
 
                 <li class="">
                                                                                                                                                                                                                             <a href="/fr/reportages/" class="modeless light" title="Tous les reportages des grands reporters de France 24 aux 4 coins du monde">
                             Reportages
                         </a>
                                                                                     </li>
-                                                                                                                                                                    
-                                
-                                                
+
+
+
 
                 <li class="">
                                                                                                                                                                                                                             <a href="/fr/emissions/" class="modeless light" title="Programmes TV, Emissions et news en VOD">
                             &#xC9;missions
                         </a>
                                                                                     </li>
-                                                                                                                                                                    
-                                
-                                                
+
+
+
 
                 <li class="">
                                                                                                                                                                                                                             <a href="/fr/webdocumentaires/" class="modeless light" title="Webdocumentaires et Infographies - France 24">
                             Infographies
                         </a>
                                                                                     </li>
-                                                                                                                                                                    
-                                
-                                                
+
+
+
 
                 <li class="">
                                                                                                                                             <a href="http://www.infomigrants.net/fr/" class="item-im" title="InfoMigrants" target="_blank">
                             Infomigrants
                         </a>
                                                                                     </li>
-                                                                                                                                                                    
-                                
-                                                
+
+
+
 
                 <li class="">
                                                                                                                                             <a href="http://observers.france24.com/fr" class="item-lo" title="Les Observateurs" target="_blank">
                             Les observateurs
                         </a>
                                                                                     </li>
-                                                                                                                                                                    
-                                
-                                                
+
+
+
 
                 <li class="">
                                                                                                                                             <a href="http://mashable.france24.com" class="item-mash" title="Mashable avec France 24" target="_blank">
@@ -373,7 +373,7 @@ window.tc_vars = tms_vars;
                                                                                                         <script type="application/json" data-player-playlist="main-player" data-player-bind="main-player"><![CDATA[
     {"medias":{"media":{"type":"video","media_sources":{"media_source":[{"streaming_type":{"platforms":{"platform":["flash","html5"]},"mime_type":"application\/vnd.apple.mpegurl","type":"video","html5_codec":"avc1.42E01E, mp3","bitrate":0},"is_default":0,"source":"http:\/\/static.france24.com\/live\/F24_FR_LO_HLS\/live_web.m3u8"}]},"title":"","is_live":true,"photo_url":"","thumbnail_url":"","rolls":{"urlpre":"http:\/\/ad2play.ftv-publicite.fr\/preroll.vast?v=2&sitepage=www.france24.fr\/direct","urlpost":""},"is_active":1,"labels":{"now":""},"comscore":{"baseMeasurementURL":"fr.sitestat.com\/aef\/f24-mcd-rfi\/s?","labels":{"ns_st_ci":"direct_france24","ns_st_ep":"direct_france24","ns_st_pr":"live","ns_st_ty":"video","ns_st_st":"france24_francais","ns_st_pl":"france24_francais","ns_st_el":0,"ns_st_ub":0,"ns_st_cn":1,"ns_st_cl":0,"ns_st_dt":"2016-01-13","aef_streamtype_2":"live","aef_rep_global":"live","aef_type_page1":"player","aef_type_contenu1":"video","aef_section1":"live","aef_auteur":"france24","aef_dpubli":"2016-01-13","aef_hpubli":"14:37","ns_st_li":1,"aef_marque":"france24","name":"itemtype.defaut.defaut","aef_type_environnement":"site","aef_plateforme":"ordinateur","aef_nom_environnement":"france24_site","aef_version_environnement":"v1.36.9","aef_perimetre_diffusion":"interne","aef_url_provenance":"http:\/\/www.france24.com\/fr\/","aef_page_provenance":"\/fr\/","aef_langue":"francais","aef_acces":"gratuit","aef_user_connection":"visiteur","aef_user_id":""}}}}}
 ]]></script><div id="dynamic-player-element" class="async-load" data-content="http://www.france24.com/fr/_fragment/player/tofollow/">
-                    
+
 
 
 <a href="#" class="player-live" data-stream="main-player" data-players-toggle="">
@@ -404,7 +404,7 @@ window.tc_vars = tms_vars;
                     <div data-ytplayer-id="main-player-yt" class="main-player" data-player-duplication-id="main-player"/>
                     <p class="copy">
                     </p><div data-fragment-src="http://www.france24.com/fr/_fragment/player/nowplaying/"/>
-                    
+
                 </div>
                 <div class="video-board">
                     <div class="v-header"><h2>LES DERNI&#xC8;RES &#xC9;MISSIONS</h2></div>
@@ -523,9 +523,9 @@ window.tc_vars = tms_vars;
                         <div class="type-1">
                             <a href="#" class="tabs" data-target="player-comments">
                                 <span class="comment-count">
-                                                                        
+
             <span class="fb-comments-count" data-href="http://www.france24.com/fr/?query=player-live"/>
-    
+
                                 </span>
                                 COMMENTAIRE(S)
                             </a>
@@ -534,9 +534,9 @@ window.tc_vars = tms_vars;
                         <div class="type-2">
                             <a href="#" class="comm tabs" data-target="player-comments">
                                 <span class="comment-count">
-                                    
+
             <span class="fb-comments-count" data-href="http://www.france24.com/fr/?query=player-live"/>
-    
+
                                 </span>
                                 &#xA0;commentaires
                             </a>
@@ -545,11 +545,11 @@ window.tc_vars = tms_vars;
                             </a>
                         </div>
                     </div>
-                    <div id="player-comments" class="bd tabs" style="display: none">                                                
+                    <div id="player-comments" class="bd tabs" style="display: none">
             <div class="facebook-comment">
                                     <div class="fb-comments" data-href="http://www.france24.com/fr/?query=player-live" width="100%" data-numposts="5" data-colorscheme="light" data-mobile="false"/>
                     </div>
-    
+
                     </div>
                     <div id="player-programs" class="bd tabs">
                         <div data-fragment-src="http://www.france24.com/fr/_fragment/player/programgrid/"/>
@@ -564,7 +564,7 @@ window.tc_vars = tms_vars;
                 <div class="content-slider">
                     <div class="content-slide">
                         <div class="main-board emission-board">
-                                                                                        
+
     <div class="adv-megaban tms-block" data-pos="1" data-type="megaban" data-location="top" data-expand="true" data-loaded="false">
     </div>
 
@@ -592,7 +592,7 @@ window.tc_vars = tms_vars;
                                                                                                 <a class="icon-rss" target="_blank" href="/fr/emissions/element-terre/podcast"/>
                         <a class="icon-podcast" target="_blank" href="itpc://www.france24.com/fr/emissions/element-terre/podcast"/>
                     </div>
-                    
+
 <script type="text/javascript"><![CDATA[
     function linkedInSuccess(data) {
         trackingSocial.li_tracker();
@@ -600,16 +600,16 @@ window.tc_vars = tms_vars;
 ]]></script><ul class="sharebar-social-part"><li class="social-cell fb">
                         <div class="fb-share-button" data-href="http://f24.my/1yc3.F" data-type="button_count" data-width="90" data-callback="trackingSocial.fb_tracker"/>
         </li>
-    
+
             <li class="social-cell tt">
             <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://f24.my/1yc3.T" data-counturl="http://www.france24.com/fr/20171021-chine-charbon-centrale-etranger-energie-environnement-leader-climat" data-text="&#xC9;L&#xC9;MENT TERRE - Climat&#xA0;: la Chine est-elle le nouveau leader ?" data-via="" data-lang="fr" data-related="France24_fr" data-callback="trackingSocial.tt_tracker">Tweeter</a>
         </li>
-    
+
             <li class="social-cell gg">
             <div class="g-plus" data-action="share" data-annotation="bubble" data-href="http://www.france24.com/fr/20171021-chine-charbon-centrale-etranger-energie-environnement-leader-climat" data-callback="trackingSocial.gg_tracker"/>
         </li>
-    
-    
+
+
             <li class="social-cell in">
             <script type="IN/Share" data-url="http://f24.my/1yc3.L" data-counter="right" data-onsuccess="liTracker"/></li>
     </ul><ul class="sharebar-internal-part"/><div class="clear-both"/>
@@ -617,7 +617,7 @@ window.tc_vars = tms_vars;
 
                 </div>
 
-                                
+
                 <figure class="img"><div style="background-image: url('http://scd.france24.com/fr/files_fr/imagecache/france24_ct_api_bigger_169/edition/fr_element_terre_chine_charbon_pad.sub_.01.jpg'); background-size: cover" data-ytplayer-id="15oDkx7jjvU" class="youtube-container bsplayer-type-video bsplayer-processed"/>
                                                                                                                 <figcaption>&#xA9; Capture France 24</figcaption></figure></header><div class="bd">
                 <h2>Autrefois mauvaise &#xE9;l&#xE8;ve des n&#xE9;gociations climatiques, la Chine a chang&#xE9; de cap. D&#xE9;sormais, P&#xE9;kin investit massivement dans les &#xE9;nergies renouvelables et participe &#xE0; l&#x2019;effort collectif, occupant la chaise vide laiss&#xE9;e par les &#xC9;tats-Unis de Donald Trump. Mais par ailleurs, des entreprises publiques chinoises sont li&#xE9;es &#xE0; une centaine de projets de centrales &#xE0; charbon &#xE0; l'&#xE9;tranger. La Chine peut-elle tout de m&#xEA;me &#xEA;tre consid&#xE9;r&#xE9;e comme un h&#xE9;ros du climat ? Ou joue-t-elle un double jeu&#xA0;?</h2>
@@ -629,12 +629,12 @@ window.tc_vars = tms_vars;
                                                     , <a title="Val&#xE9;rie DEKIMPE" class="modeless" href="/fr/auteur/valerie-dekimpe/">Val&#xE9;rie DEKIMPE</a>
                                                                     </p>
                             </div>
-            
+
                         <div class="clear-both"/>
 
                                     <div class="clear-both"/>
         </article><div class="article-action">
-            
+
 <script type="text/javascript"><![CDATA[
     function linkedInSuccess(data) {
         trackingSocial.li_tracker();
@@ -642,16 +642,16 @@ window.tc_vars = tms_vars;
 ]]></script><ul class="sharebar-social-part"><li class="social-cell fb">
                         <div class="fb-share-button" data-href="http://f24.my/1yc3.F" data-type="button_count" data-width="90" data-callback="trackingSocial.fb_tracker"/>
         </li>
-    
+
             <li class="social-cell tt">
             <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://f24.my/1yc3.T" data-counturl="http://www.france24.com/fr/20171021-chine-charbon-centrale-etranger-energie-environnement-leader-climat" data-text="&#xC9;L&#xC9;MENT TERRE - Climat&#xA0;: la Chine est-elle le nouveau leader ?" data-via="" data-lang="fr" data-related="France24_fr" data-callback="trackingSocial.tt_tracker">Tweeter</a>
         </li>
-    
+
             <li class="social-cell gg">
             <div class="g-plus" data-action="share" data-annotation="bubble" data-href="http://www.france24.com/fr/20171021-chine-charbon-centrale-etranger-energie-environnement-leader-climat" data-callback="trackingSocial.gg_tracker"/>
         </li>
-    
-    
+
+
             <li class="social-cell in">
             <script type="IN/Share" data-url="http://f24.my/1yc3.L" data-counter="right" data-onsuccess="liTracker"/></li>
     </ul><ul class="sharebar-internal-part"/><div class="clear-both"/>
@@ -659,16 +659,16 @@ window.tc_vars = tms_vars;
 
         </div>
 
-                            
+
                                     <div class="footage-board vertical-position">
         <h5 class="default-header-2">Les archives</h5>
                     <div class="news-item no-0" data-bo-type="edition" data-bo-nid="WB5208883-F24-FR-20171214">
             <div class="media video">
-                                                
+
                 <img src="http://scd.france24.com/fr/files_fr/imagecache/hermes_infographie_vignette_home/edition/emission_year_in_review_1.jpg" alt=""/><span/>
             </div>
 
-                                    
+
             <div class="copy">
                 <p class="meta">14/12/2017 R&#xE9;chauffement climatique</p>
                 <h3 class="title">
@@ -681,7 +681,7 @@ window.tc_vars = tms_vars;
                 </p>
             </div>
 
-                                        
+
             <ul class="social-nt"><li class="target">
                     <div>
                         <img alt="Partager" width="32" height="32" src="/bundles/aefhermesf24/img/01.png?version=20171213121500"/></div>
@@ -697,11 +697,11 @@ window.tc_vars = tms_vars;
 
                                                     <div class="news-item no-0" data-bo-type="edition" data-bo-nid="WB5204867-F24-FR-20171201">
             <div class="media video">
-                                                
+
                 <img src="http://scd.france24.com/fr/files_fr/imagecache/hermes_infographie_vignette_home/edition/en_element_terre_virage_vert.jpg" alt=""/><span/>
             </div>
 
-                                    
+
             <div class="copy">
                 <p class="meta">01/12/2017 P&#xE9;trole</p>
                 <h3 class="title">
@@ -714,7 +714,7 @@ window.tc_vars = tms_vars;
                 </p>
             </div>
 
-                                        
+
             <ul class="social-nt"><li class="target">
                     <div>
                         <img alt="Partager" width="32" height="32" src="/bundles/aefhermesf24/img/01.png?version=20171213121500"/></div>
@@ -730,16 +730,16 @@ window.tc_vars = tms_vars;
 
                                                     <div class="news-item no-0" data-bo-type="edition" data-bo-nid="WB5200175-F24-FR-20171116">
             <div class="media video">
-                                                
+
                 <img src="http://scd.france24.com/fr/files_fr/imagecache/hermes_infographie_vignette_home/edition/saumon_norvege.jpg" alt=""/><span/>
             </div>
 
-                                    
+
             <div class="copy">
                 <p class="meta">16/11/2017 Norv&#xE8;ge</p>
                 <h3 class="title">
                     <a title="Saumon de Norv&#xE8;ge : la guerre du pou est d&#xE9;clar&#xE9;e " href="/fr/20171118-norvege-saumon-industrie-parasite-poux-mer-innovation" class="modeless">
-                        Saumon de Norv&#xE8;ge : la guerre du pou est d&#xE9;clar&#xE9;e 
+                        Saumon de Norv&#xE8;ge : la guerre du pou est d&#xE9;clar&#xE9;e
                     </a>
                 </h3>
                 <p class="desc">
@@ -747,7 +747,7 @@ window.tc_vars = tms_vars;
                 </p>
             </div>
 
-                                        
+
             <ul class="social-nt"><li class="target">
                     <div>
                         <img alt="Partager" width="32" height="32" src="/bundles/aefhermesf24/img/01.png?version=20171213121500"/></div>
@@ -763,11 +763,11 @@ window.tc_vars = tms_vars;
 
                                                     <div class="news-item no-0" data-bo-type="edition" data-bo-nid="WB5195708-F24-FR-20171102">
             <div class="media video">
-                                                
+
                 <img src="http://scd.france24.com/fr/files_fr/imagecache/hermes_infographie_vignette_home/edition/nucleaire_sans_texte_pad.jpg" alt=""/><span/>
             </div>
 
-                                    
+
             <div class="copy">
                 <p class="meta">02/11/2017 &#xC9;nergie nucl&#xE9;aire</p>
                 <h3 class="title">
@@ -776,11 +776,11 @@ window.tc_vars = tms_vars;
                     </a>
                 </h3>
                 <p class="desc">
-                   La France est le royaume du nucl&#xE9;aire. L&#x2019;industrie &#xE9;met peu de Co2, mais les d&#xE9;chets qu&#x2019;elle produit sont un casse-t&#xEA;te sans solution &#xE0; long terme. 
+                   La France est le royaume du nucl&#xE9;aire. L&#x2019;industrie &#xE9;met peu de Co2, mais les d&#xE9;chets qu&#x2019;elle produit sont un casse-t&#xEA;te sans solution &#xE0; long terme.
                 </p>
             </div>
 
-                                        
+
             <ul class="social-nt"><li class="target">
                     <div>
                         <img alt="Partager" width="32" height="32" src="/bundles/aefhermesf24/img/01.png?version=20171213121500"/></div>
@@ -799,7 +799,7 @@ window.tc_vars = tms_vars;
         </div>
     </div>
 
-                    
+
     </div>
 
         <aside class="col-2"><div class="equipe">
@@ -812,13 +812,13 @@ window.tc_vars = tms_vars;
                                 </a>
                                                                                             <p>
                        </p><p>Dipl&#xF4;m&#xE9;e de Sciences Po Paris et du CFJ, elle a travaill&#xE9; pour France 3 et France 5, avant de rejoindre FRANCE 24 &#xE0; sa cr&#xE9;ation, en 2006. Elle est sp&#xE9;cialiste des questions d&#x2019;environnement.</p>
-                                            
+
                 </div>
             </div>
                             </div>
     </div>
-    
-                                                    
+
+
     <div class="ib-adv tms-block" data-pos="1" data-type="pave" data-location="sidebar" data-expand="true" data-loaded="false">
     </div>
 
@@ -889,7 +889,7 @@ window.tc_vars = tms_vars;
 
 
 
-                                        
+
     <div class="ib-adv tms-block" data-pos="2" data-type="pave" data-location="sidebar" data-expand="true" data-loaded="false">
     </div>
 
@@ -898,7 +898,7 @@ window.tc_vars = tms_vars;
         <div class="intro-program">
         <div class="ip-item">
                         <div class="bd">
-                                                            
+
     <div class="tms-block" data-pos="1" data-type="partner_block" data-location="sidebar" data-expand="true" data-loaded="false">
     </div>
 
@@ -913,8 +913,8 @@ window.tc_vars = tms_vars;
 
 
 
-    
-        
+
+
              </aside></div>
                                                                                                             </div>
                     </div>
@@ -924,85 +924,85 @@ window.tc_vars = tms_vars;
     <img class="f-logo" src="/bundles/aefhermesf24/img/france-24-logo.png?version=20171213121500" alt=""/><div class="f-link-list fl-l-l-1 fl-l-l-l-1">
                 <p>Actualit&#xE9;</p>
                 <ul><li><a class="modeless" href="/fr/" title="Infos, news &amp; actualit&#xE9;s - L'information internationale en direct">&#xC0; la une</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a class="modeless" href="/fr/france/" title="FRANCE : News et actualit&#xE9; en continu">France</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a class="modeless" href="/fr/afrique/" title="Politique &amp; &#xE9;conomie en AFRIQUE, infos &amp; news au Maghreb">Afrique</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a class="modeless" href="/fr/moyen-orient/" title="Informations et news au MOYEN-ORIENT - Toute l'actualit&#xE9; sur France 24">Moyen-Orient</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a class="modeless" href="/fr/ameriques/" title="Am&#xE9;riques : information en direct, news et actu en continu - France 24">Am&#xE9;riques</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a class="modeless" href="/fr/europe/" title="News, actualit&#xE9; politique &amp; &#xE9;conomique en Europe - France 24">Europe</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a class="modeless" href="/fr/asie-pacifique/" title="Asie et Pacifique : actualit&#xE9; internationale en continu - France 24">Asie-Pacifique</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a class="modeless" href="/fr/eco-tech/" title="&#xC9;CONOMIE &amp; TECHNOLOGIE : toute l'actu &#xE9;co &amp; tech">&#xC9;co/Tech</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a class="modeless" href="/fr/sports/" title="SPORT : toutes les news sportives et les r&#xE9;sultats">Sport</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a class="modeless" href="/fr/culture/" title="CULTURE &amp; artistes : l'actualit&#xE9; culturelle &amp; artistique">Culture</a></li>
                                                             </ul></div>
-            
+
                         <div class="f-link-list fl-l-l-2">
                 <p>la cha&#xEE;ne</p>
                 <ul><li><a href="/fr/tv-en-direct-chaine-live" class="modeless video" title="Regarder France 24 en direct">La cha&#xEE;ne en direct</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a href="/fr/actualites-sous-titrees" class="modeless video" title="Suivez les derni&#xE8;res informations sous-titr&#xE9;es et la m&#xE9;t&#xE9;o">Accessibilit&#xE9;</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a href="/fr/emissions/" class="modeless" title="Programmes TV, Emissions et news en VOD">&#xC9;missions</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a href="/fr/reportages/" class="modeless" title="Tous les reportages des grands reporters de France 24 aux 4 coins du monde">Reportages</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a href="/fr/emissions/revue-presse/" class="modeless" title="Revue de presse">Revue de presse</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a href="/fr/emissions/" class="modeless" title="Podcasts">Podcasts</a></li>
                                                             </ul></div>
                     <div class="f-link-list fl-l-l-3">
                 <p>Aller plus loin</p>
                 <ul><li><a href="http://observers.france24.com/fr/" title="Les Observateurs" target="_blank">Les Observateurs</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a href="http://mashable.france24.com/" title="Mashable avec France 24" target="_blank">Mashable FR</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a class="modeless" href="/fr/webdocumentaires/" title="Infographies et Webdocumentaires">Webdocumentaires</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a class="modeless" href="/fr/dossiers/" title="Tous les Dossiers sp&#xE9;ciaux de la r&#xE9;daction France 24">Dossiers</a></li>
                                                             </ul></div>
                     <div class="f-link-list fl-l-l-4">
                 <p>Services 24/7</p>
                 <ul><li><a href="https://emailing.france24.com/fr/subscribe" title="Newsletters" target="_blank">Newsletters</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a href="https://emailing.france24.com/fr/subscribe" title="Espace personnel" target="_blank">Espace personnel</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a href="/fr/mobile" class="modeless" title="Applications Mobiles et Tablettes">Mobiles / Tablettes</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a href="/fr/tv-connectee" class="modeless" title="France 24 sur la TV connect&#xE9;e">TV connect&#xE9;es</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a href="/fr/rss" class="modeless" title="Flux RSS">Flux RSS</a></li>
                                                             </ul></div>
-            
+
     <span class="f-line-1"/>
     <span class="f-line-2"/>
             <div class="f-social-link">
-                                                                                                
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                     <a href="https://emailing.france24.com/fr/subscribe" title="Rejoignez la communaut&#xE9; France 24" target="_blank">Rejoignez la communaut&#xE9;</a>
-                                                                                                        
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                     <a href="/fr/medias-sociaux" class="modeless" title="Retrouvez France 24 sur les m&#xE9;dias sociaux">France 24 sur les m&#xE9;dias sociaux</a>
                                                                             <ul><li><a href="http://f24.my/rhako6" class="fb" title="Facebook" target="_blank">Facebook</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a href="http://f24.my/XLkdot" class="tw" title="Twitter" target="_blank">Twitter</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a href="http://f24.my/tASiE4" class="go" title="Google +" target="_blank">Google +</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a href="http://f24.my/cHF8Wc" class="dm" title="Dailymotion" target="_blank">Dailymotion</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a href="http://f24.my/bGRWve" class="yt" title="Youtube" target="_blank">Youtube</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a href="http://f24.my/oTjdan" class="fs" title="Foursquare" target="_blank">Foursquare</a></li>
-                                                                                                                            
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a href="http://f24.my/nsM8q8" class="sc" title="Soundcloud" target="_blank">Soundcloud</a></li>
                                                             </ul></div>
-                                                    
+
     <div class="f-adv tms-block" data-pos="1" data-type="pave" data-location="footer" data-expand="false" data-loaded="false">
     </div>
 
@@ -1011,19 +1011,19 @@ window.tc_vars = tms_vars;
             <a href="/fr/comment-recevoir-la-chaine" class="modeless" title="Recevoir France 24">Recevoir France 24</a>
         </div>
                 <nav class="f-nav"><ul><li><a href="/fr/entreprise" class="modeless" title="L'Entreprise France 24">&#xC0; propos de France 24</a></li>
-                                                                                                    
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a href="/fr/tag/communique-presse/" class="modeless" title="Communiqu&#xE9;s de Presse">Presse</a></li>
-                                                                                                    
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             <li><a href="http://static.france24.com/infographies/presse/FRANCE24_PressKit_1214_FR.pdf" class="" title="" target="_blank">Dossier de presse</a></li>
-                                                                                                    
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a href="/fr/contactez-nous?section=publicite" class="modeless" title="Opportunit&#xE9;s publicitaires et partenariats">R&#xE9;gie publicitaire</a></li>
-                                                                                                    
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a href="/fr/contactez-nous" class="modeless" title="Contact">Contact</a></li>
-                                                                                                    
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a href="https://careerpage.multiposting.fr/career/france-medias-monde/" class="modeless" title="Nous rejoindre">Nous rejoindre</a></li>
-                                                                                                    
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a href="/fr/plan-du-site" class="modeless" title="Plan du site">Plan du site</a></li>
-                                                                                                    
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a href="/fr/mentions-legales" class="modeless" title="Mentions l&#xE9;gales">Mentions l&#xE9;gales</a></li>
                                                     </ul></nav><div class="f-partner">
         <a href="http://www.rfi.fr/" target="_blank"><img src="/bundles/aefhermesf24/img/rfi-logo.png?version=20171213121500" alt=""/></a>
@@ -1153,298 +1153,298 @@ cleanVideoTitle();
 // FIN SUPPRESSION SURTITRE VIDEO
 ]]></script><div class="short-cuts-outer">
                                         <div class="short-cuts">
-                
-                                                            
+
+
             <div class="sc-search">
-            
-                                                    
-                                                            
+
+
+
             <p class="hd">
-            
-                                                    
-                                                            
+
+
+
             <a href="#">
             search
                     </a>
-    
+
                                     </p>
-    
-                                        
-                                                            
+
+
+
             <div class="bd">
-            
-                                                    
-                            
+
+
+
             <form name="Search" method="get" action="/fr/recherche/" id="sinequa-search-form"><div><label for="Search_term" class="required">Terme</label><input type="text" id="Search_term" name="Search[term]" required="required" placeholder="Recherche&#x2026;"/></div><input type="hidden" id="Search_page" name="Search[page]" value="1"/><div><button type="submit">Lancer la recherche</button></div><div><label class="required">Filters</label><div id="Search_filters"/></div></form>
-    
+
                                     </div>
-    
+
                                     </div>
-    
-                
-                                                            
+
+
+
             <div class="sc-mail">
-            
-                                                    
-                                                            
+
+
+
             <p class="hd">
-            
-                                                    
-                                                                                
+
+
+
             <a href="https://emailing.france24.com/fr/subscribe" target="_blank">
             e-mail
                     </a>
-    
+
                                     </p>
-    
+
                                     </div>
-    
-                
-                                                            
+
+
+
             <div class="sc-info">
-            
-                                                    
-                                                            
+
+
+
             <p class="hd">
             France M&#xE9;dias Monde
                     </p>
-    
-                                        
-                                                            
+
+
+
             <div class="bd">
-            
-                                                    
-                            
+
+
+
             <ul><li>
-            
-                                                    
-                                                                                
+
+
+
             <a href="http://observers.france24.com/fr" target="_blank">
             Les Observateurs
                     </a>
-    
+
                                     </li>
-    
-                                        
-                            
+
+
+
             <li>
-            
-                                                    
-                                                                                
+
+
+
             <a href="http://mashable.france24.com" target="_blank">
             Mashable FR
                     </a>
-    
+
                                     </li>
-    
-                                        
-                            
+
+
+
             <li>
-            
-                                                    
-                                                                                
+
+
+
             <a href="http://www.rfi.fr/" target="_blank">
-            RFI 
+            RFI
                     </a>
-    
+
                                     </li>
-    
-                                        
-                            
+
+
+
             <li>
-            
-                                                    
-                                                                                
+
+
+
             <a href="http://musique.rfi.fr/" target="_blank">
             RFI Musique
                     </a>
-    
+
                                     </li>
-    
-                                        
-                            
+
+
+
             <li>
-            
-                                                    
-                                                                                
+
+
+
             <a href="https://savoirs.rfi.fr/" target="_blank">
             RFI Savoirs
                     </a>
-    
+
                                     </li>
-    
-                                        
-                            
+
+
+
             <li>
-            
-                                                    
-                                                                                
+
+
+
             <a href="http://atelier.rfi.fr/" target="_blank">
             Atelier des m&#xE9;dias
                     </a>
-    
+
                                     </li>
-    
-                                        
-                            
+
+
+
             <li>
-            
-                                                    
-                                                                                
+
+
+
             <a href="http://mondoblog.org/" target="_blank">
             Mondoblog
                     </a>
-    
+
                                     </li>
-    
-                                        
-                            
+
+
+
             <li>
-            
-                                                    
-                                                                                
+
+
+
             <a href="http://www.mc-doualiya.com/" target="_blank">
             Monte Carlo Doualiya
                     </a>
-    
+
                                     </li>
-    
-                                        
-                            
+
+
+
             <li>
-            
-                                                    
-                                                                                
+
+
+
             <a href="http://academie.france24-mcd-rfi.com/fr/" target="_blank">
             Acad&#xE9;mie
                     </a>
-    
+
                                     </li>
-    
-                                        
-                            
+
+
+
             <li>
-            
-                                                    
-                                                                                
+
+
+
             <a href="http://www.cfi.fr/" target="_blank">
             CFI
                     </a>
-    
+
                                     </li>
-    
-                                        
-                            
+
+
+
             <li>
-            
-                                                    
-                                                                                
+
+
+
             <a href="http://www.francemediasmonde.com/" target="_blank">
             France M&#xE9;dias Monde
                     </a>
-    
+
                                     </li>
-    
-                                        
-                            
+
+
+
             <li>
-            
-                                                    
-                                                                                
+
+
+
             <a href="http://www.rfi-instrumental.com/fr" target="_blank">
             RFI Instrumental
                     </a>
-    
+
                                     </li>
-    
+
                                     </ul></div>
-    
+
                                     </div>
-    
-                
-                                                            
+
+
+
             <div class="sc-rec">
-            
-                                                    
-                                                            
+
+
+
             <p class="hd">
-            
-                                                    
-                                                            
+
+
+
             <a href="/fr/comment-recevoir-la-chaine">
             Recevoir France 24
                     </a>
-    
+
                                     </p>
-    
+
                                     </div>
-    
-                
-                                                            
+
+
+
             <div class="sc-voy">
-            
-                                                    
-                                                            
+
+
+
             <p class="hd">
-            
-                                                    
-                                                            
+
+
+
             <a href="/fr/voyage">
             Voyage
                     </a>
-    
+
                                     </p>
-    
+
                                     </div>
-    
-                
-                                                            
+
+
+
             <div class="sc-lang">
-            
-                                                    
-                                                            
+
+
+
             <p class="hd">
-            
-                                                    
-                                                                                
+
+
+
             <a href="/fr/" class="active">
             Fran&#xE7;ais
                     </a>
-    
-                                        
-                                                                                
+
+
+
             <a href="/en/" class="">
             English
                     </a>
-    
-                                        
-                                                                                
+
+
+
             <a href="/es/" class="">
             Espa&#xF1;ol
                     </a>
-    
-                                        
-                                                                                
+
+
+
             <a href="/ar/" class="">
             &#x639;&#x631;&#x628;&#x64A;
                     </a>
-    
+
                                     </p>
-    
-                                        
-                                                            
+
+
+
             <p class="hd">
-            
-                                                    
-                                                                                
+
+
+
             <a href="/fr/actualites-sous-titrees" class="accessibility">
             Accessibilit&#xE9;
                     </a>
-    
+
                                     </p>
-    
+
                                     </div>
-    
+
         <div class="user-janrain sc-info">
     <div id="user-disconnected">
         <a href="#" data-user="signin" class="hd active">Mon compte</a>
@@ -1489,7 +1489,7 @@ cleanVideoTitle();
 
                             </div>
                             <div id="janrain">
-                    
+
 <div style="display:none" id="signIn"><div class="capture_header"><h2>Cr&#xE9;er un compte / Se connecter</h2></div><div class="capture_signin"><h2>Avec le compte existant de...</h2>{* loginWidget *}<br/></div><div class="capture_backgroundColor"><div class="capture_signin"><h2>Avec un compte habituel</h2>{* #signInForm *} {* signInEmailAddress *} {* currentPassword *}<div class="capture_form_item"><a href="#" data-capturescreen="forgotPassword">Mot de passe oubli&#xE9; ?</a></div><div class="capture_rightText"><button class="capture_secondary capture_btn capture_primary" type="submit"><span class="janrain-icon-16 janrain-icon-key"/> Se connecter</button> <a href="#" id="capture_signIn_createAccountButton" data-capturescreen="traditionalRegistration" class="capture_secondary capture_createAccountButton capture_btn capture_primary">Cr&#xE9;er un compte</a></div>{* /signInForm *}</div></div></div><div style="display:none" id="returnSocial"><div class="capture_header"><h2>Sign In</h2></div><div class="capture_signin"><h2>Bienvenue ! {* welcomeName *}</h2>{* loginWidget *}<div class="capture_centerText switchLink"><a href="#" data-cancelcapturereturnexperience="true">Use another account</a></div></div></div><div style="display:none" id="returnTraditional"><div class="capture_header"><h2>Se connecter</h2></div><h2 class="capture_centerText"><span>Bienvenue !</span></h2><div class="capture_backgroundColor">{* #signInForm *} {* signInEmailAddress *} {* currentPassword *}<div class="capture_form_item capture_rightText"><button class="capture_secondary capture_btn capture_primary" type="submit"><span class="janrain-icon-16 janrain-icon-key"/> Se connecter</button></div>{* /signInForm *}<div class="capture_centerText switchLink"><a href="#" data-cancelcapturereturnexperience="true">Utiliser un autre compte</a></div></div></div><div style="display:none" id="accountDeactivated"><div class="capture_header"><h2>Compte d&#xE9;sactiv&#xE9;</h2></div><div class="content_wrapper"><p>Votre compte a &#xE9;t&#xE9; d&#xE9;sactiv&#xE9;</p></div></div><div style="display:none" id="emailNotVerified"><div class="capture_header"><h1>Adresse email non v&#xE9;rifi&#xE9;e</h1></div><p>Vous devez v&#xE9;rifier votre adresse email pour finaliser votre inscription. Consultez votre boite mail pour valider votre adresse en cliquant sur le lien figurant dans le mail de confirmation ou entrez &#xE0; nouveau votre adresse email pour recevoir une nouvelle fois le mail de confirmation.</p>{* #resendVerificationForm *} {* signInEmailAddress *}<div class="capture_footer"><input value="Envoyer" type="submit" class="capture_btn capture_primary"/></div>{* /resendVerificationForm *}</div>
 <div style="display:none" id="socialRegistration"><div class="capture_header"><h2>C'est presque fini !</h2></div><h2>Merci de confirmer les informations ci-dessous avant de vous connecter</h2>{* #socialRegistrationForm *} {* firstName *} {* lastName *} {* emailAddress *} {* displayName *} {* phone *} {* addressCity *} {* addressCountry *} En cliquant sur "Cr&#xE9;er un compte", vous confirmez que vous acceptez nos &#xA0; <a class="termsOfService" href="#">conditions g&#xE9;n&#xE9;rales</a>&#xA0; et que vous avez lu et approuv&#xE9; la&#xA0; <a class="privacyPolicy" href="#">politique de protection de donn&#xE9;es personnelles</a>.<div class="capture_footer"><div class="capture_left">{* backButton *}</div><div class="capture_right"><input value="Cr&#xE9;er un compte" type="submit" class="capture_btn capture_primary"/></div></div>{* /socialRegistrationForm *}</div><div style="display:none" id="traditionalRegistration"><div class="capture_header"><h2>C'est presque fini !</h2></div><p>Merci de confirmer les informations ci-dessous avant de vous connecter <a id="capture_traditionalRegistration_navSignIn" href="#" data-capturescreen="signIn">Se connecter</a></p>{* #registrationForm *} {* firstName *} {* lastName *} {* emailAddress *} {* displayName *} {* phone *} {* addressCity *} {* addressCountry *} {* newPassword *} {* newPasswordConfirm *} En cliquant sur "Cr&#xE9;er un compte", vous confirmez que vous acceptez nos &#xA0; <a class="termsOfService" href="#">conditions g&#xE9;n&#xE9;rales</a>&#xA0; et que vous avez lu et approuv&#xE9; la&#xA0; <a class="privacyPolicy" href="#">politique de protection de donn&#xE9;es personnelles</a>.<div class="capture_footer"><div class="capture_left">{* backButton *}</div><div class="capture_right"><input value="Cr&#xE9;er un compte" type="submit" class="capture_btn capture_primary"/></div></div>{* /registrationForm *}</div><div style="display:none" id="emailVerificationNotification"><div class="capture_header"><h2>Merci de votre inscription</h2></div><p>Nous vous avons envoy&#xE9; un email de confirmation &#xE0; l'adresse suivante&#xA0; {* emailAddressData *}.&#xA0; Merci de consulter votre bo&#xEE;te de r&#xE9;ception et de cliquer sur le lien pour activer votre compte..</p><div class="capture_footer"><a href="#" onclick="janrain.capture.ui.modal.close()" class="capture_btn capture_primary">Fermer</a></div></div>
 <div style="display:none" id="forgotPassword"><div class="capture_header"><h2>Cr&#xE9;er un nouveau mot de passe</h2></div><h2>Nous vous enverrons un lien pour cr&#xE9;er un nouveau mot de passe</h2>{* #forgotPasswordForm *} {* signInEmailAddress *}<div class="capture_footer"><div class="capture_left">{* backButton *}</div><div class="capture_right"><input value="Envoyer" type="submit" class="capture_btn capture_primary"/></div></div>{* /forgotPasswordForm *}</div><div style="display:none" id="forgotPasswordSuccess"><div class="capture_header"><h2>Cr&#xE9;er un nouveau mot de passe</h2></div><p>Nous vous avons envoy&#xE9; un email avec les instructions pour cr&#xE9;er un nouveau mot de passe. Votre mot de passe actuel n'a pas &#xE9;t&#xE9; chang&#xE9;</p><div class="capture_footer"><a href="#" onclick="janrain.capture.ui.modal.close()" class="capture_btn capture_primary">Fermer</a></div></div>
@@ -1509,7 +1509,7 @@ var _analytics_elem = document.getElementsByTagName('script')[0]; _analytics_ele
 // ]]></script></body></html>
 		""";
 	 		DomDocument doc;
-	 		doc = new GHtmlDocument.from_string (src);
+	 		doc = new XHtmlDocument.from_string (src);
 	 		message ((doc as XDocument).to_string ());
 	 		assert (doc.document_element != null);
 	 		var c = doc.document_element.get_elements_by_property_value ("property", "article:published_time");
