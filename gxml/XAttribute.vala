@@ -33,37 +33,6 @@ public class GXml.XAttribute : GXml.XNode, GXml.DomAttr
     _node = _attr->parent;
     _doc = doc;
   }
-  public override Gee.List<GXml.Namespace> namespaces {
-    owned get {
-      var l = new Gee.ArrayList<GXml.Namespace> ();
-      if (_attr->ns == null) return l;
-      l.add (new XNamespace (_attr->ns));
-      return l;
-    }
-  }
-  public Namespace? @namespace {
-    owned get {
-      if (_attr == null) return null;
-      if (_attr->ns == null) return null;
-      return new XNamespace (_attr->ns);
-    }
-    set {
-      if (_attr == null) return;
-      string n = _attr->name;
-      string v = null;
-      if (_attr->ns == null) {
-        v = _node->get_prop (_attr->name);
-        _node->set_prop (_attr->name, null);
-      } else {
-        v = _node->get_ns_prop (_attr->name, _attr->ns->href);
-      }
-      var ns = _node->doc->search_ns (_node, value.prefix);
-      if (ns == null) {
-        ns = _node->new_ns (value.uri, value.prefix);
-      }
-      _attr = _node->set_ns_prop (ns, n, v);
-    }
-  }
   public override string name {
     owned get {
       return _attr->name.dup (); // FIXME: Check if name is namespace+local_name
@@ -104,8 +73,9 @@ public class GXml.XAttribute : GXml.XNode, GXml.DomAttr
   // DomAttr implementation
   public string? namespace_uri {
     owned get {
-      if (namespace == null) return null;
-      return namespace.uri;
+      if (_attr == null) return null;
+      if (_attr->ns == null) return null;
+      return _attr->ns->href;
     }
   }
   /*public string? DomAttr.prefix {
