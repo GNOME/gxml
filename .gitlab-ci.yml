@@ -32,7 +32,7 @@ build:
 pages:
   stage: deploy
   script:
-  - meson _build -Ddisable-valadocs=false
+  - meson _build -Ddisable-docs=false
   - cd _build
   - ninja
   - mv docs/GXml-* ../public
