@@ -358,8 +358,8 @@ public class GXml.XDocument : GXml.XNode,
    * {@link XPathContext} implementation.
    */
   public GXml.XPathObject evaluate (string expression,
-                                    Gee.List<GXml.Namespace>? resolver = null)
-                                    throws GXml.XPathError
+                                    Gee.Map<string,string>? resolver = null)
+                                    throws GXml.XPathObjectError
   {
     XPathObject nullobj = null;
     if (document_element == null)

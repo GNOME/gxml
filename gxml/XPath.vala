@@ -71,14 +71,22 @@ public interface GXml.XPathContext : GLib.Object {
   /**
    * Evaluate XPath expression.
    *
-   * This method evaluates provided expression, registers provided namespaces in resolver and returns an {@link GXml.XPathObject}.
+   * This method evaluates provided expression, registers provided namespaces
+   * in resolver and returns an {@link GXml.XPathObject}.
+   *
+   * Resolver is a map where its key is the namespace's prefix and
+   * its value is the namespace's URI
    *
    * Throw {@link GXml.XPathError} if one of provided namespaces is invalid.
    */
   public abstract GXml.XPathObject evaluate (string expression,
-                                            Gee.List<GXml.Namespace>? resolver = null)
-                                            throws GXml.XPathError;
+                                            Gee.Map<string,string>? resolver = null)
+                                            throws GXml.XPathObjectError;
 
+}
+
+public errordomain GXml.XPathObjectError {
+  INVALID_NAMESPACE_ERROR
 }
 
 public interface GXml.XPathObject : GLib.Object {

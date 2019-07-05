@@ -330,8 +330,8 @@ public class GXml.XElement : GXml.XNonDocumentChildNode,
    * {@inheritDoc}
    */
   public GXml.XPathObject evaluate (string expression,
-                                    Gee.List<GXml.Namespace>? resolver = null)
-                                    throws GXml.XPathError
+                                    Gee.Map<string,string>? resolver = null)
+                                    throws GXml.XPathObjectError
   {
     GXml.XPathObject nullobj = null;
     if (!(this is GXml.DomNode))
@@ -340,14 +340,15 @@ public class GXml.XElement : GXml.XNonDocumentChildNode,
     var ndoc = Xml.Parser.read_memory (data, data.length);
     var gdoc = new GXml.XDocument.from_doc (ndoc);
     var context = new Xml.XPath.Context (ndoc);
-    if (resolver != null)
-    resolver.foreach (ns => {
-      int res = context.register_ns (ns.prefix, ns.uri);
-      if (res != 0) {
-        GLib.warning (_("invalid namespace. Code: ")+res.to_string ());
+    if (resolver != null) {
+      foreach (string prefix in resolver.keys) {
+        var uri = resolver.get (prefix);
+        int res = context.register_ns (prefix, uri);
+        if (res != 0) {
+          throw new XPathObjectError.INVALID_NAMESPACE_ERROR (_("invalid namespace. Code: %s"), res.to_string ());
+        }
       }
-      return true;
-    });
+    }
     return new GXml.LXPathObject (gdoc, context.eval (expression));
   }
 }
