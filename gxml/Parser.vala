@@ -256,7 +256,7 @@ public interface GXml.Parser : Object {
         throw new DomError.INVALID_NODE_TYPE_ERROR
                     (_("Invalid DomElement name for objects in Collection"));
       }
-      if (col.element == null || !(col.element is GomElement)) {
+      if (col.element == null || !(col.element is GomObject)) {
         throw new DomError.INVALID_NODE_TYPE_ERROR
                     (_("Invalid Element set to Collection"));
       }

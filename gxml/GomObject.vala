@@ -27,7 +27,7 @@ using GXml;
  * and children. All object's properties are handled as attributes if they are
  * basic types like integers, strings, enums and others; {@link SerializableProperty}
  * objects are handled as attributes too. If object's attribute is a {@link GLib.Object}
- * it is handled as node's child, but only if it is a {@link GomElement} object,
+ * it is handled as node's child, but only if it is a {@link GXml.Element} object,
  * other wise it is ignored when this object is used as {@link DomNode} in XML
  * documents.
  */
@@ -317,7 +317,7 @@ public interface GXml.GomObject : GLib.Object,
     return null;
   }
   /**
-   * From a given property name of type {@link GomElement}, search all
+   * From a given property name of type {@link GXml.Element}, search all
    * child nodes with node's local name equal to property.
    */
   public virtual DomElementList find_elements (string name) {
@@ -365,7 +365,7 @@ public interface GXml.GomObject : GLib.Object,
    *
    * Instance is set ot object's property.
    *
-   * Property should be a {@link GomElement} or {@link Collection}
+   * Property should be a {@link GXml.Element} or {@link Collection}
    *
    * While an object could be created and set to a Object's property, it
    * is not correctly initialized by default. This method helps in the process.
@@ -400,9 +400,9 @@ public interface GXml.GomObject : GLib.Object,
       set_property (prop.name, v);
       return true;
     }
-    if (prop.value_type.is_a (typeof (GomElement))) {
+    if (prop.value_type.is_a (typeof (GXml.Element))) {
       obj = Object.new (prop.value_type,"owner-document", this.owner_document);
-      try { this.append_child (obj as GomElement); }
+      try { this.append_child (obj as GXml.Element); }
       catch (GLib.Error e) {
         warning (_("Error while attempting to instantiate property object: %s").printf (e.message));
         return false;
@@ -415,7 +415,7 @@ public interface GXml.GomObject : GLib.Object,
   }
   /**
    * Utility method to remove all instances of a property being child elements
-   * of object. Is useful if you have a {@link GomElement} property, it should be
+   * of object. Is useful if you have a {@link GXml.Element} property, it should be
    * just one child of this type and you want to overwrite it.
    *
    * In this example you have defined an element MyClass to be child of
@@ -423,10 +423,10 @@ public interface GXml.GomObject : GLib.Object,
    * it calls {@link clean_property_elements} using property's canonicals name.
    *
    * {{{
-   *  public class MyClass : GomElement {
+   *  public class MyClass : GXml.Element {
    *    public string name { get; set; }
    *  }
-   *  public class MyParentClass : GomElement {
+   *  public class MyParentClass : GXml.Element {
    *    private Myclass _child_elements = null;
    *    public MyClass child_elements {
    *      get { return _child_elements; }
@@ -445,15 +445,15 @@ public interface GXml.GomObject : GLib.Object,
    *
    * @param name property name to search value type, use canonical names.
    *
-   * @throws DomError if property is not a {@link GomElement}.
+   * @throws DomError if property is not a {@link GXml.Element}.
    */
   public virtual
   void clean_property_elements (string name) throws GLib.Error
   {
     var prop = get_class ().find_property (name);
     if (prop != null) {
-      if (!prop.value_type.is_a (typeof (GomElement)))
-        throw new DomError.TYPE_MISMATCH_ERROR (_("Can't set value. It is not a GXmlGomElement type"));
+      if (!prop.value_type.is_a (typeof (GXml.Element)))
+        throw new DomError.TYPE_MISMATCH_ERROR (_("Can't set value. It is not a GXmlGXml.Element type"));
       var l = find_elements (name);
       if (l.length != 0) {
         foreach (DomElement e in l) {

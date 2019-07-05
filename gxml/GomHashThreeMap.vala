@@ -34,7 +34,7 @@ using Gee;
  * it is not added; but keeps it as a child node of actual
  * {@link Collection.element}.
  *
- * If {@link GomElement} to be added is of type {@link Collection.items_type}
+ * If {@link GXml.Element} to be added is of type {@link Collection.items_type}
  * and implements {@link MappeableElementThreeKey}, you should set
  * {@link attribute_primary_key}, {@link attribute_secondary_key}
  * and  {@link attribute_third_key}
@@ -44,7 +44,7 @@ using Gee;
  * as keys.
  *
  * {{{
- *   public class YourObject : GomElement, MappeableElementThirdKey {
+ *   public class YourObject : GXml.Element, MappeableElementThirdKey {
  *    [Description (nick="::Name")]
  *    public string name { get; set; }
  *    public string code { get; set; }
@@ -112,7 +112,7 @@ public class GXml.GomHashThreeMap : GXml.BaseCollection, ThreeMap {
    * Convenient function to initialize a {@link GomHashMap} collection, using
    * given element, items' type and name.
    */
-  public void initialize_element_with_keys (GomElement element,
+  public void initialize_element_with_keys (GXml.Element element,
                                   GLib.Type items_type,
                                   string attribute_primary_key,
                                   string attribute_secondary_key,
@@ -240,7 +240,7 @@ public class GXml.GomHashThreeMap : GXml.BaseCollection, ThreeMap {
    * Return: false if element should not be added to collection.
    */
   public override bool validate_append (int index, DomElement element) throws GLib.Error {
-    if (!(element is GomElement)) return false;
+    if (!(element is GXml.Element)) return false;
     string pkey = null;
     string skey = null;
     string tkey = null;

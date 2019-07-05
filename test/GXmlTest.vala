@@ -35,8 +35,8 @@ class GXmlTest {
 		DomXDocumentTest.add_tests ();
 		XPathTest.add_tests ();
 		DocumentTest.add_tests ();
-		GomElementTest.add_tests ();
-		GomSerializationTest.add_tests ();
+		ElementTest.add_tests ();
+		SerializationTest.add_tests ();
 		GomSchemaTest.add_tests ();
 		CssSelectorTest.add_tests ();
 

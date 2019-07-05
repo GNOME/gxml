@@ -208,14 +208,14 @@ public class GXml.XParser : Object, GXml.Parser {
     if (current_is_element () && (node is DomDocument))
       read_child_element (node);
     else {
-      if (node is GXml.Document) {
+      if (node is GXml.DomDocument) {
         read_child_nodes (node);
       }
-      if (node is GomElement) {
-        if ((node as GomElement).parse_children)
+      if (node is GXml.Element) {
+        if ((node as GXml.Element).parse_children)
           read_child_nodes (node);
         else {
-          (node as GomElement).unparsed = read_unparsed ();
+          (node as GXml.Element).unparsed = read_unparsed ();
           //warning ("Unparsed text: "+(node as GomObject).unparsed);
           move_next_node ();
         }

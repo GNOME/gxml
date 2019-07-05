@@ -30,13 +30,13 @@ using Gee;
  * by items to be added. If key is not defined in node, it is not added; but
  * keeps it as a child node of actual {@link Collection.element}.
  *
- * If {@link GomElement} to be added is of type {@link Collection.items_type}
+ * If {@link GXml.Element} to be added is of type {@link Collection.items_type}
  * and implements {@link MappeableElement}, you should set {@link GomHashMap.attribute_key}
  * to null in order to use returned value of {@link MappeableElement.get_map_key}
  * as key.
  *
  * {{{
- *   public class YourObject : GomElement {
+ *   public class YourObject : GXml.Element {
  *    [Description (nick="::Name")]
  *    public string name { get; set; }
  *   }
@@ -73,7 +73,7 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.Map {
    * Convenient function to initialize a {@link GomHashMap} collection, using
    * given element, items' type and name.
    */
-  public void initialize_element_with_key (GomElement element,
+  public void initialize_element_with_key (GXml.Element element,
                                   GLib.Type items_type,
                                   string attribute_key) throws GLib.Error
   {
@@ -133,11 +133,11 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.Map {
    * Return: false if element should not be added to collection.
    */
   public override bool validate_append (int index, DomElement element) throws GLib.Error {
-    if (!(element is GomElement)) return false;
+    if (!(element is GXml.Element)) return false;
 #if DEBUG
     message ("Validating HashMap Element..."
-            +(element as GomElement).write_string ()
-            +" Attrs:"+(element as GomElement).attributes.length.to_string());
+            +(element as GXml.Element).write_string ()
+            +" Attrs:"+(element as GXml.Element).attributes.length.to_string());
 #endif
     string key = null;
     if (attribute_key != null) {

@@ -27,7 +27,7 @@ public interface NoInstantiatable : Object, GomObject {
 }
 public interface Property : Object, GomProperty {}
 
-class ObjectParent : GomElement {
+class ObjectParent : GXml.Element {
 	construct {
 		try { initialize ("root"); }
 		catch (GLib.Error e) { warning ("Error: "+e.message); }
@@ -49,7 +49,7 @@ class ObjectParent : GomElement {
 		}
 	}
 	public ObjectChild child { get; set; }
-	public class ObjectChild : GomElement {
+	public class ObjectChild : GXml.Element {
 		construct {
 			try { initialize ("child"); }
 			catch (GLib.Error e) { warning ("Error: "+e.message); }
@@ -57,20 +57,20 @@ class ObjectParent : GomElement {
 	}
 }
 
-class GomElementTest : GXmlTest  {
-	public class ParsedDelayed : GomElement {
+class GXml.ElementTest : GXmlTest  {
+	public class ParsedDelayed : GXml.Element {
 		construct {
 			try { initialize ("root"); }
 			catch (GLib.Error e) { warning ("Error: "+e.message); }
 			parse_children = false;
 		}
 	}
-	public class Instantiatable : GomElement, NoInstantiatable {
+	public class Instantiatable : GXml.Element, NoInstantiatable {
 		[Description (nick="::name")]
 		public string name { get; set; }
 		construct { initialize ("Instantiatable"); }
 	}
-	public class Top : GomElement {
+	public class Top : GXml.Element {
 		public NoInstantiatable inst {
 			get { return inst_i; } set { inst_i = value as Instantiatable; }
 		}
@@ -80,7 +80,7 @@ class GomElementTest : GXmlTest  {
 		construct { initialize ("Top"); }
 	}
 	public class GProperty : GomString, Property {}
-	public class GTop : GomElement {
+	public class GTop : GXml.Element {
 		public NoInstantiatable inst { get; set; }
 		public Instantiatable inst_i {
 			get { return inst as Instantiatable; }
@@ -99,7 +99,7 @@ class GomElementTest : GXmlTest  {
 		public Property pq { get; set; }
 		construct { initialize ("Top"); }
 	}
-	public class Potion : GomElement {
+	public class Potion : GXml.Element {
 		[Description (nick="::c:name")]
 		public string cname { get; set; }
 		public Ingredient ingredient { get; set; }
@@ -110,7 +110,7 @@ class GomElementTest : GXmlTest  {
 			} catch (GLib.Error e) { warning ("Error: "+e.message); }
 		}
 	}
-	public class Ingredient : GomElement, MappeableElement {
+	public class Ingredient : GXml.Element, MappeableElement {
 		[Description (nick="::c:name")]
 		public string cname { get; set; }
 		public Method.Map methods { get; set; }
@@ -124,7 +124,7 @@ class GomElementTest : GXmlTest  {
 			}
 		}
 	}
-	public class Method : GomElement, MappeableElement {
+	public class Method : GXml.Element, MappeableElement {
 		[Description (nick="::c:name")]
 		public string cname { get; set; }
 		construct { initialize ("method"); }
@@ -137,7 +137,7 @@ class GomElementTest : GXmlTest  {
 			}
 		}
 	}
-	public class Repository : GomElement
+	public class Repository : GXml.Element
  {
     [Description (nick="::version")]
     public string version { get; set; }
@@ -157,7 +157,7 @@ class GomElementTest : GXmlTest  {
       version = "1.2";
     }
  }
- public class Namespace : GomElement
+ public class Namespace : GXml.Element
  {
     TClass.Map _classes;
     [Description (nick="::name")]
@@ -187,7 +187,7 @@ class GomElementTest : GXmlTest  {
       catch (GLib.Error e) { warning ("Error: "+e.message); }
     }
  }
- public class TClass : GomElement, MappeableElement
+ public class TClass : GXml.Element, MappeableElement
  {
     [Description (nick="::name")]
     public string name { get; set; }
@@ -251,7 +251,7 @@ class GomElementTest : GXmlTest  {
 				assert ((node as DomElement).namespace_uri == "http://hogwarts.co.uk/magic");
 				assert ((node as DomElement).prefix == "magic");
 #if DEBUG
-				message ("Element: "+(node as GomElement).write_string ());
+				message ("Element: "+(node as GXml.Element).write_string ());
 				message ("Attributes: "+(node as DomElement).attributes.length.to_string ());
 				foreach (string k in (node as DomElement).attributes.keys) {
 					string v = (node as DomElement).get_attribute (k);
@@ -259,7 +259,7 @@ class GomElementTest : GXmlTest  {
 					GLib.message ("Attribute: "+k+"="+v);
 				}
 #endif
-				message ((node as GomElement).write_string ());
+				message ((node as GXml.Element).write_string ());
 				assert ((node as DomElement).attributes.length == 2);
 				assert ((node as DomElement).get_attribute ("xmlns:magic") == "http://hogwarts.co.uk/magic");
 				assert ((node as DomElement).get_attribute_ns ("http://www.w3.org/2000/xmlns/", "magic") == "http://hogwarts.co.uk/magic");
@@ -301,7 +301,7 @@ class GomElementTest : GXmlTest  {
 			try {
 				GXml.Document doc = new GXml.Document.from_string ("<root />");
 				assert (doc.document_element != null);
-				GomElement elem = (GomElement) doc.create_element ("alphanumeric");
+				GXml.Element elem = (GXml.Element) doc.create_element ("alphanumeric");
 				doc.document_element.child_nodes.add (elem);
 				assert (elem.attributes != null);
 				assert (elem.attributes.size == 0);
@@ -361,7 +361,7 @@ class GomElementTest : GXmlTest  {
 				assert (elem.lookup_namespace_uri ("xtest") == "http://www.w3c.org/test");
 				assert (n.lookup_namespace_uri ("xtest") == "http://www.w3c.org/test");
 				assert (child.lookup_namespace_uri ("xtest") == "http://www.w3c.org/test");
-				message ((elem as GomElement).write_string ());
+				message ((elem as GXml.Element).write_string ());
 				child.set_attribute_ns ("http://www.w3c.org/test","xtest:val","Value");
 				assert (elem.get_attribute_ns ("http://www.w3.org/2000/xmlns/","xtest") == "http://www.w3c.org/test");
 				assert (elem.get_attribute_ns ("http://www.w3.org/2000/xmlns","xtest") == "http://www.w3c.org/test");
@@ -403,7 +403,7 @@ class GomElementTest : GXmlTest  {
 	<attribute name="ccode.gir-version" value="0.2"/>
 	<attribute name="ccode.cheader-filename" value="girp.h"/>
 	<attribute name="ccode.gir-namespace" value="Girp"/>
-	<class name="Repository" c:type="GirpRepository" glib:type-name="GirpRepository" glib:get-type="girp_repository_get_type" glib:type-struct="RepositoryClass" parent="GXml.GomElement">
+	<class name="Repository" c:type="GirpRepository" glib:type-name="GirpRepository" glib:get-type="girp_repository_get_type" glib:type-struct="RepositoryClass" parent="GXml.GXml.Element">
 	</class>
 </namespace>
 </repository>""";
@@ -425,7 +425,7 @@ class GomElementTest : GXmlTest  {
 	<attribute name="ccode.gir-version" value="0.2"/>
 	<attribute name="ccode.cheader-filename" value="girp.h"/>
 	<attribute name="ccode.gir-namespace" value="Girp"/>
-	<class name="Repository" c:type="GirpRepository" glib:type-name="GirpRepository" glib:get-type="girp_repository_get_type" glib:type-struct="RepositoryClass" parent="GXml.GomElement">
+	<class name="Repository" c:type="GirpRepository" glib:type-name="GirpRepository" glib:get-type="girp_repository_get_type" glib:type-struct="RepositoryClass" parent="GXml.GXml.Element">
 	</class>
 </namespace>
 </repository>""";
@@ -445,9 +445,9 @@ class GomElementTest : GXmlTest  {
 		Test.add_func ("/gxml/gom-element/content/add_aside_child_nodes", () =>{
 			try {
 				var doc = new GXml.Document ();
-				var root = (GomElement) doc.create_element ("root");
+				var root = (GXml.Element) doc.create_element ("root");
 				doc.child_nodes.add (root);
-				var n = (GomElement) doc.create_element ("child");
+				var n = (GXml.Element) doc.create_element ("child");
 				root.child_nodes.add (n);
 				var t = doc.create_text_node ("TEXT1");
 				root.child_nodes.add (t);
@@ -462,9 +462,9 @@ class GomElementTest : GXmlTest  {
 		Test.add_func ("/gxml/gom-element/content/keep_child_nodes", () =>{
 			try {
 				var doc = new GXml.Document ();
-				var root = (GomElement) doc.create_element ("root");
+				var root = (GXml.Element) doc.create_element ("root");
 				doc.child_nodes.add (root);
-				var n = (GomElement) doc.create_element ("child");
+				var n = (GXml.Element) doc.create_element ("child");
 				root.child_nodes.add (n);
 				var t = doc.create_text_node ("TEXT1") as DomText;
 				root.child_nodes.add (t);
@@ -525,10 +525,10 @@ class GomElementTest : GXmlTest  {
 		});
 		Test.add_func ("/gxml/gom-element/write/string", () => {
 			try {
-				var n = new GomElement ();
+				var n = new GXml.Element ();
 				n.initialize ("Node");
 				n.set_attribute ("name","value");
-				var n2 = n.owner_document.create_element ("Node2") as GomElement;
+				var n2 = n.owner_document.create_element ("Node2") as GXml.Element;
 				n.append_child (n2);
 				string str = n.write_string ();
 				assert ("<Node" in str);
@@ -543,7 +543,7 @@ class GomElementTest : GXmlTest  {
 		});
 		Test.add_func ("/gxml/gom-element/write/stream", () => {
 			try {
-				var n = new GomElement ();
+				var n = new GXml.Element ();
 				n.initialize ("Node");
 				n.set_attribute ("name","value");
 				var ostream = new MemoryOutputStream.resizable ();
@@ -558,7 +558,7 @@ class GomElementTest : GXmlTest  {
 		});
 		Test.add_func ("/gxml/gom-element/write/input_stream", () => {
 			try {
-				var n = new GomElement ();
+				var n = new GXml.Element ();
 				n.initialize ("Node");
 				n.set_attribute ("name","value");
 				var ostream = new MemoryOutputStream.resizable ();
@@ -690,7 +690,7 @@ class GomElementTest : GXmlTest  {
 		});
 		Test.add_func ("/gxml/gom-element/ordered-attributes", () => {
 			try {
-				var e = new GomElement ();
+				var e = new GXml.Element ();
 				e.set_attribute ("a1", "v1");
 				e.set_attribute ("a2", "v2");
 				e.set_attribute ("a3", "v3");
@@ -718,7 +718,7 @@ class GomElementTest : GXmlTest  {
 				assert (e.attributes.item (2).node_value == "v4");
 				assert (e.attributes.item (3) == null);
 
-				var e2 = new GomElement ();
+				var e2 = new GXml.Element ();
 				e2.set_attribute_ns ("http://www.w3.org/2000/xmlns", "xmlns:gxml", "http://wiki.gnome.org/GXml");
 				e2.set_attribute_ns ("http://wiki.gnome.org/GXml", "gxml:a1", "v1");
 				e2.set_attribute_ns ("http://wiki.gnome.org/GXml", "gxml:a2", "v2");

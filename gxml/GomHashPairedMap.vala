@@ -33,7 +33,7 @@ using Gee;
  * it is not added; but keeps it as a child node of actual
  * {@link Collection.element}.
  *
- * If {@link GomElement} to be added is of type {@link Collection.items_type}
+ * If {@link GXml.Element} to be added is of type {@link Collection.items_type}
  * and implements {@link MappeableElementPairKey}, you should set
  * {@link attribute_primary_key} and {@link attribute_secondary_key}
  * to null in order to use returned value of {@link MappeableElementPairKey.get_map_primary_key}
@@ -41,7 +41,7 @@ using Gee;
  * as keys.
  *
  * {{{
- *   public class YourObject : GomElement, MappeableElementPairKey {
+ *   public class YourObject : GXml.Element, MappeableElementPairKey {
  *    [Description (nick="::Name")]
  *    public string name { get; set; }
  *    public string code { get; set; }
@@ -94,7 +94,7 @@ public class GXml.GomHashPairedMap : GXml.BaseCollection, GXml.PairedMap {
    * Convenient function to initialize a {@link GomHashMap} collection, using
    * given element, items' type and name.
    */
-  public void initialize_element_with_keys (GomElement element,
+  public void initialize_element_with_keys (GXml.Element element,
                                   GLib.Type items_type,
                                   string attribute_primary_key,
                                   string attribute_secondary_key) throws GLib.Error
@@ -184,11 +184,11 @@ public class GXml.GomHashPairedMap : GXml.BaseCollection, GXml.PairedMap {
    * Return: false if element should not be added to collection.
    */
   public override bool validate_append (int index, DomElement element) throws GLib.Error {
-    if (!(element is GomElement)) return false;
+    if (!(element is GXml.Element)) return false;
 #if DEBUG
     message ("Validating HashMap Element..."
-            +(element as GomElement).write_string ()
-            +" Attrs:"+(element as GomElement).attributes.length.to_string());
+            +(element as GXml.Element).write_string ()
+            +" Attrs:"+(element as GXml.Element).attributes.length.to_string());
 #endif
     string pkey = null;
     string skey = null;

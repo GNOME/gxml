@@ -29,14 +29,14 @@ using Gee;
  * This object avoids pre and post XML parsing, by using a one step parsing
  * to translate text XML tree to an GObject based tree.
  *
- * A GXml Object Model (GOM) implementation of {@link GomElement}.It can be used
+ * A GXml Object Model (GOM) implementation of {@link GXml.Element}.It can be used
  * transparently as {@link DomElement} in a XML tree.
  *
  * It also allows delayed parsing, so you can read large documents by parsing
  * just a XML element node and its attributes but not its childs; save its childs
  * as a text, for a post-on-step-parsing.
  */
-public class GXml.GomElement : GXml.Node,
+public class GXml.Element : GXml.Node,
                               DomChildNode,
                               DomNonDocumentTypeChildNode,
                               DomParentNode,
@@ -49,7 +49,7 @@ public class GXml.GomElement : GXml.Node,
   protected Attributes _attributes;
   // Convenient Serialization methods
   /**
-   * Parses an XML file, deserializing it over {@link GomElement}.
+   * Parses an XML file, deserializing it over {@link GXml.Element}.
    */
   public void read_from_file (GLib.File f,
                       GLib.Cancellable? cancellable = null) throws GLib.Error {
@@ -58,7 +58,7 @@ public class GXml.GomElement : GXml.Node,
     parser.read_file (f);
   }
   /**
-   * Parses asinchronically an XML file, deserializing it over {@link GomElement}.
+   * Parses asinchronically an XML file, deserializing it over {@link GXml.Element}.
    */
   public async void read_from_file_async (GLib.File f,
                       GLib.Cancellable? cancellable = null) throws GLib.Error {
@@ -67,7 +67,7 @@ public class GXml.GomElement : GXml.Node,
     yield parser.read_file_async (f);
   }
   /**
-   * Parses an XML over a {@link GLib.InputStream}, deserializing it over {@link GomElement}.
+   * Parses an XML over a {@link GLib.InputStream}, deserializing it over {@link GXml.Element}.
    */
   public void read_from_stream (GLib.InputStream istream,
                       GLib.Cancellable? cancellable = null) throws GLib.Error {
@@ -76,7 +76,7 @@ public class GXml.GomElement : GXml.Node,
     parser.read_stream (istream);
   }
   /**
-   * Parses asynchronically an XML over a {@link GLib.InputStream}, deserializing it over {@link GomElement}.
+   * Parses asynchronically an XML over a {@link GLib.InputStream}, deserializing it over {@link GXml.Element}.
    */
   public async void read_from_stream_async (GLib.InputStream istream,
                       GLib.Cancellable? cancellable = null) throws GLib.Error {
@@ -85,7 +85,7 @@ public class GXml.GomElement : GXml.Node,
     yield parser.read_stream_async (istream);
   }
   /**
-   * Parses an XML string, deserializing it over {@link GomElement}.
+   * Parses an XML string, deserializing it over {@link GXml.Element}.
    */
   public void read_from_string (string str, Cancellable? cancellable = null) throws GLib.Error {
     var parser = new XParser (this);
@@ -93,7 +93,7 @@ public class GXml.GomElement : GXml.Node,
     parser.read_string (str);
   }
   /**
-   * Parses an XML string, deserializing it over {@link GomElement}.
+   * Parses an XML string, deserializing it over {@link GXml.Element}.
    */
   public async void read_from_string_async (string str, Cancellable? cancellable = null) throws GLib.Error {
     var parser = new XParser (this);
@@ -101,7 +101,7 @@ public class GXml.GomElement : GXml.Node,
     yield parser.read_string_async (str);
   }
   /**
-   * Serialize {@link GomElement} to a string.
+   * Serialize {@link GXml.Element} to a string.
    */
   public string write_string (Cancellable? cancellable = null) throws GLib.Error {
     var parser = new XParser (this);
@@ -109,7 +109,7 @@ public class GXml.GomElement : GXml.Node,
     return parser.write_string ();
   }
   /**
-   * Serialize asinchronically {@link GomElement} to a string.
+   * Serialize asinchronically {@link GXml.Element} to a string.
    */
   public async string write_string_async (Cancellable? cancellable = null) throws GLib.Error {
     var parser = new XParser (this);
@@ -142,14 +142,14 @@ public class GXml.GomElement : GXml.Node,
   }
   /**
    * Creates an {@link GLib.InputStream} to write a string representation
-   * in XML of {@link GomElement} using node's {@link GXml.Document}
+   * in XML of {@link GXml.Element} using node's {@link GXml.Document}
    */
   public InputStream create_stream () throws GLib.Error {
     return (this.owner_document as GXml.Document).create_stream ();
   }
   /**
    * Creates an {@link GLib.InputStream} to write a string representation
-   * in XML of {@link GomElement} using node's {@link GXml.Document}
+   * in XML of {@link GXml.Element} using node's {@link GXml.Document}
    */
   public async InputStream create_stream_async (Cancellable? cancellable = null) throws GLib.Error {
     return yield (this.owner_document as GXml.Document).create_stream_async ();
@@ -293,7 +293,7 @@ public class GXml.GomElement : GXml.Node,
    * An attribute called 'class'.
    */
   public string? class_name {
-    owned get { return (this as GomElement).get_attribute ("class"); }
+    owned get { return (this as GXml.Element).get_attribute ("class"); }
     set { (this as GomObject).set_attribute ("class", value); }
   }
   /**
@@ -321,8 +321,8 @@ public class GXml.GomElement : GXml.Node,
     });
   }
   /**
-   * Convenient function to initialize, at construction time, a {@link GomElement}
-   * using given local name. If {@link GomElement.initialize_with_namespace}
+   * Convenient function to initialize, at construction time, a {@link GXml.Element}
+   * using given local name. If {@link GXml.Element.initialize_with_namespace}
    * has been called in any base class, this method just change elment node's name
    * and keeps previous namespace and prefix.
    *
@@ -330,14 +330,14 @@ public class GXml.GomElement : GXml.Node,
    * document, you can call {@link DomNode.owner_document} to set one if not set
    * already.
    *
-   * Any instance properties of type {@link GomElement} or {@link Collection}
+   * Any instance properties of type {@link GXml.Element} or {@link Collection}
    * should be initialized using {@link GomObject.set_instance_property}
    */
   public void initialize (string local_name) {
     _local_name = local_name;
   }
   /**
-   * Convenient function to initialize, at construction time, a {@link GomElement}
+   * Convenient function to initialize, at construction time, a {@link GXml.Element}
    * using given local name and document.
    */
   public void initialize_document (DomDocument doc, string local_name) {
@@ -345,7 +345,7 @@ public class GXml.GomElement : GXml.Node,
     _local_name = local_name;
   }
   /**
-   * Convenient function to initialize, at construction time, a {@link GomElement}
+   * Convenient function to initialize, at construction time, a {@link GXml.Element}
    * using given local name and namespace.
    */
   public void initialize_with_namespace (string? namespace_uri,
@@ -355,7 +355,7 @@ public class GXml.GomElement : GXml.Node,
     _prefix = prefix;
   }
   /**
-   * Convenient function to initialize, at construction time, a {@link GomElement}
+   * Convenient function to initialize, at construction time, a {@link GXml.Element}
    * using given local name, document and namespace.
    */
   public void initialize_document_with_namespace (DomDocument doc, string? namespace_uri,
@@ -373,10 +373,10 @@ public class GXml.GomElement : GXml.Node,
   public class Attributes : HashMap<string,DomNode>, DomNamedNodeMap  {
     private TreeMap<long,string> order = new TreeMap<long,string> ();
     /**
-     * Holds {@link GomElement} refrence to attributes' parent element.
+     * Holds {@link GXml.Element} refrence to attributes' parent element.
      * Derived classes should not modify, but set at construction time.
      */
-    protected GomElement _element;
+    protected GXml.Element _element;
 
     // DomNamedNodeMap
     public int length { get { return size; } }
@@ -394,7 +394,7 @@ public class GXml.GomElement : GXml.Node,
       return null;
     }
 
-    public Attributes (GomElement element) {
+    public Attributes (GXml.Element element) {
       _element = element;
     }
 

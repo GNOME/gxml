@@ -39,21 +39,21 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
    * Element used to refer of containier element. You should define it at construction time
    * our set it as a construction property.
    */
-  protected GomElement _element;
+  protected GXml.Element _element;
   /**
    * Local name of {@link DomElement} objects of {@link element}, which could be
    * contained in this collection.
    *
    * Used when reading to add elements to collection. You can set it at construction time,
    * by, for example, instantaiting a object of the type {@link Collection.items_type}
-   * then use {@link GomElement.local_name}'s value.
+   * then use {@link GXml.Element.local_name}'s value.
    */
   protected string _items_name = "";
   /**
    * Objects' type to be referenced by this collection and to deserialize objects.
    * Derived classes, can initilize this value at constructor or as construct property.
    *
-   * Used when reading and at initialization time, to know {@link GomElement.local_name}
+   * Used when reading and at initialization time, to know {@link GXml.Element.local_name}
    * at runtime.
    */
   protected GLib.Type _items_type = GLib.Type.INVALID;
@@ -77,19 +77,19 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
   public DomElement element {
     get { return _element as DomElement; }
     construct set {
-      if (value is GomElement)
-        _element = value as GomElement;
+      if (value is GXml.Element)
+        _element = value as GXml.Element;
     }
   }
   /**
    * {@inheritDoc}
    */
   public void initialize (GLib.Type items_type) throws GLib.Error {
-    if (!items_type.is_a (typeof (GomElement))) {
+    if (!items_type.is_a (typeof (GXml.Element))) {
       throw new DomError.INVALID_NODE_TYPE_ERROR
-                (_("Invalid attempt to initialize a collection using an unsupported type. Only GXmlGomElement is supported"));
+                (_("Invalid attempt to initialize a collection using an unsupported type. Only GXmlGXml.Element is supported"));
     }
-    var o = Object.new (items_type) as GomElement;
+    var o = Object.new (items_type) as GXml.Element;
     _items_name = o.local_name;
     _items_type = items_type;
   }
@@ -99,10 +99,10 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
    * with {@link Collection.items_type}, using its
    * {@link DomElement.local_name} to find it.
    *
-   * Implemenation classes, should initialize collection to hold a {@link GomElement}
+   * Implemenation classes, should initialize collection to hold a {@link GXml.Element}
    * derived type using {@link Collection.initialize}.
    */
-  public void initialize_element (GomElement e) throws GLib.Error {
+  public void initialize_element (GXml.Element e) throws GLib.Error {
     _element = e;
   }
 
@@ -117,9 +117,9 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
     if (_element == null)
       throw new DomError.INVALID_NODE_TYPE_ERROR
                 (_("Parent Element is invalid"));
-    if (!(node is GomElement))
+    if (!(node is GXml.Element))
       throw new DomError.INVALID_NODE_TYPE_ERROR
-                (_("Invalid attempt to set unsupported type. Only GXmlGomElement is supported"));
+                (_("Invalid attempt to set unsupported type. Only GXmlGXml.Element is supported"));
     if (node.owner_document != _element.owner_document)
       throw new DomError.HIERARCHY_REQUEST_ERROR
                 (_("Invalid attempt to set a node with a different parent document"));
@@ -133,8 +133,8 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
     _nodes_index.push_tail (index);
   }
   /**
-   * Search for all child nodes in {@link element} of type {@link GomElement}
-   * with a {@link GomElement.local_name} equal to {@link Collection.items_name},
+   * Search for all child nodes in {@link element} of type {@link GXml.Element}
+   * with a {@link GXml.Element.local_name} equal to {@link Collection.items_name},
    * to add it to collection. This method calls {@link clear} first.
    *
    * Implementations could add additional restrictions to add element to collection.

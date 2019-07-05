@@ -100,7 +100,7 @@ public class GXml.Document : GXml.Node,
     parser.read_file (file);
   }
 
-  private GomElement get_root_gom_element () {
+  private GXml.Element get_root_gom_element () {
     Object obj = null;
     foreach (ParamSpec spec in this.get_class ().list_properties ()) {
       if ("::" in spec.get_nick ()) {
@@ -108,13 +108,13 @@ public class GXml.Document : GXml.Node,
         if (name != "root") {
           continue;
         }
-        if (spec.value_type.is_a (typeof (GomElement))) {
+        if (spec.value_type.is_a (typeof (GXml.Element))) {
           Value val = Value (Type.OBJECT);
           get_property (spec.name, ref val);
-          obj = val.get_object () as GomElement;
+          obj = val.get_object () as GXml.Element;
           if (obj == null) {
             obj = Object.new (spec.value_type,"owner-document", this.owner_document);
-            try { this.append_child (obj as GomElement); }
+            try { this.append_child (obj as GXml.Element); }
             catch (GLib.Error e) {
               warning (_("Error while attempting to instantiate root property object: %s").printf (e.message));
               obj = null;
@@ -125,7 +125,7 @@ public class GXml.Document : GXml.Node,
         }
       }
     }
-    return obj as GomElement;
+    return obj as GXml.Element;
   }
 
   /**
@@ -164,7 +164,7 @@ public class GXml.Document : GXml.Node,
     _parser = parser;
   }
   public DomElement create_element (string local_name) throws GLib.Error {
-    var e = new GomElement ();
+    var e = new GXml.Element ();
     e.initialize_document (this, local_name);
     return e;
   }
@@ -192,7 +192,7 @@ public class GXml.Document : GXml.Node,
         && namespace_uri == "http://www.w3.org/2000/xmlns/")
       throw new DomError.NAMESPACE_ERROR
         (_("Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"));
-    var e = new GomElement ();
+    var e = new GXml.Element ();
     e.initialize_document_with_namespace (this, namespace_uri, nsp, n);
     return e;
   }

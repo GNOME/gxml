@@ -31,7 +31,7 @@ class GXml.DocumentTest : GXmlTest {
 		"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd");
 		  try { append_child (dt); } catch (GLib.Error e) { warning ("Error: "+e.message); }
 		}
-		public class ObjectParent : GomElement {
+		public class ObjectParent : GXml.Element {
 			construct {
 				try { initialize ("root"); }
 				catch (GLib.Error e) { warning ("Error: "+e.message); }
@@ -47,7 +47,7 @@ class GXml.DocumentTest : GXmlTest {
 				}
 			}
 			public ObjectChild child { get; set; }
-			public class ObjectChild : GomElement {
+			public class ObjectChild : GXml.Element {
 				construct {
 					try { initialize ("child"); }
 					catch (GLib.Error e) { warning ("Error: "+e.message); }
@@ -324,7 +324,7 @@ class GXml.DocumentTest : GXmlTest {
 				DomElement elem = null;
 				elem = (DomElement) doc.create_element ("Banana");
 				assert (elem is DomElement);
-				assert (elem is GomElement);
+				assert (elem is GXml.Element);
 				assert (elem.tag_name == "Banana");
 				assert (elem.tag_name != "banana");
 
@@ -565,10 +565,10 @@ class GXml.DocumentTest : GXmlTest {
 		Test.add_func ("/gxml/gom-document/write/string", () => {
 			try {
 				var d = new GXml.Document ();
-				var n = d.create_element ("Node") as GomElement;
+				var n = d.create_element ("Node") as GXml.Element;
 				d.append_child (n);
 				n.set_attribute ("name","value");
-				var n2 = d.create_element ("Node2") as GomElement;
+				var n2 = d.create_element ("Node2") as GXml.Element;
 				n.append_child (n2);
 				message (d.write_string ());
 				string str = d.write_string ();

@@ -218,7 +218,7 @@ public class GXml.Node : Object,
     if (this is GXml.DomDocumentType ||
         this is GXml.DomDocumentFragment) return null;
     if (this is DomElement) {
-      return (this as GomElement).lookup_prefix (nspace);
+      return (this as GXml.Element).lookup_prefix (nspace);
     }
     if (this is GXml.Attr) {
       if (this.parent_node == null) return  null;
@@ -230,7 +230,7 @@ public class GXml.Node : Object,
     if (this is GXml.DomDocumentType ||
         this is GXml.DomDocumentFragment) return null;
     if (this is DomElement) {
-        return (this as GomElement).lookup_namespace_uri (prefix);
+        return (this as GXml.Element).lookup_namespace_uri (prefix);
     }
     if (this is GXml.Attr) {
       if (this.parent_node == null) return  null;

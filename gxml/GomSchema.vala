@@ -24,7 +24,7 @@ using GXml;
 /**
  * Reference interfaces for XSD support.
  */
-public class GXml.GomXsdSchema : GomElement {
+public class GXml.GomXsdSchema : GXml.Element {
   public GomXsdListElements element_definitions { get; set; }
   public GomXsdListSimpleTypes simple_type_definitions { get; set; }
   public GomXsdListComplexTypes complex_type_definitions { get; set; }
@@ -35,7 +35,7 @@ public class GXml.GomXsdSchema : GomElement {
   }
 }
 
-public class GXml.GomXsdSimpleType : GomElement {
+public class GXml.GomXsdSimpleType : GXml.Element {
   /**
    * (#all | List of (list | union | restriction | extension))
    */
@@ -54,7 +54,7 @@ public class GXml.GomXsdSimpleType : GomElement {
   }
 }
 
-public class GXml.GomXsdTypeDefinition : GomElement {
+public class GXml.GomXsdTypeDefinition : GXml.Element {
   public GomXsdAnnotation annotation { get; set; }
 }
 public class GXml.GomXsdTypeList : GomXsdTypeDefinition {}
@@ -72,7 +72,7 @@ public class GXml.GomXsdTypeRestriction : GomXsdTypeDefinition {
   }
 }
 
-public class GXml.GomXsdTypeRestrictionDef : GomElement {
+public class GXml.GomXsdTypeRestrictionDef : GXml.Element {
   public GomXsdAnnotation annotation { get; set; }
 }
 public class GXml.GomXsdTypeRestrictionMinExclusive : GomXsdTypeRestrictionDef {}
@@ -152,7 +152,7 @@ public class GXml.GomXsdComplexType : GomXsdBaseType {
   }
 }
 
-public class GXml.GomXsdExtension : GomElement {
+public class GXml.GomXsdExtension : GXml.Element {
   [Description (nick="::base")]
   public string base { get; set; }
   construct {
@@ -162,7 +162,7 @@ public class GXml.GomXsdExtension : GomElement {
   }
 }
 
-public class GXml.GomXsdElement : GomElement {
+public class GXml.GomXsdElement : GXml.Element {
   /**
   * attribute name = abstract
   */
@@ -232,14 +232,14 @@ public class GXml.GomXsdElement : GomElement {
 }
 
 
-public class GXml.GomXsdAnnotation : GomElement {
+public class GXml.GomXsdAnnotation : GXml.Element {
 }
 
-public class GXml.GomXsdBaseType : GomElement {
+public class GXml.GomXsdBaseType : GXml.Element {
   public GomXsdAnnotation anotation { get; set; }
 }
 
-public class GXml.GomXsdBaseContent : GomElement {
+public class GXml.GomXsdBaseContent : GXml.Element {
   public GomXsdAnnotation anotation { get; set; }
 }
 public class GXml.GomXsdSimpleContent : GomXsdBaseContent {
@@ -250,7 +250,7 @@ public class GXml.GomXsdComplexContent : GomXsdBaseContent {
 }
 public class GXml.GomXsdOpenContent : GomXsdBaseContent {}
 
-public class GXml.GomXsdBaseAttribute : GomElement  {
+public class GXml.GomXsdBaseAttribute : GXml.Element  {
   public GomXsdAnnotation anotation { get; set; }
 }
 public class GXml.GomXsdAttribute : GomXsdBaseAttribute {}

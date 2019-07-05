@@ -23,7 +23,7 @@
 using GXml;
 
 // GOM Collection Definitions
-class ThreeKeys : GomElement {
+class ThreeKeys : GXml.Element {
   private ThreeKey.Map _map;
   public ThreeKey.Map map {
     get {
@@ -40,7 +40,7 @@ class ThreeKeys : GomElement {
   }
   construct { try { initialize ("ThreeKeys"); } catch { assert_not_reached (); } }
 }
-class ThreeKey : GomElement, MappeableElementThreeKey {
+class ThreeKey : GXml.Element, MappeableElementThreeKey {
   [Description (nick="::ID")]
   public string id { get; set; }
   [Description (nick="::Code")]
@@ -58,7 +58,7 @@ class ThreeKey : GomElement, MappeableElementThreeKey {
     }
   }
 }
-class Operations : GomElement {
+class Operations : GXml.Element {
   private Operation.Map _map;
   public Operation.Map map {
     get {
@@ -75,7 +75,7 @@ class Operations : GomElement {
   }
   construct { try { initialize ("Operations"); } catch { assert_not_reached (); } }
 }
-class Operation : GomElement, MappeableElementPairKey {
+class Operation : GXml.Element, MappeableElementPairKey {
   [Description (nick="::ID")]
   public string id { get; set; }
   [Description (nick="::Code")]
@@ -90,17 +90,17 @@ class Operation : GomElement, MappeableElementPairKey {
     }
   }
 }
-class GomName : GomElement
+class GomName : GXml.Element
 {
   construct { try { initialize ("Name"); } catch { assert_not_reached (); } }
 }
 
-class GomEmail : GomElement
+class GomEmail : GXml.Element
 {
   construct {  try { initialize ("Email"); } catch { assert_not_reached (); } }
 }
 
-class GomAuthor : GomElement
+class GomAuthor : GXml.Element
 {
   public GomName name { get; set; }
   public GomEmail email { get; set; }
@@ -111,14 +111,14 @@ class GomAuthor : GomElement
   }
 }
 
-class GomAuthors : GomElement
+class GomAuthors : GXml.Element
 {
   public string number { get; set; }
   construct { try { initialize ("Authors"); } catch { assert_not_reached (); } }
   public GomAuthor.Array array { get; set; }
 }
 
-class GomInventory : GomElement
+class GomInventory : GXml.Element
 {
   [Description (nick="::Number")]
   public int number { get; set; }
@@ -136,7 +136,7 @@ class GomInventory : GomElement
   }
 }
 
-class GomCategory : GomElement
+class GomCategory : GXml.Element
 {
   [Description (nick="::Name")]
   public string name { get; set; }
@@ -150,7 +150,7 @@ class GomCategory : GomElement
 }
 
 
-class GomResume : GomElement
+class GomResume : GXml.Element
 {
   [Description (nick="::Chapter")]
   public string chapter { get; set; }
@@ -165,7 +165,7 @@ class GomResume : GomElement
   }
 }
 
-class GomBook : GomElement
+class GomBook : GXml.Element
 {
   [Description(nick="::Year")]
   public string year { get; set; }
@@ -187,7 +187,7 @@ class GomBook : GomElement
   }
 }
 
-class GomBookStore : GomElement
+class GomBookStore : GXml.Element
 {
   [Description (nick="::name")]
   public string name { get; set; }
@@ -197,7 +197,7 @@ class GomBookStore : GomElement
   }
 }
 
-class GomBasicTypes : GomElement {
+class GomBasicTypes : GXml.Element {
   [Description (nick="::text")]
   public string text { get; set; }
   [Description (nick="::integer")]
@@ -215,8 +215,8 @@ class GomBasicTypes : GomElement {
   }
 }
 
-class GomSerializationTest : GXmlTest  {
-  public class Book : GomElement {
+class SerializationTest : GXmlTest  {
+  public class Book : GXml.Element {
     [Description (nick="::Name")]
     public string name { get; set; }
     construct { try { initialize ("Book"); } catch { assert_not_reached (); } }
@@ -235,7 +235,7 @@ class GomSerializationTest : GXmlTest  {
       return s;
     }
   }
-  public class Computer : GomElement {
+  public class Computer : GXml.Element {
     [Description (nick="::Model")]
     public string model { get; set; }
     public string ignore { get; set; } // ignored property
@@ -252,7 +252,7 @@ class GomSerializationTest : GXmlTest  {
       return s;
     }
   }
-  public class Taxes : GomElement {
+  public class Taxes : GXml.Element {
     [Description (nick="::monthRate")]
     public double month_rate { get; set; }
     [Description (nick="::TaxFree")]
@@ -280,7 +280,7 @@ class GomSerializationTest : GXmlTest  {
       FEBRUARY
     }
   }
-  public class BookRegister : GomElement,
+  public class BookRegister : GXml.Element,
                               MappeableElement,
                               MappeableElementPairKey,
                               MappeableElementThreeKey {
@@ -340,7 +340,7 @@ class GomSerializationTest : GXmlTest  {
       return s;
     }
   }
-  public class BookStand : GomElement {
+  public class BookStand : GXml.Element {
     HashRegisters _hashmap_registers = null;
     HashPairRegisters _hashpair_registers = null;
     HashThreeRegisters _hashthree_registers = null;
@@ -400,7 +400,7 @@ class GomSerializationTest : GXmlTest  {
       }
       return s;
     }
-    public class Dimension : GomElement {
+    public class Dimension : GXml.Element {
       [Description (nick="::Length")]
       public double length { get; set; default = 1.0; }
       [Description (nick="::Type")]
@@ -451,7 +451,7 @@ class GomSerializationTest : GXmlTest  {
       catch { assert_not_reached (); }
     }
   }
-  public class BookStore : GomElement {
+  public class BookStore : GXml.Element {
     [Description (nick="::Name")]
     public string name { get; set; }
     public Books books { get; set; }
@@ -470,7 +470,7 @@ class GomSerializationTest : GXmlTest  {
       return s;
     }
   }
-  public class Motor : GomElement {
+  public class Motor : GXml.Element {
     [Description (nick="::On")]
     public On is_on { get; set; }
     [Description (nick="::Torque")]
