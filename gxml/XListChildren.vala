@@ -25,12 +25,12 @@ using Gee;
 /**
  * A {@link Gee.AbstractBidirList} implementation to access {@link Xml.Node} collection
  */
-public class GXml.GListChildren : AbstractBidirList<GXml.DomNode>,
+public class GXml.XListChildren : AbstractBidirList<GXml.DomNode>,
             DomNodeList, DomHTMLCollection
 {
   private GXml.GDocument _doc;
   private Xml.Node *_node;
-  public GListChildren (GDocument doc, Xml.Node* node) {
+  public XListChildren (GDocument doc, Xml.Node* node) {
     _node = node;
     _doc = doc;
   }

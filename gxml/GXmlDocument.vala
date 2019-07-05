@@ -92,7 +92,7 @@ public class GXml.GDocument : GXml.GNode,
   }
   // GXml.DomNode
   public override Gee.Map<string,GXml.DomNode> attrs { owned get { return new XHashMapAttr (this, (Xml.Node*) doc) as Gee.Map<string,GXml.DomNode>; } }
-  public override Gee.BidirList<GXml.DomNode> children_nodes { owned get { return new GListChildren (this, (Xml.Node*) doc) as Gee.BidirList<GXml.DomNode>; } }
+  public override Gee.BidirList<GXml.DomNode> children_nodes { owned get { return new XListChildren (this, (Xml.Node*) doc) as Gee.BidirList<GXml.DomNode>; } }
   public override Gee.List<GXml.Namespace> namespaces { owned get { return new GListNamespaces (this, doc->get_root_element()) as Gee.List<GXml.Namespace>; } }
   public override GXml.DomDocument document { get { return this; } }
   // GXml.DomDocument
