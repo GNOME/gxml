@@ -1,2 +1,2 @@
 option('disable-introspection', type : 'boolean', value : true, description : 'Disable GObject Introspection')
-option('disable-valadocs', type : 'boolean', value : true, description : 'Disable Vala Documentation')
+option('disable-docs', type : 'boolean', value : true, description : 'Disable Vala Documentation')

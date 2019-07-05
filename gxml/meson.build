@@ -92,8 +92,6 @@ valasources = files ([
 ])
 
 sources = files ([
-	'xlibxml.c',
-	'xlibxml.h'
 ])
 
 inc_libh = include_directories ('.')
@@ -125,7 +123,6 @@ libgxml = library(VERSIONED_PROJECT_NAME,
 	c_args : [
 		'-include',
 		meson.current_build_dir() + '/config.h',
-		xlibxml_cflags
 	],
 	install : true,
 	install_dir : [
