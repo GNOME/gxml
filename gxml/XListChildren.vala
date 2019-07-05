@@ -91,7 +91,7 @@ public class GXml.XListChildren : AbstractBidirList<GXml.DomNode>,
    */
   public override void @set (int index, GXml.DomNode item) {}
   public override Gee.List<GXml.DomNode>? slice (int start, int stop) {
-    var l = new ArrayList<GXml.DomNode> ();
+    var l = new Gee.ArrayList<GXml.DomNode> ();
     if (_node == null) return l;
     var n = _node->children;
     int i = 0;

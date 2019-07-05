@@ -36,6 +36,7 @@ configure_file(output : 'config.h',
 
 
 valasources = files ([
+	'ArrayList.vala',
 	'Collections.vala',
 	'CssSelectorParser.vala',
 	'DomAttr.vala',
@@ -50,7 +51,6 @@ valasources = files ([
 	'DomRange.vala',
 	'Enumeration.vala',
 	'Event.vala',
-	'GomArrayList.vala',
 	'GomAttr.vala',
 	'GomBaseCollection.vala',
 	'GomDocument.vala',

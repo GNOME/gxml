@@ -105,7 +105,7 @@ class GomAuthor : GomElement
   public GomName name { get; set; }
   public GomEmail email { get; set; }
   construct { try { initialize ("Author"); } catch { assert_not_reached (); } }
-  public class Array : GomArrayList {
+  public class Array : GXml.ArrayList {
     construct { try { initialize (typeof (GomAuthor)); }
     catch { assert_not_reached (); } }
   }
@@ -179,7 +179,7 @@ class GomBook : GomElement
   construct {
     try { initialize ("Book"); } catch { assert_not_reached (); }
   }
-  public class Array : GomArrayList {
+  public class Array : GXml.ArrayList {
     construct {
       try { initialize (typeof (GomBook)); }
       catch { assert_not_reached (); }
@@ -421,7 +421,7 @@ class GomSerializationTest : GXmlTest  {
     }
   }
 
-  public class Registers : GomArrayList {
+  public class Registers : GXml.ArrayList {
     construct {
       try { initialize (typeof (BookRegister)); }
       catch { assert_not_reached (); }

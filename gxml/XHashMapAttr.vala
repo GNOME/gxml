@@ -151,7 +151,7 @@ public class GXml.XHashMapAttr : Gee.AbstractMap<string,GXml.XNode>,
   }
   public override Gee.Collection<GXml.XNode> values {
     owned get {
-      var l = new ArrayList<GXml.XNode> ();
+      var l = new Gee.ArrayList<GXml.XNode> ();
       var p = _node->properties;
       while (p != null) {
         l.add (new XAttribute (_doc, p));

@@ -256,9 +256,9 @@ public class GXml.GomXsdBaseAttribute : GomElement  {
 public class GXml.GomXsdAttribute : GomXsdBaseAttribute {}
 public class GXml.GomXsdAttributeGroup : GomXsdBaseAttribute {}
 
-public class GXml.GomXsdList : GomArrayList {
+public class GXml.GomXsdList : ArrayList {
   public new int length {
-    get { return (this as GomArrayList).length; }
+    get { return (this as ArrayList).length; }
   }
   public void remove (int index) {
     try { element.remove_child (element.child_nodes.item (index)); }

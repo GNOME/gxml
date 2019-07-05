@@ -115,7 +115,7 @@ public class GXml.Node : Object,
       if (_parent == null) return null;
       if (_parent.child_nodes == null) return null;
       if (_parent.child_nodes.length == 0) return null;
-      var pos = (_parent.child_nodes as ArrayList<DomNode>).index_of (this);
+      var pos = (_parent.child_nodes as Gee.ArrayList<DomNode>).index_of (this);
       if (pos == 0) return null;
       if ((pos - 1) > 0 && (pos - 1) < _parent.child_nodes.size)
         return _parent.child_nodes[pos - 1];
@@ -127,7 +127,7 @@ public class GXml.Node : Object,
       if (_parent == null) return null;
       if (_parent.child_nodes == null) return null;
       if (_parent.child_nodes.length == 0) return null;
-      var pos = (_parent.child_nodes as ArrayList<DomNode>).index_of (this);
+      var pos = (_parent.child_nodes as Gee.ArrayList<DomNode>).index_of (this);
       if (pos == 0) return null;
       if ((pos + 1) > 0 && (pos + 1) < _parent.child_nodes.size)
         return _parent.child_nodes[pos + 1];
