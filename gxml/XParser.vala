@@ -513,7 +513,7 @@ public class GXml.XParser : Object, GXml.Parser {
     // DomElement attributes
     var keys = (node as DomElement).attributes.keys;
     foreach (string ak in keys) {
-      var prop = (node as DomElement).attributes.get (ak) as GomAttr;
+      var prop = (node as DomElement).attributes.get (ak) as GXml.Attr;
       if (prop == null) {
         continue;
       }

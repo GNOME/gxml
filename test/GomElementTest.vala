@@ -314,7 +314,7 @@ class GomElementTest : GXmlTest  {
 				assert (elem.attributes.get_named_item ("train").node_value == "Hogwarts Express");
 
 				elem.set_attribute ("owl", "Hedwig");
-				GomAttr attr = elem.attributes.get_named_item ("owl") as GomAttr;
+				GXml.Attr attr = elem.attributes.get_named_item ("owl") as GXml.Attr;
 				assert (attr != null);
 				assert (attr.node_value == "Hedwig");
 

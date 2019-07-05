@@ -26,7 +26,7 @@ using Gee;
 /**
  * DOM4 implemenation of {@link DomAttr}.
  */
-public class GXml.GomAttr : GXml.Node, GXml.DomAttr {
+public class GXml.Attr : GXml.Node, GXml.DomAttr {
   protected string _namespace_uri;
   protected GomProperty prop = null;
   public string local_name { owned get { return _local_name; } }
@@ -64,7 +64,7 @@ public class GXml.GomAttr : GXml.Node, GXml.DomAttr {
 
   construct { _child_nodes = null; }
 
-  public GomAttr (DomElement element, string name, string val) {
+  public Attr (DomElement element, string name, string val) {
     _document = element.owner_document;
     _parent = element;
     _local_name = name;
@@ -72,7 +72,7 @@ public class GXml.GomAttr : GXml.Node, GXml.DomAttr {
     assert (node_value == val);
     prop = null;
   }
-  public GomAttr.namespace (DomElement element, string namespace_uri, string? prefix, string name, string val) {
+  public Attr.namespace (DomElement element, string namespace_uri, string? prefix, string name, string val) {
     _document = element.owner_document;
     _parent = element;
     _local_name = name;
@@ -81,7 +81,7 @@ public class GXml.GomAttr : GXml.Node, GXml.DomAttr {
     _prefix = prefix;
     prop = null;
   }
-  public GomAttr.reference (DomElement element, string name) {
+  public Attr.reference (DomElement element, string name) {
     _document = element.owner_document;
     _parent = element;
     _local_name = name;

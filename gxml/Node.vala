@@ -220,7 +220,7 @@ public class GXml.Node : Object,
     if (this is DomElement) {
       return (this as GomElement).lookup_prefix (nspace);
     }
-    if (this is DomAttr) {
+    if (this is GXml.Attr) {
       if (this.parent_node == null) return  null;
       return parent_node.lookup_prefix (nspace);
     }
@@ -232,7 +232,7 @@ public class GXml.Node : Object,
     if (this is DomElement) {
         return (this as GomElement).lookup_namespace_uri (prefix);
     }
-    if (this is DomAttr) {
+    if (this is GXml.Attr) {
       if (this.parent_node == null) return  null;
       return this.parent_node.lookup_namespace_uri (prefix);
     }
