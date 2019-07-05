@@ -68,7 +68,7 @@ public class GXml.Event : Object, GXml.DomEvent {
 /**
  * Custom event handler, powered by libxml2 library.
  */
-public class GXml.GDomCustomEvent : GXml.Event {
+public class GXml.CustomEvent : GXml.Event {
 	protected GLib.Value _detail;
 	public GLib.Value detail { get { return _detail; } }
 

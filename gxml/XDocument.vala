@@ -291,10 +291,10 @@ public class GXml.XDocument : GXml.XNode,
   protected GXml.DomEvent _constructor;
   public DomEvent create_event (string iface) {
       var s = iface.down ();
-      if (s == "customevent") _constructor = new GXml.GDomCustomEvent ();
-      if (s == "event") _constructor = new GXml.GDomCustomEvent ();
-      if (s == "events") _constructor = new GXml.GDomCustomEvent ();
-      if (s == "htmlevents") _constructor = new GXml.GDomCustomEvent ();
+      if (s == "customevent") _constructor = new GXml.CustomEvent ();
+      if (s == "event") _constructor = new GXml.CustomEvent ();
+      if (s == "events") _constructor = new GXml.CustomEvent ();
+      if (s == "htmlevents") _constructor = new GXml.CustomEvent ();
       if (s == "keyboardevent") _constructor = null;
       if (s == "keyevents") _constructor = null;
       if (s == "messageevent") _constructor = null;
