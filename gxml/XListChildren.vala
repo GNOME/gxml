@@ -45,7 +45,7 @@ public class GXml.XListChildren : AbstractBidirList<GXml.DomNode>,
     int i = 0;
     while (n != null) {
       if (i == index) {
-        return GNode.to_gnode (_doc, n);
+        return XNode.to_gnode (_doc, n);
       }
       i++;
       n = n->next;
@@ -54,11 +54,11 @@ public class GXml.XListChildren : AbstractBidirList<GXml.DomNode>,
   }
   public override int index_of (GXml.DomNode item) {
     if (_node == null) return -1;
-    if (!(item is GNode)) return -1;
+    if (!(item is XNode)) return -1;
     var n = _node->children;
     int i = 0;
     while (n != null) {
-      if (n == ((GNode) item).get_internal_node ()) return i;
+      if (n == ((XNode) item).get_internal_node ()) return i;
       n = n->next;
       i++;
     }
@@ -70,7 +70,7 @@ public class GXml.XListChildren : AbstractBidirList<GXml.DomNode>,
   public override void insert (int index, GXml.DomNode item) {
     var n = @get (index);
     if (n == null) return;
-    (n as GXml.GNode).get_internal_node ()->add_prev_sibling ((item as GXml.GNode).get_internal_node ());
+    (n as GXml.XNode).get_internal_node ()->add_prev_sibling ((item as GXml.XNode).get_internal_node ());
   }
   public override  Gee.ListIterator<GXml.DomNode> list_iterator () { return new Iterator (_doc, _node); }
   /**
@@ -81,7 +81,7 @@ public class GXml.XListChildren : AbstractBidirList<GXml.DomNode>,
     if (index > size || index < 0) return nullnode;
     var n = @get (index);
     if (n == null) return nullnode;
-    var np = (n as GXml.GNode).get_internal_node ();
+    var np = (n as GXml.XNode).get_internal_node ();
     np->unlink ();
     delete np;
     return nullnode;
@@ -97,7 +97,7 @@ public class GXml.XListChildren : AbstractBidirList<GXml.DomNode>,
     int i = 0;
     while (n != null) {
       if (i >= start && i <= stop) {
-        l.add (GNode.to_gnode (_doc, n));
+        l.add (XNode.to_gnode (_doc, n));
       }
       n = n->next;
       i++;
@@ -107,7 +107,7 @@ public class GXml.XListChildren : AbstractBidirList<GXml.DomNode>,
   public override bool add (GXml.DomNode item) {
     if (_node == null) return false;
     if (!(item is GNamespace))
-      return (_node->add_child (((GNode) item).get_internal_node ())) != null;
+      return (_node->add_child (((XNode) item).get_internal_node ())) != null;
     var ns = (GXml.Namespace) item;
     return (_node->new_ns (ns.uri, ns.prefix)) != null;
   }
@@ -117,10 +117,10 @@ public class GXml.XListChildren : AbstractBidirList<GXml.DomNode>,
   }
   public override bool contains (GXml.DomNode item) {
     if (_node == null) return false;
-    if (!(item is GXml.GNode)) return false;
+    if (!(item is GXml.XNode)) return false;
     var n = _node->children;
     while (n != null) {
-      if (n == ((GXml.GNode) item).get_internal_node ()) return true;
+      if (n == ((GXml.XNode) item).get_internal_node ()) return true;
       n = n->next;
     }
     return false;
@@ -128,10 +128,10 @@ public class GXml.XListChildren : AbstractBidirList<GXml.DomNode>,
   public override Gee.Iterator<GXml.DomNode> iterator () { return new Iterator (_doc, _node); }
   public override bool remove (GXml.DomNode item) {
     if (_node == null) return false;
-    if (!(item is GXml.GNode)) return false;
+    if (!(item is GXml.XNode)) return false;
     var n = _node->children;
     while (n != null) {
-      if (n == ((GXml.GNode) item).get_internal_node ()) {
+      if (n == ((GXml.XNode) item).get_internal_node ()) {
         n->unlink ();
         delete n;
         return true;
@@ -183,7 +183,7 @@ public class GXml.XListChildren : AbstractBidirList<GXml.DomNode>,
      */
     public new void @set (GXml.DomNode item) {}
     // Iterator
-    public new GXml.DomNode @get () { return GNode.to_gnode (_doc, _node); }
+    public new GXml.DomNode @get () { return XNode.to_gnode (_doc, _node); }
     public bool has_next () {
       if (_node == null) return false;
       if (_node->children == null) return false;

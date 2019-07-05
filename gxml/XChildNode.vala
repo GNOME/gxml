@@ -23,7 +23,7 @@
 /**
  * DOM4 class for child nodes, powered by libxml2 library.
  */
-public class GXml.XChildNode : GXml.GNode,
+public class GXml.XChildNode : GXml.XNode,
               GXml.DomChildNode
 {
   // DomChildNode

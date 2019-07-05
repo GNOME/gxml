@@ -30,7 +30,7 @@ using Xml;
  * This class use {@link Xml.TextWriter} to write down XML documents using
  * its contained {@link GXml.DomNode} children or other XML structures.
  */
-public class GXml.XDocument : GXml.GNode,
+public class GXml.XDocument : GXml.XNode,
                               GXml.DomParentNode,
                               GXml.DomNonElementParentNode,
                               GXml.DomDocument,

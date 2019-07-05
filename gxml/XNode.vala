@@ -32,7 +32,7 @@ public errordomain GXml.Error {
 /**
  * DOM4 Base interface providing basic functionalities to all libxml2 DOM4 implementations.
  */
-public abstract class GXml.GNode : Object,
+public abstract class GXml.XNode : Object,
                       GXml.DomEventTarget,
                       GXml.DomNode
 {
@@ -179,14 +179,14 @@ public abstract class GXml.GNode : Object,
     owned get {
       if (_node == null) return null;
       if (_node->prev == null) return null;
-      return GNode.to_gnode (_doc, _node->prev) as DomNode?;
+      return XNode.to_gnode (_doc, _node->prev) as DomNode?;
     }
   }
   public DomNode? next_sibling {
     owned get {
       if (_node == null) return null;
       if (_node->next == null) return null;
-      return GNode.to_gnode (_doc, _node->next) as DomNode?;
+      return XNode.to_gnode (_doc, _node->next) as DomNode?;
     }
   }
 
@@ -201,8 +201,8 @@ public abstract class GXml.GNode : Object,
 	      message ("Is Element");
 	      foreach (GXml.DomNode n in children_nodes) {
           if (n is GXml.DomText) {
-            if (t == null) t = (n as GNode).value;
-            else t += (n as GNode).value;
+            if (t == null) t = (n as XNode).value;
+            else t += (n as XNode).value;
           }
 	      }
 	    }
@@ -240,15 +240,15 @@ public abstract class GXml.GNode : Object,
     else
       n = _node->copy (2);
     if (n == null) return nullnode;
-    return (DomNode) GNode.to_gnode (_doc, n);
+    return (DomNode) XNode.to_gnode (_doc, n);
   }
   public bool is_equal_node (DomNode? node) {
     if (!(node is GXml.DomNode)) return false;
     if (node == null) return false;
     if (this.children_nodes.size != node.child_nodes.size) return false;
     foreach (GXml.DomNode a in attrs.values) {
-      if (!(node as GXml.GNode?).attrs.has_key (a.node_name)) return false;
-      if ((a as GNode).value != ((node as GXml.GNode).attrs.get (a.node_name) as GNode).value) return false;
+      if (!(node as GXml.XNode?).attrs.has_key (a.node_name)) return false;
+      if ((a as XNode).value != ((node as GXml.XNode).attrs.get (a.node_name) as XNode).value) return false;
     }
     for (int i=0; i < children_nodes.size; i++) {
       if (!(children_nodes[i] as GXml.DomNode).is_equal_node ((node as GXml.DomNode?).child_nodes[i] as GXml.DomNode?)) return false;
@@ -307,7 +307,7 @@ public abstract class GXml.GNode : Object,
   }
 
   public DomNode insert_before (DomNode node, DomNode? child) throws GLib.Error {
-    if (!(node is GXml.GNode))
+    if (!(node is GXml.XNode))
       throw new DomError.INVALID_NODE_TYPE_ERROR (_("Invalid attempt to add invalid node type"));
     if (child != null && !this.contains (child))
       throw new DomError.NOT_FOUND_ERROR (_("Can't find child to insert node before"));
@@ -338,7 +338,7 @@ public abstract class GXml.GNode : Object,
     return insert_before (node, null);
   }
   public DomNode replace_child (DomNode node, DomNode child) throws GLib.Error {
-    if (!(node is GXml.GNode))
+    if (!(node is GXml.XNode))
       throw new DomError.INVALID_NODE_TYPE_ERROR (_("Invalid attempt to add invalid node type"));
     if (child == null || !this.contains (child))
       throw new DomError.NOT_FOUND_ERROR (_("Can't find child node to replace or child have a different parent"));

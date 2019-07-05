@@ -190,28 +190,28 @@ public class GXml.XElement : GXml.XNonDocumentChildNode,
     owned get {
         var p = attrs.get ("id");
         if (p == null) return null;
-        return (p as GNode).value;
+        return (p as XNode).value;
     }
     set {
         var p = attrs.get ("id");
         if (p == null)
             set_attr ("id",value);
         else
-            (p as GNode).value = value;
+            (p as XNode).value = value;
     }
   }
   public string? class_name {
     owned get {
         var p = attrs.get ("class");
         if (p == null) return null;
-        return (p as GNode).value;
+        return (p as XNode).value;
     }
     set {
         var p = attrs.get ("class");
         if (p == null)
             set_attr ("class",value);
         else
-            (p as GNode).value = value;
+            (p as XNode).value = value;
     }
   }
   public DomTokenList class_list {
@@ -224,12 +224,12 @@ public class GXml.XElement : GXml.XNonDocumentChildNode,
   public string? get_attribute (string name) {
     var p = attrs.get (name);
     if (p == null) return null;
-    return (p as GNode).value;
+    return (p as XNode).value;
   }
   public string? get_attribute_ns (string? namespace, string local_name) {
     var p = get_ns_attr (local_name, namespace);
     if (p == null) return null;
-    return (p as GNode).value;
+    return (p as XNode).value;
   }
   public void set_attribute (string name, string value) throws GLib.Error { set_attr (name, value); }
   public void set_attribute_ns (string? namespace, string name, string value) throws GLib.Error {
@@ -336,7 +336,7 @@ public class GXml.XElement : GXml.XNonDocumentChildNode,
     GXml.XPathObject nullobj = null;
     if (!(this is GXml.DomNode))
       return nullobj;
-    string data = (this as GXml.GNode).to_string();
+    string data = (this as GXml.XNode).to_string();
     var ndoc = Xml.Parser.read_memory (data, data.length);
     var gdoc = new GXml.XDocument.from_doc (ndoc);
     var context = new Xml.XPath.Context (ndoc);

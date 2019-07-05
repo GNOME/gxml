@@ -24,7 +24,7 @@ using Gee;
 /**
  * Class implemeting {@link GXml.DomAttr} interface, not tied to libxml-2.0 library.
  */
-public class GXml.XAttribute : GXml.GNode, GXml.DomAttr
+public class GXml.XAttribute : GXml.XNode, GXml.DomAttr
 {
   private Xml.Attr* _attr;
   public XAttribute (XDocument doc, Xml.Attr *node)
@@ -114,7 +114,7 @@ public class GXml.XAttribute : GXml.GNode, GXml.DomAttr
       return namespace.prefix;
     }
   }*/
-  public string local_name { owned get { return (this as GXml.GNode).name; } }
+  public string local_name { owned get { return (this as GXml.XNode).name; } }
   /*public string GXml.DomAttr.name {
     get {
       if (namespace == null) return (this as GXml.DomNode).name;

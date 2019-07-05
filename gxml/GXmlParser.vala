@@ -70,7 +70,7 @@ private class GXml.GParser : Object, Parser {
   var e = Xml.get_last_error ();
   if (e != null) {
     var errmsg = _("Parser Error for string");
-    string s = GNode.libxml2_error_to_string (e);
+    string s = XNode.libxml2_error_to_string (e);
     if (s != null)
       errmsg = ".  ";
     throw new GXml.Error.PARSER (errmsg);
