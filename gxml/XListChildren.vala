@@ -28,9 +28,9 @@ using Gee;
 public class GXml.XListChildren : AbstractBidirList<GXml.DomNode>,
             DomNodeList, DomHTMLCollection
 {
-  private GXml.GDocument _doc;
+  private GXml.XDocument _doc;
   private Xml.Node *_node;
-  public XListChildren (GDocument doc, Xml.Node* node) {
+  public XListChildren (XDocument doc, Xml.Node* node) {
     _node = node;
     _doc = doc;
   }
@@ -159,11 +159,11 @@ public class GXml.XListChildren : AbstractBidirList<GXml.DomNode>,
                           Gee.BidirIterator<GXml.DomNode>,
                           Gee.ListIterator<GXml.DomNode>,
                           BidirListIterator<GXml.DomNode> {
-    private GDocument _doc;
+    private XDocument _doc;
     private Xml.Node *_node;
     private Xml.Node *_current;
     private int i = 0;
-    public Iterator (GDocument doc, Xml.Node *node) {
+    public Iterator (XDocument doc, Xml.Node *node) {
       _node = node;
       _current = _node->children;
       _doc = doc;

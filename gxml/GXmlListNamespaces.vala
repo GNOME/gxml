@@ -27,9 +27,9 @@ using Gee;
  */
 public class GXml.GListNamespaces : Gee.AbstractList<GXml.Namespace>
 {
-  private GDocument _doc;
+  private XDocument _doc;
   private Xml.Node *_node;
-  public GListNamespaces (GDocument doc, Xml.Node *node) {
+  public GListNamespaces (XDocument doc, Xml.Node *node) {
     _node = node;
     _doc = doc;
   }

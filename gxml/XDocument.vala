@@ -1,5 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
-/* GDocument.vala
+/* XDocument.vala
  *
  * Copyright (C) 2016-2019  Daniel Espinosa <esodan@gmail.com>
  *
@@ -30,7 +30,7 @@ using Xml;
  * This class use {@link Xml.TextWriter} to write down XML documents using
  * its contained {@link GXml.DomNode} children or other XML structures.
  */
-public class GXml.GDocument : GXml.GNode,
+public class GXml.XDocument : GXml.GNode,
                               GXml.DomParentNode,
                               GXml.DomNonElementParentNode,
                               GXml.DomDocument,
@@ -41,18 +41,18 @@ public class GXml.GDocument : GXml.GNode,
   protected Xml.Buffer _buffer;
   protected Parser _parser = null;
 
-  public GDocument () {
+  public XDocument () {
     doc = new Xml.Doc ();
   }
-  public GDocument.from_path (string path, int options = 0) throws GLib.Error {
+  public XDocument.from_path (string path, int options = 0) throws GLib.Error {
     this.from_file (File.new_for_path (path), options);
   }
 
-  public GDocument.from_uri (string uri, int options = 0) throws GLib.Error {
+  public XDocument.from_uri (string uri, int options = 0) throws GLib.Error {
     this.from_file (File.new_for_uri (uri), options);
   }
 
-  public GDocument.from_file (GLib.File file, int options = 0, Cancellable? cancel = null) throws GLib.Error {
+  public XDocument.from_file (GLib.File file, int options = 0, Cancellable? cancel = null) throws GLib.Error {
     if (!file.query_exists ())
       throw new DomDocumentError.INVALID_DOCUMENT_ERROR (_("File doesn't exist"));
     var parser = new GParser (this);
@@ -60,15 +60,15 @@ public class GXml.GDocument : GXml.GNode,
     parser.read_stream (file.read ());
   }
 
-  public GDocument.from_string (string str, int options = 0) throws GLib.Error {
+  public XDocument.from_string (string str, int options = 0) throws GLib.Error {
     var parser = new GParser (this);
     parser.read_string (str);
   }
-  public GDocument.from_stream (GLib.InputStream istream) throws GLib.Error {
+  public XDocument.from_stream (GLib.InputStream istream) throws GLib.Error {
     var parser = new GParser (this);
     parser.read_stream (istream);
   }
-  public GDocument.from_doc (Xml.Doc doc) { this.doc = doc; }
+  public XDocument.from_doc (Xml.Doc doc) { this.doc = doc; }
 
   public Parser GXml.DomDocument.get_xml_parser () {
     if (_parser != null) {
@@ -117,7 +117,7 @@ public class GXml.GDocument : GXml.GNode,
         if (found > 1) {
           GLib.warning ("Document have more than one root GXmlElement. Using first found");
         }
-      } 
+      }
       return new XElement (this, r);
     }
   }
@@ -142,7 +142,7 @@ public class GXml.GDocument : GXml.GNode,
     }
   }
   /**
-   * Uses libxml2 internal dump to memory function over owned 
+   * Uses libxml2 internal dump to memory function over owned
    */
   public string libxml_to_string () {
     string buffer;
@@ -235,7 +235,7 @@ public class GXml.GDocument : GXml.GNode,
   }
 
   public DomDocumentFragment create_document_fragment() {
-    return new GDocumentFragment (this);
+    return new XDocumentFragment (this);
   }
   public DomText create_text_node (string data) throws GLib.Error {
       return (DomText) create_text (data);
@@ -375,20 +375,20 @@ public class GXml.GImplementation : GLib.Object, GXml.DomImplementation {
     create_document_type (string qualified_name, string public_id, string system_id)
         throws GLib.Error
   {
-    return new GDocumentType.with_ids (qualified_name, public_id, system_id); // FIXME
+    return new XDocumentType.with_ids (qualified_name, public_id, system_id); // FIXME
   }
   public DomXMLDocument create_document (string? namespace,
                                          string? qualified_name,
                                          DomDocumentType? doctype = null)
                                          throws GLib.Error
-  { return new GDocument (); } // FIXME
+  { return new XDocument (); } // FIXME
   public DomDocument create_html_document (string title) {
     return new GHtmlDocument (); // FIXME:
   }
 }
 
 
-public class GXml.GDocumentType : GXml.XChildNode,
+public class GXml.XDocumentType : GXml.XChildNode,
                                   GXml.DomNode,
                                   GXml.DomChildNode,
                                   GXml.DomDocumentType
@@ -401,12 +401,12 @@ public class GXml.GDocumentType : GXml.XChildNode,
   public string public_id { get { return _public_id; } }
   public string system_id { get { return _system_id; } }
 
-  public GDocumentType.with_name (string name) {
+  public XDocumentType.with_name (string name) {
     _name = name;
     _public_id = "";
     _system_id = "";
   }
-  public GDocumentType.with_ids (string name, string public_id, string system_id) {
+  public XDocumentType.with_ids (string name, string public_id, string system_id) {
     _name = name;
     _public_id = public_id;
     _system_id = system_id;
@@ -417,10 +417,10 @@ public class GXml.GDocumentType : GXml.XChildNode,
   }
 }
 
-public class GXml.GDocumentFragment : GXml.GDocument,
+public class GXml.XDocumentFragment : GXml.XDocument,
               GXml.DomDocumentFragment
 {
-  public GDocumentFragment (GXml.GDocument d)  {
+  public XDocumentFragment (GXml.XDocument d)  {
       _doc = d._doc; // FIXME: https://www.w3.org/TR/dom/#dom-document-createdocumentfragment
   }
 }

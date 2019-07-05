@@ -27,9 +27,9 @@ class GXmlTest.Suite : Object
   {
     GLib.Intl.setlocale (GLib.LocaleCategory.ALL, "");
     Test.init (ref args);
-    Test.add_func ("/gxml/g-document/performance", () => {
+    Test.add_func ("/gxml/x-document/performance", () => {
       try {
-        DomDocument d = new GDocument ();
+        DomDocument d = new XDocument ();
         File dir = File.new_for_path (GXmlTestConfig.TEST_DIR);
         assert (dir.query_exists ());
         File f = File.new_for_uri (dir.get_uri ()+"/test-large.xml");

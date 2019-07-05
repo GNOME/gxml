@@ -26,7 +26,7 @@ using Gee;
  */
 public class GXml.XComment : GXml.XCharacterData, GXml.DomComment
 {
-  public XComment (GDocument doc, Xml.Node *node)
+  public XComment (XDocument doc, Xml.Node *node)
   {
     _node = node;
     _doc = doc;

@@ -29,18 +29,18 @@ using Gee;
 public class GXml.XHashMapAttr : Gee.AbstractMap<string,GXml.GNode>,
                                   GXml.DomNamedNodeMap
 {
-  private GDocument _doc;
+  private XDocument _doc;
   private Xml.Node *_node;
-  public XHashMapAttr (GDocument doc, Xml.Node *node) {
+  public XHashMapAttr (XDocument doc, Xml.Node *node) {
     _node = node;
     _doc = doc;
   }
 
   public class Entry : Gee.Map.Entry<string,GXml.GNode> {
-    private GXml.GDocument _doc;
+    private GXml.XDocument _doc;
     private Xml.Attr *_attr;
     private XAttribute oattr;
-    public Entry (GDocument doc, Xml.Attr *attr) {
+    public Entry (XDocument doc, Xml.Attr *attr) {
       _attr = attr;
       _doc = doc;
       oattr = new XAttribute (_doc, _attr);
@@ -161,11 +161,11 @@ public class GXml.XHashMapAttr : Gee.AbstractMap<string,GXml.GNode>,
     }
   }
   public class Iterator : Object, MapIterator<string,GXml.GNode> {
-    private GXml.GDocument _doc;
+    private GXml.XDocument _doc;
     private Xml.Node *_node;
     private Xml.Attr *_current;
 
-    public Iterator (GXml.GDocument doc, Xml.Node *node) {
+    public Iterator (GXml.XDocument doc, Xml.Node *node) {
       _node = node;
       _current = null;
       _doc = doc;

@@ -27,7 +27,7 @@ using Gee;
 public class GXml.XAttribute : GXml.GNode, GXml.DomAttr
 {
   private Xml.Attr* _attr;
-  public XAttribute (GDocument doc, Xml.Attr *node)
+  public XAttribute (XDocument doc, Xml.Attr *node)
   {
     _attr = node;
     _node = _attr->parent;
@@ -98,7 +98,7 @@ public class GXml.XAttribute : GXml.GNode, GXml.DomAttr
     owned get {
       GXml.DomNode nullnode = null;
       if (_attr == null) return nullnode;
-      return to_gnode (document as GDocument, _node);
+      return to_gnode (document as XDocument, _node);
     }
   }
   // DomAttr implementation

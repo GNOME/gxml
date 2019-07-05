@@ -28,7 +28,7 @@ using Gee;
 public class GXml.XProcessingInstruction : GXml.XCharacterData,
               GXml.DomProcessingInstruction
 {
-  public XProcessingInstruction (GDocument doc, Xml.Node *node)
+  public XProcessingInstruction (XDocument doc, Xml.Node *node)
   {
     _node = node;
     _doc = doc;

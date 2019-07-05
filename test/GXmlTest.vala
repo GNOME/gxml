@@ -32,7 +32,7 @@ class GXmlTest {
 		ValaLibxml2Test.add_tests ();
 		GElementTest.add_tests ();
 		GHtmlDocumentTest.add_tests ();
-		DomGDocumentTest.add_tests ();
+		DomXDocumentTest.add_tests ();
 		XPathTest.add_tests ();
 		GomDocumentTest.add_tests ();
 		GomElementTest.add_tests ();

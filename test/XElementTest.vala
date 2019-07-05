@@ -26,7 +26,7 @@ class GElementTest : GXmlTest  {
 	public static void add_tests () {
 		Test.add_func ("/gxml/gelement/to_string", () =>{
 			try {
-				DomDocument doc = new GDocument.from_string ("<root />");
+				DomDocument doc = new XDocument.from_string ("<root />");
 				var elem = doc.create_element ("country");
 				var t = doc.create_text_node ("New Zealand");
 				assert (t != null);
@@ -45,7 +45,7 @@ class GElementTest : GXmlTest  {
 		});
 		Test.add_func ("/gxml/gelement/previous_element_sibling", () => {
 			try {
-				var doc = new GDocument.from_string ("<root> <child/> <child/></root>");
+				var doc = new XDocument.from_string ("<root> <child/> <child/></root>");
 				assert (doc.document_element != null);
 				assert (doc.document_element.parent_node is GXml.DomNode);
 				assert (doc.document_element.parent_node is GXml.DomDocument);
@@ -76,7 +76,7 @@ class GElementTest : GXmlTest  {
 		});
 		Test.add_func ("/gxml/gelement/css-selector", () => {
 			try {
-				var d = new GDocument () as DomDocument;
+				var d = new XDocument () as DomDocument;
 				var r = d.create_element ("root");
 				d.append_child (r);
 				var c1 = d.create_element ("child");
@@ -134,7 +134,7 @@ class GElementTest : GXmlTest  {
 		});
     Test.add_func ("/gxml/g-document/dom-write-read", () => {
       try {
-        DomDocument d = new GDocument ();
+        DomDocument d = new XDocument ();
         File dir = File.new_for_path (GXmlTestConfig.TEST_DIR);
         assert (dir.query_exists ());
         File f = File.new_for_uri (dir.get_uri ()+"/test-large.xml");

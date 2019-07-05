@@ -7,14 +7,14 @@ files_tests = files ([
 		'GXmlTest.vala',
 		'CssSelectorTest.vala',
 		'ValaLibxml2Test.vala',
-		'GElementTest.vala',
 		'GHtmlDocumentTest.vala',
-		'DomGDocumentTest.vala',
-		'XPathTest.vala',
+		'DomXDocumentTest.vala',
 		'GomDocumentTest.vala',
 		'GomElementTest.vala',
 		'GomSerializationTest.vala',
-		'GomSchemaTest.vala'
+		'GomSchemaTest.vala',
+		'XElementTest.vala',
+		'XPathTest.vala',
 	])
 
 tests_cargs = []
@@ -69,7 +69,7 @@ benchmark ('gom-performance-iterate', gom_performance_iterate)
 
 
 files_libxml_performance = files ([
-		'GXmlDocumentPerformanceTest.vala'
+		'DocumentPerformanceTest.vala'
 	])
 libxml_performance = executable('libxml-performance-load', files_libxml_performance + configvapi + configtestvapi,
 	vala_args : [],
@@ -80,7 +80,7 @@ libxml_performance = executable('libxml-performance-load', files_libxml_performa
 benchmark ('libxml-performance-load', libxml_performance)
 
 files_libxml_performance_iterate = files ([
-		'GXmlDocumentPerformanceIterateTest.vala'
+		'DocumentPerformanceIterateTest.vala'
 	])
 
 libxml_performance_iterate = executable('libxml-performance-iterate', files_gom_performance + configvapi + configtestvapi,

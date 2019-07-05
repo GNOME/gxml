@@ -33,7 +33,7 @@ public class GXml.XElement : GXml.XNonDocumentChildNode,
                             GXml.DomElement,
                             GXml.XPathContext
 {
-  public XElement (GDocument doc, Xml.Node *node) {
+  public XElement (XDocument doc, Xml.Node *node) {
     _node = node;
     _doc = doc;
   }
@@ -338,7 +338,7 @@ public class GXml.XElement : GXml.XNonDocumentChildNode,
       return nullobj;
     string data = (this as GXml.GNode).to_string();
     var ndoc = Xml.Parser.read_memory (data, data.length);
-    var gdoc = new GXml.GDocument.from_doc (ndoc);
+    var gdoc = new GXml.XDocument.from_doc (ndoc);
     var context = new Xml.XPath.Context (ndoc);
     if (resolver != null)
     resolver.foreach (ns => {

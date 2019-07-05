@@ -394,7 +394,7 @@ class CssSelectorTest : GXmlTest {
 				assert (!cp.match (c2));
 				assert (!cp.match (c3));
 				assert (!cp.match (c4));
-				var d2 = new GDocument () as DomDocument;
+				var d2 = new XDocument () as DomDocument;
 				var r2 = d2.create_element ("toplevel");
 				d2.append_child (r2);
 				var c1g = d2.create_element ("child");
@@ -483,7 +483,7 @@ class CssSelectorTest : GXmlTest {
 				assert (cp.match (c3));
 				assert (!cp.match (c4));
 				assert (!cp.match (c5));
-				var d2 = new GDocument () as DomDocument;
+				var d2 = new XDocument () as DomDocument;
 				var r2 = d2.create_element ("toplevel");
 				d2.append_child (r2);
 				var c1g = d2.create_element ("child");
@@ -552,7 +552,7 @@ class CssSelectorTest : GXmlTest {
 				assert (!cp.match (c4));
 				assert (cp.match (c5));
 				assert (cp.match (c6));
-				var d2 = new GDocument () as DomDocument;
+				var d2 = new XDocument () as DomDocument;
 				var r2 = d2.create_element ("toplevel");
 				d2.append_child (r2);
 				var c1g = d2.create_element ("child");
@@ -621,7 +621,7 @@ class CssSelectorTest : GXmlTest {
 				assert (cp.match (c5));
 				assert (!cp.match (c6));
 				assert (cp.match (c7));
-				var d2 = new GDocument () as DomDocument;
+				var d2 = new XDocument () as DomDocument;
 				var r2 = d2.create_element ("toplevel");
 				d2.append_child (r2);
 				var c1g = d2.create_element ("child");

@@ -1510,7 +1510,7 @@ var _analytics_elem = document.getElementsByTagName('script')[0]; _analytics_ele
 		""";
 	 		DomDocument doc;
 	 		doc = new GHtmlDocument.from_string (src);
-	 		message ((doc as GDocument).to_string ());
+	 		message ((doc as XDocument).to_string ());
 	 		assert (doc.document_element != null);
 	 		var c = doc.document_element.get_elements_by_property_value ("property", "article:published_time");
 	 		foreach (DomNode n in c) {

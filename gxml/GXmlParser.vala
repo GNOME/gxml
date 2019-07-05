@@ -22,10 +22,10 @@
 
 
 private class GXml.GParser : Object, Parser {
-  private GDocument document;
+  private XDocument document;
   private DomNode _node;
 
-  public GParser (GDocument doc) {
+  public GParser (XDocument doc) {
     document = doc;
     _node = doc;
   }

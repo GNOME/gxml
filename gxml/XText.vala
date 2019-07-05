@@ -27,7 +27,7 @@ using Gee;
  */
 public class GXml.XText : GXml.XCharacterData, GXml.DomText
 {
-  public XText (GDocument doc, Xml.Node *node)
+  public XText (XDocument doc, Xml.Node *node)
   {
     _node = node;
     _doc = doc;

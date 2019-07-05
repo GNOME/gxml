@@ -33,9 +33,9 @@ class XPathTest : GXmlTest  {
       DomDocument document = null;
       var rf = GLib.File.new_for_uri ("http://www.w3schools.com/xsl/books.xml");
       if (rf.query_exists ()) {
-        document = new GDocument.from_uri ("http://www.w3schools.com/xsl/books.xml");
+        document = new XDocument.from_uri ("http://www.w3schools.com/xsl/books.xml");
       } else
-        document = new GDocument.from_string (BOOKS);
+        document = new XDocument.from_string (BOOKS);
       assert (document != null);
       var object = (document as GXml.XPathContext).evaluate ("/bookstore/book/title");
       assert (object.object_type == XPathObjectType.NODESET);

@@ -36,7 +36,7 @@ public abstract class GXml.GNode : Object,
                       GXml.DomEventTarget,
                       GXml.DomNode
 {
-  protected GXml.GDocument _doc;
+  protected GXml.XDocument _doc;
   protected Xml.Node *_node;
 
   internal static string libxml2_error_to_string (Xml.Error *e) {
@@ -64,7 +64,7 @@ public abstract class GXml.GNode : Object,
     owned get {
       GXml.DomNode nullnode = null;
       if (_node == null) return nullnode;
-      return to_gnode (document as GDocument, _node->parent);
+      return to_gnode (document as XDocument, _node->parent);
     }
   }
   public virtual GXml.NodeType type_node {
@@ -93,7 +93,7 @@ public abstract class GXml.GNode : Object,
   public virtual string to_string () { return get_type ().name (); }
   public Xml.Node* get_internal_node () { return _node; }
   // Static
-  public static GXml.DomNode to_gnode (GXml.GDocument doc, Xml.Node *node) {
+  public static GXml.DomNode to_gnode (GXml.XDocument doc, Xml.Node *node) {
     GXml.DomNode nullnode = null;
     var t = (GXml.NodeType) node->type;
     switch (t) {
@@ -112,7 +112,7 @@ public abstract class GXml.GNode : Object,
       case GXml.NodeType.COMMENT:
         return new XComment (doc, node);
       case GXml.NodeType.DOCUMENT:
-        return new GDocument.from_doc (node->doc);
+        return new XDocument.from_doc (node->doc);
       case GXml.NodeType.DOCUMENT_TYPE:
         return nullnode;
       case GXml.NodeType.DOCUMENT_FRAGMENT:
@@ -162,7 +162,7 @@ public abstract class GXml.GNode : Object,
 
   public DomDocument? owner_document {
     get { return _doc; }
-    construct set { _doc = value as GDocument; }
+    construct set { _doc = value as XDocument; }
   }
   public DomNode? parent_node { owned get { return parent as DomNode?; } }
   public DomElement? parent_element {

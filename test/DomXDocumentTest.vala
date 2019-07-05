@@ -1,5 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
-/* DomGDocumentTest.vala
+/* DomXDocumentTest.vala
  *
  * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
  *
@@ -22,7 +22,7 @@
 
 using GXml;
 
-class DomGDocumentTest : GXmlTest {
+class DomXDocumentTest : GXmlTest {
 
 const string STRDOC = "<?xml version=\"1.0\"?>
 <!-- Comment -->
@@ -71,7 +71,7 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 #if DEBUG
 				GLib.message ("Doc: "+STRDOC);
 #endif
-				var doc = new GDocument.from_string (STRDOC) as DomDocument;
+				var doc = new XDocument.from_string (STRDOC) as DomDocument;
 				DomElement root = doc.document_element;
 				assert (root != null);
 				assert (root is DomElement);
@@ -91,7 +91,7 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 #if DEBUG
 				GLib.message ("Doc: "+STRDOC);
 #endif
-				var doc = new GDocument.from_string (STRDOC) as DomDocument;
+				var doc = new XDocument.from_string (STRDOC) as DomDocument;
 				assert (doc is DomDocument);
 				assert (doc.child_nodes != null);
 				assert (doc.child_nodes.size == 2);
@@ -114,7 +114,7 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 #if DEBUG
 				GLib.message ("Doc: "+STRDOC);
 #endif
-				var doc = new GDocument.from_string (HTMLDOC) as DomDocument;
+				var doc = new XDocument.from_string (HTMLDOC) as DomDocument;
 				assert (doc is DomDocument);
 				var le = doc.get_elements_by_tag_name ("p");
 				assert (le.size == 4);
@@ -122,7 +122,7 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 				assert (le[1].get_attribute ("id") == "p01");
 				var lc = doc.get_elements_by_class_name ("black");
 #if DEBUG
-				GLib.message ("DOC\n"+(doc as GDocument).to_string ());
+				GLib.message ("DOC\n"+(doc as XDocument).to_string ());
 #endif
 				assert (lc.size == 2);
 				assert (lc[0].node_name == "p");
@@ -139,7 +139,7 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 		Test.add_func ("/gxml/dom/element/element_collections", () => {
 			try {
 				GLib.message ("Doc: "+HTMLDOC);
-				var doc = new GDocument.from_string (HTMLDOC) as DomDocument;
+				var doc = new XDocument.from_string (HTMLDOC) as DomDocument;
 				assert (doc is DomDocument);
 				assert (doc.document_element.children.size == 1);
 				var le = doc.document_element.get_elements_by_tag_name ("p");
@@ -166,7 +166,7 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 		});
 		Test.add_func ("/gxml/dom/node", () => {
 			try {
-			var doc = new GDocument.from_string (HTMLDOC) as DomDocument;
+			var doc = new XDocument.from_string (HTMLDOC) as DomDocument;
 			assert (doc is DomDocument);
 			message (doc.write_string ());
 			assert (doc.document_element.children.size == 1);
@@ -342,7 +342,7 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 #if DEBUG
 			GLib.message ("Doc: "+HTMLDOC);
 #endif
-			var doc = new GDocument.from_string (HTMLDOC) as DomDocument;
+			var doc = new XDocument.from_string (HTMLDOC) as DomDocument;
 			assert (doc is DomDocument);
 			assert (doc.document_element.children.size == 1);
 			var n1 = doc.create_element_ns ("http://live.gnome.org/GXml","gxml:code");
@@ -401,7 +401,7 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 #if DEBUG
 				GLib.message ("Doc: "+XMLDOC);
 #endif
-				var doc = new GDocument.from_string (XMLDOC) as DomDocument;
+				var doc = new XDocument.from_string (XMLDOC) as DomDocument;
 				assert (doc.url == "about:blank");
 				assert (doc.document_uri == "about:blank");
 				assert (doc.origin == "");
@@ -442,7 +442,7 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 				assert (lec4.length == 0);
 				var lec5 = doc.get_elements_by_class_name ("node parent");
 #if DEBUG
-				GLib.message ("Doc in use:\n"+(doc as GDocument).libxml_to_string ());
+				GLib.message ("Doc in use:\n"+(doc as XDocument).libxml_to_string ());
 				GLib.message ("Class node found: "+lec5.length.to_string ());
 #endif
 				assert (lec5.length == 3);
@@ -476,8 +476,8 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 #if DEBUG
 				GLib.message ("Doc: "+XMLDOC);
 #endif
-				var doc = new GDocument.from_string (XMLDOC) as DomDocument;
-				var doc2 = new GDocument.from_string (STRDOC) as DomDocument;
+				var doc = new XDocument.from_string (XMLDOC) as DomDocument;
+				var doc2 = new XDocument.from_string (STRDOC) as DomDocument;
 				doc.import_node (doc2.document_element, false);
 #if DEBUG
 				GLib.message ("DOC: "+(doc.document_element as GXml.Node).to_string ());
@@ -496,8 +496,8 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 #if DEBUG
 				GLib.message ("Doc: "+XMLDOC);
 #endif
-				var doc = new GDocument.from_string (XMLDOC) as DomDocument;
-				var doc2 = new GDocument.from_string (STRDOC) as DomDocument;
+				var doc = new XDocument.from_string (XMLDOC) as DomDocument;
+				var doc2 = new XDocument.from_string (STRDOC) as DomDocument;
 				doc2.adopt_node (doc.document_element.children.last ());
 #if DEBUG
 				GLib.message ("DOC: "+(doc.document_element as GXml.Node).to_string ());
@@ -526,7 +526,7 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 		});
 		Test.add_func ("/gxml/dom/character", () => {
 			try {
-				var d = new GDocument () as DomDocument;
+				var d = new XDocument () as DomDocument;
 				var t = d.create_text_node ("TEXT") as DomCharacterData;
 				assert (t.data == "TEXT");
 				assert (t.length == "TEXT".length);

@@ -29,7 +29,7 @@ public class GXml.GXPathObject : GLib.Object, GXml.XPathObject {
   private string _string_value;
   private double _number_value;
 
-  public GXPathObject (GXml.GDocument document, Xml.XPath.Object* pointer) {
+  public GXPathObject (GXml.XDocument document, Xml.XPath.Object* pointer) {
     _collection = new GXml.GDomHTMLCollection();
 
     _object_type = (GXml.XPathObjectType) pointer->type;
