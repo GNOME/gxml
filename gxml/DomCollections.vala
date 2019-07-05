@@ -130,7 +130,7 @@ public class GXml.DomNodeFilter : Object {
   public const int SHOW_DOCUMENT_FRAGMENT = (int) 0x400;
   public const int SHOW_NOTATION = (int) 0x800; // historical
 
-  public delegate int AcceptNode(Node node); // FIXME: Should be a User defined method
+  public delegate int accept_node (DomNode node); // FIXME: Should be a User defined method
 }
 
 
