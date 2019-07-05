@@ -130,7 +130,7 @@ public class GXml.GDocument : GXml.GNode,
   public GXml.DomNode create_text (string text)
   {
     var t = doc->new_text (text);
-    return new GText (this, t);
+    return new XText (this, t);
   }
   public override string to_string ()
   {

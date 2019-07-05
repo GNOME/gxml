@@ -25,9 +25,9 @@ using Gee;
  * DOM4 Class implemeting {@link GXml.Text}
  * and {@link DomText} interface, powered by libxml2 library.
  */
-public class GXml.GText : GXml.XCharacterData, GXml.DomText
+public class GXml.XText : GXml.XCharacterData, GXml.DomText
 {
-  public GText (GDocument doc, Xml.Node *node)
+  public XText (GDocument doc, Xml.Node *node)
   {
     _node = node;
     _doc = doc;
