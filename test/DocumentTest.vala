@@ -335,7 +335,7 @@ class GXml.DocumentTest : GXmlTest {
 			try {
 				DomDocument doc = new GXml.Document.from_string ("<document_element />");
 				DomText text = (DomText) doc.create_text_node ("Star of my dreams");
-				assert (text is GomText);
+				assert (text is GXml.Text);
 				assert (text is DomText);
 
 				assert (text.node_name == "#text");
@@ -367,7 +367,7 @@ class GXml.DocumentTest : GXmlTest {
 			try {
 				DomDocument doc = new GXml.Document.from_string ("<document_element />");
 				DomProcessingInstruction instruction = doc.create_processing_instruction ("target", "data");
-				assert (instruction is GomProcessingInstruction);
+				assert (instruction is GXml.ProcessingInstruction);
 				assert (instruction is DomProcessingInstruction);
 				assert (instruction.node_name == "target");
 				assert (instruction.node_value == "data");

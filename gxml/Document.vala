@@ -220,13 +220,13 @@ public class GXml.Document : GXml.Node,
     return new DocumentFragment (this);
   }
   public DomText create_text_node (string data) throws GLib.Error {
-    return new GomText (this, data);
+    return new GXml.Text (this, data);
   }
   public DomComment GXml.DomDocument.create_comment (string data) throws GLib.Error {
-    return new GomComment (this, data);
+    return new GXml.Comment (this, data);
   }
   public DomProcessingInstruction create_processing_instruction (string target, string data) throws GLib.Error {
-    return new GomProcessingInstruction (this, target, data);
+    return new GXml.ProcessingInstruction (this, target, data);
   }
 
   public DomNode import_node (DomNode node, bool deep = false) throws GLib.Error {
