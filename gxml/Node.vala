@@ -79,7 +79,7 @@ public class GXml.Node : Object,
     get {
       if (this is DomDocument) return (DomDocument) this;
       if (_document == null) {
-        _document = new GomDocument ();
+        _document = new GXml.Document ();
         if (this is DomElement) {
           try { _document.append_child (this); }
           catch (GLib.Error e) { warning (e.message); }

@@ -4,7 +4,7 @@ void create_a_document () throws GLib.Error {
 	string[] authors = { "John Green", "Jane Austen", "J.D. Salinger" };
 	string[] titles = { "The Fault in Our Stars", "Pride & Prejudice", "Nine Stories" };
 
-	DomDocument doc = new GomDocument ();
+	DomDocument doc = new GXml.Document ();
 	DomElement root = doc.create_element ("Bookshelf");
 	doc.append_child (root);
 	DomElement owner = doc.create_element ("Owner");
@@ -21,7 +21,7 @@ void create_a_document () throws GLib.Error {
 		books.append_child (book);
 	}
 
-	stdout.printf ("create_a_document:\n%s\n", (doc as GomDocument).write_string ());
+	stdout.printf ("create_a_document:\n%s\n", (doc as GXml.Document).write_string ());
 }
 
 void create_a_document_from_a_string () throws GLib.Error {
@@ -38,8 +38,8 @@ void create_a_document_from_a_string () throws GLib.Error {
 </Books>
 </Bookshelf>""";
 
-	doc = new GomDocument.from_string (xml);
-	stdout.printf ("create_a_document_from_a_string:\n%s\n", (doc as GomDocument).write_string ());
+	doc = new GXml.Document.from_string (xml);
+	stdout.printf ("create_a_document_from_a_string:\n%s\n", (doc as GXml.Document).write_string ());
 }
 
 void create_a_document_from_a_file (string uri) throws GLib.Error {
@@ -47,16 +47,16 @@ void create_a_document_from_a_file (string uri) throws GLib.Error {
 	stdout.printf (uri+"\n");
 	DomDocument doc;
 
-	doc = new GomDocument.from_file (f);
-	stdout.printf ("create_a_document_from_a_file:\n%s\n", (doc as GomDocument).write_string ());
+	doc = new GXml.Document.from_file (f);
+	stdout.printf ("create_a_document_from_a_file:\n%s\n", (doc as GXml.Document).write_string ());
 }
 
 void create_a_document_from_a_path (string uri) throws GLib.Error {
 	DomDocument doc;
 	GLib.File f = GLib.File.new_for_uri (uri+"/bookshelf2.xml");
 
-	doc = new GomDocument.from_path (f.get_path ());
-	stdout.printf ("create_a_document_from_a_path:\n%s\n", (doc as GomDocument).write_string ());
+	doc = new GXml.Document.from_path (f.get_path ());
+	stdout.printf ("create_a_document_from_a_path:\n%s\n", (doc as GXml.Document).write_string ());
 }
 
 void saving_a_document_to_a_path (string uri) throws GLib.Error {
@@ -74,9 +74,9 @@ void saving_a_document_to_a_path (string uri) throws GLib.Error {
 </Bookshelf>""";
 	GLib.File f = GLib.File.new_for_uri (uri+"/bookshelf2.xml");
 	stdout.printf (f.get_path ()+"\n");
-	doc = new GomDocument.from_string (xml);
+	doc = new GXml.Document.from_string (xml);
 	if (f.query_exists ()) f.delete ();
-	(doc as GomDocument).write_file (f);
+	(doc as GXml.Document).write_file (f);
 	if (!f.query_exists ()) stdout.printf ("Can't save file bookshelf2.xml");
 }
 

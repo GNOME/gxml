@@ -208,7 +208,7 @@ public class GXml.XParser : Object, GXml.Parser {
     if (current_is_element () && (node is DomDocument))
       read_child_element (node);
     else {
-      if (node is GomDocument) {
+      if (node is GXml.Document) {
         read_child_nodes (node);
       }
       if (node is GomElement) {
@@ -416,7 +416,7 @@ public class GXml.XParser : Object, GXml.Parser {
 			if (pid != null) pid = pid.replace ("\"","").chomp ().strip ();
 			string sid = info.fetch_named ("sid");
 			if (sid != null) sid = sid.replace ("\"","").chomp ().strip ();
-      n = new GomDocumentType (_document, tr.const_local_name (), pid, sid);
+      n = new GXml.DocumentType (_document, tr.const_local_name (), pid, sid);
       parent.append_child (n);
       break;
     case Xml.ReaderType.DOCUMENT_FRAGMENT:

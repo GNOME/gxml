@@ -31,7 +31,7 @@ using GXml;
  * If you define a property in a derived class with a nick's name '::ROOT' it
  * will be initialized and used as root node to parse documents.
  */
-public class GXml.GomDocument : GXml.Node,
+public class GXml.Document : GXml.Node,
                               DomParentNode,
                               DomNonElementParentNode,
                               DomDocument,
@@ -79,8 +79,8 @@ public class GXml.GomDocument : GXml.Node,
     _content_type = "application/xml";
     _parser = null;
   }
-  public GomDocument () {}
-  public GomDocument.from_path (string path) throws GLib.Error {
+  public Document () {}
+  public Document.from_path (string path) throws GLib.Error {
     var file = GLib.File.new_for_path (path);
     this.from_file (file);
   }
@@ -88,14 +88,14 @@ public class GXml.GomDocument : GXml.Node,
   /**
    * Creates a document parsing a URI file.
    */
-  public GomDocument.from_uri (string uri) throws GLib.Error {
+  public Document.from_uri (string uri) throws GLib.Error {
     this.from_file (File.new_for_uri (uri));
   }
 
   /**
    * Creates a document parsing a file.
    */
-  public GomDocument.from_file (GLib.File file) throws GLib.Error {
+  public Document.from_file (GLib.File file) throws GLib.Error {
     Parser parser = get_xml_parser ();
     parser.read_file (file);
   }
@@ -131,7 +131,7 @@ public class GXml.GomDocument : GXml.Node,
   /**
    * Creates a document parsing a stream.
    */
-  public GomDocument.from_stream (GLib.InputStream stream) throws GLib.Error {
+  public Document.from_stream (GLib.InputStream stream) throws GLib.Error {
     Parser parser = get_xml_parser ();
     parser.read_stream (stream);
   }
@@ -139,7 +139,7 @@ public class GXml.GomDocument : GXml.Node,
   /**
    * Creates a document parsing a string.
    */
-  public GomDocument.from_string (string str) throws GLib.Error {
+  public Document.from_string (string str) throws GLib.Error {
     Parser parser = get_xml_parser ();
     parser.read_string (str);
   }
@@ -217,7 +217,7 @@ public class GXml.GomDocument : GXml.Node,
   }
 
   public DomDocumentFragment create_document_fragment() {
-    return new GomDocumentFragment (this);
+    return new DocumentFragment (this);
   }
   public DomText create_text_node (string data) throws GLib.Error {
     return new GomText (this, data);
@@ -343,16 +343,16 @@ public class GXml.GomImplementation : GLib.Object, GXml.DomImplementation {
         throws GLib.Error
   {
 
-    return new GomDocumentType.with_ids (new GomDocument (), qualified_name, public_id, system_id); // FIXME
+    return new DocumentType.with_ids (new Document (), qualified_name, public_id, system_id); // FIXME
   }
   public DomXMLDocument create_document (string? namespace,
                                          string? qualified_name,
                                          DomDocumentType? doctype = null)
                                          throws GLib.Error
   {
-    var d = new GomDocument ();
+    var d = new Document ();
     if (doctype != null)
-      d.append_child (new GomDocumentType.with_ids (d,
+      d.append_child (new DocumentType.with_ids (d,
                                                     doctype.name,
                                                     doctype.public_id,
                                                     doctype.system_id));
@@ -365,7 +365,7 @@ public class GXml.GomImplementation : GLib.Object, GXml.DomImplementation {
 }
 
 
-public class GXml.GomDocumentType : GXml.Node,
+public class GXml.DocumentType : GXml.Node,
                                   GXml.DomChildNode,
                                   GXml.DomDocumentType
 {
@@ -381,19 +381,19 @@ public class GXml.GomDocumentType : GXml.Node,
     _node_type = DomNode.NodeType.DOCUMENT_TYPE_NODE;
     _local_name = "!DOCTYPE";
   }
-  public GomDocumentType (DomDocument doc, string name, string? public_id, string? system_id) {
+  public DocumentType (DomDocument doc, string name, string? public_id, string? system_id) {
     _document = doc;
      _name = name;
     _public_id = public_id;
     _system_id = system_id;
   }
-  public GomDocumentType.with_name (DomDocument doc, string name) {
+  public DocumentType.with_name (DomDocument doc, string name) {
     _document = doc;
     _name = name;
     _public_id = "";
     _system_id = "";
   }
-  public GomDocumentType.with_ids (DomDocument doc, string name, string public_id, string system_id) {
+  public DocumentType.with_ids (DomDocument doc, string name, string public_id, string system_id) {
     _document = doc;
     _name = name;
     _public_id = public_id;
@@ -409,12 +409,12 @@ public class GXml.GomDocumentType : GXml.Node,
 }
 
 
-public class GXml.GomDocumentFragment : GXml.Node,
+public class GXml.DocumentFragment : GXml.Node,
                                         GXml.DomParentNode,
                                         GXml.DomNonElementParentNode,
                                         GXml.DomDocumentFragment
 {
-  public GomDocumentFragment (DomDocument doc) {
+  public DocumentFragment (DomDocument doc) {
     _document = doc;
     _node_type = DomNode.NodeType.DOCUMENT_FRAGMENT_NODE;
     _local_name = "#document-fragment";

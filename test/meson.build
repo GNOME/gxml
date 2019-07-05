@@ -9,7 +9,7 @@ files_tests = files ([
 		'ValaLibxml2Test.vala',
 		'XHtmlDocumentTest.vala',
 		'DomXDocumentTest.vala',
-		'GomDocumentTest.vala',
+		'DocumentTest.vala',
 		'GomElementTest.vala',
 		'GomSerializationTest.vala',
 		'GomSchemaTest.vala',

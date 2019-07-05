@@ -29,7 +29,7 @@ class GXmlTest.Suite : Object
     Test.init (ref args);
     Test.add_func ("/gxml/gom-document/performance", () => {
     try {
-      DomDocument d = new GomDocument ();
+      DomDocument d = new GXml.Document ();
       File dir = File.new_for_path (GXmlTestConfig.TEST_DIR);
       assert (dir.query_exists ());
       File f = File.new_for_uri (dir.get_uri ()+"/test-large.xml");

@@ -212,7 +212,7 @@ class GomElementTest : GXmlTest  {
 	Test.add_func ("/gxml/gom-element/read/namespace_uri", () => {
 			DomDocument doc = null;
 			try {
-				doc = new GomDocument.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"><ingredient products:name=\"spider\"/></magic:Potion></Potions>");
+				doc = new GXml.Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"><ingredient products:name=\"spider\"/></magic:Potion></Potions>");
 				GXml.Node root = (GXml.Node) doc.document_element;
 				assert (root != null);
 				assert (root.node_name == "Potions");
@@ -239,7 +239,7 @@ class GomElementTest : GXmlTest  {
 		});
 		Test.add_func ("/gxml/gom-element/namespace_uri", () => {
 			try {
-				GomDocument doc = new GomDocument.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
+				GXml.Document doc = new GXml.Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
 				GXml.Node root = (GXml.Node) doc.document_element;
 				assert (root != null);
 				assert (root.node_name == "Potions");
@@ -274,7 +274,7 @@ class GomElementTest : GXmlTest  {
 		});Test.add_func ("/gxml/gom-element/read/namespace/redefinition", () => {
 			DomDocument doc = null;
 			try {
-				doc = new GomDocument.from_string ("<magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://hogwarts.co.uk/magic\"><magic:Arc/><products:Diamond/></magic:Potion>");
+				doc = new GXml.Document.from_string ("<magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://hogwarts.co.uk/magic\"><magic:Arc/><products:Diamond/></magic:Potion>");
 				var r = doc.document_element;
 				assert (r != null);
 				assert (r.local_name == "Potion");
@@ -299,7 +299,7 @@ class GomElementTest : GXmlTest  {
 		});
 		Test.add_func ("/gxml/gom-element/attributes", () => {
 			try {
-				GomDocument doc = new GomDocument.from_string ("<root />");
+				GXml.Document doc = new GXml.Document.from_string ("<root />");
 				assert (doc.document_element != null);
 				GomElement elem = (GomElement) doc.create_element ("alphanumeric");
 				doc.document_element.child_nodes.add (elem);
@@ -429,7 +429,7 @@ class GomElementTest : GXmlTest  {
 	</class>
 </namespace>
 </repository>""";
-				var d = new GomDocument.from_string (str);
+				var d = new GXml.Document.from_string (str);
 				assert (d.document_element.node_name == "repository");
 				var lt = d.document_element.get_elements_by_tag_name ("class");
 				assert (lt.length == 1);
@@ -444,7 +444,7 @@ class GomElementTest : GXmlTest  {
 		});
 		Test.add_func ("/gxml/gom-element/content/add_aside_child_nodes", () =>{
 			try {
-				var doc = new GomDocument ();
+				var doc = new GXml.Document ();
 				var root = (GomElement) doc.create_element ("root");
 				doc.child_nodes.add (root);
 				var n = (GomElement) doc.create_element ("child");
@@ -461,7 +461,7 @@ class GomElementTest : GXmlTest  {
 		});
 		Test.add_func ("/gxml/gom-element/content/keep_child_nodes", () =>{
 			try {
-				var doc = new GomDocument ();
+				var doc = new GXml.Document ();
 				var root = (GomElement) doc.create_element ("root");
 				doc.child_nodes.add (root);
 				var n = (GomElement) doc.create_element ("child");
@@ -478,7 +478,7 @@ class GomElementTest : GXmlTest  {
 		});
 		Test.add_func ("/gxml/gom-element/parent", () => {
 			try {
-				var doc = new GomDocument.from_string ("<root><child/></root>");
+				var doc = new GXml.Document.from_string ("<root><child/></root>");
 				assert (doc.document_element != null);
 				assert (doc.document_element.parent_node is GXml.DomNode);
 				assert (doc.document_element.parent_node is GXml.DomDocument);
@@ -492,7 +492,7 @@ class GomElementTest : GXmlTest  {
 		});
 		Test.add_func ("/gxml/gom-element/remove", () => {
 			try {
-				var doc = new GomDocument.from_string ("<root><child/></root>");
+				var doc = new GXml.Document.from_string ("<root><child/></root>");
 				assert (doc.document_element != null);
 				assert (doc.document_element.parent_node is GXml.DomNode);
 				assert (doc.document_element.parent_node is GXml.DomDocument);
@@ -574,7 +574,7 @@ class GomElementTest : GXmlTest  {
 		});
 		Test.add_func ("/gxml/gom-element/previous_element_sibling", () => {
 			try {
-				var doc = new GomDocument.from_string ("<root> <child/> <child/></root>");
+				var doc = new GXml.Document.from_string ("<root> <child/> <child/></root>");
 				assert (doc.document_element != null);
 				assert (doc.document_element.parent_node is GXml.DomNode);
 				assert (doc.document_element.parent_node is GXml.DomDocument);
@@ -605,7 +605,7 @@ class GomElementTest : GXmlTest  {
 		});
 		Test.add_func ("/gxml/gom-element/css-selector", () => {
 			try {
-				var d = new GomDocument ();
+				var d = new GXml.Document ();
 				var r = d.create_element ("root");
 				d.append_child (r);
 				var c1 = d.create_element ("child");
