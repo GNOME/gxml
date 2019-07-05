@@ -288,7 +288,7 @@ public class GXml.GomDocument : GomNode,
   }
 
   public DomRange create_range() {
-      return new GDomRange (this);
+      return new GXml.Range (this);
   }
 
   // NodeFilter.SHOW_ALL = 0xFFFFFFFF
