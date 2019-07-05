@@ -49,7 +49,7 @@ valasources = files ([
 	'DomNode.vala',
 	'DomRange.vala',
 	'Enumeration.vala',
-	'GDomEvents.vala',
+	'Event.vala',
 	'GDomRange.vala',
 	'GomArrayList.vala',
 	'GomAttr.vala',
