@@ -251,7 +251,7 @@ public class GXml.XElement : GXml.XNonDocumentChildNode,
 
 
   public DomHTMLCollection get_elements_by_tag_name (string local_name) {
-    var l = new GDomHTMLCollection ();
+    var l = new HTMLCollection ();
     //FIXME: quircks mode not considered
     foreach (GXml.DomElement n in children) {
       if (n.node_name == local_name)
@@ -261,7 +261,7 @@ public class GXml.XElement : GXml.XNonDocumentChildNode,
     return l;
   }
   public DomHTMLCollection get_elements_by_tag_name_ns (string? namespace, string local_name) {
-    var l = new GDomHTMLCollection ();
+    var l = new HTMLCollection ();
     //FIXME: quircks mode not considered
     foreach (GXml.DomElement n in children) {
       if (n.node_name == local_name
@@ -272,7 +272,7 @@ public class GXml.XElement : GXml.XNonDocumentChildNode,
     return l;
   }
   public DomHTMLCollection get_elements_by_class_name (string class_names) {
-    var l = new GDomHTMLCollection ();
+    var l = new HTMLCollection ();
     if (class_names == "") return l;
     string[] cs = {};
     if (" " in class_names) {

@@ -216,19 +216,19 @@ public class GXml.XDocument : GXml.XNode,
   }
 
   public DomHTMLCollection get_elements_by_tag_name (string local_name) {
-      var l = new GDomHTMLCollection ();
+      var l = new HTMLCollection ();
       if (document_element == null) return l;
       l.add_all (document_element.get_elements_by_tag_name (local_name));
       return l;
   }
   public DomHTMLCollection get_elements_by_tag_name_ns (string? ns, string local_name) {
-      var l = new GDomHTMLCollection ();
+      var l = new HTMLCollection ();
       if (document_element == null) return l;
       l.add_all (document_element.get_elements_by_tag_name_ns (ns, local_name));
       return l;
   }
   public DomHTMLCollection get_elements_by_class_name(string class_names) {
-      var l = new GDomHTMLCollection ();
+      var l = new HTMLCollection ();
       if (document_element == null) return l;
       l.add_all (document_element.get_elements_by_class_name (class_names));
       return l;

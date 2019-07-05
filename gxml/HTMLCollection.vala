@@ -25,7 +25,7 @@ using Gee;
 /**
  * DOM4 HTML Collection, powered by libxml2 library.
  */
-public class GXml.GDomHTMLCollection : Gee.ArrayList<GXml.DomElement>,
+public class GXml.HTMLCollection : Gee.ArrayList<GXml.DomElement>,
               GXml.DomHTMLCollection
 {
   public int length { get { return size; } }

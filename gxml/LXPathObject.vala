@@ -23,14 +23,14 @@
  */
 
 public class GXml.LXPathObject : GLib.Object, GXml.XPathObject {
-  private GXml.GDomHTMLCollection _collection;
+  private GXml.HTMLCollection _collection;
   private GXml.XPathObjectType _object_type;
   private bool _boolean_value;
   private string _string_value;
   private double _number_value;
 
   public LXPathObject (GXml.XDocument document, Xml.XPath.Object* pointer) {
-    _collection = new GXml.GDomHTMLCollection();
+    _collection = new GXml.HTMLCollection();
 
     _object_type = (GXml.XPathObjectType) pointer->type;
 
