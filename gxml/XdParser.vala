@@ -20,12 +20,15 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 
-
-private class GXml.GParser : Object, Parser {
+/**
+ * Parser implementation of {@link Parser} to parse {@link XDocument}
+ * documents.
+ */
+private class GXml.XdParser : Object, Parser {
   private XDocument document;
   private DomNode _node;
 
-  public GParser (XDocument doc) {
+  public XdParser (XDocument doc) {
     document = doc;
     _node = doc;
   }
@@ -51,37 +54,37 @@ private class GXml.GParser : Object, Parser {
 	public void read_element (GXml.DomElement element) throws GLib.Error {}
 	public void read_stream (GLib.InputStream stream) throws GLib.Error
 	{
-  var b = new MemoryOutputStream.resizable ();
-  b.splice (stream, 0);
-  if (b.data == null)
-    throw new ParserError.INVALID_STREAM_ERROR (_("stream doesn't provide data"));
-  read_string ((string) b.data);
+    var b = new MemoryOutputStream.resizable ();
+    b.splice (stream, 0);
+    if (b.data == null)
+      throw new ParserError.INVALID_STREAM_ERROR (_("stream doesn't provide data"));
+    read_string ((string) b.data);
 	}
 	public async void read_stream_async (GLib.InputStream stream) throws GLib.Error
 	{
 	  Idle.add (read_stream_async.callback);
-  yield;
-  read_stream (stream);
+    yield;
+    read_stream (stream);
 	}
 	public void read_string (string str) throws GLib.Error
 	{
-  Xml.reset_last_error ();
-  document.doc = Xml.Parser.parse_memory (str, (int) str.length);
-  var e = Xml.get_last_error ();
-  if (e != null) {
-    var errmsg = _("Parser Error for string");
-    string s = XNode.libxml2_error_to_string (e);
-    if (s != null)
-      errmsg = ".  ";
-    throw new GXml.Error.PARSER (errmsg);
-  }
-  if (document.doc == null)
-    document.doc = new Xml.Doc ();
+    Xml.reset_last_error ();
+    document.doc = Xml.Parser.parse_memory (str, (int) str.length);
+    var e = Xml.get_last_error ();
+    if (e != null) {
+      var errmsg = _("Parser Error for string");
+      string s = XNode.libxml2_error_to_string (e);
+      if (s != null)
+        errmsg = ".  ";
+      throw new GXml.Error.PARSER (errmsg);
+    }
+    if (document.doc == null)
+      document.doc = new Xml.Doc ();
 	}
 	public async void read_string_async (string str) throws GLib.Error
 	{
 	  Idle.add (read_string_async.callback);
-  yield;
+    yield;
 	  read_string (str);
 	}
 	public string read_unparsed () throws GLib.Error {
@@ -98,12 +101,12 @@ private class GXml.GParser : Object, Parser {
 	  yield stream.splice_async (istream, OutputStreamSpliceFlags.CLOSE_SOURCE, 0, cancellable);
 	}
 	public string write_string () throws GLib.Error {
-  return document.libxml_to_string ();
+    return document.libxml_to_string ();
 	}
 	public async string write_string_async () throws GLib.Error {
 	  Idle.add (write_string_async.callback);
-  yield;
-  return write_string ();
+    yield;
+    return write_string ();
 	}
 	public bool backup { get; set; }
 	public bool indent { get; set; }

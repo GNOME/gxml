@@ -55,17 +55,17 @@ public class GXml.XDocument : GXml.XNode,
   public XDocument.from_file (GLib.File file, int options = 0, Cancellable? cancel = null) throws GLib.Error {
     if (!file.query_exists ())
       throw new DomDocumentError.INVALID_DOCUMENT_ERROR (_("File doesn't exist"));
-    var parser = new GParser (this);
+    var parser = new XdParser (this);
     parser.cancellable = cancel;
     parser.read_stream (file.read ());
   }
 
   public XDocument.from_string (string str, int options = 0) throws GLib.Error {
-    var parser = new GParser (this);
+    var parser = new XdParser (this);
     parser.read_string (str);
   }
   public XDocument.from_stream (GLib.InputStream istream) throws GLib.Error {
-    var parser = new GParser (this);
+    var parser = new XdParser (this);
     parser.read_stream (istream);
   }
   public XDocument.from_doc (Xml.Doc doc) { this.doc = doc; }
@@ -74,7 +74,7 @@ public class GXml.XDocument : GXml.XNode,
     if (_parser != null) {
       return _parser;
     }
-    return new GParser (this);
+    return new XdParser (this);
   }
   public void set_xml_parser (Parser parser) {
     _parser = parser;
