@@ -23,21 +23,22 @@
 using Gee;
 
 /**
- * DOM4 HTML Collection, powered by libxml2 library.
+ * DOM4 Setteable token list, powered by libxml2 library.
  */
-public class GXml.GDomHTMLCollection : Gee.ArrayList<GXml.DomElement>,
-              GXml.DomHTMLCollection
-{
-  public int length { get { return size; } }
-  public DomElement? item (int index) { return base.get (index); }
-  public DomElement? named_item (string name) {
-    foreach (DomElement e in this) {
-      if (e.node_name == name) return e;
+public class GXml.SettableTokenList : GXml.TokenList, GXml.DomSettableTokenList {
+  public string value {
+    owned get  { return to_string (); }
+    set {
+      string[] s = value.split (" ");
+      for (int i = 0; i < s.length; i++) {
+        (this as Gee.ArrayList<string>).add (s[i]);
+      }
     }
-    return null;
   }
-  // DomHTMLCollection
-  public new GXml.DomElement? get_element (int index) {
-    return (GXml.DomElement) this.get (index);
+
+  public SettableTokenList (DomElement e, string? attr) {
+    base (e, attr);
   }
+
 }
+

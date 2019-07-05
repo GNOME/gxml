@@ -71,6 +71,7 @@ valasources = files ([
 	'Namespace.vala',
 	'NodeType.vala',
 	'Parser.vala',
+	'SettableTokenList.vala',
 	'Schema.vala',
 	'TokenList.vala',
 	'XAttribute.vala',
