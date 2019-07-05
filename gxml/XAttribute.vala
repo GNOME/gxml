@@ -37,7 +37,7 @@ public class GXml.XAttribute : GXml.XNode, GXml.DomAttr
     owned get {
       var l = new Gee.ArrayList<GXml.Namespace> ();
       if (_attr->ns == null) return l;
-      l.add (new GNamespace (_attr->ns));
+      l.add (new XNamespace (_attr->ns));
       return l;
     }
   }
@@ -45,7 +45,7 @@ public class GXml.XAttribute : GXml.XNode, GXml.DomAttr
     owned get {
       if (_attr == null) return null;
       if (_attr->ns == null) return null;
-      return new GNamespace (_attr->ns);
+      return new XNamespace (_attr->ns);
     }
     set {
       if (_attr == null) return;

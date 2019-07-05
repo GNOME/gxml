@@ -41,7 +41,7 @@ public class GXml.XListNamespaces : Gee.AbstractList<GXml.Namespace>
     int i = 0;
     while (ns != null) {
       if (i == index) {
-        return new GNamespace (ns);
+        return new XNamespace (ns);
       }
       ns = ns->next;
       i++;
@@ -50,11 +50,11 @@ public class GXml.XListNamespaces : Gee.AbstractList<GXml.Namespace>
   }
   public override int index_of (GXml.Namespace item) {
     if (_node == null) return -1;
-    if (!(item is GNamespace)) return -1;
+    if (!(item is XNamespace)) return -1;
     var ns = _node->ns_def;
     int i = 0;
     while (ns != null) {
-      if (((GNamespace) item).get_internal_ns () == ns) return i;
+      if (((XNamespace) item).get_internal_ns () == ns) return i;
       ns = ns->next;
       i++;
     }
@@ -74,7 +74,7 @@ public class GXml.XListNamespaces : Gee.AbstractList<GXml.Namespace>
     int i = 0;
     while (ns != null) {
       if (i >= start && i <= stop) {
-        l.add (new GNamespace (ns));
+        l.add (new XNamespace (ns));
       }
       ns = ns->next;
       i++;
@@ -89,11 +89,11 @@ public class GXml.XListNamespaces : Gee.AbstractList<GXml.Namespace>
   }
   public override void clear () {}
   public override bool contains (GXml.Namespace item) {
-    if (!(item is GNamespace)) return false;
+    if (!(item is XNamespace)) return false;
     if (_node == null) return false;
     var ns = _node->ns_def;
     while (ns != null) {
-      if (ns == ((GNamespace) item).get_internal_ns ()) return true;
+      if (ns == ((XNamespace) item).get_internal_ns ()) return true;
     }
     return false;
   }
@@ -130,7 +130,7 @@ public class GXml.XListNamespaces : Gee.AbstractList<GXml.Namespace>
     public int index () { return i; }
     public new void @set (GXml.Namespace item) {}
     // Iterator
-    public new GXml.Namespace @get () { return new GNamespace (_current); }
+    public new GXml.Namespace @get () { return new XNamespace (_current); }
     public bool has_next ()  {
       if (_node->ns_def == null) return false;
       if (_current != null)

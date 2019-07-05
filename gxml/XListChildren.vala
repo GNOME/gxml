@@ -106,7 +106,7 @@ public class GXml.XListChildren : AbstractBidirList<GXml.DomNode>,
   }
   public override bool add (GXml.DomNode item) {
     if (_node == null) return false;
-    if (!(item is GNamespace))
+    if (!(item is XNamespace))
       return (_node->add_child (((XNode) item).get_internal_node ())) != null;
     var ns = (GXml.Namespace) item;
     return (_node->new_ns (ns.uri, ns.prefix)) != null;
