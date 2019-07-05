@@ -38,12 +38,6 @@ configure_file(output : 'config.h',
 valasources = files ([
 	'Collections.vala',
 	'CssSelectorParser.vala',
-	'Attribute.vala',
-	'CDATA.vala',
-	'Character.vala',
-	'Comment.vala',
-	'Document.vala',
-	'DocumentType.vala',
 	'DomAttr.vala',
 	'DomCharacter.vala',
 	'DomCollections.vala',
@@ -54,9 +48,9 @@ valasources = files ([
 	'DomMutationObservers.vala',
 	'DomNode.vala',
 	'DomRange.vala',
-	'Element.vala',
 	'Enumeration.vala',
-	'GHtml.vala',
+	'GDomEvents.vala',
+	'GDomRange.vala',
 	'GomArrayList.vala',
 	'GomAttr.vala',
 	'GomBaseCollection.vala',
@@ -71,66 +65,32 @@ valasources = files ([
 	'GomSchema.vala',
 	'GomStringRef.vala',
 	'GomText.vala',
-	'GXmlAttribute.vala',
-	'GXmlCDATA.vala',
-	'GXmlCharacter.vala',
-	'GXmlChildNode.vala',
-	'GXmlComment.vala',
-	'GXmlDocument.vala',
-	'GXmlDomCollections.vala',
-	'GXmlDomEvents.vala',
-	'GXmlDomRange.vala',
-	'GXmlElement.vala',
-	'GXmlHashMapAttr.vala',
 	'gxml-init.vala',
-	'GXmlListChildren.vala',
-	'GXmlListNamespaces.vala',
-	'GXmlNamespace.vala',
-	'GXmlNode.vala',
-	'GXmlParser.vala',
-	'GXmlProcessingInstruction.vala',
-	'GXmlText.vala',
-	'GXPathObject.vala',
-	'Namespace.vala',
-	'Node.vala',
+	'HTMLCollection.vala',
+	'LXPathObject.vala',
 	'NodeType.vala',
-	'Notation.vala',
 	'Parser.vala',
-	'ProcessingInstruction.vala',
+	'SettableTokenList.vala',
 	'Schema.vala',
-	'Serializable.vala',
-	'SerializableBool.vala',
-	'SerializableContainer.vala',
-	'SerializableDouble.vala',
-	'SerializableEnum.vala',
-	'SerializableFloat.vala',
-	'SerializableGeeArrayList.vala',
-	'SerializableGeeDualKeyMap.vala',
-	'SerializableGeeHashMap.vala',
-	'SerializableGeeTreeMap.vala',
-	'SerializableInt.vala',
-	'SerializableMapDualKey.vala',
-	'SerializableMapKey.vala',
-	'SerializableObjectModel.vala',
-	'SerializableProperty.vala',
-	'SerializableValueList.vala',
-	'TAttribute.vala',
-	'TCDATA.vala',
-	'TComment.vala',
-	'TDocument.vala',
-	'TElement.vala',
-	'Text.vala',
-	'TNamespace.vala',
-	'TNode.vala',
-	'TProcessingInstruction.vala',
-	'TText.vala',
+	'TokenList.vala',
+	'XAttribute.vala',
+	'XCharacter.vala',
+	'XChildNode.vala',
+	'XComment.vala',
+	'XDocument.vala',
+	'XdParser.vala',
+	'XElement.vala',
+	'XHashMapAttr.vala',
+	'XHtmlDocument.vala',
+	'XListChildren.vala',
+	'XNode.vala',
 	'XParser.vala',
-	'XPath.vala'
+	'XPath.vala',
+	'XProcessingInstruction.vala',
+	'XText.vala',
 ])
 
 sources = files ([
-	'xlibxml.c',
-	'xlibxml.h'
 ])
 
 inc_libh = include_directories ('.')
@@ -138,20 +98,21 @@ inc_libh_dep = declare_dependency (include_directories : inc_libh)
 
 # LT_VERSION for ABI related changes
 # From: https://autotools.io/libtool/version.html
-# This rules applies to Meson 0.43
+# This rules applies to Meson 0.43 and newer
 # Increase the current value whenever an interface has been added, removed or changed.
 # Always increase revision value whenever an interface has been added, removed or changed.
 # Increase the age value only if the changes made to the ABI are backward compatible.
 # Set version to the value of subtract age from current
 # Reset current and version to 1 and, age and version to 0 if library's name is changed
-LT_CURRENT='2'
-LT_REVISION='1'
-LT_AGE='1'
-LT_VERSION='1'
+LT_CURRENT='3'
+LT_REVISION='2'
+LT_AGE='0'
+LT_VERSION='2'
 libgxml = library(VERSIONED_PROJECT_NAME,
 	valasources+sources+configvapi,
 	version : LT_VERSION,
 	soversion : LT_VERSION+'.'+LT_AGE+'.'+LT_REVISION,
+	darwin_versions : [LT_CURRENT.to_int() + 1, '@0@.@1@'.format(LT_CURRENT.to_int() + 1, LT_REVISION)],
 	vala_header : PROJECT_NAME+'.h',
 	vala_vapi : VAPI_NAME,
 	vala_gir : GIR_NAME,
@@ -162,7 +123,6 @@ libgxml = library(VERSIONED_PROJECT_NAME,
 	c_args : [
 		'-include',
 		meson.current_build_dir() + '/config.h',
-		xlibxml_cflags
 	],
 	install : true,
 	install_dir : [

@@ -198,19 +198,19 @@ public class GXml.GomDocument : GomNode,
   }
 
   public DomHTMLCollection get_elements_by_tag_name (string local_name) {
-      var l = new GDomHTMLCollection ();
+      var l = new HTMLCollection ();
       if (document_element == null) return l;
       l.add_all (document_element.get_elements_by_tag_name (local_name));
       return l;
   }
   public DomHTMLCollection get_elements_by_tag_name_ns (string? ns, string local_name) {
-      var l = new GDomHTMLCollection ();
+      var l = new HTMLCollection ();
       if (document_element == null) return l;
       l.add_all (document_element.get_elements_by_tag_name_ns (ns, local_name));
       return l;
   }
   public DomHTMLCollection get_elements_by_class_name(string class_names) {
-      var l = new GDomHTMLCollection ();
+      var l = new HTMLCollection ();
       if (document_element == null) return l;
       l.add_all (document_element.get_elements_by_class_name (class_names));
       return l;
@@ -302,7 +302,7 @@ public class GXml.GomDocument : GomNode,
   // DomParentNode
   public DomHTMLCollection children {
     owned get {
-      var l = new GDomHTMLCollection ();
+      var l = new HTMLCollection ();
       foreach (GXml.DomNode n in child_nodes) {
         if (n is DomElement) l.add ((DomElement) n);
       }
@@ -359,8 +359,8 @@ public class GXml.GomImplementation : GLib.Object, GXml.DomImplementation {
     d.append_child (d.create_element_ns (namespace, qualified_name));
     return d as DomXMLDocument;
   } // FIXME
-  public Document create_html_document (string title) {
-    return new GHtmlDocument (); // FIXME:
+  public DomDocument create_html_document (string title) {
+    return new XHtmlDocument (); // FIXME:
   }
 }
 
@@ -422,7 +422,7 @@ public class GXml.GomDocumentFragment : GXml.GomNode,
   // DomParentNode
   public new DomHTMLCollection children {
     owned get {
-      var l = new GDomHTMLCollection ();
+      var l = new HTMLCollection ();
       foreach (GXml.DomNode n in child_nodes) {
         if (n is DomElement) l.add ((DomElement) n);
       }

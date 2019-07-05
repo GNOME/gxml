@@ -249,7 +249,7 @@ public class GXml.GomElement : GomNode,
   // DomParentNode
   public new DomHTMLCollection children {
     owned get {
-      var l = new GDomHTMLCollection ();
+      var l = new HTMLCollection ();
       foreach (GXml.DomNode n in child_nodes) {
         if (n is DomElement) l.add (n as DomElement);
       }
@@ -301,7 +301,7 @@ public class GXml.GomElement : GomNode,
    */
   public DomTokenList class_list {
     owned get {
-      return new GDomTokenList (this, "class");
+      return new GXml.TokenList (this, "class");
     }
   }
 
@@ -687,7 +687,7 @@ public class GXml.GomElement : GomNode,
 
 
   public DomHTMLCollection get_elements_by_tag_name (string local_name) {
-    var l = new GDomHTMLCollection ();
+    var l = new HTMLCollection ();
     //FIXME: quircks mode not considered
     foreach (GXml.DomNode n in child_nodes) {
       if (!(n is DomElement)) continue;
@@ -698,7 +698,7 @@ public class GXml.GomElement : GomNode,
     return l;
   }
   public DomHTMLCollection get_elements_by_tag_name_ns (string? namespace, string local_name) {
-    var l = new GDomHTMLCollection ();
+    var l = new HTMLCollection ();
     //FIXME: quircks mode not considered
     foreach (GXml.DomNode n in child_nodes) {
       if (!(n is DomElement)) continue;
@@ -710,7 +710,7 @@ public class GXml.GomElement : GomNode,
     return l;
   }
   public DomHTMLCollection get_elements_by_class_name (string class_names) {
-    var l = new GDomHTMLCollection ();
+    var l = new HTMLCollection ();
     if (class_names == "") return l;
     string[] cs = {};
     if (" " in class_names) {

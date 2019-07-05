@@ -1,13 +1,12 @@
 ===============
 Version 0.18.0
 ===============
-* GomDocument now can detect default root property, instantiate it
-  on reading
+* GomDocument now can detect default a root property and instantiate it on reading
 * New API in DomDocument and DomElement for read/write operations
 * New serialization methods for DomElement and DomDocument interfaces
 * Now all GomElement attributes are available from 'attributes' property,
   this include basic and Object's implementing GomProperty
-* New CSS Selector machinery thanks to Yannick Inizan <inizan.yannick@gmail.com>
+* New CSS Selectors (Level 3) machinery thanks to Yannick Inizan <inizan.yannick@gmail.com>
 * New Meson setup, to allow GXml as a subproject
 * GomCollection's name renamed to convert them as default interfaces to implement
 * Deprecated TNode and derived classes
@@ -22,9 +21,11 @@ Version 0.18.0
     German     by                Tim Sabsch <tim@sabsch.com>
     Spanish    by                Daniel Mustieles <daniel.mustieles.contractor@bbva.com>
     Swedish    by                Anders Jonsson <anders.jonsson@norsjovallen.se>
-    Brazilian  by                Rafael Fontenelle <rafaelff@gnome.org>
+    Brazilian Portuguese by      Rafael Fontenelle <rafaelff@gnome.org>
     Czech      by                Marek Černocký <marek@manet.cz>
     Polish     by                Piotr Drąg <piotrdrag@gmail.com>
+    French     by                BZHDeveloper <inizan.yannick@gmail.com>
+    Danish     by                Ask Hjorth Larsen <asklarsen@gmail.com>
 
 
 ===============

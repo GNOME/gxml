@@ -6,53 +6,18 @@ testdirs_dep = declare_dependency (compile_args : [
 files_tests = files ([
 		'GXmlTest.vala',
 		'CssSelectorTest.vala',
-		'NodeListTest.vala',
 		'ValaLibxml2Test.vala',
-		'GDocumentTest.vala',
-		'GElementTest.vala',
-		'GAttributeTest.vala',
-		'GHtmlDocumentTest.vala',
-		'DomGDocumentTest.vala',
-		'XPathTest.vala',
+		'XHtmlDocumentTest.vala',
+		'DomXDocumentTest.vala',
 		'GomDocumentTest.vala',
 		'GomElementTest.vala',
 		'GomSerializationTest.vala',
-		'GomSchemaTest.vala'
+		'GomSchemaTest.vala',
+		'XElementTest.vala',
+		'XPathTest.vala',
 	])
 
 tests_cargs = []
-if get_option('enable-tnode-tests')
-files_tests += files ([
-
-	'EnumerationTest.vala',
-	'SerializableTest.vala',
-	'SerializablePropertyBoolTest.vala',
-	'SerializablePropertyDoubleTest.vala',
-	'SerializablePropertyFloatTest.vala',
-	'SerializablePropertyEnumTest.vala',
-	'SerializablePropertyIntTest.vala',
-	'SerializablePropertyValueListTest.vala',
-	'SerializableObjectModelTest.vala',
-	'SerializableObjectModel-TDocument-Test.vala',
-	'SerializableGeeTreeMapTest.vala',
-	'SerializableGeeDualKeyMapTest.vala',
-	'SerializableGeeArrayListTest.vala',
-	'SerializableGeeHashMapTest.vala',
-	'SerializableGeeCollectionsTest.vala',
-	'SerializableGeeCollections-TDocument-Test.vala',
-	'SerializableBasicTypesTest.vala',
-	'gxml-performance.vala',
-	'TElementTest.vala',
-	'TDocumentTest.vala',
-	'TCDATATest.vala',
-	'TCommentTest.vala',
-	'TProcessingInstructionTest.vala',
-	])
-tests_cargs += [
-	'-DENABLE_TNODE_TESTS',
-	'-DENABLE_PERFORMANCE_TESTS'
-	]
-endif
 
 t = executable('tests', files_tests + configvapi + configtestvapi,
 	vala_args : [],
@@ -104,7 +69,7 @@ benchmark ('gom-performance-iterate', gom_performance_iterate)
 
 
 files_libxml_performance = files ([
-		'GXmlDocumentPerformanceTest.vala'
+		'DocumentPerformanceTest.vala'
 	])
 libxml_performance = executable('libxml-performance-load', files_libxml_performance + configvapi + configtestvapi,
 	vala_args : [],
@@ -112,10 +77,10 @@ libxml_performance = executable('libxml-performance-load', files_libxml_performa
 	link_with: libgxml
 )
 
-benchmark ('libxml-performance', libxml_performance)
+benchmark ('libxml-performance-load', libxml_performance)
 
 files_libxml_performance_iterate = files ([
-		'GXmlDocumentPerformanceIterateTest.vala'
+		'DocumentPerformanceIterateTest.vala'
 	])
 
 libxml_performance_iterate = executable('libxml-performance-iterate', files_gom_performance + configvapi + configtestvapi,

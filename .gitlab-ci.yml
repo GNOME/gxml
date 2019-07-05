@@ -20,7 +20,7 @@ before_script:
   - apt update
   - apt -y install $DEPENDENCIES
 
-build-gxml:
+build:
   stage: build
   script:
   - meson _build -Ddisable-introspection=false -Ddisable-valadocs=false
@@ -29,39 +29,10 @@ build-gxml:
   - meson test
   - ninja install
 
-build-autotools:
-  stage: build
-  script:
-  - ./autogen.sh --prefix=/usr
-  - make
-  - make check
-  - make install
-
-package-tar-autotools:
-  stage: deploy
-  script:
-  - ./autogen.sh --prefix=/usr
-  - make
-  - make distcheck
-  artifacts:
-    paths:
-      - ./gxml-*.tar.xz
-
-package-tar-meson:
-  stage: deploy
-  script:
-  - meson _build
-  - cd _build
-  - ninja
-  - ninja dist
-  artifacts:
-    paths:
-      - _build/meson-dist/gxml-*.tar.xz
-
 pages:
   stage: deploy
   script:
-  - meson _build -Ddisable-valadocs=false
+  - meson _build -Ddisable-docs=false
   - cd _build
   - ninja
   - mv docs/GXml-* ../public

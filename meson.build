@@ -1,7 +1,7 @@
-project('gxml', [ 'vala', 'c'], version : '0.17.0')
+project('gxml', [ 'vala', 'c'], version : '0.19.0')
 
 PROJECT_NAME = meson.project_name ()
-API_VERSION = '0.18'
+API_VERSION = '0.20'
 PROJECT_VERSION = meson.project_version ()
 VERSIONED_PROJECT_NAME = PROJECT_NAME+'-'+API_VERSION
 CAMEL_CASE_NAME = 'GXml'
@@ -22,7 +22,7 @@ inc_rooth_dep = declare_dependency (include_directories : inc_rooth)
 subdir('po')
 subdir('vapi')
 subdir('gxml')
-if not get_option('disable-valadocs')
+if not get_option('disable-docs')
 subdir('docs')
 endif
 subdir('test')

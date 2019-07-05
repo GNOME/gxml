@@ -77,7 +77,7 @@ public interface GXml.DomNodeList : GLib.Object, Gee.BidirList<GXml.DomNode>  {
 public interface GXml.DomHTMLCollection : GLib.Object, Gee.BidirList<GXml.DomElement> {
   public abstract new GXml.DomElement? get_element (int index); // FIXME: See bug #768913
   public virtual new GXml.DomElement[] to_array () {
-    return (GXml.DomElement[]) ((Gee.Collection<GXml.Element>) this).to_array ();
+    return (GXml.DomElement[]) ((Gee.Collection<GXml.DomElement>) this).to_array ();
   }
   public virtual int length { get { return (int) size; } }
   public virtual DomElement? item (int index) { return this.get ((int) index); }
@@ -130,7 +130,7 @@ public class GXml.DomNodeFilter : Object {
   public const int SHOW_DOCUMENT_FRAGMENT = (int) 0x400;
   public const int SHOW_NOTATION = (int) 0x800; // historical
 
-  public delegate int AcceptNode(Node node); // FIXME: Should be a User defined method
+  public delegate int accept_node (DomNode node); // FIXME: Should be a User defined method
 }
 
 
