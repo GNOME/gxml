@@ -12,7 +12,7 @@ files_tests = files ([
 		'DocumentTest.vala',
 		'ElementTest.vala',
 		'SerializationTest.vala',
-		'GomSchemaTest.vala',
+		'XsdSchemaTest.vala',
 		'XElementTest.vala',
 		'XPathTest.vala',
 	])

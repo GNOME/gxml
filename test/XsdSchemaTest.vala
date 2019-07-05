@@ -28,7 +28,7 @@ class GomSchemaTest : GXmlTest  {
 			try {
 				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/schema-test.xsd");
 				assert (f.query_exists ());
-				var sch = new GomXsdSchema ();
+				var sch = new XsdSchema ();
 #if DEBUG
 				message ("XSD Empty: "+sch.write_string ());
 				message ("XSD node name: "+sch.node_name);
@@ -39,18 +39,18 @@ class GomSchemaTest : GXmlTest  {
 				message ("XSD: "+sch.write_string ());
 #endif
 				assert (sch.simple_type_definitions != null);
-				var st = sch.simple_type_definitions.get_item (0) as GomXsdSimpleType;
+				var st = sch.simple_type_definitions.get_item (0) as XsdSimpleType;
 				assert (st != null);
 				assert (st.restriction != null);
 				assert (st.restriction.base != null);
 				assert (st.restriction.base == "xs:string");
 				assert (st.restriction.enumerations != null);
 				assert (st.restriction.enumerations.length == 20);
-				var enumt1 = st.restriction.enumerations.get_item (0) as GomXsdTypeRestrictionEnumeration;
+				var enumt1 = st.restriction.enumerations.get_item (0) as XsdTypeRestrictionEnumeration;
 				assert (enumt1 != null);
 				assert (enumt1.value != null);
 				assert (enumt1.value == "01");
-				var enumt20 = st.restriction.enumerations.get_item (19) as GomXsdTypeRestrictionEnumeration;
+				var enumt20 = st.restriction.enumerations.get_item (19) as XsdTypeRestrictionEnumeration;
 				assert (enumt20 != null);
 				assert (enumt20.value != null);
 				assert (enumt20.value == "99");

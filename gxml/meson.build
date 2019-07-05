@@ -60,7 +60,6 @@ valasources = files ([
 	'GomHashThreeMap.vala',
 	'GomObject.vala',
 	'GomProperty.vala',
-	'GomSchema.vala',
 	'GomStringRef.vala',
 	'gxml-init.vala',
 	'HTMLCollection.vala',
@@ -87,6 +86,7 @@ valasources = files ([
 	'XParser.vala',
 	'XPath.vala',
 	'XProcessingInstruction.vala',
+	'XsdSchema.vala',
 	'XText.vala',
 ])
 

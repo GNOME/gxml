@@ -174,7 +174,7 @@ public class GXml.GomXsdArrayString : GomArrayString {
     if (_source == null) return;
     if (!_source.query_exists ()) return;
     if (_simple_type == null) return;
-    var xsd = new GomXsdSchema ();
+    var xsd = new XsdSchema ();
     xsd.read_from_file (_source);
     if (xsd.simple_type_definitions == null) return;
     if (xsd.simple_type_definitions.length == 0) return;
@@ -183,7 +183,7 @@ public class GXml.GomXsdArrayString : GomArrayString {
     message ("SimpleType definitions: "+xsd.simple_type_definitions.length.to_string ());
 #endif
     for (int i = 0; i < xsd.simple_type_definitions.length; i++) {
-      var st = xsd.simple_type_definitions.get_item (i) as GomXsdSimpleType;
+      var st = xsd.simple_type_definitions.get_item (i) as XsdSimpleType;
 #if DEBUG
           message ("Item SimpleType %i is Null %s: ".printf (i, (st == null).to_string ()));
 #endif
@@ -201,7 +201,7 @@ public class GXml.GomXsdArrayString : GomArrayString {
         if (st.restriction.enumerations.length == 0) continue;
         string[] vals = {};
         for (int j = 0; j < st.restriction.enumerations.length; j++) {
-          var en = st.restriction.enumerations.get_item (j) as GomXsdTypeRestrictionEnumeration;
+          var en = st.restriction.enumerations.get_item (j) as XsdTypeRestrictionEnumeration;
           if (en == null) continue;
           if (en.value == null) continue;
 #if DEBUG
