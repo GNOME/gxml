@@ -301,7 +301,7 @@ public class GXml.GomElement : GomNode,
    */
   public DomTokenList class_list {
     owned get {
-      return new GDomTokenList (this, "class");
+      return new GXml.TokenList (this, "class");
     }
   }
 

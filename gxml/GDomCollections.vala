@@ -25,7 +25,7 @@ using Gee;
 /**
  * DOM4 Setteable token list, powered by libxml2 library.
  */
-public class GXml.GDomSettableTokenList : GXml.GDomTokenList, GXml.DomSettableTokenList {
+public class GXml.GDomSettableTokenList : GXml.TokenList, GXml.DomSettableTokenList {
   public string value {
     owned get  { return to_string (); }
     set {
