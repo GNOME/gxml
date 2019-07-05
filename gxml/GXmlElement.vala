@@ -68,11 +68,11 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
       if (ns == null) return null;
       var nsa = _node->has_ns_prop (n,ns->href);
       if (nsa == null) return null;
-      return new GAttribute (_doc, nsa);
+      return new XAttribute (_doc, nsa);
     }
     var p = _node->has_prop (n);
     if (p == null) return null;
-    return new GAttribute (_doc, p);
+    return new XAttribute (_doc, p);
   }
   public void set_ns_attr (string ns, string aname, string value) {
     if (_node == null) return;
@@ -98,7 +98,7 @@ public class GXml.GElement : GXml.GNonDocumentChildNode,
     if (_node == null) return null;
     var a = _node->has_ns_prop (name, uri);
     if (a == null) return null;
-    return new GAttribute (_doc, a);
+    return new XAttribute (_doc, a);
   }
   public new void normalize () {}
   public string content {

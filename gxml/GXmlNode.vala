@@ -56,7 +56,7 @@ public abstract class GXml.GNode : Object,
     if (_node == null) return false;
     return ((_node->new_ns (uri, prefix)) != null);
   }
-  public virtual Gee.Map<string,GXml.DomNode> attrs { owned get { return new GHashMapAttr (_doc, _node) as Gee.Map<string,GXml.DomNode>; } }
+  public virtual Gee.Map<string,GXml.DomNode> attrs { owned get { return new XHashMapAttr (_doc, _node) as Gee.Map<string,GXml.DomNode>; } }
   public virtual Gee.BidirList<GXml.DomNode> children_nodes { owned get { return new GListChildren (_doc, _node) as Gee.BidirList<GXml.DomNode>; } }
   public virtual Gee.List<GXml.Namespace> namespaces { owned get { return new GListNamespaces (_doc, _node) as Gee.List<GXml.Namespace>; } }
   public virtual GXml.DomDocument document { get { return _doc; } }
@@ -100,7 +100,7 @@ public abstract class GXml.GNode : Object,
       case GXml.NodeType.ELEMENT:
         return new GElement (doc, node);
       case GXml.NodeType.ATTRIBUTE:
-        return new GAttribute (doc, (Xml.Attr*) node);
+        return new XAttribute (doc, (Xml.Attr*) node);
       case GXml.NodeType.TEXT:
         return new GText (doc, node);
       case GXml.NodeType.ENTITY_REFERENCE:

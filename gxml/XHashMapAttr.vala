@@ -26,24 +26,24 @@ using Gee;
  * Implementation of {@link Gee.AbstractMap} to handle {@link Xml.Node} attributes,
  * powered by libxml2 library.
  */
-public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.GNode>,
+public class GXml.XHashMapAttr : Gee.AbstractMap<string,GXml.GNode>,
                                   GXml.DomNamedNodeMap
 {
   private GDocument _doc;
   private Xml.Node *_node;
-  public GHashMapAttr (GDocument doc, Xml.Node *node) {
+  public XHashMapAttr (GDocument doc, Xml.Node *node) {
     _node = node;
     _doc = doc;
   }
-  
+
   public class Entry : Gee.Map.Entry<string,GXml.GNode> {
     private GXml.GDocument _doc;
     private Xml.Attr *_attr;
-    private GAttribute oattr;
+    private XAttribute oattr;
     public Entry (GDocument doc, Xml.Attr *attr) {
       _attr = attr;
       _doc = doc;
-      oattr = new GAttribute (_doc, _attr);
+      oattr = new XAttribute (_doc, _attr);
     }
     public override string key { get { return _attr->name; } }
     public override bool read_only { get { return true; } }
@@ -74,7 +74,7 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.GNode>,
         if (ps->name == n) {
           if (ps->ns == null) continue;
           if (ps->ns->prefix == prefix)
-            return new GAttribute (_doc, ps);
+            return new XAttribute (_doc, ps);
         }
         ps = ps->next;
       }
@@ -85,9 +85,9 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.GNode>,
     if (p->ns != null) {
       var npns = _node->has_ns_prop (key, null);
       if (npns != null)
-        return new GAttribute (_doc, npns);
+        return new XAttribute (_doc, npns);
     }
-    return new GAttribute (_doc, p);
+    return new XAttribute (_doc, p);
   }
   public override bool has (string key, GXml.GNode value) { return has_key (key); }
   public override bool has_key (string key) {
@@ -154,7 +154,7 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.GNode>,
       var l = new ArrayList<GXml.GNode> ();
       var p = _node->properties;
       while (p != null) {
-        l.add (new GAttribute (_doc, p));
+        l.add (new XAttribute (_doc, p));
         p = p->next;
       }
       return l;
@@ -177,7 +177,7 @@ public class GXml.GHashMapAttr : Gee.AbstractMap<string,GXml.GNode>,
       return nullstr;
     }
     public GXml.GNode get_value () {
-      return new GAttribute (_doc, _current);
+      return new XAttribute (_doc, _current);
     }
     public bool has_next () {
       if (_node->properties == null) return false;

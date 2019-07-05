@@ -24,10 +24,10 @@ using Gee;
 /**
  * Class implemeting {@link GXml.DomAttr} interface, not tied to libxml-2.0 library.
  */
-public class GXml.GAttribute : GXml.GNode, GXml.DomAttr
+public class GXml.XAttribute : GXml.GNode, GXml.DomAttr
 {
   private Xml.Attr* _attr;
-  public GAttribute (GDocument doc, Xml.Attr *node)
+  public XAttribute (GDocument doc, Xml.Attr *node)
   {
     _attr = node;
     _node = _attr->parent;

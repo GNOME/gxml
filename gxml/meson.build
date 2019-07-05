@@ -64,7 +64,6 @@ valasources = files ([
 	'GomSchema.vala',
 	'GomStringRef.vala',
 	'GomText.vala',
-	'GXmlAttribute.vala',
 	'GXmlCharacter.vala',
 	'GXmlChildNode.vala',
 	'GXmlComment.vala',
@@ -73,7 +72,6 @@ valasources = files ([
 	'GXmlDomEvents.vala',
 	'GXmlDomRange.vala',
 	'GXmlElement.vala',
-	'GXmlHashMapAttr.vala',
 	'gxml-init.vala',
 	'GXmlListChildren.vala',
 	'GXmlListNamespaces.vala',
@@ -87,6 +85,8 @@ valasources = files ([
 	'NodeType.vala',
 	'Parser.vala',
 	'Schema.vala',
+	'XAttribute.vala',
+	'XHashMapAttr.vala',
 	'XParser.vala',
 	'XPath.vala'
 ])
