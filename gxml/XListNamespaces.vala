@@ -25,11 +25,11 @@ using Gee;
 /**
  * A {@link Gee.AbstractList} implementation to access libxml2's {@link Xml.Ns} namespaces collection
  */
-public class GXml.GListNamespaces : Gee.AbstractList<GXml.Namespace>
+public class GXml.XListNamespaces : Gee.AbstractList<GXml.Namespace>
 {
   private XDocument _doc;
   private Xml.Node *_node;
-  public GListNamespaces (XDocument doc, Xml.Node *node) {
+  public XListNamespaces (XDocument doc, Xml.Node *node) {
     _node = node;
     _doc = doc;
   }

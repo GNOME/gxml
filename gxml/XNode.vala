@@ -58,7 +58,7 @@ public abstract class GXml.XNode : Object,
   }
   public virtual Gee.Map<string,GXml.DomNode> attrs { owned get { return new XHashMapAttr (_doc, _node) as Gee.Map<string,GXml.DomNode>; } }
   public virtual Gee.BidirList<GXml.DomNode> children_nodes { owned get { return new XListChildren (_doc, _node) as Gee.BidirList<GXml.DomNode>; } }
-  public virtual Gee.List<GXml.Namespace> namespaces { owned get { return new GListNamespaces (_doc, _node) as Gee.List<GXml.Namespace>; } }
+  public virtual Gee.List<GXml.Namespace> namespaces { owned get { return new XListNamespaces (_doc, _node) as Gee.List<GXml.Namespace>; } }
   public virtual GXml.DomDocument document { get { return _doc; } }
   public virtual GXml.DomNode parent {
     owned get {
