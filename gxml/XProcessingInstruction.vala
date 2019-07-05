@@ -25,10 +25,10 @@ using Gee;
  * DOM4 Class implemeting {@link GXml.ProcessingInstruction} and
  * {@link DomProcessingInstruction} interface, powered by libxml2 library.
  */
-public class GXml.GProcessingInstruction : GXml.XCharacterData,
+public class GXml.XProcessingInstruction : GXml.XCharacterData,
               GXml.DomProcessingInstruction
 {
-  public GProcessingInstruction (GDocument doc, Xml.Node *node)
+  public XProcessingInstruction (GDocument doc, Xml.Node *node)
   {
     _node = node;
     _doc = doc;

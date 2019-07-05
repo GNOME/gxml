@@ -76,7 +76,6 @@ valasources = files ([
 	'GXmlNamespace.vala',
 	'GXmlNode.vala',
 	'GXmlParser.vala',
-	'GXmlProcessingInstruction.vala',
 	'GXPathObject.vala',
 	'Namespace.vala',
 	'NodeType.vala',
@@ -88,6 +87,7 @@ valasources = files ([
 	'XHashMapAttr.vala',
 	'XParser.vala',
 	'XPath.vala',
+	'XProcessingInstruction.vala',
 	'XText.vala',
 ])
 

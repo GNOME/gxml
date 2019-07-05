@@ -124,7 +124,7 @@ public class GXml.GDocument : GXml.GNode,
   public GXml.DomNode create_pi (string target, string data)
   {
     var pi = doc->new_pi (target, data);
-    return new GProcessingInstruction (this, pi);
+    return new XProcessingInstruction (this, pi);
   }
 
   public GXml.DomNode create_text (string text)
