@@ -29,7 +29,7 @@ using Gee;
  * This object avoids pre and post XML parsing, by using a one step parsing
  * to translate text XML tree to an GObject based tree.
  */
-public class GXml.GomNode : Object,
+public class GXml.Node : Object,
                             DomEventTarget,
                             DomNode {
 // DomNode
@@ -252,7 +252,7 @@ public class GXml.GomNode : Object,
   }
 
   public DomNode insert_before (DomNode node, DomNode? child) throws GLib.Error {
-    if (!(node is GXml.GomNode))
+    if (!(node is GXml.Node))
       throw new DomError.INVALID_NODE_TYPE_ERROR
                   (_("Invalid attempt to add invalid node type"));
     if (child != null && !this.contains (child))
@@ -285,17 +285,17 @@ public class GXml.GomNode : Object,
     return node;
   }
   public DomNode append_child (DomNode node) throws GLib.Error {
-    if (!(node is GomNode))
+    if (!(node is GXml.Node))
       throw new DomError.HIERARCHY_REQUEST_ERROR
               (_("Node type is invalid. Can't append as child"));
     if (owner_document != node.owner_document)
       throw new DomError.HIERARCHY_REQUEST_ERROR
               (_("Invalid attempt to append a child with different parent document"));
-    (node as GomNode).set_parent (this);
+    (node as GXml.Node).set_parent (this);
     return insert_before (node, null);
   }
   public DomNode replace_child (DomNode node, DomNode child) throws GLib.Error {
-    if (!(node is GXml.GomNode))
+    if (!(node is GXml.Node))
       throw new DomError.INVALID_NODE_TYPE_ERROR (_("Invalid attempt to add invalid node type"));
     if (child == null || !this.contains (child))
       throw new DomError.NOT_FOUND_ERROR (_("Can't find child node to replace or child have a different parent"));

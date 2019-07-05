@@ -58,7 +58,7 @@ valasources = files ([
 	'GomHashMap.vala',
 	'GomHashPairedMap.vala',
 	'GomHashThreeMap.vala',
-	'GomNode.vala',
+	'Node.vala',
 	'GomObject.vala',
 	'GomProperty.vala',
 	'GomSchema.vala',

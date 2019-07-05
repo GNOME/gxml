@@ -31,7 +31,7 @@ using GXml;
  * If you define a property in a derived class with a nick's name '::ROOT' it
  * will be initialized and used as root node to parse documents.
  */
-public class GXml.GomDocument : GomNode,
+public class GXml.GomDocument : GXml.Node,
                               DomParentNode,
                               DomNonElementParentNode,
                               DomDocument,
@@ -365,7 +365,7 @@ public class GXml.GomImplementation : GLib.Object, GXml.DomImplementation {
 }
 
 
-public class GXml.GomDocumentType : GXml.GomNode,
+public class GXml.GomDocumentType : GXml.Node,
                                   GXml.DomChildNode,
                                   GXml.DomDocumentType
 {
@@ -409,7 +409,7 @@ public class GXml.GomDocumentType : GXml.GomNode,
 }
 
 
-public class GXml.GomDocumentFragment : GXml.GomNode,
+public class GXml.GomDocumentFragment : GXml.Node,
                                         GXml.DomParentNode,
                                         GXml.DomNonElementParentNode,
                                         GXml.DomDocumentFragment

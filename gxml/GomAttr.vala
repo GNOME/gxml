@@ -26,7 +26,7 @@ using Gee;
 /**
  * DOM4 implemenation of {@link DomAttr}.
  */
-public class GXml.GomAttr : GXml.GomNode, GXml.DomAttr {
+public class GXml.GomAttr : GXml.Node, GXml.DomAttr {
   protected string _namespace_uri;
   protected GomProperty prop = null;
   public string local_name { owned get { return _local_name; } }

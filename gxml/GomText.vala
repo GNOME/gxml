@@ -28,7 +28,7 @@ using GXml;
  * This object avoids pre and post XML parsing, by using a one step parsing
  * to translate text XML tree to an GObject based tree.
  */
-public class GXml.GomCharacterData : GomNode,
+public class GXml.GomCharacterData : GXml.Node,
                           DomNonDocumentTypeChildNode,
                           DomChildNode,
                           DomCharacterData

@@ -199,12 +199,12 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 			assert (e.parent_node.has_child_nodes ());
 			e.parent_node.normalize ();
 			assert (e.parent_node.text_content == null);
-			var cn = e.clone_node (false) as DomElement;
+			var cn = (e as XElement).clone_node (false) as DomElement;
 			assert (cn.node_name == "p");
 			assert (cn.get_attribute ("id") == "p01");
 			assert (cn.child_nodes != null);
 			assert (cn.child_nodes.size == 0);
-			var cn2 = e.clone_node (true) as DomElement;
+			var cn2 = (e as XElement).clone_node (true) as DomElement;
 			assert (cn2.node_name == "p");
 			assert (cn2.get_attribute ("id") == "p01");
 			assert (cn2.child_nodes != null);

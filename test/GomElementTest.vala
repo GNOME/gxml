@@ -213,10 +213,10 @@ class GomElementTest : GXmlTest  {
 			DomDocument doc = null;
 			try {
 				doc = new GomDocument.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"><ingredient products:name=\"spider\"/></magic:Potion></Potions>");
-				GXml.GomNode root = (GXml.GomNode) doc.document_element;
+				GXml.Node root = (GXml.Node) doc.document_element;
 				assert (root != null);
 				assert (root.node_name == "Potions");
-				GXml.GomNode node = (GXml.GomNode) root.child_nodes[0];
+				GXml.Node node = (GXml.Node) root.child_nodes[0];
 				assert (node != null);
 				assert (node is DomElement);
 				assert ((node as DomElement).local_name == "Potion");
@@ -240,10 +240,10 @@ class GomElementTest : GXmlTest  {
 		Test.add_func ("/gxml/gom-element/namespace_uri", () => {
 			try {
 				GomDocument doc = new GomDocument.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
-				GXml.GomNode root = (GXml.GomNode) doc.document_element;
+				GXml.Node root = (GXml.Node) doc.document_element;
 				assert (root != null);
 				assert (root.node_name == "Potions");
-				GXml.GomNode node = (GXml.GomNode) root.child_nodes[0];
+				GXml.Node node = (GXml.Node) root.child_nodes[0];
 				assert (node != null);
 				assert (node is DomElement);
 				assert ((node as DomElement).local_name == "Potion");

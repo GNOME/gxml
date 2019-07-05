@@ -82,23 +82,6 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
   public abstract DomNode append_child (DomNode node) throws GLib.Error;
   public abstract DomNode replace_child (DomNode node, DomNode child) throws GLib.Error;
   public abstract DomNode remove_child (DomNode child) throws GLib.Error;
-  public virtual DomNode clone_node (bool deep = false) throws GLib.Error {
-    DomNode n = new GomNode ();
-    if (owner_document == null) return new GomNode ();
-    switch (node_type) {
-      case NodeType.ELEMENT_NODE:
-        n = owner_document.create_element (node_name);
-        copy (owner_document, n, this, true);
-        break;
-      case NodeType.COMMENT_NODE:
-        n = owner_document.create_comment ((this as DomComment).data);
-        break;
-      case NodeType.TEXT_NODE:
-        n = owner_document.create_text_node ((this as DomText).data);
-        break;// FIXME: more nodes
-    }
-    return n;
-  }
     /**
    * Copy a {@link GXml.DomNode} relaying on {@link GXml.DomDocument} to other {@link GXml.DomNode}.
    *

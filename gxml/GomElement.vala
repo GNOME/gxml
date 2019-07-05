@@ -36,7 +36,7 @@ using Gee;
  * just a XML element node and its attributes but not its childs; save its childs
  * as a text, for a post-on-step-parsing.
  */
-public class GXml.GomElement : GomNode,
+public class GXml.GomElement : GXml.Node,
                               DomChildNode,
                               DomNonDocumentTypeChildNode,
                               DomParentNode,
