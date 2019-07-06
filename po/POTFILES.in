@@ -1,23 +1,24 @@
 # List of source files containing translatable strings.
 # Please keep this file sorted alphabetically.
+gxml/BaseCollection.vala
 gxml/Collections.vala
 gxml/CssSelectorParser.vala
+gxml/Document.vala
 gxml/DomCharacter.vala
 gxml/DomNode.vala
-gxml/Enumeration.vala
-gxml/Range.vala
-gxml/BaseCollection.vala
-gxml/Document.vala
 gxml/Element.vala
+gxml/Enumeration.vala
 gxml/HashPairedMap.vala
 gxml/Node.vala
 gxml/Object.vala
-gxml/Property.vala
-gxml/Schema.vala
 gxml/Parser.vala
+gxml/Property.vala
+gxml/Range.vala
+gxml/TokenList.vala
 gxml/XDocument.vala
 gxml/XdParser.vala
 gxml/XElement.vala
 gxml/XHashMapAttr.vala
 gxml/XNode.vala
 gxml/XParser.vala
+gxml/XsdSchema.vala
