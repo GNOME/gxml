@@ -124,25 +124,25 @@ public interface GXml.GomObject : GLib.Object,
   public virtual string? get_property_string (ParamSpec prop) {
     var v = Value(prop.value_type);
     get_property (prop.name, ref v);
-    if (prop.value_type.is_a (typeof(GomProperty))) {
+    if (prop.value_type.is_a (typeof(GXml.Property))) {
 #if DEBUG
-    GLib.message ("Getting GomProperty attribute: "+prop.name);
+    GLib.message ("Getting GXml.Property attribute: "+prop.name);
 #endif
       var so = v.get_object ();
       if (so == null) {
 #if DEBUG
-        GLib.message ("GomProperty is Null");
+        GLib.message ("GXml.Property is Null");
 #endif
         return null;
       }
 #if DEBUG
-      if ((so as GomProperty).value != null) {
-        message ("GomProperty Value: "+(so as GomProperty).value);
+      if ((so as GXml.Property).value != null) {
+        message ("GXml.Property Value: "+(so as GXml.Property).value);
       } else {
-        message ("GomProperty Value Is Null");
+        message ("GXml.Property Value Is Null");
       }
 #endif
-      return (so as GomProperty).value;
+      return (so as GXml.Property).value;
     }
     if (prop.value_type.is_a (typeof (string))) {
       return (string) v;
@@ -178,7 +178,7 @@ public interface GXml.GomObject : GLib.Object,
    * property with given name its value is returned
    * as string representation.
    *
-   * If property is a {@link GomProperty}
+   * If property is a {@link GXml.Property}
    * returned value is a string representation according
    * with object implementation.
    *
@@ -194,22 +194,22 @@ public interface GXml.GomObject : GLib.Object,
     return get_property_string (prop);
   }
   /**
-   * Search for a property of type {@link GomProperty}
+   * Search for a property of type {@link GXml.Property}
    * and returns it as object
    */
-  public virtual GomProperty? find_property (string name) {
+  public virtual GXml.Property? find_property (string name) {
     var prop = find_property_name (name);
     if (prop != null) {
       var v = Value (prop.value_type);
-      if (prop.value_type.is_a (typeof(GomProperty))
+      if (prop.value_type.is_a (typeof(GXml.Property))
           && prop.value_type.is_instantiatable ()) {
         get_property (prop.name, ref v);
-        GomProperty so = (Object) v as GomProperty;
+        GXml.Property so = (Object) v as GXml.Property;
         if (so == null) {
           var obj = Object.new (prop.value_type);
           v.set_object (obj);
           set_property (prop.name, v);
-          so = obj as GomProperty;
+          so = obj as GXml.Property;
         }
         return so;
       }
@@ -229,15 +229,15 @@ public interface GXml.GomObject : GLib.Object,
     var prop = find_property_name (name);
     if (prop != null) {
       var v = Value (prop.value_type);
-      if (prop.value_type.is_a (typeof(GomProperty))
+      if (prop.value_type.is_a (typeof(GXml.Property))
           && prop.value_type.is_instantiatable ()) {
         get_property (prop.name, ref v);
-        GomProperty so = (Object) v as GomProperty;
+        GXml.Property so = (Object) v as GXml.Property;
         if (so == null) {
           var obj = Object.new (prop.value_type);
           v.set_object (obj);
           set_property (prop.name, v);
-          so = obj as GomProperty;
+          so = obj as GXml.Property;
         }
         so.value = val;
         return true;

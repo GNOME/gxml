@@ -495,10 +495,10 @@ public class GXml.XParser : Object, GXml.Parser {
     foreach (ParamSpec pspec in lp) {
       string attname = pspec.get_nick ().replace ("::","");
       string val = null;
-      if (pspec.value_type.is_a (typeof (GomProperty))) {
+      if (pspec.value_type.is_a (typeof (GXml.Property))) {
         Value v = Value (pspec.value_type);
         node.get_property (pspec.name, ref v);
-        GomProperty gp = v.get_object () as GomProperty;
+        GXml.Property gp = v.get_object () as GXml.Property;
         if (gp == null) continue;
         val = gp.value;
       } else {
@@ -603,10 +603,10 @@ public class GXml.XParser : Object, GXml.Parser {
       yield;
       string attname = pspec.get_nick ().replace ("::","");
       string val = null;
-      if (pspec.value_type.is_a (typeof (GomProperty))) {
+      if (pspec.value_type.is_a (typeof (GXml.Property))) {
         Value v = Value (pspec.value_type);
         node.get_property (pspec.name, ref v);
-        GomProperty gp = v.get_object () as GomProperty;
+        GXml.Property gp = v.get_object () as GXml.Property;
         if (gp == null) continue;
         val = gp.value;
       } else {

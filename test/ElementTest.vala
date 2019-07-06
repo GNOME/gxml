@@ -25,7 +25,7 @@ using GXml;
 public interface NoInstantiatable : Object, GomObject {
 	public abstract string name { get; set; }
 }
-public interface Property : Object, GomProperty {}
+public interface Property : Object, GXml.Property {}
 
 class ObjectParent : GXml.Element {
 	construct {
@@ -42,7 +42,7 @@ class ObjectParent : GXml.Element {
 	public ObjectProperty prop2 { get; set; }
 	[Description (nick="::prop3")]
 	public ObjectProperty prop3 { get; set; }
-	public class ObjectProperty : Object, GomProperty {
+	public class ObjectProperty : Object, GXml.Property {
 		public string? value { owned get; set; }
 		public bool validate_value (string? val) {
 			return true;

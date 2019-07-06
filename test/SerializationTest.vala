@@ -914,7 +914,7 @@ class SerializationTest : GXmlTest  {
       assert ("<Motor On=\"false\" Torque=\"0.0000\" Speed=\"1.0000\"/>" in s);
       assert (m.speed != null);
       assert (m is GomObject);
-      assert (m.speed is GomProperty);
+      assert (m.speed is GXml.Property);
       assert (m.speed.get_double () == 1.0);
       assert (m.speed.value != null);
       assert (m.speed.value == "1.0000");

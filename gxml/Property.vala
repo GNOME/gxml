@@ -26,7 +26,7 @@
  * {@link DomElement} attributes. If object is instantiated it is
  * written, if not is just ingnored.
  */
-public interface GXml.GomProperty : Object
+public interface GXml.Property : Object
 {
   /**
    * Attribute's value in the parent {@link DomElement} using a string.
@@ -44,7 +44,7 @@ public interface GXml.GomProperty : Object
 /**
  * Base class for properties implementing {@link GomProperty} interface.
  */
-public abstract class GXml.GomBaseProperty : Object, GXml.GomProperty {
+public abstract class GXml.BaseProperty : Object, GXml.Property {
   /**
    * {@inheritDoc}
    */
@@ -59,7 +59,7 @@ public abstract class GXml.GomBaseProperty : Object, GXml.GomProperty {
  * Convenient class to handle {@link GomElement}'s attributes
  * using validated string using Regular Expressions.
  */
-public class GXml.GomString : GomBaseProperty {
+public class GXml.GomString : GXml.BaseProperty {
   protected string _value = "";
   public override string? value {
     owned get {
@@ -79,7 +79,7 @@ public class GXml.GomString : GomBaseProperty {
  * Convenient class to handle a {@link GomElement}'s attribute
  * using a list of pre-defined and unmutable values.
  */
-public class GXml.GomArrayString : GomBaseProperty {
+public class GXml.GomArrayString : GXml.BaseProperty {
   protected string _value = "";
   protected string[] _values = null;
   public unowned string[] get_values () {
@@ -221,7 +221,7 @@ public class GXml.GomXsdArrayString : GomArrayString {
  *
  * Property is represented as a string.
  */
-public class GXml.GomDouble : GomBaseProperty {
+public class GXml.GomDouble : GXml.BaseProperty {
   protected double _value = 0.0;
   public override string? value {
     owned get {
@@ -271,7 +271,7 @@ public class GXml.GomFloat : GomDouble {
  *
  * Property is represented as a string.
  */
-public class GXml.GomInt : GomBaseProperty {
+public class GXml.GomInt : GXml.BaseProperty {
   protected int _value = 0;
   public override string? value {
     owned get {
@@ -297,7 +297,7 @@ public class GXml.GomInt : GomBaseProperty {
  *
  * Property is represented as a string, using 'true' or 'false'.
  */
-public class GXml.GomBoolean : GomBaseProperty {
+public class GXml.GomBoolean : GXml.BaseProperty {
   protected bool _value = false;
   public override string? value {
     owned get {
@@ -324,7 +324,7 @@ public class GXml.GomBoolean : GomBaseProperty {
  * Enumeration is represented as a string, using its name, independent of
  * value possition in enumeration.
  */
-public class GXml.GomEnum : GomBaseProperty {
+public class GXml.GomEnum : GXml.BaseProperty {
   protected int _value = 0;
   protected Type _enum_type;
   public override string? value {
@@ -374,7 +374,7 @@ public class GXml.GomEnum : GomBaseProperty {
  *
  * Property is represented as a string using a %Y-%m-%d format
  */
-public class GXml.GomDate : GomBaseProperty {
+public class GXml.GomDate : GXml.BaseProperty {
   protected Date _value = Date ();
   public override string? value {
     owned get {
@@ -423,7 +423,7 @@ public class GXml.GomDate : GomBaseProperty {
  * and {@link GLib.DateTime.format} method. If {@link GomDateTime.format}
  * is not set '%FT%T' format is used by default.
  */
-public class GXml.GomDateTime : GomBaseProperty {
+public class GXml.GomDateTime : GXml.BaseProperty {
   protected DateTime _value = null;
   public string format { get; set; }
   public override string? value {

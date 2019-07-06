@@ -28,7 +28,7 @@ using Gee;
  */
 public class GXml.Attr : GXml.Node, GXml.DomAttr {
   protected string _namespace_uri;
-  protected GomProperty prop = null;
+  protected GXml.Property prop = null;
   public string local_name { owned get { return _local_name; } }
   public string name {
     owned get {

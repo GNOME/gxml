@@ -20,7 +20,7 @@
  * Authors:
  *      Daniel Espinosa <esodan@gmail.com>
  */
-public class GXml.StringRef : Object, GomProperty {
+public class GXml.StringRef : Object, GXml.Property {
   GomObject object;
   string name;
   public string? value {

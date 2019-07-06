@@ -40,7 +40,7 @@ class GXml.DocumentTest : GXmlTest {
 			public string text { get; set; }
 			[Description (nick="::prop")]
 			public ObjectProperty prop { get; set; }
-			public class ObjectProperty : Object, GomProperty {
+			public class ObjectProperty : Object, GXml.Property {
 				public string? value { owned get; set; }
 				public bool validate_value (string? val) {
 					return true;
