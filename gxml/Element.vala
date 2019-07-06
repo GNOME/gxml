@@ -274,7 +274,7 @@ public class GXml.Element : GXml.Node,
   public string? prefix { owned get { return _prefix; } }
   /**
    * Derived classes should define it at construction time, using
-   * {@link GomNode._local_name} field. This is the node's name.
+   * {@link GXml.Node._local_name} field. This is the node's name.
    */
   public string local_name {
     owned get {

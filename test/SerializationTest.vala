@@ -260,9 +260,9 @@ class SerializationTest : GXmlTest  {
     [Description (nick="::Month")]
     public Month month { get; set; }
     [Description (nick="::PayDate")]
-    public GomDate pay_date { get; set; }
+    public GXml.Date pay_date { get; set; }
     [Description (nick="::Timestamp")]
-    public GomDateTime timestamp { get; set; }
+    public GXml.DateTime timestamp { get; set; }
     construct { try { initialize ("Taxes"); } catch { assert_not_reached (); } }
     public string to_string () {
       var parser = new XParser (this);
@@ -499,17 +499,17 @@ class SerializationTest : GXmlTest  {
       AC,
       DC
     }
-    public class On : GomBoolean {}
-    public class Torque : GomDouble {}
-    public class Speed : GomFloat {}
-    public class TensionType : GomEnum {
+    public class On : GXml.Boolean {}
+    public class Torque : GXml.Double {}
+    public class Speed : GXml.Float {}
+    public class TensionType : GXml.Enum {
       construct {
         try { initialize_enum (typeof (TensionTypeEnum)); }
         catch { assert_not_reached (); }
       }
     }
-    public class Tension : GomInt {}
-    public class Model : GomArrayString {
+    public class Tension : GXml.Int {}
+    public class Model : GXml.ArrayString {
       construct {
         initialize_strings ({"MODEL1","MODEL2"});
       }
@@ -590,8 +590,8 @@ class SerializationTest : GXmlTest  {
       assert ("monthRate=\"0\"" in s);
       assert ("Month=\"january\"" in s);
       assert ("TaxFree=\"false\"" in s);
-      t.pay_date = new GomDate ();
-      var d = Date ();
+      t.pay_date = new GXml.Date ();
+      var d = GLib.Date ();
       d.set_dmy ((DateDay) 1, (DateMonth) 2, (DateYear) 2017);
       assert (d.valid ());
       assert (t.pay_date != null);
@@ -610,7 +610,7 @@ class SerializationTest : GXmlTest  {
       s = t.to_string ();
       assert (s != null);
       assert ("PayDate=\"2075-03-17\"" in s);
-      var gd = new GomDate ();
+      var gd = new GXml.Date ();
       gd.value = "2076-03-17";
       assert (gd.get_date ().valid ());
       assert (gd.value == "2076-03-17");
@@ -648,8 +648,8 @@ class SerializationTest : GXmlTest  {
       assert ("monthRate=\"0\"" in s);
       assert ("Month=\"january\"" in s);
       assert ("TaxFree=\"false\"" in s);
-      t.timestamp = new GomDateTime ();
-      var d = new DateTime.local (2017,2,10,14,14,20.345);
+      t.timestamp = new GXml.DateTime ();
+      var d = new GLib.DateTime.local (2017,2,10,14,14,20.345);
 #if DEBUG
       s = t.to_string ();
       assert (s != null);

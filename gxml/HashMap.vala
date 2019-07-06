@@ -1,6 +1,6 @@
 /* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /*
- * GomHashMap.vala
+ * GXml.HashMap.vala
  *
  * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
  *
@@ -31,7 +31,7 @@ using Gee;
  * keeps it as a child node of actual {@link Collection.element}.
  *
  * If {@link GXml.Element} to be added is of type {@link Collection.items_type}
- * and implements {@link MappeableElement}, you should set {@link GomHashMap.attribute_key}
+ * and implements {@link MappeableElement}, you should set {@link GXml.HashMap.attribute_key}
  * to null in order to use returned value of {@link MappeableElement.get_map_key}
  * as key.
  *
@@ -40,7 +40,7 @@ using Gee;
  *    [Description (nick="::Name")]
  *    public string name { get; set; }
  *   }
- *   public class YourList : GomHashMap {
+ *   public class YourList : GXml.HashMap {
  *    construct {
  *      try { initialize_with_key (typeof (YourObject),"Name"); }
  *      catch (GLib.Error e) {
@@ -70,7 +70,7 @@ public class GXml.HashMap : GXml.BaseCollection, GXml.Map {
     get { return _attribute_key; } construct set { _attribute_key = value; }
   }
   /**
-   * Convenient function to initialize a {@link GomHashMap} collection, using
+   * Convenient function to initialize a {@link GXml.HashMap} collection, using
    * given element, items' type and name.
    */
   public void initialize_element_with_key (GXml.Element element,
@@ -83,7 +83,7 @@ public class GXml.HashMap : GXml.BaseCollection, GXml.Map {
   }
 
   /**
-   * Convenient function to initialize a {@link GomHashMap} collection, using
+   * Convenient function to initialize a {@link GXml.HashMap} collection, using
    * given element, items' type and name.
    *
    * Using this method at construction time of derived classes.
@@ -121,7 +121,7 @@ public class GXml.HashMap : GXml.BaseCollection, GXml.Map {
     return l;
   }
   /**
-   * Validates if given element has a {@link GomHashMap.attribute_key} set,
+   * Validates if given element has a {@link GXml.HashMap.attribute_key} set,
    * if so adds a new key pointing to given index and returns true.
    *
    * Attribute should be a valid {@link DomElement} attribute or

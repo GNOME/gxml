@@ -79,7 +79,7 @@ class GXml.ElementTest : GXmlTest  {
 		public Property pq { get; set; }
 		construct { initialize ("Top"); }
 	}
-	public class GProperty : GomString, Property {}
+	public class GProperty : GXml.String, Property {}
 	public class GTop : GXml.Element {
 		public NoInstantiatable inst { get; set; }
 		public Instantiatable inst_i {

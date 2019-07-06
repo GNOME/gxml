@@ -1,5 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
-/* GomBaseCollection.vala
+/* BaseCollection.vala
  *
  * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
  *
@@ -107,7 +107,7 @@ public abstract class GXml.BaseCollection : GLib.Object, Traversable<DomElement>
   }
 
   /**
-   * Adds an {@link DomElement} of type {@link GomObject} as a child of
+   * Adds an {@link DomElement} of type {@link GXml.Object} as a child of
    * {@link element}.
    *
    * Object is always added as a child of {@link element}

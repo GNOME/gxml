@@ -46,11 +46,11 @@ public interface GXml.Collection : GLib.Object
    * A {@link GLib.Type} of {@link DomElement} child objects of {@link element},
    * which could be contained in this collection.
    *
-   * Type should be an {@link GomObject}.
+   * Type should be an {@link GXml.Object}.
    */
   public abstract Type items_type { get; construct set; }
   /**
-   * Search and add references to all {@link GomObject} nodes as child of
+   * Search and add references to all {@link GXml.Object} nodes as child of
    * {@link element} with same, case insensitive, name of {@link items_name}
    */
   public abstract void search () throws GLib.Error;
@@ -132,9 +132,9 @@ public interface GXml.List : GLib.Object, Collection, Traversable<DomElement>, I
 
 /**
  * Inteface to be implemented by {@link GXml.Collection} derived classes
- * in order to provide a string to be used in {@link GomHashMap} as key.
+ * in order to provide a string to be used in {@link GXml.HashMap} as key.
  *
- * If {@link GomHashMap} has set its {@link GomHashMap.attribute_key}
+ * If {@link GXml.HashMap} has set its {@link GXml.HashMap.attribute_key}
  * its value has precedence over this method.
  */
 public interface GXml.MappeableElement : GLib.Object, DomElement {
@@ -218,7 +218,7 @@ public interface GXml.PairedMap : GLib.Object, GXml.Collection, Traversable<DomE
  * Inteface to beimplemented by {@link GXml.Collection} derived classes
  * in order to provide a string to be used in {@link GomHashThreeMap} as key.
  *
- * If {@link GomHashMap} has set its {@link GomHashMap.attribute_key}
+ * If {@link GXml.HashMap} has set its {@link GXml.HashMap.attribute_key}
  * its value has precedence over this method.
  */
 public interface GXml.MappeableElementThreeKey : GLib.Object, DomElement {

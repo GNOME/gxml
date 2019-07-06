@@ -63,7 +63,7 @@ class GomSchemaTest : GXmlTest  {
 			try {
 				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/schema-test.xsd");
 				assert (f.query_exists ());
-				var ars = new GomXsdArrayString ();
+				var ars = new GXml.XsdArrayString ();
 				ars.simple_type = "MethodCode";
 				ars.source = f;
 				ars.load ();

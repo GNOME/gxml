@@ -106,7 +106,7 @@ public class GXml.XsdTypeRestrictionWhiteSpace: XsdTypeRestrictionDef {
                               IXsdSchema.SCHEMA_NAMESPACE_PREFIX,
                               IXsdTypeRestrictionWhiteSpace.SCHEMA_NODE_NAME);
   }
-  public class Fixed : GomBoolean {}
+  public class Fixed : GXml.Boolean {}
 }
 public class GXml.XsdTypeRestrictionPattern : XsdTypeRestrictionDef {}
 public class GXml.XsdTypeRestrictionAssertion : XsdTypeRestrictionDef {}

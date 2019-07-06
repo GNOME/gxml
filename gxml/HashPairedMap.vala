@@ -91,7 +91,7 @@ public class GXml.HashPairedMap : GXml.BaseCollection, GXml.PairedMap {
     get { return _attribute_secondary_key; } construct set { _attribute_secondary_key = value; }
   }
   /**
-   * Convenient function to initialize a {@link GomHashMap} collection, using
+   * Convenient function to initialize a {@link GXml.HashMap} collection, using
    * given element, items' type and name.
    */
   public void initialize_element_with_keys (GXml.Element element,
@@ -106,7 +106,7 @@ public class GXml.HashPairedMap : GXml.BaseCollection, GXml.PairedMap {
   }
 
   /**
-   * Convenient function to initialize a {@link GomHashMap} collection, using
+   * Convenient function to initialize a {@link GXml.HashMap} collection, using
    * given element, items' type and name.
    *
    * Using this method at construction time of derived classes.

@@ -72,7 +72,7 @@ public interface GXml.Object : GLib.Object,
     return null;
   }
   /**
-   * Returns a {@link GomObject} or a {@link Collection} property's
+   * Returns a {@link GXml.Object} or a {@link Collection} property's
    * {@link GLib.ParamSpec} based on given name. This method is
    * case insensitive.
    *
@@ -373,10 +373,10 @@ public interface GXml.Object : GLib.Object,
    * If Object's property has been set, this method overwrite it.
    *
    * {{{
-   * class NodeA : GomObject {
+   * class NodeA : GXml.Object {
    *   construct { try { initialize ("NodeA"); } catch { warning ("Can't initialize); }
    * }
-   * class NodeB : GomObject {
+   * class NodeB : GXml.Object {
    *   public NodeA node { get; set; }
    * }
    *
