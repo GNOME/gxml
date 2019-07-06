@@ -1,6 +1,6 @@
 /* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /*
- * GomHashThreeMap.vala
+ * HashThreeMap.vala
  *
  * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
  *
@@ -126,7 +126,7 @@ public class GXml.HashThreeMap : GXml.BaseCollection, ThreeMap {
   }
 
   /**
-   * Convenient function to initialize a {@link GomHashMap} collection, using
+   * Convenient function to initialize a {@link GXml.HashMap} collection, using
    * given element, items' type and name.
    *
    * Using this method at construction time of derived classes.
@@ -232,7 +232,7 @@ public class GXml.HashThreeMap : GXml.BaseCollection, ThreeMap {
    * if so adds a new keys pointing to given index and returns true.
    *
    * Attribute should be a valid {@link DomElement} attribute or
-   * a {@link GomObject} property identified using a nick with a '::' prefix.
+   * a {@link GXml.Object} property identified using a nick with a '::' prefix.
    *
    * If there are more elements with same keys, they are kept as child nodes
    * but the one in collection will be the last one to be found.

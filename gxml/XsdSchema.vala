@@ -278,7 +278,7 @@ public class GXml.XsdList : ArrayList {
     return -1;
   }/*
   public DomElement? XsdList.get_item (int index) {
-    return (this as GomArrayList).get_item (index);
+    return (this as GXml.ArrayList).get_item (index);
   }*/
 }
 

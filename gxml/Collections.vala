@@ -168,7 +168,7 @@ public interface GXml.Map : GLib.Object, GXml.Collection, Traversable<DomElement
 
 /**
  * Inteface to be implemented by {@link GXml.Collection} derived classes
- * in order to provide a strings to be used in {@link GomHashPairedMap} as keys.
+ * in order to provide a strings to be used in {@link GXml.HashPairedMap} as keys.
  */
 public interface GXml.MappeableElementPairKey : GLib.Object, DomElement {
   public abstract string get_map_primary_key ();
@@ -216,7 +216,7 @@ public interface GXml.PairedMap : GLib.Object, GXml.Collection, Traversable<DomE
 
 /**
  * Inteface to beimplemented by {@link GXml.Collection} derived classes
- * in order to provide a string to be used in {@link GomHashThreeMap} as key.
+ * in order to provide a string to be used in {@link GXml.HashThreeMap} as key.
  *
  * If {@link GXml.HashMap} has set its {@link GXml.HashMap.attribute_key}
  * its value has precedence over this method.

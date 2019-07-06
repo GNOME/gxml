@@ -25,7 +25,7 @@ using GXml;
 /**
  * A GXml Object Model represents a {@link DomElement}. It has attributes
  * and children. All object's properties are handled as attributes if they are
- * basic types like integers, strings, enums and others; {@link SerializableProperty}
+ * basic types like integers, strings, enums and others; {@link Property}
  * objects are handled as attributes too. If object's attribute is a {@link GLib.Object}
  * it is handled as node's child, but only if it is a {@link GXml.Element} object,
  * other wise it is ignored when this object is used as {@link DomNode} in XML

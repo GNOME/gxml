@@ -176,7 +176,7 @@ public class GXml.HashPairedMap : GXml.BaseCollection, GXml.PairedMap {
    * if so adds a new keys pointing to given index and returns true.
    *
    * Attribute should be a valid {@link DomElement} attribute or
-   * a {@link GomObject} property identified using a nick with a '::' prefix.
+   * a {@link GXml.Object} property identified using a nick with a '::' prefix.
    *
    * If there are more elements with same keys, they are kept as child nodes
    * but the one in collection will be the last one to be found.

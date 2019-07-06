@@ -123,39 +123,39 @@ public interface GXml.DomElement : GLib.Object,
    */
   public virtual async string write_string_async (Cancellable? cancellable = null) throws GLib.Error { return ""; }
   /**
-   * Uses element's {@link GomDocument} to write an XML to a file, serializing it.
+   * Uses element's {@link GXml.Document} to write an XML to a file, serializing it.
    */
   public virtual void write_file (GLib.File f, Cancellable? cancellable = null) throws GLib.Error {
     owner_document.write_file (f, cancellable);
   }
   /**
-   * Uses element's {@link GomDocument} to write asynchronically an XML to a file, serializing it.
+   * Uses element's {@link GXml.Document} to write asynchronically an XML to a file, serializing it.
    */
   public virtual async void write_file_async (GLib.File f, Cancellable? cancellable = null) throws GLib.Error {
     yield this.owner_document.write_file_async (f);
   }
   /**
-   * Uses element's {@link GomDocument} to write an XML to a stream, serializing it.
+   * Uses element's {@link GXml.Document} to write an XML to a stream, serializing it.
    */
   public virtual void write_stream (GLib.OutputStream stream) throws GLib.Error {
     owner_document.write_stream (stream);
   }
   /**
-   * Uses element's {@link GomDocument} to write an XML to a stream, serializing it.
+   * Uses element's {@link GXml.Document} to write an XML to a stream, serializing it.
    */
   public virtual async void write_stream_async (GLib.OutputStream stream, Cancellable? cancellable = null) throws GLib.Error {
     yield this.owner_document.write_stream_async (stream);
   }
   /**
    * Creates an {@link GLib.InputStream} to write a string representation
-   * in XML of {@link GXml.Element} using node's {@link GomDocument}
+   * in XML of {@link GXml.Element} using node's {@link GXml.Document}
    */
   public virtual InputStream create_stream () throws GLib.Error {
     return this.owner_document.create_stream ();
   }
   /**
    * Creates an {@link GLib.InputStream} to write a string representation
-   * in XML of {@link GXml.Element} using node's {@link GomDocument}
+   * in XML of {@link GXml.Element} using node's {@link GXml.Document}
    */
   public virtual async InputStream create_stream_async (Cancellable? cancellable = null) throws GLib.Error {
     return yield this.owner_document.create_stream_async ();
