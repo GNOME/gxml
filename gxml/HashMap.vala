@@ -51,7 +51,7 @@ using Gee;
  *   }
  * }}}
  */
-public class GXml.GomHashMap : GXml.BaseCollection, GXml.Map {
+public class GXml.HashMap : GXml.BaseCollection, GXml.Map {
   /**
    * A hashtable with all keys as string to node's index refered. Don't modify it manually.
    */
@@ -158,7 +158,7 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.Map {
     return true;
   }
   public override void clear () {
-    _hashtable = new HashMap<string,int> ();
+    _hashtable = new Gee.HashMap<string,int> ();
   }
   public DomElement? item (string key) { return get (key); }
   public Gee.Set<string> keys_set {

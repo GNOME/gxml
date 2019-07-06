@@ -370,7 +370,7 @@ public class GXml.Element : GXml.Node,
    * and it's value as value. Appends namespace prefix to attribute's name as
    * key if is a namespaced attribute.
    */
-  public class Attributes : HashMap<string,DomNode>, DomNamedNodeMap  {
+  public class Attributes : Gee.HashMap<string,DomNode>, DomNamedNodeMap  {
     private TreeMap<long,string> order = new TreeMap<long,string> ();
     /**
      * Holds {@link GXml.Element} refrence to attributes' parent element.

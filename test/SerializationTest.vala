@@ -51,7 +51,7 @@ class ThreeKey : GXml.Element, MappeableElementThreeKey {
   public string get_map_pkey () { return id; }
   public string get_map_skey () { return code; }
   public string get_map_tkey () { return name; }
-  public class Map : GomHashThreeMap {
+  public class Map : GXml.HashThreeMap {
     construct {
       try { initialize (typeof (ThreeKey)); }
       catch (GLib.Error e) { message ("Error: "+e.message); }
@@ -83,7 +83,7 @@ class Operation : GXml.Element, MappeableElementPairKey {
   construct { try { initialize ("Operation"); } catch { assert_not_reached (); } }
   public string get_map_primary_key () { return id; }
   public string get_map_secondary_key () { return code; }
-  public class Map : GomHashPairedMap {
+  public class Map : GXml.HashPairedMap {
     construct {
       try { initialize (typeof (Operation)); }
       catch (GLib.Error e) { message ("Error: "+e.message); }
@@ -128,7 +128,7 @@ class GomInventory : GXml.Element
   public string inventory { get; set; }
   construct { try { initialize ("Inventory"); } catch { assert_not_reached (); } }
   // FIXME: Add DualKeyMap implementation to GOM
-  public class DualKeyMap : GomHashMap {
+  public class DualKeyMap : GXml.HashMap {
     construct {
       try { initialize_with_key (typeof (GomInventory), "number"); }
       catch { assert_not_reached (); }
@@ -141,7 +141,7 @@ class GomCategory : GXml.Element
   [Description (nick="::Name")]
   public string name { get; set; }
   construct { try { initialize ("Category"); } catch { assert_not_reached (); } }
-  public class Map : GomHashMap {
+  public class Map : GXml.HashMap {
     construct {
       try { initialize_with_key (typeof (GomCategory), "name");  }
       catch { assert_not_reached (); }
@@ -157,7 +157,7 @@ class GomResume : GXml.Element
   [Description (nick="::Text")]
   public string text { get; set; }
   construct { try { initialize ("Resume"); } catch { assert_not_reached (); } }
-  public class Map : GomHashMap {
+  public class Map : GXml.HashMap {
     construct {
       try { initialize_with_key (typeof (GomResume), "chapter"); }
       catch { assert_not_reached (); }
@@ -427,25 +427,25 @@ class SerializationTest : GXmlTest  {
       catch { assert_not_reached (); }
     }
   }
-  public class HashRegisters : GomHashMap {
+  public class HashRegisters : GXml.HashMap {
     construct {
       try { initialize (typeof (BookRegister)); }
       catch { assert_not_reached (); }
     }
   }
-  public class HashPairRegisters : GomHashPairedMap {
+  public class HashPairRegisters : GXml.HashPairedMap {
     construct {
       try { initialize (typeof (BookRegister)); }
       catch { assert_not_reached (); }
     }
   }
-  public class HashThreeRegisters : GomHashThreeMap {
+  public class HashThreeRegisters : GXml.HashThreeMap {
     construct {
       try { initialize (typeof (BookRegister)); }
       catch { assert_not_reached (); }
     }
   }
-  public class Books : GomHashMap {
+  public class Books : GXml.HashMap {
     construct {
       try { initialize_with_key (typeof (Book), "Name"); }
       catch { assert_not_reached (); }

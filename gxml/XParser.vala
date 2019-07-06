@@ -622,7 +622,7 @@ public class GXml.XParser : Object, GXml.Parser {
     foreach (string ak in (node as DomElement).attributes.keys) {
       Idle.add (start_node_async.callback);
       yield;
-      string v = ((node as DomElement).attributes as HashMap<string,string>).get (ak);
+      string v = ((node as DomElement).attributes as Gee.HashMap<string,string>).get (ak);
       if ("xmlns:" in ak) {
         string ns = (node as DomElement).namespace_uri;
         if (ns != null) {

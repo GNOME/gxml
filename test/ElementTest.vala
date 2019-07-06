@@ -116,7 +116,7 @@ class GXml.ElementTest : GXmlTest  {
 		public Method.Map methods { get; set; }
 		construct { initialize ("ingredient"); }
 		public string get_map_key () { return cname; }
-		public class Map : GomHashMap {
+		public class Map : GXml.HashMap {
 			construct {
 				try {
 					initialize (typeof (Ingredient));
@@ -129,7 +129,7 @@ class GXml.ElementTest : GXmlTest  {
 		public string cname { get; set; }
 		construct { initialize ("method"); }
 		public string get_map_key () { return cname; }
-		public class Map : GomHashMap {
+		public class Map : GXml.HashMap {
 			construct {
 				try {
 					initialize (typeof (Method));
@@ -201,7 +201,7 @@ class GXml.ElementTest : GXmlTest  {
     }
 
     public string get_map_key () { return name; }
-    public class Map : GomHashMap {
+    public class Map : GXml.HashMap {
       construct {
         try { initialize (typeof (TClass)); }
         catch (GLib.Error e) { warning ("Error: "+e.message); }
