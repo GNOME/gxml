@@ -339,7 +339,7 @@ public class GXml.XDocument : GXml.XNode,
   public DomNodeList query_selector_all (string selectors) throws GLib.Error  {
     var cs = new CssSelectorParser ();
     cs.parse (selectors);
-    var l = new GomNodeList();
+    var l = new GXml.NodeList();
     foreach (GXml.DomNode e in children_nodes) {
       if (!(e is DomElement)) continue;
       if (cs.match (e as DomElement))

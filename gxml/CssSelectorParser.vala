@@ -685,7 +685,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 	}
 	
 	public GXml.DomNodeList query_selector_all (GXml.DomElement element) throws GLib.Error {
-		var list = new GXml.GomNodeList();
+		var list = new GXml.NodeList();
 		foreach (GXml.DomElement child in element.children) {
 			if (match (child))
 				list.add (child);

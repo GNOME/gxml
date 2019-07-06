@@ -38,7 +38,7 @@ public class GXml.Document : GXml.Node,
                               DomXMLDocument
 {
   // DomDocument implementation
-  protected DomImplementation _implementation = new GomImplementation ();
+  protected DomImplementation _implementation = new GXml.Implementation ();
   protected string _url;
   protected string _origin;
   protected string _compat_mode;
@@ -320,7 +320,7 @@ public class GXml.Document : GXml.Node,
   public DomNodeList query_selector_all (string selectors) throws GLib.Error  {
     var cs = new CssSelectorParser ();
     cs.parse (selectors);
-    var l = new GomNodeList();
+    var l = new GXml.NodeList();
     foreach (DomNode e in child_nodes) {
       if (!(e is DomElement)) continue;
       if (cs.match (e as DomElement))
@@ -337,7 +337,7 @@ public class GXml.Document : GXml.Node,
   }
 }
 
-public class GXml.GomImplementation : GLib.Object, GXml.DomImplementation {
+public class GXml.Implementation : GLib.Object, GXml.DomImplementation {
   public DomDocumentType
     create_document_type (string qualified_name, string public_id, string system_id)
         throws GLib.Error

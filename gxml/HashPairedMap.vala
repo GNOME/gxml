@@ -1,6 +1,6 @@
 /* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /*
- * GomHashPairedMap.vala
+ * HashPairedMap.vala
  *
  * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
  *

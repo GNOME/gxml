@@ -28,11 +28,11 @@ using Gee;
  * child {@link DomElement} of {@link Collection.element}, using an index.
  *
  * {{{
- *   public class YourObject : GomElement {
+ *   public class YourObject : GXml.Element {
  *    [Description (nick="::Name")]
  *    public string name { get; set; }
  *   }
- *   public class YourList : GomArrayList {
+ *   public class YourList : GXml.ArrayList {
  *    construct {
  *      try { initialize (typeof (YourObject)); }
  *      catch (GLib.Error e) {

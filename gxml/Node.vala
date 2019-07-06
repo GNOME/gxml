@@ -62,7 +62,7 @@ public class GXml.Node : GLib.Object,
   /**
    * Use this field to set node's child nodes. Derived classes should avoid to modify it.
    */
-  protected GomNodeList _child_nodes;
+  protected GXml.NodeList _child_nodes;
   public DomNode.NodeType node_type { get { return _node_type; } }
   public string node_name {
     owned get {
@@ -164,7 +164,7 @@ public class GXml.Node : GLib.Object,
     _node_type = DomNode.NodeType.INVALID;
     _base_uri = null;
     _node_value = null;
-    _child_nodes = new GomNodeList ();
+    _child_nodes = new GXml.NodeList ();
     _parent = null;
   }
 
@@ -341,7 +341,7 @@ public class GXml.Node : GLib.Object,
 /**
  * List of {@link DomNode} implementing {@link DomNodeList}
  */
-public class GXml.GomNodeList : Gee.ArrayList<DomNode>, DomNodeList {
+public class GXml.NodeList : Gee.ArrayList<DomNode>, DomNodeList {
   public DomNode? item (int index) { return base.get (index); }
   public int length { get { return size; } }
 }
