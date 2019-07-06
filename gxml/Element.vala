@@ -314,7 +314,7 @@ public class GXml.Element : GXml.Node,
         string name = pspec.get_nick ().replace ("::", "");
         var p = _attributes.get (name.down ());
         if (p == null) {
-          GomProperty prop = new GomStringRef (this, name);
+          GomProperty prop = new StringRef (this, name);
           _attributes.add_reference (name);
         }
       }

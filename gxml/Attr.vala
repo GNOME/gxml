@@ -86,6 +86,6 @@ public class GXml.Attr : GXml.Node, GXml.DomAttr {
     _parent = element;
     _local_name = name;
     _node_value = null;
-    prop = new GomStringRef (element as GomObject, name);
+    prop = new StringRef (element as GomObject, name);
   }
 }

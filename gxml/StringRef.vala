@@ -20,7 +20,7 @@
  * Authors:
  *      Daniel Espinosa <esodan@gmail.com>
  */
-public class GXml.GomStringRef : Object, GomProperty {
+public class GXml.StringRef : Object, GomProperty {
   GomObject object;
   string name;
   public string? value {
@@ -32,7 +32,7 @@ public class GXml.GomStringRef : Object, GomProperty {
     }
   }
   public bool validate_value (string? val) { return true; }
-  public GomStringRef (GomObject obj, string name)  {
+  public StringRef (GomObject obj, string name)  {
       object = obj;
       this.name = name;
   }
