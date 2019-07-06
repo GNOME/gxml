@@ -1,5 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
-/* GXmlDocumentPerformanceTest.vala
+/* GomDocumentPerformanceTest.vala
  *
  * Copyright (C) 2019 Daniel Espinosa <esodan@gmail.com>
  *
@@ -21,28 +21,28 @@
  */
 
 using GXml;
-class GXmlTest.Suite : Object
+class GXmlTest.Suite : GLib.Object
 {
   static int main (string[] args)
   {
     GLib.Intl.setlocale (GLib.LocaleCategory.ALL, "");
     Test.init (ref args);
-    Test.add_func ("/gxml/x-document/performance", () => {
-      try {
-        DomDocument d = new XDocument ();
-        File dir = File.new_for_path (GXmlTestConfig.TEST_DIR);
-        assert (dir.query_exists ());
-        File f = File.new_for_uri (dir.get_uri ()+"/test-large.xml");
-        assert (f.query_exists ());
-        Test.timer_start ();
-        d.read_from_file (f);
-        var t = Test.timer_elapsed ();
-        message ("Elapsed time: %g", t);
-      } catch (GLib.Error e) {
-        warning ("Error: %s", e.message);
-        assert_not_reached ();
-      }
-    });
-    return Test.run ();
-  }
+    Test.add_func ("/gxml/gom-document/performance", () => {
+    try {
+      DomDocument d = new GXml.Document ();
+      File dir = File.new_for_path (GXmlTestConfig.TEST_DIR);
+      assert (dir.query_exists ());
+      File f = File.new_for_uri (dir.get_uri ()+"/test-large.xml");
+      assert (f.query_exists ());
+      Test.timer_start ();
+      d.read_from_file (f);
+      var t = Test.timer_elapsed ();
+      message ("Elapsed time: %g", t);
+    } catch (GLib.Error e) {
+      warning ("Error: %s", e.message);
+      assert_not_reached ();
+    }
+  });
+  return Test.run ();
+}
 }

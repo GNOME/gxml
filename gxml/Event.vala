@@ -23,7 +23,7 @@
 /**
  * DOM4 An event handler, powered by libxml2 library.
  */
-public class GXml.Event : Object, GXml.DomEvent {
+public class GXml.Event : GLib.Object, GXml.DomEvent {
 	protected string _etype;
 	protected DomEventTarget _event_target;
 	protected DomEventTarget _current_target;

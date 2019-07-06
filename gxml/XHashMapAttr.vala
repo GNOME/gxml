@@ -160,7 +160,7 @@ public class GXml.XHashMapAttr : Gee.AbstractMap<string,GXml.XNode>,
       return l;
     }
   }
-  public class Iterator : Object, MapIterator<string,GXml.XNode> {
+  public class Iterator : GLib.Object, MapIterator<string,GXml.XNode> {
     private GXml.XDocument _doc;
     private Xml.Node *_node;
     private Xml.Attr *_current;

@@ -93,7 +93,7 @@ public interface GXml.DomHTMLCollection : GLib.Object, Gee.BidirList<GXml.DomEle
 /**
  * No implemented jet. This can lead to API changes in future versions.
  */
-public interface GXml.DomNodeIterator {
+public interface GXml.DomNodeIterator : GLib.Object {
   public abstract DomNode root { get; }
   public abstract DomNode reference_node { get; }
   public abstract bool pointer_before_reference_node { get; }
@@ -109,7 +109,7 @@ public interface GXml.DomNodeIterator {
 /**
  * No implemented jet. This can lead to API changes in future versions.
  */
-public class GXml.DomNodeFilter : Object {
+public class GXml.DomNodeFilter : GLib.Object {
   // Constants for acceptNode()
   public const int FILTER_ACCEPT = 1;
   public const int FILTER_REJECT = 2;
@@ -137,7 +137,7 @@ public class GXml.DomNodeFilter : Object {
 /**
  * No implemented jet. This can lead to API changes in future versions.
  */
-public interface GXml.DomTreeWalker : Object {
+public interface GXml.DomTreeWalker : GLib.Object {
   public abstract DomNode root { get; }
   public abstract int what_to_show { get; }
   public abstract DomNodeFilter? filter { get; }
@@ -152,7 +152,7 @@ public interface GXml.DomTreeWalker : Object {
   public abstract DomNode? next_node();
 }
 
-public interface GXml.DomNamedNodeMap : Object, Gee.Map<string,DomNode> {
+public interface GXml.DomNamedNodeMap : GLib.Object, Gee.Map<string,DomNode> {
   public abstract int length { get; }
   public abstract DomNode? item (int index);
   public abstract DomNode? get_named_item (string name);
@@ -185,6 +185,6 @@ public interface GXml.DomTokenList : GLib.Object, Gee.BidirList<string> {
 /**
  * No implemented jet. This can lead to API changes in future versions.
  */
-public interface GXml.DomSettableTokenList : GXml.DomTokenList {
+public interface GXml.DomSettableTokenList : GLib.Object, GXml.DomTokenList {
   public abstract string @value { owned get; set; }
 }

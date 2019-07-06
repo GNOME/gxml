@@ -322,7 +322,7 @@ class SerializationTest : GXmlTest  {
     public string get_map_skey () { return get_map_secondary_key (); }
     public string get_map_tkey () { return cover; }
     public Book create_book (string name) {
-      return Object.new (typeof (Book),
+      return GLib.Object.new (typeof (Book),
                         "owner-document", this.owner_document,
                         "name", name)
                         as Book;
@@ -355,7 +355,7 @@ class SerializationTest : GXmlTest  {
     public HashRegisters hashmap_registers {
       get {
         if (_hashmap_registers == null)
-          _hashmap_registers = Object.new (typeof (HashRegisters),"element",this)
+          _hashmap_registers = GLib.Object.new (typeof (HashRegisters),"element",this)
                               as HashRegisters;
         return _hashmap_registers;
       }
@@ -366,7 +366,7 @@ class SerializationTest : GXmlTest  {
     public HashPairRegisters hashpair_registers {
       get {
         if (_hashpair_registers == null)
-          _hashpair_registers = Object.new (typeof (HashPairRegisters),"element",this)
+          _hashpair_registers = GLib.Object.new (typeof (HashPairRegisters),"element",this)
                               as HashPairRegisters;
         return _hashpair_registers;
       }
@@ -377,7 +377,7 @@ class SerializationTest : GXmlTest  {
     public HashThreeRegisters hashthree_registers {
       get {
         if (_hashthree_registers == null)
-          _hashthree_registers = Object.new (typeof (HashThreeRegisters),"element",this)
+          _hashthree_registers = GLib.Object.new (typeof (HashThreeRegisters),"element",this)
                               as HashThreeRegisters;
         return _hashthree_registers;
       }
@@ -913,7 +913,7 @@ class SerializationTest : GXmlTest  {
 #endif
       assert ("<Motor On=\"false\" Torque=\"0.0000\" Speed=\"1.0000\"/>" in s);
       assert (m.speed != null);
-      assert (m is GomObject);
+      assert (m is GXml.Object);
       assert (m.speed is GXml.Property);
       assert (m.speed.get_double () == 1.0);
       assert (m.speed.value != null);

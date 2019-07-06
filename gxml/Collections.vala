@@ -25,7 +25,7 @@ using Gee;
 /**
  * A DOM4 interface to keep references to {@link DomElement} children of a {@link element}
  */
-public interface GXml.Collection : Object
+public interface GXml.Collection : GLib.Object
 {
   /**
    * A list of child {@link DomElement} objects of {@link element}
@@ -106,7 +106,7 @@ public interface GXml.Collection : Object
     if (items_type.is_a (GLib.Type.INVALID)) return null;
     if (!items_type.is_a (typeof (DomElement))) return null;
     if (element == null) return null;
-    return Object.new (items_type,
+    return GLib.Object.new (items_type,
                       "owner_document", element.owner_document) as DomElement;
   }
   /**
@@ -128,7 +128,7 @@ public interface GXml.Collection : Object
 /**
  * {@link Gee.Iterable} and {@link Gee.Traversable} implementation of {@link GXml.Collection}
  */
-public interface GXml.List : Object, Collection, Traversable<DomElement>, Iterable<DomElement> {}
+public interface GXml.List : GLib.Object, Collection, Traversable<DomElement>, Iterable<DomElement> {}
 
 /**
  * Inteface to be implemented by {@link GXml.Collection} derived classes
@@ -137,14 +137,14 @@ public interface GXml.List : Object, Collection, Traversable<DomElement>, Iterab
  * If {@link GomHashMap} has set its {@link GomHashMap.attribute_key}
  * its value has precedence over this method.
  */
-public interface GXml.MappeableElement : Object, DomElement {
+public interface GXml.MappeableElement : GLib.Object, DomElement {
   public abstract string get_map_key ();
 }
 
 /**
  * {@link Gee.Iterable} and {@link Gee.Traversable} implementation of {@link GXml.Collection}
  */
-public interface GXml.Map : Object, GXml.Collection, Traversable<DomElement>, Iterable<DomElement> {
+public interface GXml.Map : GLib.Object, GXml.Collection, Traversable<DomElement>, Iterable<DomElement> {
   /**
    * An attribute's name in items to be added and used to retrieve elements
    * as key.
@@ -170,7 +170,7 @@ public interface GXml.Map : Object, GXml.Collection, Traversable<DomElement>, It
  * Inteface to be implemented by {@link GXml.Collection} derived classes
  * in order to provide a strings to be used in {@link GomHashPairedMap} as keys.
  */
-public interface GXml.MappeableElementPairKey : Object, DomElement {
+public interface GXml.MappeableElementPairKey : GLib.Object, DomElement {
   public abstract string get_map_primary_key ();
   public abstract string get_map_secondary_key ();
 }
@@ -179,7 +179,7 @@ public interface GXml.MappeableElementPairKey : Object, DomElement {
 /**
  * {@link Gee.Iterable} and {@link Gee.Traversable} implementation of {@link GXml.Collection}
  */
-public interface GXml.PairedMap : Object, GXml.Collection, Traversable<DomElement>, Iterable<DomElement> {
+public interface GXml.PairedMap : GLib.Object, GXml.Collection, Traversable<DomElement>, Iterable<DomElement> {
   /**
    * An attribute's name in items to be added and used to retrieve elements
    * as primary key.
@@ -221,7 +221,7 @@ public interface GXml.PairedMap : Object, GXml.Collection, Traversable<DomElemen
  * If {@link GomHashMap} has set its {@link GomHashMap.attribute_key}
  * its value has precedence over this method.
  */
-public interface GXml.MappeableElementThreeKey : Object, DomElement {
+public interface GXml.MappeableElementThreeKey : GLib.Object, DomElement {
   /**
    * Returns primary key of collection.
    */
@@ -239,7 +239,7 @@ public interface GXml.MappeableElementThreeKey : Object, DomElement {
 /**
  * {@link Gee.Iterable} and {@link Gee.Traversable} implementation of {@link GXml.Collection}
  */
-public interface GXml.ThreeMap : Object, GXml.Collection, Traversable<DomElement>, Iterable<DomElement> {
+public interface GXml.ThreeMap : GLib.Object, GXml.Collection, Traversable<DomElement>, Iterable<DomElement> {
   /**
    * An attribute's name in items to be added and used to retrieve elements
    * as primary key.

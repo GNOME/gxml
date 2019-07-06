@@ -33,7 +33,7 @@ public errordomain GXml.ParserError {
 /**
  * XML parser engine for {@link DomDocument} implementations.
  */
-public interface GXml.Parser : Object {
+public interface GXml.Parser : GLib.Object {
   /**
    * Controls if, when writing to a file, a backup should
    * be created.
@@ -202,12 +202,12 @@ public interface GXml.Parser : Object {
   public virtual bool read_element_property (DomNode parent,
                                     out DomNode element) throws GLib.Error {
     element = null;
-    if (!(parent is GomObject)) return false;
+    if (!(parent is GXml.Object)) return false;
     foreach (ParamSpec pspec in
-              (parent as GomObject).get_property_element_list ()) {
+              (parent as GXml.Object).get_property_element_list ()) {
       if (pspec.value_type.is_a (typeof (Collection))) continue;
       //if (!pspec.value_type.is_instantiatable ()) continue;
-      var obj = Object.new (pspec.value_type,
+      var obj = GLib.Object.new (pspec.value_type,
                             "owner-document", node.owner_document) as DomElement;
       if (obj.local_name.down ()
              == current_node_name ().down ()) {
@@ -233,22 +233,22 @@ public interface GXml.Parser : Object {
   public virtual bool add_element_collection (DomNode parent,
                   out DomNode element) throws GLib.Error {
     element = null;
-    if (!(parent is GomObject)) return false;
+    if (!(parent is GXml.Object)) return false;
     foreach (ParamSpec pspec in
-              (parent as GomObject).get_property_element_list ()) {
+              (parent as GXml.Object).get_property_element_list ()) {
       if (!(pspec.value_type.is_a (typeof (Collection)))) continue;
       Collection col;
       Value vc = Value (pspec.value_type);
       parent.get_property (pspec.name, ref vc);
       col = vc.get_object () as Collection;
       if (col == null) {
-        col = Object.new (pspec.value_type,
+        col = GLib.Object.new (pspec.value_type,
                           "element", parent) as Collection;
         vc.set_object (col);
         parent.set_property (pspec.name, vc);
       }
       if (col.items_type == GLib.Type.INVALID
-          || !(col.items_type.is_a (typeof (GomObject)))) {
+          || !(col.items_type.is_a (typeof (GXml.Object)))) {
         throw new DomError.INVALID_NODE_TYPE_ERROR
                     (_("Invalid object type set to Collection"));
       }
@@ -256,7 +256,7 @@ public interface GXml.Parser : Object {
         throw new DomError.INVALID_NODE_TYPE_ERROR
                     (_("Invalid DomElement name for objects in Collection"));
       }
-      if (col.element == null || !(col.element is GomObject)) {
+      if (col.element == null || !(col.element is GXml.Object)) {
         throw new DomError.INVALID_NODE_TYPE_ERROR
                     (_("Invalid Element set to Collection"));
       }
@@ -264,7 +264,7 @@ public interface GXml.Parser : Object {
         if (parent.owner_document == null)
           throw new DomError.HIERARCHY_REQUEST_ERROR
                       (_("No document is set to node"));
-        var obj = Object.new (col.items_type,
+        var obj = GLib.Object.new (col.items_type,
                               "owner-document", node.owner_document) as DomElement;
         parent.append_child (obj);
         read_element (obj as DomElement);

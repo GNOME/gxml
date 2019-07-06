@@ -23,7 +23,7 @@
 using GXml;
 
 /**
- * A GXml Object Model (GOM) represents a {@link DomElement}. It has attributes
+ * A GXml Object Model represents a {@link DomElement}. It has attributes
  * and children. All object's properties are handled as attributes if they are
  * basic types like integers, strings, enums and others; {@link SerializableProperty}
  * objects are handled as attributes too. If object's attribute is a {@link GLib.Object}
@@ -31,7 +31,7 @@ using GXml;
  * other wise it is ignored when this object is used as {@link DomNode} in XML
  * documents.
  */
-public interface GXml.GomObject : GLib.Object,
+public interface GXml.Object : GLib.Object,
                                   DomNode,
                                   DomElement {
   /**
@@ -89,7 +89,7 @@ public interface GXml.GomObject : GLib.Object,
       if ("::" in nick) nick = nick.replace ("::","");
       string sname = spec.name.down ();
       if (sname == name || nick == name) {
-        if (spec.value_type.is_a (typeof (GomObject))
+        if (spec.value_type.is_a (typeof (GXml.Object))
             || spec.value_type.is_a (typeof (Collection))) {
 #if DEBUG
           GLib.message ("Found Property: "+pname);
@@ -107,7 +107,7 @@ public interface GXml.GomObject : GLib.Object,
   public virtual GLib.List<ParamSpec> get_property_element_list () {
     var l = new GLib.List<ParamSpec> ();
     foreach (ParamSpec spec in this.get_class ().list_properties ()) {
-      if ((spec.value_type.is_a (typeof (GomObject))
+      if ((spec.value_type.is_a (typeof (GXml.Object))
           || spec.value_type.is_a (typeof (Collection)))
           && spec.value_type.is_instantiatable ()) {
 #if DEBUG
@@ -206,7 +206,7 @@ public interface GXml.GomObject : GLib.Object,
         get_property (prop.name, ref v);
         GXml.Property so = (Object) v as GXml.Property;
         if (so == null) {
-          var obj = Object.new (prop.value_type);
+          var obj = GLib.Object.new (prop.value_type);
           v.set_object (obj);
           set_property (prop.name, v);
           so = obj as GXml.Property;
@@ -234,7 +234,7 @@ public interface GXml.GomObject : GLib.Object,
         get_property (prop.name, ref v);
         GXml.Property so = (Object) v as GXml.Property;
         if (so == null) {
-          var obj = Object.new (prop.value_type);
+          var obj = GLib.Object.new (prop.value_type);
           v.set_object (obj);
           set_property (prop.name, v);
           so = obj as GXml.Property;
@@ -325,7 +325,7 @@ public interface GXml.GomObject : GLib.Object,
     var prop = get_class ().find_property (name);
     if (prop != null) {
       if (prop.value_type.is_a (typeof(DomElement))) {
-        var o = Object.new (prop.value_type) as DomElement;
+        var o = GLib.Object.new (prop.value_type) as DomElement;
         foreach (DomNode n in this.child_nodes) {
           if (!(n is DomElement)) continue;
           if ((n as DomElement).local_name.down () == o.local_name.down ())
@@ -393,15 +393,15 @@ public interface GXml.GomObject : GLib.Object,
     var prop = find_object_property_name (name);
     if (prop == null) return false;
     Value v = Value (prop.value_type);
-    Object obj;
+    GLib.Object obj;
     if (prop.value_type.is_a (typeof (Collection))) {
-      obj = Object.new (prop.value_type, "element", this);
+      obj = GLib.Object.new (prop.value_type, "element", this);
       v.set_object (obj);
       set_property (prop.name, v);
       return true;
     }
     if (prop.value_type.is_a (typeof (GXml.Element))) {
-      obj = Object.new (prop.value_type,"owner-document", this.owner_document);
+      obj = GLib.Object.new (prop.value_type,"owner-document", this.owner_document);
       try { this.append_child (obj as GXml.Element); }
       catch (GLib.Error e) {
         warning (_("Error while attempting to instantiate property object: %s").printf (e.message));

@@ -101,7 +101,7 @@ public class GXml.Document : GXml.Node,
   }
 
   private GXml.Element get_root_gom_element () {
-    Object obj = null;
+    GLib.Object obj = null;
     foreach (ParamSpec spec in this.get_class ().list_properties ()) {
       if ("::" in spec.get_nick ()) {
         string name = spec.get_nick ().down ().replace ("::", "");
@@ -113,7 +113,7 @@ public class GXml.Document : GXml.Node,
           get_property (spec.name, ref val);
           obj = val.get_object () as GXml.Element;
           if (obj == null) {
-            obj = Object.new (spec.value_type,"owner-document", this.owner_document);
+            obj = GLib.Object.new (spec.value_type,"owner-document", this.owner_document);
             try { this.append_child (obj as GXml.Element); }
             catch (GLib.Error e) {
               warning (_("Error while attempting to instantiate root property object: %s").printf (e.message));

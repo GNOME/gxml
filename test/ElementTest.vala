@@ -22,10 +22,10 @@
 
 using GXml;
 
-public interface NoInstantiatable : Object, GomObject {
+public interface NoInstantiatable : GLib.Object, GXml.Object {
 	public abstract string name { get; set; }
 }
-public interface Property : Object, GXml.Property {}
+public interface Property : GLib.Object, GXml.Property {}
 
 class ObjectParent : GXml.Element {
 	construct {
@@ -42,7 +42,7 @@ class ObjectParent : GXml.Element {
 	public ObjectProperty prop2 { get; set; }
 	[Description (nick="::prop3")]
 	public ObjectProperty prop3 { get; set; }
-	public class ObjectProperty : Object, GXml.Property {
+	public class ObjectProperty : GLib.Object, GXml.Property {
 		public string? value { owned get; set; }
 		public bool validate_value (string? val) {
 			return true;
@@ -805,7 +805,7 @@ class GXml.ElementTest : GXmlTest  {
 				assert (e.attributes.length == 9);
 				assert (e.attributes.item (8) != null);
 				assert ((e.attributes.item (8) as DomAttr).@value == "di1");
-				e.child = Object.new (typeof (ObjectParent.ObjectChild),
+				e.child = GLib.Object.new (typeof (ObjectParent.ObjectChild),
 															"owner-document", e.owner_document) as ObjectParent.ObjectChild;
 				e.append_child (e.child);
 				assert (e.child != null);

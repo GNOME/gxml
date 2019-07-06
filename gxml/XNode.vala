@@ -32,7 +32,7 @@ public errordomain GXml.Error {
 /**
  * DOM4 Base interface providing basic functionalities to all libxml2 DOM4 implementations.
  */
-public abstract class GXml.XNode : Object,
+public abstract class GXml.XNode : GLib.Object,
                       GXml.DomEventTarget,
                       GXml.DomNode
 {

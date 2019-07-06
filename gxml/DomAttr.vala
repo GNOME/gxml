@@ -20,7 +20,7 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 
-public interface GXml.DomAttr : Object {
+public interface GXml.DomAttr : GLib.Object {
   public abstract string? namespace_uri { owned get; }
   public abstract string? prefix { owned get; }
   public abstract string local_name { owned get; }

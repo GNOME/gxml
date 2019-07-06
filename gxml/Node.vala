@@ -29,7 +29,7 @@ using Gee;
  * This object avoids pre and post XML parsing, by using a one step parsing
  * to translate text XML tree to an GObject based tree.
  */
-public class GXml.Node : Object,
+public class GXml.Node : GLib.Object,
                             DomEventTarget,
                             DomNode {
 // DomNode

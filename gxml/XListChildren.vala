@@ -151,7 +151,7 @@ public class GXml.XListChildren : AbstractBidirList<GXml.DomNode>,
   }
   public override bool read_only { get { return false; } }
   // Iterator
-  public class Iterator : Object, Traversable<GXml.DomNode>,
+  public class Iterator : GLib.Object, Traversable<GXml.DomNode>,
                           Gee.Iterator<GXml.DomNode>,
                           Gee.BidirIterator<GXml.DomNode>,
                           Gee.ListIterator<GXml.DomNode>,

@@ -41,7 +41,7 @@ public class GXml.Element : GXml.Node,
                               DomNonDocumentTypeChildNode,
                               DomParentNode,
                               DomElement,
-                              GomObject {
+                              GXml.Object {
   /**
    * Reference to {@link Attributes} for element's attributes.
    * Derived classes should avoid to modify it.
@@ -294,7 +294,7 @@ public class GXml.Element : GXml.Node,
    */
   public string? class_name {
     owned get { return (this as GXml.Element).get_attribute ("class"); }
-    set { (this as GomObject).set_attribute ("class", value); }
+    set { (this as GXml.Object).set_attribute ("class", value); }
   }
   /**
    * A list of values of all attributes called 'class'.
@@ -331,7 +331,7 @@ public class GXml.Element : GXml.Node,
    * already.
    *
    * Any instance properties of type {@link GXml.Element} or {@link Collection}
-   * should be initialized using {@link GomObject.set_instance_property}
+   * should be initialized using {@link GXml.Object.set_instance_property}
    */
   public void initialize (string local_name) {
     _local_name = local_name;
@@ -400,7 +400,7 @@ public class GXml.Element : GXml.Node,
 
     public DomNode? get_named_item (string name) {
       if (name == "") return null;
-      var ov = (_element as GomObject).get_attribute (name);
+      var ov = (_element as GXml.Object).get_attribute (name);
       if (ov != null) {
         return new GXml.Attr (_element, name, ov);
       }
@@ -445,9 +445,9 @@ public class GXml.Element : GXml.Node,
       if (!(node is GXml.Attr))
         throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid node type. GXml.Attr was expected"));
       GXml.Attr attr = null;
-      var pprop = (_element as GomObject).find_property_name ((node as GXml.Attr).local_name);
+      var pprop = (_element as GXml.Object).find_property_name ((node as GXml.Attr).local_name);
       if (pprop != null) {
-        (_element as GomObject).set_attribute ((node as GXml.Attr).local_name, node.node_value);
+        (_element as GXml.Object).set_attribute ((node as GXml.Attr).local_name, node.node_value);
         attr = new GXml.Attr.reference (_element, (node as GXml.Attr).local_name);
       } else {
         attr = new GXml.Attr (_element, (node as GXml.Attr).local_name, node.node_value);
@@ -567,9 +567,9 @@ public class GXml.Element : GXml.Node,
         p = (node as GXml.Attr).prefix + ":";
       string k = (p+(node as GXml.Attr).local_name).down ();
       GXml.Attr attr = null;
-      var pprop = (_element as GomObject).find_property_name ((node as GXml.Attr).local_name);
+      var pprop = (_element as GXml.Object).find_property_name ((node as GXml.Attr).local_name);
       if (pprop != null) {
-        (_element as GomObject).set_attribute ((node as GXml.Attr).local_name, node.node_value);
+        (_element as GXml.Object).set_attribute ((node as GXml.Attr).local_name, node.node_value);
         attr = new GXml.Attr.reference (_element, (node as GXml.Attr).local_name);
       } else {
         attr = new GXml.Attr.namespace (_element, (node as GXml.Attr).namespace_uri, (node as GXml.Attr).prefix, (node as GXml.Attr).local_name, node.node_value);

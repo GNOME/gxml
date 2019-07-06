@@ -24,7 +24,7 @@
  * Parser implementation of {@link Parser} to parse {@link XDocument}
  * documents.
  */
-private class GXml.XdParser : Object, Parser {
+private class GXml.XdParser : GLib.Object, Parser {
   private XDocument document;
   private DomNode _node;
 

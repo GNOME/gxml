@@ -27,7 +27,7 @@ class GXmlTest.Suite : Object
   {
     GLib.Intl.setlocale (GLib.LocaleCategory.ALL, "");
     Test.init (ref args);
-    Test.add_func ("/gxml/gom-document/performance/iterate", () => {
+    Test.add_func ("/gxml/document/performance/iterate", () => {
     try {
       DomDocument d = new GomDocument ();
       File dir = File.new_for_path (GXmlTestConfig.TEST_DIR);

@@ -425,7 +425,7 @@ public class GXml.XDocumentFragment : GXml.XDocument,
 }
 
 
-public class GXml.GDomNodeIterator : Object, GXml.DomNodeIterator {
+public class GXml.GDomNodeIterator : GLib.Object, GXml.DomNodeIterator {
   protected DomNode _root;
   protected DomNode _reference_node;
   protected bool _pointer_before_reference_node;
@@ -449,7 +449,7 @@ public class GXml.GDomNodeIterator : Object, GXml.DomNodeIterator {
 }
 
 
-public class GXml.GDomTreeWalker : Object, GXml.DomTreeWalker {
+public class GXml.GDomTreeWalker : GLib.Object, GXml.DomTreeWalker {
   protected DomNode _root;
   protected int _what_to_show;
   protected DomNodeFilter? _filter;

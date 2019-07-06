@@ -24,7 +24,7 @@
 /**
  * Interface for HTML handling implementation
  */
-public interface GXml.DomHtmlDocument : Object, GXml.DomDocument {
+public interface GXml.DomHtmlDocument : GLib.Object, GXml.DomDocument {
 	/**
 	 * This method reads HTML documents using default parser
 	 */

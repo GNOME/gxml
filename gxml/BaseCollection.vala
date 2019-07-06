@@ -30,7 +30,7 @@ using Gee;
  * in order to be able to add new references to elements. Use {@link initialize_element}
  * to set parent element and {@link search} to find elements for collection.
  */
-public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Iterable<DomElement>, Collection {
+public abstract class GXml.BaseCollection : GLib.Object, Traversable<DomElement>, Iterable<DomElement>, Collection {
   /**
    * A collection of node's index refered. Don't modify it manually.
    */
@@ -89,7 +89,7 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
       throw new DomError.INVALID_NODE_TYPE_ERROR
                 (_("Invalid attempt to initialize a collection using an unsupported type. Only GXmlGXml.Element is supported"));
     }
-    var o = Object.new (items_type) as GXml.Element;
+    var o = GLib.Object.new (items_type) as GXml.Element;
     _items_name = o.local_name;
     _items_type = items_type;
   }
@@ -147,7 +147,7 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
                 (_("Parent Element is invalid"));
     for (int i = 0; i < _element.child_nodes.size; i++) {
       var n = _element.child_nodes.get (i);
-      if (n is GomObject) {
+      if (n is GXml.Object) {
         if ((n as DomElement).local_name.down () == items_name.down ()) {
           if (validate_append (i, n as DomElement))
             _nodes_index.push_tail (i);
@@ -172,7 +172,7 @@ public abstract class GXml.BaseCollection : Object, Traversable<DomElement>, Ite
   // Itarable Interface
   public Iterator<DomElement> iterator () { return new CollectionIterator (this); }
   // For Iterable interface implementation
-  private class CollectionIterator : Object, Traversable<DomElement>, Iterator<DomElement> {
+  private class CollectionIterator : GLib.Object, Traversable<DomElement>, Iterator<DomElement> {
     private int pos;
     private Collection _collection;
     public bool read_only { get { return false; } }

@@ -24,7 +24,7 @@
 /**
  * DOM4 Range implementation, powered by libxml2 library.
  */
-public class GXml.Range : Object, GXml.DomRange {
+public class GXml.Range : GLib.Object, GXml.DomRange {
 	protected DomDocument _document;
 	protected DomNode _start_container;
 	protected int _start_offset;

@@ -26,7 +26,7 @@
  * {@link DomElement} attributes. If object is instantiated it is
  * written, if not is just ingnored.
  */
-public interface GXml.Property : Object
+public interface GXml.Property : GLib.Object
 {
   /**
    * Attribute's value in the parent {@link DomElement} using a string.
@@ -44,7 +44,7 @@ public interface GXml.Property : Object
 /**
  * Base class for properties implementing {@link GomProperty} interface.
  */
-public abstract class GXml.BaseProperty : Object, GXml.Property {
+public abstract class GXml.BaseProperty : GLib.Object, GXml.Property {
   /**
    * {@inheritDoc}
    */
