@@ -36,6 +36,7 @@ EXTRA_DIST = $(gxmldoc_DATA) \
 	vapi \
 	config.rpath \
 	meson.build \
+	meson_options.txt \
 	gxml/meson.build \
 	po/meson.build \
 	docs/meson.build \
