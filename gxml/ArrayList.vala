@@ -1,6 +1,6 @@
 /* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /*
- * GomArrayList.vala
+ * ArrayList.vala
  *
  * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
  *
@@ -28,11 +28,11 @@ using Gee;
  * child {@link DomElement} of {@link Collection.element}, using an index.
  *
  * {{{
- *   public class YourObject : GomElement {
+ *   public class YourObject : GXml.Element {
  *    [Description (nick="::Name")]
  *    public string name { get; set; }
  *   }
- *   public class YourList : GomArrayList {
+ *   public class YourList : GXml.ArrayList {
  *    construct {
  *      try { initialize (typeof (YourObject)); }
  *      catch (GLib.Error e) {
@@ -43,7 +43,7 @@ using Gee;
  *   }
  * }}}
  */
-public class GXml.GomArrayList : GXml.BaseCollection, GXml.List {
+public class GXml.ArrayList : GXml.BaseCollection, GXml.List {
   public override bool validate_append (int index, DomElement element) throws GLib.Error {
 #if DEBUG
     GLib.message ("Adding node:"+element.node_name);

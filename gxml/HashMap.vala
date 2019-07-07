@@ -1,6 +1,6 @@
 /* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /*
- * GomHashMap.vala
+ * GXml.HashMap.vala
  *
  * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
  *
@@ -30,17 +30,17 @@ using Gee;
  * by items to be added. If key is not defined in node, it is not added; but
  * keeps it as a child node of actual {@link Collection.element}.
  *
- * If {@link GomElement} to be added is of type {@link Collection.items_type}
- * and implements {@link MappeableElement}, you should set {@link GomHashMap.attribute_key}
+ * If {@link GXml.Element} to be added is of type {@link Collection.items_type}
+ * and implements {@link MappeableElement}, you should set {@link GXml.HashMap.attribute_key}
  * to null in order to use returned value of {@link MappeableElement.get_map_key}
  * as key.
  *
  * {{{
- *   public class YourObject : GomElement {
+ *   public class YourObject : GXml.Element {
  *    [Description (nick="::Name")]
  *    public string name { get; set; }
  *   }
- *   public class YourList : GomHashMap {
+ *   public class YourList : GXml.HashMap {
  *    construct {
  *      try { initialize_with_key (typeof (YourObject),"Name"); }
  *      catch (GLib.Error e) {
@@ -51,7 +51,7 @@ using Gee;
  *   }
  * }}}
  */
-public class GXml.GomHashMap : GXml.BaseCollection, GXml.Map {
+public class GXml.HashMap : GXml.BaseCollection, GXml.Map {
   /**
    * A hashtable with all keys as string to node's index refered. Don't modify it manually.
    */
@@ -70,10 +70,10 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.Map {
     get { return _attribute_key; } construct set { _attribute_key = value; }
   }
   /**
-   * Convenient function to initialize a {@link GomHashMap} collection, using
+   * Convenient function to initialize a {@link GXml.HashMap} collection, using
    * given element, items' type and name.
    */
-  public void initialize_element_with_key (GomElement element,
+  public void initialize_element_with_key (GXml.Element element,
                                   GLib.Type items_type,
                                   string attribute_key) throws GLib.Error
   {
@@ -83,7 +83,7 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.Map {
   }
 
   /**
-   * Convenient function to initialize a {@link GomHashMap} collection, using
+   * Convenient function to initialize a {@link GXml.HashMap} collection, using
    * given element, items' type and name.
    *
    * Using this method at construction time of derived classes.
@@ -121,11 +121,11 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.Map {
     return l;
   }
   /**
-   * Validates if given element has a {@link GomHashMap.attribute_key} set,
+   * Validates if given element has a {@link GXml.HashMap.attribute_key} set,
    * if so adds a new key pointing to given index and returns true.
    *
    * Attribute should be a valid {@link DomElement} attribute or
-   * a {@link GomObject} property identified using a nick with a '::' prefix.
+   * a {@link GXml.Object} property identified using a nick with a '::' prefix.
    *
    * If there are more elements with same key, they are kept as child nodes
    * but the one in collection will be the last one to be found.
@@ -133,11 +133,11 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.Map {
    * Return: false if element should not be added to collection.
    */
   public override bool validate_append (int index, DomElement element) throws GLib.Error {
-    if (!(element is GomElement)) return false;
+    if (!(element is GXml.Element)) return false;
 #if DEBUG
     message ("Validating HashMap Element..."
-            +(element as GomElement).write_string ()
-            +" Attrs:"+(element as GomElement).attributes.length.to_string());
+            +(element as GXml.Element).write_string ()
+            +" Attrs:"+(element as GXml.Element).attributes.length.to_string());
 #endif
     string key = null;
     if (attribute_key != null) {
@@ -158,7 +158,7 @@ public class GXml.GomHashMap : GXml.BaseCollection, GXml.Map {
     return true;
   }
   public override void clear () {
-    _hashtable = new HashMap<string,int> ();
+    _hashtable = new Gee.HashMap<string,int> ();
   }
   public DomElement? item (string key) { return get (key); }
   public Gee.Set<string> keys_set {

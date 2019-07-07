@@ -26,7 +26,7 @@ using Xml;
 /**
  * {@link Parser} implementation using libxml2 engine
  */
-public class GXml.XParser : Object, GXml.Parser {
+public class GXml.XParser : GLib.Object, GXml.Parser {
   private DomDocument _document;
   private DomNode _node;
   private TextReader tr;
@@ -208,15 +208,15 @@ public class GXml.XParser : Object, GXml.Parser {
     if (current_is_element () && (node is DomDocument))
       read_child_element (node);
     else {
-      if (node is GomDocument) {
+      if (node is GXml.DomDocument) {
         read_child_nodes (node);
       }
-      if (node is GomElement) {
-        if ((node as GomElement).parse_children)
+      if (node is GXml.Element) {
+        if ((node as GXml.Element).parse_children)
           read_child_nodes (node);
         else {
-          (node as GomElement).unparsed = read_unparsed ();
-          //warning ("Unparsed text: "+(node as GomObject).unparsed);
+          (node as GXml.Element).unparsed = read_unparsed ();
+          //warning ("Unparsed text: "+(node as GXml.Object).unparsed);
           move_next_node ();
         }
       }
@@ -344,8 +344,8 @@ public class GXml.XParser : Object, GXml.Parser {
           bool processed = false;
           string attn = attrname;
           if (prefix != null) attn = prefix+":"+attrname;
-          if (node is GomObject) {
-            processed = (element as GomObject).set_attribute (attn, attrval);
+          if (node is GXml.Object) {
+            processed = (element as GXml.Object).set_attribute (attn, attrval);
           }
           if (!processed) {
             if (prefix != null) {
@@ -416,7 +416,7 @@ public class GXml.XParser : Object, GXml.Parser {
 			if (pid != null) pid = pid.replace ("\"","").chomp ().strip ();
 			string sid = info.fetch_named ("sid");
 			if (sid != null) sid = sid.replace ("\"","").chomp ().strip ();
-      n = new GomDocumentType (_document, tr.const_local_name (), pid, sid);
+      n = new GXml.DocumentType (_document, tr.const_local_name (), pid, sid);
       parent.append_child (n);
       break;
     case Xml.ReaderType.DOCUMENT_FRAGMENT:
@@ -490,19 +490,19 @@ public class GXml.XParser : Object, GXml.Parser {
       } else
         tw.start_element ((node as DomElement).local_name);
 
-    // GomObject serialization
-    var lp = (node as GomObject).get_properties_list ();
+    // GXml.Object serialization
+    var lp = (node as GXml.Object).get_properties_list ();
     foreach (ParamSpec pspec in lp) {
       string attname = pspec.get_nick ().replace ("::","");
       string val = null;
-      if (pspec.value_type.is_a (typeof (GomProperty))) {
+      if (pspec.value_type.is_a (typeof (GXml.Property))) {
         Value v = Value (pspec.value_type);
         node.get_property (pspec.name, ref v);
-        GomProperty gp = v.get_object () as GomProperty;
+        GXml.Property gp = v.get_object () as GXml.Property;
         if (gp == null) continue;
         val = gp.value;
       } else {
-        val = (node as GomObject).get_property_string (pspec);
+        val = (node as GXml.Object).get_property_string (pspec);
       }
       if (val == null) continue;
       size += tw.write_attribute (attname, val);
@@ -513,7 +513,7 @@ public class GXml.XParser : Object, GXml.Parser {
     // DomElement attributes
     var keys = (node as DomElement).attributes.keys;
     foreach (string ak in keys) {
-      var prop = (node as DomElement).attributes.get (ak) as GomAttr;
+      var prop = (node as DomElement).attributes.get (ak) as GXml.Attr;
       if (prop == null) {
         continue;
       }
@@ -596,21 +596,21 @@ public class GXml.XParser : Object, GXml.Parser {
         tw.start_element ((node as DomElement).local_name);
     Idle.add (start_node_async.callback);
     yield;
-    // GomObject serialization
-    var lp = (node as GomObject).get_properties_list ();
+    // GXml.Object serialization
+    var lp = (node as GXml.Object).get_properties_list ();
     foreach (ParamSpec pspec in lp) {
       Idle.add (start_node_async.callback);
       yield;
       string attname = pspec.get_nick ().replace ("::","");
       string val = null;
-      if (pspec.value_type.is_a (typeof (GomProperty))) {
+      if (pspec.value_type.is_a (typeof (GXml.Property))) {
         Value v = Value (pspec.value_type);
         node.get_property (pspec.name, ref v);
-        GomProperty gp = v.get_object () as GomProperty;
+        GXml.Property gp = v.get_object () as GXml.Property;
         if (gp == null) continue;
         val = gp.value;
       } else {
-        val = (node as GomObject).get_property_string (pspec);
+        val = (node as GXml.Object).get_property_string (pspec);
       }
       if (val == null) continue;
       size += tw.write_attribute (attname, val);
@@ -622,7 +622,7 @@ public class GXml.XParser : Object, GXml.Parser {
     foreach (string ak in (node as DomElement).attributes.keys) {
       Idle.add (start_node_async.callback);
       yield;
-      string v = ((node as DomElement).attributes as HashMap<string,string>).get (ak);
+      string v = ((node as DomElement).attributes as Gee.HashMap<string,string>).get (ak);
       if ("xmlns:" in ak) {
         string ns = (node as DomElement).namespace_uri;
         if (ns != null) {

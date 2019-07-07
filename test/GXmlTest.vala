@@ -34,9 +34,9 @@ class GXmlTest {
 		XHtmlDocumentTest.add_tests ();
 		DomXDocumentTest.add_tests ();
 		XPathTest.add_tests ();
-		GomDocumentTest.add_tests ();
-		GomElementTest.add_tests ();
-		GomSerializationTest.add_tests ();
+		DocumentTest.add_tests ();
+		ElementTest.add_tests ();
+		SerializationTest.add_tests ();
 		GomSchemaTest.add_tests ();
 		CssSelectorTest.add_tests ();
 

@@ -29,7 +29,7 @@ using Gee;
  * This object avoids pre and post XML parsing, by using a one step parsing
  * to translate text XML tree to an GObject based tree.
  */
-public class GXml.GomNode : Object,
+public class GXml.Node : GLib.Object,
                             DomEventTarget,
                             DomNode {
 // DomNode
@@ -62,7 +62,7 @@ public class GXml.GomNode : Object,
   /**
    * Use this field to set node's child nodes. Derived classes should avoid to modify it.
    */
-  protected GomNodeList _child_nodes;
+  protected GXml.NodeList _child_nodes;
   public DomNode.NodeType node_type { get { return _node_type; } }
   public string node_name {
     owned get {
@@ -79,7 +79,7 @@ public class GXml.GomNode : Object,
     get {
       if (this is DomDocument) return (DomDocument) this;
       if (_document == null) {
-        _document = new GomDocument ();
+        _document = new GXml.Document ();
         if (this is DomElement) {
           try { _document.append_child (this); }
           catch (GLib.Error e) { warning (e.message); }
@@ -115,7 +115,7 @@ public class GXml.GomNode : Object,
       if (_parent == null) return null;
       if (_parent.child_nodes == null) return null;
       if (_parent.child_nodes.length == 0) return null;
-      var pos = (_parent.child_nodes as ArrayList<DomNode>).index_of (this);
+      var pos = (_parent.child_nodes as Gee.ArrayList<DomNode>).index_of (this);
       if (pos == 0) return null;
       if ((pos - 1) > 0 && (pos - 1) < _parent.child_nodes.size)
         return _parent.child_nodes[pos - 1];
@@ -127,7 +127,7 @@ public class GXml.GomNode : Object,
       if (_parent == null) return null;
       if (_parent.child_nodes == null) return null;
       if (_parent.child_nodes.length == 0) return null;
-      var pos = (_parent.child_nodes as ArrayList<DomNode>).index_of (this);
+      var pos = (_parent.child_nodes as Gee.ArrayList<DomNode>).index_of (this);
       if (pos == 0) return null;
       if ((pos + 1) > 0 && (pos + 1) < _parent.child_nodes.size)
         return _parent.child_nodes[pos + 1];
@@ -164,7 +164,7 @@ public class GXml.GomNode : Object,
     _node_type = DomNode.NodeType.INVALID;
     _base_uri = null;
     _node_value = null;
-    _child_nodes = new GomNodeList ();
+    _child_nodes = new GXml.NodeList ();
     _parent = null;
   }
 
@@ -218,9 +218,9 @@ public class GXml.GomNode : Object,
     if (this is GXml.DomDocumentType ||
         this is GXml.DomDocumentFragment) return null;
     if (this is DomElement) {
-      return (this as GomElement).lookup_prefix (nspace);
+      return (this as GXml.Element).lookup_prefix (nspace);
     }
-    if (this is DomAttr) {
+    if (this is GXml.Attr) {
       if (this.parent_node == null) return  null;
       return parent_node.lookup_prefix (nspace);
     }
@@ -230,9 +230,9 @@ public class GXml.GomNode : Object,
     if (this is GXml.DomDocumentType ||
         this is GXml.DomDocumentFragment) return null;
     if (this is DomElement) {
-        return (this as GomElement).lookup_namespace_uri (prefix);
+        return (this as GXml.Element).lookup_namespace_uri (prefix);
     }
-    if (this is DomAttr) {
+    if (this is GXml.Attr) {
       if (this.parent_node == null) return  null;
       return this.parent_node.lookup_namespace_uri (prefix);
     }
@@ -252,7 +252,7 @@ public class GXml.GomNode : Object,
   }
 
   public DomNode insert_before (DomNode node, DomNode? child) throws GLib.Error {
-    if (!(node is GXml.GomNode))
+    if (!(node is GXml.Node))
       throw new DomError.INVALID_NODE_TYPE_ERROR
                   (_("Invalid attempt to add invalid node type"));
     if (child != null && !this.contains (child))
@@ -285,17 +285,17 @@ public class GXml.GomNode : Object,
     return node;
   }
   public DomNode append_child (DomNode node) throws GLib.Error {
-    if (!(node is GomNode))
+    if (!(node is GXml.Node))
       throw new DomError.HIERARCHY_REQUEST_ERROR
               (_("Node type is invalid. Can't append as child"));
     if (owner_document != node.owner_document)
       throw new DomError.HIERARCHY_REQUEST_ERROR
               (_("Invalid attempt to append a child with different parent document"));
-    (node as GomNode).set_parent (this);
+    (node as GXml.Node).set_parent (this);
     return insert_before (node, null);
   }
   public DomNode replace_child (DomNode node, DomNode child) throws GLib.Error {
-    if (!(node is GXml.GomNode))
+    if (!(node is GXml.Node))
       throw new DomError.INVALID_NODE_TYPE_ERROR (_("Invalid attempt to add invalid node type"));
     if (child == null || !this.contains (child))
       throw new DomError.NOT_FOUND_ERROR (_("Can't find child node to replace or child have a different parent"));
@@ -341,7 +341,7 @@ public class GXml.GomNode : Object,
 /**
  * List of {@link DomNode} implementing {@link DomNodeList}
  */
-public class GXml.GomNodeList : Gee.ArrayList<DomNode>, DomNodeList {
+public class GXml.NodeList : Gee.ArrayList<DomNode>, DomNodeList {
   public DomNode? item (int index) { return base.get (index); }
   public int length { get { return size; } }
 }

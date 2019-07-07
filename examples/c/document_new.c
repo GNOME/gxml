@@ -14,7 +14,7 @@ int main () {
   char *authors[] = { "John Green", "Jane Austen", "J.D. Salinger" };
   char *titles[] = { "The Fault in Our Stars", "Pride & Prejudice", "Nine Stories" };
 
-  doc = (GXmlDomDocument*) gxml_gom_document_new ();
+  doc = (GXmlDomDocument*) gxml_document_new ();
 
   // Add a root node
   root = gxml_dom_document_create_element (doc, "Bookshelf", &error);

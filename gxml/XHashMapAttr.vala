@@ -151,7 +151,7 @@ public class GXml.XHashMapAttr : Gee.AbstractMap<string,GXml.XNode>,
   }
   public override Gee.Collection<GXml.XNode> values {
     owned get {
-      var l = new ArrayList<GXml.XNode> ();
+      var l = new Gee.ArrayList<GXml.XNode> ();
       var p = _node->properties;
       while (p != null) {
         l.add (new XAttribute (_doc, p));
@@ -160,7 +160,7 @@ public class GXml.XHashMapAttr : Gee.AbstractMap<string,GXml.XNode>,
       return l;
     }
   }
-  public class Iterator : Object, MapIterator<string,GXml.XNode> {
+  public class Iterator : GLib.Object, MapIterator<string,GXml.XNode> {
     private GXml.XDocument _doc;
     private Xml.Node *_node;
     private Xml.Attr *_current;

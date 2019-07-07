@@ -22,11 +22,11 @@
 
 
 /**
- * An interface for {@link GomObject}'s properties translated to
+ * An interface for {@link GXml.Object}'s properties translated to
  * {@link DomElement} attributes. If object is instantiated it is
  * written, if not is just ingnored.
  */
-public interface GXml.GomProperty : Object
+public interface GXml.Property : GLib.Object
 {
   /**
    * Attribute's value in the parent {@link DomElement} using a string.
@@ -42,9 +42,9 @@ public interface GXml.GomProperty : Object
 }
 
 /**
- * Base class for properties implementing {@link GomProperty} interface.
+ * Base class for properties implementing {@link Property} interface.
  */
-public abstract class GXml.GomBaseProperty : Object, GXml.GomProperty {
+public abstract class GXml.BaseProperty : GLib.Object, GXml.Property {
   /**
    * {@inheritDoc}
    */
@@ -56,10 +56,10 @@ public abstract class GXml.GomBaseProperty : Object, GXml.GomProperty {
 }
 
 /**
- * Convenient class to handle {@link GomElement}'s attributes
+ * Convenient class to handle {@link Element}'s attributes
  * using validated string using Regular Expressions.
  */
-public class GXml.GomString : GomBaseProperty {
+public class GXml.String : GXml.BaseProperty {
   protected string _value = "";
   public override string? value {
     owned get {
@@ -70,16 +70,16 @@ public class GXml.GomString : GomBaseProperty {
         _value = value;
     }
   }
-  public GomString.with_string (string str) {
+  public String.with_string (string str) {
     _value = str;
   }
 }
 
 /**
- * Convenient class to handle a {@link GomElement}'s attribute
+ * Convenient class to handle a {@link Element}'s attribute
  * using a list of pre-defined and unmutable values.
  */
-public class GXml.GomArrayString : GomBaseProperty {
+public class GXml.ArrayString : GXml.BaseProperty {
   protected string _value = "";
   protected string[] _values = null;
   public unowned string[] get_values () {
@@ -137,11 +137,11 @@ public class GXml.GomArrayString : GomBaseProperty {
 
 
 /**
- * Convenient class to handle a {@link GomElement}'s attribute
+ * Convenient class to handle a {@link Element}'s attribute
  * using a list of pre-defined and unmutable values, taken from
  * an {@link IXsdSimpleType} definition
  */
-public class GXml.GomXsdArrayString : GomArrayString {
+public class GXml.XsdArrayString : ArrayString {
   protected GLib.File _source = null;
   protected string _simple_type = null;
   /**
@@ -164,7 +164,7 @@ public class GXml.GomXsdArrayString : GomArrayString {
   }
   /**
    * Load list of strings from a {@link GLib.File}, parsing using an
-   * {@link GomXsdSchema} object and searching for {@link IXsdSimpleType}
+   * {@link XsdSchema} object and searching for {@link IXsdSimpleType}
    * definition with name {@link simple_type}.
    */
   public void load () throws GLib.Error {
@@ -174,7 +174,7 @@ public class GXml.GomXsdArrayString : GomArrayString {
     if (_source == null) return;
     if (!_source.query_exists ()) return;
     if (_simple_type == null) return;
-    var xsd = new GomXsdSchema ();
+    var xsd = new XsdSchema ();
     xsd.read_from_file (_source);
     if (xsd.simple_type_definitions == null) return;
     if (xsd.simple_type_definitions.length == 0) return;
@@ -183,7 +183,7 @@ public class GXml.GomXsdArrayString : GomArrayString {
     message ("SimpleType definitions: "+xsd.simple_type_definitions.length.to_string ());
 #endif
     for (int i = 0; i < xsd.simple_type_definitions.length; i++) {
-      var st = xsd.simple_type_definitions.get_item (i) as GomXsdSimpleType;
+      var st = xsd.simple_type_definitions.get_item (i) as XsdSimpleType;
 #if DEBUG
           message ("Item SimpleType %i is Null %s: ".printf (i, (st == null).to_string ()));
 #endif
@@ -201,7 +201,7 @@ public class GXml.GomXsdArrayString : GomArrayString {
         if (st.restriction.enumerations.length == 0) continue;
         string[] vals = {};
         for (int j = 0; j < st.restriction.enumerations.length; j++) {
-          var en = st.restriction.enumerations.get_item (j) as GomXsdTypeRestrictionEnumeration;
+          var en = st.restriction.enumerations.get_item (j) as XsdTypeRestrictionEnumeration;
           if (en == null) continue;
           if (en.value == null) continue;
 #if DEBUG
@@ -216,12 +216,12 @@ public class GXml.GomXsdArrayString : GomArrayString {
 }
 
 /**
- * Convenient class to handle {@link GomElement}'s attributes
+ * Convenient class to handle {@link Element}'s attributes
  * using double pressition floats as sources of values.
  *
  * Property is represented as a string.
  */
-public class GXml.GomDouble : GomBaseProperty {
+public class GXml.Double : GXml.BaseProperty {
   protected double _value = 0.0;
   public override string? value {
     owned get {
@@ -233,7 +233,7 @@ public class GXml.GomDouble : GomBaseProperty {
     }
   }
   /**
-   * Set number of decimals to write out as {@link GomElement}'s property.
+   * Set number of decimals to write out as {@link Element}'s property.
    * Default is 4.
    */
   public uint decimals { get; set; default = 4; }
@@ -248,12 +248,12 @@ public class GXml.GomDouble : GomBaseProperty {
 }
 
 /**
- * Convenient class to handle {@link GomElement}'s attributes
+ * Convenient class to handle {@link Element}'s attributes
  * using floats as sources of values.
  *
  * Property is represented as a string.
  */
-public class GXml.GomFloat : GomDouble {
+public class GXml.Float : Double {
   /**
    * Retrive current value.
    */
@@ -266,12 +266,12 @@ public class GXml.GomFloat : GomDouble {
 
 
 /**
- * Convenient class to handle {@link GomElement}'s attributes
+ * Convenient class to handle {@link Element}'s attributes
  * using a integers as sources of values.
  *
  * Property is represented as a string.
  */
-public class GXml.GomInt : GomBaseProperty {
+public class GXml.Int : GXml.BaseProperty {
   protected int _value = 0;
   public override string? value {
     owned get {
@@ -292,12 +292,12 @@ public class GXml.GomInt : GomBaseProperty {
 }
 
 /**
- * Convenient class to handle {@link GomElement}'s attributes
+ * Convenient class to handle {@link Element}'s attributes
  * using a boolean ('true' and 'false') as sources of values.
  *
  * Property is represented as a string, using 'true' or 'false'.
  */
-public class GXml.GomBoolean : GomBaseProperty {
+public class GXml.Boolean : GXml.BaseProperty {
   protected bool _value = false;
   public override string? value {
     owned get {
@@ -318,13 +318,13 @@ public class GXml.GomBoolean : GomBaseProperty {
 }
 
 /**
- * Convenient class to handle {@link GomElement}'s attributes
+ * Convenient class to handle {@link Element}'s attributes
  * using a {@link GLib.Type.ENUM} as a source of values.
  *
  * Enumeration is represented as a string, using its name, independent of
  * value possition in enumeration.
  */
-public class GXml.GomEnum : GomBaseProperty {
+public class GXml.Enum : GXml.BaseProperty {
   protected int _value = 0;
   protected Type _enum_type;
   public override string? value {
@@ -369,13 +369,13 @@ public class GXml.GomEnum : GomBaseProperty {
 }
 
 /**
- * Convenient class to handle {@link GomElement}'s attributes
+ * Convenient class to handle {@link Element}'s attributes
  * using a {@link GLib.Date} as sources of values.
  *
  * Property is represented as a string using a %Y-%m-%d format
  */
-public class GXml.GomDate : GomBaseProperty {
-  protected Date _value = Date ();
+public class GXml.Date : GXml.BaseProperty {
+  protected GLib.Date _value = GLib.Date ();
   public override string? value {
     owned get {
       if (!_value.valid ()) return null;
@@ -384,7 +384,7 @@ public class GXml.GomDate : GomBaseProperty {
       return (string) fr;
     }
     set {
-      _value = Date ();
+      _value = GLib.Date ();
       if ("-" in value) {
         string[] dp = value.split ("-");
         if (dp.length == 3) {
@@ -406,25 +406,25 @@ public class GXml.GomDate : GomBaseProperty {
   /**
    * Retrives current value.
    */
-  public Date get_date () { return _value; }
+  public GLib.Date get_date () { return _value; }
   /**
    * Sets current value.
    */
-  public void set_date (Date date) { _value = date; }
+  public void set_date (GLib.Date date) { _value = date; }
 }
 
 /**
- * Convenient class to handle {@link GomElement}'s attributes
+ * Convenient class to handle {@link Element}'s attributes
  * using a {@link GLib.DateTime} as sources of values.
  *
  * Timestamp is considered in local time.
  *
- * Property is represented as a string using a {@link GomDateTime.format}
- * and {@link GLib.DateTime.format} method. If {@link GomDateTime.format}
+ * Property is represented as a string using a {@link DateTime.format}
+ * and {@link GLib.DateTime.format} method. If {@link DateTime.format}
  * is not set '%FT%T' format is used by default.
  */
-public class GXml.GomDateTime : GomBaseProperty {
-  protected DateTime _value = null;
+public class GXml.DateTime : GXml.BaseProperty {
+  protected GLib.DateTime _value = null;
   public string format { get; set; }
   public override string? value {
     owned get {
@@ -437,7 +437,7 @@ public class GXml.GomDateTime : GomBaseProperty {
     set {
       var tv = TimeVal ();
       if (tv.from_iso8601 (value)) {
-        _value = new DateTime.from_timeval_local (tv);
+        _value = new GLib.DateTime.from_timeval_local (tv);
       } else
         warning (_("Invalid timestamp for property: "+value));
     }
@@ -445,9 +445,9 @@ public class GXml.GomDateTime : GomBaseProperty {
   /**
    * Retrives current value.
    */
-  public DateTime get_datetime () { return _value; }
+  public GLib.DateTime get_datetime () { return _value; }
   /**
    * Sets current value.
    */
-  public void set_datetime (DateTime dt) { _value = dt; }
+  public void set_datetime (GLib.DateTime dt) { _value = dt; }
 }

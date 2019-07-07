@@ -24,7 +24,7 @@
 /**
  * DOM4 Range implementation, powered by libxml2 library.
  */
-public class GXml.GDomRange : Object, GXml.DomRange {
+public class GXml.Range : GLib.Object, GXml.DomRange {
 	protected DomDocument _document;
 	protected DomNode _start_container;
 	protected int _start_offset;
@@ -39,7 +39,7 @@ public class GXml.GDomRange : Object, GXml.DomRange {
 	public bool collapsed { get { return _collapse; } }
 	public DomNode common_ancestor_container { get { return _common_ancestor_container; } }
 
-	public GDomRange (DomDocument doc) {
+	public Range (DomDocument doc) {
 		_document = doc;
 		_start_container = doc;
 		_end_container = doc;

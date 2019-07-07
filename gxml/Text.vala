@@ -28,7 +28,7 @@ using GXml;
  * This object avoids pre and post XML parsing, by using a one step parsing
  * to translate text XML tree to an GObject based tree.
  */
-public class GXml.GomCharacterData : GomNode,
+public class GXml.CharacterData : GXml.Node,
                           DomNonDocumentTypeChildNode,
                           DomChildNode,
                           DomCharacterData
@@ -85,7 +85,7 @@ public class GXml.GomCharacterData : GomNode,
  * This object avoids pre and post XML parsing, by using a one step parsing
  * to translate text XML tree to an GObject based tree.
  */
-public class GXml.GomText : GomCharacterData,
+public class GXml.Text : GXml.CharacterData,
                           DomText
 
 {
@@ -94,7 +94,7 @@ public class GXml.GomText : GomCharacterData,
     _local_name = "#text";
   }
 
-  public GomText (DomDocument doc, string data) {
+  public Text (DomDocument doc, string data) {
     _document = doc;
     _node_value = data;
   }
@@ -106,7 +106,7 @@ public class GXml.GomText : GomCharacterData,
  * This object avoids pre and post XML parsing, by using a one step parsing
  * to translate text XML tree to an GObject based tree.
  */
-public class GXml.GomProcessingInstruction : GomCharacterData,
+public class GXml.ProcessingInstruction : GXml.CharacterData,
                                             DomProcessingInstruction
 {
   // DomProcessingInstruction
@@ -114,7 +114,7 @@ public class GXml.GomProcessingInstruction : GomCharacterData,
   construct {
     _node_type = DomNode.NodeType.PROCESSING_INSTRUCTION_NODE;
   }
-  public GomProcessingInstruction (DomDocument doc, string target, string data) {
+  public ProcessingInstruction (DomDocument doc, string target, string data) {
     _document = doc;
     _node_value = data;
     _local_name = target;
@@ -127,14 +127,14 @@ public class GXml.GomProcessingInstruction : GomCharacterData,
  * This object avoids pre and post XML parsing, by using a one step parsing
  * to translate text XML tree to an GObject based tree.
  */
-public class GXml.GomComment : GomCharacterData,
+public class GXml.Comment : CharacterData,
                               DomComment
 {
   construct {
     _node_type = DomNode.NodeType.COMMENT_NODE;
     _local_name = "#comment";
   }
-  public GomComment (DomDocument doc, string data) {
+  public Comment (DomDocument doc, string data) {
     _document = doc;
     _node_value = data;
   }

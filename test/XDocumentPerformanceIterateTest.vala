@@ -1,5 +1,5 @@
 /* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
-/* GomDocumentPerformanceTest.vala
+/* GomDocumentPerformanceIterateTest.vala
  *
  * Copyright (C) 2019 Daniel Espinosa <esodan@gmail.com>
  *
@@ -27,9 +27,9 @@ class GXmlTest.Suite : Object
   {
     GLib.Intl.setlocale (GLib.LocaleCategory.ALL, "");
     Test.init (ref args);
-    Test.add_func ("/gxml/gom-document/performance", () => {
+    Test.add_func ("/gxml/x-document/performance/iterate", () => {
     try {
-      DomDocument d = new GomDocument ();
+      DomDocument d = new XDocument ();
       File dir = File.new_for_path (GXmlTestConfig.TEST_DIR);
       assert (dir.query_exists ());
       File f = File.new_for_uri (dir.get_uri ()+"/test-large.xml");
@@ -38,6 +38,10 @@ class GXmlTest.Suite : Object
       d.read_from_file (f);
       var t = Test.timer_elapsed ();
       message ("Elapsed time: %g", t);
+      Test.timer_start ();
+      foreah (DomNode n in d.child_nodes) {
+        assert (n.node_name != "");
+      }
     } catch (GLib.Error e) {
       warning ("Error: %s", e.message);
       assert_not_reached ();

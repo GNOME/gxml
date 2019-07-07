@@ -291,10 +291,10 @@ public class GXml.XDocument : GXml.XNode,
   protected GXml.DomEvent _constructor;
   public DomEvent create_event (string iface) {
       var s = iface.down ();
-      if (s == "customevent") _constructor = new GXml.GDomCustomEvent ();
-      if (s == "event") _constructor = new GXml.GDomCustomEvent ();
-      if (s == "events") _constructor = new GXml.GDomCustomEvent ();
-      if (s == "htmlevents") _constructor = new GXml.GDomCustomEvent ();
+      if (s == "customevent") _constructor = new GXml.CustomEvent ();
+      if (s == "event") _constructor = new GXml.CustomEvent ();
+      if (s == "events") _constructor = new GXml.CustomEvent ();
+      if (s == "htmlevents") _constructor = new GXml.CustomEvent ();
       if (s == "keyboardevent") _constructor = null;
       if (s == "keyevents") _constructor = null;
       if (s == "messageevent") _constructor = null;
@@ -307,7 +307,7 @@ public class GXml.XDocument : GXml.XNode,
   }
 
   public DomRange create_range() {
-      return new GDomRange (this);
+      return new GXml.Range (this);
   }
 
   // NodeFilter.SHOW_ALL = 0xFFFFFFFF
@@ -339,7 +339,7 @@ public class GXml.XDocument : GXml.XNode,
   public DomNodeList query_selector_all (string selectors) throws GLib.Error  {
     var cs = new CssSelectorParser ();
     cs.parse (selectors);
-    var l = new GomNodeList();
+    var l = new GXml.NodeList();
     foreach (GXml.DomNode e in children_nodes) {
       if (!(e is DomElement)) continue;
       if (cs.match (e as DomElement))
@@ -425,7 +425,7 @@ public class GXml.XDocumentFragment : GXml.XDocument,
 }
 
 
-public class GXml.GDomNodeIterator : Object, GXml.DomNodeIterator {
+public class GXml.GDomNodeIterator : GLib.Object, GXml.DomNodeIterator {
   protected DomNode _root;
   protected DomNode _reference_node;
   protected bool _pointer_before_reference_node;
@@ -449,7 +449,7 @@ public class GXml.GDomNodeIterator : Object, GXml.DomNodeIterator {
 }
 
 
-public class GXml.GDomTreeWalker : Object, GXml.DomTreeWalker {
+public class GXml.GDomTreeWalker : GLib.Object, GXml.DomTreeWalker {
   protected DomNode _root;
   protected int _what_to_show;
   protected DomNodeFilter? _filter;

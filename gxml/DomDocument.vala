@@ -108,7 +108,7 @@ public interface GXml.DomDocument : GLib.Object,
   }
   /**
    * Creates an {@link GLib.InputStream} to write a string representation
-   * in XML of {@link GomDocument}
+   * in XML of {@link GXml.Document}
    */
   public virtual InputStream create_stream () throws GLib.Error {
     Parser parser = get_xml_parser ();
@@ -116,7 +116,7 @@ public interface GXml.DomDocument : GLib.Object,
   }
   /**
    * Creates an {@link GLib.InputStream} to write a string representation
-   * in XML of {@link GomDocument}
+   * in XML of {@link GXml.Document}
    */
   public virtual async InputStream create_stream_async (Cancellable? cancellable = null) throws GLib.Error {
     Parser parser = get_xml_parser ();
@@ -124,7 +124,7 @@ public interface GXml.DomDocument : GLib.Object,
     return yield parser.create_stream_async ();
   }
   /**
-   * Serialize {@link GomDocument} to a string.
+   * Serialize {@link GXml.Document} to a string.
    */
   public virtual string write_string (Cancellable? cancellable = null) throws GLib.Error {
     Parser parser = get_xml_parser ();
@@ -132,7 +132,7 @@ public interface GXml.DomDocument : GLib.Object,
     return parser.write_string ();
   }
   /**
-   * Serialize {@link GomDocument} to a string.
+   * Serialize {@link GXml.Document} to a string.
    */
   public virtual async string write_string_async (Cancellable? cancellable = null) throws GLib.Error
   {

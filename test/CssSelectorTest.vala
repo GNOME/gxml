@@ -32,7 +32,7 @@ class CssSelectorTest : GXmlTest {
 				var s = cp.selectors[0];
 				assert (s != null);
 				assert (s.selector_type == CssSelectorType.ALL);
-				var d = new GomDocument ();
+				var d = new GXml.Document ();
 				var r = d.create_element ("root");
 				d.append_child (r);
 				var c1 = d.create_element ("child");
@@ -51,7 +51,7 @@ class CssSelectorTest : GXmlTest {
 				var s = cp.selectors[0];
 				assert (s != null);
 				assert (s.selector_type == CssSelectorType.ELEMENT);
-				var d = new GomDocument ();
+				var d = new GXml.Document ();
 				var r = d.create_element ("root");
 				d.append_child (r);
 				var c1 = d.create_element ("child");
@@ -74,7 +74,7 @@ class CssSelectorTest : GXmlTest {
 				var sa = cp.selectors[1];
 				assert (sa != null);
 				assert (sa.selector_type == CssSelectorType.ATTRIBUTE);
-				var d = new GomDocument ();
+				var d = new GXml.Document ();
 				var r = d.create_element ("root");
 				d.append_child (r);
 				var c1 = d.create_element ("child");
@@ -101,7 +101,7 @@ class CssSelectorTest : GXmlTest {
 				var sa = cp.selectors[1];
 				assert (sa != null);
 				assert (sa.selector_type == CssSelectorType.ATTRIBUTE_CONTAINS);
-				var d = new GomDocument ();
+				var d = new GXml.Document ();
 				var r = d.create_element ("root");
 				d.append_child (r);
 				var c1 = d.create_element ("child");
@@ -136,7 +136,7 @@ class CssSelectorTest : GXmlTest {
 				var sa = cp.selectors[1];
 				assert (sa != null);
 				assert (sa.selector_type == CssSelectorType.ATTRIBUTE_STARTS_WITH);
-				var d = new GomDocument ();
+				var d = new GXml.Document ();
 				var r = d.create_element ("root");
 				d.append_child (r);
 				var c1 = d.create_element ("child");
@@ -171,7 +171,7 @@ class CssSelectorTest : GXmlTest {
 				var sa = cp.selectors[1];
 				assert (sa != null);
 				assert (sa.selector_type == CssSelectorType.ATTRIBUTE_STARTS_WITH_WORD);
-				var d = new GomDocument ();
+				var d = new GXml.Document ();
 				var r = d.create_element ("root");
 				d.append_child (r);
 				var c1 = d.create_element ("child");
@@ -206,7 +206,7 @@ class CssSelectorTest : GXmlTest {
 				var sa = cp.selectors[1];
 				assert (sa != null);
 				assert (sa.selector_type == CssSelectorType.ATTRIBUTE_ENDS_WITH);
-				var d = new GomDocument ();
+				var d = new GXml.Document ();
 				var r = d.create_element ("root");
 				d.append_child (r);
 				var c1 = d.create_element ("child");
@@ -241,7 +241,7 @@ class CssSelectorTest : GXmlTest {
 				var sa = cp.selectors[1];
 				assert (sa != null);
 				assert (sa.selector_type == CssSelectorType.ATTRIBUTE_EQUAL);
-				var d = new GomDocument ();
+				var d = new GXml.Document ();
 				var r = d.create_element ("root");
 				d.append_child (r);
 				var c1 = d.create_element ("child");
@@ -271,7 +271,7 @@ class CssSelectorTest : GXmlTest {
 				var sa = cp.selectors[1];
 				assert (sa != null);
 				assert (sa.selector_type == CssSelectorType.ATTRIBUTE_EQUAL);
-				var d = new GomDocument ();
+				var d = new GXml.Document ();
 				var r = d.create_element ("root");
 				d.append_child (r);
 				var c1 = d.create_element ("child");
@@ -297,7 +297,7 @@ class CssSelectorTest : GXmlTest {
 				var si = cp.selectors[0];
 				assert (si != null);
 				assert (si.selector_type == CssSelectorType.CLASS);
-				var d = new GomDocument ();
+				var d = new GXml.Document ();
 				var r = d.create_element ("root");
 				d.append_child (r);
 				var c1 = d.create_element ("child");
@@ -336,7 +336,7 @@ class CssSelectorTest : GXmlTest {
 				var sc = cp.selectors[1];
 				assert (sc != null);
 				assert (sc.selector_type == CssSelectorType.CLASS);
-				var d = new GomDocument ();
+				var d = new GXml.Document ();
 				var r = d.create_element ("root");
 				d.append_child (r);
 				var c1 = d.create_element ("children");
@@ -375,7 +375,7 @@ class CssSelectorTest : GXmlTest {
 				var sa = cp.selectors[1];
 				assert (sa != null);
 				assert (sa.selector_type == CssSelectorType.PSEUDO_CLASS);
-				var d = new GomDocument ();
+				var d = new GXml.Document ();
 				var r = d.create_element ("toplevel");
 				d.append_child (r);
 				var c1 = d.create_element ("child");
@@ -429,7 +429,7 @@ class CssSelectorTest : GXmlTest {
 				var sa = cp.selectors[1];
 				assert (sa != null);
 				assert (sa.selector_type == CssSelectorType.ATTRIBUTE_EQUAL);
-				var d = new GomDocument ();
+				var d = new GXml.Document ();
 				var r = d.create_element ("HTML");
 				d.append_child (r);
 				var c1 = d.create_element ("BODY");
@@ -456,7 +456,7 @@ class CssSelectorTest : GXmlTest {
 				var sa = cp.selectors[1];
 				assert (sa != null);
 				assert (sa.selector_type == CssSelectorType.PSEUDO_CLASS);
-				var d = new GomDocument ();
+				var d = new GXml.Document ();
 				var r = d.create_element ("toplevel");
 				d.append_child (r);
 				var c1 = d.create_element ("child");
@@ -521,7 +521,7 @@ class CssSelectorTest : GXmlTest {
 				var sa = cp.selectors[1];
 				assert (sa != null);
 				assert (sa.selector_type == CssSelectorType.PSEUDO_CLASS);
-				var d = new GomDocument ();
+				var d = new GXml.Document ();
 				var r = d.create_element ("toplevel");
 				d.append_child (r);
 				var c1 = d.create_element ("child");
@@ -593,7 +593,7 @@ class CssSelectorTest : GXmlTest {
 				var sa = cp.selectors[1];
 				assert (sa != null);
 				assert (sa.selector_type == CssSelectorType.PSEUDO_CLASS);
-				var d = new GomDocument ();
+				var d = new GXml.Document ();
 				var r = d.create_element ("toplevel");
 				d.append_child (r);
 				var c1 = d.create_element ("child");
@@ -661,7 +661,7 @@ class CssSelectorTest : GXmlTest {
 				var s = cp.selectors[0];
 				assert (s != null);
 				assert (s.selector_type == CssSelectorType.ELEMENT);
-				var d = new GomDocument ();
+				var d = new GXml.Document ();
 				var r = d.create_element ("toplevel");
 				d.append_child (r);
 				var c1 = d.create_element ("child");
@@ -697,7 +697,7 @@ class CssSelectorTest : GXmlTest {
 				var s = cp.selectors[0];
 				assert (s != null);
 				assert (s.selector_type == CssSelectorType.ELEMENT);
-				var d = new GomDocument ();
+				var d = new GXml.Document ();
 				var r = d.create_element ("toplevel");
 				d.append_child (r);
 				var c1 = d.create_element ("child");
@@ -737,7 +737,7 @@ class CssSelectorTest : GXmlTest {
 				var s = cp.selectors[0];
 				assert (s != null);
 				assert (s.selector_type == CssSelectorType.ELEMENT);
-				var d = new GomDocument ();
+				var d = new GXml.Document ();
 				var r = d.create_element ("toplevel");
 				d.append_child (r);
 				var c1 = d.create_element ("child");

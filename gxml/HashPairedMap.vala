@@ -1,6 +1,6 @@
 /* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /*
- * GomHashThreeMap.vala
+ * HashPairedMap.vala
  *
  * Copyright (C) 2016  Daniel Espinosa <esodan@gmail.com>
  *
@@ -25,35 +25,30 @@ using Gee;
 
 /**
  * A class impementing {@link Collection} to store references to
- * child {@link DomElement} of {@link Collection.element}, using three attributes in
- * items as primary, secondary tertiary keys or {@link MappeableElementThreeKey.get_map_pkey},
- * {@link MappeableElementThreeKey.get_map_skey}
- * and {@link MappeableElementThreeKey.get_map_tkey}
- * methods if {@link MappeableElementThreeKey} are implemented
- * by items to be added. All keys should be defined in node, otherwise
+ * child {@link DomElement} of {@link Collection.element}, using two attributes in
+ * items as primary and secondary keys or {@link MappeableElementPairKey.get_map_primary_key}
+ * and {@link MappeableElementPairKey.get_map_secondary_key} methods if
+ * {@link MappeableElementPairKey} are implemented
+ * by items to be added. If one or both keys are not defined in node,
  * it is not added; but keeps it as a child node of actual
  * {@link Collection.element}.
  *
- * If {@link GomElement} to be added is of type {@link Collection.items_type}
- * and implements {@link MappeableElementThreeKey}, you should set
- * {@link attribute_primary_key}, {@link attribute_secondary_key}
- * and  {@link attribute_third_key}
- * to null in order to use returned value of {@link MappeableElementThreeKey.get_map_pkey},
- * {@link MappeableElementThreeKey.get_map_skey}
- * and {@link MappeableElementThreeKey.get_map_tkey}
+ * If {@link GXml.Element} to be added is of type {@link Collection.items_type}
+ * and implements {@link MappeableElementPairKey}, you should set
+ * {@link attribute_primary_key} and {@link attribute_secondary_key}
+ * to null in order to use returned value of {@link MappeableElementPairKey.get_map_primary_key}
+ * and {@link MappeableElementPairKey.get_map_secondary_key}
  * as keys.
  *
  * {{{
- *   public class YourObject : GomElement, MappeableElementThirdKey {
+ *   public class YourObject : GXml.Element, MappeableElementPairKey {
  *    [Description (nick="::Name")]
  *    public string name { get; set; }
  *    public string code { get; set; }
- *    public string category { get; set; }
  *    public string get_map_primary_key () { return code; }
  *    public string get_map_secondary_key () { return name; }
- *    public string get_map_third_key () { return category; }
  *   }
- *   public class YourList : GomHashPairedMap {
+ *   public class YourList : HashPairedMap {
  *    construct {
  *      try { initialize_with (typeof (YourObject)); }
  *      catch (GLib.Error e) {
@@ -64,11 +59,11 @@ using Gee;
  *   }
  * }}}
  */
-public class GXml.GomHashThreeMap : GXml.BaseCollection, ThreeMap {
+public class GXml.HashPairedMap : GXml.BaseCollection, GXml.PairedMap {
   /**
    * A hashtable with all keys as string to node's index refered. Don't modify it manually.
    */
-  protected HashMap<string,HashMap<string,HashMap<string,int>>> _hashtable = new HashMap<string,HashMap<string,HashMap<string,int>>> ();
+  protected Gee.HashMap<string,Gee.HashMap<string,int>> _hashtable = new Gee.HashMap<string,Gee.HashMap<string,int>> ();
   /**
    * Element's attribute name used to refer of container's element as primery key.
    * You should define it at construction time
@@ -81,12 +76,6 @@ public class GXml.GomHashThreeMap : GXml.BaseCollection, ThreeMap {
    * our set it as a construction property.
    */
   protected string _attribute_secondary_key;
-  /**
-   * Element's attribute name used to refer of container's element as third key.
-   * You should define it at construction time
-   * our set it as a construction property.
-   */
-  protected string _attribute_third_key;
   /**
    * An attribute's name in items to be added and used to retrieve elements
    * as primary key.
@@ -102,57 +91,43 @@ public class GXml.GomHashThreeMap : GXml.BaseCollection, ThreeMap {
     get { return _attribute_secondary_key; } construct set { _attribute_secondary_key = value; }
   }
   /**
-   * An attribute's name in items to be added and used to retrieve elements
-   * as third key.
-   */
-  public string attribute_third_key {
-    get { return _attribute_third_key; } construct set { _attribute_third_key = value; }
-  }
-  /**
-   * Convenient function to initialize a {@link GomHashMap} collection, using
+   * Convenient function to initialize a {@link GXml.HashMap} collection, using
    * given element, items' type and name.
    */
-  public void initialize_element_with_keys (GomElement element,
+  public void initialize_element_with_keys (GXml.Element element,
                                   GLib.Type items_type,
                                   string attribute_primary_key,
-                                  string attribute_secondary_key,
-                                  string attribute_third_key) throws GLib.Error
+                                  string attribute_secondary_key) throws GLib.Error
   {
     initialize (items_type);
     initialize_element (element);
     _attribute_primary_key = attribute_primary_key;
     _attribute_secondary_key = attribute_secondary_key;
-    _attribute_third_key = attribute_third_key;
   }
 
   /**
-   * Convenient function to initialize a {@link GomHashMap} collection, using
+   * Convenient function to initialize a {@link GXml.HashMap} collection, using
    * given element, items' type and name.
    *
    * Using this method at construction time of derived classes.
    */
   public void initialize_with_keys (GLib.Type items_type,
                                   string attribute_primary_key,
-                                  string attribute_secondary_key,
-                                  string attribute_third_key) throws GLib.Error
+                                  string attribute_secondary_key) throws GLib.Error
   {
     initialize (items_type);
     _attribute_primary_key = attribute_primary_key;
     _attribute_secondary_key = attribute_secondary_key;
-    _attribute_third_key = attribute_third_key;
   }
   /**
    * Returns an {@link DomElement} in the collection using given string keys.
    */
-  public new DomElement? get (string primary_key, string secondary_key, string third_key) {
+  public new DomElement? get (string primary_key, string secondary_key) {
     if (!_hashtable.has_key (primary_key)) return null;
     var ht = _hashtable.get (primary_key);
     if (ht == null) return null;
     if (!ht.has_key (secondary_key)) return null;
-    var hte = ht.get (secondary_key);
-    if (hte == null) return null;
-    if (!hte.has_key (third_key)) return null;
-    var i = hte.get (secondary_key);
+    var i = ht.get (secondary_key);
     return _element.child_nodes.get (i) as DomElement;
   }
   /**
@@ -174,19 +149,6 @@ public class GXml.GomHashThreeMap : GXml.BaseCollection, ThreeMap {
     return false;
   }
   /**
-   * Returns true if @key is used in collection as third key with secondary key
-   * and pkey as primary.
-   */
-  public bool has_third_key (string pkey, string skey, string key) {
-    if (!(_hashtable.has_key (pkey))) return false;
-    var ht = _hashtable.get (pkey);
-    if (ht == null) return false;
-    var hte = ht.get (skey);
-    if (hte == null) return false;
-    if (hte.has_key (key)) return true;
-    return false;
-  }
-  /**
    * Returns list of primary keys used in collection.
    */
   public GLib.List<string> get_primary_keys () {
@@ -197,11 +159,10 @@ public class GXml.GomHashThreeMap : GXml.BaseCollection, ThreeMap {
     return l;
   }
   /**
-   * Returns list of secondary keys used in collection with pkey as primary key.
+   * Returns list of secondary keys used in collection with @pkey as primary key.
    */
   public GLib.List<string> get_secondary_keys (string pkey) {
     var l = new GLib.List<string> ();
-    if (!_hashtable.has_key (pkey)) return l;
     var ht = _hashtable.get (pkey);
     if (ht == null) return l;
     foreach (string k in ht.keys) {
@@ -210,29 +171,12 @@ public class GXml.GomHashThreeMap : GXml.BaseCollection, ThreeMap {
     return l;
   }
   /**
-   * Returns list of third keys used in collection with pkey as primary key
-   * and skey as secondary key.
-   */
-  public GLib.List<string> get_third_keys (string pkey, string skey) {
-    var l = new GLib.List<string> ();
-    if (!_hashtable.has_key (pkey)) return l;
-    var ht = _hashtable.get (pkey);
-    if (ht == null) return l;
-    var hte = ht.get (skey);
-    if (hte == null) return l;
-    foreach (string k in hte.keys) {
-      l.append (k);
-    }
-    return l;
-  }
-  /**
-   * Validates if given element has a {@link attribute_primary_key},
-   * {@link attribute_secondary_key} and
-   * {@link attribute_third_key} set,
+   * Validates if given element has a {@link attribute_primary_key}
+   * and {@link attribute_secondary_key} set,
    * if so adds a new keys pointing to given index and returns true.
    *
    * Attribute should be a valid {@link DomElement} attribute or
-   * a {@link GomObject} property identified using a nick with a '::' prefix.
+   * a {@link GXml.Object} property identified using a nick with a '::' prefix.
    *
    * If there are more elements with same keys, they are kept as child nodes
    * but the one in collection will be the last one to be found.
@@ -240,44 +184,43 @@ public class GXml.GomHashThreeMap : GXml.BaseCollection, ThreeMap {
    * Return: false if element should not be added to collection.
    */
   public override bool validate_append (int index, DomElement element) throws GLib.Error {
-    if (!(element is GomElement)) return false;
+    if (!(element is GXml.Element)) return false;
+#if DEBUG
+    message ("Validating HashMap Element..."
+            +(element as GXml.Element).write_string ()
+            +" Attrs:"+(element as GXml.Element).attributes.length.to_string());
+#endif
     string pkey = null;
     string skey = null;
-    string tkey = null;
-    if (attribute_primary_key != null && attribute_secondary_key != null
-        && attribute_third_key != null) {
+    if (attribute_primary_key != null && attribute_secondary_key != null) {
       pkey = (element as DomElement).get_attribute (attribute_primary_key);
       skey = (element as DomElement).get_attribute (attribute_secondary_key);
-      tkey = (element as DomElement).get_attribute (attribute_third_key);
-      if (pkey == null || skey == null || tkey == null) {
+      if (pkey == null || skey == null) {
         pkey = (element as DomElement).get_attribute (attribute_primary_key.down ());
         skey = (element as DomElement).get_attribute (attribute_secondary_key.down ());
-        tkey = (element as DomElement).get_attribute (attribute_third_key.down ());
       }
     } else {
-      if (items_type.is_a (typeof(MappeableElementThreeKey))) {
-        if (!(element is MappeableElementThreeKey)) return false;
-        pkey = ((MappeableElementThreeKey) element).get_map_pkey ();
-        skey = ((MappeableElementThreeKey) element).get_map_skey ();
-        tkey = ((MappeableElementThreeKey) element).get_map_tkey ();
+      if (items_type.is_a (typeof(MappeableElementPairKey))) {
+        if (!(element is MappeableElementPairKey)) return false;
+        pkey = ((MappeableElementPairKey) element).get_map_primary_key ();
+        skey = ((MappeableElementPairKey) element).get_map_secondary_key ();
       }
     }
-    if (pkey == null || skey == null || tkey == null) return false;
+    if (pkey == null || skey == null)
+      throw new DomError.NOT_FOUND_ERROR (_("No primary key and/or secondary key was found"));
     var ht = _hashtable.get (pkey);
-    if (ht == null) ht = new HashMap<string,HashMap<string,int>> ();
-    var hte = ht.get (skey);
-    if (hte == null) hte = new HashMap<string,int> ();
-    if (!_hashtable.has_key (pkey)) _hashtable.set (pkey, ht);
-    if (!ht.has_key (skey)) ht.set (skey, hte);
-    hte.set (tkey, index);
+    if (ht == null) {
+      ht = new Gee.HashMap<string,int> ();
+      _hashtable.set (pkey, ht);
+    }
+    ht.set (skey, index);
     return true;
   }
   public override void clear () {
-    _hashtable = new HashMap<string,HashMap<string,HashMap<string,int>>> ();
+    _hashtable = new Gee.HashMap<string,Gee.HashMap<string,int>> ();
   }
-
-  public DomElement? item (string primary_key, string secondary_key, string third_key) {
-    return get (primary_key, secondary_key, third_key);
+  public DomElement? item (string primary_key, string secondary_key) {
+    return get (primary_key, secondary_key);
   }
   public Set<string> primary_keys_set {
     owned get {
@@ -290,22 +233,9 @@ public class GXml.GomHashThreeMap : GXml.BaseCollection, ThreeMap {
   }
   public Set<string> secondary_keys_set (string pkey) {
     var l = new HashSet<string> ();
-    if (!_hashtable.has_key (pkey)) return l;
     var ht = _hashtable.get (pkey);
     if (ht == null) return l;
     foreach (string k in ht.keys) {
-      l.add (k);
-    }
-    return l;
-  }
-  public Set<string> third_keys_set (string pkey, string skey) {
-    var l = new HashSet<string> ();
-    if (!_hashtable.has_key (pkey)) return l;
-    var ht = _hashtable.get (pkey);
-    if (ht == null) return l;
-    var hte = ht.get (skey);
-    if (hte == null) return l;
-    foreach (string k in hte.keys) {
       l.add (k);
     }
     return l;

@@ -23,7 +23,7 @@
 using GXml;
 
 // GOM Collection Definitions
-class ThreeKeys : GomElement {
+class ThreeKeys : GXml.Element {
   private ThreeKey.Map _map;
   public ThreeKey.Map map {
     get {
@@ -40,7 +40,7 @@ class ThreeKeys : GomElement {
   }
   construct { try { initialize ("ThreeKeys"); } catch { assert_not_reached (); } }
 }
-class ThreeKey : GomElement, MappeableElementThreeKey {
+class ThreeKey : GXml.Element, MappeableElementThreeKey {
   [Description (nick="::ID")]
   public string id { get; set; }
   [Description (nick="::Code")]
@@ -51,14 +51,14 @@ class ThreeKey : GomElement, MappeableElementThreeKey {
   public string get_map_pkey () { return id; }
   public string get_map_skey () { return code; }
   public string get_map_tkey () { return name; }
-  public class Map : GomHashThreeMap {
+  public class Map : GXml.HashThreeMap {
     construct {
       try { initialize (typeof (ThreeKey)); }
       catch (GLib.Error e) { message ("Error: "+e.message); }
     }
   }
 }
-class Operations : GomElement {
+class Operations : GXml.Element {
   private Operation.Map _map;
   public Operation.Map map {
     get {
@@ -75,7 +75,7 @@ class Operations : GomElement {
   }
   construct { try { initialize ("Operations"); } catch { assert_not_reached (); } }
 }
-class Operation : GomElement, MappeableElementPairKey {
+class Operation : GXml.Element, MappeableElementPairKey {
   [Description (nick="::ID")]
   public string id { get; set; }
   [Description (nick="::Code")]
@@ -83,42 +83,42 @@ class Operation : GomElement, MappeableElementPairKey {
   construct { try { initialize ("Operation"); } catch { assert_not_reached (); } }
   public string get_map_primary_key () { return id; }
   public string get_map_secondary_key () { return code; }
-  public class Map : GomHashPairedMap {
+  public class Map : GXml.HashPairedMap {
     construct {
       try { initialize (typeof (Operation)); }
       catch (GLib.Error e) { message ("Error: "+e.message); }
     }
   }
 }
-class GomName : GomElement
+class GomName : GXml.Element
 {
   construct { try { initialize ("Name"); } catch { assert_not_reached (); } }
 }
 
-class GomEmail : GomElement
+class GomEmail : GXml.Element
 {
   construct {  try { initialize ("Email"); } catch { assert_not_reached (); } }
 }
 
-class GomAuthor : GomElement
+class GomAuthor : GXml.Element
 {
   public GomName name { get; set; }
   public GomEmail email { get; set; }
   construct { try { initialize ("Author"); } catch { assert_not_reached (); } }
-  public class Array : GomArrayList {
+  public class Array : GXml.ArrayList {
     construct { try { initialize (typeof (GomAuthor)); }
     catch { assert_not_reached (); } }
   }
 }
 
-class GomAuthors : GomElement
+class GomAuthors : GXml.Element
 {
   public string number { get; set; }
   construct { try { initialize ("Authors"); } catch { assert_not_reached (); } }
   public GomAuthor.Array array { get; set; }
 }
 
-class GomInventory : GomElement
+class GomInventory : GXml.Element
 {
   [Description (nick="::Number")]
   public int number { get; set; }
@@ -128,7 +128,7 @@ class GomInventory : GomElement
   public string inventory { get; set; }
   construct { try { initialize ("Inventory"); } catch { assert_not_reached (); } }
   // FIXME: Add DualKeyMap implementation to GOM
-  public class DualKeyMap : GomHashMap {
+  public class DualKeyMap : GXml.HashMap {
     construct {
       try { initialize_with_key (typeof (GomInventory), "number"); }
       catch { assert_not_reached (); }
@@ -136,12 +136,12 @@ class GomInventory : GomElement
   }
 }
 
-class GomCategory : GomElement
+class GomCategory : GXml.Element
 {
   [Description (nick="::Name")]
   public string name { get; set; }
   construct { try { initialize ("Category"); } catch { assert_not_reached (); } }
-  public class Map : GomHashMap {
+  public class Map : GXml.HashMap {
     construct {
       try { initialize_with_key (typeof (GomCategory), "name");  }
       catch { assert_not_reached (); }
@@ -150,14 +150,14 @@ class GomCategory : GomElement
 }
 
 
-class GomResume : GomElement
+class GomResume : GXml.Element
 {
   [Description (nick="::Chapter")]
   public string chapter { get; set; }
   [Description (nick="::Text")]
   public string text { get; set; }
   construct { try { initialize ("Resume"); } catch { assert_not_reached (); } }
-  public class Map : GomHashMap {
+  public class Map : GXml.HashMap {
     construct {
       try { initialize_with_key (typeof (GomResume), "chapter"); }
       catch { assert_not_reached (); }
@@ -165,7 +165,7 @@ class GomResume : GomElement
   }
 }
 
-class GomBook : GomElement
+class GomBook : GXml.Element
 {
   [Description(nick="::Year")]
   public string year { get; set; }
@@ -179,7 +179,7 @@ class GomBook : GomElement
   construct {
     try { initialize ("Book"); } catch { assert_not_reached (); }
   }
-  public class Array : GomArrayList {
+  public class Array : GXml.ArrayList {
     construct {
       try { initialize (typeof (GomBook)); }
       catch { assert_not_reached (); }
@@ -187,7 +187,7 @@ class GomBook : GomElement
   }
 }
 
-class GomBookStore : GomElement
+class GomBookStore : GXml.Element
 {
   [Description (nick="::name")]
   public string name { get; set; }
@@ -197,7 +197,7 @@ class GomBookStore : GomElement
   }
 }
 
-class GomBasicTypes : GomElement {
+class GomBasicTypes : GXml.Element {
   [Description (nick="::text")]
   public string text { get; set; }
   [Description (nick="::integer")]
@@ -215,8 +215,8 @@ class GomBasicTypes : GomElement {
   }
 }
 
-class GomSerializationTest : GXmlTest  {
-  public class Book : GomElement {
+class SerializationTest : GXmlTest  {
+  public class Book : GXml.Element {
     [Description (nick="::Name")]
     public string name { get; set; }
     construct { try { initialize ("Book"); } catch { assert_not_reached (); } }
@@ -235,7 +235,7 @@ class GomSerializationTest : GXmlTest  {
       return s;
     }
   }
-  public class Computer : GomElement {
+  public class Computer : GXml.Element {
     [Description (nick="::Model")]
     public string model { get; set; }
     public string ignore { get; set; } // ignored property
@@ -252,7 +252,7 @@ class GomSerializationTest : GXmlTest  {
       return s;
     }
   }
-  public class Taxes : GomElement {
+  public class Taxes : GXml.Element {
     [Description (nick="::monthRate")]
     public double month_rate { get; set; }
     [Description (nick="::TaxFree")]
@@ -260,9 +260,9 @@ class GomSerializationTest : GXmlTest  {
     [Description (nick="::Month")]
     public Month month { get; set; }
     [Description (nick="::PayDate")]
-    public GomDate pay_date { get; set; }
+    public GXml.Date pay_date { get; set; }
     [Description (nick="::Timestamp")]
-    public GomDateTime timestamp { get; set; }
+    public GXml.DateTime timestamp { get; set; }
     construct { try { initialize ("Taxes"); } catch { assert_not_reached (); } }
     public string to_string () {
       var parser = new XParser (this);
@@ -280,7 +280,7 @@ class GomSerializationTest : GXmlTest  {
       FEBRUARY
     }
   }
-  public class BookRegister : GomElement,
+  public class BookRegister : GXml.Element,
                               MappeableElement,
                               MappeableElementPairKey,
                               MappeableElementThreeKey {
@@ -322,7 +322,7 @@ class GomSerializationTest : GXmlTest  {
     public string get_map_skey () { return get_map_secondary_key (); }
     public string get_map_tkey () { return cover; }
     public Book create_book (string name) {
-      return Object.new (typeof (Book),
+      return GLib.Object.new (typeof (Book),
                         "owner-document", this.owner_document,
                         "name", name)
                         as Book;
@@ -340,7 +340,7 @@ class GomSerializationTest : GXmlTest  {
       return s;
     }
   }
-  public class BookStand : GomElement {
+  public class BookStand : GXml.Element {
     HashRegisters _hashmap_registers = null;
     HashPairRegisters _hashpair_registers = null;
     HashThreeRegisters _hashthree_registers = null;
@@ -355,7 +355,7 @@ class GomSerializationTest : GXmlTest  {
     public HashRegisters hashmap_registers {
       get {
         if (_hashmap_registers == null)
-          _hashmap_registers = Object.new (typeof (HashRegisters),"element",this)
+          _hashmap_registers = GLib.Object.new (typeof (HashRegisters),"element",this)
                               as HashRegisters;
         return _hashmap_registers;
       }
@@ -366,7 +366,7 @@ class GomSerializationTest : GXmlTest  {
     public HashPairRegisters hashpair_registers {
       get {
         if (_hashpair_registers == null)
-          _hashpair_registers = Object.new (typeof (HashPairRegisters),"element",this)
+          _hashpair_registers = GLib.Object.new (typeof (HashPairRegisters),"element",this)
                               as HashPairRegisters;
         return _hashpair_registers;
       }
@@ -377,7 +377,7 @@ class GomSerializationTest : GXmlTest  {
     public HashThreeRegisters hashthree_registers {
       get {
         if (_hashthree_registers == null)
-          _hashthree_registers = Object.new (typeof (HashThreeRegisters),"element",this)
+          _hashthree_registers = GLib.Object.new (typeof (HashThreeRegisters),"element",this)
                               as HashThreeRegisters;
         return _hashthree_registers;
       }
@@ -400,7 +400,7 @@ class GomSerializationTest : GXmlTest  {
       }
       return s;
     }
-    public class Dimension : GomElement {
+    public class Dimension : GXml.Element {
       [Description (nick="::Length")]
       public double length { get; set; default = 1.0; }
       [Description (nick="::Type")]
@@ -421,37 +421,37 @@ class GomSerializationTest : GXmlTest  {
     }
   }
 
-  public class Registers : GomArrayList {
+  public class Registers : GXml.ArrayList {
     construct {
       try { initialize (typeof (BookRegister)); }
       catch { assert_not_reached (); }
     }
   }
-  public class HashRegisters : GomHashMap {
+  public class HashRegisters : GXml.HashMap {
     construct {
       try { initialize (typeof (BookRegister)); }
       catch { assert_not_reached (); }
     }
   }
-  public class HashPairRegisters : GomHashPairedMap {
+  public class HashPairRegisters : GXml.HashPairedMap {
     construct {
       try { initialize (typeof (BookRegister)); }
       catch { assert_not_reached (); }
     }
   }
-  public class HashThreeRegisters : GomHashThreeMap {
+  public class HashThreeRegisters : GXml.HashThreeMap {
     construct {
       try { initialize (typeof (BookRegister)); }
       catch { assert_not_reached (); }
     }
   }
-  public class Books : GomHashMap {
+  public class Books : GXml.HashMap {
     construct {
       try { initialize_with_key (typeof (Book), "Name"); }
       catch { assert_not_reached (); }
     }
   }
-  public class BookStore : GomElement {
+  public class BookStore : GXml.Element {
     [Description (nick="::Name")]
     public string name { get; set; }
     public Books books { get; set; }
@@ -470,7 +470,7 @@ class GomSerializationTest : GXmlTest  {
       return s;
     }
   }
-  public class Motor : GomElement {
+  public class Motor : GXml.Element {
     [Description (nick="::On")]
     public On is_on { get; set; }
     [Description (nick="::Torque")]
@@ -499,17 +499,17 @@ class GomSerializationTest : GXmlTest  {
       AC,
       DC
     }
-    public class On : GomBoolean {}
-    public class Torque : GomDouble {}
-    public class Speed : GomFloat {}
-    public class TensionType : GomEnum {
+    public class On : GXml.Boolean {}
+    public class Torque : GXml.Double {}
+    public class Speed : GXml.Float {}
+    public class TensionType : GXml.Enum {
       construct {
         try { initialize_enum (typeof (TensionTypeEnum)); }
         catch { assert_not_reached (); }
       }
     }
-    public class Tension : GomInt {}
-    public class Model : GomArrayString {
+    public class Tension : GXml.Int {}
+    public class Model : GXml.ArrayString {
       construct {
         initialize_strings ({"MODEL1","MODEL2"});
       }
@@ -590,8 +590,8 @@ class GomSerializationTest : GXmlTest  {
       assert ("monthRate=\"0\"" in s);
       assert ("Month=\"january\"" in s);
       assert ("TaxFree=\"false\"" in s);
-      t.pay_date = new GomDate ();
-      var d = Date ();
+      t.pay_date = new GXml.Date ();
+      var d = GLib.Date ();
       d.set_dmy ((DateDay) 1, (DateMonth) 2, (DateYear) 2017);
       assert (d.valid ());
       assert (t.pay_date != null);
@@ -610,7 +610,7 @@ class GomSerializationTest : GXmlTest  {
       s = t.to_string ();
       assert (s != null);
       assert ("PayDate=\"2075-03-17\"" in s);
-      var gd = new GomDate ();
+      var gd = new GXml.Date ();
       gd.value = "2076-03-17";
       assert (gd.get_date ().valid ());
       assert (gd.value == "2076-03-17");
@@ -648,8 +648,8 @@ class GomSerializationTest : GXmlTest  {
       assert ("monthRate=\"0\"" in s);
       assert ("Month=\"january\"" in s);
       assert ("TaxFree=\"false\"" in s);
-      t.timestamp = new GomDateTime ();
-      var d = new DateTime.local (2017,2,10,14,14,20.345);
+      t.timestamp = new GXml.DateTime ();
+      var d = new GLib.DateTime.local (2017,2,10,14,14,20.345);
 #if DEBUG
       s = t.to_string ();
       assert (s != null);
@@ -913,8 +913,8 @@ class GomSerializationTest : GXmlTest  {
 #endif
       assert ("<Motor On=\"false\" Torque=\"0.0000\" Speed=\"1.0000\"/>" in s);
       assert (m.speed != null);
-      assert (m is GomObject);
-      assert (m.speed is GomProperty);
+      assert (m is GXml.Object);
+      assert (m.speed is GXml.Property);
       assert (m.speed.get_double () == 1.0);
       assert (m.speed.value != null);
       assert (m.speed.value == "1.0000");

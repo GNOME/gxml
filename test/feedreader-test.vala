@@ -11,7 +11,7 @@
 
 using GXml;
 
-public class FeedReader : Object {
+public class FeedReader : GLib.Object {
 
   public static int main (string[] args) {
     try {

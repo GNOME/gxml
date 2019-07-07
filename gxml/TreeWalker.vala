@@ -22,7 +22,7 @@
 
 
 [Version (since = "0.18")]
-public class GXml.TreeWalker : Object, GXml.DomTreeWalker {
+public class GXml.TreeWalker : GLib.Object, GXml.DomTreeWalker {
   protected DomNode _root;
   protected int _what_to_show;
   protected DomNodeFilter? _filter;

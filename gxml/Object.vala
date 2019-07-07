@@ -23,15 +23,15 @@
 using GXml;
 
 /**
- * A GXml Object Model (GOM) represents a {@link DomElement}. It has attributes
+ * A GXml Object Model represents a {@link DomElement}. It has attributes
  * and children. All object's properties are handled as attributes if they are
- * basic types like integers, strings, enums and others; {@link SerializableProperty}
+ * basic types like integers, strings, enums and others; {@link Property}
  * objects are handled as attributes too. If object's attribute is a {@link GLib.Object}
- * it is handled as node's child, but only if it is a {@link GomElement} object,
+ * it is handled as node's child, but only if it is a {@link GXml.Element} object,
  * other wise it is ignored when this object is used as {@link DomNode} in XML
  * documents.
  */
-public interface GXml.GomObject : GLib.Object,
+public interface GXml.Object : GLib.Object,
                                   DomNode,
                                   DomElement {
   /**
@@ -72,7 +72,7 @@ public interface GXml.GomObject : GLib.Object,
     return null;
   }
   /**
-   * Returns a {@link GomObject} or a {@link Collection} property's
+   * Returns a {@link GXml.Object} or a {@link Collection} property's
    * {@link GLib.ParamSpec} based on given name. This method is
    * case insensitive.
    *
@@ -89,7 +89,7 @@ public interface GXml.GomObject : GLib.Object,
       if ("::" in nick) nick = nick.replace ("::","");
       string sname = spec.name.down ();
       if (sname == name || nick == name) {
-        if (spec.value_type.is_a (typeof (GomObject))
+        if (spec.value_type.is_a (typeof (GXml.Object))
             || spec.value_type.is_a (typeof (Collection))) {
 #if DEBUG
           GLib.message ("Found Property: "+pname);
@@ -107,7 +107,7 @@ public interface GXml.GomObject : GLib.Object,
   public virtual GLib.List<ParamSpec> get_property_element_list () {
     var l = new GLib.List<ParamSpec> ();
     foreach (ParamSpec spec in this.get_class ().list_properties ()) {
-      if ((spec.value_type.is_a (typeof (GomObject))
+      if ((spec.value_type.is_a (typeof (GXml.Object))
           || spec.value_type.is_a (typeof (Collection)))
           && spec.value_type.is_instantiatable ()) {
 #if DEBUG
@@ -124,25 +124,25 @@ public interface GXml.GomObject : GLib.Object,
   public virtual string? get_property_string (ParamSpec prop) {
     var v = Value(prop.value_type);
     get_property (prop.name, ref v);
-    if (prop.value_type.is_a (typeof(GomProperty))) {
+    if (prop.value_type.is_a (typeof(GXml.Property))) {
 #if DEBUG
-    GLib.message ("Getting GomProperty attribute: "+prop.name);
+    GLib.message ("Getting GXml.Property attribute: "+prop.name);
 #endif
       var so = v.get_object ();
       if (so == null) {
 #if DEBUG
-        GLib.message ("GomProperty is Null");
+        GLib.message ("GXml.Property is Null");
 #endif
         return null;
       }
 #if DEBUG
-      if ((so as GomProperty).value != null) {
-        message ("GomProperty Value: "+(so as GomProperty).value);
+      if ((so as GXml.Property).value != null) {
+        message ("GXml.Property Value: "+(so as GXml.Property).value);
       } else {
-        message ("GomProperty Value Is Null");
+        message ("GXml.Property Value Is Null");
       }
 #endif
-      return (so as GomProperty).value;
+      return (so as GXml.Property).value;
     }
     if (prop.value_type.is_a (typeof (string))) {
       return (string) v;
@@ -178,7 +178,7 @@ public interface GXml.GomObject : GLib.Object,
    * property with given name its value is returned
    * as string representation.
    *
-   * If property is a {@link GomProperty}
+   * If property is a {@link GXml.Property}
    * returned value is a string representation according
    * with object implementation.
    *
@@ -194,22 +194,22 @@ public interface GXml.GomObject : GLib.Object,
     return get_property_string (prop);
   }
   /**
-   * Search for a property of type {@link GomProperty}
+   * Search for a property of type {@link GXml.Property}
    * and returns it as object
    */
-  public virtual GomProperty? find_property (string name) {
+  public virtual GXml.Property? find_property (string name) {
     var prop = find_property_name (name);
     if (prop != null) {
       var v = Value (prop.value_type);
-      if (prop.value_type.is_a (typeof(GomProperty))
+      if (prop.value_type.is_a (typeof(GXml.Property))
           && prop.value_type.is_instantiatable ()) {
         get_property (prop.name, ref v);
-        GomProperty so = (Object) v as GomProperty;
+        GXml.Property so = (Object) v as GXml.Property;
         if (so == null) {
-          var obj = Object.new (prop.value_type);
+          var obj = GLib.Object.new (prop.value_type);
           v.set_object (obj);
           set_property (prop.name, v);
-          so = obj as GomProperty;
+          so = obj as GXml.Property;
         }
         return so;
       }
@@ -229,15 +229,15 @@ public interface GXml.GomObject : GLib.Object,
     var prop = find_property_name (name);
     if (prop != null) {
       var v = Value (prop.value_type);
-      if (prop.value_type.is_a (typeof(GomProperty))
+      if (prop.value_type.is_a (typeof(GXml.Property))
           && prop.value_type.is_instantiatable ()) {
         get_property (prop.name, ref v);
-        GomProperty so = (Object) v as GomProperty;
+        GXml.Property so = (Object) v as GXml.Property;
         if (so == null) {
-          var obj = Object.new (prop.value_type);
+          var obj = GLib.Object.new (prop.value_type);
           v.set_object (obj);
           set_property (prop.name, v);
-          so = obj as GomProperty;
+          so = obj as GXml.Property;
         }
         so.value = val;
         return true;
@@ -317,7 +317,7 @@ public interface GXml.GomObject : GLib.Object,
     return null;
   }
   /**
-   * From a given property name of type {@link GomElement}, search all
+   * From a given property name of type {@link GXml.Element}, search all
    * child nodes with node's local name equal to property.
    */
   public virtual DomElementList find_elements (string name) {
@@ -325,7 +325,7 @@ public interface GXml.GomObject : GLib.Object,
     var prop = get_class ().find_property (name);
     if (prop != null) {
       if (prop.value_type.is_a (typeof(DomElement))) {
-        var o = Object.new (prop.value_type) as DomElement;
+        var o = GLib.Object.new (prop.value_type) as DomElement;
         foreach (DomNode n in this.child_nodes) {
           if (!(n is DomElement)) continue;
           if ((n as DomElement).local_name.down () == o.local_name.down ())
@@ -365,7 +365,7 @@ public interface GXml.GomObject : GLib.Object,
    *
    * Instance is set ot object's property.
    *
-   * Property should be a {@link GomElement} or {@link Collection}
+   * Property should be a {@link GXml.Element} or {@link Collection}
    *
    * While an object could be created and set to a Object's property, it
    * is not correctly initialized by default. This method helps in the process.
@@ -373,10 +373,10 @@ public interface GXml.GomObject : GLib.Object,
    * If Object's property has been set, this method overwrite it.
    *
    * {{{
-   * class NodeA : GomObject {
+   * class NodeA : GXml.Object {
    *   construct { try { initialize ("NodeA"); } catch { warning ("Can't initialize); }
    * }
-   * class NodeB : GomObject {
+   * class NodeB : GXml.Object {
    *   public NodeA node { get; set; }
    * }
    *
@@ -393,16 +393,16 @@ public interface GXml.GomObject : GLib.Object,
     var prop = find_object_property_name (name);
     if (prop == null) return false;
     Value v = Value (prop.value_type);
-    Object obj;
+    GLib.Object obj;
     if (prop.value_type.is_a (typeof (Collection))) {
-      obj = Object.new (prop.value_type, "element", this);
+      obj = GLib.Object.new (prop.value_type, "element", this);
       v.set_object (obj);
       set_property (prop.name, v);
       return true;
     }
-    if (prop.value_type.is_a (typeof (GomElement))) {
-      obj = Object.new (prop.value_type,"owner-document", this.owner_document);
-      try { this.append_child (obj as GomElement); }
+    if (prop.value_type.is_a (typeof (GXml.Element))) {
+      obj = GLib.Object.new (prop.value_type,"owner-document", this.owner_document);
+      try { this.append_child (obj as GXml.Element); }
       catch (GLib.Error e) {
         warning (_("Error while attempting to instantiate property object: %s").printf (e.message));
         return false;
@@ -415,7 +415,7 @@ public interface GXml.GomObject : GLib.Object,
   }
   /**
    * Utility method to remove all instances of a property being child elements
-   * of object. Is useful if you have a {@link GomElement} property, it should be
+   * of object. Is useful if you have a {@link GXml.Element} property, it should be
    * just one child of this type and you want to overwrite it.
    *
    * In this example you have defined an element MyClass to be child of
@@ -423,10 +423,10 @@ public interface GXml.GomObject : GLib.Object,
    * it calls {@link clean_property_elements} using property's canonicals name.
    *
    * {{{
-   *  public class MyClass : GomElement {
+   *  public class MyClass : GXml.Element {
    *    public string name { get; set; }
    *  }
-   *  public class MyParentClass : GomElement {
+   *  public class MyParentClass : GXml.Element {
    *    private Myclass _child_elements = null;
    *    public MyClass child_elements {
    *      get { return _child_elements; }
@@ -445,15 +445,15 @@ public interface GXml.GomObject : GLib.Object,
    *
    * @param name property name to search value type, use canonical names.
    *
-   * @throws DomError if property is not a {@link GomElement}.
+   * @throws DomError if property is not a {@link GXml.Element}.
    */
   public virtual
   void clean_property_elements (string name) throws GLib.Error
   {
     var prop = get_class ().find_property (name);
     if (prop != null) {
-      if (!prop.value_type.is_a (typeof (GomElement)))
-        throw new DomError.TYPE_MISMATCH_ERROR (_("Can't set value. It is not a GXmlGomElement type"));
+      if (!prop.value_type.is_a (typeof (GXml.Element)))
+        throw new DomError.TYPE_MISMATCH_ERROR (_("Can't set value. It is not a GXmlGXml.Element type"));
       var l = find_elements (name);
       if (l.length != 0) {
         foreach (DomElement e in l) {

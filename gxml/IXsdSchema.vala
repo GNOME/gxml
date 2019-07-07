@@ -40,11 +40,11 @@ public errordomain GXml.IXsdSchemaError {
   INVALIDATION_ERROR
 }
 
-public interface GXml.IXsdBaseType : Object {
+public interface GXml.IXsdBaseType : GLib.Object {
   public abstract IXsdAnnotation anotation { get; set; }
 }
 
-public interface GXml.IXsdSimpleType: Object, DomElement, IXsdBaseType {
+public interface GXml.IXsdSimpleType: GLib.Object, DomElement, IXsdBaseType {
   public const string SCHEMA_NODE_NAME = "simpleType";
   /**
    * (#all | List of (list | union | restriction | extension))
@@ -57,8 +57,8 @@ public interface GXml.IXsdSimpleType: Object, DomElement, IXsdBaseType {
   public abstract IXsdTypeUnion union { get; set; }
   public abstract IXsdTypeRestriction restriction { get; set; }
 }
-public interface GXml.IXsdTypeDef : Object {}
-public interface GXml.IXsdTypeRestriction : Object, IXsdTypeDef {
+public interface GXml.IXsdTypeDef : GLib.Object {}
+public interface GXml.IXsdTypeRestriction : GLib.Object, IXsdTypeDef {
   public const string SCHEMA_NODE_NAME = "restriction";
   public abstract string base { get; set; }
   public abstract string id { get; set; }
@@ -67,27 +67,27 @@ public interface GXml.IXsdTypeRestriction : Object, IXsdTypeDef {
   public abstract IXsdListTypeRestrictionEnumerations enumerations { get; set; }
   public abstract IXsdListTypeRestrictionWhiteSpaces white_spaces { get; set; }
 }
-public interface GXml.IXsdTypeList: Object, IXsdTypeDef {}
-public interface GXml.IXsdTypeUnion : Object, IXsdTypeDef {}
+public interface GXml.IXsdTypeList: GLib.Object, IXsdTypeDef {}
+public interface GXml.IXsdTypeUnion : GLib.Object, IXsdTypeDef {}
 
-public interface GXml.IXsdTypeRestrictionDef : Object {
+public interface GXml.IXsdTypeRestrictionDef : GLib.Object {
   public abstract IXsdAnnotation annotation { get; set; }
 }
-public interface GXml.IXsdTypeRestrictionMinExclusive : Object, IXsdTypeRestrictionDef {}
-public interface GXml.IXsdTypeRestrictionMinInclusive : Object, IXsdTypeRestrictionDef {}
-public interface GXml.IXsdTypeRestrictionMaxExclusive : Object, IXsdTypeRestrictionDef {}
-public interface GXml.IXsdTypeRestrictionMaxInclusive : Object, IXsdTypeRestrictionDef {}
-public interface GXml.IXsdTypeRestrictionTotalDigits : Object, IXsdTypeRestrictionDef {}
-public interface GXml.IXsdTypeRestrictionFractionDigits : Object, IXsdTypeRestrictionDef {}
-public interface GXml.IXsdTypeRestrictionLength : Object, IXsdTypeRestrictionDef {}
-public interface GXml.IXsdTypeRestrictionMinLength : Object, IXsdTypeRestrictionDef {}
-public interface GXml.IXsdTypeRestrictionMaxLength : Object, IXsdTypeRestrictionDef {}
-public interface GXml.IXsdTypeRestrictionEnumeration : Object, IXsdTypeRestrictionDef {
+public interface GXml.IXsdTypeRestrictionMinExclusive : GLib.Object, IXsdTypeRestrictionDef {}
+public interface GXml.IXsdTypeRestrictionMinInclusive : GLib.Object, IXsdTypeRestrictionDef {}
+public interface GXml.IXsdTypeRestrictionMaxExclusive : GLib.Object, IXsdTypeRestrictionDef {}
+public interface GXml.IXsdTypeRestrictionMaxInclusive : GLib.Object, IXsdTypeRestrictionDef {}
+public interface GXml.IXsdTypeRestrictionTotalDigits : GLib.Object, IXsdTypeRestrictionDef {}
+public interface GXml.IXsdTypeRestrictionFractionDigits : GLib.Object, IXsdTypeRestrictionDef {}
+public interface GXml.IXsdTypeRestrictionLength : GLib.Object, IXsdTypeRestrictionDef {}
+public interface GXml.IXsdTypeRestrictionMinLength : GLib.Object, IXsdTypeRestrictionDef {}
+public interface GXml.IXsdTypeRestrictionMaxLength : GLib.Object, IXsdTypeRestrictionDef {}
+public interface GXml.IXsdTypeRestrictionEnumeration : GLib.Object, IXsdTypeRestrictionDef {
   public const string SCHEMA_NODE_NAME = "enumeration";
   public abstract string id { get; set; }
   public abstract string value { get; set; }
 }
-public interface GXml.IXsdTypeRestrictionWhiteSpace: Object, IXsdTypeRestrictionDef {
+public interface GXml.IXsdTypeRestrictionWhiteSpace: GLib.Object, IXsdTypeRestrictionDef {
   public const string SCHEMA_NODE_NAME = "whiteSpace";
   public abstract bool fixed { get; set; default = false; }
   public abstract string id { get; set; }
@@ -96,11 +96,11 @@ public interface GXml.IXsdTypeRestrictionWhiteSpace: Object, IXsdTypeRestriction
    */
   public abstract string value { get; set; }
 }
-public interface GXml.IXsdTypeRestrictionPattern : Object, IXsdTypeRestrictionDef {}
-public interface GXml.IXsdTypeRestrictionAssertion : Object, IXsdTypeRestrictionDef {}
-public interface GXml.IXsdTypeRestrictionExplicitTimezone : Object, IXsdTypeRestrictionDef {}
+public interface GXml.IXsdTypeRestrictionPattern : GLib.Object, IXsdTypeRestrictionDef {}
+public interface GXml.IXsdTypeRestrictionAssertion : GLib.Object, IXsdTypeRestrictionDef {}
+public interface GXml.IXsdTypeRestrictionExplicitTimezone : GLib.Object, IXsdTypeRestrictionDef {}
 
-public interface GXml.IXsdComplexType : Object, DomElement, IXsdBaseType {
+public interface GXml.IXsdComplexType : GLib.Object, DomElement, IXsdBaseType {
   public const string SCHEMA_NODE_NAME = "complexType";
   /**
   * attribute name = abstract
@@ -134,12 +134,12 @@ public interface GXml.IXsdComplexType : Object, DomElement, IXsdBaseType {
   public abstract IXsdListAttributesGroup group_attributes { get; }
 }
 
-public interface GXml.IXsdExtension : Object, DomElement {
+public interface GXml.IXsdExtension : GLib.Object, DomElement {
   public const string SCHEMA_NODE_NAME = "extension";
   public abstract string base { get; set; }
 }
 
-public interface GXml.IXsdElement : Object, DomElement {
+public interface GXml.IXsdElement : GLib.Object, DomElement {
   public const string SCHEMA_NODE_NAME = "element";
   /**
   * attribute name = abstract
@@ -189,30 +189,30 @@ public interface GXml.IXsdElement : Object, DomElement {
   // TODO: Missing: ((simpleType | complexType)?, alternative*, (unique | key | keyref)*))
 }
 
-public interface GXml.IXsdAnnotation : Object {}
+public interface GXml.IXsdAnnotation : GLib.Object {}
 
-public interface GXml.IXsdBaseContent : Object {
+public interface GXml.IXsdBaseContent : GLib.Object {
   public abstract IXsdAnnotation anotation { get; set; }
 }
-public interface GXml.IXsdSimpleContent : Object, IXsdBaseContent {
+public interface GXml.IXsdSimpleContent : GLib.Object, IXsdBaseContent {
   public const string SCHEMA_NODE_NAME = "simpleContent";
 }
-public interface GXml.IXsdComplexContent : Object, IXsdBaseContent {
+public interface GXml.IXsdComplexContent : GLib.Object, IXsdBaseContent {
   public const string SCHEMA_NODE_NAME = "complexContent";
 }
-public interface GXml.IXsdOpenContent : Object, IXsdBaseContent {}
+public interface GXml.IXsdOpenContent : GLib.Object, IXsdBaseContent {}
 
-public interface GXml.IXsdBaseAttribute : Object {
+public interface GXml.IXsdBaseAttribute : GLib.Object {
   public abstract IXsdAnnotation anotation { get; set; }
 }
-public interface GXml.IXsdAttribute : Object {
+public interface GXml.IXsdAttribute : GLib.Object {
   public const string SCHEMA_NODE_NAME = "attribute";
 }
-public interface GXml.IXsdAttributeGroup : Object {
+public interface GXml.IXsdAttributeGroup : GLib.Object {
   public const string SCHEMA_NODE_NAME = "attributeGroup";
 }
 
-public interface GXml.IXsdList : Object, Collection {
+public interface GXml.IXsdList : GLib.Object, Collection {
   public abstract DomElement element { get; construct set; }
   public abstract Type items_type { get; construct set; }
   public abstract Type items_name { get; construct set; }
@@ -223,10 +223,10 @@ public interface GXml.IXsdList : Object, Collection {
   public abstract int index_of (DomElement element);
 }
 
-public interface GXml.IXsdListElements : Object, IXsdList {}
-public interface GXml.IXsdListSimpleTypes : Object, IXsdList {}
-public interface GXml.IXsdListComplexTypes : Object, IXsdList {}
-public interface GXml.IXsdListAttributes : Object, IXsdList {}
-public interface GXml.IXsdListAttributesGroup : Object, IXsdList {}
-public interface GXml.IXsdListTypeRestrictionEnumerations : Object, IXsdList {}
-public interface GXml.IXsdListTypeRestrictionWhiteSpaces : Object, IXsdList {}
+public interface GXml.IXsdListElements : GLib.Object, IXsdList {}
+public interface GXml.IXsdListSimpleTypes : GLib.Object, IXsdList {}
+public interface GXml.IXsdListComplexTypes : GLib.Object, IXsdList {}
+public interface GXml.IXsdListAttributes : GLib.Object, IXsdList {}
+public interface GXml.IXsdListAttributesGroup : GLib.Object, IXsdList {}
+public interface GXml.IXsdListTypeRestrictionEnumerations : GLib.Object, IXsdList {}
+public interface GXml.IXsdListTypeRestrictionWhiteSpaces : GLib.Object, IXsdList {}
