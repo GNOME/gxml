@@ -21,7 +21,7 @@ files_tests = files ([
 	])
 
 tests_cargs = []
-if get_option('enable-tnode-tests')
+if get_option('tnode-tests')
 files_tests += files ([
 
 	'EnumerationTest.vala',

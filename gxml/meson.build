@@ -170,10 +170,10 @@ libgxml = library(VERSIONED_PROJECT_NAME,
 		true,
 		join_paths (get_option('includedir'), 'gxml-@0@'.format (API_VERSION), 'gxml'),
 		vapidir,
-		not get_option('disable-introspection')
+		get_option('introspection')
 	])
 
-if not get_option('disable-introspection')
+if get_option('introspection')
 g_ir_compiler = find_program('g-ir-compiler', required: false)
 if g_ir_compiler.found()
 custom_target('typelib',
