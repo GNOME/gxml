@@ -17,7 +17,7 @@ else
 	driver_ops += driver
 endif
 
-custom_target ('valadocs',
+custom_target ('libgxml-valadocs',
 		input : sources,
 		output : outdir,
 		command : [valadoc,

@@ -135,7 +135,7 @@ libgxml = library(VERSIONED_PROJECT_NAME,
 if get_option('introspection')
 g_ir_compiler = find_program('g-ir-compiler', required: false)
 if g_ir_compiler.found()
-custom_target('typelib',
+custom_target('libgxml-typelib',
 	command: [
 		g_ir_compiler,
 		'--shared-library', 'lib'+PROJECT_NAME+'-@0@.so'.format (API_VERSION),
@@ -155,3 +155,4 @@ libgxml_dep = declare_dependency(include_directories : inc_rooth,
   link_with : libgxml,
   dependencies: libgxml_deps,
   )
+
