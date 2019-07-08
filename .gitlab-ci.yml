@@ -35,7 +35,7 @@ pages:
   - meson _build -Ddocs=true
   - cd _build
   - ninja
-  - mv docs/site ../public
+  - mv ../docs/site ../public
   - mv docs/GXml-* ../public/dev
   - cd ..
   - mv public/dev/index.htm public/dev/index.html
