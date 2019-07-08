@@ -162,5 +162,10 @@ EXTRA_DIST += \
 	t-read-test.xml \
 	gdocument-read.xml \
 	schema-test.xsd \
+	feedreader-test.vala \
+	GomDocumentPerformanceTest.vala \
+	GomDocumentPerformanceIterateTest.vala \
+	GXmlDocumentPerformanceTest.vala \
+	GXmlDocumentPerformanceIterateTest.vala \
 	$(NULL)
 
