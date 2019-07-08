@@ -1,3 +1,2 @@
-option('tnode-tests', type : 'boolean', value : false, description : 'Add TNode classes unit tests')
-option('introspection', type : 'boolean', value : false, description : 'Create GObject Introspection file definitions')
-option('docs', type : 'boolean', value : false, description : 'Generate Vala Documentation')
+option('introspection', type : 'boolean', value : true, description : 'Create GObject Introspection file definitions')
+option('docs', type : 'boolean', value : true, description : 'Generate Vala Documentation')
