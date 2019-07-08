@@ -10,11 +10,18 @@ vapidirgxml = '--vapidir='+join_paths (meson.current_source_dir (),'gxml')
 vapidirvapi = '--vapidir='+join_paths (meson.current_source_dir (),'vapi')
 docsdir = join_paths (get_option ('datadir'), 'devhelp','books')
 
+driver_ops = []
+if valacapi.stdout().version_compare('>=0.42')
+	message ('Vala is >= 0.42: Disabling --driver for documentation')
+else
+	driver_ops += driver
+endif
+
 custom_target ('valadocs',
 		input : sources,
 		output : outdir,
 		command : [valadoc,
-			driver,
+			driver_ops,
 			'--doclet=devhelp',
 			'--force',
 			pkgname,
