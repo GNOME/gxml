@@ -23,7 +23,7 @@ before_script:
 build:
   stage: build
   script:
-  - meson _build -Dintrospection=false -Ddocs=false
+  - meson _build -Dintrospection=true -Ddocs=true
   - cd _build
   - ninja
   - meson test
@@ -32,7 +32,7 @@ build:
 pages:
   stage: deploy
   script:
-  - meson _build -Ddocs=false
+  - meson _build -Ddocs=true
   - cd _build
   - ninja
   - mv docs/site ../public
