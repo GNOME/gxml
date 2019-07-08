@@ -3,7 +3,7 @@ image: ubuntu:devel
 
 stages:
   - build
-  # - deploy
+  - deploy
 
 variables:
   DEPENDENCIES: gcc gettext gtk-doc-tools make autoconf meson ninja-build
