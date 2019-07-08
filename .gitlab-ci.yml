@@ -23,7 +23,7 @@ before_script:
 build:
   stage: build
   script:
-  - meson _build -Ddisable-introspection=false -Ddisable-valadocs=false
+  - meson _build -Dintrospection=false -Ddocs=false
   - cd _build
   - ninja
   - meson test
@@ -32,12 +32,13 @@ build:
 pages:
   stage: deploy
   script:
-  - meson _build -Ddisable-docs=false
+  - meson _build -Ddocs=false
   - cd _build
   - ninja
-  - mv docs/GXml-* ../public
+  - mv _build/docs/site ../public
+  - mv docs/GXml-* ../public/dev
   - cd ..
-  - mv public/index.htm public/index.html
+  - mv public/dev/index.htm public/index.html
   artifacts:
     paths:
       - public
