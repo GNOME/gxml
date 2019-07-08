@@ -1,4 +1,27 @@
 ===============
+Version 0.20.0
+===============
+* Transsition from pre 0.20 API, can be found at Wiki https://gitlab.gnome.org/GNOME/gxml/wikis/home
+* API simplification (breaks)
+* Revome of obsolete and deprecated API
+* Meson: options renaming
+* Gom* classes renamed by removing the Gom prefix (API simplification)
+  this means, for example: GomDocument to Document and GomElement to Element.
+* No DOM4 API changes made
+* General interfaces removed
+* TNode derived classes removed
+* GNode derived classes (libxml2) renamed to XNode derived ones (GDocument to XDocument)
+* Documentation updates
+
+===============
+Version 0.18.1
+===============
+* GParser: fix create_stream() using string.data
+* build: add support for darwin_versions thanks to Tom Schoonjans <Tom.Schoonjans@diamond.ac.uk>
+* Add missing meson files in tarball created with autotools
+* Meson: renamed options removing enable and disable prefix
+
+===============
 Version 0.18.0
 ===============
 * GomDocument now can detect default a root property and instantiate it on reading
