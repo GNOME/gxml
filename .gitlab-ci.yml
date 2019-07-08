@@ -3,7 +3,7 @@ image: ubuntu:devel
 
 stages:
   - build
-  - deploy
+  # - deploy
 
 variables:
   DEPENDENCIES: gcc gettext gtk-doc-tools make autoconf meson ninja-build
@@ -58,17 +58,30 @@ package-tar-meson:
     paths:
       - _build/meson-dist/gxml-*.tar.xz
 
-pages:
+devhelp-package:
   stage: deploy
   script:
   - meson _build -Ddocs=true
   - cd _build
   - ninja
-  - mv docs/GXml-* ../public
-  - cd ..
-  - mv public/index.htm public/index.html
+  - tar cfv gxml-0.18.tar docs/GXml-*
+  - bzip2 gxml-0.18.tar
+  - mv gxml-0.18.tar.bz2 ..
   artifacts:
     paths:
-      - public
+      - gxml-0.18.tar.bz2
+
+# pages:
+#   stage: deploy
+#   script:
+#   - meson _build -Ddocs=true
+#   - cd _build
+#   - ninja
+#   - mv docs/GXml-* ../public
+#   - cd ..
+#   - mv public/index.htm public/index.html
+#   artifacts:
+#     paths:
+#       - public
 
 
