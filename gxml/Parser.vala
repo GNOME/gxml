@@ -250,19 +250,19 @@ public interface GXml.Parser : GLib.Object {
       if (col.items_type == GLib.Type.INVALID
           || !(col.items_type.is_a (typeof (GXml.Object)))) {
         throw new DomError.INVALID_NODE_TYPE_ERROR
-                    (_("Invalid object type set to Collection"));
+                    (_("Collection '%s' hasn't been constructed properly: items type propeerty was not set at construction time or set to invalid type"), col.get_type ().name ());
       }
       if (col.items_name == "" || col.items_name == null) {
         throw new DomError.INVALID_NODE_TYPE_ERROR
-                    (_("Invalid DomElement name for objects in Collection"));
+                    (_("Collection '%s' hasn't been constructed properly: items' name property was not set at construction time"), col.get_type ().name ());
       }
       if (col.element == null || !(col.element is GXml.Object)) {
         throw new DomError.INVALID_NODE_TYPE_ERROR
-                    (_("Collection hasn't been constructed properly: element property was not set at construction time"));
+                    (_("Collection '%s' hasn't been constructed properly: element property was not set at construction time"), col.get_type ().name ());
       }
       if (!(col.element is GXml.Object)) {
         throw new DomError.INVALID_NODE_TYPE_ERROR
-                    (_("Invalid object's type '%s' it doesn't implemement GXml.Object interface: can't be handled by the collection"), col.element.get_type ().name ());
+                    (_("Invalid object of type '%s' doesn't implemement GXml.Object interface: can't be handled by the collection"), col.element.get_type ().name ());
       }
       if (col.items_name.down () == current_node_name ().down ()) {
         if (parent.owner_document == null)
