@@ -23,7 +23,57 @@
 using Gee;
 
 /**
- * A DOM4 interface to keep references to {@link DomElement} children of a {@link element}
+ * A DOM4 interface to keep references to {@link DomElement} children of a {@link element}.
+ *
+ * A collection should call {@link initialize} with the object's type to be added to
+ * the connection and, at construction time, set the {@link element} this collection
+ * should take its members from.
+ *
+ * This way, you can have a property to access all child elements of a given type,
+ * the node will be added automatically to both as a child of your element and as
+ * a member of the collection.
+ *
+ * {{{
+ *   // This is your object definition and a collection one
+ *   public class YourObject : GXml.Element {
+ *    [Description (nick="::Name")]
+ *    public string name { get; set; }
+ *    construct {
+ *      // This is the Element's node's name to be used
+ *      try { initialize ("NodeName"); }
+ *      catch (GLib.Error e ) {
+ *        warning ("Error: "+e.message);
+ *      }
+ *    }
+ *   }
+ *   public class YourList : GXml.ArrayList {
+ *    construct {
+ *      // With this, your collection will find a add all elements
+ *      // with the node's name 'NodeName' as declared to YourObject class
+ *      try { initialize (typeof (YourObject)); }
+ *      catch (GLib.Error e) {
+ *        warning ("Initialization error for collection type: %s : %s"
+ *             .printf (get_type ().name(), e.message));
+ *      }
+ *    }
+ *   }
+ *   // This is your element object definition with a collection of nodes
+ *   // with the type YourObject
+ *   public class YourElement : GXml.Element {
+ *     public YourObject.YourList your_objects { get; set; }
+ *     construct {
+ *       // This is initializing the property 'your_objects' which is the type
+ *       // YourList collection and set YourElement object as its element to
+ *       // to take its members from. Use canonical names for properties as shown
+ *       set_instance_property ('your-objects');
+ *       // This is the node's name to use for YourElement class
+ *        try { initialize ("YourElement"); }
+ *        catch (GLib.Error e) {
+ *          warning ("Initialization error for element type: %s", e.message));
+ *        }
+ *      }
+ *    }
+ * }}}
  */
 public interface GXml.Collection : GLib.Object
 {

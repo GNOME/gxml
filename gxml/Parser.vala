@@ -258,7 +258,11 @@ public interface GXml.Parser : GLib.Object {
       }
       if (col.element == null || !(col.element is GXml.Object)) {
         throw new DomError.INVALID_NODE_TYPE_ERROR
-                    (_("Invalid Element set to Collection"));
+                    (_("Collection hasn't been constructed properly: element property was not set at construction time"));
+      }
+      if (!(col.element is GXml.Object)) {
+        throw new DomError.INVALID_NODE_TYPE_ERROR
+                    (_("Invalid object's type '%s' it doesn't implemement GXml.Object interface: can't be handled by the collection"), col.element.get_type ().name ());
       }
       if (col.items_name.down () == current_node_name ().down ()) {
         if (parent.owner_document == null)
