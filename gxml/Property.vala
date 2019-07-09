@@ -327,23 +327,77 @@ public class GXml.Boolean : GXml.BaseProperty {
 public class GXml.Enum : GXml.BaseProperty {
   protected int _value = 0;
   protected Type _enum_type;
+  /**
+   * Introspect the enumeration and use its nick to produce the value. Defaults to TRUE.
+   *
+   * An enum declared as 'ENUM_VALUE', its value is converted to 'enum-value'. Without
+   * this option the output is a complete name definition as declared by GLib.
+   *
+   * An enum value like : Myenum.ENUM_VALUE, is converted to 'enum-value' if no {@link camel_case}
+   * is enable and {@link use_nick} is enable; to 'EnumValue' if {@link camel_case} is true and
+   * {@link use_nick} is enable; and to 'MYENUM_ENUM_VALUE' if {@link use_nick} is set to false.
+   *
+   * An enum value like : Myenum.VALUE, is converted to 'value' if if no {@link camel_case}
+   * is enable; to 'Value' if  if no {@link camel_case} is enable; and to 'MYENUM_VALUE'
+   * if {@link use_nick} is set to false.
+   *
+   * The value can be converted to upper cases if {@link upper_case} is set to true.
+   *
+   * If  {@link use_nick} is set to false and {@link upper_case} is set to false, the value
+   * will be the lower case of the GLib default representation. For Myenum.ENUM_VALUE, the
+   * value will be 'myenum_enum_value'. Set {@link upper_case} to true, to keep the default
+   * GLib upper cases representation.
+   */
+  public bool use_nick { get; construct set; }
+  /**
+   * Tries to convert the value to CamelCase using its nick non canical name. Defaults to FALSE.
+   *
+   * An enum declared as 'ENUM_VALUE', its value is converted to 'EnumValue'. See
+   * {@link use_nick} for details.
+   */
+  public bool camel_case { get; construct set; }
+  /**
+   * The value output, is always converted to upper cases. See
+   * {@link use_nick} for details.
+   */
+  public bool upper_case { get; construct set; }
+
   public override string? value {
     owned get {
       string s = "";
       try {
-        s = Enumeration.get_string (enum_type, _value, true, true);
-      } catch {
-        GLib.warning (_("Error when transform enum to attribute's value"));
+        if (use_nick) {
+          if (camel_case) {
+            s = Enumeration.get_nick_camelcase (enum_type, _value);
+          } else {
+            s = Enumeration.get_nick (enum_type, _value);
+          }
+          if (upper_case) {
+            s = s.up ();
+          }
+        } else {
+          s = Enumeration.get_string (enum_type, _value, false, false);
+          if (!upper_case) {
+            s = s.down ();
+          }
+        }
+      } catch (GLib.Error e) {
+        GLib.warning (_("Error when transform enum to attribute's value: %s"), e.message);
       }
       return s;
     }
     set {
       try {
         _value = (int) Enumeration.parse (enum_type, value).value;
-      } catch {
-        GLib.warning (_("Error when transform from attribute string value to enum"));
+      } catch (GLib.Error e) {
+        GLib.warning (_("Error when transform from attribute string value to enum: %s"), e.message);
       }
     }
+  }
+  construct {
+    use_nick = true;
+    camel_case = false;
+    upper_case = false;
   }
   /**
    * Enum type used by property.

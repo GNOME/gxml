@@ -126,7 +126,7 @@ namespace GXml {
 					enumv = ev;
 			}
 			if (enumv == null)
-				throw new EnumerationError.INVALID_TEXT (_("text cannot be parsed to enumeration type:")+enumeration.name ());
+				throw new EnumerationError.INVALID_TEXT (_("text '%s' cannot be parsed to enumeration type: %s"), val, enumeration.name ());
 			return enumv;
 		}
 		/**

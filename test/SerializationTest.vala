@@ -479,6 +479,10 @@ class SerializationTest : GXmlTest  {
     public Speed speed { get; set; }
     [Description (nick="::TensionType")]
     public TensionType tension_type { get; set; }
+    [Description (nick="::TensionSupply")]
+    public TensionSupply tension_supply { get; set; }
+    [Description (nick="::TensionClassification")]
+    public TensionClassification tension_class { get; set; }
     [Description (nick="::Tension")]
     public Tension tension { get; set; }
     [Description (nick="::Model")]
@@ -499,12 +503,37 @@ class SerializationTest : GXmlTest  {
       AC,
       DC
     }
+    public enum TensionSupplyEnum {
+      DEFAULT,
+      FROM_WALL,
+      FROM_FLOOR
+    }
+    public enum TensionClassificationEnum {
+      ONE,
+      TWO,
+      THREE
+    }
     public class On : GXml.Boolean {}
     public class Torque : GXml.Double {}
     public class Speed : GXml.Float {}
     public class TensionType : GXml.Enum {
       construct {
         try { initialize_enum (typeof (TensionTypeEnum)); }
+        catch { assert_not_reached (); }
+      }
+    }
+    public class TensionSupply : GXml.Enum {
+      construct {
+        use_nick = true;
+        camel_case = true;
+        try { initialize_enum (typeof (TensionSupplyEnum)); }
+        catch { assert_not_reached (); }
+      }
+    }
+    public class TensionClassification : GXml.Enum {
+      construct {
+        upper_case = true;
+        try { initialize_enum (typeof (TensionClassificationEnum)); }
         catch { assert_not_reached (); }
       }
     }
@@ -886,31 +915,19 @@ class SerializationTest : GXmlTest  {
       var m = new Motor ();
       string s = m.to_string ();
       assert (s != null);
-#if DEBUG
-      GLib.message ("DOC:"+s);
-#endif
       assert ("<Motor/>" in s);
       m.is_on = new Motor.On ();
       s = m.to_string ();
       assert (s != null);
-#if DEBUG
-      GLib.message ("DOC:"+s);
-#endif
       assert ("<Motor On=\"false\"/>" in s);
       m.torque = new Motor.Torque ();
       s = m.to_string ();
       assert (s != null);
-#if DEBUG
-      GLib.message ("DOC:"+s);
-#endif
       assert ("<Motor On=\"false\" Torque=\"0.0000\"/>" in s);
       m.speed = new Motor.Speed ();
       m.speed.set_double (1.0);
       s = m.to_string ();
       assert (s != null);
-#if DEBUG
-      GLib.message ("DOC:"+s);
-#endif
       assert ("<Motor On=\"false\" Torque=\"0.0000\" Speed=\"1.0000\"/>" in s);
       assert (m.speed != null);
       assert (m is GXml.Object);
@@ -918,26 +935,40 @@ class SerializationTest : GXmlTest  {
       assert (m.speed.get_double () == 1.0);
       assert (m.speed.value != null);
       assert (m.speed.value == "1.0000");
-#if DEBUG
-      message ("Searching Element's attribute node: speed");
-#endif
       assert (m.get_attribute ("speed") != null);
+
       assert (m.tension_type == null);
       m.tension_type = new Motor.TensionType ();
       s = m.to_string ();
       assert (s != null);
-#if DEBUG
-      GLib.message ("DOC:"+s);
-#endif
       assert ("<Motor On=\"false\" Torque=\"0.0000\" Speed=\"1.0000\" TensionType=\"ac\"/>" in s);
       assert (m.tension_type != null);
       assert (m.tension_type.value == "ac");
+
+      assert (m.tension_supply == null);
+      m.tension_supply = new Motor.TensionSupply ();
+      m.tension_supply.@value = "fromwall";
+      s = m.to_string ();
+      assert (s != null);
+      assert ("<Motor On=\"false\" Torque=\"0.0000\" Speed=\"1.0000\" TensionType=\"ac\" TensionSupply=\"FromWall\"/>" in s);
+      assert (m.tension_supply != null);
+      assert (m.tension_supply.value == "FromWall");
+      m.tension_supply = null;
+
+      assert (m.tension_class == null);
+      m.tension_class = new Motor.TensionClassification ();
+      m.tension_class.@value = "one";
+      s = m.to_string ();
+      message (s);
+      assert (s != null);
+      assert ("<Motor On=\"false\" Torque=\"0.0000\" Speed=\"1.0000\" TensionType=\"ac\" TensionClassification=\"ONE\"/>" in s);
+      assert (m.tension_class != null);
+      assert (m.tension_class.value == "ONE");
+      m.tension_class = null;
+
       m.tension = new Motor.Tension ();
       s = m.to_string ();
       assert (s != null);
-#if DEBUG
-      GLib.message ("DOC:"+s);
-#endif
       assert ("<Motor On=\"false\" Torque=\"0.0000\" Speed=\"1.0000\" TensionType=\"ac\" Tension=\"0\"/>" in s);
       m.is_on.set_boolean (true);
       m.torque.set_double (3.1416);
@@ -946,9 +977,6 @@ class SerializationTest : GXmlTest  {
       m.tension.set_integer (125);
       s = m.to_string ();
       assert (s != null);
-#if DEBUG
-      GLib.message ("DOC:"+s);
-#endif
       assert ("<Motor On=\"true\" Torque=\"3.1416\" Speed=\"3600.1011\" TensionType=\"dc\" Tension=\"125\"/>" in s);
       m.model = new Motor.Model ();
       assert (m.model != null);
@@ -958,9 +986,6 @@ class SerializationTest : GXmlTest  {
       assert (m.model.value == "Model3");
       s = m.to_string ();
       assert (s != null);
-#if DEBUG
-      GLib.message ("DOC:"+s);
-#endif
       assert ("<Motor On=\"true\" Torque=\"3.1416\" Speed=\"3600.1011\" TensionType=\"dc\" Tension=\"125\" Model=\"Model3\"/>" in s);
       assert (!m.model.is_valid_value ());
       assert (m.model.search ("MODEL1"));
