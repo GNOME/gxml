@@ -952,7 +952,9 @@ class SerializationTest : GXmlTest  {
       assert (s != null);
       assert ("<Motor On=\"false\" Torque=\"0.0000\" Speed=\"1.0000\" TensionType=\"ac\" TensionSupply=\"FromWall\"/>" in s);
       assert (m.tension_supply != null);
-      assert (m.tension_supply.value == "FromWall");
+      assert (m.tension_supply.@value == "FromWall");
+      m.tension_supply.@value = "UnkNown";
+      assert (m.tension_supply.@value == "UnkNown");
       m.tension_supply = null;
 
       assert (m.tension_class == null);

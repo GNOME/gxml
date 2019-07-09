@@ -327,6 +327,7 @@ public class GXml.Boolean : GXml.BaseProperty {
 public class GXml.Enum : GXml.BaseProperty {
   protected int _value = 0;
   protected Type _enum_type;
+  protected string _val = null;
   /**
    * Introspect the enumeration and use its nick to produce the value. Defaults to TRUE.
    *
@@ -364,6 +365,9 @@ public class GXml.Enum : GXml.BaseProperty {
 
   public override string? value {
     owned get {
+      if (_val != null) {
+        return _val;
+      }
       string s = "";
       try {
         if (use_nick) {
@@ -389,8 +393,10 @@ public class GXml.Enum : GXml.BaseProperty {
     set {
       try {
         _value = (int) Enumeration.parse (enum_type, value).value;
+        _val = null;
       } catch (GLib.Error e) {
-        GLib.warning (_("Error when transform from attribute string value to enum: %s"), e.message);
+        GLib.message (_("Error when transform from attribute string value to enum: %s"), e.message);
+        _val = value;
       }
     }
   }
@@ -420,6 +426,12 @@ public class GXml.Enum : GXml.BaseProperty {
    * Sets current value.
    */
   public void set_enum (int value) { _value = value; }
+  /**
+   *
+   */
+  public bool is_valid () {
+    return _val == null;
+  }
 }
 
 /**
