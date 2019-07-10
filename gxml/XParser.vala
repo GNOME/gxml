@@ -349,7 +349,6 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
           string attn = attrname;
           if (prefix != null) attn = prefix+":"+attrname;
           if (prefix != null) {
-            message ("Name: %s : Prefix = %s", attrname, prefix);
             string nsuri = null;
             if (prefix == "xmlns")
               nsuri = "http://www.w3.org/2000/xmlns/";

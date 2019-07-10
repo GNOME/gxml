@@ -526,7 +526,6 @@ public class GXml.Element : GXml.Node,
         throw new DomError.NAMESPACE_ERROR (_("Namespace URI was not found: %s"), namespace_uri);
       }
       string k = (nsp+":"+local_name).down ();
-      message ("Searching Node with k: %s", k);
       var v = get (k);
       return v;
     }
@@ -559,24 +558,6 @@ public class GXml.Element : GXml.Node,
                                           (node as GXml.Attr).local_name);
         if (asp != null) return node;
       }
-      if ((node as GXml.Attr).namespace_uri == "http://www.w3.org/2000/xmlns/"
-          || (node as GXml.Attr).namespace_uri == "http://www.w3.org/2000/xmlns") {
-        if ((node as GXml.Attr).local_name == "xmlns") {
-          string ns_uri = _element.lookup_namespace_uri (null);
-          if (ns_uri != null && ns_uri != node.node_value) {
-            message (_("Duplicated default namespace detected with URI: %s").printf (ns_uri));
-          }
-        }
-        if ((node as GXml.Attr).prefix == "xmlns") {
-          string nsprefix = _element.lookup_prefix (node.node_value);
-          string nsuri = _element.lookup_namespace_uri ((node as GXml.Attr).local_name);
-          if ((nsprefix != null || nsuri != null)
-              && (nsprefix != (node as GXml.Attr).local_name
-                  || nsuri != node.node_value)) {
-            message (_("Duplicated namespace detected for: %s:%s").printf ((node as GXml.Attr).local_name, node.node_value));
-          }
-        }
-      }
       if ((node as GXml.Attr).namespace_uri != "http://www.w3.org/2000/xmlns/"
           && (node as GXml.Attr).namespace_uri != "http://www.w3.org/2000/xmlns"
           && (node as GXml.Attr).namespace_uri != "http://www.w3.org/2001/XMLSchema-instance/"
@@ -603,18 +584,15 @@ public class GXml.Element : GXml.Node,
       }
       string k = (p+(node as GXml.Attr).local_name).down ();
       GXml.Attr attr = null;
-      message ("Searching: %s", k);
       var pprop = (_element as GXml.Object).find_property_name (k);
       if (pprop != null) {
         (_element as GXml.Object).set_attribute (k, node.node_value);
         attr = new GXml.Attr.reference (_element, k);
       } else {
-        message ("Not found as property creating a NS Attr with key: %s", k);
         attr = new GXml.Attr.namespace (_element, (node as GXml.Attr).namespace_uri, (node as GXml.Attr).prefix, (node as GXml.Attr).local_name, node.node_value);
       }
       set (k, attr);
       order.set (size - 1, k);
-      message ("Added: %s size: %d", k, size);
       return attr;
     }
     private long index_of (string name) {
