@@ -208,6 +208,14 @@ class GXml.ElementTest : GXmlTest  {
       }
     }
  }
+ public class ElementType : GXml.Element {
+    [Description (nick="::type")]
+    public string ttype { get; set; }
+
+    construct {
+      initialize ("elementType");
+    }
+ }
 	public static void add_tests () {
 	Test.add_func ("/gxml/gom-element/read/namespace_uri", () => {
 			DomDocument doc = null;
@@ -380,6 +388,7 @@ class GXml.ElementTest : GXmlTest  {
 				assert (p.get_attribute_ns ("http://www.w3.org/2000/xmlns", "c") == "http://c.org/1.0");
 				p.read_from_string (str);
 				message (p.write_string ());
+				assert (p.get_attribute_ns ("http://c.org/1.0", "name") == "edumor");
 				assert (p.cname == "edumor");
 				assert (p.ingredient != null);
 				assert (p.ingredient.cname == "spider");
@@ -858,6 +867,26 @@ class GXml.ElementTest : GXmlTest  {
 				assert (e.prop3.value == "val_prop3");
 				assert (e.get_attribute ("prop3") == "val_prop3");
 				assert ((e.attributes.item (4) as DomAttr).value == "val_prop3");
+			} catch (GLib.Error e) {
+		    GLib.message ("Error: "+e.message);
+		    assert_not_reached ();
+		  }
+		});
+		Test.add_func ("/gxml/gom-element/object-attributes/attributes-no-ns-same-name", () => {
+			try {
+				string str = """<elementType type="Val1" xsi:type="Val2" >VAL3</elementType>""";
+				var n = new ElementType ();
+				n.notify["ttype"].connect (()=>{
+					message ("Moddiffied ttype = %s", n.ttype);
+				});
+				n.read_from_string (str);
+				message (n.ttype);
+				message (n.get_attribute ("type"));
+				message (n.get_attribute_ns ("http://www.w3.org/2001/XMLSchema-instance", "type"));
+				assert (n.ttype == "Val1");
+				assert (n.get_attribute_ns ("http://www.w3.org/2001/XMLSchema-instance", "type") == "Val2");
+				message (n.get_attribute ("type"));
+				assert (n.get_attribute ("type") == "Val1");
 			} catch (GLib.Error e) {
 		    GLib.message ("Error: "+e.message);
 		    assert_not_reached ();

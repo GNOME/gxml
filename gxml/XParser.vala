@@ -338,25 +338,28 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
       } else {
         var attrname = tr.const_local_name ();
         string prefix = tr.prefix ();
+        if (prefix == null && ":" in attrname) {
+          string[] sname = attrname.split (":");
+          prefix = sname[0];
+          attrname = sname[1];
+        }
         tr.read_attribute_value ();
         if (tr.node_type () == Xml.ReaderType.TEXT) {
           var attrval = tr.read_string ();
-          bool processed = false;
           string attn = attrname;
           if (prefix != null) attn = prefix+":"+attrname;
-          if (node is GXml.Object) {
-            processed = (element as GXml.Object).set_attribute (attn, attrval);
-          }
-          if (!processed) {
-            if (prefix != null) {
-              string nsuri = null;
-              if (prefix == "xml")
-                nsuri = "http://www.w3.org/2000/xmlns/";
-              else
-                nsuri = tr.lookup_namespace (prefix);
-              element.set_attribute_ns (nsuri, prefix+":"+attrname, attrval);
-            } else
-              element.set_attribute (attrname, attrval);
+          if (prefix != null) {
+            message ("Name: %s : Prefix = %s", attrname, prefix);
+            string nsuri = null;
+            if (prefix == "xmlns")
+              nsuri = "http://www.w3.org/2000/xmlns/";
+            else if (prefix == "xsi")
+              nsuri = "http://www.w3.org/2001/XMLSchema-instance/";
+            else
+              nsuri = tr.lookup_namespace (prefix);
+            element.set_attribute_ns (nsuri, prefix+":"+attrname, attrval);
+          } else {
+            element.set_attribute (attrname, attrval);
           }
         }
       }
