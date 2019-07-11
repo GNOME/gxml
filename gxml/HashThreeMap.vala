@@ -44,7 +44,7 @@ using Gee;
  * as keys.
  *
  * {{{
- *   public class YourObject : GXml.Element, MappeableElementThirdKey {
+ *   public class YourObject : GXml.Element, MappeableElementThreeKey {
  *    [Description (nick="::Name")]
  *    public string name { get; set; }
  *    public string code { get; set; }
@@ -53,7 +53,7 @@ using Gee;
  *    public string get_map_secondary_key () { return name; }
  *    public string get_map_third_key () { return category; }
  *   }
- *   public class YourList : HashPairedMap {
+ *   public class YourList : HashThreeMap {
  *    construct {
  *      try { initialize_with (typeof (YourObject)); }
  *      catch (GLib.Error e) {

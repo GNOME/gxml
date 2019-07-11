@@ -900,6 +900,20 @@ class SerializationTest : GXmlTest  {
       assert (bs.hashthree_registers.length == 0);
       bs.hashthree_registers.append (br);
       assert (bs.hashthree_registers.length == 1);
+
+      foreach (string pk in bs.hashthree_registers.primary_keys_set) {
+        message (pk);
+        foreach (string sk in bs.hashthree_registers.secondary_keys_set (pk)) {
+          message (sk);
+          foreach (string tk in bs.hashthree_registers.third_keys_set (pk, sk)) {
+            message (tk);
+          }
+        }
+      }
+
+      assert (bs.hashthree_registers.has_primary_key ("2017"));
+      assert (bs.hashthree_registers.has_secondary_key ("2017", "Book1"));
+      assert (bs.hashthree_registers.has_third_key ("2017", "Book1", "SYSTEMS"));
       var b1 = bs.hashthree_registers.get ("2017","Book1", "SYSTEMS") as BookRegister;
       assert (b1 != null);
       assert (b1.year == 2017);
