@@ -292,12 +292,12 @@ public class GXml.Document : GXml.Node,
   }
 
   // NodeFilter.SHOW_ALL = 0xFFFFFFFF
-  public DomNodeIterator create_node_iterator (DomNode root, int what_to_show = (int) 0xFFFFFFFF, DomNodeFilter? filter = null)
+  public DomNodeIterator create_node_iterator (DomNode root, int what_to_show = (int) 0xFFFFFFFF)
   {
-    return new GDomNodeIterator (root, what_to_show, filter);
+    return new NodeIterator (root, what_to_show);
   }
-  public DomTreeWalker create_tree_walker (DomNode root, int what_to_show = (int) 0xFFFFFFFF, DomNodeFilter? filter = null) {
-      return new GDomTreeWalker (root, what_to_show, filter);
+  public DomTreeWalker create_tree_walker (DomNode root, int what_to_show = (int) 0xFFFFFFFF) {
+      return new TreeWalker (root, what_to_show);
   }
   // DomParentNode
   public DomHTMLCollection children {

@@ -160,7 +160,7 @@ public class GXml.XDocument : GXml.XNode,
     return true;
   }
   // DomDocument implementation
-  protected GImplementation _implementation = new GImplementation ();
+  protected DomImplementation _implementation = new XImplementation ();
   protected string _url = "about:blank";
   protected string _origin = "";
   protected string _compat_mode = "";
@@ -311,12 +311,12 @@ public class GXml.XDocument : GXml.XNode,
   }
 
   // NodeFilter.SHOW_ALL = 0xFFFFFFFF
-  public DomNodeIterator create_node_iterator (DomNode root, int what_to_show = (int) 0xFFFFFFFF, DomNodeFilter? filter = null)
+  public DomNodeIterator create_node_iterator (DomNode root, int what_to_show = (int) 0xFFFFFFFF)
   {
-    return new GDomNodeIterator (root, what_to_show, filter);
+    return new NodeIterator (root, what_to_show);
   }
-  public DomTreeWalker create_tree_walker (DomNode root, int what_to_show = (int) 0xFFFFFFFF, DomNodeFilter? filter = null) {
-      return new GDomTreeWalker (root, what_to_show, filter);
+  public DomTreeWalker create_tree_walker (DomNode root, int what_to_show = (int) 0xFFFFFFFF) {
+      return new TreeWalker (root, what_to_show);
   }
   // DomParentNode
   public DomHTMLCollection children {
@@ -369,7 +369,7 @@ public class GXml.XDocument : GXml.XNode,
 }
 
 
-public class GXml.GImplementation : GLib.Object, GXml.DomImplementation {
+internal class GXml.XImplementation : GLib.Object, GXml.DomImplementation {
   public DomDocumentType
     create_document_type (string qualified_name, string public_id, string system_id)
         throws GLib.Error
@@ -387,7 +387,7 @@ public class GXml.GImplementation : GLib.Object, GXml.DomImplementation {
 }
 
 
-public class GXml.XDocumentType : GXml.XChildNode,
+internal class GXml.XDocumentType : GXml.XChildNode,
                                   GXml.DomNode,
                                   GXml.DomChildNode,
                                   GXml.DomDocumentType
@@ -416,7 +416,7 @@ public class GXml.XDocumentType : GXml.XChildNode,
   }
 }
 
-public class GXml.XDocumentFragment : GXml.XDocument,
+internal class GXml.XDocumentFragment : GXml.XDocument,
               GXml.DomDocumentFragment
 {
   public XDocumentFragment (GXml.XDocument d)  {
@@ -424,53 +424,3 @@ public class GXml.XDocumentFragment : GXml.XDocument,
   }
 }
 
-
-public class GXml.GDomNodeIterator : GLib.Object, GXml.DomNodeIterator {
-  protected DomNode _root;
-  protected DomNode _reference_node;
-  protected bool _pointer_before_reference_node;
-  protected int _what_to_show;
-  protected DomNodeFilter _filter;
-  public GDomNodeIterator (DomNode n, int what_to_show, DomNodeFilter filter) {
-    _root = n;
-    _what_to_show = what_to_show;
-    _filter = filter;
-  }
-  public DomNode root { get { return _root; } }
-  public DomNode reference_node { get { return _reference_node; } }
-  public bool pointer_before_reference_node { get { return _pointer_before_reference_node; } }
-  public int what_to_show { get { return _what_to_show; } }
-  public DomNodeFilter? filter { get { return _filter; } }
-
-  public DomNode? next_node() { return null; } // FIXME
-  public DomNode? previous_node() { return null; } // FIXME
-
-  public void detach() { return; } // FIXME
-}
-
-
-public class GXml.GDomTreeWalker : GLib.Object, GXml.DomTreeWalker {
-  protected DomNode _root;
-  protected int _what_to_show;
-  protected DomNodeFilter? _filter;
-  protected  DomNode _current_node;
-
-  public DomNode root { get { return root; } }
-  public int what_to_show { get { return _what_to_show; } }
-  public DomNodeFilter? filter { get { return _filter; } }
-  public DomNode current_node { get { return _current_node; } }
-
-  public GDomTreeWalker (DomNode r, int w, DomNodeFilter f) {
-    _root = r;
-    _what_to_show = w;
-    _filter = f;
-  }
-
-  public DomNode? parent_node() { return null; }// FIXME
-  public DomNode? first_child() { return null; } // FIXME
-  public DomNode? last_child() { return null; }// FIXME
-  public DomNode? previous_sibling() { return null; }// FIXME
-  public DomNode? next_sibling() { return null; }// FIXME
-  public DomNode? previous_node() { return null; }// FIXME
-  public DomNode? next_node() { return null; }// FIXME
-}

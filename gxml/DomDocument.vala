@@ -60,16 +60,25 @@ public interface GXml.DomDocument : GLib.Object,
    */
   public abstract DomRange create_range();
 
-  // NodeFilter.SHOW_ALL = 0xFFFFFFFF
   /**
-   * No implemented jet. This can lead to API changes in future versions.
+   * Creates a {@link DomNodeIterator}.
+   *
+   * Consider to connect to {@link DomNodeIterator.accept_node} in order to
+   * filter the nodes you iterate on.
+   *
+   * See at {@link DomNodeFilter} fot the constant value of @what_to_show
    */
-  public abstract DomNodeIterator create_node_iterator (DomNode root, int whatToShow = (int) 0xFFFFFFFF, DomNodeFilter? filter = null);
+  public abstract DomNodeIterator create_node_iterator (DomNode root, int whatToShow = (int) 0xFFFFFFFF);
 
   /**
-   * No implemented jet. This can lead to API changes in future versions.
+   * Creates a {@link DomTreeWalker}.
+   *
+   * Consider to connect to {@link DomTreeWalker.accept_node} in order to
+   * filter the nodes you iterate on.
+   *
+   * See at {@link DomNodeFilter} fot the constant value of @what_to_show
    */
-  public abstract DomTreeWalker create_tree_walker (DomNode root, int what_to_show = (int) 0xFFFFFFFF, DomNodeFilter? filter = null);
+  public abstract DomTreeWalker create_tree_walker (DomNode root, int what_to_show = (int) 0xFFFFFFFF);
 
   /**
    * Writes a dump XML representation of document to a file.

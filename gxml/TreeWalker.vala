@@ -20,32 +20,30 @@
  *      Daniel Espinosa <esodan@gmail.com>
  */
 
-
-[Version (since = "0.18")]
+/**
+ * Implementation of {@link DomTreeWalker}
+ */
 public class GXml.TreeWalker : GLib.Object, GXml.DomTreeWalker {
   protected DomNode _root;
   protected int _what_to_show;
-  protected DomNodeFilter? _filter;
   protected  DomNode _current_node = null;
 
   public DomNode root { get { return root; } }
   public int what_to_show { get { return _what_to_show; } }
-  public DomNodeFilter? filter { get { return _filter; } }
   public DomNode current_node { get { return _current_node; } }
 
-  public TreeWalker (DomNode root, DomNode current, int w, DomNodeFilter? filter) {
+  public TreeWalker (DomNode root, int w) {
     _root = root;
     _what_to_show = w;
-    _filter = filter;
-    _current_node = current;
+    _current_node = root;
   }
 
   public DomNode? parent_node() {
     if (current_node == null) return null;
     var p = current_node.parent_node;
     if (p == null) return null;
-    if (_filter != null) {
-      if (_filter.accept_node (p) != DomNodeFilter.FILTER_ACCEPT) return null;
+    if (accept_node (p) != DomNodeFilter.Filter.ACCEPT) {
+      return null;
     }
     if (p == root) return  null;
     _current_node = p;
@@ -74,17 +72,15 @@ public class GXml.TreeWalker : GLib.Object, GXml.DomTreeWalker {
     } else {
       n = current_node.last_child;
     }
-    if¡ (n == null) return null;
+    if (n == null) return null;
     while (n != null) {
-      var res = DomNodeFilter.FILTER_ACCEPT
-      if (_filter != null) {
-        res = _filter.accept_node (n);
-      }
-      if (res == DomNodeFilter.FILTER_ACCEPT) {
+      var res = DomNodeFilter.Filter.ACCEPT;
+      res = accept_node (n);
+      if (res == DomNodeFilter.Filter.ACCEPT) {
         _current_node = n;
         return _current_node;
       }
-      if (res == DomNodeFilter.FILTER_SKIP) {
+      if (res == DomNodeFilter.Filter.SKIP) {
         DomNode c = null;
         if (first) {
           c = n.first_child;
@@ -127,11 +123,9 @@ public class GXml.TreeWalker : GLib.Object, GXml.DomTreeWalker {
     }
     DomNode n = s;
     while (n != null) {
-      var res = DomNodeFilter.FILTER_ACCEPT;
-      if (_filter != null) {
-        res = _filter.accept_node (n);
-      }
-      if  (res == DomNodeFilter.FILTER_ACCEPT) {
+      var res = DomNodeFilter.Filter.ACCEPT;
+      res = accept_node (n);
+      if  (res == DomNodeFilter.Filter.ACCEPT) {
         _current_node = n;
         return _current_node;
       }
@@ -141,7 +135,7 @@ public class GXml.TreeWalker : GLib.Object, GXml.DomTreeWalker {
       } else {
         c = n.last_child;
       }
-      if  (res == DomNodeFilter.FILTER_REJECT || c == null) {
+      if  (res == DomNodeFilter.Filter.REJECT || c == null) {
         if (next) {
           s = n.next_sibling;
         } else {
@@ -150,9 +144,10 @@ public class GXml.TreeWalker : GLib.Object, GXml.DomTreeWalker {
       }
       n = n.parent_node;
       if (n == null || n == root) return null;
-      if (_filter != null) {
-        if (_filter.accept_node (n) == DomNodeFilter.FILTER_ACCEPT) return null;
+      if (accept_node (n) == DomNodeFilter.Filter.ACCEPT) {
+        return null;
       }
     }
+    return s; // FIXME:
   }
 }

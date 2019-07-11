@@ -91,14 +91,21 @@ public interface GXml.DomHTMLCollection : GLib.Object, Gee.BidirList<GXml.DomEle
 
 
 /**
- * No implemented jet. This can lead to API changes in future versions.
+ * Document's node iterator.
+ *
+ * If you want to filter while you go though the tree
+ * set a handler for the {@link accept_node} signal
  */
 public interface GXml.DomNodeIterator : GLib.Object {
   public abstract DomNode root { get; }
   public abstract DomNode reference_node { get; }
   public abstract bool pointer_before_reference_node { get; }
+  /**
+   * This is a value of {@link DomNodeFilter} contant SHOW.
+   */
   public abstract int what_to_show { get; }
-  public abstract DomNodeFilter? filter { get; }
+
+  public signal DomNodeFilter.Filter accept_node (DomNode node);
 
   public abstract DomNode? next_node();
   public abstract DomNode? previous_node();
@@ -110,10 +117,11 @@ public interface GXml.DomNodeIterator : GLib.Object {
  * No implemented jet. This can lead to API changes in future versions.
  */
 public class GXml.DomNodeFilter : GLib.Object {
-  // Constants for acceptNode()
-  public const int FILTER_ACCEPT = 1;
-  public const int FILTER_REJECT = 2;
-  public const int FILTER_SKIP = 3;
+  public enum Filter {
+    ACCEPT = 1,
+    REJECT,
+    SKIP
+  }
 
   // Constants for whatToShow
   public const int SHOW_ALL = (int) 0xFFFFFFFF;
@@ -129,19 +137,21 @@ public class GXml.DomNodeFilter : GLib.Object {
   public const int SHOW_DOCUMENT_TYPE = (int) 0x200;
   public const int SHOW_DOCUMENT_FRAGMENT = (int) 0x400;
   public const int SHOW_NOTATION = (int) 0x800; // historical
-
-  public delegate int accept_node (DomNode node); // FIXME: Should be a User defined method
 }
 
 
 /**
- * No implemented jet. This can lead to API changes in future versions.
+ * Document tree walker.
+ *
+ * If you want to filter while you go though the tree
+ * set a handler for the {@link accept_node} signal
  */
 public interface GXml.DomTreeWalker : GLib.Object {
   public abstract DomNode root { get; }
   public abstract int what_to_show { get; }
-  public abstract DomNodeFilter? filter { get; }
   public abstract DomNode current_node { get; }
+
+  public signal DomNodeFilter.Filter accept_node (DomNode node);
 
   public abstract DomNode? parent_node();
   public abstract DomNode? first_child();
