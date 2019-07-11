@@ -152,7 +152,7 @@ public class GXml.HashThreeMap : GXml.BaseCollection, ThreeMap {
     var hte = ht.get (secondary_key);
     if (hte == null) return null;
     if (!hte.has_key (third_key)) return null;
-    var i = hte.get (secondary_key);
+    var i = hte.get (third_key);
     return _element.child_nodes.get (i) as DomElement;
   }
   /**
