@@ -5,6 +5,7 @@ Version 0.18.1
 * build: add support for darwin_versions thanks to Tom Schoonjans <Tom.Schoonjans@diamond.ac.uk>
 * Add missing meson files in tarball created with autotools
 * Meson: renamed options removing enable and disable prefix
+* Fix HashThreeMap.get() implementation
 
 ===============
 Version 0.18.0
