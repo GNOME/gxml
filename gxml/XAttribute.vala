@@ -22,7 +22,7 @@
 using Gee;
 
 /**
- * Class implemeting {@link GXml.DomAttr} interface, not tied to libxml-2.0 library.
+ * Class implementing {@link GXml.DomAttr} interface, not tied to libxml-2.0 library.
  */
 public class GXml.XAttribute : GXml.XNode, GXml.DomAttr
 {

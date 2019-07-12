@@ -24,7 +24,7 @@
 using Gee;
 
 /**
- * A class impementing {@link Collection} to store references to
+ * A class implementing {@link Collection} to store references to
  * child {@link DomElement} of {@link Collection.element}, using an index.
  *
  * {{{

@@ -222,7 +222,7 @@ public class GXml.XHashMapAttr : Gee.AbstractMap<string,GXml.XNode>,
    * Search items in this collection and return the object found at
    * index, but not order is warrantied
    *
-   * If index is greather than collection size, then last element found
+   * If index is greater than collection size, then last element found
    * is returned. This function falls back to first element found on any
    * issue.
    *

@@ -27,7 +27,7 @@ using Xml;
 
 namespace GXml {
 	/**
-   * HML parsing suport. Document handling
+   * HML parsing support. Document handling
    */
 	public class XHtmlDocument : XDocument, DomHtmlDocument {
 		public static int default_options {

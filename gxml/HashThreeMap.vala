@@ -24,7 +24,7 @@
 using Gee;
 
 /**
- * A class impementing {@link Collection} to store references to
+ * A class implementing {@link Collection} to store references to
  * child {@link DomElement} of {@link Collection.element}, using three attributes in
  * items as primary, secondary tertiary keys or {@link MappeableElementThreeKey.get_map_pkey},
  * {@link MappeableElementThreeKey.get_map_skey}
@@ -66,11 +66,11 @@ using Gee;
  */
 public class GXml.HashThreeMap : GXml.BaseCollection, ThreeMap {
   /**
-   * A hashtable with all keys as string to node's index refered. Don't modify it manually.
+   * A hashtable with all keys as string to node's index referred. Don't modify it manually.
    */
   protected Gee.HashMap<string,Gee.HashMap<string,Gee.HashMap<string,int>>> _hashtable = new Gee.HashMap<string,Gee.HashMap<string,Gee.HashMap<string,int>>> ();
   /**
-   * Element's attribute name used to refer of container's element as primery key.
+   * Element's attribute name used to refer of container's element as primary key.
    * You should define it at construction time
    * our set it as a construction property.
    */
@@ -156,7 +156,7 @@ public class GXml.HashThreeMap : GXml.BaseCollection, ThreeMap {
     return _element.child_nodes.get (i) as DomElement;
   }
   /**
-   * Returns true if @key is used in collection as primery key.
+   * Returns true if @key is used in collection as primary key.
    */
   public bool has_primary_key (string key) {
     if (_hashtable.has_key (key)) return true;

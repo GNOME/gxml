@@ -22,7 +22,7 @@
 using Gee;
 
 /**
- * DOM4 Class implemeting {@link GXml.Comment} and {@link GXml.DomComment} interface, powered by libxml2 library.
+ * DOM4 Class implementing {@link GXml.Comment} and {@link GXml.DomComment} interface, powered by libxml2 library.
  */
 public class GXml.XComment : GXml.XCharacterData, GXml.DomComment
 {

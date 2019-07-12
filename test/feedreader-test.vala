@@ -1,5 +1,5 @@
 /**
- * Copyrigth (C) 2017 Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2017 Daniel Espinosa <esodan@gmail.com>
  * This is a GPL software
  *
  * To compile use:

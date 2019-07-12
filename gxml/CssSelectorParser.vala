@@ -351,7 +351,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 		if (str.read() != ']')
 			throw new GXml.CssSelectorError.ATTRIBUTE (_("Cannot find end of attribute selector"));
 		
-		// TODO : CSS Selectors level 4 : case sensivity.
+		// TODO : CSS Selectors level 4 : case sensitivity.
 		
 		return selector;
 	}

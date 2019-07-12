@@ -22,7 +22,7 @@
 using Gee;
 
 /**
- * DOM4 Class implemeting {@link GXml.Text}
+ * DOM4 Class implementing {@link GXml.Text}
  * and {@link DomText} interface, powered by libxml2 library.
  */
 public class GXml.XText : GXml.XCharacterData, GXml.DomText

@@ -22,7 +22,7 @@
 
 using Gee;
 /**
- * Auxiliary error codes for parsing/writting libxml2 powered classes
+ * Auxiliary error codes for parsing/writing libxml2 powered classes
  */
 public errordomain GXml.Error {
 		NOT_SUPPORTED, /* TODO: GET RID OF THIS */
@@ -129,7 +129,7 @@ public abstract class GXml.XNode : GLib.Object,
         case Xml.ElementType.ELEMENT_NODE:
           return DomNode.NodeType.ELEMENT_NODE;
         case Xml.ElementType.ATTRIBUTE_NODE:
-          return DomNode.NodeType.ATTRIBUTE_NODE; // historica
+          return DomNode.NodeType.ATTRIBUTE_NODE; // historical
         case Xml.ElementType.TEXT_NODE:
           return DomNode.NodeType.TEXT_NODE;
         case Xml.ElementType.CDATA_SECTION_NODE:

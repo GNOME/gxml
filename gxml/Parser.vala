@@ -40,11 +40,11 @@ public interface GXml.Parser : GLib.Object {
    */
   public abstract bool backup { get; set; }
   /**
-   * Controls if, when writing, identation should be used.
+   * Controls if, when writing, indentation should be used.
    */
   public abstract bool indent { get; set; }
   /**
-   * Controls if, when writing, identation should be used.
+   * Controls if, when writing, indentation should be used.
    */
   public abstract Cancellable? cancellable { get; set; }
   /**
@@ -250,7 +250,7 @@ public interface GXml.Parser : GLib.Object {
       if (col.items_type == GLib.Type.INVALID
           || !(col.items_type.is_a (typeof (GXml.Object)))) {
         throw new DomError.INVALID_NODE_TYPE_ERROR
-                    (_("Collection '%s' hasn't been constructed properly: items type propeerty was not set at construction time or set to invalid type"), col.get_type ().name ());
+                    (_("Collection '%s' hasn't been constructed properly: items' type property was not set at construction time or set to invalid type"), col.get_type ().name ());
       }
       if (col.items_name == "" || col.items_name == null) {
         throw new DomError.INVALID_NODE_TYPE_ERROR
@@ -262,7 +262,7 @@ public interface GXml.Parser : GLib.Object {
       }
       if (!(col.element is GXml.Object)) {
         throw new DomError.INVALID_NODE_TYPE_ERROR
-                    (_("Invalid object of type '%s' doesn't implemement GXml.Object interface: can't be handled by the collection"), col.element.get_type ().name ());
+                    (_("Invalid object of type '%s' doesn't implement GXml.Object interface: can't be handled by the collection"), col.element.get_type ().name ());
       }
       if (col.items_name.down () == current_node_name ().down ()) {
         if (parent.owner_document == null)
@@ -280,11 +280,11 @@ public interface GXml.Parser : GLib.Object {
     return false;
   }
   /**
-   * Read all childs node feed by stream.
+   * Read all children node feed by stream.
    */
   public abstract void read_child_nodes_stream (GLib.InputStream istream) throws GLib.Error;
   /**
-   * Read childs nodes from string
+   * Read children nodes from string
    */
   public virtual void read_child_nodes_string (string str) throws GLib.Error {
     if (str == "")
@@ -301,7 +301,7 @@ public interface GXml.Parser : GLib.Object {
    */
   public abstract bool move_next_node () throws GLib.Error;
   /**
-   * Check if current node has childs.
+   * Check if current node has children.
    */
   public abstract bool current_is_empty_element ();
   /**

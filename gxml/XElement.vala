@@ -25,7 +25,7 @@
 using Gee;
 
 /**
- * DOM4 Class implemeting {@link GXml.DomElement} interface,
+ * DOM4 Class implementing {@link GXml.DomElement} interface,
  * powered by libxml-2.0 library.
  */
 public class GXml.XElement : GXml.XNonDocumentChildNode,
@@ -252,7 +252,7 @@ public class GXml.XElement : GXml.XNonDocumentChildNode,
 
   public DomHTMLCollection get_elements_by_tag_name (string local_name) {
     var l = new HTMLCollection ();
-    //FIXME: quircks mode not considered
+    //FIXME: quirks mode not considered
     foreach (GXml.DomElement n in children) {
       if (n.node_name == local_name)
         l.add (n);
@@ -262,7 +262,7 @@ public class GXml.XElement : GXml.XNonDocumentChildNode,
   }
   public DomHTMLCollection get_elements_by_tag_name_ns (string? namespace, string local_name) {
     var l = new HTMLCollection ();
-    //FIXME: quircks mode not considered
+    //FIXME: quirks mode not considered
     foreach (GXml.DomElement n in children) {
       if (n.node_name == local_name
           && n.namespace_uri == namespace)

@@ -24,7 +24,7 @@ using Gee;
 using Xml;
 
 /**
- * DOM4 class implemeting {@link GXml.DomDocument} and {GXml.DomDocument} interface,
+ * DOM4 class implementing {@link GXml.DomDocument} and {GXml.DomDocument} interface,
  * powered by libxml-2.0 library.
  *
  * This class use {@link Xml.TextWriter} to write down XML documents using
@@ -136,7 +136,7 @@ public class GXml.XDocument : GXml.XNode,
     try {
       return write_string ();
     } catch (GLib.Error e) {
-      warning (_("Error writting documento to string: %s"), e.message);
+      warning (_("Error writing document to string: %s"), e.message);
       return "";
     }
   }

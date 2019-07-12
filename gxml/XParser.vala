@@ -264,7 +264,7 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
     return true;
   }
   /**
-   * Check if current node has childs.
+   * Check if current node has children.
    */
   public bool current_is_empty_element () {
     if (tr == null) return false;

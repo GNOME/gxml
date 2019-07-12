@@ -24,7 +24,7 @@
 /**
  * An interface for {@link GXml.Object}'s properties translated to
  * {@link DomElement} attributes. If object is instantiated it is
- * written, if not is just ingnored.
+ * written, if not is just ignored.
  */
 public interface GXml.Property : GLib.Object
 {
@@ -217,7 +217,7 @@ public class GXml.XsdArrayString : ArrayString {
 
 /**
  * Convenient class to handle {@link Element}'s attributes
- * using double pressition floats as sources of values.
+ * using double precision floats as sources of values.
  *
  * Property is represented as a string.
  */
@@ -238,7 +238,7 @@ public class GXml.Double : GXml.BaseProperty {
    */
   public uint decimals { get; set; default = 4; }
   /**
-   * Retrive current value.
+   * Retrieve current value.
    */
   public double get_double () { return _value; }
   /**
@@ -255,7 +255,7 @@ public class GXml.Double : GXml.BaseProperty {
  */
 public class GXml.Float : Double {
   /**
-   * Retrive current value.
+   * Retrieve current value.
    */
   public float get_float () { return (float) _value; }
   /**
@@ -282,7 +282,7 @@ public class GXml.Int : GXml.BaseProperty {
     }
   }
   /**
-   * Retrive current value.
+   * Retrieve current value.
    */
   public int get_integer () { return _value; }
   /**
@@ -308,7 +308,7 @@ public class GXml.Boolean : GXml.BaseProperty {
     }
   }
   /**
-   * Retrive current value.
+   * Retrieve current value.
    */
   public bool get_boolean () { return _value; }
   /**
@@ -322,7 +322,7 @@ public class GXml.Boolean : GXml.BaseProperty {
  * using a {@link GLib.Type.ENUM} as a source of values.
  *
  * Enumeration is represented as a string, using its name, independent of
- * value possition in enumeration.
+ * value position in enumeration.
  */
 public class GXml.Enum : GXml.BaseProperty {
   protected int _value = 0;
@@ -351,7 +351,7 @@ public class GXml.Enum : GXml.BaseProperty {
    */
   public bool use_nick { get; construct set; }
   /**
-   * Tries to convert the value to CamelCase using its nick non canical name. Defaults to FALSE.
+   * Tries to convert the value to CamelCase using its nick non canonical name. Defaults to FALSE.
    *
    * An enum declared as 'ENUM_VALUE', its value is converted to 'EnumValue'. See
    * {@link use_nick} for details.
@@ -419,7 +419,7 @@ public class GXml.Enum : GXml.BaseProperty {
     _enum_type = enum_type;
   }
   /**
-   * Retrive current value.
+   * Retrieve current value.
    */
   public int get_enum () { return (int) _value; }
   /**
@@ -470,7 +470,7 @@ public class GXml.Date : GXml.BaseProperty {
     }
   }
   /**
-   * Retrives current value.
+   * Retrieves current value.
    */
   public GLib.Date get_date () { return _value; }
   /**
@@ -509,7 +509,7 @@ public class GXml.DateTime : GXml.BaseProperty {
     }
   }
   /**
-   * Retrives current value.
+   * Retrieves current value.
    */
   public GLib.DateTime get_datetime () { return _value; }
   /**

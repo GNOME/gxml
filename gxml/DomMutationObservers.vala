@@ -22,7 +22,7 @@
 using Gee;
 
 /**
- * Implementators should use constructor with one argument {@link GXml.DomMutationCallback}
+ * Implementers should use constructor with one argument {@link GXml.DomMutationCallback}
  * to use internally.
  */
 public interface GXml.DomMutationObserver : GLib.Object {

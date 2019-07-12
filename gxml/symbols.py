@@ -21,11 +21,11 @@
 import fileinput
 import re, os
 # Configuration parameters
-# Change this acording with your proyect's function's prefix
+# Change this according with your project's function's prefix
 prefix = 'gxml_'
 # Change this the output file name
 filename = "gxml.symbols"
-# Add any symbols, prefixs or simple texts you want to skip from parsing
+# Add any symbols, prefixes or simple texts you want to skip from parsing
 blacklist = ("error_quark", "gxml_last_error;", "gxml_warning")
 
 # Start parsing

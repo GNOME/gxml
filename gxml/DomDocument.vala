@@ -66,7 +66,7 @@ public interface GXml.DomDocument : GLib.Object,
    * Consider to connect to {@link DomNodeIterator.accept_node} in order to
    * filter the nodes you iterate on.
    *
-   * See at {@link DomNodeFilter} fot the constant value of @what_to_show
+   * See at {@link DomNodeFilter} for the constant value of @what_to_show
    */
   public abstract DomNodeIterator create_node_iterator (DomNode root, int whatToShow = (int) 0xFFFFFFFF);
 
@@ -76,7 +76,7 @@ public interface GXml.DomDocument : GLib.Object,
    * Consider to connect to {@link DomTreeWalker.accept_node} in order to
    * filter the nodes you iterate on.
    *
-   * See at {@link DomNodeFilter} fot the constant value of @what_to_show
+   * See at {@link DomNodeFilter} for the constant value of @what_to_show
    */
   public abstract DomTreeWalker create_tree_walker (DomNode root, int what_to_show = (int) 0xFFFFFFFF);
 
@@ -222,7 +222,7 @@ public errordomain GXml.DomDocumentError {
 public interface GXml.DomXMLDocument : GLib.Object, GXml.DomDocument {}
 
 /**
- * No implemented jet. This can lead to API changes in future versions.
+ * Not implemented yet. This can lead to API changes in future versions.
  */
 public interface GXml.DomImplementation : GLib.Object {
   public abstract DomDocumentType create_document_type (string qualified_name, string public_id, string system_id) throws GLib.Error;
@@ -235,7 +235,7 @@ public interface GXml.DomImplementation : GLib.Object {
 }
 
 /**
- * No implemented jet. This can lead to API changes in future versions.
+ * Not implemented yet. This can lead to API changes in future versions.
  */
 public interface GXml.DomDocumentFragment : GLib.Object,
                                             GXml.DomNode,
@@ -244,7 +244,7 @@ public interface GXml.DomDocumentFragment : GLib.Object,
 {}
 
 /**
- * No implemented jet. This can lead to API changes in future versions.
+ * Not implemented yet. This can lead to API changes in future versions.
  */
 public interface GXml.DomDocumentType : GLib.Object, GXml.DomNode, GXml.DomChildNode {
   public abstract string name { get; }

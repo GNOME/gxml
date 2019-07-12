@@ -154,7 +154,7 @@ class GXml.DocumentTest : GXmlTest {
 			try {
 				var rf = GLib.File.new_for_uri ("https://git.gnome.org/browse/gxml/plain/gxml.doap");
 				if (!rf.query_exists ()) {
-					GLib.message ("No remote file available. Skiping...");
+					GLib.message ("No remote file available. Skipping...");
 					return;
 				}
 				var d = new GXml.Document.from_file (rf);
@@ -186,7 +186,7 @@ class GXml.DocumentTest : GXmlTest {
 			try {
 				var rf = GLib.File.new_for_uri ("https://git.gnome.org/browse/gxml/plain/gxml.doap");
 				if (!rf.query_exists ()) {
-					GLib.message ("No remote file available. Skiping...");
+					GLib.message ("No remote file available. Skipping...");
 					return;
 				}
 				var d = new GXml.Document.from_file (rf);
