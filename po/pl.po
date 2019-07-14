@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2019-07-06 16:19+0000\n"
-"PO-Revision-Date: 2019-07-07 14:05+0200\n"
+"POT-Creation-Date: 2019-07-11 23:22+0000\n"
+"PO-Revision-Date: 2019-07-14 16:05+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -54,16 +54,16 @@ msgstr ""
 msgid "Error: %s"
 msgstr "Błąd: %s"
 
-#: gxml/Collections.vala:66
+#: gxml/Collections.vala:116
 msgid "Invalid index for elements in array list"
 msgstr "Nieprawidłowy indeks elementów na liście macierzy"
 
-#: gxml/Collections.vala:70
+#: gxml/Collections.vala:120
 msgid "Invalid index reference for child elements in array list"
 msgstr ""
 "Nieprawidłowe odniesienie indeksu dla elementów potomnych na liście macierzy"
 
-#: gxml/Collections.vala:75
+#: gxml/Collections.vala:125
 msgid "Referenced object's type is invalid. Should be a GXmlDomElement"
 msgstr ""
 "Typ wymienionego obiektu jest nieprawidłowy. Powinien być GXmlDomElement"
@@ -212,34 +212,45 @@ msgstr "Węzeł tekstowy z ciągiem NULL"
 msgid "Can't copy child text node"
 msgstr "Nie można skopiować potomnego węzła tekstowego"
 
-#: gxml/Element.vala:169
+#: gxml/Element.vala:183
 msgid "Invalid namespace URI stored in element's attribute"
 msgstr ""
 "Nieprawidłowy adres URI przestrzeni nazw przechowywany w atrybucie elementu"
 
-#: gxml/Element.vala:176 gxml/Element.vala:198
+#: gxml/Element.vala:190 gxml/Element.vala:224
 msgid "Invalid attribute name in element's attributes list"
 msgstr "Nieprawidłowa nazwa atrybutu na liście atrybutów elementu"
 
-#: gxml/Element.vala:213
+#: gxml/Element.vala:239
 msgid "Can't locate child node to remove"
 msgstr "Nie można odnaleźć węzła potomnego do usunięcia"
 
-#: gxml/Element.vala:444 gxml/Element.vala:505
+#: gxml/Element.vala:469 gxml/Element.vala:535
 #, c-format
 msgid "Invalid attribute name: %s"
 msgstr "Nieprawidłowa nazwa atrybutu: %s"
 
-#: gxml/Element.vala:446 gxml/Element.vala:507
+#: gxml/Element.vala:471 gxml/Element.vala:537
 msgid "Invalid node type. GXml.Attr was expected"
 msgstr "Nieprawidłowy typ węzła. Oczekiwano „GXml.Attr”"
 
-#: gxml/Element.vala:469 gxml/Element.vala:488
+#: gxml/Element.vala:494 gxml/Element.vala:513
 #, c-format
 msgid "No index found for attribute %s"
 msgstr "Nie odnaleziono indeksu dla atrybutu %s"
 
-#: gxml/Element.vala:512
+#: gxml/Element.vala:522
+#, c-format
+msgid "Invalid attribute's local name '%s': invalid use of ':' character"
+msgstr ""
+"Nieprawidłowa lokalna nazwa atrybutu „%s”: nieprawidłowe użycie znaku „:”"
+
+#: gxml/Element.vala:526
+#, c-format
+msgid "Namespace URI was not found: %s"
+msgstr "Nie odnaleziono adresu URI przestrzeni nazw: %s"
+
+#: gxml/Element.vala:542
 msgid ""
 "Namespace attributes prefixed with xmlns should use a namespace uri http://"
 "www.w3.org/2000/xmlns"
@@ -247,54 +258,49 @@ msgstr ""
 "Atrybuty przestrzeni nazw z przedrostkiem xmlns muszą używać adresu URI "
 "przestrzeni nazw http://www.w3.org/2000/xmlns"
 
-#: gxml/Element.vala:519
+#: gxml/Element.vala:549
 #, c-format
 msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
 msgstr "Atrybuty w przestrzeni nazw muszą dostarczać niepusty przedrostek: %s"
 
-#: gxml/Element.vala:523
+#: gxml/Element.vala:553
 msgid "Invalid namespace attribute's name."
 msgstr "Nieprawidłowa nazwa atrybutu przestrzeni nazw."
 
-#: gxml/Element.vala:535
+#: gxml/Element.vala:570
 #, c-format
-msgid "Duplicated default namespace detected with URI: %s"
-msgstr "Wykryto podwójną domyślną przestrzeń nazw o adresie URI: %s"
-
-#: gxml/Element.vala:544
-#, c-format
-msgid "Duplicated namespace detected for: %s:%s"
-msgstr "Wykryto podwójną przestrzeń nazw dla: %s:%s"
-
-#: gxml/Element.vala:555
-#, c-format
-msgid "Trying to add an attribute with an undefined namespace prefix: %s"
+msgid "Trying to add an attribute with an undefined namespace's prefix: %s"
 msgstr ""
-"Próbowanie dodania atrybutu za pomocą nieokreślonego przedrostka przestrzeni "
+"Próbowanie dodania atrybutu za pomocą przedrostka nieokreślonej przestrzeni "
 "nazw: %s"
 
-#: gxml/Element.vala:561
-msgid "Trying to add an attribute with a non found namespace URI"
+#: gxml/Element.vala:577
+msgid "Trying to add an attribute with an undefined namespace's URI"
 msgstr ""
-"Próbowanie dodania atrybutu za pomocą nieodnalezionego adresu URI "
-"przestrzeni nazw"
+"Próbowanie dodania atrybutu za pomocą adresu URI nieokreślonej przestrzeni "
+"nazw"
 
-#: gxml/Element.vala:634
+#: gxml/Element.vala:629
+#, c-format
+msgid "Error getting attribute with namespace: %s"
+msgstr "Błąd podczas uzyskiwania atrybutu z przestrzenią nazw: %s"
+
+#: gxml/Element.vala:645
 msgid "Invalid attribute name. Just one prefix is allowed"
 msgstr "Nieprawidłowa nazwa atrybutu. Dozwolony jest tylko jeden przedrostek"
 
-#: gxml/Element.vala:638
+#: gxml/Element.vala:650
 #, c-format
 msgid "Invalid attribute name. Invalid use of colon: %s"
 msgstr "Nieprawidłowa nazwa atrybutu. Nieprawidłowe użycie dwukropka: %s"
 
-#: gxml/Element.vala:643
+#: gxml/Element.vala:654
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
 msgstr ""
 "Nieprawidłowa przestrzeń nazw. Jeśli przedrostek jest pusty, adres URI "
 "przestrzeni nazw nie może być pusty"
 
-#: gxml/Element.vala:645
+#: gxml/Element.vala:657
 msgid ""
 "Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
 "org/2000/xmlns"
@@ -302,15 +308,15 @@ msgstr ""
 "Nieprawidłowa przestrzeń nazw. Jeśli przedrostek to xml, adres URI "
 "przestrzeni nazw musi być http://www.w3.org/2000/xmlns"
 
-#: gxml/Element.vala:648
+#: gxml/Element.vala:661
 msgid ""
-"Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
+"Invalid namespace. 4If attribute's prefix is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns"
 msgstr ""
 "Nieprawidłowa przestrzeń nazw. Jeśli przedrostek atrybutu to xmlns, adres "
 "URI przestrzeni nazw musi być http://www.w3.org/2000/xmlns"
 
-#: gxml/Element.vala:652
+#: gxml/Element.vala:666
 msgid ""
 "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns"
@@ -318,21 +324,22 @@ msgstr ""
 "Nieprawidłowa przestrzeń nazw. Jeśli nazwa atrybutu to xmlns, adres URI "
 "przestrzeni nazw musi być http://www.w3.org/2000/xmlns"
 
-#: gxml/Element.vala:654
-msgid "Invalid attribute name. No prefixed attributes should use xmlns name"
+#: gxml/Element.vala:669
+msgid ""
+"Invalid attribute name. No prefixed attributes should use xml or xmlns name"
 msgstr ""
 "Nieprawidłowa nazwa atrybutu. Atrybuty z przedrostkami nie mogą używać nazw "
-"xmlns"
+"xml lub xmlns"
 
-#: gxml/Element.vala:658
+#: gxml/Element.vala:674
 msgid "Setting namespaced property error: "
 msgstr "Błąd podczas ustawiania właściwości w przestrzeni nazw: "
 
-#: gxml/Element.vala:664
+#: gxml/Element.vala:680
 msgid "Removing attribute Error: "
 msgstr "Usuwanie błędu atrybutu: "
 
-#: gxml/Element.vala:669
+#: gxml/Element.vala:685
 msgid "Removing namespaced attribute Error: "
 msgstr "Usuwanie błędu atrybutu w przestrzeni nazw: "
 
@@ -341,8 +348,9 @@ msgid "value is invalid"
 msgstr "wartość jest nieprawidłowa"
 
 #: gxml/Enumeration.vala:129
-msgid "text cannot be parsed to enumeration type:"
-msgstr "tekst nie może zostać przetworzony na typ wyliczenia:"
+#, c-format
+msgid "text '%s' cannot be parsed to enumeration type: %s"
+msgstr "tekst „%s” nie może zostać przetworzony na typ wyliczenia: %s"
 
 #: gxml/HashPairedMap.vala:210
 msgid "No primary key and/or secondary key was found"
@@ -440,42 +448,70 @@ msgstr ""
 "węzeł nie jest"
 
 #: gxml/Parser.vala:253
-msgid "Invalid object type set to Collection"
-msgstr "Nieprawidłowy zestaw typów obiektów do zbioru"
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: items type propeerty was "
+"not set at construction time or set to invalid type"
+msgstr ""
+"Zbiór „%s” nie został właściwie zbudowany: właściwość typu elementów nie "
+"została ustawiona w czasie budowania lub została ustawiona na nieprawidłowy "
+"typ"
 
 #: gxml/Parser.vala:257
-msgid "Invalid DomElement name for objects in Collection"
-msgstr "Nieprawidłowa nazwa elementu DOM dla obiektów w zbiorze"
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: items' name property was "
+"not set at construction time"
+msgstr ""
+"Zbiór „%s” nie został właściwie zbudowany: właściwość nazw elementów nie "
+"została ustawiona w czasie budowania"
 
 #: gxml/Parser.vala:261
-msgid "Invalid Element set to Collection"
-msgstr "Nieprawidłowy zestaw elementów do zbioru"
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: element property was not "
+"set at construction time"
+msgstr ""
+"Zbiór „%s” nie został właściwie zbudowany: właściwość elementu nie została "
+"ustawiona w czasie budowania"
 
-#: gxml/Parser.vala:266
+#: gxml/Parser.vala:265
+#, c-format
+msgid ""
+"Invalid object of type '%s' doesn't implemement GXml.Object interface: can't "
+"be handled by the collection"
+msgstr ""
+"Nieprawidłowy obiekt typu „%s” nie implementuje interfejsu GXml.Object: nie "
+"może zostać obsłużony przez zbiór"
+
+#: gxml/Parser.vala:270
 msgid "No document is set to node"
 msgstr "Żaden dokument nie jest ustawiony na węzeł"
 
-#: gxml/Parser.vala:287 gxml/XParser.vala:102 gxml/XParser.vala:108
+#: gxml/Parser.vala:291 gxml/XParser.vala:102 gxml/XParser.vala:108
 msgid "Invalid document string, it is empty or is not allowed"
 msgstr "Nieprawidłowy ciąg dokumentu, jest pusty lub nie jest dozwolony"
 
-#: gxml/Property.vala:336
-msgid "Error when transform enum to attribute's value"
-msgstr "Błąd podczas przekształcania wyliczenia na wartość atrybutu"
+#: gxml/Property.vala:389
+#, c-format
+msgid "Error when transform enum to attribute's value: %s"
+msgstr "Błąd podczas przekształcania wyliczenia na wartość atrybutu: %s"
 
-#: gxml/Property.vala:344
-msgid "Error when transform from attribute string value to enum"
-msgstr "Błąd podczas przekształcania z wartości ciągu atrybutu na wyliczenie"
+#: gxml/Property.vala:398
+#, c-format
+msgid "Error when transform from attribute string value to enum: %s"
+msgstr ""
+"Błąd podczas przekształcania z wartości ciągu atrybutu na wyliczenie: %s"
 
-#: gxml/Property.vala:396 gxml/Property.vala:403
+#: gxml/Property.vala:462 gxml/Property.vala:469
 msgid "Invalid Date for property: "
 msgstr "Nieprawidłowa data dla właściwości: "
 
-#: gxml/Property.vala:398
+#: gxml/Property.vala:464
 msgid "Invalid format for Date property: "
 msgstr "Nieprawidłowy format dla właściwości daty: "
 
-#: gxml/Property.vala:442
+#: gxml/Property.vala:508
 msgid "Invalid timestamp for property: "
 msgstr "Nieprawidłowy czas dla właściwości: "
 
@@ -622,7 +658,7 @@ msgid "Error closing stream: %s"
 msgstr "Błąd podczas zamykania strumienia: %s"
 
 #: gxml/XParser.vala:192 gxml/XParser.vala:248 gxml/XParser.vala:257
-#: gxml/XParser.vala:306 gxml/XParser.vala:319 gxml/XParser.vala:367
+#: gxml/XParser.vala:306 gxml/XParser.vala:319 gxml/XParser.vala:369
 msgid "Internal Error: No TextReader was set"
 msgstr "Wewnętrzny błąd: nie ustawiono TextReader"
 
@@ -636,11 +672,11 @@ msgid "Parsing ERROR: Fail to move to attribute number: %i"
 msgstr ""
 "BŁĄD podczas przetwarzania: przejście do numeru atrybutu się nie powiodło: %i"
 
-#: gxml/XParser.vala:412
+#: gxml/XParser.vala:414
 msgid "Invalid sequence for document type definition: "
 msgstr "Nieprawidłowa sekwencja dla definicji typu dokumentu: "
 
-#: gxml/XParser.vala:477 gxml/XParser.vala:582 gxml/XParser.vala:653
+#: gxml/XParser.vala:479 gxml/XParser.vala:584 gxml/XParser.vala:655
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Wewnętrzny błąd: nie zainicjowano TextWriter"
 
