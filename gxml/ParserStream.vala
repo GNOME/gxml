@@ -32,7 +32,6 @@ public class GXml.ParserStream : GLib.Object {
   DomDocument doc;
   Regex reg_name_star_char;
   Regex reg_name;
-  size_t position = -1;
   Gee.ArrayList<ElementBuffered> elements = new Gee.ArrayList<ElementBuffered> ();
 
   public GLib.Cancellable? cancellable { get; set; }
@@ -51,14 +50,12 @@ public class GXml.ParserStream : GLib.Object {
     char buf[2] = {0, 0};
     var dstream = new GLib.DataInputStream (istream);
     buf[0] = (char) dstream.read_byte (cancellable);
-    position++;
     string start = null;
     if (buf[0] != '<') {
       throw new ParserStreamError.INVALID_DOCUMENT_ERROR (_("Invalid document: should start with '<'"));
     }
     start = (string) buf;
     buf[0] = (char) dstream.read_byte (cancellable);
-    position++;
     str += (string) buf;
     if (str == "?") {
       start = null;
@@ -147,7 +144,6 @@ public class GXml.ParserStream : GLib.Object {
   public void skip_spaces (GLib.DataInputStream dstream, out char cur) throws GLib.Error {
     char buf[2] = {0, 0};
     buf[0] = (char) dstream.read_byte (cancellable);
-    position++;
     while (is_space (buf[0])) {
       buf[0] = (char) dstream.read_byte (cancellable);
       position++;
@@ -180,7 +176,6 @@ public class GXml.ParserStream : GLib.Object {
     char buf[2] = {0, 0};
     string str = "";
     buf[0] = (char) dstream.read_byte (cancellable);
-    position++;
     while (buf[0] != quote)) {
       str += (string) buf[0];
       buf[0] = (char) dstream.read_byte (cancellable);
@@ -194,17 +189,14 @@ public class GXml.ParserStream : GLib.Object {
     string val = null;
     read_name (dstream, out cur, out name);
     buf[0] = (char) dstream.read_byte (cancellable);
-    position++;
     if (buf[0] != '=') {
       throw new ParserStreamError.INVALID_DOCUMENT_ERROR (_("Invalid attribute: expected '=' character"));
     }
     char quote = (char) dstream.read_byte (cancellable);
-    position++;
     if (quote != quote1 || quote != quote2) {
       throw new ParserStreamError.INVALID_DOCUMENT_ERROR (_("Invalid attribute: expected quote"));
     }
     buf[0] = (char) dstream.read_byte (cancellable);
-    position++;
     char q = quote1 != '\0' ? quot1 : quote2 != '\0' ? quote2 : '\0';
     if (q == '\0') {
       throw new ParserStreamError.INVALID_DOCUMENT_ERROR (_("Invalid qouting requested for attribute read"));
@@ -237,7 +229,6 @@ public class GXml.ParserStream : GLib.Object {
       }
     }
     buf[0] = (char) dstream.read_byte (cancellable);
-    position++;
     if (buf[0] != '<' && start == null) {
       throw new ParserStreamError.INVALID_DOCUMENT_ERROR (_("Invalid element start tag declaration: expected '<'"));
     }
@@ -274,7 +265,6 @@ public class GXml.ParserStream : GLib.Object {
   public void read_element_content (GLib.DataInputStream dstream, GLib.DataOutputStream dostream, string node_name) {
     char buf[2] = {0, 0};
     buf[0] = (char) dstream.read_byte (cancellable);
-    position++;
     while (buf[0] != '<') {
       if (!dostream.put_byte (buf[0])) {
         throw new ParserStreamError.MEMORY_ERROR (_("Can't load element's content"));

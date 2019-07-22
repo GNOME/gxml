@@ -70,6 +70,7 @@ valasources = files ([
 	'Property.vala',
 	'Range.vala',
 	'SettableTokenList.vala',
+	'StreamReader.vala',
 	'StringRef.vala',
 	'Text.vala',
 	'TokenList.vala',
