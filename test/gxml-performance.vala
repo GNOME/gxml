@@ -50,12 +50,12 @@ public class Performance
   }
   public static void add_tests ()
   {
-    Test.add_func ("/gxml/performance/read/gomdocument",
+    Test.add_func ("/gxml/performance/read/document",
     () => {
       try {
         Test.timer_start ();
         double time;
-        var d = new GomDocument.from_path (GXmlTestConfig.TEST_DIR + "/test-large.xml");
+        var d = new Document.from_path (GXmlTestConfig.TEST_DIR + "/test-large.xml");
         time = Test.timer_elapsed ();
         Test.minimized_result (time, "Load large document: %g seconds", time);
         Test.timer_start ();
@@ -87,7 +87,7 @@ public class Performance
         assert_not_reached ();
       }
     });
-    Test.add_func ("/gxml/performance/se-deserialize/gomdocument",
+    Test.add_func ("/gxml/performance/se-deserialize/document",
     () => {
       try {
         double time;

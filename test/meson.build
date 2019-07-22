@@ -103,4 +103,16 @@ libxml_performance_iterate = executable('libxml-performance-iterate', files_gom_
 )
 
 benchmark ('libxml-performance-iterate', libxml_performance_iterate)
+
+files_stream_reader_performance_iterate = files ([
+		'StreamReaderPerformanceTest.vala'
+	])
+
+stream_reader_performance_iterate = executable('stream-reader-performance-load', files_stream_reader_performance_iterate + configvapi + configtestvapi,
+	vala_args : [],
+	dependencies : [ libgxml_deps, inc_libh_dep, testdirs_dep, inc_rooth_dep],
+	link_with: libgxml
+)
+
+benchmark ('stream-reader-performance-load', stream_reader_performance_iterate)
 		
