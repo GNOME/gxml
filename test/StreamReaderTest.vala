@@ -54,6 +54,27 @@ class GXmlTest {
 				warning ("Error: %s", e.message);
 			}
 		});
+		Test.add_func ("/gxml/stream-reader/child-multiple", () => {
+			string str = """<root p1="a" p2="b" ><child k="p" y="9"><code/><code u="3">TestC</code><Tek/><Tex y="456"/></child></root>""";
+			var istream = new MemoryInputStream.from_data (str.data, null);
+			var sr = new StreamReader (istream);
+			try {
+				var doc = sr.read ();
+				message (doc.write_string ());
+				message ((doc.document_element as GXml.Element).unparsed);
+				message ((doc.document_element.child_nodes.item (0) as GXml.Element).unparsed);
+				assert ((doc.document_element as GXml.Element).unparsed == """<root p1="a" p2="b" ></root>""");
+				assert ((doc.document_element.child_nodes.item(0) as GXml.Element).unparsed == """<child k="p" y="9"><code/><code u="3">TestC</code><Tek/><Tex y="456"/></child>""");
+				var cchilds = doc.document_element.child_nodes.item(0).child_nodes;
+				message ("Element childs: %d", cchilds.length);
+				assert ((cchilds.item (0) as GXml.Element).unparsed == null);
+				assert ((cchilds.item (1) as GXml.Element).unparsed == """<code u="3">TestC</code>""");
+				assert ((cchilds.item (2) as GXml.Element).unparsed == null);
+				assert ((cchilds.item (3) as GXml.Element).unparsed == """<Tex y="456"/>""");
+			} catch (GLib.Error e) {
+				warning ("Error: %s", e.message);
+			}
+		});
 		Test.run ();
 
 		return 0;

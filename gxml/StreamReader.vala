@@ -171,18 +171,17 @@ public class GXml.StreamReader : GLib.Object {
       atts += (string) buf;
       buf[0] = (char) stream.read_byte (cancellable);
     }
+    var e = document.create_element (name);
+    parent.append_child (e);
     message ("Element's attributes found: %s", atts);
     str = "<"+name+atts;
+    str += ">";
     if (atts[atts.length - 1] == '/') {
-     str += "/>";
+      (e as Element).unparsed = str;
      return str;
-    } else {
-      str += ">";
     }
     message ("Element's declaration head: %s", str);
     message ("Current: %s", (string) buf);
-    var e = document.create_element (name);
-    parent.append_child (e);
     while (true) {
       string content = "";
       buf[0] = (char) stream.read_byte (cancellable);
