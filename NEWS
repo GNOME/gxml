@@ -1,9 +1,9 @@
 ===============
 Version 0.20.0
 ===============
-* Transsition from pre 0.20 API, can be found at Wiki https://gitlab.gnome.org/GNOME/gxml/wikis/home
+* Transition from pre 0.20 API, can be found at Wiki https://gitlab.gnome.org/GNOME/gxml/wikis/home
 * API simplification (breaks)
-* Revome of obsolete and deprecated API
+* Remove of obsolete and deprecated API
 * Meson: options renaming
 * Gom* classes renamed by removing the Gom prefix (API simplification)
   this means, for example: GomDocument to Document and GomElement to Element.
@@ -100,7 +100,7 @@ Version 0.16.0
 * GomDocument: Fixed get_element_by_id()
 * XPath: Reimplemented write_stream_async, create_stream_async
 * Gom: DocumenType write remove DTD definitions []
-* Gom: Added suppòrt for DOCTYPE definitions
+* Gom: Added support for DOCTYPE definitions
 * Fixed lookup_namespace_uri()
 * Better support of xmlns http://www.w3.org/2000/xmlns
 * Fixes for Vala 0.39
@@ -174,7 +174,7 @@ Version 0.14.2
 Version 0.14.1
 ===============
 
-* valadoc in not necesary to build from tarball
+* valadoc is not necessary to build from tarball
 * New and updated translations:
     Updated Swedish   by Josef Andersson <l10nl18nsweja@gmail.com>
     Updated Polish      by Piotr Drąg <piotrdrag@gmail.com>
@@ -308,7 +308,7 @@ Version 0.10.0
 Version 0.9.92
 ===============
 
-* New contructor methods for TDocument using custome ReadTypeFunc
+* New constructor methods for TDocument using custom ReadTypeFunc
 * Bug fixes
 * New and updated translations:
     Updated Polish      by Piotr Drąg <piotrdrag@gmail.com>
@@ -371,7 +371,7 @@ API/ABI break
 * API change: Removed GXml.SerializableJson and GXml.Serialization, due to they
   have been unmaintained for a while now.
 
-* API change: GXml.NodeList is now a Gee.ArrayList<GXml.Node> specialiced class for better
+* API change: GXml.NodeList is now a Gee.ArrayList<GXml.Node> specialized class for better
   bindings support. The old class has been renamed to GXml.xNodeList.
 
 * API change: Most interfaces now return owned properties in order to allow implementations
@@ -383,13 +383,13 @@ API/ABI break
 
 * New HtmlDocument for HTML handling
 
-* Element interface removed finalize_attr (), due it is unsed
+* Element interface removed finalize_attr (), due it is unused
 
 * Element added new get_ns_attr() for namespaced attributes
 
 * Element implements set_ns_attr()
 
-* xNode and derivatives enter to a maintenace status, in order
+* xNode and derivatives enter to a maintenance status, in order
   to be deprecated in future, some tests haven't been added
   due to its internal complexity, like poor namespaces support. Is
   better to relay on GNode and derivatives. DOM API will be added
@@ -407,7 +407,7 @@ API/ABI break
 Version 0.8.2
 ===============
 
-* Fixed sigfault on xDocument.from_stream()
+* Fixed segfault on xDocument.from_stream()
 * Added test for remote file read using GLib.File
 
 =============
@@ -466,7 +466,7 @@ Version 0.6.0
 
 This new version is API/ABI incompatible with 0.4 series.
 
-Most work has been on simplifying API for Vala programers users, using interfaces and
+Most work has been on simplifying API for Vala programmers users, using interfaces and
 Gee classes, allowing to create new backends based or different from libxml2. This
 work allowed to re-implement existing classes without radically modify API for existing
 applications and makes room to improve performance and memory usage.
@@ -474,7 +474,7 @@ applications and makes room to improve performance and memory usage.
 News and changes are as follow:
 
 
-* Added new interfaces to simplify implementing new backends for XML reading/writting,
+* Added new interfaces to simplify implementing new backends for XML reading/writing,
   containers are Gee ones.
 
 * Renamed GXml 0.4 DOM classes to prefixing a "x", to avoid conflicts with new interfaces
@@ -482,7 +482,7 @@ News and changes are as follow:
 * GXml DOM classes, now implement new interfaces
 
 * GXml DOM classes now implement Gee interfaces to access directly to libxml2 structures,
-  reducing extra processing and memory consumption when they are referenced from permament
+  reducing extra processing and memory consumption when they are referenced from permanent
   on memory GObject classes. Reimplementing most other DOM classes to implement Gee classes
   in on roadmap, to reduce memory and possibly increase performance on parsing.
 
@@ -526,7 +526,7 @@ Version 0.4
 =============
 - Added Examples (Richard Schwarting)
 - Improved Build system (Daniel Espinosa)
-- Windows crosscopilation support (Daniel Espinosa)
+- Windows cross-compilation support (Daniel Espinosa)
 - Added/Improved Serialization Framework (Richard Schwarting, Daniel Espinosa)
 - Added missing License (Richard Schwarting)
 - Renamed DomNode to Node (Richard Schwarting)

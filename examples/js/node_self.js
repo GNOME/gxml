@@ -28,7 +28,7 @@ var first_book = book_list.get_element (0);
 
 var ath = first_book.get_attribute ("author");
 var att = first_book.get_attribute ("title");
-print ("Autor: "+ath+" Title: "+att);
+print ("Author: "+ath+" Title: "+att);
 
 var attrs = first_book.get_attributes ();
 print ("Attrs type:"+attrs.constructor);

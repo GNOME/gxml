@@ -22,7 +22,7 @@
 using Gee;
 
 /**
- * DOM4 Class implemeting {@link GXml.ProcessingInstruction} and
+ * DOM4 Class implementing {@link GXml.ProcessingInstruction} and
  * {@link DomProcessingInstruction} interface, powered by libxml2 library.
  */
 public class GXml.XProcessingInstruction : GXml.XCharacterData,

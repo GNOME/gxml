@@ -63,7 +63,7 @@ public interface GXml.IXsdTypeRestriction : GLib.Object, IXsdTypeDef {
   public abstract string base { get; set; }
   public abstract string id { get; set; }
   public abstract IXsdSimpleType simple_type { get; set; }
-  // TODO: Add all other definitons: like MinExclusive and others
+  // TODO: Add all other definitions: like MinExclusive and others
   public abstract IXsdListTypeRestrictionEnumerations enumerations { get; set; }
   public abstract IXsdListTypeRestrictionWhiteSpaces white_spaces { get; set; }
 }

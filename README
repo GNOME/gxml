@@ -89,7 +89,7 @@ Writing documentation
   - Documentation for overriding functions/methods is shown in
     valadoc, but not in gtkdoc.  For gtkdoc, you can only go up to the
     original superclass to see what's been available, even if it's
-    been overriden.  (Would we want this to be any different for
+    been overridden.  (Would we want this to be any different for
     gtkdoc?)
 
   - We don't get an Object Hierarchy in our gtkdoc with valadoc :(
@@ -101,7 +101,7 @@ Writing documentation
     reverse.
     TODO: write a patch to valadoc :D
 
-  - Multiline descriptions will only have the first line appear in
+  - Multi-line descriptions will only have the first line appear in
     valadoc.
 
   - For the gtkdoc or valadoc to be visible in devhelp and you're installing into
@@ -109,6 +109,6 @@ Writing documentation
     installed gtk-doc in /usr/share/gtk-doc/html/.  For example,
     $ ln -s ~/.local/share/gtk-doc/html/gxml /usr/share/gtk-doc/html
 
-  - Valadoc's documentation use JavaScript to naviate over inherited
+  - Valadoc's documentation use JavaScript to navigate over inherited
     methods and properties, but DevHelp have no support for that.
     TODO: write a patch to DevHelp to support Valadoc's JavaScript

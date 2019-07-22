@@ -14,12 +14,12 @@
   </info>
 
   <title>Serializable Interface</title>
-  <p>Implementors of this interface, could define or override the way you want to represent your class in a XML file.</p>
+  <p>Implementers of this interface, could define or override the way you want to represent your class in a XML file.</p>
   <section id="gxml-serializable-properties">
 		<title>Serializable properties</title>
 		<p>You can get control on class's properties to be serialized to XML. Allowing to provide ones, storing runtime information and ones to be stored in XML. By default, all object's properties are serialized. In order to skip properties from serialization process you must add its canonical name as key and its canonical name as value, to <code>ignored_serializable_properties</code> store.</p>
-		<p>Implementator must use <code>ignored_serializable_properties</code> property to check if a property should be serialized. This allows to dynamically remove, on convenience, properties on serialization. You can use <code>list_serializable_properties()</code> method as a convenient function, using its default implementation, or even override it at your convenience to automate dynamic serializable properties at run time; just make sure to skip the unwanted properties.</p>
-		<p>There are more methods to avoid properties serialization, like to override <code>init_properties</code> default implementation. It stores all <code>Serializale</code>'s properties to be ignored by default; you must ensure to initialize correctly, by calling <code>default_init_properties()</code> method before any other code in your overrided method.</p>
+		<p>Implementer must use <code>ignored_serializable_properties</code> property to check if a property should be serialized. This allows to dynamically remove, on convenience, properties on serialization. You can use <code>list_serializable_properties()</code> method as a convenient function, using its default implementation, or even override it at your convenience to automate dynamic serializable properties at run time; just make sure to skip the unwanted properties.</p>
+		<p>There are more methods to avoid properties serialization, like to override <code>init_properties</code> default implementation. It stores all <code>Serializale</code>'s properties to be ignored by default; you must ensure to initialize correctly, by calling <code>default_init_properties()</code> method before any other code in your overridden method.</p>
 	<section id="gxml-serializable-unknown_properties">
   <title>Unknown XML elements</title>
 	<p>XML allows great flexibility, providing different ways to represent the same information. This is a problem when you try to deserialize them.</p>
@@ -27,23 +27,23 @@
 	</section>
   <section id="gxml-serializable-property-name">
   <title>Property's name</title>
-  <p>When serialize a class property, by default it uses its name given  on class declaration, but is less common to see XML node mproperties with name like <code>your_property</code>, but more common is to use <code>YourProperty</code>. In order to use this kind of names, your implementation should use properties' nick name and override <code>property_use_nick()</code> method to return true. This should instruct your code to use this method to use property's nick name. This is the default in GXml default implementations.</p>
+  <p>When serialize a class property, by default it uses its name given  on class declaration, but is less common to see XML node properties with name like <code>your_property</code>, but more common is to use <code>YourProperty</code>. In order to use this kind of names, your implementation should use properties' nick name and override <code>property_use_nick()</code> method to return true. This should instruct your code to use this method to use property's nick name. This is the default in GXml default implementations.</p>
   <p>In order to set node's name, you should override <code>node_name()</code> method.</p>
   </section>
   </section>
   <section id="gxml-serializable-node-contents">
   <title>XML node's content</title>
-  <p>By default GXml's implementations doesn't deseriaze/serialize XML node contents. In order to enable it, you must override <code>serialize_use_xml_node_value()</code> method to return true and store XML node's content to <code>serialized_xml_node_value</code> property.</p>
-  <p>Implementors could set up methods to provide a clean easy to use API to set nodes contents. In most cases, users would like to set a value through a getter or setter or through a property in the class. If you use a property, you should add it to <code>ignored_serializable_properties</code> in order to see its value in a XML node property.</p>
+  <p>By default GXml's implementations doesn't deserialize/serialize XML node contents. In order to enable it, you must override <code>serialize_use_xml_node_value()</code> method to return true and store XML node's content to <code>serialized_xml_node_value</code> property.</p>
+  <p>Implementers could set up methods to provide a clean easy to use API to set nodes contents. In most cases, users would like to set a value through a getter or setter or through a property in the class. If you use a property, you should add it to <code>ignored_serializable_properties</code> in order to see its value in a XML node property.</p>
   </section>
   <section id="gxml-serializable-node-name">
   <title>XML node name</title>
-  <p>On serialization XML node's name could be set to use a prety one. By default, node's name is the class name; becareful because name could be <code>GXmlSerializable</code>, while may you prefer to use just 'Serializable'.</p>
+  <p>On serialization XML node's name could be set to use a prety one. By default, node's name is the class name; be careful because name could be <code>GXmlSerializable</code>, while may you prefer to use just 'Serializable'.</p>
   <p>In order to set node's name, you should override <code>node_name()</code> method.</p>
   </section>
   <section id="gxml-serializable-serialize">
   <title>Serialize</title>
-  <p><code>Serializable</code> interface allows you to implement your own <code>serialize()</code> method. Your implementation should take a <code>GXml.Node</code> and serialize over it. Given <code>GXml.Node</code>, could be an <code>GXml.Element</code> or a <code>GXml.Document</code>, your implementaiton should take care about this and return XML nodes representing your class object.</p>
+  <p><code>Serializable</code> interface allows you to implement your own <code>serialize()</code> method. Your implementation should take a <code>GXml.Node</code> and serialize over it. Given <code>GXml.Node</code>, could be an <code>GXml.Element</code> or a <code>GXml.Document</code>, your implementation should take care about this and return XML nodes representing your class object.</p>
   </section>
   <section id="gxml-serializable-serialize-property">
   <title>Serialize a property</title>
@@ -51,7 +51,7 @@
   </section>
   <section id="gxml-serializable-deserialize">
   <title>Deserialize</title>
-  <p><code>Serializable</code> interface allows you to implement your own <code>deserialize()</code> method. Your implementation should take a <code>GXml.Node</code> and deserialize from it. Given <code>GXml.Node</code>, could be an <code>GXml.Element</code> or a <code>GXml.Document</code>, your implementaiton should take care about this and return XML nodes representing your class object.</p>
+  <p><code>Serializable</code> interface allows you to implement your own <code>deserialize()</code> method. Your implementation should take a <code>GXml.Node</code> and deserialize from it. Given <code>GXml.Node</code>, could be an <code>GXml.Element</code> or a <code>GXml.Document</code>, your implementation should take care about this and return XML nodes representing your class object.</p>
   <p>Your implementation could take <code>GXml.Element</code>'s name to detect the property to set up or detect the root element in a <code>GXml.Document</code> to use. Then you can iterate over all node's properties and set up your object properties; you can use <code>gvalue_to_string()</code> to transform most common value types from string to the required value's type.</p>
   <section id="gxml-serializable-deserialize-supportedtypes">
   <title>Supported types</title>
@@ -63,7 +63,7 @@
     <item><p>enumerations</p></item>
   </list>
   <section id="gxml-serializable-deserialize-enums">
-  <p>Enumerations have a set of utility methods to better represent on serialisation/deserialization.</p>
+  <p>Enumerations have a set of utility methods to better represent on serialization/deserialization.</p>
   <p>Enumerations could be converted to string using its definition on <code>GLib.EnumClass</code>, by taking its nick name directly or converting to its camel case representation.</p>
   <p>Any enumeration value type in a <code>GLib.Object</code>'s property could be deserialized from its definition given on <code>GLib.EnumClass</code> (name and nick) or from its camel case representation.</p>
   </section>

@@ -170,7 +170,7 @@ public interface GXml.Collection : GLib.Object
    */
   public abstract bool validate_append (int index, DomElement element) throws GLib.Error;
   /**
-   * Clear this collection in prepareation for a search
+   * Clear this collection in preparation for a search
    */
   public abstract void clear () throws GLib.Error;
 }
@@ -181,7 +181,7 @@ public interface GXml.Collection : GLib.Object
 public interface GXml.List : GLib.Object, Collection, Traversable<DomElement>, Iterable<DomElement> {}
 
 /**
- * Inteface to be implemented by {@link GXml.Collection} derived classes
+ * Interface to be implemented by {@link GXml.Collection} derived classes
  * in order to provide a string to be used in {@link GXml.HashMap} as key.
  *
  * If {@link GXml.HashMap} has set its {@link GXml.HashMap.attribute_key}
@@ -217,7 +217,7 @@ public interface GXml.Map : GLib.Object, GXml.Collection, Traversable<DomElement
 
 
 /**
- * Inteface to be implemented by {@link GXml.Collection} derived classes
+ * Interface to be implemented by {@link GXml.Collection} derived classes
  * in order to provide a strings to be used in {@link GXml.HashPairedMap} as keys.
  */
 public interface GXml.MappeableElementPairKey : GLib.Object, DomElement {
@@ -249,7 +249,7 @@ public interface GXml.PairedMap : GLib.Object, GXml.Collection, Traversable<DomE
    */
   public abstract DomElement? item (string primary_key, string secondary_key);
   /**
-   * Returns true if @key is used in collection as primery key.
+   * Returns true if @key is used in collection as primary key.
    */
   public abstract bool has_primary_key (string key);
   /**
@@ -265,7 +265,7 @@ public interface GXml.PairedMap : GLib.Object, GXml.Collection, Traversable<DomE
 
 
 /**
- * Inteface to beimplemented by {@link GXml.Collection} derived classes
+ * Interface to be implemented by {@link GXml.Collection} derived classes
  * in order to provide a string to be used in {@link GXml.HashThreeMap} as key.
  *
  * If {@link GXml.HashMap} has set its {@link GXml.HashMap.attribute_key}
@@ -277,7 +277,7 @@ public interface GXml.MappeableElementThreeKey : GLib.Object, DomElement {
    */
   public abstract string get_map_pkey ();
   /**
-   * Returns secundary key of collection.
+   * Returns secondary key of collection.
    */
   public abstract string get_map_skey ();
   /**
@@ -314,7 +314,7 @@ public interface GXml.ThreeMap : GLib.Object, GXml.Collection, Traversable<DomEl
    */
   public abstract DomElement? item (string primary_key, string secondary_key, string third_key);
   /**
-   * Returns true if @key is used in collection as primery key.
+   * Returns true if @key is used in collection as primary key.
    */
   public abstract bool has_primary_key (string key);
   /**

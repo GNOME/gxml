@@ -24,7 +24,7 @@
 using Gee;
 
 /**
- * A class impementing {@link Collection} to store references to
+ * A class implementing {@link Collection} to store references to
  * child {@link DomElement} of {@link Collection.element}, using an attribute in
  * items as key or {@link MappeableElement.get_map_key} method if implemented
  * by items to be added. If key is not defined in node, it is not added; but
@@ -53,7 +53,7 @@ using Gee;
  */
 public class GXml.HashMap : GXml.BaseCollection, GXml.Map {
   /**
-   * A hashtable with all keys as string to node's index refered. Don't modify it manually.
+   * A hashtable with all keys as string to node's index referred. Don't modify it manually.
    */
   protected Gee.HashMap<string,int> _hashtable = new Gee.HashMap<string,int> ();
   /**

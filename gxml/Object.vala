@@ -363,7 +363,7 @@ public interface GXml.Object : GLib.Object,
    * If property is a {@link Collection} it is initialize to use
    * this as its {@link Collection.element}.
    *
-   * Instance is set ot object's property.
+   * Instance is set to object's property.
    *
    * Property should be a {@link GXml.Element} or {@link Collection}
    *

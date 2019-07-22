@@ -24,7 +24,7 @@ using GXml;
 using Gee;
 
 /**
- * DOM4 implemenation of {@link DomAttr}.
+ * DOM4 implementation of {@link DomAttr}.
  */
 public class GXml.Attr : GXml.Node, GXml.DomAttr {
   protected string _namespace_uri;

@@ -23,7 +23,7 @@
 using Gee;
 
 /**
- * Base class for collections implemeting {@link Collection}, priving basic
+ * Base class for collections implementing {@link Collection}, providing basic
  * infrastructure.
  *
  * Collections properties should be initialized with current container element
@@ -32,7 +32,7 @@ using Gee;
  */
 public abstract class GXml.BaseCollection : GLib.Object, Traversable<DomElement>, Iterable<DomElement>, Collection {
   /**
-   * A collection of node's index refered. Don't modify it manually.
+   * A collection of node's index referred. Don't modify it manually.
    */
   protected GLib.Queue<int> _nodes_index = new GLib.Queue<int> ();
   /**
@@ -45,13 +45,13 @@ public abstract class GXml.BaseCollection : GLib.Object, Traversable<DomElement>
    * contained in this collection.
    *
    * Used when reading to add elements to collection. You can set it at construction time,
-   * by, for example, instantaiting a object of the type {@link Collection.items_type}
+   * by, for example, instantiating a object of the type {@link Collection.items_type}
    * then use {@link GXml.Element.local_name}'s value.
    */
   protected string _items_name = "";
   /**
    * Objects' type to be referenced by this collection and to deserialize objects.
-   * Derived classes, can initilize this value at constructor or as construct property.
+   * Derived classes, can initialize this value at constructor or as construct property.
    *
    * Used when reading and at initialization time, to know {@link GXml.Element.local_name}
    * at runtime.
@@ -95,11 +95,11 @@ public abstract class GXml.BaseCollection : GLib.Object, Traversable<DomElement>
   }
   /**
    * Initialize an {@link Collection} to use an element as children's parent.
-   * Searchs for all nodes, calling {@link Collection.search}
+   * Searches for all nodes, calling {@link Collection.search}
    * with {@link Collection.items_type}, using its
    * {@link DomElement.local_name} to find it.
    *
-   * Implemenation classes, should initialize collection to hold a {@link GXml.Element}
+   * Implementation classes, should initialize collection to hold a {@link GXml.Element}
    * derived type using {@link Collection.initialize}.
    */
   public void initialize_element (GXml.Element e) throws GLib.Error {
@@ -169,7 +169,7 @@ public abstract class GXml.BaseCollection : GLib.Object, Traversable<DomElement>
     var i = iterator ();
     return i.foreach (f);
   }
-  // Itarable Interface
+  // Iterable Interface
   public Iterator<DomElement> iterator () { return new CollectionIterator (this); }
   // For Iterable interface implementation
   private class CollectionIterator : GLib.Object, Traversable<DomElement>, Iterator<DomElement> {

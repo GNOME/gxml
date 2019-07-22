@@ -29,12 +29,12 @@ using Gee;
  * This object avoids pre and post XML parsing, by using a one step parsing
  * to translate text XML tree to an GObject based tree.
  *
- * A GXml Object Model (GOM) implementation of {@link GXml.Element}.It can be used
- * transparently as {@link DomElement} in a XML tree.
+ * A GXml Object Model (GOM) implementation of {@link GXml.Element}. It can be
+ * used transparently as {@link DomElement} in a XML tree.
  *
  * It also allows delayed parsing, so you can read large documents by parsing
- * just a XML element node and its attributes but not its childs; save its childs
- * as a text, for a post-on-step-parsing.
+ * just a XML element node and its attributes but not its children; save its
+ * children as a text, for a post-on-step-parsing.
  */
 public class GXml.Element : GXml.Node,
                               DomChildNode,
@@ -58,7 +58,7 @@ public class GXml.Element : GXml.Node,
     parser.read_file (f);
   }
   /**
-   * Parses asinchronically an XML file, deserializing it over {@link GXml.Element}.
+   * Parses asynchronically an XML file, deserializing it over {@link GXml.Element}.
    */
   public async void read_from_file_async (GLib.File f,
                       GLib.Cancellable? cancellable = null) throws GLib.Error {
@@ -109,7 +109,7 @@ public class GXml.Element : GXml.Node,
     return parser.write_string ();
   }
   /**
-   * Serialize asinchronically {@link GXml.Element} to a string.
+   * Serialize asynchronically {@link GXml.Element} to a string.
    */
   public async string write_string_async (Cancellable? cancellable = null) throws GLib.Error {
     var parser = new XParser (this);
@@ -349,7 +349,7 @@ public class GXml.Element : GXml.Node,
   /**
    * Convenient function to initialize, at construction time, a {@link GXml.Element}
    * using given local name. If {@link GXml.Element.initialize_with_namespace}
-   * has been called in any base class, this method just change elment node's name
+   * has been called in any base class, this method just change element node's name
    * and keeps previous namespace and prefix.
    *
    * No {@link DomDocument} is set by default, if this is a top level element in a
@@ -399,7 +399,7 @@ public class GXml.Element : GXml.Node,
   public class Attributes : Gee.HashMap<string,DomNode>, DomNamedNodeMap  {
     private TreeMap<long,string> order = new TreeMap<long,string> ();
     /**
-     * Holds {@link GXml.Element} refrence to attributes' parent element.
+     * Holds {@link GXml.Element} reference to attributes' parent element.
      * Derived classes should not modify, but set at construction time.
      */
     protected GXml.Element _element;
@@ -658,7 +658,7 @@ public class GXml.Element : GXml.Node,
     }
     if (p == "xmlns" && namespace_uri != "http://www.w3.org/2000/xmlns/"
             && namespace_uri != "http://www.w3.org/2000/xmlns") {
-       throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. 4If attribute's prefix is xmlns, namespace URI should be http://www.w3.org/2000/xmlns"));
+       throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If attribute's prefix is xmlns, namespace URI should be http://www.w3.org/2000/xmlns"));
     }
     if (p == "" && n == "xmlns"
         && (namespace_uri != "http://www.w3.org/2000/xmlns/"
@@ -704,7 +704,7 @@ public class GXml.Element : GXml.Node,
 
   public DomHTMLCollection get_elements_by_tag_name (string local_name) {
     var l = new HTMLCollection ();
-    //FIXME: quircks mode not considered
+    //FIXME: quirks mode not considered
     foreach (GXml.DomNode n in child_nodes) {
       if (!(n is DomElement)) continue;
       if (n.node_name == local_name)
@@ -715,7 +715,7 @@ public class GXml.Element : GXml.Node,
   }
   public DomHTMLCollection get_elements_by_tag_name_ns (string? namespace, string local_name) {
     var l = new HTMLCollection ();
-    //FIXME: quircks mode not considered
+    //FIXME: quirks mode not considered
     foreach (GXml.DomNode n in child_nodes) {
       if (!(n is DomElement)) continue;
       if (n.node_name == local_name

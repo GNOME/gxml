@@ -101,7 +101,7 @@ public interface GXml.DomNodeIterator : GLib.Object {
   public abstract DomNode reference_node { get; }
   public abstract bool pointer_before_reference_node { get; }
   /**
-   * This is a value of {@link DomNodeFilter} contant SHOW.
+   * This is a value of {@link DomNodeFilter} constant SHOW.
    */
   public abstract int what_to_show { get; }
 
