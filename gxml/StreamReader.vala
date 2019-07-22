@@ -155,6 +155,13 @@ public class GXml.StreamReader : GLib.Object {
       if (is_space (buf[0])) {
         break;
       }
+      if (buf[0] == '/') {
+        string rest = stream.read_upto (">", -1, null, cancellable);
+        buf[0] = (char) stream.read_byte (cancellable);
+        var ee = document.create_element (name);
+        parent.append_child (ee);
+        return "<"+name+"/"+rest+(string) buf;
+      }
       name += (string) buf;
       buf[0] = (char) stream.read_byte (cancellable);
     }
