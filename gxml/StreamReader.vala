@@ -19,6 +19,8 @@
  * Authors:
  *      Daniel Espinosa <esodan@gmail.com>
  */
+using Gee;
+
 public errordomain GXml.StreamReaderError {
   INVALID_DOCUMENT_ERROR
 }
@@ -40,9 +42,11 @@ public class GXml.StreamReader : GLib.Object {
   public bool has_misc { get; set; }
   public bool has_root { get; set; }
   public DomDocument document { get; }
+  public Promise<DomElement> root_element { get; }
 
   public StreamReader (InputStream istream) {
     _stream = new DataInputStream (istream);
+    _root_element = new Promise<DomElement> ();
   }
 
   public DomDocument read () throws GLib.Error {
@@ -85,11 +89,10 @@ public class GXml.StreamReader : GLib.Object {
         has_root = true;
       }
     }
-    message ("Break Found Root");
     if (is_space (buf[0])) {
       throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid document: unexpected character"));
     }
-    string res = read_element ();
+    string res = read_element (document, true);
     message ("Root string: %s", res);
     return document;
   }
@@ -129,18 +132,23 @@ public class GXml.StreamReader : GLib.Object {
   /**
    * Reads an element name, attributes and content as string
    *
-   * Expects a one byte consumed from {@link stream}, because
+   * Expects a two byte consumed from {@link stream}, because
    * it seeks back one byte in order to read the element's name.
    *
    * Returns: A string representing the current node
    */
-  public string read_element (bool is_root = true) throws GLib.Error {
+  public string read_element (DomNode parent, bool is_root = true) throws GLib.Error {
     string str = "";
     char buf[2] = {0, 0};
     if (is_root) {
       root_pos_start = (size_t) (stream.tell () - 1);
     }
-    stream.seek (-1, SeekType.CUR, cancellable);
+    stream.seek (-2, SeekType.CUR, cancellable);
+    buf[0] = (char) stream.read_byte (cancellable);
+    message ("Current: '%c' - Pos: %ld", buf[0], (long) stream.tell ());
+    if (buf[0] != '<') {
+      throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Elements should start with '<' characters"));
+    }
     buf[0] = (char) stream.read_byte (cancellable);
     string name = "";
     while (buf[0] != '>') {
@@ -166,11 +174,17 @@ public class GXml.StreamReader : GLib.Object {
     }
     message ("Element's declaration head: %s", str);
     message ("Current: %s", (string) buf);
+    var e = document.create_element (name);
+    parent.append_child (e);
     while (true) {
-      string content = stream.read_upto ("<", -1, null, cancellable);
+      string content = "";
       buf[0] = (char) stream.read_byte (cancellable);
+      while (buf[0] != '<') {
+        content += (string) buf;
+        buf[0] = (char) stream.read_byte (cancellable);
+      }
       str += content;
-      message ("Current Element's content: '%s'", content);
+      message ("Current Element's content for '%s': '%s'", name, content);
       buf[0] = (char) stream.read_byte (cancellable);
       if (buf[0] == '/') {
         string closetag = stream.read_upto (">", -1, null, cancellable);
@@ -181,15 +195,14 @@ public class GXml.StreamReader : GLib.Object {
         message ("CloseTAG: %s", closetag);
         if (closetag == name) {
           str = str + "</"+closetag+">";
+          (e as Element).unparsed = str;
           return str;
         }
-      } else {
-        string nnode = read_element (false);
-        if (is_root) {
-          message ("Child Element read: \n%s", nnode);
-        } else {
-          str += nnode;
-        }
+      }
+      message ("Reading Child for %s", name);
+      string nnode = read_element (e, false);
+      if (!is_root) {
+        str += nnode;
       }
     }
   }

@@ -29,7 +29,12 @@ class GXmlTest {
 			var istream = new MemoryInputStream.from_data (str.data, null);
 			var sr = new StreamReader (istream);
 			try {
-				sr.read ();
+				var doc = sr.read ();
+				message (doc.write_string ());
+				message ((doc.document_element as GXml.Element).unparsed);
+				message ((doc.document_element.child_nodes.item (0) as GXml.Element).unparsed);
+				assert ((doc.document_element as GXml.Element).unparsed == """<root p1="a" p2="b" ></root>""");
+				assert ((doc.document_element.child_nodes.item(0) as GXml.Element).unparsed == """<child>ContentChild</child>""");
 			} catch (GLib.Error e) {
 				warning ("Error: %s", e.message);
 			}
