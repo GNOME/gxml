@@ -28,6 +28,19 @@ t = executable('tests', files_tests + configvapi + configtestvapi,
 
 test ('tests', t)
 
+stream_tests = files ([
+		'StreamReaderTest.vala',
+	])
+
+tstream = executable('stream-reader', stream_tests + configvapi + configtestvapi,
+	vala_args : [],
+	c_args: tests_cargs,
+	dependencies : [ libgxml_deps, inc_libh_dep, testdirs_dep, inc_rooth_dep],
+	link_with: libgxml
+)
+
+test ('stream-reader', tstream)
+
 feedreader_files = ([
 	'feedreader-test.vala'
 ])

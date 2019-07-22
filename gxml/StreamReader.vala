@@ -37,8 +37,16 @@ public class GXml.StreamReader : GLib.Object {
   public Cancellable? cancellable { get; set; }
   public bool has_xml_dec { get; set; }
   public bool has_doc_type_dec { get; set; }
+  public bool has_misc { get; set; }
   public bool has_root { get; set; }
-  public void read () throws GLib.Error {
+  public DomDocument document { get; }
+
+  public StreamReader (InputStream istream) {
+    _stream = new DataInputStream (istream);
+  }
+
+  public DomDocument read () throws GLib.Error {
+    _document = new Document ();
     char buf[2] = {0, 0};
     int64 pos = -1;
     buf[0] = (char) stream.read_byte (cancellable);
@@ -60,22 +68,30 @@ public class GXml.StreamReader : GLib.Object {
         read_misc (buf[0]);
       }
     }
+    if (!has_xml_dec && !has_doc_type_dec && !has_misc) {
+      stream.seek (-2, SeekType.CUR, cancellable);
+    }
     while (!has_root) {
       buf[0] = (char) stream.read_byte (cancellable);
+      message ("Current: '%c' - Pos: %ld", buf[0], (long) stream.tell ());
       if (buf[0] != '<') {
         throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid document: expected '<' character"));
       }
       buf[0] = (char) stream.read_byte (cancellable);
+      message ("Current: '%c' - Pos: %ld", buf[0], (long) stream.tell ());
       if (buf[0] == '!' || buf[0] == '?') {
         read_misc (buf[0]);
       } else {
         has_root = true;
       }
     }
+    message ("Break Found Root");
     if (is_space (buf[0])) {
       throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid document: unexpected character"));
     }
-    read_element ();
+    string res = read_element ();
+    message ("Root string: %s", res);
+    return document;
   }
   public bool read_misc (char c) throws GLib.Error {
     char buf[2] = {0, 0};
@@ -125,37 +141,60 @@ public class GXml.StreamReader : GLib.Object {
       root_pos_start = (size_t) (stream.tell () - 1);
     }
     stream.seek (-1, SeekType.CUR, cancellable);
-    string name = stream.read_upto (" ", -1, null, cancellable);
-    string atts = stream.read_upto (">", -1, null, cancellable);
-    stream.read_byte (cancellable);
-    str = "<"+name+atts+">";
-    if (is_root) {
+    buf[0] = (char) stream.read_byte (cancellable);
+    string name = "";
+    while (buf[0] != '>') {
+      if (is_space (buf[0])) {
+        break;
+      }
+      name += (string) buf;
+      buf[0] = (char) stream.read_byte (cancellable);
+    }
+    message ("Element's name found: %s", name);
+    string atts = "";
+    while (buf[0] != '>') {
+      atts += (string) buf;
+      buf[0] = (char) stream.read_byte (cancellable);
+    }
+    message ("Element's attributes found: %s", atts);
+    str = "<"+name+atts;
+    if (atts[atts.length - 1] == '/') {
+     str += "/>";
+     return str;
+    } else {
+      str += ">";
+    }
+    message ("Element's declaration head: %s", str);
+    message ("Current: %s", (string) buf);
+    while (true) {
       string content = stream.read_upto ("<", -1, null, cancellable);
       buf[0] = (char) stream.read_byte (cancellable);
       str += content;
+      message ("Current Element's content: '%s'", content);
       buf[0] = (char) stream.read_byte (cancellable);
       if (buf[0] == '/') {
         string closetag = stream.read_upto (">", -1, null, cancellable);
         buf[0] = (char) stream.read_byte (cancellable);
-        root_pos_end = (size_t) stream.tell ();
-        str += closetag + ">";
+        if (is_root) {
+          root_pos_end = (size_t) stream.tell ();
+        }
+        message ("CloseTAG: %s", closetag);
+        if (closetag == name) {
+          str = str + "</"+closetag+">";
+          return str;
+        }
       } else {
-        read_element (false);
+        string nnode = read_element (false);
+        if (is_root) {
+          message ("Child Element read: \n%s", nnode);
+        } else {
+          str += nnode;
+        }
       }
-    } else {
-      string cltag = "</"+name;
-      string content = stream.read_upto (cltag, -1, null, cancellable);
-      str += content;
-      for (int i = 0; i < cltag.data.length; i++) {
-        stream.read_byte (cancellable);
-      }
-      root_pos_end = (size_t) stream.tell ();
-      str += cltag;
     }
-    return str;
   }
   public bool is_space (char c) {
-    return c == 0x20 || c == 0x9 || c == 0xA;
+    return c == 0x20 || c == 0x9 || c == 0xA || c == ' ' || c == '\t' || c == '\n';
   }
   public bool validate_xml_definition () throws GLib.Error {
     return true;
