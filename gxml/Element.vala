@@ -767,22 +767,43 @@ public class GXml.Element : GXml.Node,
    * use {@link read_unparsed}.
    */
   public bool parse_children { get; set; default = true; }
+
+  private string _unparsed = null;
   /**
    * Temporally stores, all unparsed children as plain string. See {@link parse_children}.
    *
    * If it is null, means all children have been already parsed.
    */
-  public string unparsed { get; set; }
+  public string unparsed {
+    get {
+      if (read_buffer != null) {
+        return (string) read_buffer.data;
+      }
+      return _unparsed;
+    }
+    set {
+      _unparsed = value;
+    }
+  }
   /**
    * Parse all children, adding them to current node, stored in {@link unparsed}.
    * Once it finish, sets {@link unparsed} to null.
    */
   public void read_unparsed () throws GLib.Error {
-    if (unparsed == null) return;
     var parser = new XParser (this);
-    parser.read_child_nodes_string (unparsed);
-    unparsed = null;
+    if (unparsed != null) {
+      parser.read_child_nodes_string (unparsed);
+      unparsed = null;
+    }
+    if (read_buffer != null) {
+      parser.read_child_nodes_string ((string) read_buffer.data);
+      read_buffer = null;
+    }
   }
+  /**
+   * On memory {@link MemoryOutputStream} with the unparsed
+   * string of the element
+   */
   public MemoryOutputStream read_buffer { get; set; }
 }
 

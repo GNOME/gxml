@@ -222,6 +222,11 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
       }
     }
   }
+  public void read_child_nodes_string (string str) throws GLib.Error {
+    tr = new TextReader.for_memory ((char[]) str.data, (int) str.data.length, "/gxml_memory");
+    read_child_nodes (_node);
+    tr = null;
+  }
   public void read_child_nodes_stream (GLib.InputStream istream) throws GLib.Error {
     var b = new MemoryOutputStream.resizable ();
     b.splice (istream, 0);
