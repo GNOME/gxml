@@ -88,7 +88,6 @@ public class GXml.StreamReader : GLib.Object {
     return document;
   }
   public GXml.Element read_root_element () throws GLib.Error {
-    message ("read Root Element");
     return read_element (true);
   }
   public GXml.Element read_element (bool children) throws GLib.Error {
@@ -120,7 +119,6 @@ public class GXml.StreamReader : GLib.Object {
       dbuf.put_byte (read_byte ());
     }
     name_buf.put_byte ('\0', cancellable);
-    message ("Node name: %s", (string) oname_buf.get_data ());
     e = (GXml.Element) document.create_element ((string) oname_buf.get_data ());
     e.read_buffer = buf;
     if (is_empty) {

@@ -801,6 +801,17 @@ public class GXml.Element : GXml.Node,
    * string of the element
    */
   public MemoryOutputStream read_buffer { get; set; }
+
+  public ThreadPool<GXml.Element> pool = null;
+  /**
+   *
+   */
+  public uint unparsed_child_elements () {
+    if (pool == null) {
+      return 0;
+    }
+    return pool.unprocessed ();
+  }
   /**
    * Asynchronically parse {@link read_buffer}
    */
@@ -810,9 +821,12 @@ public class GXml.Element : GXml.Node,
     }
     read_from_string ((string) read_buffer.data);
     read_buffer = null;
+    pool = new ThreadPool<GXml.Element>.with_owned_data ((element) => {
+			  element.parse_buffer.begin ();
+		}, 3, false);
     foreach (DomNode n in child_nodes) {
       if (n is GXml.Element) {
-        ((GXml.Element) n).parse_buffer.begin ();
+        pool.add ((GXml.Element) n);
       }
     }
   }
