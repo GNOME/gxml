@@ -790,21 +790,32 @@ public class GXml.Element : GXml.Node,
    * Once it finish, sets {@link unparsed} to null.
    */
   public void read_unparsed () throws GLib.Error {
-    var parser = new XParser (this);
     if (unparsed != null) {
+      var parser = new XParser (this);
       parser.read_child_nodes_string (unparsed);
       unparsed = null;
     }
-    if (read_buffer != null) {
-      parser.read_child_nodes_string ((string) read_buffer.data);
-      read_buffer = null;
-    }
   }
   /**
-   * On memory {@link MemoryOutputStream} with the unparsed
+   * On memory {@link GLib.MemoryOutputStream} with the unparsed
    * string of the element
    */
   public MemoryOutputStream read_buffer { get; set; }
+  /**
+   * Asynchronically parse {@link read_buffer}
+   */
+  public async void parse_buffer () throws GLib.Error {
+    if (read_buffer == null) {
+      return;
+    }
+    read_from_string ((string) read_buffer.data);
+    read_buffer = null;
+    foreach (DomNode n in child_nodes) {
+      if (n is GXml.Element) {
+        ((GXml.Element) n).parse_buffer.begin ();
+      }
+    }
+  }
 }
 
 

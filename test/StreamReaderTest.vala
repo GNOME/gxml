@@ -93,6 +93,32 @@ class GXmlTest {
 				warning ("Error: %s", e.message);
 			}
 		});
+		Test.add_func ("/gxml/stream-reader/child-multiple/read-unparsed", () => {
+      var loop = new GLib.MainLoop (null);
+      Idle.add (()=>{
+				string str = """<root p1="a" p2="b" ><child k="p" y="9"><code/><code u="3">TestC</code><Tek/><Tex y="456"/></child></root>""";
+				var istream = new MemoryInputStream.from_data (str.data, null);
+				var sr = new StreamReader (istream);
+				try {
+					var doc = sr.read ();
+					(doc.document_element as GXml.Element).parse_buffer.begin ((obj, res)=>{
+						try {
+								(doc.document_element as GXml.Element).parse_buffer.end (res);
+								message (doc.write_string ());
+								assert ((doc.document_element as GXml.Element).read_buffer == null);
+								assert ((doc.document_element.child_nodes.item (0) as GXml.Element).read_buffer == null);
+								loop.quit ();
+						} catch (GLib.Error e) {
+							warning ("Error: %s", e.message);
+						}
+					});
+				} catch (GLib.Error e) {
+					warning ("Error while reading stream: %s", e.message);
+				}
+				return Source.REMOVE;
+      });
+      loop.run ();
+		});
 		Test.run ();
 
 		return 0;

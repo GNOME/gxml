@@ -128,4 +128,17 @@ stream_reader_performance_iterate = executable('stream-reader-performance-iterat
 )
 
 benchmark ('stream-reader-performance-iterate', stream_reader_performance_iterate)
-		
+
+
+files_stream_reader_performance_iterate_read = files ([
+		'StreamReaderPerformanceIterateReadUnparsedTest.vala'
+	])
+
+stream_reader_performance_iterate = executable('stream-reader-performance-iterate-read-unparsed', files_stream_reader_performance_iterate_read + configvapi + configtestvapi,
+	vala_args : [],
+	dependencies : [ libgxml_deps, inc_libh_dep, testdirs_dep, inc_rooth_dep],
+	link_with: libgxml
+)
+
+benchmark ('stream-reader-performance-iterate-read-unparsed', stream_reader_performance_iterate)
+
