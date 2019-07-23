@@ -31,10 +31,12 @@ class GXmlTest {
 			try {
 				var doc = sr.read ();
 				message (doc.write_string ());
-				message ((doc.document_element as GXml.Element).unparsed);
-				message ((doc.document_element.child_nodes.item (0) as GXml.Element).unparsed);
-				assert ((doc.document_element as GXml.Element).unparsed == """<root p1="a" p2="b" ></root>""");
-				assert ((doc.document_element.child_nodes.item(0) as GXml.Element).unparsed == """<child>ContentChild</child>""");
+				var rootbuf = (string) (doc.document_element as GXml.Element).read_buffer.data;
+				var childbuf = (string) (doc.document_element.child_nodes.item (0) as GXml.Element).read_buffer.data;
+				message (rootbuf);
+				message (childbuf);
+				assert (rootbuf == """<root p1="a" p2="b" ></root>""");
+				assert (childbuf == """<child>ContentChild</child>""");
 			} catch (GLib.Error e) {
 				warning ("Error: %s", e.message);
 			}
@@ -46,10 +48,12 @@ class GXmlTest {
 			try {
 				var doc = sr.read ();
 				message (doc.write_string ());
-				message ((doc.document_element as GXml.Element).unparsed);
-				message ((doc.document_element.child_nodes.item (0) as GXml.Element).unparsed);
-				assert ((doc.document_element as GXml.Element).unparsed == """<root p1="a" p2="b" ></root>""");
-				assert ((doc.document_element.child_nodes.item(0) as GXml.Element).unparsed == """<child k="p" y="9"><code/></child>""");
+				var rootbuf = (string) (doc.document_element as GXml.Element).read_buffer.data;
+				var childbuf = (string) (doc.document_element.child_nodes.item (0) as GXml.Element).read_buffer.data;
+				message (rootbuf);
+				message (childbuf);
+				assert (rootbuf == """<root p1="a" p2="b" ></root>""");
+				assert (childbuf == """<child k="p" y="9"><code/></child>""");
 			} catch (GLib.Error e) {
 				warning ("Error: %s", e.message);
 			}
@@ -61,16 +65,30 @@ class GXmlTest {
 			try {
 				var doc = sr.read ();
 				message (doc.write_string ());
-				message ((doc.document_element as GXml.Element).unparsed);
-				message ((doc.document_element.child_nodes.item (0) as GXml.Element).unparsed);
-				assert ((doc.document_element as GXml.Element).unparsed == """<root p1="a" p2="b" ></root>""");
-				assert ((doc.document_element.child_nodes.item(0) as GXml.Element).unparsed == """<child k="p" y="9"><code/><code u="3">TestC</code><Tek/><Tex y="456"/></child>""");
-				var cchilds = doc.document_element.child_nodes.item(0).child_nodes;
-				message ("Element childs: %d", cchilds.length);
-				assert ((cchilds.item (0) as GXml.Element).unparsed == null);
-				assert ((cchilds.item (1) as GXml.Element).unparsed == """<code u="3">TestC</code>""");
-				assert ((cchilds.item (2) as GXml.Element).unparsed == null);
-				assert ((cchilds.item (3) as GXml.Element).unparsed == """<Tex y="456"/>""");
+				var rootbuf = (string) (doc.document_element as GXml.Element).read_buffer.data;
+				var childbuf = (string) (doc.document_element.child_nodes.item (0) as GXml.Element).read_buffer.data;
+				message (rootbuf);
+				message (childbuf);
+				assert (rootbuf == """<root p1="a" p2="b" ></root>""");
+				assert (childbuf == """<child k="p" y="9"><code/><code u="3">TestC</code><Tek/><Tex y="456"/></child>""");
+			} catch (GLib.Error e) {
+				warning ("Error: %s", e.message);
+			}
+		});
+		Test.add_func ("/gxml/stream-reader/xml-dec", () => {
+			string str = """<?xml version="1.0"?>
+<root p1="a" p2="b" ><child>ContentChild</child></root>""";
+			var istream = new MemoryInputStream.from_data (str.data, null);
+			var sr = new StreamReader (istream);
+			try {
+				var doc = sr.read ();
+				message (doc.write_string ());
+				var rootbuf = (string) (doc.document_element as GXml.Element).read_buffer.data;
+				var childbuf = (string) (doc.document_element.child_nodes.item (0) as GXml.Element).read_buffer.data;
+				message (rootbuf);
+				message (childbuf);
+				assert (rootbuf == """<root p1="a" p2="b" ></root>""");
+				assert (childbuf == """<child>ContentChild</child>""");
 			} catch (GLib.Error e) {
 				warning ("Error: %s", e.message);
 			}

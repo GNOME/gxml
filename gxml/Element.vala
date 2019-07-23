@@ -783,6 +783,7 @@ public class GXml.Element : GXml.Node,
     parser.read_child_nodes_string (unparsed);
     unparsed = null;
   }
+  public MemoryOutputStream read_buffer { get; set; }
 }
 
 

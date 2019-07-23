@@ -27,6 +27,7 @@ public errordomain GXml.StreamReaderError {
 
 
 public class GXml.StreamReader : GLib.Object {
+  uint8[] buf = new uint8[2];
   public size_t xml_def_pos_start { get; set; }
   public size_t xml_def_pos_end { get; set; }
   public size_t doc_type_pos_start { get; set; }
@@ -34,7 +35,6 @@ public class GXml.StreamReader : GLib.Object {
   public size_t root_pos_start { get; set; }
   public size_t root_pos_end { get; set; }
   public size_t current_pos { get; set; }
-  public DataOutputStream buffer { get; }
   public DataInputStream stream { get; }
   public Cancellable? cancellable { get; set; }
   public bool has_xml_dec { get; set; }
@@ -42,183 +42,128 @@ public class GXml.StreamReader : GLib.Object {
   public bool has_misc { get; set; }
   public bool has_root { get; set; }
   public DomDocument document { get; }
-  public Promise<DomElement> root_element { get; }
 
   public StreamReader (InputStream istream) {
     _stream = new DataInputStream (istream);
-    _root_element = new Promise<DomElement> ();
+    buf[0] = '\0';
+    buf[1] = '\0';
+  }
+  private inline uint8 read_byte () throws GLib.Error {
+    buf[0] = stream.read_byte (cancellable);
+    return buf[0];
+  }
+  public inline string read_upto (string str) throws GLib.Error {
+    string bstr = stream.read_upto (str, -1, null, cancellable);
+    return bstr;
+  }
+  private inline char cur_char () {
+    return (char) buf[0];
+  }
+  private inline uint8 cur_byte () {
+    return buf[0];
   }
 
   public DomDocument read () throws GLib.Error {
     _document = new Document ();
-    char buf[2] = {0, 0};
-    int64 pos = -1;
-    buf[0] = (char) stream.read_byte (cancellable);
-    if (buf[0] != '<') {
+    read_byte ();
+    if (cur_char () != '<') {
       throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid document: should start with '<'"));
     }
-    pos = stream.tell ();
-    buf[0] = (char) stream.read_byte (cancellable);
-    if (buf[0] == '?') {
-      buf[0] = (char) stream.read_byte (cancellable);
-      if (buf[0] == 'x') {
-        string xmldef = stream.read_line (null, cancellable);
-        xmldef = "<?"+xmldef;
-        validate_xml_definition ();
-        has_xml_dec = true;
-      } else {
-        stream.seek (-2, SeekType.CUR, cancellable);
-        buf[0] = (char) stream.read_byte (cancellable);
-        read_misc (buf[0]);
+    read_byte ();
+    if (is_space (cur_char ())) {
+      throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid document: unexpected character before node's name"));
+    }
+    if (cur_char () == '?') {
+      read_xml_dec ();
+      if (cur_char () != '<') {
+        throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid document: unexpected character '%c'"), cur_char ());
+      }
+      read_byte ();
+      if (is_space (cur_char ())) {
+        throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid document: unexpected character before node's name"));
       }
     }
-    if (!has_xml_dec && !has_doc_type_dec && !has_misc) {
-      stream.seek (-2, SeekType.CUR, cancellable);
-    }
-    while (!has_root) {
-      buf[0] = (char) stream.read_byte (cancellable);
-      message ("Current: '%c' - Pos: %ld", buf[0], (long) stream.tell ());
-      if (buf[0] != '<') {
-        throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid document: expected '<' character"));
-      }
-      buf[0] = (char) stream.read_byte (cancellable);
-      message ("Current: '%c' - Pos: %ld", buf[0], (long) stream.tell ());
-      if (buf[0] == '!' || buf[0] == '?') {
-        read_misc (buf[0]);
-      } else {
-        has_root = true;
-      }
-    }
-    if (is_space (buf[0])) {
-      throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid document: unexpected character"));
-    }
-    string res = read_element (document, true);
-    message ("Root string: %s", res);
+    var re = read_root_element ();
+    document.append_child (re);
     return document;
   }
-  public bool read_misc (char c) throws GLib.Error {
-    char buf[2] = {0, 0};
-    if (c == '!') {
-      int64 pos = stream.tell () - 1;
-      buf[0] = (char) stream.read_byte (cancellable);
-      if (buf[0] == 'D') {
-        doc_type_pos_start = (size_t) pos;
-        string doctype = stream.read_upto (">", -1, null, cancellable);
-        doctype = "<!"+doctype+">";
-        buf[0] = (char) stream.read_byte (cancellable);
-        validate_doc_type_definition ();
-        has_doc_type_dec = true;
-        doc_type_pos_end = (size_t) stream.tell ();
-      } else if (c == '-') {
-        buf[0] = (char) stream.read_byte (cancellable);
-        if (buf[0] == '-') {
-          string comment = stream.read_upto ("-->", -1, null, cancellable);
-          comment += "<!--"+comment+"-->";
-          buf[0] = (char) stream.read_byte (cancellable);
-          buf[0] = (char) stream.read_byte (cancellable);
-          buf[0] = (char) stream.read_byte (cancellable);
-        } else {
-          throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid document: expected '-' character"));
-        }
-      }
-    } else if (buf[0] == '?') {
-      string pi = stream.read_upto ("?>", -1, null, cancellable);
-      pi += "<?"+pi+"?>";
-      buf[0] = (char) stream.read_byte (cancellable);
-      buf[0] = (char) stream.read_byte (cancellable);
-    }
-    return true;
+  public GXml.Element read_root_element () throws GLib.Error {
+    message ("read Root Element");
+    return read_element (true);
   }
-  /**
-   * Reads an element name, attributes and content as string
-   *
-   * Expects a two byte consumed from {@link stream}, because
-   * it seeks back one byte in order to read the element's name.
-   *
-   * Returns: A string representing the current node
-   */
-  public string read_element (DomNode parent, bool is_root = true) throws GLib.Error {
-    string str = "";
-    char buf[2] = {0, 0};
-    if (is_root) {
-      root_pos_start = (size_t) (stream.tell () - 1);
-    }
-    stream.seek (-2, SeekType.CUR, cancellable);
-    buf[0] = (char) stream.read_byte (cancellable);
-    message ("Current: '%c' - Pos: %ld", buf[0], (long) stream.tell ());
-    if (buf[0] != '<') {
-      throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Elements should start with '<' characters"));
-    }
-    buf[0] = (char) stream.read_byte (cancellable);
-    string name = "";
-    while (buf[0] != '>') {
-      if (is_space (buf[0])) {
+  public GXml.Element read_element (bool children) throws GLib.Error {
+    GXml.Element e = null;
+    var buf = new MemoryOutputStream.resizable ();
+    var dbuf = new DataOutputStream (buf);
+    var oname_buf = new MemoryOutputStream (new uint8[1024]);
+    var name_buf = new DataOutputStream (oname_buf);
+
+    dbuf.put_byte ('<');
+    dbuf.put_byte (cur_byte ());
+
+    name_buf.put_byte (cur_byte ());
+    dbuf.put_byte (read_byte ());
+    bool is_empty = false;
+    while (cur_char () != '>') {
+      if (is_space (cur_char ())) {
         break;
       }
-      if (buf[0] == '/') {
-        string rest = stream.read_upto (">", -1, null, cancellable);
-        buf[0] = (char) stream.read_byte (cancellable);
-        var ee = document.create_element (name);
-        parent.append_child (ee);
-        return "<"+name+"/"+rest+(string) buf;
+      if (cur_char () == '/') {
+        dbuf.put_byte (cur_char ());
+        string rest = read_upto (">");
+        dbuf.put_string (rest);
+        dbuf.put_byte (read_byte ());
+        is_empty = true;
+        break;
       }
-      name += (string) buf;
-      buf[0] = (char) stream.read_byte (cancellable);
+      name_buf.put_byte (cur_byte (), cancellable);
+      dbuf.put_byte (read_byte ());
     }
-    message ("Element's name found: %s", name);
-    string atts = "";
-    while (buf[0] != '>') {
-      atts += (string) buf;
-      buf[0] = (char) stream.read_byte (cancellable);
+    name_buf.put_byte ('\0', cancellable);
+    message ("Node name: %s", (string) oname_buf.get_data ());
+    e = (GXml.Element) document.create_element ((string) oname_buf.get_data ());
+    e.read_buffer = buf;
+    if (is_empty) {
+      return e;
     }
-    var e = document.create_element (name);
-    parent.append_child (e);
-    message ("Element's attributes found: %s", atts);
-    str = "<"+name+atts;
-    str += ">";
-    if (atts[atts.length - 1] == '/') {
-      (e as Element).unparsed = str;
-     return str;
-    }
-    message ("Element's declaration head: %s", str);
-    message ("Current: %s", (string) buf);
     while (true) {
-      string content = "";
-      buf[0] = (char) stream.read_byte (cancellable);
-      while (buf[0] != '<') {
-        content += (string) buf;
-        buf[0] = (char) stream.read_byte (cancellable);
-      }
-      str += content;
-      message ("Current Element's content for '%s': '%s'", name, content);
-      buf[0] = (char) stream.read_byte (cancellable);
-      if (buf[0] == '/') {
-        string closetag = stream.read_upto (">", -1, null, cancellable);
-        buf[0] = (char) stream.read_byte (cancellable);
-        if (is_root) {
-          root_pos_end = (size_t) stream.tell ();
+      read_byte ();
+      if (cur_char () == '<') {
+        read_byte ();
+        if (cur_char () == '/') {
+          dbuf.put_byte ('<');
+          dbuf.put_byte (cur_byte ());
+          string closetag = stream.read_upto (">", -1, null, cancellable);
+          dbuf.put_string (closetag);
+          dbuf.put_byte (read_byte ());
+          if (closetag == (string) oname_buf.get_data ()) {
+            return e;
+          }
+        } else if (children) {
+          var ce = read_element (false);
+          e.append_child (ce);
+        } else {
+          dbuf.put_byte ('<', cancellable);
+          dbuf.put_byte (cur_byte (), cancellable);
         }
-        message ("CloseTAG: %s", closetag);
-        if (closetag == name) {
-          str = str + "</"+closetag+">";
-          (e as Element).unparsed = str;
-          return str;
-        }
-      }
-      message ("Reading Child for %s", name);
-      string nnode = read_element (e, false);
-      if (!is_root) {
-        str += nnode;
+      } else {
+        dbuf.put_byte (cur_byte (), cancellable);
       }
     }
+  }
+  public void read_xml_dec () throws GLib.Error  {
+    while (cur_char () != '>') {
+      read_byte ();
+    }
+    skip_spaces ();
   }
   public bool is_space (char c) {
     return c == 0x20 || c == 0x9 || c == 0xA || c == ' ' || c == '\t' || c == '\n';
   }
-  public bool validate_xml_definition () throws GLib.Error {
-    return true;
-  }
-  public bool validate_doc_type_definition () throws GLib.Error {
-    return true;
+  public inline void skip_spaces () throws GLib.Error {
+    read_byte ();
+    while (is_space (cur_char ())) {
+      read_byte ();
+    }
   }
 }
