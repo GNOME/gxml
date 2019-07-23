@@ -62,9 +62,16 @@ public class GXml.StreamReader : GLib.Object {
   private inline uint8 cur_byte () {
     return buf[0];
   }
-
   public DomDocument read () throws GLib.Error {
     _document = new Document ();
+    internal_read ();
+    return document;
+  }
+  public void read_document (DomDocument doc) throws GLib.Error {
+    _document = doc;
+    internal_read ();
+  }
+  private void internal_read () throws GLib.Error {
     read_byte ();
     if (cur_char () != '<') {
       throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid document: should start with '<'"));
@@ -85,7 +92,6 @@ public class GXml.StreamReader : GLib.Object {
     }
     var re = read_root_element ();
     document.append_child (re);
-    return document;
   }
   public GXml.Element read_root_element () throws GLib.Error {
     return read_element (true);

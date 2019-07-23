@@ -21,6 +21,115 @@
  */
 using GXml;
 
+class ContentNode : GXml.Element {
+	string _val = null;
+	public string val {
+		get {
+			 _val = text_content;
+			 return _val;
+		}
+		set {
+			 text_content = _val;
+		}
+	}
+}
+
+class Name : ContentNode {
+	construct {
+		try {
+			initialize ("Name");
+		} catch (GLib.Error e) {
+			warning ("Error: %s", e.message);
+		}
+	}
+}
+class Email : ContentNode {
+	construct {
+		try {
+			initialize ("Email");
+		} catch (GLib.Error e) {
+			warning ("Error: %s", e.message);
+		}
+	}
+}
+
+class Author : GXml.Element {
+	public Name name { get; set; }
+	public Email email { get; set; }
+	construct {
+		try {
+			initialize ("Author");
+		} catch (GLib.Error e) {
+			warning ("Error: %s", e.message);
+		}
+	}
+	public class Collection : GXml.ArrayList {
+		construct {
+			try {
+				initialize (typeof (Author));
+			} catch (GLib.Error e) {
+				warning ("Error: %s", e.message);
+			}
+		}
+	}
+}
+
+class Authors : GXml.Element {
+	public Author.Collection authors { get; set; }
+	construct {
+		try {
+			initialize ("Authors");
+			set_instance_property ("authors");
+		} catch (GLib.Error e) {
+			warning ("Error: %s", e.message);
+		}
+	}
+}
+
+class Book : GXml.Element {
+	[Description(nick="::year")]
+	public int year { get; set; }
+	[Description(nick="::ISBN")]
+	public string ISBN { get; set; }
+	construct {
+		try {
+			initialize ("Book");
+		} catch (GLib.Error e) {
+			warning ("Error: %s", e.message);
+		}
+	}
+	public class Collection : GXml.ArrayList {
+		construct {
+			try {
+				initialize (typeof (Book));
+			} catch (GLib.Error e) {
+				warning ("Error: %s", e.message);
+			}
+		}
+	}
+}
+
+class BookStore : GXml.Element {
+	public Book.Collection books { get; set; }
+	construct {
+		try {
+			initialize ("BookStore");
+			set_instance_property ("books");
+		} catch (GLib.Error e) {
+			warning ("Error: %s", e.message);
+		}
+	}
+}
+class Library : GXml.Document {
+	[Description(nick="::ROOT")]
+	public BookStore store { get; set; }
+	public void read (string str) throws GLib.Error {
+		var istream = new MemoryInputStream.from_data (str.data, null);
+		var sr = new StreamReader (istream);
+		sr.read_document (this);
+	}
+}
+
 class GXmlTest {
 	public static int main (string[] args) {
 		Test.init (ref args);
@@ -106,7 +215,58 @@ class GXmlTest {
 								(doc.document_element as GXml.Element).parse_buffer.end (res);
 								message (doc.write_string ());
 								assert ((doc.document_element as GXml.Element).read_buffer == null);
-								//assert ((doc.document_element.child_nodes.item (0) as GXml.Element).read_buffer == null);
+								loop.quit ();
+						} catch (GLib.Error e) {
+							warning ("Error: %s", e.message);
+						}
+					});
+				} catch (GLib.Error e) {
+					warning ("Error while reading stream: %s", e.message);
+				}
+				return Source.REMOVE;
+      });
+      loop.run ();
+		});
+		Test.add_func ("/gxml/stream-reader/serialization", () => {
+      var loop = new GLib.MainLoop (null);
+      Idle.add (()=>{
+				string str = """<?xml version="1.0"?>
+<BookStore>
+	<book year="2014" isbn="ISBN83763550019---11">
+    <Authors>
+      <Author>
+        <Name>Fred</Name>
+        <Email>fweasley@hogwarts.co.uk</Email>
+      </Author>
+      <Author>
+        <Name>George</Name>
+        <Email>gweasley@hogwarts.co.uk</Email>
+      </Author>
+    </Authors>
+    <name>Book1</name>
+  </book>
+	<book year="2014" isbn="ISBN83763550019---11">
+    <Authors>
+      <Author>
+        <Name>Fred</Name>
+        <Email>fweasley@hogwarts.co.uk</Email>
+      </Author>
+      <Author>
+        <Name>George</Name>
+        <Email>gweasley@hogwarts.co.uk</Email>
+      </Author>
+    </Authors>
+    <name>Book1</name>
+  </book>
+</BookStore>""";
+				var doc = new Library ();
+				try {
+					doc.read (str);
+					(doc.document_element as GXml.Element).parse_buffer.begin ((obj, res)=>{
+						try {
+								(doc.document_element as GXml.Element).parse_buffer.end (res);
+								message (doc.write_string ());
+								assert ((doc.document_element as GXml.Element).read_buffer == null);
 								loop.quit ();
 						} catch (GLib.Error e) {
 							warning ("Error: %s", e.message);
