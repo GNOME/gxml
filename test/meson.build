@@ -72,7 +72,7 @@ files_gom_performance_iterate = files ([
 		'DocumentPerformanceIterateTest.vala'
 	])
 
-gom_performance_iterate = executable('performance-iterate', files_gom_performance + configvapi + configtestvapi,
+gom_performance_iterate = executable('performance-iterate', files_gom_performance_iterate + configvapi + configtestvapi,
 	vala_args : [],
 	dependencies : [ libgxml_deps, inc_libh_dep, testdirs_dep, inc_rooth_dep],
 	link_with: libgxml
@@ -96,7 +96,7 @@ files_libxml_performance_iterate = files ([
 		'XDocumentPerformanceIterateTest.vala'
 	])
 
-libxml_performance_iterate = executable('libxml-performance-iterate', files_gom_performance + configvapi + configtestvapi,
+libxml_performance_iterate = executable('libxml-performance-iterate', files_libxml_performance_iterate + configvapi + configtestvapi,
 	vala_args : [],
 	dependencies : [ libgxml_deps, inc_libh_dep, testdirs_dep, inc_rooth_dep],
 	link_with: libgxml
@@ -104,15 +104,28 @@ libxml_performance_iterate = executable('libxml-performance-iterate', files_gom_
 
 benchmark ('libxml-performance-iterate', libxml_performance_iterate)
 
-files_stream_reader_performance_iterate = files ([
+files_stream_reader_performance = files ([
 		'StreamReaderPerformanceTest.vala'
 	])
 
-stream_reader_performance_iterate = executable('stream-reader-performance-load', files_stream_reader_performance_iterate + configvapi + configtestvapi,
+stream_reader_performance_iterate = executable('stream-reader-performance-load', files_stream_reader_performance + configvapi + configtestvapi,
 	vala_args : [],
 	dependencies : [ libgxml_deps, inc_libh_dep, testdirs_dep, inc_rooth_dep],
 	link_with: libgxml
 )
 
 benchmark ('stream-reader-performance-load', stream_reader_performance_iterate)
+
+
+files_stream_reader_performance_iterate = files ([
+		'StreamReaderPerformanceIterateTest.vala'
+	])
+
+stream_reader_performance_iterate = executable('stream-reader-performance-iterate', files_stream_reader_performance_iterate + configvapi + configtestvapi,
+	vala_args : [],
+	dependencies : [ libgxml_deps, inc_libh_dep, testdirs_dep, inc_rooth_dep],
+	link_with: libgxml
+)
+
+benchmark ('stream-reader-performance-iterate', stream_reader_performance_iterate)
 		

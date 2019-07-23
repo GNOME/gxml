@@ -21,7 +21,7 @@
  */
 
 using GXml;
-class GXmlTest.Suite : Object
+class GXmlTest.Suite : GLib.Object
 {
   static int main (string[] args)
   {
@@ -29,7 +29,7 @@ class GXmlTest.Suite : Object
     Test.init (ref args);
     Test.add_func ("/gxml/document/performance/iterate", () => {
     try {
-      DomDocument d = new GomDocument ();
+      DomDocument d = new Document ();
       File dir = File.new_for_path (GXmlTestConfig.TEST_DIR);
       assert (dir.query_exists ());
       File f = File.new_for_uri (dir.get_uri ()+"/test-large.xml");
@@ -39,7 +39,7 @@ class GXmlTest.Suite : Object
       var t = Test.timer_elapsed ();
       message ("Elapsed time: %g", t);
       Test.timer_start ();
-      foreah (DomNode n in d.child_nodes) {
+      foreach (DomNode n in d.document_element.child_nodes) {
         assert (n.node_name != "");
       }
     } catch (GLib.Error e) {
