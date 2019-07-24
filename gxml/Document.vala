@@ -29,7 +29,9 @@ using GXml;
  * to translate text XML tree to an GObject based tree.
  *
  * If you define a property in a derived class with a nick's name '::ROOT' it
- * will be initialized and used as root node to parse documents.
+ * will be initialized and used as root node to parse documents, when you call
+ * {@link DomDocument.read_from_string}, {@link DomDocument.read_from_file} or
+ * the like.
  */
 public class GXml.Document : GXml.Node,
                               DomParentNode,
@@ -100,7 +102,7 @@ public class GXml.Document : GXml.Node,
     parser.read_file (file);
   }
 
-  private GXml.Element get_root_gom_element () {
+  public GXml.Element search_root_element_property () {
     GLib.Object obj = null;
     foreach (ParamSpec spec in this.get_class ().list_properties ()) {
       if ("::" in spec.get_nick ()) {
@@ -145,7 +147,7 @@ public class GXml.Document : GXml.Node,
   }
 
   public Parser get_xml_parser () {
-    var roote = get_root_gom_element ();
+    var roote = search_root_element_property ();
     Parser parser = null;
     if (roote != null) {
       parser = new XParser (roote);
