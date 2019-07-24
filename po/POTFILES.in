@@ -14,6 +14,7 @@ gxml/Object.vala
 gxml/Parser.vala
 gxml/Property.vala
 gxml/Range.vala
+gxml/StreamReader.vala
 gxml/TokenList.vala
 gxml/XDocument.vala
 gxml/XdParser.vala

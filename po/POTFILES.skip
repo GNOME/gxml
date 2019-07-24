@@ -14,6 +14,7 @@ gxml/Object.c
 gxml/Parser.c
 gxml/Property.c
 gxml/Range.c
+gxml/StreamReader.c
 gxml/TokenList.c
 gxml/XDocument.c
 gxml/XdParser.c
