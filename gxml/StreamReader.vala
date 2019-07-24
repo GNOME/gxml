@@ -28,19 +28,8 @@ public errordomain GXml.StreamReaderError {
 
 public class GXml.StreamReader : GLib.Object {
   uint8[] buf = new uint8[2];
-  public size_t xml_def_pos_start { get; set; }
-  public size_t xml_def_pos_end { get; set; }
-  public size_t doc_type_pos_start { get; set; }
-  public size_t doc_type_pos_end { get; set; }
-  public size_t root_pos_start { get; set; }
-  public size_t root_pos_end { get; set; }
-  public size_t current_pos { get; set; }
   public DataInputStream stream { get; }
   public Cancellable? cancellable { get; set; }
-  public bool has_xml_dec { get; set; }
-  public bool has_doc_type_dec { get; set; }
-  public bool has_misc { get; set; }
-  public bool has_root { get; set; }
   public DomDocument document { get; }
 
   public StreamReader (InputStream istream) {
