@@ -101,7 +101,10 @@ public class GXml.Document : GXml.Node,
     Parser parser = get_xml_parser ();
     parser.read_file (file);
   }
-
+  /**
+   * Search, instantiate and append the element marked as root,
+   * with the nick equal to '::ROOT' (without ').
+   */
   public GXml.Element search_root_element_property () {
     GLib.Object obj = null;
     foreach (ParamSpec spec in this.get_class ().list_properties ()) {

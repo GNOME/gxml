@@ -262,12 +262,22 @@ class GXmlTest {
 				var doc = new Library ();
 				try {
 					doc.read (str);
-					(doc.document_element as GXml.Element).parse_buffer.begin ((obj, res)=>{
+					assert (doc.document_element != null);
+					assert (doc.document_element is BookStore);
+					var bs = doc.document_element as BookStore;
+					assert (bs.child_nodes.length == 2);
+					foreach (DomNode n in bs.child_nodes) {
+						if (n is DomElement) {
+							assert ((n as GXml.Element).read_buffer != null);
+						}
+					}
+					bs.parse_buffer.begin ((obj, res)=>{
 						try {
-								(doc.document_element as GXml.Element).parse_buffer.end (res);
-								message (doc.write_string ());
-								assert ((doc.document_element as GXml.Element).read_buffer == null);
-								loop.quit ();
+							bs.parse_buffer.end (res);
+							message (doc.write_string ());
+							assert (bs.read_buffer == null);
+							assert (bs.books != null);
+							loop.quit ();
 						} catch (GLib.Error e) {
 							warning ("Error: %s", e.message);
 						}

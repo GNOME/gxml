@@ -79,8 +79,7 @@ public class GXml.StreamReader : GLib.Object {
         throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid document: unexpected character before node's name"));
       }
     }
-    var re = read_root_element ();
-    document.append_child (re);
+    read_root_element ();
   }
   public GXml.Element read_root_element () throws GLib.Error {
     return read_element (true);
@@ -114,7 +113,15 @@ public class GXml.StreamReader : GLib.Object {
       dbuf.put_byte (read_byte ());
     }
     name_buf.put_byte ('\0', cancellable);
-    e = (GXml.Element) document.create_element ((string) oname_buf.get_data ());
+    if (document.document_element == null) {
+      e = (document as GXml.Document).search_root_element_property ();
+    }
+    if (e == null) {
+      e = (GXml.Element) document.create_element ((string) oname_buf.get_data ());
+      if (document.document_element == null) {
+        document.append_child (e);
+      }
+    }
     e.read_buffer = buf;
     if (is_empty) {
       return e;

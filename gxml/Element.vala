@@ -819,7 +819,9 @@ public class GXml.Element : GXml.Node,
     if (read_buffer == null) {
       return;
     }
+    message ("REading: %s", node_name);
     read_from_string ((string) read_buffer.data);
+    message (write_string ());
     read_buffer = null;
     pool = new ThreadPool<GXml.Element>.with_owned_data ((element) => {
 			  element.parse_buffer.begin ();
