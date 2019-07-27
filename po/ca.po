@@ -27,7 +27,7 @@ msgstr "Desplaçament per la subcadena no vàlid"
 
 #: ../gxml/DomCharacter.vala:63
 msgid "Invalid offset for replace data"
-msgstr "Desplaçament no vàlid pel replaçament de dades"
+msgstr "Desplaçament no vàlid pel reemplaçament de dades"
 
 #: ../gxml/DomCharacter.vala:74
 msgid "Invalid offset to split text"
