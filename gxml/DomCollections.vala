@@ -31,12 +31,22 @@ public interface GXml.DomParentNode : GLib.Object {
   public abstract DomElement? last_element_child { owned get; }
   public abstract int child_element_count { get; }
 
+  /**
+   * Select first matched {@link GXml.DomElement} if exists.
+   * @param selectors valid CSS Level 3 selectors.
+   * @return first matched {@link GXml.DomElement}, or null if nodes aren't found.
+   */
   public virtual DomElement? query_selector (string selectors) throws GLib.Error {
     var list = query_selector_all (selectors);
     if (list.size == 0)
       return null;
     return list.item (0) as DomElement;
   }
+  /**
+   * Select all {@link GXml.DomElement} child and descendents that match CSS Level 3 selectors.
+   * @param selectors valid CSS Level 3 selectors.
+   * @return a {@link GXml.DomNodeList} with all matched nodes, or throw an Error if selectors are invalid. 
+   */
   public abstract DomNodeList query_selector_all (string selectors) throws GLib.Error;
   /**
    * Search all child {@link GXml.Element} with a given property's name and with

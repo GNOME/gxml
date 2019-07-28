@@ -21,7 +21,9 @@
  *      Yannick Inizan <inizan.yannick@gmail.com>
  *      Daniel Espinosa <esodan@gmail.com>
  */
-
+/**
+ * Enumeration of identifiers, to combine selectors 
+ */
 public enum GXml.CssCombiner {
 	NULL,
 	NONE,
@@ -31,7 +33,9 @@ public enum GXml.CssCombiner {
 	AFTER,
 	PRECEDED
 }
-
+/**
+ * Enumeration of types for {@link GXml.CssSelector}
+ */
 public enum GXml.CssSelectorType {
 	CLASS,
 	ID,
@@ -47,6 +51,9 @@ public enum GXml.CssSelectorType {
 	PSEUDO_CLASS
 }
 
+/**
+ * Error throwed during parsing 
+ */
 public errordomain GXml.CssSelectorError {
 	NULL,
 	EOF,
@@ -57,6 +64,9 @@ public errordomain GXml.CssSelectorError {
 	COMBINER
 }
 
+/**
+ * String container for parsing 
+ */
 internal class GXml.CssString : GLib.Object {
 	public CssString (string text) {
 		GLib.Object (text : text);
@@ -94,9 +104,13 @@ internal class GXml.CssString : GLib.Object {
 	
 	public string text { get; construct; }
 }
-
+/**
+ * delegate function needed for parsing identifier
+ */
 internal delegate bool GXml.CssStringFunc (GXml.CssString str);
-
+/**
+ * generic CSS selector, used by {@link GXml.CssSelectorParser}
+ */
 public class GXml.CssSelector : GLib.Object {
 	public CssSelector (GXml.CssSelectorType t = GXml.CssSelectorType.ELEMENT, string name = "") {
 		GLib.Object (selector_type : t, name : name, value : "");
@@ -114,7 +128,9 @@ public class GXml.CssSelector : GLib.Object {
 	
 	public GXml.CssCombiner combiner { get; set; }
 }
-
+/**
+ * CssSelector for elements
+ */
 public class GXml.CssElementSelector : GXml.CssSelector {
 	public CssElementSelector (string? prefix = null, string local_name = "") {
 		base (GXml.CssSelectorType.ELEMENT);
@@ -146,7 +162,9 @@ public class GXml.CssElementSelector : GXml.CssSelector {
 		}
 	}
 }
-
+/**
+ * CssSelector for attributes
+ */
 public class GXml.CssAttributeSelector : GXml.CssSelector {
 	public CssAttributeSelector (string? prefix = null, string local_name = "") {
 		base (GXml.CssSelectorType.ATTRIBUTE);
@@ -159,7 +177,9 @@ public class GXml.CssAttributeSelector : GXml.CssSelector {
 	
 	public string local_name { get; set; }
 }
-
+/**
+ * CssSelector for 'not' pseudo class 
+ */
 public class GXml.CssNotSelector : GXml.CssSelector {
 	public CssNotSelector() {
 		GLib.Object (selector_type : GXml.CssSelectorType.PSEUDO_CLASS, name : "not");
@@ -171,13 +191,20 @@ public class GXml.CssNotSelector : GXml.CssSelector {
 		this.list = new Gee.ArrayList<GXml.CssSelector>();
 	}
 	
+	/**
+	 * a list of {@link GXml.CssSelector} that shouldn't match
+	 * 
+	 * @return a {@link Gee.List} of {@link GXml.CssSelector}
+	 */
 	public Gee.List<GXml.CssSelector> selectors {
 		get {
 			return this.list;
 		}
 	}
 }
-
+/**
+ * CSS Selectors Level 3 parser. 
+ */
 public class GXml.CssSelectorParser : GLib.Object {
 	static bool is_valid_char (unichar u) {
 		unichar[] array = { 
@@ -402,7 +429,11 @@ public class GXml.CssSelectorParser : GLib.Object {
 		if (list[list.size - 1].combiner != GXml.CssCombiner.NULL)
 			throw new GXml.CssSelectorError.COMBINER (_("Last selector has combiner assigned (%s)").printf (list[list.size - 1].combiner.to_string()));
 	}
-
+	/**
+	 * parse selectors string. If data isn't valid, error is throwed
+	 * 
+	 * @param selectors CSS selectors Level 3 string 
+	 */
 	public void parse (string selectors) throws GLib.Error {
 		this.list.clear();
 		var str = new GXml.CssString (selectors);
@@ -414,7 +445,11 @@ public class GXml.CssSelectorParser : GLib.Object {
 	construct {
 		this.list = new Gee.ArrayList<GXml.CssSelector>();
 	}
-	
+	/**
+	 * a list of parsed {@link GXml.CssSelector} 
+	 * 
+	 * @return a {@link Gee.List} of {@link GXml.CssSelector} 
+	 */
 	public Gee.List<GXml.CssSelector> selectors {
 		get {
 			return this.list;
@@ -679,11 +714,19 @@ public class GXml.CssSelectorParser : GLib.Object {
 		}
 		return false;
 	}
-
+	/**
+	 * Test if provided {@link GXml.DomElement} match with parsed selectors
+	 * @param element a {@link GXml.DomElement} to match
+	 * @return true if element match, or false 
+	 */
 	public bool match (GXml.DomElement element) throws GLib.Error {
 		return match_element (element, element, this.list);
 	}
-	
+	/**
+	 * Retrieve children and descendent nodes that match parsed selectors.
+	 * @param element a {@link GXml.DomElement}
+	 * @return a {@link GXml.DomNodeList} of selected nodes
+	 */
 	public GXml.DomNodeList query_selector_all (GXml.DomElement element) throws GLib.Error {
 		var list = new GXml.NodeList();
 		foreach (GXml.DomElement child in element.children) {
