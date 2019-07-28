@@ -91,6 +91,7 @@ class Book : GXml.Element {
 	public int year { get; set; }
 	[Description(nick="::ISBN")]
 	public string ISBN { get; set; }
+	public Authors authors { get; set; }
 	construct {
 		try {
 			initialize ("Book");
@@ -110,6 +111,7 @@ class Book : GXml.Element {
 }
 
 class BookStore : GXml.Element {
+	public Name name { get; set; }
 	public Book.Collection books { get; set; }
 	construct {
 		try {
@@ -141,6 +143,7 @@ class GXmlTest {
 				var doc = sr.read ();
 				message (doc.write_string ());
 				var rootbuf = (string) (doc.document_element as GXml.Element).read_buffer.data;
+				assert (doc.document_element.child_nodes.length > 0);
 				var childbuf = (string) (doc.document_element.child_nodes.item (0) as GXml.Element).read_buffer.data;
 				message (rootbuf);
 				message (childbuf);
@@ -232,6 +235,7 @@ class GXmlTest {
       Idle.add (()=>{
 				string str = """<?xml version="1.0"?>
 <BookStore>
+	<Name>Magic Book</Name>
 	<book year="2014" isbn="ISBN83763550019---11">
     <Authors>
       <Author>
@@ -265,7 +269,13 @@ class GXmlTest {
 					assert (doc.document_element != null);
 					assert (doc.document_element is BookStore);
 					var bs = doc.document_element as BookStore;
-					assert (bs.child_nodes.length == 2);
+					assert (bs != null);
+					assert (bs.name != null);
+					assert (bs.name is Name);
+					assert (bs.books != null);
+					assert (bs.books.length == 2);
+					assert (bs.books.get_item (0) is Book);
+					assert (bs.books.get_item (1) is Book);
 					foreach (DomNode n in bs.child_nodes) {
 						if (n is DomElement) {
 							assert ((n as GXml.Element).read_buffer != null);
@@ -277,6 +287,15 @@ class GXmlTest {
 							message (doc.write_string ());
 							assert (bs.read_buffer == null);
 							assert (bs.books != null);
+							assert (bs.books.length == 2);
+							var b1 = bs.books.get_item (0) as Book;
+							assert (b1 != null);
+							assert (b1 is Book);
+							assert (b1.authors != null);
+							var b2 = bs.books.get_item (0) as Book;
+							assert (b2 != null);
+							assert (b2 is Book);
+							assert (b2.authors != null);
 							loop.quit ();
 						} catch (GLib.Error e) {
 							warning ("Error: %s", e.message);

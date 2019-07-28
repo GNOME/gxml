@@ -28,6 +28,7 @@ public errordomain GXml.StreamReaderError {
 
 public class GXml.StreamReader : GLib.Object {
   uint8[] buf = new uint8[2];
+  Gee.HashMap<string,GXml.Collection> root_collections = new Gee.HashMap<string,GXml.Collection> ();
   public DataInputStream stream { get; }
   public Cancellable? cancellable { get; set; }
   public DomDocument document { get; }
@@ -84,7 +85,13 @@ public class GXml.StreamReader : GLib.Object {
   public GXml.Element read_root_element () throws GLib.Error {
     return read_element (true);
   }
-  public GXml.Element read_element (bool children) throws GLib.Error {
+  public GXml.Element read_element (bool children, GXml.Element? parent = null) throws GLib.Error {
+    if (parent != null) {
+      if (!(parent is GXml.Object)) {
+        throw new DomError.INVALID_NODE_TYPE_ERROR
+                      (_("Parent '%s' is not implemeting GXml.Object interface"), parent.get_type ().name ());
+      }
+    }
     GXml.Element e = null;
     var buf = new MemoryOutputStream.resizable ();
     var dbuf = new DataOutputStream (buf);
@@ -122,6 +129,40 @@ public class GXml.StreamReader : GLib.Object {
         document.append_child (e);
       }
     }
+    if (document.document_element == e && parent == null) {
+      foreach (ParamSpec pspec in
+                (e as GXml.Object).get_property_element_list ()) {
+        if (!(pspec.value_type.is_a (typeof (Collection)))) continue;
+        Collection col;
+        Value vc = Value (pspec.value_type);
+        e.get_property (pspec.name, ref vc);
+        col = vc.get_object () as Collection;
+        if (col == null) {
+          col = GLib.Object.new (pspec.value_type,
+                            "element", e) as Collection;
+          vc.set_object (col);
+          e.set_property (pspec.name, vc);
+        }
+        if (col.items_type == GLib.Type.INVALID
+            || !(col.items_type.is_a (typeof (GXml.Object)))) {
+          throw new DomError.INVALID_NODE_TYPE_ERROR
+                      (_("Collection '%s' hasn't been constructed properly: items' type property was not set at construction time or set to invalid type"), col.get_type ().name ());
+        }
+        if (col.items_name == "" || col.items_name == null) {
+          throw new DomError.INVALID_NODE_TYPE_ERROR
+                      (_("Collection '%s' hasn't been constructed properly: items' name property was not set at construction time"), col.get_type ().name ());
+        }
+        if (col.element == null || !(col.element is GXml.Object)) {
+          throw new DomError.INVALID_NODE_TYPE_ERROR
+                      (_("Collection '%s' hasn't been constructed properly: element property was not set at construction time"), col.get_type ().name ());
+        }
+        if (!(col.element is GXml.Object)) {
+          throw new DomError.INVALID_NODE_TYPE_ERROR
+                      (_("Invalid object of type '%s' doesn't implement GXml.Object interface: can't be handled by the collection"), col.element.get_type ().name ());
+        }
+        root_collections.set (col.items_name.down (), col);
+      }
+    }
     e.read_buffer = buf;
     if (is_empty) {
       return e;
@@ -139,9 +180,36 @@ public class GXml.StreamReader : GLib.Object {
           if (closetag == (string) oname_buf.get_data ()) {
             return e;
           }
-        } else if (children) {
-          var ce = read_element (false);
-          e.append_child (ce);
+        } else if (children && parent == null) {
+          GXml.Element ce = read_element (false, e);;
+          message ("Parsing node: %s", ce.local_name);
+          var col = root_collections.get (ce.local_name.down ());
+          if (col != null) {
+            var cobj = GLib.Object.new (col.items_type,
+                                  "owner-document", document) as Element;
+            cobj.read_buffer = ce.read_buffer;
+            e.append_child (cobj);
+            col.append (cobj);
+            message ("Added node: %s to %s", cobj.local_name, col.get_type ().name ());
+          } else {
+            message ("Searching node property");
+            foreach (ParamSpec pspec in
+                (e as GXml.Object).get_property_element_list ()) {
+              if (pspec.value_type.is_a (typeof (Collection))) continue;
+              var obj = GLib.Object.new (pspec.value_type,
+                                    "owner-document", document) as Element;
+              message ("%s == %s", obj.local_name, ce.local_name.down ());
+              if (obj.local_name.down ()
+                     == ce.local_name.down ()) {
+                Value v = Value (pspec.value_type);
+                v.set_object (obj);
+                e.set_property (pspec.name, v);
+                obj.read_buffer = ce.read_buffer;
+                ce = obj;
+              }
+            }
+            e.append_child (ce);
+          }
         } else {
           dbuf.put_byte ('<', cancellable);
           dbuf.put_byte (cur_byte (), cancellable);
