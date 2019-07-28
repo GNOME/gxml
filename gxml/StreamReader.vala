@@ -25,14 +25,46 @@ public errordomain GXml.StreamReaderError {
   INVALID_DOCUMENT_ERROR
 }
 
-
+/**
+ * Parser using a on the fly-post-parsing technique
+ *
+ * This parser takes or creates a {@link Document}, search
+ * and adds the root XML element as a {@link Element};
+ * then search and add all children {@link Element}.
+ *
+ * The root element is added without any attribute and
+ * without any content or children; the same hapends with all
+ * children.
+ *
+ * After call {@link read} or {@link read_document},
+ * Root's and its children's content and its attributes
+ * are stored as a string in a {@link GLib.MemoryOutputStream}
+ * object at {@link GXml.Element.read_buffer}.
+ *
+ * If you want all attributes and children's children,
+ * you should call {@link GXml.Element.parse_buffer},
+ * which execute children's {@link GXml.Element.parse_buffer}
+ * all asyncronically.
+ */
 public class GXml.StreamReader : GLib.Object {
   uint8[] buf = new uint8[2];
   Gee.HashMap<string,GXml.Collection> root_collections = new Gee.HashMap<string,GXml.Collection> ();
+  /**
+   * The stream where data is read from
+   * to parse and fill {@link GXml.Element.read_buffer}
+   */
   public DataInputStream stream { get; }
+  /**
+   * Use it to cancel the parse and fill process
+   */
   public Cancellable? cancellable { get; set; }
+  /**
+   * Current {@link DomDocument} used to read to.
+   */
   public DomDocument document { get; }
-
+  /**
+   * Create a new {@link StreamReader} object.
+   */
   public StreamReader (InputStream istream) {
     _stream = new DataInputStream (istream);
     buf[0] = '\0';
@@ -42,7 +74,7 @@ public class GXml.StreamReader : GLib.Object {
     buf[0] = stream.read_byte (cancellable);
     return buf[0];
   }
-  public inline string read_upto (string str) throws GLib.Error {
+  private inline string read_upto (string str) throws GLib.Error {
     string bstr = stream.read_upto (str, -1, null, cancellable);
     return bstr;
   }
@@ -52,11 +84,17 @@ public class GXml.StreamReader : GLib.Object {
   private inline uint8 cur_byte () {
     return buf[0];
   }
+  /**
+   * Creates a new {@link DomDocument} and parse the stream to.
+   */
   public DomDocument read () throws GLib.Error {
     _document = new Document ();
     internal_read ();
     return document;
   }
+  /**
+   * Use a {@link DomElement} to initialize {@link document}
+   */
   public void read_document (DomDocument doc) throws GLib.Error {
     _document = doc;
     internal_read ();
@@ -82,10 +120,10 @@ public class GXml.StreamReader : GLib.Object {
     }
     read_root_element ();
   }
-  public GXml.Element read_root_element () throws GLib.Error {
+  private GXml.Element read_root_element () throws GLib.Error {
     return read_element (true);
   }
-  public GXml.Element read_element (bool children, GXml.Element? parent = null) throws GLib.Error {
+  private GXml.Element read_element (bool children, GXml.Element? parent = null) throws GLib.Error {
     if (parent != null) {
       if (!(parent is GXml.Object)) {
         throw new DomError.INVALID_NODE_TYPE_ERROR
@@ -219,16 +257,16 @@ public class GXml.StreamReader : GLib.Object {
       }
     }
   }
-  public void read_xml_dec () throws GLib.Error  {
+  private void read_xml_dec () throws GLib.Error  {
     while (cur_char () != '>') {
       read_byte ();
     }
     skip_spaces ();
   }
-  public bool is_space (char c) {
+  private bool is_space (char c) {
     return c == 0x20 || c == 0x9 || c == 0xA || c == ' ' || c == '\t' || c == '\n';
   }
-  public inline void skip_spaces () throws GLib.Error {
+  private inline void skip_spaces () throws GLib.Error {
     read_byte ();
     while (is_space (cur_char ())) {
       read_byte ();
