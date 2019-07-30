@@ -130,15 +130,28 @@ stream_reader_performance_iterate = executable('stream-reader-performance-iterat
 benchmark ('stream-reader-performance-iterate', stream_reader_performance_iterate)
 
 
-files_stream_reader_performance_iterate_read = files ([
+files_stream_reader_performance_unparsed = files ([
 		'StreamReaderPerformanceIterateReadUnparsedTest.vala'
 	])
 
-stream_reader_performance_iterate = executable('stream-reader-performance-unparsed', files_stream_reader_performance_iterate_read + configvapi + configtestvapi,
+stream_reader_performance_unparsed = executable('stream-reader-performance-unparsed', files_stream_reader_performance_unparsed + configvapi + configtestvapi,
 	vala_args : [],
 	dependencies : [ libgxml_deps, inc_libh_dep, testdirs_dep, inc_rooth_dep],
 	link_with: libgxml
 )
 
-benchmark ('stream-reader-performance-unparsed', stream_reader_performance_iterate)
+benchmark ('stream-reader-performance-unparsed', stream_reader_performance_unparsed)
+
+
+files_stream_reader_performance_async_read = files ([
+		'StreamReaderPerformanceAsyncReadUnparsedTest.vala'
+	])
+
+stream_reader_performance_async_read = executable('stream-reader-performance-async', files_stream_reader_performance_async_read + configvapi + configtestvapi,
+	vala_args : [],
+	dependencies : [ libgxml_deps, inc_libh_dep, testdirs_dep, inc_rooth_dep],
+	link_with: libgxml
+)
+
+benchmark ('stream-reader-performance-async', stream_reader_performance_async_read)
 
