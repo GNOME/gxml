@@ -220,7 +220,6 @@ public class GXml.StreamReader : GLib.Object {
           }
         } else if (children && parent == null) {
           GXml.Element ce = read_element (false, e);;
-          message ("Parsing node: %s", ce.local_name);
           var col = root_collections.get (ce.local_name.down ());
           if (col != null) {
             var cobj = GLib.Object.new (col.items_type,
@@ -228,9 +227,7 @@ public class GXml.StreamReader : GLib.Object {
             cobj.read_buffer = ce.read_buffer;
             e.append_child (cobj);
             col.append (cobj);
-            message ("Added node: %s to %s", cobj.local_name, col.get_type ().name ());
           } else {
-            message ("Searching node property");
             foreach (ParamSpec pspec in
                 (e as GXml.Object).get_property_element_list ()) {
               if (pspec.value_type.is_a (typeof (Collection))) continue;

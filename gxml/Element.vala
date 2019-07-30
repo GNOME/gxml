@@ -809,20 +809,56 @@ public class GXml.Element : GXml.Node,
     if (read_buffer == null) {
       return;
     }
-    read_from_string ((string) read_buffer.data);
-    read_buffer = null;
     foreach (DomNode n in child_nodes) {
       if (n is GXml.Element) {
         ((GXml.Element) n).parse_buffer ();
       }
     }
+    read_from_string ((string) read_buffer.data);
+    read_buffer = null;
+  }
+
+  ThreadPool<Element> pool = null;
+
+  /**
+   * Monitor multi-threading parsing
+   */
+  public uint parse_pending () {
+    if (pool == null) {
+      return 0;
+    }
+    return pool.unprocessed ();
   }
 
   /**
    * Asynchronically parse {@link read_buffer}
    */
   public async void parse_buffer_async () throws GLib.Error {
-    parse_buffer ();
+    if (read_buffer == null) {
+      return;
+    }
+    uint nth = GLib.get_num_processors ();
+    if (nth > 1) {
+      nth = (uint) (nth - 1);
+    }
+    pool = new ThreadPool<Element>.with_owned_data ((e)=>{
+      try {
+        if (e.read_buffer != null) {
+          e.read_from_string ((string) e.read_buffer.data);
+          e.read_buffer = null;
+        }
+      } catch (GLib.Error err) {
+        warning (_("Error parsing child's buffer: %s"), err.message);
+      }
+    }, (int) nth, false);
+    foreach (DomNode n in child_nodes) {
+      if (n is GXml.Element) {
+        pool.add ((GXml.Element) n);
+      }
+    }
+    //while (lpool.unprocessed () != 0);
+    read_from_string ((string) read_buffer.data);
+    read_buffer = null;
   }
 }
 

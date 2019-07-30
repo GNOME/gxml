@@ -28,41 +28,36 @@ class GXmlTest.Suite : GLib.Object
     GLib.Intl.setlocale (GLib.LocaleCategory.ALL, "");
     Test.init (ref args);
     Test.add_func ("/gxml/stream-reader/performance", () => {
+      File dir = File.new_for_path (GXmlTestConfig.TEST_DIR);
+      assert (dir.query_exists ());
+      File f = File.new_for_uri (dir.get_uri ()+"/test-large.xml");
+      assert (f.query_exists ());
       var loop = new MainLoop (null);
-      var timer = new Timer ();
-      ulong time = 0;
       try {
-        File dir = File.new_for_path (GXmlTestConfig.TEST_DIR);
-        assert (dir.query_exists ());
-        File f = File.new_for_uri (dir.get_uri ()+"/test-large.xml");
-        assert (f.query_exists ());
         var sr = new GXml.StreamReader (f.read ());
+        Test.timer_start ();
         var d = sr.read ();
-        timer.elapsed (out time);
-        message ("Initial Parse: %lu ms for %d nodes", time / 1000, d.document_element.child_nodes.length);
-        Timeout.add_full (0, 10, ()=>{
-          int l = d.document_element.child_nodes.item (5000).child_nodes.length;
-          if (l == 0) {
+        message ("Initial Parse: %g sec for %d nodes", Test.timer_elapsed (), d.document_element.child_nodes.length);
+        Test.timer_start ();
+        Idle.add (()=>{
+          (d.document_element as GXml.Element).parse_buffer_async.begin ((obj, res)=>{
+            try {
+              (d.document_element as GXml.Element).parse_buffer_async.end (res);
+            } catch (GLib.Error e) {
+              warning ("Error: %s", e.message);
+            }
+          });
+          if (d.document_element.child_nodes.item (10079).child_nodes.length == 0) {
             return Source.CONTINUE;
           }
-          try {
-            message ((d.document_element.child_nodes.item (5000) as DomElement).write_string ());
-          } catch (GLib.Error e) {
-            warning ("Error: %s", e.message);
+          if ((d.document_element as GXml.Element).parse_pending () != 0) {
+            return Source.CONTINUE;
           }
+          message ("Pending to parse: %u", (d.document_element as GXml.Element).parse_pending ());
+          message ("Parsed buffers: %g sec", Test.timer_elapsed ());
+          assert (d.document_element.child_nodes.item (10079) is GXml.Element);
+          assert (d.document_element.child_nodes.item (10079).child_nodes.length != 0);
           loop.quit ();
-          return Source.REMOVE;
-        });
-        Idle.add (()=>{
-            (d.document_element as GXml.Element).parse_buffer_async.begin ((obj, res)=>{
-              try {
-                (d.document_element as GXml.Element).parse_buffer_async.end (res);
-              } catch (GLib.Error e) {
-                warning ("Error: %s", e.message);
-              }
-              timer.elapsed (out time);
-              message ("Parse root: %lu ms", time / 1000);
-            });
           return Source.REMOVE;
         });
       } catch (GLib.Error e) {

@@ -40,24 +40,12 @@ class GXmlTest.Suite : GLib.Object
         var d = sr.read ();
         timer.elapsed (out time);
         message ("Initial Parse: %lu ms for %d nodes", time / 1000, d.document_element.child_nodes.length);
-        Timeout.add_full (0, 10, ()=>{
-          int l = d.document_element.child_nodes.item (5000).child_nodes.length;
-          if (l == 0) {
-            return Source.CONTINUE;
-          }
-          try {
-            message ((d.document_element.child_nodes.item (5000) as DomElement).write_string ());
-          } catch (GLib.Error e) {
-            warning ("Error: %s", e.message);
-          }
-          loop.quit ();
-          return Source.REMOVE;
-        });
         Idle.add (()=>{
           try {
             (d.document_element as GXml.Element).parse_buffer ();
             timer.elapsed (out time);
             message ("Parse root: %lu ms", time / 1000);
+            loop.quit ();
           } catch (GLib.Error e) {
             warning ("Error: %s", e.message);
             assert_not_reached ();
