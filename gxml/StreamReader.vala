@@ -49,11 +49,13 @@ public errordomain GXml.StreamReaderError {
 public class GXml.StreamReader : GLib.Object {
   uint8[] buf = new uint8[2];
   Gee.HashMap<string,GXml.Collection> root_collections = new Gee.HashMap<string,GXml.Collection> ();
+  DataInputStream _stream = null;
+  DomDocument _document = null;
   /**
    * The stream where data is read from
    * to parse and fill {@link GXml.Element.read_buffer}
    */
-  public DataInputStream stream { get; }
+  public DataInputStream stream { get { return _stream; } }
   /**
    * Use it to cancel the parse and fill process
    */
@@ -61,7 +63,7 @@ public class GXml.StreamReader : GLib.Object {
   /**
    * Current {@link DomDocument} used to read to.
    */
-  public DomDocument document { get; }
+  public DomDocument document { get { return _document; } }
   /**
    * Create a new {@link StreamReader} object.
    */
