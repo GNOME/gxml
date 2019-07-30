@@ -803,9 +803,9 @@ public class GXml.Element : GXml.Node,
   public MemoryOutputStream read_buffer { get; set; }
 
   /**
-   * Asynchronically parse {@link read_buffer}
+   * Synchronically parse {@link read_buffer}
    */
-  public async void parse_buffer () throws GLib.Error {
+  public void parse_buffer () throws GLib.Error {
     if (read_buffer == null) {
       return;
     }
@@ -813,11 +813,16 @@ public class GXml.Element : GXml.Node,
     read_buffer = null;
     foreach (DomNode n in child_nodes) {
       if (n is GXml.Element) {
-        ((GXml.Element) n).parse_buffer.begin (()=>{
-		      //message (((GXml.Element) n).write_string ());
-		    });
+        ((GXml.Element) n).parse_buffer ();
       }
     }
+  }
+
+  /**
+   * Asynchronically parse {@link read_buffer}
+   */
+  public async void parse_buffer_async () throws GLib.Error {
+    parse_buffer ();
   }
 }
 

@@ -213,16 +213,10 @@ class GXmlTest {
 				var sr = new StreamReader (istream);
 				try {
 					var doc = sr.read ();
-					(doc.document_element as GXml.Element).parse_buffer.begin ((obj, res)=>{
-						try {
-								(doc.document_element as GXml.Element).parse_buffer.end (res);
-								message (doc.write_string ());
-								assert ((doc.document_element as GXml.Element).read_buffer == null);
-								loop.quit ();
-						} catch (GLib.Error e) {
-							warning ("Error: %s", e.message);
-						}
-					});
+					(doc.document_element as GXml.Element).parse_buffer ();
+					message (doc.write_string ());
+					assert ((doc.document_element as GXml.Element).read_buffer == null);
+					loop.quit ();
 				} catch (GLib.Error e) {
 					warning ("Error while reading stream: %s", e.message);
 				}
@@ -281,26 +275,20 @@ class GXmlTest {
 							assert ((n as GXml.Element).read_buffer != null);
 						}
 					}
-					bs.parse_buffer.begin ((obj, res)=>{
-						try {
-							bs.parse_buffer.end (res);
-							message (doc.write_string ());
-							assert (bs.read_buffer == null);
-							assert (bs.books != null);
-							assert (bs.books.length == 2);
-							var b1 = bs.books.get_item (0) as Book;
-							assert (b1 != null);
-							assert (b1 is Book);
-							assert (b1.authors != null);
-							var b2 = bs.books.get_item (0) as Book;
-							assert (b2 != null);
-							assert (b2 is Book);
-							assert (b2.authors != null);
-							loop.quit ();
-						} catch (GLib.Error e) {
-							warning ("Error: %s", e.message);
-						}
-					});
+					bs.parse_buffer ();
+					message (doc.write_string ());
+					assert (bs.read_buffer == null);
+					assert (bs.books != null);
+					assert (bs.books.length == 2);
+					var b1 = bs.books.get_item (0) as Book;
+					assert (b1 != null);
+					assert (b1 is Book);
+					assert (b1.authors != null);
+					var b2 = bs.books.get_item (0) as Book;
+					assert (b2 != null);
+					assert (b2 is Book);
+					assert (b2.authors != null);
+					loop.quit ();
 				} catch (GLib.Error e) {
 					warning ("Error while reading stream: %s", e.message);
 				}

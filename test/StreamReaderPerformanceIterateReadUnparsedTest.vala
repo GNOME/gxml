@@ -54,16 +54,14 @@ class GXmlTest.Suite : GLib.Object
           return Source.REMOVE;
         });
         Idle.add (()=>{
-          (d.document_element as GXml.Element).parse_buffer.begin ((obj, res)=>{
-            try {
-              timer.elapsed (out time);
-              message ("Parse root: %lu ms", time / 1000);
-              (d.document_element as GXml.Element).parse_buffer.end (res);
-            } catch (GLib.Error e) {
-              warning ("Error: %s", e.message);
-              assert_not_reached ();
-            }
-          });
+          try {
+            (d.document_element as GXml.Element).parse_buffer ();
+            timer.elapsed (out time);
+            message ("Parse root: %lu ms", time / 1000);
+          } catch (GLib.Error e) {
+            warning ("Error: %s", e.message);
+            assert_not_reached ();
+          }
           return Source.REMOVE;
         });
       } catch (GLib.Error e) {
