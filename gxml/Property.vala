@@ -501,10 +501,10 @@ public class GXml.DateTime : GXml.BaseProperty {
       return _value.format (s);
     }
     set {
-      var tv = TimeVal ();
-      if (tv.from_iso8601 (value)) {
-        _value = new GLib.DateTime.from_timeval_local (tv);
-      } else
+      var dt = new DateTime.from_iso8601 (value, new TimeZone.local());
+      if (dt != null)
+        _value = dt;
+      else
         warning (_("Invalid timestamp for property: "+value));
     }
   }
