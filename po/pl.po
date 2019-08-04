@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2019-07-28 04:04+0000\n"
-"PO-Revision-Date: 2019-07-28 14:15+0200\n"
+"POT-Creation-Date: 2019-08-04 12:03+0000\n"
+"PO-Revision-Date: 2019-08-04 15:33+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -67,75 +67,75 @@ msgstr ""
 msgid "Referenced object's type is invalid. Should be a GXmlDomElement"
 msgstr "Typ wymienionego obiektu jest nieprawidłowy. Musi być GXmlDomElement"
 
-#: gxml/CssSelectorParser.vala:206 gxml/CssSelectorParser.vala:214
+#: gxml/CssSelectorParser.vala:233 gxml/CssSelectorParser.vala:241
 msgid "Invalid identifier"
 msgstr "Nieprawidłowy identyfikator"
 
-#: gxml/CssSelectorParser.vala:212 gxml/CssSelectorParser.vala:218
-#: gxml/CssSelectorParser.vala:303
+#: gxml/CssSelectorParser.vala:239 gxml/CssSelectorParser.vala:245
+#: gxml/CssSelectorParser.vala:330
 msgid "string value is empty"
 msgstr "wartość ciągu jest pusta"
 
-#: gxml/CssSelectorParser.vala:224
+#: gxml/CssSelectorParser.vala:251
 msgid "Cannot find start of 'not selector' value"
 msgstr "Nie można odnaleźć początku wartości „not selector”"
 
-#: gxml/CssSelectorParser.vala:230
+#: gxml/CssSelectorParser.vala:257
 msgid "Cannot find end of 'not selector' value"
 msgstr "Nie można odnaleźć końca wartości „not selector”"
 
-#: gxml/CssSelectorParser.vala:245
+#: gxml/CssSelectorParser.vala:272
 #, c-format
 msgid "Invalid '%s' pseudo class"
 msgstr "Nieprawidłowa pseudoklasa „%s”"
 
-#: gxml/CssSelectorParser.vala:249
+#: gxml/CssSelectorParser.vala:276
 #, c-format
 msgid "Invalid '%s' pseudo class : cannot find value"
 msgstr "Nieprawidłowa pseudoklasa „%s”: nie można odnaleźć wartości"
 
-#: gxml/CssSelectorParser.vala:254
+#: gxml/CssSelectorParser.vala:281
 msgid "Cannot find end of pseudo class value"
 msgstr "Nie można odnaleźć końca wartości pseudoklasy"
 
-#: gxml/CssSelectorParser.vala:259
+#: gxml/CssSelectorParser.vala:286
 msgid "Pseudo class value isn't a valid number"
 msgstr "Wartość pseudoklasy nie jest prawidłową liczbą"
 
-#: gxml/CssSelectorParser.vala:267
+#: gxml/CssSelectorParser.vala:294
 msgid "current class doesn't start with letter"
 msgstr "obecna klasa nie zaczyna się od litery"
 
-#: gxml/CssSelectorParser.vala:277
+#: gxml/CssSelectorParser.vala:304
 msgid "current id doesn't start with letter"
 msgstr "obecny identyfikator nie zaczyna się od litery"
 
-#: gxml/CssSelectorParser.vala:293 gxml/CssSelectorParser.vala:305
+#: gxml/CssSelectorParser.vala:320 gxml/CssSelectorParser.vala:332
 msgid "Invalid attribute"
 msgstr "Nieprawidłowy atrybut"
 
-#: gxml/CssSelectorParser.vala:331
+#: gxml/CssSelectorParser.vala:358
 msgid "Invalid attribute selector"
 msgstr "Nieprawidłowy selektor atrybutu"
 
-#: gxml/CssSelectorParser.vala:336
+#: gxml/CssSelectorParser.vala:363
 #, c-format
 msgid "Invalid attribute selector. '=' expected but '%s' was found"
 msgstr "Nieprawidłowy selektor atrybutu. Oczekiwano „=”, ale odnaleziono „%s”"
 
-#: gxml/CssSelectorParser.vala:348
+#: gxml/CssSelectorParser.vala:375
 msgid "Cannot find end of attribute value"
 msgstr "Nie można odnaleźć końca wartości atrybutu"
 
-#: gxml/CssSelectorParser.vala:352
+#: gxml/CssSelectorParser.vala:379
 msgid "Cannot find end of attribute selector"
 msgstr "Nie można odnaleźć końca selektora atrybutu"
 
-#: gxml/CssSelectorParser.vala:399
+#: gxml/CssSelectorParser.vala:426
 msgid "No selectors found"
 msgstr "Nie odnaleziono żadnych selektorów"
 
-#: gxml/CssSelectorParser.vala:403
+#: gxml/CssSelectorParser.vala:430
 #, c-format
 msgid "Last selector has combiner assigned (%s)"
 msgstr "Ostatni selektor ma przydzielony „combiner” (%s)"
@@ -342,6 +342,11 @@ msgstr "Usuwanie błędu atrybutu: "
 msgid "Removing namespaced attribute Error: "
 msgstr "Usuwanie błędu atrybutu w przestrzeni nazw: "
 
+#: gxml/Element.vala:851
+#, c-format
+msgid "Error parsing child's buffer: %s"
+msgstr "Błąd podczas przetwarzania bufora elementu potomnego: %s"
+
 #: gxml/Enumeration.vala:88
 msgid "value is invalid"
 msgstr "wartość jest nieprawidłowa"
@@ -446,7 +451,7 @@ msgstr ""
 "Nieprawidłowa próba przetworzenia węzła elementu, kiedy obecnie odnaleziony "
 "węzeł nie jest"
 
-#: gxml/Parser.vala:253 gxml/StreamReader.vala:187
+#: gxml/Parser.vala:253 gxml/StreamReader.vala:189
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' type property was "
@@ -456,7 +461,7 @@ msgstr ""
 "została ustawiona w czasie budowania lub została ustawiona na nieprawidłowy "
 "typ"
 
-#: gxml/Parser.vala:257 gxml/StreamReader.vala:191
+#: gxml/Parser.vala:257 gxml/StreamReader.vala:193
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' name property was "
@@ -465,7 +470,7 @@ msgstr ""
 "Zbiór „%s” nie został właściwie zbudowany: właściwość nazw elementów nie "
 "została ustawiona w czasie budowania"
 
-#: gxml/Parser.vala:261 gxml/StreamReader.vala:195
+#: gxml/Parser.vala:261 gxml/StreamReader.vala:197
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: element property was not "
@@ -474,7 +479,7 @@ msgstr ""
 "Zbiór „%s” nie został właściwie zbudowany: właściwość elementu nie została "
 "ustawiona w czasie budowania"
 
-#: gxml/Parser.vala:265 gxml/StreamReader.vala:199
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:201
 #, c-format
 msgid ""
 "Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
@@ -544,20 +549,20 @@ msgstr "Nieprawidłowy typ węzła do rozpoczęcia po"
 msgid "Invalid root in the source range"
 msgstr "Nieprawidłowy główny element w zakresie źródłowym"
 
-#: gxml/StreamReader.vala:105
+#: gxml/StreamReader.vala:107
 msgid "Invalid document: should start with '<'"
 msgstr "Nieprawidłowy dokument: musi zaczynać się od „<”"
 
-#: gxml/StreamReader.vala:109 gxml/StreamReader.vala:118
+#: gxml/StreamReader.vala:111 gxml/StreamReader.vala:120
 msgid "Invalid document: unexpected character before node's name"
 msgstr "Nieprawidłowy dokument: nieoczekiwany znak przed nazwą węzła"
 
-#: gxml/StreamReader.vala:114
+#: gxml/StreamReader.vala:116
 #, c-format
 msgid "Invalid document: unexpected character '%c'"
 msgstr "Nieprawidłowy dokument: nieoczekiwany znak „%c”"
 
-#: gxml/StreamReader.vala:130
+#: gxml/StreamReader.vala:132
 #, c-format
 msgid "Parent '%s' is not implemeting GXml.Object interface"
 msgstr "Element nadrzędny „%s” nie implementuje interfejsu GXml.Object"
