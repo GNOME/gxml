@@ -38,7 +38,7 @@ pages:
   - mv ../docs/site ../public
   - mv docs/GXml-* ../public/dev
   - cd ..
-  - mv public/dev/index.htm public/dev/index.html
+  - cp public/dev/index.htm public/dev/index.html
   artifacts:
     paths:
       - public
