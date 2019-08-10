@@ -1,5 +1,6 @@
 project('gxml', [ 'vala', 'c'], version : '0.19.1')
 
+TOTO='toto'
 PROJECT_NAME = meson.project_name ()
 API_VERSION = '0.20'
 PROJECT_VERSION = meson.project_version ()
