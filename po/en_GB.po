@@ -1,0 +1,682 @@
+# British English translation for gxml.
+# Copyright (C) 2019 gxml's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gxml package.
+# Zander Brown <zbrown@gnome.org>, 2019.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gxml master\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
+"POT-Creation-Date: 2019-08-26 09:33+0000\n"
+"PO-Revision-Date: 2019-08-30 11:15+0100\n"
+"Last-Translator: Zander Brown <zbrown@gnome.org>\n"
+"Language-Team: English - United Kingdom <en_GB@li.org>\n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 3.32.1\n"
+
+#: gxml/BaseCollection.vala:90
+msgid ""
+"Invalid attempt to initialize a collection using an unsupported type. Only "
+"GXmlGXml.Element is supported"
+msgstr ""
+"Invalid attempt to initialise a collection using an unsupported type. Only "
+"GXmlGXml.Element is supported"
+
+#: gxml/BaseCollection.vala:119 gxml/BaseCollection.vala:147
+msgid "Parent Element is invalid"
+msgstr "Parent Element is invalid"
+
+#: gxml/BaseCollection.vala:122
+msgid ""
+"Invalid attempt to set unsupported type. Only GXmlGXml.Element is supported"
+msgstr ""
+"Invalid attempt to set unsupported type. Only GXmlGXml.Element is supported"
+
+#: gxml/BaseCollection.vala:125
+msgid "Invalid attempt to set a node with a different parent document"
+msgstr "Invalid attempt to set a node with a different parent document"
+
+#: gxml/BaseCollection.vala:130
+msgid ""
+"Node element not appended as child of parent. No node added to collection"
+msgstr ""
+"Node element not appended as child of parent. No node added to collection"
+
+#: gxml/BaseCollection.vala:192 gxml/BaseCollection.vala:210
+#, c-format
+msgid "Error: %s"
+msgstr "Error: %s"
+
+#: gxml/Collections.vala:116
+msgid "Invalid index for elements in array list"
+msgstr "Invalid index for elements in array list"
+
+#: gxml/Collections.vala:120
+msgid "Invalid index reference for child elements in array list"
+msgstr "Invalid index reference for child elements in array list"
+
+#: gxml/Collections.vala:125
+msgid "Referenced object's type is invalid. Should be a GXmlDomElement"
+msgstr "Referenced object's type is invalid. Should be a GXmlDomElement"
+
+#: gxml/CssSelectorParser.vala:233 gxml/CssSelectorParser.vala:241
+msgid "Invalid identifier"
+msgstr "Invalid identifier"
+
+#: gxml/CssSelectorParser.vala:239 gxml/CssSelectorParser.vala:245
+#: gxml/CssSelectorParser.vala:330
+msgid "string value is empty"
+msgstr "string value is empty"
+
+#: gxml/CssSelectorParser.vala:251
+msgid "Cannot find start of 'not selector' value"
+msgstr "Cannot find start of 'not selector' value"
+
+#: gxml/CssSelectorParser.vala:257
+msgid "Cannot find end of 'not selector' value"
+msgstr "Cannot find end of 'not selector' value"
+
+#: gxml/CssSelectorParser.vala:272
+#, c-format
+msgid "Invalid '%s' pseudo class"
+msgstr "Invalid '%s' pseudo class"
+
+#: gxml/CssSelectorParser.vala:276
+#, c-format
+msgid "Invalid '%s' pseudo class : cannot find value"
+msgstr "Invalid '%s' pseudo class : cannot find value"
+
+#: gxml/CssSelectorParser.vala:281
+msgid "Cannot find end of pseudo class value"
+msgstr "Cannot find end of pseudo class value"
+
+#: gxml/CssSelectorParser.vala:286
+msgid "Pseudo class value isn't a valid number"
+msgstr "Pseudo class value isn't a valid number"
+
+#: gxml/CssSelectorParser.vala:294
+msgid "current class doesn't start with letter"
+msgstr "current class doesn't start with letter"
+
+#: gxml/CssSelectorParser.vala:304
+msgid "current id doesn't start with letter"
+msgstr "current id doesn't start with letter"
+
+#: gxml/CssSelectorParser.vala:320 gxml/CssSelectorParser.vala:332
+msgid "Invalid attribute"
+msgstr "Invalid attribute"
+
+#: gxml/CssSelectorParser.vala:358
+msgid "Invalid attribute selector"
+msgstr "Invalid attribute selector"
+
+#: gxml/CssSelectorParser.vala:363
+#, c-format
+msgid "Invalid attribute selector. '=' expected but '%s' was found"
+msgstr "Invalid attribute selector. '=' expected but '%s' was found"
+
+#: gxml/CssSelectorParser.vala:375
+msgid "Cannot find end of attribute value"
+msgstr "Cannot find end of attribute value"
+
+#: gxml/CssSelectorParser.vala:379
+msgid "Cannot find end of attribute selector"
+msgstr "Cannot find end of attribute selector"
+
+#: gxml/CssSelectorParser.vala:426
+msgid "No selectors found"
+msgstr "No selectors found"
+
+#: gxml/CssSelectorParser.vala:430
+#, c-format
+msgid "Last selector has combiner assigned (%s)"
+msgstr "Last selector has combiner assigned (%s)"
+
+#: gxml/Document.vala:124
+#, c-format
+msgid "Error while attempting to instantiate root property object: %s"
+msgstr "Error while attempting to instantiate root property object: %s"
+
+#: gxml/Document.vala:184
+msgid "Creating a namespaced element with invalid node name"
+msgstr "Creating a namespaced element with invalid node name"
+
+#: gxml/Document.vala:191
+msgid "Creating a namespaced element with invalid namespace"
+msgstr "Creating a namespaced element with invalid namespace"
+
+#: gxml/Document.vala:195
+msgid ""
+"Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
+msgstr ""
+"Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
+
+#: gxml/Document.vala:199
+msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
+msgstr "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
+
+#: gxml/Document.vala:239 gxml/XDocument.vala:252
+msgid "Can't import a Document"
+msgstr "Can't import a Document"
+
+#: gxml/Document.vala:241 gxml/XDocument.vala:254
+msgid "Can't import a non Element type node to a Document"
+msgstr "Can't import a non Element type node to a Document"
+
+#: gxml/Document.vala:265 gxml/XDocument.vala:278
+msgid "Can't adopt a Document"
+msgstr "Can't adopt a Document"
+
+#. FIXME:
+#: gxml/Document.vala:443
+msgid "DomElement query_selector is not implemented"
+msgstr "DomElement query_selector is not implemented"
+
+#. FIXME:
+#: gxml/Document.vala:447
+msgid "DomElement query_selector_all is not implemented"
+msgstr "DomElement query_selector_all is not implemented"
+
+#: gxml/DomCharacter.vala:46
+msgid "Invalid offset for substring"
+msgstr "Invalid offset for substring"
+
+#: gxml/DomCharacter.vala:66
+msgid "Invalid offset for replace data"
+msgstr "Invalid offset for replace data"
+
+#: gxml/DomCharacter.vala:80
+msgid "Invalid offset to split text"
+msgstr "Invalid offset to split text"
+
+#: gxml/DomNode.vala:133
+msgid "Text node with NULL string"
+msgstr "Text node with NULL string"
+
+#: gxml/DomNode.vala:140
+msgid "Can't copy child text node"
+msgstr "Can't copy child text node"
+
+#: gxml/Element.vala:183
+msgid "Invalid namespace URI stored in element's attribute"
+msgstr "Invalid namespace URI stored in element's attribute"
+
+#: gxml/Element.vala:190 gxml/Element.vala:224
+msgid "Invalid attribute name in element's attributes list"
+msgstr "Invalid attribute name in element's attributes list"
+
+#: gxml/Element.vala:239
+msgid "Can't locate child node to remove"
+msgstr "Can't locate child node to remove"
+
+#: gxml/Element.vala:469 gxml/Element.vala:535
+#, c-format
+msgid "Invalid attribute name: %s"
+msgstr "Invalid attribute name: %s"
+
+#: gxml/Element.vala:471 gxml/Element.vala:537
+msgid "Invalid node type. GXml.Attr was expected"
+msgstr "Invalid node type. GXml.Attr was expected"
+
+#: gxml/Element.vala:494 gxml/Element.vala:513
+#, c-format
+msgid "No index found for attribute %s"
+msgstr "No index found for attribute %s"
+
+#: gxml/Element.vala:522
+#, c-format
+msgid "Invalid attribute's local name '%s': invalid use of ':' character"
+msgstr "Invalid attribute's local name '%s': invalid use of ':' character"
+
+#: gxml/Element.vala:526
+#, c-format
+msgid "Namespace URI was not found: %s"
+msgstr "Namespace URI was not found: %s"
+
+#: gxml/Element.vala:542
+msgid ""
+"Namespace attributes prefixed with xmlns should use a namespace uri http://"
+"www.w3.org/2000/xmlns"
+msgstr ""
+"Namespace attributes prefixed with xmlns should use a namespace uri http://"
+"www.w3.org/2000/xmlns"
+
+#: gxml/Element.vala:549
+#, c-format
+msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
+msgstr "Namespaced attributes should provide a non-null, non-empty prefix: %s"
+
+#: gxml/Element.vala:553
+msgid "Invalid namespace attribute's name."
+msgstr "Invalid namespace attribute's name."
+
+#: gxml/Element.vala:570
+#, c-format
+msgid "Trying to add an attribute with an undefined namespace's prefix: %s"
+msgstr "Trying to add an attribute with an undefined namespace's prefix: %s"
+
+#: gxml/Element.vala:577
+msgid "Trying to add an attribute with an undefined namespace's URI"
+msgstr "Trying to add an attribute with an undefined namespace's URI"
+
+#: gxml/Element.vala:629
+#, c-format
+msgid "Error getting attribute with namespace: %s"
+msgstr "Error getting attribute with namespace: %s"
+
+#: gxml/Element.vala:645
+msgid "Invalid attribute name. Just one prefix is allowed"
+msgstr "Invalid attribute name. Just one prefix is allowed"
+
+#: gxml/Element.vala:650
+#, c-format
+msgid "Invalid attribute name. Invalid use of colon: %s"
+msgstr "Invalid attribute name. Invalid use of colon: %s"
+
+#: gxml/Element.vala:654
+msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
+msgstr "Invalid namespace. If prefix is null, namespace URI should not be null"
+
+#: gxml/Element.vala:657
+msgid ""
+"Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
+"org/2000/xmlns"
+msgstr ""
+"Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
+"org/2000/xmlns"
+
+#: gxml/Element.vala:661
+msgid ""
+"Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
+"http://www.w3.org/2000/xmlns"
+msgstr ""
+"Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
+"http://www.w3.org/2000/xmlns"
+
+#: gxml/Element.vala:666
+msgid ""
+"Invalid namespace. If attribute's name is xmlns, namespace URI should be "
+"http://www.w3.org/2000/xmlns"
+msgstr ""
+"Invalid namespace. If attribute's name is xmlns, namespace URI should be "
+"http://www.w3.org/2000/xmlns"
+
+#: gxml/Element.vala:669
+msgid ""
+"Invalid attribute name. No prefixed attributes should use xml or xmlns name"
+msgstr ""
+"Invalid attribute name. No prefixed attributes should use xml or xmlns name"
+
+#: gxml/Element.vala:674
+msgid "Setting namespaced property error: "
+msgstr "Setting namespaced property error: "
+
+#: gxml/Element.vala:680
+msgid "Removing attribute Error: "
+msgstr "Removing attribute Error: "
+
+#: gxml/Element.vala:685
+msgid "Removing namespaced attribute Error: "
+msgstr "Removing namespaced attribute Error: "
+
+#: gxml/Element.vala:851
+#, c-format
+msgid "Error parsing child's buffer: %s"
+msgstr "Error parsing child's buffer: %s"
+
+#: gxml/Enumeration.vala:88
+msgid "value is invalid"
+msgstr "value is invalid"
+
+#: gxml/Enumeration.vala:129
+#, c-format
+msgid "text '%s' cannot be parsed to enumeration type: %s"
+msgstr "text '%s' cannot be parsed to enumeration type: %s"
+
+#: gxml/HashPairedMap.vala:210
+msgid "No primary key and/or secondary key was found"
+msgstr "No primary key and/or secondary key was found"
+
+#: gxml/Node.vala:156
+msgid "Text content in element can't be created"
+msgstr "Text content in element can't be created"
+
+#: gxml/Node.vala:209 gxml/XNode.vala:279
+msgid "Can't find node position"
+msgstr "Can't find node position"
+
+#: gxml/Node.vala:257 gxml/Node.vala:299 gxml/XNode.vala:310
+#: gxml/XNode.vala:341
+msgid "Invalid attempt to add invalid node type"
+msgstr "Invalid attempt to add invalid node type"
+
+#: gxml/Node.vala:260 gxml/XNode.vala:312
+msgid "Can't find child to insert node before"
+msgstr "Can't find child to insert node before"
+
+#: gxml/Node.vala:265 gxml/Node.vala:305 gxml/XNode.vala:316
+#: gxml/XNode.vala:347
+msgid "Invalid attempt to insert a node"
+msgstr "Invalid attempt to insert a node"
+
+#: gxml/Node.vala:273 gxml/Node.vala:312 gxml/XNode.vala:323
+#: gxml/XNode.vala:354
+msgid "Invalid attempt to insert an invalid node type"
+msgstr "Invalid attempt to insert an invalid node type"
+
+#: gxml/Node.vala:277
+msgid ""
+"Invalid attempt to insert a document or text type to an invalid parent node"
+msgstr ""
+"Invalid attempt to insert a document or text type to an invalid parent node"
+
+#: gxml/Node.vala:290
+msgid "Node type is invalid. Can't append as child"
+msgstr "Node type is invalid. Can't append as child"
+
+#: gxml/Node.vala:293
+msgid "Invalid attempt to append a child with different parent document"
+msgstr "Invalid attempt to append a child with different parent document"
+
+#: gxml/Node.vala:301 gxml/XNode.vala:343
+msgid "Can't find child node to replace or child have a different parent"
+msgstr "Can't find child node to replace or child have a different parent"
+
+#: gxml/Node.vala:315 gxml/XNode.vala:326 gxml/XNode.vala:357
+msgid ""
+"Invalid attempt to insert a document's type or text node to an invalid parent"
+msgstr ""
+"Invalid attempt to insert a document's type or text node to an invalid parent"
+
+#: gxml/Node.vala:327 gxml/XNode.vala:369
+msgid "Can't find child node to remove or child have a different parent"
+msgstr "Can't find child node to remove or child have a different parent"
+
+#: gxml/Object.vala:170
+msgid "Enumeration is out of range"
+msgstr "Enumeration is out of range"
+
+#: gxml/Object.vala:285
+msgid "Enumeration can't be parsed from string"
+msgstr "Enumeration can't be parsed from string"
+
+#: gxml/Object.vala:407
+#, c-format
+msgid "Error while attempting to instantiate property object: %s"
+msgstr "Error while attempting to instantiate property object: %s"
+
+#: gxml/Object.vala:456
+msgid "Can't set value. It is not a GXmlGXml.Element type"
+msgstr "Can't set value. It is not a GXmlGXml.Element type"
+
+#: gxml/Parser.vala:92 gxml/Parser.vala:100 gxml/XDocument.vala:57
+msgid "File doesn't exist"
+msgstr "File doesn't exist"
+
+#: gxml/Parser.vala:181
+msgid ""
+"Invalid attempt to parse an element node, when current found node is not"
+msgstr ""
+"Invalid attempt to parse an element node, when current found node is not"
+
+#: gxml/Parser.vala:253 gxml/StreamReader.vala:189
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: items' type property was "
+"not set at construction time or set to invalid type"
+msgstr ""
+"Collection '%s' hasn't been constructed properly: items' type property was "
+"not set at construction time or set to invalid type"
+
+#: gxml/Parser.vala:257 gxml/StreamReader.vala:193
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: items' name property was "
+"not set at construction time"
+msgstr ""
+"Collection '%s' hasn't been constructed properly: items' name property was "
+"not set at construction time"
+
+#: gxml/Parser.vala:261 gxml/StreamReader.vala:197
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: element property was not "
+"set at construction time"
+msgstr ""
+"Collection '%s' hasn't been constructed properly: element property was not "
+"set at construction time"
+
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:201
+#, c-format
+msgid ""
+"Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
+"be handled by the collection"
+msgstr ""
+"Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
+"be handled by the collection"
+
+#: gxml/Parser.vala:270
+msgid "No document is set to node"
+msgstr "No document is set to node"
+
+#: gxml/Parser.vala:291 gxml/XParser.vala:102 gxml/XParser.vala:108
+msgid "Invalid document string, it is empty or is not allowed"
+msgstr "Invalid document string, it is empty or is not allowed"
+
+#: gxml/Property.vala:389
+#, c-format
+msgid "Error when transform enum to attribute's value: %s"
+msgstr "Error when transform enum to attribute's value: %s"
+
+#: gxml/Property.vala:398
+#, c-format
+msgid "Error when transform from attribute string value to enum: %s"
+msgstr "Error when transform from attribute string value to enum: %s"
+
+#: gxml/Property.vala:462 gxml/Property.vala:469
+msgid "Invalid Date for property: "
+msgstr "Invalid Date for property: "
+
+#: gxml/Property.vala:464
+msgid "Invalid format for Date property: "
+msgstr "Invalid format for Date property: "
+
+#: gxml/Property.vala:508
+msgid "Invalid timestamp for property: "
+msgstr "Invalid timestamp for property: "
+
+#: gxml/Range.vala:53 gxml/Range.vala:81 gxml/Range.vala:154
+msgid "Invalid node type to start"
+msgstr "Invalid node type to start"
+
+#: gxml/Range.vala:56 gxml/Range.vala:84
+msgid "Invalid offset for node to start: for document type"
+msgstr "Invalid offset for node to start: for document type"
+
+#: gxml/Range.vala:60 gxml/Range.vala:88
+msgid "Invalid offset for node to start: for character data"
+msgstr "Invalid offset for node to start: for character data"
+
+#: gxml/Range.vala:63 gxml/Range.vala:91
+msgid "Invalid offset for node to start: for children number"
+msgstr "Invalid offset for node to start: for children number"
+
+#: gxml/Range.vala:107 gxml/Range.vala:121
+msgid "Invalid node type to start before"
+msgstr "Invalid node type to start before"
+
+#: gxml/Range.vala:112 gxml/Range.vala:126 gxml/Range.vala:144
+msgid "Invalid node type to start after"
+msgstr "Invalid node type to start after"
+
+#: gxml/Range.vala:169
+msgid "Invalid root in the source range"
+msgstr "Invalid root in the source range"
+
+#: gxml/StreamReader.vala:107
+msgid "Invalid document: should start with '<'"
+msgstr "Invalid document: should start with '<'"
+
+#: gxml/StreamReader.vala:111 gxml/StreamReader.vala:120
+msgid "Invalid document: unexpected character before node's name"
+msgstr "Invalid document: unexpected character before node's name"
+
+#: gxml/StreamReader.vala:116
+#, c-format
+msgid "Invalid document: unexpected character '%c'"
+msgstr "Invalid document: unexpected character '%c'"
+
+#: gxml/StreamReader.vala:132
+#, c-format
+msgid "Parent '%s' is not implemeting GXml.Object interface"
+msgstr "Parent '%s' is not implemeting GXml.Object interface"
+
+#: gxml/TokenList.vala:54
+msgid ""
+"DOM: Invalid token. No empty string could be used as token to check if it is "
+"contained in token list"
+msgstr ""
+"DOM: Invalid token. No empty string could be used as token to check if it is "
+"contained in token list"
+
+#: gxml/TokenList.vala:56
+msgid ""
+"DOM: Invalid token. No white spaces could be included as token to check if "
+"it is contained in token list"
+msgstr ""
+"DOM: Invalid token. No white spaces could be included as token to check if "
+"it is contained in token list"
+
+#: gxml/TokenList.vala:63 gxml/TokenList.vala:86
+msgid "DOM: Invalid token. Empty string can't be used as token"
+msgstr "DOM: Invalid token. Empty string can't be used as token"
+
+#: gxml/TokenList.vala:65 gxml/TokenList.vala:88
+msgid "DOM: Invalid token. White spaces can't be used as token"
+msgstr "DOM: Invalid token. White spaces can't be used as token"
+
+#: gxml/TokenList.vala:102
+msgid "Update Error: "
+msgstr "Update Error: "
+
+#: gxml/XDocument.vala:139
+#, c-format
+msgid "Error writing document to string: %s"
+msgstr "Error writing document to string: %s"
+
+#: gxml/XDocument.vala:207
+msgid "Invalid element qualified name: multiple namespace prefixes"
+msgstr "Invalid element qualified name: multiple namespace prefixes"
+
+#: gxml/XdParser.vala:60
+msgid "stream doesn't provide data"
+msgstr "stream doesn't provide data"
+
+#: gxml/XdParser.vala:75
+msgid "Parser Error for string"
+msgstr "Parser Error for string"
+
+#: gxml/XElement.vala:148
+#, c-format
+msgid "Error while converting Element to string: %s"
+msgstr "Error while converting Element to string: %s"
+
+#: gxml/XElement.vala:348
+#, c-format
+msgid "invalid namespace. Code: %s"
+msgstr "invalid namespace. Code: %s"
+
+#: gxml/XHashMapAttr.vala:243
+msgid "Invalid document when adding item to collection"
+msgstr "Invalid document when adding item to collection"
+
+#: gxml/XHashMapAttr.vala:245 gxml/XHashMapAttr.vala:297
+msgid "This node collection is read only"
+msgstr "This node collection is read only"
+
+#: gxml/XHashMapAttr.vala:247 gxml/XHashMapAttr.vala:299
+msgid "This node attribute is already in use by other Element"
+msgstr "This node attribute is already in use by other Element"
+
+#: gxml/XHashMapAttr.vala:249 gxml/XHashMapAttr.vala:301
+msgid "Trying to add an object to an Element, but it is not an attribute"
+msgstr "Trying to add an object to an Element, but it is not an attribute"
+
+#: gxml/XHashMapAttr.vala:261 gxml/XHashMapAttr.vala:317
+#, c-format
+msgid "No node with name %s was found"
+msgstr "No node with name %s was found"
+
+#: gxml/XHashMapAttr.vala:263 gxml/XHashMapAttr.vala:319
+msgid "Node collection is read only"
+msgstr "Node collection is read only"
+
+#: gxml/XHashMapAttr.vala:295
+msgid "Invalid document when adding item to named node map collection"
+msgstr "Invalid document when adding item to named node map collection"
+
+#: gxml/XNode.vala:43
+#, c-format
+msgid "%s:%s:%d: %s:%d: %s"
+msgstr "%s:%s:%d: %s:%d: %s"
+
+#: gxml/XNode.vala:216
+#, c-format
+msgid "Error while setting text content to node: %s"
+msgstr "Error while setting text content to node: %s"
+
+#: gxml/XParser.vala:118
+msgid "Invalid input stream to read data from"
+msgstr "Invalid input stream to read data from"
+
+#: gxml/XParser.vala:138
+#, c-format
+msgid "Error reading stream: %s"
+msgstr "Error reading stream: %s"
+
+#: gxml/XParser.vala:151
+#, c-format
+msgid "Error closing stream: %s"
+msgstr "Error closing stream: %s"
+
+#: gxml/XParser.vala:192 gxml/XParser.vala:253 gxml/XParser.vala:262
+#: gxml/XParser.vala:311 gxml/XParser.vala:324 gxml/XParser.vala:374
+msgid "Internal Error: No TextReader was set"
+msgstr "Internal Error: No TextReader was set"
+
+#: gxml/XParser.vala:265
+msgid "Can't read node data"
+msgstr "Can't read node data"
+
+#: gxml/XParser.vala:329
+#, c-format
+msgid "Parsing ERROR: Fail to move to attribute number: %i"
+msgstr "Parsing ERROR: Fail to move to attribute number: %i"
+
+#: gxml/XParser.vala:419
+msgid "Invalid sequence for document type definition: "
+msgstr "Invalid sequence for document type definition: "
+
+#: gxml/XParser.vala:484 gxml/XParser.vala:589 gxml/XParser.vala:660
+msgid "Internal Error: No TextWriter initialized"
+msgstr "Internal Error: No TextWriter initialised"
+
+#: gxml/XsdSchema.vala:266
+#, c-format
+msgid "Error removing Collection's element: %s"
+msgstr "Error removing Collection's element: %s"
+
+#: gxml/XsdSchema.vala:275
+#, c-format
+msgid "Can't find element at position: %i: %s"
+msgstr "Can't find element at position: %i: %s"
+
+#: gxml/XsdSchema.vala:289 gxml/XsdSchema.vala:297 gxml/XsdSchema.vala:305
+#: gxml/XsdSchema.vala:313 gxml/XsdSchema.vala:321
+#, c-format
+msgid "Collection type %s, initialization error: %s"
+msgstr "Collection type %s, initialisation error: %s"
