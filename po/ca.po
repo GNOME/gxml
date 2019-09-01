@@ -31,7 +31,7 @@ msgstr "Desplaçament no vàlid pel reemplaçament de dades"
 
 #: ../gxml/DomCharacter.vala:74
 msgid "Invalid offset to split text"
-msgstr "Desplaçament no vàlid pel dividir el text"
+msgstr "Desplaçament no vàlid per dividir el text"
 
 #: ../gxml/DomNode.vala:150 ../gxml/Node.vala:202
 msgid "Text node with NULL string"
