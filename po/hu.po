@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2019-03-21 19:44+0000\n"
-"PO-Revision-Date: 2019-06-03 22:09+0200\n"
+"POT-Creation-Date: 2019-07-30 19:08+0000\n"
+"PO-Revision-Date: 2019-09-10 07:08+0200\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
@@ -20,103 +20,179 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 18.12.3\n"
 
-#: gxml/Collections.vala:66
+#: gxml/BaseCollection.vala:90
+#| msgid ""
+#| "Invalid attempt to initialize a collection using an unsupported type. "
+#| "Only GXmlGomElement is supported"
+msgid ""
+"Invalid attempt to initialize a collection using an unsupported type. Only "
+"GXmlGXml.Element is supported"
+msgstr ""
+"Érvénytelen kísérlet egy nem támogatott típust használó gyűjtemény "
+"előkészítésére. Csak a GXmlGXml.Element támogatott"
+
+#: gxml/BaseCollection.vala:119 gxml/BaseCollection.vala:147
+msgid "Parent Element is invalid"
+msgstr "A szülőelem érvénytelen"
+
+#: gxml/BaseCollection.vala:122
+#| msgid ""
+#| "Invalid attempt to set unsupported type. Only GXmlGomElement is supported"
+msgid ""
+"Invalid attempt to set unsupported type. Only GXmlGXml.Element is supported"
+msgstr ""
+"Érvénytelen kísérlet egy nem támogatott típus beállítására. Csak a "
+"GXmlGXml.Element támogatott"
+
+#: gxml/BaseCollection.vala:125
+msgid "Invalid attempt to set a node with a different parent document"
+msgstr ""
+"Érvénytelen kísérlet egy eltérő szülődokumentummal rendelkező csomópont "
+"beállítására"
+
+#: gxml/BaseCollection.vala:130
+msgid ""
+"Node element not appended as child of parent. No node added to collection"
+msgstr ""
+"A csomópontelem nincs hozzáfűzve a szülő gyermekeként. Nincs csomópont "
+"hozzáadva a gyűjteményhez"
+
+#: gxml/BaseCollection.vala:192 gxml/BaseCollection.vala:210
+#, c-format
+msgid "Error: %s"
+msgstr "Hiba: %s"
+
+#: gxml/Collections.vala:116
 msgid "Invalid index for elements in array list"
 msgstr "Érvénytelen index a tömblistában lévő elemekhez"
 
-#: gxml/Collections.vala:70
+#: gxml/Collections.vala:120
 msgid "Invalid index reference for child elements in array list"
 msgstr "Érvénytelen indexreferencia a tömblistában lévő gyermekelemekhez"
 
-#: gxml/Collections.vala:75
+#: gxml/Collections.vala:125
 msgid "Referenced object's type is invalid. Should be a GXmlDomElement"
 msgstr ""
 "A hivatkozott objektum típusa érvénytelen. GXmlDomElement kellene legyen"
 
-#: gxml/CssSelectorParser.vala:206 gxml/CssSelectorParser.vala:214
-#| msgid "Invalid file"
+#: gxml/CssSelectorParser.vala:233 gxml/CssSelectorParser.vala:241
 msgid "Invalid identifier"
 msgstr "Érvénytelen azonosító"
 
-#: gxml/CssSelectorParser.vala:212 gxml/CssSelectorParser.vala:218
-#: gxml/CssSelectorParser.vala:303
+#: gxml/CssSelectorParser.vala:239 gxml/CssSelectorParser.vala:245
+#: gxml/CssSelectorParser.vala:330
 msgid "string value is empty"
 msgstr "a karakterlánc értéke üres"
 
-#: gxml/CssSelectorParser.vala:224
+#: gxml/CssSelectorParser.vala:251
 msgid "Cannot find start of 'not selector' value"
 msgstr "Nem található a „nem kiválasztó” érték kezdete"
 
-#: gxml/CssSelectorParser.vala:230
+#: gxml/CssSelectorParser.vala:257
 msgid "Cannot find end of 'not selector' value"
 msgstr "Nem található a „nem kiválasztó” érték vége"
 
-#: gxml/CssSelectorParser.vala:245
+#: gxml/CssSelectorParser.vala:272
 #, c-format
-#| msgid "Invalid pseudo class selector %s"
 msgid "Invalid '%s' pseudo class"
 msgstr "Érvénytelen „%s” pszeudoosztály"
 
-#: gxml/CssSelectorParser.vala:249
+#: gxml/CssSelectorParser.vala:276
 #, c-format
-#| msgid "Invalid pseudo class selector %s"
 msgid "Invalid '%s' pseudo class : cannot find value"
 msgstr "Érvénytelen „%s” pszeudoosztály: nem található érték"
 
-#: gxml/CssSelectorParser.vala:254
+#: gxml/CssSelectorParser.vala:281
 msgid "Cannot find end of pseudo class value"
 msgstr "Nem található a pszeudoosztály-érték vége"
 
-#: gxml/CssSelectorParser.vala:259
+#: gxml/CssSelectorParser.vala:286
 msgid "Pseudo class value isn't a valid number"
 msgstr "A pszeudoosztály értéke nem érvényes szám"
 
-#: gxml/CssSelectorParser.vala:267
+#: gxml/CssSelectorParser.vala:294
 msgid "current class doesn't start with letter"
 msgstr "a jelenlegi osztály nem betűvel kezdődik"
 
-#: gxml/CssSelectorParser.vala:277
+#: gxml/CssSelectorParser.vala:304
 msgid "current id doesn't start with letter"
 msgstr "a jelenlegi azonosító nem betűvel kezdődik"
 
-#: gxml/CssSelectorParser.vala:293 gxml/CssSelectorParser.vala:305
-#| msgid "Invalid attribute name: %s"
+#: gxml/CssSelectorParser.vala:320 gxml/CssSelectorParser.vala:332
 msgid "Invalid attribute"
 msgstr "Érvénytelen attribútum"
 
-#: gxml/CssSelectorParser.vala:331
-#| msgid "Invalid end of attribute selector"
+#: gxml/CssSelectorParser.vala:358
 msgid "Invalid attribute selector"
 msgstr "Érvénytelen attribútum-kiválasztó"
 
-#: gxml/CssSelectorParser.vala:336
+#: gxml/CssSelectorParser.vala:363
 #, c-format
-#| msgid "Invalid attribute selector value: %s"
 msgid "Invalid attribute selector. '=' expected but '%s' was found"
 msgstr "Érvénytelen attribútum-kiválasztó. „=” várt, de „%s” található."
 
-#: gxml/CssSelectorParser.vala:348
-#| msgid "Invalid end of attribute value"
+#: gxml/CssSelectorParser.vala:375
 msgid "Cannot find end of attribute value"
 msgstr "Nem található az attribútum-érték vége"
 
-#: gxml/CssSelectorParser.vala:352
-#| msgid "Invalid end of attribute selector"
+#: gxml/CssSelectorParser.vala:379
 msgid "Cannot find end of attribute selector"
 msgstr "Nem található az attribútum-kiválasztó vége"
 
-#: gxml/CssSelectorParser.vala:399
+#: gxml/CssSelectorParser.vala:426
 msgid "No selectors found"
 msgstr "Nem találhatók kiválasztók"
 
-#: gxml/CssSelectorParser.vala:405
+#: gxml/CssSelectorParser.vala:430
 #, c-format
 msgid "Last selector has combiner assigned (%s)"
 msgstr "Az utolsó kiválasztóhoz egyesítő lett hozzárendelve (%s)"
 
-#: gxml/Document.vala:153
-msgid "Invalid file"
-msgstr "Érvénytelen fájl"
+#: gxml/Document.vala:124
+#, c-format
+msgid "Error while attempting to instantiate root property object: %s"
+msgstr "Hiba a gyökér tulajdonságobjektum példányosítási kísérlete közben: %s"
+
+#: gxml/Document.vala:184
+msgid "Creating a namespaced element with invalid node name"
+msgstr "Névtérrel rendelkező elem létrehozása érvénytelen csomópontnévvel"
+
+#: gxml/Document.vala:191
+msgid "Creating a namespaced element with invalid namespace"
+msgstr "Névtérrel rendelkező elem létrehozása érvénytelen névtérrel"
+
+#: gxml/Document.vala:195
+msgid ""
+"Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
+msgstr ""
+"Érvénytelen névtér URI az xmlns előtaghoz. Használja ezt: http://www.w3."
+"org/2000/xmlns/"
+
+#: gxml/Document.vala:199
+msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
+msgstr "Csak az xmlns előtag használható ezzel: http://www.w3.org/2000/xmlns/"
+
+#: gxml/Document.vala:239 gxml/XDocument.vala:252
+msgid "Can't import a Document"
+msgstr "A dokumentum nem importálható"
+
+#: gxml/Document.vala:241 gxml/XDocument.vala:254
+msgid "Can't import a non Element type node to a Document"
+msgstr "Nem importálható nem elem típusú csomópont a dokumentumba"
+
+#: gxml/Document.vala:265 gxml/XDocument.vala:278
+msgid "Can't adopt a Document"
+msgstr "Dokumentum nem fogadható örökbe"
+
+#. FIXME:
+#: gxml/Document.vala:443
+msgid "DomElement query_selector is not implemented"
+msgstr "A DomElement query_selector nincs megvalósítva"
+
+#. FIXME:
+#: gxml/Document.vala:447
+msgid "DomElement query_selector_all is not implemented"
+msgstr "A DomElement query_selector_all nincs megvalósítva"
 
 #: gxml/DomCharacter.vala:46
 msgid "Invalid offset for substring"
@@ -130,133 +206,54 @@ msgstr "Érvénytelen eltolás a csereadatokhoz"
 msgid "Invalid offset to split text"
 msgstr "Érvénytelen eltolás a szöveg felosztásához"
 
-#: gxml/DomNode.vala:150 gxml/Node.vala:203
+#: gxml/DomNode.vala:133
 msgid "Text node with NULL string"
 msgstr "Szöveges csomópont NULL karakterlánccal"
 
-#: gxml/DomNode.vala:157
+#: gxml/DomNode.vala:140
 msgid "Can't copy child text node"
 msgstr "A gyermek szöveges csomópont nem másolható"
 
-#: gxml/Enumeration.vala:88
-msgid "value is invalid"
-msgstr "az érték érvénytelen"
-
-#: gxml/Enumeration.vala:129
-msgid "text cannot be parsed to enumeration type:"
-msgstr "a szöveg nem értelmezhető felsorolás típusként:"
-
-#: gxml/GomBaseCollection.vala:90
-msgid ""
-"Invalid attempt to initialize a collection using an unsupported type. Only "
-"GXmlGomElement is supported"
-msgstr ""
-"Érvénytelen kísérlet egy nem támogatott típust használó gyűjtemény "
-"előkészítésére. Csak a GXmlGomElement támogatott"
-
-#: gxml/GomBaseCollection.vala:119 gxml/GomBaseCollection.vala:147
-msgid "Parent Element is invalid"
-msgstr "A szülőelem érvénytelen"
-
-#: gxml/GomBaseCollection.vala:122
-msgid ""
-"Invalid attempt to set unsupported type. Only GXmlGomElement is supported"
-msgstr ""
-"Érvénytelen kísérlet egy nem támogatott típus beállítására. Csak a "
-"GXmlGomElement támogatott"
-
-#: gxml/GomBaseCollection.vala:125
-msgid "Invalid attempt to set a node with a different parent document"
-msgstr ""
-"Érvénytelen kísérlet egy eltérő szülődokumentummal rendelkező csomópont "
-"beállítására"
-
-#: gxml/GomBaseCollection.vala:130
-msgid ""
-"Node element not appended as child of parent. No node added to collection"
-msgstr ""
-"A csomópontelem nincs hozzáfűzve a szülő gyermekeként. Nincs csomópont "
-"hozzáadva a gyűjteményhez"
-
-#: gxml/GomBaseCollection.vala:192 gxml/GomBaseCollection.vala:210
-#, c-format
-msgid "Error: %s"
-msgstr "Hiba: %s"
-
-#: gxml/GomDocument.vala:119
-#, c-format
-#| msgid "Error while attempting to instantiate property object: %s"
-msgid "Error while attempting to instantiate root property object: %s"
-msgstr "Hiba a gyökér tulajdonságobjektum példányosítási kísérlete közben: %s"
-
-#: gxml/GomDocument.vala:179
-msgid "Creating a namespaced element with invalid node name"
-msgstr "Névtérrel rendelkező elem létrehozása érvénytelen csomópontnévvel"
-
-#: gxml/GomDocument.vala:186
-msgid "Creating a namespaced element with invalid namespace"
-msgstr "Névtérrel rendelkező elem létrehozása érvénytelen névtérrel"
-
-#: gxml/GomDocument.vala:190
-msgid ""
-"Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
-msgstr ""
-"Érvénytelen névtér URI az xmlns előtaghoz. Használja ezt: http://www.w3."
-"org/2000/xmlns/"
-
-#: gxml/GomDocument.vala:194
-msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
-msgstr "Csak az xmlns előtag használható ezzel: http://www.w3.org/2000/xmlns/"
-
-#: gxml/GomDocument.vala:234 gxml/GXmlDocument.vala:269
-msgid "Can't import a Document"
-msgstr "A dokumentum nem importálható"
-
-#: gxml/GomDocument.vala:236 gxml/GXmlDocument.vala:271
-msgid "Can't import a non Element type node to a Document"
-msgstr "Nem importálható nem elem típusú csomópont a dokumentumba"
-
-#: gxml/GomDocument.vala:260 gxml/GXmlDocument.vala:295
-msgid "Can't adopt a Document"
-msgstr "Dokumentum nem fogadható örökbe"
-
-#. FIXME:
-#: gxml/GomDocument.vala:438
-msgid "DomElement query_selector is not implemented"
-msgstr "A DomElement query_selector nincs megvalósítva"
-
-#. FIXME:
-#: gxml/GomDocument.vala:442
-msgid "DomElement query_selector_all is not implemented"
-msgstr "A DomElement query_selector_all nincs megvalósítva"
-
-#: gxml/GomElement.vala:169
+#: gxml/Element.vala:183
 msgid "Invalid namespace URI stored in element's attribute"
 msgstr "Érvénytelen névtér URI tárolva az elem attribútumában"
 
-#: gxml/GomElement.vala:176 gxml/GomElement.vala:198
+#: gxml/Element.vala:190 gxml/Element.vala:224
 msgid "Invalid attribute name in element's attributes list"
 msgstr "Érvénytelen attribútumnév az elem attribútumlistájában"
 
-#: gxml/GomElement.vala:213
+#: gxml/Element.vala:239
 msgid "Can't locate child node to remove"
 msgstr "Nem található eltávolítandó gyermekcsomópont"
 
-#: gxml/GomElement.vala:446 gxml/GomElement.vala:513
+#: gxml/Element.vala:469 gxml/Element.vala:535
 #, c-format
 msgid "Invalid attribute name: %s"
 msgstr "Érvénytelen attribútumnév: %s"
 
-#: gxml/GomElement.vala:448 gxml/GomElement.vala:515
-msgid "Invalid node type. DomAttr was expected"
-msgstr "Érvénytelen csomóponttípus a várt DomAttr helyett"
+#: gxml/Element.vala:471 gxml/Element.vala:537
+#| msgid "Invalid node type. DomAttr was expected"
+msgid "Invalid node type. GXml.Attr was expected"
+msgstr "Érvénytelen csomóponttípus a várt GXml.Attr helyett"
 
-#: gxml/GomElement.vala:473 gxml/GomElement.vala:493
+#: gxml/Element.vala:494 gxml/Element.vala:513
 #, c-format
 msgid "No index found for attribute %s"
 msgstr "Nem található index az attribútumhoz: %s"
 
-#: gxml/GomElement.vala:520
+#: gxml/Element.vala:522
+#, c-format
+#| msgid "Invalid attribute name. Invalid use of colon: %s"
+msgid "Invalid attribute's local name '%s': invalid use of ':' character"
+msgstr ""
+"Érvénytelen „%s” attribútum helyi név: a „:” karakter érvénytelen használata"
+
+#: gxml/Element.vala:526
+#, c-format
+msgid "Namespace URI was not found: %s"
+msgstr "A névtér URI nem található: %s"
+
+#: gxml/Element.vala:542
 msgid ""
 "Namespace attributes prefixed with xmlns should use a namespace uri http://"
 "www.w3.org/2000/xmlns"
@@ -264,51 +261,49 @@ msgstr ""
 "Az xmlns előtaggal rendelkező névtér attribútumoknak a http://www.w3."
 "org/2000/xmlns névtér URI-t kell használniuk"
 
-#: gxml/GomElement.vala:527
+#: gxml/Element.vala:549
 #, c-format
 msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
 msgstr ""
 "A névtérrel rendelkező attribútumoknak nem null, nem üres előtagot kell "
 "biztosítaniuk: %s"
 
-#: gxml/GomElement.vala:531
+#: gxml/Element.vala:553
 msgid "Invalid namespace attribute's name."
 msgstr "Érvénytelen névtér attribútumnév."
 
-#: gxml/GomElement.vala:543
+#: gxml/Element.vala:570
 #, c-format
-msgid "Duplicated default namespace detected with URI: %s"
-msgstr "Kettőzött alapértelmezett névtér észlelhető az URI-val: %s"
-
-#: gxml/GomElement.vala:552
-#, c-format
-msgid "Duplicated namespace detected for: %s:%s"
-msgstr "Kettőzött névtér észlelhető ennél: %s:%s"
-
-#: gxml/GomElement.vala:563
-#, c-format
-msgid "Trying to add an attribute with an undefined namespace prefix: %s"
+#| msgid "Trying to add an attribute with an undefined namespace prefix: %s"
+msgid "Trying to add an attribute with an undefined namespace's prefix: %s"
 msgstr ""
-"Kísérlet attribútum hozzáadására egy nem meghatározott névtér előtaggal: %s"
+"Kísérlet attribútum hozzáadására egy nem meghatározott névtér előtagjával: %s"
 
-#: gxml/GomElement.vala:569
-msgid "Trying to add an attribute with a non found namespace URI"
-msgstr "Kísérlet attribútum hozzáadására egy nem található névtér URI-val"
+#: gxml/Element.vala:577
+#| msgid "Trying to add an attribute with a non found namespace URI"
+msgid "Trying to add an attribute with an undefined namespace's URI"
+msgstr "Kísérlet attribútum hozzáadására egy meghatározatlan névtér URI-jával"
 
-#: gxml/GomElement.vala:647
+#: gxml/Element.vala:629
+#, c-format
+#| msgid "Trying to add an attribute with an undefined namespace prefix: %s"
+msgid "Error getting attribute with namespace: %s"
+msgstr "Hiba az attribútum lekérésekor ezzel a névtérrel: %s"
+
+#: gxml/Element.vala:645
 msgid "Invalid attribute name. Just one prefix is allowed"
 msgstr "Érvénytelen attribútumnév. Csak egy előtag megengedett"
 
-#: gxml/GomElement.vala:651
+#: gxml/Element.vala:650
 #, c-format
 msgid "Invalid attribute name. Invalid use of colon: %s"
 msgstr "Érvénytelen attribútumnév. Érvénytelen kettősponthasználat: %s"
 
-#: gxml/GomElement.vala:656
+#: gxml/Element.vala:654
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
 msgstr "Érvénytelen névtér. Ha az előtag null, a névtér URI nem lehet null"
 
-#: gxml/GomElement.vala:658
+#: gxml/Element.vala:657
 msgid ""
 "Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
 "org/2000/xmlns"
@@ -316,7 +311,7 @@ msgstr ""
 "Érvénytelen névtér. Ha az előtag xml, akkor a névtér URI http://www.w3."
 "org/2000/xmlns kell legyen"
 
-#: gxml/GomElement.vala:661
+#: gxml/Element.vala:661
 msgid ""
 "Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns"
@@ -324,7 +319,7 @@ msgstr ""
 "Érvénytelen névtér. Ha az attribútum előtagja xmlns, akkor a névtér URI "
 "http://www.w3.org/2000/xmlns kell legyen"
 
-#: gxml/GomElement.vala:665
+#: gxml/Element.vala:666
 msgid ""
 "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns"
@@ -332,258 +327,129 @@ msgstr ""
 "Érvénytelen névtér. Ha az attribútum neve xmlns, akkor a névtér URI http://"
 "www.w3.org/2000/xmlns kell legyen"
 
-#: gxml/GomElement.vala:667
-msgid "Invalid attribute name. No prefixed attributes should use xmlns name"
+#: gxml/Element.vala:669
+#| msgid "Invalid attribute name. No prefixed attributes should use xmlns name"
+msgid ""
+"Invalid attribute name. No prefixed attributes should use xml or xmlns name"
 msgstr ""
 "Érvénytelen attribútumnév. Az előtaggal nem rendelkező attribútumok nem "
-"használhatják az xmlns nevet"
+"használhatják az xml vagy xmlns nevet"
 
-#: gxml/GomElement.vala:671
+#: gxml/Element.vala:674
 msgid "Setting namespaced property error: "
 msgstr "Hiba a névtérrel rendelkező tulajdonság beállításakor: "
 
-#: gxml/GomElement.vala:677
+#: gxml/Element.vala:680
 msgid "Removing attribute Error: "
 msgstr "Attribútum eltávolítási hiba: "
 
-#: gxml/GomElement.vala:682
+#: gxml/Element.vala:685
 msgid "Removing namespaced attribute Error: "
 msgstr "Névtérrel rendelkező attribútum eltávolítási hiba: "
 
-#: gxml/GomHashPairedMap.vala:210
+#: gxml/Element.vala:851
+#, c-format
+#| msgid "Error closing stream: %s"
+msgid "Error parsing child's buffer: %s"
+msgstr "Hiba a gyermek pufferének feldolgozásakor: %s"
+
+#: gxml/Enumeration.vala:88
+msgid "value is invalid"
+msgstr "az érték érvénytelen"
+
+#: gxml/Enumeration.vala:129
+#, c-format
+#| msgid "text cannot be parsed to enumeration type:"
+msgid "text '%s' cannot be parsed to enumeration type: %s"
+msgstr "a(z) „%s” szöveg nem dolgozható fel felsorolás típusként: %s"
+
+#: gxml/HashPairedMap.vala:210
 msgid "No primary key and/or secondary key was found"
 msgstr "Nem található elsődleges kulcs és/vagy másodlagos kulcs"
 
-#: gxml/GomNode.vala:156
+#: gxml/Node.vala:156
 msgid "Text content in element can't be created"
 msgstr "Az elemben nem hozható létre szöveges tartalom"
 
-#: gxml/GomNode.vala:209 gxml/GXmlNode.vala:278
+#: gxml/Node.vala:209 gxml/XNode.vala:279
 msgid "Can't find node position"
 msgstr "A csomópont pozíciója nem található"
 
-#: gxml/GomNode.vala:257 gxml/GomNode.vala:299 gxml/GXmlNode.vala:309
-#: gxml/GXmlNode.vala:340
+#: gxml/Node.vala:257 gxml/Node.vala:299 gxml/XNode.vala:310
+#: gxml/XNode.vala:341
 msgid "Invalid attempt to add invalid node type"
 msgstr "Érvénytelen kísérlet egy érvénytelen csomóponttípus hozzáadására"
 
-#: gxml/GomNode.vala:260 gxml/GXmlNode.vala:311
+#: gxml/Node.vala:260 gxml/XNode.vala:312
 msgid "Can't find child to insert node before"
 msgstr "Nem található a gyermek, amely elé a csomópontot be kellene szúrni"
 
-#: gxml/GomNode.vala:265 gxml/GomNode.vala:305 gxml/GXmlNode.vala:315
-#: gxml/GXmlNode.vala:346
+#: gxml/Node.vala:265 gxml/Node.vala:305 gxml/XNode.vala:316
+#: gxml/XNode.vala:347
 msgid "Invalid attempt to insert a node"
 msgstr "Érvénytelen kísérlet egy csomópont beszúrására"
 
-#: gxml/GomNode.vala:273 gxml/GomNode.vala:312 gxml/GXmlNode.vala:322
-#: gxml/GXmlNode.vala:353
+#: gxml/Node.vala:273 gxml/Node.vala:312 gxml/XNode.vala:323
+#: gxml/XNode.vala:354
 msgid "Invalid attempt to insert an invalid node type"
 msgstr "Érvénytelen kísérlet egy érvénytelen csomóponttípus beszúrására"
 
-#: gxml/GomNode.vala:277
+#: gxml/Node.vala:277
 msgid ""
 "Invalid attempt to insert a document or text type to an invalid parent node"
 msgstr ""
 "Érvénytelen kísérlet egy dokumentum vagy egy szöveges típus beszúrására egy "
 "érvénytelen szülő csomóponthoz"
 
-#: gxml/GomNode.vala:290
+#: gxml/Node.vala:290
 msgid "Node type is invalid. Can't append as child"
 msgstr "A csomóponttípus érvénytelen. Nem adható hozzá gyermekként"
 
-#: gxml/GomNode.vala:293
+#: gxml/Node.vala:293
 msgid "Invalid attempt to append a child with different parent document"
 msgstr ""
 "Érvénytelen kísérlet egy másik szülődokumentummal rendelkező gyermek "
 "hozzáfűzésére"
 
-#: gxml/GomNode.vala:301 gxml/GXmlNode.vala:342
+#: gxml/Node.vala:301 gxml/XNode.vala:343
 msgid "Can't find child node to replace or child have a different parent"
 msgstr ""
 "A lecserélendő gyermekcsomópont nem található, vagy a gyermeknek más szülője "
 "van"
 
-#: gxml/GomNode.vala:315 gxml/GXmlNode.vala:325 gxml/GXmlNode.vala:356
+#: gxml/Node.vala:315 gxml/XNode.vala:326 gxml/XNode.vala:357
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr ""
 "Érvénytelen kísérlet egy dokumentumtípus vagy egy szöveges csomópont "
 "beszúrására egy érvénytelen szülőhöz"
 
-#: gxml/GomNode.vala:327 gxml/GXmlNode.vala:368
+#: gxml/Node.vala:327 gxml/XNode.vala:369
 msgid "Can't find child node to remove or child have a different parent"
 msgstr ""
 "A törlendő gyermekcsomópont nem található, vagy a gyermeknek más szülője van"
 
-#: gxml/GomObject.vala:170
+#: gxml/Object.vala:170
 msgid "Enumeration is out of range"
 msgstr "A felsorolás kívül esik a tartományon"
 
-#: gxml/GomObject.vala:285
+#: gxml/Object.vala:285
 msgid "Enumeration can't be parsed from string"
 msgstr "A felsorolás nem dolgozható fel a karakterláncból"
 
-#: gxml/GomObject.vala:399
+#: gxml/Object.vala:407
 #, c-format
 msgid "Error while attempting to instantiate property object: %s"
 msgstr "Hiba a tulajdonságobjektum példányosítási kísérlete közben: %s"
 
-#: gxml/GomObject.vala:448
-msgid "Can't set value. It is not a GXmlGomElement type"
-msgstr "Nem állítható be az érték. Ez nem GXmlGomElement típus"
+#: gxml/Object.vala:456
+#| msgid "Can't set value. It is not a GXmlGomElement type"
+msgid "Can't set value. It is not a GXmlGXml.Element type"
+msgstr "Nem állítható be az érték. Ez nem GXmlGXml.Element típus"
 
-#: gxml/GXmlParser.vala:55
-msgid "stream doesn't provide data"
-msgstr "az adatfolyam nem szolgáltat adatokat"
-
-#: gxml/GXmlParser.vala:70
-msgid "Parser Error for string"
-msgstr "Feldolgozási hiba a karakterláncnál"
-
-#: gxml/GomProperty.vala:336
-msgid "Error when transform enum to attribute's value"
-msgstr "Hiba a felsorolás attribútumértékre alakítása során"
-
-#: gxml/GomProperty.vala:344
-msgid "Error when transform from attribute string value to enum"
-msgstr "Hiba az attribútum karakterlánc-érték felsorolássá alakítása során"
-
-#: gxml/GomProperty.vala:396 gxml/GomProperty.vala:403
-msgid "Invalid Date for property: "
-msgstr "Érvénytelen dátum a tulajdonságnál: "
-
-#: gxml/GomProperty.vala:398
-msgid "Invalid format for Date property: "
-msgstr "Érvénytelen formátum a dátum tulajdonságnál: "
-
-#: gxml/GomProperty.vala:442
-msgid "Invalid timestamp for property: "
-msgstr "Érvénytelen időbélyeg a tulajdonságnál: "
-
-#: gxml/GomSchema.vala:266
-#, c-format
-msgid "Error removing Collection's element: %s"
-msgstr "Hiba a gyűjtemény elemének eltávolításakor: %s"
-
-#: gxml/GomSchema.vala:275
-#, c-format
-msgid "Can't find element at position: %i: %s"
-msgstr "Nem található elem a következő pozíción: %i: %s"
-
-#: gxml/GomSchema.vala:289 gxml/GomSchema.vala:297 gxml/GomSchema.vala:305
-#: gxml/GomSchema.vala:313 gxml/GomSchema.vala:321
-#, c-format
-msgid "Collection type %s, initialization error: %s"
-msgstr "%s gyűjteménytípus, előkészítési hiba: %s"
-
-#: gxml/GXmlDocument.vala:58 gxml/Parser.vala:92 gxml/Parser.vala:100
-#: gxml/TDocument.vala:478
+#: gxml/Parser.vala:92 gxml/Parser.vala:100 gxml/XDocument.vala:57
 msgid "File doesn't exist"
 msgstr "A fájl nem létezik"
-
-#: gxml/GXmlDocument.vala:225
-msgid "Invalid element qualified name: multiple namespace prefixes"
-msgstr "Érvénytelen minősített név az elemnél: több névtér előtag"
-
-#: gxml/GXmlDomCollections.vala:54
-msgid ""
-"DOM: Invalid token. No empty string could be used as token to check if it is "
-"contained in token list"
-msgstr ""
-"DOM: Érvénytelen token. Üres karakterlánc nem használható tokenként annak "
-"ellenőrzéséhez, hogy szerepel-e a tokenlistában"
-
-#: gxml/GXmlDomCollections.vala:56
-msgid ""
-"DOM: Invalid token. No white spaces could be included as token to check if "
-"it is contained in token list"
-msgstr ""
-"DOM: Érvénytelen token. Üres karakterek nem használhatóak tokenként a "
-"tokenlistában szereplés ellenőrzéséhez"
-
-#: gxml/GXmlDomCollections.vala:63 gxml/GXmlDomCollections.vala:86
-msgid "DOM: Invalid token. Empty string can't be used as token"
-msgstr ""
-"DOM: Érvénytelen token. Üres karakterláncok nem használhatóak tokenként"
-
-#: gxml/GXmlDomCollections.vala:65 gxml/GXmlDomCollections.vala:88
-msgid "DOM: Invalid token. White spaces can't be used as token"
-msgstr "DOM: Érvénytelen token. Üres karakterek nem használhatóak tokenként"
-
-#: gxml/GXmlDomCollections.vala:102
-msgid "Update Error: "
-msgstr "Frissítési hiba: "
-
-#: gxml/GXmlDomRange.vala:53 gxml/GXmlDomRange.vala:81
-#: gxml/GXmlDomRange.vala:154
-msgid "Invalid node type to start"
-msgstr "Érvénytelen kezdeti csomóponttípus"
-
-#: gxml/GXmlDomRange.vala:56 gxml/GXmlDomRange.vala:84
-msgid "Invalid offset for node to start: for document type"
-msgstr "Érvénytelen eltolás a kezdeti csomóponthoz: dokumentum típus esetén"
-
-#: gxml/GXmlDomRange.vala:60 gxml/GXmlDomRange.vala:88
-msgid "Invalid offset for node to start: for character data"
-msgstr "Érvénytelen eltolás a kezdeti csomóponthoz: karakter adatok esetén"
-
-#: gxml/GXmlDomRange.vala:63 gxml/GXmlDomRange.vala:91
-msgid "Invalid offset for node to start: for children number"
-msgstr "Érvénytelen eltolás a kezdeti csomóponthoz: gyermekszám esetén"
-
-#: gxml/GXmlDomRange.vala:107 gxml/GXmlDomRange.vala:121
-msgid "Invalid node type to start before"
-msgstr "Érvénytelen csomóponttípus az előtte kezdéshez"
-
-#: gxml/GXmlDomRange.vala:112 gxml/GXmlDomRange.vala:126
-#: gxml/GXmlDomRange.vala:144
-msgid "Invalid node type to start after"
-msgstr "Érvénytelen csomóponttípus az utána kezdéshez"
-
-#: gxml/GXmlDomRange.vala:169
-msgid "Invalid root in the source range"
-msgstr "Érvénytelen gyökér a forrástartományban"
-
-#: gxml/GXmlElement.vala:340
-msgid "invalid namespace. Code: "
-msgstr "érvénytelen névtér. Kód: "
-
-#: gxml/GXmlHashMapAttr.vala:243
-msgid "Invalid document when adding item to collection"
-msgstr "Érvénytelen dokumentum az elem gyűjteményhez adásakor"
-
-#: gxml/GXmlHashMapAttr.vala:245 gxml/GXmlHashMapAttr.vala:297
-msgid "This node collection is read only"
-msgstr "Ez a csomópontgyűjtemény csak olvasható"
-
-#: gxml/GXmlHashMapAttr.vala:247 gxml/GXmlHashMapAttr.vala:299
-msgid "This node attribute is already in use by other Element"
-msgstr "Ezt a csomópont attribútumot már egy másik elem használja"
-
-#: gxml/GXmlHashMapAttr.vala:249 gxml/GXmlHashMapAttr.vala:301
-msgid "Trying to add an object to an Element, but it is not an attribute"
-msgstr "Objektum hozzáadási kísérlete egy elemhez, de az nem egy attribútum"
-
-#: gxml/GXmlHashMapAttr.vala:261 gxml/GXmlHashMapAttr.vala:317
-#, c-format
-msgid "No node with name %s was found"
-msgstr "Nem található %s nevű csomópont"
-
-#: gxml/GXmlHashMapAttr.vala:263 gxml/GXmlHashMapAttr.vala:319
-msgid "Node collection is read only"
-msgstr "A csomópontgyűjtemény csak olvasható"
-
-#: gxml/GXmlHashMapAttr.vala:295
-msgid "Invalid document when adding item to named node map collection"
-msgstr ""
-"Érvénytelen dokumentum az elem nevesített csomópont-leképezés gyűjteményhez "
-"történő hozzáadásakor"
-
-#: gxml/GXmlNode.vala:44
-#, c-format
-msgid "%s:%s:%d: %s:%d: %s"
-msgstr "%s:%s:%d: %s:%d: %s"
 
 #: gxml/Parser.vala:181
 msgid ""
@@ -592,97 +458,227 @@ msgstr ""
 "Érvénytelen kísérlet egy elemcsomópont feldolgozására, amikor a jelenleg "
 "megtalált csomópont nem"
 
-#: gxml/Parser.vala:253
-msgid "Invalid object type set to Collection"
-msgstr "Érvénytelen objektumtípus beállítva a gyűjteményhez"
+#: gxml/Parser.vala:253 gxml/StreamReader.vala:187
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: items' type property was "
+"not set at construction time or set to invalid type"
+msgstr ""
+"A(z) „%s” gyűjtemény nem lett megfelelően összeállítva: az elemek típus"
+" tulajdonsága nem lett beállítva az összeállítási időben vagy érvénytelen"
+" típusra lett állítva"
 
-#: gxml/Parser.vala:257
-msgid "Invalid DomElement name for objects in Collection"
-msgstr "Érvénytelen DomElement név a gyűjteményben lévő objektumokhoz"
+#: gxml/Parser.vala:257 gxml/StreamReader.vala:191
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: items' name property was "
+"not set at construction time"
+msgstr ""
+"A(z) „%s” gyűjtemény nem lett megfelelően összeállítva: az elemek név"
+" tulajdonsága nem lett beállítva az összeállítási időben"
 
-#: gxml/Parser.vala:261
-msgid "Invalid Element set to Collection"
-msgstr "Érvénytelen elem beállítva a gyűjteményhez"
+#: gxml/Parser.vala:261 gxml/StreamReader.vala:195
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: element property was not "
+"set at construction time"
+msgstr ""
+"A(z) „%s” gyűjtemény nem lett megfelelően összeállítva: az elem tulajdonsága"
+" nem lett beállítva az összeállítási időben"
 
-#: gxml/Parser.vala:266
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:199
+#, c-format
+msgid ""
+"Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
+"be handled by the collection"
+msgstr ""
+"Az érvénytelen „%s” típusú objektum nem valósítja meg a GXml.Object"
+" interfészt: a gyűjtemény nem tudja kezelni"
+
+#: gxml/Parser.vala:270
 msgid "No document is set to node"
 msgstr "Nincs dokumentum beállítva a csomóponthoz"
 
-#: gxml/Parser.vala:287 gxml/XParser.vala:102 gxml/XParser.vala:108
+#: gxml/Parser.vala:291 gxml/XParser.vala:102 gxml/XParser.vala:108
 msgid "Invalid document string, it is empty or is not allowed"
 msgstr "Érvénytelen dokumentum karakterlánc, üres vagy nem engedélyezett"
 
-#: gxml/SerializableEnum.vala:77
-msgid "Value can't be parsed to a valid enumeration's value. Value is not set"
+#: gxml/Property.vala:389
+#, c-format
+#| msgid "Error when transform enum to attribute's value"
+msgid "Error when transform enum to attribute's value: %s"
+msgstr "Hiba a felsorolás attribútumértékre alakítása során: %s"
+
+#: gxml/Property.vala:398
+#, c-format
+#| msgid "Error when transform from attribute string value to enum"
+msgid "Error when transform from attribute string value to enum: %s"
+msgstr "Hiba az attribútum karakterlánc-érték felsorolássá alakítása során: %s"
+
+#: gxml/Property.vala:462 gxml/Property.vala:469
+msgid "Invalid Date for property: "
+msgstr "Érvénytelen dátum a tulajdonságnál: "
+
+#: gxml/Property.vala:464
+msgid "Invalid format for Date property: "
+msgstr "Érvénytelen formátum a dátum tulajdonságnál: "
+
+#: gxml/Property.vala:508
+msgid "Invalid timestamp for property: "
+msgstr "Érvénytelen időbélyeg a tulajdonságnál: "
+
+#: gxml/Range.vala:53 gxml/Range.vala:81 gxml/Range.vala:154
+msgid "Invalid node type to start"
+msgstr "Érvénytelen kezdeti csomóponttípus"
+
+#: gxml/Range.vala:56 gxml/Range.vala:84
+msgid "Invalid offset for node to start: for document type"
+msgstr "Érvénytelen eltolás a kezdeti csomóponthoz: dokumentum típus esetén"
+
+#: gxml/Range.vala:60 gxml/Range.vala:88
+msgid "Invalid offset for node to start: for character data"
+msgstr "Érvénytelen eltolás a kezdeti csomóponthoz: karakter adatok esetén"
+
+#: gxml/Range.vala:63 gxml/Range.vala:91
+msgid "Invalid offset for node to start: for children number"
+msgstr "Érvénytelen eltolás a kezdeti csomóponthoz: gyermekszám esetén"
+
+#: gxml/Range.vala:107 gxml/Range.vala:121
+msgid "Invalid node type to start before"
+msgstr "Érvénytelen csomóponttípus az előtte kezdéshez"
+
+#: gxml/Range.vala:112 gxml/Range.vala:126 gxml/Range.vala:144
+msgid "Invalid node type to start after"
+msgstr "Érvénytelen csomóponttípus az utána kezdéshez"
+
+#: gxml/Range.vala:169
+msgid "Invalid root in the source range"
+msgstr "Érvénytelen gyökér a forrástartományban"
+
+#: gxml/StreamReader.vala:105
+msgid "Invalid document: should start with '<'"
+msgstr "Érvénytelen dokumentum: „<” karakterrel kell kezdődnie"
+
+#: gxml/StreamReader.vala:109 gxml/StreamReader.vala:118
+msgid "Invalid document: unexpected character before node's name"
+msgstr "Érvénytelen dokumentum: váratlan karakter a csomópont neve előtt"
+
+#: gxml/StreamReader.vala:114
+#, c-format
+msgid "Invalid document: unexpected character '%c'"
+msgstr "Érvénytelen dokumentum: váratlan „%c” karakter"
+
+#: gxml/StreamReader.vala:130
+#, c-format
+msgid "Parent '%s' is not implemeting GXml.Object interface"
+msgstr "A(z) „%s” szülő nem valósítja meg a GXml.Object interfészt"
+
+#: gxml/TokenList.vala:54
+msgid ""
+"DOM: Invalid token. No empty string could be used as token to check if it is "
+"contained in token list"
 msgstr ""
-"Az érték nem értelmezhető érvényes felsorolás értékként. Az érték nincs "
-"beállítva"
+"DOM: Érvénytelen token. Üres karakterlánc nem használható tokenként annak "
+"ellenőrzéséhez, hogy szerepel-e a tokenlistában"
 
-#: gxml/SerializableEnum.vala:80
-msgid "Value can't be parsed to a valid enumeration's value"
-msgstr "Az érték nem értelmezhető érvényes felsorolás értékként"
-
-#: gxml/SerializableGeeArrayList.vala:45 gxml/SerializableGeeArrayList.vala:64
-#: gxml/SerializableGeeDualKeyMap.vala:47
-#: gxml/SerializableGeeDualKeyMap.vala:68 gxml/SerializableGeeHashMap.vala:44
-#: gxml/SerializableGeeHashMap.vala:65 gxml/SerializableGeeTreeMap.vala:44
-#: gxml/SerializableGeeTreeMap.vala:65
-#, c-format
-msgid "%s: Value type '%s' is unsupported"
-msgstr "%s: A(z) „%s” értéktípus nem támogatott"
-
-#: gxml/SerializableObjectModel.vala:323
-#, c-format
-msgid "WARNING: Object type '%s' has no Node Name defined"
+#: gxml/TokenList.vala:56
+msgid ""
+"DOM: Invalid token. No white spaces could be included as token to check if "
+"it is contained in token list"
 msgstr ""
-"FIGYELMEZTETÉS: A(z) „%s” objektumtípusnak nincs csomópontneve meghatározva"
+"DOM: Érvénytelen token. Üres karakterek nem használhatóak tokenként a "
+"tokenlistában szereplés ellenőrzéséhez"
 
-#: gxml/SerializableObjectModel.vala:327
-#, c-format
-msgid "Actual node's name is '%s' expected '%s'"
-msgstr "A jelenlegi csomópont neve: „%s”, az elvárt: „%s”"
-
-#: gxml/SerializableProperty.vala:92
-msgid "Trying to serialize to a non GXmlElement!"
-msgstr "Sorosítás kísérlete egy nem GXmlElement elembe!"
-
-#: gxml/SerializableProperty.vala:111
-msgid "No attribute found to deserialize from"
-msgstr "Nem található attribútum a deszerializációhoz"
-
-#: gxml/SerializableProperty.vala:116
-#, c-format
-msgid "XML Attribute name is not set, when deserializing to: %s"
+#: gxml/TokenList.vala:63 gxml/TokenList.vala:86
+msgid "DOM: Invalid token. Empty string can't be used as token"
 msgstr ""
-"Az XML attribútum neve nincs beállítva az ide történő visszaalakításkor: %s"
+"DOM: Érvénytelen token. Üres karakterláncok nem használhatóak tokenként"
 
-#: gxml/Serializable.vala:391
+#: gxml/TokenList.vala:65 gxml/TokenList.vala:88
+msgid "DOM: Invalid token. White spaces can't be used as token"
+msgstr "DOM: Érvénytelen token. Üres karakterek nem használhatóak tokenként"
+
+#: gxml/TokenList.vala:102
+msgid "Update Error: "
+msgstr "Frissítési hiba: "
+
+#: gxml/XDocument.vala:139
 #, c-format
-msgid "Transformation Error on '%s' or Unsupported type: '%s'"
-msgstr "Átalakítási hiba itt: „%s”, vagy nem támogatott típus: „%s”"
+#| msgid "Error reading stream: %s"
+msgid "Error writing document to string: %s"
+msgstr "Hiba a dokumentum karakterláncba történő írásakor: %s"
 
-#: gxml/Serializable.vala:412
+#: gxml/XDocument.vala:207
+msgid "Invalid element qualified name: multiple namespace prefixes"
+msgstr "Érvénytelen minősített név az elemnél: több névtér előtag"
+
+#: gxml/XdParser.vala:60
+msgid "stream doesn't provide data"
+msgstr "az adatfolyam nem szolgáltat adatokat"
+
+#: gxml/XdParser.vala:75
+msgid "Parser Error for string"
+msgstr "Feldolgozási hiba a karakterláncnál"
+
+#: gxml/XElement.vala:148
 #, c-format
-msgid "Can't transform '%s' to string"
-msgstr "A(z) „%s” nem alakítható át karakterlánccá"
+msgid "Error while converting Element to string: %s"
+msgstr "Hiba az elem karakterláncba történő átalakításakor: %s"
 
-#: gxml/TDocument.vala:169
-msgid "Invalid element name"
-msgstr "Érvénytelen elemnév"
-
-#: gxml/TDocument.vala:579 gxml/XParser.vala:324
+#: gxml/XElement.vala:348
 #, c-format
-msgid "Parsing ERROR: Fail to move to attribute number: %i"
-msgstr "Feldolgozási HIBA: Nem mozgatható a(z) %i számú attribútumhoz"
+#| msgid "invalid namespace. Code: "
+msgid "invalid namespace. Code: %s"
+msgstr "érvénytelen névtér. Kód: %s"
+
+#: gxml/XHashMapAttr.vala:243
+msgid "Invalid document when adding item to collection"
+msgstr "Érvénytelen dokumentum az elem gyűjteményhez adásakor"
+
+#: gxml/XHashMapAttr.vala:245 gxml/XHashMapAttr.vala:297
+msgid "This node collection is read only"
+msgstr "Ez a csomópontgyűjtemény csak olvasható"
+
+#: gxml/XHashMapAttr.vala:247 gxml/XHashMapAttr.vala:299
+msgid "This node attribute is already in use by other Element"
+msgstr "Ezt a csomópont attribútumot már egy másik elem használja"
+
+#: gxml/XHashMapAttr.vala:249 gxml/XHashMapAttr.vala:301
+msgid "Trying to add an object to an Element, but it is not an attribute"
+msgstr "Objektum hozzáadási kísérlete egy elemhez, de az nem egy attribútum"
+
+#: gxml/XHashMapAttr.vala:261 gxml/XHashMapAttr.vala:317
+#, c-format
+msgid "No node with name %s was found"
+msgstr "Nem található %s nevű csomópont"
+
+#: gxml/XHashMapAttr.vala:263 gxml/XHashMapAttr.vala:319
+msgid "Node collection is read only"
+msgstr "A csomópontgyűjtemény csak olvasható"
+
+#: gxml/XHashMapAttr.vala:295
+msgid "Invalid document when adding item to named node map collection"
+msgstr ""
+"Érvénytelen dokumentum az elem nevesített csomópont-leképezés gyűjteményhez "
+"történő hozzáadásakor"
+
+#: gxml/XNode.vala:43
+#, c-format
+msgid "%s:%s:%d: %s:%d: %s"
+msgstr "%s:%s:%d: %s:%d: %s"
+
+#: gxml/XNode.vala:216
+#, c-format
+#| msgid "Error while attempting to instantiate property object: %s"
+msgid "Error while setting text content to node: %s"
+msgstr "Hiba a csomóponthoz történő szövegtartalom beállítása közben: %s"
 
 #: gxml/XParser.vala:118
-#| msgid "Invalid offset for replace data"
 msgid "Invalid input stream to read data from"
 msgstr "Érvénytelen bemeneti adatfolyam a belőle történő olvasáshoz"
 
 #: gxml/XParser.vala:138
 #, c-format
-#| msgid "Error removing Collection's element: %s"
 msgid "Error reading stream: %s"
 msgstr "Hiba az adatfolyam olvasásakor: %s"
 
@@ -691,19 +687,40 @@ msgstr "Hiba az adatfolyam olvasásakor: %s"
 msgid "Error closing stream: %s"
 msgstr "Hiba az adatfolyam lezárásakor: %s"
 
-#: gxml/XParser.vala:192 gxml/XParser.vala:248 gxml/XParser.vala:257
-#: gxml/XParser.vala:306 gxml/XParser.vala:319 gxml/XParser.vala:367
+#: gxml/XParser.vala:192 gxml/XParser.vala:253 gxml/XParser.vala:262
+#: gxml/XParser.vala:311 gxml/XParser.vala:324 gxml/XParser.vala:374
 msgid "Internal Error: No TextReader was set"
 msgstr "Belső hiba: nem lett TextReader beállítva"
 
-#: gxml/XParser.vala:260
+#: gxml/XParser.vala:265
 msgid "Can't read node data"
 msgstr "A csomópontadatok nem olvashatóak"
 
-#: gxml/XParser.vala:412
+#: gxml/XParser.vala:329
+#, c-format
+msgid "Parsing ERROR: Fail to move to attribute number: %i"
+msgstr "Feldolgozási HIBA: Nem mozgatható a(z) %i számú attribútumhoz"
+
+#: gxml/XParser.vala:419
 msgid "Invalid sequence for document type definition: "
 msgstr "Érvénytelen sorozat a dokumentumtípus meghatározásánál: "
 
-#: gxml/XParser.vala:477 gxml/XParser.vala:582 gxml/XParser.vala:653
+#: gxml/XParser.vala:484 gxml/XParser.vala:589 gxml/XParser.vala:660
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Belső hiba: nincs TextWriter előkészítve"
+
+#: gxml/XsdSchema.vala:266
+#, c-format
+msgid "Error removing Collection's element: %s"
+msgstr "Hiba a gyűjtemény elemének eltávolításakor: %s"
+
+#: gxml/XsdSchema.vala:275
+#, c-format
+msgid "Can't find element at position: %i: %s"
+msgstr "Nem található elem a következő pozíción: %i: %s"
+
+#: gxml/XsdSchema.vala:289 gxml/XsdSchema.vala:297 gxml/XsdSchema.vala:305
+#: gxml/XsdSchema.vala:313 gxml/XsdSchema.vala:321
+#, c-format
+msgid "Collection type %s, initialization error: %s"
+msgstr "%s gyűjteménytípus, előkészítési hiba: %s"
