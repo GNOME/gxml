@@ -1,14 +1,14 @@
 # Czech translation for gxml.
 # Copyright (C) 2015 gxml's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gxml package.
-# Marek Černocký <marek@manet.cz>, 2015, 2016, 2017, 2018.
+# Marek Černocký <marek@manet.cz>, 2015, 2016, 2017, 2018, 2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2018-04-10 05:22+0000\n"
-"PO-Revision-Date: 2018-04-18 07:42+0200\n"
+"POT-Creation-Date: 2019-07-30 19:08+0000\n"
+"PO-Revision-Date: 2019-09-13 11:26+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -18,60 +18,172 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Gtranslator 2.91.7\n"
 
-#: gxml/Collections.vala:66 gxml/GomCollections.vala:67
+#: gxml/BaseCollection.vala:90
+msgid ""
+"Invalid attempt to initialize a collection using an unsupported type. Only "
+"GXmlGXml.Element is supported"
+msgstr ""
+"Neplatný pokus o inicializaci kolekce pomocí nepodporovaného typu. "
+"Podporován je jen GXmlGXml.Element"
+
+#: gxml/BaseCollection.vala:119 gxml/BaseCollection.vala:147
+msgid "Parent Element is invalid"
+msgstr "Rodičovský prvek je neplatný"
+
+#: gxml/BaseCollection.vala:122
+msgid ""
+"Invalid attempt to set unsupported type. Only GXmlGXml.Element is supported"
+msgstr ""
+"Neplatný pokus o nastavení nepodporovaného typu. Podporován je jen GXmlGXml."
+"Element"
+
+#: gxml/BaseCollection.vala:125
+msgid "Invalid attempt to set a node with a different parent document"
+msgstr "Neplatný pokus o nastavení uzlu s jiným rodičovským dokumentem"
+
+#: gxml/BaseCollection.vala:130
+msgid ""
+"Node element not appended as child of parent. No node added to collection"
+msgstr ""
+"Prvek není k uzlu připojen jako potomek rodiče. Do kolekce není přidán žádný "
+"uzel"
+
+#: gxml/BaseCollection.vala:192 gxml/BaseCollection.vala:210
+#, c-format
+msgid "Error: %s"
+msgstr "Chyba: %s"
+
+#: gxml/Collections.vala:116
 msgid "Invalid index for elements in array list"
 msgstr "Neplatný index pro prvek v poli"
 
-#: gxml/Collections.vala:70 gxml/GomCollections.vala:71
+#: gxml/Collections.vala:120
 msgid "Invalid index reference for child elements in array list"
 msgstr "Neplatný index pro odkaz na synovský prvek v poli"
 
-#: gxml/Collections.vala:75
+#: gxml/Collections.vala:125
 msgid "Referenced object's type is invalid. Should be a GXmlDomElement"
 msgstr "Odkazovaný objektový typ je neplatný. Měl by být GXmlDomElement"
 
-#: gxml/CssSelectorParser.vala:139
-msgid "Invalid attribute character"
-msgstr "Neplatný znak v atributu"
+#: gxml/CssSelectorParser.vala:233 gxml/CssSelectorParser.vala:241
+msgid "Invalid identifier"
+msgstr "Neplatný identifikátor"
 
-#: gxml/CssSelectorParser.vala:165 gxml/CssSelectorParser.vala:211
+#: gxml/CssSelectorParser.vala:239 gxml/CssSelectorParser.vala:245
+#: gxml/CssSelectorParser.vala:330
+msgid "string value is empty"
+msgstr "řetězcová hodnota je prázdná"
+
+#: gxml/CssSelectorParser.vala:251
+msgid "Cannot find start of 'not selector' value"
+msgstr "Nezdařilo se najít začátek hodnoty „selektoru not“"
+
+#: gxml/CssSelectorParser.vala:257
+msgid "Cannot find end of 'not selector' value"
+msgstr "Nezdařilo se najít konec hodnoty „selektoru not“"
+
+#: gxml/CssSelectorParser.vala:272
 #, c-format
-msgid "Invalid attribute selector value: %s"
-msgstr "Neplatný hodnota v selektoru atributu: %s"
+msgid "Invalid '%s' pseudo class"
+msgstr "Neplatná pseudotřída „%s“"
 
-#: gxml/CssSelectorParser.vala:168 gxml/CssSelectorParser.vala:214
-msgid "Invalid end of attribute value"
-msgstr "Neplatné zakončení hodnoty atributu"
-
-#: gxml/CssSelectorParser.vala:174 gxml/CssSelectorParser.vala:220
-msgid "Invalid end of attribute selector"
-msgstr "Neplatné zakončení selektoru atributu"
-
-#: gxml/CssSelectorParser.vala:194
-msgid "Invalid attribute selector character"
-msgstr "Neplatný znak v selektoru atributu"
-
-#: gxml/CssSelectorParser.vala:197
-msgid "Invalid attribute selector character: can't find '=' character"
-msgstr "Neplatný znak v selektoru atributu: nelze najít znak „=“"
-
-#: gxml/CssSelectorParser.vala:250
+#: gxml/CssSelectorParser.vala:276
 #, c-format
-msgid "Invalid pseudo class selector %s"
-msgstr "Neplatný selektor pseudotřídy %s"
+msgid "Invalid '%s' pseudo class : cannot find value"
+msgstr "Neplatná pseudotřída „%s“: nelze najít hodnotu"
 
-#: gxml/CssSelectorParser.vala:258
-msgid "Invalid string length."
-msgstr "Neplatná délka řetězce"
+#: gxml/CssSelectorParser.vala:281
+msgid "Cannot find end of pseudo class value"
+msgstr "Nezdařilo se najít konec hodnoty pseudotřídy"
 
-#: gxml/CssSelectorParser.vala:291
+#: gxml/CssSelectorParser.vala:286
+msgid "Pseudo class value isn't a valid number"
+msgstr "Hodnota pseudotřídy není číslo"
+
+#: gxml/CssSelectorParser.vala:294
+msgid "current class doesn't start with letter"
+msgstr "aktuální třída nezačíná písmenem"
+
+#: gxml/CssSelectorParser.vala:304
+msgid "current id doesn't start with letter"
+msgstr "aktuální ID nezačíná písmenem"
+
+#: gxml/CssSelectorParser.vala:320 gxml/CssSelectorParser.vala:332
+msgid "Invalid attribute"
+msgstr "Neplatný atribut"
+
+#: gxml/CssSelectorParser.vala:358
+msgid "Invalid attribute selector"
+msgstr "Neplatný selektor atributu"
+
+#: gxml/CssSelectorParser.vala:363
 #, c-format
-msgid "Invalid '%s' character."
-msgstr "Neplatný znak „%s“"
+msgid "Invalid attribute selector. '=' expected but '%s' was found"
+msgstr "Neplatný selektor atributu. Bylo očekáváno „=“, ale nalezeno „%s“"
 
-#: gxml/Document.vala:153
-msgid "Invalid file"
-msgstr "Neplatný soubor"
+#: gxml/CssSelectorParser.vala:375
+msgid "Cannot find end of attribute value"
+msgstr "Nezdařilo se najít konec hodnoty atributu"
+
+#: gxml/CssSelectorParser.vala:379
+msgid "Cannot find end of attribute selector"
+msgstr "Nezdařilo se najít konec selektoru atributu"
+
+#: gxml/CssSelectorParser.vala:426
+msgid "No selectors found"
+msgstr "Nebyl nalezen žádný selektor"
+
+#: gxml/CssSelectorParser.vala:430
+#, c-format
+msgid "Last selector has combiner assigned (%s)"
+msgstr "Poslední selektor má přiřazené kombinování selektorů (%s)"
+
+#: gxml/Document.vala:124
+#, c-format
+msgid "Error while attempting to instantiate root property object: %s"
+msgstr ""
+"Chyba při pokusu o vytvoření instance kořenového objektu vlastností: %s"
+
+#: gxml/Document.vala:184
+msgid "Creating a namespaced element with invalid node name"
+msgstr "Vytváří se prvek s jmenným prostorem s neplatným názvem uzlu"
+
+#: gxml/Document.vala:191
+msgid "Creating a namespaced element with invalid namespace"
+msgstr "Vytváří se prvek s jmenným prostorem s neplatným jmenným prostorem"
+
+#: gxml/Document.vala:195
+msgid ""
+"Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
+msgstr ""
+"Neplatná adresa URI jmenného prostoru pro prefix xmlns. Použijte http://www."
+"w3.org/2000/xmlns/"
+
+#: gxml/Document.vala:199
+msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
+msgstr "S http://www.w3.org/2000/xmlns/ lez použít jen prefix xmlns"
+
+#: gxml/Document.vala:239 gxml/XDocument.vala:252
+msgid "Can't import a Document"
+msgstr "Nelze importovat Dokument"
+
+#: gxml/Document.vala:241 gxml/XDocument.vala:254
+msgid "Can't import a non Element type node to a Document"
+msgstr "Do dokumentu nezlez importovat uzel který není typu prvek"
+
+#: gxml/Document.vala:265 gxml/XDocument.vala:278
+msgid "Can't adopt a Document"
+msgstr "Nelze převzít dokument"
+
+#. FIXME:
+#: gxml/Document.vala:443
+msgid "DomElement query_selector is not implemented"
+msgstr "DomElement query_selector není implementován"
+
+#. FIXME:
+#: gxml/Document.vala:447
+msgid "DomElement query_selector_all is not implemented"
+msgstr "DomElement query_selector_all není implementován"
 
 #: gxml/DomCharacter.vala:46
 msgid "Invalid offset for substring"
@@ -85,133 +197,51 @@ msgstr "Neplatné místo pro nahrazení dat"
 msgid "Invalid offset to split text"
 msgstr "Neplatné místo pro rozdělení textu"
 
-#: gxml/DomNode.vala:150 gxml/Node.vala:203
+#: gxml/DomNode.vala:133
 msgid "Text node with NULL string"
 msgstr "Textový uzel s řetězcovou hodnotu NULL"
 
-#: gxml/DomNode.vala:157
+#: gxml/DomNode.vala:140
 msgid "Can't copy child text node"
 msgstr "Nelze kopírovat textový uzel potomka"
 
-#: gxml/Enumeration.vala:88
-msgid "value is invalid"
-msgstr "hodnota je neplatná"
-
-#: gxml/Enumeration.vala:129
-msgid "text cannot be parsed to enumeration type:"
-msgstr "text nelze zpracovat na výčtový typ:"
-
-#: gxml/GomCollections.vala:76
-msgid "Referenced object's type is invalid. Should be a GXmlGomElement"
-msgstr "Odkazovaný objektový typ je neplatný. Měl by být GXmlGomElement"
-
-#: gxml/GomCollections.vala:204
-msgid ""
-"Invalid attempt to initialize a collection using an unsupported type. Only "
-"GXmlGomElement is supported"
-msgstr ""
-"Neplatný pokus o inicializaci sady pomocí nepodporovaného typu. Podporován "
-"je jen GXmlGomElement"
-
-#: gxml/GomCollections.vala:233 gxml/GomCollections.vala:261
-msgid "Parent Element is invalid"
-msgstr "Rodičovský prvek je neplatný"
-
-#: gxml/GomCollections.vala:236
-msgid ""
-"Invalid attempt to set unsupported type. Only GXmlGomElement is supported"
-msgstr ""
-"Neplatný pokus o nastavení nepodporovaného typu. Podporován je jen "
-"GXmlGomElement"
-
-#: gxml/GomCollections.vala:239
-msgid "Invalid attempt to set a node with a different parent document"
-msgstr "Neplatný pokus o nastavení uzlu s jiným rodičovským dokumentem"
-
-#: gxml/GomCollections.vala:244
-msgid ""
-"Node element not appended as child of parent. No node added to collection"
-msgstr ""
-"Prvek není k uzlu připojen jako potomek rodiče. Do sady není přidán žádný "
-"uzel"
-
-#: gxml/GomCollections.vala:306 gxml/GomCollections.vala:324
-#, c-format
-msgid "Error: %s"
-msgstr "Chyba: %s"
-
-#: gxml/GomCollections.vala:698
-msgid "No primary key and/or secondary key was found"
-msgstr "Nebyl nalezen hlavní a/nebo vedlejší klíč"
-
-#: gxml/GomDocument.vala:214
-msgid "Creating a namespaced element with invalid node name"
-msgstr "Vytváří se prvek s jmenným prostorem s neplatným názvem uzlu"
-
-#: gxml/GomDocument.vala:221
-msgid "Creating a namespaced element with invalid namespace"
-msgstr "Vytváří se prvek s jmenným prostorem s neplatným jmenným prostorem"
-
-#: gxml/GomDocument.vala:225
-msgid ""
-"Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
-msgstr ""
-"Neplatná adresa URI jmenného prostoru pro prefix xmlns. Použijte http://www."
-"w3.org/2000/xmlns/"
-
-#: gxml/GomDocument.vala:229
-msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
-msgstr "S http://www.w3.org/2000/xmlns/ lez použít jen prefix xmlns"
-
-#: gxml/GomDocument.vala:269 gxml/GXmlDocument.vala:270
-msgid "Can't import a Document"
-msgstr "Nelze importovat Dokument"
-
-#: gxml/GomDocument.vala:271 gxml/GXmlDocument.vala:272
-msgid "Can't import a non Element type node to a Document"
-msgstr "Do dokumentu nezlez importovat uzel který není typu prvek"
-
-#: gxml/GomDocument.vala:295 gxml/GXmlDocument.vala:296
-msgid "Can't adopt a Document"
-msgstr "Nelze převzít dokument"
-
-#. FIXME:
-#: gxml/GomDocument.vala:473
-msgid "DomElement query_selector is not implemented"
-msgstr "DomElement query_selector není implementován"
-
-#. FIXME:
-#: gxml/GomDocument.vala:477
-msgid "DomElement query_selector_all is not implemented"
-msgstr "DomElement query_selector_all není implementován"
-
-#: gxml/GomElement.vala:169
+#: gxml/Element.vala:183
 msgid "Invalid namespace URI stored in element's attribute"
 msgstr "Neplatná adresa URI jmenného prostoru uchovaná v atributu prvku"
 
-#: gxml/GomElement.vala:176 gxml/GomElement.vala:194
+#: gxml/Element.vala:190 gxml/Element.vala:224
 msgid "Invalid attribute name in element's attributes list"
 msgstr "Neplatný název atributu v seznamu atributů prvku"
 
-#: gxml/GomElement.vala:209
+#: gxml/Element.vala:239
 msgid "Can't locate child node to remove"
 msgstr "Nelze najit uzel potomka k odstranění"
 
-#: gxml/GomElement.vala:432 gxml/GomElement.vala:484
+#: gxml/Element.vala:469 gxml/Element.vala:535
 #, c-format
 msgid "Invalid attribute name: %s"
 msgstr "Neplatný název atributu: %s"
 
-#: gxml/GomElement.vala:434 gxml/GomElement.vala:486
-msgid "Invalid node type. DomAttr was expected"
-msgstr "Neplatný typ uzlu. Byl očekáván DomAttr"
+#: gxml/Element.vala:471 gxml/Element.vala:537
+msgid "Invalid node type. GXml.Attr was expected"
+msgstr "Neplatný typ uzlu. Byl očekáván GXml.Attr"
 
-#: gxml/GomElement.vala:447 gxml/GomElement.vala:465
+#: gxml/Element.vala:494 gxml/Element.vala:513
 #, c-format
 msgid "No index found for attribute %s"
 msgstr "Pro atribut %s nebyl nalezen žádný index"
 
-#: gxml/GomElement.vala:491
+#: gxml/Element.vala:522
+#, c-format
+msgid "Invalid attribute's local name '%s': invalid use of ':' character"
+msgstr "Neplatný lokální název atributu „%s“. neplatné použití znaku „:“"
+
+#: gxml/Element.vala:526
+#, c-format
+msgid "Namespace URI was not found: %s"
+msgstr "Nebyla nalezena adresa URI jmenného prostoru: %s"
+
+#: gxml/Element.vala:542
 msgid ""
 "Namespace attributes prefixed with xmlns should use a namespace uri http://"
 "www.w3.org/2000/xmlns"
@@ -219,225 +249,309 @@ msgstr ""
 "Atribut se jmenným prostorem určeným pomocí xmlns by měl používat jmenný "
 "prostor http://www.w3.org/2000/xmlns"
 
-#: gxml/GomElement.vala:498
+#: gxml/Element.vala:549
 #, c-format
 msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
 msgstr ""
 "Atribut se jmenným prostorem by měl mít uvedený nenulový, neprázdný prefix: "
 "%s"
 
-#: gxml/GomElement.vala:502
+#: gxml/Element.vala:553
 msgid "Invalid namespace attribute's name."
 msgstr "Neplatný název atributu se jmenným prostorem"
 
-#: gxml/GomElement.vala:514
+#: gxml/Element.vala:570
 #, c-format
-msgid "Duplicated default namespace detected with URI: %s"
-msgstr "Zjištěn duplicitní výchozí jmenný prostor s URI: %s"
-
-#: gxml/GomElement.vala:523
-#, c-format
-msgid "Duplicated namespace detected for: %s:%s"
-msgstr "Zjištěn duplicitní jmenný prostor pro: %s:%s"
-
-#: gxml/GomElement.vala:534
-#, c-format
-msgid "Trying to add an attribute with an undefined namespace prefix: %s"
+msgid "Trying to add an attribute with an undefined namespace's prefix: %s"
 msgstr ""
 "Zkouší se přidat atribut s nedefinovaným prefixem jmenného prostoru: %s"
 
-#: gxml/GomElement.vala:540
-msgid "Trying to add an attribute with a non found namespace URI"
-msgstr ""
-"Zkouší se přidat atribut, u kterého nebyla nalezena adresa URI jmenného "
-"prostoru"
+#: gxml/Element.vala:577
+msgid "Trying to add an attribute with an undefined namespace's URI"
+msgstr "Zkouší se přidat atribut s nedefinouvanou adresa URI jmenného prostoru"
 
-#: gxml/GomElement.vala:599
+#: gxml/Element.vala:629
+#, c-format
+msgid "Error getting attribute with namespace: %s"
+msgstr "Chyba při získávání atributu se jmenným prostorem: %s"
+
+#: gxml/Element.vala:645
 msgid "Invalid attribute name. Just one prefix is allowed"
 msgstr "Neplatný název atributu. Povolen je jen jeden prefix"
 
-#: gxml/GomElement.vala:603
+#: gxml/Element.vala:650
 #, c-format
 msgid "Invalid attribute name. Invalid use of colon: %s"
 msgstr "Neplatný název atributu. Neplatné použití dvojtečky: %s"
 
-#: gxml/GomElement.vala:607
+#: gxml/Element.vala:654
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
 msgstr ""
 "Neplatný jmenný prostor. Když není uveden prefix, měla by být uvedena adresa "
-"URI jmenného prostoru"
+"URI jmenného prostoru."
 
-#: gxml/GomElement.vala:609
+#: gxml/Element.vala:657
 msgid ""
 "Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
 "org/2000/xmlns"
 msgstr ""
 "Neplatný jmenný prostor. Když je prefix „xml“, měla by být adresa URI http://"
-"www.w3.org/2000/xmlns"
+"www.w3.org/2000/xmlns."
 
-#: gxml/GomElement.vala:612
+#: gxml/Element.vala:661
 msgid ""
 "Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns"
 msgstr ""
 "Neplatný jmenný prostor. Když je prefix atributu „xmlns“, měla by být adresa "
-"URI http://www.w3.org/2000/xmlns"
+"URI http://www.w3.org/2000/xmlns."
 
-#: gxml/GomElement.vala:616
+#: gxml/Element.vala:666
 msgid ""
 "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns"
 msgstr ""
 "Neplatný jmenný prostor. Když má název atributu jmenný prostor „xmlns“, měla "
-"by být adresa URI http://www.w3.org/2000/xmlns"
+"by být adresa URI http://www.w3.org/2000/xmlns."
 
-#: gxml/GomElement.vala:618
-msgid "Invalid attribute name. No prefixed attributes should use xmlns name"
+#: gxml/Element.vala:669
+msgid ""
+"Invalid attribute name. No prefixed attributes should use xml or xmlns name"
 msgstr ""
-"Neplatný název atributu. Atributy bez prefixu by neměly používat název s "
-"xmlns"
+"Neplatný název atributu. Atributy bez prefixu by neměly používat název s xml "
+"nebo xmlns."
 
-#: gxml/GomElement.vala:622
+#: gxml/Element.vala:674
 msgid "Setting namespaced property error: "
 msgstr "Chyba nastavení vlastnosti s jmenným prostorem:"
 
-#: gxml/GomElement.vala:629
+#: gxml/Element.vala:680
 msgid "Removing attribute Error: "
 msgstr "Chyba při odstraňování atributu:"
 
-#: gxml/GomElement.vala:634
+#: gxml/Element.vala:685
 msgid "Removing namespaced attribute Error: "
 msgstr "Chyba při odstraňování atributu jmenného prostoru:"
 
-#: gxml/GomNode.vala:156
+#: gxml/Element.vala:851
+#, c-format
+msgid "Error parsing child's buffer: %s"
+msgstr "Chyba při zpracování vyrovnávací paměti potomka: %s"
+
+#: gxml/Enumeration.vala:88
+msgid "value is invalid"
+msgstr "hodnota je neplatná"
+
+#: gxml/Enumeration.vala:129
+#, c-format
+msgid "text '%s' cannot be parsed to enumeration type: %s"
+msgstr "text „%s“ nelze zpracovat na výčtový typ: %s"
+
+#: gxml/HashPairedMap.vala:210
+msgid "No primary key and/or secondary key was found"
+msgstr "Nebyl nalezen hlavní a/nebo vedlejší klíč"
+
+#: gxml/Node.vala:156
 msgid "Text content in element can't be created"
 msgstr "Nelze vytvořit textový obsah elementu"
 
-#: gxml/GomNode.vala:209 gxml/GXmlNode.vala:278
+#: gxml/Node.vala:209 gxml/XNode.vala:279
 msgid "Can't find node position"
 msgstr "Nelze najít pozici uzlu"
 
-#: gxml/GomNode.vala:257 gxml/GomNode.vala:299 gxml/GXmlNode.vala:309
-#: gxml/GXmlNode.vala:340
+#: gxml/Node.vala:257 gxml/Node.vala:299 gxml/XNode.vala:310
+#: gxml/XNode.vala:341
 msgid "Invalid attempt to add invalid node type"
 msgstr "Neplatný pokus o přidání neplatného typu uzlu"
 
-#: gxml/GomNode.vala:260 gxml/GXmlNode.vala:311
+#: gxml/Node.vala:260 gxml/XNode.vala:312
 msgid "Can't find child to insert node before"
 msgstr "Nelze najít potomka, před kterého se má vložit"
 
-#: gxml/GomNode.vala:265 gxml/GomNode.vala:305 gxml/GXmlNode.vala:315
-#: gxml/GXmlNode.vala:346
+#: gxml/Node.vala:265 gxml/Node.vala:305 gxml/XNode.vala:316
+#: gxml/XNode.vala:347
 msgid "Invalid attempt to insert a node"
 msgstr "Neplatný pokus o vložení uzlu"
 
-#: gxml/GomNode.vala:273 gxml/GomNode.vala:312 gxml/GXmlNode.vala:322
-#: gxml/GXmlNode.vala:353
+#: gxml/Node.vala:273 gxml/Node.vala:312 gxml/XNode.vala:323
+#: gxml/XNode.vala:354
 msgid "Invalid attempt to insert an invalid node type"
 msgstr "Neplatný pokus o vložení neplatného typu uzlu"
 
-#: gxml/GomNode.vala:277
+#: gxml/Node.vala:277
 msgid ""
 "Invalid attempt to insert a document or text type to an invalid parent node"
 msgstr ""
 "Neplatný pokus o vložení typu dokumentu nebo textového uzlu do neplatného "
 "rodiče"
 
-#: gxml/GomNode.vala:290
+#: gxml/Node.vala:290
 msgid "Node type is invalid. Can't append as child"
 msgstr "Typ uzlu je neplatný. Nelze jej připojit jako potomka"
 
-#: gxml/GomNode.vala:293
+#: gxml/Node.vala:293
 msgid "Invalid attempt to append a child with different parent document"
 msgstr "Neplatný pokus o připojení potomka s jiným rodičovským dokumentem"
 
-#: gxml/GomNode.vala:301 gxml/GXmlNode.vala:342
+#: gxml/Node.vala:301 gxml/XNode.vala:343
 msgid "Can't find child node to replace or child have a different parent"
 msgstr ""
 "Nelze najít synovský uzel, který se má nahradit, nebo má potomek jiného "
 "rodiče"
 
-#: gxml/GomNode.vala:315 gxml/GXmlNode.vala:325 gxml/GXmlNode.vala:356
+#: gxml/Node.vala:315 gxml/XNode.vala:326 gxml/XNode.vala:357
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr ""
 "Neplatný pokus o vložení typu dokumentu nebo textového uzlu do neplatného "
 "rodiče"
 
-#: gxml/GomNode.vala:327 gxml/GXmlNode.vala:368
+#: gxml/Node.vala:327 gxml/XNode.vala:369
 msgid "Can't find child node to remove or child have a different parent"
 msgstr ""
 "Nelze najít synovský uzel, který se má odstranit, nebo má potomek jiného "
 "rodiče"
 
-#: gxml/GomObject.vala:165
+#: gxml/Object.vala:170
 msgid "Enumeration is out of range"
 msgstr "Výčet je mimo rozsah"
 
-#: gxml/GomObject.vala:257
+#: gxml/Object.vala:285
 msgid "Enumeration can't be parsed from string"
 msgstr "Nezdařilo se určit výčet z řetězce"
 
-#: gxml/GomObject.vala:369
+#: gxml/Object.vala:407
 #, c-format
 msgid "Error while attempting to instantiate property object: %s"
-msgstr "Chyba při pokusu o vytvoření instance vlastnosti objektu: %s"
+msgstr "Chyba při pokusu o vytvoření instance objektu vlastností: %s"
 
-#: gxml/GomObject.vala:418
-msgid "Can't set value. It is not a GXmlGomElement type"
-msgstr "Nelze nastavit hodnotu. Nejedná se o typ GXmlGomElement"
+#: gxml/Object.vala:456
+msgid "Can't set value. It is not a GXmlGXml.Element type"
+msgstr "Nezdařilo se nastavit hodnotu. Nejedná se o typ GXmlGXml.Element"
 
-#: gxml/GomProperty.vala:333
-msgid "Error when transform enum to attribute's value"
-msgstr "Chyba při převodu výčtu na hodnotu atributu"
-
-#: gxml/GomProperty.vala:341
-msgid "Error when transform from attribute string value to enum"
-msgstr "Chyba při převodu z řetězcové hodnoty atributu na výčet"
-
-#: gxml/GomProperty.vala:393 gxml/GomProperty.vala:400
-msgid "Invalid Date for property: "
-msgstr "Neplatné datum pro vlastnost: "
-
-#: gxml/GomProperty.vala:395
-msgid "Invalid format for Date property: "
-msgstr "Neplatný formát pro vlastnost Date: "
-
-#: gxml/GomProperty.vala:439
-msgid "Invalid timestamp for property: "
-msgstr "Neplatné časové razítko pro vlastnost: "
-
-#: gxml/GomSchema.vala:266
-#, c-format
-msgid "Error removing Collection's element: %s"
-msgstr "Chyba při odstraňování prvku ze sady: %s"
-
-#: gxml/GomSchema.vala:275
-#, c-format
-msgid "Can't find element at position: %i: %s"
-msgstr "Nelze najít prvek na pozici: %i: %s"
-
-#: gxml/GomSchema.vala:289 gxml/GomSchema.vala:297 gxml/GomSchema.vala:305
-#: gxml/GomSchema.vala:313 gxml/GomSchema.vala:321
-#, c-format
-msgid "Collection type %s, initialization error: %s"
-msgstr "Typ sady %s, chyba inicializace: %s"
-
-#: gxml/GXmlDocument.vala:57 gxml/Parser.vala:95 gxml/Parser.vala:105
-#: gxml/TDocument.vala:478
+#: gxml/Parser.vala:92 gxml/Parser.vala:100 gxml/XDocument.vala:57
 msgid "File doesn't exist"
 msgstr "Soubor neexistuje"
 
-#: gxml/GXmlDocument.vala:81
-msgid "stream doesn't provide data"
-msgstr "datový proud neposkytuje žádná data"
-
-#: gxml/GXmlDocument.vala:226
-msgid "Invalid element qualified name: multiple namespace prefixes"
+#: gxml/Parser.vala:181
+msgid ""
+"Invalid attempt to parse an element node, when current found node is not"
 msgstr ""
-"Neplatný kvalifikovaný název prvku: vícenásobný prefix jmenných prostorů"
+"Neplatný pokus o zpracování uzlu prvku, když není aktuální nalezený uzel"
 
-#: gxml/GXmlDomCollections.vala:54
+#: gxml/Parser.vala:253 gxml/StreamReader.vala:187
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: items' type property was "
+"not set at construction time or set to invalid type"
+msgstr ""
+"Kolekce „%s“ nebyla správně sestrojena: při sestrojování nebyla nastavena "
+"vlastnost typ položky, nebo byla nastavena na neplatný typ"
+
+#: gxml/Parser.vala:257 gxml/StreamReader.vala:191
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: items' name property was "
+"not set at construction time"
+msgstr ""
+"Kolekce „%s“ nebyla správně sestrojena: při sestrojování nebyla nastavena "
+"vlastnost název položky"
+
+#: gxml/Parser.vala:261 gxml/StreamReader.vala:195
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: element property was not "
+"set at construction time"
+msgstr ""
+"Kolekce „%s“ nebyla správně sestrojena: při sestrojování nebyla nastavena "
+"vlastnost element"
+
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:199
+#, c-format
+msgid ""
+"Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
+"be handled by the collection"
+msgstr ""
+"Neplatný objekt typu „%s“ neimplementuje rozhraní GXml.Object: nelze jej "
+"obsluhovat z kolekce"
+
+#: gxml/Parser.vala:270
+msgid "No document is set to node"
+msgstr "U uzlu není nastavený žádný dokument"
+
+#: gxml/Parser.vala:291 gxml/XParser.vala:102 gxml/XParser.vala:108
+msgid "Invalid document string, it is empty or is not allowed"
+msgstr "Neplatný řetězec dokumentu, je prázdný nebo není dovolený"
+
+#: gxml/Property.vala:389
+#, c-format
+msgid "Error when transform enum to attribute's value: %s"
+msgstr "Chyba při převodu výčtu na hodnotu atributu: %s"
+
+#: gxml/Property.vala:398
+#, c-format
+msgid "Error when transform from attribute string value to enum: %s"
+msgstr "Chyba při převodu z řetězcové hodnoty atributu na výčet: %s"
+
+#: gxml/Property.vala:462 gxml/Property.vala:469
+msgid "Invalid Date for property: "
+msgstr "Neplatné datum pro vlastnost: "
+
+#: gxml/Property.vala:464
+msgid "Invalid format for Date property: "
+msgstr "Neplatný formát pro vlastnost Date: "
+
+#: gxml/Property.vala:508
+msgid "Invalid timestamp for property: "
+msgstr "Neplatné časové razítko pro vlastnost: "
+
+#: gxml/Range.vala:53 gxml/Range.vala:81 gxml/Range.vala:154
+msgid "Invalid node type to start"
+msgstr "Neplatný typ uzlu pro počátek"
+
+#: gxml/Range.vala:56 gxml/Range.vala:84
+msgid "Invalid offset for node to start: for document type"
+msgstr "Neplatné místo, kde začít uzel: pro typ dokumentu"
+
+#: gxml/Range.vala:60 gxml/Range.vala:88
+msgid "Invalid offset for node to start: for character data"
+msgstr "Neplatné místo, kde začít uzel: pro znaková data"
+
+#: gxml/Range.vala:63 gxml/Range.vala:91
+msgid "Invalid offset for node to start: for children number"
+msgstr "Neplatné místo, kde začít uzel: pro číslo potomka"
+
+#: gxml/Range.vala:107 gxml/Range.vala:121
+msgid "Invalid node type to start before"
+msgstr "Neplatný typ uzlu pro začátek před"
+
+#: gxml/Range.vala:112 gxml/Range.vala:126 gxml/Range.vala:144
+msgid "Invalid node type to start after"
+msgstr "Neplatný typ uzlu pro začátek za"
+
+#: gxml/Range.vala:169
+msgid "Invalid root in the source range"
+msgstr "Neplatný kořen ve zdrojovém rozsahu"
+
+#: gxml/StreamReader.vala:105
+msgid "Invalid document: should start with '<'"
+msgstr "Neplatný dokument: měl by začínat znakem „<“"
+
+#: gxml/StreamReader.vala:109 gxml/StreamReader.vala:118
+msgid "Invalid document: unexpected character before node's name"
+msgstr "Neplatný dokument: neočekávaný znak před názvem uzlu"
+
+#: gxml/StreamReader.vala:114
+#, c-format
+msgid "Invalid document: unexpected character '%c'"
+msgstr "Neplatný dokument: neočekávaný znak „%c“"
+
+#: gxml/StreamReader.vala:130
+#, c-format
+msgid "Parent '%s' is not implemeting GXml.Object interface"
+msgstr "Rodič „%s“ neimplementuje rozhraní GXml.Object"
+
+#: gxml/TokenList.vala:54
 msgid ""
 "DOM: Invalid token. No empty string could be used as token to check if it is "
 "contained in token list"
@@ -445,7 +559,7 @@ msgstr ""
 "DOM: Neplatný symbol. Jako symbol nemůže být použit prázdný řetězec kvůli "
 "kontrole, jestli je symbol součástí seznamu symbolů"
 
-#: gxml/GXmlDomCollections.vala:56
+#: gxml/TokenList.vala:56
 msgid ""
 "DOM: Invalid token. No white spaces could be included as token to check if "
 "it is contained in token list"
@@ -453,185 +567,134 @@ msgstr ""
 "DOM: Neplatný symbol. V symbolu nemohou být žádné bílé znaky kvůli kontrole, "
 "jestli je symbol součástí seznamu symbolů"
 
-#: gxml/GXmlDomCollections.vala:63 gxml/GXmlDomCollections.vala:86
+#: gxml/TokenList.vala:63 gxml/TokenList.vala:86
 msgid "DOM: Invalid token. Empty string can't be used as token"
 msgstr "DOM: Neplatný symbol. Prázdný řetězec nelze použít jako symbol"
 
-#: gxml/GXmlDomCollections.vala:65 gxml/GXmlDomCollections.vala:88
+#: gxml/TokenList.vala:65 gxml/TokenList.vala:88
 msgid "DOM: Invalid token. White spaces can't be used as token"
 msgstr "DOM: Neplatný symbol. Bílé znaky nelze použít jako symbol"
 
-#: gxml/GXmlDomCollections.vala:102
+#: gxml/TokenList.vala:102
 msgid "Update Error: "
 msgstr "Chyba při aktualizaci: "
 
-#: gxml/GXmlDomRange.vala:53 gxml/GXmlDomRange.vala:81
-#: gxml/GXmlDomRange.vala:154
-msgid "Invalid node type to start"
-msgstr "Neplatný typ uzlu pro počátek"
+#: gxml/XDocument.vala:139
+#, c-format
+msgid "Error writing document to string: %s"
+msgstr "Chyba při zápisu dokumentu do řetězce: %s"
 
-#: gxml/GXmlDomRange.vala:56 gxml/GXmlDomRange.vala:84
-msgid "Invalid offset for node to start: for document type"
-msgstr "Neplatné místo, kde začít uzel: pro typ dokumentu"
+#: gxml/XDocument.vala:207
+msgid "Invalid element qualified name: multiple namespace prefixes"
+msgstr ""
+"Neplatný kvalifikovaný název prvku: vícenásobný prefix jmenných prostorů"
 
-#: gxml/GXmlDomRange.vala:60 gxml/GXmlDomRange.vala:88
-msgid "Invalid offset for node to start: for character data"
-msgstr "Neplatné místo, kde začít uzel: pro znaková data"
+#: gxml/XdParser.vala:60
+msgid "stream doesn't provide data"
+msgstr "datový proud neposkytuje žádná data"
 
-#: gxml/GXmlDomRange.vala:63 gxml/GXmlDomRange.vala:91
-msgid "Invalid offset for node to start: for children number"
-msgstr "Neplatné místo, kde začít uzel: pro číslo potomka"
+#: gxml/XdParser.vala:75
+msgid "Parser Error for string"
+msgstr "Chyba při zpracování řetězce"
 
-#: gxml/GXmlDomRange.vala:107 gxml/GXmlDomRange.vala:121
-msgid "Invalid node type to start before"
-msgstr "Neplatný typ uzlu pro začátek před"
+#: gxml/XElement.vala:148
+#, c-format
+msgid "Error while converting Element to string: %s"
+msgstr "Chyba při převodu objektu elementu na řetězec: %s"
 
-#: gxml/GXmlDomRange.vala:112 gxml/GXmlDomRange.vala:126
-#: gxml/GXmlDomRange.vala:144
-msgid "Invalid node type to start after"
-msgstr "Neplatný typ uzlu pro začátek za"
+#: gxml/XElement.vala:348
+#, c-format
+msgid "invalid namespace. Code: %s"
+msgstr "neplatný jmenný prostor. Kód: %s"
 
-#: gxml/GXmlDomRange.vala:169
-msgid "Invalid root in the source range"
-msgstr "Neplatný kořen ve zdrojovém rozsahu"
-
-#: gxml/GXmlElement.vala:347
-msgid "invalid namespace. Code: "
-msgstr "neplatný jmenný prostor. Kód: "
-
-#: gxml/GXmlHashMapAttr.vala:243
+#: gxml/XHashMapAttr.vala:243
 msgid "Invalid document when adding item to collection"
-msgstr "Neplatný dokument při přidávání položky do sady"
+msgstr "Neplatný dokument při přidávání položky do kolekce"
 
-#: gxml/GXmlHashMapAttr.vala:245 gxml/GXmlHashMapAttr.vala:297
+#: gxml/XHashMapAttr.vala:245 gxml/XHashMapAttr.vala:297
 msgid "This node collection is read only"
-msgstr "Tato sada uzlů je jen ke čtení"
+msgstr "Tato kolekce uzlů je jen ke čtení"
 
-#: gxml/GXmlHashMapAttr.vala:247 gxml/GXmlHashMapAttr.vala:299
+#: gxml/XHashMapAttr.vala:247 gxml/XHashMapAttr.vala:299
 msgid "This node attribute is already in use by other Element"
 msgstr "Tento atribut uzlu již používá jiný prvek"
 
-#: gxml/GXmlHashMapAttr.vala:249 gxml/GXmlHashMapAttr.vala:301
+#: gxml/XHashMapAttr.vala:249 gxml/XHashMapAttr.vala:301
 msgid "Trying to add an object to an Element, but it is not an attribute"
 msgstr "Pokus o přidání objektu do prvku, ale nejedná se o atribut"
 
-#: gxml/GXmlHashMapAttr.vala:261 gxml/GXmlHashMapAttr.vala:317
+#: gxml/XHashMapAttr.vala:261 gxml/XHashMapAttr.vala:317
 #, c-format
 msgid "No node with name %s was found"
 msgstr "Nebyl nalezen žádný uzel s názvem %s"
 
-#: gxml/GXmlHashMapAttr.vala:263 gxml/GXmlHashMapAttr.vala:319
+#: gxml/XHashMapAttr.vala:263 gxml/XHashMapAttr.vala:319
 msgid "Node collection is read only"
-msgstr "Sada uzlů je jen ke čtení"
+msgstr "Kolekce uzlů je jen ke čtení"
 
-#: gxml/GXmlHashMapAttr.vala:295
+#: gxml/XHashMapAttr.vala:295
 msgid "Invalid document when adding item to named node map collection"
-msgstr "Neplatný dokument při přidávání položky do sady map pojmenovaných uzlů"
+msgstr ""
+"Neplatný dokument při přidávání položky do kolekce map pojmenovaných uzlů"
 
-#: gxml/GXmlNode.vala:44
+#: gxml/XNode.vala:43
 #, c-format
 msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
 
-#: gxml/Parser.vala:190
-msgid ""
-"Invalid attempt to parse an element node, when current found node is not"
-msgstr ""
-"Neplatný pokus o zpracování uzlu prvku, když není aktuální nalezený uzel"
-
-#: gxml/Parser.vala:262
-msgid "Invalid object type set to Collection"
-msgstr "Do sady nastaven neplatný objektový typ"
-
-#: gxml/Parser.vala:266
-msgid "Invalid DomElement name for objects in Collection"
-msgstr "Neplatný název prvku DomElement pro objekty v sadě"
-
-#: gxml/Parser.vala:270
-msgid "Invalid Element set to Collection"
-msgstr "Do sady nastaven neplatný prvek"
-
-#: gxml/Parser.vala:275
-msgid "No document is set to node"
-msgstr "U uzlu není nastavený žádný dokument"
-
-#: gxml/Parser.vala:297 gxml/XParser.vala:100 gxml/XParser.vala:106
-msgid "Invalid document string, it is empty or is not allowed"
-msgstr "Neplatný řetězec dokumentu, je prázdný nebo není dovolený"
-
-#: gxml/SerializableEnum.vala:75
-msgid "Value can't be parsed to a valid enumeration's value. Value is not set"
-msgstr ""
-"Hodnotu nelze zpracovat na platnou výčtovou hodnotu. Hodnota není nastavena"
-
-#: gxml/SerializableEnum.vala:78
-msgid "Value can't be parsed to a valid enumeration's value"
-msgstr "Hodnotu nelze zpracovat na platnou výčtovou hodnotu"
-
-#: gxml/SerializableGeeArrayList.vala:44 gxml/SerializableGeeArrayList.vala:63
-#: gxml/SerializableGeeDualKeyMap.vala:46
-#: gxml/SerializableGeeDualKeyMap.vala:67 gxml/SerializableGeeHashMap.vala:43
-#: gxml/SerializableGeeHashMap.vala:64 gxml/SerializableGeeTreeMap.vala:43
-#: gxml/SerializableGeeTreeMap.vala:64
+#: gxml/XNode.vala:216
 #, c-format
-msgid "%s: Value type '%s' is unsupported"
-msgstr "%s: Hodnota typu „%s“ není podporována"
+msgid "Error while setting text content to node: %s"
+msgstr "Chyba při pokusu o vytvoření instance vlastnosti objektu: %s"
 
-#: gxml/SerializableObjectModel.vala:322
+#: gxml/XParser.vala:118
+msgid "Invalid input stream to read data from"
+msgstr "Neplatný vstupní datový proud pro čtení dat"
+
+#: gxml/XParser.vala:138
 #, c-format
-msgid "WARNING: Object type '%s' has no Node Name defined"
-msgstr "VAROVÁNÍ: Objekt typu „%s“ nemá definován žádný název uzlu"
+msgid "Error reading stream: %s"
+msgstr "Chyba při čtení datového proudu: %s"
 
-#: gxml/SerializableObjectModel.vala:326
+#: gxml/XParser.vala:151
 #, c-format
-msgid "Actual node's name is '%s' expected '%s'"
-msgstr "Současný název uzlu je „%s“, očekáván „%s“"
+msgid "Error closing stream: %s"
+msgstr "Chyba při zavírání datového proudu: %s"
 
-#: gxml/SerializableProperty.vala:91
-msgid "Trying to serialize to a non GXmlElement!"
-msgstr "Pokus o serializaci na něco jiného než GXmlElement!"
+#: gxml/XParser.vala:192 gxml/XParser.vala:253 gxml/XParser.vala:262
+#: gxml/XParser.vala:311 gxml/XParser.vala:324 gxml/XParser.vala:374
+msgid "Internal Error: No TextReader was set"
+msgstr "Interní chyba: Není nastaven údaj TextReader"
 
-#: gxml/SerializableProperty.vala:110
-msgid "No attribute found to deserialize from"
-msgstr "Nenalezen žádný atribut, ze kterého se má deserializovat"
+#: gxml/XParser.vala:265
+msgid "Can't read node data"
+msgstr "Nezdařilo se čtení dat uzlu"
 
-#: gxml/SerializableProperty.vala:115
-#, c-format
-msgid "XML Attribute name is not set, when deserializing to: %s"
-msgstr "Při deserializaci neměl atribut XML nastavený název: %s"
-
-#: gxml/Serializable.vala:390
-#, c-format
-msgid "Transformation Error on '%s' or Unsupported type: '%s'"
-msgstr "Chyba transformace na „%s“ nebo na nepodporovaném typu: „%s“"
-
-#: gxml/Serializable.vala:411
-#, c-format
-msgid "Can't transform '%s' to string"
-msgstr "Nelze transformovat „%s“ na řetězec"
-
-#: gxml/TDocument.vala:169
-msgid "Invalid element name"
-msgstr "Neplatný název prvku"
-
-#: gxml/TDocument.vala:579 gxml/XParser.vala:272
+#: gxml/XParser.vala:329
 #, c-format
 msgid "Parsing ERROR: Fail to move to attribute number: %i"
 msgstr "CHYBA zpracování: Selhal přesun na atribut číslo %i"
 
-#: gxml/XParser.vala:138 gxml/XParser.vala:196 gxml/XParser.vala:205
-#: gxml/XParser.vala:254 gxml/XParser.vala:267 gxml/XParser.vala:315
-msgid "Internal Error: No TextReader was set"
-msgstr "Interní chyba: Není nastaven údaj TextReader"
-
-#: gxml/XParser.vala:208
-msgid "Can't read node data"
-msgstr "Nezdařilo se čtení dat uzlu"
-
-#: gxml/XParser.vala:360
+#: gxml/XParser.vala:419
 msgid "Invalid sequence for document type definition: "
 msgstr "Neplatná posloupnost pro definici typu dokumentu: "
 
-#: gxml/XParser.vala:425 gxml/XParser.vala:519 gxml/XParser.vala:590
+#: gxml/XParser.vala:484 gxml/XParser.vala:589 gxml/XParser.vala:660
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Interní chyba: Není nastaven údaj TextWriter"
+
+#: gxml/XsdSchema.vala:266
+#, c-format
+msgid "Error removing Collection's element: %s"
+msgstr "Chyba při odstraňování prvku z kolekce: %s"
+
+#: gxml/XsdSchema.vala:275
+#, c-format
+msgid "Can't find element at position: %i: %s"
+msgstr "Nelze najít prvek na pozici: %i: %s"
+
+#: gxml/XsdSchema.vala:289 gxml/XsdSchema.vala:297 gxml/XsdSchema.vala:305
+#: gxml/XsdSchema.vala:313 gxml/XsdSchema.vala:321
+#, c-format
+msgid "Collection type %s, initialization error: %s"
+msgstr "Typ kolekce %s, chyba inicializace: %s"
