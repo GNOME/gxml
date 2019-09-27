@@ -6,8 +6,8 @@
 msgid ""
 msgstr "Project-Id-Version: gxml gxml-0.18\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2019-08-01 13:21+0000\n"
-"PO-Revision-Date: 2019-08-23 10:00+0100\n"
+"POT-Creation-Date: 2019-08-23 08:02+0000\n"
+"PO-Revision-Date: 2019-09-27 10:00+0100\n"
 "Last-Translator: Asier Sarasua Garmendia <asier.sarasua@gmail.com>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -106,19 +106,19 @@ msgstr "Fitxategi baliogabea"
 
 #: gxml/DomCharacter.vala:46
 msgid "Invalid offset for substring"
-msgstr ""
+msgstr "Desplazamendu baliogabea azpikaterako"
 
 #: gxml/DomCharacter.vala:66
 msgid "Invalid offset for replace data"
-msgstr ""
+msgstr "Desplazamendu baliogabea ordezko datuetarako"
 
 #: gxml/DomCharacter.vala:80
 msgid "Invalid offset to split text"
-msgstr ""
+msgstr "Desplazamendu baliogabea testua zatitzeko"
 
 #: gxml/DomNode.vala:150 gxml/Node.vala:203
 msgid "Text node with NULL string"
-msgstr ""
+msgstr "NULL katea duen testu-nodoa"
 
 #: gxml/DomNode.vala:157
 msgid "Can't copy child text node"
@@ -130,7 +130,7 @@ msgstr "balioa baliogabea da"
 
 #: gxml/Enumeration.vala:129
 msgid "text cannot be parsed to enumeration type:"
-msgstr ""
+msgstr "testua ezin izan da analizatu honako enumerazio motara:"
 
 #: gxml/GomBaseCollection.vala:90
 msgid ""
@@ -168,20 +168,20 @@ msgstr ""
 
 #: gxml/GomDocument.vala:179
 msgid "Creating a namespaced element with invalid node name"
-msgstr ""
+msgstr "Nodo-izen baliogabea duen izen-espaziodun elementu bat sortzen ari da"
 
 #: gxml/GomDocument.vala:186
 msgid "Creating a namespaced element with invalid namespace"
-msgstr ""
+msgstr "Izen-espazio baliogabea duen izen-espaziodun elementu bat sortzen ari da"
 
 #: gxml/GomDocument.vala:190
 msgid ""
 "Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
-msgstr ""
+msgstr "Izen-espazioaren URI baliogabea xmlns aurrizkirako. Erabili http://www.w3.org/2000/xmlns/"
 
 #: gxml/GomDocument.vala:194
 msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
-msgstr ""
+msgstr "xmlns aurrizkia soilik erabili daiteke http://www.w3.org/2000/xmlns/ helbidearekin"
 
 #: gxml/GomDocument.vala:234 gxml/GXmlDocument.vala:269
 msgid "Can't import a Document"
@@ -198,38 +198,38 @@ msgstr "Ezin izan da dokumentu bat adoptatu"
 #. FIXME:
 #: gxml/GomDocument.vala:438
 msgid "DomElement query_selector is not implemented"
-msgstr ""
+msgstr "DomElement query_selector ez dago inplementatua"
 
 #. FIXME:
 #: gxml/GomDocument.vala:442
 msgid "DomElement query_selector_all is not implemented"
-msgstr ""
+msgstr "DomElement query_selector_all ez dago inplementatua"
 
 #: gxml/GomElement.vala:169
 msgid "Invalid namespace URI stored in element's attribute"
-msgstr ""
+msgstr "Izen-espazioaren URI baliogabea gordeta elementuaren atributuetan"
 
 #: gxml/GomElement.vala:176 gxml/GomElement.vala:198
 msgid "Invalid attribute name in element's attributes list"
-msgstr ""
+msgstr "Atributu-izen baliogabea elementuen atributuen zerrendan"
 
 #: gxml/GomElement.vala:213
 msgid "Can't locate child node to remove"
-msgstr ""
+msgstr "Ezin da aurkitu kendu nahi den nodo haurra"
 
 #: gxml/GomElement.vala:444 gxml/GomElement.vala:505
 #, c-format
 msgid "Invalid attribute name: %s"
-msgstr ""
+msgstr "Atributu-izen baliogabea: %s"
 
 #: gxml/GomElement.vala:446 gxml/GomElement.vala:507
 msgid "Invalid node type. DomAttr was expected"
-msgstr ""
+msgstr "Nodo mota baliogabea. DomAttr espero zen"
 
 #: gxml/GomElement.vala:469 gxml/GomElement.vala:488
 #, c-format
 msgid "No index found for attribute %s"
-msgstr ""
+msgstr "Ez da indizerik aurkitu %s atributurako"
 
 #: gxml/GomElement.vala:512
 msgid ""
@@ -244,17 +244,17 @@ msgstr ""
 
 #: gxml/GomElement.vala:523
 msgid "Invalid namespace attribute's name."
-msgstr ""
+msgstr "Izen-espazioaren atributuaren izen baliogabea."
 
 #: gxml/GomElement.vala:535
 #, c-format
 msgid "Duplicated default namespace detected with URI: %s"
-msgstr ""
+msgstr "Izen-espazio lehenetsi bikoiztua detektatu da honako URIarekin: %s"
 
 #: gxml/GomElement.vala:544
 #, c-format
 msgid "Duplicated namespace detected for: %s:%s"
-msgstr ""
+msgstr "Izen-espazio bikoiztua detektatu da honetarako: %s:%s"
 
 #: gxml/GomElement.vala:555
 #, c-format
@@ -267,58 +267,58 @@ msgstr ""
 
 #: gxml/GomElement.vala:634
 msgid "Invalid attribute name. Just one prefix is allowed"
-msgstr ""
+msgstr "Atributu-izen baliogabea. Aurrizki bakarra onartzen da"
 
 #: gxml/GomElement.vala:638
 #, c-format
 msgid "Invalid attribute name. Invalid use of colon: %s"
-msgstr ""
+msgstr "Atributu-izen baliogabea. Puntuaren erabilera baliogabea: %s"
 
 #: gxml/GomElement.vala:643
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
-msgstr ""
+msgstr "Izen-espazio baliogabea. Aurrizkia nulua bada, izen-espazioaren URIak ez luke nulua izan behar"
 
 #: gxml/GomElement.vala:645
 msgid ""
 "Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
 "org/2000/xmlns"
-msgstr ""
+msgstr "Izen-espazio baliogabea. Aurrizkia xml bada, izen-espazioaren URIak http://www.w3.org/2000/xmlns izan behar luke"
 
 #: gxml/GomElement.vala:648
 msgid ""
 "Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns"
-msgstr ""
+msgstr "Izen-espazio baliogabea. Aurrizkia xmlns bada, izen-espazioaren URIak http://www.w3.org/2000/xmlns izan behar luke"
 
 #: gxml/GomElement.vala:652
 msgid ""
 "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns"
-msgstr ""
+msgstr "Izen-espazio baliogabea. Atributuaren izena xmlns bada, izen-espazioaren URIak http://www.w3.org/2000/xmlns izan behar luke"
 
 #: gxml/GomElement.vala:654
 msgid "Invalid attribute name. No prefixed attributes should use xmlns name"
-msgstr ""
+msgstr "Atributu-izen baliogabea. Aurrizkidun atributuek ez lukete xmlns izenik erabili behar"
 
 #: gxml/GomElement.vala:658
 msgid "Setting namespaced property error: "
-msgstr ""
+msgstr "Errorea izen-espaziodun propietatea ezartzean: "
 
 #: gxml/GomElement.vala:664
 msgid "Removing attribute Error: "
-msgstr ""
+msgstr "Errorea atributua kentzean: "
 
 #: gxml/GomElement.vala:669
 msgid "Removing namespaced attribute Error: "
-msgstr ""
+msgstr "Errorea izen-espaziodun atributua kentzean: "
 
 #: gxml/GomHashPairedMap.vala:210
 msgid "No primary key and/or secondary key was found"
-msgstr ""
+msgstr "Ez da gako nagusirik edo bigarren mailako gakorik aurkitu"
 
 #: gxml/GomNode.vala:156
 msgid "Text content in element can't be created"
-msgstr ""
+msgstr "Elementuko testu-edukia ezin izan da sortu"
 
 #: gxml/GomNode.vala:209 gxml/GXmlNode.vala:278
 msgid "Can't find node position"
@@ -331,7 +331,7 @@ msgstr "Baliogabeko saioa baliogabeko nodo mota gehitzeko"
 
 #: gxml/GomNode.vala:260 gxml/GXmlNode.vala:311
 msgid "Can't find child to insert node before"
-msgstr ""
+msgstr "Ez da aurkitu haurra, haren aurretik nodoa txertatzeko"
 
 #: gxml/GomNode.vala:265 gxml/GomNode.vala:305 gxml/GXmlNode.vala:315
 #: gxml/GXmlNode.vala:346
@@ -341,7 +341,7 @@ msgstr "Baliogabeko saioa nodo bat txertatzeko"
 #: gxml/GomNode.vala:273 gxml/GomNode.vala:312 gxml/GXmlNode.vala:322
 #: gxml/GXmlNode.vala:353
 msgid "Invalid attempt to insert an invalid node type"
-msgstr ""
+msgstr "Nodo mota baliogabea txertatzeko saio baliogabea"
 
 #: gxml/GomNode.vala:277
 msgid ""
@@ -350,15 +350,15 @@ msgstr ""
 
 #: gxml/GomNode.vala:290
 msgid "Node type is invalid. Can't append as child"
-msgstr ""
+msgstr "Nodo mota baliogabea da. Ezin da erantsi haur gisa"
 
 #: gxml/GomNode.vala:293
 msgid "Invalid attempt to append a child with different parent document"
-msgstr ""
+msgstr "Dokumentu guraso desberdina duen haur bat eransteko saio baliogabea"
 
 #: gxml/GomNode.vala:301 gxml/GXmlNode.vala:342
 msgid "Can't find child node to replace or child have a different parent"
-msgstr ""
+msgstr "Ezin da aurkitu ordeztu nahi den nodo haurra edo haurrak beste guraso bat du"
 
 #: gxml/GomNode.vala:315 gxml/GXmlNode.vala:325 gxml/GXmlNode.vala:356
 msgid ""
@@ -367,7 +367,7 @@ msgstr ""
 
 #: gxml/GomNode.vala:327 gxml/GXmlNode.vala:368
 msgid "Can't find child node to remove or child have a different parent"
-msgstr ""
+msgstr "Ezin da aurkitu kenedu nahi den nodo haurra edo haurrak beste guraso bat du"
 
 #: gxml/GomObject.vala:170
 msgid "Enumeration is out of range"
@@ -375,7 +375,7 @@ msgstr "Enumerazioa barrutitik kanpo dago"
 
 #: gxml/GomObject.vala:285
 msgid "Enumeration can't be parsed from string"
-msgstr ""
+msgstr "Enumerazioa ezin da atera katetik"
 
 #: gxml/GomObject.vala:407
 #, c-format
@@ -384,19 +384,19 @@ msgstr ""
 
 #: gxml/GomObject.vala:456
 msgid "Can't set value. It is not a GXmlGomElement type"
-msgstr ""
+msgstr "Ezin da balioa ezarri. Ez da GXmlGomElement motakoa"
 
 #: gxml/GXmlParser.vala:57
 msgid "stream doesn't provide data"
-msgstr ""
+msgstr "korronteak ez du daturik hornitu"
 
 #: gxml/GXmlParser.vala:72
 msgid "Parser Error for string"
-msgstr ""
+msgstr "Analizatzailearen errorea katerako"
 
 #: gxml/GomProperty.vala:336
 msgid "Error when transform enum to attribute's value"
-msgstr ""
+msgstr "Errorea enum atributuaren balio bihurtzean"
 
 #: gxml/GomProperty.vala:344
 msgid "Error when transform from attribute string value to enum"
@@ -404,36 +404,36 @@ msgstr ""
 
 #: gxml/GomProperty.vala:396 gxml/GomProperty.vala:403
 msgid "Invalid Date for property: "
-msgstr ""
+msgstr "Data baliogabea propietaterako: "
 
 #: gxml/GomProperty.vala:398
 msgid "Invalid format for Date property: "
-msgstr ""
+msgstr "Formatu baliogabea data-propietaterako: "
 
 #: gxml/GomProperty.vala:442
 msgid "Invalid timestamp for property: "
-msgstr ""
+msgstr "Denbora-zigilu baliogabea propietaterako: "
 
 #: gxml/GomSchema.vala:266
 #, c-format
 msgid "Error removing Collection's element: %s"
-msgstr ""
+msgstr "Errorea bildumako elementua kentzean: %s"
 
 #: gxml/GomSchema.vala:275
 #, c-format
 msgid "Can't find element at position: %i: %s"
-msgstr ""
+msgstr "Ez da aurkitu elementua honako posizioan: %i: %s"
 
 #: gxml/GomSchema.vala:289 gxml/GomSchema.vala:297 gxml/GomSchema.vala:305
 #: gxml/GomSchema.vala:313 gxml/GomSchema.vala:321
 #, c-format
 msgid "Collection type %s, initialization error: %s"
-msgstr ""
+msgstr "%s bilduma mota, hasieratze-errorea: %s"
 
 #: gxml/GXmlDocument.vala:58 gxml/Parser.vala:92 gxml/Parser.vala:100
 #: gxml/TDocument.vala:478
 msgid "File doesn't exist"
-msgstr ""
+msgstr "Fitxategia ez da existitzen"
 
 #: gxml/GXmlDocument.vala:225
 msgid "Invalid element qualified name: multiple namespace prefixes"
@@ -461,12 +461,12 @@ msgstr ""
 
 #: gxml/GXmlDomCollections.vala:102
 msgid "Update Error: "
-msgstr ""
+msgstr "Eguneratze-errorea: "
 
 #: gxml/GXmlDomRange.vala:53 gxml/GXmlDomRange.vala:81
 #: gxml/GXmlDomRange.vala:154
 msgid "Invalid node type to start"
-msgstr ""
+msgstr "Nodo mota baliogabea hasteko"
 
 #: gxml/GXmlDomRange.vala:56 gxml/GXmlDomRange.vala:84
 msgid "Invalid offset for node to start: for document type"
@@ -495,32 +495,32 @@ msgstr ""
 
 #: gxml/GXmlElement.vala:340
 msgid "invalid namespace. Code: "
-msgstr ""
+msgstr "Izen-espazio baliogabea: Kodea: "
 
 #: gxml/GXmlHashMapAttr.vala:243
 msgid "Invalid document when adding item to collection"
-msgstr ""
+msgstr "Dokumentu baliogabea elementua bildumari gehitzean"
 
 #: gxml/GXmlHashMapAttr.vala:245 gxml/GXmlHashMapAttr.vala:297
 msgid "This node collection is read only"
-msgstr ""
+msgstr "Nodo bilduma hau irakurtzeko soilik da"
 
 #: gxml/GXmlHashMapAttr.vala:247 gxml/GXmlHashMapAttr.vala:299
 msgid "This node attribute is already in use by other Element"
-msgstr ""
+msgstr "Beste elementu bat jadanik nodo-atributu hau erabiltzen ari da"
 
 #: gxml/GXmlHashMapAttr.vala:249 gxml/GXmlHashMapAttr.vala:301
 msgid "Trying to add an object to an Element, but it is not an attribute"
-msgstr ""
+msgstr "Objektu bat elementu bati gehitzen saiatzen, baina ez da atributu bat"
 
 #: gxml/GXmlHashMapAttr.vala:261 gxml/GXmlHashMapAttr.vala:317
 #, c-format
 msgid "No node with name %s was found"
-msgstr ""
+msgstr "Ez da aurkitu %s izena duen nodorik"
 
 #: gxml/GXmlHashMapAttr.vala:263 gxml/GXmlHashMapAttr.vala:319
 msgid "Node collection is read only"
-msgstr ""
+msgstr "Nodo bilduma irakurtzeko soilik da"
 
 #: gxml/GXmlHashMapAttr.vala:295
 msgid "Invalid document when adding item to named node map collection"
@@ -529,7 +529,7 @@ msgstr ""
 #: gxml/GXmlNode.vala:44
 #, c-format
 msgid "%s:%s:%d: %s:%d: %s"
-msgstr ""
+msgstr "%s:%s:%d: %s:%d: %s"
 
 #: gxml/Parser.vala:181
 msgid ""
@@ -554,7 +554,7 @@ msgstr ""
 
 #: gxml/Parser.vala:287 gxml/XParser.vala:102 gxml/XParser.vala:108
 msgid "Invalid document string, it is empty or is not allowed"
-msgstr ""
+msgstr "Dokumentu-kate baliogabea, hutsik dago edo ez da onartzen"
 
 #: gxml/SerializableEnum.vala:77
 msgid "Value can't be parsed to a valid enumeration's value. Value is not set"
@@ -571,17 +571,17 @@ msgstr ""
 #: gxml/SerializableGeeTreeMap.vala:65
 #, c-format
 msgid "%s: Value type '%s' is unsupported"
-msgstr ""
+msgstr "%s: '%s' balio mota ez dago onartuta"
 
 #: gxml/SerializableObjectModel.vala:323
 #, c-format
 msgid "WARNING: Object type '%s' has no Node Name defined"
-msgstr ""
+msgstr "ABISUA: '%s' objektu motak ez du nodo-izenik definituta"
 
 #: gxml/SerializableObjectModel.vala:327
 #, c-format
 msgid "Actual node's name is '%s' expected '%s'"
-msgstr ""
+msgstr "Uneko nodo-izena '%s' da, '%s' espero zen"
 
 #: gxml/SerializableProperty.vala:92
 msgid "Trying to serialize to a non GXmlElement!"
@@ -608,7 +608,7 @@ msgstr ""
 
 #: gxml/TDocument.vala:169
 msgid "Invalid element name"
-msgstr ""
+msgstr "Elementu-izen baliogabea"
 
 #: gxml/TDocument.vala:579 gxml/XParser.vala:324
 #, c-format
@@ -636,11 +636,11 @@ msgstr ""
 
 #: gxml/XParser.vala:260
 msgid "Can't read node data"
-msgstr ""
+msgstr "Ezin izan da nodo-daturik irakurri"
 
 #: gxml/XParser.vala:412
 msgid "Invalid sequence for document type definition: "
-msgstr ""
+msgstr "Sekuentzia baliogabea dokumentu motaren definiziorako: "
 
 #: gxml/XParser.vala:477 gxml/XParser.vala:582 gxml/XParser.vala:653
 msgid "Internal Error: No TextWriter initialized"
