@@ -21,7 +21,7 @@ void create_a_document () throws GLib.Error {
 		books.append_child (book);
 	}
 
-	stdout.printf ("create_a_document:\n%s\n", (doc as GXml.Document).write_string ());
+	stdout.printf ("create_a_document:\n%s\n", ((GXml.Document) doc).write_string ());
 }
 
 void create_a_document_from_a_string () throws GLib.Error {
@@ -39,7 +39,7 @@ void create_a_document_from_a_string () throws GLib.Error {
 </Bookshelf>""";
 
 	doc = new GXml.Document.from_string (xml);
-	stdout.printf ("create_a_document_from_a_string:\n%s\n", (doc as GXml.Document).write_string ());
+	stdout.printf ("create_a_document_from_a_string:\n%s\n", ((GXml.Document) doc).write_string ());
 }
 
 void create_a_document_from_a_file (string uri) throws GLib.Error {
@@ -48,7 +48,7 @@ void create_a_document_from_a_file (string uri) throws GLib.Error {
 	DomDocument doc;
 
 	doc = new GXml.Document.from_file (f);
-	stdout.printf ("create_a_document_from_a_file:\n%s\n", (doc as GXml.Document).write_string ());
+	stdout.printf ("create_a_document_from_a_file:\n%s\n", ((GXml.Document) doc).write_string ());
 }
 
 void create_a_document_from_a_path (string uri) throws GLib.Error {
@@ -76,7 +76,7 @@ void saving_a_document_to_a_path (string uri) throws GLib.Error {
 	stdout.printf (f.get_path ()+"\n");
 	doc = new GXml.Document.from_string (xml);
 	if (f.query_exists ()) f.delete ();
-	(doc as GXml.Document).write_file (f);
+	((GXml.Document) doc).write_file (f);
 	if (!f.query_exists ()) stdout.printf ("Can't save file bookshelf2.xml");
 }
 

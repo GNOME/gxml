@@ -82,7 +82,7 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
   public abstract DomNode append_child (DomNode node) throws GLib.Error;
   public abstract DomNode replace_child (DomNode node, DomNode child) throws GLib.Error;
   public abstract DomNode remove_child (DomNode child) throws GLib.Error;
-    /**
+  /**
    * Copy a {@link GXml.DomNode} relaying on {@link GXml.DomDocument} to other {@link GXml.DomNode}.
    *
    * {@link node} could belongs from different {@link GXml.DomDocument}, while source is a node
@@ -109,7 +109,7 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
       GLib.message ("Copying source and destiny nodes are GXml.Elements... copying...");
       GLib.message ("Copying source's attributes to destiny node");
 #endif
-      foreach (GXml.DomNode p in (source as DomElement).attributes.values) {
+      foreach (GXml.DomNode p in ((DomElement) source).attributes.values) {
         ((GXml.DomElement) node).set_attribute (p.node_name, p.node_value); // TODO: Namespace
       }
       if (!deep) return true;
@@ -129,12 +129,12 @@ public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
           } catch {}
         }
         if (c is DomText) {
-          if ((c as DomText).data == null) {
+          if (((DomText) c).data == null) {
             GLib.warning (_("Text node with NULL string"));
             continue;
           }
           try {
-            var t = doc.create_text_node ((c as DomText).data);
+            var t = doc.create_text_node (((DomText) c).data);
             node.child_nodes.add (t);
           } catch (GLib.Error e) {
             GLib.warning (_("Can't copy child text node"));

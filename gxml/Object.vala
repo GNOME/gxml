@@ -136,13 +136,13 @@ public interface GXml.Object : GLib.Object,
         return null;
       }
 #if DEBUG
-      if ((so as GXml.Property).value != null) {
-        message ("GXml.Property Value: "+(so as GXml.Property).value);
+      if (((GXml.Property) so).value != null) {
+        message ("GXml.Property Value: "+((GXml.Property) so).value);
       } else {
         message ("GXml.Property Value Is Null");
       }
 #endif
-      return (so as GXml.Property).value;
+      return ((GXml.Property) so).value;
     }
     if (prop.value_type.is_a (typeof (string))) {
       return (string) v;
@@ -309,8 +309,8 @@ public interface GXml.Object : GLib.Object,
         return (DomElement) ((Object) vo);
       }
     }
-    if ((this as DomNode).has_child_nodes ()) {
-      var els = (this as DomElement).get_elements_by_tag_name (name);
+    if (((DomNode) this).has_child_nodes ()) {
+      var els = ((DomElement) this).get_elements_by_tag_name (name);
       if (els.size != 0)
         return els.item (0);
     }
@@ -328,8 +328,8 @@ public interface GXml.Object : GLib.Object,
         var o = GLib.Object.new (prop.value_type) as DomElement;
         foreach (DomNode n in this.child_nodes) {
           if (!(n is DomElement)) continue;
-          if ((n as DomElement).local_name.down () == o.local_name.down ())
-            l.add (n as DomElement);
+          if (((DomElement) n).local_name.down () == o.local_name.down ())
+            l.add ((DomElement) n);
         }
       }
     }

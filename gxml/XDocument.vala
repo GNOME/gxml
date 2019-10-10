@@ -209,8 +209,8 @@ public class GXml.XDocument : GXml.XNode,
         prefix = s[0];
         qname = s[1];
       }
-      var e = (this as GXml.DomDocument).create_element (qname);
-      (e as XElement).set_namespace (ns, prefix);
+      var e = ((GXml.DomDocument) this).create_element (qname);
+      ((XElement) e).set_namespace (ns, prefix);
       return e as DomElement;
   }
 
@@ -254,7 +254,7 @@ public class GXml.XDocument : GXml.XNode,
         throw new GXml.DomError.HIERARCHY_REQUEST_ERROR (_("Can't import a non Element type node to a Document"));
       GXml.DomNode dst = null;
       if (node is DomElement) {
-        dst = (this as DomDocument).create_element (node.node_name);
+        dst = ((DomDocument) this).create_element (node.node_name);
         GXml.DomNode.copy (this, (GXml.DomNode) dst, (GXml.DomNode) node, deep);
         if (document_element == null) {
           this.append_child (dst);
@@ -264,9 +264,9 @@ public class GXml.XDocument : GXml.XNode,
       if (node is DomText)
         dst = this.create_text_node ((node as DomText).data);
       if (node is DomComment)
-        dst = (this as DomDocument).create_comment ((node as DomComment).data);
+        dst = ((DomDocument) this).create_comment (((DomComment) node).data);
       if (node is DomProcessingInstruction)
-        dst = this.create_processing_instruction ((node as DomProcessingInstruction).target, (node as DomProcessingInstruction).data);
+        dst = this.create_processing_instruction (((DomProcessingInstruction) node).target, (node as DomProcessingInstruction).data);
       if (dst != null) {
         document_element.append_child (dst as DomNode);
         return dst;
@@ -329,10 +329,10 @@ public class GXml.XDocument : GXml.XNode,
     }
   }
   public DomElement? first_element_child {
-    owned get { return (DomElement) (this as DomDocument).child_nodes.first (); }
+    owned get { return (DomElement) ((DomDocument) this).child_nodes.first (); }
   }
   public DomElement? last_element_child {
-    owned get { return (DomElement) (this as DomDocument).child_nodes.last (); }
+    owned get { return (DomElement) ((DomDocument) this).child_nodes.last (); }
   }
   public int child_element_count { get { return child_nodes.size; } }
 
@@ -364,7 +364,7 @@ public class GXml.XDocument : GXml.XNode,
     XPathObject nullobj = null;
     if (document_element == null)
       return nullobj;
-    return (document_element as XPathContext).evaluate (expression, resolver);
+    return ((XPathContext) document_element).evaluate (expression, resolver);
   }
 }
 

@@ -175,7 +175,7 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 			var e = doc.document_element.children[0].children[1];
 			assert (e.node_name == "p");
 			assert (e is DomElement);
-			assert ((e as DomElement).get_attribute ("id") == "p01");
+			assert (((DomElement) e).get_attribute ("id") == "p01");
 			assert (e.owner_document == (DomDocument) doc);
 			assert (e.parent_node != null);
 			assert (e.parent_node.node_name == "body");
@@ -199,12 +199,12 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 			assert (e.parent_node.has_child_nodes ());
 			e.parent_node.normalize ();
 			assert (e.parent_node.text_content == null);
-			var cn = (e as XElement).clone_node (false) as DomElement;
+			var cn = ((XElement) e).clone_node (false) as DomElement;
 			assert (cn.node_name == "p");
 			assert (cn.get_attribute ("id") == "p01");
 			assert (cn.child_nodes != null);
 			assert (cn.child_nodes.size == 0);
-			var cn2 = (e as XElement).clone_node (true) as DomElement;
+			var cn2 = ((XElement) e).clone_node (true) as DomElement;
 			assert (cn2.node_name == "p");
 			assert (cn2.get_attribute ("id") == "p01");
 			assert (cn2.child_nodes != null);
@@ -366,8 +366,8 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 			assert (n.attributes.get_named_item ("id").node_name == "id");
 			assert (n.attributes.get_named_item ("id").node_value == "0y1");
 			assert (n.node_name == "code");
-			assert ((n as DomNode).lookup_namespace_uri ("gxml") == "http://live.gnome.org/GXml");
-			assert ((n as DomNode).lookup_prefix ("http://live.gnome.org/GXml") == "gxml");
+			assert (((DomNode) n).lookup_namespace_uri ("gxml") == "http://live.gnome.org/GXml");
+			assert (((DomNode) n).lookup_prefix ("http://live.gnome.org/GXml") == "gxml");
 			assert (n.tag_name == "gxml:code");
 			n.remove_attribute ("id");
 			assert (n.get_attribute ("id") == null);
@@ -573,9 +573,9 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 				GLib.message ("NTST: "+(ntst as GXml.Node).to_string ());
 #endif
 				assert (ntst.child_nodes.item (0) is DomText);
-				assert ((ntst.child_nodes.item (0) as DomText).data == "TEXT1TEXT2");
+				assert (((DomText) ntst.child_nodes.item (0)).data == "TEXT1TEXT2");
 				// BUG: DomText.whole_text
-				assert ((ntst.child_nodes.item(0) as DomText).whole_text == "TEXT1TEXT2");
+				assert (((DomText) ntst.child_nodes.item(0)).whole_text == "TEXT1TEXT2");
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+ e.message);
 				assert_not_reached ();

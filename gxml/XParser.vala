@@ -192,10 +192,11 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
       throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
     move_next_node ();
     if (node is DomElement) {
+      var element_node= (DomElement) node;
       while (true) {
         if (current_is_element ()
             &&
-            (current_node_name ().down () == (node as DomElement).local_name.down ())) {
+            (current_node_name ().down () == element_node.local_name.down ())) {
           break;
         }
         if (!current_is_document ()) {
@@ -203,7 +204,7 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
         }
         if (!move_next_node ()) break;
       }
-      read_element (node as DomElement);
+      read_element (element_node);
     }
     if (current_is_element () && (node is DomDocument))
       read_child_element (node);
@@ -212,11 +213,11 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
         read_child_nodes (node);
       }
       if (node is GXml.Element) {
-        if ((node as GXml.Element).parse_children)
+        if (((GXml.Element) node).parse_children)
           read_child_nodes (node);
         else {
-          (node as GXml.Element).unparsed = read_unparsed ();
-          //warning ("Unparsed text: "+(node as GXml.Object).unparsed);
+          ((GXml.Element) node).unparsed = read_unparsed ();
+          //warning ("Unparsed text: "+((GXml.Object) node).unparsed);
           move_next_node ();
         }
       }
@@ -464,7 +465,7 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
     tw.set_indent (indent);
     // Root
     if (_node is DomDocument) {
-      if ((node as DomDocument).document_element == null) {
+      if (((DomDocument) node).document_element == null) {
         tw.end_document ();
       }
     }
@@ -484,18 +485,19 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
       throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextWriter initialized"));
     int size = 0;
     if (node is GXml.DomElement) {
-      if ((node as DomElement).namespace_uri != null) {
-          string lpns = (node.parent_node).lookup_prefix ((node as DomElement).namespace_uri);
-          if (lpns == (node as DomElement).prefix
-              && (node as DomElement).prefix != null) {
+      var element_node = (DomElement) node;
+      if (element_node.namespace_uri != null) {
+          string lpns = (node.parent_node).lookup_prefix (element_node.namespace_uri);
+          if (lpns == element_node.prefix
+              && element_node.prefix != null) {
             tw.start_element (node.node_name);
           }
           else
-            tw.start_element_ns ((node as DomElement).prefix,
-                                 (node as DomElement).local_name,
-                                 (node as DomElement).namespace_uri);
+            tw.start_element_ns (element_node.prefix,
+                                 element_node.local_name,
+                                 element_node.namespace_uri);
       } else
-        tw.start_element ((node as DomElement).local_name);
+        tw.start_element (element_node.local_name);
 
     // GXml.Object serialization
     var lp = (node as GXml.Object).get_properties_list ();
@@ -518,9 +520,9 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
         tw.flush ();
     }
     // DomElement attributes
-    var keys = (node as DomElement).attributes.keys;
+    var keys = element_node.attributes.keys;
     foreach (string ak in keys) {
-      var prop = (node as DomElement).attributes.get (ak) as GXml.Attr;
+      var prop = element_node.attributes.get (ak) as GXml.Attr;
       if (prop == null) {
         continue;
       }
@@ -532,12 +534,12 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
         continue;
       }
       if ("xmlns:" in ak) {
-        string ns = (node as DomElement).namespace_uri;
+        string ns = element_node.namespace_uri;
         if (ns != null) {
           string[] strs = ak.split (":");
           if (strs.length == 2) {
             string nsp = strs[1];
-            if (ns == v && nsp == (node as DomElement).prefix) {
+            if (ns == v && nsp == element_node.prefix) {
               continue;
             }
           }
@@ -563,7 +565,7 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
     tw.set_indent (indent);
     // Root
     if (_node is DomDocument) {
-      if ((node as DomDocument).document_element == null) {
+      if (((DomDocument) node).document_element == null) {
         tw.end_document ();
       }
     }
@@ -589,22 +591,23 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
       throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextWriter initialized"));
     int size = 0;
     if (node is GXml.DomElement) {
-      if ((node as DomElement).namespace_uri != null) {
-          string lpns = (node.parent_node).lookup_prefix ((node as DomElement).namespace_uri);
-          if (lpns == (node as DomElement).prefix
-              && (node as DomElement).prefix != null) {
+      var element_node = (GXml.DomElement) node;
+      if (element_node.namespace_uri != null) {
+          string lpns = (node.parent_node).lookup_prefix (element_node.namespace_uri);
+          if (lpns == element_node.prefix
+              && element_node.prefix != null) {
             tw.start_element (node.node_name);
           }
           else
-            tw.start_element_ns ((node as DomElement).prefix,
-                                 (node as DomElement).local_name,
-                                 (node as DomElement).namespace_uri);
+            tw.start_element_ns (element_node.prefix,
+                                 element_node.local_name,
+                                 element_node.namespace_uri);
       } else
-        tw.start_element ((node as DomElement).local_name);
+        tw.start_element (element_node.local_name);
     Idle.add (start_node_async.callback);
     yield;
     // GXml.Object serialization
-    var lp = (node as GXml.Object).get_properties_list ();
+    var lp = ((GXml.Object) node).get_properties_list ();
     foreach (ParamSpec pspec in lp) {
       Idle.add (start_node_async.callback);
       yield;
@@ -617,7 +620,7 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
         if (gp == null) continue;
         val = gp.value;
       } else {
-        val = (node as GXml.Object).get_property_string (pspec);
+        val = ((GXml.Object) node).get_property_string (pspec);
       }
       if (val == null) continue;
       size += tw.write_attribute (attname, val);
@@ -626,17 +629,17 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
         tw.flush ();
     }
     // DomElement attributes
-    foreach (string ak in (node as DomElement).attributes.keys) {
+    foreach (string ak in element_node.attributes.keys) {
       Idle.add (start_node_async.callback);
       yield;
-      string v = ((node as DomElement).attributes as Gee.HashMap<string,string>).get (ak);
+      string v = ((Gee.HashMap<string,string>) element_node.attributes).get (ak);
       if ("xmlns:" in ak) {
-        string ns = (node as DomElement).namespace_uri;
+        string ns = element_node.namespace_uri;
         if (ns != null) {
           string[] strs = ak.split (":");
           if (strs.length == 2) {
             string nsp = strs[1];
-            if (ns == v && nsp == (node as DomElement).prefix) {
+            if (ns == v && nsp == element_node.prefix) {
               continue;
             }
           }
@@ -676,15 +679,15 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
         tw.flush ();
     }
     if (n is GXml.DomProcessingInstruction) {
-      size += tw.write_pi ((n as DomProcessingInstruction).target,
-                          (n as DomProcessingInstruction).data);
+      size += tw.write_pi (((DomProcessingInstruction) n).target,
+                          ((DomProcessingInstruction) n).data);
       if (size > 1500)
         tw.flush ();
     }
     if (n is GXml.DomDocumentType) {
-      size += tw.write_dtd ((n as DomDocumentType).name,
-                          (n as DomDocumentType).public_id,
-                          (n as DomDocumentType).system_id,
+      size += tw.write_dtd (((DomDocumentType) n).name,
+                          ((DomDocumentType) n).public_id,
+                          ((DomDocumentType) n).system_id,
                           null);
       if (size > 1500)
         tw.flush ();

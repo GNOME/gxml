@@ -193,15 +193,15 @@ public abstract class GXml.XNode : GLib.Object,
 	public string? text_content {
 	  owned get {
 	    string t = null;
-	    if (this is GXml.DomText) return (this as DomText).data;
+	    if (this is GXml.DomText) return ((DomText) this).data;
 	    if (this is GXml.DomProcessingInstruction) return this.@value;
 	    if (this is GXml.DomComment) return this.@value;
 	    if (this is GXml.DomDocument || this is GXml.DomElement) {
 	      message ("Is Element");
 	      foreach (GXml.DomNode n in children_nodes) {
           if (n is GXml.DomText) {
-            if (t == null) t = (n as XNode).value;
-            else t += (n as XNode).value;
+            if (t == null) t = ((XNode) n).value;
+            else t += ((XNode) n).value;
           }
 	      }
 	    }
@@ -246,18 +246,18 @@ public abstract class GXml.XNode : GLib.Object,
     if (node == null) return false;
     if (this.children_nodes.size != node.child_nodes.size) return false;
     foreach (GXml.DomNode a in attrs.values) {
-      if (!(node as GXml.XNode?).attrs.has_key (a.node_name)) return false;
-      if ((a as XNode).value != ((node as GXml.XNode).attrs.get (a.node_name) as XNode).value) return false;
+      if (!((GXml.XNode?) node).attrs.has_key (a.node_name)) return false;
+      if ((a as XNode).value != ((XNode) ((GXml.XNode) node).attrs.get (a.node_name)).value) return false;
     }
     for (int i=0; i < children_nodes.size; i++) {
-      if (!(children_nodes[i] as GXml.DomNode).is_equal_node ((node as GXml.DomNode?).child_nodes[i] as GXml.DomNode?)) return false;
+      if (!((GXml.DomNode) children_nodes[i]).is_equal_node (((GXml.DomNode?) node).child_nodes[i])) return false;
     }
     return true;
   }
 
   public DomNode.DocumentPosition compare_document_position (DomNode other) {
     if ((this as GXml.DomNode) == other) return DomNode.DocumentPosition.NONE;
-    if (this.document != (other as GXml.DomNode).owner_document || other.parent_node == null) {
+    if (this.document != ((GXml.DomNode) other).owner_document || other.parent_node == null) {
       var p = DomNode.DocumentPosition.DISCONNECTED & DomNode.DocumentPosition.IMPLEMENTATION_SPECIFIC;
       if ((&this) > (&other))
         p = p & DomNode.DocumentPosition.PRECEDING;
@@ -265,7 +265,7 @@ public abstract class GXml.XNode : GLib.Object,
        p = p & DomNode.DocumentPosition.FOLLOWING;
       return p;
     }
-    if ((this as DomNode).contains (other))
+    if (((DomNode) this).contains (other))
       return DomNode.DocumentPosition.CONTAINED_BY & DomNode.DocumentPosition.FOLLOWING;
     if (this.parent_node.contains (other)) {
       var par = this.parent_node;

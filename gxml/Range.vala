@@ -56,7 +56,7 @@ public class GXml.Range : GLib.Object, GXml.DomRange {
 				throw new DomError.INDEX_SIZE_ERROR (_("Invalid offset for node to start: for document type"));
 		else
 			if (node is DomCharacterData)
-				if (offset > (node as DomCharacterData).length)
+				if (offset > ((DomCharacterData) node).length)
 					throw new DomError.INDEX_SIZE_ERROR (_("Invalid offset for node to start: for character data"));
 			else
 				if (offset > node.child_nodes.length)
@@ -84,7 +84,7 @@ public class GXml.Range : GLib.Object, GXml.DomRange {
 				throw new DomError.INDEX_SIZE_ERROR (_("Invalid offset for node to start: for document type"));
 		else
 			if (node is DomCharacterData)
-				if (offset > (node as DomCharacterData).length)
+				if (offset > ((DomCharacterData) node).length)
 					throw new DomError.INDEX_SIZE_ERROR (_("Invalid offset for node to start: for character data"));
 			else
 				if (offset > node.child_nodes.length)
@@ -156,7 +156,7 @@ public class GXml.Range : GLib.Object, GXml.DomRange {
 		int length = 0;
 		if (node is DomDocumentType) length = 0;
 		else
-			if (node is DomCharacterData) length = (node as DomCharacterData).length;
+			if (node is DomCharacterData) length = ((DomCharacterData) node).length;
 				else
 					length = node.child_nodes.length;
 		set_end (node, length);

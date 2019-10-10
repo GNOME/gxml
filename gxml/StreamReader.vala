@@ -161,7 +161,7 @@ public class GXml.StreamReader : GLib.Object {
     }
     name_buf.put_byte ('\0', cancellable);
     if (document.document_element == null) {
-      e = (document as GXml.Document).search_root_element_property ();
+      e = ((GXml.Document) document).search_root_element_property ();
     }
     if (e == null) {
       e = (GXml.Element) document.create_element ((string) oname_buf.get_data ());
@@ -171,7 +171,7 @@ public class GXml.StreamReader : GLib.Object {
     }
     if (document.document_element == e && parent == null) {
       foreach (ParamSpec pspec in
-                (e as GXml.Object).get_property_element_list ()) {
+                ((GXml.Object) e).get_property_element_list ()) {
         if (!(pspec.value_type.is_a (typeof (Collection)))) continue;
         Collection col;
         Value vc = Value (pspec.value_type);
@@ -231,7 +231,7 @@ public class GXml.StreamReader : GLib.Object {
             col.append (cobj);
           } else {
             foreach (ParamSpec pspec in
-                (e as GXml.Object).get_property_element_list ()) {
+                ((GXml.Object) e).get_property_element_list ()) {
               if (pspec.value_type.is_a (typeof (Collection))) continue;
               var obj = GLib.Object.new (pspec.value_type,
                                     "owner-document", document) as Element;

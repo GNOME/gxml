@@ -227,19 +227,19 @@ class GXml.ElementTest : GXmlTest  {
 				GXml.Node node = (GXml.Node) root.child_nodes[0];
 				assert (node != null);
 				assert (node is DomElement);
-				assert ((node as DomElement).local_name == "Potion");
+				assert (((DomElement) node).local_name == "Potion");
 				assert (node.node_name == "magic:Potion");
-				assert ((node as DomElement).namespace_uri == "http://hogwarts.co.uk/magic");
-				assert ((node as DomElement).prefix == "magic");
-				assert ((node as DomElement).attributes.size == 2);
-				GLib.message ("Attributes: "+(node as DomElement).attributes.size.to_string ());
-				assert ((node as DomElement).get_attribute ("xmlns:magic") == "http://hogwarts.co.uk/magic");
-				assert ((node as DomElement).get_attribute_ns ("http://www.w3.org/2000/xmlns/", "magic") == "http://hogwarts.co.uk/magic");
-				assert ((node as DomElement).get_attribute ("xmlns:products") == "http://diagonalley.co.uk/products");
-				assert ((node as DomElement).get_attribute_ns ("http://www.w3.org/2000/xmlns/","products") == "http://diagonalley.co.uk/products");
+				assert (((DomElement) node).namespace_uri == "http://hogwarts.co.uk/magic");
+				assert (((DomElement) node).prefix == "magic");
+				assert (((DomElement) node).attributes.size == 2);
+				GLib.message ("Attributes: "+((DomElement) node).attributes.size.to_string ());
+				assert (((DomElement) node).get_attribute ("xmlns:magic") == "http://hogwarts.co.uk/magic");
+				assert (((DomElement) node).get_attribute_ns ("http://www.w3.org/2000/xmlns/", "magic") == "http://hogwarts.co.uk/magic");
+				assert (((DomElement) node).get_attribute ("xmlns:products") == "http://diagonalley.co.uk/products");
+				assert (((DomElement) node).get_attribute_ns ("http://www.w3.org/2000/xmlns/","products") == "http://diagonalley.co.uk/products");
 				assert (node.lookup_prefix ("http://diagonalley.co.uk/products") == "products");
 				assert (node.lookup_namespace_uri ("products") == "http://diagonalley.co.uk/products");
-				(node as DomElement).set_attribute_ns ("http://www.w3.org/2000/xmlns", "xmlns:gxmlt","http://org.gnome.org/GXmlTest/");
+				((DomElement) node).set_attribute_ns ("http://www.w3.org/2000/xmlns", "xmlns:gxmlt","http://org.gnome.org/GXmlTest/");
 			} catch (GLib.Error e) {
 				GLib.message (e.message);
 				assert_not_reached ();
@@ -254,25 +254,25 @@ class GXml.ElementTest : GXmlTest  {
 				GXml.Node node = (GXml.Node) root.child_nodes[0];
 				assert (node != null);
 				assert (node is DomElement);
-				assert ((node as DomElement).local_name == "Potion");
+				assert (((DomElement) node).local_name == "Potion");
 				assert (node.node_name == "magic:Potion");
-				assert ((node as DomElement).namespace_uri == "http://hogwarts.co.uk/magic");
-				assert ((node as DomElement).prefix == "magic");
+				assert (((DomElement) node).namespace_uri == "http://hogwarts.co.uk/magic");
+				assert (((DomElement) node).prefix == "magic");
 #if DEBUG
-				message ("Element: "+(node as GXml.Element).write_string ());
-				message ("Attributes: "+(node as DomElement).attributes.length.to_string ());
-				foreach (string k in (node as DomElement).attributes.keys) {
-					string v = (node as DomElement).get_attribute (k);
+				message ("Element: "+((DomElement) node).write_string ());
+				message ("Attributes: "+((DomElement) node).attributes.length.to_string ());
+				foreach (string k in ((DomElement) node).attributes.keys) {
+					string v = ((DomElement) node).get_attribute (k);
 					if (v == null) v = "NULL";
 					GLib.message ("Attribute: "+k+"="+v);
 				}
 #endif
 				message ((node as GXml.Element).write_string ());
-				assert ((node as DomElement).attributes.length == 2);
-				assert ((node as DomElement).get_attribute ("xmlns:magic") == "http://hogwarts.co.uk/magic");
-				assert ((node as DomElement).get_attribute_ns ("http://www.w3.org/2000/xmlns/", "magic") == "http://hogwarts.co.uk/magic");
-				assert ((node as DomElement).get_attribute ("xmlns:products") == "http://diagonalley.co.uk/products");
-				assert ((node as DomElement).get_attribute_ns ("http://www.w3.org/2000/xmlns/","products") == "http://diagonalley.co.uk/products");
+				assert (((DomElement) node).attributes.length == 2);
+				assert (((DomElement) node).get_attribute ("xmlns:magic") == "http://hogwarts.co.uk/magic");
+				assert (((DomElement) node).get_attribute_ns ("http://www.w3.org/2000/xmlns/", "magic") == "http://hogwarts.co.uk/magic");
+				assert (((DomElement) node).get_attribute ("xmlns:products") == "http://diagonalley.co.uk/products");
+				assert (((DomElement) node).get_attribute_ns ("http://www.w3.org/2000/xmlns/","products") == "http://diagonalley.co.uk/products");
 				assert (node.lookup_prefix ("http://diagonalley.co.uk/products") == "products");
 				assert (node.lookup_namespace_uri ("products") == "http://diagonalley.co.uk/products");
 			} catch (GLib.Error e) {
@@ -292,15 +292,15 @@ class GXml.ElementTest : GXmlTest  {
 				var n1 = r.child_nodes.item (0);
 				assert (n1 != null);
 				assert (n1 is DomElement);
-				assert ((n1 as DomElement).local_name == "Arc");
-				assert ((n1 as DomElement).prefix == "magic");
-				assert ((n1 as DomElement).namespace_uri == "http://hogwarts.co.uk/magic");
+				assert (((DomElement) n1).local_name == "Arc");
+				assert (((DomElement) n1).prefix == "magic");
+				assert (((DomElement) n1).namespace_uri == "http://hogwarts.co.uk/magic");
 				var n2 = r.child_nodes.item (1);
 				assert (n2 != null);
 				assert (n2 is DomElement);
-				assert ((n2 as DomElement).local_name == "Diamond");
-				assert ((n2 as DomElement).prefix == "products");
-				assert ((n2 as DomElement).namespace_uri == "http://hogwarts.co.uk/magic");
+				assert (((DomElement) n2).local_name == "Diamond");
+				assert (((DomElement) n2).prefix == "products");
+				assert (((DomElement) n2).namespace_uri == "http://hogwarts.co.uk/magic");
 			} catch (GLib.Error e) {
 				GLib.warning (e.message);
 			}
@@ -507,7 +507,7 @@ class GXml.ElementTest : GXmlTest  {
 				assert (doc.document_element.parent_node is GXml.DomDocument);
 				assert (doc.document_element.child_nodes.length == 1);
 				assert (doc.document_element.child_nodes[0] is DomChildNode);
-				(doc.document_element.child_nodes[0] as DomChildNode).remove ();
+				((DomChildNode) doc.document_element.child_nodes[0]).remove ();
 				assert (doc.document_element.child_nodes.length == 0);
 				assert ("<root/>" in  doc.write_string ());
 		  } catch (GLib.Error e) {
@@ -594,9 +594,9 @@ class GXml.ElementTest : GXmlTest  {
 				assert (doc.document_element.child_nodes[1] != null);
 				assert (doc.document_element.child_nodes[1] is DomElement);
 				assert (doc.document_element.child_nodes[1].node_name == "child");
-				assert ((doc.document_element.child_nodes[1] as DomElement).next_element_sibling != null);
-				assert ((doc.document_element.child_nodes[1] as DomElement).next_element_sibling is DomElement);
-				assert ((doc.document_element.child_nodes[1] as DomElement).next_element_sibling.node_name == "child");
+				assert (((DomElement) doc.document_element.child_nodes[1]).next_element_sibling != null);
+				assert (((DomElement) doc.document_element.child_nodes[1]).next_element_sibling is DomElement);
+				assert (((DomElement) doc.document_element.child_nodes[1]).next_element_sibling.node_name == "child");
 				assert (doc.document_element.child_nodes[2] != null);
 				assert (doc.document_element.child_nodes[2].parent_node != null);
 				assert (doc.document_element.child_nodes[2].parent_node.node_name == "root");
@@ -604,9 +604,9 @@ class GXml.ElementTest : GXmlTest  {
 				assert (doc.document_element.child_nodes[3] != null);
 				assert (doc.document_element.child_nodes[3] is DomElement);
 				assert (doc.document_element.child_nodes[3].node_name == "child");
-				assert ((doc.document_element.child_nodes[3] as DomElement).previous_element_sibling != null);
-				assert ((doc.document_element.child_nodes[3] as DomElement).previous_element_sibling is DomElement);
-				assert ((doc.document_element.child_nodes[3] as DomElement).previous_element_sibling.node_name == "child");
+				assert (((DomElement) doc.document_element.child_nodes[3]).previous_element_sibling != null);
+				assert (((DomElement) doc.document_element.child_nodes[3]).previous_element_sibling is DomElement);
+				assert (((DomElement) doc.document_element.child_nodes[3]).previous_element_sibling.node_name == "child");
 				} catch (GLib.Error e) {
 					Test.message (e.message);
 					assert_not_reached ();
@@ -783,37 +783,37 @@ class GXml.ElementTest : GXmlTest  {
 					var a = e.attributes.get (k) as DomAttr;
 					message ("Attr: %s:%s", a.name, a.@value);
 				}
-				assert ((e.attributes.item (0) as DomAttr).@value == "value1");
-				assert ((e.attributes.item (1) as DomAttr).@value == "value_prop");
+				assert (((DomAttr) e.attributes.item (0)).@value == "value1");
+				assert (((DomAttr) e.attributes.item (1)).@value == "value_prop");
 				e.set_attribute ("p1", "prop1");
 				e.set_attribute ("p2", "prop2");
 				e.set_attribute ("p3", "prop3");
 				assert (e.attributes.length == 5);
-				assert ((e.attributes.item (0) as DomAttr).@value == "value1");
-				assert ((e.attributes.item (1) as DomAttr).@value == "value_prop");
-				assert ((e.attributes.item (2) as DomAttr).@value == "prop1");
-				assert ((e.attributes.item (3) as DomAttr).@value == "prop2");
-				assert ((e.attributes.item (4) as DomAttr).@value == "prop3");
+				assert (((DomAttr) e.attributes.item (0)).@value == "value1");
+				assert (((DomAttr) e.attributes.item (1)).@value == "value_prop");
+				assert (((DomAttr) e.attributes.item (2)).@value == "prop1");
+				assert (((DomAttr) e.attributes.item (3)).@value == "prop2");
+				assert (((DomAttr) e.attributes.item (4)).@value == "prop3");
 				e.set_attribute_ns ("http://www.w3.org/2000/xmlns/", "xmlns:t", "http://www.gnome.org/gxml/test");
 				e.set_attribute_ns ("http://www.gnome.org/gxml/test", "t:p1", "prop1_test");
 				e.set_attribute_ns ("http://www.gnome.org/gxml/test", "t:p2", "prop2_test");
 				assert (e.get_attribute_ns ("http://www.gnome.org/gxml/test", "p1") == "prop1_test");
 				assert (e.get_attribute_ns ("http://www.gnome.org/gxml/test", "p2") == "prop2_test");
 				assert (e.attributes.length == 8);
-				assert ((e.attributes.item (0) as DomAttr).@value == "value1");
-				assert ((e.attributes.item (1) as DomAttr).@value == "value_prop");
-				assert ((e.attributes.item (2) as DomAttr).@value == "prop1");
-				assert ((e.attributes.item (3) as DomAttr).@value == "prop2");
-				assert ((e.attributes.item (4) as DomAttr).@value == "prop3");
-				assert ((e.attributes.item (5) as DomAttr).@value == "http://www.gnome.org/gxml/test");
-				assert ((e.attributes.item (6) as DomAttr).@value == "prop1_test");
-				assert ((e.attributes.item (7) as DomAttr).@value == "prop2_test");
+				assert (((DomAttr) e.attributes.item (0)).@value == "value1");
+				assert (((DomAttr) e.attributes.item (1)).@value == "value_prop");
+				assert (((DomAttr) e.attributes.item (2)).@value == "prop1");
+				assert (((DomAttr) e.attributes.item (3)).@value == "prop2");
+				assert (((DomAttr) e.attributes.item (4)).@value == "prop3");
+				assert (((DomAttr) e.attributes.item (5)).@value == "http://www.gnome.org/gxml/test");
+				assert (((DomAttr) e.attributes.item (6)).@value == "prop1_test");
+				assert (((DomAttr) e.attributes.item (7)).@value == "prop2_test");
 				e.id = "di1";
 				assert (e.id == "di1");
 				assert (e.get_attribute ("id") == "di1");
 				assert (e.attributes.length == 9);
 				assert (e.attributes.item (8) != null);
-				assert ((e.attributes.item (8) as DomAttr).@value == "di1");
+				assert (((DomAttr) e.attributes.item (8)).@value == "di1");
 				e.child = GLib.Object.new (typeof (ObjectParent.ObjectChild),
 															"owner-document", e.owner_document) as ObjectParent.ObjectChild;
 				e.append_child (e.child);
@@ -842,31 +842,31 @@ class GXml.ElementTest : GXmlTest  {
 				e.set_attribute ("id", "id2");
 				assert (e.get_attribute ("id") == "id2");
 				assert (e.id == "id2");
-				assert ((e.attributes.item (0) as DomAttr).value == "id2");
+				assert (((DomAttr) e.attributes.item (0)).value == "id2");
 				e.set_attribute ("prop", "val_prop");
 				assert (e.prop != null);
 				assert (e.prop is ObjectParent.ObjectProperty);
 				assert (e.prop.value == "val_prop");
 				assert (e.get_attribute ("prop") == "val_prop");
-				assert ((e.attributes.item (1) as DomAttr).value == "val_prop");
+				assert (((DomAttr) e.attributes.item (1)).value == "val_prop");
 				e.set_attribute ("prop1", "val_prop1");
 				assert (e.prop1 != null);
 				assert (e.prop1 is ObjectParent.ObjectProperty);
 				assert (e.prop1.value == "val_prop1");
 				assert (e.get_attribute ("prop1") == "val_prop1");
-				assert ((e.attributes.item (2) as DomAttr).value == "val_prop1");
+				assert (((DomAttr) e.attributes.item (2)).value == "val_prop1");
 				e.set_attribute ("prop2", "val_prop2");
 				assert (e.prop2 != null);
 				assert (e.prop2 is ObjectParent.ObjectProperty);
 				assert (e.prop2.value == "val_prop2");
 				assert (e.get_attribute ("prop2") == "val_prop2");
-				assert ((e.attributes.item (3) as DomAttr).value == "val_prop2");
+				assert (((DomAttr) e.attributes.item (3)).value == "val_prop2");
 				e.set_attribute ("prop3", "val_prop3");
 				assert (e.prop3 != null);
 				assert (e.prop3 is ObjectParent.ObjectProperty);
 				assert (e.prop3.value == "val_prop3");
 				assert (e.get_attribute ("prop3") == "val_prop3");
-				assert ((e.attributes.item (4) as DomAttr).value == "val_prop3");
+				assert (((DomAttr) e.attributes.item (4)).value == "val_prop3");
 			} catch (GLib.Error e) {
 		    GLib.message ("Error: "+e.message);
 		    assert_not_reached ();

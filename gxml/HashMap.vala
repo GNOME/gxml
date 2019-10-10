@@ -141,9 +141,9 @@ public class GXml.HashMap : GXml.BaseCollection, GXml.Map {
 #endif
     string key = null;
     if (attribute_key != null) {
-      key = (element as DomElement).get_attribute (attribute_key);
+      key = ((DomElement) element).get_attribute (attribute_key);
       if (key == null)
-      key = (element as DomElement).get_attribute (attribute_key.down ());
+      key = ((DomElement) element).get_attribute (attribute_key.down ());
     } else {
       if (items_type.is_a (typeof(MappeableElement))) {
         if (!(element is MappeableElement)) return false;

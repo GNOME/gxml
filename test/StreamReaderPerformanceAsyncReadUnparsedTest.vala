@@ -40,9 +40,9 @@ class GXmlTest.Suite : GLib.Object
         message ("Initial Parse: %g sec for %d nodes", Test.timer_elapsed (), d.document_element.child_nodes.length);
         Test.timer_start ();
         Idle.add (()=>{
-          (d.document_element as GXml.Element).parse_buffer_async.begin ((obj, res)=>{
+          ((GXml.Element) d.document_element).parse_buffer_async.begin ((obj, res)=>{
             try {
-              (d.document_element as GXml.Element).parse_buffer_async.end (res);
+              ((GXml.Element) d.document_element).parse_buffer_async.end (res);
             } catch (GLib.Error e) {
               warning ("Error: %s", e.message);
             }
@@ -50,10 +50,10 @@ class GXmlTest.Suite : GLib.Object
           if (d.document_element.child_nodes.item (10079).child_nodes.length == 0) {
             return Source.CONTINUE;
           }
-          if ((d.document_element as GXml.Element).parse_pending () != 0) {
+          if (((GXml.Element) d.document_element).parse_pending () != 0) {
             return Source.CONTINUE;
           }
-          message ("Pending to parse: %u", (d.document_element as GXml.Element).parse_pending ());
+          message ("Pending to parse: %u", ((GXml.Element) d.document_element).parse_pending ());
           message ("Parsed buffers: %g sec", Test.timer_elapsed ());
           assert (d.document_element.child_nodes.item (10079) is GXml.Element);
           assert (d.document_element.child_nodes.item (10079).child_nodes.length != 0);

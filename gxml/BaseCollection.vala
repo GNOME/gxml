@@ -148,7 +148,7 @@ public abstract class GXml.BaseCollection : GLib.Object, Traversable<DomElement>
     for (int i = 0; i < _element.child_nodes.size; i++) {
       var n = _element.child_nodes.get (i);
       if (n is GXml.Object) {
-        if ((n as DomElement).local_name.down () == items_name.down ()) {
+        if (((DomElement) n).local_name.down () == items_name.down ()) {
           if (validate_append (i, n as DomElement))
             _nodes_index.push_tail (i);
         }

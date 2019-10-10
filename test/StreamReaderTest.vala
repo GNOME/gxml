@@ -142,9 +142,9 @@ class GXmlTest {
 			try {
 				var doc = sr.read ();
 				message (doc.write_string ());
-				var rootbuf = (string) (doc.document_element as GXml.Element).read_buffer.data;
+				var rootbuf = (string) ((GXml.Element) doc.document_element).read_buffer.data;
 				assert (doc.document_element.child_nodes.length > 0);
-				var childbuf = (string) (doc.document_element.child_nodes.item (0) as GXml.Element).read_buffer.data;
+				var childbuf = (string) ((GXml.Element) doc.document_element.child_nodes.item (0)).read_buffer.data;
 				message (rootbuf);
 				message (childbuf);
 				assert (rootbuf == """<root p1="a" p2="b" ></root>""");
@@ -160,8 +160,8 @@ class GXmlTest {
 			try {
 				var doc = sr.read ();
 				message (doc.write_string ());
-				var rootbuf = (string) (doc.document_element as GXml.Element).read_buffer.data;
-				var childbuf = (string) (doc.document_element.child_nodes.item (0) as GXml.Element).read_buffer.data;
+				var rootbuf = (string) ((GXml.Element) doc.document_element).read_buffer.data;
+				var childbuf = (string) ((GXml.Element) doc.document_element.child_nodes.item (0)).read_buffer.data;
 				message (rootbuf);
 				message (childbuf);
 				assert (rootbuf == """<root p1="a" p2="b" ></root>""");
@@ -177,8 +177,8 @@ class GXmlTest {
 			try {
 				var doc = sr.read ();
 				message (doc.write_string ());
-				var rootbuf = (string) (doc.document_element as GXml.Element).read_buffer.data;
-				var childbuf = (string) (doc.document_element.child_nodes.item (0) as GXml.Element).read_buffer.data;
+				var rootbuf = (string) ((GXml.Element) doc.document_element).read_buffer.data;
+				var childbuf = (string) ((GXml.Element) doc.document_element.child_nodes.item (0)).read_buffer.data;
 				message (rootbuf);
 				message (childbuf);
 				assert (rootbuf == """<root p1="a" p2="b" ></root>""");
@@ -195,8 +195,8 @@ class GXmlTest {
 			try {
 				var doc = sr.read ();
 				message (doc.write_string ());
-				var rootbuf = (string) (doc.document_element as GXml.Element).read_buffer.data;
-				var childbuf = (string) (doc.document_element.child_nodes.item (0) as GXml.Element).read_buffer.data;
+				var rootbuf = (string) ((GXml.Element) doc.document_element).read_buffer.data;
+				var childbuf = (string) ((GXml.Element) doc.document_element.child_nodes.item (0)).read_buffer.data;
 				message (rootbuf);
 				message (childbuf);
 				assert (rootbuf == """<root p1="a" p2="b" ></root>""");
@@ -213,9 +213,9 @@ class GXmlTest {
 				var sr = new StreamReader (istream);
 				try {
 					var doc = sr.read ();
-					(doc.document_element as GXml.Element).parse_buffer ();
+					((GXml.Element) doc.document_element).parse_buffer ();
 					message (doc.write_string ());
-					assert ((doc.document_element as GXml.Element).read_buffer == null);
+					assert (((GXml.Element) doc.document_element).read_buffer == null);
 					loop.quit ();
 				} catch (GLib.Error e) {
 					warning ("Error while reading stream: %s", e.message);
@@ -232,16 +232,16 @@ class GXmlTest {
 				var sr = new StreamReader (istream);
 				try {
 					var doc = sr.read ();
-					(doc.document_element as GXml.Element).parse_buffer_async.begin ((obj, res)=>{
+					((GXml.Element) doc.document_element).parse_buffer_async.begin ((obj, res)=>{
 						try {
-							(doc.document_element as GXml.Element).parse_buffer_async.end (res);
+							((GXml.Element) doc.document_element).parse_buffer_async.end (res);
 							message (doc.write_string ());
-							assert ((doc.document_element as GXml.Element).read_buffer == null);
+							assert (((GXml.Element) doc.document_element).read_buffer == null);
 						} catch (GLib.Error e) {
 							warning ("Error while reading stream: %s", e.message);
 						}
 					});
-					if ((doc.document_element as GXml.Element).parse_pending () != 0) {
+					if (((GXml.Element) doc.document_element).parse_pending () != 0) {
 						return Source.CONTINUE;
 					}
 					loop.quit ();
@@ -300,7 +300,7 @@ class GXmlTest {
 					assert (bs.books.get_item (1) is Book);
 					foreach (DomNode n in bs.child_nodes) {
 						if (n is DomElement) {
-							assert ((n as GXml.Element).read_buffer != null);
+							assert (((GXml.Element) n).read_buffer != null);
 						}
 					}
 					bs.parse_buffer ();

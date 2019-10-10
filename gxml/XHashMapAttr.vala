@@ -248,7 +248,7 @@ public class GXml.XHashMapAttr : Gee.AbstractMap<string,GXml.XNode>,
     if (_parent is GXml.DomElement && !(node is GXml.DomAttr))
       throw new GXml.DomError.HIERARCHY_REQUEST_ERROR (_("Trying to add an object to an Element, but it is not an attribute"));
     if (_parent is DomElement) {
-      (_parent as DomElement).set_attribute (node.node_name, node.node_value);
+      ((DomElement) _parent).set_attribute (node.node_name, node.node_value);
       return node;
     }
     return null;
@@ -263,7 +263,7 @@ public class GXml.XHashMapAttr : Gee.AbstractMap<string,GXml.XNode>,
       throw new GXml.DomError.NO_MODIFICATION_ALLOWED_ERROR (_("Node collection is read only"));
     if (_parent is DomElement) {
       var a = _parent.attributes.get_named_item (name);
-      (_parent as XNode).get_internal_node ()->set_prop (name, null);
+      ((XNode) _parent).get_internal_node ()->set_prop (name, null);
       return a;
     }
     return null;
@@ -274,12 +274,12 @@ public class GXml.XHashMapAttr : Gee.AbstractMap<string,GXml.XNode>,
       string uri = "";
       if (!(n is DomElement || n is DomAttr)) continue;
       if (n is DomElement) {
-        if ((n as DomElement).namespace_uri == null) continue;
-        uri = (n as DomElement).namespace_uri;
+        if (((DomElement) n).namespace_uri == null) continue;
+        uri = ((DomElement) n).namespace_uri;
       }
       if (n is DomAttr) {
-        if ((n as DomAttr).namespace_uri == null) continue;
-        uri = (n as DomAttr).namespace_uri;
+        if (((DomAttr) n).namespace_uri == null) continue;
+        uri = ((DomAttr) n).namespace_uri;
       }
       if (uri == namespace_uri && n.node_name == local_name)
         return (GXml.DomNode?) n;
@@ -301,9 +301,9 @@ public class GXml.XHashMapAttr : Gee.AbstractMap<string,GXml.XNode>,
       throw new GXml.DomError.HIERARCHY_REQUEST_ERROR (_("Trying to add an object to an Element, but it is not an attribute"));
     // FIXME: Detects if no namespace is supported to rise exception  NOT_SUPPORTED_ERROR
     if (_parent is DomElement && node is DomAttr) {
-      (_parent as DomElement).set_attribute_ns ((node as DomAttr).prefix+":"+(node as DomAttr).namespace_uri,
+      ((DomElement) _parent).set_attribute_ns (((DomAttr) node).prefix+":"+((DomAttr) node).namespace_uri,
                                                node.node_name, node.node_value);
-      return _parent.attributes.get_named_item_ns ((node as DomAttr).prefix+":"+(node as DomAttr).namespace_uri, node.node_name);
+      return _parent.attributes.get_named_item_ns (((DomAttr) node).prefix+":"+((DomAttr) node).namespace_uri, node.node_name);
     }
     return null;
   }
@@ -319,9 +319,9 @@ public class GXml.XHashMapAttr : Gee.AbstractMap<string,GXml.XNode>,
       throw new GXml.DomError.NO_MODIFICATION_ALLOWED_ERROR (_("Node collection is read only"));
     // FIXME: Detects if no namespace is supported to rise exception  NOT_SUPPORTED_ERROR
     if (_parent is DomElement) {
-      var ns = (_parent as XNode).get_internal_node ()->doc->search_ns_by_href ((_parent as XNode).get_internal_node (),
+      var ns = ((XNode) _parent).get_internal_node ()->doc->search_ns_by_href (((XNode) _parent).get_internal_node (),
                                                               namespace_uri);
-      (_parent as XNode).get_internal_node ()->set_ns_prop (ns, local_name, null);
+      ((XNode) _parent).get_internal_node ()->set_ns_prop (ns, local_name, null);
       return n;
     }
     return null;

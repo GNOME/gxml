@@ -91,10 +91,10 @@ public interface GXml.DomText : GXml.DomCharacterData {
       Init.init ();
       string s = "";
       if (this.previous_sibling is DomText)
-        s += (this.previous_sibling as DomText).whole_text;
+        s += ((DomText) this.previous_sibling).whole_text;
       s += data;
       if (this.next_sibling is DomText)
-        s += (this.next_sibling as DomText).whole_text;
+        s += ((DomText) this.next_sibling).whole_text;
       return s;
     }
   }

@@ -56,9 +56,9 @@ class XElementTest : GXmlTest  {
 				assert (doc.document_element.child_nodes[1] != null);
 				assert (doc.document_element.child_nodes[1] is DomElement);
 				assert (doc.document_element.child_nodes[1].node_name == "child");
-				assert ((doc.document_element.child_nodes[1] as DomElement).next_element_sibling != null);
-				assert ((doc.document_element.child_nodes[1] as DomElement).next_element_sibling is DomElement);
-				assert ((doc.document_element.child_nodes[1] as DomElement).next_element_sibling.node_name == "child");
+				assert (((DomElement) doc.document_element.child_nodes[1]).next_element_sibling != null);
+				assert (((DomElement) doc.document_element.child_nodes[1]).next_element_sibling is DomElement);
+				assert (((DomElement) doc.document_element.child_nodes[1]).next_element_sibling.node_name == "child");
 				assert (doc.document_element.child_nodes[2] != null);
 				assert (doc.document_element.child_nodes[2].parent_node != null);
 				assert (doc.document_element.child_nodes[2].parent_node.node_name == "root");
@@ -66,9 +66,9 @@ class XElementTest : GXmlTest  {
 				assert (doc.document_element.child_nodes[3] != null);
 				assert (doc.document_element.child_nodes[3] is DomElement);
 				assert (doc.document_element.child_nodes[3].node_name == "child");
-				assert ((doc.document_element.child_nodes[3] as DomElement).previous_element_sibling != null);
-				assert ((doc.document_element.child_nodes[3] as DomElement).previous_element_sibling is DomElement);
-				assert ((doc.document_element.child_nodes[3] as DomElement).previous_element_sibling.node_name == "child");
+				assert (((DomElement) doc.document_element.child_nodes[3]).previous_element_sibling != null);
+				assert (((DomElement) doc.document_element.child_nodes[3]).previous_element_sibling is DomElement);
+				assert (((DomElement) doc.document_element.child_nodes[3]).previous_element_sibling.node_name == "child");
 				} catch (GLib.Error e) {
 					Test.message (e.message);
 					assert_not_reached ();

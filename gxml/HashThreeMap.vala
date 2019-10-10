@@ -246,13 +246,13 @@ public class GXml.HashThreeMap : GXml.BaseCollection, ThreeMap {
     string tkey = null;
     if (attribute_primary_key != null && attribute_secondary_key != null
         && attribute_third_key != null) {
-      pkey = (element as DomElement).get_attribute (attribute_primary_key);
-      skey = (element as DomElement).get_attribute (attribute_secondary_key);
-      tkey = (element as DomElement).get_attribute (attribute_third_key);
+      pkey = ((DomElement) element).get_attribute (attribute_primary_key);
+      skey = ((DomElement) element).get_attribute (attribute_secondary_key);
+      tkey = ((DomElement) element).get_attribute (attribute_third_key);
       if (pkey == null || skey == null || tkey == null) {
-        pkey = (element as DomElement).get_attribute (attribute_primary_key.down ());
-        skey = (element as DomElement).get_attribute (attribute_secondary_key.down ());
-        tkey = (element as DomElement).get_attribute (attribute_third_key.down ());
+        pkey = ((DomElement) element).get_attribute (attribute_primary_key.down ());
+        skey = ((DomElement) element).get_attribute (attribute_secondary_key.down ());
+        tkey = ((DomElement) element).get_attribute (attribute_third_key.down ());
       }
     } else {
       if (items_type.is_a (typeof(MappeableElementThreeKey))) {

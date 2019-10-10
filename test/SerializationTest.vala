@@ -744,9 +744,9 @@ class SerializationTest : GXmlTest  {
       GLib.message ("DOC:"+s);
 #endif
       assert ("<BookStand Classification=\"Science\"><BookRegister Year=\"2016\"/><BookRegister Year=\"2010\"/><Test/><BookRegister Year=\"2000\"/></BookStand>" in s);
-      assert ((bs.registers.get_item (0) as BookRegister).year == 2016);
-      assert ((bs.registers.get_item (1) as BookRegister).year == 2010);
-      assert ((bs.registers.get_item (2) as BookRegister).year == 2000);
+      assert (((BookRegister) bs.registers.get_item (0)).year == 2016);
+      assert (((BookRegister) bs.registers.get_item (1)).year == 2010);
+      assert (((BookRegister) bs.registers.get_item (2)).year == 2000);
       assert (bs.set_instance_property("Dimension-X"));
       assert (bs.dimension_x != null);
       assert (bs.dimension_x.length == 1.0);
@@ -826,9 +826,9 @@ class SerializationTest : GXmlTest  {
       assert (bs.books.get("Title1") != null);
       assert (bs.books.get("Title2") != null);
       assert (bs.books.get("Title3") != null);
-      assert ((bs.books.get("Title1") as Book).name == "Title1");
-      assert ((bs.books.get("Title2") as Book).name == "Title2");
-      assert ((bs.books.get("Title3") as Book).name == "Title3");
+      assert (((Book) bs.books.get("Title1")).name == "Title1");
+      assert (((Book) bs.books.get("Title2")).name == "Title2");
+      assert (((Book) bs.books.get("Title3")).name == "Title3");
     } catch (GLib.Error e) {
       GLib.message ("Error: "+e.message);
       assert_not_reached ();
@@ -1137,9 +1137,9 @@ class SerializationTest : GXmlTest  {
       assert (bs.registers.get_item (2) != null);
       assert (bs.registers.get_item (2) is DomElement);
       assert (bs.registers.get_item (2) is BookRegister);
-      assert ((bs.registers.get_item (0) as BookRegister).year == 2016);
-      assert ((bs.registers.get_item (1) as BookRegister).year == 2010);
-      assert ((bs.registers.get_item (2) as BookRegister).year == 2000);
+      assert (((BookRegister) bs.registers.get_item (0)).year == 2016);
+      assert (((BookRegister) bs.registers.get_item (1)).year == 2010);
+      assert (((BookRegister) bs.registers.get_item (2)).year == 2000);
     } catch (GLib.Error e) {
       GLib.message ("Error: "+e.message);
       assert_not_reached ();
@@ -1172,9 +1172,9 @@ class SerializationTest : GXmlTest  {
       assert (bs.books.get_item (2) != null);
       assert (bs.books.get_item (2) is DomElement);
       assert (bs.books.get_item (2) is Book);
-      assert ((bs.books.get_item (0) as Book).name == "Title1");
-      assert ((bs.books.get_item (1) as Book).name == "Title2");
-      assert ((bs.books.get_item (2) as Book).name == "Title3");
+      assert (((Book) bs.books.get_item (0)).name == "Title1");
+      assert (((Book) bs.books.get_item (1)).name == "Title2");
+      assert (((Book) bs.books.get_item (2)).name == "Title3");
       assert (bs.books.get ("Title1") != null);
       assert (bs.books.get ("Title1") is DomElement);
       assert (bs.books.get ("Title1") is Book);
@@ -1415,8 +1415,8 @@ class SerializationTest : GXmlTest  {
       message (bs.write_string ());
       n = 1;
       foreach (DomElement e in bs.books) {
-        assert ((e as Book) != null);
-        assert ((e as Book).name == "Title %d".printf (n));
+        assert (((Book) e) != null);
+        assert (((Book) e).name == "Title %d".printf (n));
         n++;
       }
       var bst = new BookStand ();
@@ -1433,8 +1433,8 @@ class SerializationTest : GXmlTest  {
       }
       n = 1;
       foreach (DomElement e in r) {
-        assert ((e as BookRegister) != null);
-        assert ((e as BookRegister).year == 2000 + n);
+        assert (((BookRegister) e) != null);
+        assert (((BookRegister) e).year == 2000 + n);
         n++;
       }
       bst.set_instance_property ("hashmap-registers");
@@ -1451,8 +1451,8 @@ class SerializationTest : GXmlTest  {
       }
       n = 1;
       foreach (DomElement e in hr) {
-        assert ((e as BookRegister) != null);
-        assert ((e as BookRegister).year == 2000 + n);
+        assert (((BookRegister) e) != null);
+        assert (((BookRegister) e).year == 2000 + n);
         n++;
       }
 
@@ -1470,9 +1470,9 @@ class SerializationTest : GXmlTest  {
       }
       n = 1;
       foreach (DomElement e in hpr) {
-        assert ((e as BookRegister) != null);
-        assert ((e as BookRegister).book.name == "book%d".printf (n));
-        assert ((e as BookRegister).year ==  2000 + n);
+        assert (((BookRegister) e) != null);
+        assert (((BookRegister) e).book.name == "book%d".printf (n));
+        assert (((BookRegister) e).year ==  2000 + n);
         n++;
       }
 
@@ -1491,10 +1491,10 @@ class SerializationTest : GXmlTest  {
       }
       n = 1;
       foreach (DomElement e in htr) {
-        assert ((e as BookRegister) != null);
-        assert ((e as BookRegister).book.name == "book%d".printf (n));
-        assert ((e as BookRegister).year == 2000 + n);
-        assert ((e as BookRegister).cover == "cover%d".printf (n));
+        assert (((BookRegister) e) != null);
+        assert (((BookRegister) e).book.name == "book%d".printf (n));
+        assert (((BookRegister) e).year == 2000 + n);
+        assert (((BookRegister) e).cover == "cover%d".printf (n));
         n++;
       }
     } catch (GLib.Error e) {

@@ -42,7 +42,7 @@ class GXmlTest.Suite : GLib.Object
         message ("Initial Parse: %lu ms for %d nodes", time / 1000, d.document_element.child_nodes.length);
         Idle.add (()=>{
           try {
-            (d.document_element as GXml.Element).parse_buffer ();
+            ((GXml.Element) d.document_element).parse_buffer ();
             timer.elapsed (out time);
             message ("Parse root: %lu ms", time / 1000);
             loop.quit ();

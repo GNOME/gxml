@@ -84,7 +84,7 @@ public class GXml.XAttribute : GXml.XNode, GXml.DomAttr
       return namespace.prefix;
     }
   }*/
-  public string local_name { owned get { return (this as GXml.XNode).name; } }
+  public string local_name { owned get { return ((GXml.XNode) this).name; } }
   /*public string GXml.DomAttr.name {
     get {
       if (namespace == null) return (this as GXml.DomNode).name;

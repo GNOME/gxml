@@ -115,7 +115,7 @@ public class GXml.Node : GLib.Object,
       if (_parent == null) return null;
       if (_parent.child_nodes == null) return null;
       if (_parent.child_nodes.length == 0) return null;
-      var pos = (_parent.child_nodes as Gee.ArrayList<DomNode>).index_of (this);
+      var pos = ((Gee.ArrayList<DomNode>) _parent.child_nodes).index_of (this);
       if (pos == 0) return null;
       if ((pos - 1) > 0 && (pos - 1) < _parent.child_nodes.size)
         return _parent.child_nodes[pos - 1];
@@ -127,7 +127,7 @@ public class GXml.Node : GLib.Object,
       if (_parent == null) return null;
       if (_parent.child_nodes == null) return null;
       if (_parent.child_nodes.length == 0) return null;
-      var pos = (_parent.child_nodes as Gee.ArrayList<DomNode>).index_of (this);
+      var pos = ((Gee.ArrayList<DomNode>) _parent.child_nodes).index_of (this);
       if (pos == 0) return null;
       if ((pos + 1) > 0 && (pos + 1) < _parent.child_nodes.size)
         return _parent.child_nodes[pos + 1];
@@ -181,7 +181,7 @@ public class GXml.Node : GLib.Object,
   public bool is_equal_node (DomNode? node) { // FIXME: This is not going to work
     if (node == null) return false;
     if (this is DomCharacterData)
-      return (this as DomComment).data == (node as DomComment).data;
+      return ((DomComment) this).data == ((DomComment) node).data;
     return false;
   }
 
@@ -195,7 +195,7 @@ public class GXml.Node : GLib.Object,
        p = p & DomNode.DocumentPosition.FOLLOWING;
       return p;
     }
-    if ((this as DomNode).contains (other))
+    if (((DomNode) this).contains (other))
       return DomNode.DocumentPosition.CONTAINED_BY & DomNode.DocumentPosition.FOLLOWING;
     if (this.parent_node.contains (other)) {
       var par = this.parent_node;
@@ -218,7 +218,7 @@ public class GXml.Node : GLib.Object,
     if (this is GXml.DomDocumentType ||
         this is GXml.DomDocumentFragment) return null;
     if (this is DomElement) {
-      return (this as GXml.Element).lookup_prefix (nspace);
+      return ((GXml.Element) this).lookup_prefix (nspace);
     }
     if (this is GXml.Attr) {
       if (this.parent_node == null) return  null;
@@ -230,7 +230,7 @@ public class GXml.Node : GLib.Object,
     if (this is GXml.DomDocumentType ||
         this is GXml.DomDocumentFragment) return null;
     if (this is DomElement) {
-        return (this as GXml.Element).lookup_namespace_uri (prefix);
+        return ((GXml.Element) this).lookup_namespace_uri (prefix);
     }
     if (this is GXml.Attr) {
       if (this.parent_node == null) return  null;
@@ -291,7 +291,7 @@ public class GXml.Node : GLib.Object,
     if (owner_document != node.owner_document)
       throw new DomError.HIERARCHY_REQUEST_ERROR
               (_("Invalid attempt to append a child with different parent document"));
-    (node as GXml.Node).set_parent (this);
+    ((GXml.Node) node).set_parent (this);
     return insert_before (node, null);
   }
   public DomNode replace_child (DomNode node, DomNode child) throws GLib.Error {

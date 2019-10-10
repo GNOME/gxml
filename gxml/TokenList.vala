@@ -41,10 +41,10 @@ public class GXml.TokenList : Gee.ArrayList<string>, GXml.DomTokenList {
       if (" " in av) {
         string[] s = av.split (" ");
         for (int i = 0; i < s.length; i++) {
-          (this as Gee.ArrayList<string>).add (s[i]);
+          ((Gee.ArrayList<string>) this).add (s[i]);
         }
       } else {
-        (this as Gee.ArrayList<string>).add (av);
+        ((Gee.ArrayList<string>) this).add (av);
       }
     }
   }

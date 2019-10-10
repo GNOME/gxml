@@ -258,7 +258,7 @@ public class GXml.XsdAttributeGroup : XsdBaseAttribute {}
 
 public class GXml.XsdList : ArrayList {
   public new int length {
-    get { return (this as ArrayList).length; }
+    get { return ((ArrayList) this).length; }
   }
   public void remove (int index) {
     try { element.remove_child (element.child_nodes.item (index)); }

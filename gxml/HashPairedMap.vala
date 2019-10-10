@@ -188,16 +188,16 @@ public class GXml.HashPairedMap : GXml.BaseCollection, GXml.PairedMap {
 #if DEBUG
     message ("Validating HashMap Element..."
             +(element as GXml.Element).write_string ()
-            +" Attrs:"+(element as GXml.Element).attributes.length.to_string());
+            +" Attrs:"+((GXml.Element) element).attributes.length.to_string());
 #endif
     string pkey = null;
     string skey = null;
     if (attribute_primary_key != null && attribute_secondary_key != null) {
-      pkey = (element as DomElement).get_attribute (attribute_primary_key);
-      skey = (element as DomElement).get_attribute (attribute_secondary_key);
+      pkey = ((DomElement) element).get_attribute (attribute_primary_key);
+      skey = ((DomElement) element).get_attribute (attribute_secondary_key);
       if (pkey == null || skey == null) {
-        pkey = (element as DomElement).get_attribute (attribute_primary_key.down ());
-        skey = (element as DomElement).get_attribute (attribute_secondary_key.down ());
+        pkey = ((DomElement) element).get_attribute (attribute_primary_key.down ());
+        skey = ((DomElement) element).get_attribute (attribute_secondary_key.down ());
       }
     } else {
       if (items_type.is_a (typeof(MappeableElementPairKey))) {

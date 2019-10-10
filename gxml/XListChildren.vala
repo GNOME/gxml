@@ -70,7 +70,7 @@ public class GXml.XListChildren : AbstractBidirList<GXml.DomNode>,
   public override void insert (int index, GXml.DomNode item) {
     var n = @get (index);
     if (n == null) return;
-    (n as GXml.XNode).get_internal_node ()->add_prev_sibling ((item as GXml.XNode).get_internal_node ());
+    ((GXml.XNode) n).get_internal_node ()->add_prev_sibling (((GXml.XNode) item).get_internal_node ());
   }
   public override  Gee.ListIterator<GXml.DomNode> list_iterator () { return new Iterator (_doc, _node); }
   /**

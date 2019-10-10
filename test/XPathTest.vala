@@ -37,7 +37,7 @@ class XPathTest : GXmlTest  {
       } else
         document = new XDocument.from_string (BOOKS);
       assert (document != null);
-      var object = (document as GXml.XPathContext).evaluate ("/bookstore/book/title");
+      var object = ((XPathContext) document).evaluate ("/bookstore/book/title");
       assert (object.object_type == XPathObjectType.NODESET);
       var array = object.nodeset.to_array();
       assert (array.length == 4);
@@ -45,12 +45,12 @@ class XPathTest : GXmlTest  {
       assert (array[1].node_value == "Harry Potter");
       assert (array[2].node_value == "XQuery Kick Start");
       assert (array[3].node_value == "Learning XML");
-      object = (document as XPathContext).evaluate ("/bookstore/book[1]/title");
+      object = ((XPathContext) document).evaluate ("/bookstore/book[1]/title");
       assert (object.object_type == XPathObjectType.NODESET);
       array = object.nodeset.to_array();
       assert (array.length == 1);
       assert (array[0].node_value == "Everyday Italian");
-      object = (document as XPathContext).evaluate ("/bookstore/book/price[text()]");
+      object = ((XPathContext) document).evaluate ("/bookstore/book/price[text()]");
       assert (object.object_type == XPathObjectType.NODESET);
       array = object.nodeset.to_array();
       assert (array.length == 4);
@@ -58,7 +58,7 @@ class XPathTest : GXmlTest  {
       assert (array[1].node_value == "29.99");
       assert (array[2].node_value == "49.99");
       assert (array[3].node_value == "39.95");
-      object = (document as XPathContext).evaluate ("/bookstore/book[price>35]/price");
+      object = ((XPathContext) document).evaluate ("/bookstore/book[price>35]/price");
       assert (object.object_type == XPathObjectType.NODESET);
       array = object.nodeset.to_array();
       assert (array.length == 2);

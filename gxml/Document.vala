@@ -241,7 +241,7 @@ public class GXml.Document : GXml.Node,
         throw new GXml.DomError.HIERARCHY_REQUEST_ERROR (_("Can't import a non Element type node to a Document"));
       GXml.DomNode dst = null;
       if (node is DomElement) {
-        dst = (this as DomDocument).create_element (node.node_name);
+        dst = ((DomDocument) this).create_element (node.node_name);
         GXml.DomNode.copy (this, dst, node, deep);
         if (document_element == null) {
           this.append_child (dst);
@@ -251,9 +251,9 @@ public class GXml.Document : GXml.Node,
       if (node is DomText)
         dst = this.create_text_node ((node as DomText).data);
       if (node is DomComment)
-        dst = (this as DomDocument).create_comment ((node as DomComment).data);
+        dst = ((DomDocument) this).create_comment (((DomComment) node).data);
       if (node is DomProcessingInstruction)
-        dst = this.create_processing_instruction ((node as DomProcessingInstruction).target, (node as DomProcessingInstruction).data);
+        dst = this.create_processing_instruction (((DomProcessingInstruction) node).target, (node as DomProcessingInstruction).data);
       if (dst != null) {
         document_element.append_child (dst as DomNode);
         return dst;

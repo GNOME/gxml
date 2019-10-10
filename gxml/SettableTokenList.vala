@@ -31,7 +31,7 @@ public class GXml.SettableTokenList : GXml.TokenList, GXml.DomSettableTokenList 
     set {
       string[] s = value.split (" ");
       for (int i = 0; i < s.length; i++) {
-        (this as Gee.ArrayList<string>).add (s[i]);
+        ((Gee.ArrayList<string>) this).add (s[i]);
       }
     }
   }

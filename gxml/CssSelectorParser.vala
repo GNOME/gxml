@@ -671,7 +671,7 @@ public class GXml.CssSelectorParser : GLib.Object {
 			return sel.local_name == element.local_name && sel.prefix == element.prefix;
 		}
 		if (selector is GXml.CssNotSelector)
-			return !match_element (element, element, (selector as GXml.CssNotSelector).selectors);
+			return !match_element (element, element, ((GXml.CssNotSelector) selector).selectors);
 		if (selector.selector_type == GXml.CssSelectorType.PSEUDO_CLASS)
 			return match_pseudo (element, selector);
 		return false;

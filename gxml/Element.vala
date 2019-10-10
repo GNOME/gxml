@@ -120,39 +120,39 @@ public class GXml.Element : GXml.Node,
    * Uses element's {@link GXml.Document} to write an XML to a file, serializing it.
    */
   public void write_file (GLib.File f, Cancellable? cancellable = null) throws GLib.Error {
-    (this.owner_document as GXml.Document).write_file (f);
+    ((GXml.Document) this.owner_document).write_file (f);
   }
   /**
    * Uses element's {@link GXml.Document} to write asynchronically an XML to a file, serializing it.
    */
   public async void write_file_async (GLib.File f, Cancellable? cancellable = null) throws GLib.Error {
-    yield (this.owner_document as GXml.Document).write_file_async (f);
+    yield ((GXml.Document) this.owner_document).write_file_async (f);
   }
   /**
    * Uses element's {@link GXml.Document} to write an XML to a stream, serializing it.
    */
   public void write_stream (GLib.OutputStream stream) throws GLib.Error {
-    (this.owner_document as GXml.Document).write_stream (stream);
+    ((GXml.Document) this.owner_document).write_stream (stream);
   }
   /**
    * Uses element's {@link GXml.Document} to write an XML to a stream, serializing it.
    */
   public async void write_stream_async (GLib.OutputStream stream, Cancellable? cancellable = null) throws GLib.Error {
-    yield (this.owner_document as GXml.Document).write_stream_async (stream);
+    yield ((GXml.Document) this.owner_document).write_stream_async (stream);
   }
   /**
    * Creates an {@link GLib.InputStream} to write a string representation
    * in XML of {@link GXml.Element} using node's {@link GXml.Document}
    */
   public InputStream create_stream () throws GLib.Error {
-    return (this.owner_document as GXml.Document).create_stream ();
+    return ((GXml.Document) this.owner_document).create_stream ();
   }
   /**
    * Creates an {@link GLib.InputStream} to write a string representation
    * in XML of {@link GXml.Element} using node's {@link GXml.Document}
    */
   public async InputStream create_stream_async (Cancellable? cancellable = null) throws GLib.Error {
-    return yield (this.owner_document as GXml.Document).create_stream_async ();
+    return yield ((GXml.Document) this.owner_document).create_stream_async ();
   }
   // DomNode overrides
   public new string? lookup_prefix (string? nspace) {
@@ -319,8 +319,8 @@ public class GXml.Element : GXml.Node,
    * An attribute called 'class'.
    */
   public string? class_name {
-    owned get { return (this as GXml.Element).get_attribute ("class"); }
-    set { (this as GXml.Object).set_attribute ("class", value); }
+    owned get { return ((GXml.Element) this).get_attribute ("class"); }
+    set { ((GXml.Object) this).set_attribute ("class", value); }
   }
   /**
    * A list of values of all attributes called 'class'.
@@ -425,7 +425,7 @@ public class GXml.Element : GXml.Node,
 
     public DomNode? get_named_item (string name) {
       if (name == "") return null;
-      var ov = (_element as GXml.Object).get_attribute (name);
+      var ov = ((GXml.Object) _element).get_attribute (name);
       if (ov != null) {
         return new GXml.Attr (_element, name, ov);
       }
@@ -464,21 +464,21 @@ public class GXml.Element : GXml.Node,
      * namespace
      */
     public DomNode? set_named_item (DomNode node) throws GLib.Error {
-      if ((":" in (node as GXml.Attr).local_name)
-          || (node as GXml.Attr).local_name == "")
-        throw new DomError.INVALID_CHARACTER_ERROR (_("Invalid attribute name: %s"), (node as GXml.Attr).local_name);
+      if ((":" in ((GXml.Attr) node).local_name)
+          || ((GXml.Attr) node).local_name == "")
+        throw new DomError.INVALID_CHARACTER_ERROR (_("Invalid attribute name: %s"), ((GXml.Attr) node).local_name);
       if (!(node is GXml.Attr))
         throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid node type. GXml.Attr was expected"));
       GXml.Attr attr = null;
-      var pprop = (_element as GXml.Object).find_property_name ((node as GXml.Attr).local_name);
+      var pprop = ((GXml.Object) _element).find_property_name (((GXml.Attr) node).local_name);
       if (pprop != null) {
-        (_element as GXml.Object).set_attribute ((node as GXml.Attr).local_name, node.node_value);
-        attr = new GXml.Attr.reference (_element, (node as GXml.Attr).local_name);
+        ((GXml.Object) _element).set_attribute (((GXml.Attr) node).local_name, node.node_value);
+        attr = new GXml.Attr.reference (_element, ((GXml.Attr) node).local_name);
       } else {
-        attr = new GXml.Attr (_element, (node as GXml.Attr).local_name, node.node_value);
+        attr = new GXml.Attr (_element, ((GXml.Attr) node).local_name, node.node_value);
       }
       set (attr.local_name.down (), attr);
-      order.set (size - 1, (node as GXml.Attr).local_name.down ());
+      order.set (size - 1, ((GXml.Attr) node).local_name.down ());
       return attr;
     }
     public DomNode? remove_named_item (string name) throws GLib.Error {
@@ -531,65 +531,65 @@ public class GXml.Element : GXml.Node,
     }
     // Introduced in DOM Level 2:
     public DomNode? set_named_item_ns (DomNode node) throws GLib.Error {
-      if ((node as GXml.Attr).local_name == "" || ":" in (node as GXml.Attr).local_name)
-        throw new DomError.INVALID_CHARACTER_ERROR (_("Invalid attribute name: %s"),(node as GXml.Attr).local_name);
-      if (!(node is GXml.Attr))
+      if (((GXml.Attr) node).local_name == "" || ":" in ((GXml.Attr) node).local_name)
+        throw new DomError.INVALID_CHARACTER_ERROR (_("Invalid attribute name: %s"),((GXml.Attr) node).local_name);
+      if (!( node is GXml.Attr))
         throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid node type. GXml.Attr was expected"));
 
-      if ((node as GXml.Attr).prefix == "xmlns"
-          && (node as GXml.Attr).namespace_uri != "http://www.w3.org/2000/xmlns/"
-              && (node as GXml.Attr).namespace_uri != "http://www.w3.org/2000/xmlns")
+      if (((GXml.Attr) node).prefix == "xmlns"
+          && ((GXml.Attr) node).namespace_uri != "http://www.w3.org/2000/xmlns/"
+              && ((GXml.Attr) node).namespace_uri != "http://www.w3.org/2000/xmlns")
         throw new DomError.NAMESPACE_ERROR (_("Namespace attributes prefixed with xmlns should use a namespace uri http://www.w3.org/2000/xmlns"));
-      if ((node as GXml.Attr).prefix == ""
-          || (node as GXml.Attr).prefix == null
-          && (node as GXml.Attr).local_name != "xmlns") {
-        string s = (node as GXml.Attr).local_name;
-        if ((node as GXml.Attr).namespace_uri != null)
-          s += "=<"+(node as GXml.Attr).namespace_uri+">";
+      if (((GXml.Attr) node).prefix == ""
+          || ((GXml.Attr) node).prefix == null
+          && ((GXml.Attr) node).local_name != "xmlns") {
+        string s = ((GXml.Attr) node).local_name;
+        if (((GXml.Attr) node).namespace_uri != null)
+          s += "=<"+((GXml.Attr) node).namespace_uri+">";
         throw new DomError.NAMESPACE_ERROR (_("Namespaced attributes should provide a non-null, non-empty prefix: %s"),s);
       }
-      if ((node as GXml.Attr).prefix == "xmlns"
-          && (node as GXml.Attr).local_name == "xmlns")
+      if (((GXml.Attr) node).prefix == "xmlns"
+          && ((GXml.Attr) node).local_name == "xmlns")
         throw new DomError.NAMESPACE_ERROR (_("Invalid namespace attribute's name."));
-      if ((node as GXml.Attr).prefix == "xmlns"
-          || (node as GXml.Attr).local_name == "xmlns"
-          || (node as GXml.Attr).prefix == "xsi") {
+      if (((GXml.Attr) node).prefix == "xmlns"
+          || ((GXml.Attr) node).local_name == "xmlns"
+          || ((GXml.Attr) node).prefix == "xsi") {
         string asp = _element.get_attribute_ns (node.node_value,
-                                          (node as GXml.Attr).local_name);
+                                          ((GXml.Attr) node).local_name);
         if (asp != null) return node;
       }
-      if ((node as GXml.Attr).namespace_uri != "http://www.w3.org/2000/xmlns/"
-          && (node as GXml.Attr).namespace_uri != "http://www.w3.org/2000/xmlns"
-          && (node as GXml.Attr).namespace_uri != "http://www.w3.org/2001/XMLSchema-instance/"
-          && (node as GXml.Attr).namespace_uri != "http://www.w3.org/2001/XMLSchema-instance") {
-        string nsn = _element.lookup_namespace_uri ((node as GXml.Attr).prefix);
+      if (((GXml.Attr) node).namespace_uri != "http://www.w3.org/2000/xmlns/"
+          && ((GXml.Attr) node).namespace_uri != "http://www.w3.org/2000/xmlns"
+          && ((GXml.Attr) node).namespace_uri != "http://www.w3.org/2001/XMLSchema-instance/"
+          && ((GXml.Attr) node).namespace_uri != "http://www.w3.org/2001/XMLSchema-instance") {
+        string nsn = _element.lookup_namespace_uri (((GXml.Attr) node).prefix);
         string nspn = _element.lookup_prefix (nsn);
-        if (nspn != (node as GXml.Attr).prefix
-            && nsn != (node as GXml.Attr).namespace_uri) {
+        if (nspn != ((GXml.Attr) node).prefix
+            && nsn != ((GXml.Attr) node).namespace_uri) {
           throw new DomError.NAMESPACE_ERROR
                   (_("Trying to add an attribute with an undefined namespace's prefix: %s").printf ((node as GXml.Attr).prefix));
         }
-        nspn = _element.lookup_prefix ((node as GXml.Attr).namespace_uri);
+        nspn = _element.lookup_prefix (((GXml.Attr) node).namespace_uri);
         nsn = _element.lookup_namespace_uri (nspn);
-        if (nspn != (node as GXml.Attr).prefix
-            && nsn != (node as GXml.Attr).namespace_uri)
+        if (nspn != ((GXml.Attr) node).prefix
+            && nsn != ((GXml.Attr) node).namespace_uri)
           throw new DomError.NAMESPACE_ERROR
                   (_("Trying to add an attribute with an undefined namespace's URI"));
       }
 
       string p = "";
-      if ((node as GXml.Attr).prefix != null
-          && (node as GXml.Attr).prefix != "") {
-        p = (node as GXml.Attr).prefix + ":";
+      if (((GXml.Attr) node).prefix != null
+          && ((GXml.Attr) node).prefix != "") {
+        p = ((GXml.Attr) node).prefix + ":";
       }
-      string k = (p+(node as GXml.Attr).local_name).down ();
+      string k = (p+((GXml.Attr) node).local_name).down ();
       GXml.Attr attr = null;
-      var pprop = (_element as GXml.Object).find_property_name (k);
+      var pprop = ((GXml.Object) _element).find_property_name (k);
       if (pprop != null) {
-        (_element as GXml.Object).set_attribute (k, node.node_value);
+        ((GXml.Object) _element).set_attribute (k, node.node_value);
         attr = new GXml.Attr.reference (_element, k);
       } else {
-        attr = new GXml.Attr.namespace (_element, (node as GXml.Attr).namespace_uri, (node as GXml.Attr).prefix, (node as GXml.Attr).local_name, node.node_value);
+        attr = new GXml.Attr.namespace (_element, ((GXml.Attr) node).namespace_uri, ((GXml.Attr) node).prefix, ((GXml.Attr) node).local_name, node.node_value);
       }
       set (k, attr);
       order.set (size - 1, k);
@@ -708,8 +708,8 @@ public class GXml.Element : GXml.Node,
     foreach (GXml.DomNode n in child_nodes) {
       if (!(n is DomElement)) continue;
       if (n.node_name == local_name)
-        l.add (n as DomElement);
-      l.add_all ((n as DomElement).get_elements_by_tag_name (local_name));
+        l.add ((DomElement) n);
+      l.add_all (((DomElement) n).get_elements_by_tag_name (local_name));
     }
     return l;
   }
@@ -719,9 +719,9 @@ public class GXml.Element : GXml.Node,
     foreach (GXml.DomNode n in child_nodes) {
       if (!(n is DomElement)) continue;
       if (n.node_name == local_name
-          && (n as DomElement).namespace_uri == namespace)
-        l.add (n as DomElement);
-      l.add_all ((n as DomElement).get_elements_by_tag_name_ns (namespace, local_name));
+          && ((DomElement) n).namespace_uri == namespace)
+        l.add ((DomElement) n);
+      l.add_all (((DomElement) n).get_elements_by_tag_name_ns (namespace, local_name));
     }
     return l;
   }
@@ -752,12 +752,12 @@ public class GXml.Element : GXml.Node,
         }
         if (found == cs.length) {
           if (l.size == 0)
-            l.add (n as DomElement);
+            l.add ((DomElement) n);
           else
-            l.insert (0, n as DomElement);
+            l.insert (0, (DomElement) n);
         }
       }
-      l.add_all ((n as DomElement).get_elements_by_class_name (class_names));
+      l.add_all (((DomElement) n).get_elements_by_class_name (class_names));
     }
     return l;
   }

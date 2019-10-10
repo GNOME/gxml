@@ -300,7 +300,7 @@ class GXml.DocumentTest : GXmlTest {
 				try {
 					doc = new GXml.Document.from_string ("<document_element />");
 					var f = GLib.File.new_for_path (GXmlTestConfig.TEST_SAVE_DIR+"/test_out_path.xml");
-					(doc as GXml.Document).write_file (f);
+					((GXml.Document) doc).write_file (f);
 					assert (f.query_exists ());
 					f.delete ();
 				} catch (GLib.Error e) {
@@ -313,7 +313,7 @@ class GXml.DocumentTest : GXmlTest {
 
 				try {
 					doc = new GXml.Document.from_string ("<document_element />");
-					(doc as GXml.Document).write_file (GLib.File.new_for_path ("/tmp/a/b/c/d/e/f/g/h/i"));
+					((GXml.Document) doc).write_file (GLib.File.new_for_path ("/tmp/a/b/c/d/e/f/g/h/i"));
 					assert_not_reached ();
 				} catch {}
 			});
@@ -465,11 +465,11 @@ class GXml.DocumentTest : GXmlTest {
 				assert (c.prefix == null);
 				assert (c.namespace_uri == null);
 				c.set_attribute_ns ("http://www.gnome.org/GXml2","gxml2:prop","val");
-				var p = (c as DomElement)
+				var p = ((DomElement) c)
 									.get_attribute_ns ("http://www.gnome.org/GXml2", "prop");
 				assert (p != null);
 				assert (p == "val");
-				message ((doc as GXml.Document).write_string ());
+				message (((GXml.Document) doc).write_string ());
 				assert (doc.document_element.lookup_namespace_uri (null) == "http://www.gnome.org/GXml");
 				assert (c.prefix == null);
 				assert (c.namespace_uri == null);
@@ -555,7 +555,7 @@ class GXml.DocumentTest : GXmlTest {
 			try {
 				c.set_attribute_ns ("http://www.gnome.org/GXml3","gxml2:prop","val");
 			} catch {}
-				var p = (c as DomElement).get_attribute_ns ("http://www.gnome.org/GXml4", "prop");
+				var p = ((DomElement) c).get_attribute_ns ("http://www.gnome.org/GXml4", "prop");
 				assert (p == null);
 		});
 		Test.add_func ("/gxml/gom-document/parent", () => {
@@ -748,7 +748,7 @@ class GXml.DocumentTest : GXmlTest {
 			try {
 				var d = new GXml.Document.from_string ("""<root><child id="id1"/><child id="id2"/></root>""") as DomDocument;
 				message ("Serialize Document");
-				message ((d as GXml.Document).write_string ());
+				message (((GXml.Document) d).write_string ());
 				var e = d.get_element_by_id ("id1");
 				assert (e != null);
 			} catch (GLib.Error e) {

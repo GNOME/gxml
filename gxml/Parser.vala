@@ -204,7 +204,7 @@ public interface GXml.Parser : GLib.Object {
     element = null;
     if (!(parent is GXml.Object)) return false;
     foreach (ParamSpec pspec in
-              (parent as GXml.Object).get_property_element_list ()) {
+              ((GXml.Object) parent).get_property_element_list ()) {
       if (pspec.value_type.is_a (typeof (Collection))) continue;
       //if (!pspec.value_type.is_instantiatable ()) continue;
       var obj = GLib.Object.new (pspec.value_type,
@@ -235,7 +235,7 @@ public interface GXml.Parser : GLib.Object {
     element = null;
     if (!(parent is GXml.Object)) return false;
     foreach (ParamSpec pspec in
-              (parent as GXml.Object).get_property_element_list ()) {
+              ((GXml.Object) parent).get_property_element_list ()) {
       if (!(pspec.value_type.is_a (typeof (Collection)))) continue;
       Collection col;
       Value vc = Value (pspec.value_type);

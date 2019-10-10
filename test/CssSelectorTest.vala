@@ -539,12 +539,12 @@ class CssSelectorTest : GXmlTest {
 				c3.append_child (c5);
 				var c6 = d.create_element ("second");
 				c4.append_child (c6);
-				assert (c1 == (c1.parent_node as DomParentNode).first_element_child);
-				assert (c2 != (c2.parent_node as DomParentNode).first_element_child);
-				assert (c3 != (c3.parent_node as DomParentNode).first_element_child);
-				assert (c4 != (c4.parent_node as DomParentNode).first_element_child);
-				assert (c5 == (c5.parent_node as DomParentNode).first_element_child);
-				assert (c6 == (c6.parent_node as DomParentNode).first_element_child);
+				assert (c1 == ((DomParentNode) c1.parent_node).first_element_child);
+				assert (c2 != ((DomParentNode) c2.parent_node).first_element_child);
+				assert (c3 != ((DomParentNode) c3.parent_node).first_element_child);
+				assert (c4 != ((DomParentNode) c4.parent_node).first_element_child);
+				assert (c5 == ((DomParentNode) c5.parent_node).first_element_child);
+				assert (c6 == ((DomParentNode) c6.parent_node).first_element_child);
 				assert (!cp.match (r));
 				assert (!cp.match (c1));
 				assert (!cp.match (c2));
