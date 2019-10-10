@@ -500,7 +500,7 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
         tw.start_element (element_node.local_name);
 
     // GXml.Object serialization
-    var lp = (node as GXml.Object).get_properties_list ();
+    var lp = ((GXml.Object) node).get_properties_list ();
     foreach (ParamSpec pspec in lp) {
       string attname = pspec.get_nick ().replace ("::","");
       string val = null;
@@ -511,7 +511,7 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
         if (gp == null) continue;
         val = gp.value;
       } else {
-        val = (node as GXml.Object).get_property_string (pspec);
+        val = ((GXml.Object) node).get_property_string (pspec);
       }
       if (val == null) continue;
       size += tw.write_attribute (attname, val);

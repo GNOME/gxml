@@ -344,7 +344,7 @@ public interface GXml.Object : GLib.Object,
     if (prop != null) {
       if (prop.value_type.is_a (typeof (Object))) {
         Value v = Value (typeof (Object));
-        (this as Object).set_property (name, v);
+        ((Object) this).set_property (name, v);
         return true;
       }
       if (prop.value_type.is_a (typeof (string))) {

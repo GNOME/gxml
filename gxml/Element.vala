@@ -735,7 +735,7 @@ public class GXml.Element : GXml.Node,
       cs += class_names;
     foreach (GXml.DomNode n in child_nodes) {
       if (!(n is DomElement)) continue;
-      string cls = (n as DomElement).get_attribute ("class");
+      string cls = ((DomElement) n).get_attribute ("class");
       if (cls != null) {
         string[] ncls = {};
         if (" " in cls)

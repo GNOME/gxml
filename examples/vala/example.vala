@@ -56,7 +56,7 @@ void create_a_document_from_a_path (string uri) throws GLib.Error {
 	GLib.File f = GLib.File.new_for_uri (uri+"/bookshelf2.xml");
 
 	doc = new GXml.Document.from_path (f.get_path ());
-	stdout.printf ("create_a_document_from_a_path:\n%s\n", (doc as GXml.Document).write_string ());
+	stdout.printf ("create_a_document_from_a_path:\n%s\n", ((GXml.Document) doc).write_string ());
 }
 
 void saving_a_document_to_a_path (string uri) throws GLib.Error {

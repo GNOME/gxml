@@ -267,7 +267,7 @@ class GXml.ElementTest : GXmlTest  {
 					GLib.message ("Attribute: "+k+"="+v);
 				}
 #endif
-				message ((node as GXml.Element).write_string ());
+				message (((GXml.Element) node).write_string ());
 				assert (((DomElement) node).attributes.length == 2);
 				assert (((DomElement) node).get_attribute ("xmlns:magic") == "http://hogwarts.co.uk/magic");
 				assert (((DomElement) node).get_attribute_ns ("http://www.w3.org/2000/xmlns/", "magic") == "http://hogwarts.co.uk/magic");

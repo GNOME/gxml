@@ -249,11 +249,11 @@ public class GXml.Document : GXml.Node,
         }
       }
       if (node is DomText)
-        dst = this.create_text_node ((node as DomText).data);
+        dst = this.create_text_node (((DomText) node).data);
       if (node is DomComment)
         dst = ((DomDocument) this).create_comment (((DomComment) node).data);
       if (node is DomProcessingInstruction)
-        dst = this.create_processing_instruction (((DomProcessingInstruction) node).target, (node as DomProcessingInstruction).data);
+        dst = this.create_processing_instruction (((DomProcessingInstruction) node).target, (((DomProcessingInstruction) node).data));
       if (dst != null) {
         document_element.append_child (dst as DomNode);
         return dst;

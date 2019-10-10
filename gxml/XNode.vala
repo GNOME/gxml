@@ -247,7 +247,7 @@ public abstract class GXml.XNode : GLib.Object,
     if (this.children_nodes.size != node.child_nodes.size) return false;
     foreach (GXml.DomNode a in attrs.values) {
       if (!((GXml.XNode?) node).attrs.has_key (a.node_name)) return false;
-      if ((a as XNode).value != ((XNode) ((GXml.XNode) node).attrs.get (a.node_name)).value) return false;
+      if (((XNode) a).value != ((XNode) ((GXml.XNode) node).attrs.get (a.node_name)).value) return false;
     }
     for (int i=0; i < children_nodes.size; i++) {
       if (!((GXml.DomNode) children_nodes[i]).is_equal_node (((GXml.DomNode?) node).child_nodes[i])) return false;

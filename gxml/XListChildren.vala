@@ -81,7 +81,7 @@ public class GXml.XListChildren : AbstractBidirList<GXml.DomNode>,
     if (index > size || index < 0) return nullnode;
     var n = @get (index);
     if (n == null) return nullnode;
-    var np = (n as GXml.XNode).get_internal_node ();
+    var np = ((GXml.XNode) n).get_internal_node ();
     np->unlink ();
     delete np;
     return nullnode;
