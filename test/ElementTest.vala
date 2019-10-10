@@ -369,7 +369,7 @@ class GXml.ElementTest : GXmlTest  {
 				assert (elem.lookup_namespace_uri ("xtest") == "http://www.w3c.org/test");
 				assert (n.lookup_namespace_uri ("xtest") == "http://www.w3c.org/test");
 				assert (child.lookup_namespace_uri ("xtest") == "http://www.w3c.org/test");
-				message ((elem as GXml.Element).write_string ());
+				message (((GXml.Element) elem).write_string ());
 				child.set_attribute_ns ("http://www.w3c.org/test","xtest:val","Value");
 				assert (elem.get_attribute_ns ("http://www.w3.org/2000/xmlns/","xtest") == "http://www.w3c.org/test");
 				assert (elem.get_attribute_ns ("http://www.w3.org/2000/xmlns","xtest") == "http://www.w3c.org/test");

@@ -483,11 +483,13 @@ public class GXml.Date : GXml.BaseProperty {
  * Convenient class to handle {@link Element}'s attributes
  * using a {@link GLib.DateTime} as sources of values.
  *
- * Timestamp is considered in local time.
+ * Timestamp is considered in UTC time.
  *
  * Property is represented as a string using a {@link DateTime.format}
  * and {@link GLib.DateTime.format} method. If {@link DateTime.format}
  * is not set '%FT%T' format is used by default.
+ *
+ * For limitations on text parsing, see at {@link GLib.DateTime.DateTime.from_iso8601}
  */
 public class GXml.DateTime : GXml.BaseProperty {
   protected GLib.DateTime _value = null;
@@ -501,11 +503,13 @@ public class GXml.DateTime : GXml.BaseProperty {
       return _value.format (s);
     }
     set {
-      var tv = TimeVal ();
-      if (tv.from_iso8601 (value)) {
-        _value = new GLib.DateTime.from_timeval_local (tv);
-      } else
+      var tz = new TimeZone.utc ();
+      var dt = new GLib.DateTime.from_iso8601 (value, tz);
+      if (dt != null) {
+        _value = dt.add_days (0) ;
+      } else {
         warning (_("Invalid timestamp for property: "+value));
+      }
     }
   }
   /**

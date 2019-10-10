@@ -567,7 +567,7 @@ public class GXml.Element : GXml.Node,
         if (nspn != ((GXml.Attr) node).prefix
             && nsn != ((GXml.Attr) node).namespace_uri) {
           throw new DomError.NAMESPACE_ERROR
-                  (_("Trying to add an attribute with an undefined namespace's prefix: %s").printf ((node as GXml.Attr).prefix));
+                  (_("Trying to add an attribute with an undefined namespace's prefix: %s").printf (((GXml.Attr) node).prefix));
         }
         nspn = _element.lookup_prefix (((GXml.Attr) node).namespace_uri);
         nsn = _element.lookup_namespace_uri (nspn);

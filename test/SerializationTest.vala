@@ -689,7 +689,7 @@ class SerializationTest : GXmlTest  {
       assert (t.timestamp != null);
       assert (t.timestamp.value != null);
       assert (t.timestamp.value == "2017-02-10T14:14:20");
-      t.timestamp.value = "2023-3-10T15:23:10.356";
+      t.timestamp.value = "2023-03-10T15:23:10.356";
       assert (t.timestamp.value != null);
       assert (t.timestamp.value == "2023-03-10T15:23:10");
       string s2 = t.to_string ();

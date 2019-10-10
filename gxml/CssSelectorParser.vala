@@ -192,9 +192,8 @@ public class GXml.CssNotSelector : GXml.CssSelector {
 	}
 	
 	/**
-	 * a list of {@link GXml.CssSelector} that shouldn't match
-	 * 
-	 * @return a {@link Gee.List} of {@link GXml.CssSelector}
+	 * a list of {@link GXml.CssSelector} that shouldn't match as a
+	 * {@link Gee.List} of {@link GXml.CssSelector}
 	 */
 	public Gee.List<GXml.CssSelector> selectors {
 		get {
@@ -446,9 +445,8 @@ public class GXml.CssSelectorParser : GLib.Object {
 		this.list = new Gee.ArrayList<GXml.CssSelector>();
 	}
 	/**
-	 * a list of parsed {@link GXml.CssSelector} 
-	 * 
-	 * @return a {@link Gee.List} of {@link GXml.CssSelector} 
+	 * a list of parsed {@link GXml.CssSelector}  as a
+	 * {@link Gee.List} of {@link GXml.CssSelector}
 	 */
 	public Gee.List<GXml.CssSelector> selectors {
 		get {
