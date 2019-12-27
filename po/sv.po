@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2019-07-07 14:43+0000\n"
-"PO-Revision-Date: 2019-08-26 10:41+0200\n"
+"POT-Creation-Date: 2019-10-10 18:27+0000\n"
+"PO-Revision-Date: 2019-12-27 23:04+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -17,98 +17,174 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.2.3\n"
+"X-Generator: Poedit 2.2.4\n"
 
-#: gxml/Collections.vala:66
+#: gxml/BaseCollection.vala:90
+msgid ""
+"Invalid attempt to initialize a collection using an unsupported type. Only "
+"GXmlGXml.Element is supported"
+msgstr ""
+"Ogiltigt försök till att initiera en samling med typ som inte stöds. Endast "
+"GXmlGXml.Element stöds"
+
+#: gxml/BaseCollection.vala:119 gxml/BaseCollection.vala:147
+msgid "Parent Element is invalid"
+msgstr "Överordnat element är ogiltigt"
+
+#: gxml/BaseCollection.vala:122
+msgid ""
+"Invalid attempt to set unsupported type. Only GXmlGXml.Element is supported"
+msgstr ""
+"Ogiltigt försök till att ange typ som inte stöds. Endast GXmlGXml.Element "
+"stöds"
+
+#: gxml/BaseCollection.vala:125
+msgid "Invalid attempt to set a node with a different parent document"
+msgstr "Ogiltigt försök att ange en nod med ett annat överordnat dokument"
+
+#: gxml/BaseCollection.vala:130
+msgid ""
+"Node element not appended as child of parent. No node added to collection"
+msgstr ""
+"Nodelement ej tillagt som en underordnad nod. Ingen nod lades till samlingen"
+
+#: gxml/BaseCollection.vala:192 gxml/BaseCollection.vala:210
+#, c-format
+msgid "Error: %s"
+msgstr "Fel: %s"
+
+#: gxml/Collections.vala:116
 msgid "Invalid index for elements in array list"
 msgstr "Ogiltigt index för elementen i vektorlistan"
 
-#: gxml/Collections.vala:70
+#: gxml/Collections.vala:120
 msgid "Invalid index reference for child elements in array list"
 msgstr "Ogiltig indexreferens för underordnade element i vektorlistan"
 
-#: gxml/Collections.vala:75
+#: gxml/Collections.vala:125
 msgid "Referenced object's type is invalid. Should be a GXmlDomElement"
 msgstr "Refererat objekts typ är ogiltig. Ska vara ett GXmlDomElement"
 
-#: gxml/CssSelectorParser.vala:206 gxml/CssSelectorParser.vala:214
+#: gxml/CssSelectorParser.vala:232 gxml/CssSelectorParser.vala:240
 msgid "Invalid identifier"
 msgstr "Ogiltig identifierare"
 
-#: gxml/CssSelectorParser.vala:212 gxml/CssSelectorParser.vala:218
-#: gxml/CssSelectorParser.vala:303
+#: gxml/CssSelectorParser.vala:238 gxml/CssSelectorParser.vala:244
+#: gxml/CssSelectorParser.vala:329
 msgid "string value is empty"
 msgstr "strängvärdet är tomt"
 
 # https://www.w3schools.com/cssref/sel_not.asp
-#: gxml/CssSelectorParser.vala:224
+#: gxml/CssSelectorParser.vala:250
 msgid "Cannot find start of 'not selector' value"
 msgstr "Det går inte att hitta start på värde för ”NOT-väljare”"
 
 # https://www.w3schools.com/cssref/sel_not.asp
-#: gxml/CssSelectorParser.vala:230
+#: gxml/CssSelectorParser.vala:256
 msgid "Cannot find end of 'not selector' value"
 msgstr "Det går inte att hitta slutet på värde för ”NOT-väljare”"
 
-#: gxml/CssSelectorParser.vala:245
+#: gxml/CssSelectorParser.vala:271
 #, c-format
 msgid "Invalid '%s' pseudo class"
 msgstr "Ogiltig pseudoklass ”%s”"
 
-#: gxml/CssSelectorParser.vala:249
+#: gxml/CssSelectorParser.vala:275
 #, c-format
 msgid "Invalid '%s' pseudo class : cannot find value"
 msgstr "Ogiltig pseudoklass ”%s”: det går inte att hitta värde"
 
-#: gxml/CssSelectorParser.vala:254
+#: gxml/CssSelectorParser.vala:280
 msgid "Cannot find end of pseudo class value"
 msgstr "Det går inte att hitta slutet på pseudoklassvärde"
 
-#: gxml/CssSelectorParser.vala:259
+#: gxml/CssSelectorParser.vala:285
 msgid "Pseudo class value isn't a valid number"
 msgstr "Pseudoklassvärdet är inte ett giltigt tal"
 
-#: gxml/CssSelectorParser.vala:267
+#: gxml/CssSelectorParser.vala:293
 msgid "current class doesn't start with letter"
 msgstr "aktuell klass börjar inte med en bokstav"
 
-#: gxml/CssSelectorParser.vala:277
+#: gxml/CssSelectorParser.vala:303
 msgid "current id doesn't start with letter"
 msgstr "aktuellt ID börjar inte med en bokstav"
 
-#: gxml/CssSelectorParser.vala:293 gxml/CssSelectorParser.vala:305
+#: gxml/CssSelectorParser.vala:319 gxml/CssSelectorParser.vala:331
 msgid "Invalid attribute"
 msgstr "Ogiltigt attribut"
 
-#: gxml/CssSelectorParser.vala:331
+#: gxml/CssSelectorParser.vala:357
 msgid "Invalid attribute selector"
 msgstr "Ogiltig attributväljare"
 
-#: gxml/CssSelectorParser.vala:336
+#: gxml/CssSelectorParser.vala:362
 #, c-format
 msgid "Invalid attribute selector. '=' expected but '%s' was found"
 msgstr "Ogiltigt attributväljare. ”=” förväntades, men ”%s” hittades"
 
-#: gxml/CssSelectorParser.vala:348
+#: gxml/CssSelectorParser.vala:374
 msgid "Cannot find end of attribute value"
 msgstr "Det går inte att hitta slutet på attributvärde"
 
-#: gxml/CssSelectorParser.vala:352
+#: gxml/CssSelectorParser.vala:378
 msgid "Cannot find end of attribute selector"
 msgstr "Det går inte att hitta slutet på attributväljare"
 
-#: gxml/CssSelectorParser.vala:399
+#: gxml/CssSelectorParser.vala:425
 msgid "No selectors found"
 msgstr "Inga väljare hittades"
 
-#: gxml/CssSelectorParser.vala:403
+#: gxml/CssSelectorParser.vala:429
 #, c-format
 msgid "Last selector has combiner assigned (%s)"
 msgstr "Sista väljaren har en kombinerare tilldelad (%s)"
 
-#: gxml/Document.vala:153
-msgid "Invalid file"
-msgstr "Ogiltig fil"
+#: gxml/Document.vala:124
+#, c-format
+msgid "Error while attempting to instantiate root property object: %s"
+msgstr "Fel vid försök att instansiera root-egenskapsobjekt: %s"
+
+#: gxml/Document.vala:184
+msgid "Creating a namespaced element with invalid node name"
+msgstr "Skapar ett element med namnrymd med ogiltigt nodnamn"
+
+#: gxml/Document.vala:191
+msgid "Creating a namespaced element with invalid namespace"
+msgstr "Skapar ett element med namnrymd med ogiltig namnrymd"
+
+#: gxml/Document.vala:195
+msgid ""
+"Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
+msgstr ""
+"Ogiltig namnrymds-URI för xmlns-prefix. Använd http://www.w3.org/2000/xmlns/"
+
+#: gxml/Document.vala:199
+msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
+msgstr "Endast xmlns-prefix kan användas med http://www.w3.org/2000/xmlns/"
+
+#: gxml/Document.vala:239 gxml/XDocument.vala:252
+msgid "Can't import a Document"
+msgstr "Det går inte att importera ett dokument"
+
+#: gxml/Document.vala:241 gxml/XDocument.vala:254
+msgid "Can't import a non Element type node to a Document"
+msgstr ""
+"Det går inte att importera en typ som inte är ett element till ett dokument"
+
+#: gxml/Document.vala:265 gxml/XDocument.vala:278
+msgid "Can't adopt a Document"
+msgstr "Det går inte att ta in ett dokument som underordnad nod"
+
+#. FIXME:
+#: gxml/Document.vala:443
+msgid "DomElement query_selector is not implemented"
+msgstr "DomElement query_selector är inte implementerad"
+
+#. FIXME:
+#: gxml/Document.vala:447
+msgid "DomElement query_selector_all is not implemented"
+msgstr "DomElement query_selector_all är inte implementerad"
 
 #: gxml/DomCharacter.vala:46
 msgid "Invalid offset for substring"
@@ -122,128 +198,52 @@ msgstr "Ogiltig förskjutning för ersättningsdata"
 msgid "Invalid offset to split text"
 msgstr "Ogiltig förskjutning för att dela text"
 
-#: gxml/DomNode.vala:150 gxml/Node.vala:203
+#: gxml/DomNode.vala:133
 msgid "Text node with NULL string"
 msgstr "Textnod med NULL-sträng"
 
-#: gxml/DomNode.vala:157
+#: gxml/DomNode.vala:140
 msgid "Can't copy child text node"
 msgstr "Kan inte kopiera underordnad textnod"
 
-#: gxml/Enumeration.vala:88
-msgid "value is invalid"
-msgstr "värde är ogiltigt"
-
-#: gxml/Enumeration.vala:129
-msgid "text cannot be parsed to enumeration type:"
-msgstr "text kan inte tolkas till uppräkningstyp:"
-
-#: gxml/GomBaseCollection.vala:90
-msgid ""
-"Invalid attempt to initialize a collection using an unsupported type. Only "
-"GXmlGomElement is supported"
-msgstr ""
-"Ogiltigt försök till att initiera en samling med typ som inte stöds. Endast "
-"GXmlGomElement stöds"
-
-#: gxml/GomBaseCollection.vala:119 gxml/GomBaseCollection.vala:147
-msgid "Parent Element is invalid"
-msgstr "Överordnat element är ogiltigt"
-
-#: gxml/GomBaseCollection.vala:122
-msgid ""
-"Invalid attempt to set unsupported type. Only GXmlGomElement is supported"
-msgstr ""
-"Ogiltigt försök till att ange typ som inte stöds. Endast GXmlGomElement stöds"
-
-#: gxml/GomBaseCollection.vala:125
-msgid "Invalid attempt to set a node with a different parent document"
-msgstr "Ogiltigt försök att ange en nod med ett annat överordnat dokument"
-
-#: gxml/GomBaseCollection.vala:130
-msgid ""
-"Node element not appended as child of parent. No node added to collection"
-msgstr ""
-"Nodelement ej tillagt som en underordnad nod. Ingen nod lades till samlingen"
-
-#: gxml/GomBaseCollection.vala:192 gxml/GomBaseCollection.vala:210
-#, c-format
-msgid "Error: %s"
-msgstr "Fel: %s"
-
-#: gxml/GomDocument.vala:119
-#, c-format
-msgid "Error while attempting to instantiate root property object: %s"
-msgstr "Fel vid försök att instansiera root-egenskapsobjekt: %s"
-
-#: gxml/GomDocument.vala:179
-msgid "Creating a namespaced element with invalid node name"
-msgstr "Skapar ett element med namnrymd med ogiltigt nodnamn"
-
-#: gxml/GomDocument.vala:186
-msgid "Creating a namespaced element with invalid namespace"
-msgstr "Skapar ett element med namnrymd med ogiltig namnrymd"
-
-#: gxml/GomDocument.vala:190
-msgid ""
-"Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
-msgstr ""
-"Ogiltig namnrymds-URI för xmlns-prefix. Använd http://www.w3.org/2000/xmlns/"
-
-#: gxml/GomDocument.vala:194
-msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
-msgstr "Endast xmlns-prefix kan användas med http://www.w3.org/2000/xmlns/"
-
-#: gxml/GomDocument.vala:234 gxml/GXmlDocument.vala:269
-msgid "Can't import a Document"
-msgstr "Det går inte att importera ett dokument"
-
-#: gxml/GomDocument.vala:236 gxml/GXmlDocument.vala:271
-msgid "Can't import a non Element type node to a Document"
-msgstr ""
-"Det går inte att importera en typ som inte är ett element till ett dokument"
-
-#: gxml/GomDocument.vala:260 gxml/GXmlDocument.vala:295
-msgid "Can't adopt a Document"
-msgstr "Det går inte att ta in ett dokument som underordnad nod"
-
-#. FIXME:
-#: gxml/GomDocument.vala:438
-msgid "DomElement query_selector is not implemented"
-msgstr "DomElement query_selector är inte implementerad"
-
-#. FIXME:
-#: gxml/GomDocument.vala:442
-msgid "DomElement query_selector_all is not implemented"
-msgstr "DomElement query_selector_all är inte implementerad"
-
-#: gxml/GomElement.vala:169
+#: gxml/Element.vala:183
 msgid "Invalid namespace URI stored in element's attribute"
 msgstr "Ogiltig namnrymds-URI lagras i elementets attribut"
 
-#: gxml/GomElement.vala:176 gxml/GomElement.vala:198
+#: gxml/Element.vala:190 gxml/Element.vala:224
 msgid "Invalid attribute name in element's attributes list"
 msgstr "Ogiltigt attributnamn i elementets attributlista"
 
-#: gxml/GomElement.vala:213
+#: gxml/Element.vala:239
 msgid "Can't locate child node to remove"
 msgstr "Kan inte finna underordnad nod att ta bort"
 
-#: gxml/GomElement.vala:444 gxml/GomElement.vala:505
+#: gxml/Element.vala:469 gxml/Element.vala:535
 #, c-format
 msgid "Invalid attribute name: %s"
 msgstr "Ogiltigt attributnamn: %s"
 
-#: gxml/GomElement.vala:446 gxml/GomElement.vala:507
-msgid "Invalid node type. DomAttr was expected"
-msgstr "Ogiltig nodtyp. DomAttr förväntades"
+#: gxml/Element.vala:471 gxml/Element.vala:537
+msgid "Invalid node type. GXml.Attr was expected"
+msgstr "Ogiltig nodtyp. GXml.Attr förväntades"
 
-#: gxml/GomElement.vala:469 gxml/GomElement.vala:488
+#: gxml/Element.vala:494 gxml/Element.vala:513
 #, c-format
 msgid "No index found for attribute %s"
 msgstr "Inget index hittades för attributet %s"
 
-#: gxml/GomElement.vala:512
+#: gxml/Element.vala:522
+#, c-format
+msgid "Invalid attribute's local name '%s': invalid use of ':' character"
+msgstr ""
+"Ogiltigt lokalnamn ”%s” för attribut: ogiltig användning av tecknet ”:”"
+
+#: gxml/Element.vala:526
+#, c-format
+msgid "Namespace URI was not found: %s"
+msgstr "Namnrymds-URI hittades inte: %s"
+
+#: gxml/Element.vala:542
 msgid ""
 "Namespace attributes prefixed with xmlns should use a namespace uri http://"
 "www.w3.org/2000/xmlns"
@@ -251,49 +251,44 @@ msgstr ""
 "Namnrymdsattribut med xmlns-prefix ska använda en namnrymds-URI http://www."
 "w3.org/2000/xmlns"
 
-#: gxml/GomElement.vala:519
+#: gxml/Element.vala:549
 #, c-format
 msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
 msgstr "Namnrymdsattribut ska ha ett prefix som varken är tomt eller null: %s"
 
-#: gxml/GomElement.vala:523
+#: gxml/Element.vala:553
 msgid "Invalid namespace attribute's name."
 msgstr "Ogiltigt namn på namnrymdsattribut."
 
-#: gxml/GomElement.vala:535
+#: gxml/Element.vala:570
 #, c-format
-msgid "Duplicated default namespace detected with URI: %s"
-msgstr "Identifierade duplicerad standardnamnrymd med URI: %s"
-
-#: gxml/GomElement.vala:544
-#, c-format
-msgid "Duplicated namespace detected for: %s:%s"
-msgstr "Identifierade duplicerad namnrymd för: %s:%s"
-
-#: gxml/GomElement.vala:555
-#, c-format
-msgid "Trying to add an attribute with an undefined namespace prefix: %s"
+msgid "Trying to add an attribute with an undefined namespace's prefix: %s"
 msgstr ""
 "Försöker att lägga till ett attribut med ett odefinierat namnrymdsprefix: %s"
 
-#: gxml/GomElement.vala:561
-msgid "Trying to add an attribute with a non found namespace URI"
-msgstr "Försöker att lägga till ett attribut med ett icke funnet namnrymds-URI"
+#: gxml/Element.vala:577
+msgid "Trying to add an attribute with an undefined namespace's URI"
+msgstr "Försöker att lägga till ett attribut med en odefinierad namnrymds-URI"
 
-#: gxml/GomElement.vala:634
+#: gxml/Element.vala:629
+#, c-format
+msgid "Error getting attribute with namespace: %s"
+msgstr "Fel vid erhållande av attribut med namnrymd: %s"
+
+#: gxml/Element.vala:645
 msgid "Invalid attribute name. Just one prefix is allowed"
 msgstr "Ogiltigt attributnamn. Endast ett prefix är tillåtet"
 
-#: gxml/GomElement.vala:638
+#: gxml/Element.vala:650
 #, c-format
 msgid "Invalid attribute name. Invalid use of colon: %s"
 msgstr "Ogiltigt attributnamn. Ogiltig användning av kolon: %s"
 
-#: gxml/GomElement.vala:643
+#: gxml/Element.vala:654
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
 msgstr "Ogiltig namnrymd. Om prefix är null bör namnrymd-URI inte vara tom"
 
-#: gxml/GomElement.vala:645
+#: gxml/Element.vala:657
 msgid ""
 "Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
 "org/2000/xmlns"
@@ -301,7 +296,7 @@ msgstr ""
 "Ogiltig namnrymd. Om prefix är xml bör namnrymd-URI vara http://www.w3."
 "org/2000/xmlns"
 
-#: gxml/GomElement.vala:648
+#: gxml/Element.vala:661
 msgid ""
 "Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns"
@@ -309,7 +304,7 @@ msgstr ""
 "Ogiltig namnrymd. Om attributets prefix är xmlns bör namnrymd-URI vara "
 "http://www.w3.org/2000/xmlns"
 
-#: gxml/GomElement.vala:652
+#: gxml/Element.vala:666
 msgid ""
 "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns"
@@ -317,159 +312,244 @@ msgstr ""
 "Ogiltig namnrymd. Om attributets namn är xmlns bör namnrymd-URI vara http://"
 "www.w3.org/2000/xmlns"
 
-#: gxml/GomElement.vala:654
-msgid "Invalid attribute name. No prefixed attributes should use xmlns name"
-msgstr "Ogiltigt attributnamn. Inga attribut med prefix ska använda xmlns-namn"
+#: gxml/Element.vala:669
+msgid ""
+"Invalid attribute name. No prefixed attributes should use xml or xmlns name"
+msgstr ""
+"Ogiltigt attributnamn. Inga attribut med prefix ska använda xml- eller xmlns-"
+"namn"
 
-#: gxml/GomElement.vala:658
+#: gxml/Element.vala:674
 msgid "Setting namespaced property error: "
 msgstr "Anger fel för egenskap i namnrymd: "
 
-#: gxml/GomElement.vala:664
+#: gxml/Element.vala:680
 msgid "Removing attribute Error: "
 msgstr "Tar bort attributfel: "
 
-#: gxml/GomElement.vala:669
+#: gxml/Element.vala:685
 msgid "Removing namespaced attribute Error: "
 msgstr "Tar bort fel för namnrymdsattribut: "
 
-#: gxml/GomHashPairedMap.vala:210
+#: gxml/Element.vala:851
+#, c-format
+msgid "Error parsing child's buffer: %s"
+msgstr "Fel vid tolkning av underordnads buffert: %s"
+
+#: gxml/Enumeration.vala:88
+msgid "value is invalid"
+msgstr "värde är ogiltigt"
+
+#: gxml/Enumeration.vala:129
+#, c-format
+msgid "text '%s' cannot be parsed to enumeration type: %s"
+msgstr "texten ”%s” kan inte tolkas till uppräkningstyp: %s"
+
+#: gxml/HashPairedMap.vala:210
 msgid "No primary key and/or secondary key was found"
 msgstr "Ingen primärnyckel och/eller sekundärnyckel hittades"
 
-#: gxml/GomNode.vala:156
+#: gxml/Node.vala:156
 msgid "Text content in element can't be created"
 msgstr "Kan inte skapa textinnehåll i element"
 
-#: gxml/GomNode.vala:209 gxml/GXmlNode.vala:278
+#: gxml/Node.vala:209 gxml/XNode.vala:279
 msgid "Can't find node position"
 msgstr "Det går inte att hitta nodposition"
 
-#: gxml/GomNode.vala:257 gxml/GomNode.vala:299 gxml/GXmlNode.vala:309
-#: gxml/GXmlNode.vala:340
+#: gxml/Node.vala:257 gxml/Node.vala:299 gxml/XNode.vala:310
+#: gxml/XNode.vala:341
 msgid "Invalid attempt to add invalid node type"
 msgstr "Ogiltigt försök att lägga till ogiltig nodtyp"
 
-#: gxml/GomNode.vala:260 gxml/GXmlNode.vala:311
+#: gxml/Node.vala:260 gxml/XNode.vala:312
 msgid "Can't find child to insert node before"
 msgstr "Det går inte att hitta underordnad nod för att infoga noden innan"
 
-#: gxml/GomNode.vala:265 gxml/GomNode.vala:305 gxml/GXmlNode.vala:315
-#: gxml/GXmlNode.vala:346
+#: gxml/Node.vala:265 gxml/Node.vala:305 gxml/XNode.vala:316
+#: gxml/XNode.vala:347
 msgid "Invalid attempt to insert a node"
 msgstr "Ogiltigt försök till att infoga en nod"
 
-#: gxml/GomNode.vala:273 gxml/GomNode.vala:312 gxml/GXmlNode.vala:322
-#: gxml/GXmlNode.vala:353
+#: gxml/Node.vala:273 gxml/Node.vala:312 gxml/XNode.vala:323
+#: gxml/XNode.vala:354
 msgid "Invalid attempt to insert an invalid node type"
 msgstr "Ogiltigt försök att infoga en ogiltig nodtyp"
 
-#: gxml/GomNode.vala:277
+#: gxml/Node.vala:277
 msgid ""
 "Invalid attempt to insert a document or text type to an invalid parent node"
 msgstr ""
 "Ogiltigt försök att infoga en dokument- eller texttyp till en ogiltig "
 "överordnad nod"
 
-#: gxml/GomNode.vala:290
+#: gxml/Node.vala:290
 msgid "Node type is invalid. Can't append as child"
 msgstr "Nodtypen är ogiltig. Kan inte lägga till som underordnad"
 
-#: gxml/GomNode.vala:293
+#: gxml/Node.vala:293
 msgid "Invalid attempt to append a child with different parent document"
 msgstr ""
 "Ogiltigt försök att lägga till en nod med ett annat överordnat dokument"
 
-#: gxml/GomNode.vala:301 gxml/GXmlNode.vala:342
+#: gxml/Node.vala:301 gxml/XNode.vala:343
 msgid "Can't find child node to replace or child have a different parent"
 msgstr ""
 "Det går inte att hitta underordnad nod för att ersätta eller så har "
 "underordnad nod en annan överordnad nod"
 
-#: gxml/GomNode.vala:315 gxml/GXmlNode.vala:325 gxml/GXmlNode.vala:356
+#: gxml/Node.vala:315 gxml/XNode.vala:326 gxml/XNode.vala:357
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr ""
 "Ogiltigt försök att infoga ett dokuments typ- eller textnod till en ogiltig "
 "överordnad nod"
 
-#: gxml/GomNode.vala:327 gxml/GXmlNode.vala:368
+#: gxml/Node.vala:327 gxml/XNode.vala:369
 msgid "Can't find child node to remove or child have a different parent"
 msgstr ""
 "Det går inte att hitta underordnad nod att ta bort eller så har underordnad "
 "nod en annan överordnad nod"
 
-#: gxml/GomObject.vala:170
+#: gxml/Object.vala:170
 msgid "Enumeration is out of range"
 msgstr "Uppräkningen är utanför intervallet"
 
-#: gxml/GomObject.vala:285
+#: gxml/Object.vala:285
 msgid "Enumeration can't be parsed from string"
 msgstr "Uppräkningen kan inte tolkas från strängen"
 
-#: gxml/GomObject.vala:407
+#: gxml/Object.vala:407
 #, c-format
 msgid "Error while attempting to instantiate property object: %s"
 msgstr "Fel vid försök att instansiera egenskapsobjektet: %s"
 
-#: gxml/GomObject.vala:456
-msgid "Can't set value. It is not a GXmlGomElement type"
-msgstr "Kan inte sätta värdet. Det är inte en GXmlGomElement-typ"
+#: gxml/Object.vala:456
+msgid "Can't set value. It is not a GXmlGXml.Element type"
+msgstr "Kan inte sätta värdet. Det är inte en GXmlGXml.Element-typ"
 
-#: gxml/GXmlParser.vala:57
-msgid "stream doesn't provide data"
-msgstr "ström tillhandahåller inte data"
-
-#: gxml/GXmlParser.vala:72
-msgid "Parser Error for string"
-msgstr "Tolkfel för sträng"
-
-#: gxml/GomProperty.vala:336
-msgid "Error when transform enum to attribute's value"
-msgstr "Fel vid transformering av enum till attributvärde"
-
-#: gxml/GomProperty.vala:344
-msgid "Error when transform from attribute string value to enum"
-msgstr "Fel vid transformering från attributsträngvärde till enum"
-
-#: gxml/GomProperty.vala:396 gxml/GomProperty.vala:403
-msgid "Invalid Date for property: "
-msgstr "Ogiltigt datum för egenskap: "
-
-#: gxml/GomProperty.vala:398
-msgid "Invalid format for Date property: "
-msgstr "Ogiltigt format för datumegenskap: "
-
-#: gxml/GomProperty.vala:442
-msgid "Invalid timestamp for property: "
-msgstr "Ogiltig tidsstämpel för egenskap: "
-
-#: gxml/GomSchema.vala:266
-#, c-format
-msgid "Error removing Collection's element: %s"
-msgstr "Fel vid borttagning av samlingens element: %s"
-
-#: gxml/GomSchema.vala:275
-#, c-format
-msgid "Can't find element at position: %i: %s"
-msgstr "Det går inte att hitta element vid position: %i: %s"
-
-#: gxml/GomSchema.vala:289 gxml/GomSchema.vala:297 gxml/GomSchema.vala:305
-#: gxml/GomSchema.vala:313 gxml/GomSchema.vala:321
-#, c-format
-msgid "Collection type %s, initialization error: %s"
-msgstr "Samlingstyp %s, initieringsfel: %s"
-
-#: gxml/GXmlDocument.vala:58 gxml/Parser.vala:92 gxml/Parser.vala:100
-#: gxml/TDocument.vala:478
+#: gxml/Parser.vala:92 gxml/Parser.vala:100 gxml/XDocument.vala:57
 msgid "File doesn't exist"
 msgstr "Fil existerar inte"
 
-#: gxml/GXmlDocument.vala:225
-msgid "Invalid element qualified name: multiple namespace prefixes"
-msgstr "Ogiltigt kvalificerat elementnamn: flera namnrymdsprefix"
+#: gxml/Parser.vala:181
+msgid ""
+"Invalid attempt to parse an element node, when current found node is not"
+msgstr "Ogiltigt försök att tolka en elementnod när aktuell nod ej är det"
 
-#: gxml/GXmlDomCollections.vala:54
+#: gxml/Parser.vala:253 gxml/StreamReader.vala:189
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: items' type property was "
+"not set at construction time or set to invalid type"
+msgstr ""
+"Samlingen ”%s” har inte konstruerats korrekt: objekts typegenskap ställdes "
+"inte in vid konstruktionstid eller ställdes in till ogiltig typ"
+
+#: gxml/Parser.vala:257 gxml/StreamReader.vala:193
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: items' name property was "
+"not set at construction time"
+msgstr ""
+"Samlingen ”%s” har inte konstruerats korrekt: objekts namnegenskap ställdes "
+"inte in vid konstruktionstid"
+
+#: gxml/Parser.vala:261 gxml/StreamReader.vala:197
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: element property was not "
+"set at construction time"
+msgstr ""
+"Samlingen ”%s” har inte konstruerats korrekt: elementegenskap ställdes inte "
+"in vid konstruktionstid"
+
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:201
+#, c-format
+msgid ""
+"Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
+"be handled by the collection"
+msgstr ""
+"Ogiltigt objekt av typen ”%s” implementerar inte GXml.Object-gränssnitt: kan "
+"inte hanteras av samlingen"
+
+#: gxml/Parser.vala:270
+msgid "No document is set to node"
+msgstr "Inget dokument är satt till nod"
+
+#: gxml/Parser.vala:291 gxml/XParser.vala:102 gxml/XParser.vala:108
+msgid "Invalid document string, it is empty or is not allowed"
+msgstr "Ogiltigt dokumentsträng, den är tom eller ej tillåten"
+
+#: gxml/Property.vala:389
+#, c-format
+msgid "Error when transform enum to attribute's value: %s"
+msgstr "Fel vid transformering av enum till attributvärde: %s"
+
+#: gxml/Property.vala:398
+#, c-format
+msgid "Error when transform from attribute string value to enum: %s"
+msgstr "Fel vid transformering från attributsträngvärde till enum: %s"
+
+#: gxml/Property.vala:462 gxml/Property.vala:469
+msgid "Invalid Date for property: "
+msgstr "Ogiltigt datum för egenskap: "
+
+#: gxml/Property.vala:464
+msgid "Invalid format for Date property: "
+msgstr "Ogiltigt format för datumegenskap: "
+
+#: gxml/Property.vala:511
+msgid "Invalid timestamp for property: "
+msgstr "Ogiltig tidsstämpel för egenskap: "
+
+#: gxml/Range.vala:53 gxml/Range.vala:81 gxml/Range.vala:154
+msgid "Invalid node type to start"
+msgstr "Ogiltig nodtyp att starta"
+
+#: gxml/Range.vala:56 gxml/Range.vala:84
+msgid "Invalid offset for node to start: for document type"
+msgstr "Ogiltig förskjutning för nod att starta: för dokumenttyp"
+
+#: gxml/Range.vala:60 gxml/Range.vala:88
+msgid "Invalid offset for node to start: for character data"
+msgstr "Ogiltig förskjutning för nod att starta: för teckendata"
+
+#: gxml/Range.vala:63 gxml/Range.vala:91
+msgid "Invalid offset for node to start: for children number"
+msgstr "Ogiltig förskjutning för nod att starta: för antal underordnade"
+
+#: gxml/Range.vala:107 gxml/Range.vala:121
+msgid "Invalid node type to start before"
+msgstr "Ogiltig nodtyp att starta innan"
+
+#: gxml/Range.vala:112 gxml/Range.vala:126 gxml/Range.vala:144
+msgid "Invalid node type to start after"
+msgstr "Ogiltig nodtyp att starta efter"
+
+#: gxml/Range.vala:169
+msgid "Invalid root in the source range"
+msgstr "Ogiltig rot i källintervallet"
+
+#: gxml/StreamReader.vala:107
+msgid "Invalid document: should start with '<'"
+msgstr "Ogiltigt dokument: ska börja med ”<”"
+
+#: gxml/StreamReader.vala:111 gxml/StreamReader.vala:120
+msgid "Invalid document: unexpected character before node's name"
+msgstr "Ogiltigt dokument: oväntat tecken före nodens namn"
+
+#: gxml/StreamReader.vala:116
+#, c-format
+msgid "Invalid document: unexpected character '%c'"
+msgstr "Ogiltigt dokument: oväntat tecken ”%c”"
+
+#: gxml/StreamReader.vala:132
+#, c-format
+msgid "Parent '%s' is not implemeting GXml.Object interface"
+msgstr "Överordnat element ”%s” implementerar inte GXml.Object-gränssnitt"
+
+#: gxml/TokenList.vala:54
 msgid ""
 "DOM: Invalid token. No empty string could be used as token to check if it is "
 "contained in token list"
@@ -477,7 +557,7 @@ msgstr ""
 "DOM: Ogiltigt token. Ingen tom sträng kan inkluderas som ett token för att "
 "se om det finns i tokenlistan"
 
-#: gxml/GXmlDomCollections.vala:56
+#: gxml/TokenList.vala:56
 msgid ""
 "DOM: Invalid token. No white spaces could be included as token to check if "
 "it is contained in token list"
@@ -485,173 +565,85 @@ msgstr ""
 "DOM: Ogiltigt token. Inga blanktecken kan inkluderas som ett token för att "
 "se om det finns i tokenlistan"
 
-#: gxml/GXmlDomCollections.vala:63 gxml/GXmlDomCollections.vala:86
+#: gxml/TokenList.vala:63 gxml/TokenList.vala:86
 msgid "DOM: Invalid token. Empty string can't be used as token"
 msgstr "DOM: Ogiltigt token. Tom sträng kan inte användas som token"
 
-#: gxml/GXmlDomCollections.vala:65 gxml/GXmlDomCollections.vala:88
+#: gxml/TokenList.vala:65 gxml/TokenList.vala:88
 msgid "DOM: Invalid token. White spaces can't be used as token"
 msgstr "DOM: Ogiltigt token. Blanktecken kan inte användas som token"
 
-#: gxml/GXmlDomCollections.vala:102
+#: gxml/TokenList.vala:102
 msgid "Update Error: "
 msgstr "Uppdateringsfel: "
 
-#: gxml/GXmlDomRange.vala:53 gxml/GXmlDomRange.vala:81
-#: gxml/GXmlDomRange.vala:154
-msgid "Invalid node type to start"
-msgstr "Ogiltig nodtyp att starta"
+#: gxml/XDocument.vala:139
+#, c-format
+msgid "Error writing document to string: %s"
+msgstr "Fel vid skrivning av dokument till sträng: %s"
 
-#: gxml/GXmlDomRange.vala:56 gxml/GXmlDomRange.vala:84
-msgid "Invalid offset for node to start: for document type"
-msgstr "Ogiltig förskjutning för nod att starta: för dokumenttyp"
+#: gxml/XDocument.vala:207
+msgid "Invalid element qualified name: multiple namespace prefixes"
+msgstr "Ogiltigt kvalificerat elementnamn: flera namnrymdsprefix"
 
-#: gxml/GXmlDomRange.vala:60 gxml/GXmlDomRange.vala:88
-msgid "Invalid offset for node to start: for character data"
-msgstr "Ogiltig förskjutning för nod att starta: för teckendata"
+#: gxml/XdParser.vala:60
+msgid "stream doesn't provide data"
+msgstr "ström tillhandahåller inte data"
 
-#: gxml/GXmlDomRange.vala:63 gxml/GXmlDomRange.vala:91
-msgid "Invalid offset for node to start: for children number"
-msgstr "Ogiltig förskjutning för nod att starta: för antal underordnade"
+#: gxml/XdParser.vala:75
+msgid "Parser Error for string"
+msgstr "Tolkfel för sträng"
 
-#: gxml/GXmlDomRange.vala:107 gxml/GXmlDomRange.vala:121
-msgid "Invalid node type to start before"
-msgstr "Ogiltig nodtyp att starta innan"
+#: gxml/XElement.vala:148
+#, c-format
+msgid "Error while converting Element to string: %s"
+msgstr "Fel vid konvertering av element till sträng: %s"
 
-#: gxml/GXmlDomRange.vala:112 gxml/GXmlDomRange.vala:126
-#: gxml/GXmlDomRange.vala:144
-msgid "Invalid node type to start after"
-msgstr "Ogiltig nodtyp att starta efter"
+#: gxml/XElement.vala:348
+#, c-format
+msgid "invalid namespace. Code: %s"
+msgstr "ogiltig namnrymd. Kod: %s"
 
-#: gxml/GXmlDomRange.vala:169
-msgid "Invalid root in the source range"
-msgstr "Ogiltig rot i källintervallet"
-
-#: gxml/GXmlElement.vala:340
-msgid "invalid namespace. Code: "
-msgstr "ogiltig namnrymd: Kod: "
-
-#: gxml/GXmlHashMapAttr.vala:243
+#: gxml/XHashMapAttr.vala:243
 msgid "Invalid document when adding item to collection"
 msgstr "Ogiltigt dokument vid tillägg av objekt till samling"
 
-#: gxml/GXmlHashMapAttr.vala:245 gxml/GXmlHashMapAttr.vala:297
+#: gxml/XHashMapAttr.vala:245 gxml/XHashMapAttr.vala:297
 msgid "This node collection is read only"
 msgstr "Denna nodsamling är skrivskyddad"
 
-#: gxml/GXmlHashMapAttr.vala:247 gxml/GXmlHashMapAttr.vala:299
+#: gxml/XHashMapAttr.vala:247 gxml/XHashMapAttr.vala:299
 msgid "This node attribute is already in use by other Element"
 msgstr "Detta nodattribut används redan av andra element"
 
-#: gxml/GXmlHashMapAttr.vala:249 gxml/GXmlHashMapAttr.vala:301
+#: gxml/XHashMapAttr.vala:249 gxml/XHashMapAttr.vala:301
 msgid "Trying to add an object to an Element, but it is not an attribute"
 msgstr ""
 "Försöker att lägga till ett objekt till ett element men det är inte ett "
 "attribut"
 
-#: gxml/GXmlHashMapAttr.vala:261 gxml/GXmlHashMapAttr.vala:317
+#: gxml/XHashMapAttr.vala:261 gxml/XHashMapAttr.vala:317
 #, c-format
 msgid "No node with name %s was found"
 msgstr "Hittade ingen nod med namn %s"
 
-#: gxml/GXmlHashMapAttr.vala:263 gxml/GXmlHashMapAttr.vala:319
+#: gxml/XHashMapAttr.vala:263 gxml/XHashMapAttr.vala:319
 msgid "Node collection is read only"
 msgstr "Nodsamlingen är skrivskyddad"
 
-#: gxml/GXmlHashMapAttr.vala:295
+#: gxml/XHashMapAttr.vala:295
 msgid "Invalid document when adding item to named node map collection"
 msgstr "Ogiltigt dokument vid tillägg av objekt till en namngiven nodsamling"
 
-#: gxml/GXmlNode.vala:44
+#: gxml/XNode.vala:43
 #, c-format
 msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
 
-#: gxml/Parser.vala:181
-msgid ""
-"Invalid attempt to parse an element node, when current found node is not"
-msgstr "Ogiltigt försök att tolka en elementnod när aktuell nod ej är det"
-
-#: gxml/Parser.vala:253
-msgid "Invalid object type set to Collection"
-msgstr "Ogiltig objekttyp satt till samling"
-
-#: gxml/Parser.vala:257
-msgid "Invalid DomElement name for objects in Collection"
-msgstr "Ogiltigt DomElement-namn för objekt i samling"
-
-#: gxml/Parser.vala:261
-msgid "Invalid Element set to Collection"
-msgstr "Ogiltigt element satt till samling"
-
-#: gxml/Parser.vala:266
-msgid "No document is set to node"
-msgstr "Inget dokument är satt till nod"
-
-#: gxml/Parser.vala:287 gxml/XParser.vala:102 gxml/XParser.vala:108
-msgid "Invalid document string, it is empty or is not allowed"
-msgstr "Ogiltigt dokumentsträng, den är tom eller ej tillåten"
-
-#: gxml/SerializableEnum.vala:77
-msgid "Value can't be parsed to a valid enumeration's value. Value is not set"
-msgstr ""
-"Värde kan inte tolkas till ett värde för en giltig uppräkning. Värde ställs "
-"inte in"
-
-#: gxml/SerializableEnum.vala:80
-msgid "Value can't be parsed to a valid enumeration's value"
-msgstr "Värde kan inte tolkas till ett värde för en giltig uppräkning"
-
-#: gxml/SerializableGeeArrayList.vala:45 gxml/SerializableGeeArrayList.vala:64
-#: gxml/SerializableGeeDualKeyMap.vala:47
-#: gxml/SerializableGeeDualKeyMap.vala:68 gxml/SerializableGeeHashMap.vala:44
-#: gxml/SerializableGeeHashMap.vala:65 gxml/SerializableGeeTreeMap.vala:44
-#: gxml/SerializableGeeTreeMap.vala:65
+#: gxml/XNode.vala:216
 #, c-format
-msgid "%s: Value type '%s' is unsupported"
-msgstr "%s: Värdetyp ”%s” stöds inte"
-
-#: gxml/SerializableObjectModel.vala:323
-#, c-format
-msgid "WARNING: Object type '%s' has no Node Name defined"
-msgstr "VARNING: Objekttypen ”%s” har inget nodnamn definierat"
-
-#: gxml/SerializableObjectModel.vala:327
-#, c-format
-msgid "Actual node's name is '%s' expected '%s'"
-msgstr "Faktiskt namn på nod är ”%s”, förväntade ”%s”"
-
-#: gxml/SerializableProperty.vala:92
-msgid "Trying to serialize to a non GXmlElement!"
-msgstr "Försöker serialisera till ett icke-GXmlElement!"
-
-#: gxml/SerializableProperty.vala:111
-msgid "No attribute found to deserialize from"
-msgstr "Inget attribut hittades att deserialisera från"
-
-#: gxml/SerializableProperty.vala:116
-#, c-format
-msgid "XML Attribute name is not set, when deserializing to: %s"
-msgstr "XML-attributnamn är inte inställt vid deserialisering till: %s"
-
-#: gxml/Serializable.vala:391
-#, c-format
-msgid "Transformation Error on '%s' or Unsupported type: '%s'"
-msgstr "Omvandlingsfel på ”%s” eller typ som inte stöds: ”%s”"
-
-#: gxml/Serializable.vala:412
-#, c-format
-msgid "Can't transform '%s' to string"
-msgstr "Kan inte omvandla ”%s” till sträng"
-
-#: gxml/TDocument.vala:169
-msgid "Invalid element name"
-msgstr "Ogiltigt elementnamn"
-
-#: gxml/TDocument.vala:579 gxml/XParser.vala:324
-#, c-format
-msgid "Parsing ERROR: Fail to move to attribute number: %i"
-msgstr "TOLKFEL: Misslyckades med att flytta till attributsiffra: %i"
+msgid "Error while setting text content to node: %s"
+msgstr "Fel vid inställning av textinnehåll till nod: %s"
 
 #: gxml/XParser.vala:118
 msgid "Invalid input stream to read data from"
@@ -667,28 +659,100 @@ msgstr "Fel vid läsning av ström: %s"
 msgid "Error closing stream: %s"
 msgstr "Fel vid stängning av ström: %s"
 
-#: gxml/XParser.vala:192 gxml/XParser.vala:248 gxml/XParser.vala:257
-#: gxml/XParser.vala:306 gxml/XParser.vala:319 gxml/XParser.vala:367
+#: gxml/XParser.vala:192 gxml/XParser.vala:254 gxml/XParser.vala:263
+#: gxml/XParser.vala:312 gxml/XParser.vala:325 gxml/XParser.vala:375
 msgid "Internal Error: No TextReader was set"
 msgstr "Internt fel: Ingen TextReader angavs"
 
-#: gxml/XParser.vala:260
+#: gxml/XParser.vala:266
 msgid "Can't read node data"
 msgstr "Kan inte läsa noddata"
 
-#: gxml/XParser.vala:412
+#: gxml/XParser.vala:330
+#, c-format
+msgid "Parsing ERROR: Fail to move to attribute number: %i"
+msgstr "TOLKFEL: Misslyckades med att flytta till attributsiffra: %i"
+
+#: gxml/XParser.vala:420
 msgid "Invalid sequence for document type definition: "
 msgstr "Ogiltig sekvens för dokumenttypsdefinition: "
 
-#: gxml/XParser.vala:477 gxml/XParser.vala:582 gxml/XParser.vala:653
+#: gxml/XParser.vala:485 gxml/XParser.vala:591 gxml/XParser.vala:663
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Internt fel: Ingen TextWriter initierades"
 
+#: gxml/XsdSchema.vala:266
+#, c-format
+msgid "Error removing Collection's element: %s"
+msgstr "Fel vid borttagning av samlingens element: %s"
+
+#: gxml/XsdSchema.vala:275
+#, c-format
+msgid "Can't find element at position: %i: %s"
+msgstr "Det går inte att hitta element vid position: %i: %s"
+
+#: gxml/XsdSchema.vala:289 gxml/XsdSchema.vala:297 gxml/XsdSchema.vala:305
+#: gxml/XsdSchema.vala:313 gxml/XsdSchema.vala:321
+#, c-format
+msgid "Collection type %s, initialization error: %s"
+msgstr "Samlingstyp %s, initieringsfel: %s"
+
+#~ msgid "Invalid file"
+#~ msgstr "Ogiltig fil"
+
+#~ msgid "Duplicated default namespace detected with URI: %s"
+#~ msgstr "Identifierade duplicerad standardnamnrymd med URI: %s"
+
+#~ msgid "Duplicated namespace detected for: %s:%s"
+#~ msgstr "Identifierade duplicerad namnrymd för: %s:%s"
+
+#~ msgid "Invalid object type set to Collection"
+#~ msgstr "Ogiltig objekttyp satt till samling"
+
+#~ msgid "Invalid DomElement name for objects in Collection"
+#~ msgstr "Ogiltigt DomElement-namn för objekt i samling"
+
+#~ msgid "Invalid Element set to Collection"
+#~ msgstr "Ogiltigt element satt till samling"
+
+#~ msgid ""
+#~ "Value can't be parsed to a valid enumeration's value. Value is not set"
+#~ msgstr ""
+#~ "Värde kan inte tolkas till ett värde för en giltig uppräkning. Värde "
+#~ "ställs inte in"
+
+#~ msgid "Value can't be parsed to a valid enumeration's value"
+#~ msgstr "Värde kan inte tolkas till ett värde för en giltig uppräkning"
+
+#~ msgid "%s: Value type '%s' is unsupported"
+#~ msgstr "%s: Värdetyp ”%s” stöds inte"
+
+#~ msgid "WARNING: Object type '%s' has no Node Name defined"
+#~ msgstr "VARNING: Objekttypen ”%s” har inget nodnamn definierat"
+
+#~ msgid "Actual node's name is '%s' expected '%s'"
+#~ msgstr "Faktiskt namn på nod är ”%s”, förväntade ”%s”"
+
+#~ msgid "Trying to serialize to a non GXmlElement!"
+#~ msgstr "Försöker serialisera till ett icke-GXmlElement!"
+
+#~ msgid "No attribute found to deserialize from"
+#~ msgstr "Inget attribut hittades att deserialisera från"
+
+#~ msgid "XML Attribute name is not set, when deserializing to: %s"
+#~ msgstr "XML-attributnamn är inte inställt vid deserialisering till: %s"
+
+#~ msgid "Transformation Error on '%s' or Unsupported type: '%s'"
+#~ msgstr "Omvandlingsfel på ”%s” eller typ som inte stöds: ”%s”"
+
+#~ msgid "Can't transform '%s' to string"
+#~ msgstr "Kan inte omvandla ”%s” till sträng"
+
+#~ msgid "Invalid element name"
+#~ msgstr "Ogiltigt elementnamn"
+
 #~ msgid "Invalid attribute character"
 #~ msgstr "Ogiltigt attributtecken"
-
-#~ msgid "Invalid attribute selector character"
-#~ msgstr "Ogiltigt attributväljartecken"
 
 #~ msgid "Invalid attribute selector character: can't find '=' character"
 #~ msgstr ""
