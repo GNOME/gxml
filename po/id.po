@@ -1,14 +1,14 @@
 # Indonesian translation for gxml.
 # Copyright (C) 2016 gxml's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gxml package.
-# Andika Triwidada <atriwidada@gnome.org>, 2016.
+# Andika Triwidada <atriwidada@gnome.org>, 2016, 2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml gxml-0.18\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2019-09-27 12:12+0000\n"
-"PO-Revision-Date: 2019-11-15 11:43+0700\n"
+"POT-Creation-Date: 2019-12-01 20:19+0000\n"
+"PO-Revision-Date: 2020-01-06 11:42+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
 "Language: id\n"
@@ -37,43 +37,41 @@ msgstr "Identifier tak valid"
 #: gxml/CssSelectorParser.vala:212 gxml/CssSelectorParser.vala:218
 #: gxml/CssSelectorParser.vala:303
 msgid "string value is empty"
-msgstr ""
+msgstr "nilai string kosong"
 
 #: gxml/CssSelectorParser.vala:224
 msgid "Cannot find start of 'not selector' value"
-msgstr ""
+msgstr "Tidak dapat menemukan awal dari nilai ’not selector’"
 
 #: gxml/CssSelectorParser.vala:230
 msgid "Cannot find end of 'not selector' value"
-msgstr ""
+msgstr "Tidak dapat menemukan akhir dari nilai ’not selector’"
 
 #: gxml/CssSelectorParser.vala:245
-#, fuzzy, c-format
-#| msgid "Invalid pseudo class selector %s"
+#, c-format
 msgid "Invalid '%s' pseudo class"
-msgstr "Pemilih kategori pseudo tidak valid %s"
+msgstr "Kelas pseudo ‘%s’ tidak valid"
 
 #: gxml/CssSelectorParser.vala:249
-#, fuzzy, c-format
-#| msgid "Invalid pseudo class selector %s"
+#, c-format
 msgid "Invalid '%s' pseudo class : cannot find value"
-msgstr "Pemilih kategori pseudo tidak valid %s"
+msgstr "Kelas pseudo ‘%s’ tidak valid: tidak bisa menemukan nilai"
 
 #: gxml/CssSelectorParser.vala:254
 msgid "Cannot find end of pseudo class value"
-msgstr ""
+msgstr "Tidak dapat menemukan akhir nilai kelas pseudo"
 
 #: gxml/CssSelectorParser.vala:259
 msgid "Pseudo class value isn't a valid number"
-msgstr ""
+msgstr "Nilai kelas pseudo bukan angka yang valid"
 
 #: gxml/CssSelectorParser.vala:267
 msgid "current class doesn't start with letter"
-msgstr ""
+msgstr "kelas saat ini tidak dimulai dengan huruf"
 
 #: gxml/CssSelectorParser.vala:277
 msgid "current id doesn't start with letter"
-msgstr ""
+msgstr "id saat ini tidak dimulai dengan huruf"
 
 #: gxml/CssSelectorParser.vala:293 gxml/CssSelectorParser.vala:305
 msgid "Invalid attribute"
@@ -98,12 +96,12 @@ msgstr "Tidak dapat menemukan akhir dari pemilih atribut"
 
 #: gxml/CssSelectorParser.vala:399
 msgid "No selectors found"
-msgstr ""
+msgstr "Tidak ada penyeleksi yang ditemukan"
 
 #: gxml/CssSelectorParser.vala:403
 #, c-format
 msgid "Last selector has combiner assigned (%s)"
-msgstr ""
+msgstr "Selektor terakhir memiliki pemadu yang ditugaskan (%s)"
 
 #: gxml/Document.vala:153
 msgid "Invalid file"
@@ -438,7 +436,7 @@ msgstr "stream tidak menyediakan data"
 
 #: gxml/GXmlParser.vala:72
 msgid "Parser Error for string"
-msgstr ""
+msgstr "Galat Pengurai untuk string"
 
 #: gxml/GomProperty.vala:336
 msgid "Error when transform enum to attribute's value"
@@ -492,7 +490,7 @@ msgid ""
 "contained in token list"
 msgstr ""
 "DOM: Token tidak valid. Tidak ada string kosong yang dapat dipakai sebagai "
-"token untuk memeriksa apakah itu dimuat dalam daftar token. "
+"token untuk memeriksa apakah itu dimuat dalam daftar token."
 
 #: gxml/GXmlDomCollections.vala:56
 msgid ""
@@ -682,7 +680,7 @@ msgstr "Galat saat membaca stream: %s"
 #: gxml/XParser.vala:151
 #, c-format
 msgid "Error closing stream: %s"
-msgstr ""
+msgstr "Galat saat menutup stream: %s"
 
 #: gxml/XParser.vala:192 gxml/XParser.vala:248 gxml/XParser.vala:257
 #: gxml/XParser.vala:306 gxml/XParser.vala:319 gxml/XParser.vala:367
