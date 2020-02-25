@@ -350,8 +350,10 @@ public class GXml.XParser : Object, GXml.Parser {
           if (!processed) {
             if (prefix != null) {
               string nsuri = null;
+              if (prefix == "xmlns")
+                nsuri = "http://www.w3.org/2000/xmlns";
               if (prefix == "xml")
-                nsuri = "http://www.w3.org/2000/xmlns/";
+                nsuri = "http://www.w3.org/XML/1998/namespace";
               else
                 nsuri = tr.lookup_namespace (prefix);
               element.set_attribute_ns (nsuri, prefix+":"+attrname, attrval);

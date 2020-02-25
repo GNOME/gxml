@@ -156,6 +156,13 @@ public class GXml.GomElement : GomNode,
   }
   // DomNode overrides
   public new string? lookup_prefix (string? nspace) {
+    if (nspace == "http://www.w3.org/XML/1998/namespace"
+        || nspace == "http://www.w3.org/XML/1998/namespace/") {
+      return "xml";
+    } else if (nspace == "http://www.w3.org/2000/xmlns"
+        || nspace == "http://www.w3.org/2000/xmlns/" ) {
+      return "xmlns";
+    }
     if (_namespace_uri == nspace)
       return _prefix;
     foreach (string k in _attributes.keys) {
@@ -184,6 +191,12 @@ public class GXml.GomElement : GomNode,
     return parent_node.lookup_prefix (nspace);
   }
   public new string? lookup_namespace_uri (string? prefix) {
+    if (prefix == "xmlns") {
+      return "http://www.w3.org/2000/xmlns";
+    } else if (prefix == "xml") {
+      return "http://www.w3.org/XML/1998/namespace";
+    }
+
     foreach (string k in attributes.keys) {
       if (!("xmlns" in k)) continue;
       var p = _attributes.get (k) as DomAttr;
@@ -413,9 +426,9 @@ public class GXml.GomElement : GomNode,
         p = s[0];
         n = s[1].down ();
         if (p == "xml")
-          ns = "http://www.w3.org/2000/xmlns/";
+          ns = "http://www.w3.org/XML/1998/namespace";
         if (p == "xmlns")
-          ns = _element.lookup_namespace_uri (n);
+          ns = "http://www.w3.org/2000/xmlns";
         if (p != "xmlns" && p != "xml")
           ns =  _element.lookup_namespace_uri (p);
       }
@@ -510,6 +523,11 @@ public class GXml.GomElement : GomNode,
           && (node as DomAttr).namespace_uri != "http://www.w3.org/2000/xmlns/"
               && (node as DomAttr).namespace_uri != "http://www.w3.org/2000/xmlns")
         throw new DomError.NAMESPACE_ERROR (_("Namespace attributes prefixed with xmlns should use a namespace uri http://www.w3.org/2000/xmlns"));
+
+      if ((node as DomAttr).prefix == "xml"
+          && (node as DomAttr).namespace_uri != "http://www.w3.org/XML/1998/namespace/"
+              && (node as DomAttr).namespace_uri != "http://www.w3.org/XML/1998/namespace")
+        throw new DomError.NAMESPACE_ERROR (_("Namespace attributes prefixed with xml should use a namespace uri http://www.w3.org/XML/1998/namespace"));
       if ((node as DomAttr).prefix == ""
           || (node as DomAttr).prefix == null
           && (node as DomAttr).local_name != "xmlns") {
@@ -641,7 +659,7 @@ public class GXml.GomElement : GomNode,
     }
     if (namespace_uri == null && p == "")
        throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If prefix is null, namespace URI should not be null"));
-    if (p == "xml" && namespace_uri != "http://www.w3.org/2000/xmlns/" && namespace_uri != "http://www.w3.org/2000/xmlns")
+    if (p == "xml" && namespace_uri != "http://www.w3.org/XML/1998/namespace/" && namespace_uri != "http://www.w3.org/XML/1998/namespace")
        throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If prefix is xml, namespace URI should be http://www.w3.org/2000/xmlns"));
     if (p == "xmlns" && namespace_uri != "http://www.w3.org/2000/xmlns/"
             && namespace_uri != "http://www.w3.org/2000/xmlns")
