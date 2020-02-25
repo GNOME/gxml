@@ -171,6 +171,17 @@ public class GXml.Element : GXml.Node,
       case "http://www.w3.org/2001/XMLSchema-instance":
       case "http://www.w3.org/2001/XMLSchema-instance/":
         return "xsi";
+      case "http://www.w3.org/2000/svg":
+      case "http://www.w3.org/2000/svg/":
+        return "svg";
+      case "http://www.w3.org/1998/Math/MathML":
+      case "http://www.w3.org/1998/Math/MathML/":
+        return "mathml";
+      case "http://www.w3.org/1999/xlink":
+      case "http://www.w3.org/1999/xlink/":
+        return "xlink";
+      default:
+        break;
     }
     foreach (string k in _attributes.keys) {
       if (!("xmlns" in k)) continue;
@@ -198,17 +209,24 @@ public class GXml.Element : GXml.Node,
     return parent_node.lookup_prefix (nspace);
   }
   public new string? lookup_namespace_uri (string? prefix) {
-    if (prefix == "xmlns") {
-      return "http://www.w3.org/2000/xmlns/";
-    }
-    if (prefix == "xml") {
-      return "http://www.w3.org/XML/1998/namespace";
-    }
-    if (prefix == "html") {
-      return "http://www.w3.org/1999/xhtml";
-    }
-    if (prefix == "xsi") {
-      return "http://www.w3.org/2001/XMLSchema-instance/";
+    switch (prefix) {
+      case "xmlns":
+        return "http://www.w3.org/2000/xmlns";
+      case "xml":
+        return "http://www.w3.org/XML/1998/namespace";
+      case "html":
+        return "http://www.w3.org/1999/xhtml";
+      case "xsi":
+        return "http://www.w3.org/2001/XMLSchema-instance";
+      case "svg":
+        return "http://www.w3.org/2000/svg";
+      case "xlink":
+        return "http://www.w3.org/1999/xlink";
+      case "mathml":
+      case "MathML":
+        return "http://www.w3.org/1998/Math/MathML";
+      default:
+        break;
     }
     foreach (string k in attributes.keys) {
       if (!("xmlns" in k)) continue;
@@ -539,7 +557,31 @@ public class GXml.Element : GXml.Node,
       if (((GXml.Attr) node).prefix == "xmlns"
           && ((GXml.Attr) node).namespace_uri != "http://www.w3.org/2000/xmlns/"
               && ((GXml.Attr) node).namespace_uri != "http://www.w3.org/2000/xmlns")
-        throw new DomError.NAMESPACE_ERROR (_("Namespace attributes prefixed with xmlns should use a namespace uri http://www.w3.org/2000/xmlns"));
+        throw new DomError.NAMESPACE_ERROR (_("Namespace attributes prefixed with 'xmlns' should use a namespace uri http://www.w3.org/2000/xmlns"));
+      if (((GXml.Attr) node).prefix == "xml"
+          && ((GXml.Attr) node).namespace_uri != "http://www.w3.org/XML/1998/namespace/"
+              && ((GXml.Attr) node).namespace_uri != "http://www.w3.org/XML/1998/namespace")
+        throw new DomError.NAMESPACE_ERROR (_("Namespace attributes prefixed with 'xml' should use a namespace uri http://www.w3.org/XML/1998/namespace"));
+      if (((GXml.Attr) node).prefix == "xsi"
+          && ((GXml.Attr) node).namespace_uri != "http://www.w3.org/2001/XMLSchema-instance/"
+              && ((GXml.Attr) node).namespace_uri != "http://www.w3.org/2001/XMLSchema-instance")
+        throw new DomError.NAMESPACE_ERROR (_("Namespace attributes prefixed with 'xsi' should use a namespace uri http://www.w3.org/2001/XMLSchema-instance"));
+      if (((GXml.Attr) node).prefix == "html"
+          && ((GXml.Attr) node).namespace_uri != "http://www.w3.org/1999/xhtml/"
+              && ((GXml.Attr) node).namespace_uri != "http://www.w3.org/1999/xhtml")
+        throw new DomError.NAMESPACE_ERROR (_("Namespace attributes prefixed with 'html' should use a namespace uri http://www.w3.org/1999/xhtml"));
+      if (((GXml.Attr) node).prefix != null && ((GXml.Attr) node).prefix.down () == "mathml"
+          && ((GXml.Attr) node).namespace_uri != "http://www.w3.org/1998/Math/MathML/"
+              && ((GXml.Attr) node).namespace_uri != "http://www.w3.org/1998/Math/MathML")
+        throw new DomError.NAMESPACE_ERROR (_("Namespace attributes prefixed with 'MathML' should use a namespace uri http://www.w3.org/1998/Math/MathML"));
+      if (((GXml.Attr) node).prefix == "xlink"
+          && ((GXml.Attr) node).namespace_uri != "http://www.w3.org/1999/xlink/"
+              && ((GXml.Attr) node).namespace_uri != "http://www.w3.org/1999/xlink")
+        throw new DomError.NAMESPACE_ERROR (_("Namespace attributes prefixed with 'xlink' should use a namespace uri http://www.w3.org/1999/xlink"));
+      if (((GXml.Attr) node).prefix == "svg"
+          && ((GXml.Attr) node).namespace_uri != "http://www.w3.org/2000/svg"
+              && ((GXml.Attr) node).namespace_uri != "http://www.w3.org/2000/svg")
+        throw new DomError.NAMESPACE_ERROR (_("Namespace attributes prefixed with 'svg' should use a namespace uri http://www.w3.org/2000/svg"));
       if (((GXml.Attr) node).prefix == ""
           || ((GXml.Attr) node).prefix == null
           && ((GXml.Attr) node).local_name != "xmlns") {
@@ -653,20 +695,45 @@ public class GXml.Element : GXml.Node,
     if (namespace_uri == null && p == "") {
        throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If prefix is null, namespace URI should not be null"));
     }
+
+    if (p == "" && n != "xmlns") {
+      throw new DomError.NAMESPACE_ERROR (_("Invalid namespace definition. No prefixed attributes should use 'xmlns' as name"));
+    }
+
+    if (p == "xmlns" && n == "xml") {
+      throw new DomError.NAMESPACE_ERROR (_("'xml' namespace should not be defined"));
+    }
+
+    if (p == "xmlns" && n == "xmlns") {
+      throw new DomError.NAMESPACE_ERROR (_("'xmlns' namespace should not be defined"));
+    }
+
     if (p == "xml" && namespace_uri != "http://www.w3.org/XML/1998/namespace/" && namespace_uri != "http://www.w3.org/XML/1998/namespace") {
-       throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If prefix is xml, namespace URI should be http://www.w3.org/XML/1998/namespace"));
+       throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If prefix is 'xml', namespace URI should be http://www.w3.org/XML/1998/namespace"));
     }
-    if (p == "xmlns" && namespace_uri != "http://www.w3.org/2000/xmlns/"
+    if (n == "xmlns" && namespace_uri != "http://www.w3.org/2000/xmlns/"
             && namespace_uri != "http://www.w3.org/2000/xmlns") {
-       throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If attribute's prefix is xmlns, namespace URI should be http://www.w3.org/2000/xmlns"));
+       throw new DomError.NAMESPACE_ERROR (_("Invalid namespace definition. If attribute's prefix is 'xmlns', namespace URI should be http://www.w3.org/2000/xmlns"));
     }
-    if (p == "" && n == "xmlns"
-        && (namespace_uri != "http://www.w3.org/2000/xmlns/"
-            && namespace_uri != "http://www.w3.org/2000/xmlns")) {
-       throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If attribute's name is xmlns, namespace URI should be http://www.w3.org/2000/xmlns"));
+    if (p == "html" && namespace_uri != "http://www.w3.org/1999/xhtml/"
+            && namespace_uri != "http://www.w3.org/1999/xhtml") {
+       throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If attribute's prefix is 'html', namespace URI should be http://www.w3.org/1999/xhtml"));
     }
-    if (p == "" && n != "xmlns" && n != "xml") {
-      throw new DomError.NAMESPACE_ERROR (_("Invalid attribute name. No prefixed attributes should use xml or xmlns name"));
+    if (p == "xsi" && namespace_uri != "http://www.w3.org/2001/XMLSchema-instance/"
+            && namespace_uri != "http://www.w3.org/2001/XMLSchema-instance") {
+       throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If attribute's prefix is 'html', namespace URI should be http://www.w3.org/2001/XMLSchema-instance"));
+    }
+    if (p.down () == "mathml" && namespace_uri != "http://www.w3.org/1998/Math/MathML/"
+            && namespace_uri != "http://www.w3.org/1998/Math/MathML") {
+       throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If attribute's prefix is 'MathML', namespace URI should be http://www.w3.org/1998/Math/MathML"));
+    }
+    if (p.down () == "svg" && namespace_uri != "http://www.w3.org/2000/svg/"
+            && namespace_uri != "http://www.w3.org/2000/svg") {
+       throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If attribute's prefix is 'svg', namespace URI should be http://www.w3.org/2000/svg"));
+    }
+    if (p.down () == "xlink" && namespace_uri != "http://www.w3.org/1999/xlink/"
+            && namespace_uri != "http://www.w3.org/1999/xlink") {
+       throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If attribute's prefix is 'xlink', namespace URI should be http://www.w3.org/1999/xlink"));
     }
     var a = new GXml.Attr.namespace (this, namespace_uri, p, n, value);
     try { _attributes.set_named_item_ns (a); }
