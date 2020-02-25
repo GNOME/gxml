@@ -358,6 +358,8 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
             string nsuri = null;
             if (prefix == "xmlns")
               nsuri = "http://www.w3.org/2000/xmlns/";
+            if (prefix == "xml")
+              nsuri = "http://www.w3.org/XML/1998/namespace/";
             else if (prefix == "xsi")
               nsuri = "http://www.w3.org/2001/XMLSchema-instance/";
             else

@@ -157,6 +157,9 @@ class GXml.DocumentTest : GXmlTest {
 					GLib.message ("No remote file available. Skipping...");
 					return;
 				}
+				var m = new GLib.MemoryOutputStream.resizable ();
+				m.splice (rf.read (), GLib.OutputStreamSpliceFlags.CLOSE_SOURCE, null);
+				message ("File Contents:\n%s", (string)m.data);
 				var d = new GXml.Document.from_file (rf);
 				assert (d != null);
 				assert (d.document_element != null);
