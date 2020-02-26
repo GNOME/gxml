@@ -721,7 +721,7 @@ public class GXml.Element : GXml.Node,
     }
     if (p == "xsi" && namespace_uri != "http://www.w3.org/2001/XMLSchema-instance/"
             && namespace_uri != "http://www.w3.org/2001/XMLSchema-instance") {
-       throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If attribute's prefix is 'html', namespace URI should be http://www.w3.org/2001/XMLSchema-instance"));
+       throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If attribute's prefix is 'xsi', namespace URI should be http://www.w3.org/2001/XMLSchema-instance"));
     }
     if (p.down () == "mathml" && namespace_uri != "http://www.w3.org/1998/Math/MathML/"
             && namespace_uri != "http://www.w3.org/1998/Math/MathML") {
