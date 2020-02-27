@@ -2,14 +2,14 @@
 # Copyright (C) 2015 Daniel Espinosa Ortiz
 # This file is distributed under the same license as the GXml package.
 # esodan@gmail.com, 2015.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2015-2019.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2015-2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2019-08-04 12:03+0000\n"
-"PO-Revision-Date: 2019-08-21 09:36+0200\n"
+"POT-Creation-Date: 2020-02-25 21:18+0000\n"
+"PO-Revision-Date: 2020-02-27 08:46+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 3.32.1\n"
+"X-Generator: Gtranslator 3.34.0\n"
 
 #: gxml/BaseCollection.vala:90
 msgid ""
@@ -67,76 +67,76 @@ msgstr "Referencia del índice no válida para elementos hijo en la lista"
 msgid "Referenced object's type is invalid. Should be a GXmlDomElement"
 msgstr "Tipo de objeto de la referencia no válido. Debe ser un GXmlDomElement"
 
-#: gxml/CssSelectorParser.vala:233 gxml/CssSelectorParser.vala:241
+#: gxml/CssSelectorParser.vala:232 gxml/CssSelectorParser.vala:240
 msgid "Invalid identifier"
 msgstr "Identificador no válido"
 
-#: gxml/CssSelectorParser.vala:239 gxml/CssSelectorParser.vala:245
-#: gxml/CssSelectorParser.vala:330
+#: gxml/CssSelectorParser.vala:238 gxml/CssSelectorParser.vala:244
+#: gxml/CssSelectorParser.vala:329
 msgid "string value is empty"
 msgstr "el valor de la cadena está vacío"
 
-#: gxml/CssSelectorParser.vala:251
+#: gxml/CssSelectorParser.vala:250
 msgid "Cannot find start of 'not selector' value"
 msgstr "No se puede encontrar el inicio del valor «sin selector»"
 
-#: gxml/CssSelectorParser.vala:257
+#: gxml/CssSelectorParser.vala:256
 msgid "Cannot find end of 'not selector' value"
 msgstr "No se puede encontrar el final del valor «sin selector»"
 
-#: gxml/CssSelectorParser.vala:272
+#: gxml/CssSelectorParser.vala:271
 #, c-format
 msgid "Invalid '%s' pseudo class"
 msgstr "Pseudo-clase «%s» no válida"
 
-#: gxml/CssSelectorParser.vala:276
+#: gxml/CssSelectorParser.vala:275
 #, c-format
 msgid "Invalid '%s' pseudo class : cannot find value"
 msgstr "Pseudo-clase «%s» no válida: no se puede encontrar el valor"
 
-#: gxml/CssSelectorParser.vala:281
+#: gxml/CssSelectorParser.vala:280
 msgid "Cannot find end of pseudo class value"
 msgstr "No se puede encontrar el final del valor de la pseudo-clase"
 
-#: gxml/CssSelectorParser.vala:286
+#: gxml/CssSelectorParser.vala:285
 msgid "Pseudo class value isn't a valid number"
 msgstr "El valor de la pseudo-clase no es un número válido"
 
-#: gxml/CssSelectorParser.vala:294
+#: gxml/CssSelectorParser.vala:293
 msgid "current class doesn't start with letter"
 msgstr "la clase actual no empieza por una letra"
 
-#: gxml/CssSelectorParser.vala:304
+#: gxml/CssSelectorParser.vala:303
 msgid "current id doesn't start with letter"
 msgstr "el ID actual no empieza por una letra"
 
-#: gxml/CssSelectorParser.vala:320 gxml/CssSelectorParser.vala:332
+#: gxml/CssSelectorParser.vala:319 gxml/CssSelectorParser.vala:331
 msgid "Invalid attribute"
 msgstr "Atributo no válido"
 
-#: gxml/CssSelectorParser.vala:358
+#: gxml/CssSelectorParser.vala:357
 msgid "Invalid attribute selector"
 msgstr "Selector de atributo no válido"
 
-#: gxml/CssSelectorParser.vala:363
+#: gxml/CssSelectorParser.vala:362
 #, c-format
 msgid "Invalid attribute selector. '=' expected but '%s' was found"
 msgstr ""
 "Selector de atributo no válido. se esperaba «=» pero se ha encontrado «%s»"
 
-#: gxml/CssSelectorParser.vala:375
+#: gxml/CssSelectorParser.vala:374
 msgid "Cannot find end of attribute value"
 msgstr "No se puede encontrar el final del valor del atributo"
 
-#: gxml/CssSelectorParser.vala:379
+#: gxml/CssSelectorParser.vala:378
 msgid "Cannot find end of attribute selector"
 msgstr "No se puede encontrar el final del selector del atributo"
 
-#: gxml/CssSelectorParser.vala:426
+#: gxml/CssSelectorParser.vala:425
 msgid "No selectors found"
 msgstr "No se encontraron selectores"
 
-#: gxml/CssSelectorParser.vala:430
+#: gxml/CssSelectorParser.vala:429
 #, c-format
 msgid "Last selector has combiner assigned (%s)"
 msgstr "El último selector tiene un combinador asignado (%s)"
@@ -211,141 +211,274 @@ msgstr "El nodo tipo Texto con una cadena de texto NULO"
 msgid "Can't copy child text node"
 msgstr "No se puede copiar el texto del nodo hijo"
 
-#: gxml/Element.vala:183
+#: gxml/Element.vala:194
 msgid "Invalid namespace URI stored in element's attribute"
 msgstr ""
 "URI del espacio de nombres no válido guardado en el atributo del elemento"
 
-#: gxml/Element.vala:190 gxml/Element.vala:224
+#: gxml/Element.vala:201 gxml/Element.vala:242
 msgid "Invalid attribute name in element's attributes list"
 msgstr "Nombre del atributo no válido en la lista de atributos del elemento"
 
-#: gxml/Element.vala:239
+#: gxml/Element.vala:257
 msgid "Can't locate child node to remove"
 msgstr "No se puede encontrar el nodo hijo que eliminar"
 
-#: gxml/Element.vala:469 gxml/Element.vala:535
+#: gxml/Element.vala:487 gxml/Element.vala:553
 #, c-format
 msgid "Invalid attribute name: %s"
 msgstr "Nombre de atributo no válido: %s"
 
-#: gxml/Element.vala:471 gxml/Element.vala:537
+#: gxml/Element.vala:489 gxml/Element.vala:555
 msgid "Invalid node type. GXml.Attr was expected"
 msgstr "Tipo de nodo no válido. Se esperaba GXml.Attr"
 
-#: gxml/Element.vala:494 gxml/Element.vala:513
+#: gxml/Element.vala:512 gxml/Element.vala:531
 #, c-format
 msgid "No index found for attribute %s"
 msgstr "No se ha encontrado el índice para el atributo %s"
 
-#: gxml/Element.vala:522
+#: gxml/Element.vala:540
 #, c-format
 msgid "Invalid attribute's local name '%s': invalid use of ':' character"
 msgstr ""
 "Nombre «%s» local de atributo no válido: uso no válido del carácter «:»"
 
-#: gxml/Element.vala:526
+#: gxml/Element.vala:544
 #, c-format
 msgid "Namespace URI was not found: %s"
 msgstr "URI del espacio de nombres no encontrado: %s"
 
-#: gxml/Element.vala:542
+#: gxml/Element.vala:560
+#| msgid ""
+#| "Namespace attributes prefixed with xmlns should use a namespace uri "
+#| "http://www.w3.org/2000/xmlns"
 msgid ""
-"Namespace attributes prefixed with xmlns should use a namespace uri http://"
+"Namespace attributes prefixed with 'xmlns' should use a namespace uri http://"
 "www.w3.org/2000/xmlns"
 msgstr ""
-"Los atributos de un espacio de nombres precedido por xmlsn deben usar http://"
-"www.w3.org/2000/xmlns como URI de espacio de nombres"
+"Los atributos de un espacio de nombres precedido por «xmlsn» deben usar "
+"http://www.w3.org/2000/xmlns como URI de espacio de nombres"
 
-#: gxml/Element.vala:549
+#: gxml/Element.vala:564
+#| msgid ""
+#| "Namespace attributes prefixed with xmlns should use a namespace uri "
+#| "http://www.w3.org/2000/xmlns"
+msgid ""
+"Namespace attributes prefixed with 'xml' should use a namespace uri http://"
+"www.w3.org/XML/1998/namespace"
+msgstr ""
+"Los atributos de un espacio de nombres precedido por «xml» deben usar http://"
+"www.w3.org/XML/1998/namespace como URI de espacio de nombres"
+
+#: gxml/Element.vala:568
+#| msgid ""
+#| "Namespace attributes prefixed with xmlns should use a namespace uri "
+#| "http://www.w3.org/2000/xmlns"
+msgid ""
+"Namespace attributes prefixed with 'xsi' should use a namespace uri http://"
+"www.w3.org/2001/XMLSchema-instance"
+msgstr ""
+"Los atributos de un espacio de nombres precedido por «xsi» deben usar http://"
+"www.w3.org/2001/XMLSchema-instance como URI de espacio de nombres"
+
+#: gxml/Element.vala:572
+#| msgid ""
+#| "Namespace attributes prefixed with xmlns should use a namespace uri "
+#| "http://www.w3.org/2000/xmlns"
+msgid ""
+"Namespace attributes prefixed with 'html' should use a namespace uri http://"
+"www.w3.org/1999/xhtml"
+msgstr ""
+"Los atributos de un espacio de nombres precedido por «html» deben usar "
+"http://www.w3.org/1999/xhtml como URI de espacio de nombres"
+
+#: gxml/Element.vala:576
+#| msgid ""
+#| "Namespace attributes prefixed with xmlns should use a namespace uri "
+#| "http://www.w3.org/2000/xmlns"
+msgid ""
+"Namespace attributes prefixed with 'MathML' should use a namespace uri "
+"http://www.w3.org/1998/Math/MathML"
+msgstr ""
+"Los atributos de un espacio de nombres precedido por «MathML» deben usar "
+"http://www.w3.org/1998/Math/MathML como URI de espacio de nombres"
+
+#: gxml/Element.vala:580
+#| msgid ""
+#| "Namespace attributes prefixed with xmlns should use a namespace uri "
+#| "http://www.w3.org/2000/xmlns"
+msgid ""
+"Namespace attributes prefixed with 'xlink' should use a namespace uri http://"
+"www.w3.org/1999/xlink"
+msgstr ""
+"Los atributos de un espacio de nombres precedido por «xlink» deben usar "
+"http://www.w3.org/1999/xlink como URI de espacio de nombres"
+
+#: gxml/Element.vala:584
+#| msgid ""
+#| "Namespace attributes prefixed with xmlns should use a namespace uri "
+#| "http://www.w3.org/2000/xmlns"
+msgid ""
+"Namespace attributes prefixed with 'svg' should use a namespace uri http://"
+"www.w3.org/2000/svg"
+msgstr ""
+"Los atributos de un espacio de nombres precedido por «svg» deben usar http://"
+"www.w3.org/2000/svg como URI de espacio de nombres"
+
+#: gxml/Element.vala:591
 #, c-format
 msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
 msgstr ""
 "Los atributos de un espacio de nombres deben proporcionar un prefijo no nulo "
 "y no vacío: %s"
 
-#: gxml/Element.vala:553
+#: gxml/Element.vala:595
 msgid "Invalid namespace attribute's name."
 msgstr "Nombre del atributo de espacio de nombres no válido."
 
-#: gxml/Element.vala:570
+#: gxml/Element.vala:612
 #, c-format
 msgid "Trying to add an attribute with an undefined namespace's prefix: %s"
 msgstr ""
 "Intentado añadir un atributo con un prefijo de espacio de nombres no "
 "definido: %s"
 
-#: gxml/Element.vala:577
+#: gxml/Element.vala:619
 msgid "Trying to add an attribute with an undefined namespace's URI"
 msgstr ""
 "Intentado añadir un atributo con un URI de espacio de nombres no definido"
 
-#: gxml/Element.vala:629
+#: gxml/Element.vala:671
 #, c-format
 msgid "Error getting attribute with namespace: %s"
 msgstr "Error al obtener el atributo con espacio de nombres: %s"
 
-#: gxml/Element.vala:645
+#: gxml/Element.vala:687
 msgid "Invalid attribute name. Just one prefix is allowed"
 msgstr "Nombre de atributo no válido. Sólo se permite un prefijo"
 
-#: gxml/Element.vala:650
+#: gxml/Element.vala:692
 #, c-format
 msgid "Invalid attribute name. Invalid use of colon: %s"
 msgstr "Nombre de atributo no válido. Uso del punto no válido: %s"
 
-#: gxml/Element.vala:654
+#: gxml/Element.vala:696
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
 msgstr ""
 "Espacio de nombres no válido. Si el prefijo es nulo, el URI del espacio de "
 "nombres no debe ser nulo"
 
-#: gxml/Element.vala:657
+#: gxml/Element.vala:700
+#| msgid ""
+#| "Invalid attribute name. No prefixed attributes should use xml or xmlns "
+#| "name"
 msgid ""
-"Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
-"org/2000/xmlns"
-msgstr ""
-"Espacio de nombres no válido. Si el el prefijo es xml, el URI del espacio de "
-"nombres debe ser http://www.w3.org/2000/xmlns/"
-
-#: gxml/Element.vala:661
-msgid ""
-"Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
-"http://www.w3.org/2000/xmlns"
-msgstr ""
-"Espacio de nombres no válido. Si el prefijo del atributo es xmlns, el URI "
-"del espacio de nombres debe ser http://www.w3.org/2000/xmlns/"
-
-#: gxml/Element.vala:666
-msgid ""
-"Invalid namespace. If attribute's name is xmlns, namespace URI should be "
-"http://www.w3.org/2000/xmlns"
-msgstr ""
-"Espacio de nombres no válido. Si el el prefijo es xmlns, el URI del espacio "
-"de nombres debe ser http://www.w3.org/2000/xmlns/"
-
-#: gxml/Element.vala:669
-msgid ""
-"Invalid attribute name. No prefixed attributes should use xml or xmlns name"
+"Invalid namespace definition. No prefixed attributes should use 'xmlns' as "
+"name"
 msgstr ""
 "Nombre de atributo no válido. Los atributos sin prefijo deben usar el nombre "
-"xml o xmlns"
+"«xmlns»"
 
-#: gxml/Element.vala:674
+#: gxml/Element.vala:704
+msgid "'xml' namespace should not be defined"
+msgstr "el espacio de nombres «xml» no se debe definir"
+
+#: gxml/Element.vala:708
+msgid "'xmlns' namespace should not be defined"
+msgstr "el espacio de nombres «xmlns» no se debe definir"
+
+#: gxml/Element.vala:712
+#| msgid ""
+#| "Invalid namespace. If prefix is xml, namespace URI should be http://www."
+#| "w3.org/2000/xmlns"
+msgid ""
+"Invalid namespace. If prefix is 'xml', namespace URI should be http://www.w3."
+"org/XML/1998/namespace"
+msgstr ""
+"Espacio de nombres no válido. Si el el prefijo es «xml», el URI del espacio "
+"de nombres debe ser http://www.w3.org/XML/1998/namespace"
+
+#: gxml/Element.vala:716
+#| msgid ""
+#| "Invalid namespace. If attribute's prefix is xmlns, namespace URI should "
+#| "be http://www.w3.org/2000/xmlns"
+msgid ""
+"Invalid namespace definition. If attribute's prefix is 'xmlns', namespace "
+"URI should be http://www.w3.org/2000/xmlns"
+msgstr ""
+"Espacio de nombres no válido. Si el prefijo del atributo es «xmlns», el URI "
+"del espacio de nombres debe ser http://www.w3.org/2000/xmlns/"
+
+#: gxml/Element.vala:720
+#| msgid ""
+#| "Invalid namespace. If attribute's prefix is xmlns, namespace URI should "
+#| "be http://www.w3.org/2000/xmlns"
+msgid ""
+"Invalid namespace. If attribute's prefix is 'html', namespace URI should be "
+"http://www.w3.org/1999/xhtml"
+msgstr ""
+"Espacio de nombres no válido. Si el prefijo del atributo es «html», el URI "
+"del espacio de nombres debe ser http://www.w3.org/1999/xhtml"
+
+#: gxml/Element.vala:724
+#| msgid ""
+#| "Invalid namespace. If attribute's prefix is xmlns, namespace URI should "
+#| "be http://www.w3.org/2000/xmlns"
+msgid ""
+"Invalid namespace. If attribute's prefix is 'xsi', namespace URI should be "
+"http://www.w3.org/2001/XMLSchema-instance"
+msgstr ""
+"Espacio de nombres no válido. Si el prefijo del atributo es «xsi», el URI "
+"del espacio de nombres debe ser http://www.w3.org/2001/XMLSchema-instance"
+
+#: gxml/Element.vala:728
+#| msgid ""
+#| "Invalid namespace. If attribute's prefix is xmlns, namespace URI should "
+#| "be http://www.w3.org/2000/xmlns"
+msgid ""
+"Invalid namespace. If attribute's prefix is 'MathML', namespace URI should "
+"be http://www.w3.org/1998/Math/MathML"
+msgstr ""
+"Espacio de nombres no válido. Si el prefijo del atributo es «MathML», el URI "
+"del espacio de nombres debe ser http://www.w3.org/1998/Math/MathML"
+
+#: gxml/Element.vala:732
+#| msgid ""
+#| "Invalid namespace. If attribute's prefix is xmlns, namespace URI should "
+#| "be http://www.w3.org/2000/xmlns"
+msgid ""
+"Invalid namespace. If attribute's prefix is 'svg', namespace URI should be "
+"http://www.w3.org/2000/svg"
+msgstr ""
+"Espacio de nombres no válido. Si el prefijo del atributo es «svg», el URI "
+"del espacio de nombres debe ser http://www.w3.org/2000/svg"
+
+#: gxml/Element.vala:736
+#| msgid ""
+#| "Invalid namespace. If attribute's prefix is xmlns, namespace URI should "
+#| "be http://www.w3.org/2000/xmlns"
+msgid ""
+"Invalid namespace. If attribute's prefix is 'xlink', namespace URI should be "
+"http://www.w3.org/1999/xlink"
+msgstr ""
+"Espacio de nombres no válido. Si el prefijo del atributo es «xlink», el URI "
+"del espacio de nombres debe ser http://www.w3.org/1999/xlink"
+
+#: gxml/Element.vala:741
 msgid "Setting namespaced property error: "
 msgstr "Error al establecer la propiedad del espacio de nombres: "
 
-#: gxml/Element.vala:680
+#: gxml/Element.vala:747
 msgid "Removing attribute Error: "
 msgstr "Error al quitar el atributo: "
 
-#: gxml/Element.vala:685
+#: gxml/Element.vala:752
 msgid "Removing namespaced attribute Error: "
 msgstr "Error al quitar el atributo del espacio de nombres: "
 
-#: gxml/Element.vala:851
+#: gxml/Element.vala:918
 #, c-format
-#| msgid "Error closing stream: %s"
 msgid "Error parsing child's buffer: %s"
 msgstr "Error al analizar el búfer del hijo: %s"
 
@@ -515,7 +648,7 @@ msgstr "Fecha no válida para la propiedad: "
 msgid "Invalid format for Date property: "
 msgstr "Formato no válido para la propiedad de fecha: "
 
-#: gxml/Property.vala:508
+#: gxml/Property.vala:511
 msgid "Invalid timestamp for property: "
 msgstr "Marca de tiempo no válida para la propiedad: "
 
@@ -681,25 +814,25 @@ msgstr "Error al leer el flujo: %s"
 msgid "Error closing stream: %s"
 msgstr "Error al cerrar el flujo: %s"
 
-#: gxml/XParser.vala:192 gxml/XParser.vala:253 gxml/XParser.vala:262
-#: gxml/XParser.vala:311 gxml/XParser.vala:324 gxml/XParser.vala:374
+#: gxml/XParser.vala:192 gxml/XParser.vala:254 gxml/XParser.vala:263
+#: gxml/XParser.vala:312 gxml/XParser.vala:325 gxml/XParser.vala:377
 msgid "Internal Error: No TextReader was set"
 msgstr "Error interno: TextReader no se ha establecido"
 
-#: gxml/XParser.vala:265
+#: gxml/XParser.vala:266
 msgid "Can't read node data"
 msgstr "No se pueden leer los datos del nodo"
 
-#: gxml/XParser.vala:329
+#: gxml/XParser.vala:330
 #, c-format
 msgid "Parsing ERROR: Fail to move to attribute number: %i"
 msgstr "Error al analizar: falló al mover al número de atributo: %i"
 
-#: gxml/XParser.vala:419
+#: gxml/XParser.vala:422
 msgid "Invalid sequence for document type definition: "
 msgstr "Secuencia no válida para definición de tipo de documento:"
 
-#: gxml/XParser.vala:484 gxml/XParser.vala:589 gxml/XParser.vala:660
+#: gxml/XParser.vala:487 gxml/XParser.vala:593 gxml/XParser.vala:665
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Error interno: TextWriter no inicializado"
 
@@ -718,6 +851,13 @@ msgstr "No se puede encontrar el elemento en la posición: %i: %s"
 #, c-format
 msgid "Collection type %s, initialization error: %s"
 msgstr "Tipo de colección %s, error de inicialización: %s"
+
+#~ msgid ""
+#~ "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
+#~ "http://www.w3.org/2000/xmlns"
+#~ msgstr ""
+#~ "Espacio de nombres no válido. Si el el prefijo es xmlns, el URI del "
+#~ "espacio de nombres debe ser http://www.w3.org/2000/xmlns/"
 
 #~ msgid "Invalid file"
 #~ msgstr "Archivo no válido"
