@@ -32,9 +32,13 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
   private TextReader tr;
   private Xml.TextWriter tw;
   private DataInputStream tistream;
+  private GLib.HashTable<GLib.Type,GLib.HashTable<string,GLib.Type>> _types;
 
   public bool backup { get; set; }
   public bool indent { get; set; }
+  public GLib.HashTable<GLib.Type,GLib.HashTable<string,GLib.Type>> types {
+    get { return _types; }
+  }
 
   public DomNode node { get { return _node; } }
 
@@ -54,6 +58,7 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
     indent = false;
     cancellable = null;
     tistream = null;
+    _types = new GLib.HashTable<GLib.Type,GLib.HashTable<string,GLib.Type>> (int_hash, int_equal);
   }
 
   public void write_stream (OutputStream stream) throws GLib.Error {

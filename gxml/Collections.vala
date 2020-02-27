@@ -337,3 +337,89 @@ public interface GXml.ThreeMap : GLib.Object, GXml.Collection, Traversable<DomEl
    */
   public abstract Set<string> third_keys_set (string pkey, string skey);
 }
+
+/**
+ * Collection to manage child {@link GXml.DomElement} objects
+ * mapped to different classes, derived or child type of
+ * {@link Collection.items_type}
+ *
+ * A collection using {@link Collection.items_type} as a common
+ * parent {@link GLib.Type} of a set of instantiatable {@link GLib.Type}.
+ *
+ * In the next example, is possible to setup a class for Top element,
+ * having a {@link GXml.CollectionParent} implementation class, supporting
+ * reading any kind of derived classes from the {@link Collection.items_type};
+ * for the example, Time, Goal and Reque are implementations of, say, Child
+ * interface, so they will be added to the collection and deserialized
+ * as an instance of the object, based in the node's name.
+ *
+ * {{{
+ * <Top>
+ *   <Time/>
+ *   <Goal/>
+ *   <Resque/>
+ * }}}
+ *
+ * Implementators, should override {@link types} property
+ * setting up a hash table and use {@link add_supported_type} or
+ * {@link add_supported_types} to add one or a set of types to be supported.
+ * {@link types} is used by {@link GXml.Parser} to detect the types
+ * suuported in a collection to create the corresponding objects of the
+ * currect instantiable {@link GLib.Type} at runtime, adding them to the
+ * collection, corresponding to the element's tag's name.
+ */
+public interface GXml.CollectionParent : GLib.Object, GXml.Collection {
+  /**
+   * Creates a hash map with a set of child instantiable {@link GLib.Type}
+   * of the {@link Collection.items_type}
+   *
+   * Implementators, should override this property in order to create
+   * its own collection of supported instantiatable types.
+   */
+  public virtual GLib.HashTable<string,GLib.Type> types {
+    owned get {
+      return new GLib.HashTable<string,GLib.Type> (str_hash, str_equal);
+    }
+  }
+  /**
+   * Insert a new supported instantiatable type in given hash table, by
+   * instantiating the type, getting its node's local name
+   * as key.
+   *
+   * @param types a {@link GLib.HashTable} to hold supported types
+   * @param parent_type a {@link GLib.Type} as parent of supported types, it is
+   * not necesarry to be an instantiatable type, like interfaces, should be
+   * the same of {@link GXml.Collection.items_type}
+   * @param type a supported instantiatable {@link GLib.Type}
+   * to be added in the collection
+   */
+  public static void add_supported_type (GLib.HashTable<string,GLib.Type> types,
+                                        GLib.Type parent_type,
+                                        GLib.Type type)
+    requires (type.is_a (typeof (GXml.Element)))
+  {
+    var o = GLib.Object.new (type) as GXml.Element;
+    string name = o.local_name.down ().dup ();
+    types.insert (name, type);
+  }
+  /**
+   * Insert a set of supported instantiatable type in given hash table, by
+   * instantiating the type, getting its node's local name
+   * as key.
+   *
+   * @param table a {@link GLib.HashTable} to hold supported types
+   * @param parent_type a {@link GLib.Type} as parent of supported types, it is
+   * not necesarry to be an instantiatable type, like interfaces, should be
+   * the same of {@link GXml.Collection.items_type}
+   * @param types an array of supported instantiatable {@link GLib.Type}
+   * to be added in the collection
+   */
+  public static void add_supported_types (GLib.HashTable<string,GLib.Type> table,
+                                        GLib.Type parent_type,
+                                        GLib.Type[] types)
+  {
+    for (int i = 0; i < types.length; i++) {
+      add_supported_type (table, parent_type, types[i]);
+    }
+  }
+}

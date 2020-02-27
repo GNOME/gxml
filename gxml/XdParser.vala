@@ -27,6 +27,11 @@
 private class GXml.XdParser : GLib.Object, Parser {
   private XDocument document;
   private DomNode _node;
+  private GLib.HashTable<GLib.Type,GLib.HashTable<string,GLib.Type>> _types;
+
+  construct {
+    _types = new GLib.HashTable<GLib.Type,GLib.HashTable<string,GLib.Type>> (int_hash, int_equal);
+  }
 
   public XdParser (XDocument doc) {
     document = doc;
@@ -110,6 +115,9 @@ private class GXml.XdParser : GLib.Object, Parser {
 	}
 	public bool backup { get; set; }
 	public bool indent { get; set; }
+  public GLib.HashTable<GLib.Type,GLib.HashTable<string,GLib.Type>> types {
+    get { return _types; }
+  }
 	public GXml.DomNode node { get { return _node; } }
 	public Cancellable? cancellable { get; set; }
 }

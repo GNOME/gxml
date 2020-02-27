@@ -215,6 +215,93 @@ class GomBasicTypes : GXml.Element {
   }
 }
 
+interface Item : GLib.Object, GXml.Object {}
+
+
+class Items : GXml.ArrayList, GXml.CollectionParent {
+  construct {
+    try { initialize (typeof (Item)); } catch (GLib.Error e) { warning  ("Error: %s", e.message); }
+  }
+  // Override supported types
+  public GLib.HashTable<string,GLib.Type> types {
+    owned get {
+      var c = new GLib.HashTable<string,GLib.Type> (str_hash, str_equal);
+      GXml.CollectionParent.add_supported_types (c, items_type,
+                                                {
+                                                typeof (Monitor),
+                                                typeof (Keyword),
+                                                typeof (Cpu)
+                                                });
+      return c;
+    }
+  }
+}
+
+class Monitor : GXml.Element, Item {
+  [Description (nick="::size")]
+  public int size { get; set; }
+  construct {
+    try { initialize ("Monitor"); } catch (GLib.Error e) { warning  ("Error: %s", e.message); }
+  }
+}
+class Keyword : GXml.Element, Item {
+  [Description (nick="::language")]
+  public string size { get; set; }
+  construct {
+    try { initialize ("Keyword"); } catch (GLib.Error e) { warning  ("Error: %s", e.message); }
+  }
+}
+class Cpu : GXml.Element, Item {
+  [Description (nick="::language")]
+  public string size { get; set; }
+  construct {
+    try { initialize ("Cpu"); } catch (GLib.Error e) { warning  ("Error: %s", e.message); }
+  }
+}
+
+abstract interface Container : GLib.Object, GXml.Object {}
+
+class StoreShelf : GXml.Element, Container {
+  [Description (nick="::Id")]
+  public int id { get; set; default = 1; }
+  public Items items { get; set; }
+  construct {
+    try {
+      initialize ("Shelf");
+      set_instance_property ("items");
+    } catch (GLib.Error e) { warning  ("Error: %s", e.message); }
+  }
+}
+
+class Containers : GXml.ArrayList, GXml.CollectionParent {
+  construct {
+    var s = new StoreShelf ();
+    try { initialize (typeof (Container)); } catch (GLib.Error e) { warning  ("Error: %s", e.message); }
+  }
+  // Override supported types
+  public GLib.HashTable<string,GLib.Type> types {
+    owned get {
+      var c = new GLib.HashTable<string,GLib.Type> (str_hash, str_equal);
+      GXml.CollectionParent.add_supported_type (c, items_type, typeof (StoreShelf));
+      assert (c.contains ("shelf"));
+      assert (c.lookup ("shelf") != GLib.Type.INVALID);
+      assert (((GLib.Type) c.lookup ("shelf")) == typeof (StoreShelf));
+      return c;
+    }
+  }
+}
+class ComputerStore : GXml.Element {
+  [Description (nick="::name")]
+  public string name { get; set; }
+  public Containers containers { get; set; default = new Containers (); }
+  construct {
+    try {
+      initialize ("ComputerStore");
+      set_instance_property ("containers");
+    } catch (GLib.Error e) { warning  ("Error: %s", e.message); }
+  }
+}
+
 class SerializationTest : GXmlTest  {
   public class Book : GXml.Element {
     [Description (nick="::Name")]
@@ -545,7 +632,7 @@ class SerializationTest : GXmlTest  {
     }
   }
   public static void add_tests () {
-    Test.add_func ("/gxml/gom-serialization/write/properties", () => {
+    Test.add_func ("/gxml/serialization/write/properties", () => {
     try {
       var b = new Book ();
       var parser = new XParser (b);
@@ -563,7 +650,7 @@ class SerializationTest : GXmlTest  {
       assert_not_reached ();
     }
     });
-    Test.add_func ("/gxml/gom-serialization/write/property-ignore", () => {
+    Test.add_func ("/gxml/serialization/write/property-ignore", () => {
       var c = new Computer ();
       string s = c.to_string ();
       assert (s != null);
@@ -579,7 +666,7 @@ class SerializationTest : GXmlTest  {
       GLib.message ("DOC:"+s);
 #endif
     });
-    Test.add_func ("/gxml/gom-serialization/write/property-long-name", () => {
+    Test.add_func ("/gxml/serialization/write/property-long-name", () => {
       var t = new Taxes ();
       string s = t.to_string ();
       assert (s != null);
@@ -608,7 +695,7 @@ class SerializationTest : GXmlTest  {
       GLib.message ("DOC:"+s);
 #endif
     });
-    Test.add_func ("/gxml/gom-serialization/write/property-date", () => {
+    Test.add_func ("/gxml/serialization/write/property-date", () => {
       var t = new Taxes ();
       string s = t.to_string ();
       assert (s != null);
@@ -644,7 +731,7 @@ class SerializationTest : GXmlTest  {
       assert (gd.get_date ().valid ());
       assert (gd.value == "2076-03-17");
     });
-    Test.add_func ("/gxml/gom-serialization/read/property-date", () => {
+    Test.add_func ("/gxml/serialization/read/property-date", () => {
     try {
       var t = new Taxes ();
       t.read_from_string ("<Taxes PayDate=\"2050-12-09\"/>");
@@ -666,7 +753,7 @@ class SerializationTest : GXmlTest  {
       assert_not_reached ();
     }
     });
-    Test.add_func ("/gxml/gom-serialization/write/property-datetime", () => {
+    Test.add_func ("/gxml/serialization/write/property-datetime", () => {
       var t = new Taxes ();
       string s = t.to_string ();
       assert (s != null);
@@ -699,7 +786,7 @@ class SerializationTest : GXmlTest  {
 #endif
       assert ("Timestamp=\"2023-03-10T15:23:10\"" in s2);
     });
-    Test.add_func ("/gxml/gom-serialization/write/property-arraylist", () => {
+    Test.add_func ("/gxml/serialization/write/property-arraylist", () => {
     try {
       var bs = new BookStand ();
       string s = bs.to_string ();
@@ -779,7 +866,7 @@ class SerializationTest : GXmlTest  {
       assert_not_reached ();
     }
     });
-    Test.add_func ("/gxml/gom-serialization/write/property-hashmap", () => {
+    Test.add_func ("/gxml/serialization/write/property-hashmap", () => {
     try {
       var bs = new BookStore ();
       string s = bs.to_string ();
@@ -834,7 +921,7 @@ class SerializationTest : GXmlTest  {
       assert_not_reached ();
     }
     });
-    Test.add_func ("/gxml/gom-serialization/mappeable", () => {
+    Test.add_func ("/gxml/serialization/mappeable", () => {
     try {
       var bs = new BookStand ();
       assert (bs.hashmap_registers != null);
@@ -861,7 +948,7 @@ class SerializationTest : GXmlTest  {
       assert_not_reached ();
     }
     });
-    Test.add_func ("/gxml/gom-serialization/write/mappeablepairedkey", () => {
+    Test.add_func ("/gxml/serialization/write/mappeablepairedkey", () => {
     try {
       var bs = new BookStand ();
       assert (bs.hashpair_registers != null);
@@ -883,7 +970,7 @@ class SerializationTest : GXmlTest  {
       assert_not_reached ();
     }
     });
-    Test.add_func ("/gxml/gom-serialization/write/mappeablethreekey", () => {
+    Test.add_func ("/gxml/serialization/write/mappeablethreekey", () => {
     try {
       var bs = new BookStand ();
       assert (bs.hashthree_registers != null);
@@ -925,7 +1012,7 @@ class SerializationTest : GXmlTest  {
       assert_not_reached ();
     }
     });
-    Test.add_func ("/gxml/gom-serialization/write/gom-property", () => {
+    Test.add_func ("/gxml/serialization/write/property", () => {
       var m = new Motor ();
       string s = m.to_string ();
       assert (s != null);
@@ -1008,7 +1095,7 @@ class SerializationTest : GXmlTest  {
       m.model.value = "MODEL1";
       assert (m.model.is_valid_value ());
     });
-    Test.add_func ("/gxml/gom-serialization/read/properties", () => {
+    Test.add_func ("/gxml/serialization/read/properties", () => {
     try {
       var b = new Book ();
       var parser = new XParser (b);
@@ -1036,7 +1123,7 @@ class SerializationTest : GXmlTest  {
       assert_not_reached ();
     }
     });
-    Test.add_func ("/gxml/gom-serialization/read/bad-node-name", () => {
+    Test.add_func ("/gxml/serialization/read/bad-node-name", () => {
       try {
       var b = new Book ();
       b.read_from_string ("<chair name=\"Tall\"/>");
@@ -1053,7 +1140,7 @@ class SerializationTest : GXmlTest  {
         assert_not_reached ();
       }
     });
-    Test.add_func ("/gxml/gom-serialization/read/object-property", () => {
+    Test.add_func ("/gxml/serialization/read/object-property", () => {
     try {
       var b = new BookRegister ();
       string s = b.to_string ();
@@ -1072,7 +1159,7 @@ class SerializationTest : GXmlTest  {
       assert_not_reached ();
     }
     });
-    Test.add_func ("/gxml/gom-serialization/read/gom-property", () => {
+    Test.add_func ("/gxml/serialization/read/property", () => {
     try {
       var m = new Motor ();
       string s = m.to_string ();
@@ -1108,7 +1195,7 @@ class SerializationTest : GXmlTest  {
       assert_not_reached ();
     }
     });
-    Test.add_func ("/gxml/gom-serialization/read/property-arraylist", () => {
+    Test.add_func ("/gxml/serialization/read/property-arraylist", () => {
     try {
       var bs = new BookStand ();
       string s = bs.to_string ();
@@ -1145,7 +1232,7 @@ class SerializationTest : GXmlTest  {
       assert_not_reached ();
     }
     });
-    Test.add_func ("/gxml/gom-serialization/read/property-hashmap", () => {
+    Test.add_func ("/gxml/serialization/read/property-hashmap", () => {
     try {
       var bs = new BookStand ();
       string s = bs.to_string ();
@@ -1190,7 +1277,7 @@ class SerializationTest : GXmlTest  {
       assert_not_reached ();
     }
     });
-    Test.add_func ("/gxml/gom-serialization/multiple-child-collections",
+    Test.add_func ("/gxml/serialization/multiple-child-collections",
     () => {
       try {
         double time;
@@ -1250,7 +1337,7 @@ class SerializationTest : GXmlTest  {
         assert_not_reached ();
       }
     });
-    Test.add_func ("/gxml/gom-serialization/collections/hashpairedmap/keys",
+    Test.add_func ("/gxml/serialization/collections/hashpairedmap/keys",
     () => {
       try {
         var ops = new Operations ();
@@ -1302,7 +1389,7 @@ class SerializationTest : GXmlTest  {
         assert_not_reached ();
       }
     });
-    Test.add_func ("/gxml/gom-serialization/collections/hashthreemap/keys",
+    Test.add_func ("/gxml/serialization/collections/hashthreemap/keys",
     () => {
       try {
         var ks = new ThreeKeys ();
@@ -1358,7 +1445,7 @@ class SerializationTest : GXmlTest  {
         assert_not_reached ();
       }
     });
-    Test.add_func ("/gxml/gom-serialization/basic-types",
+    Test.add_func ("/gxml/serialization/basic-types",
     () => {
       try {
         var bt = new GomBasicTypes ();
@@ -1399,7 +1486,7 @@ class SerializationTest : GXmlTest  {
         assert_not_reached ();
       }
     });
-    Test.add_func ("/gxml/gom-serialization/collection/iteration", () => {
+    Test.add_func ("/gxml/serialization/collection/iteration", () => {
     try {
       var bs = new BookStore ();
       assert (bs.books == null);
@@ -1502,12 +1589,77 @@ class SerializationTest : GXmlTest  {
       assert_not_reached ();
     }
     });
-    Test.add_func ("/gxml/gom-serialization/attribute-gobject", () => {
+    Test.add_func ("/gxml/serialization/attribute-gobject", () => {
       var tk = new ThreeKey ();
       assert (tk.code == null);
       assert (tk.get_attribute ("Code") == null);
       tk.code = "code";
       assert (tk.get_attribute ("Code") == "code");
+    });
+    Test.add_func ("/gxml/serialization/collection-parent/list/read", () => {
+      try {
+        var cs = new ComputerStore ();
+        assert (cs.containers.types.contains ("shelf"));
+        assert (cs.containers.types.lookup ("shelf") == typeof (StoreShelf));
+        string str = """
+  <ComputerStore><Shelf Id="2"><Cpu/></Shelf></ComputerStore>
+  """;
+        cs.read_from_string (str);
+        bool found_shelf = false;
+        bool found_cpu = false;
+        foreach (GXml.DomNode n in cs.child_nodes) {
+          message ("Found Type: %s", n.get_type ().name ());
+          if (n is StoreShelf) {
+            found_shelf = true;
+            foreach (GXml.DomNode cn in n.child_nodes) {
+              message ("Found Type: %s", n.get_type ().name ());
+              if (cn is Cpu) {
+                found_cpu = true;
+              }
+            }
+          }
+        }
+        assert (found_shelf);
+        assert (found_cpu);
+        message ("Read:\n%s", cs.write_string ());
+        assert ("""<ComputerStore><Shelf Id="2"><Cpu/></Shelf></ComputerStore>""" in cs.write_string ());
+        str = """
+  <ComputerStore><Shelf Id="2"><Cpu/><Monitor size="32"/><Keyword/></Shelf></ComputerStore>
+  """;
+        cs = new ComputerStore ();
+        cs.read_from_string (str);
+        message ("Read:\n%s", cs.write_string ());
+        assert ("""<ComputerStore><Shelf Id="2"><Cpu/><Monitor size="32"/><Keyword/></Shelf></ComputerStore>""" in cs.write_string ());
+        found_shelf = false;
+        bool found_monitor = false;
+        bool found_keyword = false;
+        found_cpu = false;
+        foreach (GXml.DomNode n in cs.child_nodes) {
+          message ("Found Type: %s", n.get_type ().name ());
+          if (n is StoreShelf) {
+            found_shelf = true;
+            foreach (GXml.DomNode cn in n.child_nodes) {
+              message ("Found Type: %s", n.get_type ().name ());
+              if (cn is Monitor) {
+                found_monitor = true;
+                assert (((Monitor) cn).size == 32);
+              }
+              if (cn is Keyword) {
+                found_keyword = true;
+              }
+              if (cn is Cpu) {
+                found_cpu = true;
+              }
+            }
+          }
+        }
+        assert (found_shelf);
+        assert (found_monitor);
+        assert (found_keyword);
+        assert (found_cpu);
+      } catch (GLib.Error e) {
+        warning ("Error: %s", e.message);
+      }
     });
   }
 }

@@ -85,12 +85,15 @@ public abstract class GXml.BaseCollection : GLib.Object, Traversable<DomElement>
    * {@inheritDoc}
    */
   public void initialize (GLib.Type items_type) throws GLib.Error {
-    if (!items_type.is_a (typeof (GXml.Element))) {
+    if (!items_type.is_a (typeof (GXml.DomElement))
+        && !items_type.is_a (typeof (GXml.Object))) {
       throw new DomError.INVALID_NODE_TYPE_ERROR
                 (_("Invalid attempt to initialize a collection using an unsupported type. Only GXmlGXml.Element is supported"));
     }
-    var o = GLib.Object.new (items_type) as GXml.Element;
-    _items_name = o.local_name;
+    if (!items_type.is_abstract () && items_type.is_instantiatable ()) {
+      var o = GLib.Object.new (items_type) as GXml.Element;
+      _items_name = o.local_name;
+    }
     _items_type = items_type;
   }
   /**
@@ -116,7 +119,7 @@ public abstract class GXml.BaseCollection : GLib.Object, Traversable<DomElement>
   public void append (DomElement node) throws GLib.Error {
     if (_element == null)
       throw new DomError.INVALID_NODE_TYPE_ERROR
-                (_("Parent Element is invalid"));
+                (_("Parent Element is invalid. Set 'element' property at construction time"));
     if (!(node is GXml.Element))
       throw new DomError.INVALID_NODE_TYPE_ERROR
                 (_("Invalid attempt to set unsupported type. Only GXmlGXml.Element is supported"));
@@ -144,7 +147,7 @@ public abstract class GXml.BaseCollection : GLib.Object, Traversable<DomElement>
     clear ();
     if (_element == null)
       throw new DomError.INVALID_NODE_TYPE_ERROR
-                (_("Parent Element is invalid"));
+                (_("Parent Element is invalid. Set 'element' property at construction time"));
     for (int i = 0; i < _element.child_nodes.size; i++) {
       var n = _element.child_nodes.get (i);
       if (n is GXml.Object) {

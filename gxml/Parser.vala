@@ -52,6 +52,18 @@ public interface GXml.Parser : GLib.Object {
    */
   public abstract DomNode node { get; }
   /**
+   * A collection of child types of found {@link GXml.CollectionParent}
+   * objects, used to instantiate the correct class based on the
+   * node's name.
+   *
+   * The map use the {@link GLib.Type} of the object implementing
+   * {@link GXml.CollectionParent} as the key, to get a {@link GLib.HashTable}
+   * holding a set of instantiable child classes, with the key as the
+   * lowercase of the node's local name to get the {@link GLib.Type}
+   * of the instantiable class to create and add to the collection.
+   */
+  public abstract GLib.HashTable<GLib.Type,GLib.HashTable<string,GLib.Type>> types { get; }
+  /**
    * Writes a {@link GXml.DomDocument} to a {@link GLib.File}
    */
   public virtual void write_file (GLib.File file) throws GLib.Error {
@@ -252,23 +264,43 @@ public interface GXml.Parser : GLib.Object {
         throw new DomError.INVALID_NODE_TYPE_ERROR
                     (_("Collection '%s' hasn't been constructed properly: items' type property was not set at construction time or set to invalid type"), col.get_type ().name ());
       }
-      if (col.items_name == "" || col.items_name == null) {
-        throw new DomError.INVALID_NODE_TYPE_ERROR
-                    (_("Collection '%s' hasn't been constructed properly: items' name property was not set at construction time"), col.get_type ().name ());
+      GLib.Type obj_type = GLib.Type.INVALID;
+      if (col is CollectionParent) {
+        HashTable<string,GLib.Type> obj_types = null;
+        if (!types.contains (col.get_type ())) {
+          obj_types = ((CollectionParent) col).types;
+          types.insert (col.get_type (), obj_types);
+        } else {
+          obj_types = types.lookup (col.get_type ());
+        }
+        if (obj_types != null) {
+          string n = current_node_name ().down ();
+          if (obj_types.contains (n)) {
+            obj_type = obj_types.lookup (n);
+          }
+        }
+      } else {
+        if (col.items_name == "" || col.items_name == null) {
+          throw new DomError.INVALID_NODE_TYPE_ERROR
+                      (_("Collection '%s' hasn't been constructed properly: items' name property was not set at construction time"), col.get_type ().name ());
+        }
+        if (col.element == null || !(col.element is GXml.Object)) {
+          throw new DomError.INVALID_NODE_TYPE_ERROR
+                      (_("Collection '%s' hasn't been constructed properly: element property was not set at construction time"), col.get_type ().name ());
+        }
+        if (!(col.element is GXml.Object)) {
+          throw new DomError.INVALID_NODE_TYPE_ERROR
+                      (_("Invalid object of type '%s' doesn't implement GXml.Object interface: can't be handled by the collection"), col.element.get_type ().name ());
+        }
+        if (col.items_name.down () == current_node_name ().down ()) {
+          if (parent.owner_document == null)
+            throw new DomError.HIERARCHY_REQUEST_ERROR
+                        (_("No document is set to node"));
+            obj_type = col.items_type;
+        }
       }
-      if (col.element == null || !(col.element is GXml.Object)) {
-        throw new DomError.INVALID_NODE_TYPE_ERROR
-                    (_("Collection '%s' hasn't been constructed properly: element property was not set at construction time"), col.get_type ().name ());
-      }
-      if (!(col.element is GXml.Object)) {
-        throw new DomError.INVALID_NODE_TYPE_ERROR
-                    (_("Invalid object of type '%s' doesn't implement GXml.Object interface: can't be handled by the collection"), col.element.get_type ().name ());
-      }
-      if (col.items_name.down () == current_node_name ().down ()) {
-        if (parent.owner_document == null)
-          throw new DomError.HIERARCHY_REQUEST_ERROR
-                      (_("No document is set to node"));
-        var obj = GLib.Object.new (col.items_type,
+      if (obj_type != GLib.Type.INVALID) {
+        var obj = GLib.Object.new (obj_type,
                               "owner-document", node.owner_document) as DomElement;
         parent.append_child (obj);
         read_element (obj as DomElement);
