@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml gxml-0.18\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2019-12-01 20:19+0000\n"
-"PO-Revision-Date: 2020-01-06 11:42+0700\n"
+"POT-Creation-Date: 2020-03-01 13:25+0000\n"
+"PO-Revision-Date: 2020-03-02 00:00+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
 "Language: id\n"
@@ -222,33 +222,33 @@ msgstr "query_selector DomElement tidak diimplementasikan"
 msgid "DomElement query_selector_all is not implemented"
 msgstr "query_selector_all DomElement tidak diimplementasikan"
 
-#: gxml/GomElement.vala:169
+#: gxml/GomElement.vala:176
 msgid "Invalid namespace URI stored in element's attribute"
 msgstr "URI namespace yang tidak valid disimpan dalam atribut elemen"
 
-#: gxml/GomElement.vala:176 gxml/GomElement.vala:198
+#: gxml/GomElement.vala:183 gxml/GomElement.vala:211
 msgid "Invalid attribute name in element's attributes list"
 msgstr "Nama atribut yang tidak valid dalam daftar atribut elemen"
 
-#: gxml/GomElement.vala:213
+#: gxml/GomElement.vala:226
 msgid "Can't locate child node to remove"
 msgstr "Tak bisa menemukan simpul teks anak untuk dihapus"
 
-#: gxml/GomElement.vala:444 gxml/GomElement.vala:505
+#: gxml/GomElement.vala:457 gxml/GomElement.vala:518
 #, c-format
 msgid "Invalid attribute name: %s"
 msgstr "Nama atribut tidak valid: %s"
 
-#: gxml/GomElement.vala:446 gxml/GomElement.vala:507
+#: gxml/GomElement.vala:459 gxml/GomElement.vala:520
 msgid "Invalid node type. DomAttr was expected"
 msgstr "Tipe simpul tidak valid. DomAttr yang diharapkan"
 
-#: gxml/GomElement.vala:469 gxml/GomElement.vala:488
+#: gxml/GomElement.vala:482 gxml/GomElement.vala:501
 #, c-format
 msgid "No index found for attribute %s"
 msgstr "Tidak ada indeks yang ditemukan untuk atribut %s"
 
-#: gxml/GomElement.vala:512
+#: gxml/GomElement.vala:525
 msgid ""
 "Namespace attributes prefixed with xmlns should use a namespace uri http://"
 "www.w3.org/2000/xmlns"
@@ -256,55 +256,63 @@ msgstr ""
 "Atribut namespace diawali dengan xmlns mesti memakai suatu uri namespace "
 "http://www.w3.org/2000/xmlns"
 
-#: gxml/GomElement.vala:519
+#: gxml/GomElement.vala:530
+msgid ""
+"Namespace attributes prefixed with xml should use a namespace uri http://www."
+"w3.org/XML/1998/namespace"
+msgstr ""
+"Atribut namespace yang diawali dengan xml mesti memakai suatu uri namespace "
+"http://www.w3.org/XML/1998/namespace"
+
+#: gxml/GomElement.vala:537
 #, c-format
 msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
 msgstr ""
 "Atribut yang di-namespace-kan mesti menyediakan prefiks bukan null, tidak "
 "kosong: %s"
 
-#: gxml/GomElement.vala:523
+#: gxml/GomElement.vala:541
 msgid "Invalid namespace attribute's name."
 msgstr "Nama atribut namespace tidak valid."
 
-#: gxml/GomElement.vala:535
+#: gxml/GomElement.vala:553
 #, c-format
 msgid "Duplicated default namespace detected with URI: %s"
 msgstr "Namespace bawaan duplikat terdeteksi dengan URI: %s"
 
-#: gxml/GomElement.vala:544
+#: gxml/GomElement.vala:562
 #, c-format
 msgid "Duplicated namespace detected for: %s:%s"
 msgstr "Namespace duplikat terdeteksi untuk: %s:%s"
 
-#: gxml/GomElement.vala:555
+#: gxml/GomElement.vala:573
 #, c-format
 msgid "Trying to add an attribute with an undefined namespace prefix: %s"
 msgstr ""
 "Mencoba menambahkan atribut dengan awalan namespace yang tidak terdefinisi: "
 "%s"
 
-#: gxml/GomElement.vala:561
+#: gxml/GomElement.vala:579
 msgid "Trying to add an attribute with a non found namespace URI"
 msgstr ""
 "Mencoba menambah suatu atribut dengan URI namespace yang tidak ditemukan"
 
-#: gxml/GomElement.vala:634
+#: gxml/GomElement.vala:652
 msgid "Invalid attribute name. Just one prefix is allowed"
 msgstr "Nama atribut tidak valid. Hanya satu prefiks yang diizinkan"
 
-#: gxml/GomElement.vala:638
+#: gxml/GomElement.vala:656
 #, c-format
 msgid "Invalid attribute name. Invalid use of colon: %s"
 msgstr "Nama atribut tidak valid. Penggunaan titik dua yang tidak valid: %s"
 
-#: gxml/GomElement.vala:643
+#: gxml/GomElement.vala:661
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
 msgstr ""
 "Namespace tidak valid. Bila prefiks adalah null, URI namespace tidak boleh "
 "null"
 
-#: gxml/GomElement.vala:645
+#: gxml/GomElement.vala:663
 msgid ""
 "Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
 "org/2000/xmlns"
@@ -312,7 +320,7 @@ msgstr ""
 "Namespace tidak valid. Bila prefiks adalah xml, URI namespace mesti http://"
 "www.w3.org/2000/xmlns"
 
-#: gxml/GomElement.vala:648
+#: gxml/GomElement.vala:666
 msgid ""
 "Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns"
@@ -320,7 +328,7 @@ msgstr ""
 "Namespace tidak valid. Bila prefiks atribut adalah xmlns, URI namespace "
 "mesti http://www.w3.org/2000/xmlns"
 
-#: gxml/GomElement.vala:652
+#: gxml/GomElement.vala:670
 msgid ""
 "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns"
@@ -328,21 +336,21 @@ msgstr ""
 "Namespace tidak valid. Bila nama atribut adalah xmlns, URI namespace mesti "
 "http://www.w3.org/2000/xmlns"
 
-#: gxml/GomElement.vala:654
+#: gxml/GomElement.vala:672
 msgid "Invalid attribute name. No prefixed attributes should use xmlns name"
 msgstr ""
 "Nama atribut tidak valid. Tidak ada atribut berprefiks yang boleh memakai "
 "nama xmlns"
 
-#: gxml/GomElement.vala:658
+#: gxml/GomElement.vala:676
 msgid "Setting namespaced property error: "
 msgstr "Galat pengaturan property yang di-namespace-kan: "
 
-#: gxml/GomElement.vala:664
+#: gxml/GomElement.vala:682
 msgid "Removing attribute Error: "
 msgstr "Menghapus atribut Error: "
 
-#: gxml/GomElement.vala:669
+#: gxml/GomElement.vala:687
 msgid "Removing namespaced attribute Error: "
 msgstr "Menghapus atribut Error yang di-namespace-kan: "
 
@@ -490,7 +498,7 @@ msgid ""
 "contained in token list"
 msgstr ""
 "DOM: Token tidak valid. Tidak ada string kosong yang dapat dipakai sebagai "
-"token untuk memeriksa apakah itu dimuat dalam daftar token."
+"token untuk memeriksa apakah itu dimuat dalam daftar token"
 
 #: gxml/GXmlDomCollections.vala:56
 msgid ""
@@ -683,7 +691,7 @@ msgid "Error closing stream: %s"
 msgstr "Galat saat menutup stream: %s"
 
 #: gxml/XParser.vala:192 gxml/XParser.vala:248 gxml/XParser.vala:257
-#: gxml/XParser.vala:306 gxml/XParser.vala:319 gxml/XParser.vala:367
+#: gxml/XParser.vala:306 gxml/XParser.vala:319 gxml/XParser.vala:369
 msgid "Internal Error: No TextReader was set"
 msgstr "Galat Internal: Tidak ada TextReader yang ditata"
 
@@ -691,10 +699,10 @@ msgstr "Galat Internal: Tidak ada TextReader yang ditata"
 msgid "Can't read node data"
 msgstr "Tak bisa membaca data simpul"
 
-#: gxml/XParser.vala:412
+#: gxml/XParser.vala:414
 msgid "Invalid sequence for document type definition: "
 msgstr "Urutan tidak valid untuk definisi jenis dokumen: "
 
-#: gxml/XParser.vala:477 gxml/XParser.vala:582 gxml/XParser.vala:653
+#: gxml/XParser.vala:479 gxml/XParser.vala:584 gxml/XParser.vala:655
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Galat Internal: Tidak ada TextWriter yang diinisialisasi"
