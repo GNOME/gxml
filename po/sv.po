@@ -1,15 +1,15 @@
 # Swedish translation for gxml.
-# Copyright © 2016-2019 gxml's COPYRIGHT HOLDER
+# Copyright © 2016-2020 gxml's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gxml package.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2016, 2018, 2019.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2016, 2018, 2019, 2020.
 # Josef Andersson <l10nl18nsweja@gmail.com>, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2019-10-10 18:27+0000\n"
-"PO-Revision-Date: 2019-12-27 23:04+0100\n"
+"POT-Creation-Date: 2020-03-02 10:32+0000\n"
+"PO-Revision-Date: 2020-03-05 01:06+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -17,9 +17,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 2.3\n"
 
-#: gxml/BaseCollection.vala:90
+#: gxml/BaseCollection.vala:91
 msgid ""
 "Invalid attempt to initialize a collection using an unsupported type. Only "
 "GXmlGXml.Element is supported"
@@ -27,28 +27,30 @@ msgstr ""
 "Ogiltigt försök till att initiera en samling med typ som inte stöds. Endast "
 "GXmlGXml.Element stöds"
 
-#: gxml/BaseCollection.vala:119 gxml/BaseCollection.vala:147
-msgid "Parent Element is invalid"
-msgstr "Överordnat element är ogiltigt"
+#: gxml/BaseCollection.vala:122 gxml/BaseCollection.vala:150
+msgid "Parent Element is invalid. Set 'element' property at construction time"
+msgstr ""
+"Överordnat element är ogiltigt. Ställ in egenskapen ”element” vid "
+"konstruktionstid"
 
-#: gxml/BaseCollection.vala:122
+#: gxml/BaseCollection.vala:125
 msgid ""
 "Invalid attempt to set unsupported type. Only GXmlGXml.Element is supported"
 msgstr ""
 "Ogiltigt försök till att ange typ som inte stöds. Endast GXmlGXml.Element "
 "stöds"
 
-#: gxml/BaseCollection.vala:125
+#: gxml/BaseCollection.vala:128
 msgid "Invalid attempt to set a node with a different parent document"
 msgstr "Ogiltigt försök att ange en nod med ett annat överordnat dokument"
 
-#: gxml/BaseCollection.vala:130
+#: gxml/BaseCollection.vala:133
 msgid ""
 "Node element not appended as child of parent. No node added to collection"
 msgstr ""
 "Nodelement ej tillagt som en underordnad nod. Ingen nod lades till samlingen"
 
-#: gxml/BaseCollection.vala:192 gxml/BaseCollection.vala:210
+#: gxml/BaseCollection.vala:195 gxml/BaseCollection.vala:213
 #, c-format
 msgid "Error: %s"
 msgstr "Fel: %s"
@@ -206,132 +208,221 @@ msgstr "Textnod med NULL-sträng"
 msgid "Can't copy child text node"
 msgstr "Kan inte kopiera underordnad textnod"
 
-#: gxml/Element.vala:183
+#: gxml/Element.vala:194
 msgid "Invalid namespace URI stored in element's attribute"
 msgstr "Ogiltig namnrymds-URI lagras i elementets attribut"
 
-#: gxml/Element.vala:190 gxml/Element.vala:224
+#: gxml/Element.vala:201 gxml/Element.vala:242
 msgid "Invalid attribute name in element's attributes list"
 msgstr "Ogiltigt attributnamn i elementets attributlista"
 
-#: gxml/Element.vala:239
+#: gxml/Element.vala:257
 msgid "Can't locate child node to remove"
 msgstr "Kan inte finna underordnad nod att ta bort"
 
-#: gxml/Element.vala:469 gxml/Element.vala:535
+#: gxml/Element.vala:487 gxml/Element.vala:553
 #, c-format
 msgid "Invalid attribute name: %s"
 msgstr "Ogiltigt attributnamn: %s"
 
-#: gxml/Element.vala:471 gxml/Element.vala:537
+#: gxml/Element.vala:489 gxml/Element.vala:555
 msgid "Invalid node type. GXml.Attr was expected"
 msgstr "Ogiltig nodtyp. GXml.Attr förväntades"
 
-#: gxml/Element.vala:494 gxml/Element.vala:513
+#: gxml/Element.vala:512 gxml/Element.vala:531
 #, c-format
 msgid "No index found for attribute %s"
 msgstr "Inget index hittades för attributet %s"
 
-#: gxml/Element.vala:522
+#: gxml/Element.vala:540
 #, c-format
 msgid "Invalid attribute's local name '%s': invalid use of ':' character"
 msgstr ""
 "Ogiltigt lokalnamn ”%s” för attribut: ogiltig användning av tecknet ”:”"
 
-#: gxml/Element.vala:526
+#: gxml/Element.vala:544
 #, c-format
 msgid "Namespace URI was not found: %s"
 msgstr "Namnrymds-URI hittades inte: %s"
 
-#: gxml/Element.vala:542
+#: gxml/Element.vala:560
 msgid ""
-"Namespace attributes prefixed with xmlns should use a namespace uri http://"
+"Namespace attributes prefixed with 'xmlns' should use a namespace uri http://"
 "www.w3.org/2000/xmlns"
 msgstr ""
-"Namnrymdsattribut med xmlns-prefix ska använda en namnrymds-URI http://www."
+"Namnrymdsattribut med ”xmlns”-prefix ska använda en namnrymds-URI http://www."
 "w3.org/2000/xmlns"
 
-#: gxml/Element.vala:549
+#: gxml/Element.vala:564
+msgid ""
+"Namespace attributes prefixed with 'xml' should use a namespace uri http://"
+"www.w3.org/XML/1998/namespace"
+msgstr ""
+"Namnrymdsattribut med ”xml”-prefix ska använda en namnrymds-URI http://www."
+"w3.org/XML/1998/namespace"
+
+#: gxml/Element.vala:568
+msgid ""
+"Namespace attributes prefixed with 'xsi' should use a namespace uri http://"
+"www.w3.org/2001/XMLSchema-instance"
+msgstr ""
+"Namnrymdsattribut med ”xsi”-prefix ska använda en namnrymds-URI http://www."
+"w3.org/2001/XMLSchema-instance"
+
+#: gxml/Element.vala:572
+msgid ""
+"Namespace attributes prefixed with 'html' should use a namespace uri http://"
+"www.w3.org/1999/xhtml"
+msgstr ""
+"Namnrymdsattribut med ”html”-prefix ska använda en namnrymds-URI http://www."
+"w3.org/1999/xhtml"
+
+#: gxml/Element.vala:576
+msgid ""
+"Namespace attributes prefixed with 'MathML' should use a namespace uri "
+"http://www.w3.org/1998/Math/MathML"
+msgstr ""
+"Namnrymdsattribut med ”MathML”-prefix ska använda en namnrymds-URI http://"
+"www.w3.org/1998/Math/MathML"
+
+#: gxml/Element.vala:580
+msgid ""
+"Namespace attributes prefixed with 'xlink' should use a namespace uri http://"
+"www.w3.org/1999/xlink"
+msgstr ""
+"Namnrymdsattribut med ”xlink”-prefix ska använda en namnrymds-URI http://www."
+"w3.org/1999/xlink"
+
+#: gxml/Element.vala:584
+msgid ""
+"Namespace attributes prefixed with 'svg' should use a namespace uri http://"
+"www.w3.org/2000/svg"
+msgstr ""
+"Namnrymdsattribut med ”svg”-prefix ska använda en namnrymds-URI http://www."
+"w3.org/2000/svg"
+
+#: gxml/Element.vala:591
 #, c-format
 msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
 msgstr "Namnrymdsattribut ska ha ett prefix som varken är tomt eller null: %s"
 
-#: gxml/Element.vala:553
+#: gxml/Element.vala:595
 msgid "Invalid namespace attribute's name."
 msgstr "Ogiltigt namn på namnrymdsattribut."
 
-#: gxml/Element.vala:570
+#: gxml/Element.vala:612
 #, c-format
 msgid "Trying to add an attribute with an undefined namespace's prefix: %s"
 msgstr ""
 "Försöker att lägga till ett attribut med ett odefinierat namnrymdsprefix: %s"
 
-#: gxml/Element.vala:577
+#: gxml/Element.vala:619
 msgid "Trying to add an attribute with an undefined namespace's URI"
 msgstr "Försöker att lägga till ett attribut med en odefinierad namnrymds-URI"
 
-#: gxml/Element.vala:629
+#: gxml/Element.vala:671
 #, c-format
 msgid "Error getting attribute with namespace: %s"
 msgstr "Fel vid erhållande av attribut med namnrymd: %s"
 
-#: gxml/Element.vala:645
+#: gxml/Element.vala:687
 msgid "Invalid attribute name. Just one prefix is allowed"
 msgstr "Ogiltigt attributnamn. Endast ett prefix är tillåtet"
 
-#: gxml/Element.vala:650
+#: gxml/Element.vala:692
 #, c-format
 msgid "Invalid attribute name. Invalid use of colon: %s"
 msgstr "Ogiltigt attributnamn. Ogiltig användning av kolon: %s"
 
-#: gxml/Element.vala:654
+#: gxml/Element.vala:696
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
-msgstr "Ogiltig namnrymd. Om prefix är null bör namnrymd-URI inte vara tom"
+msgstr "Ogiltig namnrymd. Om prefix är null får namnrymd-URI inte vara tom"
 
-#: gxml/Element.vala:657
+#: gxml/Element.vala:700
 msgid ""
-"Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
-"org/2000/xmlns"
+"Invalid namespace definition. No prefixed attributes should use 'xmlns' as "
+"name"
 msgstr ""
-"Ogiltig namnrymd. Om prefix är xml bör namnrymd-URI vara http://www.w3."
-"org/2000/xmlns"
+"Ogiltigt namnrymdsdefinition. Inga attribut med prefix får använda ”xmlns” "
+"som namn"
 
-#: gxml/Element.vala:661
+#: gxml/Element.vala:704
+msgid "'xml' namespace should not be defined"
+msgstr "”xml”-namnrymd ska inte vara definierad"
+
+#: gxml/Element.vala:708
+msgid "'xmlns' namespace should not be defined"
+msgstr "”xmlns”-namnrymd ska inte vara definierad"
+
+#: gxml/Element.vala:712
 msgid ""
-"Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
-"http://www.w3.org/2000/xmlns"
+"Invalid namespace. If prefix is 'xml', namespace URI should be http://www.w3."
+"org/XML/1998/namespace"
 msgstr ""
-"Ogiltig namnrymd. Om attributets prefix är xmlns bör namnrymd-URI vara "
-"http://www.w3.org/2000/xmlns"
+"Ogiltig namnrymd. Om prefix är ”xml” ska namnrymd-URI vara http://www.w3.org/"
+"XML/1998/namespace"
 
-#: gxml/Element.vala:666
+#: gxml/Element.vala:716
 msgid ""
-"Invalid namespace. If attribute's name is xmlns, namespace URI should be "
-"http://www.w3.org/2000/xmlns"
+"Invalid namespace definition. If attribute's prefix is 'xmlns', namespace "
+"URI should be http://www.w3.org/2000/xmlns"
 msgstr ""
-"Ogiltig namnrymd. Om attributets namn är xmlns bör namnrymd-URI vara http://"
-"www.w3.org/2000/xmlns"
+"Ogiltig namnrymdsdefinition. Om attributets prefix är ”xmlns” ska namnrymd-"
+"URI vara http://www.w3.org/2000/xmlns"
 
-#: gxml/Element.vala:669
+#: gxml/Element.vala:720
 msgid ""
-"Invalid attribute name. No prefixed attributes should use xml or xmlns name"
+"Invalid namespace. If attribute's prefix is 'html', namespace URI should be "
+"http://www.w3.org/1999/xhtml"
 msgstr ""
-"Ogiltigt attributnamn. Inga attribut med prefix ska använda xml- eller xmlns-"
-"namn"
+"Ogiltig namnrymd. Om attributets prefix är ”html” ska namnrymd-URI vara "
+"http://www.w3.org/1999/xhtml"
 
-#: gxml/Element.vala:674
+#: gxml/Element.vala:724
+msgid ""
+"Invalid namespace. If attribute's prefix is 'xsi', namespace URI should be "
+"http://www.w3.org/2001/XMLSchema-instance"
+msgstr ""
+"Ogiltig namnrymd. Om attributets prefix är ”xsi” ska namnrymd-URI vara "
+"http://www.w3.org/2001/XMLSchema-instance"
+
+#: gxml/Element.vala:728
+msgid ""
+"Invalid namespace. If attribute's prefix is 'MathML', namespace URI should "
+"be http://www.w3.org/1998/Math/MathML"
+msgstr ""
+"Ogiltig namnrymd. Om attributets prefix är ”MathML” ska namnrymd-URI vara "
+"http://www.w3.org/1998/Math/MathML"
+
+#: gxml/Element.vala:732
+msgid ""
+"Invalid namespace. If attribute's prefix is 'svg', namespace URI should be "
+"http://www.w3.org/2000/svg"
+msgstr ""
+"Ogiltig namnrymd. Om attributets prefix är ”svg” ska namnrymd-URI vara "
+"http://www.w3.org/2000/svg"
+
+#: gxml/Element.vala:736
+msgid ""
+"Invalid namespace. If attribute's prefix is 'xlink', namespace URI should be "
+"http://www.w3.org/1999/xlink"
+msgstr ""
+"Ogiltig namnrymd. Om attributets prefix är ”xlink” ska namnrymd-URI vara "
+"http://www.w3.org/1999/xlink"
+
+#: gxml/Element.vala:741
 msgid "Setting namespaced property error: "
 msgstr "Anger fel för egenskap i namnrymd: "
 
-#: gxml/Element.vala:680
+#: gxml/Element.vala:747
 msgid "Removing attribute Error: "
 msgstr "Tar bort attributfel: "
 
-#: gxml/Element.vala:685
+#: gxml/Element.vala:752
 msgid "Removing namespaced attribute Error: "
 msgstr "Tar bort fel för namnrymdsattribut: "
 
-#: gxml/Element.vala:851
+#: gxml/Element.vala:918
 #, c-format
 msgid "Error parsing child's buffer: %s"
 msgstr "Fel vid tolkning av underordnads buffert: %s"
@@ -428,16 +519,16 @@ msgstr "Fel vid försök att instansiera egenskapsobjektet: %s"
 msgid "Can't set value. It is not a GXmlGXml.Element type"
 msgstr "Kan inte sätta värdet. Det är inte en GXmlGXml.Element-typ"
 
-#: gxml/Parser.vala:92 gxml/Parser.vala:100 gxml/XDocument.vala:57
+#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:57
 msgid "File doesn't exist"
 msgstr "Fil existerar inte"
 
-#: gxml/Parser.vala:181
+#: gxml/Parser.vala:193
 msgid ""
 "Invalid attempt to parse an element node, when current found node is not"
 msgstr "Ogiltigt försök att tolka en elementnod när aktuell nod ej är det"
 
-#: gxml/Parser.vala:253 gxml/StreamReader.vala:189
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:189
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' type property was "
@@ -446,7 +537,7 @@ msgstr ""
 "Samlingen ”%s” har inte konstruerats korrekt: objekts typegenskap ställdes "
 "inte in vid konstruktionstid eller ställdes in till ogiltig typ"
 
-#: gxml/Parser.vala:257 gxml/StreamReader.vala:193
+#: gxml/Parser.vala:285 gxml/StreamReader.vala:193
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' name property was "
@@ -455,7 +546,7 @@ msgstr ""
 "Samlingen ”%s” har inte konstruerats korrekt: objekts namnegenskap ställdes "
 "inte in vid konstruktionstid"
 
-#: gxml/Parser.vala:261 gxml/StreamReader.vala:197
+#: gxml/Parser.vala:289 gxml/StreamReader.vala:197
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: element property was not "
@@ -464,7 +555,7 @@ msgstr ""
 "Samlingen ”%s” har inte konstruerats korrekt: elementegenskap ställdes inte "
 "in vid konstruktionstid"
 
-#: gxml/Parser.vala:265 gxml/StreamReader.vala:201
+#: gxml/Parser.vala:293 gxml/StreamReader.vala:201
 #, c-format
 msgid ""
 "Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
@@ -473,11 +564,11 @@ msgstr ""
 "Ogiltigt objekt av typen ”%s” implementerar inte GXml.Object-gränssnitt: kan "
 "inte hanteras av samlingen"
 
-#: gxml/Parser.vala:270
+#: gxml/Parser.vala:298
 msgid "No document is set to node"
 msgstr "Inget dokument är satt till nod"
 
-#: gxml/Parser.vala:291 gxml/XParser.vala:102 gxml/XParser.vala:108
+#: gxml/Parser.vala:323 gxml/XParser.vala:107 gxml/XParser.vala:113
 msgid "Invalid document string, it is empty or is not allowed"
 msgstr "Ogiltigt dokumentsträng, den är tom eller ej tillåten"
 
@@ -586,11 +677,11 @@ msgstr "Fel vid skrivning av dokument till sträng: %s"
 msgid "Invalid element qualified name: multiple namespace prefixes"
 msgstr "Ogiltigt kvalificerat elementnamn: flera namnrymdsprefix"
 
-#: gxml/XdParser.vala:60
+#: gxml/XdParser.vala:65
 msgid "stream doesn't provide data"
 msgstr "ström tillhandahåller inte data"
 
-#: gxml/XdParser.vala:75
+#: gxml/XdParser.vala:80
 msgid "Parser Error for string"
 msgstr "Tolkfel för sträng"
 
@@ -645,39 +736,39 @@ msgstr "%s:%s:%d: %s:%d: %s"
 msgid "Error while setting text content to node: %s"
 msgstr "Fel vid inställning av textinnehåll till nod: %s"
 
-#: gxml/XParser.vala:118
+#: gxml/XParser.vala:123
 msgid "Invalid input stream to read data from"
 msgstr "Ogiltig indataström att läsa data från"
 
-#: gxml/XParser.vala:138
+#: gxml/XParser.vala:143
 #, c-format
 msgid "Error reading stream: %s"
 msgstr "Fel vid läsning av ström: %s"
 
-#: gxml/XParser.vala:151
+#: gxml/XParser.vala:156
 #, c-format
 msgid "Error closing stream: %s"
 msgstr "Fel vid stängning av ström: %s"
 
-#: gxml/XParser.vala:192 gxml/XParser.vala:254 gxml/XParser.vala:263
-#: gxml/XParser.vala:312 gxml/XParser.vala:325 gxml/XParser.vala:375
+#: gxml/XParser.vala:197 gxml/XParser.vala:259 gxml/XParser.vala:268
+#: gxml/XParser.vala:317 gxml/XParser.vala:330 gxml/XParser.vala:382
 msgid "Internal Error: No TextReader was set"
 msgstr "Internt fel: Ingen TextReader angavs"
 
-#: gxml/XParser.vala:266
+#: gxml/XParser.vala:271
 msgid "Can't read node data"
 msgstr "Kan inte läsa noddata"
 
-#: gxml/XParser.vala:330
+#: gxml/XParser.vala:335
 #, c-format
 msgid "Parsing ERROR: Fail to move to attribute number: %i"
 msgstr "TOLKFEL: Misslyckades med att flytta till attributsiffra: %i"
 
-#: gxml/XParser.vala:420
+#: gxml/XParser.vala:427
 msgid "Invalid sequence for document type definition: "
 msgstr "Ogiltig sekvens för dokumenttypsdefinition: "
 
-#: gxml/XParser.vala:485 gxml/XParser.vala:591 gxml/XParser.vala:663
+#: gxml/XParser.vala:492 gxml/XParser.vala:598 gxml/XParser.vala:670
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Internt fel: Ingen TextWriter initierades"
 
@@ -696,6 +787,16 @@ msgstr "Det går inte att hitta element vid position: %i: %s"
 #, c-format
 msgid "Collection type %s, initialization error: %s"
 msgstr "Samlingstyp %s, initieringsfel: %s"
+
+#~ msgid "Parent Element is invalid"
+#~ msgstr "Överordnat element är ogiltigt"
+
+#~ msgid ""
+#~ "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
+#~ "http://www.w3.org/2000/xmlns"
+#~ msgstr ""
+#~ "Ogiltig namnrymd. Om attributets namn är xmlns bör namnrymd-URI vara "
+#~ "http://www.w3.org/2000/xmlns"
 
 #~ msgid "Invalid file"
 #~ msgstr "Ogiltig fil"
