@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2019-07-07 14:43+0000\n"
-"PO-Revision-Date: 2019-08-26 10:41+0200\n"
+"POT-Creation-Date: 2020-03-02 10:33+0000\n"
+"PO-Revision-Date: 2020-03-15 15:22+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.2.3\n"
+"X-Generator: Poedit 2.3\n"
 
 #: gxml/Collections.vala:66
 msgid "Invalid index for elements in array list"
@@ -217,33 +217,33 @@ msgstr "DomElement query_selector är inte implementerad"
 msgid "DomElement query_selector_all is not implemented"
 msgstr "DomElement query_selector_all är inte implementerad"
 
-#: gxml/GomElement.vala:169
+#: gxml/GomElement.vala:176
 msgid "Invalid namespace URI stored in element's attribute"
 msgstr "Ogiltig namnrymds-URI lagras i elementets attribut"
 
-#: gxml/GomElement.vala:176 gxml/GomElement.vala:198
+#: gxml/GomElement.vala:183 gxml/GomElement.vala:211
 msgid "Invalid attribute name in element's attributes list"
 msgstr "Ogiltigt attributnamn i elementets attributlista"
 
-#: gxml/GomElement.vala:213
+#: gxml/GomElement.vala:226
 msgid "Can't locate child node to remove"
 msgstr "Kan inte finna underordnad nod att ta bort"
 
-#: gxml/GomElement.vala:444 gxml/GomElement.vala:505
+#: gxml/GomElement.vala:457 gxml/GomElement.vala:518
 #, c-format
 msgid "Invalid attribute name: %s"
 msgstr "Ogiltigt attributnamn: %s"
 
-#: gxml/GomElement.vala:446 gxml/GomElement.vala:507
+#: gxml/GomElement.vala:459 gxml/GomElement.vala:520
 msgid "Invalid node type. DomAttr was expected"
 msgstr "Ogiltig nodtyp. DomAttr förväntades"
 
-#: gxml/GomElement.vala:469 gxml/GomElement.vala:488
+#: gxml/GomElement.vala:482 gxml/GomElement.vala:501
 #, c-format
 msgid "No index found for attribute %s"
 msgstr "Inget index hittades för attributet %s"
 
-#: gxml/GomElement.vala:512
+#: gxml/GomElement.vala:525
 msgid ""
 "Namespace attributes prefixed with xmlns should use a namespace uri http://"
 "www.w3.org/2000/xmlns"
@@ -251,49 +251,57 @@ msgstr ""
 "Namnrymdsattribut med xmlns-prefix ska använda en namnrymds-URI http://www."
 "w3.org/2000/xmlns"
 
-#: gxml/GomElement.vala:519
+#: gxml/GomElement.vala:530
+msgid ""
+"Namespace attributes prefixed with xml should use a namespace uri http://www."
+"w3.org/XML/1998/namespace"
+msgstr ""
+"Namnrymdsattribut med xml-prefix ska använda en namnrymds-URI http://www.w3."
+"org/XML/1998/namespace"
+
+#: gxml/GomElement.vala:537
 #, c-format
 msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
 msgstr "Namnrymdsattribut ska ha ett prefix som varken är tomt eller null: %s"
 
-#: gxml/GomElement.vala:523
+#: gxml/GomElement.vala:541
 msgid "Invalid namespace attribute's name."
 msgstr "Ogiltigt namn på namnrymdsattribut."
 
-#: gxml/GomElement.vala:535
+#: gxml/GomElement.vala:553
 #, c-format
 msgid "Duplicated default namespace detected with URI: %s"
 msgstr "Identifierade duplicerad standardnamnrymd med URI: %s"
 
-#: gxml/GomElement.vala:544
+#: gxml/GomElement.vala:562
 #, c-format
 msgid "Duplicated namespace detected for: %s:%s"
 msgstr "Identifierade duplicerad namnrymd för: %s:%s"
 
-#: gxml/GomElement.vala:555
+#: gxml/GomElement.vala:573
 #, c-format
 msgid "Trying to add an attribute with an undefined namespace prefix: %s"
 msgstr ""
 "Försöker att lägga till ett attribut med ett odefinierat namnrymdsprefix: %s"
 
-#: gxml/GomElement.vala:561
+#: gxml/GomElement.vala:579
 msgid "Trying to add an attribute with a non found namespace URI"
 msgstr "Försöker att lägga till ett attribut med ett icke funnet namnrymds-URI"
 
-#: gxml/GomElement.vala:634
+#: gxml/GomElement.vala:652
 msgid "Invalid attribute name. Just one prefix is allowed"
 msgstr "Ogiltigt attributnamn. Endast ett prefix är tillåtet"
 
-#: gxml/GomElement.vala:638
+#: gxml/GomElement.vala:656
 #, c-format
 msgid "Invalid attribute name. Invalid use of colon: %s"
 msgstr "Ogiltigt attributnamn. Ogiltig användning av kolon: %s"
 
-#: gxml/GomElement.vala:643
+#: gxml/GomElement.vala:661
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
 msgstr "Ogiltig namnrymd. Om prefix är null bör namnrymd-URI inte vara tom"
 
-#: gxml/GomElement.vala:645
+#: gxml/GomElement.vala:663
 msgid ""
 "Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
 "org/2000/xmlns"
@@ -301,7 +309,7 @@ msgstr ""
 "Ogiltig namnrymd. Om prefix är xml bör namnrymd-URI vara http://www.w3."
 "org/2000/xmlns"
 
-#: gxml/GomElement.vala:648
+#: gxml/GomElement.vala:666
 msgid ""
 "Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns"
@@ -309,7 +317,7 @@ msgstr ""
 "Ogiltig namnrymd. Om attributets prefix är xmlns bör namnrymd-URI vara "
 "http://www.w3.org/2000/xmlns"
 
-#: gxml/GomElement.vala:652
+#: gxml/GomElement.vala:670
 msgid ""
 "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
 "http://www.w3.org/2000/xmlns"
@@ -317,19 +325,19 @@ msgstr ""
 "Ogiltig namnrymd. Om attributets namn är xmlns bör namnrymd-URI vara http://"
 "www.w3.org/2000/xmlns"
 
-#: gxml/GomElement.vala:654
+#: gxml/GomElement.vala:672
 msgid "Invalid attribute name. No prefixed attributes should use xmlns name"
 msgstr "Ogiltigt attributnamn. Inga attribut med prefix ska använda xmlns-namn"
 
-#: gxml/GomElement.vala:658
+#: gxml/GomElement.vala:676
 msgid "Setting namespaced property error: "
 msgstr "Anger fel för egenskap i namnrymd: "
 
-#: gxml/GomElement.vala:664
+#: gxml/GomElement.vala:682
 msgid "Removing attribute Error: "
 msgstr "Tar bort attributfel: "
 
-#: gxml/GomElement.vala:669
+#: gxml/GomElement.vala:687
 msgid "Removing namespaced attribute Error: "
 msgstr "Tar bort fel för namnrymdsattribut: "
 
@@ -668,7 +676,7 @@ msgid "Error closing stream: %s"
 msgstr "Fel vid stängning av ström: %s"
 
 #: gxml/XParser.vala:192 gxml/XParser.vala:248 gxml/XParser.vala:257
-#: gxml/XParser.vala:306 gxml/XParser.vala:319 gxml/XParser.vala:367
+#: gxml/XParser.vala:306 gxml/XParser.vala:319 gxml/XParser.vala:369
 msgid "Internal Error: No TextReader was set"
 msgstr "Internt fel: Ingen TextReader angavs"
 
@@ -676,11 +684,11 @@ msgstr "Internt fel: Ingen TextReader angavs"
 msgid "Can't read node data"
 msgstr "Kan inte läsa noddata"
 
-#: gxml/XParser.vala:412
+#: gxml/XParser.vala:414
 msgid "Invalid sequence for document type definition: "
 msgstr "Ogiltig sekvens för dokumenttypsdefinition: "
 
-#: gxml/XParser.vala:477 gxml/XParser.vala:582 gxml/XParser.vala:653
+#: gxml/XParser.vala:479 gxml/XParser.vala:584 gxml/XParser.vala:655
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Internt fel: Ingen TextWriter initierades"
 
