@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2020-03-02 10:32+0000\n"
-"PO-Revision-Date: 2020-03-05 01:06+0100\n"
+"POT-Creation-Date: 2020-05-26 13:34+0000\n"
+"PO-Revision-Date: 2020-05-27 01:02+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.3.1\n"
 
 #: gxml/BaseCollection.vala:91
 msgid ""
@@ -637,7 +637,7 @@ msgstr "Ogiltigt dokument: oväntat tecken ”%c”"
 
 #: gxml/StreamReader.vala:132
 #, c-format
-msgid "Parent '%s' is not implemeting GXml.Object interface"
+msgid "Parent '%s' is not implementing GXml.Object interface"
 msgstr "Överordnat element ”%s” implementerar inte GXml.Object-gränssnitt"
 
 #: gxml/TokenList.vala:54
