@@ -7,7 +7,7 @@ stages:
 
 variables:
   DEPENDENCIES: gcc gettext gtk-doc-tools make autoconf meson ninja-build
-                libxml2-dev libglib2.0 libglib2.0-dev libglib2.0-bin
+                libxml2-dev libglib2.0-dev libglib2.0-bin
                 valac libgee-0.8-dev gettext
                 gnome-common libtool-bin
                 gobject-introspection libgirepository1.0-dev valadoc
