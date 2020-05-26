@@ -129,7 +129,7 @@ public class GXml.StreamReader : GLib.Object {
     if (parent != null) {
       if (!(parent is GXml.Object)) {
         throw new DomError.INVALID_NODE_TYPE_ERROR
-                      (_("Parent '%s' is not implemeting GXml.Object interface"), parent.get_type ().name ());
+                      (_("Parent '%s' is not implementing GXml.Object interface"), parent.get_type ().name ());
       }
     }
     GXml.Element e = null;
