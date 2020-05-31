@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2020-03-01 13:25+0000\n"
-"PO-Revision-Date: 2020-03-01 15:27+0100\n"
+"POT-Creation-Date: 2020-05-26 23:03+0000\n"
+"PO-Revision-Date: 2020-05-31 14:01+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -655,7 +655,7 @@ msgstr "Nieprawidłowy dokument: nieoczekiwany znak „%c”"
 
 #: gxml/StreamReader.vala:132
 #, c-format
-msgid "Parent '%s' is not implemeting GXml.Object interface"
+msgid "Parent '%s' is not implementing GXml.Object interface"
 msgstr "Element nadrzędny „%s” nie implementuje interfejsu GXml.Object"
 
 #: gxml/TokenList.vala:54
