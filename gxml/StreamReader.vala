@@ -65,12 +65,45 @@ public class GXml.StreamReader : GLib.Object {
    */
   public DomDocument document { get { return _document; } }
   /**
-   * Create a new {@link StreamReader} object.
+   * Creates a new {@link StreamReader} object.
    */
   public StreamReader (InputStream istream) {
     _stream = new DataInputStream (istream);
     buf[0] = '\0';
     buf[1] = '\0';
+  }
+  /**
+   * Creates a new {@link StreamReader} object and
+   * initialize {@link document} with given document
+   */
+  public StreamReader.for_document (InputStream istream, DomDocument document) {
+    _stream = new DataInputStream (istream);
+    buf[0] = '\0';
+    buf[1] = '\0';
+    _document = document;
+  }
+  /**
+   * Reads the content of a stream to {@link document}.
+   *
+   * If {@link document} was not set, treates a new {@link DomDocument}
+   *
+   * Returns: {@link document}'s value
+   */
+  public DomDocument read () throws GLib.Error {
+    if (_document == null) {
+        _document = new Document ();
+    }
+
+    internal_read ();
+    return _document;
+  }
+  /**
+   * Use a {@link DomDocument} to initialize {@link document}
+   * and parse its contents to
+   */
+  public void read_document (DomDocument doc) throws GLib.Error {
+    _document = doc;
+    internal_read ();
   }
   private inline uint8 read_byte () throws GLib.Error {
     buf[0] = stream.read_byte (cancellable);
@@ -85,21 +118,6 @@ public class GXml.StreamReader : GLib.Object {
   }
   private inline uint8 cur_byte () {
     return buf[0];
-  }
-  /**
-   * Creates a new {@link DomDocument} and parse the stream to.
-   */
-  public DomDocument read () throws GLib.Error {
-    _document = new Document ();
-    internal_read ();
-    return document;
-  }
-  /**
-   * Use a {@link DomElement} to initialize {@link document}
-   */
-  public void read_document (DomDocument doc) throws GLib.Error {
-    _document = doc;
-    internal_read ();
   }
   private void internal_read () throws GLib.Error {
     read_byte ();
