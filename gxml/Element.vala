@@ -708,28 +708,50 @@ public class GXml.Element : GXml.Node,
       throw new DomError.NAMESPACE_ERROR (_("'xmlns' namespace should not be defined"));
     }
 
-    if (p == "xml" && namespace_uri != "http://www.w3.org/XML/1998/namespace/" && namespace_uri != "http://www.w3.org/XML/1998/namespace") {
+    if (p.down () == "xml" && namespace_uri == null) {
+        namespace_uri = "http://www.w3.org/XML/1998/namespace/";
+    }
+    if (p == "xml" && namespace_uri != "http://www.w3.org/XML/1998/namespace/"
+        && namespace_uri != "http://www.w3.org/XML/1998/namespace") {
        throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If prefix is 'xml', namespace URI should be http://www.w3.org/XML/1998/namespace"));
+    }
+    if (p.down () == "xmlns" && namespace_uri == null) {
+        namespace_uri = "http://www.w3.org/2000/xmlns/";
     }
     if (n == "xmlns" && namespace_uri != "http://www.w3.org/2000/xmlns/"
             && namespace_uri != "http://www.w3.org/2000/xmlns") {
        throw new DomError.NAMESPACE_ERROR (_("Invalid namespace definition. If attribute's prefix is 'xmlns', namespace URI should be http://www.w3.org/2000/xmlns"));
     }
+    if (p.down () == "html" && namespace_uri == null) {
+        namespace_uri = "http://www.w3.org/1999/xhtml/";
+    }
     if (p == "html" && namespace_uri != "http://www.w3.org/1999/xhtml/"
             && namespace_uri != "http://www.w3.org/1999/xhtml") {
        throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If attribute's prefix is 'html', namespace URI should be http://www.w3.org/1999/xhtml"));
+    }
+    if (p.down () == "xsi" && namespace_uri == null) {
+        namespace_uri = "http://www.w3.org/2001/XMLSchema-instance/";
     }
     if (p == "xsi" && namespace_uri != "http://www.w3.org/2001/XMLSchema-instance/"
             && namespace_uri != "http://www.w3.org/2001/XMLSchema-instance") {
        throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If attribute's prefix is 'xsi', namespace URI should be http://www.w3.org/2001/XMLSchema-instance"));
     }
+    if (p.down () == "mathml" && namespace_uri == null) {
+        namespace_uri = "http://www.w3.org/1998/Math/MathML/";
+    }
     if (p.down () == "mathml" && namespace_uri != "http://www.w3.org/1998/Math/MathML/"
             && namespace_uri != "http://www.w3.org/1998/Math/MathML") {
        throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If attribute's prefix is 'MathML', namespace URI should be http://www.w3.org/1998/Math/MathML"));
     }
+    if (p.down () == "svg" && namespace_uri == null) {
+        namespace_uri = "http://www.w3.org/2000/svg/";
+    }
     if (p.down () == "svg" && namespace_uri != "http://www.w3.org/2000/svg/"
             && namespace_uri != "http://www.w3.org/2000/svg") {
        throw new DomError.NAMESPACE_ERROR (_("Invalid namespace. If attribute's prefix is 'svg', namespace URI should be http://www.w3.org/2000/svg"));
+    }
+    if (p.down () == "xlink" && namespace_uri == null) {
+        namespace_uri = "http://www.w3.org/1999/xlink/";
     }
     if (p.down () == "xlink" && namespace_uri != "http://www.w3.org/1999/xlink/"
             && namespace_uri != "http://www.w3.org/1999/xlink") {

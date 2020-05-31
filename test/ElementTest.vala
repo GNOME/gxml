@@ -22,6 +22,15 @@
 
 using GXml;
 
+public class DefaultNs : GXml.Element {
+	[Description (nick="::xlink:Link")]
+	public string link { get; set; }
+	construct {
+			try { initialize ("defaultNs"); }
+			catch (GLib.Error e) { warning ("Error: "+e.message); }
+	}
+}
+
 public interface NoInstantiatable : GLib.Object, GXml.Object {
 	public abstract string name { get; set; }
 }
@@ -217,7 +226,7 @@ class GXml.ElementTest : GXmlTest  {
     }
  }
 	public static void add_tests () {
-	Test.add_func ("/gxml/gom-element/read/namespace_uri", () => {
+	Test.add_func ("/gxml/element/read/namespace_uri", () => {
 			DomDocument doc = null;
 			try {
 				doc = new GXml.Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"><ingredient products:name=\"spider\"/></magic:Potion></Potions>");
@@ -245,7 +254,7 @@ class GXml.ElementTest : GXmlTest  {
 				assert_not_reached ();
 			}
 		});
-		Test.add_func ("/gxml/gom-element/namespace_uri", () => {
+		Test.add_func ("/gxml/element/namespace_uri", () => {
 			try {
 				GXml.Document doc = new GXml.Document.from_string ("<Potions><magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://diagonalley.co.uk/products\"/></Potions>");
 				GXml.Node root = (GXml.Node) doc.document_element;
@@ -279,7 +288,7 @@ class GXml.ElementTest : GXmlTest  {
 				GLib.message (e.message);
 				assert_not_reached ();
 			}
-		});Test.add_func ("/gxml/gom-element/read/namespace/redefinition", () => {
+		});Test.add_func ("/gxml/element/read/namespace/redefinition", () => {
 			DomDocument doc = null;
 			try {
 				doc = new GXml.Document.from_string ("<magic:Potion xmlns:magic=\"http://hogwarts.co.uk/magic\" xmlns:products=\"http://hogwarts.co.uk/magic\"><magic:Arc/><products:Diamond/></magic:Potion>");
@@ -305,7 +314,7 @@ class GXml.ElementTest : GXmlTest  {
 				GLib.warning (e.message);
 			}
 		});
-		Test.add_func ("/gxml/gom-element/attributes", () => {
+		Test.add_func ("/gxml/element/attributes", () => {
 			try {
 				GXml.Document doc = new GXml.Document.from_string ("<root />");
 				assert (doc.document_element != null);
@@ -379,7 +388,7 @@ class GXml.ElementTest : GXmlTest  {
 				assert_not_reached ();
 			}
 		});
-		Test.add_func ("/gxml/gom-element/attributes/property-ns", () => {
+		Test.add_func ("/gxml/element/attributes/property-ns", () => {
 			try {
 				string str = """<Potion xmlns:c="http://c.org/1.0" c:name="edumor"><ingredient c:name="spider"><child/><method c:name="move"/></ingredient></Potion>""";
 				var p = new Potion ();
@@ -401,7 +410,7 @@ class GXml.ElementTest : GXmlTest  {
 				assert_not_reached ();
 			}
 		});
-		Test.add_func ("/gxml/gom-element/attribute-ns/collection", () => {
+		Test.add_func ("/gxml/element/attribute-ns/collection", () => {
 			try {
 				string str = """<?xml version="1.0"?>
 <repository version="1.2" xmlns="http://www.gtk.org/introspection/core/1.0" xmlns:c="http://www.gtk.org/introspection/c/1.0" xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
@@ -423,7 +432,7 @@ class GXml.ElementTest : GXmlTest  {
 				assert_not_reached ();
 			}
 		});
-		Test.add_func ("/gxml/gom-element/lookup-prefix", () => {
+		Test.add_func ("/gxml/element/lookup-prefix", () => {
 			try {
 				string str = """<?xml version="1.0"?>
 <repository version="1.2" xmlns="http://www.gtk.org/introspection/core/1.0" xmlns:c="http://www.gtk.org/introspection/c/1.0" xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
@@ -451,7 +460,7 @@ class GXml.ElementTest : GXmlTest  {
 				assert_not_reached ();
 			}
 		});
-		Test.add_func ("/gxml/gom-element/content/add_aside_child_nodes", () =>{
+		Test.add_func ("/gxml/element/content/add_aside_child_nodes", () =>{
 			try {
 				var doc = new GXml.Document ();
 				var root = (GXml.Element) doc.create_element ("root");
@@ -468,7 +477,7 @@ class GXml.ElementTest : GXmlTest  {
 				assert_not_reached ();
 			}
 		});
-		Test.add_func ("/gxml/gom-element/content/keep_child_nodes", () =>{
+		Test.add_func ("/gxml/element/content/keep_child_nodes", () =>{
 			try {
 				var doc = new GXml.Document ();
 				var root = (GXml.Element) doc.create_element ("root");
@@ -485,7 +494,7 @@ class GXml.ElementTest : GXmlTest  {
 				assert_not_reached ();
 			}
 		});
-		Test.add_func ("/gxml/gom-element/parent", () => {
+		Test.add_func ("/gxml/element/parent", () => {
 			try {
 				var doc = new GXml.Document.from_string ("<root><child/></root>");
 				assert (doc.document_element != null);
@@ -499,7 +508,7 @@ class GXml.ElementTest : GXmlTest  {
 		    assert_not_reached ();
 		  }
 		});
-		Test.add_func ("/gxml/gom-element/remove", () => {
+		Test.add_func ("/gxml/element/remove", () => {
 			try {
 				var doc = new GXml.Document.from_string ("<root><child/></root>");
 				assert (doc.document_element != null);
@@ -515,7 +524,7 @@ class GXml.ElementTest : GXmlTest  {
 		    assert_not_reached ();
 		  }
 		});
-		Test.add_func ("/gxml/gom-element/parsed-delayed", () => {
+		Test.add_func ("/gxml/element/parsed-delayed", () => {
 			try {
 				var n = new ParsedDelayed ();
 				n.read_from_string ("<root><child p1=\"Value1\" p2=\"Value2\"><child2/></child></root>");
@@ -532,7 +541,7 @@ class GXml.ElementTest : GXmlTest  {
 		    assert_not_reached ();
 		  }
 		});
-		Test.add_func ("/gxml/gom-element/write/string", () => {
+		Test.add_func ("/gxml/element/write/string", () => {
 			try {
 				var n = new GXml.Element ();
 				n.initialize ("Node");
@@ -550,7 +559,7 @@ class GXml.ElementTest : GXmlTest  {
 		    assert_not_reached ();
 		  }
 		});
-		Test.add_func ("/gxml/gom-element/write/stream", () => {
+		Test.add_func ("/gxml/element/write/stream", () => {
 			try {
 				var n = new GXml.Element ();
 				n.initialize ("Node");
@@ -565,7 +574,7 @@ class GXml.ElementTest : GXmlTest  {
 		    assert_not_reached ();
 		  }
 		});
-		Test.add_func ("/gxml/gom-element/write/input_stream", () => {
+		Test.add_func ("/gxml/element/write/input_stream", () => {
 			try {
 				var n = new GXml.Element ();
 				n.initialize ("Node");
@@ -581,7 +590,7 @@ class GXml.ElementTest : GXmlTest  {
 		    assert_not_reached ();
 		  }
 		});
-		Test.add_func ("/gxml/gom-element/previous_element_sibling", () => {
+		Test.add_func ("/gxml/element/previous_element_sibling", () => {
 			try {
 				var doc = new GXml.Document.from_string ("<root> <child/> <child/></root>");
 				assert (doc.document_element != null);
@@ -612,7 +621,7 @@ class GXml.ElementTest : GXmlTest  {
 					assert_not_reached ();
 				}
 		});
-		Test.add_func ("/gxml/gom-element/css-selector", () => {
+		Test.add_func ("/gxml/element/css-selector", () => {
 			try {
 				var d = new GXml.Document ();
 				var r = d.create_element ("root");
@@ -671,7 +680,7 @@ class GXml.ElementTest : GXmlTest  {
 		    assert_not_reached ();
 		  }
 		});
-		Test.add_func ("/gxml/gom-element/no-instantiatable/avoid", () => {
+		Test.add_func ("/gxml/element/no-instantiatable/avoid", () => {
 			try {
 				string str = """<Top pq="Qlt"><Instantiatable name="Nop"/></Top>""";
 				var t = new Top ();
@@ -683,7 +692,7 @@ class GXml.ElementTest : GXmlTest  {
 		    assert_not_reached ();
 		  }
 		});
-		Test.add_func ("/gxml/gom-element/no-instantiatable/set", () => {
+		Test.add_func ("/gxml/element/no-instantiatable/set", () => {
 			try {
 				string str = """<Top pq="Qlt"><Instantiatable name="Nop"/></Top>""";
 				var t = new GTop ();
@@ -697,7 +706,7 @@ class GXml.ElementTest : GXmlTest  {
 		    assert_not_reached ();
 		  }
 		});
-		Test.add_func ("/gxml/gom-element/ordered-attributes", () => {
+		Test.add_func ("/gxml/element/ordered-attributes", () => {
 			try {
 				var e = new GXml.Element ();
 				e.set_attribute ("a1", "v1");
@@ -763,7 +772,7 @@ class GXml.ElementTest : GXmlTest  {
 		    assert_not_reached ();
 		  }
 		});
-		Test.add_func ("/gxml/gom-element/object-attributes/attributes-collection", () => {
+		Test.add_func ("/gxml/element/object-attributes/attributes-collection", () => {
 			try {
 				var e = new ObjectParent ();
 				assert (e.text == null);
@@ -834,7 +843,7 @@ class GXml.ElementTest : GXmlTest  {
 		    assert_not_reached ();
 		  }
 		});
-		Test.add_func ("/gxml/gom-element/object-attributes/attributes-update", () => {
+		Test.add_func ("/gxml/element/object-attributes/attributes-update", () => {
 			try {
 				var e = new ObjectParent ();
 				e.id = "id1";
@@ -872,7 +881,7 @@ class GXml.ElementTest : GXmlTest  {
 		    assert_not_reached ();
 		  }
 		});
-		Test.add_func ("/gxml/gom-element/object-attributes/attributes-no-ns-same-name", () => {
+		Test.add_func ("/gxml/element/object-attributes/attributes-no-ns-same-name", () => {
 			try {
 				string str = """<elementType type="Val1" xsi:type="Val2" >VAL3</elementType>""";
 				var n = new ElementType ();
@@ -890,6 +899,20 @@ class GXml.ElementTest : GXmlTest  {
 			} catch (GLib.Error e) {
 		    GLib.message ("Error: "+e.message);
 		    assert_not_reached ();
+		  }
+		});
+		Test.add_func ("/gxml/element/default-ns/xlink", () => {
+			try {
+				var dns = new DefaultNs ();
+				dns.link = "http://www.gnome.org/";
+				message (dns.write_string ());
+				string str = """<defaultNs xlink:link="http://www.gnome.org/"/>""";
+				dns = new DefaultNs ();
+				dns.read_from_string (str);
+				message (dns.write_string ());
+				assert (dns.get_attribute_ns ("http://www.w3.org/1999/xlink", "link") == "http://www.gnome.org/");
+			} catch (GLib.Error e) {
+		    GLib.warning ("Error: "+e.message);
 		  }
 		});
 	}
