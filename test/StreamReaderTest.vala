@@ -401,6 +401,53 @@ class GXmlTest {
       });
       loop.run ();
 		});
+		Test.add_func ("/gxml/stream-reader/mix", () => {
+      var loop = new GLib.MainLoop (null);
+      Idle.add (()=>{
+				string str = """<?xml version="1.0"?>
+<?test-instruction CONTENT IN PI?>
+<!--This is a comment-->
+<BookStore>
+</BookStore>
+""";
+				message ("Stream with Comments and PI");
+				var doc = new Library ();
+				try {
+					doc.read (str);
+					bool found1 = false;
+					bool found2 = false;
+					for (int i = 0; i < doc.child_nodes.length; i++) {
+						var n = doc.child_nodes.item (i);
+						if (n is DomProcessingInstruction) {
+							found1 = true;
+							message ("Text: '%s'", ((DomProcessingInstruction) n).target);
+							assert ("test-instruction" == ((DomProcessingInstruction) n).target);
+							assert (" CONTENT IN PI" == ((DomProcessingInstruction) n).data);
+						}
+						if (n is DomComment) {
+							found2 = true;
+							message ("Text: '%s'", ((DomComment) n).data);
+							assert ("This is a comment" == ((DomComment) n).data);
+						}
+						if (n is DomElement) {
+							message ("Element: %s", n.node_name);
+						}
+					}
+					assert (found1);
+					assert (found2);
+					assert (doc.store != null);
+					message (doc.write_string ());
+					assert (doc.document_element != null);
+					message ("Is BookStore?");
+					assert (doc.document_element is BookStore);
+				} catch (GLib.Error e) {
+					warning ("Error while reading stream: %s", e.message);
+				}
+				loop.quit ();
+				return Source.REMOVE;
+      });
+      loop.run ();
+		});
 		Test.run ();
 
 		return 0;

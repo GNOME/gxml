@@ -131,44 +131,49 @@ public class GXml.StreamReader : GLib.Object {
     parse_doc_nodes ();
   }
 
-  public void parse_doc_nodes () throws GLib.Error
-  {
-    try {
-        read_byte ();
-    } catch {
-        return;
-    }
-    while (true) {
-      if (cur_char () == '<') {
-          try {
+    public void parse_doc_nodes () throws GLib.Error
+    {
+        try {
             read_byte ();
-          } catch {
-              break;
-          }
-          if (is_space (cur_char ())) {
-            throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid document: unexpected space character before node's name"));
-          }
-          if (cur_char () == '?') {
-              if (start) {
-                  parse_xml_dec ();
-                  start = false;
-                  read_text_node ();
-                  continue;
-              } else {
-                  parse_pi_dec ();
-                  read_text_node ();
-                  continue;
-              }
-          } else if (cur_char () == '!') {
-              parse_comment_dec ();
-              read_text_node ();
-              continue;
-          }
-          break;
-      }
-      break;
+        } catch {
+            return;
+        }
+        while (true) {
+            if (cur_char () != '<') {
+                throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid document: expected '<' character"));
+            }
+            try {
+                read_byte ();
+            } catch {
+                return;
+            }
+            if (is_space (cur_char ())) {
+                throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid document: unexpected space character before node's name"));
+            }
+            if (cur_char () != '?' && cur_char () != '!') {
+                return;
+            }
+            if (cur_char () == '?') {
+                if (start) {
+                    parse_xml_dec ();
+                    start = false;
+                    read_text_node ();
+                    message ("Stoped at: %c", cur_char ());
+                    continue;
+                } else {
+                    parse_pi_dec ();
+                    read_text_node ();
+                    message ("Stoped at: %c", cur_char ());
+                    continue;
+                }
+            } else if (cur_char () == '!') {
+                parse_comment_dec ();
+                read_text_node ();
+                message ("Stoped at: %c", cur_char ());
+                continue;
+            }
+        }
     }
-  }
 
   private GXml.Element read_root_element () throws GLib.Error {
     return read_element (true);
@@ -412,11 +417,6 @@ public class GXml.StreamReader : GLib.Object {
 
     var t = document.create_text_node (text.str);
     document.append_child (t);
-    try {
-      read_byte ();
-    } catch {
-        return;
-    }
   }
   private bool is_space (char c) {
     return c == 0x20 || c == 0x9 || c == 0xA || c == ' ' || c == '\t' || c == '\n';
