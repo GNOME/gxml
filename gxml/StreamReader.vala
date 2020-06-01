@@ -1,4 +1,3 @@
-/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /* ParserStream.vala
  *
  * Copyright (C) 2019  Daniel Espinosa <esodan@gmail.com>
@@ -51,6 +50,7 @@ public class GXml.StreamReader : GLib.Object {
   Gee.HashMap<string,GXml.Collection> root_collections = new Gee.HashMap<string,GXml.Collection> ();
   DataInputStream _stream = null;
   DomDocument _document = null;
+  bool start = true;
   /**
    * The stream where data is read from
    * to parse and fill {@link GXml.Element.read_buffer}
@@ -120,26 +120,56 @@ public class GXml.StreamReader : GLib.Object {
     return buf[0];
   }
   private void internal_read () throws GLib.Error {
-    read_byte ();
-    if (cur_char () != '<') {
-      throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid document: should start with '<'"));
-    }
-    read_byte ();
-    if (is_space (cur_char ())) {
-      throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid document: unexpected character before node's name"));
-    }
-    if (cur_char () == '?') {
-      read_xml_dec ();
-      if (cur_char () != '<') {
-        throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid document: unexpected character '%c'"), cur_char ());
-      }
-      read_byte ();
-      if (is_space (cur_char ())) {
-        throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid document: unexpected character before node's name"));
-      }
-    }
+    start = true;
+    parse_doc_nodes ();
     read_root_element ();
+    try {
+      read_byte ();
+    } catch {
+        return;
+    }
+    parse_doc_nodes ();
   }
+
+  public void parse_doc_nodes () throws GLib.Error
+  {
+    try {
+        read_byte ();
+    } catch {
+        return;
+    }
+    while (true) {
+      if (cur_char () == '<') {
+          try {
+            read_byte ();
+          } catch {
+              break;
+          }
+          if (is_space (cur_char ())) {
+            throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid document: unexpected space character before node's name"));
+          }
+          if (cur_char () == '?') {
+              if (start) {
+                  parse_xml_dec ();
+                  start = false;
+                  read_text_node ();
+                  continue;
+              } else {
+                  parse_pi_dec ();
+                  read_text_node ();
+                  continue;
+              }
+          } else if (cur_char () == '!') {
+              parse_comment_dec ();
+              read_text_node ();
+              continue;
+          }
+          break;
+      }
+      break;
+    }
+  }
+
   private GXml.Element read_root_element () throws GLib.Error {
     return read_element (true);
   }
@@ -253,7 +283,6 @@ public class GXml.StreamReader : GLib.Object {
               if (pspec.value_type.is_a (typeof (Collection))) continue;
               var obj = GLib.Object.new (pspec.value_type,
                                     "owner-document", document) as Element;
-              message ("%s == %s", obj.local_name, ce.local_name.down ());
               if (obj.local_name.down ()
                      == ce.local_name.down ()) {
                 Value v = Value (pspec.value_type);
@@ -274,19 +303,96 @@ public class GXml.StreamReader : GLib.Object {
       }
     }
   }
-  private void read_xml_dec () throws GLib.Error  {
+  private void parse_xml_dec () throws GLib.Error  {
     while (cur_char () != '>') {
-      read_byte ();
+      try {
+        read_byte ();
+      } catch {
+          return;
+      }
     }
-    skip_spaces ();
+    try {
+      read_byte ();
+    } catch {
+        return;
+    }
+  }
+  private void parse_comment_dec () throws GLib.Error  {
+    read_byte ();
+    if (cur_char () != '-') {
+        throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid comment declaration"));
+    }
+    read_byte ();
+    if (cur_char () != '-') {
+        throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid comment declaration"));
+    }
+    GLib.StringBuilder comment = new GLib.StringBuilder ("");
+    read_byte ();
+    while (cur_char () != '>') {
+      comment.append_c (cur_char ());
+      read_byte ();
+      if (cur_char () == '-') {
+          read_byte ();
+          if (cur_char () == '-') {
+            read_byte ();
+            if (cur_char () == '-') {
+              throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid comment declaration"));
+            } else if (cur_char () == '>') {
+              break;
+            }
+          }
+          comment.append_c ('-');
+      }
+    }
+    var c = document.create_comment (comment.str);
+    document.append_child (c);
+  }
+  private void parse_pi_dec () throws GLib.Error
+  {
+
+  }
+  private void read_text_node () throws GLib.Error  {
+    GLib.StringBuilder text = new GLib.StringBuilder ("");
+    try {
+      read_byte ();
+    } catch {
+        return;
+    }
+    if (!is_space (cur_char ())) {
+        return;
+    }
+    while (is_space (cur_char ())) {
+      text.append_c (cur_char ());
+      try {
+        read_byte ();
+      } catch {
+          return;
+      }
+    }
+
+    var t = document.create_text_node (text.str);
+    document.append_child (t);
+    try {
+      read_byte ();
+    } catch {
+        return;
+    }
   }
   private bool is_space (char c) {
     return c == 0x20 || c == 0x9 || c == 0xA || c == ' ' || c == '\t' || c == '\n';
   }
   private inline void skip_spaces () throws GLib.Error {
-    read_byte ();
-    while (is_space (cur_char ())) {
+    try {
       read_byte ();
+    } catch {
+        return;
+    }
+    while (is_space (cur_char ())) {
+      try {
+        read_byte ();
+      } catch {
+          return;
+      }
     }
   }
 }

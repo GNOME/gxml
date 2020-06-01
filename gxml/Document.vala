@@ -66,8 +66,13 @@ public class GXml.Document : GXml.Node,
   }
   public DomElement? document_element {
     owned get {
-      if (child_nodes.size == 0) return null;
-      return child_nodes[0] as DomElement;
+      for (int i = 0; i < child_nodes.length; i++) {
+				var n = child_nodes.item (i);
+				if (n is DomElement) {
+					return (DomElement) n;
+				}
+			}
+      return null;
     }
   }
 

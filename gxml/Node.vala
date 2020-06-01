@@ -271,10 +271,11 @@ public class GXml.Node : GLib.Object,
           || node is DomComment))
       throw new DomError.HIERARCHY_REQUEST_ERROR
                   (_("Invalid attempt to insert an invalid node type"));
-    if ((node is DomText && this is DomDocument)
-          || (node is DomDocumentType && !(this is DomDocument)))
-      throw new DomError.HIERARCHY_REQUEST_ERROR
-                  (_("Invalid attempt to insert a document or text type to an invalid parent node"));
+    // comments and Text can be added as children of DomDocument
+    //  if ((node is DomText && this is DomDocument)
+    //       || (node is DomDocumentType && !(this is DomDocument)))
+    //   throw new DomError.HIERARCHY_REQUEST_ERROR
+    //               (_("Invalid attempt to insert a document or text type to an invalid parent node"));
     //FIXME: We should follow steps for DOM4 observers in https://www.w3.org/TR/dom/#concept-node-pre-insert
     if (child != null) {
       int i = this.child_nodes.index_of (child as GXml.DomNode);
