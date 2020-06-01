@@ -318,7 +318,11 @@ public class GXml.StreamReader : GLib.Object {
     }
   }
   private void parse_comment_dec () throws GLib.Error  {
-    read_byte ();
+    try {
+      read_byte ();
+    } catch {
+        return;
+    }
     if (cur_char () != '-') {
         throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid comment declaration"));
     }
@@ -349,7 +353,43 @@ public class GXml.StreamReader : GLib.Object {
   }
   private void parse_pi_dec () throws GLib.Error
   {
-
+    try {
+      read_byte ();
+    } catch {
+        return;
+    }
+    GLib.StringBuilder str = new GLib.StringBuilder ("");
+    while (!is_space (cur_char ())) {
+      if (cur_char () == '?') {
+          throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid Processing Instruccion's target declaration"));
+      }
+      str.append_c (cur_char ());
+      try {
+        read_byte ();
+      } catch {
+          return;
+      }
+    }
+    string target = str.str;
+    str.assign ("");
+    while (cur_char () != '?') {
+      str.append_c (cur_char ());
+      try {
+        read_byte ();
+      } catch {
+          return;
+      }
+    }
+    var pi = document.create_processing_instruction (target, str.str);
+    document.append_child (pi);
+    try {
+        read_byte ();
+    } catch {
+        return;
+    }
+    if (cur_char () != '>') {
+      throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid Processing Instruccion's close declaration"));
+    }
   }
   private void read_text_node () throws GLib.Error  {
     GLib.StringBuilder text = new GLib.StringBuilder ("");
@@ -380,19 +420,5 @@ public class GXml.StreamReader : GLib.Object {
   }
   private bool is_space (char c) {
     return c == 0x20 || c == 0x9 || c == 0xA || c == ' ' || c == '\t' || c == '\n';
-  }
-  private inline void skip_spaces () throws GLib.Error {
-    try {
-      read_byte ();
-    } catch {
-        return;
-    }
-    while (is_space (cur_char ())) {
-      try {
-        read_byte ();
-      } catch {
-          return;
-      }
-    }
   }
 }

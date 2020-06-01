@@ -362,6 +362,45 @@ class GXmlTest {
       });
       loop.run ();
 		});
+		Test.add_func ("/gxml/stream-reader/pi", () => {
+      var loop = new GLib.MainLoop (null);
+      Idle.add (()=>{
+				string str = """<?xml version="1.0"?>
+<?test-instruction CONTENT IN PI?>
+<BookStore>
+</BookStore>
+""";
+				message ("Stream with PI");
+				var doc = new Library ();
+				try {
+					doc.read (str);
+					bool found = false;
+					for (int i = 0; i < doc.child_nodes.length; i++) {
+						var n = doc.child_nodes.item (i);
+						if (n is DomProcessingInstruction) {
+							found = true;
+							message ("Text: '%s'", ((DomProcessingInstruction) n).target);
+							assert ("test-instruction" == ((DomProcessingInstruction) n).target);
+							assert (" CONTENT IN PI" == ((DomProcessingInstruction) n).data);
+						}
+						if (n is DomElement) {
+							message ("Element: %s", n.node_name);
+						}
+					}
+					assert (found);
+					assert (doc.store != null);
+					message (doc.write_string ());
+					assert (doc.document_element != null);
+					message ("Is BookStore?");
+					assert (doc.document_element is BookStore);
+				} catch (GLib.Error e) {
+					warning ("Error while reading stream: %s", e.message);
+				}
+				loop.quit ();
+				return Source.REMOVE;
+      });
+      loop.run ();
+		});
 		Test.run ();
 
 		return 0;
