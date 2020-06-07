@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2020-05-26 23:03+0000\n"
-"PO-Revision-Date: 2020-05-31 14:01+0200\n"
+"POT-Creation-Date: 2020-06-01 04:06+0000\n"
+"PO-Revision-Date: 2020-06-07 09:35+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -142,54 +142,54 @@ msgstr "Nie odnaleziono żadnych selektorów"
 msgid "Last selector has combiner assigned (%s)"
 msgstr "Ostatni selektor ma przydzielony „combiner” (%s)"
 
-#: gxml/Document.vala:124
+#: gxml/Document.vala:129
 #, c-format
 msgid "Error while attempting to instantiate root property object: %s"
 msgstr ""
 "Błąd podczas próby utworzenia wystąpienia głównego obiektu właściwości: %s"
 
-#: gxml/Document.vala:184
+#: gxml/Document.vala:189
 msgid "Creating a namespaced element with invalid node name"
 msgstr ""
 "Tworzenie elementu w przestrzeni nazw za pomocą nieprawidłowej nazwy węzła"
 
-#: gxml/Document.vala:191
+#: gxml/Document.vala:196
 msgid "Creating a namespaced element with invalid namespace"
 msgstr ""
 "Tworzenie elementu w przestrzeni nazw za pomocą nieprawidłowej przestrzeni "
 "nazw"
 
-#: gxml/Document.vala:195
+#: gxml/Document.vala:200
 msgid ""
 "Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
 msgstr ""
 "Nieprawidłowy adres URI przestrzeni nazw dla przedrostka xmlns. Należy użyć "
 "http://www.w3.org/2000/xmlns/"
 
-#: gxml/Document.vala:199
+#: gxml/Document.vala:204
 msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
 msgstr ""
 "Tylko przedrostki xmlns mogą być używane z http://www.w3.org/2000/xmlns/"
 
-#: gxml/Document.vala:239 gxml/XDocument.vala:252
+#: gxml/Document.vala:244 gxml/XDocument.vala:252
 msgid "Can't import a Document"
 msgstr "Nie można zaimportować dokumentu"
 
-#: gxml/Document.vala:241 gxml/XDocument.vala:254
+#: gxml/Document.vala:246 gxml/XDocument.vala:254
 msgid "Can't import a non Element type node to a Document"
 msgstr "Nie można zaimportować węzła o typie niebędącym elementem do dokumentu"
 
-#: gxml/Document.vala:265 gxml/XDocument.vala:278
+#: gxml/Document.vala:270 gxml/XDocument.vala:278
 msgid "Can't adopt a Document"
 msgstr "Nie można przyjąć dokumentu"
 
 #. FIXME:
-#: gxml/Document.vala:443
+#: gxml/Document.vala:448
 msgid "DomElement query_selector is not implemented"
 msgstr "„query_selector” z DomElement nie jest zaimplementowane"
 
 #. FIXME:
-#: gxml/Document.vala:447
+#: gxml/Document.vala:452
 msgid "DomElement query_selector_all is not implemented"
 msgstr "„query_selector_all” z DomElement nie jest zaimplementowane"
 
@@ -365,7 +365,7 @@ msgstr "Przestrzeń nazw „xml” nie może być określona"
 msgid "'xmlns' namespace should not be defined"
 msgstr "Przestrzeń nazw „xmlns” nie może być określona"
 
-#: gxml/Element.vala:712
+#: gxml/Element.vala:716
 msgid ""
 "Invalid namespace. If prefix is 'xml', namespace URI should be http://www.w3."
 "org/XML/1998/namespace"
@@ -373,7 +373,7 @@ msgstr ""
 "Nieprawidłowa przestrzeń nazw. Jeśli przedrostek to „xml”, adres URI "
 "przestrzeni nazw musi być http://www.w3.org/XML/1998/namespace"
 
-#: gxml/Element.vala:716
+#: gxml/Element.vala:723
 msgid ""
 "Invalid namespace definition. If attribute's prefix is 'xmlns', namespace "
 "URI should be http://www.w3.org/2000/xmlns"
@@ -381,7 +381,7 @@ msgstr ""
 "Nieprawidłowa definicja przestrzeń nazw. Jeśli przedrostek atrybutu to "
 "„xmlns”, adres URI przestrzeni nazw musi być http://www.w3.org/2000/xmlns"
 
-#: gxml/Element.vala:720
+#: gxml/Element.vala:730
 msgid ""
 "Invalid namespace. If attribute's prefix is 'html', namespace URI should be "
 "http://www.w3.org/1999/xhtml"
@@ -389,7 +389,7 @@ msgstr ""
 "Nieprawidłowa przestrzeń nazw. Jeśli przedrostek atrybutu to „html”, adres "
 "URI przestrzeni nazw musi być http://www.w3.org/1999/xhtml"
 
-#: gxml/Element.vala:724
+#: gxml/Element.vala:737
 msgid ""
 "Invalid namespace. If attribute's prefix is 'xsi', namespace URI should be "
 "http://www.w3.org/2001/XMLSchema-instance"
@@ -397,7 +397,7 @@ msgstr ""
 "Nieprawidłowa przestrzeń nazw. Jeśli przedrostek atrybutu to „xsi”, adres "
 "URI przestrzeni nazw musi być http://www.w3.org/2001/XMLSchema-instance"
 
-#: gxml/Element.vala:728
+#: gxml/Element.vala:744
 msgid ""
 "Invalid namespace. If attribute's prefix is 'MathML', namespace URI should "
 "be http://www.w3.org/1998/Math/MathML"
@@ -405,7 +405,7 @@ msgstr ""
 "Nieprawidłowa przestrzeń nazw. Jeśli przedrostek atrybutu to „MathML”, adres "
 "URI przestrzeni nazw musi być http://www.w3.org/1998/Math/MathML"
 
-#: gxml/Element.vala:732
+#: gxml/Element.vala:751
 msgid ""
 "Invalid namespace. If attribute's prefix is 'svg', namespace URI should be "
 "http://www.w3.org/2000/svg"
@@ -413,7 +413,7 @@ msgstr ""
 "Nieprawidłowa przestrzeń nazw. Jeśli przedrostek atrybutu to „svg”, adres "
 "URI przestrzeni nazw musi być http://www.w3.org/2000/svg"
 
-#: gxml/Element.vala:736
+#: gxml/Element.vala:758
 msgid ""
 "Invalid namespace. If attribute's prefix is 'xlink', namespace URI should be "
 "http://www.w3.org/1999/xlink"
@@ -421,19 +421,19 @@ msgstr ""
 "Nieprawidłowa przestrzeń nazw. Jeśli przedrostek atrybutu to „xlink”, adres "
 "URI przestrzeni nazw musi być http://www.w3.org/1999/xlink"
 
-#: gxml/Element.vala:741
+#: gxml/Element.vala:763
 msgid "Setting namespaced property error: "
 msgstr "Błąd podczas ustawiania właściwości w przestrzeni nazw: "
 
-#: gxml/Element.vala:747
+#: gxml/Element.vala:769
 msgid "Removing attribute Error: "
 msgstr "Usuwanie błędu atrybutu: "
 
-#: gxml/Element.vala:752
+#: gxml/Element.vala:774
 msgid "Removing namespaced attribute Error: "
 msgstr "Usuwanie błędu atrybutu w przestrzeni nazw: "
 
-#: gxml/Element.vala:918
+#: gxml/Element.vala:940
 #, c-format
 msgid "Error parsing child's buffer: %s"
 msgstr "Błąd podczas przetwarzania bufora elementu potomnego: %s"
@@ -459,7 +459,7 @@ msgstr "Nie można utworzyć treści tekstu w elemencie"
 msgid "Can't find node position"
 msgstr "Nie można odnaleźć położenia węzła"
 
-#: gxml/Node.vala:257 gxml/Node.vala:299 gxml/XNode.vala:310
+#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:310
 #: gxml/XNode.vala:341
 msgid "Invalid attempt to add invalid node type"
 msgstr "Nieprawidłowa próba dodania nieprawidłowego typu węzła"
@@ -468,47 +468,40 @@ msgstr "Nieprawidłowa próba dodania nieprawidłowego typu węzła"
 msgid "Can't find child to insert node before"
 msgstr "Nie można odnaleźć elementu potomnego do wstawienia węzła przed"
 
-#: gxml/Node.vala:265 gxml/Node.vala:305 gxml/XNode.vala:316
+#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:316
 #: gxml/XNode.vala:347
 msgid "Invalid attempt to insert a node"
 msgstr "Nieprawidłowa próba wstawienia węzła"
 
-#: gxml/Node.vala:273 gxml/Node.vala:312 gxml/XNode.vala:323
+#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:323
 #: gxml/XNode.vala:354
 msgid "Invalid attempt to insert an invalid node type"
 msgstr "Nieprawidłowa próba wstawienia nieprawidłowego typu węzła"
 
-#: gxml/Node.vala:277
-msgid ""
-"Invalid attempt to insert a document or text type to an invalid parent node"
-msgstr ""
-"Nieprawidłowa próba wstawienia typu dokumentu lub tekstu do nieprawidłowego "
-"węzła nadrzędnego"
-
-#: gxml/Node.vala:290
+#: gxml/Node.vala:291
 msgid "Node type is invalid. Can't append as child"
 msgstr "Typ węzła jest nieprawidłowy. Nie można dodać jako element potomny"
 
-#: gxml/Node.vala:293
+#: gxml/Node.vala:294
 msgid "Invalid attempt to append a child with different parent document"
 msgstr ""
 "Nieprawidłowa próba dołączenia elementu potomnego z innym dokumentem "
 "nadrzędnym"
 
-#: gxml/Node.vala:301 gxml/XNode.vala:343
+#: gxml/Node.vala:302 gxml/XNode.vala:343
 msgid "Can't find child node to replace or child have a different parent"
 msgstr ""
 "Nie można odnaleźć elementu potomnego do zastąpienia lub element potomny ma "
 "inny element nadrzędny"
 
-#: gxml/Node.vala:315 gxml/XNode.vala:326 gxml/XNode.vala:357
+#: gxml/Node.vala:316 gxml/XNode.vala:326 gxml/XNode.vala:357
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr ""
 "Nieprawidłowa próba wstawienia typu dokumentu lub węzła tekstowego do "
 "nieprawidłowego elementu nadrzędnego"
 
-#: gxml/Node.vala:327 gxml/XNode.vala:369
+#: gxml/Node.vala:328 gxml/XNode.vala:369
 msgid "Can't find child node to remove or child have a different parent"
 msgstr ""
 "Nie można odnaleźć elementu potomnego do usunięcia lub element potomny ma "
@@ -542,7 +535,7 @@ msgstr ""
 "Nieprawidłowa próba przetworzenia węzła elementu, kiedy obecnie odnaleziony "
 "węzeł nie jest"
 
-#: gxml/Parser.vala:265 gxml/StreamReader.vala:189
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:242
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' type property was "
@@ -552,7 +545,7 @@ msgstr ""
 "została ustawiona w czasie budowania lub została ustawiona na nieprawidłowy "
 "typ"
 
-#: gxml/Parser.vala:285 gxml/StreamReader.vala:193
+#: gxml/Parser.vala:285 gxml/StreamReader.vala:246
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' name property was "
@@ -561,7 +554,7 @@ msgstr ""
 "Zbiór „%s” nie został właściwie zbudowany: właściwość nazw elementów nie "
 "została ustawiona w czasie budowania"
 
-#: gxml/Parser.vala:289 gxml/StreamReader.vala:197
+#: gxml/Parser.vala:289 gxml/StreamReader.vala:250
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: element property was not "
@@ -570,7 +563,7 @@ msgstr ""
 "Zbiór „%s” nie został właściwie zbudowany: właściwość elementu nie została "
 "ustawiona w czasie budowania"
 
-#: gxml/Parser.vala:293 gxml/StreamReader.vala:201
+#: gxml/Parser.vala:293 gxml/StreamReader.vala:254
 #, c-format
 msgid ""
 "Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
@@ -640,23 +633,31 @@ msgstr "Nieprawidłowy typ węzła do rozpoczęcia po"
 msgid "Invalid root in the source range"
 msgstr "Nieprawidłowy główny element w zakresie źródłowym"
 
-#: gxml/StreamReader.vala:107
-msgid "Invalid document: should start with '<'"
-msgstr "Nieprawidłowy dokument: musi zaczynać się od „<”"
+#: gxml/StreamReader.vala:143
+msgid "Invalid document: expected '<' character"
+msgstr "Nieprawidłowy dokument: oczekiwano znaku „<”"
 
-#: gxml/StreamReader.vala:111 gxml/StreamReader.vala:120
-msgid "Invalid document: unexpected character before node's name"
-msgstr "Nieprawidłowy dokument: nieoczekiwany znak przed nazwą węzła"
+#: gxml/StreamReader.vala:151
+msgid "Invalid document: unexpected space character before node's name"
+msgstr "Nieprawidłowy dokument: nieoczekiwany znak spacji przed nazwą węzła"
 
-#: gxml/StreamReader.vala:116
-#, c-format
-msgid "Invalid document: unexpected character '%c'"
-msgstr "Nieprawidłowy dokument: nieoczekiwany znak „%c”"
-
-#: gxml/StreamReader.vala:132
+#: gxml/StreamReader.vala:185
 #, c-format
 msgid "Parent '%s' is not implementing GXml.Object interface"
 msgstr "Element nadrzędny „%s” nie implementuje interfejsu GXml.Object"
+
+#: gxml/StreamReader.vala:332 gxml/StreamReader.vala:336
+#: gxml/StreamReader.vala:348
+msgid "Invalid comment declaration"
+msgstr "Nieprawidłowa deklaracja komentarza"
+
+#: gxml/StreamReader.vala:369
+msgid "Invalid Processing Instruccion's target declaration"
+msgstr "Nieprawidłowa deklaracja docelowa instrukcji przetwarzania"
+
+#: gxml/StreamReader.vala:396
+msgid "Invalid Processing Instruccion's close declaration"
+msgstr "Nieprawidłowa deklaracja zamknięcia instrukcji przetwarzania"
 
 #: gxml/TokenList.vala:54
 msgid ""
