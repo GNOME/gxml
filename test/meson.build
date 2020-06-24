@@ -27,7 +27,7 @@ t = executable('tests', files_tests + configvapi + configtestvapi,
 )
 
 test ('tests', t)
-
+if get_option('experimental')
 stream_tests = files ([
 		'StreamReaderTest.vala',
 	])
@@ -40,6 +40,7 @@ tstream = executable('stream-reader', stream_tests + configvapi + configtestvapi
 )
 
 test ('stream-reader', tstream)
+endif
 
 feedreader_files = ([
 	'feedreader-test.vala'
@@ -104,6 +105,7 @@ libxml_performance_iterate = executable('libxml-performance-iterate', files_libx
 
 benchmark ('libxml-performance-iterate', libxml_performance_iterate)
 
+if get_option('experimental')
 files_stream_reader_performance = files ([
 		'StreamReaderPerformanceTest.vala'
 	])
@@ -154,4 +156,4 @@ stream_reader_performance_async_read = executable('stream-reader-performance-asy
 )
 
 benchmark ('stream-reader-performance-async', stream_reader_performance_async_read)
-
+endif

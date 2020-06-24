@@ -70,7 +70,6 @@ valasources = files ([
 	'Property.vala',
 	'Range.vala',
 	'SettableTokenList.vala',
-	'StreamReader.vala',
 	'StringRef.vala',
 	'Text.vala',
 	'TokenList.vala',
@@ -92,6 +91,12 @@ valasources = files ([
 	'XsdSchema.vala',
 	'XText.vala',
 ])
+
+if get_option('experimental')
+valasources += files([
+	'StreamReader.vala'
+	])
+endif
 
 sources = files ([
 ])
