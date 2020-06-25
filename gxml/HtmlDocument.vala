@@ -1,7 +1,6 @@
-/* -*- Mode: vala; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
-/* GXmlDomCollections.vala
+/* HtmlDocument.vala
  *
- * Copyright (C) 2016-2020  Daniel Espinosa <esodan@gmail.com>
+ * Copyright (C) 2020  Daniel Espinosa <esodan@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,21 +22,24 @@
 using Gee;
 
 /**
- * DOM4 HTML Collection
+ * DOM4 HTML Document
  */
-public class GXml.HTMLCollection : Gee.ArrayList<GXml.DomElement>,
-              GXml.DomHTMLCollection
+public class GXml.HtmlDocument : GXml.Document
 {
-  public int length { get { return size; } }
-  public DomElement? item (int index) { return base.get (index); }
-  public DomElement? named_item (string name) {
-    foreach (DomElement e in this) {
-      if (e.node_name == name) return e;
+    [Description (nick="::ROOT")]
+    public GXml.DomElement html { get; set; }
+    construct {
+        html = (DomElement) GLib.Object.new (typeof (HtmlElement), "owner-document", this);
     }
-    return null;
-  }
-  // DomHTMLCollection
-  public new GXml.DomElement? get_element (int index) {
-    return (GXml.DomElement) this.get (index);
-  }
+}
+
+public class GXml.HtmlElement : GXml.Element
+{
+    construct {
+        try {
+            initialize ("html");
+        } catch (GLib.Error e) {
+            warning ("Error: %s", e.message);
+        }
+    }
 }

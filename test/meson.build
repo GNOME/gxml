@@ -27,6 +27,20 @@ t = executable('tests', files_tests + configvapi + configtestvapi,
 )
 
 test ('tests', t)
+
+html_tests = files ([
+		'HtmlDocumentTest.vala',
+	])
+
+thtml = executable('html', html_tests + configvapi + configtestvapi,
+	vala_args : [],
+	c_args: tests_cargs,
+	dependencies : [ libgxml_deps, inc_libh_dep, testdirs_dep, inc_rooth_dep],
+	link_with: libgxml
+)
+
+test ('html', thtml)
+
 if get_option('experimental')
 stream_tests = files ([
 		'StreamReaderTest.vala',

@@ -60,6 +60,7 @@ valasources = files ([
 	'HashPairedMap.vala',
 	'HashThreeMap.vala',
 	'HTMLCollection.vala',
+	'HtmlDocument.vala',
 	'IXsdSchema.vala',
 	'LXPathObject.vala',
 	'Node.vala',
