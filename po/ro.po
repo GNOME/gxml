@@ -1,0 +1,801 @@
+# Romanian translation for gxml.
+# Copyright (C) 2020 gxml's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gxml package.
+# Florentina Mușat <florentina.musat.28@gmail.com>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gxml master\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
+"POT-Creation-Date: 2020-06-25 01:40+0000\n"
+"PO-Revision-Date: 2020-07-27 15:12+0300\n"
+"Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2);;\n"
+"Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
+"X-Generator: Poedit 2.4\n"
+
+#: gxml/BaseCollection.vala:91
+msgid ""
+"Invalid attempt to initialize a collection using an unsupported type. Only "
+"GXmlGXml.Element is supported"
+msgstr ""
+"Încercare nevalidă de a inițializa o colecție utilizând un tip nesuportat. "
+"Doar GXmlGXml.Element este suportat"
+
+#: gxml/BaseCollection.vala:122 gxml/BaseCollection.vala:150
+msgid "Parent Element is invalid. Set 'element' property at construction time"
+msgstr ""
+"Elementul părinte nu este valid. Stabilește proprietatea „element” la timpul "
+"construcției"
+
+#: gxml/BaseCollection.vala:125
+msgid ""
+"Invalid attempt to set unsupported type. Only GXmlGXml.Element is supported"
+msgstr ""
+"Încercare nevalidă de stabilire a tipului nesuportat. Doar GXmlGXml.Element "
+"este suportat"
+
+#: gxml/BaseCollection.vala:128
+msgid "Invalid attempt to set a node with a different parent document"
+msgstr "Încercare nevalidă de a stabili un nod cu un document părinte diferit"
+
+#: gxml/BaseCollection.vala:133
+msgid ""
+"Node element not appended as child of parent. No node added to collection"
+msgstr ""
+"Elementul nod nu este adăugat ca și copilul părintelui. Nu există niciun nod "
+"adăugat la colecție"
+
+#: gxml/BaseCollection.vala:195 gxml/BaseCollection.vala:213
+#, c-format
+msgid "Error: %s"
+msgstr "Eroare: %s"
+
+#: gxml/Collections.vala:116
+msgid "Invalid index for elements in array list"
+msgstr "Index nevalid pentru elementele din lista de vectori"
+
+#: gxml/Collections.vala:120
+msgid "Invalid index reference for child elements in array list"
+msgstr ""
+"Referință de index nevalidă pentru elementele copil din lista de vectori"
+
+#: gxml/Collections.vala:125
+msgid "Referenced object's type is invalid. Should be a GXmlDomElement"
+msgstr ""
+"Tipul obiectului de referință nu este valid. Ar trebui să fie GXmlDomElement"
+
+#: gxml/CssSelectorParser.vala:232 gxml/CssSelectorParser.vala:240
+msgid "Invalid identifier"
+msgstr "Identificator nevalid"
+
+#: gxml/CssSelectorParser.vala:238 gxml/CssSelectorParser.vala:244
+#: gxml/CssSelectorParser.vala:329
+msgid "string value is empty"
+msgstr "valoarea șirului este goală"
+
+#: gxml/CssSelectorParser.vala:250
+msgid "Cannot find start of 'not selector' value"
+msgstr "Nu se poate găsi începutul valorii „nu este selector”"
+
+#: gxml/CssSelectorParser.vala:256
+msgid "Cannot find end of 'not selector' value"
+msgstr "Nu se poate găsi sfârșitul valorii „nu este selector”"
+
+#: gxml/CssSelectorParser.vala:271
+#, c-format
+msgid "Invalid '%s' pseudo class"
+msgstr "Clasă pseudo „%s” nevalidă"
+
+#: gxml/CssSelectorParser.vala:275
+#, c-format
+msgid "Invalid '%s' pseudo class : cannot find value"
+msgstr "Clasă pseudo „%s” nevalidă: nu se poate găsi valoarea"
+
+#: gxml/CssSelectorParser.vala:280
+msgid "Cannot find end of pseudo class value"
+msgstr "Nu se poate găsi sfârșitul valorii de clasă pseudo"
+
+#: gxml/CssSelectorParser.vala:285
+msgid "Pseudo class value isn't a valid number"
+msgstr "Valoarea de clasă pseudo nu este un număr valid"
+
+#: gxml/CssSelectorParser.vala:293
+msgid "current class doesn't start with letter"
+msgstr "clasa curentă nu începe cu o literă"
+
+#: gxml/CssSelectorParser.vala:303
+msgid "current id doesn't start with letter"
+msgstr "id-ul curent nu începe cu o literă"
+
+#: gxml/CssSelectorParser.vala:319 gxml/CssSelectorParser.vala:331
+msgid "Invalid attribute"
+msgstr "Atribut nevalid"
+
+#: gxml/CssSelectorParser.vala:357
+msgid "Invalid attribute selector"
+msgstr "Selector de atribut nevalid"
+
+#: gxml/CssSelectorParser.vala:362
+#, c-format
+msgid "Invalid attribute selector. '=' expected but '%s' was found"
+msgstr "Selector de atribut nevalid. S-a așteptat „=” dar a fost găsit „%s”"
+
+#: gxml/CssSelectorParser.vala:374
+msgid "Cannot find end of attribute value"
+msgstr "Nu se poate găsi sfârșitul valorii atributului"
+
+#: gxml/CssSelectorParser.vala:378
+msgid "Cannot find end of attribute selector"
+msgstr "Nu se poate găsi sfârșitul selectorului atributului"
+
+#: gxml/CssSelectorParser.vala:425
+msgid "No selectors found"
+msgstr "Nu s-au găsit selectori"
+
+#: gxml/CssSelectorParser.vala:429
+#, c-format
+msgid "Last selector has combiner assigned (%s)"
+msgstr "Ultimul selector are atribuit combinatorul (%s)"
+
+#: gxml/Document.vala:129
+#, c-format
+msgid "Error while attempting to instantiate root property object: %s"
+msgstr ""
+"Eroare în timpul încercării de instanțiere a obiectului de proprietate "
+"rădăcină: %s"
+
+#: gxml/Document.vala:189
+msgid "Creating a namespaced element with invalid node name"
+msgstr "Crearea unui element cu namespace cu nume de nod nevalid"
+
+#: gxml/Document.vala:196
+msgid "Creating a namespaced element with invalid namespace"
+msgstr "Crearea unui element cu namespace cu namespace nevalid"
+
+#: gxml/Document.vala:200
+msgid ""
+"Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
+msgstr ""
+"URI de namespace nevalid pentru prefixul xmlns. Utilizați http://www.w3."
+"org/2000/xmlns/"
+
+#: gxml/Document.vala:204
+msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
+msgstr "Doar prefixele xmlns pot fi utilizate cu http://www.w3.org/2000/xmlns/"
+
+#: gxml/Document.vala:244 gxml/XDocument.vala:252
+msgid "Can't import a Document"
+msgstr "Nu se poate importa un document"
+
+#: gxml/Document.vala:246 gxml/XDocument.vala:254
+msgid "Can't import a non Element type node to a Document"
+msgstr "Nu se poate importa un nod de tipul non element la un document"
+
+#: gxml/Document.vala:270 gxml/XDocument.vala:278
+msgid "Can't adopt a Document"
+msgstr "Nu se poate adopta un document"
+
+#. FIXME:
+#: gxml/Document.vala:448
+msgid "DomElement query_selector is not implemented"
+msgstr "Query_selector DomElement nu este implementat"
+
+#. FIXME:
+#: gxml/Document.vala:452
+msgid "DomElement query_selector_all is not implemented"
+msgstr "Query_selector_all DomElement nu este implementat"
+
+#: gxml/DomCharacter.vala:46
+msgid "Invalid offset for substring"
+msgstr "Decalaj nevalid pentru subșir"
+
+#: gxml/DomCharacter.vala:66
+msgid "Invalid offset for replace data"
+msgstr "Decalaj nevalid pentru înlocuirea datelor"
+
+#: gxml/DomCharacter.vala:80
+msgid "Invalid offset to split text"
+msgstr "Decalaj nevalid la împărțirea textului"
+
+#: gxml/DomNode.vala:133
+msgid "Text node with NULL string"
+msgstr "Nodul textului cu șirul NULL"
+
+#: gxml/DomNode.vala:140
+msgid "Can't copy child text node"
+msgstr "Nu se poate copia nodul text al copilului"
+
+#: gxml/Element.vala:194
+msgid "Invalid namespace URI stored in element's attribute"
+msgstr "URI de namespace nevalid stocat în atributul elementului"
+
+#: gxml/Element.vala:201 gxml/Element.vala:242
+msgid "Invalid attribute name in element's attributes list"
+msgstr "Nume de atribut nevalid în lista de atribute a elementului"
+
+#: gxml/Element.vala:257
+msgid "Can't locate child node to remove"
+msgstr "Nu se poate localiza nodul copil pentru a îl elimina"
+
+#: gxml/Element.vala:487 gxml/Element.vala:553
+#, c-format
+msgid "Invalid attribute name: %s"
+msgstr "Nume de atribut nevalid: %s"
+
+#: gxml/Element.vala:489 gxml/Element.vala:555
+msgid "Invalid node type. GXml.Attr was expected"
+msgstr "Tip de nod nevalid. GXml.Attr a fost așteptat"
+
+#: gxml/Element.vala:512 gxml/Element.vala:531
+#, c-format
+msgid "No index found for attribute %s"
+msgstr "Niciun index găsit pentru atributul %s"
+
+#: gxml/Element.vala:540
+#, c-format
+msgid "Invalid attribute's local name '%s': invalid use of ':' character"
+msgstr ""
+"Nume local „%s” de atribut nevalid: utilizare nevalidă a caracterului „:”"
+
+#: gxml/Element.vala:544
+#, c-format
+msgid "Namespace URI was not found: %s"
+msgstr "URI de namespace nu a fost găsit: %s"
+
+#: gxml/Element.vala:560
+msgid ""
+"Namespace attributes prefixed with 'xmlns' should use a namespace uri http://"
+"www.w3.org/2000/xmlns"
+msgstr ""
+"Atributele de namespace prefixate cu „xmlns” ar trebui să utilizeze un uri "
+"de namespace http://www.w3.org/2000/xmlns"
+
+#: gxml/Element.vala:564
+msgid ""
+"Namespace attributes prefixed with 'xml' should use a namespace uri http://"
+"www.w3.org/XML/1998/namespace"
+msgstr ""
+"Atributele de namespace prefixate cu „xml” ar trebui să utilizeze un uri de "
+"namespace http://www.w3.org/XML/1998/namespace"
+
+#: gxml/Element.vala:568
+msgid ""
+"Namespace attributes prefixed with 'xsi' should use a namespace uri http://"
+"www.w3.org/2001/XMLSchema-instance"
+msgstr ""
+"Atributele de namespace prefixate cu „xsi” ar trebui să utilizeze un uri de "
+"namespace http://www.w3.org/2001/XMLSchema-instance"
+
+#: gxml/Element.vala:572
+msgid ""
+"Namespace attributes prefixed with 'html' should use a namespace uri http://"
+"www.w3.org/1999/xhtml"
+msgstr ""
+"Atributele de namespace prefixate cu „html” ar trebui să utilizeze un uri de "
+"namespace http://www.w3.org/1999/xhtml"
+
+#: gxml/Element.vala:576
+msgid ""
+"Namespace attributes prefixed with 'MathML' should use a namespace uri "
+"http://www.w3.org/1998/Math/MathML"
+msgstr ""
+"Atributele de namespace prefixate cu „MathML” ar trebui să utilizeze un uri "
+"de namespace http://www.w3.org/1998/Math/MathML"
+
+#: gxml/Element.vala:580
+msgid ""
+"Namespace attributes prefixed with 'xlink' should use a namespace uri http://"
+"www.w3.org/1999/xlink"
+msgstr ""
+"Atributele de namespace prefixate cu „xlink” ar trebui să utilizeze un uri "
+"de namespace http://www.w3.org/1999/xlink"
+
+#: gxml/Element.vala:584
+msgid ""
+"Namespace attributes prefixed with 'svg' should use a namespace uri http://"
+"www.w3.org/2000/svg"
+msgstr ""
+"Atributele de namespace prefixate cu „svg” ar trebui să utilizeze un uri de "
+"namespace http://www.w3.org/2000/svg"
+
+#: gxml/Element.vala:591
+#, c-format
+msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
+msgstr ""
+"Atributele de namespace ar trebui să furnizeze un prefix non-null, non-gol: "
+"%s"
+
+#: gxml/Element.vala:595
+msgid "Invalid namespace attribute's name."
+msgstr "Nume de atribut de namespace nevalid."
+
+#: gxml/Element.vala:612
+#, c-format
+msgid "Trying to add an attribute with an undefined namespace's prefix: %s"
+msgstr ""
+"Se încearcă adăugarea unui atribut cu un prefix de namespace nedefinit: %s"
+
+#: gxml/Element.vala:619
+msgid "Trying to add an attribute with an undefined namespace's URI"
+msgstr "Se încearcă să se adauge un atribut cu un URI de namespace nedefinit"
+
+#: gxml/Element.vala:671
+#, c-format
+msgid "Error getting attribute with namespace: %s"
+msgstr "Eroare la obținerea atributului cu namespace: %s"
+
+#: gxml/Element.vala:687
+msgid "Invalid attribute name. Just one prefix is allowed"
+msgstr "Nume de atribut nevalid. Doar un prefix este permis"
+
+#: gxml/Element.vala:692
+#, c-format
+msgid "Invalid attribute name. Invalid use of colon: %s"
+msgstr "Nume de atribut nevalid. Utilizare nevalidă a două puncte: %s"
+
+#: gxml/Element.vala:696
+msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
+msgstr ""
+"Namespace nevalid. Dacă prefixul este null, URI-ul namespace-ului nu ar "
+"trebui să fie null"
+
+#: gxml/Element.vala:700
+msgid ""
+"Invalid namespace definition. No prefixed attributes should use 'xmlns' as "
+"name"
+msgstr ""
+"Definiție de namespace nevalidă. Niciun atribut prefixat nu ar trebui să "
+"utilizeze „xmlns” ca și nume"
+
+#: gxml/Element.vala:704
+msgid "'xml' namespace should not be defined"
+msgstr "namespace-ul „xml” nu ar trebui să fie definit"
+
+#: gxml/Element.vala:708
+msgid "'xmlns' namespace should not be defined"
+msgstr "namespace-ul „xmlns” nu ar trebui să fie definit"
+
+#: gxml/Element.vala:716
+msgid ""
+"Invalid namespace. If prefix is 'xml', namespace URI should be http://www.w3."
+"org/XML/1998/namespace"
+msgstr ""
+"Namespace nevalid. Dacă prefixul este „xml”, URI-ul namespace-ului ar trebui "
+"să fie http://www.w3.org/XML/1998/namespace"
+
+#: gxml/Element.vala:723
+msgid ""
+"Invalid namespace definition. If attribute's prefix is 'xmlns', namespace "
+"URI should be http://www.w3.org/2000/xmlns"
+msgstr ""
+"Definiție de namespace nevalidă. Dacă prefixul atributului este „xmlns”, URI-"
+"ul namespace-ului ar trebui să fie http://www.w3.org/2000/xmlns"
+
+#: gxml/Element.vala:730
+msgid ""
+"Invalid namespace. If attribute's prefix is 'html', namespace URI should be "
+"http://www.w3.org/1999/xhtml"
+msgstr ""
+"Namespace nevalid. Dacă prefixul atributului este „html”, URI-ul namespace-"
+"ului ar trebui să fie http://www.w3.org/1999/xhtml"
+
+#: gxml/Element.vala:737
+msgid ""
+"Invalid namespace. If attribute's prefix is 'xsi', namespace URI should be "
+"http://www.w3.org/2001/XMLSchema-instance"
+msgstr ""
+"Namespace nevalid. Dacă prefixul atributului este „xsi”, URI-ul namespace-"
+"ului ar trebui să fie http://www.w3.org/2001/XMLSchema-instance"
+
+#: gxml/Element.vala:744
+msgid ""
+"Invalid namespace. If attribute's prefix is 'MathML', namespace URI should "
+"be http://www.w3.org/1998/Math/MathML"
+msgstr ""
+"Namespace nevalid. Dacă prefixul atributului este „MathML”, URI-ul namespace-"
+"ului ar trebui să fie http://www.w3.org/1998/Math/MathML"
+
+#: gxml/Element.vala:751
+msgid ""
+"Invalid namespace. If attribute's prefix is 'svg', namespace URI should be "
+"http://www.w3.org/2000/svg"
+msgstr ""
+"Namespace nevalid. Dacă prefixul atributului este „svg”, URI-ul namespace-"
+"ului ar trebui să fie http://www.w3.org/2000/svg"
+
+#: gxml/Element.vala:758
+msgid ""
+"Invalid namespace. If attribute's prefix is 'xlink', namespace URI should be "
+"http://www.w3.org/1999/xlink"
+msgstr ""
+"Namespace nevalid. Dacă prefixul atributului este „xlink”, URI-ul namespace-"
+"ului ar trebui să fie http://www.w3.org/1999/xlink"
+
+#: gxml/Element.vala:763
+msgid "Setting namespaced property error: "
+msgstr "Se stabilește eroare de proprietate de namespace: "
+
+#: gxml/Element.vala:769
+msgid "Removing attribute Error: "
+msgstr "Se elimină eroare de atribut: "
+
+#: gxml/Element.vala:774
+msgid "Removing namespaced attribute Error: "
+msgstr "Se elimină eroare de atribut de namespace: "
+
+#: gxml/Element.vala:940
+#, c-format
+msgid "Error parsing child's buffer: %s"
+msgstr "Eroare la parsarea preîncărcării copilului: %s"
+
+#: gxml/Enumeration.vala:88
+msgid "value is invalid"
+msgstr "valoarea nu este validă"
+
+#: gxml/Enumeration.vala:129
+#, c-format
+msgid "text '%s' cannot be parsed to enumeration type: %s"
+msgstr "textul „%s” nu poate fi parsat la tipul de enumerație: %s"
+
+#: gxml/HashPairedMap.vala:210
+msgid "No primary key and/or secondary key was found"
+msgstr "Nu a fost găsită nicio cheie primară și/sau cheie secundară"
+
+#: gxml/Node.vala:156
+msgid "Text content in element can't be created"
+msgstr "Conținutul textului în element nu poate fi creat"
+
+#: gxml/Node.vala:209 gxml/XNode.vala:279
+msgid "Can't find node position"
+msgstr "Nu se poate găsi poziția nodului"
+
+#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:310
+#: gxml/XNode.vala:341
+msgid "Invalid attempt to add invalid node type"
+msgstr "Încercare nevalidă de a adăuga tipul de nod nevalid"
+
+#: gxml/Node.vala:260 gxml/XNode.vala:312
+msgid "Can't find child to insert node before"
+msgstr "Nu se poate găsi copilul care să insereze nodul înainte"
+
+#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:316
+#: gxml/XNode.vala:347
+msgid "Invalid attempt to insert a node"
+msgstr "Încercare nevalidă de a insera un nod"
+
+#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:323
+#: gxml/XNode.vala:354
+msgid "Invalid attempt to insert an invalid node type"
+msgstr "Încercare nevalidă de a insera un tip de nod nevalid"
+
+#: gxml/Node.vala:291
+msgid "Node type is invalid. Can't append as child"
+msgstr "Tipul nodului nu este valid. Nu se poate adăuga ca și copil"
+
+#: gxml/Node.vala:294
+msgid "Invalid attempt to append a child with different parent document"
+msgstr ""
+"Încercare nevalidă de adăugare a unui copil cu document de părinte diferit"
+
+#: gxml/Node.vala:302 gxml/XNode.vala:343
+msgid "Can't find child node to replace or child have a different parent"
+msgstr ""
+"Nu se poate găsi nodul copil de înlocuit sau copilul are un părinte diferit"
+
+#: gxml/Node.vala:316 gxml/XNode.vala:326 gxml/XNode.vala:357
+msgid ""
+"Invalid attempt to insert a document's type or text node to an invalid parent"
+msgstr ""
+"Încercare nevalidă de inserare a unui tip de document sau a unui nod de text "
+"la un părinte nevalid"
+
+#: gxml/Node.vala:328 gxml/XNode.vala:369
+msgid "Can't find child node to remove or child have a different parent"
+msgstr ""
+"Nu se poate găsi nodul copilului de eliminat sau copilul are un părinte "
+"diferit"
+
+#: gxml/Object.vala:170
+msgid "Enumeration is out of range"
+msgstr "Enumerația este în afara intervalului"
+
+#: gxml/Object.vala:285
+msgid "Enumeration can't be parsed from string"
+msgstr "Enumerația nu poate fi parsată de la șir"
+
+#: gxml/Object.vala:407
+#, c-format
+msgid "Error while attempting to instantiate property object: %s"
+msgstr ""
+"Eroare în timpul încercării de instanțiere a obiectului proprietate: %s"
+
+#: gxml/Object.vala:456
+msgid "Can't set value. It is not a GXmlGXml.Element type"
+msgstr "Nu se poate stabili valoarea: Nu este un tip GXmlGXml.Element"
+
+#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:57
+msgid "File doesn't exist"
+msgstr "Fișierul nu există"
+
+#: gxml/Parser.vala:193
+msgid ""
+"Invalid attempt to parse an element node, when current found node is not"
+msgstr ""
+"Încercare nevalidă de a parsa un nod de element, când nodul găsit curent nu "
+"este"
+
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:242
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: items' type property was "
+"not set at construction time or set to invalid type"
+msgstr ""
+"Colecția „%s” nu a fost construită cum trebuie: proprietatea tip a "
+"elementelor nu a fost stabilită la timpul de construcție sau a fost "
+"stabilită la un tip nevalid"
+
+#: gxml/Parser.vala:285 gxml/StreamReader.vala:246
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: items' name property was "
+"not set at construction time"
+msgstr ""
+"Colecția „%s” nu a fost construită cum trebuie: proprietatea nume a "
+"elementelor nu a fost stabilită la timpul de construcție"
+
+#: gxml/Parser.vala:289 gxml/StreamReader.vala:250
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: element property was not "
+"set at construction time"
+msgstr ""
+"Colecția „%s” nu a fost construită cum trebuie: proprietatea element nu a "
+"fost stabilită la timpul de construcție"
+
+#: gxml/Parser.vala:293 gxml/StreamReader.vala:254
+#, c-format
+msgid ""
+"Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
+"be handled by the collection"
+msgstr ""
+"Obiectul nevalid de tipul „%s” nu implementează interfața GXml.Object: nu "
+"poate fi manipulat de către colecție"
+
+#: gxml/Parser.vala:298
+msgid "No document is set to node"
+msgstr "Nu există niciun document stabilit la nod"
+
+#: gxml/Parser.vala:323 gxml/XParser.vala:107 gxml/XParser.vala:113
+msgid "Invalid document string, it is empty or is not allowed"
+msgstr "Șir de document nevalid, este gol sau nu este permis"
+
+#: gxml/Property.vala:389
+#, c-format
+msgid "Error when transform enum to attribute's value: %s"
+msgstr "Eroare când enum de transformare la valoarea atributului: %s"
+
+#: gxml/Property.vala:398
+#, c-format
+msgid "Error when transform from attribute string value to enum: %s"
+msgstr "Eroare la transformarea valorii șirului atribut la enum: %s"
+
+#: gxml/Property.vala:462 gxml/Property.vala:469
+msgid "Invalid Date for property: "
+msgstr "Dată nevalidă pentru proprietatea: "
+
+#: gxml/Property.vala:464
+msgid "Invalid format for Date property: "
+msgstr "Format nevalid pentru proprietatea Dată: "
+
+#: gxml/Property.vala:511
+msgid "Invalid timestamp for property: "
+msgstr "Datare nevalidă pentru proprietatea: "
+
+#: gxml/Range.vala:53 gxml/Range.vala:81 gxml/Range.vala:154
+msgid "Invalid node type to start"
+msgstr "Tip de nod nevalid de început"
+
+#: gxml/Range.vala:56 gxml/Range.vala:84
+msgid "Invalid offset for node to start: for document type"
+msgstr "Decalaj nevalid pentru nodul de început: pentru tipul de document"
+
+#: gxml/Range.vala:60 gxml/Range.vala:88
+msgid "Invalid offset for node to start: for character data"
+msgstr "Decalaj nevalid pentru nodul de început: pentru datele de caracter"
+
+#: gxml/Range.vala:63 gxml/Range.vala:91
+msgid "Invalid offset for node to start: for children number"
+msgstr "Decalaj nevalid pentru nodul de început: pentru numărul copiilor"
+
+#: gxml/Range.vala:107 gxml/Range.vala:121
+msgid "Invalid node type to start before"
+msgstr "Tip de nod nevalid de începere înainte"
+
+#: gxml/Range.vala:112 gxml/Range.vala:126 gxml/Range.vala:144
+msgid "Invalid node type to start after"
+msgstr "Tip de nod nevalid de începere după"
+
+#: gxml/Range.vala:169
+msgid "Invalid root in the source range"
+msgstr "Rădăcină nevalidă în intervalul sursei"
+
+#: gxml/StreamReader.vala:143
+msgid "Invalid document: expected '<' character"
+msgstr "Document nevalid: s-a așteptat caracterul „<”"
+
+#: gxml/StreamReader.vala:151
+msgid "Invalid document: unexpected space character before node's name"
+msgstr "Document nevalid: caracter spațiu neașteptat înainte de numele nodului"
+
+#: gxml/StreamReader.vala:185
+#, c-format
+msgid "Parent '%s' is not implementing GXml.Object interface"
+msgstr "Părintele „%s” nu implementează interfața GXml.Object"
+
+#: gxml/StreamReader.vala:332 gxml/StreamReader.vala:336
+#: gxml/StreamReader.vala:348
+msgid "Invalid comment declaration"
+msgstr "Declarație de comentariu nevalidă"
+
+#: gxml/StreamReader.vala:369
+msgid "Invalid Processing Instruccion's target declaration"
+msgstr "Declarație de țintă a Instruccion de procesare nevalidă"
+
+#: gxml/StreamReader.vala:396
+msgid "Invalid Processing Instruccion's close declaration"
+msgstr "Declarație de închidere a Instruccion de procesare nevalidă"
+
+#: gxml/TokenList.vala:54
+msgid ""
+"DOM: Invalid token. No empty string could be used as token to check if it is "
+"contained in token list"
+msgstr ""
+"DOM: Jeton nevalid. Nu există niciun șir gol care ar putea fi utilizat ca "
+"jeton pentru a verifica dacă este conținut în lista de jetoane"
+
+#: gxml/TokenList.vala:56
+msgid ""
+"DOM: Invalid token. No white spaces could be included as token to check if "
+"it is contained in token list"
+msgstr ""
+"DOM: Jeton nevalid. Nu au putut fi incluse spații albe ca jeton pentru a "
+"verifica dacă este conținut în lista de jetoane"
+
+#: gxml/TokenList.vala:63 gxml/TokenList.vala:86
+msgid "DOM: Invalid token. Empty string can't be used as token"
+msgstr "DOM: Jeton nevalid. Șirul gol nu poate fi utilizat ca jeton"
+
+#: gxml/TokenList.vala:65 gxml/TokenList.vala:88
+msgid "DOM: Invalid token. White spaces can't be used as token"
+msgstr "DOM: Jeton nevalid. Spațiile albe nu pot fi utilizate ca jeton"
+
+#: gxml/TokenList.vala:102
+msgid "Update Error: "
+msgstr "Eroare de actualizare: "
+
+#: gxml/XDocument.vala:139
+#, c-format
+msgid "Error writing document to string: %s"
+msgstr "Eroare la scrierea documentului la șir: %s"
+
+#: gxml/XDocument.vala:207
+msgid "Invalid element qualified name: multiple namespace prefixes"
+msgstr "Nume calificat de element nevalid: prefixe de namespace multiple"
+
+#: gxml/XdParser.vala:65
+msgid "stream doesn't provide data"
+msgstr "fluxul nu furnizează date"
+
+#: gxml/XdParser.vala:80
+msgid "Parser Error for string"
+msgstr "Eroare de parsare pentru șir"
+
+#: gxml/XElement.vala:148
+#, c-format
+msgid "Error while converting Element to string: %s"
+msgstr "Eroare în timpul convertirii elementului la șir: %s"
+
+#: gxml/XElement.vala:348
+#, c-format
+msgid "invalid namespace. Code: %s"
+msgstr "namespace nevalid. Cod: %s"
+
+#: gxml/XHashMapAttr.vala:243
+msgid "Invalid document when adding item to collection"
+msgstr "Document nevalid la adăugarea elementului la colecție"
+
+#: gxml/XHashMapAttr.vala:245 gxml/XHashMapAttr.vala:297
+msgid "This node collection is read only"
+msgstr "Această colecție de noduri este protejată la scriere"
+
+#: gxml/XHashMapAttr.vala:247 gxml/XHashMapAttr.vala:299
+msgid "This node attribute is already in use by other Element"
+msgstr "Acest atribut de nod este deja în uz de alt element"
+
+#: gxml/XHashMapAttr.vala:249 gxml/XHashMapAttr.vala:301
+msgid "Trying to add an object to an Element, but it is not an attribute"
+msgstr ""
+"Se încearcă adăugarea unui obiect la un element, dar nu este un atribut"
+
+#: gxml/XHashMapAttr.vala:261 gxml/XHashMapAttr.vala:317
+#, c-format
+msgid "No node with name %s was found"
+msgstr "Nu a fost găsit niciun nod cu numele %s"
+
+#: gxml/XHashMapAttr.vala:263 gxml/XHashMapAttr.vala:319
+msgid "Node collection is read only"
+msgstr "Colecția de noduri este protejată la scriere"
+
+#: gxml/XHashMapAttr.vala:295
+msgid "Invalid document when adding item to named node map collection"
+msgstr ""
+"Document nevalid când se adaugă elementul la colecția de hartă de noduri "
+"numită"
+
+#: gxml/XNode.vala:43
+#, c-format
+msgid "%s:%s:%d: %s:%d: %s"
+msgstr "%s:%s:%d: %s:%d: %s"
+
+#: gxml/XNode.vala:216
+#, c-format
+msgid "Error while setting text content to node: %s"
+msgstr "Eroare în timpul stabilirii conținutului textului la nodul: %s"
+
+#: gxml/XParser.vala:123
+msgid "Invalid input stream to read data from"
+msgstr "Flux de intrare nevalid de la care se citesc datele"
+
+#: gxml/XParser.vala:143
+#, c-format
+msgid "Error reading stream: %s"
+msgstr "Eroare la citirea fluxului: %s"
+
+#: gxml/XParser.vala:156
+#, c-format
+msgid "Error closing stream: %s"
+msgstr "Eroare la închiderea fluxului: %s"
+
+#: gxml/XParser.vala:197 gxml/XParser.vala:259 gxml/XParser.vala:268
+#: gxml/XParser.vala:317 gxml/XParser.vala:330 gxml/XParser.vala:382
+msgid "Internal Error: No TextReader was set"
+msgstr "Eroare internă: Nu a fost stabilit niciun TextReader"
+
+#: gxml/XParser.vala:271
+msgid "Can't read node data"
+msgstr "Nu se pot citi datele nodului"
+
+#: gxml/XParser.vala:335
+#, c-format
+msgid "Parsing ERROR: Fail to move to attribute number: %i"
+msgstr "EROARE de parsare: Nu s-a putut muta numărul atributului: %i"
+
+#: gxml/XParser.vala:427
+msgid "Invalid sequence for document type definition: "
+msgstr "Secvență nevalidă pentru definiția de tip de document: "
+
+#: gxml/XParser.vala:492 gxml/XParser.vala:598 gxml/XParser.vala:670
+msgid "Internal Error: No TextWriter initialized"
+msgstr "Eroare internă: Nu a fost inițializat niciun TextWriter"
+
+#: gxml/XsdSchema.vala:266
+#, c-format
+msgid "Error removing Collection's element: %s"
+msgstr "Eroare la eliminarea elementului Colecției: %s"
+
+#: gxml/XsdSchema.vala:275
+#, c-format
+msgid "Can't find element at position: %i: %s"
+msgstr "Nu se poate găsi elementul la poziția %i: %s"
+
+#: gxml/XsdSchema.vala:289 gxml/XsdSchema.vala:297 gxml/XsdSchema.vala:305
+#: gxml/XsdSchema.vala:313 gxml/XsdSchema.vala:321
+#, c-format
+msgid "Collection type %s, initialization error: %s"
+msgstr "Tip de colecție %s, eroare de inițializare: %s"
