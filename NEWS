@@ -1,4 +1,24 @@
 ===============
+Version 0.18.2
+===============
+* GomHashThreeMap: fix get() implementation
+* Looking for default namespaces 'xml' or 'xmlns'
+  returns default URI http://www.w3.org/XML/1998/namespace
+  and http://www.w3.org/2000/xmlns respectivaly.
+* New translations:
+    Basque     by                Asier Sarasua Garmendia <asier.sarasua@gmail.com>
+* Updated translations:
+    Swedish    by                Anders Jonsson <anders.jonsson@norsjovallen.se>
+    Czech      by                Marek Černocký <marek@manet.cz>
+    Indonesian by                Andika Triwidada <atriwidada@gnome.org>
+    Greek      by                Efstathios Iosifidis <eiosifidis@gnome.org>
+    Brazilian Portuguese by      Rafael Fontenelle <rafaelff@gnome.org>
+    Hungarian  by                Balázs Úr <balazs@urbalazs.hu>
+    Polish     by                Piotr Drąg <piotrdrag@gmail.com>
+    Spanish    by                Daniel Mustieles <daniel.mustieles.contractor@bbva.com>
+    Ukrainian  by                Yuri Chornoivan <yurchor@ukr.net>
+
+===============
 Version 0.18.1
 ===============
 * GParser: fix create_stream() using string.data
