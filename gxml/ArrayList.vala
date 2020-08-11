@@ -45,9 +45,6 @@ using Gee;
  */
 public class GXml.ArrayList : GXml.BaseCollection, GXml.List {
   public override bool validate_append (int index, DomElement element) throws GLib.Error {
-#if DEBUG
-    GLib.message ("Adding node:"+element.node_name);
-#endif
     return true;
   }
 }

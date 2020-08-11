@@ -1,6 +1,8 @@
 ===============
 Version 0.20.0
 ===============
+* Add more CSS version 3 expressions
+* New HTMLDocument
 * Transition from pre 0.20 API, can be found at Wiki https://gitlab.gnome.org/GNOME/gxml/wikis/home
 * API simplification (breaks)
 * Remove of obsolete and deprecated API
@@ -12,6 +14,36 @@ Version 0.20.0
 * TNode derived classes removed
 * GNode derived classes (libxml2) renamed to XNode derived ones (GDocument to XDocument)
 * Documentation updates
+* Document: export search_root_element_property()
+* Enum class now can be configured to change its value string
+  representation, to use the default GLib, use upper cases,
+  use nick and use nick upper cases.
+* If a deserialization of an enum property yields
+  to an invalid string of an enum, then that is
+  hold and used to serialize back, so no data is
+  lost and is tolerant for extensions not included
+  in the current implementation
+* Parser: improve error on collection initialization
+* Add default namespaces resolution
+* New multi-type collection can recognize more than one
+  object direved from the same type, like an interface
+*  New translations
+    Romanian               by Florentina Mușat <florentina.musat.28@gmail.com>
+    Ukrainian              by Yuri Chornoivan <yurchor@ukr.net>
+* Updated translations:
+    Brazillian Portuguese  by Rafael Fontenelle <rafaelff@gnome.org>
+    Spanish                by Daniel Mustieles <daniel.mustieles@gmail.com>
+    Catalan                by Jordi Mas <jmas@softcatala.org>
+    Polish                 by Piotr Drąg <piotrdrag@gmail.com>
+    Swedish                by Anders Jonsson <anders.jonsson@norsjovallen.se>
+    British English        by Zander Brown <zbrown@gnome.org>
+    Hungarian              by Balázs Úr <balazs@urbalazs.hu>
+    Czech                  by Marek Černocký <marek@manet.cz>
+    Basque                 by Asier Sarasua Garmendia <asier.sarasua@gmail.com>
+    Indonesian             by Andika Triwidada <atriwidada@gnome.org>
+    Greek                  by Efstathios Iosifidis <eiosifidis@gnome.org>
+    Danish                 by Ask Hjorth Larsen <asklarsen@gmail.com>
+
 
 ===============
 Version 0.18.1
