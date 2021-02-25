@@ -4,79 +4,200 @@
 # Mario Blättermann <mario.blaettermann@gmail.com>, 2017.
 # Wolfgang Stöggl <c72578@yahoo.de>, 2016.
 # Tim Sabsch <tim@sabsch.com>, 2018.
+# Philipp Kiemle <philipp.kiemle@gmail.com>, 2021.
+# Christian Kirbach <christian.kirbach@gmail.com>, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2018-04-10 05:22+0000\n"
-"PO-Revision-Date: 2018-08-12 14:44+0200\n"
-"Last-Translator: Tim Sabsch <tim@sabsch.com>\n"
+"POT-Creation-Date: 2021-01-16 04:47+0000\n"
+"PO-Revision-Date: 2021-02-25 21:41+0100\n"
+"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.9\n"
+"X-Generator: Poedit 2.4.1\n"
 
-#: gxml/Collections.vala:66 gxml/GomCollections.vala:67
+#: gxml/BaseCollection.vala:91
+msgid ""
+"Invalid attempt to initialize a collection using an unsupported type. Only "
+"GXmlGXml.Element is supported"
+msgstr ""
+"Ungültiger Versuch, eine Sammlung eines nicht unterstützten Typs zu "
+"initialisieren. Nur GXmlGXml.Element wird unterstützt"
+
+#: gxml/BaseCollection.vala:122 gxml/BaseCollection.vala:150
+msgid "Parent Element is invalid. Set 'element' property at construction time"
+msgstr ""
+
+#: gxml/BaseCollection.vala:125
+msgid ""
+"Invalid attempt to set unsupported type. Only GXmlGXml.Element is supported"
+msgstr ""
+"Ungültiger Versuch, einen nicht unterstützten Typ festzulegen. Nur GXmlGXml."
+"Element wird unterstützt"
+
+#: gxml/BaseCollection.vala:128
+msgid "Invalid attempt to set a node with a different parent document"
+msgstr ""
+"Ungültiger Versuch, einen Knoten auf ein anderes Elterndokument zu setzen"
+
+#: gxml/BaseCollection.vala:133
+msgid ""
+"Node element not appended as child of parent. No node added to collection"
+msgstr ""
+"Knotenelement wurde nicht als Unterelement des Elternelements angehängt. Es "
+"wurde kein Knoten zur Sammlung hinzugefügt"
+
+#: gxml/BaseCollection.vala:195 gxml/BaseCollection.vala:213
+#, c-format
+msgid "Error: %s"
+msgstr "Fehler: %s"
+
+#: gxml/Collections.vala:116
 msgid "Invalid index for elements in array list"
 msgstr "Ungültiger Index für Elemente in der Feldliste"
 
-#: gxml/Collections.vala:70 gxml/GomCollections.vala:71
+#: gxml/Collections.vala:120
 msgid "Invalid index reference for child elements in array list"
 msgstr "Ungültige Indexreferenz für Unterelemente in der Feldliste"
 
-#: gxml/Collections.vala:75
+#: gxml/Collections.vala:125
 msgid "Referenced object's type is invalid. Should be a GXmlDomElement"
 msgstr ""
 "Der Typ des referenzierten Objekts ist ungültig. Es sollte ein "
 "GXmlDomElement sein"
 
-#: gxml/CssSelectorParser.vala:139
-msgid "Invalid attribute character"
-msgstr "Ungültiges Attributzeichen"
+#: gxml/CssSelectorParser.vala:232 gxml/CssSelectorParser.vala:240
+msgid "Invalid identifier"
+msgstr "Ungültiger Bezeichner"
 
-#: gxml/CssSelectorParser.vala:165 gxml/CssSelectorParser.vala:211
-#, c-format
-msgid "Invalid attribute selector value: %s"
-msgstr "Ungültiger Attributauswahlwert: %s"
-
-#: gxml/CssSelectorParser.vala:168 gxml/CssSelectorParser.vala:214
-msgid "Invalid end of attribute value"
-msgstr "Ungültiges Ende des Attributwerts"
-
-#: gxml/CssSelectorParser.vala:174 gxml/CssSelectorParser.vala:220
-msgid "Invalid end of attribute selector"
-msgstr "Ungültiges Ende der Attributauswahl"
-
-#: gxml/CssSelectorParser.vala:194
-msgid "Invalid attribute selector character"
-msgstr "Ungültiges Attributauswahlzeichen"
-
-#: gxml/CssSelectorParser.vala:197
-msgid "Invalid attribute selector character: can't find '=' character"
-msgstr ""
-"Ungültiges Attributauswahlzeichen: Zeichen »=« kann nicht gefunden werden"
+#: gxml/CssSelectorParser.vala:238 gxml/CssSelectorParser.vala:244
+#: gxml/CssSelectorParser.vala:329
+msgid "string value is empty"
+msgstr "Zeichenkettenwert ist leer"
 
 #: gxml/CssSelectorParser.vala:250
+msgid "Cannot find start of 'not selector' value"
+msgstr ""
+
+#: gxml/CssSelectorParser.vala:256
+msgid "Cannot find end of 'not selector' value"
+msgstr ""
+
+#: gxml/CssSelectorParser.vala:271
 #, c-format
-msgid "Invalid pseudo class selector %s"
-msgstr "Ungültiger Pseudoklassenwähler %s"
+msgid "Invalid '%s' pseudo class"
+msgstr "Ungültige »%s« Pseudoklasse"
 
-#: gxml/CssSelectorParser.vala:258
-msgid "Invalid string length."
-msgstr "Ungültige Länge der Zeichenkette."
-
-#: gxml/CssSelectorParser.vala:291
+#: gxml/CssSelectorParser.vala:275
 #, c-format
-msgid "Invalid '%s' character."
-msgstr "Ungültiges »%s«-Zeichen."
+msgid "Invalid '%s' pseudo class : cannot find value"
+msgstr "Ungültige »%s« Pseudoklasse : Wert konnte nicht gefunden werden"
 
-#: gxml/Document.vala:153
-msgid "Invalid file"
-msgstr "Ungültige Datei"
+#: gxml/CssSelectorParser.vala:280
+msgid "Cannot find end of pseudo class value"
+msgstr ""
+
+#: gxml/CssSelectorParser.vala:285
+msgid "Pseudo class value isn't a valid number"
+msgstr "Pseudo-Klassenwert ist keine gültige Zahl"
+
+#: gxml/CssSelectorParser.vala:293
+msgid "current class doesn't start with letter"
+msgstr "Aktuelle Klasse beginnt nicht mit einem Buchstaben"
+
+#: gxml/CssSelectorParser.vala:303
+msgid "current id doesn't start with letter"
+msgstr "Aktuelle id beginnt nicht mit einem Buchstaben"
+
+#: gxml/CssSelectorParser.vala:319 gxml/CssSelectorParser.vala:331
+msgid "Invalid attribute"
+msgstr "Ungültiges Attribut"
+
+# https://www.mediaevent.de/css/css-selektor.html
+#: gxml/CssSelectorParser.vala:357
+msgid "Invalid attribute selector"
+msgstr "Ungültiger Attribut-Selektor"
+
+# https://www.mediaevent.de/css/css-selektor.html
+#: gxml/CssSelectorParser.vala:362
+#, c-format
+msgid "Invalid attribute selector. '=' expected but '%s' was found"
+msgstr "Ungültiger Attribut-Selektor. »=« erwartet, aber »%s« gefunden"
+
+#: gxml/CssSelectorParser.vala:374
+msgid "Cannot find end of attribute value"
+msgstr "Das Ende des Attributwerts konnte nicht gefunden werden"
+
+#: gxml/CssSelectorParser.vala:378
+msgid "Cannot find end of attribute selector"
+msgstr "Das Ende des Attribut-Selektors konnte nicht gefunden werden"
+
+# https://www.mediaevent.de/css/css-selektor.html
+#: gxml/CssSelectorParser.vala:425
+msgid "No selectors found"
+msgstr "Keine Selektoren gefunden"
+
+#: gxml/CssSelectorParser.vala:429
+#, c-format
+msgid "Last selector has combiner assigned (%s)"
+msgstr ""
+
+#: gxml/Document.vala:129
+#, c-format
+msgid "Error while attempting to instantiate root property object: %s"
+msgstr ""
+"Fehler beim Versuch, das Wurzel-Eigenschaftsobjekt zu instanziieren: %s"
+
+#: gxml/Document.vala:189
+msgid "Creating a namespaced element with invalid node name"
+msgstr "Ein Element mit Namensraum wird mit ungültigem Knotennamen erzeugt"
+
+#: gxml/Document.vala:196
+msgid "Creating a namespaced element with invalid namespace"
+msgstr ""
+"Ein Element mit Namensraum wird erzeugt, wobei der Namensraum ungültig ist"
+
+#: gxml/Document.vala:200
+msgid ""
+"Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
+msgstr ""
+"Ungültige Namensraum-Adresse für xmlns-Präfix. Verwenden Sie http://www.w3."
+"org/2000/xmlns/"
+
+#: gxml/Document.vala:204
+msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
+msgstr ""
+"Nur xmlns-Präfixe können mit http://www.w3.org/2000/xmlns/ verwendet werden"
+
+#: gxml/Document.vala:244 gxml/XDocument.vala:252
+msgid "Can't import a Document"
+msgstr "Ein Dokument kann nicht importiert werden"
+
+#: gxml/Document.vala:246 gxml/XDocument.vala:254
+msgid "Can't import a non Element type node to a Document"
+msgstr ""
+"Ein Knoten, der nicht vom Typ »Element« ist, kann nicht in ein Dokument "
+"importiert werden"
+
+#: gxml/Document.vala:270 gxml/XDocument.vala:278
+msgid "Can't adopt a Document"
+msgstr "Ein Dokument kann nicht übernommen werden"
+
+#. FIXME:
+#: gxml/Document.vala:448
+msgid "DomElement query_selector is not implemented"
+msgstr "DomElement query_selector ist nicht implementiert"
+
+#. FIXME:
+#: gxml/Document.vala:452
+msgid "DomElement query_selector_all is not implemented"
+msgstr "DomElement query_selector_all ist nicht implementiert"
 
 #: gxml/DomCharacter.vala:46
 msgid "Invalid offset for substring"
@@ -90,583 +211,695 @@ msgstr "Ungültiger Versatz für Datenersetzung"
 msgid "Invalid offset to split text"
 msgstr "Ungültiger Versatz für Textaufspaltung"
 
-#: gxml/DomNode.vala:150 gxml/Node.vala:203
+#: gxml/DomNode.vala:133
 msgid "Text node with NULL string"
 msgstr "Textknoten mit NULL-Zeichenkette"
 
-#: gxml/DomNode.vala:157
+#: gxml/DomNode.vala:140
 msgid "Can't copy child text node"
 msgstr "Textknoten des Unterelements kann nicht kopiert werden"
 
-#: gxml/Enumeration.vala:88
-msgid "value is invalid"
-msgstr "Wert ist ungültig"
-
-#: gxml/Enumeration.vala:129
-msgid "text cannot be parsed to enumeration type:"
-msgstr "Text kann nicht als Aufzählung ausgewertet werden:"
-
-#: gxml/GomCollections.vala:76
-msgid "Referenced object's type is invalid. Should be a GXmlGomElement"
-msgstr ""
-"Der Typ des referenzierten Objekts ist ungültig. Es sollte ein "
-"GXmlGomElement sein"
-
-#: gxml/GomCollections.vala:204
-msgid ""
-"Invalid attempt to initialize a collection using an unsupported type. Only "
-"GXmlGomElement is supported"
-msgstr ""
-"Ungültiger Versuch, eine Sammlung eines nicht unterstützten Typs zu "
-"initialisieren. Nur GXmlGomElement wird unterstützt"
-
-#: gxml/GomCollections.vala:233 gxml/GomCollections.vala:261
-msgid "Parent Element is invalid"
-msgstr "Elternelement ist ungültig"
-
-#: gxml/GomCollections.vala:236
-msgid ""
-"Invalid attempt to set unsupported type. Only GXmlGomElement is supported"
-msgstr ""
-"Ungültiger Versuch, einen nicht unterstützten Typ festzulegen. Nur "
-"GXmlGomElement wird unterstützt"
-
-#: gxml/GomCollections.vala:239
-msgid "Invalid attempt to set a node with a different parent document"
-msgstr ""
-"Ungültiger Versuch, einen Knoten auf ein anderes Elterndokument zu setzen"
-
-#: gxml/GomCollections.vala:244
-msgid ""
-"Node element not appended as child of parent. No node added to collection"
-msgstr ""
-"Knotenelement wurde nicht als Unterelement des Elternelements angehängt. Es "
-"wurde kein Knoten zur Sammlung hinzugefügt"
-
-#: gxml/GomCollections.vala:306 gxml/GomCollections.vala:324
-#, c-format
-msgid "Error: %s"
-msgstr "Fehler: %s"
-
-#: gxml/GomCollections.vala:698
-msgid "No primary key and/or secondary key was found"
-msgstr "Kein primärer und/oder sekundärer Schlüssel gefunden"
-
-#: gxml/GomDocument.vala:214
-msgid "Creating a namespaced element with invalid node name"
-msgstr "Ein Element mit Namensraum wird mit ungültigem Knotennamen erzeugt"
-
-#: gxml/GomDocument.vala:221
-msgid "Creating a namespaced element with invalid namespace"
-msgstr ""
-"Ein Element mit Namensraum wird erzeugt, wobei der Namensraum ungültig ist"
-
-#: gxml/GomDocument.vala:225
-msgid ""
-"Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
-msgstr ""
-"Ungültige Namensraum-Adresse für xmlns-Präfix. Verwenden Sie http://www.w3."
-"org/2000/xmlns/"
-
-#: gxml/GomDocument.vala:229
-msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
-msgstr ""
-"Nur xmlns-Präfixe können mit http://www.w3.org/2000/xmlns/ verwendet werden"
-
-#: gxml/GomDocument.vala:269 gxml/GXmlDocument.vala:270
-msgid "Can't import a Document"
-msgstr "Ein Dokument kann nicht importiert werden"
-
-#: gxml/GomDocument.vala:271 gxml/GXmlDocument.vala:272
-msgid "Can't import a non Element type node to a Document"
-msgstr ""
-"Ein Knoten, der nicht vom Typ »Element« ist, kann nicht in ein Dokument "
-"importiert werden"
-
-#: gxml/GomDocument.vala:295 gxml/GXmlDocument.vala:296
-msgid "Can't adopt a Document"
-msgstr "Ein Dokument kann nicht übernommen werden"
-
-#. FIXME:
-#: gxml/GomDocument.vala:473
-msgid "DomElement query_selector is not implemented"
-msgstr "DomElement query_selector ist nicht implementiert"
-
-#. FIXME:
-#: gxml/GomDocument.vala:477
-msgid "DomElement query_selector_all is not implemented"
-msgstr "DomElement query_selector_all ist nicht implementiert"
-
-#: gxml/GomElement.vala:169
+#: gxml/Element.vala:194
 msgid "Invalid namespace URI stored in element's attribute"
 msgstr "Ungültige Namensraum-Adresse im Attribut des Elements gespeichert"
 
-#: gxml/GomElement.vala:176 gxml/GomElement.vala:194
+#: gxml/Element.vala:201 gxml/Element.vala:242
 msgid "Invalid attribute name in element's attributes list"
 msgstr "Ungültiger Attributname im Attribut des Elements gespeichert"
 
-#: gxml/GomElement.vala:209
+#: gxml/Element.vala:257
 msgid "Can't locate child node to remove"
 msgstr "Zu entfernender Unterknoten kann nicht gefunden werden"
 
-#: gxml/GomElement.vala:432 gxml/GomElement.vala:484
+#: gxml/Element.vala:487 gxml/Element.vala:553
 #, c-format
 msgid "Invalid attribute name: %s"
 msgstr "Ungültiger Attributname: %s"
 
-#: gxml/GomElement.vala:434 gxml/GomElement.vala:486
-msgid "Invalid node type. DomAttr was expected"
-msgstr "Ungültiger Knotentyp. DomAttr wurde erwartet"
+#: gxml/Element.vala:489 gxml/Element.vala:555
+msgid "Invalid node type. GXml.Attr was expected"
+msgstr "Ungültiger Knotentyp. GXml.Attr erwartet"
 
-#: gxml/GomElement.vala:447 gxml/GomElement.vala:465
+#: gxml/Element.vala:512 gxml/Element.vala:531
 #, c-format
 msgid "No index found for attribute %s"
 msgstr "Kein Index für Attribut %s gefunden"
 
-#: gxml/GomElement.vala:491
+#: gxml/Element.vala:540
+#, c-format
+msgid "Invalid attribute's local name '%s': invalid use of ':' character"
+msgstr ""
+"Ungültiger lokaler Attributname »%s«: Unzulässige Nutzung des Zeichens »:«"
+
+#: gxml/Element.vala:544
+#, c-format
+msgid "Namespace URI was not found: %s"
+msgstr "Namensraum-Adresse wurde nicht gefunden: %s"
+
+#: gxml/Element.vala:560
 msgid ""
-"Namespace attributes prefixed with xmlns should use a namespace uri http://"
+"Namespace attributes prefixed with 'xmlns' should use a namespace uri http://"
 "www.w3.org/2000/xmlns"
 msgstr ""
-"Attribute mit Namensraum, die ein xmlns-Präfix haben, sollten die Namensraum-"
-"Adresse http://www.w3.org/2000/xmlns verwenden"
+"Attribute mit Namensraum, die ein »xmlns«-Präfix haben, sollten die "
+"Namensraum-Adresse »http://www.w3.org/2000/xmlns« verwenden"
 
-#: gxml/GomElement.vala:498
+#: gxml/Element.vala:564
+msgid ""
+"Namespace attributes prefixed with 'xml' should use a namespace uri http://"
+"www.w3.org/XML/1998/namespace"
+msgstr ""
+"Attribute mit Namensraum, die ein »xml«-Präfix haben, sollten die Namensraum-"
+"Adresse »http://www.w3.org/XML/1998/namespace« verwenden"
+
+#: gxml/Element.vala:568
+msgid ""
+"Namespace attributes prefixed with 'xsi' should use a namespace uri http://"
+"www.w3.org/2001/XMLSchema-instance"
+msgstr ""
+"Attribute mit Namensraum, die ein »xsi«-Präfix haben, sollten die Namensraum-"
+"Adresse »http://www.w3.org/2001/XMLSchema-instance« verwenden"
+
+#: gxml/Element.vala:572
+msgid ""
+"Namespace attributes prefixed with 'html' should use a namespace uri http://"
+"www.w3.org/1999/xhtml"
+msgstr ""
+"Attribute mit Namensraum, die ein »html«-Präfix haben, sollten die "
+"Namensraum-Adresse »http://www.w3.org/1999/xhtml« verwenden"
+
+#: gxml/Element.vala:576
+msgid ""
+"Namespace attributes prefixed with 'MathML' should use a namespace uri "
+"http://www.w3.org/1998/Math/MathML"
+msgstr ""
+"Attribute mit Namensraum, die ein »MathML«-Präfix haben, sollten die "
+"Namensraum-Adresse »http://www.w3.org/1998/Math/MathML« verwenden"
+
+#: gxml/Element.vala:580
+msgid ""
+"Namespace attributes prefixed with 'xlink' should use a namespace uri http://"
+"www.w3.org/1999/xlink"
+msgstr ""
+"Attribute mit Namensraum, die ein »xlink«-Präfix haben, sollten die "
+"Namensraum-Adresse »http://www.w3.org/1999/xlink« verwenden"
+
+#: gxml/Element.vala:584
+msgid ""
+"Namespace attributes prefixed with 'svg' should use a namespace uri http://"
+"www.w3.org/2000/svg"
+msgstr ""
+"Attribute mit Namensraum, die ein »svg«-Präfix haben, sollten die Namensraum-"
+"Adresse »http://www.w3.org/2000/svg« verwenden"
+
+#: gxml/Element.vala:591
 #, c-format
 msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
 msgstr ""
 "Attribute mit Namensraum sollten ein von Null verschiedenes, nicht-leeres "
 "Präfix beinhalten: %s"
 
-#: gxml/GomElement.vala:502
+#: gxml/Element.vala:595
 msgid "Invalid namespace attribute's name."
 msgstr "Ungültiger Namensraum des Attributnamens."
 
-#: gxml/GomElement.vala:514
+#: gxml/Element.vala:612
 #, c-format
-msgid "Duplicated default namespace detected with URI: %s"
-msgstr "Doppelter voreingestellter Namensraum entdeckt mit Adresse: %s"
-
-#: gxml/GomElement.vala:523
-#, c-format
-msgid "Duplicated namespace detected for: %s:%s"
-msgstr "Doppelter Namensraum entdeckt für: %s:%s"
-
-#: gxml/GomElement.vala:534
-#, c-format
-msgid "Trying to add an attribute with an undefined namespace prefix: %s"
+msgid "Trying to add an attribute with an undefined namespace's prefix: %s"
 msgstr ""
-"Es wird versucht, ein Attribut mit einem nicht definierten Namensraum-Präfix "
-"hinzuzufügen: %s"
+"Es wird versucht, ein Attribut mit einem Präfix eines nicht definierten "
+"Namensraums hinzuzufügen: %s"
 
-#: gxml/GomElement.vala:540
-msgid "Trying to add an attribute with a non found namespace URI"
+#: gxml/Element.vala:619
+msgid "Trying to add an attribute with an undefined namespace's URI"
 msgstr ""
-"Es wird versucht, ein Attribut mit einer nicht gefundenen Namensraum-Adresse "
-"hinzuzufügen"
+"Es wird versucht, ein Attribut mit einer Namensraum-Adresse eines nicht "
+"definierten Namensraums hinzuzufügen"
 
-#: gxml/GomElement.vala:599
+#: gxml/Element.vala:671
+#, c-format
+msgid "Error getting attribute with namespace: %s"
+msgstr "Fehler beim Holen des Attributs mit dem Namensraum: %s"
+
+#: gxml/Element.vala:687
 msgid "Invalid attribute name. Just one prefix is allowed"
 msgstr "Ungültiger Attributname. Nur ein Präfix ist erlaubt"
 
-#: gxml/GomElement.vala:603
+#: gxml/Element.vala:692
 #, c-format
 msgid "Invalid attribute name. Invalid use of colon: %s"
 msgstr "Ungültiger Attributname. Gesetzter Doppelpunkt ist unzulässig: %s"
 
-#: gxml/GomElement.vala:607
+#: gxml/Element.vala:696
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
 msgstr ""
 "Ungültiger Namensraum. Wenn das Präfix Null ist, sollte die Namensraum-"
 "Adresse nicht Null sein"
 
-#: gxml/GomElement.vala:609
+#: gxml/Element.vala:700
 msgid ""
-"Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
-"org/2000/xmlns"
+"Invalid namespace definition. No prefixed attributes should use 'xmlns' as "
+"name"
 msgstr ""
-"Ungültiger Namensraum. Wenn das Präfix xml ist, sollte die Namensraum-"
-"Adresse http://www.w3.org/2000/xmlns sein"
+"Ungültige Namensraumdefinition. Keine mit Präfix versehenen Attribute "
+"sollten »xmlns« als Namen verwenden"
 
-#: gxml/GomElement.vala:612
+#: gxml/Element.vala:704
+msgid "'xml' namespace should not be defined"
+msgstr "»xml«-Namensraum sollte nicht definiert sein"
+
+#: gxml/Element.vala:708
+msgid "'xmlns' namespace should not be defined"
+msgstr "»xmlns«-Namensraum sollte nicht definiert sein"
+
+#: gxml/Element.vala:716
 msgid ""
-"Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
-"http://www.w3.org/2000/xmlns"
+"Invalid namespace. If prefix is 'xml', namespace URI should be http://www.w3."
+"org/XML/1998/namespace"
 msgstr ""
-"Ungültiger Namensraum. Wenn das Präfix des Attributs xmlns ist, sollte die "
-"Namensraum-Adresse http://www.w3.org/2000/xmlns sein"
+"Ungültiger Namensraum. Wenn das Präfix »xml« lautet, sollte die Namensraum-"
+"Adresse »http://www.w3.org/XML/1998/namespace« lauten"
 
-#: gxml/GomElement.vala:616
+#: gxml/Element.vala:723
 msgid ""
-"Invalid namespace. If attribute's name is xmlns, namespace URI should be "
-"http://www.w3.org/2000/xmlns"
+"Invalid namespace definition. If attribute's prefix is 'xmlns', namespace "
+"URI should be http://www.w3.org/2000/xmlns"
 msgstr ""
-"Ungültiger Namensraum. Wenn der Name des Attributs xmlns ist, sollte die "
-"Namensraum-Adresse http://www.w3.org/2000/xmlns sein"
+"Ungültige Namensraumdefinition. Wenn das Präfix des Attributs »xmlns« "
+"lautet, sollte die Namensraum-Adresse »http://www.w3.org/2000/xmlns« lauten"
 
-#: gxml/GomElement.vala:618
-msgid "Invalid attribute name. No prefixed attributes should use xmlns name"
+#: gxml/Element.vala:730
+msgid ""
+"Invalid namespace. If attribute's prefix is 'html', namespace URI should be "
+"http://www.w3.org/1999/xhtml"
 msgstr ""
-"Ungültiger Attributname. Keine mit Präfix versehenen Attribute sollten den "
-"xmlns-Namen verwenden"
+"Ungültiger Namensraum. Wenn das Präfix des Attributs »html« lautet, sollte "
+"die Namensraum-Adresse »http://www.w3.org/1999/xhtml« lauten"
 
-#: gxml/GomElement.vala:622
+#: gxml/Element.vala:737
+msgid ""
+"Invalid namespace. If attribute's prefix is 'xsi', namespace URI should be "
+"http://www.w3.org/2001/XMLSchema-instance"
+msgstr ""
+"Ungültiger Namensraum. Wenn das Präfix des Attributs »xsi« lautet, sollte "
+"die Namensraum-Adresse »http://www.w3.org/2001/XMLSchema-instance« lauten"
+
+#: gxml/Element.vala:744
+msgid ""
+"Invalid namespace. If attribute's prefix is 'MathML', namespace URI should "
+"be http://www.w3.org/1998/Math/MathML"
+msgstr ""
+"Ungültiger Namensraum. Wenn das Präfix des Attributs »MathML« lautet, sollte "
+"die Namensraum-Adresse »http://www.w3.org/1998/Math/MathML« lauten"
+
+#: gxml/Element.vala:751
+msgid ""
+"Invalid namespace. If attribute's prefix is 'svg', namespace URI should be "
+"http://www.w3.org/2000/svg"
+msgstr ""
+"Ungültiger Namensraum. Wenn das Präfix des Attributs »svg« lautet, sollte "
+"die Namensraum-Adresse Yhttp://www.w3.org/2000/svg« lauten"
+
+#: gxml/Element.vala:758
+msgid ""
+"Invalid namespace. If attribute's prefix is 'xlink', namespace URI should be "
+"http://www.w3.org/1999/xlink"
+msgstr ""
+"Ungültiger Namensraum. Wenn das Präfix des Attributs »xlink« lautet, sollte "
+"die Namensraum-Adresse »http://www.w3.org/1999/xlink« lauten"
+
+#: gxml/Element.vala:763
 msgid "Setting namespaced property error: "
 msgstr "Fehler beim Festlegen der Eigenschaft mit Namensraum: "
 
-#: gxml/GomElement.vala:629
+#: gxml/Element.vala:769
 msgid "Removing attribute Error: "
 msgstr "Fehler beim Entfernen des Attributs: "
 
-#: gxml/GomElement.vala:634
+#: gxml/Element.vala:774
 msgid "Removing namespaced attribute Error: "
 msgstr "Fehler beim Entfernen des Attributs mit Namensraum: "
 
-#: gxml/GomNode.vala:156
+#: gxml/Element.vala:940
+#, c-format
+msgid "Error parsing child's buffer: %s"
+msgstr "Fehler bei der Verarbeitung des Puffers des Unterelements: %s"
+
+#: gxml/Enumeration.vala:88
+msgid "value is invalid"
+msgstr "Wert ist ungültig"
+
+#: gxml/Enumeration.vala:129
+#, c-format
+msgid "text '%s' cannot be parsed to enumeration type: %s"
+msgstr "Text »%s« kann nicht in Aufzählung umgewandelt werden: %s"
+
+#: gxml/HashPairedMap.vala:210
+msgid "No primary key and/or secondary key was found"
+msgstr "Kein primärer und/oder sekundärer Schlüssel gefunden"
+
+#: gxml/Node.vala:156
 msgid "Text content in element can't be created"
 msgstr "Textinhalt im Element kann nicht erzeugt werden"
 
-#: gxml/GomNode.vala:209 gxml/GXmlNode.vala:278
+#: gxml/Node.vala:209 gxml/XNode.vala:279
 msgid "Can't find node position"
 msgstr "Knotenposition kann nicht gefunden werden"
 
-#: gxml/GomNode.vala:257 gxml/GomNode.vala:299 gxml/GXmlNode.vala:309
-#: gxml/GXmlNode.vala:340
+#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:310
+#: gxml/XNode.vala:341
 msgid "Invalid attempt to add invalid node type"
 msgstr "Ungültiger Versuch, einen ungültigen Knotentyp hinzuzufügen"
 
-#: gxml/GomNode.vala:260 gxml/GXmlNode.vala:311
+#: gxml/Node.vala:260 gxml/XNode.vala:312
 msgid "Can't find child to insert node before"
 msgstr ""
 "Unterelement kann nicht gefunden werden, vor dem der Knoten eingefügt werden "
 "soll"
 
-#: gxml/GomNode.vala:265 gxml/GomNode.vala:305 gxml/GXmlNode.vala:315
-#: gxml/GXmlNode.vala:346
+#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:316
+#: gxml/XNode.vala:347
 msgid "Invalid attempt to insert a node"
 msgstr "Ungültiger Versuch, einen Knoten hinzuzufügen"
 
-#: gxml/GomNode.vala:273 gxml/GomNode.vala:312 gxml/GXmlNode.vala:322
-#: gxml/GXmlNode.vala:353
+#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:323
+#: gxml/XNode.vala:354
 msgid "Invalid attempt to insert an invalid node type"
 msgstr "Ungültiger Versuch, einen ungültigen Knotentyp einzufügen"
 
-#: gxml/GomNode.vala:277
-msgid ""
-"Invalid attempt to insert a document or text type to an invalid parent node"
-msgstr ""
-"Ungültiger Versuch, einen Dokumenttyp oder einen Texttyp in ein ungültiges "
-"Elternelement einzufügen"
-
-#: gxml/GomNode.vala:290
+#: gxml/Node.vala:291
 msgid "Node type is invalid. Can't append as child"
 msgstr ""
 "Knotentyp ist ungültig. Er kann nicht als Unterelement angehängt werden"
 
-#: gxml/GomNode.vala:293
+#: gxml/Node.vala:294
 msgid "Invalid attempt to append a child with different parent document"
 msgstr "Versuch, ein Unterelement zu einem anderen Elternelement hinzuzufügen"
 
-#: gxml/GomNode.vala:301 gxml/GXmlNode.vala:342
+#: gxml/Node.vala:302 gxml/XNode.vala:343
 msgid "Can't find child node to replace or child have a different parent"
 msgstr ""
 "Zu ersetzender Unterknoten kann nicht gefunden werden, oder das Unterelement "
 "hat ein anderes Elternelement"
 
-#: gxml/GomNode.vala:315 gxml/GXmlNode.vala:325 gxml/GXmlNode.vala:356
+#: gxml/Node.vala:316 gxml/XNode.vala:326 gxml/XNode.vala:357
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr ""
 "Ungültiger Versuch, einen Dokumenttyp oder einen Textknoten in ein "
 "ungültiges Elternelement einzufügen"
 
-#: gxml/GomNode.vala:327 gxml/GXmlNode.vala:368
+#: gxml/Node.vala:328 gxml/XNode.vala:369
 msgid "Can't find child node to remove or child have a different parent"
 msgstr ""
 "Zu entfernender Unterknoten kann nicht gefunden werden, oder das "
 "Unterelement hat ein anderes Elternelement"
 
-#: gxml/GomObject.vala:165
+#: gxml/Object.vala:170
 msgid "Enumeration is out of range"
 msgstr "Aufzählung ist außerhalb des zulässigen Bereichs"
 
-#: gxml/GomObject.vala:257
+#: gxml/Object.vala:285
 msgid "Enumeration can't be parsed from string"
 msgstr "Aufzählung kann nicht aus Zeichenkette ausgewertet werden"
 
-#: gxml/GomObject.vala:369
+#: gxml/Object.vala:407
 #, c-format
 msgid "Error while attempting to instantiate property object: %s"
 msgstr "Fehler beim Versuch, das Eigenschaftsobjekt zu instanzieren: %s"
 
-#: gxml/GomObject.vala:418
-msgid "Can't set value. It is not a GXmlGomElement type"
-msgstr "Der Wert kann nicht gesetzt werden. Es ist kein GXmlGomElement-Typ"
+#: gxml/Object.vala:456
+msgid "Can't set value. It is not a GXmlGXml.Element type"
+msgstr "Der Wert kann nicht gesetzt werden. Es ist kein GXmlGXml.Element-Typ"
 
-#: gxml/GomProperty.vala:333
-msgid "Error when transform enum to attribute's value"
-msgstr "Fehler beim Umwandeln der Aufzählung in den Attributwert"
-
-#: gxml/GomProperty.vala:341
-msgid "Error when transform from attribute string value to enum"
-msgstr ""
-"Fehler beim Umwandeln der des Wertes der Attributzeichenkette in eine "
-"Aufzählung"
-
-#: gxml/GomProperty.vala:393 gxml/GomProperty.vala:400
-msgid "Invalid Date for property: "
-msgstr "Ungültiges Datum für Eigenschaft: "
-
-#: gxml/GomProperty.vala:395
-msgid "Invalid format for Date property: "
-msgstr "Ungültiges Format für Datum-Eigenschaft: "
-
-#: gxml/GomProperty.vala:439
-msgid "Invalid timestamp for property: "
-msgstr "Ungültiger Zeitstempel für Eigenschaft: "
-
-#: gxml/GomSchema.vala:266
-#, c-format
-msgid "Error removing Collection's element: %s"
-msgstr "Fehler beim Entfernen des Elements aus der Sammlung: %s"
-
-#: gxml/GomSchema.vala:275
-#, c-format
-msgid "Can't find element at position: %i: %s"
-msgstr "Element kann nicht an Position gefunden werden: %i: %s"
-
-#: gxml/GomSchema.vala:289 gxml/GomSchema.vala:297 gxml/GomSchema.vala:305
-#: gxml/GomSchema.vala:313 gxml/GomSchema.vala:321
-#, c-format
-msgid "Collection type %s, initialization error: %s"
-msgstr "Sammlungstyp %s, Initialisierungsfehler: %s"
-
-#: gxml/GXmlDocument.vala:57 gxml/Parser.vala:95 gxml/Parser.vala:105
-#: gxml/TDocument.vala:478
+#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:57
 msgid "File doesn't exist"
 msgstr "Datei existiert nicht"
 
-#: gxml/GXmlDocument.vala:81
-msgid "stream doesn't provide data"
-msgstr "Datenstrom stellt keine Daten bereit"
-
-#: gxml/GXmlDocument.vala:226
-msgid "Invalid element qualified name: multiple namespace prefixes"
-msgstr "Ungültiger qualifizierter Elementname: Mehrfache Namensraum-Präfixe"
-
-#: gxml/GXmlDomCollections.vala:54
-msgid ""
-"DOM: Invalid token. No empty string could be used as token to check if it is "
-"contained in token list"
-msgstr ""
-"DOM: Ungültiges Token. Eine leere Zeichenkette darf nicht als Token "
-"verwendet werden, um zu prüfen, ob sie in der Tokenliste enthalten ist."
-
-#: gxml/GXmlDomCollections.vala:56
-msgid ""
-"DOM: Invalid token. No white spaces could be included as token to check if "
-"it is contained in token list"
-msgstr ""
-"DOM: Ungültiges Token. Ein Leerzeichen kann nicht als Token enthalten sein, "
-"um zu prüfen, ob es in der Tokenliste enthalten ist."
-
-#: gxml/GXmlDomCollections.vala:63 gxml/GXmlDomCollections.vala:86
-msgid "DOM: Invalid token. Empty string can't be used as token"
-msgstr ""
-"DOM: Ungültiges Token. Eine leere Zeichenkette darf nicht als Token "
-"verwendet werden"
-
-#: gxml/GXmlDomCollections.vala:65 gxml/GXmlDomCollections.vala:88
-msgid "DOM: Invalid token. White spaces can't be used as token"
-msgstr ""
-"DOM: Ungültiges Token. Ein Leerzeichen darf nicht als Token verwendet werden"
-
-#: gxml/GXmlDomCollections.vala:102
-msgid "Update Error: "
-msgstr "Aktualisierungsfehler: "
-
-#: gxml/GXmlDomRange.vala:53 gxml/GXmlDomRange.vala:81
-#: gxml/GXmlDomRange.vala:154
-msgid "Invalid node type to start"
-msgstr "Ungültiger Knotenname zum Beginnen"
-
-#: gxml/GXmlDomRange.vala:56 gxml/GXmlDomRange.vala:84
-msgid "Invalid offset for node to start: for document type"
-msgstr ""
-"Ungültiger Versatz für Knoten, an dem begonnen werden soll: für Dokumenttyp"
-
-#: gxml/GXmlDomRange.vala:60 gxml/GXmlDomRange.vala:88
-msgid "Invalid offset for node to start: for character data"
-msgstr ""
-"Ungültiger Versatz für Knoten, an dem begonnen werden soll: für Zeichendaten"
-
-#: gxml/GXmlDomRange.vala:63 gxml/GXmlDomRange.vala:91
-msgid "Invalid offset for node to start: for children number"
-msgstr ""
-"Ungültiger Versatz für Knoten, an dem begonnen werden soll: für "
-"Unterelementzahl"
-
-#: gxml/GXmlDomRange.vala:107 gxml/GXmlDomRange.vala:121
-msgid "Invalid node type to start before"
-msgstr "Ungültiger Knotenname, vor dem begonnen werden soll"
-
-#: gxml/GXmlDomRange.vala:112 gxml/GXmlDomRange.vala:126
-#: gxml/GXmlDomRange.vala:144
-msgid "Invalid node type to start after"
-msgstr "Ungültiger Knotenname, nach dem begonnen werden soll"
-
-# Das ist kein richtiges Englisch :) -ck
-# Schon klar, machen wir halt das Beste draus ;) -mb
-#: gxml/GXmlDomRange.vala:169
-msgid "Invalid root in the source range"
-msgstr "Ungültige Wurzel im Wurzelbereich"
-
-#: gxml/GXmlElement.vala:347
-msgid "invalid namespace. Code: "
-msgstr "Ungültiger Namensraum. Code: "
-
-#: gxml/GXmlHashMapAttr.vala:243
-msgid "Invalid document when adding item to collection"
-msgstr "Ungültiges Dokument beim Hinzufügen des Objekts zur Sammlung"
-
-#: gxml/GXmlHashMapAttr.vala:245 gxml/GXmlHashMapAttr.vala:297
-msgid "This node collection is read only"
-msgstr "Diese Knotensammlung ist schreibgeschützt"
-
-#: gxml/GXmlHashMapAttr.vala:247 gxml/GXmlHashMapAttr.vala:299
-msgid "This node attribute is already in use by other Element"
-msgstr "Dieses Knotenattribut wird bereits durch ein anderes Element verwendet"
-
-#: gxml/GXmlHashMapAttr.vala:249 gxml/GXmlHashMapAttr.vala:301
-msgid "Trying to add an object to an Element, but it is not an attribute"
-msgstr ""
-"Versuch, ein Objekt einem Element hinzuzufügen, aber es ist kein Attribut"
-
-#: gxml/GXmlHashMapAttr.vala:261 gxml/GXmlHashMapAttr.vala:317
-#, c-format
-msgid "No node with name %s was found"
-msgstr "Es wurde kein Knoten namens »%s« gefunden"
-
-#: gxml/GXmlHashMapAttr.vala:263 gxml/GXmlHashMapAttr.vala:319
-msgid "Node collection is read only"
-msgstr "Knotensammlung ist schreibgeschützt"
-
-#: gxml/GXmlHashMapAttr.vala:295
-msgid "Invalid document when adding item to named node map collection"
-msgstr ""
-"Ungültiges Dokument beim Hinzufügen eines Objekts zu einer benannten "
-"Knotenkartensammlung"
-
-#: gxml/GXmlNode.vala:44
-#, c-format
-msgid "%s:%s:%d: %s:%d: %s"
-msgstr "%s:%s:%d: %s:%d: %s"
-
 # Hier fehlt irgendwie der Rest des Strings...
-#: gxml/Parser.vala:190
+#: gxml/Parser.vala:193
 msgid ""
 "Invalid attempt to parse an element node, when current found node is not"
 msgstr ""
 "Ungültiger Versuch, einen Elementknoten auszuwerten, wenn der aktuell "
 "gefundene Knoten nicht"
 
-#: gxml/Parser.vala:262
-msgid "Invalid object type set to Collection"
-msgstr "Ungültiger Objekttyp in die Sammlung gesetzt"
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:242
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: items' type property was "
+"not set at construction time or set to invalid type"
+msgstr ""
 
-#: gxml/Parser.vala:266
-msgid "Invalid DomElement name for objects in Collection"
-msgstr "Ungültiger DomElement-Name für Objekte in der Sammlung"
+#: gxml/Parser.vala:285 gxml/StreamReader.vala:246
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: items' name property was "
+"not set at construction time"
+msgstr ""
 
-#: gxml/Parser.vala:270
-msgid "Invalid Element set to Collection"
-msgstr "Ungültiges Element in die Sammlung gesetzt"
+#: gxml/Parser.vala:289 gxml/StreamReader.vala:250
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: element property was not "
+"set at construction time"
+msgstr ""
 
-#: gxml/Parser.vala:275
+#: gxml/Parser.vala:293 gxml/StreamReader.vala:254
+#, c-format
+msgid ""
+"Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
+"be handled by the collection"
+msgstr ""
+
+#: gxml/Parser.vala:298
 msgid "No document is set to node"
 msgstr "Kein Dokument ist auf den Knoten gesetzt"
 
-#: gxml/Parser.vala:297 gxml/XParser.vala:100 gxml/XParser.vala:106
+#: gxml/Parser.vala:323 gxml/XParser.vala:107 gxml/XParser.vala:113
 msgid "Invalid document string, it is empty or is not allowed"
 msgstr "Ungültige Dokumentzeichenkette, sie ist leer oder unzulässig"
 
-#: gxml/SerializableEnum.vala:75
-msgid "Value can't be parsed to a valid enumeration's value. Value is not set"
+#: gxml/Property.vala:389
+#, c-format
+msgid "Error when transform enum to attribute's value: %s"
+msgstr "Fehler beim Umwandeln der Aufzählung in den Attributwert: %s"
+
+#: gxml/Property.vala:398
+#, c-format
+msgid "Error when transform from attribute string value to enum: %s"
+msgstr "Fehler beim Umwandeln der Aufzählung in den Attributwert: %s"
+
+#: gxml/Property.vala:462 gxml/Property.vala:469
+msgid "Invalid Date for property: "
+msgstr "Ungültiges Datum für Eigenschaft: "
+
+#: gxml/Property.vala:464
+msgid "Invalid format for Date property: "
+msgstr "Ungültiges Format für Datum-Eigenschaft: "
+
+#: gxml/Property.vala:511
+msgid "Invalid timestamp for property: "
+msgstr "Ungültiger Zeitstempel für Eigenschaft: "
+
+#: gxml/Range.vala:53 gxml/Range.vala:81 gxml/Range.vala:154
+msgid "Invalid node type to start"
+msgstr "Ungültiger Knotenname zum Beginnen"
+
+#: gxml/Range.vala:56 gxml/Range.vala:84
+msgid "Invalid offset for node to start: for document type"
 msgstr ""
-"Wert kann nicht als gültiger Aufzählungswert ausgewertet werden. Wert ist "
-"nicht gesetzt"
+"Ungültiger Versatz für Knoten, an dem begonnen werden soll: für Dokumenttyp"
 
-#: gxml/SerializableEnum.vala:78
-msgid "Value can't be parsed to a valid enumeration's value"
-msgstr "Wert kann nicht als gültiger Aufzählungswert ausgewertet werden"
+#: gxml/Range.vala:60 gxml/Range.vala:88
+msgid "Invalid offset for node to start: for character data"
+msgstr ""
+"Ungültiger Versatz für Knoten, an dem begonnen werden soll: für Zeichendaten"
 
-#: gxml/SerializableGeeArrayList.vala:44 gxml/SerializableGeeArrayList.vala:63
-#: gxml/SerializableGeeDualKeyMap.vala:46
-#: gxml/SerializableGeeDualKeyMap.vala:67 gxml/SerializableGeeHashMap.vala:43
-#: gxml/SerializableGeeHashMap.vala:64 gxml/SerializableGeeTreeMap.vala:43
-#: gxml/SerializableGeeTreeMap.vala:64
+#: gxml/Range.vala:63 gxml/Range.vala:91
+msgid "Invalid offset for node to start: for children number"
+msgstr ""
+"Ungültiger Versatz für Knoten, an dem begonnen werden soll: für "
+"Unterelementzahl"
+
+#: gxml/Range.vala:107 gxml/Range.vala:121
+msgid "Invalid node type to start before"
+msgstr "Ungültiger Knotenname, vor dem begonnen werden soll"
+
+#: gxml/Range.vala:112 gxml/Range.vala:126 gxml/Range.vala:144
+msgid "Invalid node type to start after"
+msgstr "Ungültiger Knotenname, nach dem begonnen werden soll"
+
+# Das ist kein richtiges Englisch :) -ck
+# Schon klar, machen wir halt das Beste draus ;) -mb
+#: gxml/Range.vala:169
+msgid "Invalid root in the source range"
+msgstr "Ungültige Wurzel im Wurzelbereich"
+
+#: gxml/StreamReader.vala:143
+msgid "Invalid document: expected '<' character"
+msgstr "Ungültiges Dokument: Zeichen »<« erwartet"
+
+#: gxml/StreamReader.vala:151
+msgid "Invalid document: unexpected space character before node's name"
+msgstr ""
+"Ungültiges Dokument: Unerwartetes Leerzeichen vor dem Namen des Knotens"
+
+#: gxml/StreamReader.vala:185
 #, c-format
-msgid "%s: Value type '%s' is unsupported"
-msgstr "%s: Werttyp »%s« wird nicht unterstützt"
+msgid "Parent '%s' is not implementing GXml.Object interface"
+msgstr ""
 
-#: gxml/SerializableObjectModel.vala:322
+#: gxml/StreamReader.vala:332 gxml/StreamReader.vala:336
+#: gxml/StreamReader.vala:348
+msgid "Invalid comment declaration"
+msgstr "Ungültige Kommentardeklaration"
+
+#: gxml/StreamReader.vala:369
+msgid "Invalid Processing Instruccion's target declaration"
+msgstr ""
+
+#: gxml/StreamReader.vala:396
+msgid "Invalid Processing Instruccion's close declaration"
+msgstr ""
+
+#: gxml/TokenList.vala:54
+msgid ""
+"DOM: Invalid token. No empty string could be used as token to check if it is "
+"contained in token list"
+msgstr ""
+"DOM: Ungültiges Token. Eine leere Zeichenkette darf nicht als Token "
+"verwendet werden, um zu prüfen, ob es in der Tokenliste enthalten ist"
+
+#: gxml/TokenList.vala:56
+msgid ""
+"DOM: Invalid token. No white spaces could be included as token to check if "
+"it is contained in token list"
+msgstr ""
+"DOM: Ungültiges Token. Ein Leerzeichen kann nicht als Token enthalten sein, "
+"um zu prüfen, ob es in der Tokenliste enthalten ist"
+
+#: gxml/TokenList.vala:63 gxml/TokenList.vala:86
+msgid "DOM: Invalid token. Empty string can't be used as token"
+msgstr ""
+"DOM: Ungültiges Token. Eine leere Zeichenkette darf nicht als Token "
+"verwendet werden"
+
+#: gxml/TokenList.vala:65 gxml/TokenList.vala:88
+msgid "DOM: Invalid token. White spaces can't be used as token"
+msgstr ""
+"DOM: Ungültiges Token. Ein Leerzeichen darf nicht als Token verwendet werden"
+
+#: gxml/TokenList.vala:102
+msgid "Update Error: "
+msgstr "Aktualisierungsfehler: "
+
+#: gxml/XDocument.vala:139
 #, c-format
-msgid "WARNING: Object type '%s' has no Node Name defined"
-msgstr "WARNUNG: Für Objekttyp »%s« ist kein Knotenname definiert"
+msgid "Error writing document to string: %s"
+msgstr ""
 
-#: gxml/SerializableObjectModel.vala:326
+#: gxml/XDocument.vala:207
+msgid "Invalid element qualified name: multiple namespace prefixes"
+msgstr "Ungültiger qualifizierter Elementname: Mehrfache Namensraum-Präfixe"
+
+#: gxml/XdParser.vala:65
+msgid "stream doesn't provide data"
+msgstr "Datenstrom stellt keine Daten bereit"
+
+#: gxml/XdParser.vala:80
+#, fuzzy
+msgid "Parser Error for string"
+msgstr "Verarbeitungsfehler für Zeichenkette"
+
+#: gxml/XElement.vala:148
 #, c-format
-msgid "Actual node's name is '%s' expected '%s'"
-msgstr "Aktueller Knotenname ist »%s«, aber »%s« wurde erwartet"
+msgid "Error while converting Element to string: %s"
+msgstr "Umwandlung des Elements in eine Zeichenkette fehlgeschlagen: %s"
 
-#: gxml/SerializableProperty.vala:91
-msgid "Trying to serialize to a non GXmlElement!"
-msgstr "Es wurde versucht, ein Nicht-GXmlElement zu serialisieren!"
-
-#: gxml/SerializableProperty.vala:110
-msgid "No attribute found to deserialize from"
-msgstr "Kein Attribut zum Deserialisieren gefunden"
-
-#: gxml/SerializableProperty.vala:115
+#: gxml/XElement.vala:348
 #, c-format
-msgid "XML Attribute name is not set, when deserializing to: %s"
-msgstr "XML-Attributname ist nicht gesetzt, bei der Deserialisierung nach: %s"
+msgid "invalid namespace. Code: %s"
+msgstr "ungültiger Namensraum. Code: %s"
 
-#: gxml/Serializable.vala:390
+#: gxml/XHashMapAttr.vala:243
+msgid "Invalid document when adding item to collection"
+msgstr "Ungültiges Dokument beim Hinzufügen des Objekts zur Sammlung"
+
+#: gxml/XHashMapAttr.vala:245 gxml/XHashMapAttr.vala:297
+msgid "This node collection is read only"
+msgstr "Diese Knotensammlung ist schreibgeschützt"
+
+#: gxml/XHashMapAttr.vala:247 gxml/XHashMapAttr.vala:299
+msgid "This node attribute is already in use by other Element"
+msgstr "Dieses Knotenattribut wird bereits durch ein anderes Element verwendet"
+
+#: gxml/XHashMapAttr.vala:249 gxml/XHashMapAttr.vala:301
+msgid "Trying to add an object to an Element, but it is not an attribute"
+msgstr ""
+"Versuch, ein Objekt einem Element hinzuzufügen, aber es ist kein Attribut"
+
+#: gxml/XHashMapAttr.vala:261 gxml/XHashMapAttr.vala:317
 #, c-format
-msgid "Transformation Error on '%s' or Unsupported type: '%s'"
-msgstr "Transformationsfehler in »%s« oder nicht unterstützter Typ: »%s«"
+msgid "No node with name %s was found"
+msgstr "Es wurde kein Knoten namens »%s« gefunden"
 
-#: gxml/Serializable.vala:411
+#: gxml/XHashMapAttr.vala:263 gxml/XHashMapAttr.vala:319
+msgid "Node collection is read only"
+msgstr "Knotensammlung ist schreibgeschützt"
+
+#: gxml/XHashMapAttr.vala:295
+msgid "Invalid document when adding item to named node map collection"
+msgstr ""
+"Ungültiges Dokument beim Hinzufügen eines Objekts zu einer benannten "
+"Knotenkartensammlung"
+
+#: gxml/XNode.vala:43
 #, c-format
-msgid "Can't transform '%s' to string"
-msgstr "»%s« kann nicht in eine Zeichenkette umgewandelt werden"
+msgid "%s:%s:%d: %s:%d: %s"
+msgstr "%s:%s:%d: %s:%d: %s"
 
-#: gxml/TDocument.vala:169
-msgid "Invalid element name"
-msgstr "Ungültiger Elementname"
+#: gxml/XNode.vala:216
+#, c-format
+msgid "Error while setting text content to node: %s"
+msgstr ""
 
-#: gxml/TDocument.vala:579 gxml/XParser.vala:272
+#: gxml/XParser.vala:123
+#, fuzzy
+msgid "Invalid input stream to read data from"
+msgstr "Ungültiger Eingangsstream, von dem Daten gelesen werden sollen"
+
+#: gxml/XParser.vala:143
+#, c-format
+msgid "Error reading stream: %s"
+msgstr "Fehler beim Lesen des Datenstroms: %s"
+
+#: gxml/XParser.vala:156
+#, c-format
+msgid "Error closing stream: %s"
+msgstr "Fehler beim Schließen des Datenstroms: %s"
+
+#: gxml/XParser.vala:197 gxml/XParser.vala:259 gxml/XParser.vala:268
+#: gxml/XParser.vala:317 gxml/XParser.vala:330 gxml/XParser.vala:382
+msgid "Internal Error: No TextReader was set"
+msgstr "Interner Fehler: Kein TextReader festgelegt"
+
+#: gxml/XParser.vala:271
+msgid "Can't read node data"
+msgstr "Knotendaten können nicht gelesen werden"
+
+#: gxml/XParser.vala:335
 #, c-format
 msgid "Parsing ERROR: Fail to move to attribute number: %i"
 msgstr "Verarbeitungsfehler: Sprung zu Attributnummer %i fehlgeschlagen"
 
-#: gxml/XParser.vala:138 gxml/XParser.vala:196 gxml/XParser.vala:205
-#: gxml/XParser.vala:254 gxml/XParser.vala:267 gxml/XParser.vala:315
-msgid "Internal Error: No TextReader was set"
-msgstr "Interner Fehler: Kein TextReader festgelegt"
-
-#: gxml/XParser.vala:208
-msgid "Can't read node data"
-msgstr "Knotendaten können nicht gelesen werden"
-
-#: gxml/XParser.vala:360
+#: gxml/XParser.vala:427
 msgid "Invalid sequence for document type definition: "
 msgstr "Ungültige Sequenz für Dokumenttypdefinition: "
 
-#: gxml/XParser.vala:425 gxml/XParser.vala:519 gxml/XParser.vala:590
+#: gxml/XParser.vala:492 gxml/XParser.vala:598 gxml/XParser.vala:670
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Interner Fehler: Kein TextWriter initialisiert"
+
+#: gxml/XsdSchema.vala:266
+#, c-format
+msgid "Error removing Collection's element: %s"
+msgstr "Fehler beim Entfernen des Elements aus der Sammlung: %s"
+
+#: gxml/XsdSchema.vala:275
+#, c-format
+msgid "Can't find element at position: %i: %s"
+msgstr "Element kann nicht an Position gefunden werden: %i: %s"
+
+#: gxml/XsdSchema.vala:289 gxml/XsdSchema.vala:297 gxml/XsdSchema.vala:305
+#: gxml/XsdSchema.vala:313 gxml/XsdSchema.vala:321
+#, c-format
+msgid "Collection type %s, initialization error: %s"
+msgstr "Sammlungstyp %s, Initialisierungsfehler: %s"
+
+#~ msgid "Invalid attribute character"
+#~ msgstr "Ungültiges Attributzeichen"
+
+#~ msgid "Invalid attribute selector character: can't find '=' character"
+#~ msgstr ""
+#~ "Ungültiges Attributauswahlzeichen: Zeichen »=« kann nicht gefunden werden"
+
+#~ msgid "Invalid string length."
+#~ msgstr "Ungültige Länge der Zeichenkette."
+
+#~ msgid "Invalid '%s' character."
+#~ msgstr "Ungültiges »%s«-Zeichen."
+
+#~ msgid "Referenced object's type is invalid. Should be a GXmlGomElement"
+#~ msgstr ""
+#~ "Der Typ des referenzierten Objekts ist ungültig. Es sollte ein "
+#~ "GXmlGomElement sein"
+
+#~ msgid "Parent Element is invalid"
+#~ msgstr "Elternelement ist ungültig"
+
+#~ msgid "Duplicated default namespace detected with URI: %s"
+#~ msgstr "Doppelter voreingestellter Namensraum entdeckt mit Adresse: %s"
+
+#~ msgid "Duplicated namespace detected for: %s:%s"
+#~ msgstr "Doppelter Namensraum entdeckt für: %s:%s"
+
+#~ msgid ""
+#~ "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
+#~ "http://www.w3.org/2000/xmlns"
+#~ msgstr ""
+#~ "Ungültiger Namensraum. Wenn der Name des Attributs xmlns ist, sollte die "
+#~ "Namensraum-Adresse http://www.w3.org/2000/xmlns sein"
+
+#~ msgid ""
+#~ "Invalid attempt to insert a document or text type to an invalid parent "
+#~ "node"
+#~ msgstr ""
+#~ "Ungültiger Versuch, einen Dokumenttyp oder einen Texttyp in ein "
+#~ "ungültiges Elternelement einzufügen"
+
+#~ msgid "Invalid object type set to Collection"
+#~ msgstr "Ungültiger Objekttyp in die Sammlung gesetzt"
+
+#~ msgid "Invalid DomElement name for objects in Collection"
+#~ msgstr "Ungültiger DomElement-Name für Objekte in der Sammlung"
+
+#~ msgid ""
+#~ "Value can't be parsed to a valid enumeration's value. Value is not set"
+#~ msgstr ""
+#~ "Wert kann nicht als gültiger Aufzählungswert ausgewertet werden. Wert ist "
+#~ "nicht gesetzt"
+
+#~ msgid "Value can't be parsed to a valid enumeration's value"
+#~ msgstr "Wert kann nicht als gültiger Aufzählungswert ausgewertet werden"
+
+#~ msgid "%s: Value type '%s' is unsupported"
+#~ msgstr "%s: Werttyp »%s« wird nicht unterstützt"
+
+#~ msgid "WARNING: Object type '%s' has no Node Name defined"
+#~ msgstr "WARNUNG: Für Objekttyp »%s« ist kein Knotenname definiert"
+
+#~ msgid "Actual node's name is '%s' expected '%s'"
+#~ msgstr "Aktueller Knotenname ist »%s«, aber »%s« wurde erwartet"
+
+#~ msgid "Trying to serialize to a non GXmlElement!"
+#~ msgstr "Es wurde versucht, ein Nicht-GXmlElement zu serialisieren!"
+
+#~ msgid "No attribute found to deserialize from"
+#~ msgstr "Kein Attribut zum Deserialisieren gefunden"
+
+#~ msgid "XML Attribute name is not set, when deserializing to: %s"
+#~ msgstr ""
+#~ "XML-Attributname ist nicht gesetzt, bei der Deserialisierung nach: %s"
+
+#~ msgid "Transformation Error on '%s' or Unsupported type: '%s'"
+#~ msgstr "Transformationsfehler in »%s« oder nicht unterstützter Typ: »%s«"
+
+#~ msgid "Can't transform '%s' to string"
+#~ msgstr "»%s« kann nicht in eine Zeichenkette umgewandelt werden"
+
+#~ msgid "Invalid element name"
+#~ msgstr "Ungültiger Elementname"
 
 #~ msgid "Redefinition of default namespace for %s"
 #~ msgstr "Redefinition des vorgegebenen Namensraums für %s"
