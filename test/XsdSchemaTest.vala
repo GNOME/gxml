@@ -22,8 +22,9 @@
 
 using GXml;
 
-class GomSchemaTest : GXmlTest  {
-	public static void add_tests () {
+class GomSchemaTest : GLib.Object  {
+	public static int main (string[] args) {
+		Test.init (ref args);
 		Test.add_func ("/gxml/gom-schema/read", () => {
 			try {
 				var f = GLib.File.new_for_path (GXmlTestConfig.TEST_DIR+"/schema-test.xsd");
@@ -80,5 +81,9 @@ class GomSchemaTest : GXmlTest  {
 				assert_not_reached ();
 			}
 		});
+
+		Test.run ();
+
+		return 0;
 	}
 }
