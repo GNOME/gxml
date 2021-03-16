@@ -26,7 +26,6 @@ test ('libxml-tests', xt)
 files_tests = files ([
 		'GXmlDomTest.vala',
 		'CssSelectorTest.vala',
-		'SerializationTest.vala',
 		'XsdSchemaTest.vala',
 	])
 
@@ -64,6 +63,19 @@ telement = executable('element', files_element_tests + configvapi + configtestva
 )
 
 test ('element', telement)
+
+files_serialization_tests = files ([
+		'SerializationTest.vala',
+	])
+
+tserialization = executable('serialization', files_serialization_tests + configvapi + configtestvapi,
+	vala_args : [],
+	c_args: tests_cargs,
+	dependencies : [ libgxml_deps, inc_libh_dep, testdirs_dep, inc_rooth_dep],
+	link_with: libgxml
+)
+
+test ('serialization', tserialization)
 
 
 html_tests = files ([
