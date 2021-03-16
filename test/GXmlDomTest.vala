@@ -29,11 +29,11 @@ class GXmlTest {
 
 		// Sets 29 as fatal flags, 16 + 8 + 4 + 1; bits 0,2,3,4, recursion,error,critical,warning; we'll want to undo that warning one so we can catch it
 		Test.init (ref args);
-		ValaLibxml2Test.add_tests ();
-		XElementTest.add_tests ();
-		XHtmlDocumentTest.add_tests ();
-		DomXDocumentTest.add_tests ();
-		XPathTest.add_tests ();
+		DocumentTest.add_tests ();
+		ElementTest.add_tests ();
+		SerializationTest.add_tests ();
+		GomSchemaTest.add_tests ();
+		CssSelectorTest.add_tests ();
 
 		Test.run ();
 
