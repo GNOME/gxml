@@ -66,7 +66,7 @@ class ObjectParent : GXml.Element {
 	}
 }
 
-class GXml.ElementTest : GXmlTest  {
+class ElementTest : GLib.Object  {
 	public class ParsedDelayed : GXml.Element {
 		construct {
 			try { initialize ("root"); }
@@ -225,7 +225,8 @@ class GXml.ElementTest : GXmlTest  {
       initialize ("elementType");
     }
  }
-	public static void add_tests () {
+	public static int main (string[] args) {
+	Test.init (ref args);
 	Test.add_func ("/gxml/element/read/namespace_uri", () => {
 			DomDocument doc = null;
 			try {
@@ -915,5 +916,10 @@ class GXml.ElementTest : GXmlTest  {
 		    GLib.warning ("Error: "+e.message);
 		  }
 		});
+
+
+		Test.run ();
+
+		return 0;
 	}
 }

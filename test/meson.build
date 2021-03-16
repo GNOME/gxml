@@ -26,7 +26,6 @@ test ('libxml-tests', xt)
 files_tests = files ([
 		'GXmlDomTest.vala',
 		'CssSelectorTest.vala',
-		'ElementTest.vala',
 		'SerializationTest.vala',
 		'XsdSchemaTest.vala',
 	])
@@ -52,6 +51,19 @@ tdocument = executable('document', files_document_tests + configvapi + configtes
 )
 
 test ('document', tdocument)
+
+files_element_tests = files ([
+		'ElementTest.vala',
+	])
+
+telement = executable('element', files_element_tests + configvapi + configtestvapi,
+	vala_args : [],
+	c_args: tests_cargs,
+	dependencies : [ libgxml_deps, inc_libh_dep, testdirs_dep, inc_rooth_dep],
+	link_with: libgxml
+)
+
+test ('element', telement)
 
 
 html_tests = files ([
