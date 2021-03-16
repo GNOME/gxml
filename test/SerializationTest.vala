@@ -302,7 +302,7 @@ class ComputerStore : GXml.Element {
   }
 }
 
-class SerializationTest : GXmlTest  {
+class SerializationTest : GLib.Object  {
   public class Book : GXml.Element {
     [Description (nick="::Name")]
     public string name { get; set; }
@@ -631,7 +631,8 @@ class SerializationTest : GXmlTest  {
       }
     }
   }
-  public static void add_tests () {
+  public static int main (string[] args) {
+    Test.init (ref args);
     Test.add_func ("/gxml/serialization/write/properties", () => {
     try {
       var b = new Book ();
@@ -1661,5 +1662,9 @@ class SerializationTest : GXmlTest  {
         warning ("Error: %s", e.message);
       }
     });
+
+		Test.run ();
+
+		return 0;
   }
 }
