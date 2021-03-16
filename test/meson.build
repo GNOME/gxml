@@ -3,21 +3,34 @@ testdirs_dep = declare_dependency (compile_args : [
 	'-DTEST_SAVE_DIR="'+meson.current_build_dir()+'"',
 ])
 
-files_tests = files ([
+files_xtests = files ([
 		'GXmlTest.vala',
-		'CssSelectorTest.vala',
 		'ValaLibxml2Test.vala',
 		'XHtmlDocumentTest.vala',
 		'DomXDocumentTest.vala',
-		'DocumentTest.vala',
-		'ElementTest.vala',
-		'SerializationTest.vala',
-		'XsdSchemaTest.vala',
 		'XElementTest.vala',
 		'XPathTest.vala',
 	])
 
 tests_cargs = []
+
+xt = executable('libxml-tests', files_xtests + configvapi + configtestvapi,
+	vala_args : [],
+	c_args: tests_cargs,
+	dependencies : [ libgxml_deps, inc_libh_dep, testdirs_dep, inc_rooth_dep],
+	link_with: libgxml
+)
+
+test ('libxml-tests', xt)
+
+files_tests = files ([
+		'GXmlDomTest.vala',
+		'CssSelectorTest.vala',
+		'DocumentTest.vala',
+		'ElementTest.vala',
+		'SerializationTest.vala',
+		'XsdSchemaTest.vala',
+	])
 
 t = executable('tests', files_tests + configvapi + configtestvapi,
 	vala_args : [],
@@ -26,7 +39,8 @@ t = executable('tests', files_tests + configvapi + configtestvapi,
 	link_with: libgxml
 )
 
-test ('tests', t)
+test ('dom-tests', t)
+
 
 html_tests = files ([
 		'HtmlDocumentTest.vala',
