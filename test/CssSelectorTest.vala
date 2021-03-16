@@ -22,8 +22,9 @@
 
 using GXml;
 
-class CssSelectorTest : GXmlTest {
-	public static void add_tests () {
+class CssSelectorTest : GLib.Object {
+	public static int main (string[] args) {
+		Test.init (ref args);
 		Test.add_func ("/gxml/css-selector/all", () => {
 			try {
 				var cp = new CssSelectorParser ();
@@ -769,5 +770,9 @@ class CssSelectorTest : GXmlTest {
 				warning ("ERROR: "+e.message);
 			}
 		});
+
+		Test.run ();
+
+		return 0;
 	}
 }
