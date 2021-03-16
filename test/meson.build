@@ -23,19 +23,18 @@ xt = executable('libxml-tests', files_xtests + configvapi + configtestvapi,
 
 test ('libxml-tests', xt)
 
-files_tests = files ([
-		'GXmlDomTest.vala',
+files_xsd_tests = files ([
 		'XsdSchemaTest.vala',
 	])
 
-t = executable('dom-tests', files_tests + configvapi + configtestvapi,
+t = executable('xsd', files_xsd_tests + configvapi + configtestvapi,
 	vala_args : [],
 	c_args: tests_cargs,
 	dependencies : [ libgxml_deps, inc_libh_dep, testdirs_dep, inc_rooth_dep],
 	link_with: libgxml
 )
 
-test ('dom-tests', t)
+test ('xsd', t)
 
 files_document_tests = files ([
 		'DocumentTest.vala',
