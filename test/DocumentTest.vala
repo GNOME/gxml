@@ -22,7 +22,7 @@
 
 using GXml;
 
-class GXml.DocumentTest : GXmlTest {
+class DocumentTest : GLib.Object {
 	class ObjectDocument : GXml.Document {
 		[Description (nick="::ROOT")]
 		public ObjectParent root_element { get; set; }
@@ -55,7 +55,12 @@ class GXml.DocumentTest : GXmlTest {
 			}
 		}
 	}
-	public static void add_tests () {
+
+	public static int main (string[] args) {
+
+
+		// Sets 29 as fatal flags, 16 + 8 + 4 + 1; bits 0,2,3,4, recursion,error,critical,warning; we'll want to undo that warning one so we can catch it
+		Test.init (ref args);
 		Test.add_func ("/gxml/gom-document/construct_api", () => {
 			try {
 				DomDocument d = new GXml.Document ();
@@ -775,5 +780,10 @@ class GXml.DocumentTest : GXmlTest {
 		    assert_not_reached ();
 		  } //<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 		});
+
+
+		Test.run ();
+
+		return 0;
 	}
 }
