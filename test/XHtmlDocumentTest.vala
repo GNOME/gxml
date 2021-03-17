@@ -24,8 +24,9 @@
 
 using GXml;
 
-class XHtmlDocumentTest : GXmlTest {
-	public static void add_tests () {
+class XHtmlDocumentTest : GLib.Object {
+	public static int main (string[] args) {
+		Test.init (ref args);
 		Test.add_func ("/gxml/XHtmlDocument/api/element_id", () => {
 			try {
 				var doc = new XHtmlDocument.from_path (GXmlTestConfig.TEST_DIR+"/index.html");
@@ -1523,6 +1524,10 @@ var _analytics_elem = document.getElementsByTagName('script')[0]; _analytics_ele
 	 			message (n.node_name);
 	 		}
 		 });
+
+		Test.run ();
+
+		return 0;
 
 	}
 }

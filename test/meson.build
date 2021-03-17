@@ -6,7 +6,6 @@ testdirs_dep = declare_dependency (compile_args : [
 files_xtests = files ([
 		'GXmlTest.vala',
 		'ValaLibxml2Test.vala',
-		'XHtmlDocumentTest.vala',
 		'XElementTest.vala',
 		'XPathTest.vala',
 	])
@@ -26,7 +25,6 @@ files_xdomdoc = files ([
 		'DomXDocumentTest.vala',
 	])
 
-
 xtdomdoc = executable('domxdocument', files_xdomdoc + configvapi + configtestvapi,
 	vala_args : [],
 	c_args: tests_cargs,
@@ -35,6 +33,19 @@ xtdomdoc = executable('domxdocument', files_xdomdoc + configvapi + configtestvap
 )
 
 test ('domxdocument', xtdomdoc)
+
+files_xhtmldoc = files ([
+		'XHtmlDocumentTest.vala',
+	])
+
+xthtmldoc = executable('htmlxdocument', files_xhtmldoc + configvapi + configtestvapi,
+	vala_args : [],
+	c_args: tests_cargs,
+	dependencies : [ libgxml_deps, inc_libh_dep, testdirs_dep, inc_rooth_dep],
+	link_with: libgxml
+)
+
+test ('htmlxdocument', xthtmldoc)
 
 files_xsd_tests = files ([
 		'XsdSchemaTest.vala',
