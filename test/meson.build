@@ -9,14 +9,14 @@ files_xdomdoc = files ([
 		'DomXDocumentTest.vala',
 	])
 
-xtdomdoc = executable('domxdocument', files_xdomdoc + configvapi + configtestvapi,
+xtdomdoc = executable('xdocument', files_xdomdoc + configvapi + configtestvapi,
 	vala_args : [],
 	c_args: tests_cargs,
 	dependencies : [ libgxml_deps, inc_libh_dep, testdirs_dep, inc_rooth_dep],
 	link_with: libgxml
 )
 
-test ('domxdocument', xtdomdoc)
+test ('xdocument', xtdomdoc)
 
 files_xhtmldoc = files ([
 		'XHtmlDocumentTest.vala',
