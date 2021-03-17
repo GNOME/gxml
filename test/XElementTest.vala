@@ -24,6 +24,7 @@ using GXml;
 
 class XElementTest : GLib.Object  {
 	public static int main (string[] args) {
+		Test.init (ref args);
 		Test.add_func ("/gxml/gelement/to_string", () =>{
 			try {
 				DomDocument doc = new XDocument.from_string ("<root />");
