@@ -31,7 +31,6 @@ class GXmlTest {
 		Test.init (ref args);
 		ValaLibxml2Test.add_tests ();
 		XElementTest.add_tests ();
-		XHtmlDocumentTest.add_tests ();
 		XPathTest.add_tests ();
 
 		Test.run ();
