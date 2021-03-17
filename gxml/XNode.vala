@@ -111,7 +111,7 @@ public abstract class GXml.XNode : GLib.Object,
       case GXml.NodeType.COMMENT:
         return new XComment (doc, node);
       case GXml.NodeType.DOCUMENT:
-        return new XDocument.from_doc (node->doc);
+        return doc;
       case GXml.NodeType.DOCUMENT_TYPE:
         return nullnode;
       case GXml.NodeType.DOCUMENT_FRAGMENT:
@@ -197,7 +197,6 @@ public abstract class GXml.XNode : GLib.Object,
 	    if (this is GXml.DomProcessingInstruction) return this.@value;
 	    if (this is GXml.DomComment) return this.@value;
 	    if (this is GXml.DomDocument || this is GXml.DomElement) {
-	      message ("Is Element");
 	      foreach (GXml.DomNode n in children_nodes) {
           if (n is GXml.DomText) {
             if (t == null) t = ((XNode) n).value;
