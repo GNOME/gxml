@@ -22,7 +22,7 @@
 
 using GXml;
 
-class DomXDocumentTest : GXmlTest {
+class DomXDocumentTest : GLib.Object {
 
 const string STRDOC = "<?xml version=\"1.0\"?>
 <!-- Comment -->
@@ -65,7 +65,8 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 </root>
 ";
 
-	public static void add_tests () {
+	public static int main (string[] args) {
+		Test.init (ref args);
 		Test.add_func ("/gxml/dom/document/children", () => {
 			try {
 #if DEBUG
@@ -581,5 +582,9 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 				assert_not_reached ();
 			}
 		});
+
+		Test.run ();
+
+		return 0;
 	}
 }
