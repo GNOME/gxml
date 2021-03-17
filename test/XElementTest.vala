@@ -22,8 +22,8 @@
 
 using GXml;
 
-class XElementTest : GXmlTest  {
-	public static void add_tests () {
+class XElementTest : GLib.Object  {
+	public static int main (string[] args) {
 		Test.add_func ("/gxml/gelement/to_string", () =>{
 			try {
 				DomDocument doc = new XDocument.from_string ("<root />");
@@ -145,5 +145,9 @@ class XElementTest : GXmlTest  {
         assert_not_reached ();
       }
     });
+
+		Test.run ();
+
+		return 0;
 	}
 }
