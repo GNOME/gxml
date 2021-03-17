@@ -38,6 +38,7 @@ public abstract class GXml.XNode : GLib.Object,
 {
   protected GXml.XDocument _doc;
   protected Xml.Node *_node;
+  protected bool owned_node = false;
 
   internal static string libxml2_error_to_string (Xml.Error *e) {
     return _("%s:%s:%d: %s:%d: %s").printf (
@@ -48,6 +49,12 @@ public abstract class GXml.XNode : GLib.Object,
 
   construct {
     Init.init ();
+  }
+
+  ~ XNode () {
+      if (owned_node) {
+          delete _node;
+      }
   }
 
   // GXml.Node
@@ -63,7 +70,7 @@ public abstract class GXml.XNode : GLib.Object,
     owned get {
       GXml.DomNode nullnode = null;
       if (_node == null) return nullnode;
-      return to_gnode (document as XDocument, _node->parent);
+      return to_gnode (document as XDocument, _node->parent, false);
     }
   }
   public virtual GXml.NodeType type_node {
@@ -90,36 +97,60 @@ public abstract class GXml.XNode : GLib.Object,
     }
   }
   public virtual string to_string () { return get_type ().name (); }
+
+  /**
+   * Access to {@link Xml.Node} referenced
+   */
   public Xml.Node* get_internal_node () { return _node; }
+
+  internal void take_node () {
+      owned_node = true;
+  }
   // Static
-  public static GXml.DomNode to_gnode (GXml.XDocument doc, Xml.Node *node) {
-    GXml.DomNode nullnode = null;
+  public static GXml.DomNode to_gnode (GXml.XDocument doc, Xml.Node *node, bool take_node) {
+    GXml.XNode n = null;
     var t = (GXml.NodeType) node->type;
     switch (t) {
       case GXml.NodeType.ELEMENT:
-        return new XElement (doc, node);
+        n = new XElement (doc, node);
+        break;
       case GXml.NodeType.ATTRIBUTE:
-        return new XAttribute (doc, (Xml.Attr*) node);
+        n = new XAttribute (doc, (Xml.Attr*) node);
+        break;
       case GXml.NodeType.TEXT:
-        return new XText (doc, node);
+        n = new XText (doc, node);
+        break;
       case GXml.NodeType.ENTITY_REFERENCE:
-        return nullnode;
+        n = null;
+        break;
       case GXml.NodeType.ENTITY:
-        return nullnode;
+        n = null;
+        break;
       case GXml.NodeType.PROCESSING_INSTRUCTION:
-        return new XProcessingInstruction (doc, node);
+        n = new XProcessingInstruction (doc, node);
+        break;
       case GXml.NodeType.COMMENT:
-        return new XComment (doc, node);
+        n = new XComment (doc, node);
+        break;
       case GXml.NodeType.DOCUMENT:
-        return doc;
+        n = doc;
+        break;
       case GXml.NodeType.DOCUMENT_TYPE:
-        return nullnode;
+        n = null;
+        break;
       case GXml.NodeType.DOCUMENT_FRAGMENT:
-        return nullnode;
+        n = null;
+        break;
       case GXml.NodeType.NOTATION:
-        return nullnode;
+        n = null;
+        break;
     }
-    return nullnode;
+
+    if (take_node && n != null) {
+        n.take_node ();
+    }
+
+    return n;
   }
   // DomNode Implementation
   public DomNode.NodeType node_type {
@@ -178,14 +209,14 @@ public abstract class GXml.XNode : GLib.Object,
     owned get {
       if (_node == null) return null;
       if (_node->prev == null) return null;
-      return XNode.to_gnode (_doc, _node->prev) as DomNode?;
+      return XNode.to_gnode (_doc, _node->prev, false) as DomNode?;
     }
   }
   public DomNode? next_sibling {
     owned get {
       if (_node == null) return null;
       if (_node->next == null) return null;
-      return XNode.to_gnode (_doc, _node->next) as DomNode?;
+      return XNode.to_gnode (_doc, _node->next, false) as DomNode?;
     }
   }
 
@@ -238,7 +269,7 @@ public abstract class GXml.XNode : GLib.Object,
     else
       n = _node->copy (2);
     if (n == null) return nullnode;
-    return (DomNode) XNode.to_gnode (_doc, n);
+    return (DomNode) XNode.to_gnode (_doc, n, true);
   }
   public bool is_equal_node (DomNode? node) {
     if (!(node is GXml.DomNode)) return false;

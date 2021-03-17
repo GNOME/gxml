@@ -6,7 +6,7 @@ testdirs_dep = declare_dependency (compile_args : [
 tests_cargs = []
 
 files_xdomdoc = files ([
-		'DomXDocumentTest.vala',
+		'XDocumentTest.vala',
 	])
 
 xtdomdoc = executable('xdocument', files_xdomdoc + configvapi + configtestvapi,
