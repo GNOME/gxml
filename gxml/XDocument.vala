@@ -41,6 +41,10 @@ public class GXml.XDocument : GXml.XNode,
   protected Xml.Buffer _buffer;
   protected Parser _parser = null;
 
+  ~XDocument () {
+      delete doc;
+  }
+
   public XDocument () {
     doc = new Xml.Doc ();
   }
@@ -68,6 +72,9 @@ public class GXml.XDocument : GXml.XNode,
     var parser = new XdParser (this);
     parser.read_stream (istream);
   }
+  /**
+   * Gigen {@link Xml.Doc} is owned by this
+   */
   public XDocument.from_doc (Xml.Doc doc) { this.doc = doc; }
 
   public Parser GXml.DomDocument.get_xml_parser () {
