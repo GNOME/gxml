@@ -63,14 +63,14 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
 
   public void write_stream (OutputStream stream) throws GLib.Error {
     var s = dump ();
-    var b = new GLib.MemoryInputStream.from_data (s.data, null);
+    var b = new GLib.MemoryInputStream.from_data (s.data);
     stream.splice (b, GLib.OutputStreamSpliceFlags.NONE, cancellable);
     stream.close ();
     tw = null;
   }
   public async void write_stream_async (OutputStream stream) throws GLib.Error {
     var s = yield dump_async ();
-    var b = new GLib.MemoryInputStream.from_data (s.data, null);
+    var b = new GLib.MemoryInputStream.from_data (s.data);
     yield stream.splice_async (b, GLib.OutputStreamSpliceFlags.NONE, 0, cancellable);
     tw = null;
   }
@@ -83,7 +83,7 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
   create_stream () throws GLib.Error {
     var s = dump ();
     tw = null;
-    return new GLib.MemoryInputStream.from_data (s.data, null);
+    return new GLib.MemoryInputStream.from_data (s.data);
   }
   /**
    * Creates asynchronically an {@link GLib.InputStream} to write a string representation
@@ -93,7 +93,7 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
   create_stream_async () throws GLib.Error {
     var s = yield dump_async ();
     tw = null;
-    return new GLib.MemoryInputStream.from_data (s.data, null);
+    return new GLib.MemoryInputStream.from_data (s.data);
   }
 
   public string write_string () throws GLib.Error  {
