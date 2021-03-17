@@ -45,7 +45,7 @@ public class GXml.XListChildren : AbstractBidirList<GXml.DomNode>,
     int i = 0;
     while (n != null) {
       if (i == index) {
-        return XNode.to_gnode (_doc, n);
+        return XNode.to_gnode (_doc, n, false);
       }
       i++;
       n = n->next;
@@ -97,7 +97,7 @@ public class GXml.XListChildren : AbstractBidirList<GXml.DomNode>,
     int i = 0;
     while (n != null) {
       if (i >= start && i <= stop) {
-        l.add (XNode.to_gnode (_doc, n));
+        l.add (XNode.to_gnode (_doc, n, false));
       }
       n = n->next;
       i++;
@@ -180,7 +180,7 @@ public class GXml.XListChildren : AbstractBidirList<GXml.DomNode>,
      */
     public new void @set (GXml.DomNode item) {}
     // Iterator
-    public new GXml.DomNode @get () { return XNode.to_gnode (_doc, _node); }
+    public new GXml.DomNode @get () { return XNode.to_gnode (_doc, _node, false); }
     public bool has_next () {
       if (_node == null) return false;
       if (_node->children == null) return false;

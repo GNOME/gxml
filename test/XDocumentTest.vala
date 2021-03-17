@@ -67,6 +67,18 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 
 	public static int main (string[] args) {
 		Test.init (ref args);
+		Test.add_func ("/gxml/dom/document/init/empty", () => {
+			var doc = new XDocument ();
+			assert (doc != null);
+		});
+		Test.add_func ("/gxml/dom/document/init/from_string", () => {
+			try {
+				var doc = new XDocument.from_string (STRDOC) as DomDocument;
+				assert (doc != null);
+		  } catch (GLib.Error e) {
+		    GLib.warning ("Error: "+e.message);
+		  }
+		});
 		Test.add_func ("/gxml/dom/document/children", () => {
 			try {
 #if DEBUG
@@ -291,7 +303,6 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 			assert (p.children[0].node_name == "p");
 			assert (!p.has_attribute ("id"));
 			assert (p.children[0].get_attribute ("class") == "black");
-			// Checking for DomElement NS
 			assert (ng2 is DomElement);
 			assert (ng2.node_name == "OtherNode");
 			assert (ng2.lookup_namespace_uri (null) == "http://live.gnome.org/GXml");
@@ -486,7 +497,6 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 				assert (doc.document_element.last_child is DomElement);
 				assert (doc.document_element.last_child.node_name == "Sentences");
 				assert (doc.document_element.last_child.child_nodes.length == 0);
-				//TODO: import text, comment and pi
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+ e.message);
 				assert_not_reached ();
@@ -507,23 +517,18 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 				assert (doc.document_element.children.last ().node_name == "project");
 				assert (doc2.document_element.last_child is DomElement);
 				assert (doc2.document_element.last_child.node_name == "Author");
-				//TODO: adopt text, comment and pi
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+ e.message);
 				assert_not_reached ();
 			}
 		});
 		Test.add_func ("/gxml/dom/document/event", () => {
-				//TODO: implement
 		});
 		Test.add_func ("/gxml/dom/document/range", () => {
-				//TODO: implement
 		});
 		Test.add_func ("/gxml/dom/document/iterator", () => {
-				//TODO: implement
 		});
 		Test.add_func ("/gxml/dom/document/walker", () => {
-				//TODO: implement
 		});
 		Test.add_func ("/gxml/dom/character", () => {
 			try {
@@ -566,16 +571,16 @@ const string XMLDOC ="<?xml version=\"1.0\"?>
 				assert (ntst.child_nodes.length == 1);
 				var ct2 = d.create_text_node ("TEXT2");
 				ntst.append_child (ct2);
-				//assert (ntst.child_nodes.length == 2);
-				// BUG: libxml2 doesn't support continuos DomText nodes
-				// when it is added, its data is concatecated in just text
-				// node
+				/* assert (ntst.child_nodes.length == 2);
+				BUG: libxml2 doesn't support continuos DomText nodes
+				when it is added, its data is concatecated in just text
+				node*/
 #if DEBUG
 				GLib.message ("NTST: "+(ntst as GXml.Node).to_string ());
 #endif
 				assert (ntst.child_nodes.item (0) is DomText);
 				assert (((DomText) ntst.child_nodes.item (0)).data == "TEXT1TEXT2");
-				// BUG: DomText.whole_text
+				/* BUG: DomText.whole_text */
 				assert (((DomText) ntst.child_nodes.item(0)).whole_text == "TEXT1TEXT2");
 			} catch (GLib.Error e) {
 				GLib.message ("Error: "+ e.message);

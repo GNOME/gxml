@@ -67,7 +67,7 @@ public class GXml.XAttribute : GXml.XNode, GXml.DomAttr
     owned get {
       GXml.DomNode nullnode = null;
       if (_attr == null) return nullnode;
-      return to_gnode (document as XDocument, _node);
+      return to_gnode (document as XDocument, _node, false);
     }
   }
   // DomAttr implementation
