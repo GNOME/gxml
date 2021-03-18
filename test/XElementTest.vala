@@ -50,10 +50,14 @@ class XElementTest : GLib.Object  {
 				assert (doc.document_element != null);
 				assert (doc.document_element.parent_node is GXml.DomNode);
 				assert (doc.document_element.parent_node is GXml.DomDocument);
-				assert (doc.document_element.child_nodes[0] != null);
-				assert (doc.document_element.child_nodes[0].parent_node != null);
-				assert (doc.document_element.child_nodes[0].parent_node.node_name == "root");
-				assert (doc.document_element.child_nodes[0] is DomText);
+				var n0 = doc.document_element.child_nodes[0];
+				assert (n0 != null);
+				assert (n0.parent_node != null);
+				string n = n0.parent_node.node_name;
+				assert (n != null);
+				assert (n == "root");
+				assert (n0 is DomText);
+				// BUG: This is failing under Vala 0.48.6 and address sanitized
 				assert (doc.document_element.child_nodes[1] != null);
 				assert (doc.document_element.child_nodes[1] is DomElement);
 				assert (doc.document_element.child_nodes[1].node_name == "child");
