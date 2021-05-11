@@ -1,14 +1,14 @@
 # Danish translation for gxml.
 # Copyright (C) 2019 gxml's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gxml package.
-# scootergrisen, 2019.
+# scootergrisen, 2019, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2019-12-27 22:05+0000\n"
-"PO-Revision-Date: 2020-03-09 00:00+0200\n"
+"POT-Creation-Date: 2020-08-17 14:01+0000\n"
+"PO-Revision-Date: 2021-04-27 00:00+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: gxml/BaseCollection.vala:90
+#: gxml/BaseCollection.vala:91
 msgid ""
 "Invalid attempt to initialize a collection using an unsupported type. Only "
 "GXmlGXml.Element is supported"
@@ -25,30 +25,30 @@ msgstr ""
 "Ugyldigt forsøg på at initialisere en samling med en type, som ikke "
 "understøttes. Kun GXmlGXml.Element understøttes"
 
-#: gxml/BaseCollection.vala:119 gxml/BaseCollection.vala:147
-msgid "Parent Element is invalid"
-msgstr "Ophavselementet er ugyldigt"
+#: gxml/BaseCollection.vala:122 gxml/BaseCollection.vala:150
+msgid "Parent Element is invalid. Set 'element' property at construction time"
+msgstr "Ophavselementet er ugyldigt. Indstil egenskaben “element” på konstruktionstidspunktet"
 
-#: gxml/BaseCollection.vala:122
+#: gxml/BaseCollection.vala:125
 msgid ""
 "Invalid attempt to set unsupported type. Only GXmlGXml.Element is supported"
 msgstr ""
 "Ugyldigt forsøg på at indstille en type, som ikke understøttes. Kun GXmlGXml."
 "Element understøttes"
 
-#: gxml/BaseCollection.vala:125
+#: gxml/BaseCollection.vala:128
 msgid "Invalid attempt to set a node with a different parent document"
 msgstr ""
 "Ugyldigt forsøg på at indstille et knudepunkt med et andet ophavsdokument"
 
-#: gxml/BaseCollection.vala:130
+#: gxml/BaseCollection.vala:133
 msgid ""
 "Node element not appended as child of parent. No node added to collection"
 msgstr ""
 "Knudepunktselementet blev ikke tilføjet som underelement af ophavet. Der "
 "blev ikke tilføjet noget knudepunkt til samlingen"
 
-#: gxml/BaseCollection.vala:192 gxml/BaseCollection.vala:210
+#: gxml/BaseCollection.vala:195 gxml/BaseCollection.vala:213
 #, c-format
 msgid "Error: %s"
 msgstr "Fejl: %s"
@@ -119,7 +119,7 @@ msgstr "Ugyldig attributvælger"
 #: gxml/CssSelectorParser.vala:362
 #, c-format
 msgid "Invalid attribute selector. '=' expected but '%s' was found"
-msgstr "Ugyldig attributvælger. “=” ventet, men fandt “%s”"
+msgstr "Ugyldig attributvælger. Forventede “=”, men fandt “%s”"
 
 #: gxml/CssSelectorParser.vala:374
 msgid "Cannot find end of attribute value"
@@ -138,49 +138,49 @@ msgstr "Fandt ikke nogen vælgere"
 msgid "Last selector has combiner assigned (%s)"
 msgstr "Sidste vælger har kombinering tildelt (%s)"
 
-#: gxml/Document.vala:124
+#: gxml/Document.vala:129
 #, c-format
 msgid "Error while attempting to instantiate root property object: %s"
 msgstr "Fejl ved forsøg på at oprette rodegenskabsobjekt: %s"
 
-#: gxml/Document.vala:184
+#: gxml/Document.vala:189
 msgid "Creating a namespaced element with invalid node name"
 msgstr "Opretter et element i navnerum med ugyldigt knudepunktsnavn"
 
-#: gxml/Document.vala:191
+#: gxml/Document.vala:196
 msgid "Creating a namespaced element with invalid namespace"
 msgstr "Opretter et element i navnerum med ugyldigt navnerum"
 
-#: gxml/Document.vala:195
+#: gxml/Document.vala:200
 msgid ""
 "Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
 msgstr ""
-"Ugyldig navnerum-URI for xmlns-præfiks. Brug http://www.w3.org/2000/xmlns/"
+"Ugyldig navnerums-URI for xmlns-præfiks. Brug http://www.w3.org/2000/xmlns/"
 
-#: gxml/Document.vala:199
+#: gxml/Document.vala:204
 msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
 msgstr "Der kan kun bruges xmlns-præfikser med http://www.w3.org/2000/xmlns/"
 
-#: gxml/Document.vala:239 gxml/XDocument.vala:252
+#: gxml/Document.vala:244 gxml/XDocument.vala:252
 msgid "Can't import a Document"
 msgstr "Kan ikke importere et dokument"
 
-#: gxml/Document.vala:241 gxml/XDocument.vala:254
+#: gxml/Document.vala:246 gxml/XDocument.vala:254
 msgid "Can't import a non Element type node to a Document"
 msgstr ""
 "Kan ikke importere et knudepunkt, som ikke er en elementtype, til et dokument"
 
-#: gxml/Document.vala:265 gxml/XDocument.vala:278
+#: gxml/Document.vala:270 gxml/XDocument.vala:278
 msgid "Can't adopt a Document"
 msgstr "Kan ikke adoptere et dokument"
 
 #. FIXME:
-#: gxml/Document.vala:443
+#: gxml/Document.vala:448
 msgid "DomElement query_selector is not implemented"
 msgstr "DomElement query_selector er ikke implementeret"
 
 #. FIXME:
-#: gxml/Document.vala:447
+#: gxml/Document.vala:452
 msgid "DomElement query_selector_all is not implemented"
 msgstr "DomElement query_selector_all er ikke implementeret"
 
@@ -204,137 +204,270 @@ msgstr "Tekstknudepunkt med NULL-streng"
 msgid "Can't copy child text node"
 msgstr "Kan ikke kopiere tekstknudepunkt for underelement"
 
-#: gxml/Element.vala:183
+#: gxml/Element.vala:194
 msgid "Invalid namespace URI stored in element's attribute"
-msgstr "Ugyldig navnerum-URI gemt i elementets attribut"
+msgstr "Ugyldig navnerums-URI gemt i elementets attribut"
 
-#: gxml/Element.vala:190 gxml/Element.vala:224
+#: gxml/Element.vala:201 gxml/Element.vala:242
 msgid "Invalid attribute name in element's attributes list"
 msgstr "Ugyldigt attributnavn i elementets attributliste"
 
-#: gxml/Element.vala:239
+#: gxml/Element.vala:257
 msgid "Can't locate child node to remove"
 msgstr "Kan ikke finde underknudepunkt som skal fjernes"
 
-#: gxml/Element.vala:469 gxml/Element.vala:535
+#: gxml/Element.vala:487 gxml/Element.vala:553
 #, c-format
 msgid "Invalid attribute name: %s"
 msgstr "Ugyldigt attributnavn: %s"
 
-#: gxml/Element.vala:471 gxml/Element.vala:537
+#: gxml/Element.vala:489 gxml/Element.vala:555
 msgid "Invalid node type. GXml.Attr was expected"
 msgstr "Ugyldig knudepunktstype. Forventede GXml.Attr"
 
-#: gxml/Element.vala:494 gxml/Element.vala:513
+#: gxml/Element.vala:512 gxml/Element.vala:531
 #, c-format
 msgid "No index found for attribute %s"
 msgstr "Fandt ikke noget indeks for attributten %s"
 
-#: gxml/Element.vala:522
+#: gxml/Element.vala:540
 #, c-format
 msgid "Invalid attribute's local name '%s': invalid use of ':' character"
 msgstr "Ugyldigt attributs lokale navn “%s”: ugyldig brug af tegnet “:”"
 
-#: gxml/Element.vala:526
+#: gxml/Element.vala:544
 #, c-format
 msgid "Namespace URI was not found: %s"
 msgstr "Navnerums-URI blev ikke fundet: %s"
 
-#: gxml/Element.vala:542
+#: gxml/Element.vala:560
+#| msgid ""
+#| "Namespace attributes prefixed with xmlns should use a namespace uri "
+#| "http://www.w3.org/2000/xmlns"
 msgid ""
-"Namespace attributes prefixed with xmlns should use a namespace uri http://"
+"Namespace attributes prefixed with 'xmlns' should use a namespace uri http://"
 "www.w3.org/2000/xmlns"
 msgstr ""
-"Navnerumsattributter med xmlns-præfiks skal bruge en navnerum-uri http://www."
+"Navnerumsattributter præfikset med “xmlns” skal bruge en uri med navnerummet http://www."
 "w3.org/2000/xmlns"
 
-#: gxml/Element.vala:549
+#: gxml/Element.vala:564
+#| msgid ""
+#| "Namespace attributes prefixed with xmlns should use a namespace uri "
+#| "http://www.w3.org/2000/xmlns"
+msgid ""
+"Namespace attributes prefixed with 'xml' should use a namespace uri http://"
+"www.w3.org/XML/1998/namespace"
+msgstr ""
+"Navnerumsattributter præfikset med “xml” skal bruge uri med navnerummet http://www."
+"w3.org/XML/1998/namespace"
+
+#: gxml/Element.vala:568
+#| msgid ""
+#| "Namespace attributes prefixed with xmlns should use a namespace uri "
+#| "http://www.w3.org/2000/xmlns"
+msgid ""
+"Namespace attributes prefixed with 'xsi' should use a namespace uri http://"
+"www.w3.org/2001/XMLSchema-instance"
+msgstr ""
+"Navnerumsattributter præfikset med “xsi” skal bruge uri med navnerummet http://www."
+"w3.org/2001/XMLSchema-instance"
+
+#: gxml/Element.vala:572
+#| msgid ""
+#| "Namespace attributes prefixed with xmlns should use a namespace uri "
+#| "http://www.w3.org/2000/xmlns"
+msgid ""
+"Namespace attributes prefixed with 'html' should use a namespace uri http://"
+"www.w3.org/1999/xhtml"
+msgstr ""
+"Navnerumsattributter præfikset med “html” skal bruge uri med navnerummet http://www."
+"w3.org/1999/xhtml"
+
+#: gxml/Element.vala:576
+#| msgid ""
+#| "Namespace attributes prefixed with xmlns should use a namespace uri "
+#| "http://www.w3.org/2000/xmlns"
+msgid ""
+"Namespace attributes prefixed with 'MathML' should use a namespace uri "
+"http://www.w3.org/1998/Math/MathML"
+msgstr ""
+"Navnerumsattributter præfikset med “MathML” skal bruge uri med navnerummet http://www."
+"w3.org/1998/Math/MathML"
+
+#: gxml/Element.vala:580
+#| msgid ""
+#| "Namespace attributes prefixed with xmlns should use a namespace uri "
+#| "http://www.w3.org/2000/xmlns"
+msgid ""
+"Namespace attributes prefixed with 'xlink' should use a namespace uri http://"
+"www.w3.org/1999/xlink"
+msgstr ""
+"Navnerumsattributter præfikset med “xlink” skal bruge uri med navnerummet http://www."
+"w3.org/1999/xlink"
+
+#: gxml/Element.vala:584
+#| msgid ""
+#| "Namespace attributes prefixed with xmlns should use a namespace uri "
+#| "http://www.w3.org/2000/xmlns"
+msgid ""
+"Namespace attributes prefixed with 'svg' should use a namespace uri http://"
+"www.w3.org/2000/svg"
+msgstr ""
+"Navnerumsattributter præfikset med “svg” skal bruge uri med navnerummet http://www."
+"w3.org/2000/svg"
+
+#: gxml/Element.vala:591
 #, c-format
 msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
 msgstr ""
 "Attributter med navnerum skal levere et præfiks som hverken er null eller "
 "tom: %s"
 
-#: gxml/Element.vala:553
+#: gxml/Element.vala:595
 msgid "Invalid namespace attribute's name."
 msgstr "Ugyldigt navnerum for attributtens navn."
 
-#: gxml/Element.vala:570
+#: gxml/Element.vala:612
 #, c-format
 msgid "Trying to add an attribute with an undefined namespace's prefix: %s"
 msgstr ""
 "Prøver at tilføje en attribut med et præfiks til et navnerum, som ikke er "
-"defineret: %s"
+"angivet: %s"
 
-#: gxml/Element.vala:577
+#: gxml/Element.vala:619
 msgid "Trying to add an attribute with an undefined namespace's URI"
 msgstr ""
 "Prøver at tilføje en attribut med et URI til et navnerum, som ikke er "
-"defineret"
+"angivet"
 
-#: gxml/Element.vala:629
+#: gxml/Element.vala:671
 #, c-format
 msgid "Error getting attribute with namespace: %s"
 msgstr "Fejl ved hentning af attribut med navnerum: %s"
 
-#: gxml/Element.vala:645
+#: gxml/Element.vala:687
 msgid "Invalid attribute name. Just one prefix is allowed"
 msgstr "Ugyldigt attributnavn. Kun ét præfiks er tilladt"
 
-#: gxml/Element.vala:650
+#: gxml/Element.vala:692
 #, c-format
 msgid "Invalid attribute name. Invalid use of colon: %s"
 msgstr "Ugyldigt attributnavn. Ugyldig brug af kolon: %s"
 
-#: gxml/Element.vala:654
+#: gxml/Element.vala:696
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
 msgstr ""
-"Ugyldigt navnerum. Hvis præfiks er null, så skal navnerum-URI ikke være null"
+"Ugyldigt navnerum. Hvis præfiks er null, så skal navnerums-URI ikke være null"
 
-#: gxml/Element.vala:657
+#: gxml/Element.vala:700
+#| msgid ""
+#| "Invalid attribute name. No prefixed attributes should use xml or xmlns "
+#| "name"
 msgid ""
-"Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
-"org/2000/xmlns"
+"Invalid namespace definition. No prefixed attributes should use 'xmlns' as "
+"name"
 msgstr ""
-"Ugyldigt navnerum. Hvis præfiks er xml, så skal URI være http://www.w3."
-"org/2000/xmlns"
+"Ugyldig navnerumsdefiniton. Ingen attributter med præfikser må bruge “xmlns” som navn"
 
-#: gxml/Element.vala:661
+#: gxml/Element.vala:704
+msgid "'xml' namespace should not be defined"
+msgstr "“xml”-navnerum skal ikke angives"
+
+#: gxml/Element.vala:708
+msgid "'xmlns' namespace should not be defined"
+msgstr "“xmlns”-navnerum skal ikke angives"
+
+#: gxml/Element.vala:716
+#| msgid ""
+#| "Invalid namespace. If prefix is xml, namespace URI should be http://www."
+#| "w3.org/2000/xmlns"
 msgid ""
-"Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
-"http://www.w3.org/2000/xmlns"
+"Invalid namespace. If prefix is 'xml', namespace URI should be http://www.w3."
+"org/XML/1998/namespace"
 msgstr ""
-"Ugyldigt navnerum. Hvis attributtens præfiks er xmlns, så skal navnerum-URI "
+"Ugyldigt navnerum. Hvis præfiks er “xml”, så skal navnerums-URI være http://www.w3."
+"org/XML/1998/namespace"
+
+#: gxml/Element.vala:723
+#| msgid ""
+#| "Invalid namespace. If attribute's prefix is xmlns, namespace URI should "
+#| "be http://www.w3.org/2000/xmlns"
+msgid ""
+"Invalid namespace definition. If attribute's prefix is 'xmlns', namespace "
+"URI should be http://www.w3.org/2000/xmlns"
+msgstr ""
+"Ugyldig navnerumsdefiniton. Hvis attributtens præfiks er “xmlns”, så skal navnerums-URI "
 "være http://www.w3.org/2000/xmlns"
 
-#: gxml/Element.vala:666
+#: gxml/Element.vala:730
+#| msgid ""
+#| "Invalid namespace. If attribute's prefix is xmlns, namespace URI should "
+#| "be http://www.w3.org/2000/xmlns"
 msgid ""
-"Invalid namespace. If attribute's name is xmlns, namespace URI should be "
-"http://www.w3.org/2000/xmlns"
+"Invalid namespace. If attribute's prefix is 'html', namespace URI should be "
+"http://www.w3.org/1999/xhtml"
 msgstr ""
-"Ugyldigt navnerum. Hvis attributtens navn er xmlns, så skal navnerum-URI "
-"være http://www.w3.org/2000/xmlns"
+"Ugyldigt navnerum. Hvis attributtens præfiks er “html”, så skal navnerums-URI "
+"være http://www.w3.org/1999/xhtml"
 
-#: gxml/Element.vala:669
+#: gxml/Element.vala:737
+#| msgid ""
+#| "Invalid namespace. If attribute's prefix is xmlns, namespace URI should "
+#| "be http://www.w3.org/2000/xmlns"
 msgid ""
-"Invalid attribute name. No prefixed attributes should use xml or xmlns name"
+"Invalid namespace. If attribute's prefix is 'xsi', namespace URI should be "
+"http://www.w3.org/2001/XMLSchema-instance"
 msgstr ""
-"Ugyldig attributnavn. Ingen attributter med præfikser må bruge xml- eller "
-"xmlns-navn"
+"Ugyldigt navnerum. Hvis attributtens præfiks er “xsi”, så skal navnerums-URI "
+"være http://www.w3.org/2001/XMLSchema-instance"
 
-#: gxml/Element.vala:674
+#: gxml/Element.vala:744
+#| msgid ""
+#| "Invalid namespace. If attribute's prefix is xmlns, namespace URI should "
+#| "be http://www.w3.org/2000/xmlns"
+msgid ""
+"Invalid namespace. If attribute's prefix is 'MathML', namespace URI should "
+"be http://www.w3.org/1998/Math/MathML"
+msgstr ""
+"Ugyldigt navnerum. Hvis attributtens præfiks er “MathML”, så skal navnerums-URI "
+"være http://www.w3.org/1998/Math/MathML"
+
+#: gxml/Element.vala:751
+#| msgid ""
+#| "Invalid namespace. If attribute's prefix is xmlns, namespace URI should "
+#| "be http://www.w3.org/2000/xmlns"
+msgid ""
+"Invalid namespace. If attribute's prefix is 'svg', namespace URI should be "
+"http://www.w3.org/2000/svg"
+msgstr ""
+"Ugyldigt navnerum. Hvis attributtens præfiks er “svg”, så skal navnerums-URI "
+"være http://www.w3.org/2000/svg"
+
+#: gxml/Element.vala:758
+#| msgid ""
+#| "Invalid namespace. If attribute's prefix is xmlns, namespace URI should "
+#| "be http://www.w3.org/2000/xmlns"
+msgid ""
+"Invalid namespace. If attribute's prefix is 'xlink', namespace URI should be "
+"http://www.w3.org/1999/xlink"
+msgstr ""
+"Ugyldigt navnerum. Hvis attributtens præfiks er “xlink”, så skal navnerums-URI "
+"være http://www.w3.org/1999/xlink"
+
+#: gxml/Element.vala:763
 msgid "Setting namespaced property error: "
 msgstr "Fejl ved indstilling af egenskab i navnerum: "
 
-#: gxml/Element.vala:680
+#: gxml/Element.vala:769
 msgid "Removing attribute Error: "
 msgstr "Fejl ved fjernelse af attribut: "
 
-#: gxml/Element.vala:685
+#: gxml/Element.vala:774
 msgid "Removing namespaced attribute Error: "
 msgstr "Fejl ved fjernelse af egenskab i navnerum: "
 
-#: gxml/Element.vala:851
+#: gxml/Element.vala:940
 #, c-format
 msgid "Error parsing child's buffer: %s"
 msgstr "Fejl ved fortolkning af underelementets buffer: %s"
@@ -360,7 +493,7 @@ msgstr "Tekstindhold i element kan ikke oprettes"
 msgid "Can't find node position"
 msgstr "Kan ikke finde knudepunktets position"
 
-#: gxml/Node.vala:257 gxml/Node.vala:299 gxml/XNode.vala:310
+#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:310
 #: gxml/XNode.vala:341
 msgid "Invalid attempt to add invalid node type"
 msgstr "Ugyldigt forsøg på at tilføje ugyldig knudepunktstype"
@@ -369,46 +502,39 @@ msgstr "Ugyldigt forsøg på at tilføje ugyldig knudepunktstype"
 msgid "Can't find child to insert node before"
 msgstr "Kan ikke finde underknudepunkt som knudepunktet skal indsættes inden"
 
-#: gxml/Node.vala:265 gxml/Node.vala:305 gxml/XNode.vala:316
+#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:316
 #: gxml/XNode.vala:347
 msgid "Invalid attempt to insert a node"
 msgstr "Ugyldigt forsøg på at indsætte et knudepunkt"
 
-#: gxml/Node.vala:273 gxml/Node.vala:312 gxml/XNode.vala:323
+#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:323
 #: gxml/XNode.vala:354
 msgid "Invalid attempt to insert an invalid node type"
 msgstr "Ugyldigt forsøg på at indsætte en ugyldig knudepunktstype"
 
-#: gxml/Node.vala:277
-msgid ""
-"Invalid attempt to insert a document or text type to an invalid parent node"
-msgstr ""
-"Ugyldigt forsøg på at indsætte en dokument- eller teksttype til et ugyldigt "
-"ophavsknudepunkt"
-
-#: gxml/Node.vala:290
+#: gxml/Node.vala:291
 msgid "Node type is invalid. Can't append as child"
 msgstr "Knudepunktstypen er ugyldig. Kan ikke tilføje som underknudepunkt"
 
-#: gxml/Node.vala:293
+#: gxml/Node.vala:294
 msgid "Invalid attempt to append a child with different parent document"
 msgstr ""
 "Ugyldigt forsøg på at tilføje et underelement med et andet ophavsdokument"
 
-#: gxml/Node.vala:301 gxml/XNode.vala:343
+#: gxml/Node.vala:302 gxml/XNode.vala:343
 msgid "Can't find child node to replace or child have a different parent"
 msgstr ""
 "Kan ikke finde underknudepunkt til erstatning, eller underknudepunkt har et "
 "andet ophav"
 
-#: gxml/Node.vala:315 gxml/XNode.vala:326 gxml/XNode.vala:357
+#: gxml/Node.vala:316 gxml/XNode.vala:326 gxml/XNode.vala:357
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr ""
 "Ugyldigt forsøg på at indsætte et dokuments type- eller tekstknudepunkt til "
 "et ugyldigt ophav"
 
-#: gxml/Node.vala:327 gxml/XNode.vala:369
+#: gxml/Node.vala:328 gxml/XNode.vala:369
 msgid "Can't find child node to remove or child have a different parent"
 msgstr ""
 "Kan ikke finde underknudepunkt som skal fjernes, eller underknudepunkt har "
@@ -431,18 +557,18 @@ msgstr "Fejl ved forsøg på at oprette egenskabsobjekt: %s"
 msgid "Can't set value. It is not a GXmlGXml.Element type"
 msgstr "Kan ikke indstille værdi. Den er ikke en GXmlGXml.Element-type"
 
-#: gxml/Parser.vala:92 gxml/Parser.vala:100 gxml/XDocument.vala:57
+#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:57
 msgid "File doesn't exist"
 msgstr "Filen findes ikke"
 
-#: gxml/Parser.vala:181
+#: gxml/Parser.vala:193
 msgid ""
 "Invalid attempt to parse an element node, when current found node is not"
 msgstr ""
 "Ugyldigt forsøg på at fortolke et elementknudepunkt, da det som er fundet på "
 "nuværende tidspunkt, ikke er indstillet"
 
-#: gxml/Parser.vala:253 gxml/StreamReader.vala:189
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:242
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' type property was "
@@ -452,7 +578,7 @@ msgstr ""
 "egenskab blev ikke indstillet på konstruktionstidspunktet eller indstillet "
 "til en ugyldig type"
 
-#: gxml/Parser.vala:257 gxml/StreamReader.vala:193
+#: gxml/Parser.vala:285 gxml/StreamReader.vala:246
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' name property was "
@@ -461,7 +587,7 @@ msgstr ""
 "Samlingen “%s” er ikke blevet konstrueret ordentligt: posternes name-"
 "egenskab blev ikke indstillet på konstruktionstidspunktet"
 
-#: gxml/Parser.vala:261 gxml/StreamReader.vala:197
+#: gxml/Parser.vala:289 gxml/StreamReader.vala:250
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: element property was not "
@@ -470,7 +596,7 @@ msgstr ""
 "Samlingen “%s” er ikke blevet konstrueret ordentligt: element-egenskab blev "
 "ikke indstillet på konstruktionstidspunktet"
 
-#: gxml/Parser.vala:265 gxml/StreamReader.vala:201
+#: gxml/Parser.vala:293 gxml/StreamReader.vala:254
 #, c-format
 msgid ""
 "Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
@@ -479,11 +605,11 @@ msgstr ""
 "Ugyldigt objekt af typen “%s” implementerer ikke GXml.Object-grænseflade: "
 "kan ikke håndteres af samlingen"
 
-#: gxml/Parser.vala:270
+#: gxml/Parser.vala:298
 msgid "No document is set to node"
 msgstr "Der er ikke indstillet noget dokument til knudepunkt"
 
-#: gxml/Parser.vala:291 gxml/XParser.vala:102 gxml/XParser.vala:108
+#: gxml/Parser.vala:323 gxml/XParser.vala:107 gxml/XParser.vala:113
 msgid "Invalid document string, it is empty or is not allowed"
 msgstr "Ugyldig dokumentstreng - den er tom eller er ikke tilladt"
 
@@ -537,23 +663,36 @@ msgstr "Ugyldig knudepunktstype til start efter"
 msgid "Invalid root in the source range"
 msgstr "Ugyldig rod i kildeområdet"
 
-#: gxml/StreamReader.vala:107
-msgid "Invalid document: should start with '<'"
-msgstr "Ugyldigt dokument: skal begynde med “<”"
+#: gxml/StreamReader.vala:143
+#| msgid "Invalid document: unexpected character '%c'"
+msgid "Invalid document: expected '<' character"
+msgstr "Ugyldigt dokument: forventede tegnet “<”"
 
-#: gxml/StreamReader.vala:111 gxml/StreamReader.vala:120
-msgid "Invalid document: unexpected character before node's name"
-msgstr "Ugyldigt dokument: uventet tegn før knudepunktets navn"
+#: gxml/StreamReader.vala:151
+#| msgid "Invalid document: unexpected character before node's name"
+msgid "Invalid document: unexpected space character before node's name"
+msgstr "Ugyldigt dokument: uventet mellemrumstegn før knudepunktets navn"
 
-#: gxml/StreamReader.vala:116
+#: gxml/StreamReader.vala:185
 #, c-format
-msgid "Invalid document: unexpected character '%c'"
-msgstr "Ugyldigt dokument: uventet tegn “%c”"
-
-#: gxml/StreamReader.vala:132
-#, c-format
-msgid "Parent '%s' is not implemeting GXml.Object interface"
+#| msgid "Parent '%s' is not implemeting GXml.Object interface"
+msgid "Parent '%s' is not implementing GXml.Object interface"
 msgstr "Ophavet “%s” implementerer ikke GXml.Object-grænseflade"
+
+#: gxml/StreamReader.vala:332 gxml/StreamReader.vala:336
+#: gxml/StreamReader.vala:348
+msgid "Invalid comment declaration"
+msgstr "Ugyldig deklaration af kommentar"
+
+# scootergrisen: tjek at det er korrekt og godt oversat
+#: gxml/StreamReader.vala:369
+msgid "Invalid Processing Instruccion's target declaration"
+msgstr "Ugyldig behandling af instruccions mål-deklaration"
+
+# scootergrisen: tjek at det er korrekt og godt oversat
+#: gxml/StreamReader.vala:396
+msgid "Invalid Processing Instruccion's close declaration"
+msgstr "Ugyldig behandling af instruccions luk-deklaration"
 
 #: gxml/TokenList.vala:54
 msgid ""
@@ -592,11 +731,11 @@ msgstr "Fejl ved skrivning af dokument til streng: %s"
 msgid "Invalid element qualified name: multiple namespace prefixes"
 msgstr "Ugyldigt kvalificeret navn for element: flere navnerumpræfikser"
 
-#: gxml/XdParser.vala:60
+#: gxml/XdParser.vala:65
 msgid "stream doesn't provide data"
 msgstr "strømmen leverer ikke data"
 
-#: gxml/XdParser.vala:75
+#: gxml/XdParser.vala:80
 msgid "Parser Error for string"
 msgstr "Fejl ved fortolker for streng"
 
@@ -651,39 +790,39 @@ msgstr "%s:%s:%d: %s:%d: %s"
 msgid "Error while setting text content to node: %s"
 msgstr "Fejl ved indstilling af tekstindhold til knudepunkt: %s"
 
-#: gxml/XParser.vala:118
+#: gxml/XParser.vala:123
 msgid "Invalid input stream to read data from"
 msgstr "Ugyldig inputstrøm til at læse data fra"
 
-#: gxml/XParser.vala:138
+#: gxml/XParser.vala:143
 #, c-format
 msgid "Error reading stream: %s"
 msgstr "Fejl ved læsning af strøm: %s"
 
-#: gxml/XParser.vala:151
+#: gxml/XParser.vala:156
 #, c-format
 msgid "Error closing stream: %s"
 msgstr "Fejl ved lukning af strøm: %s"
 
-#: gxml/XParser.vala:192 gxml/XParser.vala:254 gxml/XParser.vala:263
-#: gxml/XParser.vala:312 gxml/XParser.vala:325 gxml/XParser.vala:375
+#: gxml/XParser.vala:197 gxml/XParser.vala:259 gxml/XParser.vala:268
+#: gxml/XParser.vala:317 gxml/XParser.vala:330 gxml/XParser.vala:382
 msgid "Internal Error: No TextReader was set"
 msgstr "Intern fejl: Der blev ikke indstillet nogen TextReader"
 
-#: gxml/XParser.vala:266
+#: gxml/XParser.vala:271
 msgid "Can't read node data"
 msgstr "Kan ikke læse knudepunktets data"
 
-#: gxml/XParser.vala:330
+#: gxml/XParser.vala:335
 #, c-format
 msgid "Parsing ERROR: Fail to move to attribute number: %i"
 msgstr "FEJL ved fortolkning: Kunne ikke flytte til attributnummer: %i"
 
-#: gxml/XParser.vala:420
+#: gxml/XParser.vala:427
 msgid "Invalid sequence for document type definition: "
 msgstr "Ugyldig sekvens for definition af dokumenttype: "
 
-#: gxml/XParser.vala:485 gxml/XParser.vala:591 gxml/XParser.vala:663
+#: gxml/XParser.vala:492 gxml/XParser.vala:598 gxml/XParser.vala:670
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Intern fejl: Der blev ikke initialiseret nogen TextWriter"
 
