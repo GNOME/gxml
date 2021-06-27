@@ -1,134 +1,804 @@
 # Chinese (China) translation for gxml.
-# Copyright (C) 2016 gxml's COPYRIGHT HOLDER
+# Copyright (C) 2016-2021 gxml's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gxml package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Damned <damnedlies@163.com>, 2020.
+# Dingzhong Chen <wsxy162@gmail.com>, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=gxml&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-04-07 00:14+0000\n"
-"PO-Revision-Date: 2016-04-12 20:20+0800\n"
-"Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
+"POT-Creation-Date: 2021-03-18 01:36+0000\n"
+"PO-Revision-Date: 2021-06-10 16:18+0800\n"
+"Last-Translator: Dingzhong Chen <wsxy162@gmail.com>\n"
+"Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Last-Translator: \n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 3.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ../gxml/Document.vala:148
-msgid "Invalid file"
-msgstr "无效文件"
+#: gxml/BaseCollection.vala:91
+msgid ""
+"Invalid attempt to initialize a collection using an unsupported type. Only "
+"GXmlGXml.Element is supported"
+msgstr "使用不受支持的类型来初始化集合的尝试无效。只支持 GXmlGXml.Element"
 
-#: ../gxml/Enumeration.vala:88
+#: gxml/BaseCollection.vala:122 gxml/BaseCollection.vala:150
+msgid "Parent Element is invalid. Set 'element' property at construction time"
+msgstr "父元素无效。在构造时设置“element”属性"
+
+#: gxml/BaseCollection.vala:125
+msgid ""
+"Invalid attempt to set unsupported type. Only GXmlGXml.Element is supported"
+msgstr "设置不受支持的类型的尝试无效。只支持 GXmlGXml.Element"
+
+#: gxml/BaseCollection.vala:128
+msgid "Invalid attempt to set a node with a different parent document"
+msgstr "设置具有不同父文档的节点的尝试无效"
+
+#: gxml/BaseCollection.vala:133
+msgid ""
+"Node element not appended as child of parent. No node added to collection"
+msgstr "节点元素未被追加为父节点的子节点。节点未被添加到集合"
+
+#: gxml/BaseCollection.vala:195 gxml/BaseCollection.vala:213
+#, c-format
+msgid "Error: %s"
+msgstr "错误：%s"
+
+#: gxml/Collections.vala:116
+msgid "Invalid index for elements in array list"
+msgstr "数组列表中的元素索引无效"
+
+#: gxml/Collections.vala:120
+msgid "Invalid index reference for child elements in array list"
+msgstr "数组列表中的子元素索引引用无效"
+
+#: gxml/Collections.vala:125
+msgid "Referenced object's type is invalid. Should be a GXmlDomElement"
+msgstr "引用对象的类型无效。应为 GXmlDomElement"
+
+#: gxml/CssSelectorParser.vala:232 gxml/CssSelectorParser.vala:240
+msgid "Invalid identifier"
+msgstr "无效标识符"
+
+#: gxml/CssSelectorParser.vala:238 gxml/CssSelectorParser.vala:244
+#: gxml/CssSelectorParser.vala:329
+msgid "string value is empty"
+msgstr "字符串值为空"
+
+#: gxml/CssSelectorParser.vala:250
+msgid "Cannot find start of 'not selector' value"
+msgstr "找不到“not 选择器”值的开头"
+
+#: gxml/CssSelectorParser.vala:256
+msgid "Cannot find end of 'not selector' value"
+msgstr "找不到“not 选择器”值的结尾"
+
+#: gxml/CssSelectorParser.vala:271
+#, c-format
+msgid "Invalid '%s' pseudo class"
+msgstr "无效的“%s”伪类"
+
+#: gxml/CssSelectorParser.vala:275
+#, c-format
+msgid "Invalid '%s' pseudo class : cannot find value"
+msgstr "无效的“%s”伪类：找不到值"
+
+#: gxml/CssSelectorParser.vala:280
+msgid "Cannot find end of pseudo class value"
+msgstr "无法找到伪类值的结尾"
+
+#: gxml/CssSelectorParser.vala:285
+msgid "Pseudo class value isn't a valid number"
+msgstr "伪类的值不是有效的数字"
+
+#: gxml/CssSelectorParser.vala:293
+msgid "current class doesn't start with letter"
+msgstr "当前类不以字母开头"
+
+#: gxml/CssSelectorParser.vala:303
+msgid "current id doesn't start with letter"
+msgstr "当前 id 不以字母开头"
+
+#: gxml/CssSelectorParser.vala:319 gxml/CssSelectorParser.vala:331
+msgid "Invalid attribute"
+msgstr "无效属性"
+
+#: gxml/CssSelectorParser.vala:357
+msgid "Invalid attribute selector"
+msgstr "无效的属性选择器"
+
+#: gxml/CssSelectorParser.vala:362
+#, c-format
+msgid "Invalid attribute selector. '=' expected but '%s' was found"
+msgstr "无效的属性选择器。期望“=”但找到“%s”"
+
+#: gxml/CssSelectorParser.vala:374
+msgid "Cannot find end of attribute value"
+msgstr "找不到属性值的结尾"
+
+#: gxml/CssSelectorParser.vala:378
+msgid "Cannot find end of attribute selector"
+msgstr "找不到属性选择器的结尾"
+
+#: gxml/CssSelectorParser.vala:425
+msgid "No selectors found"
+msgstr "找不到选择器"
+
+#: gxml/CssSelectorParser.vala:429
+#, c-format
+msgid "Last selector has combiner assigned (%s)"
+msgstr "最后一个选择器带有组合器（%s）"
+
+#: gxml/Document.vala:129
+#, c-format
+msgid "Error while attempting to instantiate root property object: %s"
+msgstr "尝试实例化根属性对象时出错：%s"
+
+#: gxml/Document.vala:189
+msgid "Creating a namespaced element with invalid node name"
+msgstr "正在创建的带命名空间元素其节点名称无效"
+
+#: gxml/Document.vala:196
+msgid "Creating a namespaced element with invalid namespace"
+msgstr "正在创建的带命名空间元素其命名空间无效"
+
+#: gxml/Document.vala:200
+msgid ""
+"Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
+msgstr "以 xmlns 为前缀的命名空间 URI 无效。使用 http://www.w3.org/2000/xmlns/"
+
+#: gxml/Document.vala:204
+msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
+msgstr "只有 xmlns 前缀可以用于 http://www.w3.org/2000/xmlns/"
+
+#: gxml/Document.vala:244 gxml/XDocument.vala:259
+msgid "Can't import a Document"
+msgstr "无法导入文档"
+
+#: gxml/Document.vala:246 gxml/XDocument.vala:261
+msgid "Can't import a non Element type node to a Document"
+msgstr "无法将非元素类型的节点导入到文档"
+
+#: gxml/Document.vala:270 gxml/XDocument.vala:285
+msgid "Can't adopt a Document"
+msgstr "无法采用文档"
+
+#. FIXME:
+#: gxml/Document.vala:448
+msgid "DomElement query_selector is not implemented"
+msgstr "DomElement query_selector 尚未实现"
+
+#. FIXME:
+#: gxml/Document.vala:452
+msgid "DomElement query_selector_all is not implemented"
+msgstr "DomElement query_selector_all 尚未实现"
+
+#: gxml/DomCharacter.vala:46
+msgid "Invalid offset for substring"
+msgstr "子字符串偏移量无效"
+
+#: gxml/DomCharacter.vala:66
+msgid "Invalid offset for replace data"
+msgstr "替换数据偏移量无效"
+
+#: gxml/DomCharacter.vala:80
+msgid "Invalid offset to split text"
+msgstr "分割文本的偏移量无效"
+
+#: gxml/DomNode.vala:133
+msgid "Text node with NULL string"
+msgstr "文本节点带有空字符串"
+
+#: gxml/DomNode.vala:140
+msgid "Can't copy child text node"
+msgstr "无法复制子文本节点"
+
+#: gxml/Element.vala:194
+msgid "Invalid namespace URI stored in element's attribute"
+msgstr "元素属性中存有无效的命名空间 URI"
+
+#: gxml/Element.vala:201 gxml/Element.vala:242
+msgid "Invalid attribute name in element's attributes list"
+msgstr "元素的属性列表中存在无效的属性名称"
+
+#: gxml/Element.vala:257
+msgid "Can't locate child node to remove"
+msgstr "无法定位要移除的子节点"
+
+#: gxml/Element.vala:487 gxml/Element.vala:553
+#, c-format
+msgid "Invalid attribute name: %s"
+msgstr "无效属性名称：%s"
+
+#: gxml/Element.vala:489 gxml/Element.vala:555
+msgid "Invalid node type. GXml.Attr was expected"
+msgstr "无效节点类型。期望 GXml.Attr"
+
+#: gxml/Element.vala:512 gxml/Element.vala:531
+#, c-format
+msgid "No index found for attribute %s"
+msgstr "找不到属性 %s 的索引"
+
+#: gxml/Element.vala:540
+#, c-format
+msgid "Invalid attribute's local name '%s': invalid use of ':' character"
+msgstr "属性的本地名称“%s”无效：“:”字符的用法无效"
+
+#: gxml/Element.vala:544
+#, c-format
+msgid "Namespace URI was not found: %s"
+msgstr "找不到命名空间 URI：%s"
+
+#: gxml/Element.vala:560
+msgid ""
+"Namespace attributes prefixed with 'xmlns' should use a namespace uri http://"
+"www.w3.org/2000/xmlns"
+msgstr ""
+"以“xmlns”为前缀的命名空间属性应使用命名空间 URI http://www.w3.org/2000/xmlns"
+
+#: gxml/Element.vala:564
+msgid ""
+"Namespace attributes prefixed with 'xml' should use a namespace uri http://"
+"www.w3.org/XML/1998/namespace"
+msgstr ""
+"以“xml”为前缀的命名空间属性应使用命名空间 URI http://www.w3.org/XML/1998/"
+"namespace"
+
+#: gxml/Element.vala:568
+msgid ""
+"Namespace attributes prefixed with 'xsi' should use a namespace uri http://"
+"www.w3.org/2001/XMLSchema-instance"
+msgstr ""
+"以“xsi”为前缀的命名空间属性应使用命名空间 URI http://www.w3.org/2001/"
+"XMLSchema-instance"
+
+#: gxml/Element.vala:572
+msgid ""
+"Namespace attributes prefixed with 'html' should use a namespace uri http://"
+"www.w3.org/1999/xhtml"
+msgstr ""
+"以“html”为前缀的命名空间属性应使用命名空间 URI http://www.w3.org/1999/xhtml"
+
+#: gxml/Element.vala:576
+msgid ""
+"Namespace attributes prefixed with 'MathML' should use a namespace uri "
+"http://www.w3.org/1998/Math/MathML"
+msgstr ""
+"以“MathML”为前缀的命名空间属性应使用命名空间 URI http://www.w3.org/1998/Math/"
+"MathML"
+
+#: gxml/Element.vala:580
+msgid ""
+"Namespace attributes prefixed with 'xlink' should use a namespace uri http://"
+"www.w3.org/1999/xlink"
+msgstr ""
+"以“xlink”为前缀的命名空间属性应使用命名空间 URI http://www.w3.org/1999/xlink"
+
+#: gxml/Element.vala:584
+msgid ""
+"Namespace attributes prefixed with 'svg' should use a namespace uri http://"
+"www.w3.org/2000/svg"
+msgstr ""
+"以“svg”为前缀的命名空间属性应使用命名空间 URI http://www.w3.org/2000/svg"
+
+#: gxml/Element.vala:591
+#, c-format
+msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
+msgstr "具有命名空间的属性应提供非 null、非空的前缀：%s"
+
+#: gxml/Element.vala:595
+msgid "Invalid namespace attribute's name."
+msgstr "命名空间属性的名称无效。"
+
+#: gxml/Element.vala:612
+#, c-format
+msgid "Trying to add an attribute with an undefined namespace's prefix: %s"
+msgstr "正在尝试添加的属性具有未定义的命名空间前缀：%s"
+
+#: gxml/Element.vala:619
+msgid "Trying to add an attribute with an undefined namespace's URI"
+msgstr "正在尝试添加的属性具有未定义的命名空间 URI"
+
+#: gxml/Element.vala:671
+#, c-format
+msgid "Error getting attribute with namespace: %s"
+msgstr "获取具有命名空间的属性时出错：%s"
+
+#: gxml/Element.vala:687
+msgid "Invalid attribute name. Just one prefix is allowed"
+msgstr "无效的属性名称。只允许一个前缀"
+
+#: gxml/Element.vala:692
+#, c-format
+msgid "Invalid attribute name. Invalid use of colon: %s"
+msgstr "无效的属性名称。冒号的用法无效：%s"
+
+#: gxml/Element.vala:696
+msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
+msgstr "无效的命名空间。如果前缀为 null，则命名空间 URI 不应为 null"
+
+#: gxml/Element.vala:700
+msgid ""
+"Invalid namespace definition. No prefixed attributes should use 'xmlns' as "
+"name"
+msgstr "无效的命名空间定义。具有前缀的属性不应使用“xmlns”作为名称"
+
+#: gxml/Element.vala:704
+msgid "'xml' namespace should not be defined"
+msgstr "“xml”命名空间不应被定义"
+
+#: gxml/Element.vala:708
+msgid "'xmlns' namespace should not be defined"
+msgstr "“xmlns”命名空间不应被定义"
+
+#: gxml/Element.vala:716
+msgid ""
+"Invalid namespace. If prefix is 'xml', namespace URI should be http://www.w3."
+"org/XML/1998/namespace"
+msgstr ""
+"无效的命名空间。如果前缀为“xml”，则命名空间 URI 应为 http://www.w3.org/"
+"XML/1998/namespace"
+
+#: gxml/Element.vala:723
+msgid ""
+"Invalid namespace definition. If attribute's prefix is 'xmlns', namespace "
+"URI should be http://www.w3.org/2000/xmlns"
+msgstr ""
+"无效的命名空间定义。如果属性的前缀为“xmlns”，则命名空间 URI 应为 http://www."
+"w3.org/2000/xmlns"
+
+#: gxml/Element.vala:730
+msgid ""
+"Invalid namespace. If attribute's prefix is 'html', namespace URI should be "
+"http://www.w3.org/1999/xhtml"
+msgstr ""
+"无效的命名空间。如果属性的前缀为“html”，则命名空间 URI 应为 http://www.w3."
+"org/1999/xhtml"
+
+#: gxml/Element.vala:737
+msgid ""
+"Invalid namespace. If attribute's prefix is 'xsi', namespace URI should be "
+"http://www.w3.org/2001/XMLSchema-instance"
+msgstr ""
+"无效的命名空间。如果属性的前缀为“xsi”，则命名空间 URI 应为 http://www.w3."
+"org/2001/XMLSchema-instance"
+
+#: gxml/Element.vala:744
+msgid ""
+"Invalid namespace. If attribute's prefix is 'MathML', namespace URI should "
+"be http://www.w3.org/1998/Math/MathML"
+msgstr ""
+"无效的命名空间。如果属性的前缀为“MathML”，则命名空间 URI 应为 http://www.w3."
+"org/1998/Math/MathML"
+
+#: gxml/Element.vala:751
+msgid ""
+"Invalid namespace. If attribute's prefix is 'svg', namespace URI should be "
+"http://www.w3.org/2000/svg"
+msgstr ""
+"无效的命名空间。如果属性的前缀为“svg”，则命名空间 URI 应为 http://www.w3."
+"org/2000/svg"
+
+#: gxml/Element.vala:758
+msgid ""
+"Invalid namespace. If attribute's prefix is 'xlink', namespace URI should be "
+"http://www.w3.org/1999/xlink"
+msgstr ""
+"无效的命名空间。如果属性的前缀为“xlink”，则命名空间 URI 应为 http://www.w3."
+"org/1999/xlink"
+
+#: gxml/Element.vala:763
+msgid "Setting namespaced property error: "
+msgstr "设置具有命名空间的属性时出错："
+
+#: gxml/Element.vala:769
+msgid "Removing attribute Error: "
+msgstr "移除属性时出错："
+
+#: gxml/Element.vala:774
+msgid "Removing namespaced attribute Error: "
+msgstr "移除具有命名空间的属性时出错："
+
+#: gxml/Element.vala:940
+#, c-format
+msgid "Error parsing child's buffer: %s"
+msgstr "解析子节点的缓冲区时出错：%s"
+
+#: gxml/Enumeration.vala:88
 msgid "value is invalid"
 msgstr "值无效"
 
-#: ../gxml/Enumeration.vala:129
-msgid "text cannot be parsed to enumeration type:"
-msgstr "文本不能被解析为枚举类型："
+#: gxml/Enumeration.vala:129
+#, c-format
+msgid "text '%s' cannot be parsed to enumeration type: %s"
+msgstr "文本“%s”无法被解析为枚举类型：%s"
 
-#: ../gxml/GXmlDocument.vala:49 ../gxml/TDocument.vala:475
+#: gxml/HashPairedMap.vala:210
+msgid "No primary key and/or secondary key was found"
+msgstr "找不到主键和/或次键"
+
+#: gxml/Node.vala:156
+msgid "Text content in element can't be created"
+msgstr "无法创建元素中的文本内容"
+
+#: gxml/Node.vala:209 gxml/XNode.vala:309
+msgid "Can't find node position"
+msgstr "找不到节点位置"
+
+#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:340
+#: gxml/XNode.vala:371
+msgid "Invalid attempt to add invalid node type"
+msgstr "添加无效节点类型的尝试无效"
+
+#: gxml/Node.vala:260 gxml/XNode.vala:342
+msgid "Can't find child to insert node before"
+msgstr "找不到要在其前面插入节点的子节点"
+
+#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:346
+#: gxml/XNode.vala:377
+msgid "Invalid attempt to insert a node"
+msgstr "插入节点的尝试无效"
+
+#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:353
+#: gxml/XNode.vala:384
+msgid "Invalid attempt to insert an invalid node type"
+msgstr "插入无效节点类型的尝试无效"
+
+#: gxml/Node.vala:291
+msgid "Node type is invalid. Can't append as child"
+msgstr "节点类型无效。无法追加为子节点"
+
+#: gxml/Node.vala:294
+msgid "Invalid attempt to append a child with different parent document"
+msgstr "追加具有不同父文档的子节点的尝试无效"
+
+#: gxml/Node.vala:302 gxml/XNode.vala:373
+msgid "Can't find child node to replace or child have a different parent"
+msgstr "找不到要替换的子节点，或子节点具有不同的父节点"
+
+#: gxml/Node.vala:316 gxml/XNode.vala:356 gxml/XNode.vala:387
+msgid ""
+"Invalid attempt to insert a document's type or text node to an invalid parent"
+msgstr "将文档类型或文本节点插入到无效父节点的尝试无效"
+
+#: gxml/Node.vala:328 gxml/XNode.vala:399
+msgid "Can't find child node to remove or child have a different parent"
+msgstr "找不到要移除的子节点，或子节点具有不同的父节点"
+
+#: gxml/Object.vala:170
+msgid "Enumeration is out of range"
+msgstr "枚举越界"
+
+#: gxml/Object.vala:285
+msgid "Enumeration can't be parsed from string"
+msgstr "无法由字符串解析出枚举"
+
+#: gxml/Object.vala:407
+#, c-format
+msgid "Error while attempting to instantiate property object: %s"
+msgstr "尝试实例化属性对象时出错：%s"
+
+#: gxml/Object.vala:456
+msgid "Can't set value. It is not a GXmlGXml.Element type"
+msgstr "无法设置值。它不是 GXmlGXml.Element 类型"
+
+#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:61
 msgid "File doesn't exist"
 msgstr "文件不存在"
 
-#: ../gxml/GXmlDocument.vala:73
+#: gxml/Parser.vala:193
+msgid ""
+"Invalid attempt to parse an element node, when current found node is not"
+msgstr "在当前找到的节点不是元素节点时，解析元素节点的尝试无效"
+
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:242
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: items' type property was "
+"not set at construction time or set to invalid type"
+msgstr "集合“%s”未被正确构造：项目的类型属性在构造时没有设置或设置成了无效类型"
+
+#: gxml/Parser.vala:285 gxml/StreamReader.vala:246
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: items' name property was "
+"not set at construction time"
+msgstr "集合“%s”未被正确构造：项目的名称属性在构造时没有设置"
+
+#: gxml/Parser.vala:289 gxml/StreamReader.vala:250
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: element property was not "
+"set at construction time"
+msgstr "集合“%s”未被正确构造：元素属性在构造时没有设置"
+
+#: gxml/Parser.vala:293 gxml/StreamReader.vala:254
+#, c-format
+msgid ""
+"Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
+"be handled by the collection"
+msgstr "未实现 GXml.Object 接口的“%s”类型的对象无效：无法被集合处理"
+
+#: gxml/Parser.vala:298
+msgid "No document is set to node"
+msgstr "节点的文档未设置"
+
+#: gxml/Parser.vala:323 gxml/XParser.vala:107 gxml/XParser.vala:113
+msgid "Invalid document string, it is empty or is not allowed"
+msgstr "无效的文档字符串，为空或不被允许"
+
+#: gxml/Property.vala:389
+#, c-format
+msgid "Error when transform enum to attribute's value: %s"
+msgstr "将枚举转换为属性值时出错：%s"
+
+#: gxml/Property.vala:398
+#, c-format
+msgid "Error when transform from attribute string value to enum: %s"
+msgstr "将属性的字符串值转换为枚举时出错：%s"
+
+#: gxml/Property.vala:462 gxml/Property.vala:469
+msgid "Invalid Date for property: "
+msgstr "属性的日期无效："
+
+#: gxml/Property.vala:464
+msgid "Invalid format for Date property: "
+msgstr "日期属性的格式无效："
+
+#: gxml/Property.vala:511
+msgid "Invalid timestamp for property: "
+msgstr "属性的时间戳无效： "
+
+#: gxml/Range.vala:53 gxml/Range.vala:81 gxml/Range.vala:154
+msgid "Invalid node type to start"
+msgstr "起始节点的类型无效"
+
+#: gxml/Range.vala:56 gxml/Range.vala:84
+msgid "Invalid offset for node to start: for document type"
+msgstr "起始节点的偏移量无效：文档类型"
+
+#: gxml/Range.vala:60 gxml/Range.vala:88
+msgid "Invalid offset for node to start: for character data"
+msgstr "起始节点的偏移量无效：字符数据"
+
+#: gxml/Range.vala:63 gxml/Range.vala:91
+msgid "Invalid offset for node to start: for children number"
+msgstr "起始节点的偏移量无效：子节点数"
+
+#: gxml/Range.vala:107 gxml/Range.vala:121
+msgid "Invalid node type to start before"
+msgstr "起始节点之前的节点类型无效"
+
+#: gxml/Range.vala:112 gxml/Range.vala:126 gxml/Range.vala:144
+msgid "Invalid node type to start after"
+msgstr "起始节点之后的节点类型无效"
+
+#: gxml/Range.vala:169
+msgid "Invalid root in the source range"
+msgstr "源范围中的根无效"
+
+#: gxml/StreamReader.vala:143
+msgid "Invalid document: expected '<' character"
+msgstr "无效文档：期望“<”字符"
+
+#: gxml/StreamReader.vala:151
+msgid "Invalid document: unexpected space character before node's name"
+msgstr "无效文档：节点名称之前有意外的空格符"
+
+#: gxml/StreamReader.vala:185
+#, c-format
+msgid "Parent '%s' is not implementing GXml.Object interface"
+msgstr "父节点“%s”未实现 GXml.Object 接口"
+
+#: gxml/StreamReader.vala:332 gxml/StreamReader.vala:336
+#: gxml/StreamReader.vala:348
+msgid "Invalid comment declaration"
+msgstr "无效的注释声明"
+
+#: gxml/StreamReader.vala:369
+msgid "Invalid Processing Instruccion's target declaration"
+msgstr "处理指令的目标声明无效"
+
+#: gxml/StreamReader.vala:396
+msgid "Invalid Processing Instruccion's close declaration"
+msgstr "处理指令的闭合声明无效"
+
+#: gxml/TokenList.vala:54
+msgid ""
+"DOM: Invalid token. No empty string could be used as token to check if it is "
+"contained in token list"
+msgstr ""
+"DOM：无效 token。空字符串不能用作 token 来检查它是否包含在 token 列表中"
+
+#: gxml/TokenList.vala:56
+msgid ""
+"DOM: Invalid token. No white spaces could be included as token to check if "
+"it is contained in token list"
+msgstr ""
+"DOM：无效 token。空格符不能包含于 token 来检查它是否包含在 token 列表中"
+
+#: gxml/TokenList.vala:63 gxml/TokenList.vala:86
+msgid "DOM: Invalid token. Empty string can't be used as token"
+msgstr "DOM：无效 token。空字符串不能用作 token"
+
+#: gxml/TokenList.vala:65 gxml/TokenList.vala:88
+msgid "DOM: Invalid token. White spaces can't be used as token"
+msgstr "DOM：无效 token。空格符不能用于 token"
+
+#: gxml/TokenList.vala:102
+msgid "Update Error: "
+msgstr "更新错误： "
+
+#: gxml/XDocument.vala:146
+#, c-format
+msgid "Error writing document to string: %s"
+msgstr "将文档写入到字符串时出错：%s"
+
+#: gxml/XDocument.vala:214
+msgid "Invalid element qualified name: multiple namespace prefixes"
+msgstr "元素的限定名无效：多重命名空间前缀"
+
+#: gxml/XdParser.vala:65
 msgid "stream doesn't provide data"
-msgstr "stream 不提供数据"
+msgstr "流未提供数据"
 
-#: ../gxml/libxml-ChildNodeList.vala:148
+#: gxml/XdParser.vala:80
+msgid "Parser Error for string"
+msgstr "字符串解析器错误"
+
+#: gxml/XElement.vala:148
 #, c-format
-msgid "ref_child '%s' not found, was supposed to have '%s' inserted before it."
-msgstr "ref_child “%s” 未找到，假设有 “%s” 在它前面插入。"
+msgid "Error while converting Element to string: %s"
+msgstr "将元素转换为字符串时出错：%s"
 
-#: ../gxml/libxml-Document.vala:127
+#: gxml/XElement.vala:348
 #, c-format
-msgid "Looking up %s from an xmlNode* is not supported"
-msgstr "从 xmlNode* 查询 %s 未被支持"
+msgid "invalid namespace. Code: %s"
+msgstr "无效的命名空间。代码：%s"
 
-#: ../gxml/libxml-Document.vala:302
+#: gxml/XHashMapAttr.vala:243
+msgid "Invalid document when adding item to collection"
+msgstr "将项目添加到集合时文档无效"
+
+#: gxml/XHashMapAttr.vala:245 gxml/XHashMapAttr.vala:297
+msgid "This node collection is read only"
+msgstr "该节点集合是只读的"
+
+#: gxml/XHashMapAttr.vala:247 gxml/XHashMapAttr.vala:299
+msgid "This node attribute is already in use by other Element"
+msgstr "该节点属性已被其他元素使用"
+
+#: gxml/XHashMapAttr.vala:249 gxml/XHashMapAttr.vala:301
+msgid "Trying to add an object to an Element, but it is not an attribute"
+msgstr "尝试将一个对象添加到元素，但该对象不是属性"
+
+#: gxml/XHashMapAttr.vala:261 gxml/XHashMapAttr.vala:317
 #, c-format
-msgid "Could not load document from path: %s"
-msgstr "无法从路径：%s 加载文档"
+msgid "No node with name %s was found"
+msgstr "找不到名称为 %s 的节点"
 
-#: ../gxml/libxml-Entity.vala:129
-msgid "Cloning of Entity not yet supported"
-msgstr "尚不支持 Entity 克隆"
+#: gxml/XHashMapAttr.vala:263 gxml/XHashMapAttr.vala:319
+msgid "Node collection is read only"
+msgstr "节点集合是只读的"
 
-#. TODO: replace usage of this with GXml.get_last_error_msg
-#: ../gxml/libxml-Error.vala:12
+#: gxml/XHashMapAttr.vala:295
+msgid "Invalid document when adding item to named node map collection"
+msgstr "将项目添加到命名节点映射集合时文档无效"
+
+#: gxml/XNode.vala:44
 #, c-format
 msgid "%s:%s:%d: %s:%d: %s"
-msgstr "%s:%s:%d: %s:%d: %s"
+msgstr "%s:%s:%d：%s:%d：%s"
 
-#: ../gxml/libxml-Node.vala:67
-msgid ""
-"Node tried to interact with a different document than the one it belongs to"
-msgstr "节点尝试与一个不同的文档交互，而不是其所属文档"
-
-#: ../gxml/Node.vala:180
-msgid "Text node with NULL string"
-msgstr "包含空字符串的文本节点"
-
-#: ../gxml/SerializableEnum.vala:72
-msgid "Value can't be parsed to a valid enumeration's value. Value is not set"
-msgstr "值不能被解析为有效枚举值。值未被设置"
-
-#: ../gxml/SerializableEnum.vala:75
-msgid "Value can't be parsed to a valid enumeration's value"
-msgstr "值不能被解析为有效枚举值"
-
-#: ../gxml/SerializableGeeArrayList.vala:41
-#: ../gxml/SerializableGeeArrayList.vala:60
-#: ../gxml/SerializableGeeDualKeyMap.vala:43
-#: ../gxml/SerializableGeeDualKeyMap.vala:64
-#: ../gxml/SerializableGeeHashMap.vala:40
-#: ../gxml/SerializableGeeHashMap.vala:61
-#: ../gxml/SerializableGeeTreeMap.vala:40
-#: ../gxml/SerializableGeeTreeMap.vala:61
+#: gxml/XNode.vala:246
 #, c-format
-msgid "%s: Value type '%s' is unsupported"
-msgstr "%s：值类型“%s”不被支持"
+msgid "Error while setting text content to node: %s"
+msgstr "为节点设置文本内容时出错：%s"
 
-#: ../gxml/SerializableObjectModel.vala:322
+#: gxml/XParser.vala:123
+msgid "Invalid input stream to read data from"
+msgstr "用于读取数据的输入流无效"
+
+#: gxml/XParser.vala:143
 #, c-format
-msgid "WARNING: Object type '%s' has no Node Name defined"
-msgstr "警告：对象类型 “%s” 无被定义的节点名称"
+msgid "Error reading stream: %s"
+msgstr "读取流时出错：%s"
 
-#: ../gxml/SerializableObjectModel.vala:326
+#: gxml/XParser.vala:156
 #, c-format
-msgid "Actual node's name is '%s' expected '%s'"
-msgstr "实际节点名称为 “%s”，预期名称为 “%s”"
+msgid "Error closing stream: %s"
+msgstr "关闭流时出错：%s"
 
-#: ../gxml/SerializableProperty.vala:91
-msgid "Trying to serialize to a non GXmlElement!"
-msgstr "正在尝试序列化至一个非 GXmlElement！"
+#: gxml/XParser.vala:197 gxml/XParser.vala:259 gxml/XParser.vala:268
+#: gxml/XParser.vala:317 gxml/XParser.vala:330 gxml/XParser.vala:382
+msgid "Internal Error: No TextReader was set"
+msgstr "内部错误：没有设置 TextReader"
 
-#: ../gxml/SerializableProperty.vala:110
-msgid "No attribute found to deserialize from"
-msgstr "未发现反序列化的属性"
+#: gxml/XParser.vala:271
+msgid "Can't read node data"
+msgstr "无法读取节点数据"
 
-#: ../gxml/SerializableProperty.vala:115
+#: gxml/XParser.vala:335
 #, c-format
-msgid "XML Attribute name is not set, when deserializing to: %s"
-msgstr "反序列化到 %s 时 XML 属性名称未被指定"
+msgid "Parsing ERROR: Fail to move to attribute number: %i"
+msgstr "解析错误：无法移动到属性号：%i"
 
-#: ../gxml/Serializable.vala:439
+#: gxml/XParser.vala:427
+msgid "Invalid sequence for document type definition: "
+msgstr "无效的文档类型定义序列： "
+
+#: gxml/XParser.vala:492 gxml/XParser.vala:598 gxml/XParser.vala:670
+msgid "Internal Error: No TextWriter initialized"
+msgstr "内部错误：未初始化 TextWriter"
+
+#: gxml/XsdSchema.vala:266
 #, c-format
-msgid "Transformation Error on '%s' or Unsupported type: '%s'"
-msgstr "“%s” 转换错误或不支持类型 “%s”"
+msgid "Error removing Collection's element: %s"
+msgstr "移除集合的元素时出错：%s"
 
-#: ../gxml/Serializable.vala:460
+#: gxml/XsdSchema.vala:275
 #, c-format
-msgid "Can't transform '%s' to string"
-msgstr "不能将 “%s” 转换为字符串"
+msgid "Can't find element at position: %i: %s"
+msgstr "无法在以下位置找到元素：%i：%s"
 
-#: ../gxml/TDocument.vala:152
-msgid "Document has more than one root GXmlElement. Using first found"
-msgstr "文档存在多个根 GXmlElement。使用第一个找到的。"
+#: gxml/XsdSchema.vala:289 gxml/XsdSchema.vala:297 gxml/XsdSchema.vala:305
+#: gxml/XsdSchema.vala:313 gxml/XsdSchema.vala:321
+#, c-format
+msgid "Collection type %s, initialization error: %s"
+msgstr "集合类型 %s，初始化错误：%s"
 
-#: ../gxml/TDocument.vala:171
-msgid "Invalid element name"
-msgstr "无效元素名称"
+#~ msgid ""
+#~ "ref_child '%s' not found, was supposed to have '%s' inserted before it."
+#~ msgstr "ref_child “%s” 未找到，假设有 “%s” 在它前面插入。"
+
+#~ msgid "Looking up %s from an xmlNode* is not supported"
+#~ msgstr "从 xmlNode* 查询 %s 未被支持"
+
+#~ msgid "Could not load document from path: %s"
+#~ msgstr "无法从路径：%s 加载文档"
+
+#~ msgid "Cloning of Entity not yet supported"
+#~ msgstr "尚不支持 Entity 克隆"
+
+#~ msgid ""
+#~ "Node tried to interact with a different document than the one it belongs "
+#~ "to"
+#~ msgstr "节点尝试与一个不同的文档交互，而不是其所属文档"
+
+#~ msgid ""
+#~ "Value can't be parsed to a valid enumeration's value. Value is not set"
+#~ msgstr "值不能被解析为有效枚举值。值未被设置"
+
+#~ msgid "Value can't be parsed to a valid enumeration's value"
+#~ msgstr "值不能被解析为有效枚举值"
+
+#~ msgid "%s: Value type '%s' is unsupported"
+#~ msgstr "%s：值类型“%s”不被支持"
+
+#~ msgid "WARNING: Object type '%s' has no Node Name defined"
+#~ msgstr "警告：对象类型 “%s” 无被定义的节点名称"
+
+#~ msgid "Actual node's name is '%s' expected '%s'"
+#~ msgstr "实际节点名称为 “%s”，预期名称为 “%s”"
+
+#~ msgid "Trying to serialize to a non GXmlElement!"
+#~ msgstr "正在尝试序列化至一个非 GXmlElement！"
+
+#~ msgid "No attribute found to deserialize from"
+#~ msgstr "未发现反序列化的属性"
+
+#~ msgid "XML Attribute name is not set, when deserializing to: %s"
+#~ msgstr "反序列化到 %s 时 XML 属性名称未被指定"
+
+#~ msgid "Transformation Error on '%s' or Unsupported type: '%s'"
+#~ msgstr "“%s” 转换错误或不支持类型 “%s”"
+
+#~ msgid "Can't transform '%s' to string"
+#~ msgstr "不能将 “%s” 转换为字符串"
+
+#~ msgid "Document has more than one root GXmlElement. Using first found"
+#~ msgstr "文档存在多个根 GXmlElement。使用第一个找到的。"
