@@ -428,8 +428,10 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
 				return false;
 			}
 			string pid = info.fetch_named ("pid");
+			if (pid == "") pid = null;
 			if (pid != null) pid = pid.replace ("\"","").chomp ().strip ();
 			string sid = info.fetch_named ("sid");
+			if (sid == "") sid = null;
 			if (sid != null) sid = sid.replace ("\"","").chomp ().strip ();
       n = new GXml.DocumentType (_document, tr.const_local_name (), pid, sid);
       parent.append_child (n);
