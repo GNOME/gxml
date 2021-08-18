@@ -268,7 +268,7 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
       throw new ParserError.INVALID_DATA_ERROR (_("Internal Error: No TextReader was set"));
     int res = tr.read ();
     if (res == -1)
-      throw new ParserError.INVALID_DATA_ERROR (_("Can't read node data"));
+      throw new ParserError.INVALID_DATA_ERROR (_("Can't read node data at line: %d"), tr.get_parser_line_number ());
     if (res == 0) {
       return false;
     }
@@ -332,7 +332,7 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
     for (int i = 0; i < nattr; i++) {
       var c = tr.move_to_attribute_no (i);
       if (c != 1) {
-        throw new DomError.HIERARCHY_REQUEST_ERROR (_("Parsing ERROR: Fail to move to attribute number: %i").printf (i));
+        throw new DomError.HIERARCHY_REQUEST_ERROR (_("Parsing ERROR: Fail to move to attribute number: %i at line: %d"), i, tr.get_parser_line_number ());
       }
       if (tr.is_namespace_decl () == 1) {
         string nsp = tr.const_local_name ();
