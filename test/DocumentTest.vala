@@ -752,6 +752,25 @@ class DocumentTest : GLib.Object {
 		    assert_not_reached ();
 		  }
 		});
+		Test.add_func ("/gxml/document/doc-type/read/html", () => {
+			try {
+				var d = new GXml.Document.from_string ("<!DOCTYPE html><html/>");
+				message (d.write_string ());
+				message (d.child_nodes.length.to_string ());
+				assert (d.child_nodes.length == 2);
+				var dt1 = d.child_nodes[0] as DomDocumentType;
+				assert (dt1 != null);
+				assert (dt1 is DomDocumentType);
+				assert (dt1.node_type == DomNode.NodeType.DOCUMENT_TYPE_NODE);
+				assert (dt1.node_name == "!DOCTYPE");
+				assert (dt1.name == "html");
+				assert (dt1.public_id == null);
+				assert (dt1.system_id == null);
+			} catch (GLib.Error e) {
+		    GLib.message ("Error: "+e.message);
+		    assert_not_reached ();
+		  }
+		});
 		Test.add_func ("/gxml/gom-document/element-id", () => {
 			try {
 				var d = new GXml.Document.from_string ("""<root><child id="id1"/><child id="id2"/></root>""") as DomDocument;
