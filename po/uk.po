@@ -2,22 +2,21 @@
 # Copyright (C) 2020 gxml's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gxml package.
 #
-# Yuri Chornoivan <yurchor@ukr.net>, 2020.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml gxml-0.18\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2020-06-01 04:06+0000\n"
-"PO-Revision-Date: 2020-06-01 11:48+0300\n"
+"POT-Creation-Date: 2021-08-21 23:35+0000\n"
+"PO-Revision-Date: 2021-08-22 09:33+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Lokalize 20.03.70\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Lokalize 20.12.0\n"
 
 #: gxml/BaseCollection.vala:91
 msgid ""
@@ -172,15 +171,15 @@ msgstr ""
 "Разом із http://www.w3.org/2000/xmlns/ можна використовувати лише префікси "
 "xmlns"
 
-#: gxml/Document.vala:244 gxml/XDocument.vala:252
+#: gxml/Document.vala:244 gxml/XDocument.vala:259
 msgid "Can't import a Document"
 msgstr "Не вдалося імпортувати документ"
 
-#: gxml/Document.vala:246 gxml/XDocument.vala:254
+#: gxml/Document.vala:246 gxml/XDocument.vala:261
 msgid "Can't import a non Element type node to a Document"
 msgstr "Не вдалося імпортувати вузол неелементного типу до документа"
 
-#: gxml/Document.vala:270 gxml/XDocument.vala:278
+#: gxml/Document.vala:270 gxml/XDocument.vala:285
 msgid "Can't adopt a Document"
 msgstr "Не вдалося адаптувати документ"
 
@@ -452,26 +451,26 @@ msgstr "Не знайдено основного і/або вторинного 
 msgid "Text content in element can't be created"
 msgstr "Не вдалося створити текстовий вміст у елементі"
 
-#: gxml/Node.vala:209 gxml/XNode.vala:279
+#: gxml/Node.vala:209 gxml/XNode.vala:309
 msgid "Can't find node position"
 msgstr "Не вдалося знайти позицію вузла"
 
-#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:310
-#: gxml/XNode.vala:341
+#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:340
+#: gxml/XNode.vala:371
 msgid "Invalid attempt to add invalid node type"
 msgstr "Некоректна спроба додати некоректний тип вузла"
 
-#: gxml/Node.vala:260 gxml/XNode.vala:312
+#: gxml/Node.vala:260 gxml/XNode.vala:342
 msgid "Can't find child to insert node before"
 msgstr "Не вдалося знайти дочірній елемент для вставлення вузла перед ним"
 
-#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:316
-#: gxml/XNode.vala:347
+#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:346
+#: gxml/XNode.vala:377
 msgid "Invalid attempt to insert a node"
 msgstr "Некоректна спроба вставити вузол"
 
-#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:323
-#: gxml/XNode.vala:354
+#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:353
+#: gxml/XNode.vala:384
 msgid "Invalid attempt to insert an invalid node type"
 msgstr "Некоректна спроба вставити некоректний тип вузла"
 
@@ -484,20 +483,20 @@ msgid "Invalid attempt to append a child with different parent document"
 msgstr ""
 "Некоректна спроба дописати дочірній елемент із іншим батьківським документом"
 
-#: gxml/Node.vala:302 gxml/XNode.vala:343
+#: gxml/Node.vala:302 gxml/XNode.vala:373
 msgid "Can't find child node to replace or child have a different parent"
 msgstr ""
 "Не вдалося знайти дочірній вузол для заміни або дочірній вузол має інший "
 "батьківський"
 
-#: gxml/Node.vala:316 gxml/XNode.vala:326 gxml/XNode.vala:357
+#: gxml/Node.vala:316 gxml/XNode.vala:356 gxml/XNode.vala:387
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr ""
 "Некоректна спробу вставити тип документа або текстовий вузол до некоректного "
 "батьківського"
 
-#: gxml/Node.vala:328 gxml/XNode.vala:369
+#: gxml/Node.vala:328 gxml/XNode.vala:399
 msgid "Can't find child node to remove or child have a different parent"
 msgstr ""
 "Не вдалося знайти дочірній вузол для вилучення або дочірній вузол має інший "
@@ -522,7 +521,7 @@ msgstr ""
 "Не вдалося встановити значення. Цей елемент не належить до типу GXmlGXml."
 "Element"
 
-#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:57
+#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:61
 msgid "File doesn't exist"
 msgstr "Файла не існує"
 
@@ -629,12 +628,10 @@ msgid "Invalid root in the source range"
 msgstr "Некоректний кореневий елемент у діапазоні джерела"
 
 #: gxml/StreamReader.vala:143
-#| msgid "Invalid document: unexpected character '%c'"
 msgid "Invalid document: expected '<' character"
 msgstr "Некоректний документ: мало бути вказано символ «<»"
 
 #: gxml/StreamReader.vala:151
-#| msgid "Invalid document: unexpected character before node's name"
 msgid "Invalid document: unexpected space character before node's name"
 msgstr ""
 "Некоректний документ: неочікуваний пробільний символ перед назвою вузла"
@@ -685,12 +682,12 @@ msgstr "DOM: некоректний ключ. Пробіли не можна в�
 msgid "Update Error: "
 msgstr "Помилка оновлення: "
 
-#: gxml/XDocument.vala:139
+#: gxml/XDocument.vala:146
 #, c-format
 msgid "Error writing document to string: %s"
 msgstr "Помилка під час спроби записати документ до рядка: %s"
 
-#: gxml/XDocument.vala:207
+#: gxml/XDocument.vala:214
 msgid "Invalid element qualified name: multiple namespace prefixes"
 msgstr "Некоректна складена назва елемента: декілька префіксів просторів назв"
 
@@ -742,12 +739,12 @@ msgid "Invalid document when adding item to named node map collection"
 msgstr ""
 "Некоректний документ при додаванні запису до іменованої збірки мап вузлів"
 
-#: gxml/XNode.vala:43
+#: gxml/XNode.vala:44
 #, c-format
 msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
 
-#: gxml/XNode.vala:216
+#: gxml/XNode.vala:246
 #, c-format
 msgid "Error while setting text content to node: %s"
 msgstr "Помилка під час спроби встановити текстовий вміст для вузла: %s"
@@ -772,19 +769,22 @@ msgid "Internal Error: No TextReader was set"
 msgstr "Внутрішня помилка: не встановлено TextReader"
 
 #: gxml/XParser.vala:271
-msgid "Can't read node data"
-msgstr "Не вдалося прочитати дані вузла"
+#, c-format
+#| msgid "Can't read node data"
+msgid "Can't read node data at line: %d"
+msgstr "Не вдалося прочитати дані вузла у рядку %d"
 
 #: gxml/XParser.vala:335
 #, c-format
-msgid "Parsing ERROR: Fail to move to attribute number: %i"
-msgstr "Помилка обробки: не вдалося перейти до атрибута із номером %i"
+#| msgid "Parsing ERROR: Fail to move to attribute number: %i"
+msgid "Parsing ERROR: Fail to move to attribute number: %i at line: %d"
+msgstr "Помилка обробки: не вдалося перейти до атрибута із номером %i у рядку %d"
 
 #: gxml/XParser.vala:427
 msgid "Invalid sequence for document type definition: "
 msgstr "Некоректна послідовність для визначення типу документа:"
 
-#: gxml/XParser.vala:492 gxml/XParser.vala:598 gxml/XParser.vala:670
+#: gxml/XParser.vala:494 gxml/XParser.vala:600 gxml/XParser.vala:672
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Внутрішня помилка: TextWriter не ініціалізовано"
 
