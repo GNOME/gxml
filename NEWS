@@ -1,4 +1,22 @@
 ===============
+Version 0.20.1
+===============
+* XParser: provides the line number on parsing error
+* XParser: MatchInfo.fetch_named() returns an empty string for no result
+* XNode: Fix memory leak when cloning
+* XParser: Fix memory leaks
+* XDocument: Fix memory leak
+* Updated translations:
+    Basque                 by Asier Sarasua Garmendia <asier.sarasua@gmail.com>
+    German                 by Philipp Kiemle <philipp.kiemle@gmail.com>
+    Servian                by Мирослав Николић <miroslavnikolic@rocketmail.com>
+    Czech                  by Marek Černocký <marek@manet.cz>
+    Hungarian              by Balázs Úr <balazs@urbalazs.hu>
+    Swedish                by Anders Jonsson <anders.jonsson@norsjovallen.se>
+    Brazillian Portuguese  by Enrico Nicoletto <liverig@gmail.com>
+    Indonesian             by Andika Triwidada <atriwidada@gnome.org>
+
+===============
 Version 0.20.0
 ===============
 * Add more CSS version 3 expressions
