@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the gxml package.
 # Anders Jonsson <anders.jonsson@norsjovallen.se>, 2016, 2018, 2019, 2020.
 # Josef Andersson <l10nl18nsweja@gmail.com>, 2017.
+# Luna Jernberg <droidbittin@gmail.com>, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2020-08-17 14:01+0000\n"
-"PO-Revision-Date: 2020-09-10 20:46+0200\n"
+"POT-Creation-Date: 2021-08-23 03:06+0000\n"
+"PO-Revision-Date: 2021-08-23 21:44+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -17,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 3.0\n"
 
 #: gxml/BaseCollection.vala:91
 msgid ""
@@ -165,16 +166,16 @@ msgstr ""
 msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
 msgstr "Endast xmlns-prefix kan användas med http://www.w3.org/2000/xmlns/"
 
-#: gxml/Document.vala:244 gxml/XDocument.vala:252
+#: gxml/Document.vala:244 gxml/XDocument.vala:259
 msgid "Can't import a Document"
 msgstr "Det går inte att importera ett dokument"
 
-#: gxml/Document.vala:246 gxml/XDocument.vala:254
+#: gxml/Document.vala:246 gxml/XDocument.vala:261
 msgid "Can't import a non Element type node to a Document"
 msgstr ""
 "Det går inte att importera en typ som inte är ett element till ett dokument"
 
-#: gxml/Document.vala:270 gxml/XDocument.vala:278
+#: gxml/Document.vala:270 gxml/XDocument.vala:285
 msgid "Can't adopt a Document"
 msgstr "Det går inte att ta in ett dokument som underordnad nod"
 
@@ -444,26 +445,26 @@ msgstr "Ingen primärnyckel och/eller sekundärnyckel hittades"
 msgid "Text content in element can't be created"
 msgstr "Kan inte skapa textinnehåll i element"
 
-#: gxml/Node.vala:209 gxml/XNode.vala:279
+#: gxml/Node.vala:209 gxml/XNode.vala:309
 msgid "Can't find node position"
 msgstr "Det går inte att hitta nodposition"
 
-#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:310
-#: gxml/XNode.vala:341
+#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:340
+#: gxml/XNode.vala:371
 msgid "Invalid attempt to add invalid node type"
 msgstr "Ogiltigt försök att lägga till ogiltig nodtyp"
 
-#: gxml/Node.vala:260 gxml/XNode.vala:312
+#: gxml/Node.vala:260 gxml/XNode.vala:342
 msgid "Can't find child to insert node before"
 msgstr "Det går inte att hitta underordnad nod för att infoga noden innan"
 
-#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:316
-#: gxml/XNode.vala:347
+#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:346
+#: gxml/XNode.vala:377
 msgid "Invalid attempt to insert a node"
 msgstr "Ogiltigt försök till att infoga en nod"
 
-#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:323
-#: gxml/XNode.vala:354
+#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:353
+#: gxml/XNode.vala:384
 msgid "Invalid attempt to insert an invalid node type"
 msgstr "Ogiltigt försök att infoga en ogiltig nodtyp"
 
@@ -476,20 +477,20 @@ msgid "Invalid attempt to append a child with different parent document"
 msgstr ""
 "Ogiltigt försök att lägga till en nod med ett annat överordnat dokument"
 
-#: gxml/Node.vala:302 gxml/XNode.vala:343
+#: gxml/Node.vala:302 gxml/XNode.vala:373
 msgid "Can't find child node to replace or child have a different parent"
 msgstr ""
 "Det går inte att hitta underordnad nod för att ersätta eller så har "
 "underordnad nod en annan överordnad nod"
 
-#: gxml/Node.vala:316 gxml/XNode.vala:326 gxml/XNode.vala:357
+#: gxml/Node.vala:316 gxml/XNode.vala:356 gxml/XNode.vala:387
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr ""
 "Ogiltigt försök att infoga ett dokuments typ- eller textnod till en ogiltig "
 "överordnad nod"
 
-#: gxml/Node.vala:328 gxml/XNode.vala:369
+#: gxml/Node.vala:328 gxml/XNode.vala:399
 msgid "Can't find child node to remove or child have a different parent"
 msgstr ""
 "Det går inte att hitta underordnad nod att ta bort eller så har underordnad "
@@ -512,7 +513,7 @@ msgstr "Fel vid försök att instansiera egenskapsobjektet: %s"
 msgid "Can't set value. It is not a GXmlGXml.Element type"
 msgstr "Kan inte sätta värdet. Det är inte en GXmlGXml.Element-typ"
 
-#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:57
+#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:61
 msgid "File doesn't exist"
 msgstr "Fil existerar inte"
 
@@ -671,12 +672,12 @@ msgstr "DOM: Ogiltigt token. Blanktecken kan inte användas som token"
 msgid "Update Error: "
 msgstr "Uppdateringsfel: "
 
-#: gxml/XDocument.vala:139
+#: gxml/XDocument.vala:146
 #, c-format
 msgid "Error writing document to string: %s"
 msgstr "Fel vid skrivning av dokument till sträng: %s"
 
-#: gxml/XDocument.vala:207
+#: gxml/XDocument.vala:214
 msgid "Invalid element qualified name: multiple namespace prefixes"
 msgstr "Ogiltigt kvalificerat elementnamn: flera namnrymdsprefix"
 
@@ -729,12 +730,12 @@ msgstr "Nodsamlingen är skrivskyddad"
 msgid "Invalid document when adding item to named node map collection"
 msgstr "Ogiltigt dokument vid tillägg av objekt till en namngiven nodsamling"
 
-#: gxml/XNode.vala:43
+#: gxml/XNode.vala:44
 #, c-format
 msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
 
-#: gxml/XNode.vala:216
+#: gxml/XNode.vala:246
 #, c-format
 msgid "Error while setting text content to node: %s"
 msgstr "Fel vid inställning av textinnehåll till nod: %s"
@@ -759,19 +760,21 @@ msgid "Internal Error: No TextReader was set"
 msgstr "Internt fel: Ingen TextReader angavs"
 
 #: gxml/XParser.vala:271
-msgid "Can't read node data"
-msgstr "Kan inte läsa noddata"
+#, c-format
+msgid "Can't read node data at line: %d"
+msgstr "Kan inte läsa noddata på rad: %d"
 
 #: gxml/XParser.vala:335
 #, c-format
-msgid "Parsing ERROR: Fail to move to attribute number: %i"
-msgstr "TOLKFEL: Misslyckades med att flytta till attributsiffra: %i"
+msgid "Parsing ERROR: Fail to move to attribute number: %i at line: %d"
+msgstr ""
+"TOLKFEL: Misslyckades med att flytta till attributsiffra: %i på rad: %d"
 
 #: gxml/XParser.vala:427
 msgid "Invalid sequence for document type definition: "
 msgstr "Ogiltig sekvens för dokumenttypsdefinition: "
 
-#: gxml/XParser.vala:492 gxml/XParser.vala:598 gxml/XParser.vala:670
+#: gxml/XParser.vala:494 gxml/XParser.vala:600 gxml/XParser.vala:672
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Internt fel: Ingen TextWriter initierades"
 
