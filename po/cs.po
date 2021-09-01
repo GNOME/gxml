@@ -761,12 +761,12 @@ msgstr "Interní chyba: Není nastaven údaj TextReader"
 #: gxml/XParser.vala:271
 #, c-format
 msgid "Can't read node data at line: %d"
-msgstr "Nezdařilo se čtení dat uzlu na řádku: %d"
+msgstr "Nezdařilo se čtení dat uzlu na řádku %d"
 
 #: gxml/XParser.vala:335
 #, c-format
 msgid "Parsing ERROR: Fail to move to attribute number: %i at line: %d"
-msgstr "CHYBA zpracování: Selhal přesun na atribut číslo %i na řádku: %d"
+msgstr "CHYBA zpracování: Selhal přesun na atribut číslo %i na řádku %d"
 
 #: gxml/XParser.vala:427
 msgid "Invalid sequence for document type definition: "
