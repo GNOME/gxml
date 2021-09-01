@@ -1,14 +1,14 @@
 # Czech translation for gxml.
 # Copyright (C) 2015 gxml's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gxml package.
-# Marek Černocký <marek@manet.cz>, 2015, 2016, 2017, 2018, 2019, 2020.
+# Marek Černocký <marek@manet.cz>, 2015, 2016, 2017, 2018, 2019, 2020, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml gxml-0.20\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2020-08-16 06:58+0000\n"
-"PO-Revision-Date: 2020-09-28 15:27+0200\n"
+"POT-Creation-Date: 2021-08-28 11:50+0000\n"
+"PO-Revision-Date: 2021-09-01 09:42+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -164,15 +164,15 @@ msgstr ""
 msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
 msgstr "S http://www.w3.org/2000/xmlns/ lez použít jen prefix xmlns"
 
-#: gxml/Document.vala:244 gxml/XDocument.vala:252
+#: gxml/Document.vala:244 gxml/XDocument.vala:259
 msgid "Can't import a Document"
 msgstr "Nelze importovat Dokument"
 
-#: gxml/Document.vala:246 gxml/XDocument.vala:254
+#: gxml/Document.vala:246 gxml/XDocument.vala:261
 msgid "Can't import a non Element type node to a Document"
 msgstr "Do dokumentu nezlez importovat uzel který není typu prvek"
 
-#: gxml/Document.vala:270 gxml/XDocument.vala:278
+#: gxml/Document.vala:270 gxml/XDocument.vala:285
 msgid "Can't adopt a Document"
 msgstr "Nelze převzít dokument"
 
@@ -392,8 +392,8 @@ msgid ""
 "Invalid namespace. If attribute's prefix is 'MathML', namespace URI should "
 "be http://www.w3.org/1998/Math/MathML"
 msgstr ""
-"Neplatný jmenný prostor. Když je prefix atributu „MathML“, měla by být adresa "
-"URI http://www.w3.org/1998/Math/MathML"
+"Neplatný jmenný prostor. Když je prefix atributu „MathML“, měla by být "
+"adresa URI http://www.w3.org/1998/Math/MathML"
 
 #: gxml/Element.vala:751
 msgid ""
@@ -445,26 +445,26 @@ msgstr "Nebyl nalezen hlavní a/nebo vedlejší klíč"
 msgid "Text content in element can't be created"
 msgstr "Nelze vytvořit textový obsah elementu"
 
-#: gxml/Node.vala:209 gxml/XNode.vala:279
+#: gxml/Node.vala:209 gxml/XNode.vala:309
 msgid "Can't find node position"
 msgstr "Nelze najít pozici uzlu"
 
-#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:310
-#: gxml/XNode.vala:341
+#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:340
+#: gxml/XNode.vala:371
 msgid "Invalid attempt to add invalid node type"
 msgstr "Neplatný pokus o přidání neplatného typu uzlu"
 
-#: gxml/Node.vala:260 gxml/XNode.vala:312
+#: gxml/Node.vala:260 gxml/XNode.vala:342
 msgid "Can't find child to insert node before"
 msgstr "Nelze najít potomka, před kterého se má vložit"
 
-#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:316
-#: gxml/XNode.vala:347
+#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:346
+#: gxml/XNode.vala:377
 msgid "Invalid attempt to insert a node"
 msgstr "Neplatný pokus o vložení uzlu"
 
-#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:323
-#: gxml/XNode.vala:354
+#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:353
+#: gxml/XNode.vala:384
 msgid "Invalid attempt to insert an invalid node type"
 msgstr "Neplatný pokus o vložení neplatného typu uzlu"
 
@@ -476,20 +476,20 @@ msgstr "Typ uzlu je neplatný. Nelze jej připojit jako potomka"
 msgid "Invalid attempt to append a child with different parent document"
 msgstr "Neplatný pokus o připojení potomka s jiným rodičovským dokumentem"
 
-#: gxml/Node.vala:302 gxml/XNode.vala:343
+#: gxml/Node.vala:302 gxml/XNode.vala:373
 msgid "Can't find child node to replace or child have a different parent"
 msgstr ""
 "Nelze najít synovský uzel, který se má nahradit, nebo má potomek jiného "
 "rodiče"
 
-#: gxml/Node.vala:316 gxml/XNode.vala:326 gxml/XNode.vala:357
+#: gxml/Node.vala:316 gxml/XNode.vala:356 gxml/XNode.vala:387
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr ""
 "Neplatný pokus o vložení typu dokumentu nebo textového uzlu do neplatného "
 "rodiče"
 
-#: gxml/Node.vala:328 gxml/XNode.vala:369
+#: gxml/Node.vala:328 gxml/XNode.vala:399
 msgid "Can't find child node to remove or child have a different parent"
 msgstr ""
 "Nelze najít synovský uzel, který se má odstranit, nebo má potomek jiného "
@@ -512,7 +512,7 @@ msgstr "Chyba při pokusu o vytvoření instance objektu vlastností: %s"
 msgid "Can't set value. It is not a GXmlGXml.Element type"
 msgstr "Nezdařilo se nastavit hodnotu. Nejedná se o typ GXmlGXml.Element"
 
-#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:57
+#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:61
 msgid "File doesn't exist"
 msgstr "Soubor neexistuje"
 
@@ -670,12 +670,12 @@ msgstr "DOM: Neplatný symbol. Bílé znaky nelze použít jako symbol"
 msgid "Update Error: "
 msgstr "Chyba při aktualizaci: "
 
-#: gxml/XDocument.vala:139
+#: gxml/XDocument.vala:146
 #, c-format
 msgid "Error writing document to string: %s"
 msgstr "Chyba při zápisu dokumentu do řetězce: %s"
 
-#: gxml/XDocument.vala:207
+#: gxml/XDocument.vala:214
 msgid "Invalid element qualified name: multiple namespace prefixes"
 msgstr ""
 "Neplatný kvalifikovaný název prvku: vícenásobný prefix jmenných prostorů"
@@ -728,12 +728,12 @@ msgid "Invalid document when adding item to named node map collection"
 msgstr ""
 "Neplatný dokument při přidávání položky do kolekce map pojmenovaných uzlů"
 
-#: gxml/XNode.vala:43
+#: gxml/XNode.vala:44
 #, c-format
 msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
 
-#: gxml/XNode.vala:216
+#: gxml/XNode.vala:246
 #, c-format
 msgid "Error while setting text content to node: %s"
 msgstr "Chyba při pokusu o vytvoření instance vlastnosti objektu: %s"
@@ -758,19 +758,20 @@ msgid "Internal Error: No TextReader was set"
 msgstr "Interní chyba: Není nastaven údaj TextReader"
 
 #: gxml/XParser.vala:271
-msgid "Can't read node data"
-msgstr "Nezdařilo se čtení dat uzlu"
+#, c-format
+msgid "Can't read node data at line: %d"
+msgstr "Nezdařilo se čtení dat uzlu na řádku %d"
 
 #: gxml/XParser.vala:335
 #, c-format
-msgid "Parsing ERROR: Fail to move to attribute number: %i"
-msgstr "CHYBA zpracování: Selhal přesun na atribut číslo %i"
+msgid "Parsing ERROR: Fail to move to attribute number: %i at line: %d"
+msgstr "CHYBA zpracování: Selhal přesun na atribut číslo %i na řádku %d"
 
 #: gxml/XParser.vala:427
 msgid "Invalid sequence for document type definition: "
 msgstr "Neplatná posloupnost pro definici typu dokumentu: "
 
-#: gxml/XParser.vala:492 gxml/XParser.vala:598 gxml/XParser.vala:670
+#: gxml/XParser.vala:494 gxml/XParser.vala:600 gxml/XParser.vala:672
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Interní chyba: Není nastaven údaj TextWriter"
 
@@ -790,22 +791,3 @@ msgstr "Nelze najít prvek na pozici: %i: %s"
 msgid "Collection type %s, initialization error: %s"
 msgstr "Typ kolekce %s, chyba inicializace: %s"
 
-#~ msgid "Parent Element is invalid"
-#~ msgstr "Rodičovský prvek je neplatný"
-
-#~ msgid ""
-#~ "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
-#~ "http://www.w3.org/2000/xmlns"
-#~ msgstr ""
-#~ "Neplatný jmenný prostor. Když má název atributu jmenný prostor „xmlns“, "
-#~ "měla by být adresa URI http://www.w3.org/2000/xmlns."
-
-#~ msgid ""
-#~ "Invalid attempt to insert a document or text type to an invalid parent "
-#~ "node"
-#~ msgstr ""
-#~ "Neplatný pokus o vložení typu dokumentu nebo textového uzlu do neplatného "
-#~ "rodiče"
-
-#~ msgid "Invalid document: should start with '<'"
-#~ msgstr "Neplatný dokument: měl by začínat znakem „<“"
