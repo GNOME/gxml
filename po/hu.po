@@ -1,16 +1,16 @@
 # Hungarian translation for gxml.
-# Copyright (C) 2016, 2017, 2018, 2019, 2020 Free Software Foundation, Inc.
+# Copyright (C) 2016, 2017, 2018, 2019, 2020, 2021 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gxml package.
 #
 # Balázs Meskó <mesko.balazs at fsf dot hu>, 2016, 2020.
-# Balázs Úr <ur.balazs at fsf dot hu>, 2016, 2017, 2018, 2019, 2020.
+# Balázs Úr <ur.balazs at fsf dot hu>, 2016, 2017, 2018, 2019, 2020, 2021.
 # Gabor Kelemen <kelemeng at ubuntu dot com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2020-08-16 06:58+0000\n"
-"PO-Revision-Date: 2020-09-23 17:40+0200\n"
+"POT-Creation-Date: 2021-08-23 03:06+0000\n"
+"PO-Revision-Date: 2021-09-10 22:48+0200\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
@@ -168,15 +168,15 @@ msgstr ""
 msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
 msgstr "Csak az xmlns előtag használható ezzel: http://www.w3.org/2000/xmlns/"
 
-#: gxml/Document.vala:244 gxml/XDocument.vala:252
+#: gxml/Document.vala:244 gxml/XDocument.vala:259
 msgid "Can't import a Document"
 msgstr "A dokumentum nem importálható"
 
-#: gxml/Document.vala:246 gxml/XDocument.vala:254
+#: gxml/Document.vala:246 gxml/XDocument.vala:261
 msgid "Can't import a non Element type node to a Document"
 msgstr "Nem importálható nem elem típusú csomópont a dokumentumba"
 
-#: gxml/Document.vala:270 gxml/XDocument.vala:278
+#: gxml/Document.vala:270 gxml/XDocument.vala:285
 msgid "Can't adopt a Document"
 msgstr "Dokumentum nem fogadható örökbe"
 
@@ -448,26 +448,26 @@ msgstr "Nem található elsődleges kulcs és/vagy másodlagos kulcs"
 msgid "Text content in element can't be created"
 msgstr "Az elemben nem hozható létre szöveges tartalom"
 
-#: gxml/Node.vala:209 gxml/XNode.vala:279
+#: gxml/Node.vala:209 gxml/XNode.vala:309
 msgid "Can't find node position"
 msgstr "A csomópont pozíciója nem található"
 
-#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:310
-#: gxml/XNode.vala:341
+#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:340
+#: gxml/XNode.vala:371
 msgid "Invalid attempt to add invalid node type"
 msgstr "Érvénytelen kísérlet egy érvénytelen csomóponttípus hozzáadására"
 
-#: gxml/Node.vala:260 gxml/XNode.vala:312
+#: gxml/Node.vala:260 gxml/XNode.vala:342
 msgid "Can't find child to insert node before"
 msgstr "Nem található a gyermek, amely elé a csomópontot be kellene szúrni"
 
-#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:316
-#: gxml/XNode.vala:347
+#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:346
+#: gxml/XNode.vala:377
 msgid "Invalid attempt to insert a node"
 msgstr "Érvénytelen kísérlet egy csomópont beszúrására"
 
-#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:323
-#: gxml/XNode.vala:354
+#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:353
+#: gxml/XNode.vala:384
 msgid "Invalid attempt to insert an invalid node type"
 msgstr "Érvénytelen kísérlet egy érvénytelen csomóponttípus beszúrására"
 
@@ -481,20 +481,20 @@ msgstr ""
 "Érvénytelen kísérlet egy másik szülődokumentummal rendelkező gyermek "
 "hozzáfűzésére"
 
-#: gxml/Node.vala:302 gxml/XNode.vala:343
+#: gxml/Node.vala:302 gxml/XNode.vala:373
 msgid "Can't find child node to replace or child have a different parent"
 msgstr ""
 "A lecserélendő gyermekcsomópont nem található, vagy a gyermeknek más szülője "
 "van"
 
-#: gxml/Node.vala:316 gxml/XNode.vala:326 gxml/XNode.vala:357
+#: gxml/Node.vala:316 gxml/XNode.vala:356 gxml/XNode.vala:387
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr ""
 "Érvénytelen kísérlet egy dokumentumtípus vagy egy szöveges csomópont "
 "beszúrására egy érvénytelen szülőhöz"
 
-#: gxml/Node.vala:328 gxml/XNode.vala:369
+#: gxml/Node.vala:328 gxml/XNode.vala:399
 msgid "Can't find child node to remove or child have a different parent"
 msgstr ""
 "A törlendő gyermekcsomópont nem található, vagy a gyermeknek más szülője van"
@@ -516,7 +516,7 @@ msgstr "Hiba a tulajdonságobjektum példányosítási kísérlete közben: %s"
 msgid "Can't set value. It is not a GXmlGXml.Element type"
 msgstr "Nem állítható be az érték. Ez nem GXmlGXml.Element típus"
 
-#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:57
+#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:61
 msgid "File doesn't exist"
 msgstr "A fájl nem létezik"
 
@@ -623,19 +623,16 @@ msgid "Invalid root in the source range"
 msgstr "Érvénytelen gyökér a forrástartományban"
 
 #: gxml/StreamReader.vala:143
-#| msgid "Invalid document: unexpected character '%c'"
 msgid "Invalid document: expected '<' character"
 msgstr "Érvénytelen dokumentum: „<” karakter várt"
 
 #: gxml/StreamReader.vala:151
-#| msgid "Invalid document: unexpected character before node's name"
 msgid "Invalid document: unexpected space character before node's name"
 msgstr ""
 "Érvénytelen dokumentum: váratlan szóköz karakter a csomópont neve előtt"
 
 #: gxml/StreamReader.vala:185
 #, c-format
-#| msgid "Parent '%s' is not implemeting GXml.Object interface"
 msgid "Parent '%s' is not implementing GXml.Object interface"
 msgstr "A(z) „%s” szülő nem valósítja meg a GXml.Object interfészt"
 
@@ -681,12 +678,12 @@ msgstr "DOM: Érvénytelen token. Üres karakterek nem használhatóak tokenkén
 msgid "Update Error: "
 msgstr "Frissítési hiba: "
 
-#: gxml/XDocument.vala:139
+#: gxml/XDocument.vala:146
 #, c-format
 msgid "Error writing document to string: %s"
 msgstr "Hiba a dokumentum karakterláncba történő írásakor: %s"
 
-#: gxml/XDocument.vala:207
+#: gxml/XDocument.vala:214
 msgid "Invalid element qualified name: multiple namespace prefixes"
 msgstr "Érvénytelen minősített név az elemnél: több névtér előtag"
 
@@ -739,12 +736,12 @@ msgstr ""
 "Érvénytelen dokumentum az elem nevesített csomópont-leképezés gyűjteményhez "
 "történő hozzáadásakor"
 
-#: gxml/XNode.vala:43
+#: gxml/XNode.vala:44
 #, c-format
 msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
 
-#: gxml/XNode.vala:216
+#: gxml/XNode.vala:246
 #, c-format
 msgid "Error while setting text content to node: %s"
 msgstr "Hiba a csomóponthoz történő szövegtartalom beállítása közben: %s"
@@ -769,19 +766,24 @@ msgid "Internal Error: No TextReader was set"
 msgstr "Belső hiba: nem lett TextReader beállítva"
 
 #: gxml/XParser.vala:271
-msgid "Can't read node data"
-msgstr "A csomópontadatok nem olvashatóak"
+#, c-format
+#| msgid "Can't read node data"
+msgid "Can't read node data at line: %d"
+msgstr "A csomópontadatok nem olvashatóak ennél a sornál: %d"
 
 #: gxml/XParser.vala:335
 #, c-format
-msgid "Parsing ERROR: Fail to move to attribute number: %i"
-msgstr "Feldolgozási HIBA: Nem mozgatható a(z) %i számú attribútumhoz"
+#| msgid "Parsing ERROR: Fail to move to attribute number: %i"
+msgid "Parsing ERROR: Fail to move to attribute number: %i at line: %d"
+msgstr ""
+"Feldolgozási HIBA: Nem mozgatható a(z) %i számú attribútumhoz ennél a sornál:"
+" %d"
 
 #: gxml/XParser.vala:427
 msgid "Invalid sequence for document type definition: "
 msgstr "Érvénytelen sorozat a dokumentumtípus meghatározásánál: "
 
-#: gxml/XParser.vala:492 gxml/XParser.vala:598 gxml/XParser.vala:670
+#: gxml/XParser.vala:494 gxml/XParser.vala:600 gxml/XParser.vala:672
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Belső hiba: nincs TextWriter előkészítve"
 
@@ -800,13 +802,3 @@ msgstr "Nem található elem a következő pozíción: %i: %s"
 #, c-format
 msgid "Collection type %s, initialization error: %s"
 msgstr "%s gyűjteménytípus, előkészítési hiba: %s"
-
-#~ msgid ""
-#~ "Invalid attempt to insert a document or text type to an invalid parent "
-#~ "node"
-#~ msgstr ""
-#~ "Érvénytelen kísérlet egy dokumentum vagy egy szöveges típus beszúrására "
-#~ "egy érvénytelen szülő csomóponthoz"
-
-#~ msgid "Invalid document: should start with '<'"
-#~ msgstr "Érvénytelen dokumentum: „<” karakterrel kell kezdődnie"
