@@ -366,7 +366,7 @@ public class GXml.StreamReader : GLib.Object {
     GLib.StringBuilder str = new GLib.StringBuilder ("");
     while (!is_space (cur_char ())) {
       if (cur_char () == '?') {
-          throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid Processing Instruccion's target declaration"));
+          throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid Processing Instruction's target declaration"));
       }
       str.append_c (cur_char ());
       try {
@@ -393,7 +393,7 @@ public class GXml.StreamReader : GLib.Object {
         return;
     }
     if (cur_char () != '>') {
-      throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid Processing Instruccion's close declaration"));
+      throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid Processing Instruction's close declaration"));
     }
   }
   private void read_text_node () throws GLib.Error  {
