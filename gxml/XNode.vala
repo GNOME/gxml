@@ -144,6 +144,10 @@ public abstract class GXml.XNode : GLib.Object,
       case GXml.NodeType.NOTATION:
         n = null;
         break;
+      case GXml.NodeType.CDATA_SECTION:
+      case GXml.NodeType.INVALID:
+        n = null;
+        break;
     }
 
     if (take_node && n != null) {
@@ -181,6 +185,16 @@ public abstract class GXml.XNode : GLib.Object,
           return DomNode.NodeType.DOCUMENT_FRAGMENT_NODE;
         case Xml.ElementType.NOTATION_NODE:
           return DomNode.NodeType.NOTATION_NODE;
+        case Xml.ElementType.ATTRIBUTE_DECL:
+        case Xml.ElementType.XINCLUDE_START:
+        case Xml.ElementType.DTD_NODE:
+        case Xml.ElementType.ENTITY_DECL:
+        case Xml.ElementType.XINCLUDE_END:
+        case Xml.ElementType.ELEMENT_DECL:
+        case Xml.ElementType.NAMESPACE_DECL:
+        case Xml.ElementType.DOCB_DOCUMENT_NODE:
+        case Xml.ElementType.HTML_DOCUMENT_NODE:
+          return DomNode.NodeType.INVALID;
       }
       return DomNode.NodeType.INVALID;
     }
