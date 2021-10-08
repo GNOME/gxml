@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml gxml-0.18\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2021-08-21 23:35+0000\n"
-"PO-Revision-Date: 2021-08-22 09:33+0300\n"
+"POT-Creation-Date: 2021-10-08 15:21+0000\n"
+"PO-Revision-Date: 2021-10-08 21:35+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -647,11 +647,13 @@ msgid "Invalid comment declaration"
 msgstr "Некоректне оголошення коментаря"
 
 #: gxml/StreamReader.vala:369
-msgid "Invalid Processing Instruccion's target declaration"
+#| msgid "Invalid Processing Instruccion's target declaration"
+msgid "Invalid Processing Instruction's target declaration"
 msgstr "Некоректне оголошення цілі інструкції обробки"
 
 #: gxml/StreamReader.vala:396
-msgid "Invalid Processing Instruccion's close declaration"
+#| msgid "Invalid Processing Instruccion's close declaration"
+msgid "Invalid Processing Instruction's close declaration"
 msgstr "Некоректне оголошення закриття інструкції обробки"
 
 #: gxml/TokenList.vala:54
@@ -770,15 +772,14 @@ msgstr "Внутрішня помилка: не встановлено TextReade
 
 #: gxml/XParser.vala:271
 #, c-format
-#| msgid "Can't read node data"
 msgid "Can't read node data at line: %d"
 msgstr "Не вдалося прочитати дані вузла у рядку %d"
 
 #: gxml/XParser.vala:335
 #, c-format
-#| msgid "Parsing ERROR: Fail to move to attribute number: %i"
 msgid "Parsing ERROR: Fail to move to attribute number: %i at line: %d"
-msgstr "Помилка обробки: не вдалося перейти до атрибута із номером %i у рядку %d"
+msgstr ""
+"Помилка обробки: не вдалося перейти до атрибута із номером %i у рядку %d"
 
 #: gxml/XParser.vala:427
 msgid "Invalid sequence for document type definition: "
