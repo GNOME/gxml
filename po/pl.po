@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2021-08-21 23:35+0000\n"
-"PO-Revision-Date: 2021-08-22 12:19+0200\n"
+"POT-Creation-Date: 2021-10-08 15:21+0000\n"
+"PO-Revision-Date: 2021-10-10 12:24+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -652,11 +652,11 @@ msgid "Invalid comment declaration"
 msgstr "Nieprawidłowa deklaracja komentarza"
 
 #: gxml/StreamReader.vala:369
-msgid "Invalid Processing Instruccion's target declaration"
+msgid "Invalid Processing Instruction's target declaration"
 msgstr "Nieprawidłowa deklaracja docelowa instrukcji przetwarzania"
 
 #: gxml/StreamReader.vala:396
-msgid "Invalid Processing Instruccion's close declaration"
+msgid "Invalid Processing Instruction's close declaration"
 msgstr "Nieprawidłowa deklaracja zamknięcia instrukcji przetwarzania"
 
 #: gxml/TokenList.vala:54
