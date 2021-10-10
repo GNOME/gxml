@@ -1,7 +1,7 @@
 # Swedish translation for gxml.
-# Copyright © 2016-2020 gxml's COPYRIGHT HOLDER
+# Copyright © 2016-2021 gxml's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gxml package.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2016, 2018, 2019, 2020.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2016, 2018, 2019, 2020, 2021.
 # Josef Andersson <l10nl18nsweja@gmail.com>, 2017.
 # Luna Jernberg <droidbittin@gmail.com>, 2021.
 #
@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2021-08-23 03:06+0000\n"
-"PO-Revision-Date: 2021-08-23 21:44+0200\n"
+"POT-Creation-Date: 2021-10-08 15:21+0000\n"
+"PO-Revision-Date: 2021-10-10 18:37+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -634,14 +634,12 @@ msgstr "Överordnat element ”%s” implementerar inte GXml.Object-gränssnitt"
 msgid "Invalid comment declaration"
 msgstr "Ogiltig deklaration av kommentar"
 
-# TODO: Instruccion's -> Instruction's
 #: gxml/StreamReader.vala:369
-msgid "Invalid Processing Instruccion's target declaration"
+msgid "Invalid Processing Instruction's target declaration"
 msgstr "Ogiltig måldeklaration för processinstruktion"
 
-# TODO: Instruccion's -> Instruction's
 #: gxml/StreamReader.vala:396
-msgid "Invalid Processing Instruccion's close declaration"
+msgid "Invalid Processing Instruction's close declaration"
 msgstr "Ogiltig stängningsdeklaration för processinstruktion"
 
 #: gxml/TokenList.vala:54
