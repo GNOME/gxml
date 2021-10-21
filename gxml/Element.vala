@@ -668,7 +668,7 @@ public class GXml.Element : GXml.Node,
       }
       return null;
     } catch (GLib.Error e) {
-      message (_("Error getting attribute with namespace: %s"), e.message);
+      debug (_("Error getting attribute with namespace: %s"), e.message);
     }
     return null;
   }
