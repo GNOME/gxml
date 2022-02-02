@@ -59,22 +59,24 @@ private class GXml.XdParser : GLib.Object, Parser {
 	public void read_element (GXml.DomElement element) throws GLib.Error {}
 	public void read_stream (GLib.InputStream stream) throws GLib.Error
 	{
-    var b = new MemoryOutputStream.resizable ();
-    b.splice (stream, 0);
-    if (b.data == null)
-      throw new ParserError.INVALID_STREAM_ERROR (_("stream doesn't provide data"));
-    read_string ((string) b.data);
+		GLib.DataInputStream b = new GLib.DataInputStream (stream);
+		string text = b.read_upto ("\0", -1, null);
+		read_string (text);
 	}
 	public async void read_stream_async (GLib.InputStream stream) throws GLib.Error
 	{
-	  Idle.add (read_stream_async.callback);
+    Idle.add (read_stream_async.callback);
     yield;
     read_stream (stream);
 	}
 	public void read_string (string str) throws GLib.Error
 	{
     Xml.reset_last_error ();
-    document.doc = Xml.Parser.parse_memory (str, (int) str.length);
+    if (document.doc != null) {
+      delete document.doc;
+    }
+    document.doc = null;
+    document.doc = Xml.Parser.read_memory (str, str.length);
     var e = Xml.get_last_error ();
     if (e != null) {
       var errmsg = _("Parser Error for string");
