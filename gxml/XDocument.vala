@@ -140,7 +140,9 @@ public class GXml.XDocument : GXml.XNode,
   public GXml.DomNode create_text (string text)
   {
     var t = doc->new_text (text);
-    return new XText (this, t);
+    var n = new XText (this, t);
+    n.take_node ();
+    return n;
   }
   public override string to_string ()
   {
