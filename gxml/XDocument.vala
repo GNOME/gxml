@@ -79,7 +79,14 @@ public class GXml.XDocument : GXml.XNode,
   /**
    * Gigen {@link Xml.Doc} is owned by this
    */
-  public XDocument.from_doc (Xml.Doc doc) { this.doc = doc; }
+  public XDocument.from_doc (Xml.Doc doc) {
+    if (this.doc != null) {
+      delete this.doc;
+      this.doc = null;
+    }
+
+    this.doc = doc;
+  }
 
   public Parser GXml.DomDocument.get_xml_parser () {
     if (_parser != null) {
