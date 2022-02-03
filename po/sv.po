@@ -1,7 +1,7 @@
 # Swedish translation for gxml.
-# Copyright © 2016-2021 gxml's COPYRIGHT HOLDER
+# Copyright © 2016-2022 gxml's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gxml package.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2016, 2018, 2019, 2020, 2021.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2016, 2018, 2019, 2020, 2021, 2022.
 # Josef Andersson <l10nl18nsweja@gmail.com>, 2017.
 # Luna Jernberg <droidbittin@gmail.com>, 2021.
 #
@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2021-10-08 15:21+0000\n"
-"PO-Revision-Date: 2021-10-10 18:37+0200\n"
+"POT-Creation-Date: 2022-02-03 04:12+0000\n"
+"PO-Revision-Date: 2022-02-03 09:20+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -18,14 +18,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: gxml/BaseCollection.vala:91
 msgid ""
 "Invalid attempt to initialize a collection using an unsupported type. Only "
 "GXmlGXml.Element is supported"
 msgstr ""
-"Ogiltigt försök till att initiera en samling med typ som inte stöds. Endast "
+"Ogiltigt försök att initiera en samling med typ som inte stöds. Endast "
 "GXmlGXml.Element stöds"
 
 #: gxml/BaseCollection.vala:122 gxml/BaseCollection.vala:150
@@ -38,8 +38,7 @@ msgstr ""
 msgid ""
 "Invalid attempt to set unsupported type. Only GXmlGXml.Element is supported"
 msgstr ""
-"Ogiltigt försök till att ange typ som inte stöds. Endast GXmlGXml.Element "
-"stöds"
+"Ogiltigt försök att ange typ som inte stöds. Endast GXmlGXml.Element stöds"
 
 #: gxml/BaseCollection.vala:128
 msgid "Invalid attempt to set a node with a different parent document"
@@ -124,7 +123,7 @@ msgstr "Ogiltig attributväljare"
 #: gxml/CssSelectorParser.vala:362
 #, c-format
 msgid "Invalid attribute selector. '=' expected but '%s' was found"
-msgstr "Ogiltigt attributväljare. ”=” förväntades, men ”%s” hittades"
+msgstr "Ogiltig attributväljare. ”=” förväntades, men ”%s” hittades"
 
 #: gxml/CssSelectorParser.vala:374
 msgid "Cannot find end of attribute value"
@@ -166,16 +165,16 @@ msgstr ""
 msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
 msgstr "Endast xmlns-prefix kan användas med http://www.w3.org/2000/xmlns/"
 
-#: gxml/Document.vala:244 gxml/XDocument.vala:259
+#: gxml/Document.vala:244 gxml/XDocument.vala:276
 msgid "Can't import a Document"
 msgstr "Det går inte att importera ett dokument"
 
-#: gxml/Document.vala:246 gxml/XDocument.vala:261
+#: gxml/Document.vala:246 gxml/XDocument.vala:278
 msgid "Can't import a non Element type node to a Document"
 msgstr ""
 "Det går inte att importera en typ som inte är ett element till ett dokument"
 
-#: gxml/Document.vala:270 gxml/XDocument.vala:285
+#: gxml/Document.vala:270 gxml/XDocument.vala:302
 msgid "Can't adopt a Document"
 msgstr "Det går inte att ta in ett dokument som underordnad nod"
 
@@ -207,7 +206,7 @@ msgstr "Textnod med NULL-sträng"
 
 #: gxml/DomNode.vala:140
 msgid "Can't copy child text node"
-msgstr "Kan inte kopiera underordnad textnod"
+msgstr "Det går inte att kopiera underordnad textnod"
 
 #: gxml/Element.vala:194
 msgid "Invalid namespace URI stored in element's attribute"
@@ -219,7 +218,7 @@ msgstr "Ogiltigt attributnamn i elementets attributlista"
 
 #: gxml/Element.vala:257
 msgid "Can't locate child node to remove"
-msgstr "Kan inte finna underordnad nod att ta bort"
+msgstr "Det går inte att finna underordnad nod att ta bort"
 
 #: gxml/Element.vala:487 gxml/Element.vala:553
 #, c-format
@@ -344,7 +343,7 @@ msgid ""
 "Invalid namespace definition. No prefixed attributes should use 'xmlns' as "
 "name"
 msgstr ""
-"Ogiltigt namnrymdsdefinition. Inga attribut med prefix får använda ”xmlns” "
+"Ogiltig namnrymdsdefinition. Inga attribut med prefix får använda ”xmlns” "
 "som namn"
 
 #: gxml/Element.vala:704
@@ -445,26 +444,23 @@ msgstr "Ingen primärnyckel och/eller sekundärnyckel hittades"
 msgid "Text content in element can't be created"
 msgstr "Kan inte skapa textinnehåll i element"
 
-#: gxml/Node.vala:209 gxml/XNode.vala:309
+#: gxml/Node.vala:209 gxml/XNode.vala:328
 msgid "Can't find node position"
 msgstr "Det går inte att hitta nodposition"
 
-#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:340
-#: gxml/XNode.vala:371
+#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:359
 msgid "Invalid attempt to add invalid node type"
 msgstr "Ogiltigt försök att lägga till ogiltig nodtyp"
 
-#: gxml/Node.vala:260 gxml/XNode.vala:342
+#: gxml/Node.vala:260 gxml/XNode.vala:361
 msgid "Can't find child to insert node before"
 msgstr "Det går inte att hitta underordnad nod för att infoga noden innan"
 
-#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:346
-#: gxml/XNode.vala:377
+#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:365
 msgid "Invalid attempt to insert a node"
-msgstr "Ogiltigt försök till att infoga en nod"
+msgstr "Ogiltigt försök att infoga en nod"
 
-#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:353
-#: gxml/XNode.vala:384
+#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:372
 msgid "Invalid attempt to insert an invalid node type"
 msgstr "Ogiltigt försök att infoga en ogiltig nodtyp"
 
@@ -477,20 +473,20 @@ msgid "Invalid attempt to append a child with different parent document"
 msgstr ""
 "Ogiltigt försök att lägga till en nod med ett annat överordnat dokument"
 
-#: gxml/Node.vala:302 gxml/XNode.vala:373
+#: gxml/Node.vala:302 gxml/XNode.vala:394
 msgid "Can't find child node to replace or child have a different parent"
 msgstr ""
 "Det går inte att hitta underordnad nod för att ersätta eller så har "
 "underordnad nod en annan överordnad nod"
 
-#: gxml/Node.vala:316 gxml/XNode.vala:356 gxml/XNode.vala:387
+#: gxml/Node.vala:316 gxml/XNode.vala:375
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr ""
 "Ogiltigt försök att infoga ett dokuments typ- eller textnod till en ogiltig "
 "överordnad nod"
 
-#: gxml/Node.vala:328 gxml/XNode.vala:399
+#: gxml/Node.vala:328 gxml/XNode.vala:438
 msgid "Can't find child node to remove or child have a different parent"
 msgstr ""
 "Det går inte att hitta underordnad nod att ta bort eller så har underordnad "
@@ -511,9 +507,9 @@ msgstr "Fel vid försök att instansiera egenskapsobjektet: %s"
 
 #: gxml/Object.vala:456
 msgid "Can't set value. It is not a GXmlGXml.Element type"
-msgstr "Kan inte sätta värdet. Det är inte en GXmlGXml.Element-typ"
+msgstr "Det går inte att sätta värdet. Det är inte en GXmlGXml.Element-typ"
 
-#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:61
+#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:65
 msgid "File doesn't exist"
 msgstr "Fil existerar inte"
 
@@ -564,7 +560,7 @@ msgstr "Inget dokument är satt till nod"
 
 #: gxml/Parser.vala:323 gxml/XParser.vala:107 gxml/XParser.vala:113
 msgid "Invalid document string, it is empty or is not allowed"
-msgstr "Ogiltigt dokumentsträng, den är tom eller ej tillåten"
+msgstr "Ogiltig dokumentsträng, den är tom eller ej tillåten"
 
 #: gxml/Property.vala:389
 #, c-format
@@ -670,20 +666,16 @@ msgstr "DOM: Ogiltigt token. Blanktecken kan inte användas som token"
 msgid "Update Error: "
 msgstr "Uppdateringsfel: "
 
-#: gxml/XDocument.vala:146
+#: gxml/XDocument.vala:159
 #, c-format
 msgid "Error writing document to string: %s"
 msgstr "Fel vid skrivning av dokument till sträng: %s"
 
-#: gxml/XDocument.vala:214
+#: gxml/XDocument.vala:230
 msgid "Invalid element qualified name: multiple namespace prefixes"
 msgstr "Ogiltigt kvalificerat elementnamn: flera namnrymdsprefix"
 
-#: gxml/XdParser.vala:65
-msgid "stream doesn't provide data"
-msgstr "ström tillhandahåller inte data"
-
-#: gxml/XdParser.vala:80
+#: gxml/XdParser.vala:82
 msgid "Parser Error for string"
 msgstr "Tolkfel för sträng"
 
@@ -733,10 +725,28 @@ msgstr "Ogiltigt dokument vid tillägg av objekt till en namngiven nodsamling"
 msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
 
-#: gxml/XNode.vala:246
+#: gxml/XNode.vala:265
 #, c-format
 msgid "Error while setting text content to node: %s"
 msgstr "Fel vid inställning av textinnehåll till nod: %s"
+
+#: gxml/XNode.vala:390
+#, c-format
+msgid "Only GXml.XNode nodes are supported. Given a %s type"
+msgstr "Endast GXml.XNode-noder stöds. Gavs en %s-typ"
+
+#: gxml/XNode.vala:401
+msgid "Invalid attempt to replace a node on unsupported parent"
+msgstr "Ogiltigt försök att ersätta en nod på överordnad som inte stöds"
+
+#: gxml/XNode.vala:411
+#, c-format
+msgid "Invalid attempt to replace invalid node type: %s"
+msgstr "Ogiltigt försök att ersätta ogiltig nodtyp: %s"
+
+#: gxml/XNode.vala:417
+msgid "Invalid attempt to replace a node on a document or text node"
+msgstr "Ogiltigt försök att ersätta en nod på en dokument- eller textnod"
 
 #: gxml/XParser.vala:123
 msgid "Invalid input stream to read data from"
@@ -760,7 +770,7 @@ msgstr "Internt fel: Ingen TextReader angavs"
 #: gxml/XParser.vala:271
 #, c-format
 msgid "Can't read node data at line: %d"
-msgstr "Kan inte läsa noddata på rad: %d"
+msgstr "Det går inte att läsa noddata på rad: %d"
 
 #: gxml/XParser.vala:335
 #, c-format
@@ -791,6 +801,9 @@ msgstr "Det går inte att hitta element vid position: %i: %s"
 #, c-format
 msgid "Collection type %s, initialization error: %s"
 msgstr "Samlingstyp %s, initieringsfel: %s"
+
+#~ msgid "stream doesn't provide data"
+#~ msgstr "ström tillhandahåller inte data"
 
 #~ msgid ""
 #~ "Invalid attempt to insert a document or text type to an invalid parent "
@@ -917,9 +930,6 @@ msgstr "Samlingstyp %s, initieringsfel: %s"
 
 #~ msgid "Invalid object item type to initialize HashMap"
 #~ msgstr "Ogiltig objekttyp för att initiera HashMap"
-
-#~ msgid "Invalid atempt to set a node without key attribute"
-#~ msgstr "Ogiltigt försök till att infoga en nod utan nyckelattribut"
 
 #~ msgid "Invalid namespaced attribute's name and prefix"
 #~ msgstr "Ogiltigt attributnamn och prefix med namnrymd"
