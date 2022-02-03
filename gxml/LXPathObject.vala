@@ -22,27 +22,42 @@
  *     Daniel Espinosa <esodan@gmail.com>
  */
 
+/**
+ * An {@link GXml.XPathObject} implementation using
+ * libxml2 engine.
+ */
 public class GXml.LXPathObject : GLib.Object, GXml.XPathObject {
   private GXml.HTMLCollection _collection;
   private GXml.XPathObjectType _object_type;
+  private Xml.XPath.Object* _pointer = null;
   private bool _boolean_value;
   private string _string_value;
   private double _number_value;
 
   public LXPathObject (GXml.XDocument document, Xml.XPath.Object* pointer) {
     _collection = new GXml.HTMLCollection();
+    _pointer = pointer;
 
-    _object_type = (GXml.XPathObjectType) pointer->type;
+    _object_type = (GXml.XPathObjectType) _pointer->type;
 
-    if (_object_type == GXml.XPathObjectType.NODESET)
-      for (var i = 0; i < pointer->nodesetval->length(); i++)
-        _collection.add (new GXml.XElement (document, pointer->nodesetval->item (i)));
-    else if (_object_type == GXml.XPathObjectType.BOOLEAN)
-      _boolean_value = pointer->boolval == 1;
-    else if (_object_type == GXml.XPathObjectType.STRING)
-      _string_value = pointer->stringval;
-    else if (object_type == GXml.XPathObjectType.NUMBER)
-      _number_value = pointer->floatval;
+    if (_object_type == GXml.XPathObjectType.NODESET) {
+      for (var i = 0; i < _pointer->nodesetval->length(); i++) {
+        _collection.add (new GXml.XElement (document, _pointer->nodesetval->item (i)));
+      }
+    } else if (_object_type == GXml.XPathObjectType.BOOLEAN) {
+      _boolean_value = _pointer->boolval == 1;
+    } else if (_object_type == GXml.XPathObjectType.STRING) {
+      _string_value = _pointer->stringval;
+    } else if (object_type == GXml.XPathObjectType.NUMBER) {
+      _number_value = _pointer->floatval;
+    }
+  }
+  
+  ~ LXPathObject () {
+    if (_pointer != null) {
+      delete _pointer;
+      _pointer = null;
+    }
   }
 
   public GXml.XPathObjectType object_type { get { return _object_type; } }
