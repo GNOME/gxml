@@ -386,31 +386,48 @@ public abstract class GXml.XNode : GLib.Object,
     return insert_before (node, null);
   }
   public DomNode replace_child (DomNode node, DomNode child) throws GLib.Error {
-    if (!(node is GXml.XNode))
-      throw new DomError.INVALID_NODE_TYPE_ERROR (_("Invalid attempt to add invalid node type"));
-    if (child == null || !this.contains (child))
+    if (!(node is GXml.XNode)) {
+      throw new DomError.INVALID_NODE_TYPE_ERROR (_("Only GXml.XNode nodes are supported. Given a %s type"), node.get_type ().name ());
+    }
+    
+    if (child == null || !this.contains (child)) {
       throw new DomError.NOT_FOUND_ERROR (_("Can't find child node to replace or child have a different parent"));
+    }
+    
     if (!(this is DomDocument
           || this is DomElement
           || this is DomDocumentFragment))
-      throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid attempt to insert a node"));
+    {
+      throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid attempt to replace a node on unsupported parent"));
+    }
+    
     if (!(node is DomDocumentFragment
           || node is DomDocumentType
           || node is DomElement
           || node is DomText
           || node is DomProcessingInstruction
           || node is DomComment))
-      throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid attempt to insert an invalid node type"));
+    {
+      throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid attempt to replace invalid node type: %s"), node.get_type ().name ());
+    }
+    
     if ((node is DomText && this is DomDocument)
           || (node is DomDocumentType && !(this is DomDocument)))
-      throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid attempt to insert a document's type or text node to an invalid parent"));
+    {
+      throw new DomError.HIERARCHY_REQUEST_ERROR (_("Invalid attempt to replace a node on a document or text node"));
+    }
+    
     //FIXME: Checks for HierarchyRequestError for https://www.w3.org/TR/dom/#concept-node-replace
     int i = children_nodes.index_of ((child as GXml.DomNode));
     children_nodes.remove_at (i);
-    if (i < children_nodes.size)
+    if (i < children_nodes.size) {
       children_nodes.insert (i, (node as GXml.DomNode));
-    if (i >= children_nodes.size)
+    }
+    
+    if (i >= children_nodes.size) {
       child_nodes.add (node);
+    }
+    
     return child;
   }
   public DomNode remove_child (DomNode child) throws GLib.Error {
