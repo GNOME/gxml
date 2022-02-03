@@ -106,6 +106,7 @@ public class GXml.XListChildren : AbstractBidirList<GXml.DomNode>,
   }
   public override bool add (GXml.DomNode item) {
     if (_node == null) return false;
+    ((XNode) item).release_node ();
     return (_node->add_child (((XNode) item).get_internal_node ())) != null;
   }
   public override void clear () {
