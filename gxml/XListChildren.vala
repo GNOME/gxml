@@ -70,6 +70,7 @@ public class GXml.XListChildren : AbstractBidirList<GXml.DomNode>,
   public override void insert (int index, GXml.DomNode item) {
     var n = @get (index);
     if (n == null) return;
+    ((XNode) item).release_node ();
     ((GXml.XNode) n).get_internal_node ()->add_prev_sibling (((GXml.XNode) item).get_internal_node ());
   }
   public override  Gee.ListIterator<GXml.DomNode> list_iterator () { return new Iterator (_doc, _node); }
@@ -83,8 +84,8 @@ public class GXml.XListChildren : AbstractBidirList<GXml.DomNode>,
     if (n == null) return nullnode;
     var np = ((GXml.XNode) n).get_internal_node ();
     np->unlink ();
-    delete np;
-    return nullnode;
+    ((GXml.XNode) n).take_node ();
+    return n;
   }
   /**
    * This method is ignored by default.
@@ -131,7 +132,7 @@ public class GXml.XListChildren : AbstractBidirList<GXml.DomNode>,
     while (n != null) {
       if (n == ((GXml.XNode) item).get_internal_node ()) {
         n->unlink ();
-        delete n;
+        ((GXml.XNode) item).take_node ();
         return true;
       }
       n = n->next;

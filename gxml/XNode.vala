@@ -419,7 +419,7 @@ public abstract class GXml.XNode : GLib.Object,
     
     //FIXME: Checks for HierarchyRequestError for https://www.w3.org/TR/dom/#concept-node-replace
     int i = children_nodes.index_of ((child as GXml.DomNode));
-    children_nodes.remove_at (i);
+    var rch = children_nodes.remove_at (i);
     if (i < children_nodes.size) {
       children_nodes.insert (i, (node as GXml.DomNode));
     }
@@ -428,13 +428,21 @@ public abstract class GXml.XNode : GLib.Object,
       child_nodes.add (node);
     }
     
+    ((XNode) rch).release_node ();
+    ((XNode) child).take_node ();
+    
     return child;
   }
   public DomNode remove_child (DomNode child) throws GLib.Error {
-    if (!this.contains (child))
+    if (!this.contains (child)) {
       throw new DomError.NOT_FOUND_ERROR (_("Can't find child node to remove or child have a different parent"));
+    }
+
     int i = children_nodes.index_of ((child as GXml.DomNode));
-    return (DomNode) children_nodes.remove_at (i);
+    XNode n = (XNode) children_nodes.remove_at (i);
+    n.release_node ();
+    ((XNode) child).take_node ();
+    return child;
   }
   // DomEventTarget implementation
   public void add_event_listener (string type, DomEventListener? callback, bool capture = false)
