@@ -1,4 +1,25 @@
 ===============
+Version 0.20.2
+===============
+
+* Many memory leaks fixes
+* Improved unit tests for better debuging
+* Improved error messages
+* XNode: use all cases for NodeType and DomNode.NodeType
+* XPath: better error information with line number
+* Updated translations:
+    Czech                  by Marek Černocký <marek@manet.cz>
+    Brazillian Portuguese  by Enrico Nicoletto <liverig@gmail.com>
+    Swedish                by Anders Jonsson <anders.jonsson@norsjovallen.se>
+    Polish                 by Piotr Drąg <piotrdrag@gmail.com>
+    Ukrainian              by Yuri Chornoivan <yurchor@ukr.net>
+    Basque                 by Asier Sarasua Garmendia <asier.sarasua@gmail.com>
+    Servian                by Мирослав Николић <miroslavnikolic@rocketmail.com>
+    Hungarian              by Balázs Úr <balazs@urbalazs.hu>
+    Spanish                by Daniel Mustieles <daniel.mustieles@gmail.com>
+    Rumanian               by Daniel Șerbănescu <daniel@serbanescu.dk>
+
+===============
 Version 0.20.1
 ===============
 * XParser: provides the line number on parsing error
