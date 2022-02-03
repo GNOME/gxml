@@ -2,13 +2,13 @@
 # Copyright (C) 2020 gxml's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gxml package.
 #
-# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml gxml-0.18\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2021-10-08 15:21+0000\n"
-"PO-Revision-Date: 2021-10-08 21:35+0300\n"
+"POT-Creation-Date: 2022-02-03 08:23+0000\n"
+"PO-Revision-Date: 2022-02-03 17:11+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -171,15 +171,15 @@ msgstr ""
 "Разом із http://www.w3.org/2000/xmlns/ можна використовувати лише префікси "
 "xmlns"
 
-#: gxml/Document.vala:244 gxml/XDocument.vala:259
+#: gxml/Document.vala:244 gxml/XDocument.vala:276
 msgid "Can't import a Document"
 msgstr "Не вдалося імпортувати документ"
 
-#: gxml/Document.vala:246 gxml/XDocument.vala:261
+#: gxml/Document.vala:246 gxml/XDocument.vala:278
 msgid "Can't import a non Element type node to a Document"
 msgstr "Не вдалося імпортувати вузол неелементного типу до документа"
 
-#: gxml/Document.vala:270 gxml/XDocument.vala:285
+#: gxml/Document.vala:270 gxml/XDocument.vala:302
 msgid "Can't adopt a Document"
 msgstr "Не вдалося адаптувати документ"
 
@@ -451,26 +451,23 @@ msgstr "Не знайдено основного і/або вторинного 
 msgid "Text content in element can't be created"
 msgstr "Не вдалося створити текстовий вміст у елементі"
 
-#: gxml/Node.vala:209 gxml/XNode.vala:309
+#: gxml/Node.vala:209 gxml/XNode.vala:328
 msgid "Can't find node position"
 msgstr "Не вдалося знайти позицію вузла"
 
-#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:340
-#: gxml/XNode.vala:371
+#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:359
 msgid "Invalid attempt to add invalid node type"
 msgstr "Некоректна спроба додати некоректний тип вузла"
 
-#: gxml/Node.vala:260 gxml/XNode.vala:342
+#: gxml/Node.vala:260 gxml/XNode.vala:361
 msgid "Can't find child to insert node before"
 msgstr "Не вдалося знайти дочірній елемент для вставлення вузла перед ним"
 
-#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:346
-#: gxml/XNode.vala:377
+#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:365
 msgid "Invalid attempt to insert a node"
 msgstr "Некоректна спроба вставити вузол"
 
-#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:353
-#: gxml/XNode.vala:384
+#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:372
 msgid "Invalid attempt to insert an invalid node type"
 msgstr "Некоректна спроба вставити некоректний тип вузла"
 
@@ -483,20 +480,20 @@ msgid "Invalid attempt to append a child with different parent document"
 msgstr ""
 "Некоректна спроба дописати дочірній елемент із іншим батьківським документом"
 
-#: gxml/Node.vala:302 gxml/XNode.vala:373
+#: gxml/Node.vala:302 gxml/XNode.vala:394
 msgid "Can't find child node to replace or child have a different parent"
 msgstr ""
 "Не вдалося знайти дочірній вузол для заміни або дочірній вузол має інший "
 "батьківський"
 
-#: gxml/Node.vala:316 gxml/XNode.vala:356 gxml/XNode.vala:387
+#: gxml/Node.vala:316 gxml/XNode.vala:375
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr ""
 "Некоректна спробу вставити тип документа або текстовий вузол до некоректного "
 "батьківського"
 
-#: gxml/Node.vala:328 gxml/XNode.vala:399
+#: gxml/Node.vala:328 gxml/XNode.vala:438
 msgid "Can't find child node to remove or child have a different parent"
 msgstr ""
 "Не вдалося знайти дочірній вузол для вилучення або дочірній вузол має інший "
@@ -521,7 +518,7 @@ msgstr ""
 "Не вдалося встановити значення. Цей елемент не належить до типу GXmlGXml."
 "Element"
 
-#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:61
+#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:65
 msgid "File doesn't exist"
 msgstr "Файла не існує"
 
@@ -647,12 +644,10 @@ msgid "Invalid comment declaration"
 msgstr "Некоректне оголошення коментаря"
 
 #: gxml/StreamReader.vala:369
-#| msgid "Invalid Processing Instruccion's target declaration"
 msgid "Invalid Processing Instruction's target declaration"
 msgstr "Некоректне оголошення цілі інструкції обробки"
 
 #: gxml/StreamReader.vala:396
-#| msgid "Invalid Processing Instruccion's close declaration"
 msgid "Invalid Processing Instruction's close declaration"
 msgstr "Некоректне оголошення закриття інструкції обробки"
 
@@ -684,20 +679,16 @@ msgstr "DOM: некоректний ключ. Пробіли не можна в�
 msgid "Update Error: "
 msgstr "Помилка оновлення: "
 
-#: gxml/XDocument.vala:146
+#: gxml/XDocument.vala:159
 #, c-format
 msgid "Error writing document to string: %s"
 msgstr "Помилка під час спроби записати документ до рядка: %s"
 
-#: gxml/XDocument.vala:214
+#: gxml/XDocument.vala:230
 msgid "Invalid element qualified name: multiple namespace prefixes"
 msgstr "Некоректна складена назва елемента: декілька префіксів просторів назв"
 
-#: gxml/XdParser.vala:65
-msgid "stream doesn't provide data"
-msgstr "у потоці не виявлено даних"
-
-#: gxml/XdParser.vala:80
+#: gxml/XdParser.vala:82
 msgid "Parser Error for string"
 msgstr "Помилка обробника рядка"
 
@@ -746,10 +737,32 @@ msgstr ""
 msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
 
-#: gxml/XNode.vala:246
+#: gxml/XNode.vala:265
 #, c-format
 msgid "Error while setting text content to node: %s"
 msgstr "Помилка під час спроби встановити текстовий вміст для вузла: %s"
+
+#: gxml/XNode.vala:390
+#, c-format
+msgid "Only GXml.XNode nodes are supported. Given a %s type"
+msgstr ""
+"Передбачено підтримку лише вузлів GXml.XNode. Задано тип %s"
+
+#: gxml/XNode.vala:401
+#| msgid "Invalid attempt to add invalid node type"
+msgid "Invalid attempt to replace a node on unsupported parent"
+msgstr "Некоректна спроба замінити вузол на непідтримуваному батьківському записі"
+
+#: gxml/XNode.vala:411
+#, c-format
+#| msgid "Invalid attempt to add invalid node type"
+msgid "Invalid attempt to replace invalid node type: %s"
+msgstr "Некоректна спроба замінити некоректний тип вузла: %s"
+
+#: gxml/XNode.vala:417
+#| msgid "Invalid attempt to set a node with a different parent document"
+msgid "Invalid attempt to replace a node on a document or text node"
+msgstr "Некоректна спроба замінити вузол на документ або текстовий вузол"
 
 #: gxml/XParser.vala:123
 msgid "Invalid input stream to read data from"
@@ -804,6 +817,9 @@ msgstr "Не вдалося знайти елемент у позиції %i: %s
 #, c-format
 msgid "Collection type %s, initialization error: %s"
 msgstr "Тип збірки %s, помилка ініціалізації: %s"
+
+#~ msgid "stream doesn't provide data"
+#~ msgstr "у потоці не виявлено даних"
 
 #~ msgid ""
 #~ "Invalid attempt to insert a document or text type to an invalid parent "
