@@ -40,6 +40,10 @@ public class GXml.XDocument : GXml.XNode,
   internal Xml.Doc* doc;
   protected Xml.Buffer _buffer;
   protected Parser _parser = null;
+  
+  construct {
+    _node = null;
+  }
 
   ~XDocument () {
       delete doc;
@@ -202,7 +206,10 @@ public class GXml.XDocument : GXml.XNode,
         errmsg = ".  ";
       throw new GXml.Error.PARSER (errmsg);
     }
-    return new XElement (this, el);
+    
+    var n = new XElement (this, el);
+    n.take_node ();
+    return n;
   }
   public DomElement GXml.DomDocument.create_element_ns (string? ns, string qualified_name) throws GLib.Error
   {
@@ -218,6 +225,7 @@ public class GXml.XDocument : GXml.XNode,
       }
       var e = ((GXml.DomDocument) this).create_element (qname);
       ((XElement) e).set_namespace (ns, prefix);
+      ((XElement) e).take_node ();
       return e as DomElement;
   }
 

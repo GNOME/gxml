@@ -52,8 +52,9 @@ public abstract class GXml.XNode : GLib.Object,
   }
 
   ~ XNode () {
-      if (owned_node) {
+      if (owned_node && _node != null) {
           delete _node;
+          _node = null;
       }
   }
 
@@ -105,6 +106,10 @@ public abstract class GXml.XNode : GLib.Object,
 
   internal void take_node () {
       owned_node = true;
+  }
+
+  internal void release_node () {
+      owned_node = false;
   }
   // Static
   public static GXml.DomNode to_gnode (GXml.XDocument doc, Xml.Node *node, bool take_node) {
