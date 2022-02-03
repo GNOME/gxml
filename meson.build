@@ -1,4 +1,4 @@
-project('gxml', [ 'vala', 'c'], version : '0.20.1')
+project('gxml', [ 'vala', 'c'], version : '0.20.2')
 
 PROJECT_NAME = meson.project_name ()
 API_VERSION = '0.20'
