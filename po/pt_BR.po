@@ -1,23 +1,23 @@
 # Brazilian Portuguese translation for gxml.
-# Copyright (C) 2021 gxml's COPYRIGHT HOLDER
+# Copyright (C) 2022 gxml's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gxml package.
 # Enrico Nicoletto <liverig@gmail.com>, 2016, 2020.
-# Rafael Fontenelle <rafaelff@gnome.org>, 2016-2021.
+# Rafael Fontenelle <rafaelff@gnome.org>, 2016-2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2021-10-08 15:21+0000\n"
-"PO-Revision-Date: 2021-10-11 18:04-0300\n"
-"Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
+"POT-Creation-Date: 2022-02-03 04:12+0000\n"
+"PO-Revision-Date: 2022-02-04 17:52-0300\n"
+"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.0\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"X-Generator: Gtranslator 40.0\n"
 "X-Project-Style: gnome\n"
 
 #: gxml/BaseCollection.vala:91
@@ -167,15 +167,15 @@ msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
 msgstr ""
 "Apenas prefixos de xmlns podem ser usados com http://www.w3.org/2000/xmlns/"
 
-#: gxml/Document.vala:244 gxml/XDocument.vala:259
+#: gxml/Document.vala:244 gxml/XDocument.vala:276
 msgid "Can't import a Document"
 msgstr "Não foi possível importar um documento"
 
-#: gxml/Document.vala:246 gxml/XDocument.vala:261
+#: gxml/Document.vala:246 gxml/XDocument.vala:278
 msgid "Can't import a non Element type node to a Document"
 msgstr "Não foi possível importar um nó de tipo não-elemento a um documento"
 
-#: gxml/Document.vala:270 gxml/XDocument.vala:285
+#: gxml/Document.vala:270 gxml/XDocument.vala:302
 msgid "Can't adopt a Document"
 msgstr "Não foi possível adotar um documento"
 
@@ -451,26 +451,23 @@ msgstr "Nenhuma chave primária e/ou chave secundária foi localizada"
 msgid "Text content in element can't be created"
 msgstr "Conteúdo de texto no elemento não pode ser criado"
 
-#: gxml/Node.vala:209 gxml/XNode.vala:309
+#: gxml/Node.vala:209 gxml/XNode.vala:328
 msgid "Can't find node position"
 msgstr "Não foi possível localizar a posição do nó"
 
-#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:340
-#: gxml/XNode.vala:371
+#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:359
 msgid "Invalid attempt to add invalid node type"
 msgstr "Tentativa inválida de adicionar tipo de nó inválido"
 
-#: gxml/Node.vala:260 gxml/XNode.vala:342
+#: gxml/Node.vala:260 gxml/XNode.vala:361
 msgid "Can't find child to insert node before"
 msgstr "Não foi possível localizar filho para inserir nó antes"
 
-#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:346
-#: gxml/XNode.vala:377
+#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:365
 msgid "Invalid attempt to insert a node"
 msgstr "Tentativa inválida de inserir um nó"
 
-#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:353
-#: gxml/XNode.vala:384
+#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:372
 msgid "Invalid attempt to insert an invalid node type"
 msgstr "Tentativa inválida de inserir um tipo inválido de nó"
 
@@ -482,20 +479,20 @@ msgstr "Tipo de nó é inválido. Não foi possível anexar como filho"
 msgid "Invalid attempt to append a child with different parent document"
 msgstr "Tentativa inválida de anexar um filho com documento de pai diferente"
 
-#: gxml/Node.vala:302 gxml/XNode.vala:373
+#: gxml/Node.vala:302 gxml/XNode.vala:394
 msgid "Can't find child node to replace or child have a different parent"
 msgstr ""
 "Não foi possível localizar nó filho para substituir ou o filho possui um pai "
 "diferente"
 
-#: gxml/Node.vala:316 gxml/XNode.vala:356 gxml/XNode.vala:387
+#: gxml/Node.vala:316 gxml/XNode.vala:375
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr ""
 "Tentativa inválida de inserir o tipo de um documento ou um nó de texto a um "
 "pai inválido"
 
-#: gxml/Node.vala:328 gxml/XNode.vala:399
+#: gxml/Node.vala:328 gxml/XNode.vala:438
 msgid "Can't find child node to remove or child have a different parent"
 msgstr ""
 "Não foi possível localizar nó filho para remover ou o filho possui um pai "
@@ -518,7 +515,7 @@ msgstr "Erro ao tentar instanciar objeto de propriedade: %s"
 msgid "Can't set value. It is not a GXmlGXml.Element type"
 msgstr "Não foi possível definir um valor. Ele não é um tipo GXmlGXml.Element"
 
-#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:61
+#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:65
 msgid "File doesn't exist"
 msgstr "O arquivo não existe"
 
@@ -677,22 +674,18 @@ msgstr "DOM: Token inválido. Espaços em branco podem ser usados como token"
 msgid "Update Error: "
 msgstr "Erro de atualização: "
 
-#: gxml/XDocument.vala:146
+#: gxml/XDocument.vala:159
 #, c-format
 msgid "Error writing document to string: %s"
 msgstr "Erro ao escrever documento para string: %s"
 
-#: gxml/XDocument.vala:214
+#: gxml/XDocument.vala:230
 msgid "Invalid element qualified name: multiple namespace prefixes"
 msgstr ""
 "Nome inválido de qualificador de elemento: há vários prefixos de nomes de "
 "espaço"
 
-#: gxml/XdParser.vala:65
-msgid "stream doesn't provide data"
-msgstr "fluxo não provê dados"
-
-#: gxml/XdParser.vala:80
+#: gxml/XdParser.vala:82
 msgid "Parser Error for string"
 msgstr "Erro de análise para string"
 
@@ -740,10 +733,31 @@ msgstr "Documento inválido ao adicionar item à coleção de mapa de nós nomea
 msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
 
-#: gxml/XNode.vala:246
+#: gxml/XNode.vala:265
 #, c-format
 msgid "Error while setting text content to node: %s"
 msgstr "Erro ao tentar definir o conteúdo do texto para nó: %s"
+
+#: gxml/XNode.vala:390
+#, c-format
+msgid "Only GXml.XNode nodes are supported. Given a %s type"
+msgstr "Somente nós GXml XNode são suportados. Dado um tipo %s"
+
+#: gxml/XNode.vala:401
+#| msgid "Invalid atempt to set a node without key attribute"
+msgid "Invalid attempt to replace a node on unsupported parent"
+msgstr "Tentativa inválida de substituir um nó em pai sem suporte"
+
+#: gxml/XNode.vala:411
+#, c-format
+#| msgid "Invalid attempt to add invalid node type"
+msgid "Invalid attempt to replace invalid node type: %s"
+msgstr "Tentativa inválida de substituir tipo de nó inválido: %s"
+
+#: gxml/XNode.vala:417
+#| msgid "Invalid attempt to set a node with a different parent document"
+msgid "Invalid attempt to replace a node on a document or text node"
+msgstr "Tentativa inválida de substituir um nó em um nó de texto ou documento"
 
 #: gxml/XParser.vala:123
 msgid "Invalid input stream to read data from"
@@ -798,6 +812,9 @@ msgstr "Não foi possível localizar elemento na posição: %i: %s"
 #, c-format
 msgid "Collection type %s, initialization error: %s"
 msgstr "Collection tipo %s, erro de inicialização: %s"
+
+#~ msgid "stream doesn't provide data"
+#~ msgstr "fluxo não provê dados"
 
 #~ msgid ""
 #~ "Invalid attempt to insert a document or text type to an invalid parent "
@@ -927,9 +944,6 @@ msgstr "Collection tipo %s, erro de inicialização: %s"
 
 #~ msgid "Invalid object item type to initialize HashMap"
 #~ msgstr "Tipo de item de objeto inválido para iniciar HashMap"
-
-#~ msgid "Invalid atempt to set a node without key attribute"
-#~ msgstr "Tentativa inválida de definir um nó sem atributo chave"
 
 #~ msgid "Invalid namespaced attribute's name and prefix"
 #~ msgstr "Nome e prefixo do atributo de espaço de nome inválidos"
