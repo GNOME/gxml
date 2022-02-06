@@ -113,17 +113,49 @@ class XHtmlDocumentTest : GLib.Object {
 				assert_not_reached ();
 			}
 		});
-		// Test.add_func ("/gxml/XHtmlDocument/uri", () => {
-		// 	try {
-		// 		var f = GLib.File.new_for_uri ("http://www.omgubuntu.co.uk/2017/05/kde-neon-5-10-available-download-comes-plasma-5-10");
-		// 		DomDocument doc;
-		// 		doc = new XHtmlDocument.from_uri ("http://www.omgubuntu.co.uk/2017/05/kde-neon-5-10-available-download-comes-plasma-5-10");
-		// 		message ((doc as GDocument).to_string ());
-		// 	} catch (GLib.Error e){
-		// 		message ("ERROR: "+e.message);
-		// 		assert_not_reached ();
-		// 	}
-		// });
+		Test.add_func ("/gxml/XHtmlDocument/new", () => {
+			try {
+				DomDocument doc = new XHtmlDocument ();
+                var e = doc.create_element ("body");
+                doc.append_child (e);
+				message (((XDocument) doc).to_string ());
+			} catch (GLib.Error e){
+				warning ("ERROR: "+e.message);
+			}
+		});
+		Test.add_func ("/gxml/XHtmlDocument/read_from_string", () => {
+			try {
+				DomDocument doc = new XHtmlDocument ();
+                doc.read_from_string ("<html><body/></html>");
+				message (((XDocument) doc).to_string ());
+			} catch (GLib.Error e){
+				warning ("ERROR: "+e.message);
+			}
+		});
+		Test.add_func ("/gxml/XHtmlDocument/read_from_string_tolerant", () => {
+			try {
+				XHtmlDocument doc = new XHtmlDocument ();
+                doc.read_from_string_tolerant ("<html><body/></html>");
+				message (((XDocument) doc).to_string ());
+			} catch (GLib.Error e){
+				warning ("ERROR: "+e.message);
+			}
+		});
+		Test.add_func ("/gxml/XHtmlDocument/uri", () => {
+			try {
+                NetworkMonitor monitor = NetworkMonitor.get_default ();
+                if (!monitor.network_available) {
+                    message ("Network not available, abortind test");
+                    return;
+                }
+				DomDocument doc;
+				doc = new XHtmlDocument.from_uri ("http://www.omgubuntu.co.uk/2017/05/kde-neon-5-10-available-download-comes-plasma-5-10");
+				message (((XDocument) doc).to_string ());
+			} catch (GLib.Error e){
+				message ("ERROR: "+e.message);
+				assert_not_reached ();
+			}
+		});
 		Test.add_func ("/gxml/XHtmlDocument/element-by-property", () => {
 		 	var src = """
 <!--[if lt IE 7]>      <html dir="ltr" lang="fr" data-locale="fr" data-locale-long="fr_FR" data-locale-name="French (France)" data-locale-facebook="fr_FR" data-locale-twitter="fr" data-locale-google="fr" data-locale-linkedin="fr_FR" class="no-js lt-ie9 lt-ie8 lt-ie7 "> <![endif]-->
