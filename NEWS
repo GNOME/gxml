@@ -1,4 +1,15 @@
 ===============
+Version 0.20.3
+===============
+
+* Many memory leaks for XHtmlDocument implementation based on libxml2
+* Updated translations:
+    Polish                 by Piotr Drąg <piotrdrag@gmail.com>
+    Brazillian Portuguese  by Rafael Fontenelle <rafaelff@gnome.org>
+    Ukrainian              by Yuri Chornoivan <yurchor@ukr.net>
+    Swedish                by Anders Jonsson <anders.jonsson@norsjovallen.se>
+
+===============
 Version 0.20.2
 ===============
 
