@@ -53,9 +53,9 @@ namespace GXml {
 		 * your document content or source.
 		 */
 		public XHtmlDocument.from_file (File file, int options = 0, Cancellable? cancel = null) throws GLib.Error {
-			var ostream = new MemoryOutputStream.resizable ();
-			ostream.splice (file.read (), GLib.OutputStreamSpliceFlags.CLOSE_SOURCE, cancel);
-			this.from_string ((string) ostream.data, options);
+			var istream = new GLib.DataInputStream (file.read ());
+			string text = istream.read_upto ("\0", -1, null);
+			this.from_string (text, options);
 		}
 		/**
 		 * This method parse strings using {@link Html.Doc.read_memory} method.
@@ -82,11 +82,21 @@ namespace GXml {
 		}
 		// DomHtmlDocument implementation
 		public void read_from_string (string str) {
+			if (this.doc != null) {
+				delete this.doc;
+				this.doc = null;
+			}
+
 			this.doc = Html.Doc.read_memory ((char[]) str, str.length, "", null, 0);
 		}
 
 		public void read_from_string_tolerant (string str) throws GLib.Error {
 			Html.ParserCtxt ctx = new Html.ParserCtxt ();
+			if (this.doc != null) {
+				delete this.doc;
+				this.doc = null;
+			}
+
 			this.doc = ctx.read_memory ((char[]) str, str.length, "", null, 0);
 		}
 		public string to_html () throws GLib.Error {
@@ -96,6 +106,17 @@ namespace GXml {
 			message (len.to_string ());
 			return buffer.dup ();
 		}
+
+		public override string to_string () {
+			string t = "";
+			try {
+				t = to_html ();
+			} catch (GLib.Error e) {
+				warning (_("Error while converting HTML document to string: %s"), e.message);
+			}
+
+			return t;
+		} 
 		/**
 		 * Search all {@link GXml.Element} with a property called "class" and with a
 		 * value as a class apply to a node.
