@@ -2,14 +2,14 @@
 # Copyright (C) 2015 Daniel Espinosa Ortiz
 # This file is distributed under the same license as the GXml package.
 # esodan@gmail.com, 2015.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2015-2021.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2015-2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2021-08-23 03:06+0000\n"
-"PO-Revision-Date: 2021-08-26 12:17+0200\n"
+"POT-Creation-Date: 2022-02-04 20:55+0000\n"
+"PO-Revision-Date: 2022-02-07 12:35+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 40.0\n"
+"X-Generator: Gtranslator 41.0\n"
 
 #: gxml/BaseCollection.vala:91
 msgid ""
@@ -170,16 +170,16 @@ msgstr ""
 msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
 msgstr "Sólo se pueden usar prefijos xmlns con http://www.w3.org/2000/xmlns/"
 
-#: gxml/Document.vala:244 gxml/XDocument.vala:259
+#: gxml/Document.vala:244 gxml/XDocument.vala:276
 msgid "Can't import a Document"
 msgstr "No se puede importar un documento"
 
-#: gxml/Document.vala:246 gxml/XDocument.vala:261
+#: gxml/Document.vala:246 gxml/XDocument.vala:278
 msgid "Can't import a non Element type node to a Document"
 msgstr ""
 "No se puede importar un tipo de elemento que no sea un nodo en un documento"
 
-#: gxml/Document.vala:270 gxml/XDocument.vala:285
+#: gxml/Document.vala:270 gxml/XDocument.vala:302
 msgid "Can't adopt a Document"
 msgstr "No se puede adoptar un documento"
 
@@ -456,26 +456,23 @@ msgstr "No se ha encontrado ninguna clave primario y/o secundaria"
 msgid "Text content in element can't be created"
 msgstr "No se puede crear el contenido de texto en el elemento"
 
-#: gxml/Node.vala:209 gxml/XNode.vala:309
+#: gxml/Node.vala:209 gxml/XNode.vala:328
 msgid "Can't find node position"
 msgstr "No se puede encontrar la posición del nodo"
 
-#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:340
-#: gxml/XNode.vala:371
+#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:359
 msgid "Invalid attempt to add invalid node type"
 msgstr "Intento fallido de añadir un tipo de nodo no válido"
 
-#: gxml/Node.vala:260 gxml/XNode.vala:342
+#: gxml/Node.vala:260 gxml/XNode.vala:361
 msgid "Can't find child to insert node before"
 msgstr "No se puede encontrar un hijo antes del que insertar un nodo"
 
-#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:346
-#: gxml/XNode.vala:377
+#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:365
 msgid "Invalid attempt to insert a node"
 msgstr "Intento fallido de insertar un nodo"
 
-#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:353
-#: gxml/XNode.vala:384
+#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:372
 msgid "Invalid attempt to insert an invalid node type"
 msgstr "Intento fallido de insertar un tipo de nodo no válido"
 
@@ -487,20 +484,20 @@ msgstr "El tipo de nodo no es válido. No se puede añadir como un hijo"
 msgid "Invalid attempt to append a child with different parent document"
 msgstr "Intento fallido de añadir un hijo con un documento padre diferente"
 
-#: gxml/Node.vala:302 gxml/XNode.vala:373
+#: gxml/Node.vala:302 gxml/XNode.vala:394
 msgid "Can't find child node to replace or child have a different parent"
 msgstr ""
 "No se puede encontrar el nodo hijo que reemplazar o el hijo tiene un padre "
 "diferente"
 
-#: gxml/Node.vala:316 gxml/XNode.vala:356 gxml/XNode.vala:387
+#: gxml/Node.vala:316 gxml/XNode.vala:375
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr ""
 "Intento fallido de insertar un tipo de documento o texto de texto en un "
 "padre no válido"
 
-#: gxml/Node.vala:328 gxml/XNode.vala:399
+#: gxml/Node.vala:328 gxml/XNode.vala:438
 msgid "Can't find child node to remove or child have a different parent"
 msgstr ""
 "No se puede encontrar el nodo hijo que eliminar o el hijo tiene un padre "
@@ -523,7 +520,7 @@ msgstr "Error al intentar instanciar el objeto de propiedad: %s"
 msgid "Can't set value. It is not a GXmlGXml.Element type"
 msgstr "No se puede establecer el valor. No es de tipo GXmlGXml.Element"
 
-#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:61
+#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:65
 msgid "File doesn't exist"
 msgstr "El archivo no existe"
 
@@ -655,12 +652,14 @@ msgid "Invalid comment declaration"
 msgstr "Declaración de comentario no válida"
 
 #: gxml/StreamReader.vala:369
-msgid "Invalid Processing Instruccion's target declaration"
+#| msgid "Invalid Processing Instruccion's target declaration"
+msgid "Invalid Processing Instruction's target declaration"
 msgstr ""
 "Instrucciones de procesamiento de la declaración del objetivo no válidas"
 
 #: gxml/StreamReader.vala:396
-msgid "Invalid Processing Instruccion's close declaration"
+#| msgid "Invalid Processing Instruccion's close declaration"
+msgid "Invalid Processing Instruction's close declaration"
 msgstr "Instrucciones de cierre de la declaración no válidas"
 
 #: gxml/TokenList.vala:54
@@ -691,22 +690,18 @@ msgstr "DOM: testigo no válido. No se deben incluir espacios en el testigo"
 msgid "Update Error: "
 msgstr "Error al actualizar: "
 
-#: gxml/XDocument.vala:146
+#: gxml/XDocument.vala:159
 #, c-format
 msgid "Error writing document to string: %s"
 msgstr "Error al escribir el documento a cadena: %s"
 
-#: gxml/XDocument.vala:214
+#: gxml/XDocument.vala:230
 msgid "Invalid element qualified name: multiple namespace prefixes"
 msgstr ""
 "Nombre cualificado del elemento no válido: hay varios prefijos de espacios "
 "de nombres"
 
-#: gxml/XdParser.vala:65
-msgid "stream doesn't provide data"
-msgstr "el flujo no proporciona datos"
-
-#: gxml/XdParser.vala:80
+#: gxml/XdParser.vala:82
 msgid "Parser Error for string"
 msgstr "Analizador de error para la cadena"
 
@@ -756,10 +751,31 @@ msgstr ""
 msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
 
-#: gxml/XNode.vala:246
+#: gxml/XNode.vala:265
 #, c-format
 msgid "Error while setting text content to node: %s"
 msgstr "Error al establecer el contenido de texto del nodo: %s"
+
+#: gxml/XNode.vala:390
+#, c-format
+msgid "Only GXml.XNode nodes are supported. Given a %s type"
+msgstr "Sólo se soportan nodos GXml.XNode. Dado un tipo %s"
+
+#: gxml/XNode.vala:401
+#| msgid "Invalid attempt to add invalid node type"
+msgid "Invalid attempt to replace a node on unsupported parent"
+msgstr "Intento fallido de reemplazar un tipo de nodo no válido"
+
+#: gxml/XNode.vala:411
+#, c-format
+#| msgid "Invalid attempt to add invalid node type"
+msgid "Invalid attempt to replace invalid node type: %s"
+msgstr "Intento fallido de reemplazar un tipo de nodo no válido: %s"
+
+#: gxml/XNode.vala:417
+#| msgid "Invalid attempt to set a node with a different parent document"
+msgid "Invalid attempt to replace a node on a document or text node"
+msgstr "Intento fallido de reemplazar un nodo en un documento o nodo de texto"
 
 #: gxml/XParser.vala:123
 msgid "Invalid input stream to read data from"
@@ -782,13 +798,11 @@ msgstr "Error interno: TextReader no se ha establecido"
 
 #: gxml/XParser.vala:271
 #, c-format
-#| msgid "Can't read node data"
 msgid "Can't read node data at line: %d"
 msgstr "No se pueden leer los datos del nodo en la línea: %d"
 
 #: gxml/XParser.vala:335
 #, c-format
-#| msgid "Parsing ERROR: Fail to move to attribute number: %i"
 msgid "Parsing ERROR: Fail to move to attribute number: %i at line: %d"
 msgstr ""
 "Error al analizar: falló al mover al número de atributo: %i en la línea: %d"
@@ -816,6 +830,9 @@ msgstr "No se puede encontrar el elemento en la posición: %i: %s"
 #, c-format
 msgid "Collection type %s, initialization error: %s"
 msgstr "Tipo de colección %s, error de inicialización: %s"
+
+#~ msgid "stream doesn't provide data"
+#~ msgstr "el flujo no proporciona datos"
 
 #~ msgid ""
 #~ "Invalid attempt to insert a document or text type to an invalid parent "
