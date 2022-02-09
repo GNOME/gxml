@@ -27,7 +27,12 @@ build:
   - cd _build
   - ninja
   - meson test
-  - ninja install
+  - ninja installartifacts:
+    when: on_failure
+    paths:
+    - _build/meson-logs/testlog.txt
+    - _build/meson-logs/meson-log.txt
+    expire_in: 1 week
 
 pages:
   stage: deploy
