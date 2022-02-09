@@ -141,21 +141,6 @@ class XHtmlDocumentTest : GLib.Object {
 				warning ("ERROR: "+e.message);
 			}
 		});
-		Test.add_func ("/gxml/XHtmlDocument/uri", () => {
-			try {
-                NetworkMonitor monitor = NetworkMonitor.get_default ();
-                if (!monitor.network_available) {
-                    message ("Network not available, abortind test");
-                    return;
-                }
-				DomDocument doc;
-				doc = new XHtmlDocument.from_uri ("http://www.omgubuntu.co.uk/2017/05/kde-neon-5-10-available-download-comes-plasma-5-10");
-				message (((XDocument) doc).to_string ());
-			} catch (GLib.Error e){
-				message ("ERROR: "+e.message);
-				assert_not_reached ();
-			}
-		});
 		Test.add_func ("/gxml/XHtmlDocument/element-by-property", () => {
 		 	var src = """
 <!--[if lt IE 7]>      <html dir="ltr" lang="fr" data-locale="fr" data-locale-long="fr_FR" data-locale-name="French (France)" data-locale-facebook="fr_FR" data-locale-twitter="fr" data-locale-google="fr" data-locale-linkedin="fr_FR" class="no-js lt-ie9 lt-ie8 lt-ie7 "> <![endif]-->
@@ -1489,7 +1474,7 @@ cleanVideoTitle();
                     <a href="/fr/rejoindre-la-communaute" target="_self" class="">Pr&#xE9;sentation</a>
                 </li>
                 <li>
-                    <a href="/fr/rejoindre-communaute/faq" target="_self" class="">Aide</a>
+                    <a href="/fr/rejoindre-communaute/faq" target="_self"to_string class="">Aide</a>
                 </li>
             </ul></div>
     </div>
