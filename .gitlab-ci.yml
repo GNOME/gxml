@@ -27,7 +27,8 @@ build:
   - cd _build
   - ninja
   - meson test
-  - ninja installartifacts:
+  - ninja install
+  artifacts:
     when: on_failure
     paths:
     - _build/meson-logs/testlog.txt
