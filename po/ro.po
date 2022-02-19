@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2021-08-23 03:06+0000\n"
-"PO-Revision-Date: 2021-08-23 10:38+0200\n"
+"POT-Creation-Date: 2022-02-03 04:12+0000\n"
+"PO-Revision-Date: 2022-02-19 14:50+0100\n"
 "Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2);;\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: gxml/BaseCollection.vala:91
 msgid ""
@@ -169,15 +169,15 @@ msgstr ""
 msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
 msgstr "Doar prefixele xmlns pot fi utilizate cu http://www.w3.org/2000/xmlns/"
 
-#: gxml/Document.vala:244 gxml/XDocument.vala:259
+#: gxml/Document.vala:244 gxml/XDocument.vala:276
 msgid "Can't import a Document"
 msgstr "Nu se poate importa un document"
 
-#: gxml/Document.vala:246 gxml/XDocument.vala:261
+#: gxml/Document.vala:246 gxml/XDocument.vala:278
 msgid "Can't import a non Element type node to a Document"
 msgstr "Nu se poate importa un nod de tipul non element la un document"
 
-#: gxml/Document.vala:270 gxml/XDocument.vala:285
+#: gxml/Document.vala:270 gxml/XDocument.vala:302
 msgid "Can't adopt a Document"
 msgstr "Nu se poate adopta un document"
 
@@ -451,26 +451,23 @@ msgstr "Nu a fost găsită nicio cheie primară și/sau cheie secundară"
 msgid "Text content in element can't be created"
 msgstr "Conținutul textului în element nu poate fi creat"
 
-#: gxml/Node.vala:209 gxml/XNode.vala:309
+#: gxml/Node.vala:209 gxml/XNode.vala:328
 msgid "Can't find node position"
 msgstr "Nu se poate găsi poziția nodului"
 
-#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:340
-#: gxml/XNode.vala:371
+#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:359
 msgid "Invalid attempt to add invalid node type"
 msgstr "Încercare nevalidă de a adăuga tipul de nod nevalid"
 
-#: gxml/Node.vala:260 gxml/XNode.vala:342
+#: gxml/Node.vala:260 gxml/XNode.vala:361
 msgid "Can't find child to insert node before"
 msgstr "Nu se poate găsi copilul care să insereze nodul înainte"
 
-#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:346
-#: gxml/XNode.vala:377
+#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:365
 msgid "Invalid attempt to insert a node"
 msgstr "Încercare nevalidă de a insera un nod"
 
-#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:353
-#: gxml/XNode.vala:384
+#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:372
 msgid "Invalid attempt to insert an invalid node type"
 msgstr "Încercare nevalidă de a insera un tip de nod nevalid"
 
@@ -483,19 +480,19 @@ msgid "Invalid attempt to append a child with different parent document"
 msgstr ""
 "Încercare nevalidă de adăugare a unui copil cu document de părinte diferit"
 
-#: gxml/Node.vala:302 gxml/XNode.vala:373
+#: gxml/Node.vala:302 gxml/XNode.vala:394
 msgid "Can't find child node to replace or child have a different parent"
 msgstr ""
 "Nu se poate găsi nodul copil de înlocuit sau copilul are un părinte diferit"
 
-#: gxml/Node.vala:316 gxml/XNode.vala:356 gxml/XNode.vala:387
+#: gxml/Node.vala:316 gxml/XNode.vala:375
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr ""
 "Încercare nevalidă de inserare a unui tip de document sau a unui nod de text "
 "la un părinte nevalid"
 
-#: gxml/Node.vala:328 gxml/XNode.vala:399
+#: gxml/Node.vala:328 gxml/XNode.vala:438
 msgid "Can't find child node to remove or child have a different parent"
 msgstr ""
 "Nu se poate găsi nodul copilului de eliminat sau copilul are un părinte "
@@ -519,7 +516,7 @@ msgstr ""
 msgid "Can't set value. It is not a GXmlGXml.Element type"
 msgstr "Nu se poate stabili valoarea: Nu este un tip GXmlGXml.Element"
 
-#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:61
+#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:65
 msgid "File doesn't exist"
 msgstr "Fișierul nu există"
 
@@ -644,12 +641,12 @@ msgid "Invalid comment declaration"
 msgstr "Declarație de comentariu nevalidă"
 
 #: gxml/StreamReader.vala:369
-msgid "Invalid Processing Instruccion's target declaration"
-msgstr "Declarație de țintă a Instruccion de procesare nevalidă"
+msgid "Invalid Processing Instruction's target declaration"
+msgstr "Declarație de țintă a Instrucțiunii de procesare nevalidă"
 
 #: gxml/StreamReader.vala:396
-msgid "Invalid Processing Instruccion's close declaration"
-msgstr "Declarație de închidere a Instruccion de procesare nevalidă"
+msgid "Invalid Processing Instruction's close declaration"
+msgstr "Declarație de închidere a Instrucțiunii de procesare nevalidă"
 
 #: gxml/TokenList.vala:54
 msgid ""
@@ -679,20 +676,16 @@ msgstr "DOM: Jeton nevalid. Spațiile albe nu pot fi utilizate ca jeton"
 msgid "Update Error: "
 msgstr "Eroare de actualizare: "
 
-#: gxml/XDocument.vala:146
+#: gxml/XDocument.vala:159
 #, c-format
 msgid "Error writing document to string: %s"
 msgstr "Eroare la scrierea documentului la șir: %s"
 
-#: gxml/XDocument.vala:214
+#: gxml/XDocument.vala:230
 msgid "Invalid element qualified name: multiple namespace prefixes"
 msgstr "Nume calificat de element nevalid: prefixe de namespace multiple"
 
-#: gxml/XdParser.vala:65
-msgid "stream doesn't provide data"
-msgstr "fluxul nu furnizează date"
-
-#: gxml/XdParser.vala:80
+#: gxml/XdParser.vala:82
 msgid "Parser Error for string"
 msgstr "Eroare de parsare pentru șir"
 
@@ -743,10 +736,28 @@ msgstr ""
 msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
 
-#: gxml/XNode.vala:246
+#: gxml/XNode.vala:265
 #, c-format
 msgid "Error while setting text content to node: %s"
 msgstr "Eroare în timpul stabilirii conținutului textului la nodul: %s"
+
+#: gxml/XNode.vala:390
+#, c-format
+msgid "Only GXml.XNode nodes are supported. Given a %s type"
+msgstr "Numai noduri GXml.XNode sunt suportate. Având un tip %s"
+
+#: gxml/XNode.vala:401
+msgid "Invalid attempt to replace a node on unsupported parent"
+msgstr "Încercare nevalidă de a înlocui un nod pe un părinte nesuportat"
+
+#: gxml/XNode.vala:411
+#, c-format
+msgid "Invalid attempt to replace invalid node type: %s"
+msgstr "Încercare nevalidă de a înlocui un tip de nod nevalid: %s"
+
+#: gxml/XNode.vala:417
+msgid "Invalid attempt to replace a node on a document or text node"
+msgstr "Încercare nevalidă de a înlocui un nod pe un nod document sau text"
 
 #: gxml/XParser.vala:123
 msgid "Invalid input stream to read data from"
@@ -801,3 +812,6 @@ msgstr "Nu se poate găsi elementul la poziția %i: %s"
 #, c-format
 msgid "Collection type %s, initialization error: %s"
 msgstr "Tip de colecție %s, eroare de inițializare: %s"
+
+#~ msgid "stream doesn't provide data"
+#~ msgstr "fluxul nu furnizează date"
