@@ -1,16 +1,16 @@
 # Serbian translation for gxml.
-# Courtesy of Prevod.org team (http://prevod.org/) -- 2016–2021.
+# Courtesy of Prevod.org team (http://prevod.org/) -- 2016–2022.
 # Copyright © 2016 gxml's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gxml package.
 # Translators:
-# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2016–2021.
+# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2016–2022.
 # Марко М. Костић <marko.m.kostic@gmail.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2021-10-08 15:21+0000\n"
-"PO-Revision-Date: 2021-12-30 14:05+0200\n"
+"POT-Creation-Date: 2022-02-03 04:12+0000\n"
+"PO-Revision-Date: 2022-02-20 18:52+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <(nothing)>\n"
 "Language: sr\n"
@@ -169,15 +169,15 @@ msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
 msgstr ""
 "Само „xmlns“ префикси се могу користити са „http://www.w3.org/2000/xmlns/“"
 
-#: gxml/Document.vala:244 gxml/XDocument.vala:259
+#: gxml/Document.vala:244 gxml/XDocument.vala:276
 msgid "Can't import a Document"
 msgstr "Не могу да увезем Документ"
 
-#: gxml/Document.vala:246 gxml/XDocument.vala:261
+#: gxml/Document.vala:246 gxml/XDocument.vala:278
 msgid "Can't import a non Element type node to a Document"
 msgstr "Не могу да увезем у Документ чвор који није врста Елемента"
 
-#: gxml/Document.vala:270 gxml/XDocument.vala:285
+#: gxml/Document.vala:270 gxml/XDocument.vala:302
 msgid "Can't adopt a Document"
 msgstr "Не могу да присвојим Документ"
 
@@ -450,26 +450,23 @@ msgstr "Нисам нашао примарни и/или секундарни к
 msgid "Text content in element can't be created"
 msgstr "Садржај текста у елементу се не може направити"
 
-#: gxml/Node.vala:209 gxml/XNode.vala:309
+#: gxml/Node.vala:209 gxml/XNode.vala:328
 msgid "Can't find node position"
 msgstr "Не могу да нађем положај чвора"
 
-#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:340
-#: gxml/XNode.vala:371
+#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:359
 msgid "Invalid attempt to add invalid node type"
 msgstr "Неисправан покушај додавања неисправне врсте чвора"
 
-#: gxml/Node.vala:260 gxml/XNode.vala:342
+#: gxml/Node.vala:260 gxml/XNode.vala:361
 msgid "Can't find child to insert node before"
 msgstr "Не могу да нађем пород да уметнем чвор пре"
 
-#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:346
-#: gxml/XNode.vala:377
+#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:365
 msgid "Invalid attempt to insert a node"
 msgstr "Неисправан покушај уметања чвора"
 
-#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:353
-#: gxml/XNode.vala:384
+#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:372
 msgid "Invalid attempt to insert an invalid node type"
 msgstr "Неисправан покушај уметања неисправне врсте чвора"
 
@@ -482,18 +479,18 @@ msgid "Invalid attempt to append a child with different parent document"
 msgstr ""
 "Неисправан покушај прилагања порода са другачијим родитељским документом"
 
-#: gxml/Node.vala:302 gxml/XNode.vala:373
+#: gxml/Node.vala:302 gxml/XNode.vala:394
 msgid "Can't find child node to replace or child have a different parent"
 msgstr "Не могу да нађем чвор порода да заменим или пород има другог родитеља"
 
-#: gxml/Node.vala:316 gxml/XNode.vala:356 gxml/XNode.vala:387
+#: gxml/Node.vala:316 gxml/XNode.vala:375
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr ""
 "Неисправан покушај уметања врсте документа или чвора текста неисправном "
 "родитељу"
 
-#: gxml/Node.vala:328 gxml/XNode.vala:399
+#: gxml/Node.vala:328 gxml/XNode.vala:438
 msgid "Can't find child node to remove or child have a different parent"
 msgstr "Не могу да нађем чвор порода да уклоним или пород има другог родитеља"
 
@@ -514,7 +511,7 @@ msgstr "Грешка приликом покушаја покретања обј
 msgid "Can't set value. It is not a GXmlGXml.Element type"
 msgstr "Не могу да поставим вредност. Није врста „GXmlGXml.Element“-а"
 
-#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:61
+#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:65
 msgid "File doesn't exist"
 msgstr "Датотека не постоји"
 
@@ -636,12 +633,10 @@ msgid "Invalid comment declaration"
 msgstr "Неисправна изјава напомене"
 
 #: gxml/StreamReader.vala:369
-#| msgid "Invalid Processing Instruccion's target declaration"
 msgid "Invalid Processing Instruction's target declaration"
 msgstr "Неисправна објава мете упутства обраде"
 
 #: gxml/StreamReader.vala:396
-#| msgid "Invalid Processing Instruccion's close declaration"
 msgid "Invalid Processing Instruction's close declaration"
 msgstr "Неисправна објава затварања упутства обраде"
 
@@ -673,21 +668,17 @@ msgstr "ДОМ: Неисправан симбол. Празна места се 
 msgid "Update Error: "
 msgstr "Грешка освежавања: "
 
-#: gxml/XDocument.vala:146
+#: gxml/XDocument.vala:159
 #, c-format
 msgid "Error writing document to string: %s"
 msgstr "Грешка писања документа у ниску: %s"
 
-#: gxml/XDocument.vala:214
+#: gxml/XDocument.vala:230
 msgid "Invalid element qualified name: multiple namespace prefixes"
 msgstr ""
 "Неисправан назив квалификованог елемента: неколико префикса називног простора"
 
-#: gxml/XdParser.vala:65
-msgid "stream doesn't provide data"
-msgstr "ток не обезбеђује податке"
-
-#: gxml/XdParser.vala:80
+#: gxml/XdParser.vala:82
 msgid "Parser Error for string"
 msgstr "Грешка обрађивача за ниску"
 
@@ -736,10 +727,31 @@ msgstr ""
 msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
 
-#: gxml/XNode.vala:246
+#: gxml/XNode.vala:265
 #, c-format
 msgid "Error while setting text content to node: %s"
 msgstr "Грешка приликом постављања садржаја текста на чвор: %s"
+
+#: gxml/XNode.vala:390
+#, c-format
+msgid "Only GXml.XNode nodes are supported. Given a %s type"
+msgstr "Само „GXml.XNode“ чворови су подржани. Дата је „%s“ врста"
+
+#: gxml/XNode.vala:401
+#| msgid "Invalid attempt to add invalid node type"
+msgid "Invalid attempt to replace a node on unsupported parent"
+msgstr "Неисправан покушај замене чвора на неподржаном родитељу"
+
+#: gxml/XNode.vala:411
+#, c-format
+#| msgid "Invalid attempt to add invalid node type"
+msgid "Invalid attempt to replace invalid node type: %s"
+msgstr "Неисправан покушај замене неисправне врсте чвора: %s"
+
+#: gxml/XNode.vala:417
+#| msgid "Invalid attempt to set a node with a different parent document"
+msgid "Invalid attempt to replace a node on a document or text node"
+msgstr "Неисправан покушај замене чвора на документу или чвору текста"
 
 #: gxml/XParser.vala:123
 msgid "Invalid input stream to read data from"
@@ -793,6 +805,9 @@ msgstr "Не могу да нађем елемент на положају: %i: 
 #, c-format
 msgid "Collection type %s, initialization error: %s"
 msgstr "Врста збирке „%s“, грешка покретања: %s"
+
+#~ msgid "stream doesn't provide data"
+#~ msgstr "ток не обезбеђује податке"
 
 #~ msgid "Parent Element is invalid"
 #~ msgstr "Елемент родитеља је неисправан"
