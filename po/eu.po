@@ -1,13 +1,13 @@
 # Basque translation for gxml.
 # Copyright (C) 2019 gxml's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gxml package.
-# Asier Sarasua Garmendia <asier.sarasua@gmail.com>, 2019.
+# Asier Sarasua Garmendia <asiersarasua@ni.eus>, 2019, 2022.
 #
 msgid ""
 msgstr "Project-Id-Version: gxml gxml-0.18\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2020-08-16 06:58+0000\n"
-"PO-Revision-Date: 2021-03-17 10:00+0100\n"
+"POT-Creation-Date: 2022-02-03 04:12+0000\n"
+"PO-Revision-Date: 2022-03-08 10:00+0100\n"
 "Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -151,15 +151,15 @@ msgstr "Izen-espazioaren URI baliogabea xmlns aurrizkirako. Erabili http://www.w
 msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
 msgstr "xmlns aurrizkia soilik erabili daiteke http://www.w3.org/2000/xmlns/ helbidearekin"
 
-#: gxml/Document.vala:244 gxml/XDocument.vala:252
+#: gxml/Document.vala:244 gxml/XDocument.vala:276
 msgid "Can't import a Document"
 msgstr "Ezin da dokumentu bat inportatu"
 
-#: gxml/Document.vala:246 gxml/XDocument.vala:254
+#: gxml/Document.vala:246 gxml/XDocument.vala:278
 msgid "Can't import a non Element type node to a Document"
 msgstr "Ezin da elementu motakoa ez den nodo bat inportatu dokumentu batera"
 
-#: gxml/Document.vala:270 gxml/XDocument.vala:278
+#: gxml/Document.vala:270 gxml/XDocument.vala:302
 msgid "Can't adopt a Document"
 msgstr "Ezin izan da dokumentu bat adoptatu"
 
@@ -397,26 +397,23 @@ msgstr "Ez da gako nagusirik edo bigarren mailako gakorik aurkitu"
 msgid "Text content in element can't be created"
 msgstr "Elementuko testu-edukia ezin izan da sortu"
 
-#: gxml/Node.vala:209 gxml/XNode.vala:279
+#: gxml/Node.vala:209 gxml/XNode.vala:328
 msgid "Can't find node position"
 msgstr "Ez da aurkitu nodoaren posizioa"
 
-#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:310
-#: gxml/XNode.vala:341
+#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:359
 msgid "Invalid attempt to add invalid node type"
 msgstr "Baliogabeko saioa baliogabeko nodo mota gehitzeko"
 
-#: gxml/Node.vala:260 gxml/XNode.vala:312
+#: gxml/Node.vala:260 gxml/XNode.vala:361
 msgid "Can't find child to insert node before"
 msgstr "Ez da aurkitu haurra, haren aurretik nodoa txertatzeko"
 
-#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:316
-#: gxml/XNode.vala:347
+#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:365
 msgid "Invalid attempt to insert a node"
 msgstr "Baliogabeko saioa nodo bat txertatzeko"
 
-#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:323
-#: gxml/XNode.vala:354
+#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:372
 msgid "Invalid attempt to insert an invalid node type"
 msgstr "Nodo mota baliogabea txertatzeko saio baliogabea"
 
@@ -428,16 +425,16 @@ msgstr "Nodo mota baliogabea da. Ezin da erantsi haur gisa"
 msgid "Invalid attempt to append a child with different parent document"
 msgstr "Dokumentu guraso desberdina duen haur bat eransteko saio baliogabea"
 
-#: gxml/Node.vala:302 gxml/XNode.vala:343
+#: gxml/Node.vala:302 gxml/XNode.vala:394
 msgid "Can't find child node to replace or child have a different parent"
 msgstr "Ezin da aurkitu ordeztu nahi den nodo haurra edo haurrak beste guraso bat du"
 
-#: gxml/Node.vala:316 gxml/XNode.vala:326 gxml/XNode.vala:357
+#: gxml/Node.vala:316 gxml/XNode.vala:375
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr "Baliozkoa ez den nodo guraso bati dokumentu mota bat edo testu nodo bat gehitzeko saio baliogabea"
 
-#: gxml/Node.vala:328 gxml/XNode.vala:369
+#: gxml/Node.vala:328 gxml/XNode.vala:438
 msgid "Can't find child node to remove or child have a different parent"
 msgstr "Ezin da aurkitu kenedu nahi den nodo haurra edo haurrak beste guraso bat du"
 
@@ -458,7 +455,7 @@ msgstr "Errorea propietate-objektua instantziatzeko saioan: %s"
 msgid "Can't set value. It is not a GXmlGXml.Element type"
 msgstr "Ezin da balioa ezarri. Ez da GXmlGXml.Element motakoa"
 
-#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:57
+#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:65
 msgid "File doesn't exist"
 msgstr "Fitxategia ez da existitzen"
 
@@ -572,12 +569,12 @@ msgid "Invalid comment declaration"
 msgstr "Iruzkin-deklarazio baliogabea"
 
 #: gxml/StreamReader.vala:369
-msgid "Invalid Processing Instruccion's target declaration"
+msgid "Invalid Processing Instruction's target declaration"
 msgstr "Prozesatze-instrukzioen helburuko deklarazio baliogabea"
 
 #: gxml/StreamReader.vala:396
-msgid "Invalid Processing Instruccion's close declaration"
-msgstr "Prozesatze-instrukzioen ixteko deklarazio baliogabea"
+msgid "Invalid Processing Instruction's close declaration"
+msgstr "Prozesatze-instrukzioen itxierako deklarazio baliogabea"
 
 #: gxml/TokenList.vala:54
 msgid ""
@@ -603,20 +600,16 @@ msgstr "DOM: Token baliogabea. Zuriuneak ezin dira token gisa erabili"
 msgid "Update Error: "
 msgstr "Eguneratze-errorea: "
 
-#: gxml/XDocument.vala:139
+#: gxml/XDocument.vala:159
 #, c-format
 msgid "Error writing document to string: %s"
 msgstr "Errorea dokumentua katera idaztean: %s"
 
-#: gxml/XDocument.vala:207
+#: gxml/XDocument.vala:230
 msgid "Invalid element qualified name: multiple namespace prefixes"
 msgstr "Elementuaren izen kualifikatu baliogabea: izen-espazioko aurrizki anitz"
 
-#: gxml/XdParser.vala:65
-msgid "stream doesn't provide data"
-msgstr "korronteak ez du daturik hornitu"
-
-#: gxml/XdParser.vala:80
+#: gxml/XdParser.vala:82
 msgid "Parser Error for string"
 msgstr "Analizatzailearen errorea katerako"
 
@@ -659,15 +652,33 @@ msgstr "Nodo bilduma irakurtzeko soilik da"
 msgid "Invalid document when adding item to named node map collection"
 msgstr "Dokumentu baliogabea elementua izendun nodo-mapen bildumari gehitzean"
 
-#: gxml/XNode.vala:43
+#: gxml/XNode.vala:44
 #, c-format
 msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
 
-#: gxml/XNode.vala:216
+#: gxml/XNode.vala:265
 #, c-format
 msgid "Error while setting text content to node: %s"
 msgstr "Errorea testu-edukia nodoan ezartzean: %s"
+
+#: gxml/XNode.vala:390
+#, c-format
+msgid "Only GXml.XNode nodes are supported. Given a %s type"
+msgstr "GXml.XNode nodoak soilik onartzen dira. %s mota bat eman da"
+
+#: gxml/XNode.vala:401
+msgid "Invalid attempt to replace a node on unsupported parent"
+msgstr "Onartzen ez den guraso bateko nodo bat ordezkatzeko saio baliogabea"
+
+#: gxml/XNode.vala:411
+#, c-format
+msgid "Invalid attempt to replace invalid node type: %s"
+msgstr "Nodo mota baliogabea ordezkatzeko saio baliogabea: %s"
+
+#: gxml/XNode.vala:417
+msgid "Invalid attempt to replace a node on a document or text node"
+msgstr "Dokumentu bateko nodo bat edo testu-nodo bat ordezkatzeko saio baliogabea"
 
 #: gxml/XParser.vala:123
 msgid "Invalid input stream to read data from"
@@ -689,19 +700,20 @@ msgid "Internal Error: No TextReader was set"
 msgstr "Barrneko errorea: Ez da TextReader ezarri"
 
 #: gxml/XParser.vala:271
-msgid "Can't read node data"
-msgstr "Ezin izan da nodo-daturik irakurri"
+#, c-format
+msgid "Can't read node data at line: %d"
+msgstr "Ez da nodoa irakurri honako lerroan: %d"
 
 #: gxml/XParser.vala:335
 #, c-format
-msgid "Parsing ERROR: Fail to move to attribute number: %i"
-msgstr "Analisiaren ERROREA: Huts egin du atributu-zenbaki batera mugitzeak: %i"
+msgid "Parsing ERROR: Fail to move to attribute number: %i at line: %d"
+msgstr "Analisiaren ERROREA: Huts egin du %d lerroko %i atributu-zenbakira mugitzeak"
 
 #: gxml/XParser.vala:427
 msgid "Invalid sequence for document type definition: "
 msgstr "Sekuentzia baliogabea dokumentu motaren definiziorako: "
 
-#: gxml/XParser.vala:492 gxml/XParser.vala:598 gxml/XParser.vala:670
+#: gxml/XParser.vala:494 gxml/XParser.vala:600 gxml/XParser.vala:672
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Barneko errorea: Ez da TextWriter hasieratu"
 
@@ -720,6 +732,9 @@ msgstr "Ez da aurkitu elementua honako posizioan: %i: %s"
 #, c-format
 msgid "Collection type %s, initialization error: %s"
 msgstr "%s bilduma mota, hasieratze-errorea: %s"
+
+#~ msgid "stream doesn't provide data"
+#~ msgstr "korronteak ez du daturik hornitu"
 
 #~ msgid "Parent Element is invalid"
 #~ msgstr "Elementu gurasoa baliogabea da"
