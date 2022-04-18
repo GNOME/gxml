@@ -3,21 +3,22 @@
 # This file is distributed under the same license as the gxml package.
 # Damned <damnedlies@163.com>, 2020.
 # Dingzhong Chen <wsxy162@gmail.com>, 2021.
+# lumingzh <lumingzh@qq.com>, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2021-03-18 01:36+0000\n"
-"PO-Revision-Date: 2021-06-10 16:18+0800\n"
-"Last-Translator: Dingzhong Chen <wsxy162@gmail.com>\n"
+"POT-Creation-Date: 2022-03-13 00:42+0000\n"
+"PO-Revision-Date: 2022-04-18 18:38+0800\n"
+"Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.0\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Gtranslator 42.0\n"
+"Plural-Forms: nplurals=1; plural=0\n"
 
 #: gxml/BaseCollection.vala:91
 msgid ""
@@ -155,15 +156,15 @@ msgstr "以 xmlns 为前缀的命名空间 URI 无效。使用 http://www.w3.org
 msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
 msgstr "只有 xmlns 前缀可以用于 http://www.w3.org/2000/xmlns/"
 
-#: gxml/Document.vala:244 gxml/XDocument.vala:259
+#: gxml/Document.vala:244 gxml/XDocument.vala:276
 msgid "Can't import a Document"
 msgstr "无法导入文档"
 
-#: gxml/Document.vala:246 gxml/XDocument.vala:261
+#: gxml/Document.vala:246 gxml/XDocument.vala:278
 msgid "Can't import a non Element type node to a Document"
 msgstr "无法将非元素类型的节点导入到文档"
 
-#: gxml/Document.vala:270 gxml/XDocument.vala:285
+#: gxml/Document.vala:270 gxml/XDocument.vala:302
 msgid "Can't adopt a Document"
 msgstr "无法采用文档"
 
@@ -425,26 +426,23 @@ msgstr "找不到主键和/或次键"
 msgid "Text content in element can't be created"
 msgstr "无法创建元素中的文本内容"
 
-#: gxml/Node.vala:209 gxml/XNode.vala:309
+#: gxml/Node.vala:209 gxml/XNode.vala:328
 msgid "Can't find node position"
 msgstr "找不到节点位置"
 
-#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:340
-#: gxml/XNode.vala:371
+#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:359
 msgid "Invalid attempt to add invalid node type"
 msgstr "添加无效节点类型的尝试无效"
 
-#: gxml/Node.vala:260 gxml/XNode.vala:342
+#: gxml/Node.vala:260 gxml/XNode.vala:361
 msgid "Can't find child to insert node before"
 msgstr "找不到要在其前面插入节点的子节点"
 
-#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:346
-#: gxml/XNode.vala:377
+#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:365
 msgid "Invalid attempt to insert a node"
 msgstr "插入节点的尝试无效"
 
-#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:353
-#: gxml/XNode.vala:384
+#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:372
 msgid "Invalid attempt to insert an invalid node type"
 msgstr "插入无效节点类型的尝试无效"
 
@@ -456,16 +454,16 @@ msgstr "节点类型无效。无法追加为子节点"
 msgid "Invalid attempt to append a child with different parent document"
 msgstr "追加具有不同父文档的子节点的尝试无效"
 
-#: gxml/Node.vala:302 gxml/XNode.vala:373
+#: gxml/Node.vala:302 gxml/XNode.vala:394
 msgid "Can't find child node to replace or child have a different parent"
 msgstr "找不到要替换的子节点，或子节点具有不同的父节点"
 
-#: gxml/Node.vala:316 gxml/XNode.vala:356 gxml/XNode.vala:387
+#: gxml/Node.vala:316 gxml/XNode.vala:375
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr "将文档类型或文本节点插入到无效父节点的尝试无效"
 
-#: gxml/Node.vala:328 gxml/XNode.vala:399
+#: gxml/Node.vala:328 gxml/XNode.vala:438
 msgid "Can't find child node to remove or child have a different parent"
 msgstr "找不到要移除的子节点，或子节点具有不同的父节点"
 
@@ -486,7 +484,7 @@ msgstr "尝试实例化属性对象时出错：%s"
 msgid "Can't set value. It is not a GXmlGXml.Element type"
 msgstr "无法设置值。它不是 GXmlGXml.Element 类型"
 
-#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:61
+#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:65
 msgid "File doesn't exist"
 msgstr "文件不存在"
 
@@ -600,11 +598,11 @@ msgid "Invalid comment declaration"
 msgstr "无效的注释声明"
 
 #: gxml/StreamReader.vala:369
-msgid "Invalid Processing Instruccion's target declaration"
+msgid "Invalid Processing Instruction's target declaration"
 msgstr "处理指令的目标声明无效"
 
 #: gxml/StreamReader.vala:396
-msgid "Invalid Processing Instruccion's close declaration"
+msgid "Invalid Processing Instruction's close declaration"
 msgstr "处理指令的闭合声明无效"
 
 #: gxml/TokenList.vala:54
@@ -633,20 +631,16 @@ msgstr "DOM：无效 token。空格符不能用于 token"
 msgid "Update Error: "
 msgstr "更新错误： "
 
-#: gxml/XDocument.vala:146
+#: gxml/XDocument.vala:159
 #, c-format
 msgid "Error writing document to string: %s"
 msgstr "将文档写入到字符串时出错：%s"
 
-#: gxml/XDocument.vala:214
+#: gxml/XDocument.vala:230
 msgid "Invalid element qualified name: multiple namespace prefixes"
 msgstr "元素的限定名无效：多重命名空间前缀"
 
-#: gxml/XdParser.vala:65
-msgid "stream doesn't provide data"
-msgstr "流未提供数据"
-
-#: gxml/XdParser.vala:80
+#: gxml/XdParser.vala:82
 msgid "Parser Error for string"
 msgstr "字符串解析器错误"
 
@@ -694,10 +688,28 @@ msgstr "将项目添加到命名节点映射集合时文档无效"
 msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d：%s:%d：%s"
 
-#: gxml/XNode.vala:246
+#: gxml/XNode.vala:265
 #, c-format
 msgid "Error while setting text content to node: %s"
 msgstr "为节点设置文本内容时出错：%s"
+
+#: gxml/XNode.vala:390
+#, c-format
+msgid "Only GXml.XNode nodes are supported. Given a %s type"
+msgstr "仅支持 GXml.XNode 节点。指定了 %s 类型"
+
+#: gxml/XNode.vala:401
+msgid "Invalid attempt to replace a node on unsupported parent"
+msgstr "在不受支持的父级上替换节点的尝试无效"
+
+#: gxml/XNode.vala:411
+#, c-format
+msgid "Invalid attempt to replace invalid node type: %s"
+msgstr "替换无效节点类型的尝试无效：%s"
+
+#: gxml/XNode.vala:417
+msgid "Invalid attempt to replace a node on a document or text node"
+msgstr "在文档或文本节点上替换节点的尝试无效"
 
 #: gxml/XParser.vala:123
 msgid "Invalid input stream to read data from"
@@ -719,19 +731,20 @@ msgid "Internal Error: No TextReader was set"
 msgstr "内部错误：没有设置 TextReader"
 
 #: gxml/XParser.vala:271
-msgid "Can't read node data"
-msgstr "无法读取节点数据"
+#, c-format
+msgid "Can't read node data at line: %d"
+msgstr "无法在该行读取节点数据：%d"
 
 #: gxml/XParser.vala:335
 #, c-format
-msgid "Parsing ERROR: Fail to move to attribute number: %i"
-msgstr "解析错误：无法移动到属性号：%i"
+msgid "Parsing ERROR: Fail to move to attribute number: %i at line: %d"
+msgstr "解析错误：移动至位于第 %d 行的第 %i 号属性失败"
 
 #: gxml/XParser.vala:427
 msgid "Invalid sequence for document type definition: "
 msgstr "无效的文档类型定义序列： "
 
-#: gxml/XParser.vala:492 gxml/XParser.vala:598 gxml/XParser.vala:670
+#: gxml/XParser.vala:494 gxml/XParser.vala:600 gxml/XParser.vala:672
 msgid "Internal Error: No TextWriter initialized"
 msgstr "内部错误：未初始化 TextWriter"
 
@@ -750,6 +763,9 @@ msgstr "无法在以下位置找到元素：%i：%s"
 #, c-format
 msgid "Collection type %s, initialization error: %s"
 msgstr "集合类型 %s，初始化错误：%s"
+
+#~ msgid "stream doesn't provide data"
+#~ msgstr "流未提供数据"
 
 #~ msgid ""
 #~ "ref_child '%s' not found, was supposed to have '%s' inserted before it."
