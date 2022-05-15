@@ -21,7 +21,8 @@
 using Gee;
 
 public errordomain GXml.StreamReaderError {
-  INVALID_DOCUMENT_ERROR
+  INVALID_DOCUMENT_ERROR,
+  DATA_READ_ERROR
 }
 
 /**
@@ -105,9 +106,15 @@ public class GXml.StreamReader : GLib.Object {
     _document = doc;
     internal_read ();
   }
-  private inline uint8 read_byte () throws GLib.Error {
-    buf[0] = stream.read_byte (cancellable);
-    return buf[0];
+  private inline bool read_byte () throws GLib.Error {
+    try {
+        buf[0] = stream.read_byte (cancellable);
+    } catch {
+        buf[0] = '\0';
+        return false;
+    }
+
+    return true;
   }
   private inline string read_upto (string str) throws GLib.Error {
     string bstr = stream.read_upto (str, -1, null, cancellable);
@@ -123,30 +130,28 @@ public class GXml.StreamReader : GLib.Object {
     start = true;
     parse_doc_nodes ();
     read_root_element ();
-    try {
-      read_byte ();
-    } catch {
+    if (!read_byte ()) {
         return;
     }
+
     parse_doc_nodes ();
   }
 
     public void parse_doc_nodes () throws GLib.Error
     {
-        try {
-            read_byte ();
-        } catch {
+        if (!read_byte ()) {
             return;
         }
+
         while (true) {
             if (cur_char () != '<') {
                 throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid document: expected '<' character"));
             }
-            try {
-                read_byte ();
-            } catch {
+
+            if (!read_byte ()) {
                 return;
             }
+
             if (is_space (cur_char ())) {
                 throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid document: unexpected space character before node's name"));
             }
@@ -195,7 +200,12 @@ public class GXml.StreamReader : GLib.Object {
     dbuf.put_byte (cur_byte ());
 
     name_buf.put_byte (cur_byte ());
-    dbuf.put_byte (read_byte ());
+    if (!read_byte ()) {
+        throw new StreamReaderError.DATA_READ_ERROR
+                      (_("Can't continue parsing due to error reading data"));
+    }
+
+    dbuf.put_byte (cur_byte ());
     bool is_empty = false;
     while (cur_char () != '>') {
       if (is_space (cur_char ())) {
@@ -205,12 +215,20 @@ public class GXml.StreamReader : GLib.Object {
         dbuf.put_byte (cur_char ());
         string rest = read_upto (">");
         dbuf.put_string (rest);
-        dbuf.put_byte (read_byte ());
+        if (!read_byte ()) {
+            break;
+        }
+
+        dbuf.put_byte (cur_byte ());
         is_empty = true;
         break;
       }
       name_buf.put_byte (cur_byte (), cancellable);
-      dbuf.put_byte (read_byte ());
+      if (!read_byte ()) {
+        break;
+      }
+
+      dbuf.put_byte (cur_byte ());
     }
     name_buf.put_byte ('\0', cancellable);
     if (document.document_element == null) {
@@ -261,15 +279,26 @@ public class GXml.StreamReader : GLib.Object {
       return e;
     }
     while (true) {
-      read_byte ();
+
+      if (!read_byte ()) {
+        break;
+      }
+
       if (cur_char () == '<') {
-        read_byte ();
+        if (!read_byte ()) {
+          break;
+        }
+
         if (cur_char () == '/') {
           dbuf.put_byte ('<');
           dbuf.put_byte (cur_byte ());
           string closetag = stream.read_upto (">", -1, null, cancellable);
           dbuf.put_string (closetag);
-          dbuf.put_byte (read_byte ());
+          if (!read_byte ()) {
+            break;
+          }
+
+          dbuf.put_byte (cur_byte ());
           if (closetag == (string) oname_buf.get_data ()) {
             return e;
           }
@@ -307,43 +336,57 @@ public class GXml.StreamReader : GLib.Object {
         dbuf.put_byte (cur_byte (), cancellable);
       }
     }
+
+    return e;
   }
   private void parse_xml_dec () throws GLib.Error  {
     while (cur_char () != '>') {
-      try {
-        read_byte ();
-      } catch {
-          return;
+      if (!read_byte ()) {
+        return;
       }
     }
-    try {
-      read_byte ();
-    } catch {
-        return;
-    }
+
+    read_byte ();
   }
   private void parse_comment_dec () throws GLib.Error  {
-    try {
-      read_byte ();
-    } catch {
+    if (!read_byte ()) {
+      throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid comment declaration"));;
+    }
+
+    if (cur_char () != '-') {
+        throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid comment declaration"));
+    }
+
+    if (!read_byte ()) {
         return;
     }
+
     if (cur_char () != '-') {
         throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid comment declaration"));
     }
-    read_byte ();
-    if (cur_char () != '-') {
-        throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid comment declaration"));
-    }
+
     GLib.StringBuilder comment = new GLib.StringBuilder ("");
-    read_byte ();
+    if (!read_byte ()) {
+        return;
+    }
+
     while (cur_char () != '>') {
       comment.append_c (cur_char ());
-      read_byte ();
+      if (!read_byte ()) {
+        break;
+      }
+
+
       if (cur_char () == '-') {
-          read_byte ();
+          if (!read_byte ()) {
+            break;
+          }
+
           if (cur_char () == '-') {
-            read_byte ();
+            if (!read_byte ()) {
+              break;
+            }
+
             if (cur_char () == '-') {
               throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid comment declaration"));
             } else if (cur_char () == '>') {
@@ -358,51 +401,45 @@ public class GXml.StreamReader : GLib.Object {
   }
   private void parse_pi_dec () throws GLib.Error
   {
-    try {
-      read_byte ();
-    } catch {
-        return;
+    if (!read_byte ()) {
+      return;
     }
+
     GLib.StringBuilder str = new GLib.StringBuilder ("");
     while (!is_space (cur_char ())) {
       if (cur_char () == '?') {
           throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid Processing Instruction's target declaration"));
       }
+
       str.append_c (cur_char ());
-      try {
-        read_byte ();
-      } catch {
-          return;
+      if (!read_byte ()) {
+        return;
       }
     }
     string target = str.str;
     str.assign ("");
     while (cur_char () != '?') {
       str.append_c (cur_char ());
-      try {
-        read_byte ();
-      } catch {
-          return;
+      if (!read_byte ()) {
+        return;
       }
     }
     var pi = document.create_processing_instruction (target, str.str);
     document.append_child (pi);
-    try {
-        read_byte ();
-    } catch {
-        return;
+    if (!read_byte ()) {
+      return;
     }
+
     if (cur_char () != '>') {
       throw new StreamReaderError.INVALID_DOCUMENT_ERROR (_("Invalid Processing Instruction's close declaration"));
     }
   }
   private void read_text_node () throws GLib.Error  {
     GLib.StringBuilder text = new GLib.StringBuilder ("");
-    try {
-      read_byte ();
-    } catch {
-        return;
+    if (!read_byte ()) {
+      return;
     }
+
     if (!is_space (cur_char ())) {
         return;
     }
