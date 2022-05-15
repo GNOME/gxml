@@ -163,12 +163,10 @@ public class GXml.StreamReader : GLib.Object {
                     parse_xml_dec ();
                     start = false;
                     read_text_node ();
-                    message ("Stoped at: %c", cur_char ());
                     continue;
                 } else {
                     parse_pi_dec ();
                     read_text_node ();
-                    message ("Stoped at: %c", cur_char ());
                     continue;
                 }
             } else if (cur_char () == '!') {
@@ -191,8 +189,8 @@ public class GXml.StreamReader : GLib.Object {
       }
     }
     GXml.Element e = null;
-    var buf = new MemoryOutputStream.resizable ();
-    var dbuf = new DataOutputStream (buf);
+    var buffer = new MemoryOutputStream.resizable ();
+    var dbuf = new DataOutputStream (buffer);
     var oname_buf = new MemoryOutputStream (new uint8[1024]);
     var name_buf = new DataOutputStream (oname_buf);
 
@@ -211,6 +209,7 @@ public class GXml.StreamReader : GLib.Object {
       if (is_space (cur_char ())) {
         break;
       }
+
       if (cur_char () == '/') {
         dbuf.put_byte (cur_char ());
         string rest = read_upto (">");
@@ -230,19 +229,23 @@ public class GXml.StreamReader : GLib.Object {
 
       dbuf.put_byte (cur_byte ());
     }
+
     name_buf.put_byte ('\0', cancellable);
     if (document.document_element == null) {
       e = ((GXml.Document) document).search_root_element_property ();
     }
+
     if (e == null) {
       e = (GXml.Element) document.create_element ((string) oname_buf.get_data ());
       if (document.document_element == null) {
         document.append_child (e);
       }
     }
+
     if (document.document_element == e && parent == null) {
       foreach (ParamSpec pspec in
-                ((GXml.Object) e).get_property_element_list ()) {
+                ((GXml.Object) e).get_property_element_list ())
+      {
         if (!(pspec.value_type.is_a (typeof (Collection)))) continue;
         Collection col;
         Value vc = Value (pspec.value_type);
@@ -274,12 +277,11 @@ public class GXml.StreamReader : GLib.Object {
         root_collections.set (col.items_name.down (), col);
       }
     }
-    e.read_buffer = buf;
+    e.read_buffer = buffer;
     if (is_empty) {
       return e;
     }
     while (true) {
-
       if (!read_byte ()) {
         break;
       }

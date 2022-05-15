@@ -895,16 +895,16 @@ public class GXml.Element : GXml.Node,
    * Synchronically parse {@link read_buffer}
    */
   public void parse_buffer () throws GLib.Error {
-    if (read_buffer == null) {
-      return;
-    }
     foreach (DomNode n in child_nodes) {
       if (n is GXml.Element) {
         ((GXml.Element) n).parse_buffer ();
       }
     }
-    read_from_string ((string) read_buffer.data);
-    read_buffer = null;
+
+    if (read_buffer != null) {
+      read_from_string ((string) read_buffer.data);
+      read_buffer = null;
+    }
   }
 
   ThreadPool<Element> pool = null;

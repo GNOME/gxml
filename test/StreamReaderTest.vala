@@ -88,7 +88,7 @@ class Authors : GXml.Element {
 
 class Book : GXml.Element {
 	[Description(nick="::year")]
-	public int year { get; set; }
+	public int year { get; set; default = 1999; }
 	[Description(nick="::ISBN")]
 	public string ISBN { get; set; }
 	public Authors authors { get; set; }
@@ -303,6 +303,7 @@ class GXmlTest {
 							assert (((GXml.Element) n).read_buffer != null);
 						}
 					}
+					message ("1st. Read: %s\n", bs.write_string ());
 					bs.parse_buffer ();
 					message (doc.write_string ());
 					assert (bs.read_buffer == null);
@@ -316,6 +317,8 @@ class GXmlTest {
 					assert (b2 != null);
 					assert (b2 is Book);
 					assert (b2.authors != null);
+					message ("Year: %d", b2.year);
+					assert (b2.year != 1999);
 					loop.quit ();
 				} catch (GLib.Error e) {
 					warning ("Error while reading stream: %s", e.message);
