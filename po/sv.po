@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2022-02-03 04:12+0000\n"
-"PO-Revision-Date: 2022-02-03 09:20+0100\n"
+"POT-Creation-Date: 2022-05-15 21:07+0000\n"
+"PO-Revision-Date: 2022-05-16 00:17+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -518,7 +518,7 @@ msgid ""
 "Invalid attempt to parse an element node, when current found node is not"
 msgstr "Ogiltigt försök att tolka en elementnod när aktuell nod ej är det"
 
-#: gxml/Parser.vala:265 gxml/StreamReader.vala:242
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:260
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' type property was "
@@ -527,7 +527,7 @@ msgstr ""
 "Samlingen ”%s” har inte konstruerats korrekt: objekts typegenskap ställdes "
 "inte in vid konstruktionstid eller ställdes in till ogiltig typ"
 
-#: gxml/Parser.vala:285 gxml/StreamReader.vala:246
+#: gxml/Parser.vala:285 gxml/StreamReader.vala:264
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' name property was "
@@ -536,7 +536,7 @@ msgstr ""
 "Samlingen ”%s” har inte konstruerats korrekt: objekts namnegenskap ställdes "
 "inte in vid konstruktionstid"
 
-#: gxml/Parser.vala:289 gxml/StreamReader.vala:250
+#: gxml/Parser.vala:289 gxml/StreamReader.vala:268
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: element property was not "
@@ -545,7 +545,7 @@ msgstr ""
 "Samlingen ”%s” har inte konstruerats korrekt: elementegenskap ställdes inte "
 "in vid konstruktionstid"
 
-#: gxml/Parser.vala:293 gxml/StreamReader.vala:254
+#: gxml/Parser.vala:293 gxml/StreamReader.vala:272
 #, c-format
 msgid ""
 "Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
@@ -612,29 +612,33 @@ msgstr "Ogiltig nodtyp att starta efter"
 msgid "Invalid root in the source range"
 msgstr "Ogiltig rot i källintervallet"
 
-#: gxml/StreamReader.vala:143
+#: gxml/StreamReader.vala:148
 msgid "Invalid document: expected '<' character"
 msgstr "Ogiltigt dokument: tecknet ”<” förväntades"
 
-#: gxml/StreamReader.vala:151
+#: gxml/StreamReader.vala:156
 msgid "Invalid document: unexpected space character before node's name"
 msgstr "Ogiltigt dokument: oväntat blanktecken före nodens namn"
 
-#: gxml/StreamReader.vala:185
+#: gxml/StreamReader.vala:190
 #, c-format
 msgid "Parent '%s' is not implementing GXml.Object interface"
 msgstr "Överordnat element ”%s” implementerar inte GXml.Object-gränssnitt"
 
-#: gxml/StreamReader.vala:332 gxml/StreamReader.vala:336
-#: gxml/StreamReader.vala:348
+#: gxml/StreamReader.vala:205
+msgid "Can't continue parsing due to error reading data"
+msgstr "Det går inte att fortsätta tolka på grund av fel vid läsning av data"
+
+#: gxml/StreamReader.vala:353 gxml/StreamReader.vala:357
+#: gxml/StreamReader.vala:365 gxml/StreamReader.vala:391
 msgid "Invalid comment declaration"
 msgstr "Ogiltig deklaration av kommentar"
 
-#: gxml/StreamReader.vala:369
+#: gxml/StreamReader.vala:411
 msgid "Invalid Processing Instruction's target declaration"
 msgstr "Ogiltig måldeklaration för processinstruktion"
 
-#: gxml/StreamReader.vala:396
+#: gxml/StreamReader.vala:434
 msgid "Invalid Processing Instruction's close declaration"
 msgstr "Ogiltig stängningsdeklaration för processinstruktion"
 
