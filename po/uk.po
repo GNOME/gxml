@@ -7,15 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml gxml-0.18\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2022-02-03 08:23+0000\n"
-"PO-Revision-Date: 2022-02-03 17:11+0200\n"
+"POT-Creation-Date: 2022-05-15 21:07+0000\n"
+"PO-Revision-Date: 2022-05-16 08:25+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
+"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Lokalize 20.12.0\n"
 
 #: gxml/BaseCollection.vala:91
@@ -529,7 +530,7 @@ msgstr ""
 "Некоректна спроба обробити вузол елемента, коли поточний знайдений вузол не "
 "оброблено"
 
-#: gxml/Parser.vala:265 gxml/StreamReader.vala:242
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:260
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' type property was "
@@ -538,7 +539,7 @@ msgstr ""
 "Збірку «%s» не було побудовано належним чином: властивість типу записів не "
 "було встановлено під час побудови або було встановлено некоректний тип"
 
-#: gxml/Parser.vala:285 gxml/StreamReader.vala:246
+#: gxml/Parser.vala:285 gxml/StreamReader.vala:264
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' name property was "
@@ -547,7 +548,7 @@ msgstr ""
 "Збірку «%s» не було побудовано належним чином: властивість назви записів не "
 "було встановлено під час побудови"
 
-#: gxml/Parser.vala:289 gxml/StreamReader.vala:250
+#: gxml/Parser.vala:289 gxml/StreamReader.vala:268
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: element property was not "
@@ -556,7 +557,7 @@ msgstr ""
 "Збірку «%s» не було побудовано належним чином: властивість елемента не було "
 "встановлено під час побудови"
 
-#: gxml/Parser.vala:293 gxml/StreamReader.vala:254
+#: gxml/Parser.vala:293 gxml/StreamReader.vala:272
 #, c-format
 msgid ""
 "Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
@@ -624,30 +625,34 @@ msgstr "Некоректний тип вузла для початку післ�
 msgid "Invalid root in the source range"
 msgstr "Некоректний кореневий елемент у діапазоні джерела"
 
-#: gxml/StreamReader.vala:143
+#: gxml/StreamReader.vala:148
 msgid "Invalid document: expected '<' character"
 msgstr "Некоректний документ: мало бути вказано символ «<»"
 
-#: gxml/StreamReader.vala:151
+#: gxml/StreamReader.vala:156
 msgid "Invalid document: unexpected space character before node's name"
 msgstr ""
 "Некоректний документ: неочікуваний пробільний символ перед назвою вузла"
 
-#: gxml/StreamReader.vala:185
+#: gxml/StreamReader.vala:190
 #, c-format
 msgid "Parent '%s' is not implementing GXml.Object interface"
 msgstr "Батьківський елемент «%s» не реалізує інтерфейс GXml.Object"
 
-#: gxml/StreamReader.vala:332 gxml/StreamReader.vala:336
-#: gxml/StreamReader.vala:348
+#: gxml/StreamReader.vala:205
+msgid "Can't continue parsing due to error reading data"
+msgstr "Подальша обробка неможлива через помилку під час читання даних"
+
+#: gxml/StreamReader.vala:353 gxml/StreamReader.vala:357
+#: gxml/StreamReader.vala:365 gxml/StreamReader.vala:391
 msgid "Invalid comment declaration"
 msgstr "Некоректне оголошення коментаря"
 
-#: gxml/StreamReader.vala:369
+#: gxml/StreamReader.vala:411
 msgid "Invalid Processing Instruction's target declaration"
 msgstr "Некоректне оголошення цілі інструкції обробки"
 
-#: gxml/StreamReader.vala:396
+#: gxml/StreamReader.vala:434
 msgid "Invalid Processing Instruction's close declaration"
 msgstr "Некоректне оголошення закриття інструкції обробки"
 
@@ -745,22 +750,19 @@ msgstr "Помилка під час спроби встановити текс�
 #: gxml/XNode.vala:390
 #, c-format
 msgid "Only GXml.XNode nodes are supported. Given a %s type"
-msgstr ""
-"Передбачено підтримку лише вузлів GXml.XNode. Задано тип %s"
+msgstr "Передбачено підтримку лише вузлів GXml.XNode. Задано тип %s"
 
 #: gxml/XNode.vala:401
-#| msgid "Invalid attempt to add invalid node type"
 msgid "Invalid attempt to replace a node on unsupported parent"
-msgstr "Некоректна спроба замінити вузол на непідтримуваному батьківському записі"
+msgstr ""
+"Некоректна спроба замінити вузол на непідтримуваному батьківському записі"
 
 #: gxml/XNode.vala:411
 #, c-format
-#| msgid "Invalid attempt to add invalid node type"
 msgid "Invalid attempt to replace invalid node type: %s"
 msgstr "Некоректна спроба замінити некоректний тип вузла: %s"
 
 #: gxml/XNode.vala:417
-#| msgid "Invalid attempt to set a node with a different parent document"
 msgid "Invalid attempt to replace a node on a document or text node"
 msgstr "Некоректна спроба замінити вузол на документ або текстовий вузол"
 
