@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2022-02-04 20:55+0000\n"
-"PO-Revision-Date: 2022-02-06 12:05+0100\n"
+"POT-Creation-Date: 2022-05-22 13:08+0000\n"
+"PO-Revision-Date: 2022-05-22 15:10+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -532,7 +532,7 @@ msgstr ""
 "Nieprawidłowa próba przetworzenia węzła elementu, kiedy obecnie odnaleziony "
 "węzeł nie jest"
 
-#: gxml/Parser.vala:265 gxml/StreamReader.vala:242
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:263
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' type property was "
@@ -542,7 +542,7 @@ msgstr ""
 "została ustawiona w czasie budowania lub została ustawiona na nieprawidłowy "
 "typ"
 
-#: gxml/Parser.vala:285 gxml/StreamReader.vala:246
+#: gxml/Parser.vala:285 gxml/StreamReader.vala:267
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' name property was "
@@ -551,7 +551,7 @@ msgstr ""
 "Zbiór „%s” nie został właściwie zbudowany: właściwość nazw elementów nie "
 "została ustawiona w czasie budowania"
 
-#: gxml/Parser.vala:289 gxml/StreamReader.vala:250
+#: gxml/Parser.vala:289 gxml/StreamReader.vala:271
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: element property was not "
@@ -560,7 +560,7 @@ msgstr ""
 "Zbiór „%s” nie został właściwie zbudowany: właściwość elementu nie została "
 "ustawiona w czasie budowania"
 
-#: gxml/Parser.vala:293 gxml/StreamReader.vala:254
+#: gxml/Parser.vala:293 gxml/StreamReader.vala:275
 #, c-format
 msgid ""
 "Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
@@ -630,29 +630,35 @@ msgstr "Nieprawidłowy typ węzła do rozpoczęcia po"
 msgid "Invalid root in the source range"
 msgstr "Nieprawidłowy główny element w zakresie źródłowym"
 
-#: gxml/StreamReader.vala:143
+#: gxml/StreamReader.vala:148
 msgid "Invalid document: expected '<' character"
 msgstr "Nieprawidłowy dokument: oczekiwano znaku „<”"
 
-#: gxml/StreamReader.vala:151
+#: gxml/StreamReader.vala:156
 msgid "Invalid document: unexpected space character before node's name"
 msgstr "Nieprawidłowy dokument: nieoczekiwany znak spacji przed nazwą węzła"
 
-#: gxml/StreamReader.vala:185
+#: gxml/StreamReader.vala:188
 #, c-format
 msgid "Parent '%s' is not implementing GXml.Object interface"
 msgstr "Element nadrzędny „%s” nie implementuje interfejsu GXml.Object"
 
-#: gxml/StreamReader.vala:332 gxml/StreamReader.vala:336
-#: gxml/StreamReader.vala:348
+#: gxml/StreamReader.vala:203
+msgid "Can't continue parsing due to error reading data"
+msgstr ""
+"Nie można kontynuować przetwarzania z powodu błędu podczas odczytywania "
+"danych"
+
+#: gxml/StreamReader.vala:355 gxml/StreamReader.vala:359
+#: gxml/StreamReader.vala:367 gxml/StreamReader.vala:393
 msgid "Invalid comment declaration"
 msgstr "Nieprawidłowa deklaracja komentarza"
 
-#: gxml/StreamReader.vala:369
+#: gxml/StreamReader.vala:413
 msgid "Invalid Processing Instruction's target declaration"
 msgstr "Nieprawidłowa deklaracja docelowa instrukcji przetwarzania"
 
-#: gxml/StreamReader.vala:396
+#: gxml/StreamReader.vala:436
 msgid "Invalid Processing Instruction's close declaration"
 msgstr "Nieprawidłowa deklaracja zamknięcia instrukcji przetwarzania"
 
@@ -739,6 +745,11 @@ msgid "Invalid document when adding item to named node map collection"
 msgstr ""
 "Nieprawidłowy dokument podczas dodawania elementu do nazwanego zbioru mapy "
 "węzłów"
+
+#: gxml/XHtmlDocument.vala:115
+#, c-format
+msgid "Error while converting HTML document to string: %s"
+msgstr "Błąd podczas konwersji dokumentu HTML na ciąg: %s"
 
 #: gxml/XNode.vala:44
 #, c-format
