@@ -20,6 +20,7 @@ gxml/XDocument.c
 gxml/XdParser.c
 gxml/XElement.c
 gxml/XHashMapAttr.c
+gxml/XHtmlDocument.c
 gxml/XNode.c
 gxml/XParser.c
 gxml/XsdSchema.c

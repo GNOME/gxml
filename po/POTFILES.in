@@ -20,6 +20,7 @@ gxml/XDocument.vala
 gxml/XdParser.vala
 gxml/XElement.vala
 gxml/XHashMapAttr.vala
+gxml/XHtmlDocument.vala
 gxml/XNode.vala
 gxml/XParser.vala
 gxml/XsdSchema.vala
