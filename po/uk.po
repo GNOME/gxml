@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml gxml-0.18\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2022-05-15 21:07+0000\n"
-"PO-Revision-Date: 2022-05-16 08:25+0300\n"
+"POT-Creation-Date: 2022-05-22 13:08+0000\n"
+"PO-Revision-Date: 2022-05-22 21:26+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -530,7 +530,7 @@ msgstr ""
 "Некоректна спроба обробити вузол елемента, коли поточний знайдений вузол не "
 "оброблено"
 
-#: gxml/Parser.vala:265 gxml/StreamReader.vala:260
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:263
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' type property was "
@@ -539,7 +539,7 @@ msgstr ""
 "Збірку «%s» не було побудовано належним чином: властивість типу записів не "
 "було встановлено під час побудови або було встановлено некоректний тип"
 
-#: gxml/Parser.vala:285 gxml/StreamReader.vala:264
+#: gxml/Parser.vala:285 gxml/StreamReader.vala:267
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' name property was "
@@ -548,7 +548,7 @@ msgstr ""
 "Збірку «%s» не було побудовано належним чином: властивість назви записів не "
 "було встановлено під час побудови"
 
-#: gxml/Parser.vala:289 gxml/StreamReader.vala:268
+#: gxml/Parser.vala:289 gxml/StreamReader.vala:271
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: element property was not "
@@ -557,7 +557,7 @@ msgstr ""
 "Збірку «%s» не було побудовано належним чином: властивість елемента не було "
 "встановлено під час побудови"
 
-#: gxml/Parser.vala:293 gxml/StreamReader.vala:272
+#: gxml/Parser.vala:293 gxml/StreamReader.vala:275
 #, c-format
 msgid ""
 "Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
@@ -634,25 +634,25 @@ msgid "Invalid document: unexpected space character before node's name"
 msgstr ""
 "Некоректний документ: неочікуваний пробільний символ перед назвою вузла"
 
-#: gxml/StreamReader.vala:190
+#: gxml/StreamReader.vala:188
 #, c-format
 msgid "Parent '%s' is not implementing GXml.Object interface"
 msgstr "Батьківський елемент «%s» не реалізує інтерфейс GXml.Object"
 
-#: gxml/StreamReader.vala:205
+#: gxml/StreamReader.vala:203
 msgid "Can't continue parsing due to error reading data"
 msgstr "Подальша обробка неможлива через помилку під час читання даних"
 
-#: gxml/StreamReader.vala:353 gxml/StreamReader.vala:357
-#: gxml/StreamReader.vala:365 gxml/StreamReader.vala:391
+#: gxml/StreamReader.vala:355 gxml/StreamReader.vala:359
+#: gxml/StreamReader.vala:367 gxml/StreamReader.vala:393
 msgid "Invalid comment declaration"
 msgstr "Некоректне оголошення коментаря"
 
-#: gxml/StreamReader.vala:411
+#: gxml/StreamReader.vala:413
 msgid "Invalid Processing Instruction's target declaration"
 msgstr "Некоректне оголошення цілі інструкції обробки"
 
-#: gxml/StreamReader.vala:434
+#: gxml/StreamReader.vala:436
 msgid "Invalid Processing Instruction's close declaration"
 msgstr "Некоректне оголошення закриття інструкції обробки"
 
@@ -736,6 +736,12 @@ msgstr "Збірка вузлів є придатною лише для чита
 msgid "Invalid document when adding item to named node map collection"
 msgstr ""
 "Некоректний документ при додаванні запису до іменованої збірки мап вузлів"
+
+#: gxml/XHtmlDocument.vala:115
+#, c-format
+#| msgid "Error while converting Element to string: %s"
+msgid "Error while converting HTML document to string: %s"
+msgstr "Помилка під час перетворення документа HTML до рядка: %s"
 
 #: gxml/XNode.vala:44
 #, c-format
