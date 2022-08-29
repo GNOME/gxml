@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2022-02-03 04:12+0000\n"
-"PO-Revision-Date: 2022-03-13 01:40+0100\n"
+"POT-Creation-Date: 2022-05-22 13:08+0000\n"
+"PO-Revision-Date: 2022-08-30 01:12+0200\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
@@ -524,7 +524,7 @@ msgstr ""
 "Érvénytelen kísérlet egy elemcsomópont feldolgozására, amikor a jelenleg "
 "megtalált csomópont nem"
 
-#: gxml/Parser.vala:265 gxml/StreamReader.vala:242
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:263
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' type property was "
@@ -534,7 +534,7 @@ msgstr ""
 "tulajdonsága nem lett beállítva az összeállítási időben vagy érvénytelen "
 "típusra lett állítva"
 
-#: gxml/Parser.vala:285 gxml/StreamReader.vala:246
+#: gxml/Parser.vala:285 gxml/StreamReader.vala:267
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' name property was "
@@ -543,7 +543,7 @@ msgstr ""
 "A(z) „%s” gyűjtemény nem lett megfelelően összeállítva: az elemek név "
 "tulajdonsága nem lett beállítva az összeállítási időben"
 
-#: gxml/Parser.vala:289 gxml/StreamReader.vala:250
+#: gxml/Parser.vala:289 gxml/StreamReader.vala:271
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: element property was not "
@@ -552,7 +552,7 @@ msgstr ""
 "A(z) „%s” gyűjtemény nem lett megfelelően összeállítva: az elem tulajdonsága "
 "nem lett beállítva az összeállítási időben"
 
-#: gxml/Parser.vala:293 gxml/StreamReader.vala:254
+#: gxml/Parser.vala:293 gxml/StreamReader.vala:275
 #, c-format
 msgid ""
 "Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
@@ -619,32 +619,34 @@ msgstr "Érvénytelen csomóponttípus az utána kezdéshez"
 msgid "Invalid root in the source range"
 msgstr "Érvénytelen gyökér a forrástartományban"
 
-#: gxml/StreamReader.vala:143
+#: gxml/StreamReader.vala:148
 msgid "Invalid document: expected '<' character"
 msgstr "Érvénytelen dokumentum: „<” karakter várt"
 
-#: gxml/StreamReader.vala:151
+#: gxml/StreamReader.vala:156
 msgid "Invalid document: unexpected space character before node's name"
 msgstr ""
 "Érvénytelen dokumentum: váratlan szóköz karakter a csomópont neve előtt"
 
-#: gxml/StreamReader.vala:185
+#: gxml/StreamReader.vala:188
 #, c-format
 msgid "Parent '%s' is not implementing GXml.Object interface"
 msgstr "A(z) „%s” szülő nem valósítja meg a GXml.Object interfészt"
 
-#: gxml/StreamReader.vala:332 gxml/StreamReader.vala:336
-#: gxml/StreamReader.vala:348
+#: gxml/StreamReader.vala:203
+msgid "Can't continue parsing due to error reading data"
+msgstr "Nem lehet folytatni a feldolgozást adatolvasási hiba miatt"
+
+#: gxml/StreamReader.vala:355 gxml/StreamReader.vala:359
+#: gxml/StreamReader.vala:367 gxml/StreamReader.vala:393
 msgid "Invalid comment declaration"
 msgstr "Érvénytelen megjegyzés deklaráció"
 
-#: gxml/StreamReader.vala:369
-#| msgid "Invalid Processing Instruccion's target declaration"
+#: gxml/StreamReader.vala:413
 msgid "Invalid Processing Instruction's target declaration"
 msgstr "Érvénytelen feldolgozási utasítások céljának deklarációja"
 
-#: gxml/StreamReader.vala:396
-#| msgid "Invalid Processing Instruccion's close declaration"
+#: gxml/StreamReader.vala:436
 msgid "Invalid Processing Instruction's close declaration"
 msgstr "Érvénytelen feldolgozási utasítások lezárásának deklarációja"
 
@@ -693,7 +695,7 @@ msgstr "Feldolgozási hiba a karakterláncnál"
 #: gxml/XElement.vala:148
 #, c-format
 msgid "Error while converting Element to string: %s"
-msgstr "Hiba az elem karakterláncba történő átalakításakor: %s"
+msgstr "Hiba az elem karakterláncra történő átalakításakor: %s"
 
 #: gxml/XElement.vala:348
 #, c-format
@@ -731,6 +733,12 @@ msgstr ""
 "Érvénytelen dokumentum az elem nevesített csomópont-leképezés gyűjteményhez "
 "történő hozzáadásakor"
 
+#: gxml/XHtmlDocument.vala:115
+#, c-format
+#| msgid "Error while converting Element to string: %s"
+msgid "Error while converting HTML document to string: %s"
+msgstr "Hiba a HTML-dokumentum karakterláncra történő átalakításakor: %s"
+
 #: gxml/XNode.vala:44
 #, c-format
 msgid "%s:%s:%d: %s:%d: %s"
@@ -747,23 +755,20 @@ msgid "Only GXml.XNode nodes are supported. Given a %s type"
 msgstr "Csak GXml.XNode csomópontok támogatottak. Egy %s típus van megadva"
 
 #: gxml/XNode.vala:401
-#| msgid "Invalid attempt to add invalid node type"
 msgid "Invalid attempt to replace a node on unsupported parent"
 msgstr ""
 "Érvénytelen kísérlet egy nem támogatott szülőn való csomópont cseréjére"
 
 #: gxml/XNode.vala:411
 #, c-format
-#| msgid "Invalid attempt to add invalid node type"
 msgid "Invalid attempt to replace invalid node type: %s"
 msgstr "Érvénytelen kísérlet egy érvénytelen csomóponttípus cseréjére: %s"
 
 #: gxml/XNode.vala:417
-#| msgid "Invalid attempt to set a node with a different parent document"
 msgid "Invalid attempt to replace a node on a document or text node"
 msgstr ""
-"Érvénytelen kísérlet egy dokumentumon vagy szövegcsomóponton való csomópont"
-" cseréjére"
+"Érvénytelen kísérlet egy dokumentumon vagy szövegcsomóponton való csomópont "
+"cseréjére"
 
 #: gxml/XParser.vala:123
 msgid "Invalid input stream to read data from"
