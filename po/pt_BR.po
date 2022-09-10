@@ -1,23 +1,23 @@
 # Brazilian Portuguese translation for gxml.
 # Copyright (C) 2022 gxml's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gxml package.
-# Enrico Nicoletto <liverig@gmail.com>, 2016, 2020.
 # Rafael Fontenelle <rafaelff@gnome.org>, 2016-2022.
+# Enrico Nicoletto <hiko@duck.com>, 2016, 2020, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2022-02-03 04:12+0000\n"
-"PO-Revision-Date: 2022-02-04 17:52-0300\n"
-"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
+"POT-Creation-Date: 2022-08-29 23:13+0000\n"
+"PO-Revision-Date: 2022-09-10 10:43-0300\n"
+"Last-Translator: Enrico Nicoletto <hiko@duck.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1)\n"
-"X-Generator: Gtranslator 40.0\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.0.1\n"
 "X-Project-Style: gnome\n"
 
 #: gxml/BaseCollection.vala:91
@@ -526,7 +526,7 @@ msgstr ""
 "Tentativa inválida de analisar um nó de elemento, quando o nó encontrado não "
 "é"
 
-#: gxml/Parser.vala:265 gxml/StreamReader.vala:242
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:263
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' type property was "
@@ -535,7 +535,7 @@ msgstr ""
 "A coleção “%s” não foi construída corretamente: a propriedade type dos itens "
 "não foi definida no tempo de construção ou definida como tipo inválido"
 
-#: gxml/Parser.vala:285 gxml/StreamReader.vala:246
+#: gxml/Parser.vala:285 gxml/StreamReader.vala:267
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' name property was "
@@ -544,7 +544,7 @@ msgstr ""
 "A coleção “%s” não foi construída corretamente: a propriedade name dos itens "
 "não foi definida no momento da construção"
 
-#: gxml/Parser.vala:289 gxml/StreamReader.vala:250
+#: gxml/Parser.vala:289 gxml/StreamReader.vala:271
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: element property was not "
@@ -553,7 +553,7 @@ msgstr ""
 "A coleção “%s” não foi construída corretamente: a propriedade do elemento "
 "não foi definida no momento da construção"
 
-#: gxml/Parser.vala:293 gxml/StreamReader.vala:254
+#: gxml/Parser.vala:293 gxml/StreamReader.vala:275
 #, c-format
 msgid ""
 "Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
@@ -620,29 +620,34 @@ msgstr "Tipo de nó inválido para se iniciar depois"
 msgid "Invalid root in the source range"
 msgstr "Raiz inválida está no intervalo fonte"
 
-#: gxml/StreamReader.vala:143
+#: gxml/StreamReader.vala:148
 msgid "Invalid document: expected '<' character"
 msgstr "Documento inválido: caractere esperado “<”"
 
-#: gxml/StreamReader.vala:151
+#: gxml/StreamReader.vala:156
 msgid "Invalid document: unexpected space character before node's name"
 msgstr "Documento inválido: caractere de espaço inesperado antes do nome do nó"
 
-#: gxml/StreamReader.vala:185
+#: gxml/StreamReader.vala:188
 #, c-format
 msgid "Parent '%s' is not implementing GXml.Object interface"
 msgstr "O pai “%s” não está implementando a interface GXml Object"
 
-#: gxml/StreamReader.vala:332 gxml/StreamReader.vala:336
-#: gxml/StreamReader.vala:348
+#: gxml/StreamReader.vala:203
+msgid "Can't continue parsing due to error reading data"
+msgstr ""
+"Não foi possível continuar analisando devido a erro de leitura de dados"
+
+#: gxml/StreamReader.vala:355 gxml/StreamReader.vala:359
+#: gxml/StreamReader.vala:367 gxml/StreamReader.vala:393
 msgid "Invalid comment declaration"
 msgstr "Declaração inválida de comentário"
 
-#: gxml/StreamReader.vala:369
+#: gxml/StreamReader.vala:413
 msgid "Invalid Processing Instruction's target declaration"
 msgstr "Declaração inválida de destino da instrução de processamento"
 
-#: gxml/StreamReader.vala:396
+#: gxml/StreamReader.vala:436
 msgid "Invalid Processing Instruction's close declaration"
 msgstr "Declaração inválida de fechamento da instrução de processamento"
 
@@ -728,6 +733,11 @@ msgstr "A coleção do nó é somente leitura"
 msgid "Invalid document when adding item to named node map collection"
 msgstr "Documento inválido ao adicionar item à coleção de mapa de nós nomeados"
 
+#: gxml/XHtmlDocument.vala:115
+#, c-format
+msgid "Error while converting HTML document to string: %s"
+msgstr "Erro ao converter documento HTML para string: %s"
+
 #: gxml/XNode.vala:44
 #, c-format
 msgid "%s:%s:%d: %s:%d: %s"
@@ -744,18 +754,15 @@ msgid "Only GXml.XNode nodes are supported. Given a %s type"
 msgstr "Somente nós GXml XNode são suportados. Dado um tipo %s"
 
 #: gxml/XNode.vala:401
-#| msgid "Invalid atempt to set a node without key attribute"
 msgid "Invalid attempt to replace a node on unsupported parent"
 msgstr "Tentativa inválida de substituir um nó em pai sem suporte"
 
 #: gxml/XNode.vala:411
 #, c-format
-#| msgid "Invalid attempt to add invalid node type"
 msgid "Invalid attempt to replace invalid node type: %s"
 msgstr "Tentativa inválida de substituir tipo de nó inválido: %s"
 
 #: gxml/XNode.vala:417
-#| msgid "Invalid attempt to set a node with a different parent document"
 msgid "Invalid attempt to replace a node on a document or text node"
 msgstr "Tentativa inválida de substituir um nó em um nó de texto ou documento"
 
@@ -812,194 +819,3 @@ msgstr "Não foi possível localizar elemento na posição: %i: %s"
 #, c-format
 msgid "Collection type %s, initialization error: %s"
 msgstr "Collection tipo %s, erro de inicialização: %s"
-
-#~ msgid "stream doesn't provide data"
-#~ msgstr "fluxo não provê dados"
-
-#~ msgid ""
-#~ "Invalid attempt to insert a document or text type to an invalid parent "
-#~ "node"
-#~ msgstr ""
-#~ "Tentativa inválida de inserir um tipo de texto ou documento para um nó de "
-#~ "pai inválido"
-
-#~ msgid "Invalid document: should start with '<'"
-#~ msgstr "Documento inválido: deve iniciar com “<”"
-
-#~ msgid "Parent Element is invalid"
-#~ msgstr "Elemento pai é inválido"
-
-#~ msgid ""
-#~ "Invalid namespace. If attribute's name is xmlns, namespace URI should be "
-#~ "http://www.w3.org/2000/xmlns"
-#~ msgstr ""
-#~ "Espaço de nome inválido. Se nome do prefixo for xmlns, URI de espaço de "
-#~ "nome deveria ser http://www.w3.org/2000/xmlns"
-
-#~ msgid "Invalid file"
-#~ msgstr "Arquivo inválido"
-
-#~ msgid "Duplicated default namespace detected with URI: %s"
-#~ msgstr "Espaço de nome padrão duplicado foi detectado com URI: %s"
-
-#~ msgid "Duplicated namespace detected for: %s:%s"
-#~ msgstr "Espaço de nome duplicado foi detectado para: %s:%s"
-
-#~ msgid "Invalid object type set to Collection"
-#~ msgstr "Tipo de objeto inválido definido para Collection"
-
-#~ msgid "Invalid DomElement name for objects in Collection"
-#~ msgstr "Nome de DomElement inválido para objetos em Collection"
-
-#~ msgid ""
-#~ "Value can't be parsed to a valid enumeration's value. Value is not set"
-#~ msgstr ""
-#~ "O valor não pôde ser analisado com um valor válido da enumeração. Valor "
-#~ "não está definido"
-
-#~ msgid "Value can't be parsed to a valid enumeration's value"
-#~ msgstr "O valor não pôde ser analisado com um valor válido da enumeração"
-
-#~ msgid "%s: Value type '%s' is unsupported"
-#~ msgstr "%s: Sem suporte ao tipo de valor “%s”"
-
-#~ msgid "WARNING: Object type '%s' has no Node Name defined"
-#~ msgstr "AVISO: Tipo de objeto “%s” não possui nome de nó definido"
-
-#~ msgid "Actual node's name is '%s' expected '%s'"
-#~ msgstr "O nome do nó é “%s”, esperava-se “%s”"
-
-#~ msgid "Trying to serialize to a non GXmlElement!"
-#~ msgstr "Tentando serializar para um não-GXmlElement!"
-
-#~ msgid "No attribute found to deserialize from"
-#~ msgstr "Nenhum atributo encontrado para desserializar de"
-
-#~ msgid "XML Attribute name is not set, when deserializing to: %s"
-#~ msgstr ""
-#~ "Nome do atributo XML não definido quando foi desserializado para: %s"
-
-#~ msgid "Transformation Error on '%s' or Unsupported type: '%s'"
-#~ msgstr "Erro de transformação em “%s” ou sem suporte ao tipo: “%s”"
-
-#~ msgid "Can't transform '%s' to string"
-#~ msgstr "Não foi possível transformar “%s” para string"
-
-#~ msgid "Invalid element name"
-#~ msgstr "Nome de elemento inválido"
-
-#~ msgid "Invalid attribute character"
-#~ msgstr "Caractere de atributo inválido"
-
-#~ msgid "Invalid attribute selector character: can't find '=' character"
-#~ msgstr ""
-#~ "Caractere de seletor de atributo inválido: não foi possível localizar o "
-#~ "caractere “=”"
-
-#~ msgid "Invalid string length."
-#~ msgstr "Tamanho de string inválido."
-
-#~ msgid "Invalid '%s' character."
-#~ msgstr "Caractere “%s” inválido."
-
-#~ msgid "Referenced object's type is invalid. Should be a GXmlGomElement"
-#~ msgstr ""
-#~ "O tipo do objeto referenciado é inválido. Deveria ser um GXmlGomElement"
-
-#~ msgid "Redefinition of default namespace for %s"
-#~ msgstr "Redefinição do espaço de nome padrão para %s"
-
-#~ msgid "Redefinition of namespace's prefix for %s"
-#~ msgstr "Redefinição de prefixo do espaço de nome para %s"
-
-#~ msgid ""
-#~ "Trying to add a namespaced element to a parent with invalid prefix for "
-#~ "namespace %s"
-#~ msgstr ""
-#~ "Tentando adicionar um elemento em espaço de nome a um pai com prefixo "
-#~ "inválido para espaço de nome %s"
-
-#~ msgid ""
-#~ "Trying to add a namespaced element to a parent with invalid URI for "
-#~ "prefix %s"
-#~ msgstr ""
-#~ "Tentando adicionar um elemento em espaço de nome a um pai com URI "
-#~ "inválido para prefixo %s"
-
-#~ msgid "Invalid element type only GXmlGomElement is supported"
-#~ msgstr "Tipo de elemento inválido; há suporte apenas a GXmlGomElement"
-
-#~ msgid "Invalid object item type to initialize ArrayList"
-#~ msgstr "Tipo de item de objeto inválido para iniciar ArrayList"
-
-#~ msgid ""
-#~ "Invalid atempt to add unsupported type. Only GXmlGomElement is supported"
-#~ msgstr ""
-#~ "Tentativa inválida de adicionar tipo sem suporte. Há suporte apenas a "
-#~ "GXmlGomElement"
-
-#~ msgid "Invalid atempt to add a node with a different parent document"
-#~ msgstr ""
-#~ "Tentativa inválida de adicionar um nó com um documento pai diferente"
-
-#~ msgid "Invalid object item type to initialize HashMap"
-#~ msgstr "Tipo de item de objeto inválido para iniciar HashMap"
-
-#~ msgid "Invalid namespaced attribute's name and prefix"
-#~ msgstr "Nome e prefixo do atributo de espaço de nome inválidos"
-
-#~ msgid "Invalid element node name. Expected %s"
-#~ msgstr "Nome inválido do nó de elemento. Esperava-se %s"
-
-#~ msgid "Invalid local name"
-#~ msgstr "Nome local inválido"
-
-#~ msgid ""
-#~ "ref_child '%s' not found, was supposed to have '%s' inserted before it."
-#~ msgstr ""
-#~ "ref_child “%s” não foi encontrado, esperava-se ter “%s” inserido antes "
-#~ "dele."
-
-#~ msgid "Looking up %s from an xmlNode* is not supported"
-#~ msgstr "Sem suporte à procura por %s de um xmlNode*"
-
-#~ msgid "Could not load document from path: %s"
-#~ msgstr "Não foi possível carregar documento no caminho: %s"
-
-#~ msgid "Cloning of Entity not yet supported"
-#~ msgstr "Sem suporte a clonagem de entidade"
-
-#~ msgid ""
-#~ "Node tried to interact with a different document than the one it belongs "
-#~ "to"
-#~ msgstr ""
-#~ "O nó tentou interagir com um documento diferente do qual o mesmo pertence"
-
-#~ msgid "Document has more than one root GXmlElement. Using first found"
-#~ msgstr ""
-#~ "O documento possui mais de um GXmlElement raiz. Usando o primeiro "
-#~ "encontrado"
-
-#, fuzzy
-#~ msgid "DOM: No white spaces should be included to toggle"
-#~ msgstr "DOM: Não devem ser incluídos quaisquer espaços em branco no toggle"
-
-#~ msgid "Text node with NULL or none text"
-#~ msgstr "Nó de texto com NULO ou sem texto"
-
-#~ msgid "DEBUG: skipping gpointer with name '%s' of object '%s'"
-#~ msgstr "DEPURAÇÃO: ignorando gpointer com nome “%s” de objeto “%s”"
-
-#~ msgid "Can't currently serialize type '%s' for property '%s' of object '%s'"
-#~ msgstr ""
-#~ "Não foi possível, no momento, serializar o tipo “%s” para a propriedade "
-#~ "“%s” do objeto “%s”"
-
-#~ msgid "Deserializing unknown GType '%s' objects is unsupported"
-#~ msgstr ""
-#~ "Sem suporte à desserialização de objetos desconhecidos de GType “%s”"
-
-#~ msgid "Unknown property '%s' found, for object type '%s'-->XML: [%s]"
-#~ msgstr ""
-#~ "Propriedade desconhecida “%s” encontrada, para tipo de objeto \"%s\"--"
-#~ ">XML: [%s]"
