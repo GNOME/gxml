@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2022-03-13 00:42+0000\n"
-"PO-Revision-Date: 2022-04-18 18:38+0800\n"
+"POT-Creation-Date: 2022-08-29 23:13+0000\n"
+"PO-Revision-Date: 2022-09-10 18:56+0800\n"
 "Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -493,28 +493,28 @@ msgid ""
 "Invalid attempt to parse an element node, when current found node is not"
 msgstr "在当前找到的节点不是元素节点时，解析元素节点的尝试无效"
 
-#: gxml/Parser.vala:265 gxml/StreamReader.vala:242
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:263
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' type property was "
 "not set at construction time or set to invalid type"
 msgstr "集合“%s”未被正确构造：项目的类型属性在构造时没有设置或设置成了无效类型"
 
-#: gxml/Parser.vala:285 gxml/StreamReader.vala:246
+#: gxml/Parser.vala:285 gxml/StreamReader.vala:267
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' name property was "
 "not set at construction time"
 msgstr "集合“%s”未被正确构造：项目的名称属性在构造时没有设置"
 
-#: gxml/Parser.vala:289 gxml/StreamReader.vala:250
+#: gxml/Parser.vala:289 gxml/StreamReader.vala:271
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: element property was not "
 "set at construction time"
 msgstr "集合“%s”未被正确构造：元素属性在构造时没有设置"
 
-#: gxml/Parser.vala:293 gxml/StreamReader.vala:254
+#: gxml/Parser.vala:293 gxml/StreamReader.vala:275
 #, c-format
 msgid ""
 "Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
@@ -579,29 +579,33 @@ msgstr "起始节点之后的节点类型无效"
 msgid "Invalid root in the source range"
 msgstr "源范围中的根无效"
 
-#: gxml/StreamReader.vala:143
+#: gxml/StreamReader.vala:148
 msgid "Invalid document: expected '<' character"
 msgstr "无效文档：期望“<”字符"
 
-#: gxml/StreamReader.vala:151
+#: gxml/StreamReader.vala:156
 msgid "Invalid document: unexpected space character before node's name"
 msgstr "无效文档：节点名称之前有意外的空格符"
 
-#: gxml/StreamReader.vala:185
+#: gxml/StreamReader.vala:188
 #, c-format
 msgid "Parent '%s' is not implementing GXml.Object interface"
 msgstr "父节点“%s”未实现 GXml.Object 接口"
 
-#: gxml/StreamReader.vala:332 gxml/StreamReader.vala:336
-#: gxml/StreamReader.vala:348
+#: gxml/StreamReader.vala:203
+msgid "Can't continue parsing due to error reading data"
+msgstr "由于读取数据时出错而无法继续解析"
+
+#: gxml/StreamReader.vala:355 gxml/StreamReader.vala:359
+#: gxml/StreamReader.vala:367 gxml/StreamReader.vala:393
 msgid "Invalid comment declaration"
 msgstr "无效的注释声明"
 
-#: gxml/StreamReader.vala:369
+#: gxml/StreamReader.vala:413
 msgid "Invalid Processing Instruction's target declaration"
 msgstr "处理指令的目标声明无效"
 
-#: gxml/StreamReader.vala:396
+#: gxml/StreamReader.vala:436
 msgid "Invalid Processing Instruction's close declaration"
 msgstr "处理指令的闭合声明无效"
 
@@ -682,6 +686,11 @@ msgstr "节点集合是只读的"
 #: gxml/XHashMapAttr.vala:295
 msgid "Invalid document when adding item to named node map collection"
 msgstr "将项目添加到命名节点映射集合时文档无效"
+
+#: gxml/XHtmlDocument.vala:115
+#, c-format
+msgid "Error while converting HTML document to string: %s"
+msgstr "将 HTML 文档转换为字符串时出错：%s"
 
 #: gxml/XNode.vala:44
 #, c-format
