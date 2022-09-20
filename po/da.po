@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2022-03-13 00:42+0000\n"
-"PO-Revision-Date: 2022-03-21 19:15+0100\n"
+"POT-Creation-Date: 2022-08-29 23:13+0000\n"
+"PO-Revision-Date: 2022-09-11 18:52+0200\n"
 "Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: gxml/BaseCollection.vala:91
 msgid ""
@@ -524,7 +524,7 @@ msgstr ""
 "Ugyldigt forsøg på at fortolke et elementknudepunkt, da det som er fundet på "
 "nuværende tidspunkt, ikke er indstillet"
 
-#: gxml/Parser.vala:265 gxml/StreamReader.vala:242
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:263
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' type property was "
@@ -534,7 +534,7 @@ msgstr ""
 "egenskab blev ikke indstillet på konstruktionstidspunktet eller indstillet "
 "til en ugyldig type"
 
-#: gxml/Parser.vala:285 gxml/StreamReader.vala:246
+#: gxml/Parser.vala:285 gxml/StreamReader.vala:267
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' name property was "
@@ -543,7 +543,7 @@ msgstr ""
 "Samlingen “%s” er ikke blevet konstrueret ordentligt: posternes name-"
 "egenskab blev ikke indstillet på konstruktionstidspunktet"
 
-#: gxml/Parser.vala:289 gxml/StreamReader.vala:250
+#: gxml/Parser.vala:289 gxml/StreamReader.vala:271
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: element property was not "
@@ -552,7 +552,7 @@ msgstr ""
 "Samlingen “%s” er ikke blevet konstrueret ordentligt: element-egenskab blev "
 "ikke indstillet på konstruktionstidspunktet"
 
-#: gxml/Parser.vala:293 gxml/StreamReader.vala:254
+#: gxml/Parser.vala:293 gxml/StreamReader.vala:275
 #, c-format
 msgid ""
 "Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
@@ -619,31 +619,35 @@ msgstr "Ugyldig knudepunktstype til start efter"
 msgid "Invalid root in the source range"
 msgstr "Ugyldig rod i kildeområdet"
 
-#: gxml/StreamReader.vala:143
+#: gxml/StreamReader.vala:148
 msgid "Invalid document: expected '<' character"
 msgstr "Ugyldigt dokument: forventede tegnet “<”"
 
-#: gxml/StreamReader.vala:151
+#: gxml/StreamReader.vala:156
 msgid "Invalid document: unexpected space character before node's name"
 msgstr "Ugyldigt dokument: uventet mellemrumstegn før knudepunktets navn"
 
-#: gxml/StreamReader.vala:185
+#: gxml/StreamReader.vala:188
 #, c-format
 msgid "Parent '%s' is not implementing GXml.Object interface"
 msgstr "Ophavet “%s” implementerer ikke GXml.Object-grænseflade"
 
-#: gxml/StreamReader.vala:332 gxml/StreamReader.vala:336
-#: gxml/StreamReader.vala:348
+#: gxml/StreamReader.vala:203
+msgid "Can't continue parsing due to error reading data"
+msgstr "Kan ikke fortsætte fortolkningen pga. fejl under læsning af data"
+
+#: gxml/StreamReader.vala:355 gxml/StreamReader.vala:359
+#: gxml/StreamReader.vala:367 gxml/StreamReader.vala:393
 msgid "Invalid comment declaration"
 msgstr "Ugyldig erklæring af kommentar"
 
 # scootergrisen: tjek at det er korrekt og godt oversat
-#: gxml/StreamReader.vala:369
+#: gxml/StreamReader.vala:413
 msgid "Invalid Processing Instruction's target declaration"
 msgstr "Målerklæring fra ugyldig behandlingsinstruktion"
 
 # scootergrisen: tjek at det er korrekt og godt oversat
-#: gxml/StreamReader.vala:396
+#: gxml/StreamReader.vala:436
 msgid "Invalid Processing Instruction's close declaration"
 msgstr "Lukkeerklæring fra ugyldig behandlingsinstruktion"
 
@@ -728,6 +732,11 @@ msgstr "Knudepunktssamlingen er skrivebeskyttet"
 msgid "Invalid document when adding item to named node map collection"
 msgstr ""
 "Ugyldigt dokument ved tilføjelse af post til navngivet knudepunktskortsamling"
+
+#: gxml/XHtmlDocument.vala:115
+#, c-format
+msgid "Error while converting HTML document to string: %s"
+msgstr "Fejl ved konvertering af HTML-dokument til streng: %s"
 
 #: gxml/XNode.vala:44
 #, c-format
