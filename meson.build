@@ -11,7 +11,7 @@ libgxml_deps = [
 	dependency('libxml-2.0'),
 	dependency('gio-2.0'),
 	dependency('gee-0.8'),
-  meson.get_compiler('c').find_library('intl', required: true)
+	meson.get_compiler('c').find_library('intl', required: target_machine.system() == 'darwin')
 	]
 
 VALADEPS = 'gee-0.8\ngio-2.0\nlibxml-2.0'
