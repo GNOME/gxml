@@ -7,11 +7,16 @@ VERSIONED_PROJECT_NAME = PROJECT_NAME+'-'+API_VERSION
 CAMEL_CASE_NAME = 'GXml'
 VERSIONED_CAMEL_CASE_NAME = CAMEL_CASE_NAME +'-'+ API_VERSION
 
+gee = dependency('gee-0.8')
+gee_girdir = gee.get_variable('datadir') / 'gir-1.0'
+gee_vapidir = gee.get_variable('datadir') / 'vala' / 'vapi'
+add_project_arguments(['--vapidir', gee_vapidir], language: 'vala')
+
 libgxml_deps = [
 	dependency('libxml-2.0'),
 	dependency('gio-2.0'),
-	dependency('gee-0.8'),
-	meson.get_compiler('c').find_library('intl', required: false)
+	meson.get_compiler('c').find_library('intl', required: false),
+	gee
 	]
 
 VALADEPS = 'gee-0.8\ngio-2.0\nlibxml-2.0'

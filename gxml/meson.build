@@ -155,7 +155,7 @@ custom_target('libgxml-typelib',
 	command: [
 		g_ir_compiler,
 		'--shared-library', 'lib'+PROJECT_NAME+'-@0@.so'.format (API_VERSION),
-		'--output', '@OUTPUT@',
+		'--output', '@OUTPUT@', '--includedir', gee_girdir,
 		join_paths(meson.current_build_dir(), GIR_NAME)
 	],
 	output: TYPELIB_NAME,
