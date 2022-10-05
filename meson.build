@@ -10,7 +10,8 @@ VERSIONED_CAMEL_CASE_NAME = CAMEL_CASE_NAME +'-'+ API_VERSION
 libgxml_deps = [
 	dependency('libxml-2.0'),
 	dependency('gio-2.0'),
-	dependency('gee-0.8')
+	dependency('gee-0.8'),
+  meson.get_compiler('c').find_library('intl', required: true)
 	]
 
 VALADEPS = 'gee-0.8\ngio-2.0\nlibxml-2.0'
