@@ -1,5 +1,7 @@
 project('gxml', [ 'vala', 'c'], version : '0.21.0')
 
+pkgconfig = import('pkgconfig')
+
 PROJECT_NAME = meson.project_name ()
 API_VERSION = '0.20'
 PROJECT_VERSION = meson.project_version ()

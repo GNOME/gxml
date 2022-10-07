@@ -6,6 +6,7 @@ VAPI_NAME = VERSIONED_PROJECT_NAME+'.vapi'
 conf = configuration_data()
 conf.set('prefix', get_option('prefix'))
 conf.set('libdir', '${exec_prefix}/'+get_option ('libdir'))
+conf.set('includedir', '${exec_prefix}/' + get_option ('includedir'))
 conf.set('PCDEPS', PCDEPS)
 conf.set('PROJECT_NAME', PROJECT_NAME)
 conf.set('PROJECT_VERSION', PROJECT_VERSION)
@@ -164,6 +165,13 @@ custom_target('libgxml-typelib',
 	install_dir: join_paths(get_option('libdir'), 'girepository-1.0'))
 endif
 endif
+
+pkgconfig.generate(libgxml,
+  name: 'gxml-@0@'.format (API_VERSION),
+  filebase: 'libgxml',
+  description: 'GObject API for XML manipulation and serialization library',
+  url: 'http://live.gnome.org/GXml',
+  version: PROJECT_VERSION)
 
 libgxml_build_dir = meson.current_build_dir ()
 libgxml_src_dir = meson.current_source_dir ()
