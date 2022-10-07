@@ -164,7 +164,8 @@ pkgconfig.generate(libgxml,
   filebase: 'gxml-@0@'.format (API_VERSION),
   description: 'GObject API for XML manipulation and serialization library',
   url: 'http://live.gnome.org/GXml',
-  version: PROJECT_VERSION)
+  version: PROJECT_VERSION,
+  subdirs: 'gxml-@0@'.format (API_VERSION))
 
 libgxml_build_dir = meson.current_build_dir ()
 libgxml_src_dir = meson.current_source_dir ()
