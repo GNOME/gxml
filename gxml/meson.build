@@ -160,8 +160,8 @@ endif
 endif
 
 pkgconfig.generate(libgxml,
-  name: 'gxml-@0@'.format (API_VERSION),
-  filebase: 'libgxml',
+  name: 'libgxml',
+  filebase: 'gxml-@0@'.format (API_VERSION),
   description: 'GObject API for XML manipulation and serialization library',
   url: 'http://live.gnome.org/GXml',
   version: PROJECT_VERSION)
