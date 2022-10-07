@@ -17,7 +17,7 @@
         let
           pkgs = nixpkgsFor.${system};
         in with pkgs; {
-          nativeBuildInputs = [ meson pkg-config ninja vala ];
+          nativeBuildInputs = [ meson pkg-config ninja vala gobject-introspection ];
           buildInputs = [ libxml2 glib libgee ];
         });
     in
@@ -33,8 +33,20 @@
 
             outputs = [ "out" "dev" "devdoc" ];
 
+            PKG_CONFIG_GOBJECT_INTROSPECTION_1_0_GIRDIR = "${placeholder "dev"}/share/gir-1.0";
+            PKG_CONFIG_GOBJECT_INTROSPECTION_1_0_TYPELIBDIR = "${placeholder "out"}/lib/girepository-1.0";
+
+            doCheck = true;
             enableParallelBuilding = true;
             inherit (systemPackages) nativeBuildInputs buildInputs;
+
+            meta = with pkgs.lib; {
+              description = "GXml provides a GObject API for manipulating XML and a Serializable framework from GObject to XML.";
+              homepage = "https://gitlab.gnome.org/GNOME/gxml";
+              license = licenses.lgpl21Plus;
+              platforms = platforms.unix;
+              maintainers = teams.gnome.members;
+            };
           };
         });
 
