@@ -6,17 +6,10 @@ VAPI_NAME = VERSIONED_PROJECT_NAME+'.vapi'
 conf = configuration_data()
 conf.set('prefix', get_option('prefix'))
 conf.set('libdir', '${exec_prefix}/'+get_option ('libdir'))
-conf.set('includedir', '${exec_prefix}/' + get_option ('includedir'))
 conf.set('PCDEPS', PCDEPS)
 conf.set('PROJECT_NAME', PROJECT_NAME)
 conf.set('PROJECT_VERSION', PROJECT_VERSION)
 conf.set('API_VERSION', API_VERSION)
-
-configure_file(input : 'gxml.pc.in',
-	output : 'gxml-@0@.pc'.format(API_VERSION),
-	configuration : conf,
-	install : true,
-	install_dir : join_paths(get_option('libdir'), 'pkgconfig'))
 
 configure_file(input : 'gxml.deps.in',
 	output : 'gxml-@0@.deps'.format(API_VERSION),
