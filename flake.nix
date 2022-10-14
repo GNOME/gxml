@@ -16,16 +16,17 @@
       packagesFor = forAllSystems (system:
         let
           pkgs = nixpkgsFor.${system};
-        in with pkgs; {
+        in with pkgs; rec {
           nativeBuildInputs = [ meson pkg-config ninja vala gobject-introspection ];
           buildInputs = [ libxml2 glib libgee ];
+          propagatedBuildInputs = buildInputs;
         });
     in
     {
       packages = forAllSystems (system:
         let
           pkgs = nixpkgsFor.${system};
-          systemPackages = packagesFor.${system};
+          packages = packagesFor.${system};
         in {
           default = pkgs.stdenv.mkDerivation rec {
             name = "gxml";
@@ -38,7 +39,7 @@
 
             doCheck = true;
             enableParallelBuilding = true;
-            inherit (systemPackages) nativeBuildInputs buildInputs;
+            inherit (packages) nativeBuildInputs buildInputs propagatedBuildInputs;
 
             meta = with pkgs.lib; {
               description = "GXml provides a GObject API for manipulating XML and a Serializable framework from GObject to XML.";
@@ -53,10 +54,10 @@
       devShells = forAllSystems (system:
         let
           pkgs = nixpkgsFor.${system};
-          systemPackages = packagesFor.${system};
+          packages = packagesFor.${system};
         in {
           default = pkgs.mkShell {
-            packages = systemPackages.nativeBuildInputs ++ systemPackages.buildInputs;
+            packages = packages.nativeBuildInputs ++ packages.buildInputs;
           };
         });
     };
