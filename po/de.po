@@ -6,21 +6,22 @@
 # Tim Sabsch <tim@sabsch.com>, 2018.
 # Philipp Kiemle <philipp.kiemle@gmail.com>, 2021.
 # Christian Kirbach <christian.kirbach@gmail.com>, 2021.
+# Jürgen Benvenuti <gastornis@posteo.org>, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2021-01-16 04:47+0000\n"
-"PO-Revision-Date: 2021-02-25 21:41+0100\n"
-"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
+"POT-Creation-Date: 2022-03-13 00:42+0000\n"
+"PO-Revision-Date: 2022-10-21 15:01+0200\n"
+"Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: gxml/BaseCollection.vala:91
 msgid ""
@@ -101,7 +102,7 @@ msgstr "Ungültige »%s« Pseudoklasse : Wert konnte nicht gefunden werden"
 
 #: gxml/CssSelectorParser.vala:280
 msgid "Cannot find end of pseudo class value"
-msgstr ""
+msgstr "Ende des Pseudo-Klassenwertes kann nicht gefunden werden"
 
 #: gxml/CssSelectorParser.vala:285
 msgid "Pseudo class value isn't a valid number"
@@ -175,17 +176,17 @@ msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
 msgstr ""
 "Nur xmlns-Präfixe können mit http://www.w3.org/2000/xmlns/ verwendet werden"
 
-#: gxml/Document.vala:244 gxml/XDocument.vala:252
+#: gxml/Document.vala:244 gxml/XDocument.vala:276
 msgid "Can't import a Document"
 msgstr "Ein Dokument kann nicht importiert werden"
 
-#: gxml/Document.vala:246 gxml/XDocument.vala:254
+#: gxml/Document.vala:246 gxml/XDocument.vala:278
 msgid "Can't import a non Element type node to a Document"
 msgstr ""
 "Ein Knoten, der nicht vom Typ »Element« ist, kann nicht in ein Dokument "
 "importiert werden"
 
-#: gxml/Document.vala:270 gxml/XDocument.vala:278
+#: gxml/Document.vala:270 gxml/XDocument.vala:302
 msgid "Can't adopt a Document"
 msgstr "Ein Dokument kann nicht übernommen werden"
 
@@ -462,28 +463,25 @@ msgstr "Kein primärer und/oder sekundärer Schlüssel gefunden"
 msgid "Text content in element can't be created"
 msgstr "Textinhalt im Element kann nicht erzeugt werden"
 
-#: gxml/Node.vala:209 gxml/XNode.vala:279
+#: gxml/Node.vala:209 gxml/XNode.vala:328
 msgid "Can't find node position"
 msgstr "Knotenposition kann nicht gefunden werden"
 
-#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:310
-#: gxml/XNode.vala:341
+#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:359
 msgid "Invalid attempt to add invalid node type"
 msgstr "Ungültiger Versuch, einen ungültigen Knotentyp hinzuzufügen"
 
-#: gxml/Node.vala:260 gxml/XNode.vala:312
+#: gxml/Node.vala:260 gxml/XNode.vala:361
 msgid "Can't find child to insert node before"
 msgstr ""
 "Unterelement kann nicht gefunden werden, vor dem der Knoten eingefügt werden "
 "soll"
 
-#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:316
-#: gxml/XNode.vala:347
+#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:365
 msgid "Invalid attempt to insert a node"
 msgstr "Ungültiger Versuch, einen Knoten hinzuzufügen"
 
-#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:323
-#: gxml/XNode.vala:354
+#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:372
 msgid "Invalid attempt to insert an invalid node type"
 msgstr "Ungültiger Versuch, einen ungültigen Knotentyp einzufügen"
 
@@ -496,20 +494,20 @@ msgstr ""
 msgid "Invalid attempt to append a child with different parent document"
 msgstr "Versuch, ein Unterelement zu einem anderen Elternelement hinzuzufügen"
 
-#: gxml/Node.vala:302 gxml/XNode.vala:343
+#: gxml/Node.vala:302 gxml/XNode.vala:394
 msgid "Can't find child node to replace or child have a different parent"
 msgstr ""
 "Zu ersetzender Unterknoten kann nicht gefunden werden, oder das Unterelement "
 "hat ein anderes Elternelement"
 
-#: gxml/Node.vala:316 gxml/XNode.vala:326 gxml/XNode.vala:357
+#: gxml/Node.vala:316 gxml/XNode.vala:375
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr ""
 "Ungültiger Versuch, einen Dokumenttyp oder einen Textknoten in ein "
 "ungültiges Elternelement einzufügen"
 
-#: gxml/Node.vala:328 gxml/XNode.vala:369
+#: gxml/Node.vala:328 gxml/XNode.vala:438
 msgid "Can't find child node to remove or child have a different parent"
 msgstr ""
 "Zu entfernender Unterknoten kann nicht gefunden werden, oder das "
@@ -532,7 +530,7 @@ msgstr "Fehler beim Versuch, das Eigenschaftsobjekt zu instanzieren: %s"
 msgid "Can't set value. It is not a GXmlGXml.Element type"
 msgstr "Der Wert kann nicht gesetzt werden. Es ist kein GXmlGXml.Element-Typ"
 
-#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:57
+#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:65
 msgid "File doesn't exist"
 msgstr "Datei existiert nicht"
 
@@ -656,12 +654,16 @@ msgid "Invalid comment declaration"
 msgstr "Ungültige Kommentardeklaration"
 
 #: gxml/StreamReader.vala:369
-msgid "Invalid Processing Instruccion's target declaration"
-msgstr ""
+#, fuzzy
+#| msgid "Invalid comment declaration"
+msgid "Invalid Processing Instruction's target declaration"
+msgstr "Ungültige Kommentardeklaration"
 
 #: gxml/StreamReader.vala:396
-msgid "Invalid Processing Instruccion's close declaration"
-msgstr ""
+#, fuzzy
+#| msgid "Invalid comment declaration"
+msgid "Invalid Processing Instruction's close declaration"
+msgstr "Ungültige Kommentardeklaration"
 
 #: gxml/TokenList.vala:54
 msgid ""
@@ -694,21 +696,16 @@ msgstr ""
 msgid "Update Error: "
 msgstr "Aktualisierungsfehler: "
 
-#: gxml/XDocument.vala:139
+#: gxml/XDocument.vala:159
 #, c-format
 msgid "Error writing document to string: %s"
 msgstr ""
 
-#: gxml/XDocument.vala:207
+#: gxml/XDocument.vala:230
 msgid "Invalid element qualified name: multiple namespace prefixes"
 msgstr "Ungültiger qualifizierter Elementname: Mehrfache Namensraum-Präfixe"
 
-#: gxml/XdParser.vala:65
-msgid "stream doesn't provide data"
-msgstr "Datenstrom stellt keine Daten bereit"
-
-#: gxml/XdParser.vala:80
-#, fuzzy
+#: gxml/XdParser.vala:82
 msgid "Parser Error for string"
 msgstr "Verarbeitungsfehler für Zeichenkette"
 
@@ -754,20 +751,41 @@ msgstr ""
 "Ungültiges Dokument beim Hinzufügen eines Objekts zu einer benannten "
 "Knotenkartensammlung"
 
-#: gxml/XNode.vala:43
+#: gxml/XNode.vala:44
 #, c-format
 msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
 
-#: gxml/XNode.vala:216
+#: gxml/XNode.vala:265
 #, c-format
 msgid "Error while setting text content to node: %s"
 msgstr ""
 
+#: gxml/XNode.vala:390
+#, c-format
+msgid "Only GXml.XNode nodes are supported. Given a %s type"
+msgstr ""
+
+#: gxml/XNode.vala:401
+msgid "Invalid attempt to replace a node on unsupported parent"
+msgstr ""
+"Ungültiger Versuch, einen Knoten auf einem nicht unterstützten Elternelement "
+"zu ersetzen"
+
+#: gxml/XNode.vala:411
+#, c-format
+msgid "Invalid attempt to replace invalid node type: %s"
+msgstr "Ungültiger Versuch, einen ungültigen Knotentyp zu ersetzen: %s"
+
+#: gxml/XNode.vala:417
+msgid "Invalid attempt to replace a node on a document or text node"
+msgstr ""
+"Ungültiger Versuch, einen Knoten in einem Dokument oder einem Textknoten zu "
+"ersetzen"
+
 #: gxml/XParser.vala:123
-#, fuzzy
 msgid "Invalid input stream to read data from"
-msgstr "Ungültiger Eingangsstream, von dem Daten gelesen werden sollen"
+msgstr "Ungültiger Eingabestrom, von dem Daten gelesen werden sollen"
 
 #: gxml/XParser.vala:143
 #, c-format
@@ -784,20 +802,24 @@ msgstr "Fehler beim Schließen des Datenstroms: %s"
 msgid "Internal Error: No TextReader was set"
 msgstr "Interner Fehler: Kein TextReader festgelegt"
 
+# Umstellung, damit %s am Ende steht
 #: gxml/XParser.vala:271
-msgid "Can't read node data"
-msgstr "Knotendaten können nicht gelesen werden"
+#, c-format
+msgid "Can't read node data at line: %d"
+msgstr "Die Knotendaten können nicht gelesen werden in Zeile: %d"
 
 #: gxml/XParser.vala:335
 #, c-format
-msgid "Parsing ERROR: Fail to move to attribute number: %i"
-msgstr "Verarbeitungsfehler: Sprung zu Attributnummer %i fehlgeschlagen"
+msgid "Parsing ERROR: Fail to move to attribute number: %i at line: %d"
+msgstr ""
+"FEHLER bei der Verarbeitung: Verschiebung zu Attributnummer %i ist "
+"fehlgeschlagen in Zeile: %d"
 
 #: gxml/XParser.vala:427
 msgid "Invalid sequence for document type definition: "
 msgstr "Ungültige Sequenz für Dokumenttypdefinition: "
 
-#: gxml/XParser.vala:492 gxml/XParser.vala:598 gxml/XParser.vala:670
+#: gxml/XParser.vala:494 gxml/XParser.vala:600 gxml/XParser.vala:672
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Interner Fehler: Kein TextWriter initialisiert"
 
@@ -816,6 +838,9 @@ msgstr "Element kann nicht an Position gefunden werden: %i: %s"
 #, c-format
 msgid "Collection type %s, initialization error: %s"
 msgstr "Sammlungstyp %s, Initialisierungsfehler: %s"
+
+#~ msgid "stream doesn't provide data"
+#~ msgstr "Datenstrom stellt keine Daten bereit"
 
 #~ msgid "Invalid attribute character"
 #~ msgstr "Ungültiges Attributzeichen"
