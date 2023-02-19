@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2020-06-01 04:06+0000\n"
-"PO-Revision-Date: 2020-08-17 21:00+0700\n"
+"POT-Creation-Date: 2023-02-18 13:32+0000\n"
+"PO-Revision-Date: 2023-02-19 13:59+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.1\n"
 "Plural-Forms: nplurals=2; plural= n!=1;\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: gxml/BaseCollection.vala:91
 msgid ""
@@ -168,15 +168,15 @@ msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
 msgstr ""
 "Hanya prefiks xmlns yang dapat digunakan dengan http://www.w3.org/2000/xmlns/"
 
-#: gxml/Document.vala:244 gxml/XDocument.vala:252
+#: gxml/Document.vala:244 gxml/XDocument.vala:276
 msgid "Can't import a Document"
 msgstr "Tak bisa mengimpor suatu Dokumen"
 
-#: gxml/Document.vala:246 gxml/XDocument.vala:254
+#: gxml/Document.vala:246 gxml/XDocument.vala:278
 msgid "Can't import a non Element type node to a Document"
 msgstr "Tak bisa mengimpor suatu simpul tipe bukan Element ke suatu Dokumen"
 
-#: gxml/Document.vala:270 gxml/XDocument.vala:278
+#: gxml/Document.vala:270 gxml/XDocument.vala:302
 msgid "Can't adopt a Document"
 msgstr "Tak bisa mengadopsi sebuah Dokumen"
 
@@ -452,26 +452,23 @@ msgstr "Tidak ada kunci primer dan/atau kunci sekunder yang ditemukan"
 msgid "Text content in element can't be created"
 msgstr "Isi teks dalam elemen tidak dapat dibuat"
 
-#: gxml/Node.vala:209 gxml/XNode.vala:279
+#: gxml/Node.vala:209 gxml/XNode.vala:328
 msgid "Can't find node position"
 msgstr "Tak bisa temukan posisi simpul"
 
-#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:310
-#: gxml/XNode.vala:341
+#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:359
 msgid "Invalid attempt to add invalid node type"
 msgstr "Upaya yang tidak valid untuk menambah tipe simpul yang tidak valid"
 
-#: gxml/Node.vala:260 gxml/XNode.vala:312
+#: gxml/Node.vala:260 gxml/XNode.vala:361
 msgid "Can't find child to insert node before"
 msgstr "Tak bisa temukan anak tempat menyisipkan simpul sebelumnya"
 
-#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:316
-#: gxml/XNode.vala:347
+#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:365
 msgid "Invalid attempt to insert a node"
 msgstr "Upaya yang tidak valid untuk menyisipkan sebuah simpul"
 
-#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:323
-#: gxml/XNode.vala:354
+#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:372
 msgid "Invalid attempt to insert an invalid node type"
 msgstr "Upaya yang tidak valid untuk menyisipkan tipe simpul yang tidak valid"
 
@@ -485,20 +482,20 @@ msgstr ""
 "Percobaan yang tidak valid untuk menambahkan sebuah anak dengan dokumen "
 "induk yang berbeda"
 
-#: gxml/Node.vala:302 gxml/XNode.vala:343
+#: gxml/Node.vala:302 gxml/XNode.vala:394
 msgid "Can't find child node to replace or child have a different parent"
 msgstr ""
 "Tak bisa temukan simpul anak untuk menggantikan atau anak punya induk yang "
 "berbeda"
 
-#: gxml/Node.vala:316 gxml/XNode.vala:326 gxml/XNode.vala:357
+#: gxml/Node.vala:316 gxml/XNode.vala:375
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr ""
 "Percobaan yang tidak valid untuk menyisipkan simpul teks atau tipe dokumen "
 "ke induk yang tidak valid"
 
-#: gxml/Node.vala:328 gxml/XNode.vala:369
+#: gxml/Node.vala:328 gxml/XNode.vala:438
 msgid "Can't find child node to remove or child have a different parent"
 msgstr ""
 "Tak bisa temukan simpul anak yang akan dihapus atau anak punya induk yang "
@@ -521,7 +518,7 @@ msgstr "Kesalahan ketika mencoba menginstansiasi objek properti: %s"
 msgid "Can't set value. It is not a GXmlGXml.Element type"
 msgstr "Tak bisa menata nilai. Itu bukan suatu tipe GXmlGXml.Element"
 
-#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:57
+#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:65
 msgid "File doesn't exist"
 msgstr "Berkas tak ada"
 
@@ -532,7 +529,7 @@ msgstr ""
 "Upaya yang tidak valid untuk mengurai suatu simpul elemen, ketika simpul "
 "yang kini ditemukan bukan"
 
-#: gxml/Parser.vala:265 gxml/StreamReader.vala:242
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:263
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' type property was "
@@ -541,7 +538,7 @@ msgstr ""
 "Koleksi '%s' belum dikonstruksi dengan benar: tipe properti butir tidak "
 "ditata pada saat konstruksi atau diisi dengan tipe yang tidak valid"
 
-#: gxml/Parser.vala:285 gxml/StreamReader.vala:246
+#: gxml/Parser.vala:285 gxml/StreamReader.vala:267
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' name property was "
@@ -550,7 +547,7 @@ msgstr ""
 "Koleksi '%s' belum dikonstruksi dengan benar: nama properti butir tidak "
 "ditata pada saat konstruksi"
 
-#: gxml/Parser.vala:289 gxml/StreamReader.vala:250
+#: gxml/Parser.vala:289 gxml/StreamReader.vala:271
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: element property was not "
@@ -559,7 +556,7 @@ msgstr ""
 "Koleksi '%s' belum dikonstruksi dengan benar: properti elemen tidak ditata "
 "pada saat konstruksi"
 
-#: gxml/Parser.vala:293 gxml/StreamReader.vala:254
+#: gxml/Parser.vala:293 gxml/StreamReader.vala:275
 #, c-format
 msgid ""
 "Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
@@ -626,31 +623,35 @@ msgstr "Tipe simpul yang tidak valid untuk memulai setelahnya"
 msgid "Invalid root in the source range"
 msgstr "Root yang  tidak valid dalam rentang sumber"
 
-#: gxml/StreamReader.vala:143
+#: gxml/StreamReader.vala:148
 msgid "Invalid document: expected '<' character"
 msgstr "Dokumen tidak valid: karakter '<' diharapkan"
 
-#: gxml/StreamReader.vala:151
+#: gxml/StreamReader.vala:156
 msgid "Invalid document: unexpected space character before node's name"
 msgstr ""
 "Dokumen tidak valid: karakter spasi yang tidak diharapkan sebelum nama simpul"
 
-#: gxml/StreamReader.vala:185
+#: gxml/StreamReader.vala:188
 #, c-format
 msgid "Parent '%s' is not implementing GXml.Object interface"
 msgstr "Induk '%s' tidak mengimplementasikan antarmuka GXml.Object"
 
-#: gxml/StreamReader.vala:332 gxml/StreamReader.vala:336
-#: gxml/StreamReader.vala:348
+#: gxml/StreamReader.vala:203
+msgid "Can't continue parsing due to error reading data"
+msgstr "Tidak dapat melanjutkan penguraian karena kesalahan membaca data"
+
+#: gxml/StreamReader.vala:355 gxml/StreamReader.vala:359
+#: gxml/StreamReader.vala:367 gxml/StreamReader.vala:393
 msgid "Invalid comment declaration"
 msgstr "Deklarasi komentar tidak valid"
 
-#: gxml/StreamReader.vala:369
-msgid "Invalid Processing Instruccion's target declaration"
+#: gxml/StreamReader.vala:413
+msgid "Invalid Processing Instruction's target declaration"
 msgstr "Deklarasi target untuk Instruksi Pemrosesan tidak valid"
 
-#: gxml/StreamReader.vala:396
-msgid "Invalid Processing Instruccion's close declaration"
+#: gxml/StreamReader.vala:436
+msgid "Invalid Processing Instruction's close declaration"
 msgstr "Deklarasi tutup untuk Instruksi Pemrosesan tidak valid"
 
 #: gxml/TokenList.vala:54
@@ -681,21 +682,17 @@ msgstr "DOM: Token tidak valid. Spasi tak dapat dipakai sebagai token"
 msgid "Update Error: "
 msgstr "Galat Pemutakhiran: "
 
-#: gxml/XDocument.vala:139
+#: gxml/XDocument.vala:159
 #, c-format
 msgid "Error writing document to string: %s"
 msgstr "Galat saat menulis dokumen ke string: %s"
 
-#: gxml/XDocument.vala:207
+#: gxml/XDocument.vala:230
 msgid "Invalid element qualified name: multiple namespace prefixes"
 msgstr ""
 "Nama terkualifikasi elemen yang tidak valid: prefiks namespace berganda"
 
-#: gxml/XdParser.vala:65
-msgid "stream doesn't provide data"
-msgstr "stream tidak menyediakan data"
-
-#: gxml/XdParser.vala:80
+#: gxml/XdParser.vala:82
 msgid "Parser Error for string"
 msgstr "Galat Pengurai untuk string"
 
@@ -740,15 +737,42 @@ msgid "Invalid document when adding item to named node map collection"
 msgstr ""
 "Dokumen tidak valid ketika menambahkan butir ke koleksi peta simpul bernama"
 
-#: gxml/XNode.vala:43
+#: gxml/XHtmlDocument.vala:115
+#, c-format
+msgid "Error while converting HTML document to string: %s"
+msgstr "Galat saat mengonversi dokumen HTML ke string: %s"
+
+#: gxml/XNode.vala:44
 #, c-format
 msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
 
-#: gxml/XNode.vala:216
+#: gxml/XNode.vala:265
 #, c-format
 msgid "Error while setting text content to node: %s"
 msgstr "Galat saat menata isi teks ke simpul: %s"
+
+#: gxml/XNode.vala:390
+#, c-format
+msgid "Only GXml.XNode nodes are supported. Given a %s type"
+msgstr "Hanya simpul GXml.XNode yang didukung. Diberikan tipe %s"
+
+#: gxml/XNode.vala:401
+msgid "Invalid attempt to replace a node on unsupported parent"
+msgstr ""
+"Upaya yang tidak valid untuk menggantikan suatu simpul pada induk yang tidak "
+"didukung"
+
+#: gxml/XNode.vala:411
+#, c-format
+msgid "Invalid attempt to replace invalid node type: %s"
+msgstr "Upaya yang tidak valid untuk mengganti tipe simpul: %s"
+
+#: gxml/XNode.vala:417
+msgid "Invalid attempt to replace a node on a document or text node"
+msgstr ""
+"Upaya yang tidak valid untuk menggantikan suatu simpul pada sebuah dokumen "
+"induk atau simpul teks"
 
 #: gxml/XParser.vala:123
 msgid "Invalid input stream to read data from"
@@ -770,19 +794,21 @@ msgid "Internal Error: No TextReader was set"
 msgstr "Galat Internal: Tidak ada TextReader yang ditata"
 
 #: gxml/XParser.vala:271
-msgid "Can't read node data"
-msgstr "Tak bisa membaca data simpul"
+#, c-format
+msgid "Can't read node data at line: %d"
+msgstr "Tak bisa membaca data simpul pada baris: %d"
 
 #: gxml/XParser.vala:335
 #, c-format
-msgid "Parsing ERROR: Fail to move to attribute number: %i"
-msgstr "GALAT saat mengurai: Gagal memindah ke nomor atribut: %i"
+msgid "Parsing ERROR: Fail to move to attribute number: %i at line: %d"
+msgstr ""
+"GALAT saat mengurai: Gagal memindah ke nomor atribut: %i pada baris: %d"
 
 #: gxml/XParser.vala:427
 msgid "Invalid sequence for document type definition: "
 msgstr "Urutan tidak valid untuk definisi jenis dokumen: "
 
-#: gxml/XParser.vala:492 gxml/XParser.vala:598 gxml/XParser.vala:670
+#: gxml/XParser.vala:494 gxml/XParser.vala:600 gxml/XParser.vala:672
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Galat Internal: Tidak ada TextWriter yang diinisialisasi"
 
