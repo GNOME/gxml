@@ -1,13 +1,13 @@
 # Basque translation for gxml.
 # Copyright (C) 2019 gxml's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gxml package.
-# Asier Sarasua Garmendia <asiersarasua@ni.eus>, 2019, 2022.
+# Asier Sarasua Garmendia <asiersarasua@ni.eus>, 2019, 2022, 2023.
 #
 msgid ""
 msgstr "Project-Id-Version: gxml gxml-0.18\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2022-02-03 04:12+0000\n"
-"PO-Revision-Date: 2022-03-08 10:00+0100\n"
+"POT-Creation-Date: 2022-08-29 23:13+0000\n"
+"PO-Revision-Date: 2023-04-08 10:00+0100\n"
 "Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -464,28 +464,28 @@ msgid ""
 "Invalid attempt to parse an element node, when current found node is not"
 msgstr "Elementu-nodoa analizatzeko saio baliogabea, unean aurkitutako nodoa ez denean"
 
-#: gxml/Parser.vala:265 gxml/StreamReader.vala:242
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:263
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' type property was "
 "not set at construction time or set to invalid type"
 msgstr "'%s' bilduma ez da ongi eraiki: elementuen mota-propietatea ez da eraikuntza-garaian ezarri edo mota baliogabea ezarri da"
 
-#: gxml/Parser.vala:285 gxml/StreamReader.vala:246
+#: gxml/Parser.vala:285 gxml/StreamReader.vala:267
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' name property was "
 "not set at construction time"
 msgstr "'%s' bilduma ez da ongi eraiki: elementuen izen-propietatea ez da eraikuntza-garaian ezarri"
 
-#: gxml/Parser.vala:289 gxml/StreamReader.vala:250
+#: gxml/Parser.vala:289 gxml/StreamReader.vala:271
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: element property was not "
 "set at construction time"
 msgstr "'%s' bilduma ez da ongi eraiki: elementuaren propietatea ez da eraikuntza-garaian ezarri"
 
-#: gxml/Parser.vala:293 gxml/StreamReader.vala:254
+#: gxml/Parser.vala:293 gxml/StreamReader.vala:275
 #, c-format
 msgid ""
 "Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
@@ -550,29 +550,33 @@ msgstr "Nodo mota baliogabea haren ondoren hasteko"
 msgid "Invalid root in the source range"
 msgstr "Erro baliogabea erro-barrutian"
 
-#: gxml/StreamReader.vala:143
+#: gxml/StreamReader.vala:148
 msgid "Invalid document: expected '<' character"
 msgstr "Dokumentu baliogabea: '<' karakterea espero zen"
 
-#: gxml/StreamReader.vala:151
+#: gxml/StreamReader.vala:156
 msgid "Invalid document: unexpected space character before node's name"
 msgstr "Dokumentu baliogabea: espero ez zen zuriune-karakterea nodoaren izenaren aurrean"
 
-#: gxml/StreamReader.vala:185
+#: gxml/StreamReader.vala:188
 #, c-format
 msgid "Parent '%s' is not implementing GXml.Object interface"
 msgstr "'%s' gurasoak ez du GXml.Object interfazea inplementatu"
 
-#: gxml/StreamReader.vala:332 gxml/StreamReader.vala:336
-#: gxml/StreamReader.vala:348
+#: gxml/StreamReader.vala:203
+msgid "Can't continue parsing due to error reading data"
+msgstr "Ezin da analizatzen jarraitu, errorea gertatu baita datuak irakurtzean"
+
+#: gxml/StreamReader.vala:355 gxml/StreamReader.vala:359
+#: gxml/StreamReader.vala:367 gxml/StreamReader.vala:393
 msgid "Invalid comment declaration"
 msgstr "Iruzkin-deklarazio baliogabea"
 
-#: gxml/StreamReader.vala:369
+#: gxml/StreamReader.vala:413
 msgid "Invalid Processing Instruction's target declaration"
 msgstr "Prozesatze-instrukzioen helburuko deklarazio baliogabea"
 
-#: gxml/StreamReader.vala:396
+#: gxml/StreamReader.vala:436
 msgid "Invalid Processing Instruction's close declaration"
 msgstr "Prozesatze-instrukzioen itxierako deklarazio baliogabea"
 
@@ -651,6 +655,11 @@ msgstr "Nodo bilduma irakurtzeko soilik da"
 #: gxml/XHashMapAttr.vala:295
 msgid "Invalid document when adding item to named node map collection"
 msgstr "Dokumentu baliogabea elementua izendun nodo-mapen bildumari gehitzean"
+
+#: gxml/XHtmlDocument.vala:115
+#, c-format
+msgid "Error while converting HTML document to string: %s"
+msgstr "Errorea HTML dokumentua kate bihurtzean: %s"
 
 #: gxml/XNode.vala:44
 #, c-format
