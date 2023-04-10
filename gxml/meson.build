@@ -105,6 +105,16 @@ sources = files ([
 inc_libh = include_directories ('.')
 inc_libh_dep = declare_dependency (include_directories : inc_libh)
 
+cc_args = [
+	'-include',
+	meson.current_build_dir() + '/config.h',
+]
+
+cc = meson.get_compiler('c')
+if cc.get_id() == 'clang'
+	cc_args += '-Wno-error=incompatible-function-pointer-types'
+endif
+
 # LT_VERSION for ABI related changes
 # From: https://autotools.io/libtool/version.html
 # This rules applies to Meson 0.43 and newer
@@ -129,10 +139,7 @@ libgxml = library(VERSIONED_PROJECT_NAME,
 	vala_args: [
 		'--abi-stability'
 	],
-	c_args : [
-		'-include',
-		meson.current_build_dir() + '/config.h',
-	],
+	c_args : cc_args,
 	install : true,
 	install_dir : [
 		true,
