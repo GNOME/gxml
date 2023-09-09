@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the gxml package.
 # Mario Blättermann <mario.blaettermann@gmail.com>, 2017.
 # Wolfgang Stöggl <c72578@yahoo.de>, 2016.
-# Tim Sabsch <tim@sabsch.com>, 2018.
+# Tim Sabsch <tim@sabsch.com>, 2018, 2023.
 # Philipp Kiemle <philipp.kiemle@gmail.com>, 2021.
 # Christian Kirbach <christian.kirbach@gmail.com>, 2021.
-# Jürgen Benvenuti <gastornis@posteo.org>, 2022.
+# Jürgen Benvenuti <gastornis@posteo.org>, 2022, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2022-03-13 00:42+0000\n"
-"PO-Revision-Date: 2022-10-21 15:01+0200\n"
+"POT-Creation-Date: 2023-02-18 13:32+0000\n"
+"PO-Revision-Date: 2023-09-09 14:22+0200\n"
 "Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.3.1\n"
 
 #: gxml/BaseCollection.vala:91
 msgid ""
@@ -34,6 +34,8 @@ msgstr ""
 #: gxml/BaseCollection.vala:122 gxml/BaseCollection.vala:150
 msgid "Parent Element is invalid. Set 'element' property at construction time"
 msgstr ""
+"Elternelement ist ungültig. Legen Sie die Eigenschaft »element« zum "
+"Zeitpunkt der Erstellung fest"
 
 #: gxml/BaseCollection.vala:125
 msgid ""
@@ -84,11 +86,11 @@ msgstr "Zeichenkettenwert ist leer"
 
 #: gxml/CssSelectorParser.vala:250
 msgid "Cannot find start of 'not selector' value"
-msgstr ""
+msgstr "Beginn des Werts »not selector« kann nicht gefunden werden"
 
 #: gxml/CssSelectorParser.vala:256
 msgid "Cannot find end of 'not selector' value"
-msgstr ""
+msgstr "Ende des Werts »not selector« kann nicht gefunden werden"
 
 #: gxml/CssSelectorParser.vala:271
 #, c-format
@@ -147,7 +149,7 @@ msgstr "Keine Selektoren gefunden"
 #: gxml/CssSelectorParser.vala:429
 #, c-format
 msgid "Last selector has combiner assigned (%s)"
-msgstr ""
+msgstr "Dem letzten Selektor ist ein Kombinator zugewiesen (%s)"
 
 #: gxml/Document.vala:129
 #, c-format
@@ -548,6 +550,9 @@ msgid ""
 "Collection '%s' hasn't been constructed properly: items' type property was "
 "not set at construction time or set to invalid type"
 msgstr ""
+"Die Sammlung »%s« wurde nicht ordnungsgemäß erstellt: Die Eigenschaft »type« "
+"der Elemente wurde zum Zeitpunkt der Erstellung nicht oder auf einen "
+"ungültigen Typ festgelegt"
 
 #: gxml/Parser.vala:285 gxml/StreamReader.vala:246
 #, c-format
@@ -555,6 +560,8 @@ msgid ""
 "Collection '%s' hasn't been constructed properly: items' name property was "
 "not set at construction time"
 msgstr ""
+"Die Sammlung »%s« wurde nicht ordnungsgemäß erstellt: Die Eigenschaft »name« "
+"der Elemente wurde zum Zeitpunkt der Erstellung nicht festgelegt"
 
 #: gxml/Parser.vala:289 gxml/StreamReader.vala:250
 #, c-format
@@ -562,6 +569,8 @@ msgid ""
 "Collection '%s' hasn't been constructed properly: element property was not "
 "set at construction time"
 msgstr ""
+"Die Sammlung »%s« wurde nicht ordnungsgemäß erstellt: Die Eigenschaft "
+"»element« wurde zum Zeitpunkt der Erstellung nicht festgelegt"
 
 #: gxml/Parser.vala:293 gxml/StreamReader.vala:254
 #, c-format
@@ -569,6 +578,8 @@ msgid ""
 "Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
 "be handled by the collection"
 msgstr ""
+"Ungültiges Objekt vom Typ »%s« implementiert nicht die GXml.Object-"
+"Schnittstelle: Kann nicht von der Sammlung verarbeitet werden"
 
 #: gxml/Parser.vala:298
 msgid "No document is set to node"
@@ -602,7 +613,7 @@ msgstr "Ungültiger Zeitstempel für Eigenschaft: "
 
 #: gxml/Range.vala:53 gxml/Range.vala:81 gxml/Range.vala:154
 msgid "Invalid node type to start"
-msgstr "Ungültiger Knotenname zum Beginnen"
+msgstr "Ungültiger Knotentyp zum Beginnen"
 
 #: gxml/Range.vala:56 gxml/Range.vala:84
 msgid "Invalid offset for node to start: for document type"
@@ -622,11 +633,11 @@ msgstr ""
 
 #: gxml/Range.vala:107 gxml/Range.vala:121
 msgid "Invalid node type to start before"
-msgstr "Ungültiger Knotenname, vor dem begonnen werden soll"
+msgstr "Ungültiger Knotentyp, vor dem begonnen werden soll"
 
 #: gxml/Range.vala:112 gxml/Range.vala:126 gxml/Range.vala:144
 msgid "Invalid node type to start after"
-msgstr "Ungültiger Knotenname, nach dem begonnen werden soll"
+msgstr "Ungültiger Knotentyp, nach dem begonnen werden soll"
 
 # Das ist kein richtiges Englisch :) -ck
 # Schon klar, machen wir halt das Beste draus ;) -mb
@@ -646,7 +657,7 @@ msgstr ""
 #: gxml/StreamReader.vala:185
 #, c-format
 msgid "Parent '%s' is not implementing GXml.Object interface"
-msgstr ""
+msgstr "Elternelement »%s« implementiert nicht die GXml.Object-Schnittstelle"
 
 #: gxml/StreamReader.vala:332 gxml/StreamReader.vala:336
 #: gxml/StreamReader.vala:348
@@ -654,16 +665,12 @@ msgid "Invalid comment declaration"
 msgstr "Ungültige Kommentardeklaration"
 
 #: gxml/StreamReader.vala:369
-#, fuzzy
-#| msgid "Invalid comment declaration"
 msgid "Invalid Processing Instruction's target declaration"
-msgstr "Ungültige Kommentardeklaration"
+msgstr "Ungültige Zieldeklaration der Verarbeitungsanweisung"
 
 #: gxml/StreamReader.vala:396
-#, fuzzy
-#| msgid "Invalid comment declaration"
 msgid "Invalid Processing Instruction's close declaration"
-msgstr "Ungültige Kommentardeklaration"
+msgstr "Ungültige Enddeklaration der Verarbeitungsanweisung"
 
 #: gxml/TokenList.vala:54
 msgid ""
@@ -699,7 +706,7 @@ msgstr "Aktualisierungsfehler: "
 #: gxml/XDocument.vala:159
 #, c-format
 msgid "Error writing document to string: %s"
-msgstr ""
+msgstr "Umwandlung des Dokuments in eine Zeichenkette fehlgeschlagen: %s"
 
 #: gxml/XDocument.vala:230
 msgid "Invalid element qualified name: multiple namespace prefixes"
@@ -759,12 +766,12 @@ msgstr "%s:%s:%d: %s:%d: %s"
 #: gxml/XNode.vala:265
 #, c-format
 msgid "Error while setting text content to node: %s"
-msgstr ""
+msgstr "Fehler beim Setzen des Textinhalts auf den Knoten: %s"
 
 #: gxml/XNode.vala:390
 #, c-format
 msgid "Only GXml.XNode nodes are supported. Given a %s type"
-msgstr ""
+msgstr "Es werden nur GXml.XNode-Knoten unterstützt. War: %s"
 
 #: gxml/XNode.vala:401
 msgid "Invalid attempt to replace a node on unsupported parent"
