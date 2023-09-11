@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2023-02-18 13:32+0000\n"
-"PO-Revision-Date: 2023-09-09 14:22+0200\n"
+"POT-Creation-Date: 2023-09-09 14:30+0000\n"
+"PO-Revision-Date: 2023-09-09 17:02+0200\n"
 "Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -544,7 +544,7 @@ msgstr ""
 "Ungültiger Versuch, einen Elementknoten auszuwerten, wenn der aktuell "
 "gefundene Knoten nicht"
 
-#: gxml/Parser.vala:265 gxml/StreamReader.vala:242
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:263
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' type property was "
@@ -554,7 +554,7 @@ msgstr ""
 "der Elemente wurde zum Zeitpunkt der Erstellung nicht oder auf einen "
 "ungültigen Typ festgelegt"
 
-#: gxml/Parser.vala:285 gxml/StreamReader.vala:246
+#: gxml/Parser.vala:285 gxml/StreamReader.vala:267
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' name property was "
@@ -563,7 +563,7 @@ msgstr ""
 "Die Sammlung »%s« wurde nicht ordnungsgemäß erstellt: Die Eigenschaft »name« "
 "der Elemente wurde zum Zeitpunkt der Erstellung nicht festgelegt"
 
-#: gxml/Parser.vala:289 gxml/StreamReader.vala:250
+#: gxml/Parser.vala:289 gxml/StreamReader.vala:271
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: element property was not "
@@ -572,7 +572,7 @@ msgstr ""
 "Die Sammlung »%s« wurde nicht ordnungsgemäß erstellt: Die Eigenschaft "
 "»element« wurde zum Zeitpunkt der Erstellung nicht festgelegt"
 
-#: gxml/Parser.vala:293 gxml/StreamReader.vala:254
+#: gxml/Parser.vala:293 gxml/StreamReader.vala:275
 #, c-format
 msgid ""
 "Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
@@ -645,30 +645,36 @@ msgstr "Ungültiger Knotentyp, nach dem begonnen werden soll"
 msgid "Invalid root in the source range"
 msgstr "Ungültige Wurzel im Wurzelbereich"
 
-#: gxml/StreamReader.vala:143
+#: gxml/StreamReader.vala:148
 msgid "Invalid document: expected '<' character"
 msgstr "Ungültiges Dokument: Zeichen »<« erwartet"
 
-#: gxml/StreamReader.vala:151
+#: gxml/StreamReader.vala:156
 msgid "Invalid document: unexpected space character before node's name"
 msgstr ""
 "Ungültiges Dokument: Unerwartetes Leerzeichen vor dem Namen des Knotens"
 
-#: gxml/StreamReader.vala:185
+#: gxml/StreamReader.vala:188
 #, c-format
 msgid "Parent '%s' is not implementing GXml.Object interface"
 msgstr "Elternelement »%s« implementiert nicht die GXml.Object-Schnittstelle"
 
-#: gxml/StreamReader.vala:332 gxml/StreamReader.vala:336
-#: gxml/StreamReader.vala:348
+#: gxml/StreamReader.vala:203
+msgid "Can't continue parsing due to error reading data"
+msgstr ""
+"Die Verarbeitung kann aufgrund eines Fehlers beim Lesen der Daten nicht "
+"fortgesetzt werden"
+
+#: gxml/StreamReader.vala:355 gxml/StreamReader.vala:359
+#: gxml/StreamReader.vala:367 gxml/StreamReader.vala:393
 msgid "Invalid comment declaration"
 msgstr "Ungültige Kommentardeklaration"
 
-#: gxml/StreamReader.vala:369
+#: gxml/StreamReader.vala:413
 msgid "Invalid Processing Instruction's target declaration"
 msgstr "Ungültige Zieldeklaration der Verarbeitungsanweisung"
 
-#: gxml/StreamReader.vala:396
+#: gxml/StreamReader.vala:436
 msgid "Invalid Processing Instruction's close declaration"
 msgstr "Ungültige Enddeklaration der Verarbeitungsanweisung"
 
@@ -757,6 +763,11 @@ msgid "Invalid document when adding item to named node map collection"
 msgstr ""
 "Ungültiges Dokument beim Hinzufügen eines Objekts zu einer benannten "
 "Knotenkartensammlung"
+
+#: gxml/XHtmlDocument.vala:115
+#, c-format
+msgid "Error while converting HTML document to string: %s"
+msgstr "Umwandlung des HTML-Dokuments in eine Zeichenkette fehlgeschlagen: %s"
 
 #: gxml/XNode.vala:44
 #, c-format
