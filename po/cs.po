@@ -8,16 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2022-02-20 17:55+0000\n"
-"PO-Revision-Date: 2022-03-05 11:20+0100\n"
-"Last-Translator: Marek Černocký <marek@manet.cz>\n"
+"POT-Creation-Date: 2023-09-09 14:30+0000\n"
+"PO-Revision-Date: 2023-09-12 21:18+0200\n"
+"Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Gtranslator 2.91.7\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #: gxml/BaseCollection.vala:91
 msgid ""
@@ -520,7 +520,7 @@ msgid ""
 msgstr ""
 "Neplatný pokus o zpracování uzlu prvku, když není aktuální nalezený uzel"
 
-#: gxml/Parser.vala:265 gxml/StreamReader.vala:242
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:263
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' type property was "
@@ -529,7 +529,7 @@ msgstr ""
 "Kolekce „%s“ nebyla správně sestrojena: při sestrojování nebyla nastavena "
 "vlastnost typ položky, nebo byla nastavena na neplatný typ"
 
-#: gxml/Parser.vala:285 gxml/StreamReader.vala:246
+#: gxml/Parser.vala:285 gxml/StreamReader.vala:267
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' name property was "
@@ -538,7 +538,7 @@ msgstr ""
 "Kolekce „%s“ nebyla správně sestrojena: při sestrojování nebyla nastavena "
 "vlastnost název položky"
 
-#: gxml/Parser.vala:289 gxml/StreamReader.vala:250
+#: gxml/Parser.vala:289 gxml/StreamReader.vala:271
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: element property was not "
@@ -547,7 +547,7 @@ msgstr ""
 "Kolekce „%s“ nebyla správně sestrojena: při sestrojování nebyla nastavena "
 "vlastnost element"
 
-#: gxml/Parser.vala:293 gxml/StreamReader.vala:254
+#: gxml/Parser.vala:293 gxml/StreamReader.vala:275
 #, c-format
 msgid ""
 "Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
@@ -614,29 +614,33 @@ msgstr "Neplatný typ uzlu pro začátek za"
 msgid "Invalid root in the source range"
 msgstr "Neplatný kořen ve zdrojovém rozsahu"
 
-#: gxml/StreamReader.vala:143
+#: gxml/StreamReader.vala:148
 msgid "Invalid document: expected '<' character"
 msgstr "Neplatný dokument: neočekávaný znak „<“"
 
-#: gxml/StreamReader.vala:151
+#: gxml/StreamReader.vala:156
 msgid "Invalid document: unexpected space character before node's name"
 msgstr "Neplatný dokument: neočekávaný znak mezery před názvem uzlu"
 
-#: gxml/StreamReader.vala:185
+#: gxml/StreamReader.vala:188
 #, c-format
 msgid "Parent '%s' is not implementing GXml.Object interface"
 msgstr "Rodič „%s“ neimplementuje rozhraní GXml.Object"
 
-#: gxml/StreamReader.vala:332 gxml/StreamReader.vala:336
-#: gxml/StreamReader.vala:348
+#: gxml/StreamReader.vala:203
+msgid "Can't continue parsing due to error reading data"
+msgstr "Nelze pokračovat ve zpracování kvůli chybě při čtení dat"
+
+#: gxml/StreamReader.vala:355 gxml/StreamReader.vala:359
+#: gxml/StreamReader.vala:367 gxml/StreamReader.vala:393
 msgid "Invalid comment declaration"
 msgstr "Neplatná deklarace komentáře"
 
-#: gxml/StreamReader.vala:369
+#: gxml/StreamReader.vala:413
 msgid "Invalid Processing Instruction's target declaration"
 msgstr "Neplatná deklarace cíle instrukce pro zpracování"
 
-#: gxml/StreamReader.vala:396
+#: gxml/StreamReader.vala:436
 msgid "Invalid Processing Instruction's close declaration"
 msgstr "Neplatné deklarace uzavření instrukce pro zpracování"
 
@@ -721,6 +725,11 @@ msgstr "Kolekce uzlů je jen ke čtení"
 msgid "Invalid document when adding item to named node map collection"
 msgstr ""
 "Neplatný dokument při přidávání položky do kolekce map pojmenovaných uzlů"
+
+#: gxml/XHtmlDocument.vala:115
+#, c-format
+msgid "Error while converting HTML document to string: %s"
+msgstr "Chyba při převodu dokumentu HTML na řetězec: %s"
 
 #: gxml/XNode.vala:44
 #, c-format
