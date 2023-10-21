@@ -7,9 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2022-02-03 04:12+0000\n"
-"PO-Revision-Date: 2022-02-19 14:50+0100\n"
-"Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
+"POT-Creation-Date: 2022-08-29 23:13+0000\n"
+"PO-Revision-Date: 2023-10-21 15:33+0300\n"
+"Last-Translator: Florentina Mușat <florentina [dot] musat [dot] 28 [at] "
+"gmail [dot] com>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2);;\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.4\n"
 
 #: gxml/BaseCollection.vala:91
 msgid ""
@@ -527,7 +528,7 @@ msgstr ""
 "Încercare nevalidă de a parsa un nod de element, când nodul găsit curent nu "
 "este"
 
-#: gxml/Parser.vala:265 gxml/StreamReader.vala:242
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:263
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' type property was "
@@ -537,7 +538,7 @@ msgstr ""
 "elementelor nu a fost stabilită la timpul de construcție sau a fost "
 "stabilită la un tip nevalid"
 
-#: gxml/Parser.vala:285 gxml/StreamReader.vala:246
+#: gxml/Parser.vala:285 gxml/StreamReader.vala:267
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: items' name property was "
@@ -546,7 +547,7 @@ msgstr ""
 "Colecția „%s” nu a fost construită cum trebuie: proprietatea nume a "
 "elementelor nu a fost stabilită la timpul de construcție"
 
-#: gxml/Parser.vala:289 gxml/StreamReader.vala:250
+#: gxml/Parser.vala:289 gxml/StreamReader.vala:271
 #, c-format
 msgid ""
 "Collection '%s' hasn't been constructed properly: element property was not "
@@ -555,7 +556,7 @@ msgstr ""
 "Colecția „%s” nu a fost construită cum trebuie: proprietatea element nu a "
 "fost stabilită la timpul de construcție"
 
-#: gxml/Parser.vala:293 gxml/StreamReader.vala:254
+#: gxml/Parser.vala:293 gxml/StreamReader.vala:275
 #, c-format
 msgid ""
 "Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
@@ -622,29 +623,33 @@ msgstr "Tip de nod nevalid de începere după"
 msgid "Invalid root in the source range"
 msgstr "Rădăcină nevalidă în intervalul sursei"
 
-#: gxml/StreamReader.vala:143
+#: gxml/StreamReader.vala:148
 msgid "Invalid document: expected '<' character"
 msgstr "Document nevalid: s-a așteptat caracterul „<”"
 
-#: gxml/StreamReader.vala:151
+#: gxml/StreamReader.vala:156
 msgid "Invalid document: unexpected space character before node's name"
 msgstr "Document nevalid: caracter spațiu neașteptat înainte de numele nodului"
 
-#: gxml/StreamReader.vala:185
+#: gxml/StreamReader.vala:188
 #, c-format
 msgid "Parent '%s' is not implementing GXml.Object interface"
 msgstr "Părintele „%s” nu implementează interfața GXml.Object"
 
-#: gxml/StreamReader.vala:332 gxml/StreamReader.vala:336
-#: gxml/StreamReader.vala:348
+#: gxml/StreamReader.vala:203
+msgid "Can't continue parsing due to error reading data"
+msgstr "Nu se poate continua parsarea din cauza unei erori de citire a datelor"
+
+#: gxml/StreamReader.vala:355 gxml/StreamReader.vala:359
+#: gxml/StreamReader.vala:367 gxml/StreamReader.vala:393
 msgid "Invalid comment declaration"
 msgstr "Declarație de comentariu nevalidă"
 
-#: gxml/StreamReader.vala:369
+#: gxml/StreamReader.vala:413
 msgid "Invalid Processing Instruction's target declaration"
 msgstr "Declarație de țintă a Instrucțiunii de procesare nevalidă"
 
-#: gxml/StreamReader.vala:396
+#: gxml/StreamReader.vala:436
 msgid "Invalid Processing Instruction's close declaration"
 msgstr "Declarație de închidere a Instrucțiunii de procesare nevalidă"
 
@@ -730,6 +735,11 @@ msgid "Invalid document when adding item to named node map collection"
 msgstr ""
 "Document nevalid când se adaugă elementul la colecția de hartă de noduri "
 "numită"
+
+#: gxml/XHtmlDocument.vala:115
+#, c-format
+msgid "Error while converting HTML document to string: %s"
+msgstr "Eroare în timpul convertirii documentului HTML la șir: %s"
 
 #: gxml/XNode.vala:44
 #, c-format
