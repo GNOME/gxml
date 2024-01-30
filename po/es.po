@@ -2,23 +2,22 @@
 # Copyright (C) 2015 Daniel Espinosa Ortiz
 # This file is distributed under the same license as the GXml package.
 # esodan@gmail.com, 2015.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2015-2022.
-# Daniel Mustieles García <daniel.mustieles@gmail.com>, 2023.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2023-2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2023-02-18 13:32+0000\n"
-"PO-Revision-Date: 2023-07-19 16:01+0200\n"
-"Last-Translator: Daniel Mustieles García <daniel.mustieles@gmail.com>\n"
+"POT-Creation-Date: 2023-09-09 14:30+0000\n"
+"PO-Revision-Date: 2024-01-30 10:39+0100\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Gtranslator 42.0\n"
+"X-Generator: Gtranslator 45.3\n"
 
 #: gxml/BaseCollection.vala:91
 msgid ""
@@ -750,10 +749,9 @@ msgstr ""
 "con nombre"
 
 #: gxml/XHtmlDocument.vala:115
-#, fuzzy, c-format
-#| msgid "Error while converting Element to string: %s"
+#, c-format
 msgid "Error while converting HTML document to string: %s"
-msgstr "Error al convertir Element a cadena: %s"
+msgstr "Error al convertir el documento HTML a cadena: %s"
 
 #: gxml/XNode.vala:44
 #, c-format
