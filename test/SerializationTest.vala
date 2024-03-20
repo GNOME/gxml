@@ -259,7 +259,7 @@ class Cpu : GXml.Element, Item {
   }
 }
 
-abstract interface Container : GLib.Object, GXml.Object {}
+interface Container : GLib.Object, GXml.Object {}
 
 class StoreShelf : GXml.Element, Container {
   [Description (nick="::Id")]
