@@ -1,4 +1,28 @@
 ===============
+Version 0.20.4
+===============
+
+* Fix: interfaces should not be abstract (Rico Tzschichholz)
+* StreamBuilder: improve parsing stages
+* StreamReader: improve error messages and stream fail handling
+* Updated translations:
+    Spanish                 by Daniel Mustieles <daniel.mustieles@gmail.com>
+    Romanian             by Florentina Mușat <florentina.musat.28@gmail.com>
+    Servian                  by Мирослав Николић <miroslavnikolic@rocketmail.com>
+    Czech                     by Marek Černocký <marek@manet.cz>
+    Basque                  by Asier Sarasua Garmendia <asier.sarasua@gmail.com>
+    Hungarian            by Balázs Úr <ur.balazs at fsf dot hu>
+    Danish                   by Alan Mortensen <alanmortensen.am@gmail.com>
+    Chinese                 by lumingzh <lumingzh@qq.com>
+    Swedish                 by Anders Jonsson <anders.jonsson@norsjovallen.se>
+    Ukranian               by Yuri Chornoivan <yurchor@ukr.net>
+    Polish                     by Piotr Drąg <piotrdrag@gmail.com>
+    Brazilian Portuguese by Enrico Nicoletto <hiko@duck.com>
+    Portuguese          by Hugo Carvalho <hugokarvalho@hotmail.com>
+    German                 by Jürgen Benvenuti <gastornis@posteo.org>
+    Indonesian           by Andika Triwidada <andika@gmail.com>
+
+===============
 Version 0.20.3
 ===============
 
