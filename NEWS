@@ -2,6 +2,8 @@
 Version 0.20.4
 ===============
 
+* Update dependencies for glib, libxml2 and gee
+* Meson: remove warnings and deprecated messages
 * Fix: interfaces should not be abstract (Rico Tzschichholz)
 * StreamBuilder: improve parsing stages
 * StreamReader: improve error messages and stream fail handling
