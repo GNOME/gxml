@@ -7,8 +7,10 @@ GXml provide a DOM level 4 API and CSS Selectors Level 3 for XML with multiple b
 * A GObject based tree backend, a more closed DOM4 implementation support is present,
   the GomNode class series.
 
-There is a GObject based tree backend, using libxml2 just to read XML files,
-the TNode [Unmaintained], offering just DOM leve 1 API.
+GXml also provides a powerful XML to/from GObject automatic serialization. It uses
+GObject and "The Power of Nick"(C). Consider visit the Wiki documentation in order to
+find how this is archived and how you can map XML to GObject properties using Vala's
+simple syntax. Visit: https://gitlab.gnome.org/GNOME/gxml/-/wikis/element
 
 Compile:
   Requirements:
@@ -23,11 +25,6 @@ Compile:
 
       https://live.gnome.org/Valadoc
 
-  Autotools build system:
-
-  $ ./configure
-  $ make
-  $ make install
 
   Meson build system:
 
@@ -47,8 +44,8 @@ Compile:
         subproject('gxml').get_variable('any_variable_inside_build_files') (replace 'gxml' with the name of your .wrap file)
         subproject('gxml').get_variable('libgxml_build_dir')
       or, as dependency:
-        gxml = dependency('gxml-0.18', fallback : [ 'gxml', 'any_variable_inside_build_files' ]) (replace 'gxml' with the name of your .wrap file)
-        gxml = dependency('gxml-0.18', fallback : [ 'gxml', 'libgxml_dep' ]) (replace 'gxml' with the name of your .wrap file)
+        gxml = dependency('gxml-0.20', fallback : [ 'gxml', 'any_variable_inside_build_files' ]) (replace 'gxml' with the name of your .wrap file)
+        gxml = dependency('gxml-0.20', fallback : [ 'gxml', 'libgxml_dep' ]) (replace 'gxml' with the name of your .wrap file)
 
 
   You can use some common ./configure options like --prefix=$SOMEPATH to specify
