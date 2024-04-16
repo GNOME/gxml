@@ -31,12 +31,7 @@ class XPathTest : GLib.Object  {
     Test.init (ref args);
     Test.add_func ("/gxml/gelement/xpath", () => {
       try {
-      DomDocument document = null;
-      var rf = GLib.File.new_for_uri ("http://www.w3schools.com/xsl/books.xml");
-      if (rf.query_exists ()) {
-        document = new XDocument.from_uri ("http://www.w3schools.com/xsl/books.xml");
-      } else
-        document = new XDocument.from_string (BOOKS);
+      DomDocument document = new XDocument.from_string (BOOKS);
       assert (document != null);
       var object = ((XPathContext) document).evaluate ("/bookstore/book/title");
       assert (object.object_type == XPathObjectType.NODESET);

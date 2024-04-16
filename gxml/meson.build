@@ -11,12 +11,6 @@ conf.set('PROJECT_NAME', PROJECT_NAME)
 conf.set('PROJECT_VERSION', PROJECT_VERSION)
 conf.set('API_VERSION', API_VERSION)
 
-configure_file(input : 'gxml.deps.in',
-	output : 'gxml-@0@.deps'.format(API_VERSION),
-	configuration : conf,
-	install : true,
-	install_dir : vapidir)
-
 nsinfo = configure_file(input : 'namespace-info.vala.in',
 	output : 'namespace-info.vala',
 	configuration : conf)
@@ -166,7 +160,7 @@ pkgconfig.generate(libgxml,
   url: 'http://live.gnome.org/GXml',
   version: PROJECT_VERSION,
   subdirs: 'gxml-@0@'.format (API_VERSION),
-  requires: ['gee-0.8', 'libxml-2.0'])
+  requires: ['gio-2.0 >= 2.72', 'gee-0.8>=0.20.6', 'libxml-2.0>=2.9.13 gee-0.8'])
 
 libgxml_build_dir = meson.current_build_dir ()
 libgxml_src_dir = meson.current_source_dir ()
