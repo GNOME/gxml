@@ -2,7 +2,7 @@ valadoc = find_program ('valadoc', required: false)
 if valadoc.found()
 outdir ='GXml-'+API_VERSION
 gtkdoc_outdir ='gxml-'+API_VERSION
-valacapi = run_command ('valac', '--api-version')
+valacapi = run_command ('valac', '--api-version', check: false)
 driver = '--driver='+valacapi.stdout().strip()
 pkgname = '--package-name='+'GXml-'+API_VERSION
 pkgversion = '--package-version='+PROJECT_VERSION
