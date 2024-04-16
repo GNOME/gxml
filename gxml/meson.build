@@ -11,12 +11,6 @@ conf.set('PROJECT_NAME', PROJECT_NAME)
 conf.set('PROJECT_VERSION', PROJECT_VERSION)
 conf.set('API_VERSION', API_VERSION)
 
-configure_file(input : 'gxml.pc.in',
-	output : 'gxml-@0@.pc'.format(API_VERSION),
-	configuration : conf,
-	install : true,
-	install_dir : join_paths(get_option('libdir'), 'pkgconfig'))
-
 configure_file(input : 'gxml.deps.in',
 	output : 'gxml-@0@.deps'.format(API_VERSION),
 	configuration : conf,
@@ -155,7 +149,7 @@ custom_target('libgxml-typelib',
 	command: [
 		g_ir_compiler,
 		'--shared-library', 'lib'+PROJECT_NAME+'-@0@.so'.format (API_VERSION),
-		'--output', '@OUTPUT@',
+		'--output', '@OUTPUT@', '--includedir', gee_girdir,
 		join_paths(meson.current_build_dir(), GIR_NAME)
 	],
 	output: TYPELIB_NAME,
@@ -164,6 +158,15 @@ custom_target('libgxml-typelib',
 	install_dir: join_paths(get_option('libdir'), 'girepository-1.0'))
 endif
 endif
+
+pkgconfig.generate(libgxml,
+  name: 'libgxml',
+  filebase: 'gxml-@0@'.format (API_VERSION),
+  description: 'GObject API for XML manipulation and serialization library',
+  url: 'http://live.gnome.org/GXml',
+  version: PROJECT_VERSION,
+  subdirs: 'gxml-@0@'.format (API_VERSION),
+  requires: ['gee-0.8', 'libxml-2.0'])
 
 libgxml_build_dir = meson.current_build_dir ()
 libgxml_src_dir = meson.current_source_dir ()
