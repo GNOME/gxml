@@ -8,9 +8,9 @@ CAMEL_CASE_NAME = 'GXml'
 VERSIONED_CAMEL_CASE_NAME = CAMEL_CASE_NAME +'-'+ API_VERSION
 
 libgxml_deps = [
-	dependency('libxml-2.0'),
-	dependency('gio-2.0'),
-	dependency('gee-0.8')
+	dependency('libxml-2.0', version: '>=2.9.13'),
+	dependency('gio-2.0', version: '>=2.72'),
+	dependency('gee-0.8', version:'>=0.20.5')
 	]
 
 VALADEPS = 'gee-0.8\ngio-2.0\nlibxml-2.0'
