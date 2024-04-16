@@ -160,7 +160,7 @@ pkgconfig.generate(libgxml,
   url: 'http://live.gnome.org/GXml',
   version: PROJECT_VERSION,
   subdirs: 'gxml-@0@'.format (API_VERSION),
-  requires: ['gio-2.0 >= 2.72', 'gee-0.8>=0.20.6', 'libxml-2.0>=2.9.13 gee-0.8'])
+  requires: [])
 
 libgxml_build_dir = meson.current_build_dir ()
 libgxml_src_dir = meson.current_source_dir ()
