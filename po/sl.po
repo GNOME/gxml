@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
 "POT-Creation-Date: 2022-08-29 23:13+0000\n"
-"PO-Revision-Date: 2024-05-02 16:13+0200\n"
+"PO-Revision-Date: 2024-05-03 08:50+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -143,20 +143,22 @@ msgstr "Ni najdenih izbirnikov"
 #: gxml/CssSelectorParser.vala:429
 #, c-format
 msgid "Last selector has combiner assigned (%s)"
-msgstr ""
+msgstr "Zadnji izbirnik ima dodeljenega kombinatorja (%s)"
 
 #: gxml/Document.vala:129
-#, c-format
+#, fuzzy, c-format
 msgid "Error while attempting to instantiate root property object: %s"
-msgstr ""
+msgstr "Napaka pri poskusu instanciacije predmeta korenske lastnosti: %s"
 
 #: gxml/Document.vala:189
 msgid "Creating a namespaced element with invalid node name"
 msgstr ""
+"Ustvarjanje elementa z imenskim prostorom z neveljavnim imenom vozlišča"
 
 #: gxml/Document.vala:196
 msgid "Creating a namespaced element with invalid namespace"
 msgstr ""
+"Ustvarjanje elementa z imenskim prostorom z neveljavnim imenskim prostorom"
 
 #: gxml/Document.vala:200
 msgid ""
@@ -178,19 +180,18 @@ msgid "Can't import a non Element type node to a Document"
 msgstr "V dokument ni mogoče uvoziti vozlišča, ki ni vrsta elementa"
 
 #: gxml/Document.vala:270 gxml/XDocument.vala:302
-#, fuzzy
 msgid "Can't adopt a Document"
-msgstr "Dokumenta ni mogoče sprejeti"
+msgstr "Dokumenta ni mogoče prevzeti"
 
 #. FIXME:
 #: gxml/Document.vala:448
 msgid "DomElement query_selector is not implemented"
-msgstr ""
+msgstr "DomElement query_selector ni implementiran"
 
 #. FIXME:
 #: gxml/Document.vala:452
 msgid "DomElement query_selector_all is not implemented"
-msgstr ""
+msgstr "DomElement query_selector_all ni implementiran"
 
 #: gxml/DomCharacter.vala:46
 msgid "Invalid offset for substring"
@@ -201,26 +202,24 @@ msgid "Invalid offset for replace data"
 msgstr "Neveljaven odmik za zamenjavo podatkov"
 
 #: gxml/DomCharacter.vala:80
-#, fuzzy
 msgid "Invalid offset to split text"
 msgstr "Neveljaven odmik za razdelitev besedila"
 
 #: gxml/DomNode.vala:133
-#, fuzzy
 msgid "Text node with NULL string"
 msgstr "Vozlišče besedila z nizom NULL"
 
 #: gxml/DomNode.vala:140
 msgid "Can't copy child text node"
-msgstr ""
+msgstr "Podrejenega besedilnega vozlišča ni mogoče kopirati"
 
 #: gxml/Element.vala:194
 msgid "Invalid namespace URI stored in element's attribute"
-msgstr ""
+msgstr "Neveljaven URI imenskega prostora je shranjen v atributu elementa"
 
 #: gxml/Element.vala:201 gxml/Element.vala:242
 msgid "Invalid attribute name in element's attributes list"
-msgstr ""
+msgstr "Neveljavno ime atributa na seznamu atributov elementa"
 
 #: gxml/Element.vala:257
 msgid "Can't locate child node to remove"
@@ -310,6 +309,8 @@ msgstr ""
 #, c-format
 msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
 msgstr ""
+"Atributi z imenskim prostorom morajo vsebovati neničelno, neprazno predpono: "
+"%s"
 
 #: gxml/Element.vala:595
 msgid "Invalid namespace attribute's name."
@@ -318,88 +319,105 @@ msgstr "Neveljavno ime atributa imenskega prostora."
 #: gxml/Element.vala:612
 #, c-format
 msgid "Trying to add an attribute with an undefined namespace's prefix: %s"
-msgstr ""
+msgstr "Poskus dodajanja atributa z nedoločeno predpono imenskega prostora: %s"
 
 #: gxml/Element.vala:619
 msgid "Trying to add an attribute with an undefined namespace's URI"
-msgstr ""
+msgstr "Poskus dodajanja atributa z nedoločenim URI-jem imenskega prostora"
 
 #: gxml/Element.vala:671
 #, c-format
 msgid "Error getting attribute with namespace: %s"
-msgstr ""
+msgstr "Napaka pri pridobivanju atributa z imenskim prostorom: %s"
 
 #: gxml/Element.vala:687
 msgid "Invalid attribute name. Just one prefix is allowed"
-msgstr ""
+msgstr "Neveljavno ime atributa. Dovoljena je samo ena predpona"
 
 #: gxml/Element.vala:692
 #, c-format
 msgid "Invalid attribute name. Invalid use of colon: %s"
-msgstr ""
+msgstr "Neveljavno ime atributa. Neveljavna uporaba dvopičja: %s"
 
 #: gxml/Element.vala:696
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
 msgstr ""
+"Neveljaven imenski prostor. Če je predpona nič (null), URI imenskega "
+"prostora ne sme biti ničeln (null)"
 
 #: gxml/Element.vala:700
 msgid ""
 "Invalid namespace definition. No prefixed attributes should use 'xmlns' as "
 "name"
 msgstr ""
+"Neveljavna definicija imenskega prostora. Noben vnaprej določen atribut ne "
+"sme uporabljati imena »xmlns«"
 
 #: gxml/Element.vala:704
 msgid "'xml' namespace should not be defined"
-msgstr ""
+msgstr "Imenski prostor »xml« ne sme biti opredeljen"
 
 #: gxml/Element.vala:708
 msgid "'xmlns' namespace should not be defined"
-msgstr ""
+msgstr "Imenski prostor »xmlns« ne sme biti opredeljen"
 
 #: gxml/Element.vala:716
 msgid ""
 "Invalid namespace. If prefix is 'xml', namespace URI should be http://www.w3."
 "org/XML/1998/namespace"
 msgstr ""
+"Neveljaven imenski prostor. Če je predpona »xml«, mora biti URI imenskega "
+"prostora http://www.w3.org/XML/1998/namespace"
 
 #: gxml/Element.vala:723
 msgid ""
 "Invalid namespace definition. If attribute's prefix is 'xmlns', namespace "
 "URI should be http://www.w3.org/2000/xmlns"
 msgstr ""
+"Neveljavna definicija imenskega prostora. Če je predpona atributa »xmlns«, "
+"mora biti URI imenskega prostora http://www.w3.org/2000/xmlns"
 
 #: gxml/Element.vala:730
 msgid ""
 "Invalid namespace. If attribute's prefix is 'html', namespace URI should be "
 "http://www.w3.org/1999/xhtml"
 msgstr ""
+"Neveljaven imenski prostor. Če je predpona atributa »html«, mora biti URI "
+"imenskega prostora http://www.w3.org/1999/xhtml"
 
 #: gxml/Element.vala:737
 msgid ""
 "Invalid namespace. If attribute's prefix is 'xsi', namespace URI should be "
 "http://www.w3.org/2001/XMLSchema-instance"
 msgstr ""
+"Neveljaven imenski prostor. Če je predpona atributa »xsi«, mora biti URI "
+"imenskega prostora http://www.w3.org/2001/XMLSchema-instance"
 
 #: gxml/Element.vala:744
 msgid ""
 "Invalid namespace. If attribute's prefix is 'MathML', namespace URI should "
 "be http://www.w3.org/1998/Math/MathML"
 msgstr ""
+"Neveljaven imenski prostor. Če je predpona atributa »MathML«, mora biti URI "
+"imenskega prostora http://www.w3.org/1998/Math/MathML"
 
 #: gxml/Element.vala:751
 msgid ""
 "Invalid namespace. If attribute's prefix is 'svg', namespace URI should be "
 "http://www.w3.org/2000/svg"
 msgstr ""
+"Neveljaven imenski prostor. Če je predpona atributa »svg«, mora biti URI "
+"imenskega prostora http://www.w3.org/2000/svg"
 
 #: gxml/Element.vala:758
 msgid ""
 "Invalid namespace. If attribute's prefix is 'xlink', namespace URI should be "
 "http://www.w3.org/1999/xlink"
 msgstr ""
+"Neveljaven imenski prostor. Če je predpona atributa »xlink«, mora biti URI "
+"imenskega prostora http://www.w3.org/1999/xlink"
 
 #: gxml/Element.vala:763
-#, fuzzy
 msgid "Setting namespaced property error: "
 msgstr "Napaka pri nastavitvi lastnosti imenskega prostora: "
 
@@ -443,7 +461,7 @@ msgstr "Neveljaven poskus dodajanja neveljavne vrste vozlišča"
 
 #: gxml/Node.vala:260 gxml/XNode.vala:361
 msgid "Can't find child to insert node before"
-msgstr ""
+msgstr "Ni mogoče najti podrejenega, pred katerega bi lahko vstavili vozlišče"
 
 #: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:365
 msgid "Invalid attempt to insert a node"
@@ -451,28 +469,34 @@ msgstr "Neveljaven poskus vstavljanja vozlišča"
 
 #: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:372
 msgid "Invalid attempt to insert an invalid node type"
-msgstr ""
+msgstr "Neveljaven poskus vstavljanja neveljavne vrste vozlišča"
 
 #: gxml/Node.vala:291
 msgid "Node type is invalid. Can't append as child"
-msgstr ""
+msgstr "Vrsta vozlišča ni veljavna. Ni ga mogoče dodati kot podrejenega"
 
 #: gxml/Node.vala:294
 msgid "Invalid attempt to append a child with different parent document"
-msgstr ""
+msgstr "Neveljaven poskus dodajanja vozlišča z drugim nadrejenim dokumentom"
 
 #: gxml/Node.vala:302 gxml/XNode.vala:394
 msgid "Can't find child node to replace or child have a different parent"
 msgstr ""
+"Ni mogoče najti podrejenega vozlišča, ki bi ga lahko zamenjali, ali če ima "
+"podrejeni drugega nadrejenega"
 
 #: gxml/Node.vala:316 gxml/XNode.vala:375
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr ""
+"Neveljaven poskus vstavljanja vrste dokumenta ali vozlišča z besedilom "
+"neveljavnemu nadrejenemu"
 
 #: gxml/Node.vala:328 gxml/XNode.vala:438
 msgid "Can't find child node to remove or child have a different parent"
 msgstr ""
+"Ni mogoče najti podrejenega vozlišča, ki bi ga lahko odstranili, ali če ima "
+"podrejeni drugega nadrejenega"
 
 #: gxml/Object.vala:170
 msgid "Enumeration is out of range"
@@ -480,7 +504,7 @@ msgstr "Naštevanje je izven obsega"
 
 #: gxml/Object.vala:285
 msgid "Enumeration can't be parsed from string"
-msgstr ""
+msgstr "Naštevanja ni mogoče razčleniti iz niza"
 
 #: gxml/Object.vala:407
 #, fuzzy, c-format
@@ -508,6 +532,8 @@ msgid ""
 "Collection '%s' hasn't been constructed properly: items' type property was "
 "not set at construction time or set to invalid type"
 msgstr ""
+"Zbirka »%s« ni bila pravilno zgrajena: lastnost vrste predmetov ni bila "
+"nastavljena v času gradnje ali pa je nastavljena na neveljavno vrsto"
 
 #: gxml/Parser.vala:285 gxml/StreamReader.vala:267
 #, c-format
@@ -515,6 +541,8 @@ msgid ""
 "Collection '%s' hasn't been constructed properly: items' name property was "
 "not set at construction time"
 msgstr ""
+"Zbirka »%s« ni bila pravilno zgrajena: lastnost imena predmetov ni bila "
+"nastavljena v času gradnje"
 
 #: gxml/Parser.vala:289 gxml/StreamReader.vala:271
 #, c-format
@@ -522,6 +550,8 @@ msgid ""
 "Collection '%s' hasn't been constructed properly: element property was not "
 "set at construction time"
 msgstr ""
+"Zbirka »%s« ni bila pravilno zgrajena: lastnost elementa ni bila nastavljena "
+"v času gradnje"
 
 #: gxml/Parser.vala:293 gxml/StreamReader.vala:275
 #, c-format
@@ -529,6 +559,8 @@ msgid ""
 "Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
 "be handled by the collection"
 msgstr ""
+"Neveljaven predmet vrste »%s« ne uveljavlja vmesnika GXml.Object: zbirka ga "
+"ne more obravnavati"
 
 #: gxml/Parser.vala:298
 msgid "No document is set to node"
@@ -541,12 +573,12 @@ msgstr "Neveljaven niz dokumenta, je prazen ali ni dovoljen"
 #: gxml/Property.vala:389
 #, c-format
 msgid "Error when transform enum to attribute's value: %s"
-msgstr ""
+msgstr "Napaka pri pretvorbi enum v vrednost atributa: %s"
 
 #: gxml/Property.vala:398
 #, c-format
 msgid "Error when transform from attribute string value to enum: %s"
-msgstr ""
+msgstr "Napaka pri pretvorbi iz vrednosti niza atributa v enum: %s"
 
 #: gxml/Property.vala:462 gxml/Property.vala:469
 msgid "Invalid Date for property: "
@@ -566,23 +598,23 @@ msgstr "Neveljavna vrsta vozlišča za začetek"
 
 #: gxml/Range.vala:56 gxml/Range.vala:84
 msgid "Invalid offset for node to start: for document type"
-msgstr ""
+msgstr "Neveljaven odmik za začetek vozlišča: za vrsto dokumenta"
 
 #: gxml/Range.vala:60 gxml/Range.vala:88
 msgid "Invalid offset for node to start: for character data"
-msgstr ""
+msgstr "Neveljaven odmik za začetek vozlišča: za podatke o znakih"
 
 #: gxml/Range.vala:63 gxml/Range.vala:91
 msgid "Invalid offset for node to start: for children number"
-msgstr ""
+msgstr "Neveljaven odmik za začetek vozlišča: za številko podrejenih"
 
 #: gxml/Range.vala:107 gxml/Range.vala:121
 msgid "Invalid node type to start before"
-msgstr ""
+msgstr "Neveljavna vrsta vozlišča za začetek pred"
 
 #: gxml/Range.vala:112 gxml/Range.vala:126 gxml/Range.vala:144
 msgid "Invalid node type to start after"
-msgstr ""
+msgstr "Neveljavna vrsta vozlišča za začetek po"
 
 #: gxml/Range.vala:169
 msgid "Invalid root in the source range"
@@ -612,31 +644,35 @@ msgstr "Neveljavna deklaracija komentarja"
 
 #: gxml/StreamReader.vala:413
 msgid "Invalid Processing Instruction's target declaration"
-msgstr ""
+msgstr "Neveljavna deklaracija cilja v navodilih za obdelavo"
 
 #: gxml/StreamReader.vala:436
 msgid "Invalid Processing Instruction's close declaration"
-msgstr ""
+msgstr "Neveljavna deklaracija zaprtja v navodilih za obdelavo"
 
 #: gxml/TokenList.vala:54
 msgid ""
 "DOM: Invalid token. No empty string could be used as token to check if it is "
 "contained in token list"
 msgstr ""
+"DOM: neveljaven žeton. Nobenega praznega niza ni bilo mogoče uporabiti kot "
+"žeton za preverjanje, ali je na seznamu žetonov"
 
 #: gxml/TokenList.vala:56
 msgid ""
 "DOM: Invalid token. No white spaces could be included as token to check if "
 "it is contained in token list"
 msgstr ""
+"DOM: neveljaven žeton. Kot žeton ni bilo mogoče vključiti nobenih "
+"presledkov, da bi preverili, ali je na seznamu žetonov"
 
 #: gxml/TokenList.vala:63 gxml/TokenList.vala:86
 msgid "DOM: Invalid token. Empty string can't be used as token"
-msgstr ""
+msgstr "DOM: neveljaven žeton. Praznega niza ni mogoče uporabiti kot žetona"
 
 #: gxml/TokenList.vala:65 gxml/TokenList.vala:88
 msgid "DOM: Invalid token. White spaces can't be used as token"
-msgstr ""
+msgstr "DOM: neveljaven žeton. Presledkov ni mogoče uporabiti kot žetonov"
 
 #: gxml/TokenList.vala:102
 msgid "Update Error: "
@@ -649,11 +685,11 @@ msgstr "Napaka pri pisanju dokumenta v niz: %s"
 
 #: gxml/XDocument.vala:230
 msgid "Invalid element qualified name: multiple namespace prefixes"
-msgstr ""
+msgstr "Neveljavno kvalificirano ime elementa: več predpon imenskega prostora"
 
 #: gxml/XdParser.vala:82
 msgid "Parser Error for string"
-msgstr ""
+msgstr "Napaka razčlenjevalnika za niz"
 
 #: gxml/XElement.vala:148
 #, c-format
@@ -758,6 +794,8 @@ msgstr "Podatkov vozlišča ni mogoče brati v vrstici: %d"
 #, c-format
 msgid "Parsing ERROR: Fail to move to attribute number: %i at line: %d"
 msgstr ""
+"NAPAKA razčlenjevanja: ni mogoče premakniti na številko atributa: %i v "
+"vrstici: %d"
 
 #: gxml/XParser.vala:427
 msgid "Invalid sequence for document type definition: "
