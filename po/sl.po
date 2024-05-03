@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
 "POT-Creation-Date: 2022-08-29 23:13+0000\n"
-"PO-Revision-Date: 2024-05-03 08:50+0200\n"
+"PO-Revision-Date: 2024-05-03 08:53+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -146,7 +146,7 @@ msgid "Last selector has combiner assigned (%s)"
 msgstr "Zadnji izbirnik ima dodeljenega kombinatorja (%s)"
 
 #: gxml/Document.vala:129
-#, fuzzy, c-format
+#, c-format
 msgid "Error while attempting to instantiate root property object: %s"
 msgstr "Napaka pri poskusu instanciacije predmeta korenske lastnosti: %s"
 
@@ -507,7 +507,7 @@ msgid "Enumeration can't be parsed from string"
 msgstr "Naštevanja ni mogoče razčleniti iz niza"
 
 #: gxml/Object.vala:407
-#, fuzzy, c-format
+#, c-format
 msgid "Error while attempting to instantiate property object: %s"
 msgstr "Napaka pri poskusu instanciacije predmeta lastnosti: %s"
 
