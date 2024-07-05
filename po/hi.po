@@ -1,0 +1,798 @@
+# Hindi translation for gxml.
+# Copyright (C) 2024 gxml's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gxml package.
+# Scrambled 777 <weblate.scrambled777@simplelogin.com>,  2024.
+# Scrambled777 <weblate.scrambled777@simplelogin.com>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gxml master\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues/\n"
+"POT-Creation-Date: 2024-05-03 06:54+0000\n"
+"PO-Revision-Date: 2024-06-21 18:37+0530\n"
+"Last-Translator: Scrambled777 <weblate.scrambled777@simplelogin.com>\n"
+"Language-Team: Hindi <indlinux-hindi@lists.sourceforge.net>\n"
+"Language: hi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 46.1\n"
+
+#: gxml/BaseCollection.vala:91
+msgid ""
+"Invalid attempt to initialize a collection using an unsupported type. Only "
+"GXmlGXml.Element is supported"
+msgstr ""
+"असमर्थित प्रकार का उपयोग करके संग्रह आरंभ करने का अमान्य प्रयास। केवल GXmlGXml.Element "
+"समर्थित है"
+
+#: gxml/BaseCollection.vala:122 gxml/BaseCollection.vala:150
+msgid "Parent Element is invalid. Set 'element' property at construction time"
+msgstr "मूल तत्व अमान्य है। निर्माण के समय 'तत्व' प्रॉपर्टी निर्धारित करें"
+
+#: gxml/BaseCollection.vala:125
+msgid ""
+"Invalid attempt to set unsupported type. Only GXmlGXml.Element is supported"
+msgstr ""
+"असमर्थित प्रकार निर्धारित करने का अमान्य प्रयास। केवल GXmlGXml.Element समर्थित है"
+
+#: gxml/BaseCollection.vala:128
+msgid "Invalid attempt to set a node with a different parent document"
+msgstr "किसी भिन्न पैरेंट दस्तावेज़ के साथ नोड सेट करने का अमान्य प्रयास"
+
+#: gxml/BaseCollection.vala:133
+msgid ""
+"Node element not appended as child of parent. No node added to collection"
+msgstr ""
+"नोड तत्व को पैरेंट के चाइल्ड के रूप में नहीं जोड़ा गया। संग्रह में कोई नोड नहीं जोड़ा गया"
+
+#: gxml/BaseCollection.vala:195 gxml/BaseCollection.vala:213
+#, c-format
+msgid "Error: %s"
+msgstr "त्रुटि: %s"
+
+#: gxml/Collections.vala:116
+msgid "Invalid index for elements in array list"
+msgstr "सारणी सूची में तत्वों के लिए अमान्य अनुक्रमणिका"
+
+#: gxml/Collections.vala:120
+msgid "Invalid index reference for child elements in array list"
+msgstr "सरणी सूची में चाइल्ड तत्वों के लिए अमान्य अनुक्रमणिका संदर्भ"
+
+#: gxml/Collections.vala:125
+msgid "Referenced object's type is invalid. Should be a GXmlDomElement"
+msgstr "संदर्भित वस्तु प्रकार अमान्य है। IXmlDomElement होना चाहिए"
+
+#: gxml/CssSelectorParser.vala:232 gxml/CssSelectorParser.vala:240
+msgid "Invalid identifier"
+msgstr "अमान्य पहचानकर्ता"
+
+#: gxml/CssSelectorParser.vala:238 gxml/CssSelectorParser.vala:244
+#: gxml/CssSelectorParser.vala:329
+msgid "string value is empty"
+msgstr "स्ट्रिंग मान रिक्त है"
+
+#: gxml/CssSelectorParser.vala:250
+msgid "Cannot find start of 'not selector' value"
+msgstr "'चयनकर्ता नहीं' मान का आरंभ नहीं पाया जा सका"
+
+#: gxml/CssSelectorParser.vala:256
+msgid "Cannot find end of 'not selector' value"
+msgstr "'चयनकर्ता नहीं' मान का अंत नहीं पाया जा सका"
+
+#: gxml/CssSelectorParser.vala:271
+#, c-format
+msgid "Invalid '%s' pseudo class"
+msgstr "अमान्य '%s' छद्म वर्ग"
+
+#: gxml/CssSelectorParser.vala:275
+#, c-format
+msgid "Invalid '%s' pseudo class : cannot find value"
+msgstr "अमान्य '%s' छद्म वर्ग : मान नहीं खोजा जा सका"
+
+#: gxml/CssSelectorParser.vala:280
+msgid "Cannot find end of pseudo class value"
+msgstr "छद्म वर्ग मान का अंत नहीं पाया जा सका"
+
+#: gxml/CssSelectorParser.vala:285
+msgid "Pseudo class value isn't a valid number"
+msgstr "छद्म वर्ग मान एक मान्य संख्या नहीं है"
+
+#: gxml/CssSelectorParser.vala:293
+msgid "current class doesn't start with letter"
+msgstr "वर्तमान वर्ग अक्षर से शुरू नहीं होती"
+
+#: gxml/CssSelectorParser.vala:303
+msgid "current id doesn't start with letter"
+msgstr "वर्तमान आईडी अक्षर से शुरू नहीं होती"
+
+#: gxml/CssSelectorParser.vala:319 gxml/CssSelectorParser.vala:331
+msgid "Invalid attribute"
+msgstr "अमान्य विशेषता"
+
+#: gxml/CssSelectorParser.vala:357
+msgid "Invalid attribute selector"
+msgstr "अमान्य विशेषता चयनकर्ता"
+
+#: gxml/CssSelectorParser.vala:362
+#, c-format
+msgid "Invalid attribute selector. '=' expected but '%s' was found"
+msgstr "अमान्य विशेषता चयनकर्ता। '=' अपेक्षित था लेकिन '%s' मिला"
+
+#: gxml/CssSelectorParser.vala:374
+msgid "Cannot find end of attribute value"
+msgstr "विशेषता मान का अंत नहीं पाया जा सका"
+
+#: gxml/CssSelectorParser.vala:378
+msgid "Cannot find end of attribute selector"
+msgstr "विशेषता चयनकर्ता का अंत नहीं पाया जा सका"
+
+#: gxml/CssSelectorParser.vala:425
+msgid "No selectors found"
+msgstr "कोई चयनकर्ता नहीं मिला"
+
+#: gxml/CssSelectorParser.vala:429
+#, c-format
+msgid "Last selector has combiner assigned (%s)"
+msgstr "अंतिम चयनकर्ता को संयोजक असाइन किया गया है (%s)"
+
+#: gxml/Document.vala:129
+#, c-format
+msgid "Error while attempting to instantiate root property object: %s"
+msgstr "रूट प्रॉपर्टी वस्तु को तुरंत चालू करने का प्रयास करते समय त्रुटि: %s"
+
+#: gxml/Document.vala:189
+msgid "Creating a namespaced element with invalid node name"
+msgstr "अमान्य नोड नाम के साथ नामस्थानित तत्व बनाना"
+
+#: gxml/Document.vala:196
+msgid "Creating a namespaced element with invalid namespace"
+msgstr "अमान्य नामस्थान के साथ नामस्थानित तत्व बनाना"
+
+#: gxml/Document.vala:200
+msgid ""
+"Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
+msgstr ""
+"xmlns उपसर्ग के लिए अमान्य नामस्थान URI। http://www.w3.org/2000/xmlns/ का उपयोग "
+"करें"
+
+#: gxml/Document.vala:204
+msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
+msgstr ""
+"http://www.w3.org/2000/xmlns/ के साथ केवल xmlns उपसर्गों का उपयोग किया जा सकता है"
+
+#: gxml/Document.vala:244 gxml/XDocument.vala:276
+msgid "Can't import a Document"
+msgstr "दस्तावेज़ आयात नहीं किया जा सकता"
+
+#: gxml/Document.vala:246 gxml/XDocument.vala:278
+msgid "Can't import a non Element type node to a Document"
+msgstr "किसी दस्तावेज़ में गैर-तत्व प्रकार नोड आयात नहीं किया जा सकता"
+
+#: gxml/Document.vala:270 gxml/XDocument.vala:302
+msgid "Can't adopt a Document"
+msgstr "दस्तावेज़ को अपनाया नहीं जा सकता"
+
+#. FIXME:
+#: gxml/Document.vala:448
+msgid "DomElement query_selector is not implemented"
+msgstr "DomElement query_selector लागू नहीं किया गया है"
+
+#. FIXME:
+#: gxml/Document.vala:452
+msgid "DomElement query_selector_all is not implemented"
+msgstr "DomElement query_selector_all कार्यान्वित नहीं है"
+
+#: gxml/DomCharacter.vala:46
+msgid "Invalid offset for substring"
+msgstr "सबस्ट्रिंग के लिए अमान्य ऑफ़सेट"
+
+#: gxml/DomCharacter.vala:66
+msgid "Invalid offset for replace data"
+msgstr "प्रतिस्थापित डेटा के लिए अमान्य ऑफ़सेट"
+
+#: gxml/DomCharacter.vala:80
+msgid "Invalid offset to split text"
+msgstr "पाठ को विभाजित करने के लिए अमान्य ऑफ़सेट"
+
+#: gxml/DomNode.vala:133
+msgid "Text node with NULL string"
+msgstr "NULL स्ट्रिंग वाला पाठ नोड"
+
+#: gxml/DomNode.vala:140
+msgid "Can't copy child text node"
+msgstr "चाइल्ड पाठ नोड की प्रतिलिपि नहीं बनाई जा सकती"
+
+#: gxml/Element.vala:194
+msgid "Invalid namespace URI stored in element's attribute"
+msgstr "तत्व की विशेषता में संग्रहीत अमान्य नामस्थान URI"
+
+#: gxml/Element.vala:201 gxml/Element.vala:242
+msgid "Invalid attribute name in element's attributes list"
+msgstr "तत्व की विशेषता सूची में विशेषता नाम अमान्य है"
+
+#: gxml/Element.vala:257
+msgid "Can't locate child node to remove"
+msgstr "निकालने के लिए चाइल्ड नोड नहीं खोजा जा सका"
+
+#: gxml/Element.vala:487 gxml/Element.vala:553
+#, c-format
+msgid "Invalid attribute name: %s"
+msgstr "अमान्य विशेषता नाम: %s"
+
+#: gxml/Element.vala:489 gxml/Element.vala:555
+msgid "Invalid node type. GXml.Attr was expected"
+msgstr "अमान्य नोड प्रकार। GXml.Attr अपेक्षित था"
+
+#: gxml/Element.vala:512 gxml/Element.vala:531
+#, c-format
+msgid "No index found for attribute %s"
+msgstr "विशेषता %s के लिए कोई सूचकांक नहीं मिला"
+
+#: gxml/Element.vala:540
+#, c-format
+msgid "Invalid attribute's local name '%s': invalid use of ':' character"
+msgstr "विशेषता का स्थानीय नाम '%s' अमान्य है: ':' वर्ण का अमान्य उपयोग"
+
+#: gxml/Element.vala:544
+#, c-format
+msgid "Namespace URI was not found: %s"
+msgstr "नामस्थान URI नहीं मिला: %s"
+
+#: gxml/Element.vala:560
+msgid ""
+"Namespace attributes prefixed with 'xmlns' should use a namespace uri http://"
+"www.w3.org/2000/xmlns"
+msgstr ""
+"'xmlns' उपसर्ग वाले नामस्थान विशेषताओं को नामस्थान uri http://www.w3.org/2000/"
+"xmlns का उपयोग करना चाहिए"
+
+#: gxml/Element.vala:564
+msgid ""
+"Namespace attributes prefixed with 'xml' should use a namespace uri http://"
+"www.w3.org/XML/1998/namespace"
+msgstr ""
+"'xml' उपसर्ग वाले नामस्थान विशेषताओं को नामस्थान uri का उपयोग करना चाहिए http://"
+"www.w3.org/XML/1998/namespace"
+
+#: gxml/Element.vala:568
+msgid ""
+"Namespace attributes prefixed with 'xsi' should use a namespace uri http://"
+"www.w3.org/2001/XMLSchema-instance"
+msgstr ""
+"'xsi' उपसर्ग वाले नामस्थान विशेषताओं को नामस्थान uri का उपयोग करना चाहिए http://"
+"www.w3.org/2001/XMLSchema-instance"
+
+#: gxml/Element.vala:572
+msgid ""
+"Namespace attributes prefixed with 'html' should use a namespace uri http://"
+"www.w3.org/1999/xhtml"
+msgstr ""
+"'html' उपसर्ग वाले नामस्थान विशेषताओं को नामस्थान uri का उपयोग करना चाहिए http://"
+"www.w3.org/1999/xhtml"
+
+#: gxml/Element.vala:576
+msgid ""
+"Namespace attributes prefixed with 'MathML' should use a namespace uri "
+"http://www.w3.org/1998/Math/MathML"
+msgstr ""
+"'MathML' उपसर्ग वाले नामस्थान विशेषताओं को नामस्थान uri का उपयोग करना चाहिए http://"
+"www.w3.org/1998/Math/MathML"
+
+#: gxml/Element.vala:580
+msgid ""
+"Namespace attributes prefixed with 'xlink' should use a namespace uri http://"
+"www.w3.org/1999/xlink"
+msgstr ""
+"'xlink' उपसर्ग वाले नामस्थान विशेषताओं को नामस्थान uri http://www.w3.org/1999/"
+"xlink का उपयोग करना चाहिए"
+
+#: gxml/Element.vala:584
+msgid ""
+"Namespace attributes prefixed with 'svg' should use a namespace uri http://"
+"www.w3.org/2000/svg"
+msgstr ""
+"'svg' उपसर्ग वाले नामस्थान विशेषताओं को नामस्थान uri http://www.w3.org/2000/svg का "
+"उपयोग करना चाहिए"
+
+#: gxml/Element.vala:591
+#, c-format
+msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
+msgstr "नामस्थान विशेषताओं को एक गैर-शून्य, गैर-रिक्त उपसर्ग प्रदान करना चाहिए: %s"
+
+#: gxml/Element.vala:595
+msgid "Invalid namespace attribute's name."
+msgstr "नामस्थान विशेषता का नाम अमान्य है।"
+
+#: gxml/Element.vala:612
+#, c-format
+msgid "Trying to add an attribute with an undefined namespace's prefix: %s"
+msgstr "अपरिभाषित नामस्थान के उपसर्ग के साथ विशेषता जोड़ने का प्रयास किया जा रहा है: %s"
+
+#: gxml/Element.vala:619
+msgid "Trying to add an attribute with an undefined namespace's URI"
+msgstr "अपरिभाषित नामस्थान के URI के साथ विशेषता जोड़ने का प्रयास किया जा रहा है"
+
+#: gxml/Element.vala:671
+#, c-format
+msgid "Error getting attribute with namespace: %s"
+msgstr "नामस्थान के साथ विशेषता प्राप्त करने में त्रुटि: %s"
+
+#: gxml/Element.vala:687
+msgid "Invalid attribute name. Just one prefix is allowed"
+msgstr "अमान्य विशेषता नाम। सिर्फ़ एक उपसर्ग की अनुमति है"
+
+#: gxml/Element.vala:692
+#, c-format
+msgid "Invalid attribute name. Invalid use of colon: %s"
+msgstr "विशेषता नाम अमान्य है। अपूर्ण विराम का अमान्य उपयोग: %s"
+
+#: gxml/Element.vala:696
+msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
+msgstr "अमान्य नामस्थान। यदि उपसर्ग शून्य है, तो नामस्थान URI शून्य नहीं होना चाहिए"
+
+#: gxml/Element.vala:700
+msgid ""
+"Invalid namespace definition. No prefixed attributes should use 'xmlns' as "
+"name"
+msgstr ""
+"अमान्य नामस्थान परिभाषा। किसी भी उपसर्ग विशेषता को नाम के रूप में 'xmlns' का उपयोग "
+"नहीं करना चाहिए"
+
+#: gxml/Element.vala:704
+msgid "'xml' namespace should not be defined"
+msgstr "'xml' नामस्थान परिभाषित नहीं किया जाना चाहिए"
+
+#: gxml/Element.vala:708
+msgid "'xmlns' namespace should not be defined"
+msgstr "'xmlns' नामस्थान परिभाषित नहीं किया जाना चाहिए"
+
+#: gxml/Element.vala:716
+msgid ""
+"Invalid namespace. If prefix is 'xml', namespace URI should be http://www.w3."
+"org/XML/1998/namespace"
+msgstr ""
+"अमान्य नामस्थान। यदि उपसर्ग 'xml' है, तो नामस्थान URI http://www.w3.org/XML/1998/"
+"namespace होना चाहिए"
+
+#: gxml/Element.vala:723
+msgid ""
+"Invalid namespace definition. If attribute's prefix is 'xmlns', namespace "
+"URI should be http://www.w3.org/2000/xmlns"
+msgstr ""
+"नामस्थान परिभाषा अमान्य है। यदि विशेषता का उपसर्ग 'xmlns' है, तो नामस्थान URI "
+"http://www.w3.org/2000/xmlns होना चाहिए"
+
+#: gxml/Element.vala:730
+msgid ""
+"Invalid namespace. If attribute's prefix is 'html', namespace URI should be "
+"http://www.w3.org/1999/xhtml"
+msgstr ""
+"अमान्य नामस्थान। यदि विशेषता का उपसर्ग 'html' है, तो नामस्थान URI http://www.w3."
+"org/1999/xhtml होना चाहिए"
+
+#: gxml/Element.vala:737
+msgid ""
+"Invalid namespace. If attribute's prefix is 'xsi', namespace URI should be "
+"http://www.w3.org/2001/XMLSchema-instance"
+msgstr ""
+"अमान्य नामस्थान। यदि विशेषता का उपसर्ग 'xsi' है, तो नामस्थान URI http://www.w3."
+"org/2001/XMLSchema-instance होना चाहिए"
+
+#: gxml/Element.vala:744
+msgid ""
+"Invalid namespace. If attribute's prefix is 'MathML', namespace URI should "
+"be http://www.w3.org/1998/Math/MathML"
+msgstr ""
+"अमान्य नामस्थान। यदि विशेषता का उपसर्ग 'MathML' है, तो नामस्थान URI http://www.w3."
+"org/1998/Math/MathML होना चाहिए"
+
+#: gxml/Element.vala:751
+msgid ""
+"Invalid namespace. If attribute's prefix is 'svg', namespace URI should be "
+"http://www.w3.org/2000/svg"
+msgstr ""
+"अमान्य नामस्थान। यदि विशेषता का उपसर्ग 'svg' है, तो नामस्थान URI http://www.w3."
+"org/2000/svg होना चाहिए"
+
+#: gxml/Element.vala:758
+msgid ""
+"Invalid namespace. If attribute's prefix is 'xlink', namespace URI should be "
+"http://www.w3.org/1999/xlink"
+msgstr ""
+"अमान्य नामस्थान। यदि विशेषता का उपसर्ग 'xlink' है, तो नामस्थान URI http://www.w3."
+"org/1999/xlink होना चाहिए"
+
+#: gxml/Element.vala:763
+msgid "Setting namespaced property error: "
+msgstr "नामस्थान प्रॉपर्टी निर्धारित करते समय त्रुटि: "
+
+#: gxml/Element.vala:769
+msgid "Removing attribute Error: "
+msgstr "विशेषता हटाते समय त्रुटि: "
+
+#: gxml/Element.vala:774
+msgid "Removing namespaced attribute Error: "
+msgstr "नामस्थान विशेषता हटाते समय त्रुटि: "
+
+#: gxml/Element.vala:940
+#, c-format
+msgid "Error parsing child's buffer: %s"
+msgstr "चाइल्ड बफर विश्लेषित करते समय त्रुटि: %s"
+
+#: gxml/Enumeration.vala:88
+msgid "value is invalid"
+msgstr "मान अमान्य है"
+
+#: gxml/Enumeration.vala:129
+#, c-format
+msgid "text '%s' cannot be parsed to enumeration type: %s"
+msgstr "पाठ '%s' को गणना प्रकार में विश्लेषण नहीं किया जा सकता: %s"
+
+#: gxml/HashPairedMap.vala:210
+msgid "No primary key and/or secondary key was found"
+msgstr "कोई प्राथमिक कुंजी और/या द्वितीयक कुंजी नहीं मिली"
+
+#: gxml/Node.vala:156
+msgid "Text content in element can't be created"
+msgstr "तत्व में पाठ सामग्री नहीं बनाई जा सकती"
+
+#: gxml/Node.vala:209 gxml/XNode.vala:328
+msgid "Can't find node position"
+msgstr "नोड स्थिति नहीं मिल सकी"
+
+#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:359
+msgid "Invalid attempt to add invalid node type"
+msgstr "अमान्य नोड प्रकार जोड़ने का अमान्य प्रयास"
+
+#: gxml/Node.vala:260 gxml/XNode.vala:361
+msgid "Can't find child to insert node before"
+msgstr "नोड को पहले सम्मिलित करने के लिए चाइल्ड नहीं मिल सका"
+
+#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:365
+msgid "Invalid attempt to insert a node"
+msgstr "नोड सम्मिलित करने का अमान्य प्रयास"
+
+#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:372
+msgid "Invalid attempt to insert an invalid node type"
+msgstr "अमान्य नोड प्रकार सम्मिलित करने का अमान्य प्रयास"
+
+#: gxml/Node.vala:291
+msgid "Node type is invalid. Can't append as child"
+msgstr "नोड प्रकार अमान्य है। चाइल्ड के रूप में जोड़ा नहीं जा सकता"
+
+#: gxml/Node.vala:294
+msgid "Invalid attempt to append a child with different parent document"
+msgstr "किसी अन्य मूल दस्तावेज़ के साथ चाइल्ड को जोड़ने का अमान्य प्रयास"
+
+#: gxml/Node.vala:302 gxml/XNode.vala:394
+msgid "Can't find child node to replace or child have a different parent"
+msgstr "प्रतिस्थापित करने के लिए चाइल्ड नोड नहीं मिल रहा है या चाइल्ड का कोई अलग पैरेंट है"
+
+#: gxml/Node.vala:316 gxml/XNode.vala:375
+msgid ""
+"Invalid attempt to insert a document's type or text node to an invalid parent"
+msgstr ""
+"किसी दस्तावेज़ के प्रकार या पाठ नोड को अमान्य पैरेंट में सम्मिलित करने का अमान्य प्रयास"
+
+#: gxml/Node.vala:328 gxml/XNode.vala:438
+msgid "Can't find child node to remove or child have a different parent"
+msgstr "हटाने के लिए चाइल्ड नोड नहीं मिल रहा है या चाइल्ड का कोई दूसरा पैरेंट है"
+
+#: gxml/Object.vala:170
+msgid "Enumeration is out of range"
+msgstr "गणना सीमा से बाहर है"
+
+#: gxml/Object.vala:285
+msgid "Enumeration can't be parsed from string"
+msgstr "गणना को स्ट्रिंग से विश्लेषित नहीं किया जा सकता"
+
+#: gxml/Object.vala:407
+#, c-format
+msgid "Error while attempting to instantiate property object: %s"
+msgstr "प्रॉपर्टी वस्तु को तुरंत चालू करने का प्रयास करते समय त्रुटि: %s"
+
+#: gxml/Object.vala:456
+msgid "Can't set value. It is not a GXmlGXml.Element type"
+msgstr "मान निर्धारित नहीं किया जा सकता। यह GXmlGXml.Element प्रकार नहीं है"
+
+#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:65
+msgid "File doesn't exist"
+msgstr "फाइल मौजूद नहीं है"
+
+#: gxml/Parser.vala:193
+msgid ""
+"Invalid attempt to parse an element node, when current found node is not"
+msgstr ""
+"तत्व नोड का विश्लेषण करने का अमान्य प्रयास, जब वर्तमान पाया गया नोड मौजूद नहीं है"
+
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:263
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: items' type property was "
+"not set at construction time or set to invalid type"
+msgstr ""
+"संग्रह '%s' का निर्माण ठीक से नहीं किया गया है: मद का प्रकार गुण निर्माण के समय "
+"निर्धारित किया गया था या अमान्य प्रकार पर निर्धारित किया गया था"
+
+#: gxml/Parser.vala:285 gxml/StreamReader.vala:267
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: items' name property was "
+"not set at construction time"
+msgstr ""
+"संग्रह '%s' का निर्माण ठीक से नहीं किया गया है: निर्माण के समय मद का नाम गुण निर्धारित "
+"नहीं किया गया था"
+
+#: gxml/Parser.vala:289 gxml/StreamReader.vala:271
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: element property was not "
+"set at construction time"
+msgstr ""
+"संग्रह '%s' का निर्माण ठीक से नहीं किया गया है: निर्माण के समय तत्व गुण निर्धारित नहीं "
+"किया गया था"
+
+#: gxml/Parser.vala:293 gxml/StreamReader.vala:275
+#, c-format
+msgid ""
+"Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
+"be handled by the collection"
+msgstr ""
+"'%s' प्रकार का अमान्य वस्तु GXml.Object इंटरफ़ेस को कार्यान्वित नहीं करता है: संग्रह "
+"द्वारा नियंत्रित नहीं किया जा सकता"
+
+#: gxml/Parser.vala:298
+msgid "No document is set to node"
+msgstr "कोई भी दस्तावेज़ नोड पर निर्धारित नहीं है"
+
+#: gxml/Parser.vala:323 gxml/XParser.vala:107 gxml/XParser.vala:113
+msgid "Invalid document string, it is empty or is not allowed"
+msgstr "अमान्य दस्तावेज़ स्ट्रिंग, यह रिक्त है या इसकी अनुमति नहीं है"
+
+#: gxml/Property.vala:389
+#, c-format
+msgid "Error when transform enum to attribute's value: %s"
+msgstr "enum को विशेषता के मान में बदलते समय त्रुटि: %s"
+
+#: gxml/Property.vala:398
+#, c-format
+msgid "Error when transform from attribute string value to enum: %s"
+msgstr "विशेषता स्ट्रिंग मान से enum में रूपांतरण करते समय त्रुटि: %s"
+
+#: gxml/Property.vala:462 gxml/Property.vala:469
+msgid "Invalid Date for property: "
+msgstr "संपत्ति के लिए अमान्य तिथि: "
+
+#: gxml/Property.vala:464
+msgid "Invalid format for Date property: "
+msgstr "दिनांक संपत्ति के लिए अमान्य प्रारूप: "
+
+#: gxml/Property.vala:511
+msgid "Invalid timestamp for property: "
+msgstr "संपत्ति के लिए अमान्य टाइमस्टैम्प: "
+
+#: gxml/Range.vala:53 gxml/Range.vala:81 gxml/Range.vala:154
+msgid "Invalid node type to start"
+msgstr "प्रारंभ करने के लिए अमान्य नोड प्रकार"
+
+#: gxml/Range.vala:56 gxml/Range.vala:84
+msgid "Invalid offset for node to start: for document type"
+msgstr "नोड प्रारंभ करने के लिए अमान्य ऑफ़सेट: दस्तावेज़ प्रकार के लिए"
+
+#: gxml/Range.vala:60 gxml/Range.vala:88
+msgid "Invalid offset for node to start: for character data"
+msgstr "नोड प्रारंभ करने के लिए अमान्य ऑफ़सेट: वर्ण डेटा के लिए"
+
+#: gxml/Range.vala:63 gxml/Range.vala:91
+msgid "Invalid offset for node to start: for children number"
+msgstr "नोड शुरू करने के लिए अमान्य ऑफ़सेट: चिल्ड्रन की संख्या के लिए"
+
+#: gxml/Range.vala:107 gxml/Range.vala:121
+msgid "Invalid node type to start before"
+msgstr "पहले शुरू करने के लिए अमान्य नोड प्रकार"
+
+#: gxml/Range.vala:112 gxml/Range.vala:126 gxml/Range.vala:144
+msgid "Invalid node type to start after"
+msgstr "इसके बाद शुरू करने के लिए अमान्य नोड प्रकार"
+
+#: gxml/Range.vala:169
+msgid "Invalid root in the source range"
+msgstr "स्रोत श्रेणी में अमान्य रूट"
+
+#: gxml/StreamReader.vala:148
+msgid "Invalid document: expected '<' character"
+msgstr "अमान्य दस्तावेज़: अपेक्षित '<' वर्ण"
+
+#: gxml/StreamReader.vala:156
+msgid "Invalid document: unexpected space character before node's name"
+msgstr "अमान्य दस्तावेज़: नोड के नाम से पहले अनपेक्षित रिक्ति वर्ण"
+
+#: gxml/StreamReader.vala:188
+#, c-format
+msgid "Parent '%s' is not implementing GXml.Object interface"
+msgstr "पैरेंट '%s' GXml.Object इंटरफ़ेस को कार्यान्वित नहीं कर रहा है"
+
+#: gxml/StreamReader.vala:203
+msgid "Can't continue parsing due to error reading data"
+msgstr "डेटा पढ़ने में त्रुटि के कारण विश्लेषण जारी नहीं रखा जा सकता"
+
+#: gxml/StreamReader.vala:355 gxml/StreamReader.vala:359
+#: gxml/StreamReader.vala:367 gxml/StreamReader.vala:393
+msgid "Invalid comment declaration"
+msgstr "अमान्य टिप्पणी घोषणा"
+
+#: gxml/StreamReader.vala:413
+msgid "Invalid Processing Instruction's target declaration"
+msgstr "अमान्य प्रसंस्करण निर्देश का लक्ष्य घोषणा"
+
+#: gxml/StreamReader.vala:436
+msgid "Invalid Processing Instruction's close declaration"
+msgstr "अमान्य प्रसंस्करण निर्देश की समाप्ति घोषणा"
+
+#: gxml/TokenList.vala:54
+msgid ""
+"DOM: Invalid token. No empty string could be used as token to check if it is "
+"contained in token list"
+msgstr ""
+"DOM: अमान्य टोकन। यह जांचने के लिए कि यह टोकन सूची में शामिल है या नहीं, टोकन के रूप में "
+"किसी खाली स्ट्रिंग का उपयोग नहीं किया जा सकता"
+
+#: gxml/TokenList.vala:56
+msgid ""
+"DOM: Invalid token. No white spaces could be included as token to check if "
+"it is contained in token list"
+msgstr ""
+"DOM: अमान्य टोकन। टोकन सूची में शामिल है या नहीं, इसकी जांच करने के लिए टोकन के रूप में "
+"कोई रिक्त स्थान शामिल नहीं किया जा सका"
+
+#: gxml/TokenList.vala:63 gxml/TokenList.vala:86
+msgid "DOM: Invalid token. Empty string can't be used as token"
+msgstr "DOM: अमान्य टोकन। खाली स्ट्रिंग को टोकन के रूप में उपयोग नहीं किया जा सकता"
+
+#: gxml/TokenList.vala:65 gxml/TokenList.vala:88
+msgid "DOM: Invalid token. White spaces can't be used as token"
+msgstr "DOM: अमान्य टोकन। रिक्त स्थानों को टोकन के रूप में उपयोग नहीं किया जा सकता"
+
+#: gxml/TokenList.vala:102
+msgid "Update Error: "
+msgstr "अद्यतन त्रुटि: "
+
+#: gxml/XDocument.vala:159
+#, c-format
+msgid "Error writing document to string: %s"
+msgstr "दस्तावेज़ को स्ट्रिंग में लिखते समय त्रुटि: %s"
+
+#: gxml/XDocument.vala:230
+msgid "Invalid element qualified name: multiple namespace prefixes"
+msgstr "अमान्य तत्व योग्य नाम: एकाधिक नामस्थान उपसर्ग"
+
+#: gxml/XdParser.vala:82
+msgid "Parser Error for string"
+msgstr "स्ट्रिंग के लिए पार्सर त्रुटि"
+
+#: gxml/XElement.vala:148
+#, c-format
+msgid "Error while converting Element to string: %s"
+msgstr "तत्व को स्ट्रिंग में परिवर्तित करते समय त्रुटि: %s"
+
+#: gxml/XElement.vala:348
+#, c-format
+msgid "invalid namespace. Code: %s"
+msgstr "अमान्य नामस्थान। कोड: %s"
+
+#: gxml/XHashMapAttr.vala:243
+msgid "Invalid document when adding item to collection"
+msgstr "संग्रह में मद जोड़ते समय अमान्य दस्तावेज़"
+
+#: gxml/XHashMapAttr.vala:245 gxml/XHashMapAttr.vala:297
+msgid "This node collection is read only"
+msgstr "यह नोड संग्रह केवल पढ़ने के लिए है"
+
+#: gxml/XHashMapAttr.vala:247 gxml/XHashMapAttr.vala:299
+msgid "This node attribute is already in use by other Element"
+msgstr "यह नोड विशेषता पहले से ही अन्य तत्व द्वारा उपयोग में है"
+
+#: gxml/XHashMapAttr.vala:249 gxml/XHashMapAttr.vala:301
+msgid "Trying to add an object to an Element, but it is not an attribute"
+msgstr "किसी तत्व में वस्तु जोड़ने का प्रयास किया जा रहा है, लेकिन यह एक विशेषता नहीं है"
+
+#: gxml/XHashMapAttr.vala:261 gxml/XHashMapAttr.vala:317
+#, c-format
+msgid "No node with name %s was found"
+msgstr "%s नाम वाला कोई नोड नहीं मिला"
+
+#: gxml/XHashMapAttr.vala:263 gxml/XHashMapAttr.vala:319
+msgid "Node collection is read only"
+msgstr "नोड संग्रह केवल पढ़ने के लिए है"
+
+#: gxml/XHashMapAttr.vala:295
+msgid "Invalid document when adding item to named node map collection"
+msgstr "नामित नोड मानचित्र संग्रह में मद जोड़ते समय अमान्य दस्तावेज़"
+
+#: gxml/XHtmlDocument.vala:115
+#, c-format
+msgid "Error while converting HTML document to string: %s"
+msgstr "HTML दस्तावेज़ को स्ट्रिंग में परिवर्तित करते समय त्रुटि: %s"
+
+#: gxml/XNode.vala:44
+#, c-format
+msgid "%s:%s:%d: %s:%d: %s"
+msgstr "%s:%s:%d: %s:%d: %s"
+
+#: gxml/XNode.vala:265
+#, c-format
+msgid "Error while setting text content to node: %s"
+msgstr "पाठ सामग्री को नोड पर सेट करते समय त्रुटि: %s"
+
+#: gxml/XNode.vala:390
+#, c-format
+msgid "Only GXml.XNode nodes are supported. Given a %s type"
+msgstr "केवल GXml.XNode नोड्स समर्थित हैं। %s प्रकार दिया गया है"
+
+#: gxml/XNode.vala:401
+msgid "Invalid attempt to replace a node on unsupported parent"
+msgstr "असमर्थित पैरेंट पर नोड को प्रतिस्थापित करने का अमान्य प्रयास"
+
+#: gxml/XNode.vala:411
+#, c-format
+msgid "Invalid attempt to replace invalid node type: %s"
+msgstr "अमान्य नोड प्रकार को प्रतिस्थापित करने का अमान्य प्रयास: %s"
+
+#: gxml/XNode.vala:417
+msgid "Invalid attempt to replace a node on a document or text node"
+msgstr "दस्तावेज़ या पाठ नोड पर नोड को प्रतिस्थापित करने का अमान्य प्रयास"
+
+#: gxml/XParser.vala:123
+msgid "Invalid input stream to read data from"
+msgstr "डेटा पढ़ने के लिए अमान्य इनपुट स्ट्रीम"
+
+#: gxml/XParser.vala:143
+#, c-format
+msgid "Error reading stream: %s"
+msgstr "स्ट्रीम पढ़ने में त्रुटि: %s"
+
+#: gxml/XParser.vala:156
+#, c-format
+msgid "Error closing stream: %s"
+msgstr "स्ट्रीम बंद करते समय त्रुटि: %s"
+
+#: gxml/XParser.vala:197 gxml/XParser.vala:259 gxml/XParser.vala:268
+#: gxml/XParser.vala:317 gxml/XParser.vala:330 gxml/XParser.vala:382
+msgid "Internal Error: No TextReader was set"
+msgstr "आंतरिक त्रुटि: कोई TextReader निर्धारित नहीं किया गया"
+
+#: gxml/XParser.vala:271
+#, c-format
+msgid "Can't read node data at line: %d"
+msgstr "पंक्ति पर नोड डेटा नहीं पढ़ा जा सकता: %d"
+
+#: gxml/XParser.vala:335
+#, c-format
+msgid "Parsing ERROR: Fail to move to attribute number: %i at line: %d"
+msgstr "पार्सिंग त्रुटि: विशेषता संख्या: %1$i को पंक्ति: %2$d पर ले जाने में विफल"
+
+#: gxml/XParser.vala:427
+msgid "Invalid sequence for document type definition: "
+msgstr "दस्तावेज़ प्रकार परिभाषा के लिए अमान्य अनुक्रम: "
+
+#: gxml/XParser.vala:494 gxml/XParser.vala:600 gxml/XParser.vala:672
+msgid "Internal Error: No TextWriter initialized"
+msgstr "आंतरिक त्रुटि: कोई TextWriter आरंभीकृत नहीं हुआ"
+
+#: gxml/XsdSchema.vala:266
+#, c-format
+msgid "Error removing Collection's element: %s"
+msgstr "संग्रह का तत्व हटाते समय त्रुटि हुई: %s"
+
+#: gxml/XsdSchema.vala:275
+#, c-format
+msgid "Can't find element at position: %i: %s"
+msgstr "स्थान पर तत्व नहीं मिल सका: %i: %s"
+
+#: gxml/XsdSchema.vala:289 gxml/XsdSchema.vala:297 gxml/XsdSchema.vala:305
+#: gxml/XsdSchema.vala:313 gxml/XsdSchema.vala:321
+#, c-format
+msgid "Collection type %s, initialization error: %s"
+msgstr "संग्रह प्रकार %s, आरंभीकरण त्रुटि: %s"
