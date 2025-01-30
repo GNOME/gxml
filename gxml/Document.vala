@@ -186,22 +186,22 @@ public class GXml.Document : GXml.Node,
       var s = qualified_name.split (":");
       if (s.length != 2)
         throw new DomError.NAMESPACE_ERROR
-          (_("Creating a namespaced element with invalid node name"));
+        ((_("Invalid qualified name '%s'. Only one ':' is allowed for namespace prefixes.")).printf(qualified_name));
       nsp = s[0];
       n = s[1];
     } else
       n = qualified_name;
     if (nsp == "" && namespace_uri == null)
       throw new DomError.NAMESPACE_ERROR
-        (_("Creating a namespaced element with invalid namespace"));
+      ((_("Invalid namespace for element '%s'. Ensure it has a valid prefix or namespace URI.")).printf(qualified_name));
     if ((n == "xmlns" || nsp == "xmlns")
         && namespace_uri != "http://www.w3.org/2000/xmlns/")
       throw new DomError.NAMESPACE_ERROR
-        (_("Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"));
+      ((_("Invalid namespace URI '%s' for 'xmlns' prefix. Expected: 'http://www.w3.org/2000/xmlns/'.")).printf(namespace_uri));
     if ((n != "xmlns" || nsp != "xmlns")
         && namespace_uri == "http://www.w3.org/2000/xmlns/")
       throw new DomError.NAMESPACE_ERROR
-        (_("Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"));
+      (_("Only 'xmlns' prefix can be used with namespace URI 'http://www.w3.org/2000/xmlns/'."));
     var e = new GXml.Element ();
     e.initialize_document_with_namespace (this, namespace_uri, nsp, n);
     return e;
