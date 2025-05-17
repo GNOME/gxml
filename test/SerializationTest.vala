@@ -1613,7 +1613,7 @@ class SerializationTest : GLib.Object  {
           if (n is StoreShelf) {
             found_shelf = true;
             foreach (GXml.DomNode cn in n.child_nodes) {
-              message ("Found Type: %s", n.get_type ().name ());
+              message ("Found Type: %s", cn.get_type ().name ());
               if (cn is Cpu) {
                 found_cpu = true;
               }
@@ -1640,7 +1640,7 @@ class SerializationTest : GLib.Object  {
           if (n is StoreShelf) {
             found_shelf = true;
             foreach (GXml.DomNode cn in n.child_nodes) {
-              message ("Found Type: %s", n.get_type ().name ());
+              message ("Found Type: %s", cn.get_type ().name ());
               if (cn is Monitor) {
                 found_monitor = true;
                 assert (((Monitor) cn).size == 32);
