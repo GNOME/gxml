@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2019-09-27 12:12+0000\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues/\n"
+"POT-Creation-Date: 2025-12-17 13:07+0000\n"
 "PO-Revision-Date: 2019-12-01 22:17+0200\n"
 "Last-Translator: Efstathios Iosifidis <iosifidis@opensuse.org>\n"
 "Language-Team: Greek <team@gnome.gr>\n"
@@ -18,649 +18,873 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.2.4\n"
 
-#: gxml/Collections.vala:66
-#, fuzzy
-#| msgid "Invalid element name"
-msgid "Invalid index for elements in array list"
-msgstr "Μη έγκυρο όνομα στοιχείου"
-
-#: gxml/Collections.vala:70
-msgid "Invalid index reference for child elements in array list"
-msgstr ""
-
-#: gxml/Collections.vala:75
-msgid "Referenced object's type is invalid. Should be a GXmlDomElement"
-msgstr ""
-
-#: gxml/CssSelectorParser.vala:206 gxml/CssSelectorParser.vala:214
-#, fuzzy
-#| msgid "Invalid file"
-msgid "Invalid identifier"
-msgstr "Μη έγκυρο αρχείο"
-
-#: gxml/CssSelectorParser.vala:212 gxml/CssSelectorParser.vala:218
-#: gxml/CssSelectorParser.vala:303
-msgid "string value is empty"
-msgstr ""
-
-#: gxml/CssSelectorParser.vala:224
-msgid "Cannot find start of 'not selector' value"
-msgstr ""
-
-#: gxml/CssSelectorParser.vala:230
-msgid "Cannot find end of 'not selector' value"
-msgstr ""
-
-#: gxml/CssSelectorParser.vala:245
-#, c-format
-msgid "Invalid '%s' pseudo class"
-msgstr ""
-
-#: gxml/CssSelectorParser.vala:249
-#, c-format
-msgid "Invalid '%s' pseudo class : cannot find value"
-msgstr ""
-
-#: gxml/CssSelectorParser.vala:254
-msgid "Cannot find end of pseudo class value"
-msgstr ""
-
-#: gxml/CssSelectorParser.vala:259
-msgid "Pseudo class value isn't a valid number"
-msgstr ""
-
-#: gxml/CssSelectorParser.vala:267
-msgid "current class doesn't start with letter"
-msgstr ""
-
-#: gxml/CssSelectorParser.vala:277
-msgid "current id doesn't start with letter"
-msgstr ""
-
-#: gxml/CssSelectorParser.vala:293 gxml/CssSelectorParser.vala:305
-msgid "Invalid attribute"
-msgstr "Μη έγκυρο χαρακτηριστικό"
-
-#: gxml/CssSelectorParser.vala:331
-msgid "Invalid attribute selector"
-msgstr ""
-
-#: gxml/CssSelectorParser.vala:336
-#, c-format
-msgid "Invalid attribute selector. '=' expected but '%s' was found"
-msgstr ""
-
-#: gxml/CssSelectorParser.vala:348
-msgid "Cannot find end of attribute value"
-msgstr ""
-
-#: gxml/CssSelectorParser.vala:352
-msgid "Cannot find end of attribute selector"
-msgstr ""
-
-#: gxml/CssSelectorParser.vala:399
-msgid "No selectors found"
-msgstr ""
-
-#: gxml/CssSelectorParser.vala:403
-#, c-format
-msgid "Last selector has combiner assigned (%s)"
-msgstr ""
-
-#: gxml/Document.vala:153
-msgid "Invalid file"
-msgstr "Μη έγκυρο αρχείο"
-
-#: gxml/DomCharacter.vala:46
-msgid "Invalid offset for substring"
-msgstr ""
-
-#: gxml/DomCharacter.vala:66
-msgid "Invalid offset for replace data"
-msgstr ""
-
-#: gxml/DomCharacter.vala:80
-msgid "Invalid offset to split text"
-msgstr ""
-
-#: gxml/DomNode.vala:150 gxml/Node.vala:203
-msgid "Text node with NULL string"
-msgstr "Kόμβος κειμένου με μηδενική συμβολοσειρά"
-
-#: gxml/DomNode.vala:157
-msgid "Can't copy child text node"
-msgstr ""
-
-#: gxml/Enumeration.vala:88
-msgid "value is invalid"
-msgstr "μη έγκυρη τιμή"
-
-#: gxml/Enumeration.vala:129
-msgid "text cannot be parsed to enumeration type:"
-msgstr "το κείμενο δεν μπορεί να αναλυθεί με τον τύπο απαρίθμησης:"
-
-#: gxml/GomBaseCollection.vala:90
+#: gxml/BaseCollection.vala:91
 msgid ""
 "Invalid attempt to initialize a collection using an unsupported type. Only "
-"GXmlGomElement is supported"
+"GXmlGXml.Element is supported"
 msgstr ""
+"Μη έγκυρη απόπειρα αρχικοποίησης συλλογής με χρήση μη υποστηριζόμενου τύπου. "
+"Υποστηρίζεται μόνο το GXmlGXml.Element"
 
-#: gxml/GomBaseCollection.vala:119 gxml/GomBaseCollection.vala:147
-#, fuzzy
-#| msgid "value is invalid"
-msgid "Parent Element is invalid"
-msgstr "Η τιμή δεν είναι έγκυρη"
+#: gxml/BaseCollection.vala:122 gxml/BaseCollection.vala:150
+msgid "Parent Element is invalid. Set 'element' property at construction time"
+msgstr ""
+"Το γονικό στοιχείο δεν είναι έγκυρο. Ορίστε την ιδιότητα 'element' κατά τον "
+"χρόνο κατασκευής"
 
-#: gxml/GomBaseCollection.vala:122
+#: gxml/BaseCollection.vala:125
 msgid ""
-"Invalid attempt to set unsupported type. Only GXmlGomElement is supported"
+"Invalid attempt to set unsupported type. Only GXmlGXml.Element is supported"
 msgstr ""
+"Μη έγκυρη απόπειρα ορισμού μη υποστηριζόμενου τύπου. Υποστηρίζεται μόνο το "
+"GXmlGXml.Element"
 
-#: gxml/GomBaseCollection.vala:125
+#: gxml/BaseCollection.vala:128
 msgid "Invalid attempt to set a node with a different parent document"
-msgstr ""
+msgstr "Μη έγκυρη απόπειρα ορισμού κόμβου με διαφορετικό γονικό έγγραφο"
 
-#: gxml/GomBaseCollection.vala:130
+#: gxml/BaseCollection.vala:133
 msgid ""
 "Node element not appended as child of parent. No node added to collection"
 msgstr ""
+"Το στοιχείο κόμβου δεν προσαρτήθηκε ως θυγατρικό του γονέα. Δεν προστέθηκε "
+"κόμβος στη συλλογή"
 
-#: gxml/GomBaseCollection.vala:192 gxml/GomBaseCollection.vala:210
+#: gxml/BaseCollection.vala:195 gxml/BaseCollection.vala:213
 #, c-format
 msgid "Error: %s"
 msgstr "Σφάλμα: %s"
 
-#: gxml/GomDocument.vala:119
+#: gxml/Collections.vala:116
+msgid "Invalid index for elements in array list"
+msgstr "Μη έγκυρος δείκτης για στοιχεία στη λίστα πινάκων"
+
+#: gxml/Collections.vala:120
+msgid "Invalid index reference for child elements in array list"
+msgstr "Μη έγκυρη αναφορά δείκτη για θυγατρικά στοιχεία στη λίστα πινάκων"
+
+#: gxml/Collections.vala:125
+msgid "Referenced object's type is invalid. Should be a GXmlDomElement"
+msgstr ""
+"Ο τύπος του αναφερόμενου αντικειμένου δεν είναι έγκυρος. Θα έπρεπε να είναι "
+"GXmlDomElement"
+
+#: gxml/CssSelectorParser.vala:232 gxml/CssSelectorParser.vala:240
+msgid "Invalid identifier"
+msgstr "Μη έγκυρο αναγνωριστικό"
+
+#: gxml/CssSelectorParser.vala:238 gxml/CssSelectorParser.vala:244
+#: gxml/CssSelectorParser.vala:329
+msgid "string value is empty"
+msgstr "η τιμή συμβολοσειράς είναι κενή"
+
+#: gxml/CssSelectorParser.vala:250
+msgid "Cannot find start of 'not selector' value"
+msgstr "Αδυναμία εύρεσης της αρχής της τιμής του «επιλογέα not»"
+
+#: gxml/CssSelectorParser.vala:256
+msgid "Cannot find end of 'not selector' value"
+msgstr "Αδυναμία εύρεσης του τέλους της τιμής του «επιλογέα not»"
+
+#: gxml/CssSelectorParser.vala:271
+#, c-format
+msgid "Invalid '%s' pseudo class"
+msgstr "Μη έγκυρη ψευδοκλάση '%s'"
+
+#: gxml/CssSelectorParser.vala:275
+#, c-format
+msgid "Invalid '%s' pseudo class : cannot find value"
+msgstr "Μη έγκυρη ψευδοκλάση '%s': αδυναμία εύρεσης τιμής"
+
+#: gxml/CssSelectorParser.vala:280
+msgid "Cannot find end of pseudo class value"
+msgstr "Αδυναμία εύρεσης του τέλους της τιμής ψευδοκλάσης"
+
+#: gxml/CssSelectorParser.vala:285
+msgid "Pseudo class value isn't a valid number"
+msgstr "Η τιμή της ψευδοκλάσης δεν είναι έγκυρος αριθμός"
+
+#: gxml/CssSelectorParser.vala:293
+msgid "current class doesn't start with letter"
+msgstr "η τρέχουσα κλάση δεν αρχίζει με γράμμα"
+
+#: gxml/CssSelectorParser.vala:303
+msgid "current id doesn't start with letter"
+msgstr "το τρέχον id δεν αρχίζει με γράμμα"
+
+#: gxml/CssSelectorParser.vala:319 gxml/CssSelectorParser.vala:331
+msgid "Invalid attribute"
+msgstr "Μη έγκυρο χαρακτηριστικό"
+
+#: gxml/CssSelectorParser.vala:357
+msgid "Invalid attribute selector"
+msgstr "Μη έγκυρος επιλογέας χαρακτηριστικού"
+
+#: gxml/CssSelectorParser.vala:362
+#, c-format
+msgid "Invalid attribute selector. '=' expected but '%s' was found"
+msgstr ""
+"Μη έγκυρος επιλογέας χαρακτηριστικού. Αναμενόταν '=' αλλά βρέθηκε '%s'"
+
+#: gxml/CssSelectorParser.vala:374
+msgid "Cannot find end of attribute value"
+msgstr "Αδυναμία εύρεσης του τέλους της τιμής χαρακτηριστικού"
+
+#: gxml/CssSelectorParser.vala:378
+msgid "Cannot find end of attribute selector"
+msgstr "Αδυναμία εύρεσης του τέλους του επιλογέα χαρακτηριστικού"
+
+#: gxml/CssSelectorParser.vala:425
+msgid "No selectors found"
+msgstr "Δεν βρέθηκαν επιλογείς"
+
+#: gxml/CssSelectorParser.vala:429
+#, c-format
+msgid "Last selector has combiner assigned (%s)"
+msgstr "Ο τελευταίος επιλογέας έχει ανατεθειμένο συνδυαστή (%s)"
+
+#: gxml/Document.vala:129
 #, c-format
 msgid "Error while attempting to instantiate root property object: %s"
 msgstr ""
+"Σφάλμα κατά την προσπάθεια δημιουργίας αντικειμένου ριζικής ιδιότητας: %s"
 
-#: gxml/GomDocument.vala:179
+#: gxml/Document.vala:189
 msgid "Creating a namespaced element with invalid node name"
-msgstr ""
+msgstr "Δημιουργία στοιχείου με χώρο ονομάτων με μη έγκυρο όνομα κόμβου"
 
-#: gxml/GomDocument.vala:186
+#: gxml/Document.vala:196
 msgid "Creating a namespaced element with invalid namespace"
-msgstr ""
+msgstr "Δημιουργία στοιχείου με χώρο ονομάτων με μη έγκυρο χώρο ονομάτων"
 
-#: gxml/GomDocument.vala:190
+#: gxml/Document.vala:200
 msgid ""
 "Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
 msgstr ""
+"Μη έγκυρο URI χώρου ονομάτων για το πρόθεμα xmlns. Χρησιμοποιήστε το http://"
+"www.w3.org/2000/xmlns/"
 
-#: gxml/GomDocument.vala:194
+#: gxml/Document.vala:204
 msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
 msgstr ""
+"Μόνο προθέματα xmlns μπορούν να χρησιμοποιηθούν με το http://www.w3.org/2000/"
+"xmlns/"
 
-#: gxml/GomDocument.vala:234 gxml/GXmlDocument.vala:269
+#: gxml/Document.vala:244 gxml/XDocument.vala:276
 msgid "Can't import a Document"
 msgstr "Αδυναμία εισαγωγής εγγράφου"
 
-#: gxml/GomDocument.vala:236 gxml/GXmlDocument.vala:271
+#: gxml/Document.vala:246 gxml/XDocument.vala:278
 msgid "Can't import a non Element type node to a Document"
-msgstr ""
+msgstr "Αδυναμία εισαγωγής κόμβου μη στοιχείου σε έγγραφο"
 
-#: gxml/GomDocument.vala:260 gxml/GXmlDocument.vala:295
+#: gxml/Document.vala:270 gxml/XDocument.vala:302
 msgid "Can't adopt a Document"
-msgstr ""
+msgstr "Αδυναμία υιοθέτησης εγγράφου"
 
 #. FIXME:
-#: gxml/GomDocument.vala:438
+#: gxml/Document.vala:448
 msgid "DomElement query_selector is not implemented"
-msgstr ""
+msgstr "Το DomElement query_selector δεν έχει υλοποιηθεί"
 
 #. FIXME:
-#: gxml/GomDocument.vala:442
+#: gxml/Document.vala:452
 msgid "DomElement query_selector_all is not implemented"
-msgstr ""
+msgstr "Το DomElement query_selector_all δεν έχει υλοποιηθεί"
 
-#: gxml/GomElement.vala:169
+#: gxml/DomCharacter.vala:46
+msgid "Invalid offset for substring"
+msgstr "Μη έγκυρη μετατόπιση για υποσυμβολοσειρά"
+
+#: gxml/DomCharacter.vala:66
+msgid "Invalid offset for replace data"
+msgstr "Μη έγκυρη μετατόπιση για δεδομένα αντικατάστασης"
+
+#: gxml/DomCharacter.vala:80
+msgid "Invalid offset to split text"
+msgstr "Μη έγκυρη μετατόπιση για διαίρεση κειμένου"
+
+#: gxml/DomNode.vala:133
+msgid "Text node with NULL string"
+msgstr "Kόμβος κειμένου με μηδενική (NULL) συμβολοσειρά"
+
+#: gxml/DomNode.vala:140
+msgid "Can't copy child text node"
+msgstr "Αδυναμία αντιγραφής θυγατρικού κόμβου κειμένου"
+
+#: gxml/Element.vala:194
 msgid "Invalid namespace URI stored in element's attribute"
 msgstr ""
+"Μη έγκυρο URI χώρου ονομάτων αποθηκευμένο στο χαρακτηριστικό του στοιχείου"
 
-#: gxml/GomElement.vala:176 gxml/GomElement.vala:198
+#: gxml/Element.vala:201 gxml/Element.vala:242
 msgid "Invalid attribute name in element's attributes list"
-msgstr ""
+msgstr "Μη έγκυρο όνομα χαρακτηριστικού στη λίστα χαρακτηριστικών του στοιχείου"
 
-#: gxml/GomElement.vala:213
+#: gxml/Element.vala:257
 msgid "Can't locate child node to remove"
-msgstr ""
+msgstr "Αδυναμία εντοπισμού θυγατρικού κόμβου προς αφαίρεση"
 
-#: gxml/GomElement.vala:444 gxml/GomElement.vala:505
-#, fuzzy, c-format
-#| msgid "Invalid element name"
+#: gxml/Element.vala:487 gxml/Element.vala:553
+#, c-format
 msgid "Invalid attribute name: %s"
-msgstr "Μη έγκυρο όνομα στοιχείου"
+msgstr "Μη έγκυρο όνομα χαρακτηριστικού: %s"
 
-#: gxml/GomElement.vala:446 gxml/GomElement.vala:507
-msgid "Invalid node type. DomAttr was expected"
-msgstr ""
+#: gxml/Element.vala:489 gxml/Element.vala:555
+msgid "Invalid node type. GXml.Attr was expected"
+msgstr "Μη έγκυρος τύπος κόμβου. Αναμενόταν GXml.Attr"
 
-#: gxml/GomElement.vala:469 gxml/GomElement.vala:488
+#: gxml/Element.vala:512 gxml/Element.vala:531
 #, c-format
 msgid "No index found for attribute %s"
-msgstr ""
+msgstr "Δεν βρέθηκε δείκτης για το χαρακτηριστικό %s"
 
-#: gxml/GomElement.vala:512
+#: gxml/Element.vala:540
+#, c-format
+msgid "Invalid attribute's local name '%s': invalid use of ':' character"
+msgstr ""
+"Μη έγκυρο τοπικό όνομα χαρακτηριστικού '%s': μη έγκυρη χρήση του χαρακτήρα "
+"':'"
+
+#: gxml/Element.vala:544
+#, c-format
+msgid "Namespace URI was not found: %s"
+msgstr "Δεν βρέθηκε το URI χώρου ονομάτων: %s"
+
+#: gxml/Element.vala:560
 msgid ""
-"Namespace attributes prefixed with xmlns should use a namespace uri http://"
+"Namespace attributes prefixed with 'xmlns' should use a namespace uri http://"
 "www.w3.org/2000/xmlns"
 msgstr ""
+"Τα χαρακτηριστικά χώρου ονομάτων με πρόθεμα 'xmlns' πρέπει να χρησιμοποιούν "
+"το uri χώρου ονομάτων http://www.w3.org/2000/xmlns"
 
-#: gxml/GomElement.vala:519
+#: gxml/Element.vala:564
+msgid ""
+"Namespace attributes prefixed with 'xml' should use a namespace uri http://"
+"www.w3.org/XML/1998/namespace"
+msgstr ""
+"Τα χαρακτηριστικά χώρου ονομάτων με πρόθεμα 'xml' πρέπει να χρησιμοποιούν το "
+"uri χώρου ονομάτων http://www.w3.org/XML/1998/namespace"
+
+#: gxml/Element.vala:568
+msgid ""
+"Namespace attributes prefixed with 'xsi' should use a namespace uri http://"
+"www.w3.org/2001/XMLSchema-instance"
+msgstr ""
+"Τα χαρακτηριστικά χώρου ονομάτων με πρόθεμα 'xsi' πρέπει να χρησιμοποιούν το "
+"uri χώρου ονομάτων http://www.w3.org/2001/XMLSchema-instance"
+
+#: gxml/Element.vala:572
+msgid ""
+"Namespace attributes prefixed with 'html' should use a namespace uri http://"
+"www.w3.org/1999/xhtml"
+msgstr ""
+"Τα χαρακτηριστικά χώρου ονομάτων με πρόθεμα 'html' πρέπει να χρησιμοποιούν "
+"το uri χώρου ονομάτων http://www.w3.org/1999/xhtml"
+
+#: gxml/Element.vala:576
+msgid ""
+"Namespace attributes prefixed with 'MathML' should use a namespace uri "
+"http://www.w3.org/1998/Math/MathML"
+msgstr ""
+"Τα χαρακτηριστικά χώρου ονομάτων με πρόθεμα 'MathML' πρέπει να χρησιμοποιούν "
+"το uri χώρου ονομάτων http://www.w3.org/1998/Math/MathML"
+
+#: gxml/Element.vala:580
+msgid ""
+"Namespace attributes prefixed with 'xlink' should use a namespace uri http://"
+"www.w3.org/1999/xlink"
+msgstr ""
+"Τα χαρακτηριστικά χώρου ονομάτων με πρόθεμα 'xlink' πρέπει να χρησιμοποιούν "
+"το uri χώρου ονομάτων http://www.w3.org/1999/xlink"
+
+#: gxml/Element.vala:584
+msgid ""
+"Namespace attributes prefixed with 'svg' should use a namespace uri http://"
+"www.w3.org/2000/svg"
+msgstr ""
+"Τα χαρακτηριστικά χώρου ονομάτων με πρόθεμα 'svg' πρέπει να χρησιμοποιούν το "
+"uri χώρου ονομάτων http://www.w3.org/2000/svg"
+
+#: gxml/Element.vala:591
 #, c-format
 msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
 msgstr ""
+"Τα χαρακτηριστικά με χώρο ονομάτων πρέπει να παρέχουν ένα μη μηδενικό, μη "
+"κενό πρόθεμα: %s"
 
-#: gxml/GomElement.vala:523
+#: gxml/Element.vala:595
 msgid "Invalid namespace attribute's name."
-msgstr ""
+msgstr "Μη έγκυρο όνομα χαρακτηριστικού χώρου ονομάτων."
 
-#: gxml/GomElement.vala:535
+#: gxml/Element.vala:612
 #, c-format
-msgid "Duplicated default namespace detected with URI: %s"
+msgid "Trying to add an attribute with an undefined namespace's prefix: %s"
 msgstr ""
+"Προσπάθεια προσθήκης χαρακτηριστικού με ακαθόριστο πρόθεμα χώρου ονομάτων: %s"
 
-#: gxml/GomElement.vala:544
+#: gxml/Element.vala:619
+msgid "Trying to add an attribute with an undefined namespace's URI"
+msgstr "Προσπάθεια προσθήκης χαρακτηριστικού με ακαθόριστο URI χώρου ονομάτων"
+
+#: gxml/Element.vala:671
 #, c-format
-msgid "Duplicated namespace detected for: %s:%s"
-msgstr ""
+msgid "Error getting attribute with namespace: %s"
+msgstr "Σφάλμα λήψης χαρακτηριστικού με χώρο ονομάτων: %s"
 
-#: gxml/GomElement.vala:555
-#, c-format
-msgid "Trying to add an attribute with an undefined namespace prefix: %s"
-msgstr ""
-
-#: gxml/GomElement.vala:561
-msgid "Trying to add an attribute with a non found namespace URI"
-msgstr ""
-
-#: gxml/GomElement.vala:634
+#: gxml/Element.vala:687
 msgid "Invalid attribute name. Just one prefix is allowed"
-msgstr ""
+msgstr "Μη έγκυρο όνομα χαρακτηριστικού. Επιτρέπεται μόνο ένα πρόθεμα"
 
-#: gxml/GomElement.vala:638
+#: gxml/Element.vala:692
 #, c-format
 msgid "Invalid attribute name. Invalid use of colon: %s"
-msgstr ""
+msgstr "Μη έγκυρο όνομα χαρακτηριστικού. Μη έγκυρη χρήση άνω-κάτω τελείας: %s"
 
-#: gxml/GomElement.vala:643
+#: gxml/Element.vala:696
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
 msgstr ""
+"Μη έγκυρος χώρος ονομάτων. Εάν το πρόθεμα είναι null, το URI του χώρου "
+"ονομάτων δεν πρέπει να είναι null"
 
-#: gxml/GomElement.vala:645
+#: gxml/Element.vala:700
 msgid ""
-"Invalid namespace. If prefix is xml, namespace URI should be http://www.w3."
-"org/2000/xmlns"
+"Invalid namespace definition. No prefixed attributes should use 'xmlns' as "
+"name"
 msgstr ""
+"Μη έγκυρος ορισμός χώρου ονομάτων. Τα χαρακτηριστικά χωρίς πρόθεμα δεν "
+"πρέπει να χρησιμοποιούν το 'xmlns' ως όνομα"
 
-#: gxml/GomElement.vala:648
+#: gxml/Element.vala:704
+msgid "'xml' namespace should not be defined"
+msgstr "Ο χώρος ονομάτων 'xml' δεν πρέπει να ορίζεται"
+
+#: gxml/Element.vala:708
+msgid "'xmlns' namespace should not be defined"
+msgstr "Ο χώρος ονομάτων 'xmlns' δεν πρέπει να ορίζεται"
+
+#: gxml/Element.vala:716
 msgid ""
-"Invalid namespace. If attribute's prefix is xmlns, namespace URI should be "
-"http://www.w3.org/2000/xmlns"
+"Invalid namespace. If prefix is 'xml', namespace URI should be http://"
+"www.w3.org/XML/1998/namespace"
 msgstr ""
+"Μη έγκυρος χώρος ονομάτων. Εάν το πρόθεμα είναι 'xml', το URI του χώρου "
+"ονομάτων πρέπει να είναι http://www.w3.org/XML/1998/namespace"
 
-#: gxml/GomElement.vala:652
+#: gxml/Element.vala:723
 msgid ""
-"Invalid namespace. If attribute's name is xmlns, namespace URI should be "
-"http://www.w3.org/2000/xmlns"
+"Invalid namespace definition. If attribute's prefix is 'xmlns', namespace "
+"URI should be http://www.w3.org/2000/xmlns"
 msgstr ""
+"Μη έγκυρος ορισμός χώρου ονομάτων. Εάν το πρόθεμα του χαρακτηριστικού είναι "
+"'xmlns', το URI του χώρου ονομάτων πρέπει να είναι http://www.w3.org/2000/"
+"xmlns"
 
-#: gxml/GomElement.vala:654
-msgid "Invalid attribute name. No prefixed attributes should use xmlns name"
+#: gxml/Element.vala:730
+msgid ""
+"Invalid namespace. If attribute's prefix is 'html', namespace URI should be "
+"http://www.w3.org/1999/xhtml"
 msgstr ""
+"Μη έγκυρος χώρος ονομάτων. Εάν το πρόθεμα του χαρακτηριστικού είναι 'html', "
+"το URI του χώρου ονομάτων πρέπει να είναι http://www.w3.org/1999/xhtml"
 
-#: gxml/GomElement.vala:658
+#: gxml/Element.vala:737
+msgid ""
+"Invalid namespace. If attribute's prefix is 'xsi', namespace URI should be "
+"http://www.w3.org/2001/XMLSchema-instance"
+msgstr ""
+"Μη έγκυρος χώρος ονομάτων. Εάν το πρόθεμα του χαρακτηριστικού είναι 'xsi', "
+"το URI του χώρου ονομάτων πρέπει να είναι http://www.w3.org/2001/XMLSchema-"
+"instance"
+
+#: gxml/Element.vala:744
+msgid ""
+"Invalid namespace. If attribute's prefix is 'MathML', namespace URI should "
+"be http://www.w3.org/1998/Math/MathML"
+msgstr ""
+"Μη έγκυρος χώρος ονομάτων. Εάν το πρόθεμα του χαρακτηριστικού είναι "
+"'MathML', το URI του χώρου ονομάτων πρέπει να είναι http://www.w3.org/1998/"
+"Math/MathML"
+
+#: gxml/Element.vala:751
+msgid ""
+"Invalid namespace. If attribute's prefix is 'svg', namespace URI should be "
+"http://www.w3.org/2000/svg"
+msgstr ""
+"Μη έγκυρος χώρος ονομάτων. Εάν το πρόθεμα του χαρακτηριστικού είναι 'svg', "
+"το URI του χώρου ονομάτων πρέπει να είναι http://www.w3.org/2000/svg"
+
+#: gxml/Element.vala:758
+msgid ""
+"Invalid namespace. If attribute's prefix is 'xlink', namespace URI should be "
+"http://www.w3.org/1999/xlink"
+msgstr ""
+"Μη έγκυρος χώρος ονομάτων. Εάν το πρόθεμα του χαρακτηριστικού είναι 'xlink', "
+"το URI του χώρου ονομάτων πρέπει να είναι http://www.w3.org/1999/xlink"
+
+#: gxml/Element.vala:763
 msgid "Setting namespaced property error: "
-msgstr ""
+msgstr "Σφάλμα ορισμού ιδιότητας με χώρο ονομάτων: "
 
-#: gxml/GomElement.vala:664
+#: gxml/Element.vala:769
 msgid "Removing attribute Error: "
 msgstr "Σφάλμα αφαίρεσης χαρακτηριστικού: "
 
-#: gxml/GomElement.vala:669
+#: gxml/Element.vala:774
 msgid "Removing namespaced attribute Error: "
-msgstr ""
+msgstr "Σφάλμα αφαίρεσης χαρακτηριστικού με χώρο ονομάτων: "
 
-#: gxml/GomHashPairedMap.vala:210
+#: gxml/Element.vala:940
+#, c-format
+msgid "Error parsing child's buffer: %s"
+msgstr "Σφάλμα ανάλυσης της ενδιάμεσης μνήμης θυγατρικού: %s"
+
+#: gxml/Enumeration.vala:88
+msgid "value is invalid"
+msgstr "η τιμή δεν είναι έγκυρη"
+
+#: gxml/Enumeration.vala:129
+#, c-format
+msgid "text '%s' cannot be parsed to enumeration type: %s"
+msgstr "το κείμενο '%s' δεν μπορεί να αναλυθεί στον τύπο απαρίθμησης: %s"
+
+#: gxml/HashPairedMap.vala:210
 msgid "No primary key and/or secondary key was found"
-msgstr ""
+msgstr "Δεν βρέθηκε πρωτεύον κλειδί ή/και δευτερεύον κλειδί"
 
-#: gxml/GomNode.vala:156
+#: gxml/Node.vala:156
 msgid "Text content in element can't be created"
-msgstr ""
+msgstr "Δεν είναι δυνατή η δημιουργία περιεχομένου κειμένου στο στοιχείο"
 
-#: gxml/GomNode.vala:209 gxml/GXmlNode.vala:278
+#: gxml/Node.vala:209 gxml/XNode.vala:328
 msgid "Can't find node position"
-msgstr ""
+msgstr "Αδυναμία εύρεσης της θέσης του κόμβου"
 
-#: gxml/GomNode.vala:257 gxml/GomNode.vala:299 gxml/GXmlNode.vala:309
-#: gxml/GXmlNode.vala:340
+#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:359
 msgid "Invalid attempt to add invalid node type"
-msgstr ""
+msgstr "Μη έγκυρη προσπάθεια προσθήκης μη έγκυρου τύπου κόμβου"
 
-#: gxml/GomNode.vala:260 gxml/GXmlNode.vala:311
+#: gxml/Node.vala:260 gxml/XNode.vala:361
 msgid "Can't find child to insert node before"
-msgstr ""
+msgstr "Αδυναμία εύρεσης θυγατρικού για εισαγωγή κόμβου πριν από αυτό"
 
-#: gxml/GomNode.vala:265 gxml/GomNode.vala:305 gxml/GXmlNode.vala:315
-#: gxml/GXmlNode.vala:346
+#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:365
 msgid "Invalid attempt to insert a node"
-msgstr ""
+msgstr "Μη έγκυρη προσπάθεια εισαγωγής κόμβου"
 
-#: gxml/GomNode.vala:273 gxml/GomNode.vala:312 gxml/GXmlNode.vala:322
-#: gxml/GXmlNode.vala:353
+#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:372
 msgid "Invalid attempt to insert an invalid node type"
-msgstr ""
+msgstr "Μη έγκυρη προσπάθεια εισαγωγής μη έγκυρου τύπου κόμβου"
 
-#: gxml/GomNode.vala:277
-msgid ""
-"Invalid attempt to insert a document or text type to an invalid parent node"
-msgstr ""
-
-#: gxml/GomNode.vala:290
+#: gxml/Node.vala:291
 msgid "Node type is invalid. Can't append as child"
-msgstr ""
+msgstr "Ο τύπος κόμβου δεν είναι έγκυρος. Αδυναμία προσάρτησης ως θυγατρικού"
 
-#: gxml/GomNode.vala:293
+#: gxml/Node.vala:294
 msgid "Invalid attempt to append a child with different parent document"
 msgstr ""
+"Μη έγκυρη προσπάθεια προσάρτησης θυγατρικού με διαφορετικό γονικό έγγραφο"
 
-#: gxml/GomNode.vala:301 gxml/GXmlNode.vala:342
+#: gxml/Node.vala:302 gxml/XNode.vala:394
 msgid "Can't find child node to replace or child have a different parent"
 msgstr ""
+"Αδυναμία εύρεσης θυγατρικού κόμβου για αντικατάσταση ή το θυγατρικό έχει "
+"διαφορετικό γονέα"
 
-#: gxml/GomNode.vala:315 gxml/GXmlNode.vala:325 gxml/GXmlNode.vala:356
+#: gxml/Node.vala:316 gxml/XNode.vala:375
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr ""
+"Μη έγκυρη προσπάθεια εισαγωγής τύπου εγγράφου ή κόμβου κειμένου σε μη έγκυρο "
+"γονέα"
 
-#: gxml/GomNode.vala:327 gxml/GXmlNode.vala:368
+#: gxml/Node.vala:328 gxml/XNode.vala:438
 msgid "Can't find child node to remove or child have a different parent"
 msgstr ""
+"Αδυναμία εύρεσης θυγατρικού κόμβου για αφαίρεση ή το θυγατρικό έχει "
+"διαφορετικό γονέα"
 
-#: gxml/GomObject.vala:170
+#: gxml/Object.vala:170
 msgid "Enumeration is out of range"
-msgstr ""
+msgstr "Η απαρίθμηση είναι εκτός εύρους"
 
-#: gxml/GomObject.vala:285
+#: gxml/Object.vala:285
 msgid "Enumeration can't be parsed from string"
-msgstr ""
+msgstr "Η απαρίθμηση δεν μπορεί να αναλυθεί από τη συμβολοσειρά"
 
-#: gxml/GomObject.vala:407
+#: gxml/Object.vala:407
 #, c-format
 msgid "Error while attempting to instantiate property object: %s"
-msgstr ""
+msgstr "Σφάλμα κατά την προσπάθεια δημιουργίας αντικειμένου ιδιότητας: %s"
 
-#: gxml/GomObject.vala:456
-msgid "Can't set value. It is not a GXmlGomElement type"
-msgstr ""
+#: gxml/Object.vala:456
+msgid "Can't set value. It is not a GXmlGXml.Element type"
+msgstr "Αδυναμία ορισμού τιμής. Δεν είναι τύπος GXmlGXml.Element"
 
-#: gxml/GXmlParser.vala:57
-msgid "stream doesn't provide data"
-msgstr ""
-
-#: gxml/GXmlParser.vala:72
-msgid "Parser Error for string"
-msgstr ""
-
-#: gxml/GomProperty.vala:336
-msgid "Error when transform enum to attribute's value"
-msgstr ""
-
-#: gxml/GomProperty.vala:344
-msgid "Error when transform from attribute string value to enum"
-msgstr ""
-
-#: gxml/GomProperty.vala:396 gxml/GomProperty.vala:403
-msgid "Invalid Date for property: "
-msgstr ""
-
-#: gxml/GomProperty.vala:398
-msgid "Invalid format for Date property: "
-msgstr ""
-
-#: gxml/GomProperty.vala:442
-msgid "Invalid timestamp for property: "
-msgstr ""
-
-#: gxml/GomSchema.vala:266
-#, c-format
-msgid "Error removing Collection's element: %s"
-msgstr ""
-
-#: gxml/GomSchema.vala:275
-#, c-format
-msgid "Can't find element at position: %i: %s"
-msgstr ""
-
-#: gxml/GomSchema.vala:289 gxml/GomSchema.vala:297 gxml/GomSchema.vala:305
-#: gxml/GomSchema.vala:313 gxml/GomSchema.vala:321
-#, c-format
-msgid "Collection type %s, initialization error: %s"
-msgstr ""
-
-#: gxml/GXmlDocument.vala:58 gxml/Parser.vala:92 gxml/Parser.vala:100
-#: gxml/TDocument.vala:478
+#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:65
 msgid "File doesn't exist"
 msgstr "Το αρχείο δεν υπάρχει"
 
-#: gxml/GXmlDocument.vala:225
-msgid "Invalid element qualified name: multiple namespace prefixes"
+#: gxml/Parser.vala:193
+msgid ""
+"Invalid attempt to parse an element node, when current found node is not"
 msgstr ""
+"Μη έγκυρη προσπάθεια ανάλυσης κόμβου στοιχείου, όταν ο τρέχων κόμβος που "
+"βρέθηκε δεν είναι τέτοιος"
 
-#: gxml/GXmlDomCollections.vala:54
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:263
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: items' type property was "
+"not set at construction time or set to invalid type"
+msgstr ""
+"Η συλλογή '%s' δεν έχει κατασκευαστεί σωστά: η ιδιότητα τύπου των στοιχείων "
+"δεν ορίστηκε κατά την κατασκευή ή ορίστηκε σε μη έγκυρο τύπο"
+
+#: gxml/Parser.vala:285 gxml/StreamReader.vala:267
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: items' name property was "
+"not set at construction time"
+msgstr ""
+"Η συλλογή '%s' δεν έχει κατασκευαστεί σωστά: η ιδιότητα ονόματος των "
+"στοιχείων δεν ορίστηκε κατά την κατασκευή"
+
+#: gxml/Parser.vala:289 gxml/StreamReader.vala:271
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: element property was not "
+"set at construction time"
+msgstr ""
+"Η συλλογή '%s' δεν έχει κατασκευαστεί σωστά: η ιδιότητα στοιχείου δεν "
+"ορίστηκε κατά την κατασκευή"
+
+#: gxml/Parser.vala:293 gxml/StreamReader.vala:275
+#, c-format
+msgid ""
+"Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
+"be handled by the collection"
+msgstr ""
+"Μη έγκυρο αντικείμενο τύπου '%s' δεν υλοποιεί τη διεπαφή GXml.Object: "
+"αδυναμία χειρισμού από τη συλλογή"
+
+#: gxml/Parser.vala:298
+msgid "No document is set to node"
+msgstr "Δεν έχει οριστεί έγγραφο στον κόμβο"
+
+#: gxml/Parser.vala:323 gxml/XParser.vala:107 gxml/XParser.vala:113
+msgid "Invalid document string, it is empty or is not allowed"
+msgstr "Μη έγκυρη συμβολοσειρά εγγράφου, είναι κενή ή δεν επιτρέπεται"
+
+#: gxml/Property.vala:389
+#, c-format
+msgid "Error when transform enum to attribute's value: %s"
+msgstr "Σφάλμα κατά τη μετατροπή enum σε τιμή χαρακτηριστικού: %s"
+
+#: gxml/Property.vala:398
+#, c-format
+msgid "Error when transform from attribute string value to enum: %s"
+msgstr ""
+"Σφάλμα κατά τη μετατροπή από τιμή συμβολοσειράς χαρακτηριστικού σε enum: %s"
+
+#: gxml/Property.vala:462 gxml/Property.vala:469
+msgid "Invalid Date for property: "
+msgstr "Μη έγκυρη Ημερομηνία για την ιδιότητα: "
+
+#: gxml/Property.vala:464
+msgid "Invalid format for Date property: "
+msgstr "Μη έγκυρη μορφή για την ιδιότητα Ημερομηνίας: "
+
+#: gxml/Property.vala:511
+msgid "Invalid timestamp for property: "
+msgstr "Μη έγκυρη χρονική σήμανση για την ιδιότητα: "
+
+#: gxml/Range.vala:53 gxml/Range.vala:81 gxml/Range.vala:154
+msgid "Invalid node type to start"
+msgstr "Μη έγκυρος τύπος κόμβου για έναρξη"
+
+#: gxml/Range.vala:56 gxml/Range.vala:84
+msgid "Invalid offset for node to start: for document type"
+msgstr "Μη έγκυρη μετατόπιση για έναρξη κόμβου: για τύπο εγγράφου"
+
+#: gxml/Range.vala:60 gxml/Range.vala:88
+msgid "Invalid offset for node to start: for character data"
+msgstr "Μη έγκυρη μετατόπιση για έναρξη κόμβου: για δεδομένα χαρακτήρων"
+
+#: gxml/Range.vala:63 gxml/Range.vala:91
+msgid "Invalid offset for node to start: for children number"
+msgstr "Μη έγκυρη μετατόπιση για έναρξη κόμβου: για αριθμό θυγατρικών"
+
+#: gxml/Range.vala:107 gxml/Range.vala:121
+msgid "Invalid node type to start before"
+msgstr "Μη έγκυρος τύπος κόμβου για έναρξη πριν"
+
+#: gxml/Range.vala:112 gxml/Range.vala:126 gxml/Range.vala:144
+msgid "Invalid node type to start after"
+msgstr "Μη έγκυρος τύπος κόμβου για έναρξη μετά"
+
+#: gxml/Range.vala:169
+msgid "Invalid root in the source range"
+msgstr "Μη έγκυρη ρίζα στο εύρος πηγής"
+
+#: gxml/StreamReader.vala:148
+msgid "Invalid document: expected '<' character"
+msgstr "Μη έγκυρο έγγραφο: αναμενόταν χαρακτήρας '<'"
+
+#: gxml/StreamReader.vala:156
+msgid "Invalid document: unexpected space character before node's name"
+msgstr "Μη έγκυρο έγγραφο: μη αναμενόμενος χαρακτήρας διαστήματος πριν από το "
+"όνομα του κόμβου"
+
+#: gxml/StreamReader.vala:188
+#, c-format
+msgid "Parent '%s' is not implementing GXml.Object interface"
+msgstr "Ο γονέας '%s' δεν υλοποιεί τη διεπαφή GXml.Object"
+
+#: gxml/StreamReader.vala:203
+msgid "Can't continue parsing due to error reading data"
+msgstr "Αδυναμία συνέχισης της ανάλυσης λόγω σφάλματος ανάγνωσης δεδομένων"
+
+#: gxml/StreamReader.vala:355 gxml/StreamReader.vala:359
+#: gxml/StreamReader.vala:367 gxml/StreamReader.vala:393
+msgid "Invalid comment declaration"
+msgstr "Μη έγκυρη δήλωση σχολίου"
+
+#: gxml/StreamReader.vala:413
+msgid "Invalid Processing Instruction's target declaration"
+msgstr "Μη έγκυρη δήλωση στόχου οδηγίας επεξεργασίας"
+
+#: gxml/StreamReader.vala:436
+msgid "Invalid Processing Instruction's close declaration"
+msgstr "Μη έγκυρη δήλωση κλεισίματος οδηγίας επεξεργασίας"
+
+#: gxml/TokenList.vala:54
 msgid ""
 "DOM: Invalid token. No empty string could be used as token to check if it is "
 "contained in token list"
 msgstr ""
+"DOM: Μη έγκυρο διακριτικό. Δεν μπορεί να χρησιμοποιηθεί κενή συμβολοσειρά ως "
+"διακριτικό για έλεγχο αν περιέχεται στη λίστα διακριτικών"
 
-#: gxml/GXmlDomCollections.vala:56
+#: gxml/TokenList.vala:56
 msgid ""
 "DOM: Invalid token. No white spaces could be included as token to check if "
 "it is contained in token list"
 msgstr ""
+"DOM: Μη έγκυρο διακριτικό. Δεν μπορούν να συμπεριληφθούν κενά διαστήματα ως "
+"διακριτικό για έλεγχο αν περιέχεται στη λίστα διακριτικών"
 
-#: gxml/GXmlDomCollections.vala:63 gxml/GXmlDomCollections.vala:86
+#: gxml/TokenList.vala:63 gxml/TokenList.vala:86
 msgid "DOM: Invalid token. Empty string can't be used as token"
 msgstr ""
+"DOM: Μη έγκυρο διακριτικό. Η κενή συμβολοσειρά δεν μπορεί να χρησιμοποιηθεί "
+"ως διακριτικό"
 
-#: gxml/GXmlDomCollections.vala:65 gxml/GXmlDomCollections.vala:88
+#: gxml/TokenList.vala:65 gxml/TokenList.vala:88
 msgid "DOM: Invalid token. White spaces can't be used as token"
 msgstr ""
+"DOM: Μη έγκυρο διακριτικό. Τα κενά διαστήματα δεν μπορούν να χρησιμοποιηθούν "
+"ως διακριτικό"
 
-#: gxml/GXmlDomCollections.vala:102
+#: gxml/TokenList.vala:102
 msgid "Update Error: "
 msgstr "Σφάλμα ενημέρωσης: "
 
-#: gxml/GXmlDomRange.vala:53 gxml/GXmlDomRange.vala:81
-#: gxml/GXmlDomRange.vala:154
-msgid "Invalid node type to start"
-msgstr ""
+#: gxml/XDocument.vala:159
+#, c-format
+msgid "Error writing document to string: %s"
+msgstr "Σφάλμα εγγραφής εγγράφου σε συμβολοσειρά: %s"
 
-#: gxml/GXmlDomRange.vala:56 gxml/GXmlDomRange.vala:84
-msgid "Invalid offset for node to start: for document type"
+#: gxml/XDocument.vala:230
+msgid "Invalid element qualified name: multiple namespace prefixes"
 msgstr ""
+"Μη έγκυρο πλήρες όνομα στοιχείου (qualified name): πολλαπλά προθέματα χώρου "
+"ονομάτων"
 
-#: gxml/GXmlDomRange.vala:60 gxml/GXmlDomRange.vala:88
-msgid "Invalid offset for node to start: for character data"
-msgstr ""
+#: gxml/XdParser.vala:82
+msgid "Parser Error for string"
+msgstr "Σφάλμα ανάλυσης για συμβολοσειρά"
 
-#: gxml/GXmlDomRange.vala:63 gxml/GXmlDomRange.vala:91
-msgid "Invalid offset for node to start: for children number"
-msgstr ""
+#: gxml/XElement.vala:148
+#, c-format
+msgid "Error while converting Element to string: %s"
+msgstr "Σφάλμα κατά τη μετατροπή Στοιχείου σε συμβολοσειρά: %s"
 
-#: gxml/GXmlDomRange.vala:107 gxml/GXmlDomRange.vala:121
-msgid "Invalid node type to start before"
-msgstr ""
+#: gxml/XElement.vala:348
+#, c-format
+msgid "invalid namespace. Code: %s"
+msgstr "μη έγκυρος χώρος ονομάτων. Κωδικός: %s"
 
-#: gxml/GXmlDomRange.vala:112 gxml/GXmlDomRange.vala:126
-#: gxml/GXmlDomRange.vala:144
-msgid "Invalid node type to start after"
-msgstr ""
-
-#: gxml/GXmlDomRange.vala:169
-msgid "Invalid root in the source range"
-msgstr ""
-
-#: gxml/GXmlElement.vala:340
-msgid "invalid namespace. Code: "
-msgstr ""
-
-#: gxml/GXmlHashMapAttr.vala:243
+#: gxml/XHashMapAttr.vala:243
 msgid "Invalid document when adding item to collection"
-msgstr ""
+msgstr "Μη έγκυρο έγγραφο κατά την προσθήκη στοιχείου στη συλλογή"
 
-#: gxml/GXmlHashMapAttr.vala:245 gxml/GXmlHashMapAttr.vala:297
+#: gxml/XHashMapAttr.vala:245 gxml/XHashMapAttr.vala:297
 msgid "This node collection is read only"
-msgstr ""
+msgstr "Αυτή η συλλογή κόμβων είναι μόνο για ανάγνωση"
 
-#: gxml/GXmlHashMapAttr.vala:247 gxml/GXmlHashMapAttr.vala:299
+#: gxml/XHashMapAttr.vala:247 gxml/XHashMapAttr.vala:299
 msgid "This node attribute is already in use by other Element"
 msgstr ""
+"Αυτό το χαρακτηριστικό κόμβου χρησιμοποιείται ήδη από άλλο Στοιχείο"
 
-#: gxml/GXmlHashMapAttr.vala:249 gxml/GXmlHashMapAttr.vala:301
+#: gxml/XHashMapAttr.vala:249 gxml/XHashMapAttr.vala:301
 msgid "Trying to add an object to an Element, but it is not an attribute"
 msgstr ""
+"Προσπάθεια προσθήκης αντικειμένου σε Στοιχείο, αλλά δεν είναι χαρακτηριστικό"
 
-#: gxml/GXmlHashMapAttr.vala:261 gxml/GXmlHashMapAttr.vala:317
+#: gxml/XHashMapAttr.vala:261 gxml/XHashMapAttr.vala:317
 #, c-format
 msgid "No node with name %s was found"
-msgstr ""
+msgstr "Δεν βρέθηκε κόμβος με όνομα %s"
 
-#: gxml/GXmlHashMapAttr.vala:263 gxml/GXmlHashMapAttr.vala:319
+#: gxml/XHashMapAttr.vala:263 gxml/XHashMapAttr.vala:319
 msgid "Node collection is read only"
-msgstr ""
+msgstr "Η συλλογή κόμβων είναι μόνο για ανάγνωση"
 
-#: gxml/GXmlHashMapAttr.vala:295
+#: gxml/XHashMapAttr.vala:295
 msgid "Invalid document when adding item to named node map collection"
 msgstr ""
+"Μη έγκυρο έγγραφο κατά την προσθήκη στοιχείου σε συλλογή χάρτη ονομασμένων "
+"κόμβων"
 
-#: gxml/GXmlNode.vala:44
+#: gxml/XHtmlDocument.vala:115
+#, c-format
+msgid "Error while converting HTML document to string: %s"
+msgstr "Σφάλμα κατά τη μετατροπή εγγράφου HTML σε συμβολοσειρά: %s"
+
+#: gxml/XNode.vala:44
 #, c-format
 msgid "%s:%s:%d: %s:%d: %s"
 msgstr "%s:%s:%d: %s:%d: %s"
 
-#: gxml/Parser.vala:181
-msgid ""
-"Invalid attempt to parse an element node, when current found node is not"
-msgstr ""
-
-#: gxml/Parser.vala:253
-msgid "Invalid object type set to Collection"
-msgstr ""
-
-#: gxml/Parser.vala:257
-msgid "Invalid DomElement name for objects in Collection"
-msgstr ""
-
-#: gxml/Parser.vala:261
-#, fuzzy
-#| msgid "Invalid element name"
-msgid "Invalid Element set to Collection"
-msgstr "Μη έγκυρο όνομα στοιχείου"
-
-#: gxml/Parser.vala:266
-msgid "No document is set to node"
-msgstr ""
-
-#: gxml/Parser.vala:287 gxml/XParser.vala:102 gxml/XParser.vala:108
-msgid "Invalid document string, it is empty or is not allowed"
-msgstr ""
-
-#: gxml/SerializableEnum.vala:77
-msgid "Value can't be parsed to a valid enumeration's value. Value is not set"
-msgstr ""
-"Η τιμή δεν μπορεί να αναλυθεί σε μια έγκυρη τιμή απαρίθμησης. Η τιμή δεν "
-"έχει οριστεί"
-
-#: gxml/SerializableEnum.vala:80
-msgid "Value can't be parsed to a valid enumeration's value"
-msgstr "Η τιμή δεν μπορεί να αναλυθεί σε μια έγκυρη τιμή απαρίθμησης"
-
-#: gxml/SerializableGeeArrayList.vala:45 gxml/SerializableGeeArrayList.vala:64
-#: gxml/SerializableGeeDualKeyMap.vala:47
-#: gxml/SerializableGeeDualKeyMap.vala:68 gxml/SerializableGeeHashMap.vala:44
-#: gxml/SerializableGeeHashMap.vala:65 gxml/SerializableGeeTreeMap.vala:44
-#: gxml/SerializableGeeTreeMap.vala:65
+#: gxml/XNode.vala:265
 #, c-format
-msgid "%s: Value type '%s' is unsupported"
-msgstr "%s: Δεν υποστηρίζεται η τιμή τύπου '%s'"
+msgid "Error while setting text content to node: %s"
+msgstr "Σφάλμα κατά τον ορισμό περιεχομένου κειμένου στον κόμβο: %s"
 
-#: gxml/SerializableObjectModel.vala:323
-#, fuzzy, c-format
-#| msgid "WARNING: Object type '%s' have no Node Name defined"
-msgid "WARNING: Object type '%s' has no Node Name defined"
+#: gxml/XNode.vala:390
+#, c-format
+msgid "Only GXml.XNode nodes are supported. Given a %s type"
+msgstr "Υποστηρίζονται μόνο κόμβοι GXml.XNode. Δόθηκε τύπος %s"
+
+#: gxml/XNode.vala:401
+msgid "Invalid attempt to replace a node on unsupported parent"
+msgstr "Μη έγκυρη απόπειρα αντικατάστασης κόμβου σε μη υποστηριζόμενο γονέα"
+
+#: gxml/XNode.vala:411
+#, c-format
+msgid "Invalid attempt to replace invalid node type: %s"
+msgstr "Μη έγκυρη απόπειρα αντικατάστασης μη έγκυρου τύπου κόμβου: %s"
+
+#: gxml/XNode.vala:417
+msgid "Invalid attempt to replace a node on a document or text node"
 msgstr ""
-"ΠΡΟΕΙΔΟΠΟΙΗΣΗ: Το αντικείμενο τύπου '%s' δεν έχει ορισμένο όνομα κόμβου"
+"Μη έγκυρη απόπειρα αντικατάστασης κόμβου σε έγγραφο ή κόμβο κειμένου"
 
-#: gxml/SerializableObjectModel.vala:327
-#, c-format
-msgid "Actual node's name is '%s' expected '%s'"
-msgstr "Το πραγματικό όνομα του κόμβου είναι '%s' αναμενόταν '%s'"
-
-#: gxml/SerializableProperty.vala:92
-msgid "Trying to serialize to a non GXmlElement!"
-msgstr "Πρσπάθεια σειριοποίησης σε ένα μη GXmlElement!"
-
-#: gxml/SerializableProperty.vala:111
-msgid "No attribute found to deserialize from"
-msgstr "Δεν βρέθηκε ιδιότητα για αποσειριοποίηση"
-
-#: gxml/SerializableProperty.vala:116
-#, c-format
-msgid "XML Attribute name is not set, when deserializing to: %s"
-msgstr ""
-
-#: gxml/Serializable.vala:391
-#, c-format
-msgid "Transformation Error on '%s' or Unsupported type: '%s'"
-msgstr "Σφάλμα μετασχηματισμού '%s' ή μη υποστηριζόμενος τύπος: '%s'"
-
-#: gxml/Serializable.vala:412
-#, c-format
-msgid "Can't transform '%s' to string"
-msgstr "Αδύνατη η μετατροπή του '%s' σε συμβολοσειρά"
-
-#: gxml/TDocument.vala:169
-msgid "Invalid element name"
-msgstr "Μη έγκυρο όνομα στοιχείου"
-
-#: gxml/TDocument.vala:579 gxml/XParser.vala:324
-#, c-format
-msgid "Parsing ERROR: Fail to move to attribute number: %i"
-msgstr ""
-
-#: gxml/XParser.vala:118
+#: gxml/XParser.vala:123
 msgid "Invalid input stream to read data from"
-msgstr ""
+msgstr "Μη έγκυρη ροή εισόδου για ανάγνωση δεδομένων"
 
-#: gxml/XParser.vala:138
+#: gxml/XParser.vala:143
 #, c-format
 msgid "Error reading stream: %s"
-msgstr ""
+msgstr "Σφάλμα ανάγνωσης ροής: %s"
 
-#: gxml/XParser.vala:151
+#: gxml/XParser.vala:156
 #, c-format
 msgid "Error closing stream: %s"
-msgstr ""
+msgstr "Σφάλμα κλεισίματος ροής: %s"
 
-#: gxml/XParser.vala:192 gxml/XParser.vala:248 gxml/XParser.vala:257
-#: gxml/XParser.vala:306 gxml/XParser.vala:319 gxml/XParser.vala:367
+#: gxml/XParser.vala:197 gxml/XParser.vala:259 gxml/XParser.vala:268
+#: gxml/XParser.vala:317 gxml/XParser.vala:330 gxml/XParser.vala:382
 msgid "Internal Error: No TextReader was set"
-msgstr ""
+msgstr "Εσωτερικό σφάλμα: Δεν ορίστηκε TextReader"
 
-#: gxml/XParser.vala:260
-msgid "Can't read node data"
-msgstr ""
+#: gxml/XParser.vala:271
+#, c-format
+msgid "Can't read node data at line: %d"
+msgstr "Αδυναμία ανάγνωσης δεδομένων κόμβου στη γραμμή: %d"
 
-#: gxml/XParser.vala:412
+#: gxml/XParser.vala:335
+#, c-format
+msgid "Parsing ERROR: Fail to move to attribute number: %i at line: %d"
+msgstr ""
+"ΣΦΑΛΜΑ ανάλυσης: Αποτυχία μετάβασης στον αριθμό χαρακτηριστικού: %i στη "
+"γραμμή: %d"
+
+#: gxml/XParser.vala:427
 msgid "Invalid sequence for document type definition: "
-msgstr ""
+msgstr "Μη έγκυρη ακολουθία για ορισμό τύπου εγγράφου: "
 
-#: gxml/XParser.vala:477 gxml/XParser.vala:582 gxml/XParser.vala:653
+#: gxml/XParser.vala:494 gxml/XParser.vala:600 gxml/XParser.vala:672
 msgid "Internal Error: No TextWriter initialized"
-msgstr ""
+msgstr "Εσωτερικό σφάλμα: Δεν αρχικοποιήθηκε TextWriter"
+
+#: gxml/XsdSchema.vala:266
+#, c-format
+msgid "Error removing Collection's element: %s"
+msgstr "Σφάλμα κατά την αφαίρεση στοιχείου της Συλλογής: %s"
+
+#: gxml/XsdSchema.vala:275
+#, c-format
+msgid "Can't find element at position: %i: %s"
+msgstr "Αδυναμία εύρεσης στοιχείου στη θέση: %i: %s"
+
+#: gxml/XsdSchema.vala:289 gxml/XsdSchema.vala:297 gxml/XsdSchema.vala:305
+#: gxml/XsdSchema.vala:313 gxml/XsdSchema.vala:321
+#, c-format
+msgid "Collection type %s, initialization error: %s"
+msgstr "Τύπος συλλογής %s, σφάλμα αρχικοποίησης: %s"
+
+#~ msgid "Invalid file"
+#~ msgstr "Μη έγκυρο αρχείο"
+
+#, fuzzy
+#~| msgid "value is invalid"
+#~ msgid "Parent Element is invalid"
+#~ msgstr "Η τιμή δεν είναι έγκυρη"
+
+#~ msgid ""
+#~ "Value can't be parsed to a valid enumeration's value. Value is not set"
+#~ msgstr ""
+#~ "Η τιμή δεν μπορεί να αναλυθεί σε μια έγκυρη τιμή απαρίθμησης. Η τιμή δεν "
+#~ "έχει οριστεί"
+
+#~ msgid "Value can't be parsed to a valid enumeration's value"
+#~ msgstr "Η τιμή δεν μπορεί να αναλυθεί σε μια έγκυρη τιμή απαρίθμησης"
+
+#, c-format
+#~ msgid "%s: Value type '%s' is unsupported"
+#~ msgstr "%s: Δεν υποστηρίζεται η τιμή τύπου '%s'"
+
+#, fuzzy, c-format
+#~| msgid "WARNING: Object type '%s' have no Node Name defined"
+#~ msgid "WARNING: Object type '%s' has no Node Name defined"
+#~ msgstr ""
+#~ "ΠΡΟΕΙΔΟΠΟΙΗΣΗ: Το αντικείμενο τύπου '%s' δεν έχει ορισμένο όνομα κόμβου"
+
+#, c-format
+#~ msgid "Actual node's name is '%s' expected '%s'"
+#~ msgstr "Το πραγματικό όνομα του κόμβου είναι '%s' αναμενόταν '%s'"
+
+#~ msgid "Trying to serialize to a non GXmlElement!"
+#~ msgstr "Πρσπάθεια σειριοποίησης σε ένα μη GXmlElement!"
+
+#~ msgid "No attribute found to deserialize from"
+#~ msgstr "Δεν βρέθηκε ιδιότητα για αποσειριοποίηση"
+
+#, c-format
+#~ msgid "Transformation Error on '%s' or Unsupported type: '%s'"
+#~ msgstr "Σφάλμα μετασχηματισμού '%s' ή μη υποστηριζόμενος τύπος: '%s'"
+
+#, c-format
+#~ msgid "Can't transform '%s' to string"
+#~ msgstr "Αδύνατη η μετατροπή του '%s' σε συμβολοσειρά"
+
+#~ msgid "Invalid element name"
+#~ msgstr "Μη έγκυρο όνομα στοιχείου"
 
 #~ msgid ""
 #~ "ref_child '%s' not found, was supposed to have '%s' inserted before it."
