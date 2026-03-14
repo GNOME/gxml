@@ -1,0 +1,803 @@
+# Kazakh translation for gxml.
+# Copyright (C) 2026 gxml's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gxml package.
+# Baurzhan Muftakhidinov <baurthefirst@gmail.com>,  2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gxml gxml-0.20\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues/\n"
+"POT-Creation-Date: 2022-02-03 04:09+0000\n"
+"PO-Revision-Date: 2026-03-15 00:00+0500\n"
+"Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
+"Language-Team: Kazakh <Kazakh>\n"
+"Language: kk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.9\n"
+
+#: gxml/BaseCollection.vala:91
+msgid ""
+"Invalid attempt to initialize a collection using an unsupported type. Only "
+"GXmlGXml.Element is supported"
+msgstr ""
+"Қолдау көрсетілмейтін түрді пайдаланып коллекцияны инициализациялаудың "
+"жарамсыз әрекеті. Тек GXmlGXml.Element түріне қолдау көрсетіледі"
+
+#: gxml/BaseCollection.vala:122 gxml/BaseCollection.vala:150
+msgid "Parent Element is invalid. Set 'element' property at construction time"
+msgstr ""
+"Жоғарғы элемент жарамсыз. Құрастыру кезінде 'element' қасиетін орнатыңыз"
+
+#: gxml/BaseCollection.vala:125
+msgid ""
+"Invalid attempt to set unsupported type. Only GXmlGXml.Element is supported"
+msgstr ""
+"Қолдау көрсетілмейтін түрді орнатудың жарамсыз әрекеті. Тек "
+"GXmlGXml.Element түріне қолдау көрсетіледі"
+
+#: gxml/BaseCollection.vala:128
+msgid "Invalid attempt to set a node with a different parent document"
+msgstr "Басқа жоғарғы құжаты бар түйінді орнатудың жарамсыз әрекеті"
+
+#: gxml/BaseCollection.vala:133
+msgid ""
+"Node element not appended as child of parent. No node added to collection"
+msgstr ""
+"Түйін элементі жоғарғы элементтің еншілес түйіні ретінде қосылмады. "
+"Коллекцияға ешқандай түйін қосылмады"
+
+#: gxml/BaseCollection.vala:195 gxml/BaseCollection.vala:213
+#, c-format
+msgid "Error: %s"
+msgstr "Қате: %s"
+
+#: gxml/Collections.vala:116
+msgid "Invalid index for elements in array list"
+msgstr "Массив тізіміндегі элементтер үшін жарамсыз индекс"
+
+#: gxml/Collections.vala:120
+msgid "Invalid index reference for child elements in array list"
+msgstr "Массив тізіміндегі еншілес элементтер үшін жарамсыз индекс сілтемесі"
+
+#: gxml/Collections.vala:125
+msgid "Referenced object's type is invalid. Should be a GXmlDomElement"
+msgstr "Сілтеме жасалған объект түрі жарамсыз. Ол GXmlDomElement болуы керек"
+
+#: gxml/CssSelectorParser.vala:232 gxml/CssSelectorParser.vala:240
+msgid "Invalid identifier"
+msgstr "Жарамсыз идентификатор"
+
+#: gxml/CssSelectorParser.vala:238 gxml/CssSelectorParser.vala:244
+#: gxml/CssSelectorParser.vala:329
+msgid "string value is empty"
+msgstr "жолдық мән бос"
+
+#: gxml/CssSelectorParser.vala:250
+msgid "Cannot find start of 'not selector' value"
+msgstr "'not selector' мәнінің басын табу мүмкін емес"
+
+#: gxml/CssSelectorParser.vala:256
+msgid "Cannot find end of 'not selector' value"
+msgstr "'not selector' мәнінің соңын табу мүмкін емес"
+
+#: gxml/CssSelectorParser.vala:271
+#, c-format
+msgid "Invalid '%s' pseudo class"
+msgstr "Жарамсыз '%s' псевдо класы"
+
+#: gxml/CssSelectorParser.vala:275
+#, c-format
+msgid "Invalid '%s' pseudo class : cannot find value"
+msgstr "Жарамсыз '%s' псевдо класы : мәнді табу мүмкін емес"
+
+#: gxml/CssSelectorParser.vala:280
+msgid "Cannot find end of pseudo class value"
+msgstr "Псевдо класс мәнінің соңын табу мүмкін емес"
+
+#: gxml/CssSelectorParser.vala:285
+msgid "Pseudo class value isn't a valid number"
+msgstr "Псевдо класс мәні жарамды сан емес"
+
+#: gxml/CssSelectorParser.vala:293
+msgid "current class doesn't start with letter"
+msgstr "ағымдағы класс әріптен басталмайды"
+
+#: gxml/CssSelectorParser.vala:303
+msgid "current id doesn't start with letter"
+msgstr "ағымдағы id әріптен басталмайды"
+
+#: gxml/CssSelectorParser.vala:319 gxml/CssSelectorParser.vala:331
+msgid "Invalid attribute"
+msgstr "Жарамсыз атрибут"
+
+#: gxml/CssSelectorParser.vala:357
+msgid "Invalid attribute selector"
+msgstr "Жарамсыз атрибут селекторы"
+
+#: gxml/CssSelectorParser.vala:362
+#, c-format
+msgid "Invalid attribute selector. '=' expected but '%s' was found"
+msgstr "Жарамсыз атрибут селекторы. '=' күтілді, бірақ '%s' табылды"
+
+#: gxml/CssSelectorParser.vala:374
+msgid "Cannot find end of attribute value"
+msgstr "Атрибут мәнінің соңын табу мүмкін емес"
+
+#: gxml/CssSelectorParser.vala:378
+msgid "Cannot find end of attribute selector"
+msgstr "Атрибут селекторының соңын табу мүмкін емес"
+
+#: gxml/CssSelectorParser.vala:425
+msgid "No selectors found"
+msgstr "Селекторлар табылмады"
+
+#: gxml/CssSelectorParser.vala:429
+#, c-format
+msgid "Last selector has combiner assigned (%s)"
+msgstr "Соңғы селекторға комбинатор тағайындалған (%s)"
+
+#: gxml/Document.vala:129
+#, c-format
+msgid "Error while attempting to instantiate root property object: %s"
+msgstr "Түбірлік қасиет объектісінің данасын жасау әрекеті кезіндегі қате: %s"
+
+#: gxml/Document.vala:189
+msgid "Creating a namespaced element with invalid node name"
+msgstr "Атаулар кеңістігі бар элементті жарамсыз түйін атауымен жасау"
+
+#: gxml/Document.vala:196
+msgid "Creating a namespaced element with invalid namespace"
+msgstr "Атаулар кеңістігі бар элементті жарамсыз атаулар кеңістігімен жасау"
+
+#: gxml/Document.vala:200
+msgid ""
+"Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
+msgstr ""
+"xmlns префиксі үшін жарамсыз атаулар кеңістігінің URI-і. http://www.w3.org/"
+"2000/xmlns/ пайдаланыңыз"
+
+#: gxml/Document.vala:204
+msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
+msgstr ""
+"http://www.w3.org/2000/xmlns/ мекенжайымен тек xmlns префикстерін "
+"пайдалануға болады"
+
+#: gxml/Document.vala:244 gxml/XDocument.vala:276
+msgid "Can't import a Document"
+msgstr "Құжатты импорттау мүмкін емес"
+
+#: gxml/Document.vala:246 gxml/XDocument.vala:278
+msgid "Can't import a non Element type node to a Document"
+msgstr "Элемент түріне жатпайтын түйінді құжатқа импорттау мүмкін емес"
+
+#: gxml/Document.vala:270 gxml/XDocument.vala:302
+msgid "Can't adopt a Document"
+msgstr "Құжатты қабылдау мүмкін емес"
+
+#. FIXME:
+#: gxml/Document.vala:448
+msgid "DomElement query_selector is not implemented"
+msgstr "DomElement query_selector іске асырылмаған"
+
+#. FIXME:
+#: gxml/Document.vala:452
+msgid "DomElement query_selector_all is not implemented"
+msgstr "DomElement query_selector_all іске асырылмаған"
+
+#: gxml/DomCharacter.vala:46
+msgid "Invalid offset for substring"
+msgstr "Ішкі жол үшін жарамсыз ығысу"
+
+#: gxml/DomCharacter.vala:66
+msgid "Invalid offset for replace data"
+msgstr "Деректерді ауыстыру үшін жарамсыз ығысу"
+
+#: gxml/DomCharacter.vala:80
+msgid "Invalid offset to split text"
+msgstr "Мәтінді бөлу үшін жарамсыз ығысу"
+
+#: gxml/DomNode.vala:133
+msgid "Text node with NULL string"
+msgstr "NULL жолы бар мәтіндік түйін"
+
+#: gxml/DomNode.vala:140
+msgid "Can't copy child text node"
+msgstr "Еншілес мәтіндік түйінді көшіру мүмкін емес"
+
+#: gxml/Element.vala:194
+msgid "Invalid namespace URI stored in element's attribute"
+msgstr "Элемент атрибутында сақталған жарамсыз атаулар кеңістігінің URI-і"
+
+#: gxml/Element.vala:201 gxml/Element.vala:242
+msgid "Invalid attribute name in element's attributes list"
+msgstr "Элементтің атрибуттар тізіміндегі жарамсыз атрибут атауы"
+
+#: gxml/Element.vala:257
+msgid "Can't locate child node to remove"
+msgstr "Өшірілетін еншілес түйінді табу мүмкін емес"
+
+#: gxml/Element.vala:487 gxml/Element.vala:553
+#, c-format
+msgid "Invalid attribute name: %s"
+msgstr "Жарамсыз атрибут атауы: %s"
+
+#: gxml/Element.vala:489 gxml/Element.vala:555
+msgid "Invalid node type. GXml.Attr was expected"
+msgstr "Түйін түрі жарамсыз. GXml.Attr күтілген еді"
+
+#: gxml/Element.vala:512 gxml/Element.vala:531
+#, c-format
+msgid "No index found for attribute %s"
+msgstr "%s атрибуты үшін индекс табылмады"
+
+#: gxml/Element.vala:540
+#, c-format
+msgid "Invalid attribute's local name '%s': invalid use of ':' character"
+msgstr ""
+"Атрибуттың жарамсыз '%s' жергілікті атауы: ':' таңбасын пайдалану жарамсыз"
+
+#: gxml/Element.vala:544
+#, c-format
+msgid "Namespace URI was not found: %s"
+msgstr "Атаулар кеңістігінің URI-і табылмады: %s"
+
+#: gxml/Element.vala:560
+msgid ""
+"Namespace attributes prefixed with 'xmlns' should use a namespace uri "
+"http://www.w3.org/2000/xmlns"
+msgstr ""
+"'xmlns' префиксі бар атаулар кеңістігінің атрибуттары http://www.w3.org/"
+"2000/xmlns атаулар кеңістігінің URI-ін пайдалануы керек"
+
+#: gxml/Element.vala:564
+msgid ""
+"Namespace attributes prefixed with 'xml' should use a namespace uri http://"
+"www.w3.org/XML/1998/namespace"
+msgstr ""
+"'xml' префиксі бар атаулар кеңістігінің атрибуттары http://www.w3.org/XML/"
+"1998/namespace атаулар кеңістігінің URI-ін пайдалануы керек"
+
+#: gxml/Element.vala:568
+msgid ""
+"Namespace attributes prefixed with 'xsi' should use a namespace uri http://"
+"www.w3.org/2001/XMLSchema-instance"
+msgstr ""
+"'xsi' префиксі бар атаулар кеңістігінің атрибуттары http://www.w3.org/2001/"
+"XMLSchema-instance атаулар кеңістігінің URI-ін пайдалануы керек"
+
+#: gxml/Element.vala:572
+msgid ""
+"Namespace attributes prefixed with 'html' should use a namespace uri http://"
+"www.w3.org/1999/xhtml"
+msgstr ""
+"'html' префиксі бар атаулар кеңістігінің атрибуттары http://www.w3.org/1999/"
+"xhtml атаулар кеңістігінің URI-ін пайдалануы керек"
+
+#: gxml/Element.vala:576
+msgid ""
+"Namespace attributes prefixed with 'MathML' should use a namespace uri "
+"http://www.w3.org/1998/Math/MathML"
+msgstr ""
+"'MathML' префиксі бар атаулар кеңістігінің атрибуттары http://www.w3.org/"
+"1998/Math/MathML атаулар кеңістігінің URI-ін пайдалануы керек"
+
+#: gxml/Element.vala:580
+msgid ""
+"Namespace attributes prefixed with 'xlink' should use a namespace uri "
+"http://www.w3.org/1999/xlink"
+msgstr ""
+"'xlink' префиксі бар атаулар кеңістігінің атрибуттары http://www.w3.org/"
+"1999/xlink атаулар кеңістігінің URI-ін пайдалануы керек"
+
+#: gxml/Element.vala:584
+msgid ""
+"Namespace attributes prefixed with 'svg' should use a namespace uri http://"
+"www.w3.org/2000/svg"
+msgstr ""
+"'svg' префиксі бар атаулар кеңістігінің атрибуттары http://www.w3.org/2000/"
+"svg атаулар кеңістігінің URI-ін пайдалануы керек"
+
+#: gxml/Element.vala:591
+#, c-format
+msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
+msgstr "Атаулар кеңістігі бар атрибуттар бос емес префиксті қамтуы керек: %s"
+
+#: gxml/Element.vala:595
+msgid "Invalid namespace attribute's name."
+msgstr "Атаулар кеңістігі атрибутының атауы жарамсыз."
+
+#: gxml/Element.vala:612
+#, c-format
+msgid "Trying to add an attribute with an undefined namespace's prefix: %s"
+msgstr "Анықтамаған атаулар кеңістігі префиксі бар атрибутты қосу әрекеті: %s"
+
+#: gxml/Element.vala:619
+msgid "Trying to add an attribute with an undefined namespace's URI"
+msgstr "Анықтамаған атаулар кеңістігінің URI-і бар атрибутты қосу әрекеті"
+
+#: gxml/Element.vala:671
+#, c-format
+msgid "Error getting attribute with namespace: %s"
+msgstr "Атаулар кеңістігі бар атрибутты алу қатесі: %s"
+
+#: gxml/Element.vala:687
+msgid "Invalid attribute name. Just one prefix is allowed"
+msgstr "Жарамсыз атрибут атауы. Тек бір префикске рұқсат етіледі"
+
+#: gxml/Element.vala:692
+#, c-format
+msgid "Invalid attribute name. Invalid use of colon: %s"
+msgstr "Жарамсыз атрибут атауы. Қос нүктені пайдалану жарамсыз: %s"
+
+#: gxml/Element.vala:696
+msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
+msgstr ""
+"Жарамсыз атаулар кеңістігі. Егер префикс null болса, атаулар кеңістігінің "
+"URI-і де null болмауы керек"
+
+#: gxml/Element.vala:700
+msgid ""
+"Invalid namespace definition. No prefixed attributes should use 'xmlns' as "
+"name"
+msgstr ""
+"Атаулар кеңістігінің анықтамасы жарамсыз. Префиксі бар ешбір атрибут атау "
+"ретінде 'xmlns' пайдаланбауы керек"
+
+#: gxml/Element.vala:704
+msgid "'xml' namespace should not be defined"
+msgstr "'xml' атаулар кеңістігі анықталмауы керек"
+
+#: gxml/Element.vala:708
+msgid "'xmlns' namespace should not be defined"
+msgstr "'xmlns' атаулар кеңістігі анықталмауы керек"
+
+#: gxml/Element.vala:716
+msgid ""
+"Invalid namespace. If prefix is 'xml', namespace URI should be http://"
+"www.w3.org/XML/1998/namespace"
+msgstr ""
+"Жарамсыз атаулар кеңістігі. Егер префикс 'xml' болса, атаулар кеңістігінің "
+"URI-і http://www.w3.org/XML/1998/namespace болуы керек"
+
+#: gxml/Element.vala:723
+msgid ""
+"Invalid namespace definition. If attribute's prefix is 'xmlns', namespace "
+"URI should be http://www.w3.org/2000/xmlns"
+msgstr ""
+"Атаулар кеңістігінің анықтамасы жарамсыз. Егер атрибут префиксі 'xmlns' "
+"болса, атаулар кеңістігінің URI-і http://www.w3.org/2000/xmlns болуы керек"
+
+#: gxml/Element.vala:730
+msgid ""
+"Invalid namespace. If attribute's prefix is 'html', namespace URI should be "
+"http://www.w3.org/1999/xhtml"
+msgstr ""
+"Жарамсыз атаулар кеңістігі. Егер атрибут префиксі 'html' болса, атаулар "
+"кеңістігінің URI-і http://www.w3.org/1999/xhtml болуы керек"
+
+#: gxml/Element.vala:737
+msgid ""
+"Invalid namespace. If attribute's prefix is 'xsi', namespace URI should be "
+"http://www.w3.org/2001/XMLSchema-instance"
+msgstr ""
+"Жарамсыз атаулар кеңістігі. Егер атрибут префиксі 'xsi' болса, атаулар "
+"кеңістігінің URI-і http://www.w3.org/2001/XMLSchema-instance болуы керек"
+
+#: gxml/Element.vala:744
+msgid ""
+"Invalid namespace. If attribute's prefix is 'MathML', namespace URI should "
+"be http://www.w3.org/1998/Math/MathML"
+msgstr ""
+"Жарамсыз атаулар кеңістігі. Егер атрибут префиксі 'MathML' болса, атаулар "
+"кеңістігінің URI-і http://www.w3.org/1998/Math/MathML болуы керек"
+
+#: gxml/Element.vala:751
+msgid ""
+"Invalid namespace. If attribute's prefix is 'svg', namespace URI should be "
+"http://www.w3.org/2000/svg"
+msgstr ""
+"Жарамсыз атаулар кеңістігі. Егер атрибут префиксі 'svg' болса, атаулар "
+"кеңістігінің URI-і http://www.w3.org/2000/svg болуы керек"
+
+#: gxml/Element.vala:758
+msgid ""
+"Invalid namespace. If attribute's prefix is 'xlink', namespace URI should "
+"be http://www.w3.org/1999/xlink"
+msgstr ""
+"Жарамсыз атаулар кеңістігі. Егер атрибут префиксі 'xlink' болса, атаулар "
+"кеңістігінің URI-і http://www.w3.org/1999/xlink болуы керек"
+
+#: gxml/Element.vala:763
+msgid "Setting namespaced property error: "
+msgstr "Атаулар кеңістігі бар қасиетті орнату қатесі: "
+
+#: gxml/Element.vala:769
+msgid "Removing attribute Error: "
+msgstr "Атрибутты өшіру қатесі: "
+
+#: gxml/Element.vala:774
+msgid "Removing namespaced attribute Error: "
+msgstr "Атаулар кеңістігі бар атрибутты өшіру қатесі: "
+
+#: gxml/Element.vala:940
+#, c-format
+msgid "Error parsing child's buffer: %s"
+msgstr "Еншілес буферді талдау қатесі: %s"
+
+#: gxml/Enumeration.vala:88
+msgid "value is invalid"
+msgstr "мән жарамсыз"
+
+#: gxml/Enumeration.vala:129
+#, c-format
+msgid "text '%s' cannot be parsed to enumeration type: %s"
+msgstr "'%s' мәтінін санау түріне талдау мүмкін емес: %s"
+
+#: gxml/HashPairedMap.vala:210
+msgid "No primary key and/or secondary key was found"
+msgstr "Негізгі және/немесе екінші реттік кілт табылмады"
+
+#: gxml/Node.vala:156
+msgid "Text content in element can't be created"
+msgstr "Элементтегі мәтіндік мазмұнды жасау мүмкін емес"
+
+#: gxml/Node.vala:209 gxml/XNode.vala:328
+msgid "Can't find node position"
+msgstr "Түйін орнын табу мүмкін емес"
+
+#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:359
+msgid "Invalid attempt to add invalid node type"
+msgstr "Жарамсыз түйін түрін қосудың жарамсыз әрекеті"
+
+#: gxml/Node.vala:260 gxml/XNode.vala:361
+msgid "Can't find child to insert node before"
+msgstr "Түйін алдына кірістіру үшін еншілес түйінді табу мүмкін емес"
+
+#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:365
+msgid "Invalid attempt to insert a node"
+msgstr "Түйінді кірістірудің жарамсыз әрекеті"
+
+#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:372
+msgid "Invalid attempt to insert an invalid node type"
+msgstr "Жарамсыз түйін түрін кірістірудің жарамсыз әрекеті"
+
+#: gxml/Node.vala:291
+msgid "Node type is invalid. Can't append as child"
+msgstr "Түйін түрі жарамсыз. Еншілес түйін ретінде қосу мүмкін емес"
+
+#: gxml/Node.vala:294
+msgid "Invalid attempt to append a child with different parent document"
+msgstr "Басқа жоғарғы құжаты бар еншілес түйінді қосудың жарамсыз әрекеті"
+
+#: gxml/Node.vala:302 gxml/XNode.vala:394
+msgid "Can't find child node to replace or child have a different parent"
+msgstr ""
+"Ауыстырылатын еншілес түйін табылмады немесе оның жоғарғы түйіні басқа"
+
+#: gxml/Node.vala:316 gxml/XNode.vala:375
+msgid ""
+"Invalid attempt to insert a document's type or text node to an invalid "
+"parent"
+msgstr ""
+"Құжат түрін немесе мәтіндік түйінді жарамсыз жоғарғы түйінге кірістірудің "
+"жарамсыз әрекеті"
+
+#: gxml/Node.vala:328 gxml/XNode.vala:438
+msgid "Can't find child node to remove or child have a different parent"
+msgstr "Өшірілетін еншілес түйін табылмады немесе оның жоғарғы түйіні басқа"
+
+#: gxml/Object.vala:170
+msgid "Enumeration is out of range"
+msgstr "Санау (enumeration) ауқымнан тыс"
+
+#: gxml/Object.vala:285
+msgid "Enumeration can't be parsed from string"
+msgstr "Санауды жолдан талдау мүмкін емес"
+
+#: gxml/Object.vala:407
+#, c-format
+msgid "Error while attempting to instantiate property object: %s"
+msgstr "Қасиет объектісінің данасын жасау әрекеті кезіндегі қате: %s"
+
+#: gxml/Object.vala:456
+msgid "Can't set value. It is not a GXmlGXml.Element type"
+msgstr "Мәнді орнату мүмкін емес. Ол GXmlGXml.Element түрі емес"
+
+#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:65
+msgid "File doesn't exist"
+msgstr "Файл жоқ"
+
+#: gxml/Parser.vala:193
+msgid ""
+"Invalid attempt to parse an element node, when current found node is not"
+msgstr ""
+"Ағымдағы табылған түйін элемент түйіні болмаса да, оны талдаудың жарамсыз "
+"әрекеті"
+
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:242
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: items' type property was "
+"not set at construction time or set to invalid type"
+msgstr ""
+"'%s' коллекциясы дұрыс құрастырылмаған: элементтердің түрі қасиеті "
+"құрастыру кезінде орнатылмаған немесе жарамсыз түрге орнатылған"
+
+#: gxml/Parser.vala:285 gxml/StreamReader.vala:246
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: items' name property was "
+"not set at construction time"
+msgstr ""
+"'%s' коллекциясы дұрыс құрастырылмаған: элементтердің атауы қасиеті "
+"құрастыру кезінде орнатылмаған"
+
+#: gxml/Parser.vala:289 gxml/StreamReader.vala:250
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: element property was not "
+"set at construction time"
+msgstr ""
+"'%s' коллекциясы дұрыс құрастырылмаған: element қасиеті құрастыру кезінде "
+"орнатылмаған"
+
+#: gxml/Parser.vala:293 gxml/StreamReader.vala:254
+#, c-format
+msgid ""
+"Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
+"be handled by the collection"
+msgstr ""
+"'%s' түріндегі жарамсыз объект GXml.Object интерфейсін іске асырмайды: "
+"коллекция оны өңдей алмайды"
+
+#: gxml/Parser.vala:298
+msgid "No document is set to node"
+msgstr "Түйінге ешқандай құжат орнатылмаған"
+
+#: gxml/Parser.vala:323 gxml/XParser.vala:107 gxml/XParser.vala:113
+msgid "Invalid document string, it is empty or is not allowed"
+msgstr "Құжаттың жолы жарамсыз, ол бос немесе оған рұқсат етілмеген"
+
+#: gxml/Property.vala:389
+#, c-format
+msgid "Error when transform enum to attribute's value: %s"
+msgstr "enum мәнін атрибут мәніне түрлендіру кезіндегі қате: %s"
+
+#: gxml/Property.vala:398
+#, c-format
+msgid "Error when transform from attribute string value to enum: %s"
+msgstr "Атрибуттың жолдық мәнінен enum түріне түрлендіру кезіндегі қате: %s"
+
+#: gxml/Property.vala:462 gxml/Property.vala:469
+msgid "Invalid Date for property: "
+msgstr "Қасиет үшін жарамсыз күн (Date): "
+
+#: gxml/Property.vala:464
+msgid "Invalid format for Date property: "
+msgstr "Күн (Date) қасиеті үшін жарамсыз пішім: "
+
+#: gxml/Property.vala:511
+msgid "Invalid timestamp for property: "
+msgstr "Қасиет үшін жарамсыз уақыт белгісі: "
+
+#: gxml/Range.vala:53 gxml/Range.vala:81 gxml/Range.vala:154
+msgid "Invalid node type to start"
+msgstr "Бастау үшін түйін түрі жарамсыз"
+
+#: gxml/Range.vala:56 gxml/Range.vala:84
+msgid "Invalid offset for node to start: for document type"
+msgstr "Басталатын түйін үшін жарамсыз ығысу: құжат түрі үшін"
+
+#: gxml/Range.vala:60 gxml/Range.vala:88
+msgid "Invalid offset for node to start: for character data"
+msgstr "Басталатын түйін үшін жарамсыз ығысу: таңбалық деректер үшін"
+
+#: gxml/Range.vala:63 gxml/Range.vala:91
+msgid "Invalid offset for node to start: for children number"
+msgstr "Басталатын түйін үшін жарамсыз ығысу: еншілес түйіндер саны үшін"
+
+#: gxml/Range.vala:107 gxml/Range.vala:121
+msgid "Invalid node type to start before"
+msgstr "Алдында бастау үшін түйін түрі жарамсыз"
+
+#: gxml/Range.vala:112 gxml/Range.vala:126 gxml/Range.vala:144
+msgid "Invalid node type to start after"
+msgstr "Артында бастау үшін түйін түрі жарамсыз"
+
+#: gxml/Range.vala:169
+msgid "Invalid root in the source range"
+msgstr "Бастапқы ауқымдағы жарамсыз түбір"
+
+#: gxml/StreamReader.vala:143
+msgid "Invalid document: expected '<' character"
+msgstr "Жарамсыз құжат: '<' таңбасы күтілді"
+
+#: gxml/StreamReader.vala:151
+msgid "Invalid document: unexpected space character before node's name"
+msgstr "Жарамсыз құжат: түйін атауының алдында күтпеген бос орын таңбасы бар"
+
+#: gxml/StreamReader.vala:185
+#, c-format
+msgid "Parent '%s' is not implementing GXml.Object interface"
+msgstr "Жоғарғы '%s' нысаны GXml.Object интерфейсін іске асырмайды"
+
+#: gxml/StreamReader.vala:332 gxml/StreamReader.vala:336
+#: gxml/StreamReader.vala:348
+msgid "Invalid comment declaration"
+msgstr "Жарамсыз түсініктеме декларациясы"
+
+#: gxml/StreamReader.vala:369
+msgid "Invalid Processing Instruction's target declaration"
+msgstr "Өңдеу нұсқаулығының жарамсыз мақсатты декларациясы"
+
+#: gxml/StreamReader.vala:396
+msgid "Invalid Processing Instruction's close declaration"
+msgstr "Өңдеу нұсқаулығының жабылу декларациясы жарамсыз"
+
+#: gxml/TokenList.vala:54
+msgid ""
+"DOM: Invalid token. No empty string could be used as token to check if it "
+"is contained in token list"
+msgstr ""
+"DOM: Жарамсыз токен. Токендер тізімінде бар-жоғын тексеру үшін бос жолды "
+"токен ретінде пайдалану мүмкін емес"
+
+#: gxml/TokenList.vala:56
+msgid ""
+"DOM: Invalid token. No white spaces could be included as token to check if "
+"it is contained in token list"
+msgstr ""
+"DOM: Жарамсыз токен. Токендер тізімінде бар-жоғын тексеру үшін бос "
+"орындарды токен ретінде қосу мүмкін емес"
+
+#: gxml/TokenList.vala:63 gxml/TokenList.vala:86
+msgid "DOM: Invalid token. Empty string can't be used as token"
+msgstr "DOM: Жарамсыз токен. Бос жолды токен ретінде пайдалану мүмкін емес"
+
+#: gxml/TokenList.vala:65 gxml/TokenList.vala:88
+msgid "DOM: Invalid token. White spaces can't be used as token"
+msgstr ""
+"DOM: Жарамсыз токен. Бос орындарды токен ретінде пайдалану мүмкін емес"
+
+#: gxml/TokenList.vala:102
+msgid "Update Error: "
+msgstr "Жаңарту қатесі: "
+
+#: gxml/XDocument.vala:159
+#, c-format
+msgid "Error writing document to string: %s"
+msgstr "Құжатты жолға жазу қатесі: %s"
+
+#: gxml/XDocument.vala:230
+msgid "Invalid element qualified name: multiple namespace prefixes"
+msgstr ""
+"Элементтің білікті атауы жарамсыз: бірнеше атаулар кеңістігі префикстері"
+
+#: gxml/XdParser.vala:82
+msgid "Parser Error for string"
+msgstr "Жол үшін талдаушы қатесі"
+
+#: gxml/XElement.vala:148
+#, c-format
+msgid "Error while converting Element to string: %s"
+msgstr "Элементті жолға түрлендіру кезіндегі қате: %s"
+
+#: gxml/XElement.vala:348
+#, c-format
+msgid "invalid namespace. Code: %s"
+msgstr "жарамсыз атаулар кеңістігі. Код: %s"
+
+#: gxml/XHashMapAttr.vala:243
+msgid "Invalid document when adding item to collection"
+msgstr "Коллекцияға элемент қосқандағы жарамсыз құжат"
+
+#: gxml/XHashMapAttr.vala:245 gxml/XHashMapAttr.vala:297
+msgid "This node collection is read only"
+msgstr "Бұл түйіндер коллекциясы тек оқу үшін"
+
+#: gxml/XHashMapAttr.vala:247 gxml/XHashMapAttr.vala:299
+msgid "This node attribute is already in use by other Element"
+msgstr "Бұл түйін атрибуты басқа элементте пайдаланылып тұр"
+
+#: gxml/XHashMapAttr.vala:249 gxml/XHashMapAttr.vala:301
+msgid "Trying to add an object to an Element, but it is not an attribute"
+msgstr "Элементке объект қосу әрекеті, бірақ ол атрибут емес"
+
+#: gxml/XHashMapAttr.vala:261 gxml/XHashMapAttr.vala:317
+#, c-format
+msgid "No node with name %s was found"
+msgstr "%s атауы бар түйін табылмады"
+
+#: gxml/XHashMapAttr.vala:263 gxml/XHashMapAttr.vala:319
+msgid "Node collection is read only"
+msgstr "Түйіндер коллекциясы тек оқу үшін"
+
+#: gxml/XHashMapAttr.vala:295
+msgid "Invalid document when adding item to named node map collection"
+msgstr ""
+"Аталған түйіндер картасының коллекциясына элемент қосқандағы жарамсыз құжат"
+
+#: gxml/XNode.vala:44
+#, c-format
+msgid "%s:%s:%d: %s:%d: %s"
+msgstr "%s:%s:%d: %s:%d: %s"
+
+#: gxml/XNode.vala:265
+#, c-format
+msgid "Error while setting text content to node: %s"
+msgstr "Түйінге мәтіндік мазмұнды орнату кезіндегі қате: %s"
+
+#: gxml/XNode.vala:390
+#, c-format
+msgid "Only GXml.XNode nodes are supported. Given a %s type"
+msgstr "Тек GXml.XNode түйіндеріне қолдау көрсетіледі. %s түрі берілген"
+
+#: gxml/XNode.vala:401
+msgid "Invalid attempt to replace a node on unsupported parent"
+msgstr ""
+"Қолдау көрсетілмейтін жоғарғы түйіндегі түйінді ауыстырудың жарамсыз әрекеті"
+
+#: gxml/XNode.vala:411
+#, c-format
+msgid "Invalid attempt to replace invalid node type: %s"
+msgstr "Жарамсыз түйін түрін ауыстырудың жарамсыз әрекеті: %s"
+
+#: gxml/XNode.vala:417
+msgid "Invalid attempt to replace a node on a document or text node"
+msgstr ""
+"Құжаттағы немесе мәтіндік түйіндегі түйінді ауыстырудың жарамсыз әрекеті"
+
+#: gxml/XParser.vala:123
+msgid "Invalid input stream to read data from"
+msgstr "Деректерді оқуға арналған жарамсыз кіріс ағыны"
+
+#: gxml/XParser.vala:143
+#, c-format
+msgid "Error reading stream: %s"
+msgstr "Ағынды оқу қатесі: %s"
+
+#: gxml/XParser.vala:156
+#, c-format
+msgid "Error closing stream: %s"
+msgstr "Ағынды жабу қатесі: %s"
+
+#: gxml/XParser.vala:197 gxml/XParser.vala:259 gxml/XParser.vala:268
+#: gxml/XParser.vala:317 gxml/XParser.vala:330 gxml/XParser.vala:382
+msgid "Internal Error: No TextReader was set"
+msgstr "Ішкі қате: TextReader орнатылмаған"
+
+#: gxml/XParser.vala:271
+#, c-format
+msgid "Can't read node data at line: %d"
+msgstr "%d жолындағы түйін деректерін оқу мүмкін емес"
+
+#: gxml/XParser.vala:335
+#, c-format
+msgid "Parsing ERROR: Fail to move to attribute number: %i at line: %d"
+msgstr "Талдау ҚАТЕСІ: %d жолындағы %i нөмірлі атрибутқа өту сәтсіз аяқталды"
+
+#: gxml/XParser.vala:427
+msgid "Invalid sequence for document type definition: "
+msgstr "Құжат түрінің анықтамасы үшін жарамсыз реттілік: "
+
+#: gxml/XParser.vala:494 gxml/XParser.vala:600 gxml/XParser.vala:672
+msgid "Internal Error: No TextWriter initialized"
+msgstr "Ішкі қате: TextWriter инициализацияланбаған"
+
+#: gxml/XsdSchema.vala:266
+#, c-format
+msgid "Error removing Collection's element: %s"
+msgstr "Коллекция элементін өшіру қатесі: %s"
+
+#: gxml/XsdSchema.vala:275
+#, c-format
+msgid "Can't find element at position: %i: %s"
+msgstr "%i позициясындағы элементті табу мүмкін емес: %s"
+
+#: gxml/XsdSchema.vala:289 gxml/XsdSchema.vala:297 gxml/XsdSchema.vala:305
+#: gxml/XsdSchema.vala:313 gxml/XsdSchema.vala:321
+#, c-format
+msgid "Collection type %s, initialization error: %s"
+msgstr "%s коллекция түрі, инициализация қатесі: %s"
