@@ -25,8 +25,8 @@ gee_vapidir = gee.get_variable('datadir') / 'vala' / 'vapi'
 add_project_arguments(['--vapidir', gee_vapidir], language: 'vala')
 
 libgxml_deps = [
-	dependency('libxml-2.0', version: '>=2.9.13'),
-	dependency('gio-2.0', version: '>=2.72'),
+	dependency('libxml-2.0', version: '>=2.9.14'),
+	dependency('gio-2.0', version: '>=2.80'),
 	meson.get_compiler('c').find_library('intl', required: false),
 	gee
 	]

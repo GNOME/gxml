@@ -3,8 +3,8 @@ if valadoc.found()
 docs_enabled = true
 outdir ='GXml-'+API_VERSION
 gtkdoc_outdir ='gxml-'+API_VERSION
-valacapi = run_command ('valac', '--api-version', check: false)
-driver = '--driver='+valacapi.stdout().strip()
+vala = meson.get_compiler('vala')
+driver = '--driver='+vala.version()
 pkgname = '--package-name='+'GXml-'+API_VERSION
 pkgversion = '--package-version='+PROJECT_VERSION
 vapidirgee = '--vapidir='+gee_vapidir
@@ -13,7 +13,7 @@ vapidirvapi = '--vapidir='+join_paths (meson.current_source_dir (),'vapi')
 docsdir = join_paths (get_option ('datadir'), 'devhelp','books')
 
 driver_ops = []
-if valacapi.stdout().version_compare('<0.42')
+if vala.version().version_compare('<0.42')
 	message ('Vala is < 0.42: Enabling --driver for documentation')
 	driver_ops += driver
 endif

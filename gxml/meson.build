@@ -2,6 +2,7 @@ vapidir = join_paths (get_option('datadir'),'vala','vapi')
 GIR_NAME= VERSIONED_CAMEL_CASE_NAME+'.gir'
 TYPELIB_NAME= VERSIONED_CAMEL_CASE_NAME+'.typelib'
 VAPI_NAME = VERSIONED_PROJECT_NAME+'.vapi'
+gnome = import('gnome')
 
 conf = configuration_data()
 conf.set('prefix', get_option('prefix'))
@@ -119,6 +120,7 @@ LIBGXML_SOVERSION = LT_VERSION
 LIBGXML_VERSION = '@0@.@1@.@2@'.format(LIBGXML_SOVERSION, LT_AGE, LT_REVISION)
 
 introspection_opt = get_option('introspection')
+g_ir_scanner = find_program('g-ir-scanner', required: introspection_opt.enabled())
 g_ir_compiler = find_program('g-ir-compiler', required: introspection_opt.enabled())
 
 libgxml = library(VERSIONED_PROJECT_NAME,
@@ -128,7 +130,6 @@ libgxml = library(VERSIONED_PROJECT_NAME,
 	darwin_versions : [LT_CURRENT.to_int() + 1, '@0@.@1@'.format(LT_CURRENT.to_int() + 1, LT_REVISION)],
 	vala_header : PROJECT_NAME+'.h',
 	vala_vapi : VAPI_NAME,
-	vala_gir : GIR_NAME,
 	dependencies : [ libgxml_deps, namespaceinfo_dep, inc_libh_dep, inc_rooth_dep ],
 	vala_args: [
 		'--abi-stability'
@@ -139,22 +140,23 @@ libgxml = library(VERSIONED_PROJECT_NAME,
 		true,
 		join_paths (get_option('includedir'), 'gxml-@0@'.format (API_VERSION), 'gxml'),
 		vapidir,
-		not introspection_opt.disabled()
 	])
 
-if not introspection_opt.disabled() and g_ir_compiler.found()
-introspection_enabled = true
-custom_target('libgxml-typelib',
-	command: [
-		g_ir_compiler,
-		'--shared-library', 'lib'+PROJECT_NAME+'-@0@.so'.format (API_VERSION),
-		'--output', '@OUTPUT@', '--includedir', gee_girdir,
-		join_paths(meson.current_build_dir(), GIR_NAME)
-	],
-	output: TYPELIB_NAME,
-	depends: libgxml,
-	install: true,
-	install_dir: join_paths(get_option('libdir'), 'girepository-1.0'))
+if not introspection_opt.disabled() and g_ir_scanner.found() and g_ir_compiler.found()
+	introspection_enabled = true
+	gnome.generate_gir(libgxml,
+		sources : valasources + [nsinfo],
+		namespace : CAMEL_CASE_NAME,
+		nsversion : API_VERSION,
+		identifier_prefix : CAMEL_CASE_NAME,
+		symbol_prefix : PROJECT_NAME,
+		export_packages : [VERSIONED_PROJECT_NAME],
+		includes : ['GObject-2.0', 'Gio-2.0', 'Gee-0.8'],
+		header : PROJECT_NAME + '.h',
+		dependencies : libgxml_deps,
+		include_directories : [inc_rooth, inc_libh],
+		install : true,
+	)
 endif
 
 pkgconfig.generate(libgxml,
