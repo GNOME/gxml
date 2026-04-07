@@ -115,6 +115,10 @@ LT_CURRENT='3'
 LT_REVISION='2'
 LT_AGE='0'
 LT_VERSION='2'
+
+introspection_opt = get_option('introspection')
+g_ir_compiler = find_program('g-ir-compiler', required: introspection_opt.enabled())
+
 libgxml = library(VERSIONED_PROJECT_NAME,
 	valasources+sources+configvapi,
 	version : LT_VERSION,
@@ -133,12 +137,11 @@ libgxml = library(VERSIONED_PROJECT_NAME,
 		true,
 		join_paths (get_option('includedir'), 'gxml-@0@'.format (API_VERSION), 'gxml'),
 		vapidir,
-		get_option('introspection')
+		not introspection_opt.disabled()
 	])
 
-if get_option('introspection')
-g_ir_compiler = find_program('g-ir-compiler', required: false)
-if g_ir_compiler.found()
+if not introspection_opt.disabled() and g_ir_compiler.found()
+introspection_enabled = true
 custom_target('libgxml-typelib',
 	command: [
 		g_ir_compiler,
@@ -150,7 +153,6 @@ custom_target('libgxml-typelib',
 	depends: libgxml,
 	install: true,
 	install_dir: join_paths(get_option('libdir'), 'girepository-1.0'))
-endif
 endif
 
 pkgconfig.generate(libgxml,

@@ -35,6 +35,32 @@ using Gee;
  * It also allows delayed parsing, so you can read large documents by parsing
  * just a XML element node and its attributes but not its children; save its
  * children as a text, for a post-on-step-parsing.
+ *
+ * This class is designed to be used as a base class for XML elements, so you
+ * can define your own XML elements by inheriting from it and adding properties
+ * to it. Any property of type {@link GXml.Element} or {@link Collection}
+ * will be filled automatically by the parser when parsing an XML document, so you can use them to
+ * define your own XML elements with a custom API, and parse XML documents directly to your custom
+ * XML element classes. A property can be set to use a different name by using
+ * a Description annotation and a nick, for example, a string property called 'my_document'
+ * can be mapped to an XML element with the name 'myDocument' using [Description (nick="::myDocument")].
+ *
+ * {{{
+ * public class GXml.XsdSimpleType : GXml.Element {
+ *   [Description (nick="::final")]
+ *   public string final { get; set; }
+ *   [Description (nick="::name")]
+ *   public string name { get; set; }
+ *   public XsdAnnotation annotation { get; set; }
+ *   public XsdTypeList list { get; set; }
+ *   public XsdTypeUnion union { get; set; }
+ *   public XsdTypeRestriction restriction { get; set; }
+ *   construct {
+ *     initialize_with_namespace (IXsdSchema.SCHEMA_NAMESPACE_URI,
+ *                               IXsdSchema.SCHEMA_NAMESPACE_PREFIX,
+ *                               IXsdSimpleType.SCHEMA_NODE_NAME);
+ *   }
+ * }}}
  */
 public class GXml.Element : GXml.Node,
                               DomChildNode,

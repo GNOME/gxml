@@ -1,5 +1,6 @@
-valadoc = find_program ('valadoc', required: false)
+valadoc = find_program ('valadoc', required: get_option('docs').enabled())
 if valadoc.found()
+docs_enabled = true
 outdir ='GXml-'+API_VERSION
 gtkdoc_outdir ='gxml-'+API_VERSION
 valacapi = run_command ('valac', '--api-version', check: false)

@@ -1,4 +1,14 @@
-project('gxml', [ 'vala', 'c'], version : '0.20.5')
+project(
+  'gxml',
+  ['c', 'vala'],
+  version: '0.22.0',
+  meson_version: '>=1.2.0',
+  default_options: [
+    'buildtype=debugoptimized',
+    'warning_level=2',
+    'b_ndebug=if-release',
+  ],
+)
 
 pkgconfig = import('pkgconfig')
 
@@ -27,11 +37,24 @@ PCDEPS = 'gee-0.8 gio-2.0 libxml-2.0'
 inc_rooth = include_directories ('.')
 inc_rooth_dep = declare_dependency (include_directories : inc_rooth)
 
+docs_requested = not get_option('docs').disabled()
+docs_enabled = false
+introspection_requested = not get_option('introspection').disabled()
+introspection_enabled = false
+
 subdir('po')
 subdir('vapi')
 subdir('gxml')
-if get_option('docs')
-subdir('docs')
+if docs_requested
+  subdir('docs')
 endif
 subdir('test')
 subdir('examples')
+
+summary({
+  'API docs requested': docs_requested,
+  'API docs available': docs_enabled,
+  'Introspection requested': introspection_requested,
+  'Introspection available': introspection_enabled,
+  'Experimental classes': get_option('experimental'),
+}, section: 'gxml build')
