@@ -28,9 +28,11 @@ namespace GXml {
     private static bool initialized = false;
     public static void init () {
       if (!initialized) {
-        GLib.Intl.textdomain(Config.GETTEXT_PACKAGE);
+        /* Libraries should not override the process-global text domain.
+         * Bind only our own domain and force UTF-8 translations. */
         GLib.Intl.bindtextdomain(Config.GETTEXT_PACKAGE, Config.PACKAGE_LOCALE_DIR);
-       initialized = true;
+        GLib.Intl.bind_textdomain_codeset(Config.GETTEXT_PACKAGE, "UTF-8");
+        initialized = true;
       }
     }
   }
