@@ -2,13 +2,13 @@
 # Copyright (C) 2020 gxml's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gxml package.
 #
-# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml gxml-0.18\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2022-05-22 13:08+0000\n"
-"PO-Revision-Date: 2022-05-22 21:26+0300\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues/\n"
+"POT-Creation-Date: 2026-04-07 01:21+0000\n"
+"PO-Revision-Date: 2026-04-07 22:49+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Lokalize 20.12.0\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #: gxml/BaseCollection.vala:91
 msgid ""
@@ -152,24 +152,42 @@ msgstr ""
 "%s"
 
 #: gxml/Document.vala:189
-msgid "Creating a namespaced element with invalid node name"
-msgstr "Створення елемента із простору назв із некоректною назвою вузла"
+#, c-format
+#| msgid "Invalid element qualified name: multiple namespace prefixes"
+msgid ""
+"Invalid qualified name '%s'. Only one ':' is allowed for namespace prefixes."
+msgstr ""
+"Некоректна складена назва «%s». Для префіксів простору назв можна"
+" використовувати лише один «:»."
 
 #: gxml/Document.vala:196
-msgid "Creating a namespaced element with invalid namespace"
-msgstr "Створення елемента із простору назв із некоректним простором назв"
+#, c-format
+msgid ""
+"Invalid namespace for element '%s'. Ensure it has a valid prefix or "
+"namespace URI."
+msgstr ""
+"Некоректний простір назв для елемента «%s». Переконайтеся, що він має"
+" коректний префікс або адресу простору назв."
 
 #: gxml/Document.vala:200
+#, c-format
+#| msgid ""
+#| "Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
 msgid ""
-"Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
+"Invalid namespace URI '%s' for 'xmlns' prefix. Expected: 'http://www.w3.org/"
+"2000/xmlns/'."
 msgstr ""
-"Некоректна адреса простору назв для префікса xmlns. Скористайтеся http://www."
-"w3.org/2000/xmlns/"
+"Некоректна адреса простору назв «%s» для префікса «xmlns». Мало бути: http://"
+"www.w3.org/2000/xmlns/"
 
 #: gxml/Document.vala:204
-msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
+#| msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
+msgid ""
+"Only 'xmlns' prefix can be used with namespace URI 'http://www.w3.org/2000/"
+"xmlns/'."
 msgstr ""
-"Разом із http://www.w3.org/2000/xmlns/ можна використовувати лише префікси "
+"Разом із адресою простору назв «http://www.w3.org/2000/xmlns/» можна"
+" використовувати лише префікс "
 "xmlns"
 
 #: gxml/Document.vala:244 gxml/XDocument.vala:276
@@ -364,8 +382,8 @@ msgstr "Не слід визначати простір назв «xmlns»"
 
 #: gxml/Element.vala:716
 msgid ""
-"Invalid namespace. If prefix is 'xml', namespace URI should be http://www.w3."
-"org/XML/1998/namespace"
+"Invalid namespace. If prefix is 'xml', namespace URI should be http://"
+"www.w3.org/XML/1998/namespace"
 msgstr ""
 "Некоректний простір назв. Якщо префіксом є префікс xml, адресою простору "
 "назв має бути http://www.w3.org/XML/1998/namespace"
@@ -516,8 +534,8 @@ msgstr "Помилка під час спроби створення екзем�
 #: gxml/Object.vala:456
 msgid "Can't set value. It is not a GXmlGXml.Element type"
 msgstr ""
-"Не вдалося встановити значення. Цей елемент не належить до типу GXmlGXml."
-"Element"
+"Не вдалося встановити значення. Цей елемент не належить до типу "
+"GXmlGXml.Element"
 
 #: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:65
 msgid "File doesn't exist"
@@ -611,7 +629,8 @@ msgstr "Некоректний зсув для вузла для початку:
 
 #: gxml/Range.vala:63 gxml/Range.vala:91
 msgid "Invalid offset for node to start: for children number"
-msgstr "Некоректний зсув для вузла для початку: для номера дочірнього елемента"
+msgstr ""
+"Некоректний зсув для вузла для початку: для номера дочірнього елемента"
 
 #: gxml/Range.vala:107 gxml/Range.vala:121
 msgid "Invalid node type to start before"
@@ -674,7 +693,8 @@ msgstr ""
 
 #: gxml/TokenList.vala:63 gxml/TokenList.vala:86
 msgid "DOM: Invalid token. Empty string can't be used as token"
-msgstr "DOM: некоректний ключ. Порожній рядок не можна використовувати як ключ"
+msgstr ""
+"DOM: некоректний ключ. Порожній рядок не можна використовувати як ключ"
 
 #: gxml/TokenList.vala:65 gxml/TokenList.vala:88
 msgid "DOM: Invalid token. White spaces can't be used as token"
@@ -739,7 +759,6 @@ msgstr ""
 
 #: gxml/XHtmlDocument.vala:115
 #, c-format
-#| msgid "Error while converting Element to string: %s"
 msgid "Error while converting HTML document to string: %s"
 msgstr "Помилка під час перетворення документа HTML до рядка: %s"
 
@@ -825,6 +844,12 @@ msgstr "Не вдалося знайти елемент у позиції %i: %s
 #, c-format
 msgid "Collection type %s, initialization error: %s"
 msgstr "Тип збірки %s, помилка ініціалізації: %s"
+
+#~ msgid "Creating a namespaced element with invalid node name"
+#~ msgstr "Створення елемента із простору назв із некоректною назвою вузла"
+
+#~ msgid "Creating a namespaced element with invalid namespace"
+#~ msgstr "Створення елемента із простору назв із некоректним простором назв"
 
 #~ msgid "stream doesn't provide data"
 #~ msgstr "у потоці не виявлено даних"
