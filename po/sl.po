@@ -7,19 +7,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2022-08-29 23:13+0000\n"
-"PO-Revision-Date: 2024-05-03 08:53+0200\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues/\n"
+"POT-Creation-Date: 2026-04-07 01:21+0000\n"
+"PO-Revision-Date: 2026-04-07 08:19+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
+"n%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 3.8\n"
 
 #: gxml/BaseCollection.vala:91
 msgid ""
@@ -151,25 +151,38 @@ msgid "Error while attempting to instantiate root property object: %s"
 msgstr "Napaka pri poskusu instanciacije predmeta korenske lastnosti: %s"
 
 #: gxml/Document.vala:189
-msgid "Creating a namespaced element with invalid node name"
+#, c-format
+msgid ""
+"Invalid qualified name '%s'. Only one ':' is allowed for namespace prefixes."
 msgstr ""
-"Ustvarjanje elementa z imenskim prostorom z neveljavnim imenom vozlišča"
+"Neveljavno kvalificirano ime »%s«. V predponah imenskega prostora je "
+"dovoljen le en znak »:«."
 
 #: gxml/Document.vala:196
-msgid "Creating a namespaced element with invalid namespace"
+#, c-format
+msgid ""
+"Invalid namespace for element '%s'. Ensure it has a valid prefix or "
+"namespace URI."
 msgstr ""
-"Ustvarjanje elementa z imenskim prostorom z neveljavnim imenskim prostorom"
+"Neveljaven imenski prostor za element »%s«. Preverite, ali ima veljavno "
+"predpono ali URI imenskega prostora."
 
 #: gxml/Document.vala:200
+#, c-format
 msgid ""
-"Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
+"Invalid namespace URI '%s' for 'xmlns' prefix. Expected: 'http://www.w3.org/"
+"2000/xmlns/'."
 msgstr ""
-"Neveljaven URI imenskega prostora za predpono xmlns. Uporabite http://www.w3."
-"org/2000/xmlns/"
+"Neveljaven URI imenskega prostora »%s« za predpono »xmlns«. Pričakovano: "
+"»http://www.w3.org/2000/xmlns/«."
 
 #: gxml/Document.vala:204
-msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
-msgstr "S http://www.w3.org/2000/xmlns/ lahko uporabljate samo predpone xmlns"
+msgid ""
+"Only 'xmlns' prefix can be used with namespace URI 'http://www.w3.org/2000/"
+"xmlns/'."
+msgstr ""
+"Z URI imenskega prostora »http://www.w3.org/2000/xmlns/« se lahko uporablja "
+"le predpona »xmlns«."
 
 #: gxml/Document.vala:244 gxml/XDocument.vala:276
 msgid "Can't import a Document"
@@ -363,8 +376,8 @@ msgstr "Imenski prostor »xmlns« ne sme biti opredeljen"
 
 #: gxml/Element.vala:716
 msgid ""
-"Invalid namespace. If prefix is 'xml', namespace URI should be http://www.w3."
-"org/XML/1998/namespace"
+"Invalid namespace. If prefix is 'xml', namespace URI should be http://"
+"www.w3.org/XML/1998/namespace"
 msgstr ""
 "Neveljaven imenski prostor. Če je predpona »xml«, mora biti URI imenskega "
 "prostora http://www.w3.org/XML/1998/namespace"
