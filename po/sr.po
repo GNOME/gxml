@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues\n"
-"POT-Creation-Date: 2022-05-22 13:08+0000\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues/\n"
+"POT-Creation-Date: 2026-04-07 01:21+0000\n"
 "PO-Revision-Date: 2022-06-18 09:48+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolić@rocketmail.com>\n"
 "Language-Team: Serbian <српски <gnome-sr@googlegroups.org>>\n"
@@ -18,8 +18,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
+"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : "
+"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
 "X-Project-Style: gnome\n"
 
 #: gxml/BaseCollection.vala:91
@@ -40,8 +40,8 @@ msgstr ""
 msgid ""
 "Invalid attempt to set unsupported type. Only GXmlGXml.Element is supported"
 msgstr ""
-"Неисправан покушај подешавања неподржане врсте. Подржана је само „GXmlGXml."
-"Element“"
+"Неисправан покушај подешавања неподржане врсте. Подржана је само "
+"„GXmlGXml.Element“"
 
 #: gxml/BaseCollection.vala:128
 msgid "Invalid attempt to set a node with a different parent document"
@@ -151,24 +151,30 @@ msgid "Error while attempting to instantiate root property object: %s"
 msgstr "Грешка приликом покушаја покретања објекта својства корена: %s"
 
 #: gxml/Document.vala:189
-msgid "Creating a namespaced element with invalid node name"
-msgstr "Стварам елемент просторног назива са неисправним називом чвора"
+#, c-format
+msgid ""
+"Invalid qualified name '%s'. Only one ':' is allowed for namespace prefixes."
+msgstr "Неисправан квалификовани назив „%s“. Дозвољена је само једна двотачка „:“ за префиксе именског простора."
 
 #: gxml/Document.vala:196
-msgid "Creating a namespaced element with invalid namespace"
-msgstr "Стварам елемент просторног назива са неисправним простором назива"
+#, c-format
+msgid ""
+"Invalid namespace for element '%s'. Ensure it has a valid prefix or "
+"namespace URI."
+msgstr "Неисправан именски простор за елемент „%s“. Уверите се да има исправан префикс или УРИ именског простора."
 
 #: gxml/Document.vala:200
+#, c-format
 msgid ""
-"Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
-msgstr ""
-"Неисправна путања просторног назива за „xmlns“ префикс. Користите „http://"
-"www.w3.org/2000/xmlns/“"
+"Invalid namespace URI '%s' for 'xmlns' prefix. Expected: 'http://www.w3.org/"
+"2000/xmlns/'."
+msgstr "Неисправан УРИ именског простора „%s“ за префикс „xmlns“. Очекивано: „http://www.w3.org/2000/xmlns/“."
 
 #: gxml/Document.vala:204
-msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
-msgstr ""
-"Само „xmlns“ префикси се могу користити са „http://www.w3.org/2000/xmlns/“"
+msgid ""
+"Only 'xmlns' prefix can be used with namespace URI 'http://www.w3.org/2000/"
+"xmlns/'."
+msgstr "Само се префикс „xmlns“ може користити са УРИ-јем именског простора „http://www.w3.org/2000/xmlns/“."
 
 #: gxml/Document.vala:244 gxml/XDocument.vala:276
 msgid "Can't import a Document"
@@ -363,8 +369,8 @@ msgstr "„xmlns“ називни простор не треба бити де�
 
 #: gxml/Element.vala:716
 msgid ""
-"Invalid namespace. If prefix is 'xml', namespace URI should be http://www.w3."
-"org/XML/1998/namespace"
+"Invalid namespace. If prefix is 'xml', namespace URI should be http://"
+"www.w3.org/XML/1998/namespace"
 msgstr ""
 "Неисправан просторни назив. Ако је префикс „xml“, путања просторног назива "
 "треба бити „http://www.w3.org/XML/1998/namespace“"
@@ -729,7 +735,6 @@ msgstr ""
 
 #: gxml/XHtmlDocument.vala:115
 #, c-format
-#| msgid "Error while converting Element to string: %s"
 msgid "Error while converting HTML document to string: %s"
 msgstr "Грешка приликом претварања ХТМЛ документа у ниску: %s"
 
@@ -814,6 +819,12 @@ msgstr "Не могу да нађем елемент на положају: %i: 
 msgid "Collection type %s, initialization error: %s"
 msgstr "Врста збирке „%s“, грешка покретања: %s"
 
+#~ msgid "Creating a namespaced element with invalid node name"
+#~ msgstr "Стварам елемент просторног назива са неисправним називом чвора"
+
+#~ msgid "Creating a namespaced element with invalid namespace"
+#~ msgstr "Стварам елемент просторног назива са неисправним простором назива"
+
 #~ msgid "stream doesn't provide data"
 #~ msgstr "ток не обезбеђује податке"
 
@@ -832,13 +843,6 @@ msgstr "Врста збирке „%s“, грешка покретања: %s"
 #~ msgstr ""
 #~ "Неисправан просторни назив. Ако је назив атрибута иксмлнс, путања треба "
 #~ "бити „http://www.w3.org/2000/xmlns/“"
-
-#~ msgid ""
-#~ "Trying to add a namespaced element to a parent with invalid prefix for "
-#~ "namespace %s"
-#~ msgstr ""
-#~ "Покушавам да додам просторно именовани елемент родитељу са неисправним "
-#~ "префиксом за просторни назив „%s“"
 
 #~ msgid ""
 #~ "Trying to add a namespaced element to a parent with invalid URI for "
