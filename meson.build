@@ -24,10 +24,16 @@ gee_girdir = gee.get_variable('datadir') / 'gir-1.0'
 gee_vapidir = gee.get_variable('datadir') / 'vala' / 'vapi'
 add_project_arguments(['--vapidir', gee_vapidir], language: 'vala')
 
+c_compiler = meson.get_compiler('c')
+intl_dep = declare_dependency()
+if not c_compiler.has_function('bindtextdomain', prefix : '#include <libintl.h>')
+	intl_dep = c_compiler.find_library('intl', required: true)
+endif
+
 libgxml_deps = [
 	dependency('libxml-2.0', version: '>=2.9.14'),
 	dependency('gio-2.0', version: '>=2.80'),
-	meson.get_compiler('c').find_library('intl', required: false),
+	intl_dep,
 	gee
 	]
 
