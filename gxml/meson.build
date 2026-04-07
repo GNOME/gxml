@@ -115,14 +115,16 @@ LT_CURRENT='3'
 LT_REVISION='2'
 LT_AGE='0'
 LT_VERSION='2'
+LIBGXML_SOVERSION = LT_VERSION
+LIBGXML_VERSION = '@0@.@1@.@2@'.format(LIBGXML_SOVERSION, LT_AGE, LT_REVISION)
 
 introspection_opt = get_option('introspection')
 g_ir_compiler = find_program('g-ir-compiler', required: introspection_opt.enabled())
 
 libgxml = library(VERSIONED_PROJECT_NAME,
 	valasources+sources+configvapi,
-	version : LT_VERSION,
-	soversion : LT_VERSION+'.'+LT_AGE+'.'+LT_REVISION,
+	version : LIBGXML_VERSION,
+	soversion : LIBGXML_SOVERSION,
 	darwin_versions : [LT_CURRENT.to_int() + 1, '@0@.@1@'.format(LT_CURRENT.to_int() + 1, LT_REVISION)],
 	vala_header : PROJECT_NAME+'.h',
 	vala_vapi : VAPI_NAME,
@@ -159,7 +161,7 @@ pkgconfig.generate(libgxml,
   name: 'libgxml',
   filebase: 'gxml-@0@'.format (API_VERSION),
   description: 'GObject API for XML manipulation and serialization library',
-  url: 'http://live.gnome.org/GXml',
+  url: 'https://wiki.gnome.org/GXml',
   version: PROJECT_VERSION,
   subdirs: 'gxml-@0@'.format (API_VERSION),
   requires: [])
