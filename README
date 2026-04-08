@@ -44,24 +44,12 @@ Compile:
         subproject('gxml').get_variable('any_variable_inside_build_files') (replace 'gxml' with the name of your .wrap file)
         subproject('gxml').get_variable('libgxml_build_dir')
       or, as dependency:
-        gxml = dependency('gxml-0.20', fallback : [ 'gxml', 'any_variable_inside_build_files' ]) (replace 'gxml' with the name of your .wrap file)
-        gxml = dependency('gxml-0.20', fallback : [ 'gxml', 'libgxml_dep' ]) (replace 'gxml' with the name of your .wrap file)
+        gxml = dependency('gxml-0.22', fallback : [ 'gxml', 'any_variable_inside_build_files' ]) (replace 'gxml' with the name of your .wrap file)
+        gxml = dependency('gxml-0.22', fallback : [ 'gxml', 'libgxml_dep' ]) (replace 'gxml' with the name of your .wrap file)
 
-
-  You can use some common ./configure options like --prefix=$SOMEPATH to specify
-  where to install it.
 
 Test: You can run the test suite, which is gxml_test, which you may
-  have installed into your $PATH.  You should actually run it from
-  test/, though, as it requires .xml files that are currently just
-  relatively referenced.
-
-  $ cd test/
-  $ ./gxml_test
-
-  Autotools build system:
-
-  $ make test
+  have installed into your $PATH.
 
   Meson build system:
 
@@ -89,22 +77,8 @@ Writing documentation
     been overridden.  (Would we want this to be any different for
     gtkdoc?)
 
-  - We don't get an Object Hierarchy in our gtkdoc with valadoc :(
-    TODO: write a patch to valadoc :D
-
-  - We can't highlight special macro values like NULL/null, TRUE/true,
-    or FALSE/false consistently.  For gtkdoc, you can use #NULL, but
-    then in the vala code, we see "#NULL" instead of "null", and the
-    reverse.
-    TODO: write a patch to valadoc :D
-
   - Multi-line descriptions will only have the first line appear in
     valadoc.
-
-  - For the gtkdoc or valadoc to be visible in devhelp and you're installing into
-    an abnormal prefix, consider placing a symlink to your prefix
-    installed gtk-doc in /usr/share/gtk-doc/html/.  For example,
-    $ ln -s ~/.local/share/gtk-doc/html/gxml /usr/share/gtk-doc/html
 
   - Valadoc's documentation use JavaScript to navigate over inherited
     methods and properties, but DevHelp have no support for that.
