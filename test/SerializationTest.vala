@@ -265,6 +265,9 @@ class StoreShelf : GXml.Element, Container {
   [Description (nick="::Id")]
   public int id { get; set; default = 1; }
   public Items items { get; set; }
+  public Cpu cpu { get; set; }
+  public Monitor monitor { get; set; }
+  public Keyword keyword { get; set; }
   construct {
     try {
       initialize ("Shelf");
