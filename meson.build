@@ -1,7 +1,7 @@
 project(
   'gxml',
   ['c', 'vala'],
-  version: '0.22.0',
+  version: '0.20.5',
   meson_version: '>=1.2.0',
   default_options: [
     'buildtype=debugoptimized',
