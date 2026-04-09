@@ -1,7 +1,7 @@
 project(
   'gxml',
   ['c', 'vala'],
-  version: '0.20.5',
+  version: '0.22.0',
   meson_version: '>=1.2.0',
   default_options: [
     'buildtype=debugoptimized',
@@ -13,7 +13,7 @@ project(
 pkgconfig = import('pkgconfig')
 
 PROJECT_NAME = meson.project_name ()
-API_VERSION = '0.20'
+API_VERSION = '0.22'
 PROJECT_VERSION = meson.project_version ()
 VERSIONED_PROJECT_NAME = PROJECT_NAME+'-'+API_VERSION
 CAMEL_CASE_NAME = 'GXml'
