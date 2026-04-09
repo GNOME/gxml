@@ -23,7 +23,7 @@ before_script:
 build:
   stage: build
   script:
-  - meson _build -Dintrospection=enable -Ddocs=enable
+  - meson _build -Dintrospection=enabled -Ddocs=enabled
   - cd _build
   - ninja
   - meson test
@@ -39,7 +39,7 @@ build-clang:
   stage: build
   script:
   - export CC=clang  
-  - meson _build -Dintrospection=enable -Ddocs=enable
+  - meson _build -Dintrospection=enabled -Ddocs=enabled
   - cd _build
   - ninja
   - meson test
@@ -54,7 +54,7 @@ build-clang:
 pages:
   stage: deploy
   script:
-  - meson _build -Ddocs=enable
+  - meson _build -Ddocs=enabled
   - cd _build
   - ninja
   - mv ../docs/site ../public
