@@ -285,6 +285,7 @@ public class GXml.Element : GXml.Node,
     }
   }
   // DomNonDocumentTypeChildNode
+  [Description (blurb="GXml:Skip")]
   public DomElement? previous_element_sibling {
     owned get {
       if (parent_node != null) {
@@ -300,6 +301,7 @@ public class GXml.Element : GXml.Node,
       return null;
     }
   }
+  [Description (blurb="GXml:Skip")]
   public DomElement? next_element_sibling {
     owned get {
       if (parent_node != null) {
@@ -317,6 +319,7 @@ public class GXml.Element : GXml.Node,
   }
 
   // DomParentNode
+  [Description (blurb="GXml:Skip")]
   public new DomHTMLCollection children {
     owned get {
       var l = new HTMLCollection ();
@@ -326,8 +329,11 @@ public class GXml.Element : GXml.Node,
       return l;
     }
   }
+  [Description (blurb="GXml:Skip")]
   public DomElement? first_element_child { owned get { return (DomElement) children.first (); } }
+  [Description (blurb="GXml:Skip")]
   public DomElement? last_element_child { owned get { return (DomElement) children.last (); } }
+  [Description (blurb="GXml:Skip")]
   public int child_element_count { get { return children.size; } }
 
   public DomNodeList query_selector_all (string selectors) throws GLib.Error {
@@ -340,31 +346,41 @@ public class GXml.Element : GXml.Node,
    * Use this field to set node's namespace URI. Can used to set it at construction time.
    */
   protected string _namespace_uri = null;
+
+  [Description (blurb="GXml:Skip")]
   public string? namespace_uri { owned get { return _namespace_uri.dup (); } }
+
+  [Description (blurb="GXml:Skip")]
   public string? prefix { owned get { return _prefix; } }
   /**
    * Derived classes should define it at construction time, using
    * {@link GXml.Node._local_name} field. This is the node's name.
    */
+  [Description (blurb="GXml:Skip")]
   public string local_name {
     owned get {
       return _local_name;
     }
   }
 
+  [Description (blurb="GXml:Skip")]
   public string tag_name { owned get { return _local_name; } }
 
   /**
    * An attribute called 'id'.
    */
-  [Description (nick="::id")]
-  public string? id { owned get; set; }
+  [Description (blurb="GXml:Skip")]
+  public string? id {
+    owned get { return get_attribute ("id"); }
+    set { set_attribute ("id", value); }
+  }
   /**
    * An attribute called 'class'.
    */
+  [Description (blurb="GXml:Skip")]
   public string? class_name {
-    owned get { return ((GXml.Element) this).get_attribute ("class"); }
-    set { ((GXml.Object) this).set_attribute ("class", value); }
+    owned get { return get_attribute ("class"); }
+    set { set_attribute ("class", value); }
   }
   /**
    * A list of values of all attributes called 'class'.
@@ -881,6 +897,7 @@ public class GXml.Element : GXml.Node,
    * as plain string in {@link unparsed}. In order to generate an XML tree
    * use {@link read_unparsed}.
    */
+  [Description (blurb="GXml:Skip")]
   public bool parse_children { get; set; default = true; }
 
   private string _unparsed = null;
@@ -889,6 +906,7 @@ public class GXml.Element : GXml.Node,
    *
    * If it is null, means all children have been already parsed.
    */
+  [Description (blurb="GXml:Skip")]
   public string unparsed {
     get {
       if (read_buffer != null) {
@@ -904,6 +922,7 @@ public class GXml.Element : GXml.Node,
    * Parse all children, adding them to current node, stored in {@link unparsed}.
    * Once it finish, sets {@link unparsed} to null.
    */
+  [Description (blurb="GXml:Skip")]
   public void read_unparsed () throws GLib.Error {
     if (unparsed != null) {
       var parser = new XParser (this);
@@ -915,6 +934,7 @@ public class GXml.Element : GXml.Node,
    * On memory {@link GLib.MemoryOutputStream} with the unparsed
    * string of the element
    */
+  [Description (blurb="GXml:Skip")]
   public MemoryOutputStream read_buffer { get; set; }
 
   /**
@@ -938,6 +958,7 @@ public class GXml.Element : GXml.Node,
   /**
    * Monitor multi-threading parsing
    */
+  [Description (blurb="GXml:Skip")]
   public uint parse_pending () {
     if (pool == null) {
       return 0;

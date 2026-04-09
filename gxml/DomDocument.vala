@@ -25,15 +25,24 @@ public interface GXml.DomDocument : GLib.Object,
 									GXml.DomParentNode,
 									GXml.DomNonElementParentNode
 {
+  [Description (blurb="GXml:Skip")]
   public abstract DomImplementation implementation { get; }
+  [Description (blurb="GXml:Skip")]
   public abstract string url { get; }
+  [Description (blurb="GXml:Skip")]
   public abstract string document_uri { get; }
+  [Description (blurb="GXml:Skip")]
   public abstract string origin { get; }
+  [Description (blurb="GXml:Skip")]
   public abstract string compat_mode { get; }
+  [Description (blurb="GXml:Skip")]
   public abstract string character_set { get; }
+  [Description (blurb="GXml:Skip")]
   public abstract string content_type { get; }
 
+  [Description (blurb="GXml:Skip")]
   public abstract DomDocumentType? doctype { owned get; }
+  [Description (blurb="GXml:Skip")]
   public abstract DomElement? document_element { owned get; }
 
   public abstract DomHTMLCollection get_elements_by_tag_name (string local_name);

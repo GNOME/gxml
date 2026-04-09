@@ -26,9 +26,13 @@ public interface GXml.DomNonElementParentNode : GLib.Object {
 }
 
 public interface GXml.DomParentNode : GLib.Object {
+  [Description (blurb="GXml:Skip")]
   public abstract DomHTMLCollection children { owned get; }
+  [Description (blurb="GXml:Skip")]
   public abstract DomElement? first_element_child { owned get; }
+  [Description (blurb="GXml:Skip")]
   public abstract DomElement? last_element_child { owned get; }
+  [Description (blurb="GXml:Skip")]
   public abstract int child_element_count { get; }
 
   /**
@@ -70,7 +74,9 @@ public interface GXml.DomParentNode : GLib.Object {
 }
 
 public interface GXml.DomNonDocumentTypeChildNode : GLib.Object {
+  [Description (blurb="GXml:Skip")]
   public abstract DomElement? previous_element_sibling { owned get; }
+  [Description (blurb="GXml:Skip")]
   public abstract DomElement? next_element_sibling { owned get; }
 }
 
@@ -89,6 +95,7 @@ public interface GXml.DomHTMLCollection : GLib.Object, Gee.BidirList<GXml.DomEle
   public virtual new GXml.DomElement[] to_array () {
     return (GXml.DomElement[]) ((Gee.Collection<GXml.DomElement>) this).to_array ();
   }
+  [Description (blurb="GXml:Skip")]
   public virtual int length { get { return (int) size; } }
   public virtual DomElement? item (int index) { return this.get ((int) index); }
   public virtual DomElement? named_item (string name) {

@@ -63,7 +63,10 @@ public class GXml.Node : GLib.Object,
    * Use this field to set node's child nodes. Derived classes should avoid to modify it.
    */
   protected GXml.NodeList _child_nodes;
+  [Description (blurb="GXml:Skip")]
   public DomNode.NodeType node_type { get { return _node_type; } }
+
+  [Description (blurb="GXml:Skip")]
   public string node_name {
     owned get {
       if (_local_name == null) return "NO NAME";
@@ -72,9 +75,12 @@ public class GXml.Node : GLib.Object,
     }
   }
 
+  [Description (blurb="GXml:Skip")]
   public string? base_uri { get { return _base_uri; } }
 
   protected GXml.DomDocument _document;
+
+  [Description (blurb="GXml:Skip")]
   public DomDocument? owner_document {
     get {
       if (this is DomDocument) return (DomDocument) this;
@@ -90,26 +96,38 @@ public class GXml.Node : GLib.Object,
     construct set { _document = value; }
   }
 
+
+  [Description (blurb="GXml:Skip")]
   public DomNode? parent_node { owned get { return _parent as DomNode?; } }
+  
+  [Description (blurb="GXml:Skip")]
   public DomElement? parent_element {
     owned get {
       if (_parent is DomElement) return _parent as DomElement?;
       return null;
     }
   }
+
+  [Description (blurb="GXml:Skip")]
   public DomNodeList child_nodes { owned get { return _child_nodes as DomNodeList; } }
+
+  [Description (blurb="GXml:Skip")]
   public DomNode? first_child {
     owned get {
     if (child_nodes.size == 0) return null;
     return child_nodes[0];
     }
   }
+
+  [Description (blurb="GXml:Skip")]
   public DomNode? last_child {
     owned get {
       if (child_nodes.size == 0) return null;
       return child_nodes[child_nodes.size - 1];
     }
   }
+
+  [Description (blurb="GXml:Skip")]
   public DomNode? previous_sibling {
     owned get {
       if (_parent == null) return null;
@@ -122,6 +140,8 @@ public class GXml.Node : GLib.Object,
       return null;
     }
   }
+
+  [Description (blurb="GXml:Skip")]
   public DomNode? next_sibling {
     owned get {
       if (_parent == null) return null;
@@ -135,8 +155,11 @@ public class GXml.Node : GLib.Object,
     }
   }
 
+  [Description (blurb="GXml:Skip")]
   public string? node_value { owned get { return _node_value; } set { _node_value = value; } }
 
+
+  [Description (blurb="GXml:Skip")]
   public string? text_content {
     owned get {
       string t = null;

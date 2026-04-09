@@ -24,36 +24,48 @@
  * Base interface for all DOM4 implementations
  */
 public interface GXml.DomNode : GLib.Object, GXml.DomEventTarget {
-	public enum NodeType {
-		INVALID = 0,
-		ELEMENT_NODE = 1,
-		ATTRIBUTE_NODE, // historical
-		TEXT_NODE,
-		CDATA_SECTION_NODE, // historical
-		ENTITY_REFERENCE_NODE, // historical
-		ENTITY_NODE, // historical
-		PROCESSING_INSTRUCTION_NODE,
-		COMMENT_NODE,
-		DOCUMENT_NODE,
-		DOCUMENT_TYPE_NODE,
-		DOCUMENT_FRAGMENT_NODE,
-		NOTATION_NODE // historical
-	}
+  public enum NodeType {
+    INVALID = 0,
+    ELEMENT_NODE = 1,
+    ATTRIBUTE_NODE, // historical
+    TEXT_NODE,
+    CDATA_SECTION_NODE, // historical
+    ENTITY_REFERENCE_NODE, // historical
+    ENTITY_NODE, // historical
+    PROCESSING_INSTRUCTION_NODE,
+    COMMENT_NODE,
+    DOCUMENT_NODE,
+    DOCUMENT_TYPE_NODE,
+    DOCUMENT_FRAGMENT_NODE,
+    NOTATION_NODE // historical
+  }
+  [Description (blurb="GXml:Skip")]
   public abstract NodeType node_type { get; }
+  [Description (blurb="GXml:Skip")]
   public abstract string node_name { owned get; }
 
+  [Description (blurb="GXml:Skip")]
   public abstract string? base_uri { get; }
 
+  [Description (blurb="GXml:Skip")]
   public abstract DomDocument? owner_document { get; construct set; }
+  [Description (blurb="GXml:Skip")]
   public abstract DomNode? parent_node { owned get; }
+  [Description (blurb="GXml:Skip")]
   public abstract DomElement? parent_element { owned get; }
+  [Description (blurb="GXml:Skip")]
   public abstract DomNodeList child_nodes { owned get; }
+  [Description (blurb="GXml:Skip")]
   public abstract DomNode? first_child { owned get; }
   public abstract DomNode? last_child { owned get; }
+  [Description (blurb="GXml:Skip")]
   public abstract DomNode? previous_sibling { owned get; }
+  [Description (blurb="GXml:Skip")]
   public abstract DomNode? next_sibling { owned get; }
 
+  [Description (blurb="GXml:Skip")]
 	public abstract string? node_value { owned get; set; }
+  [Description (blurb="GXml:Skip")]
 	public abstract string? text_content { owned get; set; }
 
   public abstract bool has_child_nodes ();

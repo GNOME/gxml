@@ -29,18 +29,25 @@ public interface GXml.DomElement : GLib.Object,
   /**
    * Returns default namespace's uri defined in node or first found.
    */
+  [Description (blurb="GXml:Skip")]
   public abstract string? namespace_uri { owned get; }
   /**
    * Returns default namespace's prefix defined in node or first found.
    */
+  [Description (blurb="GXml:Skip")]
   public abstract string? prefix { owned get; }
+  [Description (blurb="GXml:Skip")]
   public abstract string local_name { owned get; }
+  [Description (blurb="GXml:Skip")]
   public abstract string tag_name { owned get; }
 
   public abstract string? id { owned get; set; }
+  [Description (blurb="GXml:Skip")]
   public abstract string? class_name  { owned get; set; }
+  [Description (blurb="GXml:Skip")]
   public abstract DomTokenList class_list { owned get; }
 
+  [Description (blurb="GXml:Skip")]
   public abstract DomNamedNodeMap attributes { owned get; }
 
   public abstract string? get_attribute (string name);

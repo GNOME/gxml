@@ -41,11 +41,16 @@ public interface GXml.Object : GLib.Object,
   public virtual GLib.List<ParamSpec> get_properties_list () {
     var l = new GLib.List<ParamSpec> ();
     foreach (ParamSpec spec in this.get_class ().list_properties ()) {
-      if ("::" in spec.get_nick ()) {
+      if (is_seriablable(spec)) {
+        l.append(spec);
+      }
+      else {
+        if ("::" in spec.get_nick ()) {
 #if DEBUG
-        GLib.message ("Name: "+spec.name+ " Nick: "+spec.get_nick ());
+          GLib.message ("Name: "+spec.name+ " Nick: "+spec.get_nick ());
 #endif
-        l.append (spec);
+          l.append (spec);
+        }
       }
     }
     return l;
@@ -461,5 +466,97 @@ public interface GXml.Object : GLib.Object,
         }
       }
     }
+  }
+  /**
+   * Normalize a {@link ParamSpec} param's name, using
+   * {@link canonical_to_camel} 
+   */
+  public virtual
+  string normalize_name (ParamSpec prop) {
+    if (prop.value_type.is_a (typeof(GXml.Element))) {
+      var v = Value (prop.value_type);
+      return ((GXml.Element) this).local_name;
+    }
+    string nick = prop.get_nick ();
+    string sname = "";
+    if (nick != "" && nick != null) {
+      if ("::" in nick) {
+        nick = nick.replace ("::","");
+        sname = nick;
+      }
+    }
+    string blurb = prop.get_blurb ();
+    if (blurb != null) {
+		if (blurb.down ().contains ("gxml:rename:")) {
+			blurb = blurb.down().replace("gxml:rename:", "");
+			if (blurb != "") {
+				sname = blurb;
+			}
+		}
+	}
+    if (sname != "") {
+      return sname;
+    }
+    sname = prop.get_name();
+    return canonical_to_camel_case(sname);
+  }
+  /**
+   * Checks if a property is serializable
+   */
+  public static
+  bool is_seriablable (ParamSpec prop) {
+		if (prop.get_blurb ().down () == "gxml:skip") {
+			return false;
+		}
+    if ((prop.value_type.is_a (typeof(GXml.Property)) || prop.value_type.is_a (typeof(GXml.Object)))
+        && prop.value_type.is_instantiatable ()) {
+      return true;
+    }
+    if (prop.value_type.is_a (typeof (string))) {
+      return true;
+    }
+    if (prop.value_type.is_a (typeof (int))) {
+      return true;
+    }
+    if (prop.value_type.is_a (typeof (uint))) {
+      return true;
+    }
+    if (prop.value_type.is_a (typeof (float))) {
+      return true;
+    }
+    if (prop.value_type.is_a (typeof (double))) {
+      return true;
+    }
+    if (prop.value_type.is_a (typeof (bool))) {
+      return true;
+    }
+    if (prop.value_type.is_a (Type.ENUM)) {
+      return true;
+    }
+    return false;
+  }
+  /**
+   * Converts GObject's canonical names (kebab-case) to camelCase.
+   * Example: "new-great-property" -> "newGreatProperty"
+   */
+  public static
+  string canonical_to_camel_case (string canonical_name) {
+      if (canonical_name == null || canonical_name.length == 0) {
+          return canonical_name;
+      }
+      string[] parts = canonical_name.split ("-");
+      var builder = new StringBuilder ();
+
+      builder.append (parts[0].down ());
+
+      for (int i = 1; i < parts.length; i++) {
+          string part = parts[i];
+          if (part.length > 0) {
+              builder.append (part.substring (0, 1).up ());
+              builder.append (part.substring (1));
+          }
+      }
+
+      return builder.str;
   }
 }

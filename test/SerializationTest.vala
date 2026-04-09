@@ -677,6 +677,7 @@ class SerializationTest : GLib.Object  {
 #if DEBUG
       GLib.message ("DOC:"+s);
 #endif
+	  GLib.message ("DOC:"+s);
       assert ("<Taxes " in s);
       assert ("monthRate=\"0\"" in s);
       assert ("Month=\"january\"" in s);
@@ -793,7 +794,11 @@ class SerializationTest : GLib.Object  {
     Test.add_func ("/gxml/serialization/write/property-arraylist", () => {
     try {
       var bs = new BookStand ();
+      
+      print("MARK DEBUG 1\n");
       string s = bs.to_string ();
+      
+      print("MARK DEBUG 2\n");
       assert (s != null);
 #if DEBUG
       GLib.message ("DOC:"+s);

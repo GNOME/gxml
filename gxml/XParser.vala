@@ -511,7 +511,7 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
     // GXml.Object serialization
     var lp = ((GXml.Object) node).get_properties_list ();
     foreach (ParamSpec pspec in lp) {
-      string attname = pspec.get_nick ().replace ("::","");
+      string attname = ((GXml.Object) node).normalize_name (pspec);
       string val = null;
       if (pspec.value_type.is_a (typeof (GXml.Property))) {
         Value v = Value (pspec.value_type);
@@ -523,6 +523,7 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
         val = ((GXml.Object) node).get_property_string (pspec);
       }
       if (val == null) continue;
+      if (attname == "") continue;
       size += tw.write_attribute (attname, val);
       size += tw.end_attribute ();
       if (size > 1500)

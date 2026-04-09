@@ -357,6 +357,7 @@ class ElementTest : GLib.Object  {
 				assert (elem.get_attribute ("xola") == null);
 				assert (elem.attributes.size == 2);
 				elem.id = "idnode";
+				assert (elem.attributes.size == 3);
 				assert ("id=\"idnode\"" in elem.write_string ());
 				assert (elem.id == "idnode");
 				try {
@@ -821,6 +822,19 @@ class ElementTest : GLib.Object  {
 				e.id = "di1";
 				assert (e.id == "di1");
 				assert (e.get_attribute ("id") == "di1");
+				assert (((DomAttr) e.attributes.item (0)).@value == "value1");
+				assert (((DomAttr) e.attributes.item (1)).@value == "value_prop");
+				assert (((DomAttr) e.attributes.item (2)).@value == "prop1");
+				assert (((DomAttr) e.attributes.item (3)).@value == "prop2");
+				assert (((DomAttr) e.attributes.item (4)).@value == "prop3");
+				assert (((DomAttr) e.attributes.item (5)).@value == "http://www.gnome.org/gxml/test");
+				assert (((DomAttr) e.attributes.item (6)).@value == "prop1_test");
+				assert (((DomAttr) e.attributes.item (7)).@value == "prop2_test");
+				assert (((DomAttr) e.attributes.item (8)).@value == "di1");
+				print(">>> attribues: %s\n", e.attributes.length.to_string ());
+				for (int i = 0; i < e.attributes.length; i++) {
+					print ("Attribute %i Nombre: %s Val: %s\n", i, ((DomAttr) e.attributes.item (i)).local_name, ((DomAttr) e.attributes.item (i)).@value);
+				}
 				assert (e.attributes.length == 9);
 				assert (e.attributes.item (8) != null);
 				assert (((DomAttr) e.attributes.item (8)).@value == "di1");
