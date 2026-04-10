@@ -25,11 +25,43 @@ using GXml;
 /**
  * A GXml Object Model represents a {@link DomElement}. It has attributes
  * and children. All object's properties are handled as attributes if they are
- * basic types like integers, strings, enums and others; {@link Property}
- * objects are handled as attributes too. If object's attribute is a {@link GLib.Object}
+ * basic types like integers, strings, enums; {@link Property}
+ * objects are handled as attributes too. If object's attribute is a {@link GXml.Object}
  * it is handled as node's child, but only if it is a {@link GXml.Element} object,
- * other wise it is ignored when this object is used as {@link DomNode} in XML
+ * other wise it is ignored when this object is used as {@link GXml.DomNode} in XML
  * documents.
+ * 
+ * If you want to ignore specific properties you should mark them, using the Vala
+ * annotation "[Description (blurb="GXml:Skip")]".
+ * 
+ * By default a property uses its name and transform it fo a camel case
+ * representation. For example, a property called 'my_property' will be 'myProperty'
+ * and 'my_long_property_name' will be 'myLongPropertyName'. If you want to
+ * override this behaivior, use an annotation: "[Description (blurb="GXml:Rename:newName")]"
+ * where 'newName' will be the name to use when reading and writing element's properties.
+ * 
+ * {{{
+ * 
+ * public class Computer : GXml.Element {
+ *   [Description (nick="::Model")]
+ *   public string model { get; set; }
+ *   [Description (blurb="GXml:Skip")]
+ *   public string ignore { get; set; } // ignored property
+ *   construct { try { initialize ("Computer"); } catch { assert_not_reached (); } }
+ *   public string to_string () {
+ *    var parser = new XParser (this);
+ *     string s = "";
+ *     try {
+ *       s = parser.write_string ();
+ *     } catch (GLib.Error e) {
+ *       GLib.message ("Error: "+e.message);
+ *       assert_not_reached ();
+ *     }
+ *     return s;
+ *  }
+ * }
+ * 
+ * }}}
  */
 public interface GXml.Object : GLib.Object,
                                   DomNode,
@@ -59,19 +91,21 @@ public interface GXml.Object : GLib.Object,
    * Returns property's {@link GLib.ParamSpec} based on given nick, without '::'
    * This function is case insensitive.
    *
-   * By default any property to be serialized, should set its nick with a prefix
+   * By default all properties are candidate to serialization if: a) it is a basic
+   * type b) is a {@link GXml.Property} or {@link GXml.Element} derived types.
+   * 
+   * Properties' name will use a camel case format. A property called my_property
+   * will become myProperty; while {@link GXml.Property} or {@link GXml.Element}
+   * will use its own defined name.  to be serialized, should set its nick with a prefix
    * '::', while this method requires to avoid '::' for property's name to find.
    * '::' will not be present on serialization output, so you can use any convention
    * for your attribute's name, like using camel case.
    */
   public virtual ParamSpec? find_property_name (string nick) {
-    foreach (ParamSpec spec in this.get_class ().list_properties ()) {
-      string name = spec.get_nick ();
-      if ("::" in name) {
-        name = name.replace ("::","");
-        if (name.down () == nick.down ()) {
-          return spec;
-        }
+    foreach (ParamSpec spec in get_properties_list ()) {
+      string name = normalize_name(spec);
+      if (name.down () == nick.down ()) {
+        return spec;
       }
     }
     return null;
@@ -159,10 +193,12 @@ public interface GXml.Object : GLib.Object,
       return ((uint) v).to_string ();
     }
     if (prop.value_type.is_a (typeof (float))) {
-      return ((float) v).to_string ();
+      char[] buf = new char[double.DTOSTR_BUF_SIZE];
+      return ((double) ((float) v)).format (buf, "%g");
     }
     if (prop.value_type.is_a (typeof (double))) {
-      return ((double) v).to_string ();
+      char[] buf = new char[double.DTOSTR_BUF_SIZE];
+      return ((double) v).format (buf, "%g");
     }
     if (prop.value_type.is_a (typeof (bool))) {
       return ((bool) v).to_string ();
@@ -468,13 +504,12 @@ public interface GXml.Object : GLib.Object,
     }
   }
   /**
-   * Normalize a {@link ParamSpec} param's name, using
-   * {@link canonical_to_camel} 
+   * Normalize a {@link GLib.ParamSpec} param's name, using
+   * {@link canonical_to_camel_case} 
    */
   public virtual
   string normalize_name (ParamSpec prop) {
     if (prop.value_type.is_a (typeof(GXml.Element))) {
-      var v = Value (prop.value_type);
       return ((GXml.Element) this).local_name;
     }
     string nick = prop.get_nick ();
@@ -487,13 +522,13 @@ public interface GXml.Object : GLib.Object,
     }
     string blurb = prop.get_blurb ();
     if (blurb != null) {
-		if (blurb.down ().contains ("gxml:rename:")) {
-			blurb = blurb.down().replace("gxml:rename:", "");
-			if (blurb != "") {
-				sname = blurb;
-			}
-		}
-	}
+      if (blurb.down ().contains ("gxml:rename:")) {
+        blurb = blurb.down().replace("gxml:rename:", "");
+        if (blurb != "") {
+          sname = blurb;
+        }
+      }
+    }
     if (sname != "") {
       return sname;
     }

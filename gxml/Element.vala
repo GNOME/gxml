@@ -372,7 +372,13 @@ public class GXml.Element : GXml.Node,
   [Description (blurb="GXml:Skip")]
   public string? id {
     owned get { return get_attribute ("id"); }
-    set { set_attribute ("id", value); }
+    set {
+      try {
+        set_attribute ("id", value);
+      } catch (GLib.Error e) {
+        warning(_("Error getting 'id' attribute: %s"), e.message);
+      }
+    }
   }
   /**
    * An attribute called 'class'.
@@ -380,7 +386,13 @@ public class GXml.Element : GXml.Node,
   [Description (blurb="GXml:Skip")]
   public string? class_name {
     owned get { return get_attribute ("class"); }
-    set { set_attribute ("class", value); }
+    set {
+      try {
+        set_attribute ("class", value);
+      } catch (GLib.Error e) {
+        warning(_("Error getting 'id' attribute: %s"), e.message);
+      }
+    }
   }
   /**
    * A list of values of all attributes called 'class'.
@@ -465,7 +477,49 @@ public class GXml.Element : GXml.Node,
     protected GXml.Element _element;
 
     // DomNamedNodeMap
-    public int length { get { return size; } }
+    public int length {
+      get {
+        int count = this.size; 
+
+        foreach (ParamSpec spec in _element.get_properties_list ()) {
+          if (this.has_key (spec.name)) {
+            continue;
+          }
+          if (spec.value_type.is_a (typeof (int))   || 
+            spec.value_type.is_a (typeof (uint))  ||
+            spec.value_type.is_a (typeof (float)) ||
+            spec.value_type.is_a (typeof (double))||
+            spec.value_type.is_a (typeof (bool))  ||
+            spec.value_type.is_a (Type.ENUM)) {
+            count++;
+              continue;
+          }
+
+          var v = Value (spec.value_type);
+          _element.get_property (spec.name, ref v);
+
+          if (spec.value_type.is_a (typeof (string))) {
+            if ((string) v != null) {
+              count++;
+            }
+          }
+          else if (spec.value_type.is_a (typeof (GXml.Property))) {
+            var prop_obj = v.get_object () as GXml.Property;
+            if (prop_obj != null && prop_obj.value != null) {
+              count++;
+            }
+          }
+          else if (spec.value_type.is_a (typeof (GXml.Element))) {
+            var prop_obj = v.get_object () as GXml.Element;
+            if (prop_obj != null) {
+              count++;
+            }
+          }
+        }
+
+        return count;
+      }
+    }
     public DomNode? item (int index) {
       if (index < 0 || index >= size) return null;
       long i = -1;
@@ -699,6 +753,11 @@ public class GXml.Element : GXml.Node,
     var prop = _attributes.get (name.down ()) as GXml.Attr;
     if (prop != null) {
         str = prop.value;
+    } else {
+      var p = find_property_name(name);
+      if (p != null) {
+        str = get_property_string(p);
+      }
     }
     return str;
   }

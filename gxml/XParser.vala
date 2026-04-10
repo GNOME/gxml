@@ -621,7 +621,15 @@ public class GXml.XParser : GLib.Object, GXml.Parser {
     foreach (ParamSpec pspec in lp) {
       Idle.add (start_node_async.callback);
       yield;
-      string attname = pspec.get_nick ().replace ("::","");
+      string nick = pspec.get_nick ();
+      string attname = ((GXml.Object) node).normalize_name(pspec);
+      if (nick.contains ("::")) {
+        attname = nick.replace ("::","");
+      }
+      string blurb = pspec.get_blurb ();
+      if (blurb.contains ("GXml:Rename:")) {
+        attname = blurb.replace ("GXml:Rename:", "");
+      }
       string val = null;
       if (pspec.value_type.is_a (typeof (GXml.Property))) {
         Value v = Value (pspec.value_type);

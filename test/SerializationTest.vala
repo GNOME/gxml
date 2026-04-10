@@ -198,15 +198,11 @@ class GomBookStore : GXml.Element
 }
 
 class GomBasicTypes : GXml.Element {
-  [Description (nick="::text")]
   public string text { get; set; }
-  [Description (nick="::integer")]
   public int integer { get; set; }
-  [Description (nick="::realDouble")]
   public double real_double { get; set; }
-  [Description (nick="::realFloat")]
   public float real_float { get; set; }
-  [Description (nick="::unsignedInteger")]
+  [Description (blurb="GXml:Rename:Uint")]
   public uint unsigned_integer { get; set; }
   [Description (nick="::Boolean")]
   public bool boolean { get; set; }
@@ -328,6 +324,7 @@ class SerializationTest : GLib.Object  {
   public class Computer : GXml.Element {
     [Description (nick="::Model")]
     public string model { get; set; }
+    [Description (blurb="GXml:Skip")]
     public string ignore { get; set; } // ignored property
     construct { try { initialize ("Computer"); } catch { assert_not_reached (); } }
     public string to_string () {
@@ -1457,22 +1454,31 @@ class SerializationTest : GLib.Object  {
     Test.add_func ("/gxml/serialization/basic-types",
     () => {
       try {
-        var bt = new GomBasicTypes ();
+        var bt = new GomBasicTypes ();;
         message (bt.write_string ());
+        assert (bt.text == null);
+        assert (bt.integer == 0);
+        assert (bt.unsigned_integer == 0);
+        assert (bt.real_double == 0);
+        assert (bt.real_float == 0);
+        message ("Atributos: %i\n%s", bt.attributes.length, bt.write_string ());
+        assert (bt.attributes.length == 5);
         bt.text = "Text";
         bt.integer = -1;
         bt.unsigned_integer = 1;
         bt.real_float = (float) 1.1;
         bt.real_double = 2.2;
         message (bt.write_string ());
-        assert (bt.attributes.size == 5);
+        message ("Atributos: %i\n%s", bt.attributes.length, bt.write_string ());
+        assert (bt.attributes.length == 6);
         assert (bt.unsigned_integer == 1);
         assert (bt.get_attribute ("text") == "Text");
         assert (bt.get_attribute ("integer") == "-1");
         message ("realFloat = %s", bt.get_attribute ("realFloat"));
         assert (bt.get_attribute ("realFloat") == "1.1");
-        message ("unsignedInteger = %s", bt.get_attribute ("unsignedInteger"));
-        assert (bt.get_attribute ("unsignedInteger") == "1");
+        assert (bt.get_attribute ("realDouble") == "2.2");
+        message ("unsignedInteger = %s", bt.get_attribute ("Uint"));
+        assert (bt.get_attribute ("Uint") == "1");
         var bt2 = new GomBasicTypes ();
         bt2.read_from_string (bt.write_string ());
         assert (bt2.text == "Text");
