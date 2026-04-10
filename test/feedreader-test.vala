@@ -19,8 +19,8 @@ public class FeedReader : GLib.Object {
       var ostream = new MemoryOutputStream.resizable ();
       ostream.splice (f.read (), GLib.OutputStreamSpliceFlags.CLOSE_SOURCE);
       //message ("Checkout source file:\n=================\n"+(string) ostream.data+"\n=================\n");
-      var d = new XHtmlDocument.from_uri ("http://www.omgubuntu.co.uk/2017/05/kde-neon-5-10-available-download-comes-plasma-5-10");
-      message (d.to_string ()+"\n=================\n");
+      var d = new Document.from_uri ("http://www.omgubuntu.co.uk/2017/05/kde-neon-5-10-available-download-comes-plasma-5-10");
+      message (d.write_string ()+"\n=================\n");
       message (d.document_element.node_name+"\n=================\n");
     } catch (GLib.Error e) {
       warning ("Error: "+e.message);

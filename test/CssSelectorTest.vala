@@ -395,25 +395,6 @@ class CssSelectorTest : GLib.Object {
 				assert (!cp.match (c2));
 				assert (!cp.match (c3));
 				assert (!cp.match (c4));
-				var d2 = new XDocument () as DomDocument;
-				var r2 = d2.create_element ("toplevel");
-				d2.append_child (r2);
-				var c1g = d2.create_element ("child");
-				r2.append_child (c1g);
-				var c2g = d2.create_element ("child");
-				c2g.set_attribute ("prop-name", "subval");
-				r2.append_child (c2g);
-				var c3g = d2.create_element ("child");
-				c3g.set_attribute ("prop-name", "techval");
-				r2.append_child (c3g);
-				var c4g = d2.create_element ("child");
-				c4g.set_attribute ("prop-name", "secondaryvalue");
-				r2.append_child (c4g);
-				assert (cp.match (r));
-				assert (!cp.match (c1g));
-				assert (!cp.match (c2g));
-				assert (!cp.match (c3g));
-				assert (!cp.match (c4g));
 			} catch (GLib.Error e){
 				warning ("ERROR: "+e.message);
 			}
@@ -484,28 +465,6 @@ class CssSelectorTest : GLib.Object {
 				assert (cp.match (c3));
 				assert (!cp.match (c4));
 				assert (!cp.match (c5));
-				var d2 = new XDocument () as DomDocument;
-				var r2 = d2.create_element ("toplevel");
-				d2.append_child (r2);
-				var c1g = d2.create_element ("child");
-				r2.append_child (c1g);
-				var c2g = d2.create_element ("child");
-				c2g.set_attribute ("prop-name", "subval");
-				r2.append_child (c2g);
-				var c3g = d2.create_element ("child");
-				c3g.set_attribute ("prop-name", "techval");
-				r2.append_child (c3g);
-				var c4g = d2.create_element ("child");
-				c4g.set_attribute ("prop-name", "secondaryvalue");
-				r2.append_child (c4g);
-				var c5g = d2.create_element ("common");
-				c4g.append_child (c5g);
-				assert (!cp.match (r));
-				assert (cp.match (c1g));
-				assert (cp.match (c2g));
-				assert (cp.match (c3g));
-				assert (!cp.match (c4g));
-				assert (!cp.match (c5g));
 			} catch (GLib.Error e){
 				warning ("ERROR: "+e.message);
 			}
@@ -553,31 +512,6 @@ class CssSelectorTest : GLib.Object {
 				assert (!cp.match (c4));
 				assert (cp.match (c5));
 				assert (cp.match (c6));
-				var d2 = new XDocument () as DomDocument;
-				var r2 = d2.create_element ("toplevel");
-				d2.append_child (r2);
-				var c1g = d2.create_element ("child");
-				r2.append_child (c1g);
-				var c2g = d2.create_element ("child");
-				c2g.set_attribute ("prop-name", "subval");
-				r2.append_child (c2g);
-				var c3g = d2.create_element ("child");
-				c3g.set_attribute ("prop-name", "techval");
-				r2.append_child (c3g);
-				var c4g = d2.create_element ("child");
-				c4g.set_attribute ("prop-name", "secondaryvalue");
-				r2.append_child (c4g);
-				var c5g = d2.create_element ("second");
-				c3g.append_child (c5g);
-				var c6g = d2.create_element ("second");
-				c4g.append_child (c6g);
-				assert (!cp.match (r));
-				assert (!cp.match (c1g));
-				assert (!cp.match (c2g));
-				assert (!cp.match (c3g));
-				assert (!cp.match (c4g));
-				assert (cp.match (c5g));
-				assert (cp.match (c6g));
 			} catch (GLib.Error e){
 				warning ("ERROR: "+e.message);
 			}
@@ -622,34 +556,6 @@ class CssSelectorTest : GLib.Object {
 				assert (cp.match (c5));
 				assert (!cp.match (c6));
 				assert (cp.match (c7));
-				var d2 = new XDocument () as DomDocument;
-				var r2 = d2.create_element ("toplevel");
-				d2.append_child (r2);
-				var c1g = d2.create_element ("child");
-				r2.append_child (c1g);
-				var c2g = d2.create_element ("child");
-				c2g.set_attribute ("prop-name", "subval");
-				r2.append_child (c2g);
-				var c3g = d2.create_element ("child");
-				c3g.set_attribute ("prop-name", "techval");
-				r2.append_child (c3g);
-				var c4g = d2.create_element ("child");
-				c4g.set_attribute ("prop-name", "secondaryvalue");
-				r2.append_child (c4g);
-				var c5g = d2.create_element ("second");
-				c3g.append_child (c5g);
-				var c6g = d2.create_element ("second");
-				c4g.append_child (c6g);
-				var c7g = d2.create_element ("second");
-				c4g.append_child (c7g);
-				assert (!cp.match (r));
-				assert (!cp.match (c1g));
-				assert (!cp.match (c2g));
-				assert (!cp.match (c3g));
-				assert (!cp.match (c4g));
-				assert (cp.match (c5g));
-				assert (!cp.match (c6g));
-				assert (cp.match (c7g));
 			} catch (GLib.Error e){
 				warning ("ERROR: "+e.message);
 			}

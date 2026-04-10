@@ -370,7 +370,7 @@ public class GXml.Implementation : GLib.Object, GXml.DomImplementation {
     return d as DomXMLDocument;
   } // FIXME
   public DomDocument create_html_document (string title) {
-    return new XHtmlDocument (); // FIXME:
+    return new Document (); // FIXME:
   }
 }
 

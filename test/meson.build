@@ -8,15 +8,18 @@ tests_common_sources = configvapi + configtestvapi
 tests_common_deps = [ libgxml_deps, inc_libh_dep, testdirs_dep, inc_rooth_dep ]
 
 unit_test_specs = [
+	['document', 'DocumentTest.vala'],
+	['element', 'ElementTest.vala'],
+	['serialization', 'SerializationTest.vala'],
+	['css', 'CssSelectorTest.vala'],
+]
+
+unit_test_libxml_specs = [
 	['xdocument', 'XDocumentTest.vala'],
 	['htmlxdocument', 'XHtmlDocumentTest.vala'],
 	['xelement', 'XElementTest.vala'],
 	['xxpath', 'XPathTest.vala'],
 	['xsd', 'XsdSchemaTest.vala'],
-	['document', 'DocumentTest.vala'],
-	['element', 'ElementTest.vala'],
-	['serialization', 'SerializationTest.vala'],
-	['css', 'CssSelectorTest.vala'],
 	['html', 'HtmlDocumentTest.vala'],
 ]
 
@@ -58,8 +61,11 @@ feedreadert = executable('feedreader_tests', files('feedreader-test.vala') + tes
 benchmark_specs = [
 	['performance-load', 'DocumentPerformanceTest.vala'],
 	['performance-iterate', 'DocumentPerformanceIterateTest.vala'],
-	['libxml-performance-load', 'XDocumentPerformanceTest.vala'],
-	['libxml-performance-iterate', 'XDocumentPerformanceIterateTest.vala'],
+]
+
+benchmark_libxml_specs = [
+	['performance-load', 'DocumentPerformanceTest.vala'],
+	['performance-iterate', 'DocumentPerformanceIterateTest.vala'],
 ]
 
 foreach spec : benchmark_specs

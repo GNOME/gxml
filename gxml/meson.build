@@ -51,7 +51,6 @@ valasources = files ([
 	'HTMLCollection.vala',
 	'HtmlDocument.vala',
 	'IXsdSchema.vala',
-	'LXPathObject.vala',
 	'Node.vala',
 	'NodeIterator.vala',
 	'NodeType.vala',
@@ -64,6 +63,15 @@ valasources = files ([
 	'Text.vala',
 	'TokenList.vala',
 	'TreeWalker.vala',
+	'XParser.vala',
+	'XPath.vala',
+	'XsdSchema.vala',
+])
+
+# Legacy API
+valasources_libxml =([
+	'LXPathObject.vala',
+	'XdParser.vala',
 	'XAttribute.vala',
 	'XCharacter.vala',
 	'XChildNode.vala',
@@ -75,10 +83,7 @@ valasources = files ([
 	'XHtmlDocument.vala',
 	'XListChildren.vala',
 	'XNode.vala',
-	'XParser.vala',
-	'XPath.vala',
 	'XProcessingInstruction.vala',
-	'XsdSchema.vala',
 	'XText.vala',
 ])
 

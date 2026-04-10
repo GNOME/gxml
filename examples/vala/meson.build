@@ -1,2 +1,3 @@
 subdir('CreateAndSavingDocuments')
-subdir('XPathAndObjectMappingExample')
+# Legacy example
+# subdir('XPathAndObjectMappingExample')
