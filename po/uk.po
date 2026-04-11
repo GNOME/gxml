@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml gxml-0.18\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues/\n"
-"POT-Creation-Date: 2026-04-07 01:21+0000\n"
-"PO-Revision-Date: 2026-04-07 22:49+0300\n"
+"POT-Creation-Date: 2026-04-10 18:31+0000\n"
+"PO-Revision-Date: 2026-04-11 22:36+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -153,12 +153,11 @@ msgstr ""
 
 #: gxml/Document.vala:189
 #, c-format
-#| msgid "Invalid element qualified name: multiple namespace prefixes"
 msgid ""
 "Invalid qualified name '%s'. Only one ':' is allowed for namespace prefixes."
 msgstr ""
-"Некоректна складена назва «%s». Для префіксів простору назв можна"
-" використовувати лише один «:»."
+"Некоректна складена назва «%s». Для префіксів простору назв можна "
+"використовувати лише один «:»."
 
 #: gxml/Document.vala:196
 #, c-format
@@ -166,13 +165,11 @@ msgid ""
 "Invalid namespace for element '%s'. Ensure it has a valid prefix or "
 "namespace URI."
 msgstr ""
-"Некоректний простір назв для елемента «%s». Переконайтеся, що він має"
-" коректний префікс або адресу простору назв."
+"Некоректний простір назв для елемента «%s». Переконайтеся, що він має "
+"коректний префікс або адресу простору назв."
 
 #: gxml/Document.vala:200
 #, c-format
-#| msgid ""
-#| "Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
 msgid ""
 "Invalid namespace URI '%s' for 'xmlns' prefix. Expected: 'http://www.w3.org/"
 "2000/xmlns/'."
@@ -181,14 +178,12 @@ msgstr ""
 "www.w3.org/2000/xmlns/"
 
 #: gxml/Document.vala:204
-#| msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
 msgid ""
 "Only 'xmlns' prefix can be used with namespace URI 'http://www.w3.org/2000/"
 "xmlns/'."
 msgstr ""
-"Разом із адресою простору назв «http://www.w3.org/2000/xmlns/» можна"
-" використовувати лише префікс "
-"xmlns"
+"Разом із адресою простору назв «http://www.w3.org/2000/xmlns/» можна "
+"використовувати лише префікс xmlns"
 
 #: gxml/Document.vala:244 gxml/XDocument.vala:276
 msgid "Can't import a Document"
@@ -224,52 +219,58 @@ msgstr "Некоректний зсув для заміни даних"
 msgid "Invalid offset to split text"
 msgstr "Некоректний зсув для поділу тексту"
 
-#: gxml/DomNode.vala:133
+#: gxml/DomNode.vala:145
 msgid "Text node with NULL string"
 msgstr "Текстовий вузол із рядком NULL"
 
-#: gxml/DomNode.vala:140
+#: gxml/DomNode.vala:152
 msgid "Can't copy child text node"
 msgstr "Не вдалося скопіювати дочірній текстовий вузол"
 
-#: gxml/Element.vala:194
+#: gxml/Element.vala:220
 msgid "Invalid namespace URI stored in element's attribute"
 msgstr "У атрибуті елемента збережено некоректну адресу простору назв"
 
-#: gxml/Element.vala:201 gxml/Element.vala:242
+#: gxml/Element.vala:227 gxml/Element.vala:268
 msgid "Invalid attribute name in element's attributes list"
 msgstr "Некоректна назва атрибута у списку атрибутів елемента"
 
-#: gxml/Element.vala:257
+#: gxml/Element.vala:283
 msgid "Can't locate child node to remove"
 msgstr "Не вдалося знайти дочірній вузол для вилучення"
 
-#: gxml/Element.vala:487 gxml/Element.vala:553
+#: gxml/Element.vala:379 gxml/Element.vala:393
+#, c-format
+#| msgid "Error getting attribute with namespace: %s"
+msgid "Error getting 'id' attribute: %s"
+msgstr "Помилка під час спроби отримання атрибута «id»: %s"
+
+#: gxml/Element.vala:583 gxml/Element.vala:649
 #, c-format
 msgid "Invalid attribute name: %s"
 msgstr "Некоректна назва атрибута: %s"
 
-#: gxml/Element.vala:489 gxml/Element.vala:555
+#: gxml/Element.vala:585 gxml/Element.vala:651
 msgid "Invalid node type. GXml.Attr was expected"
 msgstr "Некоректний тип вузла. Мало бути використано GXml.Attr"
 
-#: gxml/Element.vala:512 gxml/Element.vala:531
+#: gxml/Element.vala:608 gxml/Element.vala:627
 #, c-format
 msgid "No index found for attribute %s"
 msgstr "Не знайдено індексу для атрибута %s"
 
-#: gxml/Element.vala:540
+#: gxml/Element.vala:636
 #, c-format
 msgid "Invalid attribute's local name '%s': invalid use of ':' character"
 msgstr ""
 "Некоректна локальна назва атрибута «%s»: некоректне використання символу «:»"
 
-#: gxml/Element.vala:544
+#: gxml/Element.vala:640
 #, c-format
 msgid "Namespace URI was not found: %s"
 msgstr "Не знайдено адреси простору назв: %s"
 
-#: gxml/Element.vala:560
+#: gxml/Element.vala:656
 msgid ""
 "Namespace attributes prefixed with 'xmlns' should use a namespace uri http://"
 "www.w3.org/2000/xmlns"
@@ -277,7 +278,7 @@ msgstr ""
 "Атрибути простору назв із префіксом «xmlns» мають використовувати адресу "
 "простору назв http://www.w3.org/2000/xmlns"
 
-#: gxml/Element.vala:564
+#: gxml/Element.vala:660
 msgid ""
 "Namespace attributes prefixed with 'xml' should use a namespace uri http://"
 "www.w3.org/XML/1998/namespace"
@@ -285,7 +286,7 @@ msgstr ""
 "Атрибути простору назв із префіксом «xml» мають використовувати адресу "
 "простору назв http://www.w3.org/XML/1998/namespace"
 
-#: gxml/Element.vala:568
+#: gxml/Element.vala:664
 msgid ""
 "Namespace attributes prefixed with 'xsi' should use a namespace uri http://"
 "www.w3.org/2001/XMLSchema-instance"
@@ -293,7 +294,7 @@ msgstr ""
 "Атрибути простору назв із префіксом «xmlns» мають використовувати адресу "
 "простору назв http://www.w3.org/2001/XMLSchema-instance"
 
-#: gxml/Element.vala:572
+#: gxml/Element.vala:668
 msgid ""
 "Namespace attributes prefixed with 'html' should use a namespace uri http://"
 "www.w3.org/1999/xhtml"
@@ -301,7 +302,7 @@ msgstr ""
 "Атрибути простору назв із префіксом «html» мають використовувати адресу "
 "простору назв http://www.w3.org/1999/xhtml"
 
-#: gxml/Element.vala:576
+#: gxml/Element.vala:672
 msgid ""
 "Namespace attributes prefixed with 'MathML' should use a namespace uri "
 "http://www.w3.org/1998/Math/MathML"
@@ -309,7 +310,7 @@ msgstr ""
 "Атрибути простору назв із префіксом «MathML» мають використовувати адресу "
 "простору назв http://www.w3.org/1998/Math/MathML"
 
-#: gxml/Element.vala:580
+#: gxml/Element.vala:676
 msgid ""
 "Namespace attributes prefixed with 'xlink' should use a namespace uri http://"
 "www.w3.org/1999/xlink"
@@ -317,7 +318,7 @@ msgstr ""
 "Атрибути простору назв із префіксом «xlink» мають використовувати адресу "
 "простору назв http://www.w3.org/1999/xlink"
 
-#: gxml/Element.vala:584
+#: gxml/Element.vala:680
 msgid ""
 "Namespace attributes prefixed with 'svg' should use a namespace uri http://"
 "www.w3.org/2000/svg"
@@ -325,46 +326,46 @@ msgstr ""
 "Атрибути простору назв із префіксом «svg» мають використовувати адресу "
 "простору назв http://www.w3.org/2000/svg"
 
-#: gxml/Element.vala:591
+#: gxml/Element.vala:687
 #, c-format
 msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
 msgstr ""
 "Атрибути із просторами назв мають надавати ненульових, непорожній префікс: %s"
 
-#: gxml/Element.vala:595
+#: gxml/Element.vala:691
 msgid "Invalid namespace attribute's name."
 msgstr "Некоректна назва атрибута простору назв."
 
-#: gxml/Element.vala:612
+#: gxml/Element.vala:708
 #, c-format
 msgid "Trying to add an attribute with an undefined namespace's prefix: %s"
 msgstr "Спроба додавання атрибута із невизначеним префіксом простору назв: %s"
 
-#: gxml/Element.vala:619
+#: gxml/Element.vala:715
 msgid "Trying to add an attribute with an undefined namespace's URI"
 msgstr "Спроба додавання атрибута із невизначеною адресою простору назв"
 
-#: gxml/Element.vala:671
+#: gxml/Element.vala:772
 #, c-format
 msgid "Error getting attribute with namespace: %s"
 msgstr "Помилка під час отримання атрибута із простором назв: %s"
 
-#: gxml/Element.vala:687
+#: gxml/Element.vala:788
 msgid "Invalid attribute name. Just one prefix is allowed"
 msgstr "Некоректна назва атрибута. Можна використовувати лише один префікс"
 
-#: gxml/Element.vala:692
+#: gxml/Element.vala:793
 #, c-format
 msgid "Invalid attribute name. Invalid use of colon: %s"
 msgstr "Некоректна назва атрибута. Некоректне використання двокрапки: %s"
 
-#: gxml/Element.vala:696
+#: gxml/Element.vala:797
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
 msgstr ""
 "Некоректний простір назв. Якщо префікс є порожнім, адресою простору назв має "
 "бути null"
 
-#: gxml/Element.vala:700
+#: gxml/Element.vala:801
 msgid ""
 "Invalid namespace definition. No prefixed attributes should use 'xmlns' as "
 "name"
@@ -372,15 +373,15 @@ msgstr ""
 "Некоректне визначення простору назв. Атрибути з префіксами не можуть "
 "використовувати назву xmlns"
 
-#: gxml/Element.vala:704
+#: gxml/Element.vala:805
 msgid "'xml' namespace should not be defined"
 msgstr "Не слід визначати простір назв «xml»"
 
-#: gxml/Element.vala:708
+#: gxml/Element.vala:809
 msgid "'xmlns' namespace should not be defined"
 msgstr "Не слід визначати простір назв «xmlns»"
 
-#: gxml/Element.vala:716
+#: gxml/Element.vala:817
 msgid ""
 "Invalid namespace. If prefix is 'xml', namespace URI should be http://"
 "www.w3.org/XML/1998/namespace"
@@ -388,7 +389,7 @@ msgstr ""
 "Некоректний простір назв. Якщо префіксом є префікс xml, адресою простору "
 "назв має бути http://www.w3.org/XML/1998/namespace"
 
-#: gxml/Element.vala:723
+#: gxml/Element.vala:824
 msgid ""
 "Invalid namespace definition. If attribute's prefix is 'xmlns', namespace "
 "URI should be http://www.w3.org/2000/xmlns"
@@ -396,7 +397,7 @@ msgstr ""
 "Некоректне визначення простору назв. Якщо префіксом атрибута є префікс "
 "xmlns, адресою простору назв має бути http://www.w3.org/2000/xmlns"
 
-#: gxml/Element.vala:730
+#: gxml/Element.vala:831
 msgid ""
 "Invalid namespace. If attribute's prefix is 'html', namespace URI should be "
 "http://www.w3.org/1999/xhtml"
@@ -404,7 +405,7 @@ msgstr ""
 "Некоректний простір назв. Якщо префіксом атрибута є префікс «html», адресою "
 "простору назв має бути http://www.w3.org/1999/xhtml"
 
-#: gxml/Element.vala:737
+#: gxml/Element.vala:838
 msgid ""
 "Invalid namespace. If attribute's prefix is 'xsi', namespace URI should be "
 "http://www.w3.org/2001/XMLSchema-instance"
@@ -412,7 +413,7 @@ msgstr ""
 "Некоректний простір назв. Якщо префіксом атрибута є префікс «xsi», адресою "
 "простору назв має бути http://www.w3.org/2001/XMLSchema-instance"
 
-#: gxml/Element.vala:744
+#: gxml/Element.vala:845
 msgid ""
 "Invalid namespace. If attribute's prefix is 'MathML', namespace URI should "
 "be http://www.w3.org/1998/Math/MathML"
@@ -420,7 +421,7 @@ msgstr ""
 "Некоректний простір назв. Якщо префіксом атрибута є префікс «MathML», "
 "адресою простору назв має бути http://www.w3.org/1998/Math/MathML"
 
-#: gxml/Element.vala:751
+#: gxml/Element.vala:852
 msgid ""
 "Invalid namespace. If attribute's prefix is 'svg', namespace URI should be "
 "http://www.w3.org/2000/svg"
@@ -428,7 +429,7 @@ msgstr ""
 "Некоректний простір назв. Якщо префіксом атрибута є префікс «svg», адресою "
 "простору назв має бути http://www.w3.org/2000/svg"
 
-#: gxml/Element.vala:758
+#: gxml/Element.vala:859
 msgid ""
 "Invalid namespace. If attribute's prefix is 'xlink', namespace URI should be "
 "http://www.w3.org/1999/xlink"
@@ -436,19 +437,19 @@ msgstr ""
 "Некоректний простір назв. Якщо префіксом атрибута є префікс «xlink», адресою "
 "простору назв має бути http://www.w3.org/1999/xlink"
 
-#: gxml/Element.vala:763
+#: gxml/Element.vala:864
 msgid "Setting namespaced property error: "
 msgstr "Помилка під час спроби встановити властивість із простором назв: "
 
-#: gxml/Element.vala:769
+#: gxml/Element.vala:870
 msgid "Removing attribute Error: "
 msgstr "Помилка під час спроби вилучити атрибут: "
 
-#: gxml/Element.vala:774
+#: gxml/Element.vala:875
 msgid "Removing namespaced attribute Error: "
 msgstr "Помилка під час спроби вилучення атрибута із простором назв: "
 
-#: gxml/Element.vala:940
+#: gxml/Element.vala:1046
 #, c-format
 msgid "Error parsing child's buffer: %s"
 msgstr "Помилка під час обробки буфера дочірнього елемента: %s"
@@ -466,72 +467,72 @@ msgstr "текст «%s» не вдалося обробити до типу п�
 msgid "No primary key and/or secondary key was found"
 msgstr "Не знайдено основного і/або вторинного ключа"
 
-#: gxml/Node.vala:156
+#: gxml/Node.vala:179
 msgid "Text content in element can't be created"
 msgstr "Не вдалося створити текстовий вміст у елементі"
 
-#: gxml/Node.vala:209 gxml/XNode.vala:328
+#: gxml/Node.vala:232 gxml/XNode.vala:328
 msgid "Can't find node position"
 msgstr "Не вдалося знайти позицію вузла"
 
-#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:359
+#: gxml/Node.vala:280 gxml/Node.vala:323 gxml/XNode.vala:359
 msgid "Invalid attempt to add invalid node type"
 msgstr "Некоректна спроба додати некоректний тип вузла"
 
-#: gxml/Node.vala:260 gxml/XNode.vala:361
+#: gxml/Node.vala:283 gxml/XNode.vala:361
 msgid "Can't find child to insert node before"
 msgstr "Не вдалося знайти дочірній елемент для вставлення вузла перед ним"
 
-#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:365
+#: gxml/Node.vala:288 gxml/Node.vala:329 gxml/XNode.vala:365
 msgid "Invalid attempt to insert a node"
 msgstr "Некоректна спроба вставити вузол"
 
-#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:372
+#: gxml/Node.vala:296 gxml/Node.vala:336 gxml/XNode.vala:372
 msgid "Invalid attempt to insert an invalid node type"
 msgstr "Некоректна спроба вставити некоректний тип вузла"
 
-#: gxml/Node.vala:291
+#: gxml/Node.vala:314
 msgid "Node type is invalid. Can't append as child"
 msgstr "Некоректний тип вузла. Не можна долучати як дочірній"
 
-#: gxml/Node.vala:294
+#: gxml/Node.vala:317
 msgid "Invalid attempt to append a child with different parent document"
 msgstr ""
 "Некоректна спроба дописати дочірній елемент із іншим батьківським документом"
 
-#: gxml/Node.vala:302 gxml/XNode.vala:394
+#: gxml/Node.vala:325 gxml/XNode.vala:394
 msgid "Can't find child node to replace or child have a different parent"
 msgstr ""
 "Не вдалося знайти дочірній вузол для заміни або дочірній вузол має інший "
 "батьківський"
 
-#: gxml/Node.vala:316 gxml/XNode.vala:375
+#: gxml/Node.vala:339 gxml/XNode.vala:375
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr ""
 "Некоректна спробу вставити тип документа або текстовий вузол до некоректного "
 "батьківського"
 
-#: gxml/Node.vala:328 gxml/XNode.vala:438
+#: gxml/Node.vala:351 gxml/XNode.vala:438
 msgid "Can't find child node to remove or child have a different parent"
 msgstr ""
 "Не вдалося знайти дочірній вузол для вилучення або дочірній вузол має інший "
 "батьківський"
 
-#: gxml/Object.vala:170
+#: gxml/Object.vala:211
 msgid "Enumeration is out of range"
 msgstr "Вихід за межі припустимого діапазону у переліку"
 
-#: gxml/Object.vala:285
+#: gxml/Object.vala:326
 msgid "Enumeration can't be parsed from string"
 msgstr "Не вдалося обробити рядок до переліку"
 
-#: gxml/Object.vala:407
+#: gxml/Object.vala:448
 #, c-format
 msgid "Error while attempting to instantiate property object: %s"
 msgstr "Помилка під час спроби створення екземпляра об'єкта властивості: %s"
 
-#: gxml/Object.vala:456
+#: gxml/Object.vala:497
 msgid "Can't set value. It is not a GXmlGXml.Element type"
 msgstr ""
 "Не вдалося встановити значення. Цей елемент не належить до типу "
@@ -825,7 +826,7 @@ msgstr ""
 msgid "Invalid sequence for document type definition: "
 msgstr "Некоректна послідовність для визначення типу документа:"
 
-#: gxml/XParser.vala:494 gxml/XParser.vala:600 gxml/XParser.vala:672
+#: gxml/XParser.vala:494 gxml/XParser.vala:601 gxml/XParser.vala:681
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Внутрішня помилка: TextWriter не ініціалізовано"
 
