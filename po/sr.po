@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues/\n"
-"POT-Creation-Date: 2026-04-07 01:21+0000\n"
+"POT-Creation-Date: 2026-04-10 18:31+0000\n"
 "PO-Revision-Date: 2022-06-18 09:48+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolić@rocketmail.com>\n"
 "Language-Team: Serbian <српски <gnome-sr@googlegroups.org>>\n"
@@ -154,27 +154,35 @@ msgstr "Грешка приликом покушаја покретања обј
 #, c-format
 msgid ""
 "Invalid qualified name '%s'. Only one ':' is allowed for namespace prefixes."
-msgstr "Неисправан квалификовани назив „%s“. Дозвољена је само једна двотачка „:“ за префиксе именског простора."
+msgstr ""
+"Неисправан квалификовани назив „%s“. Дозвољена је само једна двотачка „:“ за "
+"префиксе именског простора."
 
 #: gxml/Document.vala:196
 #, c-format
 msgid ""
 "Invalid namespace for element '%s'. Ensure it has a valid prefix or "
 "namespace URI."
-msgstr "Неисправан именски простор за елемент „%s“. Уверите се да има исправан префикс или УРИ именског простора."
+msgstr ""
+"Неисправан именски простор за елемент „%s“. Уверите се да има исправан "
+"префикс или УРИ именског простора."
 
 #: gxml/Document.vala:200
 #, c-format
 msgid ""
 "Invalid namespace URI '%s' for 'xmlns' prefix. Expected: 'http://www.w3.org/"
 "2000/xmlns/'."
-msgstr "Неисправан УРИ именског простора „%s“ за префикс „xmlns“. Очекивано: „http://www.w3.org/2000/xmlns/“."
+msgstr ""
+"Неисправан УРИ именског простора „%s“ за префикс „xmlns“. Очекивано: „http://"
+"www.w3.org/2000/xmlns/“."
 
 #: gxml/Document.vala:204
 msgid ""
 "Only 'xmlns' prefix can be used with namespace URI 'http://www.w3.org/2000/"
 "xmlns/'."
-msgstr "Само се префикс „xmlns“ може користити са УРИ-јем именског простора „http://www.w3.org/2000/xmlns/“."
+msgstr ""
+"Само се префикс „xmlns“ може користити са УРИ-јем именског простора „http://"
+"www.w3.org/2000/xmlns/“."
 
 #: gxml/Document.vala:244 gxml/XDocument.vala:276
 msgid "Can't import a Document"
@@ -210,51 +218,56 @@ msgstr "Неисправан померај за податке замене"
 msgid "Invalid offset to split text"
 msgstr "Неисправан померај за поделу текста"
 
-#: gxml/DomNode.vala:133
+#: gxml/DomNode.vala:145
 msgid "Text node with NULL string"
 msgstr "Чвор текста са НИШТАВНОМ ниском"
 
-#: gxml/DomNode.vala:140
+#: gxml/DomNode.vala:152
 msgid "Can't copy child text node"
 msgstr "Не могу да умножим чвор текста порода"
 
-#: gxml/Element.vala:194
+#: gxml/Element.vala:220
 msgid "Invalid namespace URI stored in element's attribute"
 msgstr "Неисправна путања просторног назива смештеног у атрибуту елемента"
 
-#: gxml/Element.vala:201 gxml/Element.vala:242
+#: gxml/Element.vala:227 gxml/Element.vala:268
 msgid "Invalid attribute name in element's attributes list"
 msgstr "Неисправан назив атрибута на списку атрибута елемента"
 
-#: gxml/Element.vala:257
+#: gxml/Element.vala:283
 msgid "Can't locate child node to remove"
 msgstr "Не могу да нађем чвор порода за уклањање"
 
-#: gxml/Element.vala:487 gxml/Element.vala:553
+#: gxml/Element.vala:379 gxml/Element.vala:393
+#, c-format
+msgid "Error getting 'id' attribute: %s"
+msgstr "Грешка при добављању атрибута „id“: %s"
+
+#: gxml/Element.vala:583 gxml/Element.vala:649
 #, c-format
 msgid "Invalid attribute name: %s"
 msgstr "Неисправан назив атрибута: %s"
 
-#: gxml/Element.vala:489 gxml/Element.vala:555
+#: gxml/Element.vala:585 gxml/Element.vala:651
 msgid "Invalid node type. GXml.Attr was expected"
 msgstr "Неисправна врста чвора. Очекивано је „GXml.Attr“"
 
-#: gxml/Element.vala:512 gxml/Element.vala:531
+#: gxml/Element.vala:608 gxml/Element.vala:627
 #, c-format
 msgid "No index found for attribute %s"
 msgstr "Нисам нашао индекс за атрибут „%s“"
 
-#: gxml/Element.vala:540
+#: gxml/Element.vala:636
 #, c-format
 msgid "Invalid attribute's local name '%s': invalid use of ':' character"
 msgstr "Неисправан локални назив атрибута „%s“: неисправно коришћење знака „:“"
 
-#: gxml/Element.vala:544
+#: gxml/Element.vala:640
 #, c-format
 msgid "Namespace URI was not found: %s"
 msgstr "Нисам нашао путању називног простора: %s"
 
-#: gxml/Element.vala:560
+#: gxml/Element.vala:656
 msgid ""
 "Namespace attributes prefixed with 'xmlns' should use a namespace uri http://"
 "www.w3.org/2000/xmlns"
@@ -262,7 +275,7 @@ msgstr ""
 "Атрибути простроног назива који имају „xmlns“ као префикс треба да користе "
 "путању просторног назива „http://www.w3.org/2000/xmlns“"
 
-#: gxml/Element.vala:564
+#: gxml/Element.vala:660
 msgid ""
 "Namespace attributes prefixed with 'xml' should use a namespace uri http://"
 "www.w3.org/XML/1998/namespace"
@@ -270,7 +283,7 @@ msgstr ""
 "Атрибути простроног назива који имају „xml“ као префикс треба да користе "
 "путању просторног назива „http://www.w3.org/XML/1998/namespace“"
 
-#: gxml/Element.vala:568
+#: gxml/Element.vala:664
 msgid ""
 "Namespace attributes prefixed with 'xsi' should use a namespace uri http://"
 "www.w3.org/2001/XMLSchema-instance"
@@ -278,7 +291,7 @@ msgstr ""
 "Атрибути простроног назива који имају „xsi“ као префикс треба да користе "
 "путању просторног назива „http://www.w3.org/2001/XMLSchema-instance“"
 
-#: gxml/Element.vala:572
+#: gxml/Element.vala:668
 msgid ""
 "Namespace attributes prefixed with 'html' should use a namespace uri http://"
 "www.w3.org/1999/xhtml"
@@ -286,7 +299,7 @@ msgstr ""
 "Атрибути простроног назива који имају „xtml“ као префикс треба да користе "
 "путању просторног назива „http://www.w3.org/1999/xhtml“"
 
-#: gxml/Element.vala:576
+#: gxml/Element.vala:672
 msgid ""
 "Namespace attributes prefixed with 'MathML' should use a namespace uri "
 "http://www.w3.org/1998/Math/MathML"
@@ -294,7 +307,7 @@ msgstr ""
 "Атрибути простроног назива који имају „MathML“ као префикс треба да користе "
 "путању просторног назива „http://www.w3.org/1998/Math/MathML“"
 
-#: gxml/Element.vala:580
+#: gxml/Element.vala:676
 msgid ""
 "Namespace attributes prefixed with 'xlink' should use a namespace uri http://"
 "www.w3.org/1999/xlink"
@@ -302,7 +315,7 @@ msgstr ""
 "Атрибути простроног назива који имају „xlink“ као префикс треба да користе "
 "путању просторног назива „http://www.w3.org/1999/xlink“"
 
-#: gxml/Element.vala:584
+#: gxml/Element.vala:680
 msgid ""
 "Namespace attributes prefixed with 'svg' should use a namespace uri http://"
 "www.w3.org/2000/svg"
@@ -310,48 +323,48 @@ msgstr ""
 "Атрибути простроног назива који имају „svg“ као префикс треба да користе "
 "путању просторног назива „http://www.w3.org/2000/svg“"
 
-#: gxml/Element.vala:591
+#: gxml/Element.vala:687
 #, c-format
 msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
 msgstr ""
 "Атрибути са простроним називом треба да обезбеде не-ништаван, не-празан "
 "префикс: %s"
 
-#: gxml/Element.vala:595
+#: gxml/Element.vala:691
 msgid "Invalid namespace attribute's name."
 msgstr "Неисправан назив атрибута просторног назива."
 
-#: gxml/Element.vala:612
+#: gxml/Element.vala:708
 #, c-format
 msgid "Trying to add an attribute with an undefined namespace's prefix: %s"
 msgstr ""
 "Покушавам да додам атрибут са недефинисаним префиксом просторног назива: %s"
 
-#: gxml/Element.vala:619
+#: gxml/Element.vala:715
 msgid "Trying to add an attribute with an undefined namespace's URI"
 msgstr "Покушавам да додам атрибут са недефинисаном путањом просторног назива"
 
-#: gxml/Element.vala:671
+#: gxml/Element.vala:772
 #, c-format
 msgid "Error getting attribute with namespace: %s"
 msgstr "Грешка добављања атрибута са просторним називом: %s"
 
-#: gxml/Element.vala:687
+#: gxml/Element.vala:788
 msgid "Invalid attribute name. Just one prefix is allowed"
 msgstr "Неисправан назив атрибута. Дозвољен је само један префикс"
 
-#: gxml/Element.vala:692
+#: gxml/Element.vala:793
 #, c-format
 msgid "Invalid attribute name. Invalid use of colon: %s"
 msgstr "Неисправан назив атрибута. Неисправно коришћење двотачке: %s"
 
-#: gxml/Element.vala:696
+#: gxml/Element.vala:797
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
 msgstr ""
 "Неисправан просторни назив. Ако је префикс ништаван, путања просторног "
 "назива не треба бити ништавна"
 
-#: gxml/Element.vala:700
+#: gxml/Element.vala:801
 msgid ""
 "Invalid namespace definition. No prefixed attributes should use 'xmlns' as "
 "name"
@@ -359,15 +372,15 @@ msgstr ""
 "Неисправна дефиниција називног простора. Атрибути без префикса треба да "
 "користе „xmlns“ као назив"
 
-#: gxml/Element.vala:704
+#: gxml/Element.vala:805
 msgid "'xml' namespace should not be defined"
 msgstr "„xml“ називни простор не треба бити дефинисан"
 
-#: gxml/Element.vala:708
+#: gxml/Element.vala:809
 msgid "'xmlns' namespace should not be defined"
 msgstr "„xmlns“ називни простор не треба бити дефинисан"
 
-#: gxml/Element.vala:716
+#: gxml/Element.vala:817
 msgid ""
 "Invalid namespace. If prefix is 'xml', namespace URI should be http://"
 "www.w3.org/XML/1998/namespace"
@@ -375,7 +388,7 @@ msgstr ""
 "Неисправан просторни назив. Ако је префикс „xml“, путања просторног назива "
 "треба бити „http://www.w3.org/XML/1998/namespace“"
 
-#: gxml/Element.vala:723
+#: gxml/Element.vala:824
 msgid ""
 "Invalid namespace definition. If attribute's prefix is 'xmlns', namespace "
 "URI should be http://www.w3.org/2000/xmlns"
@@ -383,7 +396,7 @@ msgstr ""
 "Неисправна дефиниција просторног назива. Ако је префикс атрибута „xmlns“, "
 "путања називног простора треба бити „http://www.w3.org/2000/xmlns“"
 
-#: gxml/Element.vala:730
+#: gxml/Element.vala:831
 msgid ""
 "Invalid namespace. If attribute's prefix is 'html', namespace URI should be "
 "http://www.w3.org/1999/xhtml"
@@ -391,7 +404,7 @@ msgstr ""
 "Неисправан просторни назив. Ако је префикс атрибута „html“, путања треба "
 "бити „http://www.w3.org/1999/xhtml“"
 
-#: gxml/Element.vala:737
+#: gxml/Element.vala:838
 msgid ""
 "Invalid namespace. If attribute's prefix is 'xsi', namespace URI should be "
 "http://www.w3.org/2001/XMLSchema-instance"
@@ -399,7 +412,7 @@ msgstr ""
 "Неисправан просторни назив. Ако је префикс атрибута „xsi“, путања треба бити "
 "„http://www.w3.org/2001/XMLSchema-instance“"
 
-#: gxml/Element.vala:744
+#: gxml/Element.vala:845
 msgid ""
 "Invalid namespace. If attribute's prefix is 'MathML', namespace URI should "
 "be http://www.w3.org/1998/Math/MathML"
@@ -407,7 +420,7 @@ msgstr ""
 "Неисправан просторни назив. Ако је префикс атрибута „MathML“, путања треба "
 "бити „http://www.w3.org/1998/Math/MathML“"
 
-#: gxml/Element.vala:751
+#: gxml/Element.vala:852
 msgid ""
 "Invalid namespace. If attribute's prefix is 'svg', namespace URI should be "
 "http://www.w3.org/2000/svg"
@@ -415,7 +428,7 @@ msgstr ""
 "Неисправан просторни назив. Ако је префикс атрибута „svg“, путања треба бити "
 "„http://www.w3.org/2000/svg“"
 
-#: gxml/Element.vala:758
+#: gxml/Element.vala:859
 msgid ""
 "Invalid namespace. If attribute's prefix is 'xlink', namespace URI should be "
 "http://www.w3.org/1999/xlink"
@@ -423,19 +436,19 @@ msgstr ""
 "Неисправан просторни назив. Ако је префикс атрибута „xlink“, путања треба "
 "бити „http://www.w3.org/1999/xlink“"
 
-#: gxml/Element.vala:763
+#: gxml/Element.vala:864
 msgid "Setting namespaced property error: "
 msgstr "Грешка подешавања својства просторног назива: "
 
-#: gxml/Element.vala:769
+#: gxml/Element.vala:870
 msgid "Removing attribute Error: "
 msgstr "Грешка уклањања атрибута: "
 
-#: gxml/Element.vala:774
+#: gxml/Element.vala:875
 msgid "Removing namespaced attribute Error: "
 msgstr "Грешка уклањања атрибута просторног назива: "
 
-#: gxml/Element.vala:940
+#: gxml/Element.vala:1046
 #, c-format
 msgid "Error parsing child's buffer: %s"
 msgstr "Грешка обраде међумеморије порода: %s"
@@ -453,68 +466,68 @@ msgstr "текст „%s“ не може бити обрађен на врст�
 msgid "No primary key and/or secondary key was found"
 msgstr "Нисам нашао примарни и/или секундарни кључ"
 
-#: gxml/Node.vala:156
+#: gxml/Node.vala:179
 msgid "Text content in element can't be created"
 msgstr "Садржај текста у елементу се не може направити"
 
-#: gxml/Node.vala:209 gxml/XNode.vala:328
+#: gxml/Node.vala:232 gxml/XNode.vala:328
 msgid "Can't find node position"
 msgstr "Не могу да нађем положај чвора"
 
-#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:359
+#: gxml/Node.vala:280 gxml/Node.vala:323 gxml/XNode.vala:359
 msgid "Invalid attempt to add invalid node type"
 msgstr "Неисправан покушај додавања неисправне врсте чвора"
 
-#: gxml/Node.vala:260 gxml/XNode.vala:361
+#: gxml/Node.vala:283 gxml/XNode.vala:361
 msgid "Can't find child to insert node before"
 msgstr "Не могу да нађем пород да уметнем чвор пре"
 
-#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:365
+#: gxml/Node.vala:288 gxml/Node.vala:329 gxml/XNode.vala:365
 msgid "Invalid attempt to insert a node"
 msgstr "Неисправан покушај уметања чвора"
 
-#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:372
+#: gxml/Node.vala:296 gxml/Node.vala:336 gxml/XNode.vala:372
 msgid "Invalid attempt to insert an invalid node type"
 msgstr "Неисправан покушај уметања неисправне врсте чвора"
 
-#: gxml/Node.vala:291
+#: gxml/Node.vala:314
 msgid "Node type is invalid. Can't append as child"
 msgstr "Врста чвора је неисправна. Не могу да приложим као пород"
 
-#: gxml/Node.vala:294
+#: gxml/Node.vala:317
 msgid "Invalid attempt to append a child with different parent document"
 msgstr ""
 "Неисправан покушај прилагања порода са другачијим родитељским документом"
 
-#: gxml/Node.vala:302 gxml/XNode.vala:394
+#: gxml/Node.vala:325 gxml/XNode.vala:394
 msgid "Can't find child node to replace or child have a different parent"
 msgstr "Не могу да нађем чвор порода да заменим или пород има другог родитеља"
 
-#: gxml/Node.vala:316 gxml/XNode.vala:375
+#: gxml/Node.vala:339 gxml/XNode.vala:375
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr ""
 "Неисправан покушај уметања врсте документа или чвора текста неисправном "
 "родитељу"
 
-#: gxml/Node.vala:328 gxml/XNode.vala:438
+#: gxml/Node.vala:351 gxml/XNode.vala:438
 msgid "Can't find child node to remove or child have a different parent"
 msgstr "Не могу да нађем чвор порода да уклоним или пород има другог родитеља"
 
-#: gxml/Object.vala:170
+#: gxml/Object.vala:211
 msgid "Enumeration is out of range"
 msgstr "Набрајање је ван опсега"
 
-#: gxml/Object.vala:285
+#: gxml/Object.vala:326
 msgid "Enumeration can't be parsed from string"
 msgstr "Набрајање се не може обрадити из ниске"
 
-#: gxml/Object.vala:407
+#: gxml/Object.vala:448
 #, c-format
 msgid "Error while attempting to instantiate property object: %s"
 msgstr "Грешка приликом покушаја покретања објекта својства: %s"
 
-#: gxml/Object.vala:456
+#: gxml/Object.vala:497
 msgid "Can't set value. It is not a GXmlGXml.Element type"
 msgstr "Не могу да поставим вредност. Није врста „GXmlGXml.Element“-а"
 
@@ -560,7 +573,7 @@ msgid ""
 "Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
 "be handled by the collection"
 msgstr ""
-"Неисправан објекат врсте „%s“ не примењује „GXml.Object“ сучеље: збирка не "
+"Неисправан објекат врсте „%s“ не примењује „GXml.Object“ прочеље: збирка не "
 "може да ради с њим"
 
 #: gxml/Parser.vala:298
@@ -632,7 +645,7 @@ msgstr "Неисправан документ: неочекивани знак �
 #: gxml/StreamReader.vala:188
 #, c-format
 msgid "Parent '%s' is not implementing GXml.Object interface"
-msgstr "Родитељ „%s“ не примењује „GXml.Object“ сучеље"
+msgstr "Родитељ „%s“ не примењује „GXml.Object“ прочеље"
 
 #: gxml/StreamReader.vala:203
 msgid "Can't continue parsing due to error reading data"
@@ -799,7 +812,7 @@ msgstr "ГРЕШКА обраде: Нисам успео да пређем на 
 msgid "Invalid sequence for document type definition: "
 msgstr "Неисправан низ за дефиницију врсте документа: "
 
-#: gxml/XParser.vala:494 gxml/XParser.vala:600 gxml/XParser.vala:672
+#: gxml/XParser.vala:494 gxml/XParser.vala:601 gxml/XParser.vala:681
 msgid "Internal Error: No TextWriter initialized"
 msgstr "Унутрашња грешка: Није покренут писач текста"
 
