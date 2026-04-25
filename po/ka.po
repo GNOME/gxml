@@ -1,21 +1,21 @@
 # Georgian translation for gxml.
-# Copyright (C) 2025 gxml's COPYRIGHT HOLDER
+# Copyright (C) 2025 gxml's authors
 # This file is distributed under the same license as the gxml package.
-# Ekaterine Papava <papava.e@gtu.ge>,  2025.
+# Ekaterine Papava <papava.e@gtu.ge>,  2025 2026.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gxml master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues/\n"
-"POT-Creation-Date: 2025-09-10 20:51+0000\n"
-"PO-Revision-Date: 2025-09-17 18:04+0200\n"
+"POT-Creation-Date: 2026-04-10 18:31+0000\n"
+"PO-Revision-Date: 2026-04-25 11:44+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <ka@li.org>\n"
 "Language: ka\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Poedit 3.9\n"
 
 #: gxml/BaseCollection.vala:91
 msgid ""
@@ -65,7 +65,7 @@ msgstr "არასწორი იდენტიფიკატორი"
 #: gxml/CssSelectorParser.vala:238 gxml/CssSelectorParser.vala:244
 #: gxml/CssSelectorParser.vala:329
 msgid "string value is empty"
-msgstr ""
+msgstr "სტრიქონის მნიშვნელობა ცარიელია"
 
 #: gxml/CssSelectorParser.vala:250
 msgid "Cannot find start of 'not selector' value"
@@ -78,12 +78,12 @@ msgstr ""
 #: gxml/CssSelectorParser.vala:271
 #, c-format
 msgid "Invalid '%s' pseudo class"
-msgstr ""
+msgstr "არასწორი ფსევდოკლასი '%s'"
 
 #: gxml/CssSelectorParser.vala:275
 #, c-format
 msgid "Invalid '%s' pseudo class : cannot find value"
-msgstr ""
+msgstr "არასწორი ფსევდოკლასი '%s' : მნიშვნელობის აღმოჩენა შეუძლებელია"
 
 #: gxml/CssSelectorParser.vala:280
 msgid "Cannot find end of pseudo class value"
@@ -107,7 +107,7 @@ msgstr "არასწორი ატრიბუტი"
 
 #: gxml/CssSelectorParser.vala:357
 msgid "Invalid attribute selector"
-msgstr ""
+msgstr "არასწორი ატრიბუტის სელექტორი"
 
 #: gxml/CssSelectorParser.vala:362
 #, c-format
@@ -124,7 +124,7 @@ msgstr ""
 
 #: gxml/CssSelectorParser.vala:425
 msgid "No selectors found"
-msgstr ""
+msgstr "სელექტორები აღმოჩენილი არაა"
 
 #: gxml/CssSelectorParser.vala:429
 #, c-format
@@ -137,25 +137,34 @@ msgid "Error while attempting to instantiate root property object: %s"
 msgstr ""
 
 #: gxml/Document.vala:189
-msgid "Creating a namespaced element with invalid node name"
+#, c-format
+msgid ""
+"Invalid qualified name '%s'. Only one ':' is allowed for namespace prefixes."
 msgstr ""
 
 #: gxml/Document.vala:196
-msgid "Creating a namespaced element with invalid namespace"
+#, c-format
+msgid ""
+"Invalid namespace for element '%s'. Ensure it has a valid prefix or "
+"namespace URI."
 msgstr ""
 
 #: gxml/Document.vala:200
+#, c-format
 msgid ""
-"Invalid namespace URI for xmlns prefix. Use http://www.w3.org/2000/xmlns/"
+"Invalid namespace URI '%s' for 'xmlns' prefix. Expected: 'http://www.w3.org/"
+"2000/xmlns/'."
 msgstr ""
 
 #: gxml/Document.vala:204
-msgid "Only xmlns prefixs can be used with http://www.w3.org/2000/xmlns/"
+msgid ""
+"Only 'xmlns' prefix can be used with namespace URI 'http://www.w3.org/2000/"
+"xmlns/'."
 msgstr ""
 
 #: gxml/Document.vala:244 gxml/XDocument.vala:276
 msgid "Can't import a Document"
-msgstr ""
+msgstr "დოკუმენტის შემოტანა შეუძლებელია"
 
 #: gxml/Document.vala:246 gxml/XDocument.vala:278
 msgid "Can't import a non Element type node to a Document"
@@ -163,228 +172,233 @@ msgstr ""
 
 #: gxml/Document.vala:270 gxml/XDocument.vala:302
 msgid "Can't adopt a Document"
-msgstr ""
+msgstr "დოკუმენტის სვილება შეუძლებელია"
 
 #. FIXME:
 #: gxml/Document.vala:448
 msgid "DomElement query_selector is not implemented"
-msgstr ""
+msgstr "DomElement query_selector განხორციელებული არაა"
 
 #. FIXME:
 #: gxml/Document.vala:452
 msgid "DomElement query_selector_all is not implemented"
-msgstr ""
+msgstr "DomElement query_selector_all განხორციელებული არაა"
 
 #: gxml/DomCharacter.vala:46
 msgid "Invalid offset for substring"
-msgstr ""
+msgstr "არასწორი წანაცვლება ქვესტრიქონისთვის"
 
 #: gxml/DomCharacter.vala:66
 msgid "Invalid offset for replace data"
-msgstr ""
+msgstr "არასწორი წანაცვლება ჩასანაცვლებელი მონაცემებისთვის"
 
 #: gxml/DomCharacter.vala:80
 msgid "Invalid offset to split text"
-msgstr ""
+msgstr "არასწორი წანაცვლება ტექსტის გასაყოფად"
 
-#: gxml/DomNode.vala:133
+#: gxml/DomNode.vala:145
 msgid "Text node with NULL string"
-msgstr ""
+msgstr "ტექსტური კვანძი NULL სტრიქონით"
 
-#: gxml/DomNode.vala:140
+#: gxml/DomNode.vala:152
 msgid "Can't copy child text node"
-msgstr ""
+msgstr "შვილი ტექსტური კვანძის კოპირება შეუძლებელია"
 
-#: gxml/Element.vala:194
+#: gxml/Element.vala:220
 msgid "Invalid namespace URI stored in element's attribute"
 msgstr ""
 
-#: gxml/Element.vala:201 gxml/Element.vala:242
+#: gxml/Element.vala:227 gxml/Element.vala:268
 msgid "Invalid attribute name in element's attributes list"
 msgstr ""
 
-#: gxml/Element.vala:257
+#: gxml/Element.vala:283
 msgid "Can't locate child node to remove"
 msgstr ""
 
-#: gxml/Element.vala:487 gxml/Element.vala:553
+#: gxml/Element.vala:379 gxml/Element.vala:393
+#, c-format
+msgid "Error getting 'id' attribute: %s"
+msgstr ""
+
+#: gxml/Element.vala:583 gxml/Element.vala:649
 #, c-format
 msgid "Invalid attribute name: %s"
-msgstr ""
+msgstr "არასწორი ატრიბუტის სახელი: %s"
 
-#: gxml/Element.vala:489 gxml/Element.vala:555
+#: gxml/Element.vala:585 gxml/Element.vala:651
 msgid "Invalid node type. GXml.Attr was expected"
-msgstr ""
+msgstr "არასწორი კვანძის ტიპი. მოველოდი ტიპს GXml.Attr"
 
-#: gxml/Element.vala:512 gxml/Element.vala:531
+#: gxml/Element.vala:608 gxml/Element.vala:627
 #, c-format
 msgid "No index found for attribute %s"
 msgstr ""
 
-#: gxml/Element.vala:540
+#: gxml/Element.vala:636
 #, c-format
 msgid "Invalid attribute's local name '%s': invalid use of ':' character"
 msgstr ""
 
-#: gxml/Element.vala:544
+#: gxml/Element.vala:640
 #, c-format
 msgid "Namespace URI was not found: %s"
 msgstr ""
 
-#: gxml/Element.vala:560
+#: gxml/Element.vala:656
 msgid ""
 "Namespace attributes prefixed with 'xmlns' should use a namespace uri http://"
 "www.w3.org/2000/xmlns"
 msgstr ""
 
-#: gxml/Element.vala:564
+#: gxml/Element.vala:660
 msgid ""
 "Namespace attributes prefixed with 'xml' should use a namespace uri http://"
 "www.w3.org/XML/1998/namespace"
 msgstr ""
 
-#: gxml/Element.vala:568
+#: gxml/Element.vala:664
 msgid ""
 "Namespace attributes prefixed with 'xsi' should use a namespace uri http://"
 "www.w3.org/2001/XMLSchema-instance"
 msgstr ""
 
-#: gxml/Element.vala:572
+#: gxml/Element.vala:668
 msgid ""
 "Namespace attributes prefixed with 'html' should use a namespace uri http://"
 "www.w3.org/1999/xhtml"
 msgstr ""
 
-#: gxml/Element.vala:576
+#: gxml/Element.vala:672
 msgid ""
 "Namespace attributes prefixed with 'MathML' should use a namespace uri "
 "http://www.w3.org/1998/Math/MathML"
 msgstr ""
 
-#: gxml/Element.vala:580
+#: gxml/Element.vala:676
 msgid ""
 "Namespace attributes prefixed with 'xlink' should use a namespace uri http://"
 "www.w3.org/1999/xlink"
 msgstr ""
 
-#: gxml/Element.vala:584
+#: gxml/Element.vala:680
 msgid ""
 "Namespace attributes prefixed with 'svg' should use a namespace uri http://"
 "www.w3.org/2000/svg"
 msgstr ""
 
-#: gxml/Element.vala:591
+#: gxml/Element.vala:687
 #, c-format
 msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
 msgstr ""
 
-#: gxml/Element.vala:595
+#: gxml/Element.vala:691
 msgid "Invalid namespace attribute's name."
 msgstr ""
 
-#: gxml/Element.vala:612
+#: gxml/Element.vala:708
 #, c-format
 msgid "Trying to add an attribute with an undefined namespace's prefix: %s"
 msgstr ""
 
-#: gxml/Element.vala:619
+#: gxml/Element.vala:715
 msgid "Trying to add an attribute with an undefined namespace's URI"
 msgstr ""
 
-#: gxml/Element.vala:671
+#: gxml/Element.vala:772
 #, c-format
 msgid "Error getting attribute with namespace: %s"
 msgstr ""
 
-#: gxml/Element.vala:687
+#: gxml/Element.vala:788
 msgid "Invalid attribute name. Just one prefix is allowed"
 msgstr ""
 
-#: gxml/Element.vala:692
+#: gxml/Element.vala:793
 #, c-format
 msgid "Invalid attribute name. Invalid use of colon: %s"
 msgstr ""
 
-#: gxml/Element.vala:696
+#: gxml/Element.vala:797
 msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
 msgstr ""
 
-#: gxml/Element.vala:700
+#: gxml/Element.vala:801
 msgid ""
 "Invalid namespace definition. No prefixed attributes should use 'xmlns' as "
 "name"
 msgstr ""
 
-#: gxml/Element.vala:704
+#: gxml/Element.vala:805
 msgid "'xml' namespace should not be defined"
 msgstr ""
 
-#: gxml/Element.vala:708
+#: gxml/Element.vala:809
 msgid "'xmlns' namespace should not be defined"
 msgstr ""
 
-#: gxml/Element.vala:716
+#: gxml/Element.vala:817
 msgid ""
 "Invalid namespace. If prefix is 'xml', namespace URI should be http://"
 "www.w3.org/XML/1998/namespace"
 msgstr ""
 
-#: gxml/Element.vala:723
+#: gxml/Element.vala:824
 msgid ""
 "Invalid namespace definition. If attribute's prefix is 'xmlns', namespace "
 "URI should be http://www.w3.org/2000/xmlns"
 msgstr ""
 
-#: gxml/Element.vala:730
+#: gxml/Element.vala:831
 msgid ""
 "Invalid namespace. If attribute's prefix is 'html', namespace URI should be "
 "http://www.w3.org/1999/xhtml"
 msgstr ""
 
-#: gxml/Element.vala:737
+#: gxml/Element.vala:838
 msgid ""
 "Invalid namespace. If attribute's prefix is 'xsi', namespace URI should be "
 "http://www.w3.org/2001/XMLSchema-instance"
 msgstr ""
 
-#: gxml/Element.vala:744
+#: gxml/Element.vala:845
 msgid ""
 "Invalid namespace. If attribute's prefix is 'MathML', namespace URI should "
 "be http://www.w3.org/1998/Math/MathML"
 msgstr ""
 
-#: gxml/Element.vala:751
+#: gxml/Element.vala:852
 msgid ""
 "Invalid namespace. If attribute's prefix is 'svg', namespace URI should be "
 "http://www.w3.org/2000/svg"
 msgstr ""
 
-#: gxml/Element.vala:758
+#: gxml/Element.vala:859
 msgid ""
 "Invalid namespace. If attribute's prefix is 'xlink', namespace URI should be "
 "http://www.w3.org/1999/xlink"
 msgstr ""
 
-#: gxml/Element.vala:763
+#: gxml/Element.vala:864
 msgid "Setting namespaced property error: "
 msgstr ""
 
-#: gxml/Element.vala:769
+#: gxml/Element.vala:870
 msgid "Removing attribute Error: "
-msgstr ""
+msgstr "ატრიბუტის წაშლის შეცდომა: "
 
-#: gxml/Element.vala:774
+#: gxml/Element.vala:875
 msgid "Removing namespaced attribute Error: "
 msgstr ""
 
-#: gxml/Element.vala:940
+#: gxml/Element.vala:1046
 #, c-format
 msgid "Error parsing child's buffer: %s"
-msgstr ""
+msgstr "შვილის ბუფერის დამუშავების შეცდომა: %s"
 
 #: gxml/Enumeration.vala:88
 msgid "value is invalid"
-msgstr ""
+msgstr "მნიშვნელობა არასწორია"
 
 #: gxml/Enumeration.vala:129
 #, c-format
@@ -395,71 +409,71 @@ msgstr ""
 msgid "No primary key and/or secondary key was found"
 msgstr ""
 
-#: gxml/Node.vala:156
+#: gxml/Node.vala:179
 msgid "Text content in element can't be created"
 msgstr ""
 
-#: gxml/Node.vala:209 gxml/XNode.vala:328
+#: gxml/Node.vala:232 gxml/XNode.vala:328
 msgid "Can't find node position"
-msgstr ""
+msgstr "კვანძის მდებარეობის აღმოჩენა შეუძლებელია"
 
-#: gxml/Node.vala:257 gxml/Node.vala:300 gxml/XNode.vala:359
+#: gxml/Node.vala:280 gxml/Node.vala:323 gxml/XNode.vala:359
 msgid "Invalid attempt to add invalid node type"
 msgstr ""
 
-#: gxml/Node.vala:260 gxml/XNode.vala:361
+#: gxml/Node.vala:283 gxml/XNode.vala:361
 msgid "Can't find child to insert node before"
 msgstr ""
 
-#: gxml/Node.vala:265 gxml/Node.vala:306 gxml/XNode.vala:365
+#: gxml/Node.vala:288 gxml/Node.vala:329 gxml/XNode.vala:365
 msgid "Invalid attempt to insert a node"
-msgstr ""
+msgstr "კვანძის ჩასმის არასწორი მცდელობა"
 
-#: gxml/Node.vala:273 gxml/Node.vala:313 gxml/XNode.vala:372
+#: gxml/Node.vala:296 gxml/Node.vala:336 gxml/XNode.vala:372
 msgid "Invalid attempt to insert an invalid node type"
 msgstr ""
 
-#: gxml/Node.vala:291
+#: gxml/Node.vala:314
 msgid "Node type is invalid. Can't append as child"
 msgstr ""
 
-#: gxml/Node.vala:294
+#: gxml/Node.vala:317
 msgid "Invalid attempt to append a child with different parent document"
 msgstr ""
 
-#: gxml/Node.vala:302 gxml/XNode.vala:394
+#: gxml/Node.vala:325 gxml/XNode.vala:394
 msgid "Can't find child node to replace or child have a different parent"
 msgstr ""
 
-#: gxml/Node.vala:316 gxml/XNode.vala:375
+#: gxml/Node.vala:339 gxml/XNode.vala:375
 msgid ""
 "Invalid attempt to insert a document's type or text node to an invalid parent"
 msgstr ""
 
-#: gxml/Node.vala:328 gxml/XNode.vala:438
+#: gxml/Node.vala:351 gxml/XNode.vala:438
 msgid "Can't find child node to remove or child have a different parent"
 msgstr ""
 
-#: gxml/Object.vala:170
+#: gxml/Object.vala:211
 msgid "Enumeration is out of range"
-msgstr ""
+msgstr "ჩამონათვალი დიაპაზონს გარეთაა"
 
-#: gxml/Object.vala:285
+#: gxml/Object.vala:326
 msgid "Enumeration can't be parsed from string"
 msgstr ""
 
-#: gxml/Object.vala:407
+#: gxml/Object.vala:448
 #, c-format
 msgid "Error while attempting to instantiate property object: %s"
 msgstr ""
 
-#: gxml/Object.vala:456
+#: gxml/Object.vala:497
 msgid "Can't set value. It is not a GXmlGXml.Element type"
 msgstr ""
 
 #: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:65
 msgid "File doesn't exist"
-msgstr ""
+msgstr "ფაილი არ არსებობს"
 
 #: gxml/Parser.vala:193
 msgid ""
@@ -496,7 +510,7 @@ msgstr ""
 
 #: gxml/Parser.vala:298
 msgid "No document is set to node"
-msgstr ""
+msgstr "კვანძზე დოკუმენტი დაყენებული არაა"
 
 #: gxml/Parser.vala:323 gxml/XParser.vala:107 gxml/XParser.vala:113
 msgid "Invalid document string, it is empty or is not allowed"
@@ -514,19 +528,19 @@ msgstr ""
 
 #: gxml/Property.vala:462 gxml/Property.vala:469
 msgid "Invalid Date for property: "
-msgstr ""
+msgstr "არასწორი თარიღი თვისებისთვის: "
 
 #: gxml/Property.vala:464
 msgid "Invalid format for Date property: "
-msgstr ""
+msgstr "არასწორი ფორმატი თარირის თვისებისთვის: "
 
 #: gxml/Property.vala:511
 msgid "Invalid timestamp for property: "
-msgstr ""
+msgstr "არასწორი დროის შტამპი თვისებისთვის: "
 
 #: gxml/Range.vala:53 gxml/Range.vala:81 gxml/Range.vala:154
 msgid "Invalid node type to start"
-msgstr ""
+msgstr "არასწორი კვანძის ტიპი დასაწყებად"
 
 #: gxml/Range.vala:56 gxml/Range.vala:84
 msgid "Invalid offset for node to start: for document type"
@@ -572,7 +586,7 @@ msgstr ""
 #: gxml/StreamReader.vala:355 gxml/StreamReader.vala:359
 #: gxml/StreamReader.vala:367 gxml/StreamReader.vala:393
 msgid "Invalid comment declaration"
-msgstr ""
+msgstr "არასწორი კომენტარის აღწერა"
 
 #: gxml/StreamReader.vala:413
 msgid "Invalid Processing Instruction's target declaration"
@@ -604,7 +618,7 @@ msgstr ""
 
 #: gxml/TokenList.vala:102
 msgid "Update Error: "
-msgstr ""
+msgstr "განახლების შეცდომა: "
 
 #: gxml/XDocument.vala:159
 #, c-format
@@ -617,7 +631,7 @@ msgstr ""
 
 #: gxml/XdParser.vala:82
 msgid "Parser Error for string"
-msgstr ""
+msgstr "დამმუშავებლის შეცდომა სტრიქონისთვის"
 
 #: gxml/XElement.vala:148
 #, c-format
@@ -635,7 +649,7 @@ msgstr ""
 
 #: gxml/XHashMapAttr.vala:245 gxml/XHashMapAttr.vala:297
 msgid "This node collection is read only"
-msgstr ""
+msgstr "ეს კვანძების კოლექცია, მხოლოდ, წაკითხვადია"
 
 #: gxml/XHashMapAttr.vala:247 gxml/XHashMapAttr.vala:299
 msgid "This node attribute is already in use by other Element"
@@ -652,7 +666,7 @@ msgstr ""
 
 #: gxml/XHashMapAttr.vala:263 gxml/XHashMapAttr.vala:319
 msgid "Node collection is read only"
-msgstr ""
+msgstr "კვანძების კოლექცია, მხოლოდ, წაკითხვადია"
 
 #: gxml/XHashMapAttr.vala:295
 msgid "Invalid document when adding item to named node map collection"
@@ -698,12 +712,12 @@ msgstr ""
 #: gxml/XParser.vala:143
 #, c-format
 msgid "Error reading stream: %s"
-msgstr ""
+msgstr "ნაკადის წაკითხვის შეცდომა: %s"
 
 #: gxml/XParser.vala:156
 #, c-format
 msgid "Error closing stream: %s"
-msgstr ""
+msgstr "ნაკადის დახურვის შეცდომა: %s"
 
 #: gxml/XParser.vala:197 gxml/XParser.vala:259 gxml/XParser.vala:268
 #: gxml/XParser.vala:317 gxml/XParser.vala:330 gxml/XParser.vala:382
@@ -724,9 +738,9 @@ msgstr ""
 msgid "Invalid sequence for document type definition: "
 msgstr ""
 
-#: gxml/XParser.vala:494 gxml/XParser.vala:600 gxml/XParser.vala:672
+#: gxml/XParser.vala:494 gxml/XParser.vala:601 gxml/XParser.vala:681
 msgid "Internal Error: No TextWriter initialized"
-msgstr ""
+msgstr "შიდა შეცდომა: TextWriter ინიციალიზებული არაა"
 
 #: gxml/XsdSchema.vala:266
 #, c-format
