@@ -1,0 +1,837 @@
+# Norwegian Nynorsk translation for gxml.
+# Copyright (C) 2026 gxml's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gxml package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gxml master\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gxml/issues/\n"
+"POT-Creation-Date: 2026-04-10 18:31+0000\n"
+"PO-Revision-Date: 2026-10-12 12:00+0200\n"
+"Last-Translator: Roy-Magne Mo <rmo@sunnmore.net>\n"
+"Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
+"Language: nn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: gxml/BaseCollection.vala:91
+msgid ""
+"Invalid attempt to initialize a collection using an unsupported type. Only "
+"GXmlGXml.Element is supported"
+msgstr ""
+"Ugyldig forsøk på å initialisere ei samling med ein type som ikkje er "
+"støtta. Berre GXmlGXml.Element er støtta"
+
+#: gxml/BaseCollection.vala:122 gxml/BaseCollection.vala:150
+msgid "Parent Element is invalid. Set 'element' property at construction time"
+msgstr ""
+"Foreldreelementet er ugyldig. Set eigenskapen «element» ved "
+"konstruksjonstidspunktet"
+
+#: gxml/BaseCollection.vala:125
+msgid ""
+"Invalid attempt to set unsupported type. Only GXmlGXml.Element is supported"
+msgstr ""
+"Ugyldig forsøk på å setje ein type som ikkje er støtta. Berre "
+"GXmlGXml.Element er støtta"
+
+#: gxml/BaseCollection.vala:128
+msgid "Invalid attempt to set a node with a different parent document"
+msgstr "Ugyldig forsøk på å setje ein node med eit anna foreldredokument"
+
+#: gxml/BaseCollection.vala:133
+msgid ""
+"Node element not appended as child of parent. No node added to collection"
+msgstr ""
+"Nodeelementet er ikkje lagt til som barn av foreldrenoden. Ingen node er "
+"lagd til i samlinga"
+
+#: gxml/BaseCollection.vala:195 gxml/BaseCollection.vala:213
+#, c-format
+msgid "Error: %s"
+msgstr "Feil: %s"
+
+#: gxml/Collections.vala:116
+msgid "Invalid index for elements in array list"
+msgstr "Ugyldig indeks for element i arrayliste"
+
+#: gxml/Collections.vala:120
+msgid "Invalid index reference for child elements in array list"
+msgstr "Ugyldig indeksreferanse for barneelement i arrayliste"
+
+#: gxml/Collections.vala:125
+msgid "Referenced object's type is invalid. Should be a GXmlDomElement"
+msgstr ""
+"Typen til det refererte objektet er ugyldig. Han skal vere GXmlDomElement"
+
+#: gxml/CssSelectorParser.vala:232 gxml/CssSelectorParser.vala:240
+msgid "Invalid identifier"
+msgstr "Ugyldig identifikator"
+
+#: gxml/CssSelectorParser.vala:238 gxml/CssSelectorParser.vala:244
+#: gxml/CssSelectorParser.vala:329
+msgid "string value is empty"
+msgstr "strengverdien er tom"
+
+#: gxml/CssSelectorParser.vala:250
+msgid "Cannot find start of 'not selector' value"
+msgstr "Fann ikkje starten på verdien til «not selector»"
+
+#: gxml/CssSelectorParser.vala:256
+msgid "Cannot find end of 'not selector' value"
+msgstr "Fann ikkje slutten på verdien til «not selector»"
+
+#: gxml/CssSelectorParser.vala:271
+#, c-format
+msgid "Invalid '%s' pseudo class"
+msgstr "Ugyldig pseudoklasse «%s»"
+
+#: gxml/CssSelectorParser.vala:275
+#, c-format
+msgid "Invalid '%s' pseudo class : cannot find value"
+msgstr "Ugyldig pseudoklasse «%s»: fann ingen verdi"
+
+#: gxml/CssSelectorParser.vala:280
+msgid "Cannot find end of pseudo class value"
+msgstr "Fann ikkje slutten på verdien til pseudoklassen"
+
+#: gxml/CssSelectorParser.vala:285
+msgid "Pseudo class value isn't a valid number"
+msgstr "Verdien til pseudoklassen er ikkje eit gyldig tal"
+
+#: gxml/CssSelectorParser.vala:293
+msgid "current class doesn't start with letter"
+msgstr "gjeldande klasse startar ikkje med ein bokstav"
+
+#: gxml/CssSelectorParser.vala:303
+msgid "current id doesn't start with letter"
+msgstr "gjeldande id startar ikkje med ein bokstav"
+
+#: gxml/CssSelectorParser.vala:319 gxml/CssSelectorParser.vala:331
+msgid "Invalid attribute"
+msgstr "Ugyldig attributt"
+
+#: gxml/CssSelectorParser.vala:357
+msgid "Invalid attribute selector"
+msgstr "Ugyldig attributtveljar"
+
+#: gxml/CssSelectorParser.vala:362
+#, c-format
+msgid "Invalid attribute selector. '=' expected but '%s' was found"
+msgstr "Ugyldig attributtveljar. Venta «=», men fann «%s»"
+
+#: gxml/CssSelectorParser.vala:374
+msgid "Cannot find end of attribute value"
+msgstr "Fann ikkje slutten på attributtverdien"
+
+#: gxml/CssSelectorParser.vala:378
+msgid "Cannot find end of attribute selector"
+msgstr "Fann ikkje slutten på attributtveljaren"
+
+#: gxml/CssSelectorParser.vala:425
+msgid "No selectors found"
+msgstr "Fann ingen veljarar"
+
+#: gxml/CssSelectorParser.vala:429
+#, c-format
+msgid "Last selector has combiner assigned (%s)"
+msgstr "Siste veljar har ein kombinator tildelt (%s)"
+
+#: gxml/Document.vala:129
+#, c-format
+msgid "Error while attempting to instantiate root property object: %s"
+msgstr "Feil ved forsøk på å opprette rotegenskapsobjekt: %s"
+
+#: gxml/Document.vala:189
+#, c-format
+msgid ""
+"Invalid qualified name '%s'. Only one ':' is allowed for namespace prefixes."
+msgstr ""
+"Ugyldig kvalifisert namn «%s». Berre eitt «:» er tillate i namneromprefiks."
+
+#: gxml/Document.vala:196
+#, c-format
+msgid ""
+"Invalid namespace for element '%s'. Ensure it has a valid prefix or "
+"namespace URI."
+msgstr ""
+"Ugyldig namnerom for elementet «%s». Sørg for at det har eit gyldig prefiks "
+"eller namnerom-URI."
+
+#: gxml/Document.vala:200
+#, c-format
+msgid ""
+"Invalid namespace URI '%s' for 'xmlns' prefix. Expected: 'http://www.w3.org/"
+"2000/xmlns/'."
+msgstr ""
+"Ugyldig namnerom-URI «%s» for prefikset «xmlns». Venta: "
+"«http://www.w3.org/2000/xmlns/»."
+
+#: gxml/Document.vala:204
+msgid ""
+"Only 'xmlns' prefix can be used with namespace URI 'http://www.w3.org/2000/"
+"xmlns/'."
+msgstr ""
+"Berre prefikset «xmlns» kan brukast med namnerom-URI "
+"«http://www.w3.org/2000/xmlns/»."
+
+#: gxml/Document.vala:244 gxml/XDocument.vala:276
+msgid "Can't import a Document"
+msgstr "Kan ikkje importere eit dokument"
+
+#: gxml/Document.vala:246 gxml/XDocument.vala:278
+msgid "Can't import a non Element type node to a Document"
+msgstr ""
+"Kan ikkje importere ein node som ikkje er av typen Element til eit dokument"
+
+#: gxml/Document.vala:270 gxml/XDocument.vala:302
+msgid "Can't adopt a Document"
+msgstr "Kan ikkje adoptere eit dokument"
+
+#. FIXME:
+#: gxml/Document.vala:448
+msgid "DomElement query_selector is not implemented"
+msgstr "DomElement query_selector er ikkje implementert"
+
+#. FIXME:
+#: gxml/Document.vala:452
+msgid "DomElement query_selector_all is not implemented"
+msgstr "DomElement query_selector_all er ikkje implementert"
+
+#: gxml/DomCharacter.vala:46
+msgid "Invalid offset for substring"
+msgstr "Ugyldig forskyving for delstreng"
+
+#: gxml/DomCharacter.vala:66
+msgid "Invalid offset for replace data"
+msgstr "Ugyldig forskyving for erstatningsdata"
+
+#: gxml/DomCharacter.vala:80
+msgid "Invalid offset to split text"
+msgstr "Ugyldig forskyving for å dele tekst"
+
+#: gxml/DomNode.vala:145
+msgid "Text node with NULL string"
+msgstr "Tekstnode med NULL-streng"
+
+#: gxml/DomNode.vala:152
+msgid "Can't copy child text node"
+msgstr "Kan ikkje kopiere underordna tekstnode"
+
+#: gxml/Element.vala:220
+msgid "Invalid namespace URI stored in element's attribute"
+msgstr "Ugyldig namnerom-URI lagra i attributtet til elementet"
+
+#: gxml/Element.vala:227 gxml/Element.vala:268
+msgid "Invalid attribute name in element's attributes list"
+msgstr "Ugyldig attributtnamn i attributtlista til elementet"
+
+#: gxml/Element.vala:283
+msgid "Can't locate child node to remove"
+msgstr "Fann ikkje barnenoden som skal fjernast"
+
+#: gxml/Element.vala:379 gxml/Element.vala:393
+#, c-format
+msgid "Error getting 'id' attribute: %s"
+msgstr "Feil ved henting av «id»-attributtet: %s"
+
+#: gxml/Element.vala:583 gxml/Element.vala:649
+#, c-format
+msgid "Invalid attribute name: %s"
+msgstr "Ugyldig attributtnamn: %s"
+
+#: gxml/Element.vala:585 gxml/Element.vala:651
+msgid "Invalid node type. GXml.Attr was expected"
+msgstr "Ugyldig nodetype. GXml.Attr var venta"
+
+#: gxml/Element.vala:608 gxml/Element.vala:627
+#, c-format
+msgid "No index found for attribute %s"
+msgstr "Fann ingen indeks for attributtet %s"
+
+#: gxml/Element.vala:636
+#, c-format
+msgid "Invalid attribute's local name '%s': invalid use of ':' character"
+msgstr "Ugyldig lokalt namn «%s» for attributt: ugyldig bruk av teiknet «:»"
+
+#: gxml/Element.vala:640
+#, c-format
+msgid "Namespace URI was not found: %s"
+msgstr "Fann ikkje namnerom-URI: %s"
+
+#: gxml/Element.vala:656
+msgid ""
+"Namespace attributes prefixed with 'xmlns' should use a namespace uri http://"
+"www.w3.org/2000/xmlns"
+msgstr ""
+"Namneromattributt med prefikset «xmlns» skal bruke namnerom-URI "
+"http://www.w3.org/2000/xmlns"
+
+#: gxml/Element.vala:660
+msgid ""
+"Namespace attributes prefixed with 'xml' should use a namespace uri http://"
+"www.w3.org/XML/1998/namespace"
+msgstr ""
+"Namneromattributt med prefikset «xml» skal bruke namnerom-URI "
+"http://www.w3.org/XML/1998/namespace"
+
+#: gxml/Element.vala:664
+msgid ""
+"Namespace attributes prefixed with 'xsi' should use a namespace uri http://"
+"www.w3.org/2001/XMLSchema-instance"
+msgstr ""
+"Namneromattributt med prefikset «xsi» skal bruke namnerom-URI "
+"http://www.w3.org/2001/XMLSchema-instance"
+
+#: gxml/Element.vala:668
+msgid ""
+"Namespace attributes prefixed with 'html' should use a namespace uri http://"
+"www.w3.org/1999/xhtml"
+msgstr ""
+"Namneromattributt med prefikset «html» skal bruke namnerom-URI "
+"http://www.w3.org/1999/xhtml"
+
+#: gxml/Element.vala:672
+msgid ""
+"Namespace attributes prefixed with 'MathML' should use a namespace uri "
+"http://www.w3.org/1998/Math/MathML"
+msgstr ""
+"Namneromattributt med prefikset «MathML» skal bruke namnerom-URI "
+"http://www.w3.org/1998/Math/MathML"
+
+#: gxml/Element.vala:676
+msgid ""
+"Namespace attributes prefixed with 'xlink' should use a namespace uri http://"
+"www.w3.org/1999/xlink"
+msgstr ""
+"Namneromattributt med prefikset «xlink» skal bruke namnerom-URI "
+"http://www.w3.org/1999/xlink"
+
+#: gxml/Element.vala:680
+msgid ""
+"Namespace attributes prefixed with 'svg' should use a namespace uri http://"
+"www.w3.org/2000/svg"
+msgstr ""
+"Namneromattributt med prefikset «svg» skal bruke namnerom-URI "
+"http://www.w3.org/2000/svg"
+
+#: gxml/Element.vala:687
+#, c-format
+msgid "Namespaced attributes should provide a non-null, non-empty prefix: %s"
+msgstr ""
+"Attributt med namnerom skal ha eit prefiks som ikkje er null og ikkje er "
+"tomt: %s"
+
+#: gxml/Element.vala:691
+msgid "Invalid namespace attribute's name."
+msgstr "Ugyldig namn på namneromattributt."
+
+#: gxml/Element.vala:708
+#, c-format
+msgid "Trying to add an attribute with an undefined namespace's prefix: %s"
+msgstr ""
+"Prøver å leggje til eit attributt med prefikset til eit udefinert namnerom: "
+"%s"
+
+#: gxml/Element.vala:715
+msgid "Trying to add an attribute with an undefined namespace's URI"
+msgstr ""
+"Prøver å leggje til eit attributt med URI-en til eit udefinert namnerom"
+
+#: gxml/Element.vala:772
+#, c-format
+msgid "Error getting attribute with namespace: %s"
+msgstr "Feil ved henting av attributt med namnerom: %s"
+
+#: gxml/Element.vala:788
+msgid "Invalid attribute name. Just one prefix is allowed"
+msgstr "Ugyldig attributtnamn. Berre eitt prefiks er tillate"
+
+#: gxml/Element.vala:793
+#, c-format
+msgid "Invalid attribute name. Invalid use of colon: %s"
+msgstr "Ugyldig attributtnamn. Ugyldig bruk av kolon: %s"
+
+#: gxml/Element.vala:797
+msgid "Invalid namespace. If prefix is null, namespace URI should not be null"
+msgstr ""
+"Ugyldig namnerom. Viss prefikset er null, skal ikkje namnerom-URI vere null"
+
+#: gxml/Element.vala:801
+msgid ""
+"Invalid namespace definition. No prefixed attributes should use 'xmlns' as "
+"name"
+msgstr ""
+"Ugyldig namnerom-definisjon. Ingen attributt med prefiks skal bruke «xmlns» "
+"som namn"
+
+#: gxml/Element.vala:805
+msgid "'xml' namespace should not be defined"
+msgstr "Namnerommet «xml» skal ikkje definerast"
+
+#: gxml/Element.vala:809
+msgid "'xmlns' namespace should not be defined"
+msgstr "Namnerommet «xmlns» skal ikkje definerast"
+
+#: gxml/Element.vala:817
+msgid ""
+"Invalid namespace. If prefix is 'xml', namespace URI should be http://"
+"www.w3.org/XML/1998/namespace"
+msgstr ""
+"Ugyldig namnerom. Viss prefikset er «xml», skal namnerom-URI vere "
+"http://www.w3.org/XML/1998/namespace"
+
+#: gxml/Element.vala:824
+msgid ""
+"Invalid namespace definition. If attribute's prefix is 'xmlns', namespace "
+"URI should be http://www.w3.org/2000/xmlns"
+msgstr ""
+"Ugyldig namnerom-definisjon. Viss prefikset til attributtet er «xmlns», skal"
+" namnerom-URI vere http://www.w3.org/2000/xmlns"
+
+#: gxml/Element.vala:831
+msgid ""
+"Invalid namespace. If attribute's prefix is 'html', namespace URI should be "
+"http://www.w3.org/1999/xhtml"
+msgstr ""
+"Ugyldig namnerom. Viss prefikset til attributtet er «html», skal namnerom-"
+"URI vere http://www.w3.org/1999/xhtml"
+
+#: gxml/Element.vala:838
+msgid ""
+"Invalid namespace. If attribute's prefix is 'xsi', namespace URI should be "
+"http://www.w3.org/2001/XMLSchema-instance"
+msgstr ""
+"Ugyldig namnerom. Viss prefikset til attributtet er «xsi», skal namnerom-URI"
+" vere http://www.w3.org/2001/XMLSchema-instance"
+
+#: gxml/Element.vala:845
+msgid ""
+"Invalid namespace. If attribute's prefix is 'MathML', namespace URI should "
+"be http://www.w3.org/1998/Math/MathML"
+msgstr ""
+"Ugyldig namnerom. Viss prefikset til attributtet er «MathML», skal namnerom-"
+"URI vere http://www.w3.org/1998/Math/MathML"
+
+#: gxml/Element.vala:852
+msgid ""
+"Invalid namespace. If attribute's prefix is 'svg', namespace URI should be "
+"http://www.w3.org/2000/svg"
+msgstr ""
+"Ugyldig namnerom. Viss prefikset til attributtet er «svg», skal namnerom-URI"
+" vere http://www.w3.org/2000/svg"
+
+#: gxml/Element.vala:859
+msgid ""
+"Invalid namespace. If attribute's prefix is 'xlink', namespace URI should be "
+"http://www.w3.org/1999/xlink"
+msgstr ""
+"Ugyldig namnerom. Viss prefikset til attributtet er «xlink», skal namnerom-"
+"URI vere http://www.w3.org/1999/xlink"
+
+#: gxml/Element.vala:864
+msgid "Setting namespaced property error: "
+msgstr "Feil ved setjing av eigenskap med namnerom: "
+
+#: gxml/Element.vala:870
+msgid "Removing attribute Error: "
+msgstr "Feil ved fjerning av attributt: "
+
+#: gxml/Element.vala:875
+msgid "Removing namespaced attribute Error: "
+msgstr "Feil ved fjerning av attributt med namnerom: "
+
+#: gxml/Element.vala:1046
+#, c-format
+msgid "Error parsing child's buffer: %s"
+msgstr "Feil ved tolking av bufferen til barnet: %s"
+
+#: gxml/Enumeration.vala:88
+msgid "value is invalid"
+msgstr "verdien er ugyldig"
+
+#: gxml/Enumeration.vala:129
+#, c-format
+msgid "text '%s' cannot be parsed to enumeration type: %s"
+msgstr "teksten «%s» kan ikkje tolkast som opprammingstype: %s"
+
+#: gxml/HashPairedMap.vala:210
+msgid "No primary key and/or secondary key was found"
+msgstr "Fann ingen primærnøkkel og/eller sekundærnøkkel"
+
+#: gxml/Node.vala:179
+msgid "Text content in element can't be created"
+msgstr "Tekstinnhald i elementet kan ikkje opprettast"
+
+#: gxml/Node.vala:232 gxml/XNode.vala:328
+msgid "Can't find node position"
+msgstr "Fann ikkje nodeposisjonen"
+
+#: gxml/Node.vala:280 gxml/Node.vala:323 gxml/XNode.vala:359
+msgid "Invalid attempt to add invalid node type"
+msgstr "Ugyldig forsøk på å leggje til ein ugyldig nodetype"
+
+#: gxml/Node.vala:283 gxml/XNode.vala:361
+msgid "Can't find child to insert node before"
+msgstr "Fann ikkje barnet som noden skal setjast inn før"
+
+#: gxml/Node.vala:288 gxml/Node.vala:329 gxml/XNode.vala:365
+msgid "Invalid attempt to insert a node"
+msgstr "Ugyldig forsøk på å setje inn ein node"
+
+#: gxml/Node.vala:296 gxml/Node.vala:336 gxml/XNode.vala:372
+msgid "Invalid attempt to insert an invalid node type"
+msgstr "Ugyldig forsøk på å setje inn ein ugyldig nodetype"
+
+#: gxml/Node.vala:314
+msgid "Node type is invalid. Can't append as child"
+msgstr "Nodetypen er ugyldig. Kan ikkje leggjast til som barn"
+
+#: gxml/Node.vala:317
+msgid "Invalid attempt to append a child with different parent document"
+msgstr "Ugyldig forsøk på å leggje til eit barn med eit anna foreldredokument"
+
+#: gxml/Node.vala:325 gxml/XNode.vala:394
+msgid "Can't find child node to replace or child have a different parent"
+msgstr ""
+"Fann ikkje barnenoden som skal erstattast, eller barnet har ein annan "
+"forelder"
+
+#: gxml/Node.vala:339 gxml/XNode.vala:375
+msgid ""
+"Invalid attempt to insert a document's type or text node to an invalid parent"
+msgstr ""
+"Ugyldig forsøk på å setje inn typen til eit dokument eller ein tekstnode i "
+"ein ugyldig forelder"
+
+#: gxml/Node.vala:351 gxml/XNode.vala:438
+msgid "Can't find child node to remove or child have a different parent"
+msgstr ""
+"Fann ikkje barnenoden som skal fjernast, eller barnet har ein annan forelder"
+
+#: gxml/Object.vala:211
+msgid "Enumeration is out of range"
+msgstr "Opprammingsverdien er utanfor gyldig område"
+
+#: gxml/Object.vala:326
+msgid "Enumeration can't be parsed from string"
+msgstr "Oppramminga kan ikkje tolkast frå streng"
+
+#: gxml/Object.vala:448
+#, c-format
+msgid "Error while attempting to instantiate property object: %s"
+msgstr "Feil ved forsøk på å opprette eigenskapsobjekt: %s"
+
+#: gxml/Object.vala:497
+msgid "Can't set value. It is not a GXmlGXml.Element type"
+msgstr "Kan ikkje setje verdi. Han er ikkje av typen GXmlGXml.Element"
+
+#: gxml/Parser.vala:104 gxml/Parser.vala:112 gxml/XDocument.vala:65
+msgid "File doesn't exist"
+msgstr "Fila finst ikkje"
+
+#: gxml/Parser.vala:193
+msgid ""
+"Invalid attempt to parse an element node, when current found node is not"
+msgstr ""
+"Ugyldig forsøk på å tolke ein elementnode når den gjeldande noden som vart "
+"funnen ikkje er det"
+
+#: gxml/Parser.vala:265 gxml/StreamReader.vala:263
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: items' type property was "
+"not set at construction time or set to invalid type"
+msgstr ""
+"Samlinga «%s» er ikkje konstruert riktig: eigenskapen for type på elementa "
+"er ikkje sett ved konstruksjonstidspunktet, eller er sett til ein ugyldig "
+"type"
+
+#: gxml/Parser.vala:285 gxml/StreamReader.vala:267
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: items' name property was "
+"not set at construction time"
+msgstr ""
+"Samlinga «%s» er ikkje konstruert riktig: eigenskapen for namn på elementa "
+"er ikkje sett ved konstruksjonstidspunktet"
+
+#: gxml/Parser.vala:289 gxml/StreamReader.vala:271
+#, c-format
+msgid ""
+"Collection '%s' hasn't been constructed properly: element property was not "
+"set at construction time"
+msgstr ""
+"Samlinga «%s» er ikkje konstruert riktig: eigenskapen «element» er ikkje "
+"sett ved konstruksjonstidspunktet"
+
+#: gxml/Parser.vala:293 gxml/StreamReader.vala:275
+#, c-format
+msgid ""
+"Invalid object of type '%s' doesn't implement GXml.Object interface: can't "
+"be handled by the collection"
+msgstr ""
+"Ugyldig objekt av typen «%s» implementerer ikkje grensesnittet GXml.Object: "
+"kan ikkje handsamast av samlinga"
+
+#: gxml/Parser.vala:298
+msgid "No document is set to node"
+msgstr "Ingen dokument er sett for noden"
+
+#: gxml/Parser.vala:323 gxml/XParser.vala:107 gxml/XParser.vala:113
+msgid "Invalid document string, it is empty or is not allowed"
+msgstr "Ugyldig dokumentstreng: ho er tom eller ikkje tillaten"
+
+#: gxml/Property.vala:389
+#, c-format
+msgid "Error when transform enum to attribute's value: %s"
+msgstr "Feil ved omforming av enum til attributtverdi: %s"
+
+#: gxml/Property.vala:398
+#, c-format
+msgid "Error when transform from attribute string value to enum: %s"
+msgstr "Feil ved omforming frå attributtstrengverdi til enum: %s"
+
+#: gxml/Property.vala:462 gxml/Property.vala:469
+msgid "Invalid Date for property: "
+msgstr "Ugyldig dato for eigenskap: "
+
+#: gxml/Property.vala:464
+msgid "Invalid format for Date property: "
+msgstr "Ugyldig format for datoeigenskap: "
+
+#: gxml/Property.vala:511
+msgid "Invalid timestamp for property: "
+msgstr "Ugyldig tidsstempel for eigenskap: "
+
+#: gxml/Range.vala:53 gxml/Range.vala:81 gxml/Range.vala:154
+msgid "Invalid node type to start"
+msgstr "Ugyldig nodetype å starte med"
+
+#: gxml/Range.vala:56 gxml/Range.vala:84
+msgid "Invalid offset for node to start: for document type"
+msgstr "Ugyldig forskyving for node å starte med: for dokumenttype"
+
+#: gxml/Range.vala:60 gxml/Range.vala:88
+msgid "Invalid offset for node to start: for character data"
+msgstr "Ugyldig forskyving for node å starte med: for teikndata"
+
+#: gxml/Range.vala:63 gxml/Range.vala:91
+msgid "Invalid offset for node to start: for children number"
+msgstr "Ugyldig forskyving for node å starte med: for tal på barn"
+
+#: gxml/Range.vala:107 gxml/Range.vala:121
+msgid "Invalid node type to start before"
+msgstr "Ugyldig nodetype å starte før"
+
+#: gxml/Range.vala:112 gxml/Range.vala:126 gxml/Range.vala:144
+msgid "Invalid node type to start after"
+msgstr "Ugyldig nodetype å starte etter"
+
+#: gxml/Range.vala:169
+msgid "Invalid root in the source range"
+msgstr "Ugyldig rot i kjeldeområdet"
+
+#: gxml/StreamReader.vala:148
+msgid "Invalid document: expected '<' character"
+msgstr "Ugyldig dokument: venta teiknet «<»"
+
+#: gxml/StreamReader.vala:156
+msgid "Invalid document: unexpected space character before node's name"
+msgstr "Ugyldig dokument: uventa mellomromsteikn før namnet på noden"
+
+#: gxml/StreamReader.vala:188
+#, c-format
+msgid "Parent '%s' is not implementing GXml.Object interface"
+msgstr "Forelderen «%s» implementerer ikkje grensesnittet GXml.Object"
+
+#: gxml/StreamReader.vala:203
+msgid "Can't continue parsing due to error reading data"
+msgstr ""
+"Kan ikkje halde fram med tolkinga på grunn av ein feil ved lesing av data"
+
+#: gxml/StreamReader.vala:355 gxml/StreamReader.vala:359
+#: gxml/StreamReader.vala:367 gxml/StreamReader.vala:393
+msgid "Invalid comment declaration"
+msgstr "Ugyldig kommentardeklarasjon"
+
+#: gxml/StreamReader.vala:413
+msgid "Invalid Processing Instruction's target declaration"
+msgstr "Ugyldig deklarasjon av mål for prosesseringsinstruksjon"
+
+#: gxml/StreamReader.vala:436
+msgid "Invalid Processing Instruction's close declaration"
+msgstr "Ugyldig deklarasjon av avslutning for prosesseringsinstruksjon"
+
+#: gxml/TokenList.vala:54
+msgid ""
+"DOM: Invalid token. No empty string could be used as token to check if it is "
+"contained in token list"
+msgstr ""
+"DOM: Ugyldig token. Ein tom streng kan ikkje brukast som token for å sjekke "
+"om han finst i token-lista"
+
+#: gxml/TokenList.vala:56
+msgid ""
+"DOM: Invalid token. No white spaces could be included as token to check if "
+"it is contained in token list"
+msgstr ""
+"DOM: Ugyldig token. Mellomrom kan ikkje vere med i token for å sjekke om det"
+" finst i token-lista"
+
+#: gxml/TokenList.vala:63 gxml/TokenList.vala:86
+msgid "DOM: Invalid token. Empty string can't be used as token"
+msgstr "DOM: Ugyldig token. Ein tom streng kan ikkje brukast som token"
+
+#: gxml/TokenList.vala:65 gxml/TokenList.vala:88
+msgid "DOM: Invalid token. White spaces can't be used as token"
+msgstr "DOM: Ugyldig token. Mellomrom kan ikkje brukast som token"
+
+#: gxml/TokenList.vala:102
+msgid "Update Error: "
+msgstr "Oppdateringsfeil: "
+
+#: gxml/XDocument.vala:159
+#, c-format
+msgid "Error writing document to string: %s"
+msgstr "Feil ved skriving av dokument til streng: %s"
+
+#: gxml/XDocument.vala:230
+msgid "Invalid element qualified name: multiple namespace prefixes"
+msgstr "Ugyldig kvalifisert elementnamn: fleire namneromprefiks"
+
+#: gxml/XdParser.vala:82
+msgid "Parser Error for string"
+msgstr "Tolkingsfeil for streng"
+
+#: gxml/XElement.vala:148
+#, c-format
+msgid "Error while converting Element to string: %s"
+msgstr "Feil ved konvertering av Element til streng: %s"
+
+#: gxml/XElement.vala:348
+#, c-format
+msgid "invalid namespace. Code: %s"
+msgstr "ugyldig namnerom. Kode: %s"
+
+#: gxml/XHashMapAttr.vala:243
+msgid "Invalid document when adding item to collection"
+msgstr "Ugyldig dokument ved tillegging av element i samlinga"
+
+#: gxml/XHashMapAttr.vala:245 gxml/XHashMapAttr.vala:297
+msgid "This node collection is read only"
+msgstr "Denne nodesamlinga er skrivebeskytta"
+
+#: gxml/XHashMapAttr.vala:247 gxml/XHashMapAttr.vala:299
+msgid "This node attribute is already in use by other Element"
+msgstr "Denne nodeattributtet er allereie i bruk av eit anna Element"
+
+#: gxml/XHashMapAttr.vala:249 gxml/XHashMapAttr.vala:301
+msgid "Trying to add an object to an Element, but it is not an attribute"
+msgstr ""
+"Prøver å leggje til eit objekt i eit Element, men det er ikkje eit attributt"
+
+#: gxml/XHashMapAttr.vala:261 gxml/XHashMapAttr.vala:317
+#, c-format
+msgid "No node with name %s was found"
+msgstr "Fann ingen node med namnet %s"
+
+#: gxml/XHashMapAttr.vala:263 gxml/XHashMapAttr.vala:319
+msgid "Node collection is read only"
+msgstr "Nodesamlinga er skrivebeskytta"
+
+#: gxml/XHashMapAttr.vala:295
+msgid "Invalid document when adding item to named node map collection"
+msgstr ""
+"Ugyldig dokument ved tillegging av element i samlinga av namngjevne nodekart"
+
+#: gxml/XHtmlDocument.vala:115
+#, c-format
+msgid "Error while converting HTML document to string: %s"
+msgstr "Feil ved konvertering av HTML-dokument til streng: %s"
+
+#: gxml/XNode.vala:44
+#, c-format
+msgid "%s:%s:%d: %s:%d: %s"
+msgstr "%s:%s:%d: %s:%d: %s"
+
+#: gxml/XNode.vala:265
+#, c-format
+msgid "Error while setting text content to node: %s"
+msgstr "Feil ved setjing av tekstinnhald for noden: %s"
+
+#: gxml/XNode.vala:390
+#, c-format
+msgid "Only GXml.XNode nodes are supported. Given a %s type"
+msgstr "Berre GXml.XNode-nodar er støtta. Fekk typen %s"
+
+#: gxml/XNode.vala:401
+msgid "Invalid attempt to replace a node on unsupported parent"
+msgstr ""
+"Ugyldig forsøk på å erstatte ein node i ein forelder som ikkje er støtta"
+
+#: gxml/XNode.vala:411
+#, c-format
+msgid "Invalid attempt to replace invalid node type: %s"
+msgstr "Ugyldig forsøk på å erstatte ein ugyldig nodetype: %s"
+
+#: gxml/XNode.vala:417
+msgid "Invalid attempt to replace a node on a document or text node"
+msgstr ""
+"Ugyldig forsøk på å erstatte ein node i eit dokument eller ein tekstnode"
+
+#: gxml/XParser.vala:123
+msgid "Invalid input stream to read data from"
+msgstr "Ugyldig inndatastraum å lese data frå"
+
+#: gxml/XParser.vala:143
+#, c-format
+msgid "Error reading stream: %s"
+msgstr "Feil ved lesing av straum: %s"
+
+#: gxml/XParser.vala:156
+#, c-format
+msgid "Error closing stream: %s"
+msgstr "Feil ved lukking av straum: %s"
+
+#: gxml/XParser.vala:197 gxml/XParser.vala:259 gxml/XParser.vala:268
+#: gxml/XParser.vala:317 gxml/XParser.vala:330 gxml/XParser.vala:382
+msgid "Internal Error: No TextReader was set"
+msgstr "Intern feil: Ingen TextReader er sett"
+
+#: gxml/XParser.vala:271
+#, c-format
+msgid "Can't read node data at line: %d"
+msgstr "Kan ikkje lese nodedata på linje: %d"
+
+#: gxml/XParser.vala:335
+#, c-format
+msgid "Parsing ERROR: Fail to move to attribute number: %i at line: %d"
+msgstr "Tolkingsfeil: Klarte ikkje flytte til attributtnummer %i på linje %d"
+
+#: gxml/XParser.vala:427
+msgid "Invalid sequence for document type definition: "
+msgstr "Ugyldig sekvens for dokumenttypedefinisjon: "
+
+#: gxml/XParser.vala:494 gxml/XParser.vala:601 gxml/XParser.vala:681
+msgid "Internal Error: No TextWriter initialized"
+msgstr "Intern feil: Ingen TextWriter er initialisert"
+
+#: gxml/XsdSchema.vala:266
+#, c-format
+msgid "Error removing Collection's element: %s"
+msgstr "Feil ved fjerning av element i samlinga: %s"
+
+#: gxml/XsdSchema.vala:275
+#, c-format
+msgid "Can't find element at position: %i: %s"
+msgstr "Fann ikkje element på posisjon %i: %s"
+
+#: gxml/XsdSchema.vala:289 gxml/XsdSchema.vala:297 gxml/XsdSchema.vala:305
+#: gxml/XsdSchema.vala:313 gxml/XsdSchema.vala:321
+#, c-format
+msgid "Collection type %s, initialization error: %s"
+msgstr "Samlingstype %s, initialiseringsfeil: %s"
